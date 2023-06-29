@@ -2,25 +2,21 @@
  * Extend the basic ItemSheet with some very simple modifications
  * @extends {ItemSheet}
  */
-export default class ItemSheetBase extends ItemSheet {
+export default class ItemSheetArtichron extends ItemSheet {
 
   /** @override */
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
       width: 520,
       height: 480,
-      tabs: [{navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "description"}]
+      tabs: [{navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "attributes"}],
+      classes: ["sheet", "item", "artichron"]
     });
   }
 
   /** @override */
   get template() {
     return `systems/artichron/templates/item-sheet-${this.document.type}.hbs`;
-  }
-
-  /** @override */
-  get classes() {
-    return [this.document.type, "sheet", "item", "artichron"];
   }
 
   /* -------------------------------------------- */

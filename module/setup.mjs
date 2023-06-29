@@ -50,9 +50,9 @@ Hooks.once("init", function() {
   };
 
   // Register sheet application classes
-  //Actors.unregisterSheet("core", ActorSheet);
+  Actors.unregisterSheet("core", ActorSheet);
   //Items.unregisterSheet("core", ItemSheet);
-  //Actors.registerSheet("artichron", ActorSheetBase, {makeDefault: true});
+  Actors.registerSheet("artichron", applications.ActorSheetArtichron, {makeDefault: true});
   //Items.registerSheet("artichron", ItemSheetBase, {makeDefault: true});
 
   // Preload Handlebars templates.

@@ -20,5 +20,11 @@
   "ARTICHRON.WeapontypeBow": "Bow",
   "ARTICHRON.WeaponTypeHammer": "Hammer",
   "ARTICHRON.WeaponTypeSpear": "Spear",
-  "ARTICHRON.WeaponTypeSword": "Sword"
+  "ARTICHRON.WeaponTypeSword": "Sword",
+
+  "ARTICHRON.SheetTabAttributes": "Attributes",
+  "ARTICHRON.SheetTabEquipment": "Equipment",
+  "ARTICHRON.SheetTabLoot": "Loot",
+  "ARTICHRON.SheetTabConsumables": "Food & Elixirs",
+  "ARTICHRON.SheetTabEffects": "Effects"
 }
