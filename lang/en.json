@@ -1,0 +1,24 @@
+{
+  "TYPES.Actor.hero": "Hero",
+  "TYPES.Actor.heroPl": "Heroes",
+  "TYPES.Actor.monster": "Monster",
+  "TYPES.Actor.monsterPl": "Monsters",
+  "TYPES.Item.armor": "Armor Piece",
+  "TYPES.Item.armorPl": "Armor Pieces",
+  "TYPES.Item.elixir": "Elixir",
+  "TYPES.Item.elixirPl": "Elixirs",
+  "TYPES.Item.food": "Food",
+  "TYPES.Item.foodPl": "Foods",
+  "TYPES.Item.part": "Monster Part",
+  "TYPES.Item.partPl": "Monster Parts",
+  "TYPES.Item.spell": "Spell",
+  "TYPES.Item.spellPl": "Spells",
+  "TYPES.Item.weapon": "Weapon",
+  "TYPES.Item.weaponPl": "Weapons",
+
+  "ARTICHRON.WeaponTypeAxe": "Axe",
+  "ARTICHRON.WeapontypeBow": "Bow",
+  "ARTICHRON.WeaponTypeHammer": "Hammer",
+  "ARTICHRON.WeaponTypeSpear": "Spear",
+  "ARTICHRON.WeaponTypeSword": "Sword"
+}

@@ -1,0 +1,18 @@
+{
+  "Actor": {
+    "types": [
+      "hero",
+      "monster"
+    ]
+  },
+  "Item": {
+    "types": [
+      "weapon",
+      "spell",
+      "armor",
+      "food",
+      "elixir",
+      "part"
+    ]
+  }
+}

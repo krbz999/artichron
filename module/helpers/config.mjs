@@ -1,0 +1,70 @@
+export const SYSTEM = {};
+
+// Fighting styles.
+SYSTEM.FIGHTING_STYLES = {
+  SPELL: 0,
+  MELEE_ONE: 1,
+  MELEE_TWO: 2,
+  MELEE_DUAL: 3,
+  RANGED: 4
+};
+
+// Resistance percentages.
+SYSTEM.RESISTANCE_VALUES = {
+  1: 0.25,
+  2: 0.50,
+  3: 0.75
+};
+
+/**
+ * Damage types.
+ * The type of damage that can be inflicted.
+ * If resist, the type is a valid one for armor to grant resistance to.
+ * If block, the type is a valid one for a shield to block.
+ * If parry, the type is a valid one for weapons to parry.
+ * if armor, the type is reduced by the target's armor rating.
+ * If elemental, ...?
+ */
+SYSTEM.DAMAGE_TYPES = {
+  fire: {label: "ARTICHRON.DamageTypeFire", elemental: true, resist: true},
+  wind: {label: "ARTICHRON.DamageTypeWind", elemental: true, resist: true},
+  ice: {label: "ARTICHRON.DamageTypeIce", elemental: true, resist: true},
+  light: {label: "ARTICHRON.DamageTypeLight", resist: true},
+  darkness: {label: "ARTICHRON.DamageTypeDarkness", resist: true},
+  physical: {label: "ARTICHRON.DamageTypePhysical", block: true, parry: true, armor: true}
+};
+
+// The array of damage dice values.
+SYSTEM.DAMAGE_DICE = ["d4", "d6", "d8", "d10", "d12"];
+
+// Weapon subtypes.
+SYSTEM.WEAPON_TYPES = {
+  axe: {label: "ARTICHRON.WeaponTypeAxe"},
+  bow: {label: "ARTICHRON.WeaponTypeBow"},
+  hammer: {label: "ARTICHRON.WeaponTypeHammer"},
+  spear: {label: "ARTICHRON.WeaponTypeSpear"},
+  sword: {label: "ARTICHRON.WeaponTypeSword"}
+};
+
+// Shield types.
+SYSTEM.SHIELD_TYPES = {
+  small: {label: "ARTICHRON.ShieldTypeSmall"},
+  regular: {label: "ARTICHRON.ShieldTypeRegular"},
+  large: {label: "ARTICHRON.ShieldTypeLarge"}
+};
+
+// Armor subtypes.
+SYSTEM.ARMOR_TYPES = {
+  head: {label: "ARTICHRON.ArmorTypeHead"},
+  chest: {label: "ARTICHRON.ArmorTypeChest"},
+  arms: {label: "ARTICHRON.ArmorTypeArms"},
+  legs: {label: "ARTICHRON.ArmorTypeLegs"},
+  accessory: {label: "ARTICHRON.ArmorTypeAccessory"}
+};
+
+// Spell types.
+SYSTEM.SPELL_TYPES = {
+  offense: {label: "ARTICHRON.SpellTypeOffense"},
+  defense: {label: "ARTICHRON.SpellTypeDefense"},
+  buff: {label: "ARTICHRON.SpellTypeBuff"}
+};

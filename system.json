@@ -1,0 +1,53 @@
+{
+  "id": "artichron",
+  "title": "Artichron",
+  "description": "Artifice Chronicles System",
+  "version": "1.0.0",
+  "compatibility": {
+    "minimum": 11,
+    "verified": 11,
+    "maximum": 11
+  },
+  "authors": [
+    {
+      "name": "Zhell"
+    }
+  ],
+  "esmodules": [
+    "module/setup.mjs"
+  ],
+  "styles": [
+    "styles/artichron.css"
+  ],
+  "packs": [],
+  "languages": [
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "lang/en.json"
+    }
+  ],
+  "gridDistance": 1,
+  "gridUnits": "m",
+  "initiative": "1d20",
+  "primaryTokenAttribute": "pools.health",
+  "secondaryTokenAttribute": "pools.focus",
+  "socket": true,
+  "url": "",
+  "manifest": "",
+  "download": "",
+  "license": "LICENSE.txt",
+  "changelog": "CHANGELOG.md",
+  "flags": {
+    "hotReload": {
+      "extensions": [
+        "json",
+        "css",
+        "hbs"
+      ],
+      "paths": [
+        "lang/en.json"
+      ]
+    }
+  }
+}
