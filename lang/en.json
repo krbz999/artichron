@@ -26,5 +26,17 @@
   "ARTICHRON.SheetTabEquipment": "Equipment",
   "ARTICHRON.SheetTabLoot": "Loot",
   "ARTICHRON.SheetTabConsumables": "Food & Elixirs",
-  "ARTICHRON.SheetTabEffects": "Effects"
+  "ARTICHRON.SheetTabEffects": "Effects",
+
+  "ARTICHRON.Health": "Health",
+  "ARTICHRON.HealthDie": "Health Die",
+  "ARTICHRON.HealthDiePl": "Health Dice",
+  "ARTICHRON.Stamina": "Stamina",
+  "ARTICHRON.StaminaDie": "Stamina Die",
+  "ARTICHRON.StaminaDiePl": "Stamina Dice",
+  "ARTICHRON.Mana": "Mana",
+  "ARTICHRON.ManaDie": "Mana Die",
+  "ARTICHRON.ManaDiePl": "Mana Dice",
+
+  "ARTICHRON.NotEnoughPoolDice": "{name} does not have enough {type} dice left!"
 }

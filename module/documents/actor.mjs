@@ -182,4 +182,35 @@ export default class ActorArtichron extends Actor {
     const dhp = hp.value - val;
     return this.update({"system.health.value": val}, {dhp: -dhp});
   }
+
+  /**
+   * Roll one or more dice from a pool.
+   * @param {string} type         The type of pool dice to roll (health, stamina, mana).
+   * @param {number} amount       The amount of dice to roll.
+   * @param {boolean} message     Whether to create a chat message.
+   * @returns {Promise<Roll>}     The created Roll instance.
+   */
+  async rollPool(type, {amount = 1, message = true} = {}) {
+    if (!(type in this.system.pools)) return null;
+    const pool = this.system.pools[type];
+    if (pool.value < amount) {
+      ui.notifications.warn(game.i18n.format("ARTICHRON.NotEnoughPoolDice", {
+        name: this.name,
+        type: game.i18n.localize(`ARTICHRON.${type.capitalize()}`)
+      }));
+      return null;
+    }
+
+    const roll = await new Roll(pool.formula).alter(1, amount - 1).evaluate();
+    await this.update({[`system.pools.${type}.value`]: pool.value - amount});
+    if (message) {
+      const dice = game.i18n.localize(`ARTICHRON.${type.capitalize()}DiePl`);
+      roll.toMessage({
+        speaker: ChatMessage.getSpeaker({actor: this}),
+        flavor: `${this.name} ${dice}`,
+        "flags.artichron.roll.type": type
+      });
+    }
+    return roll;
+  }
 }
