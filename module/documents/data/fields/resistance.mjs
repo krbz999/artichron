@@ -5,7 +5,6 @@ import {ValueField} from "./value.mjs";
 class ResistanceField extends foundry.abstract.DataModel {
   static defineSchema() {
     return {
-      value: new ValueField(),
       bonus: new ValueField()
     };
   }

@@ -1,6 +1,7 @@
 // Base model for items that are held (weapons, shields, spells).
 import {DamagesField} from "../fields/damage.mjs";
 import {ValueField} from "../fields/value.mjs";
+import {WeightField} from "../fields/weight.mjs";
 import {BaseItemModel} from "./item-base.mjs";
 
 /**
@@ -23,9 +24,10 @@ export default class ArsenalData extends BaseItemModel {
     return {
       type: new foundry.data.fields.StringField({options: this.SUBTYPES}),
       damage: new DamagesField(),
+      ...WeightField(),
       defenses: new foundry.data.fields.SchemaField({
-        parry: new ValueField(),
-        block: new ValueField()
+        parry: new ValueField(), // not mutable, derived from subtype, dice field
+        block: new ValueField(), // not mutable, also derived from subtype, dice field
       }),
       wield: new foundry.data.fields.SchemaField({
         value: new foundry.data.fields.NumberField({choices: [1, 2]}),
@@ -34,7 +36,7 @@ export default class ArsenalData extends BaseItemModel {
       }),
       fusion: new foundry.data.fields.SchemaField({
         item: new foundry.data.fields.ForeignDocumentField(ArsenalData, {idOnly: true}),
-        granted: new foundry.data.fields.StringField() // placeholder
+        granted: new foundry.data.fields.StringField() // placeholder, ideally derived.
       })
     };
   }

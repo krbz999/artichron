@@ -45,14 +45,17 @@ Hooks.once("init", function() {
    * @type {String}
    */
   CONFIG.Combat.initiative = {
-    formula: "1d20 + @abilities.dex.mod",
+    formula: "1d10",
     decimals: 2
   };
 
   // Register sheet application classes
   Actors.unregisterSheet("core", ActorSheet);
   //Items.unregisterSheet("core", ItemSheet);
-  Actors.registerSheet("artichron", applications.ActorSheetArtichron, {makeDefault: true});
+  Actors.registerSheet("artichron", applications.ActorSheetBoss, {types: ["boss"], makeDefault: true, label: "ARTICHRON.ActorSheetBoss"});
+  Actors.registerSheet("artichron", applications.ActorSheetMonster, {types: ["monster"], makeDefault: true, label: "ARTICHRON.ActorSheetMonster"});
+  Actors.registerSheet("artichron", applications.ActorSheetHero, {types: ["hero"], makeDefault: true, label: "ARTICHRON.ActorSheetHero"});
+  Actors.registerSheet("artichron", applications.ActorSheetMerchant, {types: ["merchant"], makeDefault: true, label: "ARTICHRON.ActorSheetMerchant"});
   //Items.registerSheet("artichron", ItemSheetBase, {makeDefault: true});
 
   // Preload Handlebars templates.

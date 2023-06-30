@@ -121,7 +121,7 @@ export default class ActorArtichron extends Actor {
     // Set initial values of armor and total for each resistance.
     for (const key in ar) {
       ar[key].items = 0;
-      ar[key].total = ar[key].value + ar[key].bonus;
+      ar[key].total = ar[key].bonus;
     }
 
     // Add bonuses from each armor piece.

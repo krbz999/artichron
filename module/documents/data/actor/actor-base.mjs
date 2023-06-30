@@ -19,7 +19,8 @@ export class BaseActorModel extends foundry.abstract.TypeDataModel {
       }),
       ...EquippedField(),
       resistances: new ResistancesField(),
-      defenses: new DefensesField()
+      defenses: new DefensesField(),
+      movement: new foundry.data.fields.SchemaField({/* TODO */})
     };
   }
 

@@ -2,7 +2,9 @@
   "Actor": {
     "types": [
       "hero",
-      "monster"
+      "monster",
+      "merchant",
+      "boss"
     ]
   },
   "Item": {
