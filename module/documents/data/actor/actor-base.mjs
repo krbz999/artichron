@@ -1,7 +1,7 @@
-import {DefensesField} from "../fields/defense.mjs";
+import {buildDefenseFields} from "../fields/defense.mjs";
 import {PoolDieField} from "../fields/die.mjs";
 import {armorFields, arsenalFields} from "../fields/equipped.mjs";
-import {ResistancesField} from "../fields/resistance.mjs";
+import {buildResistanceFields} from "../fields/resistance.mjs";
 import {ValueField} from "../fields/value.mjs";
 
 export class BaseActorModel extends foundry.abstract.TypeDataModel {
@@ -21,8 +21,8 @@ export class BaseActorModel extends foundry.abstract.TypeDataModel {
         arsenal: new foundry.data.fields.SchemaField(arsenalFields()),
         armor: new foundry.data.fields.SchemaField(armorFields())
       }),
-      resistances: new ResistancesField(),
-      defenses: new DefensesField(),
+      resistances: new foundry.data.fields.SchemaField(buildResistanceFields()),
+      defenses: new foundry.data.fields.SchemaField(buildDefenseFields()),
       movement: new foundry.data.fields.SchemaField({
         running: new ValueField(),
         flying: new ValueField(),

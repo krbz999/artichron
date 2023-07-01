@@ -102,14 +102,19 @@ export default class ActorArtichron extends Actor {
 
   /** Prepare block, parry, and defense values. */
   _prepareDefenses() {
+    const def = this.system.defenses;
+
+    // Set initial values of armor and total for each resistance.
+    for (const key in def) {
+      def[key].items = 0;
+      def[key].total = def[key].bonus || 0;
+    }
+
     for (const item of Object.values({...this.armor, ...this.arsenal})) {
       if (!item) continue;
-      for (const type of ["armor", "block", "parry"]) {
-        const object = this.system.defenses[type];
-        object.items ??= 0;
-        object.total ??= 0;
-        object.items += (item.system.defenses[type] ?? 0);
-        object.total += (item.system.defenses[type] ?? 0);
+      for (const key in def) {
+        def[key].items += (item.system.defenses[key] ?? 0);
+        def[key].total += (item.system.defenses[key] ?? 0);
       }
     }
   }
@@ -121,7 +126,7 @@ export default class ActorArtichron extends Actor {
     // Set initial values of armor and total for each resistance.
     for (const key in ar) {
       ar[key].items = 0;
-      ar[key].total = ar[key].bonus;
+      ar[key].total = ar[key].bonus || 0;
     }
 
     // Add bonuses from each armor piece.
@@ -153,8 +158,32 @@ export default class ActorArtichron extends Actor {
    *                UPDATE METHODS
    *  ---------------------------------------- */
 
+  /** @override */
   async _preUpdate(update, options, user) {
     await super._preUpdate(update, options, user);
+  }
+
+  /** @override */
+  _onUpdate(update, options, user) {
+    super._onUpdate(update, options, user);
+    this._displayScrollingNumbers(options.damages);
+  }
+
+  _displayScrollingNumbers(damages) {
+    if (!damages) return;
+    const tokens = this.isToken ? [this.token?.object] : this.getActiveTokens(true);
+    for (const t of tokens) {
+      for (const type in damages) {
+        canvas.interface.createScrollingText(t.center, damages[type].signedString(), {
+          anchor: CONST.TEXT_ANCHOR_POINTS.TOP,
+          //fontSize: 16 + (32 * pct), // Range between [16, 48]
+          fill: CONFIG.SYSTEM.DAMAGE_TYPES[type].color,
+          stroke: 0x000000,
+          strokeThickness: 4,
+          jitter: 2
+        });
+      }
+    }
   }
 
   /** ----------------------------------------
@@ -174,13 +203,18 @@ export default class ActorArtichron extends Actor {
    */
   async applyDamage(values = {}) {
     const resistances = this.system.resistances;
+    const armor = this.system.defenses.armor;
+
+    const indivs = {};
     const amount = Math.round(Object.entries(values).reduce((acc, [type, value]) => {
-      return acc + value * (1 - resistances[type].total);
+      if (CONFIG.SYSTEM.DAMAGE_TYPES[type]?.resist) value *= 1 - resistances[type].total;
+      else if (CONFIG.SYSTEM.DAMAGE_TYPES[type]?.armor) value -= armor.total;
+      if (value > 0) indivs[type] = -value;
+      return acc + value;
     }, 0));
     const hp = this.system.health;
     const val = Math.clamped(hp.value - amount, 0, hp.max);
-    const dhp = hp.value - val;
-    return this.update({"system.health.value": val}, {dhp: -dhp});
+    return this.update({"system.health.value": val}, {damages: indivs});
   }
 
   /**

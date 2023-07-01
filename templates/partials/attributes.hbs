@@ -1,0 +1,6 @@
+{{! <-- placeholder just to see actor items --> }}
+<ul class="inventory-items">
+  {{#each actor.items}}
+  <li class="item"><a data-action="edit-item" data-id="{{id}}">{{name}}</a></li>
+  {{/each}}
+</ul>

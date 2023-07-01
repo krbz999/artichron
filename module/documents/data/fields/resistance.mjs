@@ -2,7 +2,7 @@ import {SYSTEM} from "../../../helpers/config.mjs";
 import {ValueField} from "./value.mjs";
 
 /** A single schema field for a single type of resistance. */
-class ResistanceField extends foundry.abstract.DataModel {
+class Resistance extends foundry.abstract.DataModel {
   static defineSchema() {
     return {
       bonus: new ValueField()
@@ -23,14 +23,18 @@ class ResistanceField extends foundry.abstract.DataModel {
 }
 
 /** A full schema field for all types of resistances. */
-export class ResistancesField extends foundry.data.fields.ObjectField {
+class ResistanceField extends foundry.data.fields.ObjectField {
   initialize(value, model) {
-    const fields = {};
-    for (const type in SYSTEM.DAMAGE_TYPES) {
-      if (SYSTEM.DAMAGE_TYPES[type].resist) {
-        fields[type] = new ResistanceField(value[type], {parent: model});
-      }
-    }
-    return fields;
+    return new Resistance(value, {parent: model});
   }
+}
+
+export function buildResistanceFields() {
+  const fields = {};
+  for (const type in SYSTEM.DAMAGE_TYPES) {
+    if (SYSTEM.DAMAGE_TYPES[type].resist) {
+      fields[type] = new ResistanceField();
+    }
+  }
+  return fields;
 }

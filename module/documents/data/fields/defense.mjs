@@ -1,7 +1,8 @@
+import {SYSTEM} from "../../../helpers/config.mjs";
 import {ValueField} from "./value.mjs";
 
 /** A single schema field for a single type of resistance. */
-class DefenseField extends foundry.abstract.DataModel {
+class Defense extends foundry.abstract.DataModel {
   static defineSchema() {
     return {
       bonus: new ValueField()
@@ -14,12 +15,17 @@ class DefenseField extends foundry.abstract.DataModel {
 }
 
 /** A full schema field for all types of resistances. */
-export class DefensesField extends foundry.data.fields.ObjectField {
+export class DefenseField extends foundry.data.fields.ObjectField {
   initialize(value, model) {
-    const fields = {};
-    for (const type of ["armor", "block", "parry"]) {
-      fields[type] = new DefenseField(value[type], {parent: model});
-    }
-    return fields;
+    return new Defense(value, {parent: model});
   }
+
+}
+
+export function buildDefenseFields() {
+  const fields = {};
+  for (const type in SYSTEM.DEFENSE_TYPES) {
+    fields[type] = new DefenseField();
+  }
+  return fields;
 }

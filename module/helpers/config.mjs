@@ -26,14 +26,53 @@ SYSTEM.RESISTANCE_VALUES = {
  * If elemental, ...?
  */
 SYSTEM.DAMAGE_TYPES = {
-  fire: {label: "ARTICHRON.DamageTypeFire", elemental: true, resist: true},
-  wind: {label: "ARTICHRON.DamageTypeWind", elemental: true, resist: true},
-  lightning: {label: "ARTICHRON.DamageTypeLightning", elemental: true, resist: true},
-  ice: {label: "ARTICHRON.DamageTypeIce", elemental: true, resist: true},
-  light: {label: "ARTICHRON.DamageTypeLight", resist: true},
-  darkness: {label: "ARTICHRON.DamageTypeDarkness", resist: true},
-  physical: {label: "ARTICHRON.DamageTypePhysical", block: true, parry: true, armor: true},
-  arcane: {label: "ARTICHRON.DamageTypeArcane", block: true, resist: true}
+  fire: {
+    label: "ARTICHRON.DamageTypeFire",
+    color: "FF5733",
+    elemental: true, resist: true
+  },
+  wind: {
+    label: "ARTICHRON.DamageTypeWind",
+    color: "8DEEB5",
+    elemental: true, resist: true
+  },
+  lightning: {
+    label: "ARTICHRON.DamageTypeLightning",
+    color: "4B70A8",
+    elemental: true, resist: true
+  },
+  ice: {
+    label: "ARTICHRON.DamageTypeIce",
+    color: "54D7E0",
+    elemental: true, resist: true
+  },
+  light: {
+    label: "ARTICHRON.DamageTypeLight",
+    color: "FCFFBF",
+    resist: true
+  },
+  darkness: {
+    label: "ARTICHRON.DamageTypeDarkness",
+    color: "910B94",
+    resist: true
+  },
+  physical: {
+    label: "ARTICHRON.DamageTypePhysical",
+    color: "868686",
+    block: true, parry: true, armor: true
+  },
+  arcane: {
+    label: "ARTICHRON.DamageTypeArcane",
+    color: "C79FFF",
+    block: true, resist: true
+  }
+};
+
+// The types of physical defensive traits.
+SYSTEM.DEFENSE_TYPES = {
+  armor: "",
+  parry: "",
+  block: ""
 };
 
 // The array of damage dice values.
@@ -53,9 +92,9 @@ SYSTEM.WEAPON_TYPES = {
 
 // Shield types.
 SYSTEM.SHIELD_TYPES = {
-  small: {label: "ARTICHRON.ShieldTypeSmall"},
-  regular: {label: "ARTICHRON.ShieldTypeRegular"},
-  large: {label: "ARTICHRON.ShieldTypeLarge"}
+  bucker: {label: "ARTICHRON.ShieldTypeBuckler"},
+  heater: {label: "ARTICHRON.ShieldTypeHeater"},
+  kite: {label: "ARTICHRON.ShieldTypeKite"}
 };
 
 // Armor subtypes.
