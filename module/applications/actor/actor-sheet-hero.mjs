@@ -20,11 +20,7 @@ export default class ActorSheetHero extends ActorSheetArtichron {
 
   /** @override */
   async getData() {
-    const data = {
-      actor: this.document,
-      context: {},
-      rollData: this.document.getRollData()
-    };
+    const data = await super.getData();
     return data;
   }
 

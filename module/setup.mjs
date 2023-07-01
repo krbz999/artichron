@@ -51,11 +51,12 @@ Hooks.once("init", function() {
 
   // Register sheet application classes
   Actors.unregisterSheet("core", ActorSheet);
-  //Items.unregisterSheet("core", ItemSheet);
   Actors.registerSheet("artichron", applications.ActorSheetBoss, {types: ["boss"], makeDefault: true, label: "ARTICHRON.ActorSheetBoss"});
   Actors.registerSheet("artichron", applications.ActorSheetMonster, {types: ["monster"], makeDefault: true, label: "ARTICHRON.ActorSheetMonster"});
   Actors.registerSheet("artichron", applications.ActorSheetHero, {types: ["hero"], makeDefault: true, label: "ARTICHRON.ActorSheetHero"});
   Actors.registerSheet("artichron", applications.ActorSheetMerchant, {types: ["merchant"], makeDefault: true, label: "ARTICHRON.ActorSheetMerchant"});
+
+  //Items.unregisterSheet("core", ItemSheet);
   //Items.registerSheet("artichron", ItemSheetBase, {makeDefault: true});
 
   // Preload Handlebars templates.
@@ -66,7 +67,15 @@ Hooks.once("init", function() {
 /*  Handlebars Helpers                          */
 /* -------------------------------------------- */
 
-//Handlebars.registerHelper(key, function);
+Handlebars.registerHelper("capitalize", function(word) {
+  return word.capitalize();
+});
+
+Handlebars.registerHelper("iterate", function(num, block) {
+  let accum = '';
+  for (let i = 0; i < num; i++) accum += block.fn(this);
+  return accum;
+});
 
 /* -------------------------------------------- */
 /*  Ready Hook                                  */

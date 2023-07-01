@@ -1,5 +1,5 @@
 // Base model for items that are held (weapons, shields, spells).
-import {DamagesField} from "../fields/damage.mjs";
+import {DamageField} from "../fields/damage.mjs";
 import {ValueField} from "../fields/value.mjs";
 import {WeightField} from "../fields/weight.mjs";
 import {BaseItemModel} from "./item-base.mjs";
@@ -23,14 +23,14 @@ export default class ArsenalData extends BaseItemModel {
   static defineSchema() {
     return {
       type: new foundry.data.fields.StringField({options: this.SUBTYPES}),
-      damage: new DamagesField(),
+      damage: new foundry.data.fields.ArrayField(new DamageField()),
       ...WeightField(),
       defenses: new foundry.data.fields.SchemaField({
         parry: new ValueField(), // not mutable, derived from subtype, dice field
         block: new ValueField(), // not mutable, also derived from subtype, dice field
       }),
       wield: new foundry.data.fields.SchemaField({
-        value: new foundry.data.fields.NumberField({choices: [1, 2]}),
+        value: new foundry.data.fields.NumberField({choices: [1, 2], initial: 1}),
         type: new foundry.data.fields.StringField({choices: ["melee", "ranged"]}),
         range: new ValueField()
       }),

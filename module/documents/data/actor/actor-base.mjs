@@ -5,6 +5,9 @@ import {buildResistanceFields} from "../fields/resistance.mjs";
 import {ValueField} from "../fields/value.mjs";
 
 export class BaseActorModel extends foundry.abstract.TypeDataModel {
+
+  static ARMS = 2;
+
   /** @override */
   static defineSchema() {
     return {
@@ -18,7 +21,7 @@ export class BaseActorModel extends foundry.abstract.TypeDataModel {
         mana: new PoolDieField()
       }),
       equipped: new foundry.data.fields.SchemaField({
-        arsenal: new foundry.data.fields.SchemaField(arsenalFields()),
+        arsenal: new foundry.data.fields.SchemaField(arsenalFields(this.ARMS)),
         armor: new foundry.data.fields.SchemaField(armorFields())
       }),
       resistances: new foundry.data.fields.SchemaField(buildResistanceFields()),

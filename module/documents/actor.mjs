@@ -17,8 +17,8 @@ export default class ActorArtichron extends Actor {
    * @type {object}
    */
   get arsenal() {
-    const primary = this.items.get(this.system.equipped.primary) ?? null;
-    const secondary = this.items.get(this.system.equipped.primary) ?? null;
+    const primary = this.items.get(this.system.equipped.arsenal.primary) ?? null;
+    const secondary = this.items.get(this.system.equipped.arsenal.secondary) ?? null;
     const isEqual = primary === secondary;
 
     if (!primary) return {
@@ -37,7 +37,7 @@ export default class ActorArtichron extends Actor {
    */
   get armor() {
     return Object.keys(CONFIG.SYSTEM.ARMOR_TYPES).reduce((acc, key) => {
-      acc[key] = this.items.get(this.system.equipped[key]) ?? null;
+      acc[key] = this.items.get(this.system.equipped.armor[key]) ?? null;
       return acc;
     }, {});
   }

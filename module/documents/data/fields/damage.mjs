@@ -8,18 +8,18 @@ import {ValueField} from "./value.mjs";
  * @property {string} type      The type of damage that this rolls.
  * @property {number} group     Which group this damage field belongs to.
  */
-class DamageField extends foundry.abstract.DataModel {
+class Damage extends foundry.abstract.DataModel {
   static defineSchema() {
     return {
-      value: new ValueField({choices: SYSTEM.DAMAGE_DICE}),
+      value: new foundry.data.fields.StringField(),
       type: new foundry.data.fields.StringField({choices: SYSTEM.DAMAGE_TYPES}),
       group: new ValueField()
     };
   }
 }
 
-export class DamagesField extends foundry.data.fields.ArrayField {
+export class DamageField extends foundry.data.fields.ObjectField {
   initialize(value, model) {
-    return value.map(v => new DamageField(v, {parent: model}));
+    return new Damage(value, {parent: model});
   }
 }

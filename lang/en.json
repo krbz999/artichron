@@ -1,8 +1,13 @@
 {
+  "TYPES.Actor.boss": "Boss",
+  "TYPES.Actor.bossPl": "Bosses",
   "TYPES.Actor.hero": "Hero",
   "TYPES.Actor.heroPl": "Heroes",
+  "TYPES.Actor.merchant": "Merchant",
+  "TYPES.Actor.merchantPl": "Merchants",
   "TYPES.Actor.monster": "Monster",
   "TYPES.Actor.monsterPl": "Monsters",
+
   "TYPES.Item.armor": "Armor Piece",
   "TYPES.Item.armorPl": "Armor Pieces",
   "TYPES.Item.elixir": "Elixir",
@@ -23,20 +28,30 @@
   "ARTICHRON.WeaponTypeSword": "Sword",
 
   "ARTICHRON.SheetTabAttributes": "Attributes",
-  "ARTICHRON.SheetTabEquipment": "Equipment",
-  "ARTICHRON.SheetTabLoot": "Loot",
   "ARTICHRON.SheetTabConsumables": "Food & Elixirs",
   "ARTICHRON.SheetTabEffects": "Effects",
+  "ARTICHRON.SheetTabEquipment": "Equipment",
+  "ARTICHRON.SheetTabLoot": "Loot",
 
   "ARTICHRON.Health": "Health",
   "ARTICHRON.HealthDie": "Health Die",
   "ARTICHRON.HealthDiePl": "Health Dice",
-  "ARTICHRON.Stamina": "Stamina",
-  "ARTICHRON.StaminaDie": "Stamina Die",
-  "ARTICHRON.StaminaDiePl": "Stamina Dice",
   "ARTICHRON.Mana": "Mana",
   "ARTICHRON.ManaDie": "Mana Die",
   "ARTICHRON.ManaDiePl": "Mana Dice",
+  "ARTICHRON.Stamina": "Stamina",
+  "ARTICHRON.StaminaDie": "Stamina Die",
+  "ARTICHRON.StaminaDiePl": "Stamina Dice",
 
-  "ARTICHRON.NotEnoughPoolDice": "{name} does not have enough {type} dice left!"
+  "ARTICHRON.DamageTypeArcane": "Arcane",
+  "ARTICHRON.DamageTypeDarkness": "Darkness",
+  "ARTICHRON.DamageTypeFire": "Fire",
+  "ARTICHRON.DamageTypeIce": "Ice",
+  "ARTICHRON.DamageTypeLight": "Light",
+  "ARTICHRON.DamageTypeLightning": "Lightning",
+  "ARTICHRON.DamageTypePhysical": "Physical",
+  "ARTICHRON.DamageTypeWind": "Wind",
+
+  "ARTICHRON.NotEnoughPoolDice": "{name} does not have enough {type} dice left!",
+  "ARTICHRON.EmptySlot": "Nothing equipped"
 }

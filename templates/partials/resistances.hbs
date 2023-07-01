@@ -1,0 +1,9 @@
+<ul class="resistances">
+  {{#each context.resistances}}
+  <li class="resistance" data-type="{{@key}}">
+    {{#iterate total}}
+    <i class="{{icon}}" style="color: #{{color}}"></i>
+    {{/iterate}}
+  </li>
+  {{/each}}
+</ul>

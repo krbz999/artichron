@@ -15,7 +15,7 @@ class Defense extends foundry.abstract.DataModel {
 }
 
 /** A full schema field for all types of resistances. */
-export class DefenseField extends foundry.data.fields.ObjectField {
+class DefenseField extends foundry.data.fields.ObjectField {
   initialize(value, model) {
     return new Defense(value, {parent: model});
   }

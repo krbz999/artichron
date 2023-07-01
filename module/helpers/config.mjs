@@ -29,41 +29,49 @@ SYSTEM.DAMAGE_TYPES = {
   fire: {
     label: "ARTICHRON.DamageTypeFire",
     color: "FF5733",
+    icon: "fa-solid fa-fire",
     elemental: true, resist: true
   },
   wind: {
     label: "ARTICHRON.DamageTypeWind",
     color: "8DEEB5",
+    icon: "fa-solid fa-wind",
     elemental: true, resist: true
   },
   lightning: {
     label: "ARTICHRON.DamageTypeLightning",
     color: "4B70A8",
+    icon: "fa-solid fa-wind",
     elemental: true, resist: true
   },
   ice: {
     label: "ARTICHRON.DamageTypeIce",
     color: "54D7E0",
+    icon: "fa-solid fa-snowflake",
     elemental: true, resist: true
   },
   light: {
     label: "ARTICHRON.DamageTypeLight",
     color: "FCFFBF",
+    icon: "fa-solid fa-sun",
     resist: true
   },
   darkness: {
     label: "ARTICHRON.DamageTypeDarkness",
     color: "910B94",
+    icon: "fa-solid fa-moon",
     resist: true
   },
   physical: {
     label: "ARTICHRON.DamageTypePhysical",
     color: "868686",
+    icon: "fa-solid fa-dumbbell",
     block: true, parry: true, armor: true
   },
   arcane: {
     label: "ARTICHRON.DamageTypeArcane",
     color: "C79FFF",
+    icon: "fa-solid fa-crystal-ball",
     block: true, resist: true
   }
 };

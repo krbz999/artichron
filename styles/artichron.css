@@ -1,0 +1,33 @@
+.artichron.sheet.actor {
+  min-width: 500px;
+  min-height: 600px;
+}
+
+.artichron.sheet.hero .tab.attributes {
+  display: grid;
+  grid-template-columns: auto auto;
+  justify-content: space-between;
+  padding: 0 1em;
+}
+.artichron.sheet.hero .tab.attributes .resistances {
+  min-width: 10em;
+}
+.artichron.sheet .item img {
+  max-height: 100px;
+  max-width: 100px;
+  aspect-ratio: 1/1;
+  border: none;
+  transition: 150ms;
+  scale: 1;
+}
+.artichron.sheet .item.empty img {
+  border-radius: 10px;
+  filter: grayscale(100%) opacity(25%);
+}
+.artichron.sheet .item.empty img:hover {
+  filter: grayscale(100%) opacity(100%);
+}
+.artichron.sheet .item img:hover {
+  box-shadow: 0 0 5px black;
+  scale: 1.05;
+}
