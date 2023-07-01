@@ -1,0 +1,8 @@
+{{#each item.system.damage}}
+<div class="damage">
+  <input type="text" name="system.damage.{{@index}}.value" value="{{value}}">
+  <select name="system.damage.{{@index}}.type">
+    {{selectOptions @root.config.DAMAGE_TYPES selected=type labelAttr="label" localize=true}}
+  </select>
+</div>
+{{/each}}

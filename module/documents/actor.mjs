@@ -53,7 +53,7 @@ export default class ActorArtichron extends Actor {
   }
 
   /** ----------------------------------------
-   *        DATA PREPARATION METHODS.
+   *        DATA PREPARATION METHODS
    *  ---------------------------------------- */
 
   /** @override */

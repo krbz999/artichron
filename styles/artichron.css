@@ -3,7 +3,7 @@
   min-height: 600px;
 }
 
-.artichron.sheet.hero .tab.attributes {
+.artichron.sheet.hero .tab.attributes.active {
   display: grid;
   grid-template-columns: auto auto;
   justify-content: space-between;

@@ -1,5 +1,4 @@
 import {SYSTEM} from "../../../helpers/config.mjs";
-import {ValueField} from "./value.mjs";
 
 /**
  * Model of a singular damage field.
@@ -12,8 +11,7 @@ class Damage extends foundry.abstract.DataModel {
   static defineSchema() {
     return {
       value: new foundry.data.fields.StringField(),
-      type: new foundry.data.fields.StringField({choices: SYSTEM.DAMAGE_TYPES}),
-      group: new ValueField()
+      type: new foundry.data.fields.StringField({choices: SYSTEM.DAMAGE_TYPES})
     };
   }
 }

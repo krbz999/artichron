@@ -1,8 +1,10 @@
+import ItemSheetArtichron from "./item-sheet-base.mjs";
+
 /**
  * Extend the basic ItemSheet with some very simple modifications
  * @extends {ItemSheet}
  */
-export default class ItemSheetArtichron extends ItemSheet {
+export default class ItemSheetWeapon extends ItemSheetArtichron {
 
   /** @override */
   static get defaultOptions() {
@@ -10,26 +12,15 @@ export default class ItemSheetArtichron extends ItemSheet {
       width: 520,
       height: 480,
       tabs: [{navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "attributes"}],
-      classes: ["sheet", "item", "artichron"]
+      classes: ["weapon", "sheet", "item", "artichron"]
     });
-  }
-
-  /** @override */
-  get template() {
-    return `systems/artichron/templates/item/item-sheet-${this.document.type}.hbs`;
   }
 
   /* -------------------------------------------- */
 
   /** @override */
-  getData() {
-    const data = {
-      item: this.document,
-      actor: this.document.actor,
-      context: {},
-      rollData: this.document.getRollData(),
-      config: CONFIG.SYSTEM
-    };
+  async getData() {
+    const data = await super.getData();
     return data;
   }
 
