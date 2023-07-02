@@ -1,16 +1,51 @@
+.editor {
+  min-height: 200px;
+  height: 100%;
+}
+
+.artichron.sheet.item {
+  min-width: 600px;
+  min-height: 500px;
+}
+
 .artichron.sheet.actor {
   min-width: 500px;
   min-height: 600px;
 }
 
-.artichron.sheet.hero .tab.attributes.active {
+.artichron.sheet form {
+  display: flex;
+  overflow: hidden;
+  flex-direction: column;
+}
+.artichron .sheet-body {
+  overflow: auto;
+}
+
+.artichron.sheet.actor.hero .tab.attributes.active {
   display: grid;
   grid-template-columns: auto auto;
   justify-content: space-between;
-  padding: 0 1em;
+  padding: 1em;
 }
-.artichron.sheet.hero .tab.attributes .resistances {
+.artichron.sheet.actor .tab.attributes .resistances {
   min-width: 10em;
+  display: flex;
+  flex-direction: column;
+}
+.artichron.sheet.actor .tab.attributes .resistances .resistance {
+  display: inherit;
+  justify-content: space-between;
+  font-size: 20px;
+}
+.artichron.sheet.actor .tab.attributes .resistances .icons {
+  text-shadow: 0 0 3px black;
+  padding: 1px 0;
+}
+.artichron.sheet.actor .tab.attributes .resistances .icons i {
+  min-width: 1em;
+  max-width: 1em;
+  aspect-ratio: 1/1;
 }
 .artichron.sheet .item img {
   max-height: 100px;
@@ -27,7 +62,16 @@
 .artichron.sheet .item.empty img:hover {
   filter: grayscale(100%) opacity(100%);
 }
-.artichron.sheet .item img:hover {
+.artichron.sheet .item:not(.empty) img:hover {
   box-shadow: 0 0 5px black;
   scale: 1.05;
+}
+
+.artichron.sheet input.tiny {
+  max-width: 1.5em;
+  max-height: 1.5em;
+  aspect-ratio: 1/1;
+  border-color:gray;
+  text-align: center;
+
 }
