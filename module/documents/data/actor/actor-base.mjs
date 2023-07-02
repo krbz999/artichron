@@ -33,11 +33,4 @@ export class BaseActorModel extends foundry.abstract.TypeDataModel {
       })
     };
   }
-
-  /* ---------------------------------------- */
-
-  /** @override */
-  async _preUpdate(changed, options, user) {
-    await super._preUpdate(changed, options, user);
-  }
 }

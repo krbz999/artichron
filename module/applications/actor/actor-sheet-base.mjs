@@ -43,9 +43,10 @@ export default class ActorSheetArtichron extends ActorSheet {
     // Context: resistances.
     const res = this.document.system.resistances;
     data.context.resistances = {};
+    const maxResist = Math.max(...Object.keys(CONFIG.SYSTEM.RESISTANCE_VALUES));
     for (const r in res) {
       if (res[r].resistant) {
-        data.context.resistances[r] = {...CONFIG.SYSTEM.DAMAGE_TYPES[r], total: res[r].total};
+        data.context.resistances[r] = {...CONFIG.SYSTEM.DAMAGE_TYPES[r], total: Math.min(maxResist, res[r].total)};
       }
     }
 
@@ -71,6 +72,9 @@ export default class ActorSheetArtichron extends ActorSheet {
           break;
         case "change-item":
           n.addEventListener("click", this._onClickChangeItem.bind(this));
+          break;
+        case "edit-resistance":
+          n.addEventListener("click", this._onClickEditResistance.bind(this));
           break;
         default:
           break;
@@ -102,8 +106,6 @@ export default class ActorSheetArtichron extends ActorSheet {
     const items = this.document.items.filter(item => {
       return ["weapon", "spell", "shield"].includes(item.type) && !Object.values(this.document.arsenal).map(u => u?.id).includes(item.id);
     });
-    console.warn({items});
-    console.warn({slot});
 
     const options = items.reduce((acc, item) => {
       return acc + `<option value="${item.id}">${item.name}</option>`;
@@ -121,5 +123,21 @@ export default class ActorSheetArtichron extends ActorSheet {
         return this.document.update({[`system.equipped.arsenal.${slot}`]: id});
       }
     });
+  }
+
+  /**
+   * Handle injecting an input field when clicking the 'edit resistance' anchor.
+   * @param {PointerEvent} event      The initiating click event.
+   */
+  _onClickEditResistance(event){
+    const type = event.currentTarget.closest("[data-type]").dataset.type;
+    const input = document.createElement("INPUT");
+    input.type = "number";
+    input.setAttribute("data-dtype", "Number");
+    input.name = `system.resistances.${type}.bonus`;
+    input.value = this.document.system.resistances[type].bonus;
+    input.addEventListener("focus", () => input.select());
+    input.classList.add("tiny");
+    event.currentTarget.replaceWith(input);
   }
 }

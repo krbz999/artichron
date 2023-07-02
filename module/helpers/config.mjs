@@ -13,7 +13,8 @@ SYSTEM.FIGHTING_STYLES = {
 SYSTEM.RESISTANCE_VALUES = {
   1: 0.25,
   2: 0.50,
-  3: 0.75
+  3: 0.75,
+  4: 1.00
 };
 
 /**
@@ -84,7 +85,23 @@ SYSTEM.DEFENSE_TYPES = {
 };
 
 // The array of damage dice values.
-SYSTEM.DAMAGE_DICE = ["d4", "d6", "d8", "d10", "d12"];
+SYSTEM.DIE_SIZES = {
+  2: "d2",
+  3: "d3",
+  4: "d4",
+  5: "d5",
+  6: "d6",
+  8: "d8",
+  10: "d10",
+  12: "d12"
+};
+
+// Movement types.
+SYSTEM.MOVEMENT_TYPES = {
+  running: {label: "ARTICHRON.MovementRunning"},
+  flying: {label: "ARTICHRON.MovementFlying"},
+  swimming: {label: "ARTICHRON.MovementSwimming"}
+};
 
 // Weapon subtypes.
 SYSTEM.WEAPON_TYPES = {
@@ -119,4 +136,10 @@ SYSTEM.SPELL_TYPES = {
   offense: {label: "ARTICHRON.SpellTypeOffense"},
   defense: {label: "ARTICHRON.SpellTypeDefense"},
   buff: {label: "ARTICHRON.SpellTypeBuff"}
+};
+
+// Armor set identifiers.
+// bonus could be a function or a static bonus, idk
+SYSTEM.ARMOR_SETS = {
+  "flame": {label: "ARTICHRON.SetFlame", bonus: {}}
 };

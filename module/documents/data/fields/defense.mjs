@@ -1,11 +1,10 @@
 import {SYSTEM} from "../../../helpers/config.mjs";
 import {ValueField} from "./value.mjs";
 
-/** A single schema field for a single type of resistance. */
 class Defense extends foundry.abstract.DataModel {
   static defineSchema() {
     return {
-      bonus: new ValueField()
+      bonus: new ValueField({label: "ARTICHRON.DefenseBonus"})
     };
   }
 
@@ -14,7 +13,7 @@ class Defense extends foundry.abstract.DataModel {
   }
 }
 
-/** A full schema field for all types of resistances. */
+/** A full schema field for all types of defenses. */
 class DefenseField extends foundry.data.fields.ObjectField {
   initialize(value, model) {
     return new Defense(value, {parent: model});
@@ -22,6 +21,7 @@ class DefenseField extends foundry.data.fields.ObjectField {
 
 }
 
+/** Method to return the fields for defenses; armor, parry, block. */
 export function buildDefenseFields() {
   const fields = {};
   for (const type in SYSTEM.DEFENSE_TYPES) {

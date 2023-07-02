@@ -1,0 +1,53 @@
+<form autocomplete="off">
+
+  {{!-- Sheet Header --}}
+  <header class="sheet-header">
+    <img class="profile-img" src="{{item.img}}" data-edit="img" data-tooltip="{{item.name}}" height="100" width="100">
+    <div class="header-fields">
+      <h1 class="charname">
+        <input name="name" type="text" value="{{item.name}}" placeholder="{{localize 'Name'}}">
+      </h1>
+    </div>
+  </header>
+
+  {{!-- Sheet Tab Navigation --}}
+  <nav class="sheet-tabs tabs" data-group="primary">
+    <a class="item" data-tab="description">{{localize "ARTICHRON.SheetTabDescription"}}</a>
+    <a class="item" data-tab="attributes">{{localize "ARTICHRON.SheetTabAttributes"}}</a>
+    <a class="item" data-tab="effects">{{localize "ARTICHRON.SheetTabEffects"}}</a>
+  </nav>
+
+  {{!-- Sheet Body --}}
+  <section class="sheet-body">
+
+    {{!-- Tabs --}}
+    <div class="tab description" data-group="primary" data-tab="description">
+      <div class="form-group">
+      {{editor descriptions.value target="system.description.value" rollData=rollData button=true owner=owner editable=true engine="prosemirror"}}
+      </div>
+    </div>
+
+    <div class="tab attributes" data-group="primary" data-tab="attributes">
+
+      <div class="form-group">
+        <label>{{localize "ARTICHRON.ArmorType"}}</label>
+        <div class="form-fields">
+          <select name="system.type">
+            {{selectOptions config.ARMOR_TYPES selected=item.system.type localize=true labelAttr="label"}}
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>{{localize "ARTICHRON.SetIdentifier"}}</label>
+        <div class="form-fields">
+          <select name="system.identifier">
+            {{selectOptions config.ARMOR_SETS selected=item.system.identifier localize=true labelAttr="label"}}
+          </select>
+        </div>
+      </div>
+
+    </div>
+
+  </section>
+</form>

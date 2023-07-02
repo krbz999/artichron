@@ -58,6 +58,7 @@ Hooks.once("init", function() {
 
   Items.unregisterSheet("core", ItemSheet);
   Items.registerSheet("artichron", applications.ItemSheetWeapon, {types: ["weapon"], makeDefault: true, label: "ARTICHRON.ItemSheetWeapon"});
+  Items.registerSheet("artichron", applications.ItemSheetArmor, {types: ["armor"], makeDefaut: true, label: "ARTICHRON.ItemSheetArmor"});
 
   // Preload Handlebars templates.
   preloadHandlebarsTemplates();
