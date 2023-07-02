@@ -12,7 +12,11 @@ export const arsenalFields = (arms) => {
 
   const fields = {};
   for (const key of [...keys, "ammo"]) {
-    fields[key] = new foundry.data.fields.ForeignDocumentField(BaseItemModel, {idOnly: true, nullable: true});
+    fields[key] = new foundry.data.fields.ForeignDocumentField(BaseItemModel, {
+      idOnly: true,
+      nullable: true,
+      label: `ARTICHRON.Arsenal${key.capitalize()}`
+    });
   }
   return fields;
 }
@@ -20,7 +24,11 @@ export const arsenalFields = (arms) => {
 export const armorFields = () => {
   const fields = {};
   for (const key in SYSTEM.ARMOR_TYPES) {
-    fields[key] = new foundry.data.fields.ForeignDocumentField(BaseItemModel, {idOnly: true, nullable: true});
+    fields[key] = new foundry.data.fields.ForeignDocumentField(BaseItemModel, {
+      idOnly: true,
+      nullable: true,
+      label: `ARTICHRON.Armor${key.capitalize()}`
+    });
   }
   return fields;
 }

@@ -10,8 +10,8 @@ import {SYSTEM} from "../../../helpers/config.mjs";
 class Damage extends foundry.abstract.DataModel {
   static defineSchema() {
     return {
-      value: new foundry.data.fields.StringField(),
-      type: new foundry.data.fields.StringField({choices: SYSTEM.DAMAGE_TYPES})
+      value: new foundry.data.fields.StringField({label: "ARTICHRON.DamageFormula"}),
+      type: new foundry.data.fields.StringField({choices: SYSTEM.DAMAGE_TYPES, label: "ARTICHRON.DamageType"})
     };
   }
 }

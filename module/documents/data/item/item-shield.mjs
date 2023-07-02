@@ -3,12 +3,13 @@ import ArsenalData from "./item-arsenal.mjs";
 
 export default class ShieldData extends ArsenalData {
   /** @override */
-  static SUBTYPES = SYSTEM.SHIELD_TYPES;
-
-  /** @override */
   static defineSchema() {
     return {
-      ...super.defineSchema()
+      ...super.defineSchema(),
+      type: new foundry.data.fields.StringField({
+        options: SYSTEM.SHIELD_TYPES,
+        label: "ARTICHRON.ShieldType"
+      }),
     };
   }
 }

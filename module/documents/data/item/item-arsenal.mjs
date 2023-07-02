@@ -1,7 +1,7 @@
 // Base model for items that are held (weapons, shields, spells).
 import {DamageField} from "../fields/damage.mjs";
+import {DefenseDieField} from "../fields/die.mjs";
 import {ValueField} from "../fields/value.mjs";
-import {WeightField} from "../fields/weight.mjs";
 import {BaseItemModel} from "./item-base.mjs";
 
 /**
@@ -15,19 +15,18 @@ import {BaseItemModel} from "./item-base.mjs";
  * ...
  */
 export default class ArsenalData extends BaseItemModel {
-  // Faces for damage dice.
-  static FACES = ["d4", "d6", "d8", "d10"];
-  // Subclasses must replace this.
-  static SUBTYPES = null;
-
   static defineSchema() {
     return {
-      type: new foundry.data.fields.StringField({options: this.SUBTYPES}),
+      description: new foundry.data.fields.SchemaField({
+        value: new foundry.data.fields.HTMLField({label: "ARTICHRON.DescriptionField"})
+      }),
       damage: new foundry.data.fields.ArrayField(new DamageField()),
-      ...WeightField(),
+      weight: new foundry.data.fields.SchemaField({
+        value: new ValueField({label: "ARTICHRON.Weight"})
+      }),
       defenses: new foundry.data.fields.SchemaField({
-        parry: new ValueField(), // not mutable, derived from subtype, dice field
-        block: new ValueField(), // not mutable, also derived from subtype, dice field
+        parry: new DefenseDieField(),
+        block: new DefenseDieField()
       }),
       wield: new foundry.data.fields.SchemaField({
         value: new foundry.data.fields.NumberField({choices: [1, 2], initial: 1}),

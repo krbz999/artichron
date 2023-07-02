@@ -1,12 +1,14 @@
+import {SYSTEM} from "../../../helpers/config.mjs";
 import {ValueField} from "./value.mjs";
 
-class PoolDie extends foundry.abstract.DataModel {
-
+class DefenseDie extends foundry.abstract.DataModel {
   static defineSchema() {
     return {
-      value: new ValueField(),
-      max: new foundry.data.fields.StringField({required: true}),
-      faces: new foundry.data.fields.NumberField({choices: [2, 3, 4, 6, 8, 10, 12], initial: 4})
+      faces: new foundry.data.fields.NumberField({
+        choices: SYSTEM.DIE_SIZES,
+        initial: 4,
+        label: "ARTICHRON.DefenseDieSize"
+      })
     };
   }
 
@@ -21,6 +23,20 @@ class PoolDie extends foundry.abstract.DataModel {
   toString() {
     return this.formula;
   }
+}
+
+class PoolDie extends DefenseDie {
+  static defineSchema() {
+    return {
+      value: new ValueField({label: "ARTICHRON.PoolDieValue"}),
+      max: new foundry.data.fields.StringField({required: true, label: "ARTICHRON.PoolDieMax"}),
+      faces: new foundry.data.fields.NumberField({
+        choices: SYSTEM.DIE_SIZES,
+        initial: 4,
+        label: "ARTICHRON.PoolDieSize"
+      })
+    };
+  }
 
   get available() {
     return this.value > 0;
@@ -30,5 +46,11 @@ class PoolDie extends foundry.abstract.DataModel {
 export class PoolDieField extends foundry.data.fields.ObjectField {
   initialize(value, model) {
     return new PoolDie(value, {parent: model});
+  }
+}
+
+export class DefenseDieField extends foundry.data.fields.ObjectField {
+  initialize(value, model) {
+    return new DefenseDie(value, {parent: model});
   }
 }

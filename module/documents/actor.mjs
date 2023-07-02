@@ -49,7 +49,7 @@ export default class ActorArtichron extends Actor {
   get isDead() {
     const invulnerable = CONFIG.specialStatusEffects.INVULNERABLE;
     if (this.parent.statuses.has(invulnerable)) return false;
-    return !this.system.pools.health.value;
+    return !this.system.health.value;
   }
 
   /** ----------------------------------------
@@ -161,6 +161,7 @@ export default class ActorArtichron extends Actor {
   /** @override */
   async _preUpdate(update, options, user) {
     await super._preUpdate(update, options, user);
+    this.system._validateArsenal(update);
   }
 
   /** @override */

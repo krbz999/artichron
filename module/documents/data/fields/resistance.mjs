@@ -33,7 +33,7 @@ export function buildResistanceFields() {
   const fields = {};
   for (const type in SYSTEM.DAMAGE_TYPES) {
     if (SYSTEM.DAMAGE_TYPES[type].resist) {
-      fields[type] = new ResistanceField();
+      fields[type] = new ResistanceField({label: `ARTICHRON.Resistance${type.capitalize()}`});
     }
   }
   return fields;
