@@ -1,5 +1,5 @@
 // Base model for items that are worn (head, chest, legs).
-import {SYSTEM} from "../../../helpers/config.mjs";
+import {SYSTEM} from "../../helpers/config.mjs";
 import {IdentifierField} from "../fields/identifier.mjs";
 import {ValueField} from "../fields/value.mjs";
 import {BaseItemModel} from "./_item-base.mjs";

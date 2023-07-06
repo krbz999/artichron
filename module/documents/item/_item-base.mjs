@@ -7,7 +7,7 @@ export class BaseItemModel extends foundry.abstract.TypeDataModel {
       description: new foundry.data.fields.SchemaField({
         value: new foundry.data.fields.HTMLField({label: "ARTICHRON.DescriptionValue"})
       }),
-      traits: this._defineTraits()
+      traits: new foundry.data.fields.SchemaField(this._defineTraits())
     };
   }
 

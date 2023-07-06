@@ -1,4 +1,4 @@
-import {SYSTEM} from "../../../helpers/config.mjs";
+import {SYSTEM} from "../../helpers/config.mjs";
 
 /**
  * Model of a singular damage field.

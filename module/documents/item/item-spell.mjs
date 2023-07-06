@@ -1,5 +1,5 @@
 import ArsenalData from "./_item-arsenal.mjs";
-import {SYSTEM} from "../../../helpers/config.mjs";
+import {SYSTEM} from "../../helpers/config.mjs";
 import {ValueField} from "../fields/value.mjs";
 
 export default class SpellData extends ArsenalData {

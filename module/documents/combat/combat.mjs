@@ -1,4 +1,4 @@
-export class CombatArtichron extends Combat {
+export default class CombatArtichron extends Combat {
   setupTurns() {
     const turns = super.setupTurns();
     return this._alternateSort(turns);
@@ -11,7 +11,7 @@ export class CombatArtichron extends Combat {
   _alternateSort(turns) {
     if (!turns.length) return;
 
-    const rule = (combatant) => combatant.token.disposition >= 0;
+    const rule = (combatant) => combatant?.token.disposition >= 0;
 
     const [hostile, friendly] = turns.partition(rule);
     const [first, second] = rule(turns[0]) ? [friendly, hostile] : [hostile, friendly];

@@ -1,4 +1,4 @@
-import {SYSTEM} from "../../../helpers/config.mjs";
+import {SYSTEM} from "../../helpers/config.mjs";
 import {ValueField} from "./value.mjs";
 
 /** A single schema field for a single type of resistance. */

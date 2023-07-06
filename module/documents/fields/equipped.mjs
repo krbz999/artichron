@@ -1,4 +1,4 @@
-import {SYSTEM} from "../../../helpers/config.mjs";
+import {SYSTEM} from "../../helpers/config.mjs";
 import {BaseItemModel} from "../item/_item-base.mjs";
 
 export const arsenalFields = (arms) => {

@@ -1,21 +1,19 @@
 import {SYSTEM} from "./helpers/config.mjs";
-import * as documents from "./documents/_module.mjs";
 import * as applications from "./applications/_module.mjs";
 import {preloadHandlebarsTemplates} from "./helpers/templates.mjs";
-import dataModels from "./documents/data/_module.mjs";
 import {dice} from "./dice/_module.mjs";
-import {CombatArtichron} from "./documents/data/combat/combat.mjs";
+import {dataModels, documents} from "./documents/_module.mjs";
 
 /* -------------------------------------------- */
 /*  Define Module Structure                     */
 /* -------------------------------------------- */
 
 globalThis.artichron = {
-  applications,
+  applications: applications,
   config: SYSTEM,
-  dataModels,
+  dataModels: dataModels,
   dice: {},
-  documents,
+  documents: documents,
   migrations: {},
   utils: {}
 };
@@ -29,9 +27,9 @@ Hooks.once("init", function() {
 
   // Record Configuration Values
   CONFIG.SYSTEM = SYSTEM;
-  CONFIG.Actor.documentClass = documents.ActorArtichron;
-  CONFIG.Item.documentClass = documents.ItemArtichron;
-  CONFIG.Combat.documentClass = CombatArtichron;
+  CONFIG.Actor.documentClass = documents.actor;
+  CONFIG.Item.documentClass = documents.item;
+  CONFIG.Combat.documentClass = documents.combat;
 
   // Hook up system data types
   CONFIG.Actor.dataModels = dataModels.actor;

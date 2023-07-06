@@ -105,17 +105,24 @@ export default class ActorArtichron extends Actor {
     const def = this.system.defenses;
 
     // Set initial values of armor and total for each resistance.
-    for (const key in def) {
+    for (const key of ["parry", "block"]) {
       def[key].items = 0;
       def[key].total = def[key].bonus || 0;
     }
+    def.armor.items = 0;
+    def.armor.total = def.armor.bonus || 0;
 
-    for (const item of Object.values({...this.armor, ...this.arsenal})) {
+    for (const item of Object.values(this.arsenal)) {
       if (!item) continue;
-      for (const key in def) {
-        def[key].items += (item.system.defenses[key] ?? 0);
-        def[key].total += (item.system.defenses[key] ?? 0);
+      for (const key of ["parry", "block"]) {
+        def[key].items += (item.system.defenses[key].value ?? 0);
+        def[key].total += (item.system.defenses[key].value ?? 0);
       }
+    }
+    for (const item of Object.values(this.armor)) {
+      if (!item) continue;
+      def.armor.items += (item.system.traits.armor.value ?? 0);
+      def.armor.total += (item.system.traits.armor.value ?? 0);
     }
   }
 
@@ -175,7 +182,7 @@ export default class ActorArtichron extends Actor {
     const tokens = this.isToken ? [this.token?.object] : this.getActiveTokens(true);
     for (const t of tokens) {
       for (const type in damages) {
-        canvas.interface.createScrollingText(t.center, damages[type].signedString(), {
+        canvas.interface.createDamageNumbers(t.center, damages[type].signedString(), {
           anchor: CONST.TEXT_ANCHOR_POINTS.TOP,
           //fontSize: 16 + (32 * pct), // Range between [16, 48]
           fill: CONFIG.SYSTEM.DAMAGE_TYPES[type].color,

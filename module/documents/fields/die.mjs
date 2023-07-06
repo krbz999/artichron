@@ -1,4 +1,4 @@
-import {SYSTEM} from "../../../helpers/config.mjs";
+import {SYSTEM} from "../../helpers/config.mjs";
 import {ValueField} from "./value.mjs";
 
 class DefenseDie extends foundry.abstract.DataModel {
