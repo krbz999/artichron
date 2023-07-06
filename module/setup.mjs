@@ -4,6 +4,7 @@ import * as applications from "./applications/_module.mjs";
 import {preloadHandlebarsTemplates} from "./helpers/templates.mjs";
 import dataModels from "./documents/data/_module.mjs";
 import {dice} from "./dice/_module.mjs";
+import {CombatArtichron} from "./documents/data/combat/combat.mjs";
 
 /* -------------------------------------------- */
 /*  Define Module Structure                     */
@@ -30,6 +31,7 @@ Hooks.once("init", function() {
   CONFIG.SYSTEM = SYSTEM;
   CONFIG.Actor.documentClass = documents.ActorArtichron;
   CONFIG.Item.documentClass = documents.ItemArtichron;
+  CONFIG.Combat.documentClass = CombatArtichron;
 
   // Hook up system data types
   CONFIG.Actor.dataModels = dataModels.actor;

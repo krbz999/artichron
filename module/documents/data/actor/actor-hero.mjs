@@ -1,4 +1,4 @@
-import {BaseActorModel} from "./actor-base.mjs";
+import {BaseActorModel} from "./_actor-base.mjs";
 
 export default class HeroData extends BaseActorModel {
   static defineSchema() {

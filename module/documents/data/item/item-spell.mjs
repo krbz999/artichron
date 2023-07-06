@@ -1,4 +1,4 @@
-import ArsenalData from "./item-arsenal.mjs";
+import ArsenalData from "./_item-arsenal.mjs";
 import {SYSTEM} from "../../../helpers/config.mjs";
 import {ValueField} from "../fields/value.mjs";
 

@@ -1,5 +1,5 @@
 import {SYSTEM} from "../../../helpers/config.mjs";
-import {BaseItemModel} from "../item/item-base.mjs";
+import {BaseItemModel} from "../item/_item-base.mjs";
 
 export const arsenalFields = (arms) => {
   arms = Math.clamped(arms, 1, 4) || 2;

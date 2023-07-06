@@ -1,14 +1,5 @@
 export const SYSTEM = {};
 
-// Fighting styles.
-SYSTEM.FIGHTING_STYLES = {
-  SPELL: 0,
-  MELEE_ONE: 1,
-  MELEE_TWO: 2,
-  MELEE_DUAL: 3,
-  RANGED: 4
-};
-
 // Resistance percentages.
 SYSTEM.RESISTANCE_VALUES = {
   1: 0.25,
@@ -117,18 +108,18 @@ SYSTEM.WEAPON_TYPES = {
 
 // Shield types.
 SYSTEM.SHIELD_TYPES = {
-  bucker: {label: "ARTICHRON.ShieldTypeBuckler"},
+  buckler: {label: "ARTICHRON.ShieldTypeBuckler"},
   heater: {label: "ARTICHRON.ShieldTypeHeater"},
   kite: {label: "ARTICHRON.ShieldTypeKite"}
 };
 
 // Armor subtypes.
 SYSTEM.ARMOR_TYPES = {
-  head: {label: "ARTICHRON.ArmorTypeHead"},
-  chest: {label: "ARTICHRON.ArmorTypeChest"},
+  accessory: {label: "ARTICHRON.ArmorTypeAccessory"},
   arms: {label: "ARTICHRON.ArmorTypeArms"},
-  legs: {label: "ARTICHRON.ArmorTypeLegs"},
-  accessory: {label: "ARTICHRON.ArmorTypeAccessory"}
+  chest: {label: "ARTICHRON.ArmorTypeChest"},
+  head: {label: "ARTICHRON.ArmorTypeHead"},
+  legs: {label: "ARTICHRON.ArmorTypeLegs"}
 };
 
 // Spell types.
@@ -136,6 +127,15 @@ SYSTEM.SPELL_TYPES = {
   offense: {label: "ARTICHRON.SpellTypeOffense"},
   defense: {label: "ARTICHRON.SpellTypeDefense"},
   buff: {label: "ARTICHRON.SpellTypeBuff"}
+};
+
+// Monster part types.
+SYSTEM.MONSTER_PART_TYPES = {
+  eye: {label: "ARTICHRON.MonsterPartTypeEye"},
+  fang: {label: "ARTICHRON.MonsterPartTypeFang"},
+  heart: {label: "ARTICHRON.MonsterPartTypeHeart"},
+  horn: {label: "ARTICHRON.MonsterPartTypeHorn"},
+  tail: {label: "ARTICHRON.MonsterPartTypeTail"}
 };
 
 // Armor set identifiers.

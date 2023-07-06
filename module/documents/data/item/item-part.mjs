@@ -1,14 +1,13 @@
-import {SYSTEM} from "../../../helpers/config.mjs";
-import ArsenalData from "./_item-arsenal.mjs";
+import {BaseItemModel} from "./_item-base.mjs";
 
-export default class ShieldData extends ArsenalData {
+export default class MonsterPartData extends BaseItemModel {
   /** @override */
   static defineSchema() {
     return {
       ...super.defineSchema(),
       type: new foundry.data.fields.StringField({
         options: SYSTEM.SHIELD_TYPES,
-        label: "ARTICHRON.ShieldType"
+        label: "ARTICHRON.MonsterPartType"
       })
     };
   }
