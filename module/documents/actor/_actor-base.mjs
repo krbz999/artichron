@@ -1,5 +1,5 @@
 import {buildDefenseFields} from "../fields/defense.mjs";
-import {PoolDieField} from "../fields/die.mjs";
+import {PoolDie} from "../fields/die.mjs";
 import {armorFields, arsenalFields} from "../fields/equipped.mjs";
 import {buildResistanceFields} from "../fields/resistance.mjs";
 import {ValueField} from "../fields/value.mjs";
@@ -16,9 +16,9 @@ export class BaseActorModel extends foundry.abstract.TypeDataModel {
         max: new ValueField()
       }),
       pools: new foundry.data.fields.SchemaField({
-        health: new PoolDieField(),
-        stamina: new PoolDieField(),
-        mana: new PoolDieField()
+        health: new foundry.data.fields.EmbeddedDataField(PoolDie),
+        stamina: new foundry.data.fields.EmbeddedDataField(PoolDie),
+        mana: new foundry.data.fields.EmbeddedDataField(PoolDie)
       }),
       equipped: new foundry.data.fields.SchemaField({
         arsenal: new foundry.data.fields.SchemaField(arsenalFields(this.ARMS)),

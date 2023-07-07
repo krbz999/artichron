@@ -86,6 +86,7 @@ export default class ActorArtichron extends Actor {
 
   /** Prepare maximum values of pools. */
   _preparePools() {
+    return;
     const data = this.getRollData();
     for (const [key, values] of Object.entries(this.system.pools)) {
       let result = 0;

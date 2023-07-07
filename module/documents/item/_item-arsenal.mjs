@@ -1,6 +1,6 @@
 // Base model for items that are held (weapons, shields, spells).
 import {DamageField} from "../fields/damage.mjs";
-import {DefenseDieField} from "../fields/die.mjs";
+import {DefenseDie} from "../fields/die.mjs";
 import {ValueField} from "../fields/value.mjs";
 import {BaseItemModel} from "./_item-base.mjs";
 
@@ -10,8 +10,8 @@ export default class ArsenalData extends BaseItemModel {
       ...super.defineSchema(),
       damage: new foundry.data.fields.ArrayField(new DamageField()),
       defenses: new foundry.data.fields.SchemaField({
-        parry: new DefenseDieField(),
-        block: new DefenseDieField()
+        parry: new foundry.data.fields.EmbeddedDataField(DefenseDie),
+        block: new foundry.data.fields.EmbeddedDataField(DefenseDie)
       }),
       wield: new foundry.data.fields.SchemaField({
         value: new foundry.data.fields.NumberField({choices: [1, 2], initial: 1}),
