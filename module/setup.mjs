@@ -3,6 +3,7 @@ import * as applications from "./applications/_module.mjs";
 import {preloadHandlebarsTemplates} from "./helpers/templates.mjs";
 import {dice} from "./dice/_module.mjs";
 import {dataModels, documents} from "./documents/_module.mjs";
+import {registerHandlebarHelpers} from "./helpers/handlebarHelpers.mjs";
 
 /* -------------------------------------------- */
 /*  Define Module Structure                     */
@@ -62,20 +63,7 @@ Hooks.once("init", function() {
 
   // Preload Handlebars templates.
   preloadHandlebarsTemplates();
-});
-
-/* -------------------------------------------- */
-/*  Handlebars Helpers                          */
-/* -------------------------------------------- */
-
-Handlebars.registerHelper("capitalize", function(word) {
-  return word.capitalize();
-});
-
-Handlebars.registerHelper("iterate", function(num, block) {
-  let accum = '';
-  for (let i = 0; i < num; i++) accum += block.fn(this);
-  return accum;
+  registerHandlebarHelpers();
 });
 
 /* -------------------------------------------- */
