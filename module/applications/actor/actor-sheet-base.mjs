@@ -60,6 +60,7 @@ export default class ActorSheetArtichron extends ActorSheet {
     super.activateListeners(html);
 
     // listeners that always work go here
+    html[0].querySelectorAll("[data-dtype='Number']").forEach(this._selectField);
 
     if (!this.isEditable) return;
 
@@ -80,6 +81,14 @@ export default class ActorSheetArtichron extends ActorSheet {
           break;
       }
     });
+  }
+
+  /**
+   * Select the contents of a focused field.
+   * @param {HTMLElement} input     The element to add the listener to.
+   */
+  _selectField(input){
+    input.addEventListener("focus", () => input.select());
   }
 
   /**
@@ -136,7 +145,7 @@ export default class ActorSheetArtichron extends ActorSheet {
     input.setAttribute("data-dtype", "Number");
     input.name = `system.resistances.${type}.bonus`;
     input.value = this.document.system.resistances[type].bonus;
-    input.addEventListener("focus", () => input.select());
+    this._selectField(input);
     input.classList.add("tiny");
     event.currentTarget.replaceWith(input);
   }

@@ -1,0 +1,9 @@
+{{#each actor.system.pools}}
+<div class="pool">
+  <label>{{localize (concat "ARTICHRON." (capitalize @key) "DiePl")}}</label>
+  <input class="tiny" type="number" data-dtype="Number" name="system.pools.{{@key}}.value" value="{{value}}">
+  <span class="sep">/</span>
+  <input class="tiny" type="number" data-dtype="Number" name="system.pools.{{@key}}.max" value="{{max}}">
+  <span class="die">{{die}}</span>
+</div>
+{{/each}}

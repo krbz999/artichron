@@ -24,16 +24,19 @@
 
     {{!-- Tabs --}}
     <div class="tab attributes" data-group="primary" data-tab="attributes">
-      <section class="equipped">
-        {{> "systems/artichron/templates/partials/equipped.hbs"}}
+      <section class="pools">
+        {{> "systems/artichron/templates/partials/pools.hbs"}}
       </section>
-
       <section class="resistances">
         {{> "systems/artichron/templates/partials/resistances.hbs"}}
       </section>
     </div>
 
-    <div class="tab equipment" data-group="primary" data-tab="equipment"></div>
+    <div class="tab equipment" data-group="primary" data-tab="equipment">
+      <section class="equipped">
+        {{> "systems/artichron/templates/partials/equipped.hbs"}}
+      </section>
+    </div>
     <div class="tab loot" data-group="primary" data-tab="loot"></div>
     <div class="tab consumables" data-group="primary" data-tab="consumables"></div>
     <div class="tab effects" data-group="primary" data-tab="effects"></div>

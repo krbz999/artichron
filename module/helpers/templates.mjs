@@ -8,6 +8,7 @@ export async function preloadHandlebarsTemplates() {
     // array of paths to hbs files goes here
     "systems/artichron/templates/partials/equipped.hbs",
     "systems/artichron/templates/partials/resistances.hbs",
-    "systems/artichron/templates/partials/damage.hbs"
+    "systems/artichron/templates/partials/damage.hbs",
+    "systems/artichron/templates/partials/pools.hbs"
   ]);
 };
