@@ -4,6 +4,7 @@ import {preloadHandlebarsTemplates} from "./helpers/templates.mjs";
 import {dice} from "./dice/_module.mjs";
 import {dataModels, documents} from "./documents/_module.mjs";
 import {registerHandlebarHelpers} from "./helpers/handlebarHelpers.mjs";
+import {ChatLog} from "./documents/chat/chat-log.mjs";
 
 /* -------------------------------------------- */
 /*  Define Module Structure                     */
@@ -39,7 +40,7 @@ Hooks.once("init", function() {
   // Hook up dice types.
   CONFIG.Dice.rolls.push(...Object.values(dice));
   CONFIG.Dice.DamageRoll = dice.DamageRoll;
-  CONFIG.Dice._DamageRoll = dice._DamageRoll;
+  CONFIG.Dice.DamageRollCombined = dice.DamageRollCombined;
 
   /**
    * Set an initiative formula for the system
@@ -64,6 +65,7 @@ Hooks.once("init", function() {
   // Preload Handlebars templates.
   preloadHandlebarsTemplates();
   registerHandlebarHelpers();
+  ChatLog.init();
 });
 
 /* -------------------------------------------- */

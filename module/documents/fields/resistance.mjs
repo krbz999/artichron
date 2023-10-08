@@ -1,11 +1,10 @@
 import {SYSTEM} from "../../helpers/config.mjs";
-import {ValueField} from "./value.mjs";
 
 /** A single schema field for a single type of resistance. */
 class Resistance extends foundry.abstract.DataModel {
   static defineSchema() {
     return {
-      bonus: new ValueField()
+      bonus: new foundry.data.fields.NumberField({integer: true, required: true, initial: null})
     };
   }
 

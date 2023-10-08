@@ -1,10 +1,10 @@
 // Base model for items that are held (weapons, shields, spells).
 import {DamageField} from "../fields/damage.mjs";
 import {DefenseDie} from "../fields/die.mjs";
-import {ValueField} from "../fields/value.mjs";
 import {BaseItemModel} from "./_item-base.mjs";
 
 export default class ArsenalData extends BaseItemModel {
+  /** @override */
   static defineSchema() {
     return {
       ...super.defineSchema(),
@@ -16,7 +16,7 @@ export default class ArsenalData extends BaseItemModel {
       wield: new foundry.data.fields.SchemaField({
         value: new foundry.data.fields.NumberField({choices: [1, 2], initial: 1}),
         type: new foundry.data.fields.StringField({choices: ["melee", "ranged"]}),
-        range: new ValueField()
+        range: new foundry.data.fields.NumberField({integer: true, required: true, initial: null})
       }),
       fusion: new foundry.data.fields.SchemaField({
         item: new foundry.data.fields.ForeignDocumentField(ArsenalData, {idOnly: true}),
@@ -25,11 +25,14 @@ export default class ArsenalData extends BaseItemModel {
     };
   }
 
-  static _defineTraits(){
+  /** @override */
+  static _defineTraits() {
     return {
       ...super._defineTraits(),
-      armor:  new foundry.data.fields.SchemaField({
-        value: new ValueField({label: "ARTICHRON.ArmorRating"})
+      armor: new foundry.data.fields.SchemaField({
+        value: new foundry.data.fields.NumberField({
+          integer: true, required: true, initial: null, label: "ARTICHRON.ArmorRating"
+        })
       })
     };
   }

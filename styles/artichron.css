@@ -2,17 +2,14 @@
   min-height: 200px;
   height: 100%;
 }
-
 .artichron.sheet.item {
   min-width: 600px;
   min-height: 500px;
 }
-
 .artichron.sheet.actor {
   min-width: 500px;
   min-height: 600px;
 }
-
 .artichron.sheet form {
   display: flex;
   overflow: hidden;
@@ -21,31 +18,50 @@
 .artichron .sheet-body {
   overflow: auto;
 }
-
+.artichron.sheet .section-header {
+  font-family: "Modesto Condensed";
+  font-size: 24px;
+  border-bottom: 2px groove;
+  padding: 0 1em;
+  background-color: rgb(0 0 255 / 20%);
+}
 .artichron.sheet.actor.hero .tab.attributes.active {
   display: grid;
   grid-template-columns: auto auto;
   justify-content: space-between;
   padding: 1em;
 }
-.artichron.sheet.actor .tab.attributes .resistances {
-  min-width: 10em;
+.artichron.sheet.actor section.resistances {
+  border: 2px groove;
+}
+.artichron.sheet.actor .resistances {
+  min-width: 5em;
   display: flex;
   flex-direction: column;
+  position: relative;
+}
+.artichron.sheet.actor .resistances:hover [data-action="toggle-editing"] {
+  display: block;
+}
+.artichron.sheet.actor .resistances [data-action="toggle-editing"] {
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  display: none;
 }
 .artichron.sheet.actor .tab.attributes .resistances .resistance {
   display: inherit;
-  justify-content: space-between;
+  justify-content: space-evenly;
   font-size: 20px;
+  line-height: 20px;
+  margin: 3px auto;
+  width: 100%;
+  font-family: "Calibri";
 }
-.artichron.sheet.actor .tab.attributes .resistances .icons {
+.artichron.sheet.actor .tab.attributes .resistances .resistance .fa-solid {
   text-shadow: 0 0 3px black;
-  padding: 1px 0;
-}
-.artichron.sheet.actor .tab.attributes .resistances .icons i {
   min-width: 1em;
   max-width: 1em;
-  aspect-ratio: 1/1;
 }
 .artichron.sheet .item img {
   max-height: 100px;
@@ -66,12 +82,144 @@
   box-shadow: 0 0 5px black;
   scale: 1.05;
 }
-
 .artichron.sheet input.tiny {
   max-width: 1.5em;
   max-height: 1.5em;
   aspect-ratio: 1/1;
   border-color:gray;
   text-align: center;
+}
 
+/* Damage Rolls */
+.artichron.damage-rolls {
+  gap: 5px;
+  display: flex;
+  flex-direction: column;
+}
+.artichron.damage-rolls .damage-roll {
+  display: flex;
+  flex-wrap: wrap;
+  cursor: pointer;
+}
+.artichron.damage-rolls .damage-roll .damage-properties,
+.artichron.apply-damage .damage-properties {
+  background-color: rgba(0, 0, 255, 0.199);
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  gap: 10px;
+  border: 2px solid var(--color-border-light-2);
+  border-radius: 3px;
+  box-shadow: 0 0 2px #fff inset;
+  line-height: 24px;
+  text-align: center;
+  flex: 1;
+  position: relative;
+}
+.artichron.damage-rolls .damage-roll .damage-properties [data-action],
+.artichron.apply-damage [data-action] {
+  display: none;
+  position: absolute;
+  width: 1cm;
+  height: calc(100% - 2px);
+  left: 2px;
+  font-size: 11px;
+  padding: 0;
+  margin: 0;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  box-shadow: none;
+}
+.artichron.damage-rolls .damage-roll .damage-properties:hover [data-action],
+.artichron.artichron.apply-damage:hover [data-action] {
+  display: flex;
+}
+.artichron.damage-rolls .damage-roll .damage-properties .damage-total,
+.artichron.apply-damage .damage-properties .damage-total {
+  flex: 1;
+  font-size: var(--font-size-20);
+  font-weight: bold;
+}
+.artichron.damage-rolls .damage-roll .damage-properties .damage-type,
+.artichron.apply-damage .damage-properties .damage-type {
+  flex: 1;
+  font-style: italic;
+  filter: drop-shadow(1px 1px 1px black);
+}
+.artichron.damage-rolls .damage-roll .damage-roll-tooltip {
+  flex: 0 0 100%;
+  margin-top: 5px;
+  display: none;
+}
+.artichron.damage-rolls .damage-roll .damage-roll-tooltip.expanded {
+  display: block;
+}
+.artichron.damage-rolls .damage-roll .damage-roll-tooltip .tooltip-header {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  margin: 0;
+  line-height: 24px;
+  border-bottom: 1px solid var(--color-text-light-6);
+}
+.artichron.damage-rolls .damage-roll .damage-roll-tooltip .tooltip-header .tooltip-formula {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+.artichron.damage-rolls .damage-roll .damage-roll-tooltip .tooltip-header .tooltip-total {
+  flex: none;
+  white-space: nowrap;
+  font-size: var(--font-size-16);
+  padding: 0 5px;
+  background: rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--color-text-light-6);
+  border-bottom: none;
+  border-radius: 3px 3px 0 0;
+}
+.artichron.damage-rolls .damage-roll .damage-roll-tooltip .damage-rolls {
+  list-style: none;
+  margin: 5px 0;
+  padding: 0;
+}
+.artichron.damage-rolls .damage-roll .damage-roll-tooltip .damage-rolls .roll {
+  min-width: 24px;
+  line-height: 24px;
+  float: left;
+  margin-right: 1px;
+  background-repeat: no-repeat;
+  background-size: 24px 24px;
+  font-size: var(--font-size-16);
+  color: #000;
+  font-weight: bold;
+  text-align: center;
+  background-image: url(../../../icons/svg/d6-grey.svg);
+}
+.artichron.damage-rolls .damage-roll .damage-roll-tooltip .damage-rolls .roll.max {
+  filter: sepia(1) hue-rotate(180deg) drop-shadow(0 0 1px blue);
+}
+.artichron.damage-rolls .damage-roll .damage-roll-tooltip .damage-rolls .roll.min {
+  filter: sepia(1) hue-rotate(270deg) drop-shadow(0 0 1px red);
+}
+.artichron.damage-rolls .damage-roll .damage-roll-tooltip .damage-rolls .roll.d4 {
+  background-image: url(../../../icons/svg/d4-grey.svg);
+}
+.artichron.damage-rolls .damage-roll .damage-roll-tooltip .damage-rolls .roll.d8 {
+  background-image: url(../../../icons/svg/d8-grey.svg);
+}
+.artichron.damage-rolls .damage-roll .damage-roll-tooltip .damage-rolls .roll.d10 {
+  background-image: url(../../../icons/svg/d10-grey.svg);
+}
+.artichron.damage-rolls .damage-roll .damage-roll-tooltip .damage-rolls .roll.d12 {
+  background-image: url(../../../icons/svg/d12-grey.svg);
+}
+.artichron.damage-rolls .damage-roll .damage-roll-tooltip .damage-rolls .roll.d20 {
+  background-image: url(../../../icons/svg/d20-grey.svg);
+}
+.artichron.apply-damage {
+  margin: 5px 0;
+  border-top: 2px groove;
+  padding-top: 5px;
 }

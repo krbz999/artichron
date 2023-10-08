@@ -1,5 +1,3 @@
-import {ValueField} from "../fields/value.mjs";
-
 export class BaseItemModel extends foundry.abstract.TypeDataModel {
   /** @override */
   static defineSchema() {
@@ -11,13 +9,18 @@ export class BaseItemModel extends foundry.abstract.TypeDataModel {
     };
   }
 
-  static _defineTraits(){
+  /** Define the inner 'traits' property. */
+  static _defineTraits() {
     return {
       weight: new foundry.data.fields.SchemaField({
-        value: new ValueField({label: "ARTICHRON.WeightValue"})
+        value: new foundry.data.fields.NumberField({
+          integer: true, required: true, initial: null, label: "ARTICHRON.WeightValue"
+        })
       }),
       price: new foundry.data.fields.SchemaField({
-        value: new ValueField({label: "ARTICHRON.PriceValue"})
+        value: new foundry.data.fields.NumberField({
+          integer: true, required: true, initial: null, label: "ARTICHRON.PriceValue"
+        })
       })
     };
   }

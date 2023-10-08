@@ -183,9 +183,8 @@ export default class ActorArtichron extends Actor {
     const tokens = this.isToken ? [this.token?.object] : this.getActiveTokens(true);
     for (const t of tokens) {
       for (const type in damages) {
-        canvas.interface.createDamageNumbers(t.center, damages[type].signedString(), {
+        canvas.interface.createScrollingText(t.center, damages[type].signedString(), {
           anchor: CONST.TEXT_ANCHOR_POINTS.TOP,
-          //fontSize: 16 + (32 * pct), // Range between [16, 48]
           fill: CONFIG.SYSTEM.DAMAGE_TYPES[type].color,
           stroke: 0x000000,
           strokeThickness: 4,
@@ -213,12 +212,20 @@ export default class ActorArtichron extends Actor {
   async applyDamage(values = {}) {
     const resistances = this.system.resistances;
     const armor = this.system.defenses.armor;
+    const types = CONFIG.SYSTEM.DAMAGE_TYPES;
 
     const indivs = {};
     const amount = Math.round(Object.entries(values).reduce((acc, [type, value]) => {
-      if (CONFIG.SYSTEM.DAMAGE_TYPES[type]?.resist) value *= 1 - resistances[type].total;
-      else if (CONFIG.SYSTEM.DAMAGE_TYPES[type]?.armor) value -= armor.total;
-      if (value > 0) indivs[type] = -value;
+      if (!(type in types)) return acc;
+
+      // Is this damage type resisted?
+      if (types[type].resist) value -= Math.max(resistances[type].total, 0);
+
+      // Is this damage type reduced by armor?
+      if (types[type].armor) value -= armor.total;
+
+      value = Math.max(value, 0);
+      if (value) indivs[type] = -value;
       return acc + value;
     }, 0));
     const hp = this.system.health;

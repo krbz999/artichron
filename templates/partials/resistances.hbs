@@ -1,14 +1,26 @@
+<header class="section-header">
+  {{localize "ARTICHRON.Resistances"}}
+</header>
+{{#unless editing}}
+<a data-action="toggle-editing" data-tooltip="ARTICHRON.EditResistance">
+  <i class="fa-solid fa-edit"></i>
+</a>
+{{/unless}}
 <div class="resistances">
+  {{#if editing}}
   {{#each context.resistances}}
-  <div class="resistance" data-type="{{@key}}">
-    <div class="icons">
-      {{#iterate total}}
-      <i class="{{icon}}" style="color: #{{color}}"></i>
-      {{/iterate}}
-    </div>
-    <a data-action="edit-resistance" data-tooltip="ARTICHRON.EditResistance">
-      <i class="fa-solid fa-edit"></i>
-    </a>
+  <div class="resistance">
+    <i class="{{icon}}" style="color: #{{color}}"></i>
+    <input class="tiny" type="number" name="system.resistances.{{@key}}.bonus" value="{{bonus}}">
   </div>
   {{/each}}
+  {{else}}
+  {{#each context.resistances}}
+  {{#if total}}
+  <div class="resistance">
+    <i class="{{icon}}" style="color: #{{color}}"></i> ({{total}})
+  </div>
+  {{/if}}
+  {{/each}}
+  {{/if}}
 </div>

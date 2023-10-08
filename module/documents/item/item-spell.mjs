@@ -1,6 +1,5 @@
 import ArsenalData from "./_item-arsenal.mjs";
 import {SYSTEM} from "../../helpers/config.mjs";
-import {ValueField} from "../fields/value.mjs";
 
 export default class SpellData extends ArsenalData {
   /** @override */
@@ -12,7 +11,7 @@ export default class SpellData extends ArsenalData {
         label: "ARTICHRON.SpellType"
       }),
       cost: new foundry.data.fields.SchemaField({
-        value: new ValueField(),
+        value: new foundry.data.fields.NumberField({integer: true, required: true, initial: null}),
         type: new foundry.data.field.StringField({choices: ["health", "stamina", "mana"]})
       })
     };

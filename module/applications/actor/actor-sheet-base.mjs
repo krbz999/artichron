@@ -3,7 +3,6 @@
  * @extends {ActorSheet}
  */
 export default class ActorSheetArtichron extends ActorSheet {
-
   /** @override */
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
@@ -22,12 +21,13 @@ export default class ActorSheetArtichron extends ActorSheet {
   /* -------------------------------------------- */
 
   /** @override */
-  async getData() {
+  async getData(options = {}) {
     const data = {
       actor: this.document,
       context: {},
       rollData: this.document.getRollData(),
-      config: CONFIG.SYSTEM
+      config: CONFIG.SYSTEM,
+      editing: this._editing ?? false
     };
 
     // Context: empty slot icons.
@@ -43,11 +43,12 @@ export default class ActorSheetArtichron extends ActorSheet {
     // Context: resistances.
     const res = this.document.system.resistances;
     data.context.resistances = {};
-    const maxResist = Math.max(...Object.keys(CONFIG.SYSTEM.RESISTANCE_VALUES));
     for (const r in res) {
-      if (res[r].resistant) {
-        data.context.resistances[r] = {...CONFIG.SYSTEM.DAMAGE_TYPES[r], total: Math.min(maxResist, res[r].total)};
-      }
+      data.context.resistances[r] = {
+        ...CONFIG.SYSTEM.DAMAGE_TYPES[r],
+        total: res[r].total,
+        bonus: res[r].bonus
+      };
     }
 
     return data;
@@ -60,35 +61,19 @@ export default class ActorSheetArtichron extends ActorSheet {
     super.activateListeners(html);
 
     // listeners that always work go here
-    html[0].querySelectorAll("[data-dtype='Number']").forEach(this._selectField);
+    html[0].querySelectorAll("[type=text], [type=number]").forEach(n => {
+      n.addEventListener("focus", event => event.currentTarget.select());
+    });
 
     if (!this.isEditable) return;
 
     // listeners that only work on editable or owned sheets go here
     html[0].querySelectorAll("[data-action]").forEach(n => {
       const action = n.dataset.action;
-      switch (action) {
-        case "edit-item":
-          n.addEventListener("click", this._onClickRenderItemSheet.bind(this));
-          break;
-        case "change-item":
-          n.addEventListener("click", this._onClickChangeItem.bind(this));
-          break;
-        case "edit-resistance":
-          n.addEventListener("click", this._onClickEditResistance.bind(this));
-          break;
-        default:
-          break;
-      }
+      if (action === "edit-item") n.addEventListener("click", this._onClickRenderItemSheet.bind(this));
+      else if (action === "change-item") n.addEventListener("click", this._onClickChangeItem.bind(this));
+      else if (action === "toggle-editing") n.addEventListener("click", this._onClickToggleEdit.bind(this));
     });
-  }
-
-  /**
-   * Select the contents of a focused field.
-   * @param {HTMLElement} input     The element to add the listener to.
-   */
-  _selectField(input){
-    input.addEventListener("focus", () => input.select());
   }
 
   /**
@@ -107,11 +92,11 @@ export default class ActorSheetArtichron extends ActorSheet {
    * @param {PointerEvent} event      The initiating click event.
    * @returns {Actor}                 The owning actor updated to have a new item equipped.
    */
-  async _onClickChangeItem(event){
+  async _onClickChangeItem(event) {
     const slot = event.currentTarget.dataset.slot;
     const currentId = event.currentTarget.dataset.id;
     // only works for weapons atm
-    if(!event.currentTarget.closest(".items").classList.contains("arsenal")) return;
+    if (!event.currentTarget.closest(".items").classList.contains("arsenal")) return;
     const items = this.document.items.filter(item => {
       return ["weapon", "spell", "shield"].includes(item.type) && !Object.values(this.document.arsenal).map(u => u?.id).includes(item.id);
     });
@@ -135,18 +120,16 @@ export default class ActorSheetArtichron extends ActorSheet {
   }
 
   /**
-   * Handle injecting an input field when clicking the 'edit resistance' anchor.
+   * Re-render the sheet in a mode that edits hidden values.
    * @param {PointerEvent} event      The initiating click event.
    */
-  _onClickEditResistance(event){
-    const type = event.currentTarget.closest("[data-type]").dataset.type;
-    const input = document.createElement("INPUT");
-    input.type = "number";
-    input.setAttribute("data-dtype", "Number");
-    input.name = `system.resistances.${type}.bonus`;
-    input.value = this.document.system.resistances[type].bonus;
-    this._selectField(input);
-    input.classList.add("tiny");
-    event.currentTarget.replaceWith(input);
+  _onClickToggleEdit(event) {
+    return this.render(false, {editing: true});
+  }
+
+  /** @override */
+  render(force = false, options = {}) {
+    this._editing = options.editing ?? false;
+    return super.render(force, options);
   }
 }

@@ -1,11 +1,9 @@
 export const SYSTEM = {};
 
-// Resistance percentages.
-SYSTEM.RESISTANCE_VALUES = {
-  1: 0.25,
-  2: 0.50,
-  3: 0.75,
-  4: 1.00
+// Resistance percentages. Not currently in use since resistances subtract numeric values, not percentages.
+SYSTEM.RESISTANCE = {
+  VALUES: [0, 0.25, 0.5, 0.75, 1],
+  MAX: 4
 };
 
 /**
@@ -33,7 +31,7 @@ SYSTEM.DAMAGE_TYPES = {
   lightning: {
     label: "ARTICHRON.DamageTypeLightning",
     color: "4B70A8",
-    icon: "fa-solid fa-wind",
+    icon: "fa-solid fa-bolt",
     elemental: true, resist: true
   },
   ice: {
@@ -57,13 +55,13 @@ SYSTEM.DAMAGE_TYPES = {
   physical: {
     label: "ARTICHRON.DamageTypePhysical",
     color: "868686",
-    icon: "fa-solid fa-dumbbell",
+    icon: "fa-solid fa-hand-fist",
     block: true, parry: true, armor: true
   },
   arcane: {
     label: "ARTICHRON.DamageTypeArcane",
     color: "C79FFF",
-    icon: "fa-solid fa-crystal-ball",
+    icon: "fa-solid fa-wand-sparkles",
     block: true, resist: true
   }
 };

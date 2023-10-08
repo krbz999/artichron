@@ -1,5 +1,4 @@
 import {SYSTEM} from "../../helpers/config.mjs";
-import {ValueField} from "./value.mjs";
 
 export class DefenseDie extends foundry.abstract.DataModel {
   static defineSchema() {
@@ -28,8 +27,12 @@ export class DefenseDie extends foundry.abstract.DataModel {
 export class PoolDie extends DefenseDie {
   static defineSchema() {
     return {
-      value: new ValueField({label: "ARTICHRON.PoolDieValue"}),
-      max: new ValueField({label: "ARTICHRON.PoolDieMax"}),
+      value: new foundry.data.fields.NumberField({
+        integer: true, required: true, initial: null, label: "ARTICHRON.PoolDieValue"
+      }),
+      max: new foundry.data.fields.NumberField({
+        integer: true, required: true, initial: null, label: "ARTICHRON.PoolDieMax"
+      }),
       faces: new foundry.data.fields.NumberField({
         choices: SYSTEM.DIE_SIZES,
         initial: 4,

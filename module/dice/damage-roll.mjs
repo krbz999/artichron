@@ -1,79 +1,88 @@
 // A helper class to combine several rolls into one, each with a damage type.
-export class DamageRoll {
+export class DamageRollCombined {
   constructor(parts, data = {}, options = {}) {
-    this.rolls = parts.reduce((acc, part) => {
-      const opts = foundry.utils.deepClone(options);
-      opts.type = part.type;
-      const roll = new _DamageRoll(part.value, data, opts);
-      acc.push(roll);
-      return acc;
-    }, []);
-    this._total = null;
+    this.rolls = parts.map(part => new DamageRoll(part.value, data, {...options, type: part.type}));
   }
 
+  /**
+   * Evaluate each roll.
+   * @returns {Promise<DamageRoll[]>}     The evaluated rolls.
+   */
   async evaluate() {
-    await Promise.all(this.rolls.map(roll => roll.evaluate()));
-    this._total = this.rolls.reduce((acc, roll) => acc + roll.total, 0);
-    return this;
+    for (const roll of this.rolls) if (!roll._evaluated) await roll.evaluate();
+    return this.rolls;
   }
 
-  async toMessage(messageData = {}, {rollMode, create = true, split = false} = {}) {
-    if (!this._evaluated) await this.evaluate();
+  /**
+   * Create a chat message with all the damage rolls.
+   * @param {object} [messageData={}]
+   * @param {string} rollMode
+   */
+  async toMessage(messageData = {}, {rollMode} = {}) {
+    if (!this.evaluated) await this.evaluate();
     const totals = this.totals;
     messageData["flags.artichron.totals"] = totals;
-    if (!split) {
-      const terms = this.rolls.reduce((acc, roll) => {
-        if (acc.length) {
-          const op = new OperatorTerm({operator: "+"});
-          op._evaluated = true;
-          acc.push(op);
-        }
-        return acc.concat(roll.terms);
-      }, []);
-      return Roll.fromTerms(terms).toMessage(messageData, {rollMode, create});
-    }
-    else {
-      messageData = {
-        "flags.artichron.totals": totals,
-        rolls: this.rolls,
-        type: CONST.CHAT_MESSAGE_TYPES.ROLL
-      };
-      ChatMessage.applyRollMode(messageData, game.settings.get("core", "rollMode"));
-      return ChatMessage.create(messageData);
-    }
+    messageData = {
+      "flags.artichron.totals": totals,
+      rolls: this.rolls,
+      type: CONST.CHAT_MESSAGE_TYPES.ROLL,
+      content: await renderTemplate("systems/artichron/templates/chat/damage-roll.hbs", {
+        rolls: this.rolls.map(r => ({roll: r, type: CONFIG.SYSTEM.DAMAGE_TYPES[r.options.type]})),
+        total: this.total
+      }),
+      sound: "sounds/dice.wav"
+    };
+    ChatMessage.applyRollMode(messageData, rollMode || game.settings.get("core", "rollMode"));
+    return ChatMessage.create(messageData);
   }
 
-  get _evaluated() {
+  /**
+   * Is this roll evaluated?
+   * @type {boolean}
+   */
+  get evaluated() {
     return this.rolls.every(roll => roll._evaluated);
   }
 
-  getFormula() {
+  /**
+   * Get the combined formula.
+   * @type {string}
+   */
+  get formula() {
     return this.rolls.map(roll => roll.formula).join(" + ");
   }
 
+  /**
+   * Get the total, type-less damage.
+   * @type {number}
+   */
   get total() {
-    return this._total;
+    return Object.values(this.totals).reduce((acc, total) => {
+      return acc + (Number.isInteger(total) ? total : 0);
+    }, 0);
   }
 
+  /**
+   * Get an object of typed damage.
+   * @type {object<string, number}
+   */
   get totals() {
-    if (!this._evaluated) return null;
+    if (!this.evaluated) return null;
     return this.rolls.reduce((acc, roll) => {
-      acc[roll.damageType] ??= 0;
-      acc[roll.damageType] += roll.total;
+      const type = roll.type;
+      if (!(type in CONFIG.SYSTEM.DAMAGE_TYPES)) return acc;
+      acc[type] ??= 0;
+      acc[type] += roll.total;
       return acc;
     }, {});
   }
 }
 
-export class _DamageRoll extends Roll {
+export class DamageRoll extends Roll {
   constructor(formula, data = {}, options = {}) {
     const type = options.type;
     if (!type) throw new Error("A damage roll was constructed without a type.");
     super(formula, data, options);
     this.type = type;
-  }
-
-  get damageType() {
-    return this.type;
   }
 }

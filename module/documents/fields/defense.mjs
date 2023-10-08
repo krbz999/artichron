@@ -1,10 +1,11 @@
 import {SYSTEM} from "../../helpers/config.mjs";
-import {ValueField} from "./value.mjs";
 
 class Defense extends foundry.abstract.DataModel {
   static defineSchema() {
     return {
-      bonus: new ValueField({label: "ARTICHRON.DefenseBonus"})
+      bonus: new foundry.data.fields.NumberField({
+        integer: true, required: true, initial: null, label: "ARTICHRON.DefenseBonus"
+      })
     };
   }
 

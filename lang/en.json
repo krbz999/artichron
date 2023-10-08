@@ -59,6 +59,9 @@
   "ARTICHRON.DamageTypePhysical": "Physical",
   "ARTICHRON.DamageTypeWind": "Wind",
 
+  "ARTICHRON.ApplyDamage": "Apply Damage",
+  "ARTICHRON.DamageTotal": "Total",
+  "ARTICHRON.EmptySlot": "Nothing equipped",
   "ARTICHRON.NotEnoughPoolDice": "{name} does not have enough {type} dice left!",
-  "ARTICHRON.EmptySlot": "Nothing equipped"
+  "ARTICHRON.Resistances": "Resistances"
 }
