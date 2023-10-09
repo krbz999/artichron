@@ -28,10 +28,10 @@ export class PoolDie extends DefenseDie {
   static defineSchema() {
     return {
       value: new foundry.data.fields.NumberField({
-        integer: true, required: true, initial: null, label: "ARTICHRON.PoolDieValue"
+        integer: true, min: 0, required: true, initial: null, label: "ARTICHRON.PoolDieValue"
       }),
       max: new foundry.data.fields.NumberField({
-        integer: true, required: true, initial: null, label: "ARTICHRON.PoolDieMax"
+        integer: true, min: 0, required: true, initial: null, label: "ARTICHRON.PoolDieMax"
       }),
       faces: new foundry.data.fields.NumberField({
         choices: SYSTEM.DIE_SIZES,

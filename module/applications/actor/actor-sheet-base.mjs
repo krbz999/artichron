@@ -1,3 +1,5 @@
+import {PoolConfig} from "./configs/pool-config.mjs";
+
 /**
  * Extend the basic ActorSheet with some very simple modifications
  * @extends {ActorSheet}
@@ -73,7 +75,18 @@ export default class ActorSheetArtichron extends ActorSheet {
       if (action === "edit-item") n.addEventListener("click", this._onClickRenderItemSheet.bind(this));
       else if (action === "change-item") n.addEventListener("click", this._onClickChangeItem.bind(this));
       else if (action === "toggle-editing") n.addEventListener("click", this._onClickToggleEdit.bind(this));
+      else if (action === "toggle-config") n.addEventListener("click", this._onClickConfig.bind(this));
+      else if (action === "roll-pool") n.addEventListener("click", this._onClickRollPool.bind(this));
     });
+  }
+
+  /**
+   * Handle clicking a pool's label to roll a die.
+   * @param {PointerEvent} event
+   */
+  async _onClickRollPool(event) {
+    const type = event.currentTarget.dataset.pool;
+    return this.actor.rollPool(type, {event});
   }
 
   /**
@@ -122,9 +135,20 @@ export default class ActorSheetArtichron extends ActorSheet {
   /**
    * Re-render the sheet in a mode that edits hidden values.
    * @param {PointerEvent} event      The initiating click event.
+   * @returns {ActorSheetArtichron}
    */
   _onClickToggleEdit(event) {
     return this.render(false, {editing: true});
+  }
+
+  /**
+   * Render a configuration menu.
+   * @param {PointerEvent} event      The initiating click event.
+   * @returns
+   */
+  _onClickConfig(event) {
+    const config = event.currentTarget.dataset.config;
+    if (config === "pools") return new PoolConfig(this.actor).render(true);
   }
 
   /** @override */

@@ -2,6 +2,14 @@
   min-height: 200px;
   height: 100%;
 }
+.artichron.app .window-header {
+  background-color: rgb(66 78 151);
+  border-radius: 1em 1em 0 0 ;
+}
+.artichron .rollable:hover, .artichron a:hover {
+  cursor: pointer;
+  text-shadow: 0 0 5px rgb(0, 162, 255);
+}
 .artichron.sheet.item {
   min-width: 600px;
   min-height: 500px;
@@ -15,8 +23,54 @@
   overflow: hidden;
   flex-direction: column;
 }
+.artichron.sheet form .form-group {
+  margin-left: 5px;
+  margin-right: 5px;
+}
+.artichron form .form-group label {
+  white-space: nowrap;
+  color: rgb(5, 0, 70);
+  font-weight: bold;
+  flex: 1;
+}
+.artichron form .form-group .form-fields {
+  flex: 2;
+}
+.artichron form .form-group .form-fields.input-select input {
+  flex: 1;
+}
+.artichron form .form-group .form-fields.input-select select {
+  flex: 3;
+}
+.artichron form .form-group input.tiny {
+  max-width: 2em;
+  max-height: 2em;
+  aspect-ratio: 1/1;
+  text-align: center;
+  border: none;
+  border-radius: 5px;
+  padding: 0;
+}
+.artichron.sheet form .form-group label {
+  flex: 2;
+}
+.artichron form .form-group .sep {
+  color: gray;
+  white-space: nowrap;
+}
+.artichron.sheet form .form-fields {
+  padding-left: 1em;
+  flex: 0;
+}
+.artichron form .form-group .form-fields.even > * {
+  flex: 1;
+}
 .artichron .sheet-body {
   overflow: auto;
+  height: 100%;
+}
+.artichron.sheet .tab {
+  height: 100%;
 }
 .artichron.sheet .section-header {
   font-family: "Modesto Condensed";
@@ -24,32 +78,34 @@
   border-bottom: 2px groove;
   padding: 0 1em;
   background-color: rgb(0 0 255 / 20%);
+  text-align: center;
 }
 .artichron.sheet.actor.hero .tab.attributes.active {
-  display: grid;
-  grid-template-columns: auto auto;
+  display: flex;
   justify-content: space-between;
-  padding: 1em;
 }
-.artichron.sheet.actor section.resistances {
+.artichron.sheet.actor .tab.attributes section {
   border: 2px groove;
-}
-.artichron.sheet.actor .resistances {
-  min-width: 5em;
+  position: relative;
   display: flex;
   flex-direction: column;
-  position: relative;
 }
-.artichron.sheet.actor .resistances:hover [data-action="toggle-editing"] {
+.artichron.sheet.actor .tab.attributes section.pools {
+  height: fit-content;
+}
+.artichron.sheet.actor .tab.attributes section.resistances {
+  min-width: 5em;
+}
+.artichron.sheet.actor section:hover > .edit[data-action] {
   display: block;
 }
-.artichron.sheet.actor .resistances [data-action="toggle-editing"] {
+.artichron.sheet.actor .edit[data-action] {
   position: absolute;
   top: 3px;
   right: 3px;
   display: none;
 }
-.artichron.sheet.actor .tab.attributes .resistances .resistance {
+.artichron.sheet.actor .tab.attributes .resistance {
   display: inherit;
   justify-content: space-evenly;
   font-size: 20px;
@@ -58,7 +114,7 @@
   width: 100%;
   font-family: "Calibri";
 }
-.artichron.sheet.actor .tab.attributes .resistances .resistance .fa-solid {
+.artichron.sheet.actor .tab.attributes .resistance .fa-solid {
   text-shadow: 0 0 3px black;
   min-width: 1em;
   max-width: 1em;
@@ -81,13 +137,6 @@
 .artichron.sheet .item:not(.empty) img:hover {
   box-shadow: 0 0 5px black;
   scale: 1.05;
-}
-.artichron.sheet input.tiny {
-  max-width: 1.5em;
-  max-height: 1.5em;
-  aspect-ratio: 1/1;
-  border-color:gray;
-  text-align: center;
 }
 
 /* Damage Rolls */
@@ -183,11 +232,12 @@
   list-style: none;
   margin: 5px 0;
   padding: 0;
+  display: flex;
 }
-.artichron.damage-rolls .damage-roll .damage-roll-tooltip .damage-rolls .roll {
+.artichron .die,
+.artichron .roll {
   min-width: 24px;
   line-height: 24px;
-  float: left;
   margin-right: 1px;
   background-repeat: no-repeat;
   background-size: 24px 24px;
@@ -197,25 +247,43 @@
   text-align: center;
   background-image: url(../../../icons/svg/d6-grey.svg);
 }
-.artichron.damage-rolls .damage-roll .damage-roll-tooltip .damage-rolls .roll.max {
+.artichron .pool .die {
+  min-width: 30px;
+  line-height: 30px;
+  background-size: 30px 30px;
+}
+.artichron .die.max,
+.artichron .roll.max,
+.artichron .die.mana {
   filter: sepia(1) hue-rotate(180deg) drop-shadow(0 0 1px blue);
 }
-.artichron.damage-rolls .damage-roll .damage-roll-tooltip .damage-rolls .roll.min {
+.artichron .die.min,
+.artichron .roll.min,
+.artichron .die.health {
   filter: sepia(1) hue-rotate(270deg) drop-shadow(0 0 1px red);
 }
-.artichron.damage-rolls .damage-roll .damage-roll-tooltip .damage-rolls .roll.d4 {
+.artichron .die.stamina {
+  filter: sepia(1) hue-rotate(90deg) drop-shadow(0 0 1px green);
+}
+.artichron .die.d2, .artichron .roll.d2 {
+  background-image: url(../../../icons/svg/coins.svg);
+}
+.artichron .die.d4, .artichron .roll.d4 {
   background-image: url(../../../icons/svg/d4-grey.svg);
 }
-.artichron.damage-rolls .damage-roll .damage-roll-tooltip .damage-rolls .roll.d8 {
+.artichron .die.d6, .artichron .roll.d6 {
+  background-image: url(../../../icons/svg/d6-grey.svg);
+}
+.artichron .die.d8, .artichron .roll.d8 {
   background-image: url(../../../icons/svg/d8-grey.svg);
 }
-.artichron.damage-rolls .damage-roll .damage-roll-tooltip .damage-rolls .roll.d10 {
+.artichron .die.d10, .artichron .roll.d10 {
   background-image: url(../../../icons/svg/d10-grey.svg);
 }
-.artichron.damage-rolls .damage-roll .damage-roll-tooltip .damage-rolls .roll.d12 {
+.artichron .die.d12, .artichron .roll.d12 {
   background-image: url(../../../icons/svg/d12-grey.svg);
 }
-.artichron.damage-rolls .damage-roll .damage-roll-tooltip .damage-rolls .roll.d20 {
+.artichron .die.d20, .artichron .roll.d20 {
   background-image: url(../../../icons/svg/d20-grey.svg);
 }
 .artichron.apply-damage {

@@ -2,25 +2,23 @@
   {{localize "ARTICHRON.Resistances"}}
 </header>
 {{#unless editing}}
-<a data-action="toggle-editing" data-tooltip="ARTICHRON.EditResistance">
+<a class="edit" data-action="toggle-editing" data-tooltip="ARTICHRON.EditResistance">
   <i class="fa-solid fa-edit"></i>
 </a>
 {{/unless}}
-<div class="resistances">
-  {{#if editing}}
-  {{#each context.resistances}}
-  <div class="resistance">
-    <i class="{{icon}}" style="color: #{{color}}"></i>
-    <input class="tiny" type="number" name="system.resistances.{{@key}}.bonus" value="{{bonus}}">
-  </div>
-  {{/each}}
-  {{else}}
-  {{#each context.resistances}}
-  {{#if total}}
-  <div class="resistance">
-    <i class="{{icon}}" style="color: #{{color}}"></i> ({{total}})
-  </div>
-  {{/if}}
-  {{/each}}
-  {{/if}}
+{{#if editing}}
+{{#each context.resistances}}
+<div class="resistance">
+  <i class="{{icon}}" style="color: #{{color}}"></i>
+  <input class="tiny" type="number" name="system.resistances.{{@key}}.bonus" value="{{bonus}}">
 </div>
+{{/each}}
+{{else}}
+{{#each context.resistances}}
+{{#if total}}
+<div class="resistance">
+  <i class="{{icon}}" style="color: #{{color}}"></i> ({{total}})
+</div>
+{{/if}}
+{{/each}}
+{{/if}}

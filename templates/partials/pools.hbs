@@ -1,9 +1,16 @@
+<header class="section-header">
+  {{localize "ARTICHRON.Pools"}}
+</header>
+<a class="edit" data-action="toggle-config" data-tooltip="ARTICHRON.EditPools" data-config="pools">
+  <i class="fa-solid fa-cog"></i>
+</a>
 {{#each actor.system.pools}}
-<div class="pool">
-  <label>{{localize (concat "ARTICHRON." (capitalize @key) "DiePl")}}</label>
-  <input class="tiny" type="number" data-dtype="Number" name="system.pools.{{@key}}.value" value="{{value}}">
-  <span class="sep">/</span>
-  <input class="tiny" type="number" data-dtype="Number" name="system.pools.{{@key}}.max" value="{{max}}">
-  <span class="die">{{die}}</span>
+<div class="form-group pool">
+  <label data-action="roll-pool" data-pool="{{@key}}" class="rollable">{{localize (concat "ARTICHRON." (capitalize @key) "DiePl")}}</label>
+  <div class="form-fields">
+    <input class="tiny" type="number" name="system.pools.{{@key}}.value" value="{{value}}">
+    <span class="sep">/</span>
+    <span class="pool-max die {{die}} {{@key}}" data-tooltip="{{max}}{{die}}">{{max}}</span>
+  </div>
 </div>
 {{/each}}
