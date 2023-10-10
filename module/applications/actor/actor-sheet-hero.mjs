@@ -9,8 +9,8 @@ export default class ActorSheetHero extends ActorSheetArtichron {
   /** @override */
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
-      width: 600,
-      height: 600,
+      width: 500,
+      height: 500,
       tabs: [{navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "attributes"}],
       classes: ["hero", "sheet", "actor", "artichron"]
     });

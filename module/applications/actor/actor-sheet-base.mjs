@@ -1,4 +1,5 @@
 import {PoolConfig} from "./configs/pool-config.mjs";
+import {ResistanceConfig} from "./configs/resistance-config.mjs";
 
 /**
  * Extend the basic ActorSheet with some very simple modifications
@@ -8,8 +9,8 @@ export default class ActorSheetArtichron extends ActorSheet {
   /** @override */
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
-      width: 600,
-      height: 600,
+      width: 500,
+      height: 500,
       tabs: [{navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "attributes"}],
       classes: ["sheet", "actor", "artichron"]
     });
@@ -26,6 +27,7 @@ export default class ActorSheetArtichron extends ActorSheet {
   async getData(options = {}) {
     const data = {
       actor: this.document,
+      system: this.document.system,
       context: {},
       rollData: this.document.getRollData(),
       config: CONFIG.SYSTEM,
@@ -74,7 +76,6 @@ export default class ActorSheetArtichron extends ActorSheet {
       const action = n.dataset.action;
       if (action === "edit-item") n.addEventListener("click", this._onClickRenderItemSheet.bind(this));
       else if (action === "change-item") n.addEventListener("click", this._onClickChangeItem.bind(this));
-      else if (action === "toggle-editing") n.addEventListener("click", this._onClickToggleEdit.bind(this));
       else if (action === "toggle-config") n.addEventListener("click", this._onClickConfig.bind(this));
       else if (action === "roll-pool") n.addEventListener("click", this._onClickRollPool.bind(this));
     });
@@ -133,15 +134,6 @@ export default class ActorSheetArtichron extends ActorSheet {
   }
 
   /**
-   * Re-render the sheet in a mode that edits hidden values.
-   * @param {PointerEvent} event      The initiating click event.
-   * @returns {ActorSheetArtichron}
-   */
-  _onClickToggleEdit(event) {
-    return this.render(false, {editing: true});
-  }
-
-  /**
    * Render a configuration menu.
    * @param {PointerEvent} event      The initiating click event.
    * @returns
@@ -149,11 +141,26 @@ export default class ActorSheetArtichron extends ActorSheet {
   _onClickConfig(event) {
     const config = event.currentTarget.dataset.config;
     if (config === "pools") return new PoolConfig(this.actor).render(true);
+    else if (config === "resistances") return new ResistanceConfig(this.actor).render(true);
   }
 
   /** @override */
-  render(force = false, options = {}) {
-    this._editing = options.editing ?? false;
-    return super.render(force, options);
+  _getHeaderButtons() {
+    const buttons = super._getHeaderButtons();
+    buttons.unshift({
+      label: "ARTICHRON.Opacity",
+      class: "opacity",
+      icon: "fa-solid",
+      onclick: this._onToggleOpacity
+    });
+    return buttons;
+  }
+
+  /**
+   * Toggle the opacity class on this application.
+   * @param {PointerEvent} event
+   */
+  _onToggleOpacity(event) {
+    event.currentTarget.closest(".app").classList.toggle("opacity");
   }
 }

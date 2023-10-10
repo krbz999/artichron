@@ -68,6 +68,7 @@
   "ARTICHRON.Maximum": "Maximum",
   "ARTICHRON.Minimum": "Minimum",
   "ARTICHRON.NotEnoughPoolDice": "{name} does not have enough {type} dice left!",
+  "ARTICHRON.Opacity": "Opacity",
   "ARTICHRON.Pools": "Dice Pools",
   "ARTICHRON.Resistances": "Resistances"
 }

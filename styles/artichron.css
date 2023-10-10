@@ -1,14 +1,48 @@
+/* ------------------- */
+/*      CONSTANTS      */
+/* ------------------- */
+:root {
+  --color-shadow-primary: rgb(0, 162, 255);
+  --mana: sepia(1) hue-rotate(180deg) drop-shadow(0 0 1px blue);
+  --health: sepia(1) hue-rotate(270deg) drop-shadow(0 0 1px red);
+  --stamina: sepia(1) hue-rotate(90deg) drop-shadow(0 0 1px green);
+  --artichron-theme: rgba(25, 0, 255, 0.555);
+  --artichron-header: rgba(0, 0, 255, 0.199);
+  --artichron-label: rgb(5, 0, 70);
+}
+.artichron .tabs .item.active {
+  text-shadow: 0 0 5px var(--color-shadow-primary);
+}
+.artichron.sheet nav.sheet-tabs .item {
+  padding: 0;
+  font-family: "Modesto Condensed";
+  font-size: 20px;
+  margin: 5px;
+  border-bottom: 5px solid var(--artichron-theme);
+}
 .editor {
   min-height: 200px;
   height: 100%;
 }
+.artichron.app.opacity {
+  transition: opacity 250ms;
+}
+.artichron.app.opacity:not(:hover) {
+  opacity: 0.1;
+}
+.artichron.app .header-button.control.opacity i::before {
+  content: "\f205";
+}
+.artichron.app.opacity .header-button.control.opacity i::before {
+  content: "\f204";
+}
 .artichron.app .window-header {
-  background-color: rgb(66 78 151);
+  background-color: var(--artichron-header);
   border-radius: 1em 1em 0 0 ;
 }
-.artichron .rollable:hover, .artichron a:hover {
+.artichron .rollable:hover {
   cursor: pointer;
-  text-shadow: 0 0 5px rgb(0, 162, 255);
+  text-shadow: 0 0 5px var(--color-shadow-primary);
 }
 .artichron.sheet.item {
   min-width: 600px;
@@ -16,7 +50,7 @@
 }
 .artichron.sheet.actor {
   min-width: 500px;
-  min-height: 600px;
+  min-height: 500px;
 }
 .artichron.sheet form {
   display: flex;
@@ -29,7 +63,7 @@
 }
 .artichron form .form-group label {
   white-space: nowrap;
-  color: rgb(5, 0, 70);
+  color: var(--artichron-label);
   font-weight: bold;
   flex: 1;
 }
@@ -77,7 +111,7 @@
   font-size: 24px;
   border-bottom: 2px groove;
   padding: 0 1em;
-  background-color: rgb(0 0 255 / 20%);
+  background-color: var(--artichron-header);
   text-align: center;
 }
 .artichron.sheet.actor.hero .tab.attributes.active {
@@ -92,6 +126,34 @@
 }
 .artichron.sheet.actor .tab.attributes section.pools {
   height: fit-content;
+}
+.artichron.sheet.actor .tab.attributes section.health {
+  flex: 1;
+  height: fit-content;
+}
+.artichron.sheet.actor .counter {
+  padding: 1em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.artichron.sheet.actor .counter .counter-value,
+.artichron.sheet.actor .counter .counter-max {
+  border-radius: calc(2 * var(--form-field-height));
+  height: calc(2 * var(--form-field-height));
+  width: calc(2 * var(--form-field-height));
+  text-align: center;
+  border: 1px solid var(--artichron-theme);
+  font-family: 'Trebuchet MS';
+  color: var(--artichron-label);
+}
+.artichron.sheet.actor .counter .counter-value {
+  margin-right: 5px;
+}
+.artichron.sheet.actor .counter .counter-max {
+  margin-left: 5px;
+  line-height: calc(2 * var(--form-field-height));
+  font-weight: bold;
 }
 .artichron.sheet.actor .tab.attributes section.resistances {
   min-width: 5em;
@@ -152,7 +214,7 @@
 }
 .artichron.damage-rolls .damage-roll .damage-properties,
 .artichron.apply-damage .damage-properties {
-  background-color: rgba(0, 0, 255, 0.199);
+  background-color: var(--artichron-header);
   justify-content: center;
   align-items: center;
   display: flex;
@@ -255,15 +317,15 @@
 .artichron .die.max,
 .artichron .roll.max,
 .artichron .die.mana {
-  filter: sepia(1) hue-rotate(180deg) drop-shadow(0 0 1px blue);
+  filter: var(--mana);
 }
 .artichron .die.min,
 .artichron .roll.min,
 .artichron .die.health {
-  filter: sepia(1) hue-rotate(270deg) drop-shadow(0 0 1px red);
+  filter: var(--health);
 }
 .artichron .die.stamina {
-  filter: sepia(1) hue-rotate(90deg) drop-shadow(0 0 1px green);
+  filter: var(--stamina);
 }
 .artichron .die.d2, .artichron .roll.d2 {
   background-image: url(../../../icons/svg/coins.svg);

@@ -178,18 +178,21 @@ export default class ActorArtichron extends Actor {
     this._displayScrollingNumbers(options.damages);
   }
 
-  _displayScrollingNumbers(damages) {
+  async _displayScrollingNumbers(damages) {
     if (!damages) return;
     const tokens = this.isToken ? [this.token?.object] : this.getActiveTokens(true);
     for (const t of tokens) {
+      if (!t.visible) continue;
       for (const type in damages) {
         canvas.interface.createScrollingText(t.center, damages[type].signedString(), {
+          duration: 3000,
           anchor: CONST.TEXT_ANCHOR_POINTS.TOP,
           fill: CONFIG.SYSTEM.DAMAGE_TYPES[type].color,
           stroke: 0x000000,
           strokeThickness: 4,
           jitter: 2
         });
+        await new Promise(r => setTimeout(r, 200));
       }
     }
   }
