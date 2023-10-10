@@ -13,27 +13,16 @@ export default class ActorArtichron extends Actor {
   }
 
   /**
-   * The currently equipped arsenal in the primary and secondary hand.
-   * @type {object}
+   * The currently equipped arsenal.
+   * @type {Set<ItemArtichron>}
    */
   get arsenal() {
-    const primary = this.items.get(this.system.equipped.arsenal.primary) ?? null;
-    const secondary = this.items.get(this.system.equipped.arsenal.secondary) ?? null;
-    const isEqual = primary === secondary;
-
-    if (!primary) return {
-      primary: null,
-      secondary: (!secondary?.isOneHanded) ? null : secondary
-    };
-    else return {
-      primary,
-      secondary: (isEqual || !secondary?.isOneHanded || primary?.isTwoHanded) ? null : secondary
-    };
+    return this.system.arsenal;
   }
 
   /**
    * The currently equipped armor set.
-   * @type {Item}
+   * @type {object}     Map of key to item.
    */
   get armor() {
     return Object.keys(CONFIG.SYSTEM.ARMOR_TYPES).reduce((acc, key) => {
@@ -197,12 +186,14 @@ export default class ActorArtichron extends Actor {
     }
   }
 
-  /** ----------------------------------------
-   *                ACTOR METHODS
-   *  ---------------------------------------- */
+  /* ----------------------------------------- */
+  /*                                           */
+  /*                ACTOR METHODS              */
+  /*                                           */
+  /*  ---------------------------------------- */
 
   /** @override */
-  getRollData() {
+  getRollData({deterministic = false} = {}) {
     const data = {...this.system};
     return data;
   }
@@ -265,5 +256,13 @@ export default class ActorArtichron extends Actor {
       });
     }
     return roll;
+  }
+
+  /**
+   * Roll damage with the equipped weapon.
+   * @param {string} id     Which weapon to roll damage with.
+   */
+  async rollDamage(id = null) {
+    return this.system.rollDamage(id);
   }
 }

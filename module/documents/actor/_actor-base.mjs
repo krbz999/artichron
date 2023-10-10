@@ -1,6 +1,6 @@
 import {buildDefenseFields} from "../fields/defense.mjs";
 import {PoolDie} from "../fields/die.mjs";
-import {armorFields, arsenalFields} from "../fields/equipped.mjs";
+import {armorFields} from "../fields/equipped.mjs";
 import {buildResistanceFields} from "../fields/resistance.mjs";
 
 export class BaseActorModel extends foundry.abstract.TypeDataModel {
@@ -20,7 +20,7 @@ export class BaseActorModel extends foundry.abstract.TypeDataModel {
         mana: new foundry.data.fields.EmbeddedDataField(PoolDie)
       }),
       equipped: new foundry.data.fields.SchemaField({
-        arsenal: new foundry.data.fields.SchemaField(arsenalFields(this.ARMS)),
+        arsenal: new foundry.data.fields.SetField(new foundry.data.fields.DocumentIdField()),
         armor: new foundry.data.fields.SchemaField(armorFields())
       }),
       resistances: new foundry.data.fields.SchemaField(buildResistanceFields()),

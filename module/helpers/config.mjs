@@ -117,7 +117,8 @@ SYSTEM.ARMOR_TYPES = {
   arms: {label: "ARTICHRON.ArmorTypeArms"},
   chest: {label: "ARTICHRON.ArmorTypeChest"},
   head: {label: "ARTICHRON.ArmorTypeHead"},
-  legs: {label: "ARTICHRON.ArmorTypeLegs"}
+  legs: {label: "ARTICHRON.ArmorTypeLegs"},
+  boots: {label: "ARTICHRON.ArmorTypeBoots"}
 };
 
 // Spell types.

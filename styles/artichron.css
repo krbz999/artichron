@@ -9,6 +9,7 @@
   --artichron-theme: rgba(25, 0, 255, 0.555);
   --artichron-header: rgba(0, 0, 255, 0.199);
   --artichron-label: rgb(5, 0, 70);
+  --equipment-margin: 25px;
 }
 .artichron .tabs .item.active {
   text-shadow: 0 0 5px var(--color-shadow-primary);
@@ -100,11 +101,15 @@
   flex: 1;
 }
 .artichron .sheet-body {
-  overflow: auto;
+  overflow: hidden overlay;
   height: 100%;
 }
 .artichron.sheet .tab {
   height: 100%;
+}
+.artichron.sheet.actor.hero .tab.equipment.active {
+  display: flex;
+  flex-direction: column;
 }
 .artichron.sheet .section-header {
   font-family: "Modesto Condensed";
@@ -181,24 +186,78 @@
   min-width: 1em;
   max-width: 1em;
 }
-.artichron.sheet .item img {
-  max-height: 100px;
-  max-width: 100px;
-  aspect-ratio: 1/1;
-  border: none;
-  transition: 150ms;
-  scale: 1;
+.artichron.sheet section.equipped {
+  flex: 1;
 }
-.artichron.sheet .item.empty img {
-  border-radius: 10px;
+.artichron.sheet .equipped-items .backdrop {
+  position: absolute;
+  background-repeat: no-repeat;
+  background-size: 100% auto;
+  opacity: 0.25;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+}
+.artichron.sheet .equipped-items {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  background-repeat: no-repeat;
+  background-size: 100% auto;
+  height: 100%;
+  overflow: hidden overlay;
+  flex-direction: column;
+  min-height: 650px;
+}
+.artichron.sheet .equipped-items .equipped {
+  position: absolute;
+}
+.artichron.sheet .equipped-items .equipped img {
+  width: 100px;
+  height: 100px;
+  border: none;
+  border-radius: 5em;
+  transition: border-radius 300ms, scale 200ms;
+  cursor: pointer;
+}
+.artichron.sheet .equipped-items .equipped.empty img {
   filter: grayscale(100%) opacity(25%);
 }
-.artichron.sheet .item.empty img:hover {
-  filter: grayscale(100%) opacity(100%);
+.artichron.sheet .equipped-items .equipped.empty img:hover {
+  filter: grayscale(100%) opacity(50%);
 }
-.artichron.sheet .item:not(.empty) img:hover {
-  box-shadow: 0 0 5px black;
-  scale: 1.05;
+.artichron.sheet .equipped-items .equipped img:hover {
+  border-radius: 1em;
+  filter: drop-shadow(0 0 5px var(--color-shadow-primary));
+  scale: 1.1;
+}
+.artichron.sheet .equipped-items .equipped.weapon,
+.artichron.sheet .equipped-items .equipped.arms,
+.artichron.sheet .equipped-items .equipped.accessory {
+  right: var(--equipment-margin);
+}
+.artichron.sheet .equipped-items .equipped.head,
+.artichron.sheet .equipped-items .equipped.chest,
+.artichron.sheet .equipped-items .equipped.legs,
+.artichron.sheet .equipped-items .equipped.boots {
+  left: var(--equipment-margin);
+}
+.artichron.sheet .equipped-items .equipped.weapon.main,
+.artichron.sheet .equipped-items .equipped.head {
+  top: 50px;
+}
+.artichron.sheet .equipped-items .equipped.weapon.second,
+.artichron.sheet .equipped-items .equipped.chest {
+  top: 200px;
+}
+.artichron.sheet .equipped-items .equipped.arms,
+.artichron.sheet .equipped-items .equipped.legs {
+  top: 350px;
+}
+.artichron.sheet .equipped-items .equipped.boots,
+.artichron.sheet .equipped-items .equipped.accessory {
+  top: 500px;
 }
 
 /* Damage Rolls */

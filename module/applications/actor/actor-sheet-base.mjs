@@ -12,7 +12,8 @@ export default class ActorSheetArtichron extends ActorSheet {
       width: 500,
       height: 500,
       tabs: [{navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "attributes"}],
-      classes: ["sheet", "actor", "artichron"]
+      classes: ["sheet", "actor", "artichron"],
+      resizable: false
     });
   }
 
@@ -28,34 +29,76 @@ export default class ActorSheetArtichron extends ActorSheet {
     const data = {
       actor: this.document,
       system: this.document.system,
-      context: {},
+      context: {
+        equipped: this._prepareEquipment(),
+        resistances: this._prepareResistances()
+      },
       rollData: this.document.getRollData(),
       config: CONFIG.SYSTEM,
       editing: this._editing ?? false
     };
+    return data;
+  }
 
-    // Context: empty slot icons.
-    data.context.emptySlotIcons = {
-      arsenal: "icons/weapons/axes/axe-broad-brown.webp",
-      head: "icons/equipment/head/helm-barbute-brown-tan.webp",
-      chest: "icons/equipment/chest/breastplate-leather-brown-belted.webp",
-      arms: "icons/equipment/hand/glove-ringed-cloth-brown.webp",
-      legs: "icons/equipment/leg/pants-breeches-leather-brown.webp",
-      accessory: "icons/equipment/neck/choker-simple-bone-fangs.webp"
-    };
-
-    // Context: resistances.
+  /**
+   * Prepare resistances for rendering.
+   * @returns {object}
+   */
+  _prepareResistances() {
     const res = this.document.system.resistances;
-    data.context.resistances = {};
+    const resistances = {};
     for (const r in res) {
-      data.context.resistances[r] = {
+      resistances[r] = {
         ...CONFIG.SYSTEM.DAMAGE_TYPES[r],
         total: res[r].total,
         bonus: res[r].bonus
       };
     }
+    return resistances;
+  }
 
-    return data;
+  /**
+   * Prepare equipped items for rendering.
+   * @returns {object[]}
+   */
+  _prepareEquipment() {
+    const [main, second] = Array.from(this.document.arsenal);
+    const armor = Object.entries(this.document.armor);
+
+    const emptySlotIcons = {
+      arsenal: "icons/weapons/axes/axe-broad-brown.webp",
+      head: "icons/equipment/head/helm-barbute-brown-tan.webp",
+      chest: "icons/equipment/chest/breastplate-leather-brown-belted.webp",
+      arms: "icons/equipment/hand/glove-ringed-cloth-brown.webp",
+      legs: "icons/equipment/leg/pants-breeches-leather-brown.webp",
+      accessory: "icons/equipment/neck/choker-simple-bone-fangs.webp",
+      boots: "icons/equipment/feet/boots-leather-engraved-brown.webp"
+    };
+
+    const equipped = [main, second].map((w, idx) => {
+      const i = idx === 0 ? "main" : "second";
+      const e = w ? "" : "empty";
+      return {
+        cssClass: `weapon ${i} ${e}`,
+        slot: i,
+        item: w,
+        img: w ? w.img : emptySlotIcons.arsenal,
+        tooltip: w ? "ARTICHRON.ChangeItem" : "ARTICHRON.EmptySlot"
+      };
+    });
+
+    equipped.push(...armor.map(([key, item]) => {
+      const e = item ? "" : "empty";
+      return {
+        cssClass: `${key} ${e}`,
+        slot: key,
+        item: item,
+        img: item ? item.img : emptySlotIcons[key],
+        tooltip: item ? "ARTICHRON.ChangeItem" : "ARTICHRON.EmptySlot"
+      };
+    }));
+
+    return equipped;
   }
 
   /* -------------------------------------------- */
@@ -162,5 +205,11 @@ export default class ActorSheetArtichron extends ActorSheet {
    */
   _onToggleOpacity(event) {
     event.currentTarget.closest(".app").classList.toggle("opacity");
+  }
+
+  /** @override */
+  setPosition(pos = {}) {
+    if (!pos.height) pos.height = "auto";
+    return super.setPosition(pos);
   }
 }

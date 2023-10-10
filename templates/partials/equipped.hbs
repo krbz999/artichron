@@ -1,29 +1,8 @@
-<div class="items arsenal">
-  {{#each actor.arsenal}}
-  {{#if this}}
-  <div class="item">
-    <img data-action="change-item" data-slot="{{@key}}" data-tooltip="{{name}}" src="{{img}}">
+<div class="equipped-items">
+  <div class="backdrop" style="background-image: url({{actor.img}})"></div>
+  {{#each context.equipped}}
+  <div class="equipped {{cssClass}} {{#unless item}}empty{{/unless}}" data-tooltip="{{tooltip}}">
+    <img src="{{img}}" data-action="change-item" data-slot="{{slot}}">
   </div>
-  {{else}}
-  <div class="item empty">
-    <img data-action="change-item" data-slot="{{@key}}" data-tooltip="ARTICHRON.EmptySlot"
-      src="{{lookup @root.context.emptySlotIcons 'arsenal'}}">
-  </div>
-  {{/if}}
-  {{/each}}
-</div>
-
-<div class="items armor">
-  {{#each actor.armor}}
-  {{#if this}}
-  <div class="item">
-    <img data-action="change-item" data-slot="{{@key}}" data-tooltip="{{name}}" src="{{img}}">
-  </div>
-  {{else}}
-  <div class="item empty">
-    <img data-action="change-item" data-slot="{{@key}}" data-tooltip="ARTICHRON.EmptySlot"
-      src="{{lookup @root.context.emptySlotIcons @key}}">
-  </div>
-  {{/if}}
   {{/each}}
 </div>

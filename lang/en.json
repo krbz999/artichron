@@ -60,10 +60,11 @@
   "ARTICHRON.DamageTypeWind": "Wind",
 
   "ARTICHRON.ApplyDamage": "Apply Damage",
+  "ARTICHRON.ChangeItem": "Change Item",
   "ARTICHRON.DamageTotal": "Total",
   "ARTICHRON.DieSize": "Die Size",
   "ARTICHRON.EditPools": "Edit Pools",
-  "ARTICHRON.EditResistance": "Edit Resistances",
+  "ARTICHRON.EditResistances": "Edit Resistances",
   "ARTICHRON.EmptySlot": "Nothing equipped",
   "ARTICHRON.Maximum": "Maximum",
   "ARTICHRON.Minimum": "Minimum",
