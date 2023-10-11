@@ -46,8 +46,8 @@
   text-shadow: 0 0 5px var(--color-shadow-primary);
 }
 .artichron.sheet.item {
-  min-width: 600px;
-  min-height: 500px;
+  min-width: 400px;
+  min-height: 400px;
 }
 .artichron.sheet.actor {
   min-width: 500px;
@@ -59,8 +59,7 @@
   flex-direction: column;
 }
 .artichron.sheet form .form-group {
-  margin-left: 5px;
-  margin-right: 5px;
+  margin: 0 5px;
 }
 .artichron form .form-group label {
   white-space: nowrap;
@@ -218,8 +217,16 @@
   height: 100px;
   border: none;
   border-radius: 5em;
-  transition: border-radius 300ms, scale 200ms;
+  transition: 250ms;
   cursor: pointer;
+}
+.artichron.sheet .equipped-items .equipped.weapon.disabled img {
+  pointer-events: none;
+  filter: grayscale(30%) opacity(70%);
+}
+.artichron.sheet .equipped-items:has(.equipped.weapon.main img:hover) .second.disabled img {
+  border-radius: 1em;
+  scale: 1.1;
 }
 .artichron.sheet .equipped-items .equipped.empty img {
   filter: grayscale(100%) opacity(25%);

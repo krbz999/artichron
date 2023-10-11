@@ -21,6 +21,17 @@
 
     {{!-- Tabs --}}
     <div class="tab attributes" data-group="primary" data-tab="attributes">
+      <section class="traits">
+        <div class="form-group">
+          <label>{{localize "ARTICHRON.ItemPropertyType"}}</label>
+          <div class="form-fields">
+            <select name="system.type">
+              {{selectOptions config.WEAPON_TYPES selected=system.type labelAttr="label"}}
+            </select>
+          </div>
+        </div>
+      </section>
+
       <section class="damages">
         {{> "systems/artichron/templates/partials/damage.hbs"}}
       </section>

@@ -32,12 +32,14 @@
   "ARTICHRON.ArmorTypeChest": "Chest Piece",
   "ARTICHRON.ArmorTypeHead": "Head Piece",
   "ARTICHRON.ArmorTypeLegs": "Leg Piece",
+  "ARTICHRON.ArmorTypeBoots": "Boots",
 
   "ARTICHRON.SheetTabAttributes": "Attributes",
   "ARTICHRON.SheetTabConsumables": "Food & Elixirs",
   "ARTICHRON.SheetTabDescription": "Description",
   "ARTICHRON.SheetTabEffects": "Effects",
   "ARTICHRON.SheetTabEquipment": "Equipment",
+  "ARTICHRON.SheetTabInventory": "Inventory",
   "ARTICHRON.SheetTabLoot": "Loot",
 
   "ARTICHRON.Health": "Health",

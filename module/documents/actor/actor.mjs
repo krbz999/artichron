@@ -1,34 +1,32 @@
 export default class ActorArtichron extends Actor {
-  /** ----------------------------------------
-   *                  GETTERS
-   *  ---------------------------------------- */
+  /* ---------------------------------------- */
+  /*                                          */
+  /*                  GETTERS                 */
+  /*                                          */
+  /* ---------------------------------------- */
 
   /**
    * The currently equipped ammunition.
-   * @type {Item}
+   * @type {Set<Item>}
    */
   get ammo() {
-    const item = this.items.get(this.system.equipped.ammo);
-    return (!item || !item.isAmmo) ? null : item;
+    return this.system.equipped.ammo;
   }
 
   /**
    * The currently equipped arsenal.
-   * @type {Set<ItemArtichron>}
+   * @type {object}
    */
   get arsenal() {
-    return this.system.arsenal;
+    return this.system.equipped.arsenal;
   }
 
   /**
    * The currently equipped armor set.
-   * @type {object}     Map of key to item.
+   * @type {object}
    */
   get armor() {
-    return Object.keys(CONFIG.SYSTEM.ARMOR_TYPES).reduce((acc, key) => {
-      acc[key] = this.items.get(this.system.equipped.armor[key]) ?? null;
-      return acc;
-    }, {});
+    return this.system.equipped.armor;
   }
 
   /**
@@ -41,9 +39,11 @@ export default class ActorArtichron extends Actor {
     return !this.system.health.value;
   }
 
-  /** ----------------------------------------
-   *        DATA PREPARATION METHODS
-   *  ---------------------------------------- */
+  /* ---------------------------------------- */
+  /*                                          */
+  /*            PREPARATION METHODS           */
+  /*                                          */
+  /* ---------------------------------------- */
 
   /** @override */
   prepareData() {
@@ -66,28 +66,8 @@ export default class ActorArtichron extends Actor {
 
   /** @override */
   prepareDerivedData() {
-    this._preparePools();
     this._prepareDefenses();
     this._prepareResistances();
-    this._prepareHeroData();
-    this._prepareMonsterData();
-  }
-
-  /** Prepare maximum values of pools. */
-  _preparePools() {
-    return;
-    const data = this.getRollData();
-    for (const [key, values] of Object.entries(this.system.pools)) {
-      let result = 0;
-      try {
-        const formula = values.max || "0";
-        const replaced = Roll.replaceFormulaData(formula, data, {missing: 0});
-        if (Roll.validate(replaced)) result = Roll.safeEval(replaced);
-      } catch (err) {
-        console.warn(err);
-      }
-      this.system.pools[key].max = result;
-    }
   }
 
   /** Prepare block, parry, and defense values. */
@@ -138,27 +118,15 @@ export default class ActorArtichron extends Actor {
     }
   }
 
-  /** Prepare Hero type specific data. */
-  _prepareHeroData() {
-    if (this.type !== "hero") return;
-  }
-
-  /** Prepare NPC type specific data. */
-  _prepareMonsterData() {
-    if (this.type !== "monster") return;
-
-    // Make modifications to data here. For example:
-    this.system.rating = Object.values(this.system.pools).reduce((acc, {max}) => acc + max, 0);
-  }
-
-  /** ----------------------------------------
-   *                UPDATE METHODS
-   *  ---------------------------------------- */
+  /* ---------------------------------------- */
+  /*                                          */
+  /*               UPDATE METHODS             */
+  /*                                          */
+  /* ---------------------------------------- */
 
   /** @override */
   async _preUpdate(update, options, user) {
     await super._preUpdate(update, options, user);
-    this.system._validateArsenal(update);
   }
 
   /** @override */
@@ -193,7 +161,7 @@ export default class ActorArtichron extends Actor {
   /*  ---------------------------------------- */
 
   /** @override */
-  getRollData({deterministic = false} = {}) {
+  getRollData() {
     const data = {...this.system};
     return data;
   }
@@ -259,10 +227,10 @@ export default class ActorArtichron extends Actor {
   }
 
   /**
-   * Roll damage with the equipped weapon.
-   * @param {string} id     Which weapon to roll damage with.
+   * Roll damage with an equipped weapon.
+   * @param {string} key      Weapon to roll with, 'first' or 'second'.
    */
-  async rollDamage(id = null) {
-    return this.system.rollDamage(id);
+  async rollDamage(key = null) {
+    return this.system.rollDamage(key);
   }
 }

@@ -1,4 +1,5 @@
 export default class CombatArtichron extends Combat {
+  /** @override */
   setupTurns() {
     const turns = super.setupTurns();
     return this._alternateSort(turns);

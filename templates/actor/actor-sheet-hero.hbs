@@ -14,7 +14,7 @@
   <nav class="sheet-tabs tabs" data-group="primary">
     <a class="item" data-tab="attributes">{{localize "ARTICHRON.SheetTabAttributes"}}</a>
     <a class="item" data-tab="equipment">{{localize "ARTICHRON.SheetTabEquipment"}}</a>
-    <a class="item" data-tab="loot">{{localize "ARTICHRON.SheetTabLoot"}}</a>
+    <a class="item" data-tab="inventory">{{localize "ARTICHRON.SheetTabInventory"}}</a>
     <a class="item" data-tab="consumables">{{localize "ARTICHRON.SheetTabConsumables"}}</a>
     <a class="item" data-tab="effects">{{localize "ARTICHRON.SheetTabEffects"}}</a>
   </nav>
@@ -40,7 +40,13 @@
         {{> "systems/artichron/templates/partials/equipped.hbs"}}
       </section>
     </div>
-    <div class="tab loot" data-group="primary" data-tab="loot"></div>
+
+    <div class="tab inventory" data-group="primary" data-tab="inventory">
+      <section class="item-sections">
+        {{> "systems/artichron/templates/partials/inventory.hbs"}}
+      </section>
+    </div>
+
     <div class="tab consumables" data-group="primary" data-tab="consumables"></div>
     <div class="tab effects" data-group="primary" data-tab="effects"></div>
 

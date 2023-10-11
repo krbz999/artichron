@@ -7,8 +7,8 @@ export default class ItemSheetArtichron extends ItemSheet {
   /** @override */
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
-      width: 520,
-      height: 480,
+      width: 400,
+      height: 500,
       tabs: [{navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "description"}],
       classes: ["sheet", "item", "artichron"]
     });
@@ -27,6 +27,7 @@ export default class ItemSheetArtichron extends ItemSheet {
     const data = {
       item: this.document,
       actor: this.document.actor,
+      system: this.document.system,
       context: {},
       rollData: rollData,
       config: CONFIG.SYSTEM,

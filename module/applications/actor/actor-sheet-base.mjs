@@ -31,13 +31,33 @@ export default class ActorSheetArtichron extends ActorSheet {
       system: this.document.system,
       context: {
         equipped: this._prepareEquipment(),
-        resistances: this._prepareResistances()
+        resistances: this._prepareResistances(),
+        items: this._prepareItems()
       },
       rollData: this.document.getRollData(),
-      config: CONFIG.SYSTEM,
-      editing: this._editing ?? false
+      config: CONFIG.SYSTEM
     };
     return data;
+  }
+
+  /**
+   * Prepare the items for rendering.
+   * @returns {object[]}
+   */
+  _prepareItems() {
+    const items = this.document.items.reduce((acc, item) => {
+      acc[item.type] ??= [];
+      acc[item.type].push(item);
+      return acc;
+    }, {});
+    for (const key in items) items[key].sort((a, b) => a.sort - b.sort);
+    return Object.entries(items).map(([key, array]) => {
+      return {
+        key: key,
+        items: array,
+        label: `TYPES.Item.${key}Pl`
+      };
+    });
   }
 
   /**
@@ -62,7 +82,7 @@ export default class ActorSheetArtichron extends ActorSheet {
    * @returns {object[]}
    */
   _prepareEquipment() {
-    const [main, second] = Array.from(this.document.arsenal);
+    const [main, second] = Object.values(this.document.arsenal);
     const armor = Object.entries(this.document.armor);
 
     const emptySlotIcons = {
@@ -75,18 +95,33 @@ export default class ActorSheetArtichron extends ActorSheet {
       boots: "icons/equipment/feet/boots-leather-engraved-brown.webp"
     };
 
-    const equipped = [main, second].map((w, idx) => {
-      const i = idx === 0 ? "main" : "second";
-      const e = w ? "" : "empty";
-      return {
-        cssClass: `weapon ${i} ${e}`,
-        slot: i,
-        item: w,
-        img: w ? w.img : emptySlotIcons.arsenal,
-        tooltip: w ? "ARTICHRON.ChangeItem" : "ARTICHRON.EmptySlot"
-      };
+    const equipped = [];
+
+    // Main weapon.
+    equipped.push({
+      cssClass: `weapon main ${main ? "" : "empty"}`,
+      slot: "main",
+      item: main,
+      img: main ? main.img : emptySlotIcons.arsenal,
+      tooltip: main ? "ARTICHRON.ChangeItem" : "",
+      equipmentSlot: "arsenal.first"
     });
 
+    // Secondary weapon.
+
+    const disableSecond = main && main.isTwoHanded;
+    const secondImage = disableSecond ? main.img : second ? second.img : emptySlotIcons.arsenal;
+    equipped.push({
+      cssClass: `weapon second ${disableSecond ? "empty" : second ? "" : "empty"}`,
+      slot: "second",
+      item: disableSecond ? null : second,
+      img: secondImage,
+      tooltip: disableSecond ? "" : second ? "ARTICHRON.ChangeItem" : "",
+      disabled: disableSecond,
+      equipmentSlot: "arsenal.second"
+    });
+
+    // Equipped armor.
     equipped.push(...armor.map(([key, item]) => {
       const e = item ? "" : "empty";
       return {
@@ -94,7 +129,8 @@ export default class ActorSheetArtichron extends ActorSheet {
         slot: key,
         item: item,
         img: item ? item.img : emptySlotIcons[key],
-        tooltip: item ? "ARTICHRON.ChangeItem" : "ARTICHRON.EmptySlot"
+        tooltip: item ? "ARTICHRON.ChangeItem" : "",
+        equipmentSlot: `armor.${key}`
       };
     }));
 
@@ -139,7 +175,7 @@ export default class ActorSheetArtichron extends ActorSheet {
    * @returns {ItemSheet}             The sheet of the item.
    */
   async _onClickRenderItemSheet(event) {
-    const id = event.currentTarget.dataset.id;
+    const id = event.currentTarget.closest("[data-item-id]").dataset.itemId;
     const item = this.document.items.get(id);
     return item.sheet.render(true);
   }
@@ -150,10 +186,9 @@ export default class ActorSheetArtichron extends ActorSheet {
    * @returns {Actor}                 The owning actor updated to have a new item equipped.
    */
   async _onClickChangeItem(event) {
-    const slot = event.currentTarget.dataset.slot;
+    const path = event.currentTarget.dataset.slot;
     const currentId = event.currentTarget.dataset.id;
     // only works for weapons atm
-    if (!event.currentTarget.closest(".items").classList.contains("arsenal")) return;
     const items = this.document.items.filter(item => {
       return ["weapon", "spell", "shield"].includes(item.type) && !Object.values(this.document.arsenal).map(u => u?.id).includes(item.id);
     });
@@ -171,7 +206,7 @@ export default class ActorSheetArtichron extends ActorSheet {
       </form>`,
       callback: ([html]) => {
         const id = html.querySelector("select").value;
-        return this.document.update({[`system.equipped.arsenal.${slot}`]: id});
+        return this.document.update({[`system.equipped.${path}`]: id});
       }
     });
   }
