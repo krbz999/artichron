@@ -4,7 +4,7 @@
     <div class="form-fields">
       <input class="tiny" type="number" name="health.max" value="{{pools.health.max}}">
       <select name="health.faces">
-        {{selectOptions config.SYSTEM.DIE_SIZES selected=pools.health.faces}}
+        {{selectOptions config.DIE_SIZES selected=pools.health.faces}}
       </select>
     </div>
   </div>
@@ -14,7 +14,7 @@
     <div class="form-fields">
       <input class="tiny" type="number" name="stamina.max" value="{{pools.stamina.max}}">
       <select name="stamina.faces">
-        {{selectOptions config.SYSTEM.DIE_SIZES selected=pools.stamina.faces}}
+        {{selectOptions config.DIE_SIZES selected=pools.stamina.faces}}
       </select>
     </div>
   </div>
@@ -24,7 +24,7 @@
     <div class="form-fields">
       <input class="tiny" type="number" name="mana.max" value="{{pools.mana.max}}">
       <select name="mana.faces">
-        {{selectOptions config.SYSTEM.DIE_SIZES selected=pools.mana.faces}}
+        {{selectOptions config.DIE_SIZES selected=pools.mana.faces}}
       </select>
     </div>
   </div>

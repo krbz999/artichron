@@ -9,10 +9,8 @@ export default class ArsenalData extends ItemSystemModel {
     return {
       ...super.defineSchema(),
       damage: new fields.ArrayField(new fields.EmbeddedDataField(DamageField)),
-      defenses: new fields.SchemaField({
-        parry: new fields.EmbeddedDataField(DefenseDie),
-        block: new fields.EmbeddedDataField(DefenseDie)
-      }),
+      parry: new fields.EmbeddedDataField(DefenseDie),
+      block: new fields.EmbeddedDataField(DefenseDie),
       wield: new fields.SchemaField({
         value: new fields.NumberField({choices: [1, 2], initial: 1}),
         type: new fields.StringField({choices: ["melee", "ranged"]}),

@@ -1,5 +1,4 @@
-import {PoolConfig} from "./configs/pool-config.mjs";
-import {ResistanceConfig} from "./configs/resistance-config.mjs";
+import config from "./configs/base-config.mjs";
 
 /**
  * Extend the basic ActorSheet with some very simple modifications
@@ -217,9 +216,8 @@ export default class ActorSheetArtichron extends ActorSheet {
    * @returns
    */
   _onClickConfig(event) {
-    const config = event.currentTarget.dataset.config;
-    if (config === "pools") return new PoolConfig(this.actor).render(true);
-    else if (config === "resistances") return new ResistanceConfig(this.actor).render(true);
+    const trait = event.currentTarget.dataset.trait;
+    return new config(this.actor, {trait}).render(true);
   }
 
   /** @override */

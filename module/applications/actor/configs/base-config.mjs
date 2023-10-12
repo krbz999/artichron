@@ -1,8 +1,8 @@
-export class BaseConfig extends FormApplication {
-  constructor(actor, type) {
-    super();
-    this.clone = actor.clone({}, {keepId: true});
+export default class BaseConfig extends FormApplication {
+  constructor(actor, options = {}) {
+    super(actor);
     this.actor = actor;
+    this.trait = options.trait;
   }
 
   /** @override */
@@ -34,7 +34,7 @@ export class BaseConfig extends FormApplication {
    * @type {string}
    */
   get configType() {
-    return null;
+    return this.trait;
   }
 
   /** @override */
@@ -47,19 +47,17 @@ export class BaseConfig extends FormApplication {
 
   /** @override */
   async getData(options = {}) {
-    // must be subclassed.
+    const {pools, resistances} = this.actor.system.toObject();
+    const config = CONFIG.SYSTEM;
+    return {
+      config: config,
+      pools: pools,
+      resistances: Object.entries(resistances).map(([key, {bonus}]) => ({...config.DAMAGE_TYPES[key], bonus, key}))
+    };
   }
 
   /** @override */
   async _updateObject(event, formData) {
     return this.actor.update({[`system.${this.configType}`]: formData});
-  }
-
-  /** @override */
-  async _onChangeInput(event) {
-    const {name, value} = event.currentTarget;
-    await super._onChangeInput(event);
-    this.clone.updateSource({[`system.${this.configType}.${name}`]: value});
-    return this.render();
   }
 }

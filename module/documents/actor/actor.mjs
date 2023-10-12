@@ -57,6 +57,7 @@ export default class ActorArtichron extends Actor {
   /** @override */
   prepareBaseData() {
     // Data modifications in this step occur before processing embedded documents or derived data.
+    super.prepareBaseData();
   }
 
   /** @override */
@@ -73,49 +74,25 @@ export default class ActorArtichron extends Actor {
   /** Prepare block, parry, and defense values. */
   _prepareDefenses() {
     const def = this.system.defenses;
-
-    // Set initial values of armor and total for each resistance.
-    for (const key of ["parry", "block"]) {
-      def[key].items = 0;
-      def[key].total = def[key].bonus || 0;
-    }
-    def.armor.items = 0;
-    def.armor.total = def.armor.bonus || 0;
-
-    for (const item of Object.values(this.arsenal)) {
-      if (!item) continue;
-      for (const key of ["parry", "block"]) {
-        def[key].items += (item.system.defenses[key].value ?? 0);
-        def[key].total += (item.system.defenses[key].value ?? 0);
-      }
-    }
-    for (const item of Object.values(this.armor)) {
-      if (!item) continue;
-      def.armor.items += (item.system.traits.armor.value ?? 0);
-      def.armor.total += (item.system.traits.armor.value ?? 0);
-    }
+    const items = Object.values({...this.armor, ...this.arsenal});
+    ["parry", "block", "armor"].forEach(k => {
+      def[k].total = items.reduce((acc, item) => acc + (item?.system[k]?.value ?? 0), def[k].bonus);
+    });
   }
 
   /** Prepare the value of actor resistances. */
   _prepareResistances() {
-    const ar = this.system.resistances;
-
-    // Set initial values of armor and total for each resistance.
-    for (const key in ar) {
-      ar[key].items = 0;
-      ar[key].total = ar[key].bonus || 0;
-    }
-
-    // Add bonuses from each armor piece.
-    for (const item of Object.values(this.armor)) {
-      if (!item) continue;
-
-      const res = item.system.resistance;
-      if (res.type && (res.value > 0)) {
-        ar[res.type].items += res.value;
-        ar[res.type].total += res.value;
-      }
-    }
+    const res = this.system.resistances;
+    Object.values(this.armor).forEach(w => {
+      if (!w) return;
+      const {type, value} = w.system.resistance ?? {};
+      res[type].items ??= 0;
+      res[type].items += value;
+    });
+    Object.keys(res).forEach(k => {
+      res[k].items ??= 0;
+      res[k].total = res[k].items + res[k].bonus;
+    });
   }
 
   /* ---------------------------------------- */
