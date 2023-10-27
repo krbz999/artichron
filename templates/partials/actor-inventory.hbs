@@ -1,9 +1,9 @@
-{{#each context.items as |section|}}
+{{#each sections as |section|}}
 <header class="section-header" data-item-type="{{key}}">{{localize section.label}}</header>
 <div class="inventory-section" data-item-type="{{key}}">
   {{#each section.items as |item|}}
   <div class="inventory-item" data-item-id="{{item.id}}">
-    <h4 class="item-name">{{item.name}}</h4>
+    <a class="item-name">{{item.name}}</a>
     <div class="item-controls">
       <a class="item-control" data-action="edit-item"><i class="fa-solid fa-edit"></i></a>
     </div>

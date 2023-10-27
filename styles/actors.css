@@ -45,14 +45,19 @@
 .artichron.sheet.actor .tab.attributes section.resistances {
   min-width: 5em;
 }
-.artichron.sheet.actor section:hover > .edit[data-action] {
+.artichron.sheet.actor .section-header {
+  position: relative;
+}
+.artichron.sheet.actor section:hover > .section-header .edit[data-action] {
   display: block;
 }
 .artichron.sheet.actor .edit[data-action] {
   position: absolute;
-  top: 3px;
-  right: 3px;
+  top: 0;
+  right: 0;
   display: none;
+  padding: 4px;
+  font-size: initial;
 }
 .artichron.sheet.actor .tab.attributes .resistance {
   display: inherit;
@@ -86,12 +91,14 @@
 .artichron.sheet.actor.hero .equipped-items .backdrop {
   position: absolute;
   background-repeat: no-repeat;
-  background-size: 100% auto;
+  background-size: auto 100%;
   opacity: 0.25;
   left: 0;
   top: 0;
   right: 0;
   bottom: 0;
+  background-position-y: center;
+  background-position-x: center;
 }
 .artichron.sheet.actor.hero .equipped-items {
   position: relative;
@@ -170,3 +177,25 @@
 .artichron.sheet.actor.hero .equipped-items .equipped.accessory {
   top: 500px;
 }
+/* Inventory */
+.artichron.sheet.actor .inventory .inventory-section {}
+.artichron.sheet.actor .inventory .inventory-section .inventory-item {
+  border-bottom: 2px groove;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 4px;
+  color: #474747;
+}
+.artichron.sheet.actor .inventory .inventory-section .inventory-item:nth-child(odd) {
+  background-color: #d35ee21f;
+}
+.artichron.sheet.actor .inventory .inventory-section .inventory-item .item-name {
+  font-size: 14px;
+  font-family: "Bruno Ace";
+  padding: 2px 0;
+}
+.artichron.sheet.actor .inventory .inventory-section .inventory-item .item-controls {
+  display: flex;
+  align-items: center;
+}
+.artichron.sheet.actor .inventory .inventory-section .inventory-item .item-controls .item-control {}

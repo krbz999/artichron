@@ -1,11 +1,11 @@
 <header class="section-header">
   {{localize "ARTICHRON.Resistances"}}
+  {{#unless editing}}
+  <a class="edit" data-action="toggle-config" data-trait="resistances" data-tooltip="ARTICHRON.EditResistances">
+    <i class="fa-solid fa-cog"></i>
+  </a>
+  {{/unless}}
 </header>
-{{#unless editing}}
-<a class="edit" data-action="toggle-config" data-trait="resistances" data-tooltip="ARTICHRON.EditResistances">
-  <i class="fa-solid fa-edit"></i>
-</a>
-{{/unless}}
 {{#if editing}}
 {{#each context.resistances}}
 <div class="resistance">

@@ -46,19 +46,12 @@ export default class ActorSheetArtichron extends ActorSheet {
    * @returns {object[]}
    */
   _prepareItems() {
-    const items = this.document.items.reduce((acc, item) => {
-      acc[item.type] ??= [];
-      acc[item.type].push(item);
-      return acc;
-    }, {});
-    for (const key in items) items[key].sort((a, b) => a.sort - b.sort);
-    return Object.entries(items).map(([key, array]) => {
-      return {
-        key: key,
-        items: array,
-        label: `TYPES.Item.${key}Pl`
-      };
-    });
+    const types = this.document.itemTypes;
+    const map = key => ({key: key, items: types[key], label: `TYPES.Item.${key}Pl`});
+    return {
+      inventory: ["arsenal", "armor"].map(map),
+      consumable: ["food", "elixir", "part"].map(map)
+    };
   }
 
   /**
@@ -279,7 +272,7 @@ export default class ActorSheetArtichron extends ActorSheet {
 
   /** @override */
   setPosition(pos = {}) {
-    if (!pos.height) pos.height = "auto";
+    if (!pos.height && !this._minimized) pos.height = "auto";
     return super.setPosition(pos);
   }
 }

@@ -1,9 +1,9 @@
 <header class="section-header">
   {{localize "ARTICHRON.Pools"}}
+  <a class="edit" data-action="toggle-config" data-tooltip="ARTICHRON.EditPools" data-trait="pools">
+    <i class="fa-solid fa-cog"></i>
+  </a>
 </header>
-<a class="edit" data-action="toggle-config" data-tooltip="ARTICHRON.EditPools" data-trait="pools">
-  <i class="fa-solid fa-cog"></i>
-</a>
 {{#each actor.system.pools}}
 <div class="form-group pool">
   <label data-action="roll-pool" data-pool="{{@key}}" class="rollable">{{localize (concat "ARTICHRON." (capitalize @key) "DiePl")}}</label>

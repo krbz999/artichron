@@ -24,11 +24,9 @@
 
     {{!-- Tabs --}}
     <div class="tab attributes" data-group="primary" data-tab="attributes">
-      <section class="pools">
-        {{> "systems/artichron/templates/partials/actor-pools.hbs"}}
-      </section>
-      <section class="health">
+      <section class="resources">
         {{> "systems/artichron/templates/partials/actor-health.hbs"}}
+        {{> "systems/artichron/templates/partials/actor-pools.hbs"}}
       </section>
       <section class="resistances">
         {{> "systems/artichron/templates/partials/actor-resistances.hbs"}}
@@ -43,11 +41,15 @@
 
     <div class="tab inventory" data-group="primary" data-tab="inventory">
       <section class="item-sections">
-        {{> "systems/artichron/templates/partials/actor-inventory.hbs"}}
+        {{> "systems/artichron/templates/partials/actor-inventory.hbs" sections=context.items.inventory}}
       </section>
     </div>
 
-    <div class="tab consumables" data-group="primary" data-tab="consumables"></div>
+    <div class="tab consumables" data-group="primary" data-tab="consumables">
+      <section class="item-sections">
+        {{> "systems/artichron/templates/partials/actor-inventory.hbs" sections=context.items.consumable}}
+      </section>
+    </div>
     <div class="tab effects" data-group="primary" data-tab="effects"></div>
 
   </section>
