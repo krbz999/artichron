@@ -146,6 +146,7 @@ export default class ActorSheetArtichron extends ActorSheet {
 
     // listeners that always work go here
     html[0].querySelectorAll("[type=text], [type=number]").forEach(n => {
+      if (n.classList.contains("delta")) n.addEventListener("change", this._onChangeDelta.bind(this));
       n.addEventListener("focus", event => event.currentTarget.select());
     });
 
@@ -159,6 +160,17 @@ export default class ActorSheetArtichron extends ActorSheet {
       else if (action === "toggle-config") n.addEventListener("click", this._onClickConfig.bind(this));
       else if (action === "roll-pool") n.addEventListener("click", this._onClickRollPool.bind(this));
     });
+  }
+
+  /**
+   * Allow for deltas in input fields.
+   * @param {PointerEvent} event      The initiating change event.
+   */
+  _onChangeDelta(event) {
+    const target = event.currentTarget;
+    const value = target.value;
+    const prop = foundry.utils.getProperty(this.document, target.name);
+    if (/^[+-][0-9]+/.test(value)) target.value = Roll.safeEval(`${prop} ${value}`);
   }
 
   /**
