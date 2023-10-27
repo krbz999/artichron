@@ -101,25 +101,27 @@ export default class ActorSheetArtichron extends ActorSheet {
     // Main weapon.
     equipped.push({
       cssClass: `weapon main ${main ? "" : "empty"}`,
-      slot: "main",
       item: main,
       img: main ? main.img : emptySlotIcons.arsenal,
       tooltip: main ? "ARTICHRON.ChangeItem" : "",
-      equipmentSlot: "arsenal.first"
+      slot: "arsenal.first"
     });
 
     // Secondary weapon.
 
     const disableSecond = main && main.isTwoHanded;
-    const secondImage = disableSecond ? main.img : second ? second.img : emptySlotIcons.arsenal;
+    const cssClass = [
+      "weapon",
+      "second",
+      disableSecond ? "empty" : second ? null : "empty",
+      disableSecond ? "disabled" : null
+    ].filterJoin(" ");
     equipped.push({
-      cssClass: `weapon second ${disableSecond ? "empty" : second ? "" : "empty"}`,
-      slot: "second",
+      cssClass: cssClass,
       item: disableSecond ? null : second,
-      img: secondImage,
+      img: disableSecond ? main.img : second ? second.img : emptySlotIcons.arsenal,
       tooltip: disableSecond ? "" : second ? "ARTICHRON.ChangeItem" : "",
-      disabled: disableSecond,
-      equipmentSlot: "arsenal.second"
+      slot: "arsenal.second"
     });
 
     // Equipped armor.
@@ -127,11 +129,10 @@ export default class ActorSheetArtichron extends ActorSheet {
       const e = item ? "" : "empty";
       return {
         cssClass: `${key} ${e}`,
-        slot: key,
         item: item,
         img: item ? item.img : emptySlotIcons[key],
         tooltip: item ? "ARTICHRON.ChangeItem" : "",
-        equipmentSlot: `armor.${key}`
+        slot: `armor.${key}`
       };
     }));
 

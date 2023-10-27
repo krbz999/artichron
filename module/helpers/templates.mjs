@@ -6,7 +6,7 @@
 export async function preloadHandlebarsTemplates() {
   return loadTemplates([
     // array of paths to hbs files goes here
-    "systems/artichron/templates/partials/equipped.hbs",
+    "systems/artichron/templates/partials/actor-equipped.hbs",
     "systems/artichron/templates/partials/resistances.hbs",
     "systems/artichron/templates/partials/pools.hbs",
     "systems/artichron/templates/partials/health.hbs",

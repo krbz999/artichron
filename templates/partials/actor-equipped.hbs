@@ -1,0 +1,8 @@
+<div class="equipped-items">
+  <div class="backdrop" style="background-image: url({{actor.img}})"></div>
+  {{#each context.equipped}}
+  <div class="equipped {{cssClass}}" data-action="change-item" data-tooltip="{{tooltip}}" data-tooltip-direction="UP" data-slot="{{slot}}">
+    <img src="{{img}}">
+  </div>
+  {{/each}}
+</div>
