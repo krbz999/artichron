@@ -11,8 +11,12 @@
   --artichron-label: rgb(5, 0, 70);
   --equipment-margin: 25px;
 }
-.artichron .tabs .item.active {
-  text-shadow: 0 0 5px var(--color-shadow-primary);
+.system-artichron fieldset:has(:focus) {
+  border-color: var(--color-shadow-primary);
+}
+.system-artichron fieldset {
+  border-radius: 5px;
+  border-width: 2px;
 }
 .artichron.sheet nav.sheet-tabs .item {
   padding: 0;
@@ -44,14 +48,6 @@
 .artichron .rollable:hover {
   cursor: pointer;
   text-shadow: 0 0 5px var(--color-shadow-primary);
-}
-.artichron.sheet.item {
-  min-width: 400px;
-  min-height: 400px;
-}
-.artichron.sheet.actor {
-  min-width: 500px;
-  min-height: 500px;
 }
 .artichron.sheet form {
   display: flex;
@@ -105,10 +101,7 @@
 }
 .artichron.sheet .tab {
   height: 100%;
-}
-.artichron.sheet.actor.hero .tab.equipment.active {
-  display: flex;
-  flex-direction: column;
+  padding-top: 5px;
 }
 .artichron.sheet .section-header {
   font-family: "Modesto Condensed";
@@ -117,154 +110,6 @@
   padding: 0 1em;
   background-color: var(--artichron-header);
   text-align: center;
-}
-.artichron.sheet.actor.hero .tab.attributes.active {
-  display: flex;
-  justify-content: space-between;
-}
-.artichron.sheet.actor .tab.attributes section {
-  border: 2px groove;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-}
-.artichron.sheet.actor .tab.attributes section.pools {
-  height: fit-content;
-}
-.artichron.sheet.actor .tab.attributes section.health {
-  flex: 1;
-  height: fit-content;
-}
-.artichron.sheet.actor .counter {
-  padding: 1em;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.artichron.sheet.actor .counter .counter-value,
-.artichron.sheet.actor .counter .counter-max {
-  border-radius: calc(2 * var(--form-field-height));
-  height: calc(2 * var(--form-field-height));
-  width: calc(2 * var(--form-field-height));
-  text-align: center;
-  border: 1px solid var(--artichron-theme);
-  font-family: 'Trebuchet MS';
-  color: var(--artichron-label);
-}
-.artichron.sheet.actor .counter .counter-value {
-  margin-right: 5px;
-}
-.artichron.sheet.actor .counter .counter-max {
-  margin-left: 5px;
-  line-height: calc(2 * var(--form-field-height));
-  font-weight: bold;
-}
-.artichron.sheet.actor .tab.attributes section.resistances {
-  min-width: 5em;
-}
-.artichron.sheet.actor section:hover > .edit[data-action] {
-  display: block;
-}
-.artichron.sheet.actor .edit[data-action] {
-  position: absolute;
-  top: 3px;
-  right: 3px;
-  display: none;
-}
-.artichron.sheet.actor .tab.attributes .resistance {
-  display: inherit;
-  justify-content: space-evenly;
-  font-size: 20px;
-  line-height: 20px;
-  margin: 3px auto;
-  width: 100%;
-  font-family: "Calibri";
-}
-.artichron.sheet.actor .tab.attributes .resistance .fa-solid {
-  text-shadow: 0 0 3px black;
-  min-width: 1em;
-  max-width: 1em;
-}
-.artichron.sheet section.equipped {
-  flex: 1;
-}
-.artichron.sheet .equipped-items .backdrop {
-  position: absolute;
-  background-repeat: no-repeat;
-  background-size: 100% auto;
-  opacity: 0.25;
-  left: 0;
-  top: 0;
-  right: 0;
-  bottom: 0;
-}
-.artichron.sheet .equipped-items {
-  position: relative;
-  display: flex;
-  justify-content: center;
-  background-repeat: no-repeat;
-  background-size: 100% auto;
-  height: 100%;
-  overflow: hidden overlay;
-  flex-direction: column;
-  min-height: 650px;
-}
-.artichron.sheet .equipped-items .equipped {
-  position: absolute;
-}
-.artichron.sheet .equipped-items .equipped img {
-  width: 100px;
-  height: 100px;
-  border: none;
-  border-radius: 5em;
-  transition: 250ms;
-  cursor: pointer;
-}
-.artichron.sheet .equipped-items .equipped.weapon.disabled img {
-  pointer-events: none;
-  filter: grayscale(30%) opacity(70%);
-}
-.artichron.sheet .equipped-items:has(.equipped.weapon.main img:hover) .second.disabled img {
-  border-radius: 1em;
-  scale: 1.1;
-}
-.artichron.sheet .equipped-items .equipped.empty img {
-  filter: grayscale(100%) opacity(25%);
-}
-.artichron.sheet .equipped-items .equipped.empty img:hover {
-  filter: grayscale(100%) opacity(50%);
-}
-.artichron.sheet .equipped-items .equipped img:hover {
-  border-radius: 1em;
-  filter: drop-shadow(0 0 5px var(--color-shadow-primary));
-  scale: 1.1;
-}
-.artichron.sheet .equipped-items .equipped.weapon,
-.artichron.sheet .equipped-items .equipped.arms,
-.artichron.sheet .equipped-items .equipped.accessory {
-  right: var(--equipment-margin);
-}
-.artichron.sheet .equipped-items .equipped.head,
-.artichron.sheet .equipped-items .equipped.chest,
-.artichron.sheet .equipped-items .equipped.legs,
-.artichron.sheet .equipped-items .equipped.boots {
-  left: var(--equipment-margin);
-}
-.artichron.sheet .equipped-items .equipped.weapon.main,
-.artichron.sheet .equipped-items .equipped.head {
-  top: 50px;
-}
-.artichron.sheet .equipped-items .equipped.weapon.second,
-.artichron.sheet .equipped-items .equipped.chest {
-  top: 200px;
-}
-.artichron.sheet .equipped-items .equipped.arms,
-.artichron.sheet .equipped-items .equipped.legs {
-  top: 350px;
-}
-.artichron.sheet .equipped-items .equipped.boots,
-.artichron.sheet .equipped-items .equipped.accessory {
-  top: 500px;
 }
 
 /* Damage Rolls */
@@ -418,4 +263,15 @@
   margin: 5px 0;
   border-top: 2px groove;
   padding-top: 5px;
+}
+
+/* Damage roll config */
+.artichron.damage-roll-config .form-group input {
+  flex: 2;
+}
+.artichron.damage-roll-config .form-group select {
+  flex: 1;
+}
+.artichron.damage-roll-config .form-group .action {
+  flex: 0 0 1em;
 }

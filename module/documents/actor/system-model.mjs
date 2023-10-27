@@ -20,11 +20,11 @@ export class ActorSystemModel extends foundry.abstract.TypeDataModel {
       }),
       equipped: new fields.SchemaField({
         arsenal: new fields.SchemaField({
-          first: new fields.StringField(),
-          second: new fields.StringField()
+          first: new fields.StringField({nullable: true}),
+          second: new fields.StringField({nullable: true})
         }),
         armor: new fields.SchemaField(Object.keys(SYSTEM.ARMOR_TYPES).reduce((acc, key) => {
-          acc[key] = new fields.StringField();
+          acc[key] = new fields.StringField({nullable: true});
           return acc;
         }, {})),
         ammo: new fields.SetField(new fields.StringField())

@@ -33,8 +33,17 @@ export default class ItemSheetArtichron extends ItemSheet {
       config: CONFIG.SYSTEM,
       descriptions: {
         value: await TextEditor.enrichHTML(this.document.system.description.value, {rollData, async: true})
-      }
+      },
+      isArsenal: this.document.type === "arsenal",
+      isArmor: this.document.type === "armor"
     };
+
+    if (data.isArsenal) {
+      data.context.categories = data.config.ARSENAL_TYPES;
+      data.context.subtypes = data.config.ARSENAL_TYPES[this.document.system.type.category]?.items ?? {};
+    } else if (data.isArmor) {
+      data.context.categories = data.config.ARMOR_TYPES;
+    }
     return data;
   }
 

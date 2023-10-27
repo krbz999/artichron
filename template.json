@@ -9,8 +9,7 @@
   },
   "Item": {
     "types": [
-      "weapon",
-      "spell",
+      "arsenal",
       "armor",
       "food",
       "elixir",

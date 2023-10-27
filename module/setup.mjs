@@ -26,6 +26,7 @@ globalThis.artichron = {
 
 Hooks.once("init", function() {
   globalThis.artichron = game.artichron = Object.assign(game.system, globalThis.artichron);
+  CONFIG.Canvas.dispositionColors.CONTROLLED = 2502655;
 
   // Record Configuration Values
   CONFIG.SYSTEM = SYSTEM;
@@ -59,7 +60,7 @@ Hooks.once("init", function() {
   //Actors.registerSheet("artichron", applications.ActorSheetMerchant, {types: ["merchant"], makeDefault: true, label: "ARTICHRON.ActorSheetMerchant"});
 
   Items.unregisterSheet("core", ItemSheet);
-  Items.registerSheet("artichron", applications.ItemSheetWeapon, {types: ["weapon"], makeDefault: true, label: "ARTICHRON.ItemSheetWeapon"});
+  Items.registerSheet("artichron", applications.ItemSheetArsenal, {types: ["arsenal"], makeDefault: true, label: "ARTICHRON.ItemSheetArsenal"});
   Items.registerSheet("artichron", applications.ItemSheetArmor, {types: ["armor"], makeDefaut: true, label: "ARTICHRON.ItemSheetArmor"});
 
   // Preload Handlebars templates.

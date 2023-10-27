@@ -1,17 +1,21 @@
 export class ItemSystemModel extends foundry.abstract.TypeDataModel {
   /** @override */
   static defineSchema() {
+    const fields = foundry.data.fields;
     return {
-      description: new foundry.data.fields.SchemaField({
-        value: new foundry.data.fields.HTMLField({label: "ARTICHRON.DescriptionValue"})
+      description: new fields.SchemaField({
+        value: new fields.HTMLField({label: "ARTICHRON.DescriptionValue"})
       }),
-      weight: new foundry.data.fields.SchemaField({
-        value: new foundry.data.fields.NumberField({integer: true, required: true, initial: null})
+      weight: new fields.SchemaField({
+        value: new fields.NumberField({integer: true, required: true, initial: null})
       }),
-      price: new foundry.data.fields.SchemaField({
-        value: new foundry.data.fields.NumberField({integer: true, required: true, initial: null})
+      price: new fields.SchemaField({
+        value: new fields.NumberField({integer: true, required: true, initial: null})
       }),
-      type: new foundry.data.fields.StringField()
+      type: new fields.SchemaField({
+        category: new fields.StringField(),
+        subtype: new fields.StringField()
+      })
     };
   }
 }

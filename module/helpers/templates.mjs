@@ -11,6 +11,7 @@ export async function preloadHandlebarsTemplates() {
     "systems/artichron/templates/partials/damage.hbs",
     "systems/artichron/templates/partials/pools.hbs",
     "systems/artichron/templates/partials/health.hbs",
-    "systems/artichron/templates/partials/inventory.hbs"
+    "systems/artichron/templates/partials/inventory.hbs",
+    "systems/artichron/templates/partials/item-type.hbs"
   ]);
 };

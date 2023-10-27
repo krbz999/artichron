@@ -93,22 +93,41 @@ SYSTEM.MOVEMENT_TYPES = {
 };
 
 // Weapon subtypes.
-SYSTEM.WEAPON_TYPES = {
-  axe: {label: "ARTICHRON.WeaponTypeAxe"},
-  bow: {label: "ARTICHRON.WeaponTypeBow"},
-  hammer: {label: "ARTICHRON.WeaponTypeHammer"},
-  spear: {
-    label: "ARTICHRON.WeaponTypeSpear",
-    fusion: {range: 1, hands: 2, damage: "1d6"} // bonuses on top of used target.
+SYSTEM.ARSENAL_TYPES = {
+  melee: {
+    label: "ARTICHRON.ArsenalCategoryMelee",
+    items: {
+      axe: {label: "ARTICHRON.WeaponTypeAxe"},
+      hammer: {label: "ARTICHRON.WeaponTypeHammer"},
+      spear: {
+        label: "ARTICHRON.WeaponTypeSpear",
+        fusion: {range: 1, hands: 2, damage: "1d6"} // bonuses on top of used target.
+      },
+      sword: {label: "ARTICHRON.WeaponTypeSword"}
+    }
   },
-  sword: {label: "ARTICHRON.WeaponTypeSword"}
-};
-
-// Shield types.
-SYSTEM.SHIELD_TYPES = {
-  buckler: {label: "ARTICHRON.ShieldTypeBuckler"},
-  heater: {label: "ARTICHRON.ShieldTypeHeater"},
-  kite: {label: "ARTICHRON.ShieldTypeKite"}
+  ranged: {
+    label: "ARTICHRON.ArsenalCategoryRanged",
+    items: {
+      bow: {label: "ARTICHRON.WeaponTypeBow"}
+    }
+  },
+  shield: {
+    label: "ARTICHRON.ArsenalCategoryShield",
+    items: {
+      buckler: {label: "ARTICHRON.ShieldTypeBuckler"},
+      heater: {label: "ARTICHRON.ShieldTypeHeater"},
+      kite: {label: "ARTICHRON.ShieldTypeKite"}
+    }
+  },
+  spell: {
+    label: "ARTICHRON.ArsenalCategorySpell",
+    items: {
+      offense: {label: "ARTICHRON.SpellTypeOffense"},
+      defense: {label: "ARTICHRON.SpellTypeDefense"},
+      buff: {label: "ARTICHRON.SpellTypeBuff"}
+    }
+  }
 };
 
 // Armor subtypes.
@@ -119,13 +138,6 @@ SYSTEM.ARMOR_TYPES = {
   head: {label: "ARTICHRON.ArmorTypeHead"},
   legs: {label: "ARTICHRON.ArmorTypeLegs"},
   boots: {label: "ARTICHRON.ArmorTypeBoots"}
-};
-
-// Spell types.
-SYSTEM.SPELL_TYPES = {
-  offense: {label: "ARTICHRON.SpellTypeOffense"},
-  defense: {label: "ARTICHRON.SpellTypeDefense"},
-  buff: {label: "ARTICHRON.SpellTypeBuff"}
 };
 
 // Monster part types.
@@ -140,5 +152,6 @@ SYSTEM.MONSTER_PART_TYPES = {
 // Armor set identifiers.
 // bonus could be a function or a static bonus, idk
 SYSTEM.ARMOR_SETS = {
-  "flame": {label: "ARTICHRON.SetFlame", bonus: {}}
+  "flame": {label: "ARTICHRON.ArmorSetFlame", bonus: {}},
+  "glam": {label: "ARTICHRON.ArmorSetGlam", bonus: {}}
 };

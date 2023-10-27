@@ -1,0 +1,23 @@
+.artichron.sheet.item {
+  min-width: 400px;
+  min-height: 400px;
+}
+.artichron.sheet.item .form-group.damage .value {
+  flex: 2;
+}
+.artichron.sheet.item .form-group.damage .type {
+  flex: 1;
+}
+.artichron.sheet.item .form-group.damage .optional {
+  flex: 0;
+}
+.artichron.sheet.item .action {
+  float: right;
+  flex: none;
+  padding-left: 5px;
+  color: gray;
+}
+.artichron.sheet.item fieldset legend.header {
+  font-family: 'Modesto Condensed';
+  font-size: 24px;
+}

@@ -17,7 +17,9 @@
     "module/setup.mjs"
   ],
   "styles": [
-    "styles/artichron.css"
+    "styles/artichron.css",
+    "styles/actors.css",
+    "styles/items.css"
   ],
   "packs": [],
   "languages": [
@@ -47,7 +49,9 @@
       ],
       "paths": [
         "lang/en.json",
-        "styles/artichron.css"
+        "styles/artichron.css",
+        "styles/actors.css",
+        "styles/items.css"
       ]
     }
   }

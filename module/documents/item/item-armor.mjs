@@ -7,7 +7,7 @@ export default class ArmorData extends ItemSystemModel {
     return {
       ...super.defineSchema(),
       identifier: new IdentifierField(),
-      resistance: new foundry.data.fields.SchemaField({
+      resistances: new foundry.data.fields.SchemaField({
         type: new foundry.data.fields.StringField(),
         value: new foundry.data.fields.NumberField({integer: true, required: true, initial: null})
       }),

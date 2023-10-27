@@ -83,9 +83,11 @@ export default class ActorArtichron extends Actor {
   /** Prepare the value of actor resistances. */
   _prepareResistances() {
     const res = this.system.resistances;
+    const config = CONFIG.SYSTEM.DAMAGE_TYPES;
     Object.values(this.armor).forEach(w => {
       if (!w) return;
-      const {type, value} = w.system.resistance ?? {};
+      const {type, value} = w.system.resistances ?? {};
+      if(!(type in config) || !config[type].resist) return;
       res[type].items ??= 0;
       res[type].items += value;
     });
@@ -204,8 +206,8 @@ export default class ActorArtichron extends Actor {
   }
 
   /**
-   * Roll damage with an equipped weapon.
-   * @param {string} key      Weapon to roll with, 'first' or 'second'.
+   * Roll damage with an equipped arsenal item.
+   * @param {string} key      Arsenal to roll with, 'first' or 'second'.
    */
   async rollDamage(key = null) {
     return this.system.rollDamage(key);

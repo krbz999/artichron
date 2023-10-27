@@ -10,6 +10,8 @@ export default class ActorSheetArtichron extends ActorSheet {
     return foundry.utils.mergeObject(super.defaultOptions, {
       width: 500,
       height: 500,
+      top: 100,
+      left: 200,
       tabs: [{navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "attributes"}],
       classes: ["sheet", "actor", "artichron"],
       resizable: false
@@ -182,30 +184,55 @@ export default class ActorSheetArtichron extends ActorSheet {
   /**
    * Handle changing the equipped item in a particular slot.
    * @param {PointerEvent} event      The initiating click event.
-   * @returns {Actor}                 The owning actor updated to have a new item equipped.
+   * @returns {Promise<ActorArtichron|null>}
    */
   async _onClickChangeItem(event) {
-    const path = event.currentTarget.dataset.slot;
-    const currentId = event.currentTarget.dataset.id;
-    // only works for weapons atm
-    const items = this.document.items.filter(item => {
-      return ["weapon", "spell", "shield"].includes(item.type) && !Object.values(this.document.arsenal).map(u => u?.id).includes(item.id);
-    });
+    const [type, slot] = event.currentTarget.dataset.slot.split(".");
 
-    const options = items.reduce((acc, item) => {
-      return acc + `<option value="${item.id}">${item.name}</option>`;
-    }, "");
+    console.warn(type, slot);
+
+    let items;
+    if (type === "armor") {
+      items = this.document.items.filter(item => (item.type === "armor") && (item.system.type === slot));
+    } else if (type === "arsenal") {
+      items = this.document.items.filter(item => {
+        if(item.type !== "arsenal") return false;
+        const {first, second} = this.document.arsenal;
+        if (slot === "first") return !second || (second !== item);
+        if (slot === "second") return (!first || (first !== item)) && (item.system.wield.value === 1);
+      });
+    }
+    if (!items?.length) {
+      ui.notifications.warn("ARTICHRON.NoAvailableEquipment", {localize: true});
+      return null;
+    }
+
+    const choices = items.reduce((acc, item) => {
+      acc[item.id] = item.name;
+      return acc;
+    }, {});
+    const hash = {selected: this.document.system.equipped[type][slot]?.id ?? null, sort: true, blank: ""};
+    const options = HandlebarsHelpers.selectOptions(choices, {hash});
     return Dialog.prompt({
+      rejectClose: false,
+      label: game.i18n.localize("ARTICHRON.Equip"),
       content: `
       <form>
         <div class="form-group">
-          <label>pick weapon</label>
-          <select>${options}</select>
+          <label>${game.i18n.localize("ARTICHRON.PickEquippedItem")}</label>
+          <div class="form-fields">
+            <select>${options}</select>
+          </div>
         </div>
       </form>`,
       callback: ([html]) => {
-        const id = html.querySelector("select").value;
-        return this.document.update({[`system.equipped.${path}`]: id});
+        const id = html.querySelector("select").value || "";
+        const item = this.document.items.get(id);
+        const update = {[`system.equipped.${type}.${slot}`]: id};
+        if((type === "arsenal") && (slot === "first") && item && (item.system.wield.value === 2)) {
+          update[`system.equipped.arsenal.second`] = "";
+        }
+        return this.document.update(update);
       }
     });
   }
