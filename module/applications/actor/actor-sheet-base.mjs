@@ -103,12 +103,11 @@ export default class ActorSheetArtichron extends ActorSheet {
       cssClass: `weapon main ${main ? "" : "empty"}`,
       item: main,
       img: main ? main.img : emptySlotIcons.arsenal,
-      tooltip: main ? "ARTICHRON.ChangeItem" : "",
+      tooltip: main ? "ARTICHRON.ChangeItem" : "ARTICHRON.EmptySlot",
       slot: "arsenal.first"
     });
 
     // Secondary weapon.
-
     const disableSecond = main && main.isTwoHanded;
     const cssClass = [
       "weapon",
@@ -120,7 +119,7 @@ export default class ActorSheetArtichron extends ActorSheet {
       cssClass: cssClass,
       item: disableSecond ? null : second,
       img: disableSecond ? main.img : second ? second.img : emptySlotIcons.arsenal,
-      tooltip: disableSecond ? "" : second ? "ARTICHRON.ChangeItem" : "",
+      tooltip: disableSecond ? "" : second ? "ARTICHRON.ChangeItem" : "ARTICHRON.EmptySlot",
       slot: "arsenal.second"
     });
 
@@ -131,7 +130,7 @@ export default class ActorSheetArtichron extends ActorSheet {
         cssClass: `${key} ${e}`,
         item: item,
         img: item ? item.img : emptySlotIcons[key],
-        tooltip: item ? "ARTICHRON.ChangeItem" : "",
+        tooltip: item ? "ARTICHRON.ChangeItem" : "ARTICHRON.EmptySlot",
         slot: `armor.${key}`
       };
     }));
@@ -188,7 +187,7 @@ export default class ActorSheetArtichron extends ActorSheet {
    * @returns {Promise<ActorArtichron|null>}
    */
   async _onClickChangeItem(event) {
-    const [type, slot] = event.currentTarget.dataset.slot.split(".");
+    const [type, slot] = event.currentTarget.closest("[data-slot]").dataset.slot.split(".");
 
     let items;
     if (type === "armor") {
