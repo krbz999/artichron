@@ -7,11 +7,10 @@ export class ActorSystemModel extends foundry.abstract.TypeDataModel {
   /** @override */
   static defineSchema() {
     const fields = foundry.data.fields;
-
     return {
       health: new fields.SchemaField({
-        value: new fields.NumberField({integer: true, required: true, initial: null}),
-        max: new fields.NumberField({integer: true, required: true, initial: null})
+        value: new fields.NumberField({min: 0, integer: true}),
+        max: new fields.NumberField({min: 0, integer: true})
       }),
       pools: new fields.SchemaField({
         health: new fields.EmbeddedDataField(PoolDie),
@@ -38,11 +37,29 @@ export class ActorSystemModel extends foundry.abstract.TypeDataModel {
         return acc;
       }, {})),
       movement: new foundry.data.fields.SchemaField({
-        running: new foundry.data.fields.NumberField({integer: true, required: true, initial: null}),
-        flying: new foundry.data.fields.NumberField({integer: true, required: true, initial: null}),
-        swimming: new foundry.data.fields.NumberField({integer: true, required: true, initial: null})
+        running: new foundry.data.fields.NumberField({min: 0, integer: true}),
+        flying: new foundry.data.fields.NumberField({min: 0, integer: true}),
+        swimming: new foundry.data.fields.NumberField({min: 0, integer: true})
       })
     };
+  }
+
+  /* ---------------------------------------- */
+  /*                                          */
+  /*              UPDATE METHODS              */
+  /*                                          */
+  /* ---------------------------------------- */
+
+  /**
+   * Modify the update to the system data model.
+   * @param {object} update       The update to any system-specific properties.
+   * @param {object} options      The update options.
+   * @param {User} user           The user performing the update.
+   */
+  async _preUpdate(update = {}, options, user) {
+    if (("health" in update) && ("value" in update.health)) {
+      update.health.value = Math.min(update.health.value, update.health.max ?? this.health.max);
+    }
   }
 
   /* ---------------------------------------- */

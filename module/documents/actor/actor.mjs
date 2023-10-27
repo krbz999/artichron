@@ -106,6 +106,7 @@ export default class ActorArtichron extends Actor {
   /** @override */
   async _preUpdate(update, options, user) {
     await super._preUpdate(update, options, user);
+    await this.system._preUpdate(update.system, options, user);
   }
 
   /** @override */
