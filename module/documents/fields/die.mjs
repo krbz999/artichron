@@ -1,5 +1,3 @@
-import {SYSTEM} from "../../helpers/config.mjs";
-
 export class DefenseDie extends foundry.abstract.DataModel {
   /** @override */
   static defineSchema() {

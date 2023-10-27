@@ -34,9 +34,7 @@ export default class ActorArtichron extends Actor {
    * @type {boolean}
    */
   get isDead() {
-    const invulnerable = CONFIG.specialStatusEffects.INVULNERABLE;
-    if (this.parent.statuses.has(invulnerable)) return false;
-    return !this.system.health.value;
+    return this.system.isDead ?? false;
   }
 
   /* ---------------------------------------- */

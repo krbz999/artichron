@@ -14,7 +14,7 @@ globalThis.artichron = {
   applications: applications,
   config: SYSTEM,
   dataModels: dataModels,
-  dice: {},
+  dice: dice,
   documents: documents,
   migrations: {},
   utils: {}

@@ -70,7 +70,14 @@ export class ActorSystemModel extends foundry.abstract.TypeDataModel {
 
   /** @override */
   prepareDerivedData() {
+    this._prepareHealth();
     this._prepareEquipped();
+  }
+
+  /** Prepare maximum health. */
+  _prepareHealth() {
+    const dice = this.pools.health;
+    this.health.max = dice.max * dice.faces;
   }
 
   /** Prepare equipped items. */
@@ -89,5 +96,45 @@ export class ActorSystemModel extends foundry.abstract.TypeDataModel {
       if (item && item.isAmmo) acc.add(item);
       return acc;
     }, new Set());
+  }
+
+  /* ---------------------------------------- */
+  /*                                          */
+  /*                  GETTERS                 */
+  /*                                          */
+  /* ---------------------------------------- */
+
+  /**
+   * The currently equipped ammunition.
+   * @type {Set<Item>}
+   */
+  get ammo() {
+    return this.equipped.ammo;
+  }
+
+  /**
+   * The currently equipped arsenal.
+   * @type {object}
+   */
+  get arsenal() {
+    return this.equipped.arsenal;
+  }
+
+  /**
+   * The currently equipped armor set.
+   * @type {object}
+   */
+  get armor() {
+    return this.equipped.armor;
+  }
+
+  /**
+   * Determine whether the actor is dead.
+   * @type {boolean}
+   */
+  get isDead() {
+    const invulnerable = CONFIG.specialStatusEffects.INVULNERABLE;
+    if (this.parent.statuses.has(invulnerable)) return false;
+    return !this.health.value;
   }
 }

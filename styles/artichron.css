@@ -3,9 +3,9 @@
 /* ------------------- */
 :root {
   --color-shadow-primary: rgb(0, 162, 255);
-  --mana: sepia(1) hue-rotate(180deg) drop-shadow(0 0 1px blue);
-  --health: sepia(1) hue-rotate(270deg) drop-shadow(0 0 1px red);
-  --stamina: sepia(1) hue-rotate(90deg) drop-shadow(0 0 1px green);
+  --mana-filter: sepia(1) hue-rotate(180deg) drop-shadow(0 0 1px blue);
+  --health-filter: sepia(1) hue-rotate(270deg) drop-shadow(0 0 1px red);
+  --stamina-filter: sepia(1) hue-rotate(90deg) drop-shadow(0 0 1px green);
   --artichron-theme: rgba(25, 0, 255, 0.555);
   --artichron-header: rgba(0, 0, 255, 0.199);
   --artichron-label: rgb(5, 0, 70);
@@ -20,6 +20,12 @@
 }
 .system-artichron select {
   height: var(--form-field-height);
+}
+.system-artichron h1,
+.system-artichron h2,
+.system-artichron h3,
+.system-artichron h4 {
+  margin: 0;
 }
 .artichron.sheet nav.sheet-tabs .item {
   padding: 0;
@@ -231,15 +237,15 @@
 .artichron .die.max,
 .artichron .roll.max,
 .artichron .die.mana {
-  filter: var(--mana);
+  filter: var(--mana-filter);
 }
 .artichron .die.min,
 .artichron .roll.min,
 .artichron .die.health {
-  filter: var(--health);
+  filter: var(--health-filter);
 }
 .artichron .die.stamina {
-  filter: var(--stamina);
+  filter: var(--stamina-filter);
 }
 .artichron .die.d2, .artichron .roll.d2 {
   background-image: url(../../../icons/svg/coins.svg);
