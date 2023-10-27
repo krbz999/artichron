@@ -83,13 +83,13 @@ export default class ActorArtichron extends Actor {
   /** Prepare the value of actor resistances. */
   _prepareResistances() {
     const res = this.system.resistances;
-    const config = CONFIG.SYSTEM.DAMAGE_TYPES;
     Object.values(this.armor).forEach(w => {
-      if (!w) return;
-      const {type, value} = w.system.resistances ?? {};
-      if(!(type in config) || !config[type].resist) return;
-      res[type].items ??= 0;
-      res[type].items += value;
+      const ir = w?.system.resistances ?? [];
+      for (const {type, value} of ir) {
+        if (!(type in res)) continue;
+        res[type].items ??= 0;
+        res[type].items += value;
+      }
     });
     Object.keys(res).forEach(k => {
       res[k].items ??= 0;

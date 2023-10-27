@@ -18,6 +18,9 @@
   border-radius: 5px;
   border-width: 2px;
 }
+.system-artichron select {
+  height: var(--form-field-height);
+}
 .artichron.sheet nav.sheet-tabs .item {
   padding: 0;
   font-family: "Modesto Condensed";
@@ -25,7 +28,7 @@
   margin: 5px;
   border-bottom: 5px solid var(--artichron-theme);
 }
-.editor {
+.system-artichron .editor {
   min-height: 200px;
   height: 100%;
 }
