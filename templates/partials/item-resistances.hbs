@@ -1,0 +1,16 @@
+<fieldset data-property="resistances">
+  <legend class="header">
+    {{localize "ARTICHRON.Resistance"}}
+    <a class="action" data-action="add"><i class="fa-solid fa-plus"></i></a>
+  </legend>
+
+  {{#each item.system.resistances as |res idx|}}
+  <div class="form-group res">
+    <input class="value" type="number" name="system.resistances.{{idx}}.value" value="{{res.value}}">
+    <select class="type" name="system.resistances.{{idx}}.type">
+      {{selectOptions @root.context.resistanceOptions selected=res.type labelAttr="label" localize=true sort=true blank=""}}
+    </select>
+    <a class="action" data-action="del" data-idx="{{idx}}"><i class="fa-solid fa-minus"></i></a>
+  </div>
+  {{/each}}
+</fieldset>

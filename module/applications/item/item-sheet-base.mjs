@@ -43,6 +43,7 @@ export default class ItemSheetArtichron extends ItemSheet {
       data.context.subtypes = data.config.ARSENAL_TYPES[this.document.system.type.category]?.items ?? {};
     } else if (data.isArmor) {
       data.context.categories = data.config.ARMOR_TYPES;
+      data.context.resistanceOptions = Object.fromEntries(Object.entries(data.config.DAMAGE_TYPES).filter(([k, v]) => v.resist));
     }
     return data;
   }
@@ -54,6 +55,35 @@ export default class ItemSheetArtichron extends ItemSheet {
     super.activateListeners(html);
     // listeners that always work go here
     if (!this.isEditable) return;
-    // listeners that only work on editable or owned sheets go here
+    html[0].querySelectorAll("FIELDSET .action[data-action]").forEach(n => {
+      switch(n.dataset.action) {
+        case "add": n.addEventListener("click", this._onClickAddFieldset.bind(this)); break;
+        case "del": n.addEventListener("click", this._onClickDelFieldSet.bind(this)); break;
+      }
+    });
+  }
+
+  /**
+   * Append a new entry to an array within a fieldset.
+   * @param {PointerEvent} event      The initiating click event.
+   * @returns {Promise<ItemArtichron>}
+   */
+  async _onClickAddFieldset(event) {
+    const prop = event.currentTarget.closest("FIELDSET").dataset.property;
+    const parts = this.document.system.toObject()[prop].concat([{}]);
+    return this.document.update({[`system.${prop}`]: parts});
+  }
+
+  /**
+   * Remove an entry from an array within a fieldset.
+   * @param {PointerEvent} event      The initiating click event.
+   * @returns {Promise<ItemArtichron>}
+   */
+  async _onClickDelFieldSet(event) {
+    const idx = event.currentTarget.dataset.idx;
+    const prop = event.currentTarget.closest("FIELDSET").dataset.property;
+    const parts = this.document.system.toObject()[prop];
+    parts.splice(idx, 1);
+    return this.document.update({[`system.${prop}`]: parts});
   }
 }

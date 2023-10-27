@@ -31,23 +31,5 @@ export default class ItemSheetArsenal extends ItemSheetArtichron {
     super.activateListeners(html);
     // listeners that always work go here
     if (!this.isEditable) return;
-    html[0].querySelectorAll(".damage .action[data-action]").forEach(n => {
-      switch (n.dataset.action) {
-        case "add": n.addEventListener("click", this._onClickAddDamage.bind(this)); break;
-        case "del": n.addEventListener("click", this._onClickDelDamage.bind(this)); break;
-      }
-    });
-  }
-
-  async _onClickAddDamage(event) {
-    const parts = this.document.toObject().system.damage.concat([{}]);
-    return this.document.update({"system.damage": parts});
-  }
-
-  async _onClickDelDamage(event) {
-    const idx = event.currentTarget.dataset.idx;
-    const parts = this.document.toObject().system.damage;
-    parts.splice(idx, 1);
-    return this.document.update({"system.damage": parts});
   }
 }
