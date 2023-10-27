@@ -12,6 +12,7 @@
 
   {{!-- Sheet Tab Navigation --}}
   <nav class="sheet-tabs tabs" data-group="primary">
+    <a class="item" data-tab="description">{{localize "ARTICHRON.SheetTabDescription"}}</a>
     <a class="item" data-tab="attributes">{{localize "ARTICHRON.SheetTabAttributes"}}</a>
     <a class="item" data-tab="effects">{{localize "ARTICHRON.SheetTabEffects"}}</a>
   </nav>
@@ -20,6 +21,10 @@
   <section class="sheet-body">
 
     {{!-- Tabs --}}
+    <div class="tab description" data-group="primary" data-tab="description">
+      {{editor descriptions.value target="system.description.value" rollData=rollData button=true owner=owner editable=true engine="prosemirror"}}
+    </div>
+
     <div class="tab attributes" data-group="primary" data-tab="attributes">
       <section class="traits">
         {{> "systems/artichron/templates/partials/item-type.hbs"}}
