@@ -10,18 +10,18 @@ export default class ArmorData extends ItemSystemModel {
       identifier: new IdentifierField(),
       resistances: new fields.ArrayField(new fields.SchemaField({
         type: new fields.StringField(),
-        value: new fields.NumberField({integer: true, required: true, initial: null})
+        value: new fields.NumberField({integer: true})
       })),
       mobility: new fields.SchemaField({
         type: new fields.StringField(),
-        value: new fields.NumberField({integer: true, required: true, initial: null})
+        value: new fields.NumberField({integer: true})
       }),
       attack: new fields.SchemaField({
         type: new fields.StringField(),
-        value: new fields.NumberField({integer: true, required: true, initial: null})
+        value: new fields.NumberField({integer: true})
       }),
       armor: new fields.SchemaField({
-        value: new fields.NumberField({integer: true, required: true, initial: null})
+        value: new fields.NumberField({integer: true})
       })
     };
   }

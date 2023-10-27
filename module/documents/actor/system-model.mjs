@@ -59,8 +59,14 @@ export class ActorSystemModel extends foundry.abstract.TypeDataModel {
   /** Prepare equipped items. */
   _prepareEquipped() {
     const {arsenal, armor, ammo} = this.equipped;
-    for (const key in arsenal) arsenal[key] = this.parent.items.get(arsenal[key]) ?? null;
-    for (const key in armor) armor[key] = this.parent.items.get(armor[key]) ?? null;
+    for (const key in arsenal) {
+      const item = this.parent.items.get(arsenal[key]);
+      arsenal[key] = (item && (item.type === "arsenal")) ? item : null;
+    }
+    for (const key in armor) {
+      const item = this.parent.items.get(armor[key]);
+      armor[key] = (item && (item.type === "armor") && (item.system.type.category === key)) ? item : null;
+    }
     this.equipped.ammo = ammo.reduce((acc, id) => {
       const item = this.parent.items.get(id);
       if (item && item.isAmmo) acc.add(item);

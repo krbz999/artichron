@@ -189,17 +189,15 @@ export default class ActorSheetArtichron extends ActorSheet {
   async _onClickChangeItem(event) {
     const [type, slot] = event.currentTarget.dataset.slot.split(".");
 
-    console.warn(type, slot);
-
     let items;
     if (type === "armor") {
-      items = this.document.items.filter(item => (item.type === "armor") && (item.system.type === slot));
+      items = this.document.items.filter(item => (item.type === "armor") && (item.system.type.category === slot));
     } else if (type === "arsenal") {
       items = this.document.items.filter(item => {
-        if(item.type !== "arsenal") return false;
+        if (item.type !== "arsenal") return false;
         const {first, second} = this.document.arsenal;
         if (slot === "first") return !second || (second !== item);
-        if (slot === "second") return (!first || (first !== item)) && (item.system.wield.value === 1);
+        if (slot === "second") return (!first || (first !== item)) && item.isOneHanded;
       });
     }
     if (!items?.length) {
@@ -229,7 +227,7 @@ export default class ActorSheetArtichron extends ActorSheet {
         const id = html.querySelector("select").value || "";
         const item = this.document.items.get(id);
         const update = {[`system.equipped.${type}.${slot}`]: id};
-        if((type === "arsenal") && (slot === "first") && item && (item.system.wield.value === 2)) {
+        if ((type === "arsenal") && (slot === "first") && item && item.isTwoHanded) {
           update[`system.equipped.arsenal.second`] = "";
         }
         return this.document.update(update);

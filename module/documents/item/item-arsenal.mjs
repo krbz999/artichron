@@ -13,7 +13,6 @@ export default class ArsenalData extends ItemSystemModel {
       block: new fields.EmbeddedDataField(DefenseDie),
       wield: new fields.SchemaField({
         value: new fields.NumberField({choices: [1, 2], initial: 1}),
-        type: new fields.StringField({choices: ["melee", "ranged"]}),
         range: new fields.NumberField({integer: true, required: true, initial: null})
       }),
       fusion: new fields.SchemaField({
@@ -41,9 +40,15 @@ export default class ArsenalData extends ItemSystemModel {
     return this.wield.value === 2;
   }
   get isMelee() {
-    return this.wield.type === "melee";
+    return this.type.category === "melee";
   }
   get isRanged() {
-    return this.wield.type === "ranged";
+    return this.type.category === "ranged";
+  }
+  get isSpell() {
+    return this.type.category === "spell";
+  }
+  get isShield() {
+    return this.type.category === "shield";
   }
 }
