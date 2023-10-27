@@ -48,6 +48,12 @@ export default class ItemSheetArtichron extends ItemSheet {
     return data;
   }
 
+  /** @override */
+  setPosition(pos = {}) {
+    if (!pos.height) pos.height = "auto";
+    return super.setPosition(pos);
+  }
+
   /* -------------------------------------------- */
 
   /** @override */
