@@ -5,6 +5,7 @@ import {dice} from "./dice/_module.mjs";
 import {dataModels, documents} from "./documents/_module.mjs";
 import {registerHandlebarHelpers} from "./helpers/handlebarHelpers.mjs";
 import {ChatLog} from "./documents/chat/chat-log.mjs";
+import * as utils from "./helpers/utils.mjs";
 
 /* -------------------------------------------- */
 /*  Define Module Structure                     */
@@ -17,7 +18,7 @@ globalThis.artichron = {
   dice: dice,
   documents: documents,
   migrations: {},
-  utils: {}
+  utils: utils
 };
 
 /* -------------------------------------------- */
