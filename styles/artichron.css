@@ -237,11 +237,6 @@
   text-align: center;
   background-image: url(../../../icons/svg/d6-grey.svg);
 }
-.artichron .pool .die {
-  line-height: 30px;
-  background-size: 30px 30px;
-  max-width: 30px;
-}
 .artichron .die.max,
 .artichron .roll.max,
 .artichron .die.mana {

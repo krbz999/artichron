@@ -37,12 +37,24 @@ export default class ActorSheetArtichron extends ActorSheet {
       context: {
         equipped: this._prepareEquipment(),
         resistances: this._prepareResistances(),
-        items: this._prepareItems()
+        items: this._prepareItems(),
+        pools: this._preparePools()
       },
       rollData: this.document.getRollData(),
       config: CONFIG.SYSTEM
     };
     return data;
+  }
+
+  /**
+   * Prepare health, stamina, mana pools.
+   * @returns {object[]}
+   */
+  _preparePools() {
+    const pools = Object.entries(this.document.system.pools).map(([key, pool]) => {
+      return {...pool, key: key, value: pool.value || 0, die: pool.die};
+    });
+    return pools;
   }
 
   /**

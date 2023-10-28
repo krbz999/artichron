@@ -2,7 +2,9 @@
   {{#each pools as |pool|}}
   <div class="form-group">
     <label>{{localize pool.label}}</label>
-    <input class="tiny" type="number" name="{{pool.key}}.max" value="{{pool.max}}" {{disabled maxDis}}>
+    <input class="tiny delta" type="number" name="{{pool.key}}.value" value="{{pool.value}}">
+    <span class="sep">/</span>
+    <input class="tiny delta" type="number" name="{{pool.key}}.max" value="{{pool.max}}" {{disabled maxDis}}>
     <select name="{{pool.key}}.faces" {{disabled faceDis}}>
       {{selectOptions @root.config.DIE_SIZES selected=pool.faces}}
     </select>

@@ -10,14 +10,47 @@
   position: relative;
   display: flex;
   flex-direction: column;
+  flex: 1;
 }
 .artichron.sheet.actor .tab.attributes section.pools {
   height: fit-content;
+  flex: 2;
+  border-bottom: none;
+  border-left: none;
+  border-right: none;
 }
-.artichron.sheet.actor .tab.attributes section.health {
-  flex: 1;
-  height: fit-content;
+.artichron.sheet.actor .tab.attributes section.pools .pool-rolls {
+  position: relative;
 }
+.artichron.sheet.actor .tab.attributes section.pools .pool-rolls .pool {
+  width: 60px;
+  max-width: 60px;
+  height: 60px;
+  max-height: 60px;
+  display: block;
+  position: absolute;
+}
+.artichron.sheet.actor .tab.attributes section.pools .pool-rolls .pool[data-pool=health] {
+  top: 10px;
+  left: calc(50% - 30px);
+}
+.artichron.sheet.actor .tab.attributes section.pools .pool-rolls .pool[data-pool=stamina] {
+  top: 50px;
+  left: 15px;
+}
+.artichron.sheet.actor .tab.attributes section.pools .pool-rolls .pool[data-pool=mana] {
+  top: 50px;
+  right: 15px;
+}
+.artichron.sheet.actor .tab.attributes section.pools .pool-rolls .pool .die {
+  background-size: 100% 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
+.artichron.sheet.actor .tab.attributes section.health {}
 .artichron.sheet.actor .counter {
   padding: 1em;
   display: flex;
@@ -42,9 +75,7 @@
   line-height: calc(2 * var(--form-field-height));
   font-weight: bold;
 }
-.artichron.sheet.actor .tab.attributes section.resistances {
-  min-width: 5em;
-}
+.artichron.sheet.actor .tab.attributes section.resistances {}
 .artichron.sheet.actor .section-header {
   position: relative;
 }

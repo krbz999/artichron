@@ -53,6 +53,7 @@ export default class BaseConfig extends FormApplication {
       config: config,
       pools: Object.entries(pools).map(([key, pool]) => ({
         key: key,
+        value: pool.value,
         max: pool.max,
         faces: pool.faces,
         maxDis: foundry.utils.hasProperty(this.actor.overrides, `system.pools.${key}.max`),
