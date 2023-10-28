@@ -30,7 +30,7 @@
   height: calc(2 * var(--form-field-height));
   width: calc(2 * var(--form-field-height));
   text-align: center;
-  border: 1px solid var(--artichron-theme);
+  border: 1px solid var(--artichron-theme-dark);
   font-family: 'Trebuchet MS';
   color: var(--artichron-label);
 }
@@ -119,7 +119,7 @@
   height: 100px;
   border: none;
   border-radius: 5em;
-  transition: 250ms;
+  transition: 150ms;
   cursor: pointer;
 }
 .artichron.sheet.actor.hero .equipped-items .equipped .edit {
@@ -136,7 +136,7 @@
   filter: grayscale(30%) opacity(70%);
 }
 .artichron.sheet.actor.hero .equipped-items:has(.equipped.weapon.main:hover) .second.disabled img {
-  border-radius: 1em;
+  border-radius: 1.5em;
   scale: 1.1;
 }
 .artichron.sheet.actor.hero .equipped-items .equipped.empty img {
@@ -144,9 +144,10 @@
 }
 .artichron.sheet.actor.hero .equipped-items .equipped.empty:hover img {
   filter: grayscale(100%) opacity(50%);
+  border-radius: 1.5em;
 }
 .artichron.sheet.actor.hero .equipped-items .equipped:hover img {
-  border-radius: 1em;
+  border-radius: 0.5em;
   filter: drop-shadow(0 0 5px var(--color-shadow-primary));
   scale: 1.1;
 }

@@ -6,9 +6,9 @@
   --mana-filter: sepia(1) hue-rotate(180deg) drop-shadow(0 0 1px blue);
   --health-filter: sepia(1) hue-rotate(270deg) drop-shadow(0 0 1px red);
   --stamina-filter: sepia(1) hue-rotate(90deg) drop-shadow(0 0 1px green);
-  --artichron-theme: rgba(25, 0, 255, 0.555);
-  --artichron-header: rgba(0, 0, 255, 0.199);
-  --artichron-label: rgb(5, 0, 70);
+  --artichron-theme-dark: rgba(0, 0, 255, 0.6);
+  --artichron-theme-light: rgba(0, 0, 255, 0.2);
+  --artichron-label: rgba(0, 0, 150, 0.9);
   --equipment-margin: 25px;
 }
 .system-artichron fieldset:has(:focus) {
@@ -29,13 +29,18 @@
 }
 .artichron.sheet nav.tabs .item {
   font-family: "Modesto Condensed";
-  font-size: 20px;
-  padding: 5px 0;
-  border-bottom: 5px solid var(--artichron-header);
+  font-size: 18px;
+  padding: 1px 0;
+  border-bottom: 3px solid var(--artichron-theme-light);
   flex: 1;
+  background-color: var(--artichron-theme-light);
+  border-radius: 0.5em 0.5em 0 0;
+  margin: 2px 1px 0 1px;
+  transition: 100ms;
 }
 .artichron.sheet nav.tabs .item.active {
-  border-bottom: 5px solid var(--artichron-theme);
+  background-color: var(--artichron-theme-dark);
+  color: rgb(222, 225, 255);
 }
 .system-artichron .editor {
   min-height: 200px;
@@ -54,7 +59,7 @@
   content: "\f204";
 }
 .artichron.app .window-header {
-  background-color: var(--artichron-header);
+  background-color: var(--artichron-theme-light);
   border-radius: 1em 1em 0 0 ;
 }
 .artichron .rollable:hover {
@@ -116,7 +121,7 @@
   font-size: 24px;
   border-bottom: 2px groove;
   padding: 0 1em;
-  background-color: var(--artichron-header);
+  background-color: var(--artichron-theme-light);
   text-align: center;
 }
 
@@ -133,7 +138,7 @@
 }
 .artichron.damage-rolls .damage-roll .damage-properties,
 .artichron.apply-damage .damage-properties {
-  background-color: var(--artichron-header);
+  background-color: var(--artichron-theme-light);
   justify-content: center;
   align-items: center;
   display: flex;
