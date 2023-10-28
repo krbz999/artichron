@@ -12,7 +12,11 @@ export default class ActorSheetArtichron extends ActorSheet {
       height: 500,
       top: 100,
       left: 200,
-      tabs: [{navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "attributes"}],
+      tabs: [
+        {navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "attributes", group: "primary"},
+        {navSelector: "[data-tab=inventory] > .inventory.tabs[data-group=inventory]", contentSelector: ".tab.inventory", initial: "arsenal", group: "inventory"},
+        {navSelector: "[data-tab=consumables] > .inventory.tabs[data-group=inventory]", contentSelector: ".tab.consumables", initial: "food", group: "consumables"}
+      ],
       classes: ["sheet", "actor", "artichron"],
       resizable: false
     });
@@ -49,8 +53,8 @@ export default class ActorSheetArtichron extends ActorSheet {
     const types = this.document.itemTypes;
     const map = key => ({key: key, items: types[key], label: `TYPES.Item.${key}Pl`});
     return {
-      inventory: ["arsenal", "armor"].map(map),
-      consumable: ["food", "elixir", "part"].map(map)
+      inventory: ["arsenal", "armor", "part"].map(map),
+      consumable: ["food", "elixir"].map(map)
     };
   }
 

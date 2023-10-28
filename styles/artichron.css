@@ -27,11 +27,14 @@
 .system-artichron h4 {
   margin: 0;
 }
-.artichron.sheet nav.sheet-tabs .item {
-  padding: 0;
+.artichron.sheet nav.tabs .item {
   font-family: "Modesto Condensed";
   font-size: 20px;
-  margin: 5px;
+  padding: 5px 0;
+  border-bottom: 5px solid var(--artichron-header);
+  flex: 1;
+}
+.artichron.sheet nav.tabs .item.active {
   border-bottom: 5px solid var(--artichron-theme);
 }
 .system-artichron .editor {
@@ -107,10 +110,6 @@
 .artichron .sheet-body {
   overflow: hidden overlay;
   height: 100%;
-}
-.artichron.sheet .tab {
-  height: 100%;
-  padding-top: 5px;
 }
 .artichron.sheet .section-header {
   font-family: "Modesto Condensed";
