@@ -1,3 +1,5 @@
+import {DamageRollCombined} from "../../dice/damage-roll.mjs";
+
 export class DamageRollConfig extends Dialog {
   constructor(item, dialogData = {}, options = {}) {
     super(dialogData, options);
@@ -28,7 +30,7 @@ export class DamageRollConfig extends Dialog {
             label: game.i18n.localize("ARTICHRON.Roll"),
             callback: html => {
               const fd = new FormDataExtended(html[0].querySelector("form"), {readonly: true});
-              resolve(fd.object);
+              resolve(Object.values(foundry.utils.expandObject(fd.object)));
             }
           }
         },
@@ -36,5 +38,12 @@ export class DamageRollConfig extends Dialog {
         close: () => resolve(null)
       }).render(true);
     });
+  }
+
+  static fromArray(rolls, rollData) {
+    rolls = rolls.filter(dmg => {
+      return (dmg.active !== false) && (dmg.type in CONFIG.SYSTEM.DAMAGE_TYPES) && Roll.validate(dmg.value);
+    });
+    return new DamageRollCombined(rolls, rollData);
   }
 }

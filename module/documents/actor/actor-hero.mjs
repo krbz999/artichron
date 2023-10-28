@@ -1,5 +1,4 @@
 import {DamageRollConfig} from "../../applications/chat/damage-roll-config.mjs";
-import {DamageRollCombined} from "../../dice/damage-roll.mjs";
 import {ActorSystemModel} from "./system-model.mjs";
 
 export default class HeroData extends ActorSystemModel {
@@ -13,15 +12,18 @@ export default class HeroData extends ActorSystemModel {
     return super._preUpdate(update, options, user);
   }
 
-  /** @override */
-  async rollDamage(key = null) {
+  /** @override (not really) */
+  async rollDamage(key = null, options = {}) {
     const arsenal = this.parent.arsenal;
     const item = (key in arsenal) ? arsenal[key] : arsenal.first;
-    let rolls = await DamageRollConfig.create(item);
-    if (!rolls) return null;
-    rolls = Object.values(foundry.utils.expandObject(rolls)).filter(r => {
-      return (r.active !== false) && (r.type in CONFIG.SYSTEM.DAMAGE_TYPES) && Roll.validate(r.value);
+    const isFF = options.fastForward || options.event?.shiftKey;
+
+    const rolls = isFF ? item.system.damage : await DamageRollConfig.create(item);
+    if (!rolls?.length) return null;
+
+    return DamageRollConfig.fromArray(rolls, item.getRollData()).toMessage({
+      ...options,
+      speaker: ChatMessage.implementation.getSpeaker({actor: this.parent})
     });
-    return new DamageRollCombined(rolls, this.parent.getRollData()).toMessage();
   }
 }

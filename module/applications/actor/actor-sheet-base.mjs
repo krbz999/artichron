@@ -181,7 +181,7 @@ export default class ActorSheetArtichron extends ActorSheet {
    */
   async _onClickRollItem(event) {
     const slot = event.currentTarget.dataset.roll;
-    return this.document.rollDamage(slot);
+    return this.document.rollDamage(slot, {event});
   }
 
   /**

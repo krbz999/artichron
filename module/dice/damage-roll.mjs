@@ -16,13 +16,11 @@ export class DamageRollCombined {
   /**
    * Create a chat message with all the damage rolls.
    * @param {object} [messageData={}]
-   * @param {string} rollMode
    */
-  async toMessage(messageData = {}, {rollMode} = {}) {
+  async toMessage(messageData = {}) {
     if (!this.evaluated) await this.evaluate();
     const totals = this.totals;
-    messageData["flags.artichron.totals"] = totals;
-    messageData = {
+    messageData = foundry.utils.mergeObject({
       "flags.artichron.totals": totals,
       rolls: this.rolls,
       type: CONST.CHAT_MESSAGE_TYPES.ROLL,
@@ -30,10 +28,10 @@ export class DamageRollCombined {
         rolls: this.rolls.map(r => ({roll: r, type: CONFIG.SYSTEM.DAMAGE_TYPES[r.options.type]})),
         total: this.total
       }),
-      sound: "sounds/dice.wav"
-    };
-    ChatMessage.applyRollMode(messageData, rollMode || game.settings.get("core", "rollMode"));
-    return ChatMessage.create(messageData);
+      sound: "sounds/dice.wav",
+      rollMode: game.settings.get("core", "rollMode")
+    }, messageData, {inplace: false});
+    return ChatMessage.implementation.create(messageData);
   }
 
   /**
