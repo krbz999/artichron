@@ -57,6 +57,7 @@ export class ActorSystemModel extends foundry.abstract.TypeDataModel {
    * @param {User} user           The user performing the update.
    */
   async _preUpdate(update = {}, options, user) {
+    // Clamp health value to no higher than max.
     if (("health" in update) && ("value" in update.health)) {
       update.health.value = Math.min(update.health.value, update.health.max ?? this.health.max);
     }
@@ -74,7 +75,7 @@ export class ActorSystemModel extends foundry.abstract.TypeDataModel {
     this._prepareEquipped();
   }
 
-  /** Prepare maximum health. */
+  /** Prepare maximum health and clamp current health. */
   _prepareHealth() {
     const dice = this.pools.health;
     this.health.max = dice.max * dice.faces;
