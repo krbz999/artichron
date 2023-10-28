@@ -46,7 +46,7 @@ export class ChatLog {
       if (token.actor) acc.add(token.actor);
       return acc;
     }, new Set());
-    const data = type === "all" ? totals : {[type]: totals[type]};
+    const data = (type === "all") ? totals : {[type]: Number(event.currentTarget.closest("[data-total]").dataset.total)};
     actors.forEach(actor => actor.applyDamage(data));
   }
 }
