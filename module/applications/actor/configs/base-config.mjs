@@ -51,8 +51,20 @@ export default class BaseConfig extends FormApplication {
     const config = CONFIG.SYSTEM;
     return {
       config: config,
-      pools: pools,
-      resistances: Object.entries(resistances).map(([key, {bonus}]) => ({...config.DAMAGE_TYPES[key], bonus, key}))
+      pools: Object.entries(pools).map(([key, pool]) => ({
+        key: key,
+        max: pool.max,
+        faces: pool.faces,
+        maxDis: foundry.utils.hasProperty(this.actor.overrides, `system.pools.${key}.max`),
+        faceDis: foundry.utils.hasProperty(this.actor.overrides, `system.pools.${key}.faces`),
+        label: `ARTICHRON.${key.capitalize()}DiePl`
+      })),
+      resistances: Object.entries(resistances).map(([key, {bonus}]) => ({
+        ...config.DAMAGE_TYPES[key],
+        bonus,
+        key,
+        disabled: foundry.utils.hasProperty(this.actor.overrides, `system.resistances.${key}.bonus`)
+      }))
     };
   }
 

@@ -81,17 +81,15 @@ export default class ActorArtichron extends Actor {
   /** Prepare the value of actor resistances. */
   _prepareResistances() {
     const res = this.system.resistances;
+    const rollData = this.getRollData();
+    Object.keys(res).forEach(k => res[k].total = artichron.utils.simplifyFormula(res[k].bonus, rollData));
+
+    // Add all armor items' bonuses to resistances.
     Object.values(this.armor).forEach(w => {
       const ir = w?.system.resistances ?? [];
-      for (const {type, value} of ir) {
-        if (!(type in res)) continue;
-        res[type].items ??= 0;
-        res[type].items += value;
-      }
-    });
-    Object.keys(res).forEach(k => {
-      res[k].items ??= 0;
-      res[k].total = res[k].items + res[k].bonus;
+      ir.forEach(({type, value}) => {
+        if (type in res) res[type].total += value;
+      });
     });
   }
 
@@ -141,6 +139,14 @@ export default class ActorArtichron extends Actor {
   /** @override */
   getRollData() {
     const data = {...this.system};
+
+    // RollData of equipped items.
+    delete data.equipped;
+    for (const e of ["arsenal", "armor"]) {
+      data[e] = {};
+      const items = this[e];
+      Object.entries(items).forEach(([key, item]) => data[e][key] = {...items[key]?.system ?? {}});
+    }
     return data;
   }
 

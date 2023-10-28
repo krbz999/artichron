@@ -1,33 +1,15 @@
 <form>
+  {{#each pools as |pool|}}
   <div class="form-group">
-    <label>{{localize "ARTICHRON.HealthDiePl"}}</label>
+    <label>{{localize pool.label}}</label>
     <div class="form-fields">
-      <input class="tiny" type="number" name="health.max" value="{{pools.health.max}}">
-      <select name="health.faces">
-        {{selectOptions config.DIE_SIZES selected=pools.health.faces}}
+      <input class="tiny" type="number" name="{{pool.key}}.max" value="{{pool.max}}" {{disabled maxDis}}>
+      <select name="{{pool.key}}.faces" {{disabled faceDis}}>
+        {{selectOptions @root.config.DIE_SIZES selected=pool.faces}}
       </select>
     </div>
   </div>
-
-  <div class="form-group">
-    <label>{{localize "ARTICHRON.StaminaDiePl"}}</label>
-    <div class="form-fields">
-      <input class="tiny" type="number" name="stamina.max" value="{{pools.stamina.max}}">
-      <select name="stamina.faces">
-        {{selectOptions config.DIE_SIZES selected=pools.stamina.faces}}
-      </select>
-    </div>
-  </div>
-
-  <div class="form-group">
-    <label>{{localize "ARTICHRON.ManaDiePl"}}</label>
-    <div class="form-fields">
-      <input class="tiny" type="number" name="mana.max" value="{{pools.mana.max}}">
-      <select name="mana.faces">
-        {{selectOptions config.DIE_SIZES selected=pools.mana.faces}}
-      </select>
-    </div>
-  </div>
+  {{/each}}
 
   <button type="submit">
     <i class="fa-solid fa-save"></i> {{localize "Save"}}
