@@ -1,9 +1,15 @@
 import {DamageRollCombined} from "../../dice/damage-roll.mjs";
 
 export class DamageRollConfig extends Dialog {
+  static get defaultOptions() {
+    return foundry.utils.mergeObject(super.defaultOptions, {
+      width: 300,
+      classes: ["artichron", "dialog", "damage-roll-config"]
+    });
+  }
+
   constructor(item, dialogData = {}, options = {}) {
     super(dialogData, options);
-    this.options.classes = ["artichron", "dialog", "damage-roll-config"];
     this.item = item;
     this.actor = item.actor;
     this.rolls = item.toObject().system.damage;

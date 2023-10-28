@@ -2,10 +2,8 @@
   {{#each resistances}}
   <div class="form-group">
     <label>{{localize label}}</label>
-    <div class="form-fields">
-      <i class="{{icon}}"></i>
-      <input type="text" name="{{key}}.bonus" value="{{bonus}}" {{disabled disabled}}>
-    </div>
+    <i class="{{icon}}"></i>
+    <input type="text" name="{{key}}.bonus" value="{{bonus}}" {{disabled disabled}}>
   </div>
   {{/each}}
 

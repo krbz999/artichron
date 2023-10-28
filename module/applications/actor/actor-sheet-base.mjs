@@ -252,9 +252,7 @@ export default class ActorSheetArtichron extends ActorSheet {
       <form>
         <div class="form-group">
           <label>${game.i18n.localize("ARTICHRON.PickEquippedItem")}</label>
-          <div class="form-fields">
-            <select>${options}</select>
-          </div>
+          <select>${options}</select>
         </div>
       </form>`,
       callback: ([html]) => {

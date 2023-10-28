@@ -2,12 +2,10 @@
   {{#each pools as |pool|}}
   <div class="form-group">
     <label>{{localize pool.label}}</label>
-    <div class="form-fields">
-      <input class="tiny" type="number" name="{{pool.key}}.max" value="{{pool.max}}" {{disabled maxDis}}>
-      <select name="{{pool.key}}.faces" {{disabled faceDis}}>
-        {{selectOptions @root.config.DIE_SIZES selected=pool.faces}}
-      </select>
-    </div>
+    <input class="tiny" type="number" name="{{pool.key}}.max" value="{{pool.max}}" {{disabled maxDis}}>
+    <select name="{{pool.key}}.faces" {{disabled faceDis}}>
+      {{selectOptions @root.config.DIE_SIZES selected=pool.faces}}
+    </select>
   </div>
   {{/each}}
 

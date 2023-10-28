@@ -1,13 +1,14 @@
 <form>
   {{#each rolls as |roll idx|}}
-  <div class="form-group" data-idx="{{idx}}">
-    <div class="form-fields">
-      <input type="text" name="{{idx}}.value" value="{{roll.value}}">
-      <select name="{{idx}}.type">
-        {{selectOptions ../damageTypes selected=roll.type blank="" localize=true labelAttr="label"}}
-      </select>
+  <div class="form-group input-select" data-idx="{{idx}}">
+    <input type="text" name="{{idx}}.value" value="{{roll.value}}">
+    <select name="{{idx}}.type">
+      {{selectOptions ../damageTypes selected=roll.type blank="" localize=true labelAttr="label"}}
+    </select>
+    <label class="checkbox">
       <input type="checkbox" name="{{idx}}.active" checked {{disabled (not roll.optional)}}>
-    </div>
+      {{localize "ARTICHRON.Active"}}
+    </label>
   </div>
   {{/each}}
 </form>

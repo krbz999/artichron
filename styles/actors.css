@@ -57,7 +57,7 @@
   right: 0;
   display: none;
   padding: 4px;
-  font-size: initial;
+  font-size: 12px;
 }
 .artichron.sheet.actor .tab.attributes .resistance {
   display: inherit;
