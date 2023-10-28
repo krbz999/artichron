@@ -1,8 +1,8 @@
 <div class="equipped-items">
   <div class="backdrop" style="background-image: url({{actor.img}})"></div>
   {{#each context.equipped}}
-  <div class="equipped {{cssClass}}" data-tooltip-direction="UP" data-slot="{{slot}}" data-item-id="{{item.id}}">
-    <img src="{{img}}" data-action="change-item" data-tooltip="{{tooltip}}">
+  <div class="equipped {{cssClass}}" data-tooltip-direction="UP" data-tooltip="{{tooltip}}">
+    <img src="{{img}}" {{#each data}} {{#if this}} data-{{@key}}="{{this}}" {{/if}} {{/each}}>
     {{#if item}}
     <a class="edit fa-solid fa-edit" data-action="edit-item" data-tooltip="ARTICHRON.EditItem"></a>
     {{/if}}

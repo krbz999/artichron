@@ -100,8 +100,13 @@ export default class ActorSheetArtichron extends ActorSheet {
       cssClass: `weapon main ${main ? "" : "empty"}`,
       item: main,
       img: main ? main.img : emptySlotIcons.arsenal,
-      tooltip: main ? "ARTICHRON.ChangeItem" : "ARTICHRON.EmptySlot",
-      slot: "arsenal.first"
+      tooltip: main ? main.name : "ARTICHRON.EquipItem",
+      data: {
+        "item-id": main ? main.id : null,
+        action: "change-item",
+        roll: main ? "first" : null,
+        slot: "arsenal.first"
+      }
     });
 
     // Secondary weapon.
@@ -116,8 +121,13 @@ export default class ActorSheetArtichron extends ActorSheet {
       cssClass: cssClass,
       item: disableSecond ? null : second,
       img: disableSecond ? main.img : second ? second.img : emptySlotIcons.arsenal,
-      tooltip: disableSecond ? "" : second ? "ARTICHRON.ChangeItem" : "ARTICHRON.EmptySlot",
-      slot: "arsenal.second"
+      tooltip: disableSecond ? null : second ? second.name : "ARTICHRON.EquipItem",
+      data: {
+        "item-id": (!disableSecond && second) ? second.id : null,
+        action: disableSecond ? null : "change-item",
+        roll: disableSecond ? null : "second",
+        slot: disableSecond ? null : "arsenal.second"
+      }
     });
 
     // Equipped armor.
@@ -127,8 +137,12 @@ export default class ActorSheetArtichron extends ActorSheet {
         cssClass: `${key} ${e}`,
         item: item,
         img: item ? item.img : emptySlotIcons[key],
-        tooltip: item ? "ARTICHRON.ChangeItem" : "ARTICHRON.EmptySlot",
-        slot: `armor.${key}`
+        tooltip: item ? item.name : "ARTICHRON.EquipItem",
+        data: {
+          "item-id": item ? item.id : null,
+          action: "change-item",
+          slot: `armor.${key}`
+        }
       };
     }));
 
@@ -153,10 +167,21 @@ export default class ActorSheetArtichron extends ActorSheet {
     html[0].querySelectorAll("[data-action]").forEach(n => {
       const action = n.dataset.action;
       if (action === "edit-item") n.addEventListener("click", this._onClickRenderItemSheet.bind(this));
-      else if (action === "change-item") n.addEventListener("click", this._onClickChangeItem.bind(this));
+      else if (action === "change-item") n.addEventListener("contextmenu", this._onRightClickChangeItem.bind(this));
+      else if (action === "roll-item") n.addEventListener("click", this._onClickRollItem.bind(this));
       else if (action === "toggle-config") n.addEventListener("click", this._onClickConfig.bind(this));
       else if (action === "roll-pool") n.addEventListener("click", this._onClickRollPool.bind(this));
     });
+    html[0].querySelectorAll("[data-roll]").forEach(n => n.addEventListener("click", this._onClickRollItem.bind(this)));
+  }
+
+  /**
+   * Handle rolling attack/damage with a weapon.
+   * @param {PointerEvent} event      The initiating click event.
+   */
+  async _onClickRollItem(event) {
+    const slot = event.currentTarget.dataset.roll;
+    return this.document.rollDamage(slot);
   }
 
   /**
@@ -195,7 +220,7 @@ export default class ActorSheetArtichron extends ActorSheet {
    * @param {PointerEvent} event      The initiating click event.
    * @returns {Promise<ActorArtichron|null>}
    */
-  async _onClickChangeItem(event) {
+  async _onRightClickChangeItem(event) {
     const [type, slot] = event.currentTarget.closest("[data-slot]").dataset.slot.split(".");
 
     let items;
