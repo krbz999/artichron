@@ -78,6 +78,7 @@ export class ActorSystemModel extends foundry.abstract.TypeDataModel {
   _prepareHealth() {
     const dice = this.pools.health;
     this.health.max = dice.max * dice.faces;
+    this.health.value = Math.min(this.health.value, this.health.max);
   }
 
   /** Prepare equipped items. */
