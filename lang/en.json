@@ -70,6 +70,11 @@
   "ARTICHRON.ArmorSetFlame": "Flame Set",
   "ARTICHRON.ArmorSetGlam": "Glamour Set",
 
+  "ARTICHRON.EffectsActive": "Applied Effects",
+  "ARTICHRON.EffectsDisabled": "Disabled Effects",
+  "ARTICHRON.EffectsEnabled": "Enabled Effects",
+  "ARTICHRON.EffectsInactive": "Inactive Effects",
+
   "ARTICHRON.Active": "Active",
   "ARTICHRON.ApplyDamage": "Apply Damage",
   "ARTICHRON.ChangeItem": "Change Item",

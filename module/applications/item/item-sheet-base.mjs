@@ -9,7 +9,10 @@ export default class ItemSheetArtichron extends ItemSheet {
     return foundry.utils.mergeObject(super.defaultOptions, {
       width: 400,
       height: 500,
-      tabs: [{navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "description"}],
+      tabs: [
+        {navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "description", group: "primary"},
+        {navSelector: "[data-tab=effects] > .effects.tabs[data-group=effects]", contentSelector: ".tab.effects", initial: "active", group: "effects"}
+      ],
       classes: ["sheet", "item", "artichron"]
     });
   }
@@ -28,7 +31,9 @@ export default class ItemSheetArtichron extends ItemSheet {
       item: this.document,
       actor: this.document.actor,
       system: this.document.system,
-      context: {},
+      context: {
+        effects: this._prepareEffects()
+      },
       rollData: rollData,
       config: CONFIG.SYSTEM,
       descriptions: {
@@ -48,9 +53,21 @@ export default class ItemSheetArtichron extends ItemSheet {
     return data;
   }
 
+  /**
+   * Prepare effects for rendering.
+   * @returns {object}
+   */
+  _prepareEffects() {
+    const [active, inactive] = this.document.effects.contents.partition(e => e.disabled);
+    return {
+      active: {label: "ARTICHRON.EffectsEnabled", effects: active, key: "active"},
+      inactive: {label: "ARTICHRON.EffectsDisabled", effects: inactive, key: "inactive"}
+    };
+  }
+
   /** @override */
   setPosition(pos = {}) {
-    if (!pos.height && !this._minimized) pos.height = "auto";
+    if (!pos.height && !this._minimized && (this._tabs[0].active !== "description")) pos.height = "auto";
     return super.setPosition(pos);
   }
 
@@ -61,12 +78,26 @@ export default class ItemSheetArtichron extends ItemSheet {
     super.activateListeners(html);
     // listeners that always work go here
     if (!this.isEditable) return;
-    html[0].querySelectorAll("FIELDSET .action[data-action]").forEach(n => {
-      switch(n.dataset.action) {
+    html[0].querySelectorAll("[data-action]").forEach(n => {
+      switch (n.dataset.action) {
+        case "control": n.addEventListener("click", this._onClickManageItem.bind(this)); break;
         case "add": n.addEventListener("click", this._onClickAddFieldset.bind(this)); break;
         case "del": n.addEventListener("click", this._onClickDelFieldSet.bind(this)); break;
       }
     });
+  }
+
+  /**
+   * Handle clicking an item control.
+   * @param {PointerEvent} event      The initiating click event.
+   * @returns {Promise<*>}
+   */
+  async _onClickManageItem(event) {
+    const {itemId} = event.currentTarget.closest("[data-item-id]").dataset;
+    const data = event.currentTarget.dataset;
+    const item = this.document.effects.get(itemId);
+    if (data.control === "edit") return item.sheet.render(true);
+    if (data.control === "delete") return item.deleteDialog();
   }
 
   /**

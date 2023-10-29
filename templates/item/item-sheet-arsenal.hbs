@@ -29,10 +29,13 @@
       <section class="traits">
         {{> "systems/artichron/templates/partials/item-type.hbs"}}
       </section>
-
       <section class="damages">
         {{> "systems/artichron/templates/partials/item-damages.hbs"}}
       </section>
+    </div>
+
+    <div class="tab effects" data-group="primary" data-tab="effects">
+      {{> "systems/artichron/templates/partials/item-effects.hbs" sections=context.effects}}
     </div>
 
   </section>

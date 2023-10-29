@@ -15,7 +15,8 @@ export default class ActorSheetArtichron extends ActorSheet {
       tabs: [
         {navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "attributes", group: "primary"},
         {navSelector: "[data-tab=inventory] > .inventory.tabs[data-group=inventory]", contentSelector: ".tab.inventory", initial: "arsenal", group: "inventory"},
-        {navSelector: "[data-tab=consumables] > .inventory.tabs[data-group=inventory]", contentSelector: ".tab.consumables", initial: "food", group: "consumables"}
+        {navSelector: "[data-tab=consumables] > .inventory.tabs[data-group=inventory]", contentSelector: ".tab.consumables", initial: "food", group: "consumables"},
+        {navSelector: "[data-tab=effects] > .effects.tabs[data-group=effects]", contentSelector: ".tab.effects", initial: "active", group: "effects"}
       ],
       classes: ["sheet", "actor", "artichron"],
       resizable: false
@@ -38,7 +39,8 @@ export default class ActorSheetArtichron extends ActorSheet {
         equipped: this._prepareEquipment(),
         resistances: this._prepareResistances(),
         items: this._prepareItems(),
-        pools: this._preparePools()
+        pools: this._preparePools(),
+        effects: this._prepareEffects()
       },
       rollData: this.document.getRollData(),
       config: CONFIG.SYSTEM
@@ -59,7 +61,7 @@ export default class ActorSheetArtichron extends ActorSheet {
 
   /**
    * Prepare the items for rendering.
-   * @returns {object[]}
+   * @returns {object}
    */
   _prepareItems() {
     const types = this.document.itemTypes;
@@ -67,6 +69,19 @@ export default class ActorSheetArtichron extends ActorSheet {
     return {
       inventory: ["arsenal", "armor", "part"].map(map),
       consumable: ["food", "elixir"].map(map)
+    };
+  }
+
+  /**
+   * Prepare effects for rendering.
+   * @returns {object}
+   */
+  _prepareEffects() {
+    const effects = Array.from(this.document.allApplicableEffects());
+    const [inactive, active] = effects.partition(e => e.active);
+    return {
+      active: {label: "ARTICHRON.EffectsActive", effects: active, key: "active"},
+      inactive: {label: "ARTICHRON.EffectsInactive", effects: inactive, key: "inactive"}
     };
   }
 
@@ -178,13 +193,26 @@ export default class ActorSheetArtichron extends ActorSheet {
     // listeners that only work on editable or owned sheets go here
     html[0].querySelectorAll("[data-action]").forEach(n => {
       const action = n.dataset.action;
-      if (action === "edit-item") n.addEventListener("click", this._onClickRenderItemSheet.bind(this));
+      if (action === "control") n.addEventListener("click", this._onClickManageItem.bind(this));
       else if (action === "change-item") n.addEventListener("contextmenu", this._onRightClickChangeItem.bind(this));
       else if (action === "roll-item") n.addEventListener("click", this._onClickRollItem.bind(this));
       else if (action === "toggle-config") n.addEventListener("click", this._onClickConfig.bind(this));
       else if (action === "roll-pool") n.addEventListener("click", this._onClickRollPool.bind(this));
     });
     html[0].querySelectorAll("[data-roll]").forEach(n => n.addEventListener("click", this._onClickRollItem.bind(this)));
+  }
+
+  /**
+   * Handle clicking an item control.
+   * @param {PointerEvent} event      The initiating click event.
+   * @returns {Promise<*>}
+   */
+  async _onClickManageItem(event) {
+    const {itemId, collection} = event.currentTarget.closest("[data-item-id]").dataset;
+    const data = event.currentTarget.dataset;
+    const item = this.document[collection].get(itemId);
+    if (data.control === "edit") return item.sheet.render(true);
+    if (data.control === "delete") return item.deleteDialog();
   }
 
   /**
@@ -214,17 +242,6 @@ export default class ActorSheetArtichron extends ActorSheet {
   async _onClickRollPool(event) {
     const type = event.currentTarget.dataset.pool;
     return this.actor.rollPool(type, {event});
-  }
-
-  /**
-   * Handle clicking an edit button to render an item's sheet.
-   * @param {PointerEvent} event      The initiating click event.
-   * @returns {ItemSheet}             The sheet of the item.
-   */
-  async _onClickRenderItemSheet(event) {
-    const id = event.currentTarget.closest("[data-item-id]").dataset.itemId;
-    const item = this.document.items.get(id);
-    return item.sheet.render(true);
   }
 
   /**

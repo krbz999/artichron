@@ -26,15 +26,16 @@
     </div>
 
     <div class="tab attributes" data-group="primary" data-tab="attributes">
-
       <section class="traits">
         {{> "systems/artichron/templates/partials/item-type.hbs"}}
       </section>
-
       <section class="resistances">
         {{> "systems/artichron/templates/partials/item-resistances.hbs"}}
       </section>
+    </div>
 
+    <div class="tab effects" data-group="primary" data-tab="effects">
+      {{> "systems/artichron/templates/partials/item-effects.hbs" sections=context.effects}}
     </div>
 
   </section>

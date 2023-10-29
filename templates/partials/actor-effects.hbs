@@ -1,13 +1,13 @@
-<nav class="inventory tabs" data-group="inventory">
-  {{#each sections as |section|}}
-  <a class="item inventory-tab" data-tab="{{key}}">{{localize section.label}}</a>
+<nav class="effects tabs" data-group="effects">
+  {{#each sections as |section key|}}
+  <a class="item effects-tab" data-tab="{{key}}">{{localize section.label}}</a>
   {{/each}}
 </nav>
 
 {{#each sections as |section|}}
-<div class="tab inventory-section" data-item-type="{{key}}" data-tab="{{key}}" data-group="inventory">
-  {{#each section.items as |item|}}
-  <div class="inventory-item" data-item-id="{{item.id}}" data-collection="items">
+<div class="tab effects-section" data-active="{{key}}" data-tab="{{key}}" data-group="effects">
+  {{#each section.effects as |item|}}
+  <div class="effects-item" data-item-id="{{item.id}}" data-collection="effects">
     <a class="item-name">{{item.name}}</a>
     <div class="item-controls">
       <a class="item-control" data-control="edit" data-action="control"><i class="fa-solid fa-edit"></i></a>

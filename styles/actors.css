@@ -210,27 +210,34 @@
   top: 500px;
 }
 /* Inventory */
-.artichron.sheet.actor .inventory-section {
+.artichron.sheet .inventory-section,
+.artichron.sheet .effects-section {
   max-height: 600px;
   overflow: hidden auto;
 }
-.artichron.sheet.actor .inventory-section .inventory-item {
+.artichron.sheet .inventory-section .inventory-item,
+.artichron.sheet .effects-section .effects-item {
   border-bottom: 2px groove;
   display: flex;
   justify-content: space-between;
   padding: 0 4px;
   color: #474747;
 }
-.artichron.sheet.actor .inventory-section .inventory-item:nth-child(odd) {
+.artichron.sheet .inventory-section .inventory-item:nth-child(odd),
+.artichron.sheet .effects-section .effects-item:nth-child(odd) {
   background-color: #d35ee21f;
 }
-.artichron.sheet.actor .inventory-section .inventory-item .item-name {
+.artichron.sheet .inventory-section .inventory-item .item-name,
+.artichron.sheet .effects-section .effects-item .item-name {
   font-size: 14px;
   font-family: "Bruno Ace";
   padding: 2px 0;
 }
-.artichron.sheet.actor .inventory-section .inventory-item .item-controls {
+.artichron.sheet .inventory-section .inventory-item .item-controls,
+.artichron.sheet .effects-section .effects-item .item-controls {
   display: flex;
   align-items: center;
+  gap: 8px;
 }
-.artichron.sheet.actor .inventory-section .inventory-item .item-controls .item-control {}
+.artichron.sheet .inventory-section .inventory-item .item-controls .item-control,
+.artichron.sheet .effects-section .effects-item .item-controls .item-control {}

@@ -18,6 +18,10 @@
   border-radius: 5px;
   border-width: 2px;
 }
+.active-effect-sheet .editor {
+  height: 200px;
+  border-bottom: 2px groove;
+}
 .system-artichron fieldset .form-group input[type=text],
 .system-artichron fieldset .form-group input[type=number] {
   flex: 2;
@@ -61,8 +65,8 @@
   background-color: var(--artichron-theme-dark);
   color: rgb(222, 225, 255);
 }
-.system-artichron .editor {
-  min-height: 200px;
+.system-artichron .sheet.actor .editor,
+.system-artichron .sheet.item .editor {
   height: 100%;
 }
 .system-artichron .window-header {
@@ -281,6 +285,11 @@
   margin: 5px 0;
   border-top: 2px groove;
   padding-top: 5px;
+}
+
+.artichron.sheet.actor .tab,
+.artichron.sheet.item .tab {
+  height: 100%;
 }
 
 /* Common form group styling. */

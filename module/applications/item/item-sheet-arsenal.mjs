@@ -9,9 +9,6 @@ export default class ItemSheetArsenal extends ItemSheetArtichron {
   /** @override */
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
-      width: 400,
-      height: 500,
-      tabs: [{navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "description"}],
       classes: ["arsenal", "sheet", "item", "artichron"]
     });
   }
