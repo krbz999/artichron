@@ -15,10 +15,10 @@
         <span class="tooltip-formula">{{roll.formula}}</span>
         <span class="tooltip-total">{{roll.total}}</span>
       </header>
-      <ol class="damage-rolls">
+      <ol class="damage-rolls" data-tooltip-direction="UP">
         {{#each roll.dice}}
         {{#each results}}
-        <li class="roll die d{{../faces}} {{#if (eq result ../faces)}}max{{/if}}{{#if (eq result 1)}}min{{/if}}">
+        <li class="roll die d{{../faces}} {{#if (eq result ../faces)}}max{{/if}}{{#if (eq result 1)}}min{{/if}}" data-tooltip="d{{../faces}}">
           {{result}}
         </li>
         {{/each}}
