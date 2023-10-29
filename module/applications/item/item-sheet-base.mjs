@@ -13,7 +13,8 @@ export default class ItemSheetArtichron extends ItemSheet {
         {navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "description", group: "primary"},
         {navSelector: "[data-tab=effects] > .effects.tabs[data-group=effects]", contentSelector: ".tab.effects", initial: "active", group: "effects"}
       ],
-      classes: ["sheet", "item", "artichron"]
+      classes: ["sheet", "item", "artichron"],
+      scrollY: [".editor-content", ".items-list"]
     });
   }
 
@@ -58,10 +59,17 @@ export default class ItemSheetArtichron extends ItemSheet {
    * @returns {object}
    */
   _prepareEffects() {
-    const [active, inactive] = this.document.effects.contents.partition(e => e.disabled);
+    const {active, inactive} = this.document.effects.reduce((acc, effect) => {
+      const data = {
+        effect: effect,
+        icon: !effect.disabled ? "fa-times" : "fa-check"
+      };
+      acc[effect.disabled ? "inactive" : "active"].push(data);
+      return acc;
+    }, {active: [], inactive: []});
     return {
-      active: {label: "ARTICHRON.EffectsEnabled", effects: active, key: "active"},
-      inactive: {label: "ARTICHRON.EffectsDisabled", effects: inactive, key: "inactive"}
+      active: {label: "ARTICHRON.EffectsEnabled", data: active, key: "active"},
+      inactive: {label: "ARTICHRON.EffectsDisabled", data: inactive, key: "inactive"}
     };
   }
 
@@ -93,11 +101,36 @@ export default class ItemSheetArtichron extends ItemSheet {
    * @returns {Promise<*>}
    */
   async _onClickManageItem(event) {
-    const {itemId} = event.currentTarget.closest("[data-item-id]").dataset;
-    const data = event.currentTarget.dataset;
-    const item = this.document.effects.get(itemId);
-    if (data.control === "edit") return item.sheet.render(true);
-    if (data.control === "delete") return item.deleteDialog();
+    const control = event.currentTarget.dataset.control;
+    const collection = this.document.getEmbeddedCollection("effects");
+
+    // Create a new document.
+    if (control === "create") {
+      return collection.documentClass.create({
+        name: game.i18n.format("DOCUMENT.New", {type: game.i18n.localize("DOCUMENT.ActiveEffect")}),
+        icon: "icons/svg/sun.svg",
+        disabled: event.currentTarget.closest("[data-active]").dataset.active === "inactive"
+      }, {parent: this.document});
+    }
+
+    // Show the document's sheet.
+    else if (control === "edit") {
+      const id = event.currentTarget.closest("[data-item-id]").dataset.itemId;
+      return collection.get(id).sheet.render(true);
+    }
+
+    // Delete the document.
+    else if (control === "delete") {
+      const id = event.currentTarget.closest("[data-item-id]").dataset.itemId;
+      return collection.get(id).deleteDialog();
+    }
+
+    // Toggle an ActiveEffect.
+    else if (control === "toggle") {
+      const data = event.currentTarget.closest("[data-item-id]").dataset;
+      const item = collection.get(data.itemId);
+      return item.update({disabled: !item.disabled});
+    }
   }
 
   /**

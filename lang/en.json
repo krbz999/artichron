@@ -74,6 +74,9 @@
   "ARTICHRON.EffectsDisabled": "Disabled Effects",
   "ARTICHRON.EffectsEnabled": "Enabled Effects",
   "ARTICHRON.EffectsInactive": "Inactive Effects",
+  "ARTICHRON.EffectCreate": "Create Effect",
+
+  "ARTICHRON.ItemCreate": "Create Item",
 
   "ARTICHRON.Active": "Active",
   "ARTICHRON.ApplyDamage": "Apply Damage",

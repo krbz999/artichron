@@ -5,15 +5,21 @@
 </nav>
 
 {{#each sections as |section|}}
-<div class="tab inventory-section" data-item-type="{{key}}" data-tab="{{key}}" data-group="inventory">
-  {{#each section.items as |item|}}
-  <div class="inventory-item" data-item-id="{{item.id}}" data-collection="items">
-    <a class="item-name">{{item.name}}</a>
-    <div class="item-controls">
-      <a class="item-control" data-control="edit" data-action="control"><i class="fa-solid fa-edit"></i></a>
-      <a class="item-control" data-control="delete" data-action="control"><i class="fa-solid fa-trash"></i></a>
+<div class="tab inventory-section" data-item-type="{{key}}" data-tab="{{key}}" data-group="inventory" data-collection="items">
+  <h4 class="items-list-header rollable" data-action="control" data-control="create">
+    {{localize "ARTICHRON.ItemCreate"}}
+    <i class="fa-solid fa-plus"></i>
+  </h4>
+  <div class="items-list">
+    {{#each section.items as |item|}}
+    <div class="inventory-item" data-item-id="{{item.id}}">
+      <a class="item-name">{{item.name}}</a>
+      <div class="item-controls">
+        <a class="item-control" data-control="edit" data-action="control"><i class="fa-solid fa-edit"></i></a>
+        <a class="item-control" data-control="delete" data-action="control"><i class="fa-solid fa-trash"></i></a>
+      </div>
     </div>
+    {{/each}}
   </div>
-  {{/each}}
 </div>
 {{/each}}

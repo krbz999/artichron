@@ -212,8 +212,21 @@
 /* Inventory */
 .artichron.sheet .inventory-section,
 .artichron.sheet .effects-section {
-  max-height: 600px;
+  overflow: hidden;
+}
+.artichron.sheet .items-list-header {
+  text-align: center;
+  line-height: 16px;
+  font-family: "Bruno Ace";
+  background-color: var(--artichron-theme-dark);
+  margin: 0;
+  padding: 1px 0;
+  color: var(--artichron-theme-bright);
+  font-size: 10px;
+}
+.artichron.sheet .items-list {
   overflow: hidden auto;
+  max-height: 600px;
 }
 .artichron.sheet .inventory-section .inventory-item,
 .artichron.sheet .effects-section .effects-item {

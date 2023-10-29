@@ -28,6 +28,7 @@ globalThis.artichron = {
 Hooks.once("init", function() {
   globalThis.artichron = game.artichron = Object.assign(game.system, globalThis.artichron);
   CONFIG.Canvas.dispositionColors.CONTROLLED = 2502655;
+  CONFIG.ActiveEffect.legacyTransferral = false;
 
   // Record Configuration Values
   CONFIG.SYSTEM = SYSTEM;

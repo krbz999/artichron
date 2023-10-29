@@ -10,6 +10,7 @@
   --artichron-theme-light: rgba(0, 0, 255, 0.2);
   --artichron-label: rgba(0, 0, 150, 0.9);
   --equipment-margin: 25px;
+  --artichron-theme-bright: rgb(222, 225, 255);
 }
 .system-artichron fieldset:has(:focus) {
   border-color: var(--color-shadow-primary);
@@ -50,6 +51,9 @@
   flex: 0 0 24px;
   text-align: center;
 }
+.artichron.sheet nav.tabs {
+  gap: 2px;
+}
 .artichron.sheet nav.tabs .item {
   font-family: "Modesto Condensed";
   font-size: 18px;
@@ -58,12 +62,16 @@
   flex: 1;
   background-color: var(--artichron-theme-light);
   border-radius: 0.5em 0.5em 0 0;
-  margin: 2px 1px 0 1px;
-  transition: 100ms;
+  margin: 2px 0 0 0;
+  transition: background-color 100ms, color 100ms;
 }
 .artichron.sheet nav.tabs .item.active {
   background-color: var(--artichron-theme-dark);
-  color: rgb(222, 225, 255);
+  color: var(--artichron-theme-bright);
+}
+.artichron.sheet nav.tabs .item.inventory-tab.active,
+.artichron.sheet nav.tabs .item.effects-tab.active {
+  border: none;
 }
 .system-artichron .sheet.actor .editor,
 .system-artichron .sheet.item .editor {

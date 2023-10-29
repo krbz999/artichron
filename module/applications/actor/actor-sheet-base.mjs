@@ -19,7 +19,8 @@ export default class ActorSheetArtichron extends ActorSheet {
         {navSelector: "[data-tab=effects] > .effects.tabs[data-group=effects]", contentSelector: ".tab.effects", initial: "active", group: "effects"}
       ],
       classes: ["sheet", "actor", "artichron"],
-      resizable: false
+      resizable: false,
+      scrollY: [".equipped-items", ".items-list"]
     });
   }
 
@@ -78,10 +79,18 @@ export default class ActorSheetArtichron extends ActorSheet {
    */
   _prepareEffects() {
     const effects = Array.from(this.document.allApplicableEffects());
-    const [inactive, active] = effects.partition(e => e.active);
+    const {active, inactive} = effects.reduce((acc, effect) => {
+      const data = {
+        effect: effect,
+        isItem: effect.parent instanceof CONFIG.Item.documentClass,
+        icon: !effect.disabled ? "fa-times" : "fa-check"
+      };
+      acc[effect.active ? "active" : "inactive"].push(data);
+      return acc;
+    }, {active: [], inactive: []});
     return {
-      active: {label: "ARTICHRON.EffectsActive", effects: active, key: "active"},
-      inactive: {label: "ARTICHRON.EffectsInactive", effects: inactive, key: "inactive"}
+      active: {label: "ARTICHRON.EffectsActive", data: active, key: "active"},
+      inactive: {label: "ARTICHRON.EffectsInactive", data: inactive, key: "inactive"}
     };
   }
 
@@ -208,11 +217,49 @@ export default class ActorSheetArtichron extends ActorSheet {
    * @returns {Promise<*>}
    */
   async _onClickManageItem(event) {
-    const {itemId, collection} = event.currentTarget.closest("[data-item-id]").dataset;
-    const data = event.currentTarget.dataset;
-    const item = this.document[collection].get(itemId);
-    if (data.control === "edit") return item.sheet.render(true);
-    if (data.control === "delete") return item.deleteDialog();
+    const control = event.currentTarget.dataset.control;
+    const embeddedName = event.currentTarget.closest("[data-collection]").dataset.collection;
+
+    // Create a new document.
+    if (control === "create") {
+      const collection = this.document.getEmbeddedCollection(embeddedName);
+      const name = game.i18n.format("DOCUMENT.New", {
+        type: game.i18n.localize(`DOCUMENT.${collection.documentClass.documentName}`)
+      });
+      const img = {effects: "icons/svg/sun.svg", items: "icons/svg/chest.svg"}[embeddedName];
+      let type, disabled;
+      if (embeddedName === "items") type = event.currentTarget.closest("[data-item-type]").dataset.itemType;
+      if (embeddedName === "effects") disabled = event.currentTarget.closest("[data-active]").dataset.active === "inactive";
+      return collection.documentClass.create({
+        name: name,
+        img: img,
+        icon: embeddedName === "effects" ? img : undefined,
+        type: type,
+        disabled: disabled
+      }, {parent: this.document, renderSheet: true});
+    }
+
+    // Show the document's sheet.
+    else if (control === "edit") {
+      const data = event.currentTarget.closest("[data-item-id]").dataset;
+      const parent = data.parentId ? this.document.items.get(data.parentId) : this.document;
+      return parent.getEmbeddedCollection(embeddedName).get(data.itemId).sheet.render(true);
+    }
+
+    // Delete the document.
+    else if (control === "delete") {
+      const data = event.currentTarget.closest("[data-item-id]").dataset;
+      const parent = data.parentId ? this.document.items.get(data.parentId) : this.document;
+      return parent.getEmbeddedCollection(embeddedName).get(data.itemId).deleteDialog();
+    }
+
+    // Toggle an ActiveEffect.
+    else if (control === "toggle") {
+      const data = event.currentTarget.closest("[data-item-id]").dataset;
+      const parent = data.parentId ? this.document.items.get(data.parentId) : this.document;
+      const item = parent.getEmbeddedCollection(embeddedName).get(data.itemId);
+      return item.update({disabled: !item.disabled});
+    }
   }
 
   /**
