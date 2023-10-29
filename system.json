@@ -10,7 +10,11 @@
   },
   "authors": [
     {
-      "name": "Zhell"
+      "name": "Zhell",
+      "url": "https://github.com/krbz999",
+      "discord": "zhell9201",
+      "ko-fi": "https://ko-fi.com/zhell",
+      "patreon": "https://patreon.com/zhell"
     }
   ],
   "esmodules": [
@@ -33,7 +37,7 @@
   "gridUnits": "m",
   "initiative": "1d20",
   "primaryTokenAttribute": "pools.health",
-  "secondaryTokenAttribute": "pools.focus",
+  "secondaryTokenAttribute": "pools.stamina",
   "socket": true,
   "url": "",
   "manifest": "",
