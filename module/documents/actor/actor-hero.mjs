@@ -16,11 +16,13 @@ export default class HeroData extends ActorSystemModel {
   async rollDamage(key = null, options = {}) {
     const arsenal = this.parent.arsenal;
     const item = (key in arsenal) ? arsenal[key] : arsenal.first;
+    if(!item) {
+      ui.notifications.warn("ARTICHRON.NoItemToRollDamage", {localize: true});
+      return null;
+    }
     const isFF = options.fastForward || options.event?.shiftKey;
-
     const rolls = isFF ? item.system.damage : await DamageRollConfig.create(item);
     if (!rolls?.length) return null;
-
     return DamageRollConfig.fromArray(rolls, item.getRollData()).toMessage({
       ...options,
       speaker: ChatMessage.implementation.getSpeaker({actor: this.parent})

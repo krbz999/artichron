@@ -117,7 +117,7 @@
   text-align: center;
 }
 .artichron .sheet-body {
-  overflow: hidden overlay;
+  overflow: hidden;
   height: 100%;
 }
 .artichron.sheet .section-header {
@@ -256,13 +256,19 @@
 .artichron .die.d4, .artichron .roll.d4 {
   background-image: url(../../../icons/svg/d4-grey.svg);
 }
-.artichron .die.d6, .artichron .roll.d6 {
+.artichron .die.d3,
+.artichron .roll.d3,
+.artichron .die.d6,
+.artichron .roll.d6 {
   background-image: url(../../../icons/svg/d6-grey.svg);
 }
 .artichron .die.d8, .artichron .roll.d8 {
   background-image: url(../../../icons/svg/d8-grey.svg);
 }
-.artichron .die.d10, .artichron .roll.d10 {
+.artichron .die.d5,
+.artichron .roll.d5,
+.artichron .die.d10,
+.artichron .roll.d10 {
   background-image: url(../../../icons/svg/d10-grey.svg);
 }
 .artichron .die.d12, .artichron .roll.d12 {
