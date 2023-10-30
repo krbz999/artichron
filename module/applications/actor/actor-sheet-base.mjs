@@ -41,7 +41,10 @@ export default class ActorSheetArtichron extends ActorSheet {
         resistances: this._prepareResistances(),
         items: this._prepareItems(),
         pools: this._preparePools(),
-        effects: this._prepareEffects()
+        effects: this._prepareEffects(),
+        health: {
+          right: 100 - Math.clamped(this.document.system.health.value / this.document.system.health.max, 0, 1) * 100
+        }
       },
       rollData: this.document.getRollData(),
       config: CONFIG.SYSTEM
@@ -100,12 +103,13 @@ export default class ActorSheetArtichron extends ActorSheet {
    */
   _prepareResistances() {
     const res = this.document.system.resistances;
+    const max = Math.max(...Object.values(res).map(r => r.total));
     const resistances = {};
     for (const r in res) {
       resistances[r] = {
         ...CONFIG.SYSTEM.DAMAGE_TYPES[r],
         total: res[r].total,
-        bonus: res[r].bonus
+        height: Math.round((res[r].total / max) * 100)
       };
     }
     return resistances;
@@ -209,6 +213,9 @@ export default class ActorSheetArtichron extends ActorSheet {
       else if (action === "roll-pool") n.addEventListener("click", this._onClickRollPool.bind(this));
     });
     html[0].querySelectorAll("[data-roll]").forEach(n => n.addEventListener("click", this._onClickRollItem.bind(this)));
+
+    const {top, left} = this.position ?? {};
+    this.setPosition({top, left});
   }
 
   /**

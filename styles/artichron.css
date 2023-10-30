@@ -11,6 +11,7 @@
   --artichron-label: rgba(0, 0, 150, 0.9);
   --equipment-margin: 25px;
   --artichron-theme-bright: rgb(222, 225, 255);
+  --artichron-pool-die-size: 100px;
 }
 .system-artichron fieldset:has(:focus) {
   border-color: var(--color-shadow-primary);
@@ -131,14 +132,6 @@
 .artichron .sheet-body {
   overflow: hidden;
   height: 100%;
-}
-.artichron.sheet .section-header {
-  font-family: "Modesto Condensed";
-  font-size: 20px;
-  border-bottom: 2px groove;
-  padding: 0 1em;
-  background-color: var(--artichron-theme-light);
-  text-align: center;
 }
 
 /* Damage Rolls */
