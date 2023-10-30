@@ -51,7 +51,9 @@
   min-height: var(--artichron-pool-die-size);
   max-height: var(--artichron-pool-die-size);
 }
-.artichron.sheet.actor .tab.attributes section.health {}
+.artichron.sheet.actor .tab.attributes section.health {
+  height: 100%;
+}
 .artichron.sheet.actor .counter.health {
   padding: 1.5em;
   display: flex;
@@ -60,6 +62,8 @@
   position: relative;
   background-color: rgba(255, 0, 0, 0.1);
   margin: 0 1px;
+  height: 100%;
+  flex-direction: column;
 }
 .artichron.sheet.actor .counter.health .health-bar {
   position: absolute;
@@ -86,10 +90,9 @@
   z-index: 1;
 }
 .artichron.sheet.actor .counter .counter-value {
-  margin-right: 5px;
+  margin-bottom: 5px;
 }
 .artichron.sheet.actor .counter .counter-max {
-  margin-left: 5px;
   line-height: calc(2 * var(--form-field-height));
   font-weight: bold;
 }
@@ -112,6 +115,9 @@
   display: none;
   padding: 4px;
   font-size: 12px;
+}
+.artichron.sheet.actor .attributes-sections {
+  display: flex;
 }
 .artichron.sheet.actor .tab.attributes section.resistances {}
 .artichron.sheet.actor .tab.attributes .resistance-bars {
@@ -147,7 +153,7 @@
 }
 .artichron.sheet.actor .tab.attributes .resistance .resistance-bar .bar {
   width: 100%;
-  border-radius: 0.5em 0.5em 5px 5px;
+  border-radius: 0.5em;
   filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.5));
   position: relative;
   overflow: hidden;

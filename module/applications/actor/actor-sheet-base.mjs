@@ -43,7 +43,7 @@ export default class ActorSheetArtichron extends ActorSheet {
         pools: this._preparePools(),
         effects: this._prepareEffects(),
         health: {
-          right: 100 - Math.clamped(this.document.system.health.value / this.document.system.health.max, 0, 1) * 100
+          top: 100 - Math.clamped(this.document.system.health.value / this.document.system.health.max, 0, 1) * 100
         }
       },
       rollData: this.document.getRollData(),
@@ -384,5 +384,22 @@ export default class ActorSheetArtichron extends ActorSheet {
   setPosition(pos = {}) {
     if (!pos.height && !this._minimized) pos.height = "auto";
     return super.setPosition(pos);
+  }
+
+  /** @override */
+  _saveScrollPositions(html) {
+    super._saveScrollPositions(html);
+    this._healthY = html[0].querySelector(".health-bar").style.top;
+  }
+
+  /** @override */
+  _restoreScrollPositions(html) {
+    super._restoreScrollPositions(html);
+    const y = this._healthY;
+    if (!y) return;
+    const bar = html[0].querySelector(".health-bar");
+    const frames = [{top: y, easing: "ease"}, {top: bar.style.top}];
+    const duration = 1000;
+    bar.animate(frames, duration);
   }
 }
