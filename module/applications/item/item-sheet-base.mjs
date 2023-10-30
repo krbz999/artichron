@@ -1,8 +1,10 @@
+import {ArtichronSheetMixin} from "../base-sheet.mjs";
+
 /**
  * Extend the basic ItemSheet with some very simple modifications
  * @extends {ItemSheet}
  */
-export default class ItemSheetArtichron extends ItemSheet {
+export default class ItemSheetArtichron extends ArtichronSheetMixin(ItemSheet) {
 
   /** @override */
   static get defaultOptions() {
@@ -27,26 +29,21 @@ export default class ItemSheetArtichron extends ItemSheet {
 
   /** @override */
   async getData() {
-    const rollData = this.document.getRollData();
-    const data = {
-      item: this.document,
-      actor: this.document.actor,
-      system: this.document.system,
+    const data = super.getData();
+    foundry.utils.mergeObject(data, {
       context: {
         effects: this._prepareEffects()
       },
-      rollData: rollData,
-      config: CONFIG.SYSTEM,
       descriptions: {
-        value: await TextEditor.enrichHTML(this.document.system.description.value, {rollData, async: true})
-      },
-      isArsenal: this.document.type === "arsenal",
-      isArmor: this.document.type === "armor"
-    };
+        value: await TextEditor.enrichHTML(this.document.system.description.value, {
+          rollData: data.rollData, async: true
+        })
+      }
+    });
 
     if (data.isArsenal) {
       data.context.categories = data.config.ARSENAL_TYPES;
-      data.context.subtypes = data.config.ARSENAL_TYPES[this.document.system.type.category]?.items ?? {};
+      data.context.subtypes = data.config.ARSENAL_TYPES[data.system.type.category]?.items ?? {};
     } else if (data.isArmor) {
       data.context.categories = data.config.ARMOR_TYPES;
       data.context.resistanceOptions = Object.fromEntries(Object.entries(data.config.DAMAGE_TYPES).filter(([k, v]) => v.resist));
@@ -71,12 +68,6 @@ export default class ItemSheetArtichron extends ItemSheet {
       active: {label: "ARTICHRON.EffectsEnabled", data: active, key: "active"},
       inactive: {label: "ARTICHRON.EffectsDisabled", data: inactive, key: "inactive"}
     };
-  }
-
-  /** @override */
-  setPosition(pos = {}) {
-    if (!pos.height && !this._minimized && (this._tabs[0].active !== "description")) pos.height = "auto";
-    return super.setPosition(pos);
   }
 
   /* -------------------------------------------- */

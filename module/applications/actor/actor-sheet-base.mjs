@@ -1,10 +1,11 @@
+import {ArtichronSheetMixin} from "../base-sheet.mjs";
 import config from "./configs/base-config.mjs";
 
 /**
  * Extend the basic ActorSheet with some very simple modifications
  * @extends {ActorSheet}
  */
-export default class ActorSheetArtichron extends ActorSheet {
+export default class ActorSheetArtichron extends ArtichronSheetMixin(ActorSheet) {
   /** @override */
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
@@ -33,22 +34,17 @@ export default class ActorSheetArtichron extends ActorSheet {
 
   /** @override */
   async getData(options = {}) {
-    const data = {
-      actor: this.document,
-      system: this.document.system,
+    const data = super.getData();
+    foundry.utils.mergeObject(data, {
       context: {
         equipped: this._prepareEquipment(),
         resistances: this._prepareResistances(),
         items: this._prepareItems(),
         pools: this._preparePools(),
         effects: this._prepareEffects(),
-        health: {
-          top: 100 - Math.clamped(this.document.system.health.value / this.document.system.health.max, 0, 1) * 100
-        }
-      },
-      rollData: this.document.getRollData(),
-      config: CONFIG.SYSTEM
-    };
+        health: {top: 100 - Math.clamped(data.system.health.value / data.system.health.max, 0, 1) * 100}
+      }
+    });
     return data;
   }
 
@@ -194,13 +190,6 @@ export default class ActorSheetArtichron extends ActorSheet {
   /** @override */
   activateListeners(html) {
     super.activateListeners(html);
-
-    // listeners that always work go here
-    html[0].querySelectorAll("[type=text], [type=number]").forEach(n => {
-      if (n.classList.contains("delta")) n.addEventListener("change", this._onChangeDelta.bind(this));
-      n.addEventListener("focus", event => event.currentTarget.select());
-    });
-
     if (!this.isEditable) return;
 
     // listeners that only work on editable or owned sheets go here
@@ -279,17 +268,6 @@ export default class ActorSheetArtichron extends ActorSheet {
   }
 
   /**
-   * Allow for deltas in input fields.
-   * @param {PointerEvent} event      The initiating change event.
-   */
-  _onChangeDelta(event) {
-    const target = event.currentTarget;
-    const value = target.value;
-    const prop = foundry.utils.getProperty(this.document, target.name);
-    if (/^[+-][0-9]+/.test(value)) target.value = Roll.safeEval(`${prop} ${value}`);
-  }
-
-  /**
    * Handle clicking a pool's label to roll a die.
    * @param {PointerEvent} event
    */
@@ -358,32 +336,6 @@ export default class ActorSheetArtichron extends ActorSheet {
   _onClickConfig(event) {
     const trait = event.currentTarget.dataset.trait;
     return new config(this.actor, {trait}).render(true);
-  }
-
-  /** @override */
-  _getHeaderButtons() {
-    const buttons = super._getHeaderButtons();
-    buttons.unshift({
-      label: "ARTICHRON.Opacity",
-      class: "opacity",
-      icon: "fa-solid",
-      onclick: this._onToggleOpacity
-    });
-    return buttons;
-  }
-
-  /**
-   * Toggle the opacity class on this application.
-   * @param {PointerEvent} event
-   */
-  _onToggleOpacity(event) {
-    event.currentTarget.closest(".app").classList.toggle("opacity");
-  }
-
-  /** @override */
-  setPosition(pos = {}) {
-    if (!pos.height && !this._minimized) pos.height = "auto";
-    return super.setPosition(pos);
   }
 
   /** @override */

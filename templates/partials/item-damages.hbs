@@ -4,7 +4,7 @@
     <a class="action" data-action="add"><i class="fa-solid fa-plus"></i></a>
   </legend>
 
-  {{#each item.system.damage as |damage idx|}}
+  {{#each system.damage as |damage idx|}}
   <div class="form-group damage">
     <input class="value" type="text" name="system.damage.{{idx}}.value" value="{{damage.value}}">
     <select class="type" name="system.damage.{{idx}}.type">

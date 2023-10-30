@@ -4,7 +4,7 @@
     <a class="action" data-action="add"><i class="fa-solid fa-plus"></i></a>
   </legend>
 
-  {{#each item.system.resistances as |res idx|}}
+  {{#each system.resistances as |res idx|}}
   <div class="form-group res">
     <input class="value" type="number" name="system.resistances.{{idx}}.value" value="{{res.value}}">
     <select class="type" name="system.resistances.{{idx}}.type">
