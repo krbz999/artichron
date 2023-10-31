@@ -2,6 +2,7 @@ export class DefenseDie extends foundry.abstract.DataModel {
   /** @override */
   static defineSchema() {
     return {
+      number: new foundry.data.fields.NumberField({integer: true, positive: true, initial: 1}),
       faces: new foundry.data.fields.NumberField({initial: 4})
     };
   }
@@ -19,7 +20,7 @@ export class DefenseDie extends foundry.abstract.DataModel {
    * @type {string}
    */
   get formula() {
-    return `1${this.die}`;
+    return `${this.number || 1}${this.die}`;
   }
 
   /** @override */
@@ -36,6 +37,14 @@ export class PoolDie extends DefenseDie {
       max: new foundry.data.fields.NumberField({integer: true, min: 0, required: true, initial: null}),
       faces: new foundry.data.fields.NumberField({initial: 4})
     };
+  }
+
+  /**
+   * Get a full formula representation.
+   * @type {string}
+   */
+  get formula() {
+    return `1${this.die}`;
   }
 
   /**

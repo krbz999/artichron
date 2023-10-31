@@ -65,23 +65,35 @@ export default class ActorArtichron extends Actor {
 
   /** @override */
   prepareDerivedData() {
+    const rollData = this.getRollData();
+    this._prepareArmor(rollData);
     this._prepareDefenses();
-    this._prepareResistances();
+    this._prepareResistances(rollData);
   }
 
-  /** Prepare block, parry, and defense values. */
+  /** Prepare armor value. */
+  _prepareArmor(rollData) {
+    const armor = this.system.defenses.armor;
+    armor.total = artichron.utils.simplifyFormula(armor.bonus, rollData);
+    Object.values({...this.armor, ...this.arsenal}).forEach(item => armor.total += (item?.system.armor?.value ?? 0));
+  }
+
+  /** Prepare block and parry. */
   _prepareDefenses() {
     const def = this.system.defenses;
-    const items = Object.values({...this.armor, ...this.arsenal});
-    ["parry", "block", "armor"].forEach(k => {
-      def[k].total = items.reduce((acc, item) => acc + (item?.system[k]?.value ?? 0), def[k].bonus);
+    const items = Object.values(this.arsenal);
+    ["parry", "block"].forEach(k => {
+      def[k].rolls = items.reduce((acc, item) => {
+        const r = item?.system[k].formula;
+        if (r) acc.push(r);
+        return acc;
+      }, []);
     });
   }
 
   /** Prepare the value of actor resistances. */
-  _prepareResistances() {
+  _prepareResistances(rollData) {
     const res = this.system.resistances;
-    const rollData = this.getRollData();
     Object.keys(res).forEach(k => res[k].total = artichron.utils.simplifyFormula(res[k].bonus, rollData));
 
     // Add all armor items' bonuses to resistances.
@@ -217,5 +229,18 @@ export default class ActorArtichron extends Actor {
    */
   async rollDamage(key = null, options = {}) {
     return this.system.rollDamage(key, options);
+  }
+
+  /**
+   * Roll parry or defense.
+   * @param {object} [options={}]     Options to modify the roll.
+   */
+  async rollDefense(options = {}) {
+    const formula = this.system.defenses.parry.rolls.concat(this.system.defenses.block.rolls).filterJoin(" + ");
+    const data = this.getRollData();
+    return new Roll(formula, data).toMessage({
+      speaker: ChatMessage.implementation.getSpeaker({actor: this}),
+      flavor: "Defense Roll whee"
+    });
   }
 }

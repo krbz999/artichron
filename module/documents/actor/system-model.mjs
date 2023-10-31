@@ -2,6 +2,7 @@ import DefenseModel from "../fields/defense.mjs";
 import {PoolDie} from "../fields/die.mjs";
 import ResistanceModel from "../fields/resistance.mjs";
 import {SYSTEM} from "../../helpers/config.mjs";
+import {LocalIdField} from "../fields/local-id.mjs";
 
 export class ActorSystemModel extends foundry.abstract.TypeDataModel {
   /** @override */
@@ -19,14 +20,15 @@ export class ActorSystemModel extends foundry.abstract.TypeDataModel {
       }),
       equipped: new fields.SchemaField({
         arsenal: new fields.SchemaField({
-          first: new fields.StringField({nullable: true}),
-          second: new fields.StringField({nullable: true})
+          first: new LocalIdField(),
+          second: new LocalIdField()
         }),
         armor: new fields.SchemaField(Object.keys(SYSTEM.ARMOR_TYPES).reduce((acc, key) => {
-          acc[key] = new fields.StringField({nullable: true});
+          acc[key] = new LocalIdField();
           return acc;
         }, {})),
-        ammo: new fields.SetField(new fields.StringField())
+        ammo: new fields.SetField(new LocalIdField()),
+        favorites: new fields.SetField(new LocalIdField())
       }),
       resistances: new fields.SchemaField(Object.entries(SYSTEM.DAMAGE_TYPES).reduce((acc, [key, data]) => {
         if (data.resist) acc[key] = new fields.EmbeddedDataField(ResistanceModel);
@@ -84,7 +86,7 @@ export class ActorSystemModel extends foundry.abstract.TypeDataModel {
 
   /** Prepare equipped items. */
   _prepareEquipped() {
-    const {arsenal, armor, ammo} = this.equipped;
+    const {arsenal, armor, ammo, favorites} = this.equipped;
     for (const key in arsenal) {
       const item = this.parent.items.get(arsenal[key]);
       arsenal[key] = (item && (item.type === "arsenal")) ? item : null;
@@ -96,6 +98,11 @@ export class ActorSystemModel extends foundry.abstract.TypeDataModel {
     this.equipped.ammo = ammo.reduce((acc, id) => {
       const item = this.parent.items.get(id);
       if (item && item.isAmmo) acc.add(item);
+      return acc;
+    }, new Set());
+    this.equipped.favorites = favorites.reduce((acc, id) => {
+      const item = this.parent.items.get(id);
+      if (item) acc.add(item);
       return acc;
     }, new Set());
   }
