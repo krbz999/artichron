@@ -54,6 +54,7 @@
 }
 .artichron.sheet nav.tabs {
   gap: 2px;
+  margin-bottom: 0;
 }
 .artichron.sheet nav.tabs .item {
   font-family: "Modesto Condensed";
@@ -132,6 +133,7 @@
 .artichron .sheet-body {
   overflow: hidden;
   height: 100%;
+  margin-top: 4px;
 }
 
 /* Damage Rolls */

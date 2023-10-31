@@ -3,7 +3,7 @@
  * @param {*} Base      The base class.
  * @returns {*}         Extended class.
  */
-export const ArtichronSheetMixin = Base => class ArtichronSheet extends Base {
+export const ArtichronSheetMixin = Base => class extends Base {
   /** @override */
   getData() {
     const types = game.system.template[this.document.documentName].types;

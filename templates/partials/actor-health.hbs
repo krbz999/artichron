@@ -1,5 +1,8 @@
 <div class="counter health">
-  <input class="counter-value delta" type="text" name="system.health.value" value="{{system.health.value}}">
-  <span class="counter-max">{{system.health.max}}</span>
+  <div class="health-values">
+    <input class="counter-value delta" type="text" name="system.health.value" value="{{system.health.value}}">
+    /
+    <span class="counter-max">{{system.health.max}}</span>
+  </div>
   <div class="health-bar" style="top: {{context.health.top}}%"></div>
 </div>

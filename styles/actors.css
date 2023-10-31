@@ -11,20 +11,18 @@
   border-radius: 0 0 1em 1em;
 }
 .artichron.sheet.actor .tab.attributes {}
-.artichron.sheet.actor section {
+.artichron.sheet.actor .tab section {
   position: relative;
   display: flex;
   flex-direction: column;
   flex: 1;
-  margin: 0 1px 5px 0;
-}
-.artichron.sheet.actor section:last-child {
-  margin-bottom: 0;
+  margin: 0;
 }
 .artichron.sheet.actor .tab.attributes section.pools {}
 .artichron.sheet.actor .tab.attributes section.pools .pool-rolls {
   display: flex;
   justify-content: space-around;
+  margin-bottom: 5px;
 }
 .artichron.sheet.actor .tab.attributes section.pools .pool-rolls .pool {
   padding: 1em;
@@ -72,6 +70,7 @@
   height: 100%;
   flex-direction: column;
   border-radius: 1em;
+  overflow: hidden;
 }
 .artichron.sheet.actor .counter.health .health-bar {
   position: absolute;
@@ -80,26 +79,28 @@
   right: 0;
   bottom: 0;
   background: linear-gradient(90deg, rgba(130, 0, 0, 0.6) 0%, rgba(198, 0, 0, 0.5) 81%, rgba(255, 0, 0, 0.4) 100%);
-  border-radius: inherit;
+  border-radius: 5px;
   pointer-events: none;
 }
-.artichron.sheet.actor .counter .counter-value,
-.artichron.sheet.actor .counter .counter-max {
+.artichron.sheet.actor .counter .health-values {
   border-radius: calc(2 * var(--form-field-height));
-  height: calc(2 * var(--form-field-height));
+  height: calc(4 * var(--form-field-height));
   width: calc(2 * var(--form-field-height));
-  text-align: center;
-  border: 1px solid var(--artichron-theme-dark);
-  font-family: 'Trebuchet MS';
+  border: 1px solid var(--artichron-theme-light);
+  font-family: "Trebuchet MS";
   color: var(--artichron-label);
-  background-color: var(--artichron-theme-bright);
   z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: brightness(2);
 }
 .artichron.sheet.actor .counter .counter-value {
-  margin-bottom: 5px;
+  text-align: center;
+  border-color: rgba(255, 0, 0, 0.1);
 }
 .artichron.sheet.actor .counter .counter-max {
-  line-height: calc(2 * var(--form-field-height));
   font-weight: bold;
 }
 .artichron.sheet.actor section .section-header {
@@ -125,6 +126,12 @@
 .artichron.sheet.actor .attributes-sections {
   display: flex;
 }
+.artichron.sheet.actor .attributes-sections .left-pane {
+  flex: none;
+}
+.artichron.sheet.actor .attributes-sections .center-pane {
+  flex: 1;
+}
 .artichron.sheet.actor .tab.attributes section.resistances {}
 .artichron.sheet.actor .tab.attributes .resistance-bars {
   display: flex;
@@ -132,7 +139,7 @@
   border-top: 0;
 }
 .artichron.sheet.actor .tab.attributes .resistance {
-  font-size: 20px;
+  font-size: 30px;
   line-height: 20px;
   margin: 3px 0;
   font-family: "Calibri";
@@ -141,7 +148,6 @@
   padding-bottom: 5px;
 }
 .artichron.sheet.actor .tab.attributes .resistance .resistance-bar {
-  height: 200px;
   display: flex;
   justify-content: end;
   flex-direction: column;
@@ -159,6 +165,7 @@
   filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.5));
   position: relative;
   overflow: hidden;
+  display: none;
 }
 .artichron.sheet.actor .tab.attributes .resistance .resistance-bar .bar:before {
   content: '';
