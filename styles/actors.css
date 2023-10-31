@@ -3,6 +3,7 @@
 /* ------------------ */
 .artichron.sheet.actor {
   min-width: 500px;
+  max-width: 500px;
   min-height: 500px;
 }
 .artichron.sheet.actor .darken {
@@ -139,7 +140,7 @@
   border-top: 0;
 }
 .artichron.sheet.actor .tab.attributes .resistance {
-  font-size: 30px;
+  font-size: 25px;
   line-height: 20px;
   margin: 3px 0;
   font-family: "Calibri";
@@ -148,16 +149,10 @@
   padding-bottom: 5px;
 }
 .artichron.sheet.actor .tab.attributes .resistance .resistance-bar {
-  display: flex;
-  justify-content: end;
-  flex-direction: column;
-  align-items: center;
-  margin: 2px;
-  padding: 5px;
+  margin: 5px 0;
 }
 .artichron.sheet.actor .tab.attributes .resistance .resistance-bar .total {
   color: rgb(97, 97, 97);
-  padding-bottom: 3px;
 }
 .artichron.sheet.actor .tab.attributes .resistance .resistance-bar .bar {
   width: 100%;
@@ -333,3 +328,31 @@
 }
 .artichron.sheet .inventory-section .inventory-item .item-controls .item-control,
 .artichron.sheet .effects-section .effects-item .item-controls .item-control {}
+
+.artichron.sheet.actor.hero section.favorites {}
+.artichron.sheet.actor.hero section.favorites .favorites {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  row-gap: 3px;
+  column-gap: 3px;
+  padding: 3px;
+  min-height: 100px;
+}
+.artichron.sheet.actor.hero section.favorites .favorites::after {
+  content: "";
+  flex: auto;
+  flex-basis: inherit;
+}
+.artichron.sheet.actor.hero .favorites .favorite {
+  cursor: pointer;
+  min-width: 45px;
+  min-height: 45px;
+  max-width: 45px;
+  max-height: 45px;
+  border-radius: 1em;
+  overflow: hidden;
+}
+.artichron.sheet.actor.hero .favorites .favorite img {
+  border: none;
+}

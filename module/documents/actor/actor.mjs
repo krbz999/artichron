@@ -243,4 +243,21 @@ export default class ActorArtichron extends Actor {
       flavor: "Defense Roll whee"
     });
   }
+
+  /**
+   * Restore health and pools to maximums.
+   * @returns {Promise<ActorArtichron>}
+   */
+  async recover() {
+    const {health, pools} = this.system;
+    const updates = {};
+
+    // Restore health.
+    updates["system.health.value"] = health.max;
+
+    // Restore pools.
+    Object.keys(pools).forEach(key => updates[`system.pools.${key}.value`] = Math.max(pools[key].value, pools[key].max));
+
+    return this.update(updates);
+  }
 }

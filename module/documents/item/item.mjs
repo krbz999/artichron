@@ -65,4 +65,16 @@ export default class ItemArtichron extends Item {
     data.item = {...this.system};
     return data;
   }
+
+  /**
+   * Favorite this item on its actor.
+   * @returns {Promise<ActorArtichron|null>}
+   */
+  async favorite() {
+    if (!this.actor) return null;
+    const favorites = this.actor.system.toObject().equipped.favorites;
+    if (favorites.includes(this.id)) favorites.findSplice(i => i === this.id);
+    else favorites.push(this.id);
+    return this.actor.update({"system.equipped.favorites": favorites});
+  }
 }

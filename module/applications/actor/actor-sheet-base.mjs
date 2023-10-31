@@ -10,7 +10,7 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(ActorSheet)
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
       width: 500,
-      height: 500,
+      height: 600,
       top: 100,
       left: 200,
       tabs: [
@@ -65,7 +65,11 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(ActorSheet)
    */
   _prepareItems() {
     const types = this.document.itemTypes;
-    const map = key => ({key: key, items: types[key], label: `TYPES.Item.${key}Pl`});
+    const map = key => ({
+      key: key, items: types[key].map(item => {
+        return {item: item, favorited: this.document.system.equipped.favorites.has(item)};
+      }), label: `TYPES.Item.${key}Pl`
+    });
     return {
       inventory: ["arsenal", "armor", "part"].map(map),
       consumable: ["food", "elixir"].map(map)
@@ -255,6 +259,13 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(ActorSheet)
       const parent = data.parentId ? this.document.items.get(data.parentId) : this.document;
       const item = parent.getEmbeddedCollection(embeddedName).get(data.itemId);
       return item.update({disabled: !item.disabled});
+    }
+
+    // Toggle favoriting item.
+    else if (control === "favorite") {
+      const id = event.currentTarget.closest("[data-item-id]").dataset.itemId;
+      const item = this.document.items.get(id);
+      return item.favorite();
     }
   }
 

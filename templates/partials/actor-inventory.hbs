@@ -11,10 +11,11 @@
     <i class="fa-solid fa-plus"></i>
   </h4>
   <div class="items-list">
-    {{#each section.items as |item|}}
+    {{#each section.items}}
     <div class="inventory-item" data-item-id="{{item.id}}">
       <a class="item-name">{{item.name}}</a>
       <div class="item-controls">
+        <a class="item-control" data-control="favorite" data-action="control"><i class="fa-{{ifThen favorited 'solid' 'regular'}} fa-star"></i></a>
         <a class="item-control" data-control="edit" data-action="control"><i class="fa-solid fa-edit"></i></a>
         <a class="item-control" data-control="delete" data-action="control"><i class="fa-solid fa-trash"></i></a>
       </div>

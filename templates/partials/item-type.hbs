@@ -20,3 +20,11 @@
   </select>
 </div>
 {{/if}}
+{{#if document.isEmbedded}}
+<div class="form-group">
+  <label>{{localize "ARTICHRON.Favorited"}}</label>
+  <a class="action" data-action="control" data-control="favorite">
+    <i class="fa-{{ifThen context.isFavorited 'solid' 'regular'}} fa-star"></i>
+  </a>
+</div>
+{{/if}}

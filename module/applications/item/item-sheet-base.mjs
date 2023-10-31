@@ -32,7 +32,8 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(ItemSheet) {
     const data = super.getData();
     foundry.utils.mergeObject(data, {
       context: {
-        effects: this._prepareEffects()
+        effects: this._prepareEffects(),
+        isFavorited: this.document.actor?.system.equipped.favorites.has(this.document) ?? null
       },
       descriptions: {
         value: await TextEditor.enrichHTML(this.document.system.description.value, {
@@ -121,6 +122,12 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(ItemSheet) {
       const data = event.currentTarget.closest("[data-item-id]").dataset;
       const item = collection.get(data.itemId);
       return item.update({disabled: !item.disabled});
+    }
+
+    // Toggle favoriting.
+    else if (control === "favorite") {
+      await this.document.favorite();
+      return this.render();
     }
   }
 
