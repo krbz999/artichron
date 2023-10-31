@@ -7,10 +7,7 @@
 <div class="resistance-bars darken">
   {{#each context.resistances}}
   <div class="resistance" style="color: #{{color}}">
-    <div class="resistance-bar">
-      <span class="total">{{total}}</span>
-      <span class="bar" style="background-color: #{{color}}; height: {{height}}%"></span>
-    </div>
+    <span class="total">{{total}}</span>
     <i class="{{icon}}"></i>
   </div>
   {{/each}}

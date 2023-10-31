@@ -388,6 +388,7 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(ActorSheet)
     super._restoreScrollPositions(html);
     const y = this._healthY;
     if (!y) return;
+    delete this._healthY;
     const bar = html[0].querySelector(".health-bar");
     const frames = [{top: y, easing: "ease"}, {top: bar.style.top}];
     const duration = 1000;

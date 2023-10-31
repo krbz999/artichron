@@ -58,15 +58,17 @@
 .artichron.sheet nav.tabs {
   gap: 2px;
   margin-bottom: 0;
+  border: none;
 }
 .artichron.sheet nav.tabs .item {
   font-family: "Modesto Condensed";
   font-size: 18px;
   padding: 1px 0;
+  border: 1px solid var(--artichron-theme-light);
   border-bottom: 3px solid var(--artichron-theme-light);
   flex: 1;
   background-color: var(--artichron-theme-light);
-  border-radius: 0.5em 0.5em 0 0;
+  border-radius: 10px 10px 0 0;
   margin: 2px 0 0 0;
   transition: background-color 100ms, color 100ms;
 }
@@ -84,7 +86,10 @@
 }
 .system-artichron .window-header {
   background-color: var(--artichron-theme-light);
-  border-radius: 1em 1em 0 0 ;
+  border-radius: 10px 10px 0 0 ;
+}
+.system-artichron .window-content {
+  border-radius: 0 0 10px 10px;
 }
 .artichron.app.opacity {
   transition: opacity 250ms;
