@@ -227,15 +227,6 @@
   transition: 150ms;
   cursor: pointer;
 }
-.artichron.sheet.actor.hero .equipped-items .equipped .edit {
-  background: #b5b8f9;
-  border-radius: 5px;
-  color: black;
-  padding: 3px;
-}
-.artichron.sheet.actor.hero .equipped-items .equipped:hover .edit {
-  display: block;
-}
 .artichron.sheet.actor.hero .equipped-items .equipped.weapon.disabled {
   pointer-events: none;
   filter: grayscale(30%) opacity(70%);
@@ -282,6 +273,17 @@
 .artichron.sheet.actor.hero .equipped-items .equipped.boots,
 .artichron.sheet.actor.hero .equipped-items .equipped.accessory {
   top: 500px;
+}
+.artichron.sheet.actor.hero .equipped-item #context-menu {
+  top: -10px;
+  left: -10px;
+  min-width: calc(100% + 20px);
+  max-width: calc(100% + 20px);
+}
+.artichron.sheet.actor.hero .equipped-item #context-menu .context-items {
+  overflow: hidden;
+  white-space: nowrap;
+  width: 100%;
 }
 /* Inventory */
 .artichron.sheet .inventory-section,
@@ -355,4 +357,23 @@
 }
 .artichron.sheet.actor.hero .favorites .favorite img {
   border: none;
+}
+
+.artichron.sheet.actor.hero section.controls {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  min-height: 40px;
+  align-items: center;
+}
+.artichron.sheet.actor.hero section.controls .control {
+  color: var(--artichron-label);
+  font-family: "Modesto Condensed";
+  font-size: 18px;
+  border: 2px outset;
+  padding: 4px;
+  transition: border-style 2000ms;
+}
+.artichron.sheet.actor.hero section.controls .control:active {
+  border: 2px inset;
 }

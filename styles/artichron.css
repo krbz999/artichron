@@ -34,10 +34,10 @@
 .system-artichron .form-group input[type=checkbox] {
   flex: none;
 }
-.system-artichron form label,
-.system-artichron form select,
-.system-artichron form input[type=text],
-.system-artichron form input[type=number] {
+.system-artichron .app form label,
+.system-artichron .app form select,
+.system-artichron .app form input[type=text],
+.system-artichron .app form input[type=number] {
   height: calc(0.85 * var(--form-field-height));
   border-radius: 5px;
 }

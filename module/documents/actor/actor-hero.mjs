@@ -17,7 +17,7 @@ export default class HeroData extends ActorSystemModel {
     const arsenal = this.parent.arsenal;
     const item = (key in arsenal) ? arsenal[key] : arsenal.first;
     if(!item) {
-      ui.notifications.warn("ARTICHRON.NoItemToRollDamage", {localize: true});
+      ui.notifications.warn("ARTICHRON.NoItemInSlot", {localize: true});
       return null;
     }
     const isFF = options.fastForward || options.event?.shiftKey;

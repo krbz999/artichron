@@ -6,7 +6,7 @@
 </header>
 <div class="pool-rolls darken">
   {{#each context.pools as |pool|}}
-  <a class="pool" data-action="roll-pool" data-pool="{{pool.key}}">
+  <a class="pool" data-action="manage" data-manage="pool" data-pool="{{pool.key}}">
     <span class="die {{pool.die}} {{pool.key}}" data-tooltip="{{pool.value}} / {{pool.max}} ({{pool.die}})">{{pool.value}}</span>
   </a>
   {{/each}}

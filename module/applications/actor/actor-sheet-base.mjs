@@ -143,18 +143,21 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(ActorSheet)
       tooltip: main ? main.name : "ARTICHRON.EquipItem",
       data: {
         "item-id": main ? main.id : null,
-        action: "change-item",
-        roll: main ? "first" : null,
-        slot: "arsenal.first"
+        action: "manage",
+        manage: "damage",
+        arsenal: main ? "first" : null,
+        slot: "arsenal.first",
+        context: "equipped"
       }
     });
 
     // Secondary weapon.
     const disableSecond = main && main.isTwoHanded;
+    const emptySecond = !disableSecond && !second;
     const cssClass = [
       "weapon",
       "second",
-      disableSecond ? "empty" : second ? null : "empty",
+      emptySecond ? "empty" : null,
       disableSecond ? "disabled" : null
     ].filterJoin(" ");
     equipped.push({
@@ -164,9 +167,11 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(ActorSheet)
       tooltip: disableSecond ? null : second ? second.name : "ARTICHRON.EquipItem",
       data: {
         "item-id": (!disableSecond && second) ? second.id : null,
-        action: disableSecond ? null : "change-item",
-        roll: disableSecond ? null : "second",
-        slot: disableSecond ? null : "arsenal.second"
+        action: disableSecond ? null : "manage",
+        manage: disableSecond ? null : "damage",
+        arsenal: disableSecond ? null : "second",
+        slot: disableSecond ? null : "arsenal.second",
+        context: disableSecond ? null : "equipped"
       }
     });
 
@@ -181,7 +186,8 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(ActorSheet)
         data: {
           "item-id": item ? item.id : null,
           action: "change-item",
-          slot: `armor.${key}`
+          slot: `armor.${key}`,
+          context: "equipped"
         }
       };
     }));
@@ -200,15 +206,38 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(ActorSheet)
     html[0].querySelectorAll("[data-action]").forEach(n => {
       const action = n.dataset.action;
       if (action === "control") n.addEventListener("click", this._onClickManageItem.bind(this));
-      else if (action === "change-item") n.addEventListener("contextmenu", this._onRightClickChangeItem.bind(this));
-      else if (action === "roll-item") n.addEventListener("click", this._onClickRollItem.bind(this));
       else if (action === "toggle-config") n.addEventListener("click", this._onClickConfig.bind(this));
-      else if (action === "roll-pool") n.addEventListener("click", this._onClickRollPool.bind(this));
+      else if (action === "manage") n.addEventListener("click", this._onClickManageActor.bind(this));
     });
-    html[0].querySelectorAll("[data-roll]").forEach(n => n.addEventListener("click", this._onClickRollItem.bind(this)));
+
+    // Context menus.
+    new ContextMenu(html, "[data-context]", [], {onOpen: this._onContext.bind(this)});
 
     const {top, left} = this.position ?? {};
     this.setPosition({top, left});
+  }
+
+  /**
+   * Handle opening of a context menu.
+   * @param {HTMLElement} element     The element the menu opens on.
+   */
+  async _onContext(element) {
+    const ctx = element.dataset.context;
+    switch (ctx) {
+      case "equipped":
+        const id = element.closest("[data-item-id]")?.dataset.itemId;
+        const item = this.document.items.get(id);
+        ui.context.menuItems = [{
+          name: "ARTICHRON.EditItem",
+          icon: "<i class='fa-solid fa-edit'></i>",
+          condition: () => !!item,
+          callback: () => item.sheet.render(true)
+        }, {
+          name: "ARTICHRON.ChangeItem",
+          icon: "<i class='fa-solid fa-shield'></i>",
+          callback: this._onChangeItem.bind(this, element)
+        }];
+    }
   }
 
   /**
@@ -270,30 +299,12 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(ActorSheet)
   }
 
   /**
-   * Handle rolling attack/damage with a weapon.
-   * @param {PointerEvent} event      The initiating click event.
-   */
-  async _onClickRollItem(event) {
-    const slot = event.currentTarget.dataset.roll;
-    return this.document.rollDamage(slot, {event});
-  }
-
-  /**
-   * Handle clicking a pool's label to roll a die.
-   * @param {PointerEvent} event
-   */
-  async _onClickRollPool(event) {
-    const type = event.currentTarget.dataset.pool;
-    return this.actor.rollPool(type, {event});
-  }
-
-  /**
    * Handle changing the equipped item in a particular slot.
-   * @param {PointerEvent} event      The initiating click event.
+   * @param {HTMLElement} element     The element that triggered the contextmenu.
    * @returns {Promise<ActorArtichron|null>}
    */
-  async _onRightClickChangeItem(event) {
-    const [type, slot] = event.currentTarget.closest("[data-slot]").dataset.slot.split(".");
+  async _onChangeItem(element) {
+    const [type, slot] = element.closest("[data-slot]").dataset.slot.split(".");
 
     let items;
     if (type === "armor") {
@@ -347,6 +358,23 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(ActorSheet)
   _onClickConfig(event) {
     const trait = event.currentTarget.dataset.trait;
     return new config(this.actor, {trait}).render(true);
+  }
+
+  /**
+   * Handle click events on any actor-related actions.
+   * @param {PointerEvent} event      The initiating click event.
+   */
+  async _onClickManageActor(event) {
+    switch (event.currentTarget.dataset.manage) {
+      case "defend": return this.document.rollDefense();
+      case "recover": return this.document.recover();
+      case "pool":
+        const type = event.currentTarget.dataset.pool;
+        return this.document.rollPool(type, {event});
+      case "damage":
+        const slot = event.currentTarget.dataset.arsenal;
+        return this.document.rollDamage(slot, {event});
+    }
   }
 
   /** @override */
