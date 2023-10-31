@@ -186,6 +186,31 @@
 /* ------------------ */
 /*     HERO SHEETS    */
 /* ------------------ */
+.artichron.sheet.actor.hero .header-fields {
+  display: flex;
+}
+.artichron.sheet.actor.hero .header-fields input {
+  height: 2em;
+  font-size: 25px;
+  font-family: "Bruno Ace";
+  padding: 0.5em 1em;
+  text-align: center;
+  border-radius: 1em;
+  color: var(--artichron-theme-dark);
+  text-shadow: 0 0 1px var(--artichron-label);
+  background-color: var(--artichron-theme-light);
+  border: 4px groove var(--artichron-label);
+  border-left-width: 40px;
+  border-right-width: 40px;
+  transition: 200ms;
+  margin: 0 1em;
+}
+.artichron.sheet.actor.hero .header-fields input:focus {
+  margin: 0 0.25em;
+  box-shadow: none;
+  border-left-width: 4px;
+  border-right-width: 4px;
+}
 .artichron.sheet.actor.hero .tab.equipment.active {
   display: flex;
   flex-direction: column;

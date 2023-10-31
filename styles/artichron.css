@@ -3,6 +3,9 @@
 /* ------------------- */
 :root {
   --color-shadow-primary: rgb(0, 162, 255);
+  --color-border-highlight-alt: rgb(0, 0, 255);
+  --color-border-highlight: rgb(0, 100, 255);
+  --color-shadow-highlight: rgb(0, 100, 255);
   --mana-filter: sepia(1) hue-rotate(180deg) drop-shadow(0 0 1px blue);
   --health-filter: sepia(1) hue-rotate(270deg) drop-shadow(0 0 1px red);
   --stamina-filter: sepia(1) hue-rotate(90deg) drop-shadow(0 0 1px green);
@@ -34,10 +37,10 @@
 .system-artichron .form-group input[type=checkbox] {
   flex: none;
 }
-.system-artichron .app form label,
-.system-artichron .app form select,
-.system-artichron .app form input[type=text],
-.system-artichron .app form input[type=number] {
+.app form label,
+.app form select,
+.app form input[type=text],
+.app form input[type=number] {
   height: calc(0.85 * var(--form-field-height));
   border-radius: 5px;
 }
