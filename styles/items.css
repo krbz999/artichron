@@ -12,3 +12,10 @@
   font-family: 'Modesto Condensed';
   font-size: 24px;
 }
+.artichron.sheet.item .form-group.dice-combo input,
+.artichron.sheet.item .form-group.dice-combo select {
+  flex: 1;
+}
+.artichron.sheet.item .form-group label:first-child {
+  flex: 0 0 40%;
+}

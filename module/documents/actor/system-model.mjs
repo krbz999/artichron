@@ -75,6 +75,7 @@ export class ActorSystemModel extends foundry.abstract.TypeDataModel {
   prepareDerivedData() {
     this._prepareHealth();
     this._prepareEquipped();
+    this._prepareEncumbrance();
   }
 
   /** Prepare maximum health and clamp current health. */
@@ -105,6 +106,14 @@ export class ActorSystemModel extends foundry.abstract.TypeDataModel {
       if (item) acc.add(item);
       return acc;
     }, new Set());
+  }
+
+  /** Prepare current and max encumbrance. */
+  _prepareEncumbrance() {
+    const dice = this.pools.stamina;
+    this.encumbrance = {};
+    this.encumbrance.max = dice.max * dice.faces;
+    this.encumbrance.value = this.parent.items.reduce((acc, item) => acc + (item.system.weight?.value ?? 0), 0);
   }
 
   /* ---------------------------------------- */

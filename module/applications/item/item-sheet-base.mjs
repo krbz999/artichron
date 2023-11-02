@@ -102,7 +102,7 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(ItemSheet) {
         name: game.i18n.format("DOCUMENT.New", {type: game.i18n.localize("DOCUMENT.ActiveEffect")}),
         icon: "icons/svg/sun.svg",
         disabled: event.currentTarget.closest("[data-active]").dataset.active === "inactive"
-      }, {parent: this.document});
+      }, {parent: this.document, renderSheet: true});
     }
 
     // Show the document's sheet.

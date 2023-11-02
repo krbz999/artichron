@@ -24,6 +24,9 @@ export const ArtichronSheetMixin = Base => class extends Base {
       if (n.classList.contains("delta")) n.addEventListener("change", this._onChangeDelta.bind(this));
       n.addEventListener("focus", event => event.currentTarget.select());
     });
+
+    const {top, left} = this.position ?? {};
+    this.setPosition({top, left});
   }
 
   /**

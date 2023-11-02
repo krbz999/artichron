@@ -15,6 +15,7 @@ export async function preloadHandlebarsTemplates() {
     "systems/artichron/templates/partials/actor-pools.hbs",
     "systems/artichron/templates/partials/actor-resistances.hbs",
     "systems/artichron/templates/partials/item-damages.hbs",
+    "systems/artichron/templates/partials/item-defenses.hbs",
     "systems/artichron/templates/partials/item-effects.hbs",
     "systems/artichron/templates/partials/item-resistances.hbs",
     "systems/artichron/templates/partials/item-type.hbs"

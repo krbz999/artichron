@@ -1,0 +1,28 @@
+<fieldset>
+  <legend class="header">
+    {{localize "ARTICHRON.Defenses"}}
+  </legend>
+
+  {{#if isArsenal}}
+  <div class="form-group dice-combo">
+    <label>{{localize "ARTICHRON.ItemPropertyBlock"}}</label>
+    <input type="number" name="system.block.number" value="{{system.block.number}}">
+    <select class="type" name="system.block.faces">
+      {{selectOptions @root.config.DIE_SIZES selected=system.block.faces}}
+    </select>
+  </div>
+
+  <div class="form-group dice-combo">
+    <label>{{localize "ARTICHRON.ItemPropertyParry"}}</label>
+    <input type="number" name="system.parry.number" value="{{system.parry.number}}">
+    <select class="type" name="system.parry.faces">
+      {{selectOptions @root.config.DIE_SIZES selected=system.parry.faces}}
+    </select>
+  </div>
+  {{/if}}
+
+  <div class="form-group">
+    <label>{{localize "ARTICHRON.ItemPropertyArmor"}}</label>
+    <input type="number" name="system.armor.value" value="{{system.armor.value}}">
+  </div>
+</fieldset>

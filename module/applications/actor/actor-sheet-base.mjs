@@ -42,10 +42,29 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(ActorSheet)
         items: this._prepareItems(),
         pools: this._preparePools(),
         effects: this._prepareEffects(),
-        health: {top: 100 - Math.clamped(data.system.health.value / data.system.health.max, 0, 1) * 100}
+        health: this._prepareHealth(),
+        encumbrance: this._prepareEncumbrance()
       }
     });
     return data;
+  }
+
+  /**
+   * Prepare health.
+   * @returns {object}
+   */
+  _prepareHealth() {
+    const hp = this.document.system.health;
+    return {height: Math.clamped(hp.value / hp.max, 0, 1) * 100};
+  }
+
+  /**
+   * Prepare encumbrance bar.
+   * @returns {object}
+   */
+  _prepareEncumbrance() {
+    const enc = this.document.system.encumbrance;
+    return {percent: Math.round(enc.value / enc.max * 100)};
   }
 
   /**
@@ -212,9 +231,6 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(ActorSheet)
 
     // Context menus.
     new ContextMenu(html, "[data-context]", [], {onOpen: this._onContext.bind(this)});
-
-    const {top, left} = this.position ?? {};
-    this.setPosition({top, left});
   }
 
   /**
@@ -380,17 +396,41 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(ActorSheet)
   /** @override */
   _saveScrollPositions(html) {
     super._saveScrollPositions(html);
-    this._healthY = html[0].querySelector(".health-bar").style.top;
+    this._healthY = html[0].querySelector(".health-bar").style.height;
+    this._encumW = html[0].querySelector(".encumbrance-bar").style.width;
   }
 
   /** @override */
   _restoreScrollPositions(html) {
     super._restoreScrollPositions(html);
+    this._restoreHealthHeight(html);
+    this._restoreEncumbranceWidth(html);
+  }
+
+  /**
+   * Ease differences in the health value.
+   * @param {HTMLElement} html
+   */
+  _restoreHealthHeight([html]) {
     const y = this._healthY;
     if (!y) return;
     delete this._healthY;
-    const bar = html[0].querySelector(".health-bar");
-    const frames = [{top: y, easing: "ease"}, {top: bar.style.top}];
+    const bar = html.querySelector(".health-bar");
+    const frames = [{height: y, easing: "ease"}, {height: bar.style.top}];
+    const duration = 1000;
+    bar.animate(frames, duration);
+  }
+
+  /**
+   * Ease differences in encumbrance.
+   * @param {HTMLElement} html
+   */
+  _restoreEncumbranceWidth([html]) {
+    const w = this._encumW;
+    if (!w) return;
+    delete this._encumW;
+    const bar = html.querySelector(".encumbrance-bar");
+    const frames = [{width: w, easing: "ease"}, {width: bar.style.width}];
     const duration = 1000;
     bar.animate(frames, duration);
   }

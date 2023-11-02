@@ -57,9 +57,15 @@
     <div class="tab consumables" data-group="primary" data-tab="consumables">
       {{> "systems/artichron/templates/partials/actor-inventory.hbs" sections=context.items.consumable}}
     </div>
+
     <div class="tab effects" data-group="primary" data-tab="effects">
       {{> "systems/artichron/templates/partials/actor-effects.hbs" sections=context.effects}}
     </div>
 
   </section>
+
+  <div class="encumbrance">
+    <div class="encumbrance-values">{{system.encumbrance.value}} / {{system.encumbrance.max}}</div>
+    <div class="encumbrance-bar" style="width: {{context.encumbrance.percent}}%;"></div>
+  </div>
 </form>

@@ -7,7 +7,7 @@ export class ItemSystemModel extends foundry.abstract.TypeDataModel {
         value: new fields.HTMLField({label: "ARTICHRON.DescriptionValue"})
       }),
       weight: new fields.SchemaField({
-        value: new fields.NumberField({integer: true, required: true, initial: null})
+        value: new fields.NumberField({integer: true, required: true, initial: 1})
       }),
       price: new fields.SchemaField({
         value: new fields.NumberField({integer: true, required: true, initial: null})
