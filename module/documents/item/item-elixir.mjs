@@ -1,3 +1,5 @@
+import {ItemSystemModel} from "./system-model.mjs";
+
 export default class ElixirData extends ItemSystemModel {
   /** @override */
   static defineSchema() {

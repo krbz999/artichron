@@ -298,6 +298,36 @@
   white-space: nowrap;
   width: 100%;
 }
+.artichron.sheet.actor.hero .equipped-item:hover .expand-out {
+  width: 210px;
+}
+.artichron.sheet.actor.hero .equipped-items .expand-out {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 0;
+  transition: 200ms;
+  border-radius: 10px;
+  background-color: rgba(0, 0, 0, 1);
+  color: var(--artichron-theme-bright);
+  white-space: nowrap;
+}
+.artichron.sheet.actor.hero .equipped-items .head .expand-out,
+.artichron.sheet.actor.hero .equipped-items .chest .expand-out,
+.artichron.sheet.actor.hero .equipped-items .legs .expand-out,
+.artichron.sheet.actor.hero .equipped-items .boots .expand-out {
+  left: calc(100% + 10px);
+}
+.artichron.sheet.actor.hero .equipped-items .main .expand-out,
+.artichron.sheet.actor.hero .equipped-items .second .expand-out,
+.artichron.sheet.actor.hero .equipped-items .arms .expand-out,
+.artichron.sheet.actor.hero .equipped-items .accessory .expand-out {
+  right: calc(100% + 10px);
+}
+.artichron.sheet.actor.hero .equipped-items .expand-out .content {
+  margin: 5px 10px;
+  overflow: hidden;
+}
 /* Inventory */
 .artichron.sheet .inventory-section,
 .artichron.sheet .effects-section {
