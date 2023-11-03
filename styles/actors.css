@@ -232,9 +232,12 @@
 .artichron.sheet.actor.hero .equipped-items .equipped {
   position: absolute;
 }
+.artichron.sheet.actor.hero .equipped-items .equipped-item,
 .artichron.sheet.actor.hero .equipped-items .equipped img {
-  width: 100px;
   height: 100px;
+  width: 100px;
+}
+.artichron.sheet.actor.hero .equipped-items .equipped img {
   border: none;
   border-radius: 50px;
   transition: 150ms;
@@ -298,19 +301,19 @@
   white-space: nowrap;
   width: 100%;
 }
-.artichron.sheet.actor.hero .equipped-item:hover .expand-out {
-  width: 210px;
+.artichron.sheet.actor.hero .equipped-items .equipped:hover .expand-out {
+  width: 215px;
 }
-.artichron.sheet.actor.hero .equipped-items .expand-out {
+.artichron.sheet.actor.hero .equipped-items .equipped .expand-out {
   position: absolute;
-  top: 0;
-  bottom: 0;
+  top: -5px;
+  bottom: -5px;
   width: 0;
   transition: 200ms;
   border-radius: 10px;
   background-color: rgba(0, 0, 0, 1);
   color: var(--artichron-theme-bright);
-  white-space: nowrap;
+  overflow: hidden auto;
 }
 .artichron.sheet.actor.hero .equipped-items .head .expand-out,
 .artichron.sheet.actor.hero .equipped-items .chest .expand-out,
@@ -326,7 +329,7 @@
 }
 .artichron.sheet.actor.hero .equipped-items .expand-out .content {
   margin: 5px 10px;
-  overflow: hidden;
+  width: 195px;
 }
 /* Inventory */
 .artichron.sheet .inventory-section,
