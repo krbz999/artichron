@@ -88,7 +88,7 @@
   background-color: var(--artichron-theme-light);
   border-radius: 10px 10px 0 0 ;
 }
-.system-artichron .window-content {
+.artichron .window-content {
   border-radius: 0 0 10px 10px;
 }
 .artichron.app.opacity {

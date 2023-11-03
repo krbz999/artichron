@@ -45,6 +45,7 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(ItemSheet) {
     if (data.isArsenal) {
       data.context.categories = data.config.ARSENAL_TYPES;
       data.context.subtypes = data.config.ARSENAL_TYPES[data.system.type.category]?.items ?? {};
+      data.costOptions = {health: "ARTICHRON.Health", stamina: "ARTICHRON.Stamina", mana: "ARTICHRON.Mana"};
     } else if (data.isArmor) {
       data.context.categories = data.config.ARMOR_TYPES;
       data.context.resistanceOptions = Object.fromEntries(Object.entries(data.config.DAMAGE_TYPES).filter(([k, v]) => v.resist));

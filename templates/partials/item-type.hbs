@@ -29,12 +29,16 @@
     <option value="2">{{localize "ARTICHRON.ItemWieldTwoHanded"}}</option>
     {{/select}}
   </select>
+  <input type="number" name="system.wield.range" value="{{system.wield.range}}">
 </div>
 {{/if}}
 {{#if system.cost}}
 <div class="form-group">
   <label>{{localize "ARTICHRON.ItemPropertyCost"}}</label>
   <input type="number" name="system.cost.value" value="{{system.cost.value}}">
+  <select name="system.cost.type">
+    {{selectOptions costOptions selected=system.cost.type localize=true sort=false}}
+  </select>
 </div>
 {{/if}}
 {{#if system.price}}

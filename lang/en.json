@@ -67,6 +67,7 @@
   "ARTICHRON.DamageTypePhysical": "Physical",
   "ARTICHRON.DamageTypeWind": "Wind",
 
+  "ARTICHRON.ArmorSet": "Armor Set",
   "ARTICHRON.ArmorSetFlame": "Flame Set",
   "ARTICHRON.ArmorSetGlam": "Glamour Set",
 
@@ -80,6 +81,7 @@
 
   "ARTICHRON.Active": "Active",
   "ARTICHRON.ApplyDamage": "Apply Damage",
+  "ARTICHRON.Armor": "Armor",
   "ARTICHRON.ArsenalCategoryMelee": "Melee Weapon",
   "ARTICHRON.ArsenalCategoryRanged": "Ranged Weapon",
   "ARTICHRON.ArsenalCategoryShield": "Shield",
