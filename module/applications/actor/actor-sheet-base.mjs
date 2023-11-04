@@ -234,6 +234,22 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(ActorSheet)
   }
 
   /**
+   * Handle editing actor image.
+   * @param {PointerEvent} event      Initiating right-click event.
+   */
+  _onEditImg(event) {
+    const current = this.document.img;
+    const fp = new FilePicker({
+      type: "image",
+      current: current,
+      callback: path => this.document.update({img: path}),
+      top: this.position.top + 40,
+      left: this.position.left + 10
+    });
+    return fp.browse();
+  }
+
+  /**
    * Handle opening of a context menu.
    * @param {HTMLElement} element     The element the menu opens on.
    */
@@ -253,6 +269,7 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(ActorSheet)
           icon: "<i class='fa-solid fa-shield'></i>",
           callback: this._onChangeItem.bind(this, element)
         }];
+        break;
     }
   }
 
@@ -390,6 +407,7 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(ActorSheet)
       case "damage":
         const slot = event.currentTarget.dataset.arsenal;
         return this.document.rollDamage(slot, {event});
+      case "img": return this._onEditImg(event);
     }
   }
 

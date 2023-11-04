@@ -463,3 +463,336 @@
   bottom: 1px;
   background-color: var(--artichron-theme-bright);
 }
+
+/* ------------------- */
+/*      CONSTANTS      */
+/* ------------------- */
+:root {
+  --color-shadow-primary: rgb(0, 162, 255);
+  --color-border-highlight-alt: rgb(0, 0, 255);
+  --color-border-highlight: rgb(0, 100, 255);
+  --color-shadow-highlight: rgb(0, 100, 255);
+  --mana-filter: sepia(1) hue-rotate(180deg) drop-shadow(0 0 1px blue);
+  --health-filter: sepia(1) hue-rotate(270deg) drop-shadow(0 0 1px red);
+  --stamina-filter: sepia(1) hue-rotate(90deg) drop-shadow(0 0 1px green);
+  --artichron-theme-dark: rgba(0, 0, 255, 0.6);
+  --artichron-theme-light: rgba(0, 0, 255, 0.2);
+  --artichron-label: rgba(0, 0, 150, 0.9);
+  --equipment-margin: 25px;
+  --artichron-theme-bright: rgb(222, 225, 255);
+  --artichron-pool-die-size: 100px;
+}
+.system-artichron fieldset:has(:focus) {
+  border-color: var(--color-shadow-primary);
+}
+.system-artichron fieldset {
+  border-radius: 5px;
+  border-width: 2px;
+}
+.active-effect-sheet .editor {
+  height: 200px;
+  border-bottom: 2px groove;
+}
+.system-artichron fieldset .form-group input[type=text],
+.system-artichron fieldset .form-group input[type=number] {
+  flex: 2;
+}
+.system-artichron fieldset .form-group select {
+  flex: 1;
+}
+.system-artichron .form-group input[type=checkbox] {
+  flex: none;
+}
+.app form label,
+.app form select,
+.app form input[type=text],
+.app form input[type=number] {
+  height: calc(0.85 * var(--form-field-height));
+  border-radius: 5px;
+}
+.system-artichron h1,
+.system-artichron h2,
+.system-artichron h3,
+.system-artichron h4 {
+  margin: 0;
+}
+.system-artichron form .form-group > A,
+.system-artichron form .form-group > .fa-solid {
+  flex: 0 0 24px;
+  text-align: center;
+}
+.artichron.sheet nav.tabs {
+  gap: 2px;
+  margin-bottom: 0;
+  border: none;
+}
+.artichron.sheet nav.tabs .item {
+  font-family: "Modesto Condensed";
+  font-size: 18px;
+  padding: 1px 0;
+  border: 1px solid var(--artichron-theme-light);
+  border-bottom: 3px solid var(--artichron-theme-light);
+  flex: 1;
+  background-color: var(--artichron-theme-light);
+  border-radius: 10px 10px 0 0;
+  margin: 2px 0 0 0;
+  transition: background-color 100ms, color 100ms;
+}
+.artichron.sheet nav.tabs .item.active {
+  background-color: var(--artichron-theme-dark);
+  color: var(--artichron-theme-bright);
+}
+.artichron.sheet nav.tabs .item.inventory-tab.active,
+.artichron.sheet nav.tabs .item.effects-tab.active {
+  border-color: rgba(0, 0, 0, 0);
+}
+.system-artichron .sheet.actor .editor,
+.system-artichron .sheet.item .editor {
+  height: 100%;
+}
+.system-artichron .window-header {
+  background-color: var(--artichron-theme-light);
+  border-radius: 10px 10px 0 0 ;
+}
+.artichron .window-content {
+  border-radius: 0 0 10px 10px;
+}
+.artichron.app.opacity {
+  transition: opacity 250ms;
+}
+.artichron.app.opacity:not(:hover) {
+  opacity: 0.1;
+}
+.artichron.app .header-button.control.opacity i::before {
+  content: "\f205";
+}
+.artichron.app.opacity .header-button.control.opacity i::before {
+  content: "\f204";
+}
+.artichron .rollable:hover {
+  cursor: pointer;
+  text-shadow: 0 0 5px var(--color-shadow-primary);
+}
+.artichron.sheet form {
+  display: flex;
+  overflow: hidden;
+  flex-direction: column;
+}
+.artichron.sheet form .form-group {
+  margin: 0 5px;
+}
+.artichron form .form-group label {
+  white-space: nowrap;
+  color: var(--artichron-label);
+  font-weight: bold;
+}
+.artichron form .form-group label.checkbox {
+  flex: 0;
+}
+.artichron form .form-group input.tiny {
+  max-width: 2em;
+  max-height: 2em;
+  aspect-ratio: 1/1;
+  text-align: center;
+  border: none;
+  border-radius: 5px;
+  padding: 0;
+}
+.artichron form .form-group .sep {
+  color: gray;
+  white-space: nowrap;
+  flex: 0 0 1em;
+  text-align: center;
+}
+.artichron .sheet-body {
+  overflow: hidden;
+  height: 100%;
+  margin-top: 4px;
+}
+
+/* Damage Rolls */
+.artichron.damage-rolls {
+  gap: 5px;
+  display: flex;
+  flex-direction: column;
+}
+.artichron.damage-rolls .damage-roll {
+  display: flex;
+  flex-wrap: wrap;
+  cursor: pointer;
+}
+.artichron.damage-rolls .damage-roll .damage-properties,
+.artichron.apply-damage .damage-properties {
+  background-color: var(--artichron-theme-light);
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  gap: 10px;
+  border: 2px solid var(--color-border-light-2);
+  border-radius: 3px;
+  box-shadow: 0 0 2px #fff inset;
+  line-height: 24px;
+  text-align: center;
+  flex: 1;
+  position: relative;
+}
+.artichron.damage-rolls .damage-roll .damage-properties [data-action],
+.artichron.apply-damage [data-action] {
+  display: none;
+  position: absolute;
+  width: 1cm;
+  height: calc(100% - 2px);
+  left: 2px;
+  font-size: 11px;
+  padding: 0;
+  margin: 0;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  box-shadow: none;
+}
+.artichron.damage-rolls .damage-roll .damage-properties:hover [data-action],
+.artichron.artichron.apply-damage:hover [data-action] {
+  display: flex;
+}
+.artichron.damage-rolls .damage-roll .damage-properties .damage-total,
+.artichron.apply-damage .damage-properties .damage-total {
+  flex: 1;
+  font-size: var(--font-size-20);
+  font-weight: bold;
+}
+.artichron.damage-rolls .damage-roll .damage-properties .damage-type,
+.artichron.apply-damage .damage-properties .damage-type {
+  flex: 1;
+  font-style: italic;
+  filter: drop-shadow(1px 1px 1px black);
+}
+.artichron.damage-rolls .damage-roll .damage-roll-tooltip {
+  flex: 0 0 100%;
+  margin-top: 5px;
+  display: none;
+}
+.artichron.damage-rolls .damage-roll .damage-roll-tooltip.expanded {
+  display: block;
+}
+.artichron.damage-rolls .damage-roll .damage-roll-tooltip .tooltip-header {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  margin: 0;
+  line-height: 24px;
+  border-bottom: 1px solid var(--color-text-light-6);
+}
+.artichron.damage-rolls .damage-roll .damage-roll-tooltip .tooltip-header .tooltip-formula {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+.artichron.damage-rolls .damage-roll .damage-roll-tooltip .tooltip-header .tooltip-total {
+  flex: none;
+  white-space: nowrap;
+  font-size: var(--font-size-16);
+  padding: 0 5px;
+  background: rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--color-text-light-6);
+  border-bottom: none;
+  border-radius: 3px 3px 0 0;
+}
+.artichron.damage-rolls .damage-roll .damage-roll-tooltip .damage-rolls {
+  list-style: none;
+  margin: 5px 0 0 0;
+  padding: 0;
+  display: flex;
+}
+.artichron .die,
+.artichron .roll {
+  min-width: 24px;
+  line-height: 24px;
+  margin-right: 1px;
+  background-repeat: no-repeat;
+  background-size: 24px 24px;
+  font-size: var(--font-size-16);
+  color: #000;
+  font-weight: bold;
+  text-align: center;
+  background-image: url(../../../icons/svg/d6-grey.svg);
+}
+.artichron .die.max,
+.artichron .roll.max,
+.artichron .die.mana {
+  filter: var(--mana-filter);
+}
+.artichron .die.min,
+.artichron .roll.min,
+.artichron .die.health {
+  filter: var(--health-filter);
+}
+.artichron .die.stamina {
+  filter: var(--stamina-filter);
+}
+.artichron .die.d2, .artichron .roll.d2 {
+  background-image: url(../../../icons/svg/coins.svg);
+}
+.artichron .die.d4, .artichron .roll.d4 {
+  background-image: url(../../../icons/svg/d4-grey.svg);
+}
+.artichron .die.d3,
+.artichron .roll.d3,
+.artichron .die.d6,
+.artichron .roll.d6 {
+  background-image: url(../../../icons/svg/d6-grey.svg);
+}
+.artichron .die.d8, .artichron .roll.d8 {
+  background-image: url(../../../icons/svg/d8-grey.svg);
+}
+.artichron .die.d5,
+.artichron .roll.d5,
+.artichron .die.d10,
+.artichron .roll.d10 {
+  background-image: url(../../../icons/svg/d10-grey.svg);
+}
+.artichron .die.d12, .artichron .roll.d12 {
+  background-image: url(../../../icons/svg/d12-grey.svg);
+}
+.artichron .die.d20, .artichron .roll.d20 {
+  background-image: url(../../../icons/svg/d20-grey.svg);
+}
+.artichron.apply-damage {
+  margin: 5px 0;
+  border-top: 2px groove;
+  padding-top: 5px;
+}
+
+.artichron.sheet.actor .tab,
+.artichron.sheet.item .tab {
+  height: 100%;
+}
+
+/* Common form group styling. */
+.artichron .form-group.input-select select {
+  flex: 1;
+}
+
+.artichron.sheet.item {
+  min-width: 400px;
+  min-height: 400px;
+}
+.artichron.sheet.item .action {
+  float: right;
+  flex: none;
+  padding-left: 5px;
+  color: gray;
+}
+.artichron.sheet.item fieldset legend.header {
+  font-family: 'Modesto Condensed';
+  font-size: 24px;
+}
+.artichron.sheet.item .form-group.dice-combo input,
+.artichron.sheet.item .form-group.dice-combo select {
+  flex: 1;
+}
+.artichron.sheet.item .form-group label:first-child {
+  flex: 0 0 40%;
+}
+

@@ -1,0 +1,26 @@
+{
+  "name": "artichron",
+  "version": "1.0.0",
+  "description": "Artifice Chronicles System",
+  "main": "index.js",
+  "scripts": {
+    "concat-css": "run-func commands.js mergeCSS"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/krbz999/artichron.git"
+  },
+  "keywords": [
+    "fvtt",
+    "system"
+  ],
+  "author": "Zhell",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/krbz999/artichron/issues"
+  },
+  "homepage": "https://github.com/krbz999/artichron#readme",
+  "dependencies": {
+    "run-func": "^3.0.0"
+  }
+}

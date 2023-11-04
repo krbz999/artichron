@@ -78,7 +78,7 @@
 }
 .artichron.sheet nav.tabs .item.inventory-tab.active,
 .artichron.sheet nav.tabs .item.effects-tab.active {
-  border: none;
+  border-color: rgba(0, 0, 0, 0);
 }
 .system-artichron .sheet.actor .editor,
 .system-artichron .sheet.item .editor {

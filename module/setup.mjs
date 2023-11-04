@@ -3,7 +3,6 @@ import * as applications from "./applications/_module.mjs";
 import {preloadHandlebarsTemplates} from "./helpers/templates.mjs";
 import {dice} from "./dice/_module.mjs";
 import {dataModels, documents} from "./documents/_module.mjs";
-import {registerHandlebarHelpers} from "./helpers/handlebarHelpers.mjs";
 import {ChatLog} from "./documents/chat/chat-log.mjs";
 import * as utils from "./helpers/utils.mjs";
 
@@ -67,7 +66,6 @@ Hooks.once("init", function() {
 
   // Preload Handlebars templates.
   preloadHandlebarsTemplates();
-  registerHandlebarHelpers();
   ChatLog.init();
 });
 
