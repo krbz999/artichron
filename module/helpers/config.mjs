@@ -65,6 +65,13 @@ SYSTEM.DAMAGE_TYPES = {
     block: true, resist: true
   }
 };
+SYSTEM.HEALING_TYPES = {
+  healing: {
+    label: "ARTICHRON.HealingTypeHealing",
+    color: "33FF33",
+    icon: "fa-solid fa-heart"
+  }
+};
 
 // The types of physical defensive traits.
 SYSTEM.DEFENSE_TYPES = {

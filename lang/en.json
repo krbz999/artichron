@@ -80,6 +80,7 @@
   "ARTICHRON.ItemCreate": "Create Item",
 
   "ARTICHRON.Active": "Active",
+  "ARTICHRON.AlreadyAtMaxHealth": "{name} is already at their maximum health.",
   "ARTICHRON.ApplyDamage": "Apply Damage",
   "ARTICHRON.Armor": "Armor",
   "ARTICHRON.ArsenalCategoryMelee": "Melee Weapon",
@@ -120,6 +121,7 @@
   "ARTICHRON.Opacity": "Opacity",
   "ARTICHRON.Optional": "Optional",
   "ARTICHRON.PickEquippedItem": "Equip Item",
+  "ARTICHRON.PoolRoll": "{name}: {type} Roll",
   "ARTICHRON.Pools": "Dice Pools",
   "ARTICHRON.Recover": "Recover",
   "ARTICHRON.Resistance": "Resistance",
