@@ -370,6 +370,7 @@
   justify-content: space-between;
   padding: 0 4px;
   color: #474747;
+  gap: 10px;
 }
 .artichron.sheet .inventory-section .inventory-item:nth-child(odd),
 .artichron.sheet .effects-section .effects-item:nth-child(odd) {
@@ -380,6 +381,7 @@
   font-size: 14px;
   font-family: "Bruno Ace";
   padding: 2px 0;
+  flex: 1;
 }
 .artichron.sheet .inventory-section .inventory-item .item-controls,
 .artichron.sheet .effects-section .effects-item .item-controls {
@@ -462,4 +464,14 @@
   top: 1px;
   bottom: 1px;
   background-color: var(--artichron-theme-bright);
+}
+.artichron.sheet.actor .inventory-item .item-usage,
+.artichron.sheet.actor .inventory-item .item-quantity {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  white-space: nowrap;
+}
+.artichron.sheet.actor .inventory-item .sep {
+  margin-left: 2px;
 }

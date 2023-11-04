@@ -113,7 +113,9 @@ export class ActorSystemModel extends foundry.abstract.TypeDataModel {
     const dice = this.pools.stamina;
     this.encumbrance = {};
     this.encumbrance.max = dice.max * dice.faces;
-    this.encumbrance.value = this.parent.items.reduce((acc, item) => acc + (item.system.weight?.value ?? 0), 0);
+    this.encumbrance.value = this.parent.items.reduce((acc, item) => {
+      return acc + (item.system.weight?.value ?? 0) * (item.system.quantity?.value ?? 1);
+    }, 0);
   }
 
   /* ---------------------------------------- */

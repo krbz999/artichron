@@ -1,3 +1,4 @@
+import ItemArtichron from "../../documents/item/item.mjs";
 import {ArtichronSheetMixin} from "../base-sheet.mjs";
 import config from "./configs/base-config.mjs";
 
@@ -85,9 +86,16 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(ActorSheet)
   _prepareItems() {
     const types = this.document.itemTypes;
     const map = key => ({
-      key: key, items: types[key].map(item => {
-        return {item: item, favorited: this.document.system.equipped.favorites.has(item)};
-      }), label: `TYPES.Item.${key}Pl`
+      key: key,
+      items: types[key].map(item => {
+        return {
+          item: item,
+          favorited: this.document.system.equipped.favorites.has(item),
+          hasQty: "quantity" in item.system,
+          hasUsage: ("usage" in item.system) && (item.system.usage.max > 0)
+        };
+      }),
+      label: `TYPES.Item.${key}Pl`
     });
     return {
       inventory: ["arsenal", "armor", "part"].map(map),
@@ -227,6 +235,7 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(ActorSheet)
       if (action === "control") n.addEventListener("click", this._onClickManageItem.bind(this));
       else if (action === "toggle-config") n.addEventListener("click", this._onClickConfig.bind(this));
       else if (action === "manage") n.addEventListener("click", this._onClickManageActor.bind(this));
+      else if (action === "update") n.addEventListener("change", this._onChangeManageItem.bind(this));
     });
 
     // Context menus.
@@ -329,6 +338,25 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(ActorSheet)
       const item = this.document.items.get(id);
       return item.favorite();
     }
+  }
+
+  /**
+   * Handle updating an item property via a change event.
+   * @param {PointerEvent} event      The initiating change event.
+   * @returns {Promise<ItemArtichron>}
+   */
+  async _onChangeManageItem(event) {
+    const property = event.currentTarget.dataset.update;
+    const id = event.currentTarget.closest("[data-item-id]").dataset.itemId;
+    const item = this.document.items.get(id);
+    const value = foundry.utils.getProperty(item.system, property);
+    let tval = event.currentTarget.value;
+    if (!tval.trim()) tval = null;
+    else {
+      if (/^[+-][0-9]+/.test(tval)) tval = Roll.safeEval(`${value} ${tval}`);
+      if (event.currentTarget.max) tval = Math.min(parseInt(event.currentTarget.max), tval);
+    }
+    return item.update({[`system.${property}`]: tval});
   }
 
   /**

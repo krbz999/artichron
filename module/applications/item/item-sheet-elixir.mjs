@@ -4,12 +4,12 @@ import ItemSheetArtichron from "./item-sheet-base.mjs";
  * Extend the basic ItemSheet with some very simple modifications
  * @extends {ItemSheet}
  */
-export default class ItemSheetArmor extends ItemSheetArtichron {
+export default class ItemSheetElixir extends ItemSheetArtichron {
 
   /** @override */
   static get defaultOptions() {
     const options = super.defaultOptions;
-    options.classes.push("armor");
+    options.classes.push("elixir");
     return options;
   }
 

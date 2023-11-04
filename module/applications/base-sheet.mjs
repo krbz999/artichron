@@ -11,6 +11,7 @@ export const ArtichronSheetMixin = Base => class extends Base {
       rollData: this.document.getRollData(),
       document: this.document,
       system: this.document.system,
+      source: this.document.system.toObject(),
       config: CONFIG.SYSTEM
     };
     types.forEach(type => data[`is${type.capitalize()}`] = this.document.type === type);
@@ -35,9 +36,18 @@ export const ArtichronSheetMixin = Base => class extends Base {
    */
   _onChangeDelta(event) {
     const target = event.currentTarget;
-    const value = target.value;
+    if (!target.value) {
+      target.value = null;
+      return;
+    }
     const prop = foundry.utils.getProperty(this.document, target.name);
-    if (/^[+-][0-9]+/.test(value)) target.value = Roll.safeEval(`${prop} ${value}`);
+    const max = Number.isNumeric(target.max) ? Number(target.max) : null;
+
+    let value = target.value;
+    if (/^[+-][0-9]+/.test(value)) value = Roll.safeEval(`${prop} ${value}`);
+    console.warn({max});
+    if (max !== null) value = Math.min(max, value);
+    target.value = value;
   }
 
   /** @override */

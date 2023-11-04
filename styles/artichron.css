@@ -123,9 +123,9 @@
 .artichron form .form-group label.checkbox {
   flex: 0;
 }
-.artichron form .form-group input.tiny {
+.artichron form input.tiny {
   max-width: 2em;
-  max-height: 2em;
+  max-height: calc(min(2em, 100% - 2px));
   aspect-ratio: 1/1;
   text-align: center;
   border: none;

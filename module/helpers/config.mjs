@@ -158,6 +158,9 @@ SYSTEM.MONSTER_PART_TYPES = {
   tail: {label: "ARTICHRON.MonsterPartTypeTail"}
 };
 
+// Elixir subtypes.
+SYSTEM.ELIXIR_TYPES = {};
+
 // Armor set identifiers.
 // bonus could be a function or a static bonus, idk
 SYSTEM.ARMOR_SETS = {

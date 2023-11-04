@@ -44,19 +44,26 @@
 {{#if system.price}}
 <div class="form-group">
   <label>{{localize "ARTICHRON.ItemPropertyPrice"}}</label>
-  <input type="number" name="system.price.value" value="{{system.price.value}}">
+  <input class="delta" data-dtype="Number" type="text" name="system.price.value" value="{{system.price.value}}">
 </div>
 {{/if}}
 {{#if system.weight}}
 <div class="form-group">
   <label>{{localize "ARTICHRON.ItemPropertyWeight"}}</label>
-  <input type="number" name="system.weight.value" value="{{system.weight.value}}">
+  <input class="delta" data-dtype="Number" type="text" name="system.weight.value" value="{{system.weight.value}}">
 </div>
 {{/if}}
 {{#if system.quantity}}
 <div class="form-group">
   <label>{{localize "ARTICHRON.ItemPropertyQuantity"}}</label>
-  <input type="number" name="system.quantity.value" value="{{system.quantity.value}}">
+  <input class="delta" data-dtype="Number" type="text" name="system.quantity.value" value="{{system.quantity.value}}">
+</div>
+{{/if}}
+{{#if system.usage}}
+<div class="form-group">
+  <label>{{localize "ARTICHRON.ItemPropertyUsage"}}</label>
+  <input class="delta" data-dtype="Number" type="text" name="system.usage.value" value="{{system.usage.value}}" max="{{system.usage.max}}">
+  <input type="text" name="system.usage.max" value="{{source.usage.max}}">
 </div>
 {{/if}}
 {{#if document.isEmbedded}}

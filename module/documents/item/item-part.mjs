@@ -7,7 +7,7 @@ export default class PartData extends ItemSystemModel {
     return {
       ...super.defineSchema(),
       quantity: new fields.SchemaField({
-        value: new fields.NumberField({positive: true, integer: true, initial: 1})
+        value: new fields.NumberField({min: 0, integer: true, initial: 1})
       })
     };
   }

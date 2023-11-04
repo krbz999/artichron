@@ -8,9 +8,9 @@ export default class ItemSheetArsenal extends ItemSheetArtichron {
 
   /** @override */
   static get defaultOptions() {
-    return foundry.utils.mergeObject(super.defaultOptions, {
-      classes: ["arsenal", "sheet", "item", "artichron"]
-    });
+    const options = super.defaultOptions;
+    options.classes.push("arsenal");
+    return options;
   }
 
   /* -------------------------------------------- */

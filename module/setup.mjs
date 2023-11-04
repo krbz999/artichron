@@ -63,6 +63,7 @@ Hooks.once("init", function() {
   Items.unregisterSheet("core", ItemSheet);
   Items.registerSheet("artichron", applications.ItemSheetArsenal, {types: ["arsenal"], makeDefault: true, label: "ARTICHRON.ItemSheetArsenal"});
   Items.registerSheet("artichron", applications.ItemSheetArmor, {types: ["armor"], makeDefaut: true, label: "ARTICHRON.ItemSheetArmor"});
+  Items.registerSheet("artichron", applications.ItemSheetElixir, {types: ["elixir"], makeDefaut: true, label: "ARTICHRON.ItemSheetElixir"});
 
   // Preload Handlebars templates.
   preloadHandlebarsTemplates();
