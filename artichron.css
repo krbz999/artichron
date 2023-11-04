@@ -613,8 +613,9 @@
 .artichron form .form-group .sep {
   color: gray;
   white-space: nowrap;
-  flex: 0 0 1em;
+  flex: 0 0 10px;
   text-align: center;
+  margin: 0 4px;
 }
 .artichron .sheet-body {
   overflow: hidden;
@@ -804,7 +805,13 @@
 .artichron.sheet.item .form-group.dice-combo select {
   flex: 1;
 }
+.artichron.sheet.item .form-group.item-usage .delta {
+  flex: 0 0 40px;
+}
 .artichron.sheet.item .form-group label:first-child {
   flex: 0 0 40%;
+}
+.artichron.sheet.item .tab section {
+  margin-top: 5px;
 }
 

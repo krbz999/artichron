@@ -16,6 +16,12 @@
 .artichron.sheet.item .form-group.dice-combo select {
   flex: 1;
 }
+.artichron.sheet.item .form-group.item-usage .delta {
+  flex: 0 0 40px;
+}
 .artichron.sheet.item .form-group label:first-child {
   flex: 0 0 40%;
+}
+.artichron.sheet.item .tab section {
+  margin-top: 5px;
 }

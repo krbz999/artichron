@@ -60,9 +60,10 @@
 </div>
 {{/if}}
 {{#if system.usage}}
-<div class="form-group">
+<div class="form-group item-usage">
   <label>{{localize "ARTICHRON.ItemPropertyUsage"}}</label>
   <input class="delta" data-dtype="Number" type="text" name="system.usage.value" value="{{system.usage.value}}" max="{{system.usage.max}}">
+  <span class="sep">{{localize "ARTICHRON.ItemUsageOf"}}</span>
   <input type="text" name="system.usage.max" value="{{source.usage.max}}">
 </div>
 {{/if}}

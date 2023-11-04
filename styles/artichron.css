@@ -135,8 +135,9 @@
 .artichron form .form-group .sep {
   color: gray;
   white-space: nowrap;
-  flex: 0 0 1em;
+  flex: 0 0 10px;
   text-align: center;
+  margin: 0 4px;
 }
 .artichron .sheet-body {
   overflow: hidden;
