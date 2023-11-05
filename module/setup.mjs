@@ -74,8 +74,13 @@ Hooks.once("init", function() {
 /*  Ready Hook                                  */
 /* -------------------------------------------- */
 
-Hooks.once("ready", async function() {
-  //Hooks.on("hotbarDrop", (bar, data, slot) => createItemMacro(data, slot));
+Hooks.once("ready", function() {
+  Hooks.on("hotbarDrop", function(bar, data, slot) {
+    if (data.type === "ActiveEffect") {
+      createEffectMacro(bar, data, slot);
+      return false;
+    }
+  });
 });
 
 /* -------------------------------------------- */
@@ -83,57 +88,25 @@ Hooks.once("ready", async function() {
 /* -------------------------------------------- */
 
 /**
- * Create a Macro from an Item drop.
- * Get an existing item macro if one exists, otherwise create a new one.
- * @param {Object} data     The dropped data
+ * Create a Macro from an ActiveEffect drop.
+ * Get an existing macro if one exists, otherwise create a new one.
+ * @param {*} bar
+ * @param {object} data     The dropped data
  * @param {number} slot     The hotbar slot to use
  * @returns {Promise}
  */
-async function createItemMacro(data, slot) {
-  // First, determine if this is a valid owned item.
-  if (data.type !== "Item") return;
-  if (!data.uuid.includes('Actor.') && !data.uuid.includes('Token.')) {
-    return ui.notifications.warn("You can only create macro buttons for owned Items");
-  }
-  // If it is, retrieve it based on the uuid.
-  const item = await Item.fromDropData(data);
-
-  // Create the macro command using the uuid.
-  const command = `game.boilerplate.rollItemMacro("${data.uuid}");`;
-  let macro = game.macros.find(m => (m.name === item.name) && (m.command === command));
+async function createEffectMacro(bar, data, slot) {
+  const effect = await ActiveEffect.implementation.fromDropData(data);
+  const command = `artichron.utils.toggleEffect("${effect.name}");`;
+  const name = game.i18n.format("ARTICHRON.EffectToggleMacro", {name: effect.name});
+  let macro = game.macros.find(m => (m.name === name) && (m.command === command));
   if (!macro) {
-    macro = await Macro.create({
-      name: item.name,
+    macro = await Macro.implementation.create({
+      name: name,
       type: "script",
-      img: item.img,
-      command: command,
-      flags: {"boilerplate.itemMacro": true}
+      img: effect.icon,
+      command: command
     });
   }
   game.user.assignHotbarMacro(macro, slot);
-  return false;
-}
-
-/**
- * Create a Macro from an Item drop.
- * Get an existing item macro if one exists, otherwise create a new one.
- * @param {string} itemUuid
- */
-function rollItemMacro(itemUuid) {
-  // Reconstruct the drop data so that we can load the item.
-  const dropData = {
-    type: 'Item',
-    uuid: itemUuid
-  };
-  // Load the item from the uuid.
-  Item.fromDropData(dropData).then(item => {
-    // Determine if the item loaded and if it's an owned item.
-    if (!item || !item.parent) {
-      const itemName = item?.name ?? itemUuid;
-      return ui.notifications.warn(`Could not find item ${itemName}. You may need to delete and recreate this macro.`);
-    }
-
-    // Trigger the item roll
-    item.roll();
-  });
 }

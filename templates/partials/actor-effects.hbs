@@ -13,7 +13,9 @@
   <div class="items-list">
     {{#each section.data as |data|}}
     <div class="effects-item" data-item-id="{{data.effect.id}}" {{#if data.isItem}} data-parent-id="{{data.effect.parent.id}}" {{/if}}>
-      <a class="item-name">{{data.effect.name}} {{#if isItem}}({{data.effect.parent.name}}){{/if}}</a>
+      <div class="item-name" data-effect-id="{{data.effect.id}}">
+        <a class="item-name">{{data.effect.name}} {{#if isItem}}({{data.effect.parent.name}}){{/if}}</a>
+      </div>
       <div class="item-controls">
         <a class="item-control" data-control="toggle" data-action="control"><i class="fa-solid {{data.icon}}"></i></a>
         <a class="item-control" data-control="edit" data-action="control"><i class="fa-solid fa-edit"></i></a>

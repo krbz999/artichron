@@ -22,13 +22,33 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(ActorSheet)
       ],
       classes: ["sheet", "actor", "artichron"],
       resizable: false,
-      scrollY: [".equipped-items", ".items-list"]
+      scrollY: [".equipped-items", ".items-list"],
+      dragDrop: [{dragSelector: ".item-name"}]
     });
   }
 
   /** @override */
   get template() {
     return `systems/artichron/templates/actor/actor-sheet-${this.document.type}.hbs`;
+  }
+
+  /** @override */
+  _onDragStart(event) {
+    const entry = this._getEntryFromEvent(event);
+    const data = entry.toDragData();
+    event.dataTransfer.setData("text/plain", JSON.stringify(data));
+  }
+
+  /**
+   * Get the item or effect from this actor's collection, or an item's collection of effects.
+   * @param {Event} event
+   * @returns {ItemArtichron|ActiveEffectArtichron}
+   */
+  _getEntryFromEvent(event) {
+    const embeddedName = event.currentTarget.closest("[data-collection]").dataset.collection;
+    const data = event.currentTarget.closest("[data-item-id]").dataset;
+    const parent = data.parentId ? this.document.items.get(data.parentId) : this.document;
+    return parent.getEmbeddedCollection(embeddedName).get(data.itemId);
   }
 
   /* -------------------------------------------- */
@@ -312,37 +332,28 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(ActorSheet)
 
     // Show the document's sheet.
     else if (control === "edit") {
-      const data = event.currentTarget.closest("[data-item-id]").dataset;
-      const parent = data.parentId ? this.document.items.get(data.parentId) : this.document;
-      return parent.getEmbeddedCollection(embeddedName).get(data.itemId).sheet.render(true);
+      return this._getEntryFromEvent(event).sheet.render(true);
     }
 
     // Delete the document.
     else if (control === "delete") {
-      const data = event.currentTarget.closest("[data-item-id]").dataset;
-      const parent = data.parentId ? this.document.items.get(data.parentId) : this.document;
-      return parent.getEmbeddedCollection(embeddedName).get(data.itemId).deleteDialog();
+      return this._getEntryFromEvent(event).deleteDialog();
     }
 
     // Toggle an ActiveEffect.
     else if (control === "toggle") {
-      const data = event.currentTarget.closest("[data-item-id]").dataset;
-      const parent = data.parentId ? this.document.items.get(data.parentId) : this.document;
-      const item = parent.getEmbeddedCollection(embeddedName).get(data.itemId);
-      return item.update({disabled: !item.disabled});
+      const entry = this._getEntryFromEvent(event);
+      return entry.update({disabled: !entry.disabled});
     }
 
     // Toggle favoriting item.
     else if (control === "favorite") {
-      const id = event.currentTarget.closest("[data-item-id]").dataset.itemId;
-      const item = this.document.items.get(id);
-      return item.favorite();
+      return this._getEntryFromEvent(event).favorite();
     }
 
     // Use an item.
     else if (control === "use") {
-      const id = event.currentTarget.closest("[data-item-id]").dataset.itemId;
-      return this.document.items.get(id).use();
+      return this._getEntryFromEvent(event).use();
     }
   }
 
