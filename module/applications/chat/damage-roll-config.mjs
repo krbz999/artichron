@@ -1,20 +1,20 @@
-import {DamageRollCombined} from "../../dice/damage-roll.mjs";
-
-export class DamageRollConfig extends Dialog {
+export class DamageRollConfig extends FormApplication {
   /** @override */
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
       width: 300,
-      classes: ["artichron", "dialog", "damage-roll-config"]
+      classes: ["artichron", "dialog", "damage-roll-config"],
+      template: "systems/artichron/templates/chat/damage-roll-config.hbs",
+      closeOnSubmit: false
     });
   }
 
   /** @constructor */
-  constructor(item, dialogData = {}, options = {}) {
-    super(dialogData, options);
+  constructor(item, options = {}) {
+    super(item, options);
     this.item = item;
     this.actor = item.actor;
-    this.rolls = item.toObject().system.damage;
+    this.resolve = options.resolve;
   }
 
   /** @override */
@@ -24,11 +24,31 @@ export class DamageRollConfig extends Dialog {
 
   /** @override */
   async getData(options = {}) {
-    const data = await super.getData(options);
-    data.content = await renderTemplate("systems/artichron/templates/chat/damage-roll-config.hbs", {
-      rolls: this.rolls, damageTypes: CONFIG.SYSTEM.DAMAGE_TYPES
+    return {
+      rolls: this.item.system.damage,
+      damageTypes: CONFIG.SYSTEM.DAMAGE_TYPES
+    };
+  }
+
+  /** @override */
+  async _onChangeInput(event) {
+    await super._onChangeInput(event);
+    if (event.currentTarget.type !== "checkbox") return;
+    event.currentTarget.closest(".form-group").querySelectorAll("INPUT[type=text], SELECT").forEach(n => {
+      n.disabled = !event.currentTarget.checked;
     });
-    return data;
+  }
+
+  /** @override */
+  async _updateObject(event, formData) {
+    this.resolve?.(formData);
+    this.close();
+  }
+
+  /** @override */
+  async close(...args) {
+    this.resolve?.(null);
+    return super.close(...args);
   }
 
   /**
@@ -38,36 +58,8 @@ export class DamageRollConfig extends Dialog {
    */
   static async create(item) {
     return new Promise(resolve => {
-      new this(item, {
-        buttons: {
-          confirm: {
-            icon: `<i class="fa-solid fa-burst"></i>`,
-            label: game.i18n.localize("ARTICHRON.Roll"),
-            callback: html => {
-              const fd = new FormDataExtended(html[0].querySelector("form"), {readonly: true});
-              resolve(Object.values(foundry.utils.expandObject(fd.object)));
-            }
-          }
-        },
-        default: "confirm",
-        close: () => resolve(null)
-      }).render(true);
+      const fn = (data) => resolve(Object.values(foundry.utils.expandObject(data)?.system?.damage ?? {}));
+      new this(item, {resolve: fn}).render(true);
     });
-  }
-
-  /**
-   * Create a combined damage roll from an array of rolls.
-   * @param {object[]} rolls
-   * @param {boolean} [rolls[].active]      If explictly false, this entry in the array will be skipped.
-   * @param {string} rolls[].type           A damage type from `SYSTEM.DAMAGE_TYPES`.
-   * @param {string} rolls[].value          A roll's damage formula.
-   * @param {object} rollData               Roll data object to evaluate the rolls.
-   * @returns {DamageRollCombined}
-   */
-  static fromArray(rolls, rollData) {
-    rolls = rolls.filter(dmg => {
-      return (dmg.active !== false) && (dmg.type in CONFIG.SYSTEM.DAMAGE_TYPES) && Roll.validate(dmg.value);
-    });
-    return new DamageRollCombined(rolls, rollData);
   }
 }

@@ -123,6 +123,7 @@
   "ARTICHRON.Maximum": "Maximum",
   "ARTICHRON.Minimum": "Minimum",
   "ARTICHRON.NoAvailableEquipment": "You have no equipment of that type available.",
+  "ARTICHRON.NoDamageRollsInItem": "The item contained no formulas to roll.",
   "ARTICHRON.NoItemInSlot": "You have no item equipped in that slot.",
   "ARTICHRON.NotEnoughPoolDice": "{name} does not have enough {type} dice left!",
   "ARTICHRON.OK": "OK",

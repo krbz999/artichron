@@ -45,7 +45,6 @@ export const ArtichronSheetMixin = Base => class extends Base {
 
     let value = target.value;
     if (/^[+-][0-9]+/.test(value)) value = Roll.safeEval(`${prop} ${value}`);
-    console.warn({max});
     if (max !== null) value = Math.min(max, value);
     target.value = value;
   }

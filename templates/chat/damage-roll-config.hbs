@@ -1,14 +1,19 @@
 <form>
   {{#each rolls as |roll idx|}}
   <div class="form-group input-select" data-idx="{{idx}}">
-    <input type="text" name="{{idx}}.value" value="{{roll.value}}">
-    <select name="{{idx}}.type">
+    <input type="text" name="system.damage.{{idx}}.value" value="{{roll.value}}">
+    <select name="system.damage.{{idx}}.type">
       {{selectOptions ../damageTypes selected=roll.type blank="" localize=true labelAttr="label"}}
     </select>
     <label class="checkbox">
-      <input type="checkbox" name="{{idx}}.active" checked {{disabled (not roll.optional)}}>
+      <input type="checkbox" checked {{disabled (not roll.optional)}}>
       {{localize "ARTICHRON.Active"}}
     </label>
   </div>
   {{/each}}
+  <div class="dialog-buttons">
+    <button class="dialog-button" type="submit">
+      <i class="fa-solid fa-burst"></i> {{localize "ARTICHRON.Roll"}}
+    </button>
+  </div>
 </form>

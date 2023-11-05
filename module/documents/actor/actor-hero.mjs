@@ -1,4 +1,5 @@
 import {DamageRollConfig} from "../../applications/chat/damage-roll-config.mjs";
+import {DamageRollCombined} from "../../dice/damage-roll.mjs";
 import {ActorSystemModel} from "./system-model.mjs";
 
 export default class HeroData extends ActorSystemModel {
@@ -15,15 +16,35 @@ export default class HeroData extends ActorSystemModel {
   /** @override (not really) */
   async rollDamage(key = null, options = {}) {
     const arsenal = this.parent.arsenal;
-    const item = (key in arsenal) ? arsenal[key] : arsenal.first;
-    if(!item) {
+    let item = (key in arsenal) ? arsenal[key] : arsenal.first;
+    if (!item) {
       ui.notifications.warn("ARTICHRON.NoItemInSlot", {localize: true});
       return null;
     }
+
+    if (!item.system.damage.length) {
+      ui.notifications.warn("ARTICHRON.NoDamageRollsInItem", {localize: true});
+      return null;
+    }
+
     const isFF = options.fastForward || options.event?.shiftKey;
-    const rolls = isFF ? item.system.damage : await DamageRollConfig.create(item);
-    if (!rolls?.length) return null;
-    return DamageRollConfig.fromArray(rolls, item.getRollData()).toMessage({
+    if (!isFF) {
+      const configuration = await DamageRollConfig.create(item);
+      if (!configuration) return null;
+      item = item.clone({"system.damage": configuration}, {keepId: true});
+      item.prepareData();
+    }
+
+    const rolls = item.system.damage.filter(dmg => {
+      return (dmg.type in CONFIG.SYSTEM.DAMAGE_TYPES) && Roll.validate(dmg.value);
+    });
+
+    if (!rolls.length) {
+      ui.notifications.warn("ARTICHRON.NoDamageRollsInItem", {localize: true});
+      return null;
+    }
+
+    return new DamageRollCombined(rolls, item.getRollData()).toMessage({
       ...options,
       speaker: ChatMessage.implementation.getSpeaker({actor: this.parent})
     });
