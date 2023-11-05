@@ -18,4 +18,8 @@ export class ItemSystemModel extends foundry.abstract.TypeDataModel {
       })
     };
   }
+
+  async use() {
+    throw new Error("Subclasses of the Item System Data Model must override the #use method.");
+  }
 }

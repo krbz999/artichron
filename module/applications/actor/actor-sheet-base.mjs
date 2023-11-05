@@ -338,6 +338,12 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(ActorSheet)
       const item = this.document.items.get(id);
       return item.favorite();
     }
+
+    // Use an item.
+    else if (control === "use") {
+      const id = event.currentTarget.closest("[data-item-id]").dataset.itemId;
+      return this.document.items.get(id).use();
+    }
   }
 
   /**

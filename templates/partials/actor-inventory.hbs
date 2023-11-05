@@ -14,7 +14,7 @@
     {{#each section.items}}
     <div class="inventory-item" data-item-id="{{item.id}}">
       <div class="item-name">
-        <a>{{item.name}}</a>
+        <a data-action="control" data-control="use">{{item.name}}</a>
       </div>
       {{#if hasUsage}}
       <div class="item-usage">

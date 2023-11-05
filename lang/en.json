@@ -76,8 +76,10 @@
   "ARTICHRON.EffectsEnabled": "Enabled Effects",
   "ARTICHRON.EffectsInactive": "Inactive Effects",
   "ARTICHRON.EffectCreate": "Create Effect",
+  "ARTICHRON.EffectTransfer": "Transfer Effects",
 
   "ARTICHRON.ItemCreate": "Create Item",
+  "ARTICHRON.ItemConfiguration": "Use Item: {name}",
 
   "ARTICHRON.Active": "Active",
   "ARTICHRON.AlreadyAtMaxHealth": "{name} is already at their maximum health.",
@@ -88,6 +90,7 @@
   "ARTICHRON.ArsenalCategoryShield": "Shield",
   "ARTICHRON.ArsenalCategorySpell": "Spell",
   "ARTICHRON.ChangeItem": "Change Item",
+  "ARTICHRON.ConsumeUsage": "Consume Uses",
   "ARTICHRON.Damage": "Damage",
   "ARTICHRON.DamageRoll": "Damage Roll",
   "ARTICHRON.DamageTotal": "Total",
@@ -121,6 +124,7 @@
   "ARTICHRON.NoAvailableEquipment": "You have no equipment of that type available.",
   "ARTICHRON.NoItemInSlot": "You have no item equipped in that slot.",
   "ARTICHRON.NotEnoughPoolDice": "{name} does not have enough {type} dice left!",
+  "ARTICHRON.OK": "OK",
   "ARTICHRON.Opacity": "Opacity",
   "ARTICHRON.Optional": "Optional",
   "ARTICHRON.PickEquippedItem": "Equip Item",

@@ -77,4 +77,8 @@ export default class ItemArtichron extends Item {
     else favorites.push(this.id);
     return this.actor.update({"system.equipped.favorites": favorites});
   }
+
+  async use() {
+    return this.system.use();
+  }
 }
