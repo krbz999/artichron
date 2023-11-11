@@ -88,9 +88,13 @@ export class ActorSystemModel extends foundry.abstract.TypeDataModel {
   /** Prepare equipped items. */
   _prepareEquipped() {
     const {arsenal, armor, ammo, favorites} = this.equipped;
-    for (const key in arsenal) {
+    for (const key of ["first", "second"]) {
       const item = this.parent.items.get(arsenal[key]);
-      arsenal[key] = (item && (item.type === "arsenal")) ? item : null;
+      if (key === "first") arsenal[key] = (item && (item.type === "arsenal")) ? item : null;
+      else if (key === "second") {
+        if (arsenal.first?.isTwoHanded || item?.isTwoHanded) arsenal[key] = null;
+        else arsenal[key] = (item && (item.type === "arsenal")) ? item : null;
+      }
     }
     for (const key in armor) {
       const item = this.parent.items.get(armor[key]);
@@ -156,5 +160,13 @@ export class ActorSystemModel extends foundry.abstract.TypeDataModel {
     const invulnerable = CONFIG.specialStatusEffects.INVULNERABLE;
     if (this.parent.statuses.has(invulnerable)) return false;
     return !this.health.value;
+  }
+
+  /**
+   * Does this actor have a shield equipped?
+   * @type {boolean}
+   */
+  get hasShield() {
+    return Object.values(this.arsenal).some(a => a?.isShield);
   }
 }

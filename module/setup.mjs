@@ -34,6 +34,8 @@ Hooks.once("init", function() {
   CONFIG.Actor.documentClass = documents.actor;
   CONFIG.Item.documentClass = documents.item;
   CONFIG.Combat.documentClass = documents.combat;
+  CONFIG.Token.documentClass = documents.tokenDocument;
+  CONFIG.Token.objectClass = documents.token;
 
   // Hook up system data types
   CONFIG.Actor.dataModels = dataModels.actor;

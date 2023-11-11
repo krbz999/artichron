@@ -124,9 +124,18 @@ SYSTEM.ARSENAL_TYPES = {
   shield: {
     label: "ARTICHRON.ArsenalCategoryShield",
     items: {
-      buckler: {label: "ARTICHRON.ShieldTypeBuckler"},
-      heater: {label: "ARTICHRON.ShieldTypeHeater"},
-      kite: {label: "ARTICHRON.ShieldTypeKite"}
+      buckler: {
+        label: "ARTICHRON.ShieldTypeBuckler",
+        width: 1
+      },
+      heater: {
+        label: "ARTICHRON.ShieldTypeHeater",
+        width: 2
+      },
+      kite: {
+        label: "ARTICHRON.ShieldTypeKite",
+        width: 3
+      }
     }
   },
   spell: {

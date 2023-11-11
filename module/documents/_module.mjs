@@ -7,6 +7,8 @@ import ElixirData from "./item/item-elixir.mjs";
 import FoodData from "./item/item-food.mjs";
 import PartData from "./item/item-part.mjs";
 import ItemArtichron from "./item/item.mjs";
+import TokenDocumentArtichron from "./token/token-document.mjs";
+import TokenArtichron from "./token/token-placeable.mjs";
 
 export const dataModels = {
   actor: {
@@ -24,5 +26,7 @@ export const dataModels = {
 export const documents = {
   actor: ActorArtichron,
   item: ItemArtichron,
-  combat: CombatArtichron
+  combat: CombatArtichron,
+  tokenDocument: TokenDocumentArtichron,
+  token: TokenArtichron
 };

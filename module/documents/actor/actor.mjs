@@ -37,6 +37,14 @@ export default class ActorArtichron extends Actor {
     return this.system.isDead ?? false;
   }
 
+  /**
+   * Does this actor have a shield equipped?
+   * @type {boolean}
+   */
+  get hasShield() {
+    return this.system.hasShield ?? false;
+  }
+
   /* ---------------------------------------- */
   /*                                          */
   /*            PREPARATION METHODS           */
