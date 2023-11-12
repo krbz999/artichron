@@ -1,0 +1,19 @@
+{
+  "name": "Armor",
+  "sorting": "a",
+  "folder": null,
+  "type": "Item",
+  "_id": "a3CL70pOglIad3Gc",
+  "sort": 0,
+  "color": "#4c00ff",
+  "flags": {},
+  "_stats": {
+    "systemId": "artichron",
+    "systemVersion": "1.0.0",
+    "coreVersion": "11.315",
+    "createdTime": 1699805920712,
+    "modifiedTime": 1699805920712,
+    "lastModifiedBy": "3pWaVXzYT6XoJo1Y"
+  },
+  "_key": "!folders!a3CL70pOglIad3Gc"
+}

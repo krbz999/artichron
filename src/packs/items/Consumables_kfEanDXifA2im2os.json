@@ -1,0 +1,19 @@
+{
+  "name": "Consumables",
+  "sorting": "a",
+  "folder": null,
+  "type": "Item",
+  "_id": "kfEanDXifA2im2os",
+  "sort": 0,
+  "color": "#a64dff",
+  "flags": {},
+  "_stats": {
+    "systemId": "artichron",
+    "systemVersion": "1.0.0",
+    "coreVersion": "11.315",
+    "createdTime": 1699805965932,
+    "modifiedTime": 1699805975275,
+    "lastModifiedBy": "3pWaVXzYT6XoJo1Y"
+  },
+  "_key": "!folders!kfEanDXifA2im2os"
+}

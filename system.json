@@ -23,7 +23,37 @@
   "styles": [
     "artichron.css"
   ],
-  "packs": [],
+  "packs": [
+    {
+      "name": "actors",
+      "label": "Actors",
+      "path": "packs/actors",
+      "type": "Actor"
+    },
+    {
+      "name": "items",
+      "label": "Items",
+      "path": "packs/items",
+      "type": "Item"
+    },
+    {
+      "name": "rules",
+      "label": "Rules",
+      "path": "packs/rules",
+      "type": "JournalEntry"
+    }
+  ],
+  "packFolders": [
+    {
+      "name": "Artichron",
+      "sorting": "a",
+      "packs": [
+        "actors",
+        "items",
+        "rules"
+      ]
+    }
+  ],
   "languages": [
     {
       "lang": "en",

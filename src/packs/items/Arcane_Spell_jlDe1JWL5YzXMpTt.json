@@ -1,0 +1,76 @@
+{
+  "name": "Arcane Spell",
+  "img": "icons/sundries/books/book-eye-purple.webp",
+  "type": "arsenal",
+  "system": {
+    "description": {
+      "value": ""
+    },
+    "weight": {
+      "value": 1
+    },
+    "price": {
+      "value": null
+    },
+    "type": {
+      "category": "spell",
+      "subtype": "offense"
+    },
+    "damage": [
+      {
+        "value": "2d4 + 1@pools.mana.die",
+        "type": "arcane",
+        "optional": false,
+        "group": null
+      },
+      {
+        "value": "1@pools.mana.die",
+        "type": "arcane",
+        "optional": false,
+        "group": null
+      }
+    ],
+    "parry": {
+      "faces": 2,
+      "number": 4
+    },
+    "block": {
+      "faces": 4,
+      "number": 1
+    },
+    "wield": {
+      "value": 1,
+      "range": null
+    },
+    "fusion": {
+      "item": null
+    },
+    "armor": {
+      "value": 24
+    },
+    "cost": {
+      "value": null,
+      "type": "health"
+    }
+  },
+  "effects": [],
+  "folder": "BvmYOTG5ITHEWvdl",
+  "ownership": {
+    "default": 0,
+    "3pWaVXzYT6XoJo1Y": 3
+  },
+  "flags": {
+    "core": {}
+  },
+  "_stats": {
+    "systemId": "artichron",
+    "systemVersion": "1.0.0",
+    "coreVersion": "11.315",
+    "createdTime": 1698615160630,
+    "modifiedTime": 1699805938584,
+    "lastModifiedBy": "3pWaVXzYT6XoJo1Y"
+  },
+  "_id": "jlDe1JWL5YzXMpTt",
+  "sort": 100000,
+  "_key": "!items!jlDe1JWL5YzXMpTt"
+}
