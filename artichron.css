@@ -211,9 +211,10 @@
   opacity: 0.5;
   background-position-y: center;
   background-position-x: center;
+  transition: filter 200ms;
 }
 .artichron.sheet.actor.hero .equipped-items:has([data-manage=img]:hover) .backdrop.image {
-  filter: drop-shadow(0 0 10px var(--color-shadow-primary));
+  filter: drop-shadow(0 0 5px var(--artichron-theme-dark));
 }
 .artichron.sheet.actor.hero .equipped-items [data-manage=img] {
   top: 0;

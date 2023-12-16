@@ -131,6 +131,21 @@ export default class ActorArtichron extends Actor {
     this._displayScrollingNumbers(options.damages);
   }
 
+  /** @override */
+  async _preCreate(data, options, userId) {
+    if ((await super._preCreate(data, options, userId)) === false) return false;
+
+    const isHero = this.type === "hero";
+    const tokenData = {
+      sight: {enabled: true},
+      actorLink: isHero,
+      disposition: CONST.TOKEN_DISPOSITIONS[isHero ? "FRIENDLY" : "HOSTILE"],
+      displayName: CONST.TOKEN_DISPLAY_MODES[isHero ? "HOVER" : "OWNER_HOVER"],
+      displayBars: CONST.TOKEN_DISPLAY_MODES[isHero ? "HOVER" : "OWNER_HOVER"]
+    };
+    this.updateSource({prototypeToken: tokenData});
+  }
+
   /**
    * Display scrolling damage numbers on each of this actor's tokens.
    * @param {object} damages      An object of damage/healing types to their values.
