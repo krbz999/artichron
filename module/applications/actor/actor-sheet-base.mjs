@@ -22,7 +22,7 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(ActorSheet)
       ],
       classes: ["sheet", "actor", "artichron"],
       resizable: false,
-      scrollY: [".equipped-items", ".items-list"],
+      scrollY: [".equipped-items", ".documents-list"],
       dragDrop: [{dragSelector: ".item-name"}]
     });
   }

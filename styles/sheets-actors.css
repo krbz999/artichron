@@ -1,0 +1,191 @@
+/* ------------------ */
+/*    ACTOR SHEETS    */
+/* ------------------ */
+.artichron.sheet.actor {
+  min-width: 500px;
+  max-width: 500px;
+  min-height: 500px;
+}
+.artichron.sheet.actor .darken {
+  background-color: rgba(88, 88, 88, 0.15);
+  padding: 0;
+}
+.artichron.sheet.actor .tab.attributes {}
+.artichron.sheet.actor .tab section {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+}
+.artichron.sheet.actor .tab.attributes section.pools {}
+.artichron.sheet.actor .tab.attributes section.pools .pool-rolls {
+  display: flex;
+  justify-content: space-around;
+}
+.artichron.sheet.actor .tab.attributes section.pools .pool-rolls .pool {
+  padding: 1em;
+  transition: background-size 200ms;
+  background-size: 0;
+  background-repeat: no-repeat;
+  background-position-x: center;
+}
+.artichron.sheet.actor .tab.attributes section.pools .pool-rolls .pool:hover {
+  background-size: 100%;
+}
+.artichron.sheet.actor .tab.attributes .pool-rolls .pool[data-pool=health] {
+  background: radial-gradient(circle, rgb(255, 77, 77) 0%, rgba(0, 0, 0, 0) 75%);
+}
+.artichron.sheet.actor .tab.attributes .pool-rolls .pool[data-pool=stamina] {
+  background: radial-gradient(circle, rgb(0, 255, 0) 0%, rgba(0, 0, 0, 0) 75%);
+}
+.artichron.sheet.actor .tab.attributes .pool-rolls .pool[data-pool=mana] {
+  background: radial-gradient(circle, rgb(73, 73, 255) 0%, rgba(0, 0, 0, 0) 75%);
+}
+.artichron.sheet.actor .tab.attributes section.pools .pool-rolls .pool .die {
+  background-size: 100% 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Bruno Ace";
+  min-width: var(--artichron-pool-die-size);
+  max-width: var(--artichron-pool-die-size);
+  min-height: var(--artichron-pool-die-size);
+  max-height: var(--artichron-pool-die-size);
+}
+.artichron.sheet.actor .tab.attributes section.health {
+  height: 100%;
+}
+.artichron.sheet.actor .counter.health {
+  padding: 1em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  background-color: rgba(255, 0, 0, 0.1);
+  border: 3px inset black;
+  margin: 0;
+  margin-right: 3px;
+  height: 100%;
+  flex-direction: column;
+  border-radius: 15px;
+  overflow: hidden;
+}
+.artichron.sheet.actor .counter.health .health-bar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, rgba(130, 0, 0, 0.6) 0%, rgba(198, 0, 0, 0.5) 81%, rgba(255, 0, 0, 0.4) 100%);
+  border-radius: 5px;
+  pointer-events: none;
+}
+.artichron.sheet.actor .counter .health-values {
+  border-radius: calc(2 * var(--form-field-height));
+  height: calc(4 * var(--form-field-height));
+  width: calc(2 * var(--form-field-height));
+  border: 1px solid var(--artichron-theme-light);
+  font-family: "Trebuchet MS";
+  color: var(--artichron-label);
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: brightness(2);
+}
+.artichron.sheet.actor .counter .counter-value {
+  text-align: center;
+  border: none;
+}
+.artichron.sheet.actor .counter .counter-max {
+  font-weight: bold;
+}
+.artichron.sheet.actor section .section-header {
+  position: relative;
+  font-family: "Modesto Condensed";
+  font-size: 20px;
+  background-color: var(--artichron-theme-light);
+  text-align: center;
+}
+.artichron.sheet.actor section:hover > .section-header .edit[data-action] {
+  display: block;
+}
+.artichron.sheet.actor .edit[data-action] {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: none;
+  padding: 4px;
+  font-size: 12px;
+}
+.artichron.sheet.actor .attributes-sections {
+  display: flex;
+}
+.artichron.sheet.actor .attributes-sections .left-pane {
+  flex: none;
+}
+.artichron.sheet.actor .attributes-sections .center-pane {
+  flex: 1;
+}
+.artichron.sheet.actor .center-pane section {
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px inset;
+}
+.artichron.sheet.actor .center-pane section:not(:last-child) {
+  margin-bottom: 5px;
+}
+.artichron.sheet.actor .tab.attributes section.resistances {}
+.artichron.sheet.actor .tab.attributes .resistance-bars {
+  display: flex;
+  gap: 10px;
+  border-top: 0;
+}
+.artichron.sheet.actor .tab.attributes .resistance {
+  font-size: 25px;
+  line-height: 20px;
+  margin: 3px 0;
+  font-family: "Calibri";
+  flex: 1;
+  text-align: center;
+  padding-bottom: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.artichron.sheet.actor .tab.attributes .resistance .total {
+  color: rgb(97, 97, 97);
+  margin: 5px 0;
+}
+.artichron.sheet.actor .tab.attributes .resistance .fa-solid {
+  text-shadow: 0 0 3px black;
+  min-width: 1em;
+  max-width: 1em;
+}
+.artichron.sheet.actor .encumbrance {
+  position: relative;
+  width: 100%;
+  height: 22px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  border-radius: 10px;
+  border: 1px solid var(--artichron-theme-light);
+  border-width: 1px 2px;
+  box-shadow: 0 0 2px black inset;
+  background-color: rgba(0, 0, 0, 0.25);
+}
+.artichron.sheet.actor .encumbrance-values {
+  font-size: 14px;
+  font-family: "Modesto Condensed";
+  z-index: 1;
+  color: var(--artichron-label);
+}
+.artichron.sheet.actor .encumbrance-bar {
+  position: absolute;
+  left: 0;
+  top: 1px;
+  bottom: 1px;
+  background-color: var(--artichron-theme-bright);
+}

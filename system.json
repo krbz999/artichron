@@ -21,7 +21,12 @@
     "module/setup.mjs"
   ],
   "styles": [
-    "artichron.css"
+    "styles/artichron.css",
+    "styles/rolls.css",
+    "styles/sheets-actors-hero.css",
+    "styles/sheets-actors.css",
+    "styles/sheets-items.css",
+    "styles/sheets.css"
   ],
   "packs": [
     {
@@ -74,15 +79,8 @@
   "changelog": "CHANGELOG.md",
   "flags": {
     "hotReload": {
-      "extensions": [
-        "json",
-        "css",
-        "hbs"
-      ],
-      "paths": [
-        "artichron.css",
-        "lang/en.json"
-      ]
+      "extensions": ["css", "hbs"],
+      "paths": ["lang/en.json"]
     }
   }
 }

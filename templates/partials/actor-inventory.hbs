@@ -5,25 +5,25 @@
 </nav>
 
 {{#each sections as |section|}}
-<div class="tab inventory-section" data-item-type="{{key}}" data-tab="{{key}}" data-group="inventory" data-collection="items">
-  <h4 class="items-list-header rollable" data-action="control" data-control="create">
+<div class="tab document-section" data-item-type="{{key}}" data-tab="{{key}}" data-group="inventory" data-collection="items">
+  <h4 class="documents-list-header rollable" data-action="control" data-control="create">
     {{localize "ARTICHRON.ItemCreate"}}
     <i class="fa-solid fa-plus"></i>
   </h4>
-  <div class="items-list">
+  <div class="documents-list">
     {{#each section.items}}
-    <div class="inventory-item" data-item-id="{{item.id}}">
+    <div class="document-item" data-item-id="{{item.id}}">
       <div class="item-name" data-item-id="{{item.id}}">
         <a data-action="control" data-control="use">{{item.name}}</a>
       </div>
       {{#if hasUsage}}
-      <div class="item-usage">
+      <div class="document-input">
         <input class="tiny" type="text" value="{{item.system.usage.value}}" data-action="update" data-update="usage.value" max="{{item.system.usage.max}}" placeholder="0">
         <span class="sep">/ {{item.system.usage.max}} {{localize "ARTICHRON.ItemPropertyUsage"}}</span>
       </div>
       {{/if}}
       {{#if hasQty}}
-      <div class="item-quantity">
+      <div class="document-input">
         <input class="tiny" type="text" value="{{item.system.quantity.value}}" data-action="update" data-update="quantity.value" placeholder="0">
         <span class="sep">{{localize "ARTICHRON.ItemPropertyQuantity"}}</span>
       </div>

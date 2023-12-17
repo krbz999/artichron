@@ -93,9 +93,9 @@ Hooks.once("ready", function() {
  * Create a Macro from an ActiveEffect drop.
  * Get an existing macro if one exists, otherwise create a new one.
  * @param {*} bar
- * @param {object} data     The dropped data
- * @param {number} slot     The hotbar slot to use
- * @returns {Promise}
+ * @param {object} data         The dropped data.
+ * @param {number} slot         The hotbar slot to use.
+ * @returns {Promise<User>}     A Promise which resolves once the User update is complete.
  */
 async function createEffectMacro(bar, data, slot) {
   const effect = await ActiveEffect.implementation.fromDropData(data);
@@ -110,5 +110,5 @@ async function createEffectMacro(bar, data, slot) {
       command: command
     });
   }
-  game.user.assignHotbarMacro(macro, slot);
+  return game.user.assignHotbarMacro(macro, slot);
 }

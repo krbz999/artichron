@@ -16,7 +16,7 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(ItemSheet) {
         {navSelector: "[data-tab=effects] > .effects.tabs[data-group=effects]", contentSelector: ".tab.effects", initial: "active", group: "effects"}
       ],
       classes: ["sheet", "item", "artichron"],
-      scrollY: [".editor-content", ".items-list"]
+      scrollY: [".editor-content", ".documents-list"]
     });
   }
 

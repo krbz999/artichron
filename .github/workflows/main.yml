@@ -1,0 +1,59 @@
+name: Release Creation
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      # Combine CSS files into a single CSS file
+      - name: Combine CSS files
+        run: |
+          cat styles/*.css > artichron.css
+
+      # Modify styles in system manifest to point only at the combined CSS file
+      - name: Modify Manifest for combined CSS
+        uses: microsoft/variable-substitution@v1
+        with:
+          files: "system.json"
+        env:
+          styles: "[\"artichron.css\"]"
+
+      # Get part of the tag after the `v`.
+      - name: Extract tag version number
+        id: get_version
+        uses: battila7/get-version-action@v2
+
+      # Remove HotReload and update version and download properties.
+      - name: Modify Manifest to remove HotReload
+        uses: microsoft/variable-substitution@v1
+        with:
+          files: "system.json"
+        env:
+          flags.hotReload: false
+          version: ${{steps.get_version.outputs.version-without-v}}
+          download: https://github.com/${{github.repository}}/releases/download/${{github.event.release.tag_name}}/system.zip
+
+      # Create zip file.
+      - name: Create ZIP archive
+        run: zip -r ./system.zip system.json template.json artichron.css lang/ module/ templates/
+
+      # Create a release for this specific version.
+      - name: Update Release with Files
+        if: "!github.event.release.prerelease"
+        id: create_version_release
+        uses: ncipollo/release-action@v1
+        with:
+          allowUpdates: true
+          name: ${{ github.event.release.name }}
+          draft: false
+          prerelease: false
+          token: ${{ secrets.GITHUB_TOKEN }}
+          artifacts: "./module.json, ./module.zip"
+          tag: ${{ github.event.release.tag_name }}
+          body: ${{ github.event.release.body }}

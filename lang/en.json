@@ -19,6 +19,8 @@
   "TYPES.Item.arsenal": "Arsenal",
   "TYPES.Item.arsenalPl": "Arsenal",
 
+  "ARTICHRON.ActorSheetHero": "Artichron Hero Sheet",
+
   "ARTICHRON.WeaponTypeAxe": "Axe",
   "ARTICHRON.WeaponTypeBow": "Bow",
   "ARTICHRON.WeaponTypeHammer": "Hammer",

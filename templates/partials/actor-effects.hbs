@@ -5,14 +5,14 @@
 </nav>
 
 {{#each sections as |section|}}
-<div class="tab effects-section" data-active="{{key}}" data-tab="{{key}}" data-group="effects" data-collection="effects">
-  <h4 class="items-list-header rollable" data-action="control" data-control="create">
+<div class="tab document-section" data-active="{{key}}" data-tab="{{key}}" data-group="effects" data-collection="effects">
+  <h4 class="documents-list-header rollable" data-action="control" data-control="create">
     {{localize "ARTICHRON.EffectCreate"}}
     <i class="fa-solid fa-plus"></i>
   </h4>
-  <div class="items-list">
+  <div class="documents-list">
     {{#each section.data as |data|}}
-    <div class="effects-item" data-item-id="{{data.effect.id}}" {{#if data.isItem}} data-parent-id="{{data.effect.parent.id}}" {{/if}}>
+    <div class="document-item" data-item-id="{{data.effect.id}}" {{#if data.isItem}} data-parent-id="{{data.effect.parent.id}}" {{/if}}>
       <div class="item-name" data-effect-id="{{data.effect.id}}">
         <a class="item-name">{{data.effect.name}} {{#if isItem}}({{data.effect.parent.name}}){{/if}}</a>
       </div>

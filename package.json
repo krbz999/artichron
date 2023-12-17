@@ -4,7 +4,6 @@
   "description": "Artifice Chronicles System",
   "main": "index.js",
   "scripts": {
-    "concat-css": "run-func tools/commands.js mergeCSS",
     "unpack-db": "tools/unpack-level-db"
   },
   "repository": {
@@ -22,7 +21,6 @@
   },
   "homepage": "https://github.com/krbz999/artichron#readme",
   "dependencies": {
-    "@foundryvtt/foundryvtt-cli": "^1.0.0-rc.4",
-    "run-func": "^3.0.0"
+    "@foundryvtt/foundryvtt-cli": "^1.0.0-rc.4"
   }
 }
