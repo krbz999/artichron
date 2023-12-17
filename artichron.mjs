@@ -1,10 +1,10 @@
-import {SYSTEM} from "./helpers/config.mjs";
-import * as applications from "./applications/_module.mjs";
-import {preloadHandlebarsTemplates} from "./helpers/templates.mjs";
-import {dice} from "./dice/_module.mjs";
-import {dataModels, documents} from "./documents/_module.mjs";
-import {ChatLog} from "./documents/chat/chat-log.mjs";
-import * as utils from "./helpers/utils.mjs";
+import {SYSTEM} from "./module/helpers/config.mjs";
+import * as applications from "./module/applications/_module.mjs";
+import {preloadHandlebarsTemplates} from "./module/helpers/templates.mjs";
+import {dice} from "./module/dice/_module.mjs";
+import {dataModels, documents} from "./module/documents/_module.mjs";
+import {ChatLog} from "./module/documents/chat/chat-log.mjs";
+import * as utils from "./module/helpers/utils.mjs";
 
 /* -------------------------------------------- */
 /*  Define Module Structure                     */

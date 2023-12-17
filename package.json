@@ -6,7 +6,7 @@
   "scripts": {
     "db:unpack": "node tools/pack-level-db.mjs unpack",
     "db:pack": "node tools/pack-level-db.mjs pack",
-    "build": "rollup module/setup.mjs -o artichron-compiled.mjs -f es -p node-resolve --sourcemapFile artichron.mjs"
+    "build": "rollup artichron.mjs -o artichron-compiled.mjs -f es -p node-resolve --sourcemapFile artichron.mjs"
   },
   "repository": {
     "type": "git",
