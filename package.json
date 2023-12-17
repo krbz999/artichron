@@ -4,7 +4,8 @@
   "description": "Artifice Chronicles System",
   "main": "index.js",
   "scripts": {
-    "unpack-db": "tools/unpack-level-db"
+    "db:unpack": "node tools/pack-level-db.mjs unpack",
+    "db:pack": "node tools/pack-level-db.mjs pack"
   },
   "repository": {
     "type": "git",
@@ -21,6 +22,6 @@
   },
   "homepage": "https://github.com/krbz999/artichron#readme",
   "dependencies": {
-    "@foundryvtt/foundryvtt-cli": "^1.0.0-rc.4"
+    "@foundryvtt/foundryvtt-cli": "^1.0.2"
   }
 }
