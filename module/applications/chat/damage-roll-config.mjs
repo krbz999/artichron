@@ -58,7 +58,7 @@ export class DamageRollConfig extends FormApplication {
    */
   static async create(item) {
     return new Promise(resolve => {
-      const fn = (data) => resolve(Object.values(foundry.utils.expandObject(data)?.system?.damage ?? {}));
+      const fn = (data) => resolve(data && Object.values(foundry.utils.expandObject(data)?.system?.damage ?? {}));
       new this(item, {resolve: fn}).render(true);
     });
   }

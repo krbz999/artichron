@@ -188,13 +188,11 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(ActorSheet)
       item: main,
       img: main ? main.img : emptySlotIcons.arsenal,
       tooltip: main ? main.name : "ARTICHRON.EquipItem",
+      hasDamage: main,
       data: {
         "item-id": main ? main.id : null,
-        action: "manage",
-        manage: "damage",
         arsenal: main ? "first" : null,
-        slot: "arsenal.first",
-        context: "equipped"
+        slot: "arsenal.first"
       }
     });
 
@@ -212,13 +210,11 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(ActorSheet)
       item: disableSecond ? null : second,
       img: disableSecond ? main.img : second ? second.img : emptySlotIcons.arsenal,
       tooltip: disableSecond ? null : second ? second.name : "ARTICHRON.EquipItem",
+      hasDamage: !emptySecond,
       data: {
         "item-id": (!disableSecond && second) ? second.id : null,
-        action: disableSecond ? null : "manage",
-        manage: disableSecond ? null : "damage",
         arsenal: disableSecond ? null : "second",
-        slot: disableSecond ? null : "arsenal.second",
-        context: disableSecond ? null : "equipped"
+        slot: disableSecond ? null : "arsenal.second"
       }
     });
 
@@ -232,9 +228,7 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(ActorSheet)
         tooltip: item ? item.name : "ARTICHRON.EquipItem",
         data: {
           "item-id": item ? item.id : null,
-          action: "change-item",
-          slot: `armor.${key}`,
-          context: "equipped"
+          slot: `armor.${key}`
         }
       };
     }));
@@ -257,9 +251,6 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(ActorSheet)
       else if (action === "manage") n.addEventListener("click", this._onClickManageActor.bind(this));
       else if (action === "update") n.addEventListener("change", this._onChangeManageItem.bind(this));
     });
-
-    // Context menus.
-    new ContextMenu(html, "[data-context]", [], {onOpen: this._onContext.bind(this)});
   }
 
   /**
@@ -276,30 +267,6 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(ActorSheet)
       left: this.position.left + 10
     });
     return fp.browse();
-  }
-
-  /**
-   * Handle opening of a context menu.
-   * @param {HTMLElement} element     The element the menu opens on.
-   */
-  async _onContext(element) {
-    const ctx = element.dataset.context;
-    switch (ctx) {
-      case "equipped":
-        const id = element.closest("[data-item-id]")?.dataset.itemId;
-        const item = this.document.items.get(id);
-        ui.context.menuItems = [{
-          name: "ARTICHRON.EditItem",
-          icon: "<i class='fa-solid fa-edit'></i>",
-          condition: () => !!item,
-          callback: () => item.sheet.render(true)
-        }, {
-          name: "ARTICHRON.ChangeItem",
-          icon: "<i class='fa-solid fa-shield'></i>",
-          callback: this._onChangeItem.bind(this, element)
-        }];
-        break;
-    }
   }
 
   /**
@@ -355,6 +322,11 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(ActorSheet)
     else if (control === "use") {
       return this._getEntryFromEvent(event).use();
     }
+
+    // Change loadout.
+    else if (control === "change") {
+      return this._onChangeItem(event);
+    }
   }
 
   /**
@@ -378,11 +350,11 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(ActorSheet)
 
   /**
    * Handle changing the equipped item in a particular slot.
-   * @param {HTMLElement} element     The element that triggered the contextmenu.
+   * @param {PointerEvent} event      The initiating click event.
    * @returns {Promise<ActorArtichron|null>}
    */
-  async _onChangeItem(element) {
-    const [type, slot] = element.closest("[data-slot]").dataset.slot.split(".");
+  async _onChangeItem(event) {
+    const [type, slot] = event.currentTarget.closest("[data-slot]").dataset.slot.split(".");
 
     let items;
     if (type === "armor") {
@@ -450,7 +422,7 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(ActorSheet)
         const type = event.currentTarget.dataset.pool;
         return this.document.rollPool(type, {event});
       case "damage":
-        const slot = event.currentTarget.dataset.arsenal;
+        const slot = event.currentTarget.closest("[data-arsenal]").dataset.arsenal;
         return this.document.rollDamage(slot, {event});
       case "img": return this._onEditImg(event);
     }

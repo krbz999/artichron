@@ -139,17 +139,6 @@
 .artichron.sheet.actor.hero .equipped-items .equipped.accessory {
   top: calc(300px + 7 * var(--equipment-margin));
 }
-.artichron.sheet.actor.hero .equipped-item #context-menu {
-  top: -10px;
-  left: -10px;
-  min-width: calc(100% + 20px);
-  max-width: calc(100% + 20px);
-}
-.artichron.sheet.actor.hero .equipped-item #context-menu .context-items {
-  overflow: hidden;
-  white-space: nowrap;
-  width: 100%;
-}
 .artichron.sheet.actor.hero .equipped-items .equipped:hover .expand-out {
   width: 215px;
 }
@@ -163,6 +152,13 @@
   background-color: rgba(0, 0, 0, 1);
   color: var(--artichron-theme-bright);
   overflow: hidden auto;
+}
+.artichron.sheet.actor.hero .equipped-items .equipped .expand-out .controls {
+  display: flex;
+  flex-direction: row;
+  padding: 5px;
+  justify-content: space-around;
+  min-width: 195px;
 }
 .artichron.sheet.actor.hero .equipped-items .head .expand-out,
 .artichron.sheet.actor.hero .equipped-items .chest .expand-out,
