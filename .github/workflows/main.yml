@@ -16,20 +16,12 @@ jobs:
         run: |
           cat styles/*.css > artichron.css
 
-      # Modify styles in system manifest to point only at the combined CSS file
-      - name: Modify Manifest for combined CSS
-        uses: microsoft/variable-substitution@v1
-        with:
-          files: "system.json"
-        env:
-          styles: "[\"artichron.css\"]"
-
       # Get part of the tag after the `v`.
       - name: Extract tag version number
         id: get_version
         uses: battila7/get-version-action@v2
 
-      # Remove HotReload and update version and download properties.
+      # Modify manifest version, download, esmodules, styles, remove hotreload.
       - name: Modify Manifest to remove HotReload
         uses: microsoft/variable-substitution@v1
         with:
@@ -38,6 +30,8 @@ jobs:
           flags.hotReload: false
           version: ${{steps.get_version.outputs.version-without-v}}
           download: https://github.com/${{github.repository}}/releases/download/${{github.event.release.tag_name}}/system.zip
+          esmodules: "[\"artichron.mjs\"]"
+          styles: "[\"artichron.css\"]"
 
       # Set up Node
       - name: Use Node.js ${{ matrix.node-version }}
