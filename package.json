@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "db:unpack": "node tools/pack-level-db.mjs unpack",
-    "db:pack": "node tools/pack-level-db.mjs pack"
+    "db:pack": "node tools/pack-level-db.mjs pack",
+    "build": "rollup module/setup.mjs -o artichron.mjs -f es"
   },
   "repository": {
     "type": "git",
@@ -22,6 +23,7 @@
   },
   "homepage": "https://github.com/krbz999/artichron#readme",
   "dependencies": {
-    "@foundryvtt/foundryvtt-cli": "^1.0.2"
+    "@foundryvtt/foundryvtt-cli": "^1.0.2",
+    "rollup": "^4.9.1"
   }
 }

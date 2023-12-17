@@ -39,9 +39,15 @@ jobs:
           version: ${{steps.get_version.outputs.version-without-v}}
           download: https://github.com/${{github.repository}}/releases/download/${{github.event.release.tag_name}}/system.zip
 
+      # Run build scripts
+      - name: Build All
+        run: |
+          npm run db:pack
+          npm run build
+
       # Create zip file.
       - name: Create ZIP archive
-        run: zip -r ./system.zip system.json template.json artichron.css lang/ module/ templates/
+        run: zip -r ./system.zip system.json template.json artichron.css artichon.mjs packs/ lang/ templates/
 
       # Create a release for this specific version.
       - name: Update Release with Files
@@ -54,6 +60,6 @@ jobs:
           draft: false
           prerelease: false
           token: ${{ secrets.GITHUB_TOKEN }}
-          artifacts: "./module.json, ./module.zip"
+          artifacts: "./system.json, ./system.zip"
           tag: ${{ github.event.release.tag_name }}
           body: ${{ github.event.release.body }}
