@@ -58,8 +58,8 @@ jobs:
       - name: Create Database Packs
         uses: aMediocreDad/foundry-db-packer@v0.2.1
         with:
-          inputdir: src/packs # The directory which contains the JSON files to pack (required)
-          packsdir: packs/ # The directory where the compendium packs should exist (optional)
+          inputdir: src/packs/ # The directory which contains the JSON files to pack (required)
+          # packsdir: packs/ # The directory where the compendium packs should exist (optional)
           pack_classiclevel: true # <boolean> Whether to pack the class level db files (optional)
           pack_nedb: false # <boolean> Whether to pack the nedb db files (optional)
 
