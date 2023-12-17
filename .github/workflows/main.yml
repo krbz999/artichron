@@ -54,7 +54,7 @@ jobs:
 
       # Create zip file.
       - name: Create ZIP archive
-        run: zip -r ./system.zip system.json template.json artichron.css artichon.mjs packs/ lang/ templates/
+        run: zip -r ./system.zip system.json template.json artichron.css artichron.mjs packs/ lang/ templates/
 
       # Create a release for this specific version.
       - name: Update Release with Files
