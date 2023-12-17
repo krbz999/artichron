@@ -22,7 +22,7 @@
     "url": "https://github.com/krbz999/artichron/issues"
   },
   "homepage": "https://github.com/krbz999/artichron#readme",
-  "dependencies": {
+  "devDependencies": {
     "@foundryvtt/foundryvtt-cli": "^1.0.2",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "rollup": "^4.9.1"
