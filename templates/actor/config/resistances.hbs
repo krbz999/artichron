@@ -1,0 +1,13 @@
+<form>
+  {{#each resistances}}
+  <div class="form-group">
+    <label>{{localize label}}</label>
+    <i class="{{icon}}"></i>
+    <input type="text" name="{{key}}.bonus" value="{{bonus}}" {{disabled disabled}}>
+  </div>
+  {{/each}}
+
+  <button type="submit">
+    <i class="fa-solid fa-save"></i> {{localize "Save"}}
+  </button>
+</form>

@@ -1,0 +1,19 @@
+{
+  "name": "Arsenal",
+  "sorting": "a",
+  "folder": null,
+  "type": "Item",
+  "_id": "BvmYOTG5ITHEWvdl",
+  "sort": 0,
+  "color": "#0079ad",
+  "flags": {},
+  "_stats": {
+    "systemId": "artichron",
+    "systemVersion": "1.0.0",
+    "coreVersion": "11.315",
+    "createdTime": 1699805936698,
+    "modifiedTime": 1699805951413,
+    "lastModifiedBy": "3pWaVXzYT6XoJo1Y"
+  },
+  "_key": "!folders!BvmYOTG5ITHEWvdl"
+}

@@ -1,0 +1,71 @@
+<form autocomplete="off">
+
+  {{!-- Sheet Header --}}
+  <header class="sheet-header">
+    <div class="header-fields">
+      <input name="name" type="text" value="{{document.name}}" placeholder="{{localize 'Name'}}">
+    </div>
+  </header>
+
+  {{!-- Sheet Tab Navigation --}}
+  <nav class="sheet-tabs tabs" data-group="primary">
+    <a class="item" data-tab="attributes">{{localize "ARTICHRON.SheetTabAttributes"}}</a>
+    <a class="item" data-tab="equipment">{{localize "ARTICHRON.SheetTabEquipment"}}</a>
+    <a class="item" data-tab="inventory">{{localize "ARTICHRON.SheetTabInventory"}}</a>
+    <a class="item" data-tab="consumables">{{localize "ARTICHRON.SheetTabConsumables"}}</a>
+    <a class="item" data-tab="effects">{{localize "ARTICHRON.SheetTabEffects"}}</a>
+  </nav>
+
+  {{!-- Sheet Body --}}
+  <section class="sheet-body">
+
+    {{!-- Tabs --}}
+    <div class="tab attributes" data-group="primary" data-tab="attributes">
+      <div class="attributes-sections">
+        <div class="left-pane">
+          <section class="health">
+            {{> "systems/artichron/templates/partials/actor-health.hbs"}}
+          </section>
+        </div>
+        <div class="center-pane">
+          <section class="controls">
+            {{> "systems/artichron/templates/partials/actor-controls.hbs"}}
+          </section>
+          <section class="pools">
+            {{> "systems/artichron/templates/partials/actor-pools.hbs"}}
+          </section>
+          <section class="resistances">
+            {{> "systems/artichron/templates/partials/actor-resistances.hbs"}}
+          </section>
+          <section class="favorites">
+            {{> "systems/artichron/templates/partials/actor-favorites.hbs"}}
+          </section>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab equipment" data-group="primary" data-tab="equipment">
+      <section class="equipped">
+        {{> "systems/artichron/templates/partials/actor-equipped.hbs"}}
+      </section>
+    </div>
+
+    <div class="tab inventory" data-group="primary" data-tab="inventory">
+      {{> "systems/artichron/templates/partials/actor-inventory.hbs" sections=context.items.inventory}}
+    </div>
+
+    <div class="tab consumables" data-group="primary" data-tab="consumables">
+      {{> "systems/artichron/templates/partials/actor-inventory.hbs" sections=context.items.consumable}}
+    </div>
+
+    <div class="tab effects" data-group="primary" data-tab="effects">
+      {{> "systems/artichron/templates/partials/actor-effects.hbs" sections=context.effects}}
+    </div>
+
+  </section>
+
+  <div class="encumbrance">
+    <div class="encumbrance-values">{{system.encumbrance.value}} / {{system.encumbrance.max}}</div>
+    <div class="encumbrance-bar" style="width: {{context.encumbrance.percent}}%;"></div>
+  </div>
+</form>

@@ -1,0 +1,77 @@
+<div class="form-group">
+  <label>{{localize "ARTICHRON.ItemPropertyCategory"}}</label>
+  <select name="system.type.category">
+    {{selectOptions context.categories selected=system.type.category localize=true labelAttr="label" blank="" sort=true}}
+  </select>
+</div>
+{{#if context.subtypes}}
+<div class="form-group">
+  <label>{{localize "ARTICHRON.ItemPropertySubtype"}}</label>
+  <select name="system.type.subtype">
+    {{selectOptions context.subtypes selected=system.type.subtype localize=true labelAttr="label" blank="" sort=true}}
+  </select>
+</div>
+{{/if}}
+{{#if isArmor}}
+<div class="form-group">
+  <label>{{localize "ARTICHRON.SetIdentifier"}}</label>
+  <select name="system.identifier">
+    {{selectOptions config.ARMOR_SETS selected=system.identifier localize=true labelAttr="label" blank="" sort=true}}
+  </select>
+</div>
+{{/if}}
+{{#if system.wield}}
+<div class="form-group">
+  <label>{{localize "ARTICHRON.ItemPropertyWield"}}</label>
+  <select name="system.wield.value">
+    {{#select system.wield.value}}
+    <option value="1">{{localize "ARTICHRON.ItemWieldOneHanded"}}</option>
+    <option value="2">{{localize "ARTICHRON.ItemWieldTwoHanded"}}</option>
+    {{/select}}
+  </select>
+  <input type="number" name="system.wield.range" value="{{source.wield.range}}">
+</div>
+{{/if}}
+{{#if system.cost}}
+<div class="form-group">
+  <label>{{localize "ARTICHRON.ItemPropertyCost"}}</label>
+  <input type="number" name="system.cost.value" value="{{source.cost.value}}">
+  <select name="system.cost.type">
+    {{selectOptions costOptions selected=system.cost.type localize=true sort=false}}
+  </select>
+</div>
+{{/if}}
+{{#if system.price}}
+<div class="form-group">
+  <label>{{localize "ARTICHRON.ItemPropertyPrice"}}</label>
+  <input class="delta" data-dtype="Number" type="text" name="system.price.value" value="{{source.price.value}}">
+</div>
+{{/if}}
+{{#if system.weight}}
+<div class="form-group">
+  <label>{{localize "ARTICHRON.ItemPropertyWeight"}}</label>
+  <input class="delta" data-dtype="Number" type="text" name="system.weight.value" value="{{source.weight.value}}">
+</div>
+{{/if}}
+{{#if system.quantity}}
+<div class="form-group">
+  <label>{{localize "ARTICHRON.ItemPropertyQuantity"}}</label>
+  <input class="delta" data-dtype="Number" type="text" name="system.quantity.value" value="{{system.quantity.value}}">
+</div>
+{{/if}}
+{{#if system.usage}}
+<div class="form-group item-usage">
+  <label>{{localize "ARTICHRON.ItemPropertyUsage"}}</label>
+  <input class="delta" data-dtype="Number" type="text" name="system.usage.value" value="{{system.usage.value}}" max="{{system.usage.max}}">
+  <span class="sep">{{localize "ARTICHRON.ItemUsageOf"}}</span>
+  <input type="text" name="system.usage.max" value="{{source.usage.max}}">
+</div>
+{{/if}}
+{{#if document.isEmbedded}}
+<div class="form-group">
+  <label>{{localize "ARTICHRON.Favorited"}}</label>
+  <a class="action" data-action="control" data-control="favorite">
+    <i class="fa-{{ifThen context.isFavorited 'solid' 'regular'}} fa-star"></i>
+  </a>
+</div>
+{{/if}}

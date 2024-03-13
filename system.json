@@ -1,0 +1,84 @@
+{
+  "id": "artichron",
+  "title": "Artichron",
+  "description": "Artifice Chronicles System",
+  "version": "1.0.0",
+  "compatibility": {
+    "minimum": 11,
+    "verified": 11,
+    "maximum": 11
+  },
+  "authors": [
+    {
+      "name": "Zhell",
+      "url": "https://github.com/krbz999",
+      "discord": "zhell9201",
+      "ko-fi": "https://ko-fi.com/zhell",
+      "patreon": "https://patreon.com/zhell"
+    }
+  ],
+  "esmodules": ["artichron.mjs"],
+  "styles": [
+    "styles/artichron.css",
+    "styles/rolls.css",
+    "styles/sheets-actors-hero.css",
+    "styles/sheets-actors.css",
+    "styles/sheets-items.css",
+    "styles/sheets.css"
+  ],
+  "packs": [
+    {
+      "name": "actors",
+      "label": "Actors",
+      "path": "packs/actors",
+      "type": "Actor"
+    },
+    {
+      "name": "items",
+      "label": "Items",
+      "path": "packs/items",
+      "type": "Item"
+    },
+    {
+      "name": "rules",
+      "label": "Rules",
+      "path": "packs/rules",
+      "type": "JournalEntry"
+    }
+  ],
+  "packFolders": [
+    {
+      "name": "Artichron",
+      "sorting": "a",
+      "packs": [
+        "actors",
+        "items",
+        "rules"
+      ]
+    }
+  ],
+  "languages": [
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "lang/en.json"
+    }
+  ],
+  "gridDistance": 1,
+  "gridUnits": "m",
+  "initiative": "1d20",
+  "primaryTokenAttribute": "pools.health",
+  "secondaryTokenAttribute": "pools.stamina",
+  "socket": true,
+  "url": "https://github.com/krbz999/artichron",
+  "manifest": "https://github.com/krbz999/artichron/releases/latest/download/system.json",
+  "download": "",
+  "license": "LICENSE.txt",
+  "changelog": "CHANGELOG.md",
+  "flags": {
+    "hotReload": {
+      "extensions": ["css", "hbs"],
+      "paths": ["lang/en.json", "styles/*.css", "templates/**/*.hbs"]
+    }
+  }
+}

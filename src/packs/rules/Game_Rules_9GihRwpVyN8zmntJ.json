@@ -1,0 +1,21 @@
+{
+  "name": "Game Rules",
+  "_id": "9GihRwpVyN8zmntJ",
+  "pages": [],
+  "folder": null,
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "3pWaVXzYT6XoJo1Y": 3
+  },
+  "flags": {},
+  "_stats": {
+    "systemId": "artichron",
+    "systemVersion": "1.0.0",
+    "coreVersion": "11.315",
+    "createdTime": 1702817999597,
+    "modifiedTime": 1702817999597,
+    "lastModifiedBy": "3pWaVXzYT6XoJo1Y"
+  },
+  "_key": "!journal!9GihRwpVyN8zmntJ"
+}

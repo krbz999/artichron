@@ -1,0 +1,21 @@
+<div class="equipped-items" data-collection="items">
+  <div class="backdrop border"></div>
+  <div class="backdrop image" style="background-image: url({{document.img}})"></div>
+  <div class="edit" data-manage="img" data-action="manage"></div>
+  {{#each context.equipped}}
+  <div class="equipped {{cssClass}}" data-tooltip-direction="UP" data-tooltip="{{tooltip}}" {{#if item}} data-item-id="{{item.id}}" {{/if}}>
+    <div class="equipped-item" {{#each data}} {{#if this}} data-{{@key}}="{{this}}" {{/if}} {{/each}}>
+      <img src="{{img}}" {{#if hasDamage}}data-action="manage" data-manage="damage"{{/if}}>
+      <div class="expand-out">
+        <div class="controls">
+          {{#if item}}
+          <a class="control" data-action="control" data-control="edit"><i class="fa-solid fa-edit"></i> {{localize "ARTICHRON.EditItem"}}</a>
+          {{/if}}
+          <a class="control" data-action="control" data-control="change"><i class="fa-solid fa-shield"></i> {{localize "ARTICHRON.ChangeItem"}}</a>
+        </div>
+        <div class="content">{{{item.system.description.value}}}</div>
+      </div>
+    </div>
+  </div>
+  {{/each}}
+</div>

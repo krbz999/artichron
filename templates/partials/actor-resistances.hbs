@@ -1,0 +1,18 @@
+<header class="section-header">
+  {{localize "ARTICHRON.Resistances"}}
+  <a class="edit" data-action="toggle-config" data-trait="resistances" data-tooltip="ARTICHRON.EditResistances">
+    <i class="fa-solid fa-cog"></i>
+  </a>
+</header>
+<div class="resistance-bars darken" data-tooltip-direction="UP">
+  <div class="resistance" style="color: #{{config.DAMAGE_TYPES.physical.color}}" data-tooltip="{{config.DAMAGE_TYPES.physical.label}}">
+    <span class="total">{{system.defenses.armor.total}}</span>
+    <i class="fa-solid fa-shield-alt"></i>
+  </div>
+  {{#each context.resistances}}
+  <div class="resistance" style="color: #{{color}}" data-tooltip="{{label}}">
+    <span class="total">{{total}}</span>
+    <i class="{{icon}}"></i>
+  </div>
+  {{/each}}
+</div>
