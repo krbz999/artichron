@@ -1,0 +1,32 @@
+.artichron.sheet.item {
+  min-width: 400px;
+  min-height: 400px;
+
+  .action {
+    float: right;
+    flex: none;
+    padding-left: 5px;
+    color: gray;
+  }
+
+  & fieldset legend.header {
+    font-family: 'Modesto Condensed';
+    font-size: 24px;
+  }
+
+  .form-group.dice-combo input, .form-group.dice-combo select {
+    flex: 1;
+  }
+
+  .form-group.item-usage .delta {
+    flex: 0 0 40px;
+  }
+
+  .form-group label:first-child {
+    flex: 0 0 40%;
+  }
+
+  .tab section {
+    margin-top: 5px;
+  }
+}

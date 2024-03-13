@@ -1,0 +1,41 @@
+<div class="artichron damage-rolls">
+  {{#each rolls}}
+  <div class="damage-roll">
+    <div class="damage-properties" data-total="{{roll.total}}" data-type="{{roll.type}}">
+      <button data-action="apply-damage" data-tooltip="ARTICHRON.ApplyDamage">
+        <i class="fa-solid fa-burst"></i>
+      </button>
+      <div class="damage-total">{{roll.total}}</div>
+      <div class="damage-type" style="color: #{{type.color}}">
+        <i class="{{type.icon}}"></i> {{localize type.label}}
+      </div>
+    </div>
+    <div class="damage-roll-tooltip" style="display: none">
+      <header class="tooltip-header">
+        <span class="tooltip-formula">{{roll.formula}}</span>
+        <span class="tooltip-total">{{roll.total}}</span>
+      </header>
+      <ol class="damage-rolls" data-tooltip-direction="UP">
+        {{#each roll.dice}}
+        {{#each results}}
+        <li class="roll die d{{../faces}} {{#if (eq result ../faces)}}max{{/if}}{{#if (eq result 1)}}min{{/if}}" data-tooltip="d{{../faces}}">
+          {{result}}
+        </li>
+        {{/each}}
+        {{/each}}
+      </ol>
+    </div>
+  </div>
+  {{/each}}
+</div>
+{{#if (gt rolls.length 1)}}
+<div class="artichron apply-damage">
+  <div class="damage-properties" data-total="{{total}}" data-type="all">
+    <button data-action="apply-damage" data-tooltip="ARTICHRON.ApplyDamage">
+      <i class="fa-solid fa-burst"></i>
+    </button>
+    <div class="damage-total">{{total}}</div>
+    <div class="damage-type">{{localize "ARTICHRON.DamageTotal"}}</div>
+  </div>
+</div>
+{{/if}}

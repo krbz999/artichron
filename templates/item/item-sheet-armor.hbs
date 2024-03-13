@@ -1,0 +1,45 @@
+<form autocomplete="off">
+
+  {{!-- Sheet Header --}}
+  <header class="sheet-header">
+    <img class="profile-img" src="{{document.img}}" data-edit="img" data-tooltip="{{document.name}}" height="100" width="100">
+    <div class="header-fields">
+      <h1 class="charname">
+        <input name="name" type="text" value="{{document.name}}" placeholder="{{localize 'Name'}}">
+      </h1>
+    </div>
+  </header>
+
+  {{!-- Sheet Tab Navigation --}}
+  <nav class="sheet-tabs tabs" data-group="primary">
+    <a class="item" data-tab="description">{{localize "ARTICHRON.SheetTabDescription"}}</a>
+    <a class="item" data-tab="attributes">{{localize "ARTICHRON.SheetTabAttributes"}}</a>
+    <a class="item" data-tab="effects">{{localize "ARTICHRON.SheetTabEffects"}}</a>
+  </nav>
+
+  {{!-- Sheet Body --}}
+  <section class="sheet-body">
+
+    {{!-- Tabs --}}
+    <div class="tab description" data-group="primary" data-tab="description">
+      {{editor descriptions.value target="system.description.value" rollData=rollData button=true owner=owner editable=true engine="prosemirror"}}
+    </div>
+
+    <div class="tab attributes" data-group="primary" data-tab="attributes">
+      <section class="traits">
+        {{> "systems/artichron/templates/partials/item-type.hbs"}}
+      </section>
+      <section class="resistances">
+        {{> "systems/artichron/templates/partials/item-resistances.hbs"}}
+      </section>
+      <section class="defenses">
+        {{> "systems/artichron/templates/partials/item-defenses.hbs"}}
+      </section>
+    </div>
+
+    <div class="tab effects" data-group="primary" data-tab="effects">
+      {{> "systems/artichron/templates/partials/item-effects.hbs" sections=context.effects}}
+    </div>
+
+  </section>
+</form>

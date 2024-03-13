@@ -1,0 +1,63 @@
+{
+  "name": "Buckler",
+  "img": "icons/equipment/shield/buckler-wooden-boss-brown.webp",
+  "type": "arsenal",
+  "system": {
+    "description": {
+      "value": ""
+    },
+    "weight": {
+      "value": 1
+    },
+    "price": {
+      "value": 10
+    },
+    "type": {
+      "category": "shield",
+      "subtype": "buckler"
+    },
+    "damage": [],
+    "parry": {
+      "number": 1,
+      "faces": 4
+    },
+    "block": {
+      "number": 1,
+      "faces": 4
+    },
+    "wield": {
+      "value": 1,
+      "range": null
+    },
+    "fusion": {
+      "item": null
+    },
+    "armor": {
+      "value": null
+    },
+    "cost": {
+      "value": null,
+      "type": "health"
+    }
+  },
+  "effects": [],
+  "folder": "BvmYOTG5ITHEWvdl",
+  "ownership": {
+    "default": 0,
+    "3pWaVXzYT6XoJo1Y": 3
+  },
+  "flags": {
+    "core": {}
+  },
+  "_stats": {
+    "systemId": "artichron",
+    "systemVersion": "1.0.0",
+    "coreVersion": "11.315",
+    "createdTime": 1699730641576,
+    "modifiedTime": 1699805939717,
+    "lastModifiedBy": "3pWaVXzYT6XoJo1Y"
+  },
+  "_id": "pUY4YkqR2DFVRuAE",
+  "sort": 300000,
+  "_key": "!items!pUY4YkqR2DFVRuAE"
+}

@@ -1,0 +1,157 @@
+/* ------------------- */
+/*      CONSTANTS      */
+/* ------------------- */
+:root {
+  --color-shadow-primary: rgb(0, 162, 255);
+  --color-border-highlight-alt: rgb(0, 0, 255);
+  --color-border-highlight: rgb(0, 100, 255);
+  --color-shadow-highlight: rgb(0, 100, 255);
+  --mana-filter: sepia(1) hue-rotate(180deg) drop-shadow(0 0 1px blue);
+  --health-filter: sepia(1) hue-rotate(270deg) drop-shadow(0 0 1px red);
+  --stamina-filter: sepia(1) hue-rotate(90deg) drop-shadow(0 0 1px green);
+  --artichron-theme-dark: rgba(0, 0, 255, 0.6);
+  --artichron-theme-light: rgba(0, 0, 255, 0.2);
+  --artichron-label: rgba(0, 0, 150, 0.9);
+  --equipment-margin: 25px;
+  --artichron-theme-bright: rgb(222, 225, 255);
+  --artichron-pool-die-size: 100px;
+  --artichron-font-primary: "Bruno Ace";
+}
+.system-artichron {
+  & fieldset {
+    border-radius: 5px;
+    border-width: 2px;
+
+    &:has(:focus) {
+      border-color: var(--color-shadow-primary);
+    }
+
+    .form-group {
+      & input[type=text],
+      input[type=number] {
+        flex: 2;
+      }
+      & select {
+        flex: 1;
+      }
+    }
+  }
+
+  & form {
+    .form-group {
+      & input[type=checkbox] {
+        flex: none;
+      }
+
+      > a,
+      .fa-solid {
+        flex: 0 0 24px;
+        text-align: center;
+      }
+    }
+  }
+
+  & h1,
+  h2,
+  h3,
+  h4 {
+    margin: 0;
+  }
+
+  .window-header {
+    background-color: var(--artichron-theme-light);
+    border-radius: 10px 10px 0 0;
+  }
+
+  .window-content {
+    scrollbar-color: var(--artichron-theme-dark) rgba(0, 0, 0, 0.2);
+    scrollbar-width: thin;
+  }
+}
+
+.active-effect-sheet .editor {
+  height: 200px;
+  border-bottom: 2px groove;
+}
+
+.app {
+  & form {
+    & label,
+    select,
+    input[type=text],
+    input[type=number] {
+      height: calc(0.85 * var(--form-field-height));
+      border-radius: 5px;
+    }
+  }
+}
+
+.artichron {
+  .window-content {
+    border-radius: 0 0 10px 10px;
+  }
+
+  &.app {
+    &.opacity {
+      transition: opacity 250ms;
+
+      &:not(:hover) {
+        opacity: 0.1;
+      }
+
+      .header-button.control.opacity i::before {
+        content: "\f204";
+      }
+    }
+
+    .header-button.control.opacity i::before {
+      content: "\f205";
+    }
+  }
+
+  .rollable {
+    &:hover {
+      cursor: pointer;
+      text-shadow: 0 0 5px var(--color-shadow-primary);
+    }
+  }
+
+  & form {
+    .form-group {
+      & label {
+        white-space: nowrap;
+        color: var(--artichron-label);
+        font-weight: bold;
+
+        &.checkbox {
+          flex: 0;
+        }
+      }
+
+      .sep {
+        color: gray;
+        white-space: nowrap;
+        flex: 0 0 10px;
+        text-align: center;
+        margin: 0 4px;
+      }
+
+      /* Common form-group styles */
+      &.input-select {
+        & select {
+          flex: 1;
+        }
+      }
+    }
+
+    & input.tiny {
+      max-width: 2em;
+      max-height: calc(min(2em, 100% - 2px));
+      aspect-ratio: 1/1;
+      text-align: center;
+      border: none;
+      border-radius: 5px;
+      padding: 0;
+    }
+  }
+}

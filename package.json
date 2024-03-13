@@ -1,0 +1,30 @@
+{
+  "name": "artichron",
+  "version": "1.0.0",
+  "description": "Artifice Chronicles System",
+  "main": "index.js",
+  "scripts": {
+    "db:unpack": "node tools/pack-level-db.mjs unpack",
+    "db:pack": "node tools/pack-level-db.mjs pack",
+    "build": "rollup artichron.mjs -o artichron-compiled.mjs -f es -p node-resolve --sourcemapFile artichron.mjs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/krbz999/artichron.git"
+  },
+  "keywords": [
+    "fvtt",
+    "system"
+  ],
+  "author": "Zhell",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/krbz999/artichron/issues"
+  },
+  "homepage": "https://github.com/krbz999/artichron#readme",
+  "devDependencies": {
+    "@foundryvtt/foundryvtt-cli": "^1.0.2",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "rollup": "^4.9.1"
+  }
+}

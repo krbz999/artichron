@@ -1,0 +1,97 @@
+.artichron.sheet nav.tabs {
+  gap: 2px;
+  margin-bottom: 0;
+  border: none;
+}
+.artichron.sheet nav.tabs .item {
+  font-family: "Modesto Condensed";
+  font-size: 18px;
+  padding: 1px 0;
+  border: 1px solid var(--artichron-theme-light);
+  border-bottom: 3px solid var(--artichron-theme-light);
+  flex: 1;
+  background-color: var(--artichron-theme-light);
+  border-radius: 10px 10px 0 0;
+  margin: 2px 0 0 0;
+  transition: background-color 100ms, color 100ms;
+}
+.artichron.sheet nav.tabs .item.active {
+  background-color: var(--artichron-theme-dark);
+  color: var(--artichron-theme-bright);
+}
+.artichron.sheet nav.tabs .item.inventory-tab.active,
+.artichron.sheet nav.tabs .item.effects-tab.active {
+  border-color: rgba(0, 0, 0, 0);
+}
+.system-artichron .sheet.actor .editor,
+.system-artichron .sheet.item .editor {
+  height: 100%;
+}
+.artichron.sheet form {
+  display: flex;
+  overflow: hidden;
+  flex-direction: column;
+}
+.artichron.sheet form .form-group {
+  margin: 0 5px;
+}
+.artichron .sheet-body {
+  overflow: hidden;
+  height: 100%;
+  margin-top: 4px;
+}
+.artichron.sheet.actor .tab,
+.artichron.sheet.item .tab {
+  height: 100%;
+}
+/* Actor Inventories and Actor/Item Effects */
+.artichron.sheet .document-section {
+  overflow: hidden;
+}
+.artichron.sheet .documents-list-header {
+  text-align: center;
+  line-height: 16px;
+  font-family: "Bruno Ace";
+  background-color: var(--artichron-theme-dark);
+  margin: 0;
+  padding: 1px 0;
+  color: var(--artichron-theme-bright);
+  font-size: 10px;
+}
+.artichron.sheet .document-section .documents-list {
+  overflow: hidden auto;
+  max-height: 600px;
+}
+.artichron.sheet .document-section .document-item {
+  border-bottom: 2px groove;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 4px;
+  color: #474747;
+  gap: 10px;
+}
+.artichron.sheet .document-section .document-item .sep {
+  margin-left: 2px;
+}
+.artichron.sheet .document-section .document-item:nth-child(odd) {
+  background-color: #d35ee21f;
+}
+.artichron.sheet .document-section .document-item .item-name {
+  font-size: 14px;
+  font-family: "Bruno Ace";
+  padding: 2px 0;
+  flex: 1;
+}
+.artichron.sheet .document-section .document-item .document-input {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.artichron.sheet .document-section .document-item .item-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.artichron.sheet .document-section .document-item .item-controls .item-control {}

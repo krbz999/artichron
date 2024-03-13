@@ -1,0 +1,13 @@
+<header class="section-header">
+  {{localize "ARTICHRON.Pools"}}
+  <a class="edit" data-action="toggle-config" data-tooltip="ARTICHRON.EditPools" data-trait="pools">
+    <i class="fa-solid fa-cog"></i>
+  </a>
+</header>
+<div class="pool-rolls darken">
+  {{#each context.pools as |pool|}}
+  <a class="pool" data-action="manage" data-manage="pool" data-pool="{{pool.key}}">
+    <span class="die {{pool.denom}} {{pool.key}}" data-tooltip="{{pool.value}} / {{pool.max}} ({{pool.die}})">{{pool.value}}</span>
+  </a>
+  {{/each}}
+</div>
