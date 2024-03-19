@@ -23,6 +23,8 @@ export class ChatLog {
    * @param {PointerEvent} event
    */
   static _onDiceRollClick(event) {
+    event.currentTarget.classList.toggle("expanded");
+    return;
     event.preventDefault();
     const roll = event.currentTarget;
     roll.querySelectorAll(".damage-roll-tooltip").forEach(tip => {

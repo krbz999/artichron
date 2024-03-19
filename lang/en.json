@@ -120,6 +120,8 @@
   "ARTICHRON.ItemPropertyPrice": "Price",
   "ARTICHRON.ItemPropertyQuantity": "Quantity",
   "ARTICHRON.ItemPropertySubtype": "Subtype",
+  "ARTICHRON.ItemPropertyTemplate": "Template",
+  "ARTICHRON.ItemPropertyTemplateSelf": "Self",
   "ARTICHRON.ItemPropertyUsage": "Uses",
   "ARTICHRON.ItemPropertyWeight": "Weight",
   "ARTICHRON.ItemPropertyWield": "Wielding",

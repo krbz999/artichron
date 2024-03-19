@@ -37,6 +37,7 @@ Hooks.once("init", function() {
   CONFIG.Combat.documentClass = documents.combat;
   CONFIG.Token.documentClass = documents.tokenDocument;
   CONFIG.Token.objectClass = documents.token;
+  CONFIG.MeasuredTemplate.objectClass = documents.template;
 
   // Hook up system data types
   CONFIG.Actor.dataModels = dataModels.actor;
