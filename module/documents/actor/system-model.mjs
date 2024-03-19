@@ -2,6 +2,7 @@ import {DiceModel, PoolDiceModel} from "../fields/die.mjs";
 import ResistanceModel from "../fields/resistance.mjs";
 import {SYSTEM} from "../../helpers/config.mjs";
 import {LocalIdField} from "../fields/local-id.mjs";
+import {EffortModel} from "../fields/effort.mjs";
 
 const {SchemaField, NumberField, SetField, EmbeddedDataField} = foundry.data.fields;
 
@@ -42,7 +43,11 @@ export class ActorSystemModel extends foundry.abstract.TypeDataModel {
         running: new NumberField({min: 0, integer: true}),
         flying: new NumberField({min: 0, integer: true}),
         swimming: new NumberField({min: 0, integer: true})
-      })
+      }),
+      efforts: new SchemaField([/* TODO: come up with some keys here */].reduce((acc, k) => {
+        acc[k] = new EmbeddedDataField(EffortModel);
+        return acc;
+      }, {}))
     };
   }
 
@@ -58,12 +63,7 @@ export class ActorSystemModel extends foundry.abstract.TypeDataModel {
    * @param {object} options      The update options.
    * @param {User} user           The user performing the update.
    */
-  async _preUpdate(update = {}, options, user) {
-    // Clamp health value to no higher than max.
-    if (("health" in update) && ("value" in update.health)) {
-      update.health.value = Math.min(update.health.value, update.health.max ?? this.health.max);
-    }
-  }
+  async _preUpdate(update, options, user) {}
 
   /* ---------------------------------------- */
   /*                                          */
@@ -169,6 +169,7 @@ export class ActorSystemModel extends foundry.abstract.TypeDataModel {
   _prepareEmbeddedData(rollData) {
     Object.values(this.pools).forEach(v => v.prepareDerivedData(rollData));
     Object.values(this.defenses).forEach(v => v.prepareDerivedData(rollData));
+    Object.values(this.efforts).forEach(v => v.prepareDerivedData(rollData));
   }
 
   /* ---------------------------------------- */

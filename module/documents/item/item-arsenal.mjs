@@ -1,7 +1,7 @@
 import {DamageDiceModel, DefenseDiceModel} from "../fields/die.mjs";
 import {ItemSystemModel} from "./system-model.mjs";
 
-const {ArrayField, NumberField, SchemaField, StringField, EmbeddedDataField} = foundry.data.fields;
+const {ArrayField, NumberField, SchemaField, StringField, EmbeddedDataField, BooleanField} = foundry.data.fields;
 
 export default class ArsenalData extends ItemSystemModel {
   /** @override */
@@ -21,6 +21,13 @@ export default class ArsenalData extends ItemSystemModel {
       cost: new SchemaField({
         value: new NumberField({integer: true, initial: null}),
         type: new StringField({choices: ["health", "stamina", "mana"]})
+      }),
+      template: new SchemaField({
+        type: new StringField({required: true, choices: ["circle", "cone", "ray"], initial: "cone"}),
+        distance: new NumberField({integer: true, positive: true, initial: 1, nullable: false}),
+        width: new NumberField({integer: true, positive: true, initial: 1, nullable: false}),
+        angle: new NumberField({positive: true, min: 10, max: 360, nullable: false, initial: 30}),
+        self: new BooleanField({initial: true})
       })
     };
   }
@@ -39,7 +46,8 @@ export default class ArsenalData extends ItemSystemModel {
       "block.number", "block.faces",
       "wield.range",
       "armor.value",
-      "const.value"
+      "cost.value",
+      "template.distance", "template.width", "template.angle"
     ]));
   }
 

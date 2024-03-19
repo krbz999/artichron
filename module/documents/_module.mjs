@@ -7,6 +7,7 @@ import ElixirData from "./item/item-elixir.mjs";
 import FoodData from "./item/item-food.mjs";
 import PartData from "./item/item-part.mjs";
 import ItemArtichron from "./item/item.mjs";
+import MeasuredTemplateArtichron from "./template/template.mjs";
 import TokenDocumentArtichron from "./token/token-document.mjs";
 import TokenArtichron from "./token/token-placeable.mjs";
 
@@ -28,5 +29,6 @@ export const documents = {
   item: ItemArtichron,
   combat: CombatArtichron,
   tokenDocument: TokenDocumentArtichron,
-  token: TokenArtichron
+  token: TokenArtichron,
+  template: MeasuredTemplateArtichron
 };
