@@ -4,24 +4,11 @@
   border: none;
 }
 .artichron.sheet nav.tabs .item {
-  font-family: "Modesto Condensed";
   font-size: 18px;
   padding: 1px 0;
-  border: 1px solid var(--artichron-theme-light);
-  border-bottom: 3px solid var(--artichron-theme-light);
   flex: 1;
-  background-color: var(--artichron-theme-light);
   border-radius: 10px 10px 0 0;
   margin: 2px 0 0 0;
-  transition: background-color 100ms, color 100ms;
-}
-.artichron.sheet nav.tabs .item.active {
-  background-color: var(--artichron-theme-dark);
-  color: var(--artichron-theme-bright);
-}
-.artichron.sheet nav.tabs .item.inventory-tab.active,
-.artichron.sheet nav.tabs .item.effects-tab.active {
-  border-color: rgba(0, 0, 0, 0);
 }
 .system-artichron .sheet.actor .editor,
 .system-artichron .sheet.item .editor {
@@ -51,11 +38,8 @@
 .artichron.sheet .documents-list-header {
   text-align: center;
   line-height: 16px;
-  font-family: "Bruno Ace";
-  background-color: var(--artichron-theme-dark);
   margin: 0;
   padding: 1px 0;
-  color: var(--artichron-theme-bright);
   font-size: 10px;
 }
 .artichron.sheet .document-section .documents-list {
@@ -67,18 +51,13 @@
   display: flex;
   justify-content: space-between;
   padding: 0 4px;
-  color: #474747;
   gap: 10px;
 }
 .artichron.sheet .document-section .document-item .sep {
   margin-left: 2px;
 }
-.artichron.sheet .document-section .document-item:nth-child(odd) {
-  background-color: #d35ee21f;
-}
 .artichron.sheet .document-section .document-item .item-name {
   font-size: 14px;
-  font-family: "Bruno Ace";
   padding: 2px 0;
   flex: 1;
 }
@@ -95,3 +74,19 @@
   gap: 8px;
 }
 .artichron.sheet .document-section .document-item .item-controls .item-control {}
+
+.artichron.sheet {
+  & * {
+    background: none;
+    color: var(--artichron-color-white);
+    transition: all 250ms ease;
+  }
+
+  & label, input, select, select option {
+    font-family: var(--artichron-font-labels);
+  }
+
+  & select option {
+    background: rgba(0, 0, 0, 0.85);
+  }
+}

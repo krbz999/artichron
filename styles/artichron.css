@@ -2,20 +2,19 @@
 /*      CONSTANTS      */
 /* ------------------- */
 :root {
-  --color-shadow-primary: rgb(0, 162, 255);
-  --color-border-highlight-alt: rgb(0, 0, 255);
-  --color-border-highlight: rgb(0, 100, 255);
-  --color-shadow-highlight: rgb(0, 100, 255);
   --mana-filter: sepia(1) hue-rotate(180deg) drop-shadow(0 0 1px blue);
   --health-filter: sepia(1) hue-rotate(270deg) drop-shadow(0 0 1px red);
   --stamina-filter: sepia(1) hue-rotate(90deg) drop-shadow(0 0 1px green);
-  --artichron-theme-dark: rgba(0, 0, 255, 0.6);
-  --artichron-theme-light: rgba(0, 0, 255, 0.2);
-  --artichron-label: rgba(0, 0, 150, 0.9);
   --equipment-margin: 25px;
   --artichron-theme-bright: rgb(222, 225, 255);
   --artichron-pool-die-size: 100px;
   --artichron-font-primary: "Bruno Ace";
+  --artichron-font-labels: "Amiri";
+
+  --artichron-color-light-blue: rgba(196, 196, 255, 0.9);
+  --artichron-color-blue: rgba(0, 0, 255, 0.6);
+  --artichron-color-blue-dark: rgba(0, 0, 255, 0.2);
+  --artichron-color-white: rgba(255, 255, 255, 0.9);
 }
 .system-artichron {
   & fieldset {
@@ -59,13 +58,8 @@
   }
 
   .window-header {
-    background-color: var(--artichron-theme-light);
     border-radius: 10px 10px 0 0;
-  }
-
-  .window-content {
-    scrollbar-color: var(--artichron-theme-dark) rgba(0, 0, 0, 0.2);
-    scrollbar-width: thin;
+    border: none;
   }
 }
 
@@ -112,7 +106,6 @@
   .rollable {
     &:hover {
       cursor: pointer;
-      text-shadow: 0 0 5px var(--color-shadow-primary);
     }
   }
 
@@ -129,7 +122,6 @@
       }
 
       .sep {
-        color: gray;
         white-space: nowrap;
         flex: 0 0 10px;
         text-align: center;
