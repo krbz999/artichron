@@ -1,6 +1,7 @@
 import HeroData from "./actor/actor-hero.mjs";
 import ActorArtichron from "./actor/actor.mjs";
 import CombatArtichron from "./combat/combat.mjs";
+import CombatantArtichron from "./combat/combatant.mjs";
 import ArmorData from "./item/item-armor.mjs";
 import ArsenalData from "./item/item-arsenal.mjs";
 import ElixirData from "./item/item-elixir.mjs";
@@ -28,6 +29,7 @@ export const documents = {
   actor: ActorArtichron,
   item: ItemArtichron,
   combat: CombatArtichron,
+  combatant: CombatantArtichron,
   tokenDocument: TokenDocumentArtichron,
   token: TokenArtichron,
   template: MeasuredTemplateArtichron
