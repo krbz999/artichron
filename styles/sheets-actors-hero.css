@@ -7,13 +7,9 @@
 .artichron.sheet.actor.hero .header-fields input {
   height: 2em;
   font-size: 25px;
-  font-family: "Bruno Ace";
   padding: 0.5em 1em;
   text-align: center;
   border-radius: 25px;
-  color: var(--artichron-theme-dark);
-  text-shadow: 0 0 1px var(--artichron-label);
-  background-color: var(--artichron-theme-light);
   border: 4px groove var(--artichron-label);
   border-left-width: 40px;
   border-right-width: 40px;
@@ -109,7 +105,6 @@
 }
 .artichron.sheet.actor.hero .equipped-items .equipped:hover img {
   border-radius: 10px;
-  filter: drop-shadow(0 0 5px var(--color-shadow-primary));
   scale: 1.1;
 }
 .artichron.sheet.actor.hero .equipped-items .equipped.weapon,
@@ -149,8 +144,6 @@
   width: 0;
   transition: 200ms;
   border-radius: 10px;
-  background-color: rgba(0, 0, 0, 1);
-  color: var(--artichron-theme-bright);
   overflow: hidden auto;
 }
 .artichron.sheet.actor.hero .equipped-items .equipped .expand-out .controls {
@@ -211,8 +204,6 @@
   align-items: center;
 }
 .artichron.sheet.actor.hero section.controls .control {
-  color: var(--artichron-label);
-  font-family: "Modesto Condensed";
   font-size: 18px;
   border: 2px outset;
   padding: 4px;
