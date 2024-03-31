@@ -5,7 +5,7 @@
   {{#each context.equipped}}
   <div class="equipped {{cssClass}}" data-tooltip-direction="UP" data-tooltip="{{tooltip}}" {{#if item}} data-item-id="{{item.id}}" {{/if}}>
     <div class="equipped-item" {{#each data}} {{#if this}} data-{{@key}}="{{this}}" {{/if}} {{/each}}>
-      <img src="{{img}}" {{#if hasDamage}}data-action="manage" data-manage="damage"{{/if}}>
+      <img src="{{img}}" {{#if hasDamage}}data-action="control" data-control="use"{{/if}}>
       <div class="expand-out">
         <div class="controls">
           {{#if item}}

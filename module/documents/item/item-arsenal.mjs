@@ -51,6 +51,30 @@ export default class ArsenalData extends ItemSystemModel {
     ]));
   }
 
+  async use() {
+    const {first, second} = this.parent.actor.arsenal;
+    const key = first === this.parent ? "first" : second === this.parent ? "second" : null;
+    if (!key) {
+      ui.notifications.warn("Arsenal must be equipped to be used.");
+      return null;
+    }
+
+    const inCombat = this.parent.actor.inCombat;
+    if (inCombat) {
+      const combatant = game.combat.getCombatantByActor(this.parent.actor);
+      const pips = combatant.pips;
+      const cost = this.isOneHanded ? 1 : this.isTwoHanded ? 2 : 0;
+      if (cost > pips) {
+        ui.notifications.warn("You do not have enough pips remaining two make an attack!");
+        return null;
+      }
+
+      await combatant.setFlag("artichron", "pips", pips - cost);
+    }
+
+    return this.parent.actor.rollDamage(key);
+  }
+
   /**
    * Is this one- or two-handed, melee or ranged?
    * @type {boolean}

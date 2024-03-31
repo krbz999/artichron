@@ -35,6 +35,7 @@ Hooks.once("init", function() {
   CONFIG.Actor.documentClass = documents.actor;
   CONFIG.Item.documentClass = documents.item;
   CONFIG.Combat.documentClass = documents.combat;
+  CONFIG.Combatant.documentClass = documents.combatant;
   CONFIG.Token.documentClass = documents.tokenDocument;
   CONFIG.Token.objectClass = documents.token;
   CONFIG.MeasuredTemplate.objectClass = documents.template;
@@ -51,10 +52,7 @@ Hooks.once("init", function() {
    * Set an initiative formula for the system
    * @type {String}
    */
-  CONFIG.Combat.initiative = {
-    formula: "1d10",
-    decimals: 2
-  };
+  CONFIG.Combat.initiative.formula = "1d12<=(12 - @pips)";
 
   // Register sheet application classes
   Actors.unregisterSheet("core", ActorSheet);
