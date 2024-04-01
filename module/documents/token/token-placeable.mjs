@@ -13,7 +13,7 @@ export default class TokenArtichron extends Token {
     const tokenSize = canvas.grid.size * this.document.width;
     shield.position.x = 0.5 * tokenSize;
     shield.position.y = 0.5 * tokenSize;
-    const radius = 0.5 * Math.sqrt(tokenSize ** 2 + tokenSize ** 2) + 10
+    const radius = 0.5 * Math.sqrt(tokenSize ** 2 + tokenSize ** 2) + 10;
     shield.lineStyle({
       alpha: 0.6,
       width: Math.clamped(3 + value * 3, 0, 12),

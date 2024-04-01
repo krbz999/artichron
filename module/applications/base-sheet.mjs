@@ -74,4 +74,4 @@ export const ArtichronSheetMixin = Base => class extends Base {
     if (!pos.height && !this._minimized && (this._tabs[0].active !== "description")) pos.height = "auto";
     return super.setPosition(pos);
   }
-}
+};

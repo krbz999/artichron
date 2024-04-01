@@ -12,7 +12,7 @@ export class DiceModel extends foundry.abstract.DataModel {
         max: new StringField({required: true}),
         xo: new BooleanField(),
         rr: new BooleanField()
-      }),
+      })
     };
   }
 
@@ -75,7 +75,7 @@ export class PoolDiceModel extends DiceModel {
     return {
       ...super.defineSchema(),
       value: new NumberField({integer: true, min: 0, initial: null}),
-      max: new StringField({required: true}),
+      max: new StringField({required: true})
     };
   }
 

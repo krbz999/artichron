@@ -21,15 +21,15 @@ export class ActorSystemModel extends foundry.abstract.TypeDataModel {
       }),
       equipped: new SchemaField({
         arsenal: new SchemaField({
-          first: new LocalIdField(),
-          second: new LocalIdField()
+          first: new LocalIdField(foundry.documents.BaseItem),
+          second: new LocalIdField(foundry.documents.BaseItem)
         }),
         armor: new SchemaField(Object.keys(SYSTEM.ARMOR_TYPES).reduce((acc, key) => {
-          acc[key] = new LocalIdField();
+          acc[key] = new LocalIdField(foundry.documents.BaseItem);
           return acc;
         }, {})),
-        ammo: new SetField(new LocalIdField()),
-        favorites: new SetField(new LocalIdField())
+        ammo: new SetField(new LocalIdField(foundry.documents.BaseItem)),
+        favorites: new SetField(new LocalIdField(foundry.documents.BaseItem))
       }),
       resistances: new SchemaField(Object.entries(SYSTEM.DAMAGE_TYPES).reduce((acc, [key, data]) => {
         if (data.resist) acc[key] = new EmbeddedDataField(ResistanceModel);
@@ -94,28 +94,16 @@ export class ActorSystemModel extends foundry.abstract.TypeDataModel {
   /** Prepare equipped items. */
   _prepareEquipped() {
     const {arsenal, armor, ammo, favorites} = this.equipped;
-    for (const key of ["first", "second"]) {
-      const item = this.parent.items.get(arsenal[key]);
-      if (key === "first") arsenal[key] = (item && (item.type === "arsenal")) ? item : null;
-      else if (key === "second") {
-        if (arsenal.first?.isTwoHanded || item?.isTwoHanded) arsenal[key] = null;
-        else arsenal[key] = (item && (item.type === "arsenal")) ? item : null;
-      }
+
+    if (arsenal.first?.isTwoHanded || arsenal.second?.isTwoHanded) arsenal.second = null;
+
+    for (const [key, item] of Object.entries(armor)) {
+      if (!item) continue;
+      armor[key] = ((item.type === "armor") && (item.system.type.category === key)) ? item : null;
     }
-    for (const key in armor) {
-      const item = this.parent.items.get(armor[key]);
-      armor[key] = (item && (item.type === "armor") && (item.system.type.category === key)) ? item : null;
-    }
-    this.equipped.ammo = ammo.reduce((acc, id) => {
-      const item = this.parent.items.get(id);
-      if (item && item.isAmmo) acc.add(item);
-      return acc;
-    }, new Set());
-    this.equipped.favorites = favorites.reduce((acc, id) => {
-      const item = this.parent.items.get(id);
-      if (item) acc.add(item);
-      return acc;
-    }, new Set());
+
+    for (const item of ammo) if (!item?.isAmmo) ammo.delete(item);
+    for (const item of favorites) if (!item) favorites.delete(item);
   }
 
   /** Prepare current and max encumbrance. */

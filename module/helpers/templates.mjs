@@ -20,4 +20,4 @@ export async function preloadHandlebarsTemplates() {
     "systems/artichron/templates/partials/item-resistances.hbs",
     "systems/artichron/templates/partials/item-type.hbs"
   ]);
-};
+}
