@@ -16,7 +16,7 @@ async function packCompendiums() {
   for (const pack of packs) {
     const inpath = path.join(srcPath, pack);
     const outpath = path.join(livePath, pack);
-    console.log('Packing:', pack);
+    console.log("Packing:", pack);
     await fvtt.compilePack(inpath, outpath, {yaml});
   }
 }
@@ -25,7 +25,7 @@ async function unpackCompendiums() {
   for (const pack of packs) {
     const inpath = path.join(livePath, pack);
     const outpath = path.join(srcPath, pack);
-    console.log('Unpacking:', pack);
+    console.log("Unpacking:", pack);
     await fvtt.extractPack(inpath, outpath, {yaml});
   }
 }

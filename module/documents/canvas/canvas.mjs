@@ -19,7 +19,7 @@ class Auras {
     config.position.width = 540;
     config.setPosition(config.position);
 
-    const nav = html.querySelector('nav.sheet-tabs.tabs[data-group="main"]');
+    const nav = html.querySelector("nav.sheet-tabs.tabs[data-group=\"main\"]");
     div.innerHTML = `
     <a class="item" data-tab="auras">
       <i class="fa-solid fa-dot-circle"></i>
@@ -51,7 +51,7 @@ class Auras {
     <div class="form-group">
       <label>
         ${game.i18n.localize("SCENES.GridDistance")}
-        <span class="units">(${game.i18n.localize('GridUnits')})</span>
+        <span class="units">(${game.i18n.localize("GridUnits")})</span>
       </label>
       <div class="form-fields">
         <input type="number" ${distance} step="any" name="flags.artichron.aura.distance" min="0">
@@ -61,7 +61,7 @@ class Auras {
     div.innerHTML = `<div class="tab" data-tab="auras">${auraConfig}</div>`;
     div.querySelectorAll("INPUT[type=color][data-edit]").forEach(n => {
       n.addEventListener("change", config._onChangeInput.bind(config));
-    })
+    });
     html.querySelector("footer").before(div.firstElementChild);
   }
 

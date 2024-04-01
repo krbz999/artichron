@@ -83,9 +83,9 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(ItemSheet) {
     if (!this.isEditable) return;
     html[0].querySelectorAll("[data-action]").forEach(n => {
       switch (n.dataset.action) {
-        case "control": n.addEventListener("click", this._onClickManageItem.bind(this)); break;
-        case "add": n.addEventListener("click", this._onClickAddFieldset.bind(this)); break;
-        case "del": n.addEventListener("click", this._onClickDelFieldSet.bind(this)); break;
+      case "control": n.addEventListener("click", this._onClickManageItem.bind(this)); break;
+      case "add": n.addEventListener("click", this._onClickAddFieldset.bind(this)); break;
+      case "del": n.addEventListener("click", this._onClickDelFieldSet.bind(this)); break;
       }
     });
   }

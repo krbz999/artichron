@@ -59,11 +59,11 @@ export class DamageRollConfig extends FormApplication {
   }
 
   /** @override */
-  _getSubmitData(updateData={}) {
-    if ( !this.form ) throw new Error("The FormApplication subclass has no registered form element");
+  _getSubmitData(updateData = {}) {
+    if (!this.form) throw new Error("The FormApplication subclass has no registered form element");
     const fd = new FormDataExtended(this.form, {readonly: true, editors: this.editors});
     let data = fd.object;
-    if ( updateData ) data = foundry.utils.flattenObject(foundry.utils.mergeObject(data, updateData));
+    if (updateData) data = foundry.utils.flattenObject(foundry.utils.mergeObject(data, updateData));
     return data;
   }
 
@@ -84,7 +84,7 @@ export class DamageRollConfig extends FormApplication {
         if (!data) resolve(null);
         const damage = Object.values(foundry.utils.expandObject(data)?.system?.damage ?? {});
         return resolve({...data, damage});
-      }
+      };
       new this(item, {resolve: fn}).render(true);
     });
   }

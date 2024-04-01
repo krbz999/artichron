@@ -173,6 +173,6 @@ SYSTEM.ELIXIR_TYPES = {};
 // Armor set identifiers.
 // bonus could be a function or a static bonus, idk
 SYSTEM.ARMOR_SETS = {
-  "flame": {label: "ARTICHRON.ArmorSetFlame", bonus: {}},
-  "glam": {label: "ARTICHRON.ArmorSetGlam", bonus: {}}
+  flame: {label: "ARTICHRON.ArmorSetFlame", bonus: {}},
+  glam: {label: "ARTICHRON.ArmorSetGlam", bonus: {}}
 };

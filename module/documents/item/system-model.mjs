@@ -20,7 +20,7 @@ export class ItemSystemModel extends foundry.abstract.TypeDataModel {
         key: new fields.StringField({required: true}),
         value: new fields.StringField({required: true}),
         mode: new fields.NumberField({choices: Object.values(ItemSystemModel.FUSION_MODES)})
-      })),
+      }))
     };
   }
 
@@ -48,7 +48,7 @@ export class ItemSystemModel extends foundry.abstract.TypeDataModel {
     UPGRADE: 2,
     DOWNGRADE: 3,
     OVERRIDE: 4
-  }
+  };
 
   /** @override */
   prepareDerivedData() {
@@ -67,20 +67,20 @@ export class ItemSystemModel extends foundry.abstract.TypeDataModel {
       const vc = foundry.utils.getProperty(this, key);
 
       switch (mode) {
-        case 1:
-          foundry.utils.setProperty(this, key, vc + v);
-          break;
-        case 2:
-          foundry.utils.setProperty(this, key, Math.max(v, vc));
-          break;
-        case 3:
-          foundry.utils.setProperty(this, key, Math.min(v, vc));
-          break;
-        case 4:
-          foundry.utils.setProperty(this, key, v);
-          break;
-        default:
-          break;
+      case 1:
+        foundry.utils.setProperty(this, key, vc + v);
+        break;
+      case 2:
+        foundry.utils.setProperty(this, key, Math.max(v, vc));
+        break;
+      case 3:
+        foundry.utils.setProperty(this, key, Math.min(v, vc));
+        break;
+      case 4:
+        foundry.utils.setProperty(this, key, v);
+        break;
+      default:
+        break;
       }
     }
   }

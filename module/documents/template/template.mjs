@@ -45,7 +45,7 @@ export default class MeasuredTemplateArtichron extends MeasuredTemplate {
       x: 0,
       y: 0,
       fillColor: game.user.color,
-      ...CONFIG.MeasuredTemplate.defaults,
+      ...CONFIG.MeasuredTemplate.defaults
     }, data);
     // Return the template constructed from the item data
     const cls = CONFIG.MeasuredTemplate.documentClass;

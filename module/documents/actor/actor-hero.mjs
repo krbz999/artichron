@@ -61,7 +61,7 @@ export default class HeroData extends ActorSystemModel {
 
     if (!foundry.utils.isEmpty(update)) await this.parent.update(update);
 
-    if (scale) for(const roll of rolls) roll.alter(1, scale);
+    if (scale) for (const roll of rolls) roll.alter(1, scale);
 
     return DamageRoll.toMessage(rolls, {
       ...options,

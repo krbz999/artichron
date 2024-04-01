@@ -43,7 +43,7 @@ export default class ElixirData extends ItemSystemModel {
       usage: this.hasUsages
     };
 
-    if(!Object.values(config).some(s => s)) return null;
+    if (!Object.values(config).some(s => s)) return null;
 
     const configuration = await Dialog.wait({
       content: await renderTemplate("systems/artichron/templates/chat/item-use.hbs", config),

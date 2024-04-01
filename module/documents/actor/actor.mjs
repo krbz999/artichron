@@ -18,7 +18,10 @@ export default class ActorArtichron extends Actor {
    * @type {object}
    */
   get arsenal() {
-    return this.system.arsenal ?? {};
+    const items = this.system.arsenal ?? {};
+    const obj = {};
+    for (const type of ["first", "second"]) obj[type] = items[type] ?? null;
+    return obj;
   }
 
   /**
@@ -26,7 +29,10 @@ export default class ActorArtichron extends Actor {
    * @type {object}
    */
   get armor() {
-    return this.system.armor ?? {};
+    const armor = this.system.armor ?? {};
+    const obj = {};
+    for (const type of Object.keys(CONFIG.SYSTEM.ARMOR_TYPES)) obj[type] = armor[type] ?? null;
+    return obj;
   }
 
   /**
