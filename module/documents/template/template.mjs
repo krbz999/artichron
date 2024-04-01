@@ -6,10 +6,10 @@ export default class MeasuredTemplateArtichron extends MeasuredTemplate {
   token = null;
 
   /**
-   * Reference whether this should be pointed away from an origin, but not attached to it.
-   * @type {boolean}
+   * Template configuration.
+   * @type {object}
    */
-  hasOrigin = false;
+  config = null;
 
   /* -------------------------------------------- */
 
@@ -55,8 +55,26 @@ export default class MeasuredTemplateArtichron extends MeasuredTemplate {
   }
 
   static fromItem(item) {
-    const {type, distance, width, self, angle} = item.system.template;
+    const {type, distance, width, self, angle, range} = item.system.template;
     const [token] = item.actor.isToken ? [item.actor.token?.object] : item.actor.getActiveTokens();
+    if (!token) throw new Error("No token available for placing template!");
+
+    return this.fromToken(token, {
+      type: type,
+      distance: distance,
+      width: width,
+      angle: angle,
+      attach: self,
+      range: range
+    });
+  }
+
+  static fromToken(token, {type, distance, width, attach, angle, range} = {}) {
+    // Increase size of attached circles.
+    if ((type === "circle") && attach) {
+      distance += token.document.width * canvas.scene.dimensions.distance / 2;
+    }
+
     const data = {
       t: type,
       distance: distance,
@@ -65,22 +83,26 @@ export default class MeasuredTemplateArtichron extends MeasuredTemplate {
       fillColor: game.user.color,
       direction: 0,
       angle: angle,
-      ...(token ? token.center : {x: 0, y: 0})
+      ...token.center
     };
+
     const template = this.fromData(data);
-    template.item = item;
-    template.token = token ?? null;
+    template.token = token;
+    template.config = {
+      distance: distance,
+      width: width,
+      attach: attach,
+      angle: angle,
+      range: range
+    };
     return template;
   }
 
   /* -------------------------------------------- */
 
-  drawPreview(origin = null) {
+  drawPreview() {
     const initialLayer = canvas.activeLayer;
-    if (origin) this.origin = origin;
-    else if (this.token) this.origin = this.token.center;
-
-    this.hasOrigin = !!this.origin && !this.item?.system.template.self;
+    this.origin = this.token.center;
 
     // Draw the template and switch to the template layer
     this.draw();
@@ -147,30 +169,33 @@ export default class MeasuredTemplateArtichron extends MeasuredTemplate {
     const now = Date.now(); // Apply a 20ms throttle
     if (now - this.#moveTime <= 20) return;
     let pos;
-    if (!this.hasOrigin && this.origin) {
+    if (this.config.attach) {
       // The template is attached to the origin at all times.
       pos = {...this.origin};
       const B = event.data.getLocalPosition(this.layer);
       const r = new Ray(pos, B);
       pos.direction = r.angle * 180 / Math.PI;
       // Offset slightly to token edge.
-      if (this.token && (this.document.t !== "circle")) {
+      if (this.document.t !== "circle") {
         const r2 = Ray.towardsPoint(r.A, r.B, this.token.w / 2);
         pos.x = r2.B.x;
         pos.y = r2.B.y;
       }
     } else {
       // Set the x and y at the mouse cursor.
-      const center = event.data.getLocalPosition(this.layer);
-      const interval = canvas.grid.type === CONST.GRID_TYPES.GRIDLESS ? 0 : 2;
-      pos = canvas.grid.getSnappedPosition(center.x, center.y, interval);
-    }
-
-    if (this.hasOrigin) {
-      // The template points away from the origin at all times.
+      pos = {...event.data.getLocalPosition(this.layer)};
       const r = new Ray(this.origin, pos);
+      const dp = canvas.dimensions.distancePixels;
+      const distance = canvas.grid.measureDistance(this.origin, pos);
+
+      if ((this.config.range > 0) && (distance > this.config.range)) {
+        const r2 = Ray.fromAngle(this.origin.x, this.origin.y, r.angle, this.config.range * dp);
+        pos.x = r2.B.x;
+        pos.y = r2.B.y;
+      }
       pos.direction = r.angle * 180 / Math.PI;
     }
+
     this.document.updateSource(pos);
     this.refresh();
     this.#moveTime = now;
@@ -183,14 +208,7 @@ export default class MeasuredTemplateArtichron extends MeasuredTemplate {
    * @param {Event} event  Triggering mouse event.
    */
   _onRotatePlacement(event) {
-    if (event.ctrlKey) event.preventDefault(); // Avoid zooming the browser window
-    event.stopPropagation();
-    if (this.origin) return;
-    const delta = canvas.grid.type > CONST.GRID_TYPES.SQUARE ? 30 : 15;
-    const snap = event.shiftKey ? delta : 5;
-    const update = {direction: this.document.direction + (snap * Math.sign(event.deltaY))};
-    this.document.updateSource(update);
-    this.refresh();
+    return;
   }
 
   /* -------------------------------------------- */
@@ -201,10 +219,9 @@ export default class MeasuredTemplateArtichron extends MeasuredTemplate {
    */
   async _onConfirmPlacement(event) {
     await this._finishPlacement(event);
-    const interval = canvas.grid.type === CONST.GRID_TYPES.GRIDLESS ? 0 : 2;
-    const destination = canvas.grid.getSnappedPosition(this.document.x, this.document.y, interval);
-    this.document.updateSource(destination);
-    this.#events.resolve(MeasuredTemplateDocument.implementation.create(this.document.toObject(), {parent: this.document.parent}));
+    const templateData = this.document.toObject();
+    const Cls = CONFIG.MeasuredTemplate.documentClass;
+    this.#events.resolve(Cls.create(templateData, {parent: this.document.parent}));
   }
 
   /* -------------------------------------------- */
