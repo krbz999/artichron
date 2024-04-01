@@ -27,7 +27,8 @@ export default class ArsenalData extends ItemSystemModel {
         distance: new NumberField({integer: true, positive: true, initial: 1, nullable: false}),
         width: new NumberField({integer: true, positive: true, initial: 1, nullable: false}),
         angle: new NumberField({positive: true, min: 10, max: 360, nullable: false, initial: 30}),
-        self: new BooleanField({initial: true})
+        self: new BooleanField({initial: true}),
+        range: new NumberField({integer: true, min: 0})
       })
     };
   }
