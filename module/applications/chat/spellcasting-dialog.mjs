@@ -1,4 +1,5 @@
 export default class SpellcastingDialog extends Application {
+  /** @override */
   static get defaultOptions() {
     const options = super.defaultOptions;
     options.classes.push("artichron", "spellcasting-dialog");
@@ -8,12 +9,24 @@ export default class SpellcastingDialog extends Application {
     return options;
   }
 
+  /**
+   * Create an async instance of this application.
+   * @param {ActorArtichron} actor
+   * @param {ItemArtichron} item
+   * @param {object} [options]
+   */
   static async create(actor, item, options = {}) {
     return new Promise(resolve => {
       new this(actor, item, {...options, resolve: resolve}).render(true);
     });
   }
 
+  /**
+   * @constructor
+   * @param {ActorArtichron} actor
+   * @param {ItemArtichron} item
+   * @param {object} [options]
+   */
   constructor(actor, item, options = {}) {
     super(options);
     this.actor = actor;
@@ -21,6 +34,7 @@ export default class SpellcastingDialog extends Application {
     if (options.resolve) this.resolve = options.resolve;
   }
 
+  /** @override */
   get title() {
     return game.i18n.format("ARTICHRON.SpellcastingDialog.Title", {item: this.item.name});
   }
@@ -86,6 +100,10 @@ export default class SpellcastingDialog extends Application {
     };
   }
 
+  /**
+   * Get the displayed label.
+   * @returns {string}
+   */
   _getLabel() {
     const data = this.constructor.determineTemplateData(this.model.toObject());
     let label;
@@ -106,6 +124,10 @@ export default class SpellcastingDialog extends Application {
     return `${this.formula} ${dtype} damage; ${label}`;
   }
 
+  /**
+   * Get the damage type options.
+   * @returns {object}
+   */
   _getDamageOptions() {
     let options = Object.entries(CONFIG.SYSTEM.DAMAGE_TYPES).reduce((acc, [k, v]) => {
       if (Number.isInteger(v.faces)) {
@@ -117,6 +139,10 @@ export default class SpellcastingDialog extends Application {
     return Object.fromEntries(options);
   }
 
+  /**
+   * Get the shape or type options.
+   * @returns {object}
+   */
   _getShapeOptions() {
     return Object.entries(CONFIG.SYSTEM.SPELL_TARGET_TYPES).reduce((acc, [k, v]) => {
       acc[k] = {...v, label: `${game.i18n.localize(v.label)} [d${v.faces}]`};
@@ -124,6 +150,11 @@ export default class SpellcastingDialog extends Application {
     }, {});
   }
 
+  /**
+   * Get the mana options for a scaling property.
+   * @param {string} scale      The property that is scaling.
+   * @returns {object}
+   */
   _getManaOptions(scale) {
     let label;
     if (scale === "damage") label = (n) => `+${n}d${CONFIG.SYSTEM.DAMAGE_TYPES[this.model.dtype].faces}`;
@@ -196,6 +227,11 @@ export default class SpellcastingDialog extends Application {
     });
   }
 
+  /**
+   * Helper method to adjust the spellcasting model's data into template data.
+   * @param {object} data
+   * @returns {object}
+   */
   static determineTemplateData(data) {
     let type;
     let distance;

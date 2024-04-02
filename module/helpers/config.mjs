@@ -11,7 +11,7 @@ SYSTEM.RESISTANCE = {
  * @property {string} label             Displayed label of the damage type.
  * @property {string} color             Associated default color.
  * @property {string} icon              FA icon used for the damage type.
- * @property {number} faces             The default size of the die of this damage type.
+ * @property {number} faces             The default size of the die of this type.
  * @property {boolean} [elemental]      ...?
  * @property {boolean} [resist]         Whether this damage type can be resisted.
  * @property {boolean} [block]          Whether this damage type can be blocked.
@@ -86,11 +86,24 @@ SYSTEM.DAMAGE_TYPES = {
   }
 };
 
+/**
+ * @typedef {object} HealingTypeConfiguration
+ * @property {string} label     Displayed label of the healing type.
+ * @property {string} color     Associated default color.
+ * @property {string} icon      FA icon used for the healing type.
+ * @property {number} faces     The default size of the die of this type.
+ */
+
+/**
+ * Healing types and relevant properties.
+ * @enum {HealingTypeConfiguration}
+ */
 SYSTEM.HEALING_TYPES = {
   healing: {
     label: "ARTICHRON.HealingTypeHealing",
     color: "33FF33",
-    icon: "fa-solid fa-heart"
+    icon: "fa-solid fa-heart",
+    faces: 8
   }
 };
 
