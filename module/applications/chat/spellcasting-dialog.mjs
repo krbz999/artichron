@@ -175,7 +175,6 @@ export default class SpellcastingDialog extends Application {
    * @type {DataModel}
    */
   get model() {
-    const max = this.item.system.damage.length - 1;
     return this._model ??= new (class SpellcastingModel extends foundry.abstract.DataModel {
       static defineSchema() {
         return {
@@ -188,7 +187,7 @@ export default class SpellcastingDialog extends Application {
             damage: new foundry.data.fields.NumberField({integer: true, min: 0})
 
           }),
-          part: new foundry.data.fields.NumberField({integer: true, min: 0, max: max, initial: 0}),
+          part: new foundry.data.fields.NumberField({integer: true, min: 0, initial: 0}),
           shape: new foundry.data.fields.StringField({required: true, initial: "single"})
         };
       }
