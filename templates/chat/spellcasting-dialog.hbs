@@ -1,0 +1,94 @@
+<form>
+
+  <!-- Damage type -->
+  <div class="form-group">
+    <label>{{localize "ARTICHRON.SpellcastingDialog.DamageType"}}</label>
+    <div class="form-fields">
+      <select name="dtype">
+        {{selectOptions dtypeOptions selected=model.dtype labelAttr="label" sort=false}}
+      </select>
+      <select name="scale.damage">
+        {{selectOptions damageOptions selected=model.scale.damage blank="" sort=false}}
+      </select>
+    </div>
+  </div>
+
+  <!-- Shape or type -->
+  <div class="form-group">
+    <label>{{localize "ARTICHRON.SpellcastingDialog.Shape"}}</label>
+    <div class="form-fields">
+      <select name="shape">
+        {{selectOptions shapeOptions selected=model.shape labelAttr="label" sort=false}}
+      </select>
+    </div>
+  </div>
+
+  <!-- Scaling -->
+  {{#if countOptions}}
+  <div class="form-group">
+    <label>{{localize "ARTICHRON.SpellcastingDialog.Count"}}</label>
+    <div class="form-fields">
+      <select name="scale.count">
+        {{selectOptions countOptions selected=model.scale.count blank="" sort=false}}
+      </select>
+    </div>
+  </div>
+  {{/if}}
+
+  {{#if distanceOptions}}
+  <div class="form-group">
+    <label>{{localize "ARTICHRON.SpellcastingDialog.Distance"}}</label>
+    <div class="form-fields">
+      <select name="scale.distance">
+        {{selectOptions distanceOptions selected=model.scale.distance blank="" sort=false}}
+      </select>
+    </div>
+  </div>
+  {{/if}}
+
+  {{#if radiusOptions}}
+  <div class="form-group">
+    <label>{{localize "ARTICHRON.SpellcastingDialog.Radius"}}</label>
+    <div class="form-fields">
+      <select name="scale.radius">
+        {{selectOptions radiusOptions selected=model.scale.radius blank="" sort=false}}
+      </select>
+    </div>
+  </div>
+  {{/if}}
+
+  {{#if widthOptions}}
+  <div class="form-group">
+    <label>{{localize "ARTICHRON.SpellcastingDialog.Width"}}</label>
+    <div class="form-fields">
+      <select name="scale.width">
+        {{selectOptions widthOptions selected=model.scale.width blank="" sort=false}}
+      </select>
+    </div>
+  </div>
+  {{/if}}
+
+  {{#if rangeOptions}}
+  <div class="form-group">
+    <label>{{localize "ARTICHRON.SpellcastingDialog.Range"}}</label>
+    <div class="form-fields">
+      <select name="scale.range">
+        {{selectOptions rangeOptions selected=model.scale.range blank="" sort=false}}
+      </select>
+    </div>
+  </div>
+  {{/if}}
+
+  {{#if invalid}}
+  <p class="notification warning">{{localize "ARTICHRON.SpellcastingDialog.Warn"}}</p>
+  {{else}}
+  <p class="notification formula">{{label}}</p>
+  {{/if}}
+
+  <footer>
+    <button type="button" data-action="confirm" {{disabled invalid}}>
+      <i class="fa-solid fa-check"></i>
+      {{localize "ARTICHRON.SpellcastingDialog.Confirm"}}
+    </button>
+  </footer>
+</form>
