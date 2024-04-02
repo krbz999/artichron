@@ -4,8 +4,8 @@
   <div class="form-group">
     <label>{{localize "ARTICHRON.SpellcastingDialog.DamageType"}}</label>
     <div class="form-fields">
-      <select name="dtype">
-        {{selectOptions dtypeOptions selected=model.dtype labelAttr="label" sort=false}}
+      <select name="part">
+        {{selectOptions dtypeOptions selected=model.part labelAttr="label" sort=false}}
       </select>
       <select name="scale.damage">
         {{selectOptions damageOptions selected=model.scale.damage blank="" sort=false}}
