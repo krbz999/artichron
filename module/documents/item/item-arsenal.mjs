@@ -1,4 +1,7 @@
+import SpellcastingDialog from "../../applications/chat/spellcasting-dialog.mjs";
+import {DamageRoll} from "../../dice/damage-roll.mjs";
 import {DamageDiceModel, DefenseDiceModel} from "../fields/die.mjs";
+import MeasuredTemplateArtichron from "../template/template.mjs";
 import {ItemSystemModel} from "./system-model.mjs";
 
 const {ArrayField, NumberField, SchemaField, StringField, EmbeddedDataField, BooleanField} = foundry.data.fields;
@@ -53,27 +56,45 @@ export default class ArsenalData extends ItemSystemModel {
   }
 
   async use() {
-    const {first, second} = this.parent.actor.arsenal;
-    const key = first === this.parent ? "first" : second === this.parent ? "second" : null;
+    const item = this.parent;
+    const actor = item.actor;
+
+    const {first, second} = actor.arsenal;
+    const key = (first === item) ? "first" : (second === item) ? "second" : null;
     if (!key) {
       ui.notifications.warn("Arsenal must be equipped to be used.");
       return null;
     }
 
-    const inCombat = this.parent.actor.inCombat;
-    if (inCombat) {
-      const combatant = game.combat.getCombatantByActor(this.parent.actor);
-      const pips = combatant.pips;
-      const cost = this.isOneHanded ? 1 : this.isTwoHanded ? 2 : 0;
-      if (cost > pips) {
-        ui.notifications.warn("You do not have enough pips remaining two make an attack!");
-        return null;
+    if (this.isSpell) {
+      const configuration = await SpellcastingDialog.create(actor, item);
+      if (!configuration) return null;
+      const [token] = actor.isToken ? [actor.token?.object] : actor.getActiveTokens();
+
+      const data = SpellcastingDialog.determineTemplateData(configuration);
+
+      const template = await MeasuredTemplateArtichron.fromToken(token, data).drawPreview();
+      if (!template) return null;
+      await actor.update({"system.pools.mana.value": actor.system.pools.mana.value - configuration.cost});
+      return new DamageRoll(configuration.formula, item.getRollData(), {type: configuration.dtype}).toMessage({
+        speaker: ChatMessage.implementation.getSpeaker({actor: actor})
+      });
+    } else {
+      const inCombat = actor.inCombat;
+      if (inCombat) {
+        const combatant = game.combat.getCombatantByActor(actor);
+        const pips = combatant.pips;
+        const cost = this.isOneHanded ? 1 : this.isTwoHanded ? 2 : 0;
+        if (cost > pips) {
+          ui.notifications.warn("You do not have enough pips remaining two make an attack!");
+          return null;
+        }
+
+        await combatant.setFlag("artichron", "pips", pips - cost);
       }
 
-      await combatant.setFlag("artichron", "pips", pips - cost);
+      return actor.rollDamage(key);
     }
-
-    return this.parent.actor.rollDamage(key);
   }
 
   /**

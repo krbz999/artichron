@@ -7,38 +7,54 @@ SYSTEM.RESISTANCE = {
 };
 
 /**
- * Damage types.
- * The type of damage that can be inflicted.
- * If resist, the type is a valid one for armor to grant resistance to.
- * If block, the type is a valid one for a shield to block.
- * If parry, the type is a valid one for weapons to parry.
- * if armor, the type is reduced by the target's armor rating.
- * If elemental, ...?
+ * @typedef {object} DamageTypeConfiguration
+ * @property {string} label             Displayed label of the damage type.
+ * @property {string} color             Associated default color.
+ * @property {string} icon              FA icon used for the damage type.
+ * @property {number} faces             The default size of the die of this damage type.
+ * @property {boolean} [elemental]      ...?
+ * @property {boolean} [resist]         Whether this damage type can be resisted.
+ * @property {boolean} [block]          Whether this damage type can be blocked.
+ * @property {boolean} [parry]          Whether this damage type can be parried.
+ * @property {boolean} [armor]          Whether this damage type is resisted by armor rating.
+ */
+
+/**
+ * Damage types and relevant properties.
+ * @enum {DamageTypeConfiguration}
  */
 SYSTEM.DAMAGE_TYPES = {
   fire: {
     label: "ARTICHRON.DamageTypeFire",
     color: "FF5733",
     icon: "fa-solid fa-fire",
-    elemental: true, resist: true
+    elemental: true,
+    resist: true,
+    faces: 12
   },
   wind: {
     label: "ARTICHRON.DamageTypeWind",
     color: "8DEEB5",
     icon: "fa-solid fa-wind",
-    elemental: true, resist: true
+    elemental: true,
+    resist: true,
+    faces: 8
   },
   lightning: {
     label: "ARTICHRON.DamageTypeLightning",
     color: "4B70A8",
     icon: "fa-solid fa-bolt",
-    elemental: true, resist: true
+    elemental: true,
+    resist: true,
+    faces: 6
   },
   ice: {
     label: "ARTICHRON.DamageTypeIce",
     color: "54D7E0",
     icon: "fa-solid fa-snowflake",
-    elemental: true, resist: true
+    elemental: true,
+    resist: true,
+    faces: 10
   },
   light: {
     label: "ARTICHRON.DamageTypeLight",
@@ -56,21 +72,90 @@ SYSTEM.DAMAGE_TYPES = {
     label: "ARTICHRON.DamageTypePhysical",
     color: "868686",
     icon: "fa-solid fa-hand-fist",
-    block: true, parry: true, armor: true
+    block: true,
+    parry: true,
+    armor: true
   },
   arcane: {
     label: "ARTICHRON.DamageTypeArcane",
     color: "C79FFF",
     icon: "fa-solid fa-wand-sparkles",
-    block: true, resist: true
+    block: true,
+    resist: true,
+    faces: 4
   }
 };
+
 SYSTEM.HEALING_TYPES = {
   healing: {
     label: "ARTICHRON.HealingTypeHealing",
     color: "33FF33",
     icon: "fa-solid fa-heart"
   }
+};
+
+/**
+ * @typedef {object} SpellTargetTypes
+ * @property {string} label           Displayed label of the targeting type.
+ * @property {Set<string>} scale      The properties that can scale with mana.
+ * @property {number} faces           The size of the die this will add to the spell.
+ * @property {number} [count]         The default count.
+ * @property {number} [range]         The default range.
+ * @property {number} [distance]      The default distance.
+ * @property {number} [width]         The default width.
+ * @property {number} [radius]        The default radius.
+ */
+
+/**
+ * The types of targeting a spell can make.
+ * @enum {SpellTargetTypes}
+ */
+SYSTEM.SPELL_TARGET_TYPES = {
+  single: {
+    label: "ARTICHRON.SpellType.SingleTarget",
+    scale: new Set(["count", "range"]),
+    faces: 12,
+    count: 1,
+    range: 6
+  },
+  ray: {
+    label: "ARTICHRON.SpellType.AreaRay",
+    scale: new Set(["distance", "width"]),
+    faces: 10,
+    distance: 4,
+    width: 1
+  },
+  cone: {
+    label: "ARTICHRON.SpellType.AreaCone",
+    scale: new Set(["distance"]),
+    faces: 8,
+    distance: 3
+  },
+  circle: {
+    label: "ARTICHRON.SpellType.AreaCircle",
+    scale: new Set(["radius", "range"]),
+    faces: 4,
+    radius: 1,
+    range: 10
+  },
+  radius: {
+    label: "ARTICHRON.SpellType.AreaRadius",
+    scale: new Set(["radius"]),
+    faces: 6,
+    radius: 2
+  }
+};
+
+/**
+ * How much a value scales with for each mana die.
+ * @type {number}
+ */
+SYSTEM.SPELL_TARGET_SCALE_VALUES = {
+  count: 1,
+  range: 2,
+  distance: 2,
+  radius: 1,
+  width: 1
 };
 
 // The types of physical defensive traits.

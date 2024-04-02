@@ -70,6 +70,8 @@ export default class MeasuredTemplateArtichron extends MeasuredTemplate {
   }
 
   static fromToken(token, {type, distance, width, attach, angle, range} = {}) {
+    if (!token) throw new Error("No token available for placing template!");
+
     // Increase size of attached circles.
     if ((type === "circle") && attach) {
       distance += token.document.width * canvas.scene.dimensions.distance / 2;

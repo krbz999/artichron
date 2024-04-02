@@ -149,5 +149,25 @@
 
   "ARTICHRON.Auras": "Auras",
   "ARTICHRON.AuraColor": "Aura Color",
-  "ARTICHRON.AuraOpacity": "Aura Opacity"
+  "ARTICHRON.AuraOpacity": "Aura Opacity",
+
+  "ARTICHRON.SpellcastingDialog": {
+    "Title": "Configure Spell: {item}",
+    "DamageType": "Damage Type",
+    "Shape": "Shape",
+    "Count": "Count",
+    "Range": "Range",
+    "Distance": "Distance",
+    "Radius": "Radius",
+    "Width": "Width",
+    "Confirm": "Confirm",
+    "Warn": "You cannot spend this many mana dice!"
+  },
+  "ARTICHRON.SpellType": {
+    "SingleTarget": "Single Target",
+    "AreaRay": "Line",
+    "AreaCone": "Cone",
+    "AreaCircle": "Circle",
+    "AreaRadius": "Radius"
+  }
 }
