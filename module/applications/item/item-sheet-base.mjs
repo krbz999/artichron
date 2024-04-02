@@ -1,3 +1,4 @@
+import {SYSTEM} from "../../helpers/config.mjs";
 import {ArtichronSheetMixin} from "../base-sheet.mjs";
 
 /**
@@ -33,7 +34,10 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(ItemSheet) {
     foundry.utils.mergeObject(data, {
       context: {
         effects: this._prepareEffects(),
-        isFavorited: this.document.actor?.system.equipped.favorites.has(this.document) ?? null
+        isFavorited: this.document.actor?.system.equipped.favorites.has(this.document) ?? null,
+        templates: Object.entries(SYSTEM.SPELL_TARGET_TYPES).map(([k, v]) => {
+          return {key: k, label: v.label, selected: this.item.system.template.types.has(k)};
+        })
       },
       descriptions: {
         value: await TextEditor.enrichHTML(this.document.system.description.value, {
@@ -53,6 +57,11 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(ItemSheet) {
       data.context.categories = data.config.ELIXIR_TYPES;
     }
     return data;
+  }
+
+  async _updateObject(event, formData) {
+    formData["system.template.types"] ??= [];
+    return super._updateObject(event, formData);
   }
 
   /**
