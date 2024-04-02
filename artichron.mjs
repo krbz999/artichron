@@ -6,6 +6,7 @@ import {dataModels, documents} from "./module/documents/_module.mjs";
 import {ChatLog} from "./module/documents/chat/chat-log.mjs";
 import * as utils from "./module/helpers/utils.mjs";
 import auraInit from "./module/documents/canvas/canvas.mjs";
+import {registerSettings} from "./module/helpers/settings.mjs";
 
 /* -------------------------------------------- */
 /*  Define Module Structure                     */
@@ -26,6 +27,7 @@ globalThis.artichron = {
 /* -------------------------------------------- */
 
 Hooks.once("init", function() {
+  registerSettings();
   globalThis.artichron = game.artichron = Object.assign(game.system, globalThis.artichron);
   CONFIG.Canvas.dispositionColors.CONTROLLED = 2502655;
   CONFIG.ActiveEffect.legacyTransferral = false;

@@ -169,5 +169,12 @@
     "AreaCone": "Cone",
     "AreaCircle": "Circle",
     "AreaRadius": "Radius"
+  },
+
+  "ARTICHRON.Setting": {
+    "CircularTokens": "Circular Tokens",
+    "CircularTokensHint": "Are tokens treated as circular for the purpose of their hit area?",
+    "TemplateAreaThreshold": "Template Area Threshold",
+    "TemplateAreaThresholdHint": "The percentage a token must overlap a template to be considered 'inside' it."
   }
 }
