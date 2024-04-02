@@ -157,16 +157,16 @@ export default class SpellcastingDialog extends Application {
   _getManaOptions(scale) {
     let label;
     if (scale === "damage") {
-      const damage = this.item.system.damage[this.model.part];
       const rollData = this.item.getRollData();
       label = (n) => {
+        const damage = this.item.system.damage[this.model.part];
         const roll = new Roll(damage.formula, rollData, {type: damage.type});
         const formula = roll.alter(n, 0).formula;
         return `+${formula}`;
       };
     }
     else if (scale === "count") label = (n) => `+${n}`;
-    else label = (n) => `+${CONFIG.SYSTEM.SPELL_TARGET_SCALE_VALUES[scale] * n}m`;
+    else label = (n) => `+${CONFIG.SYSTEM.SPELL_TARGET_TYPES[this.model.shape][scale][1] * n}m`;
     return Object.fromEntries(Array.fromRange(this.max, 1).map(n => [n, `${label(n)} [${n}/${this.max}]`]));
   }
 
@@ -230,6 +230,7 @@ export default class SpellcastingDialog extends Application {
     html.querySelector("[data-action=confirm]").addEventListener("click", event => {
       const data = this.model.toObject();
       data.cost = this.cost;
+      data.formula = this.formula;
       this.resolve?.(data);
       this.close();
     });
@@ -250,8 +251,8 @@ export default class SpellcastingDialog extends Application {
     let count;
 
     const getValue = (d) => {
-      const base = CONFIG.SYSTEM.SPELL_TARGET_TYPES[data.shape][d];
-      return base + CONFIG.SYSTEM.SPELL_TARGET_SCALE_VALUES[d] * data.scale[d];
+      const [base, increase] = CONFIG.SYSTEM.SPELL_TARGET_TYPES[data.shape][d];
+      return base + increase * data.scale[d];
     };
 
     switch (data.shape) {

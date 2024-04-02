@@ -51,26 +51,11 @@
 {{#if system.template}}
 <div class="form-group">
   <label>{{localize "ARTICHRON.ItemPropertyTemplate"}}</label>
-  <select name="system.template.type">
-    {{#select source.template.type}}
-    <option value="circle">Circle</option>
-    <option value="cone">Cone</option>
-    <option value="ray">Ray</option>
-    {{/select}}
-  </select>
-  <input class="delta" data-dtype="Number" type="text" name="system.template.distance" value="{{source.template.distance}}">
-
-  {{#if (eq source.template.type "ray")}}
-  <input class="delta" data-dtype="Number" type="text" name="system.template.width" value="{{source.template.width}}">
-  {{/if}}
-  {{#if (eq source.template.type "cone")}}
-  <input class="delta" data-dtype="Number" type="text" name="system.template.angle" value="{{source.template.angle}}">
-  {{/if}}
-
-  <label class="checkbox">
-    <input type="checkbox" name="system.template.self" {{checked source.template.self}}>
-    {{localize "ARTICHRON.ItemPropertyTemplateSelf"}}
-  </label>
+  <multi-select name="system.template.types">
+    {{#each context.templates}}
+    <option value="{{key}}" {{ifThen selected "selected" ""}}>{{localize label}}</option>
+    {{/each}}
+  </multi-select>
 </div>
 {{/if}}
 

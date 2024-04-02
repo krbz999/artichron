@@ -1,10 +1,11 @@
 import SpellcastingDialog from "../../applications/chat/spellcasting-dialog.mjs";
 import {DamageRoll} from "../../dice/damage-roll.mjs";
+import {SYSTEM} from "../../helpers/config.mjs";
 import {DamageDiceModel, DefenseDiceModel} from "../fields/die.mjs";
 import MeasuredTemplateArtichron from "../template/template.mjs";
 import {ItemSystemModel} from "./system-model.mjs";
 
-const {ArrayField, NumberField, SchemaField, StringField, EmbeddedDataField, BooleanField} = foundry.data.fields;
+const {ArrayField, NumberField, SchemaField, StringField, EmbeddedDataField, SetField} = foundry.data.fields;
 
 export default class ArsenalData extends ItemSystemModel {
   /** @override */
@@ -16,22 +17,18 @@ export default class ArsenalData extends ItemSystemModel {
       block: new EmbeddedDataField(DefenseDiceModel),
       wield: new SchemaField({
         value: new NumberField({choices: [1, 2], initial: 1}),
-        range: new NumberField({integer: true, initial: null})
+        range: new NumberField({integer: true, min: 0})
       }),
       armor: new SchemaField({
-        value: new NumberField({integer: true, initial: null})
+        value: new NumberField({integer: true, min: 0})
       }),
       cost: new SchemaField({
-        value: new NumberField({integer: true, initial: null}),
+        value: new NumberField({integer: true, min: 0}),
         type: new StringField({choices: ["health", "stamina", "mana"]})
       }),
       template: new SchemaField({
-        type: new StringField({required: true, choices: ["circle", "cone", "ray"], initial: "cone"}),
-        distance: new NumberField({integer: true, positive: true, initial: 1, nullable: false}),
-        width: new NumberField({integer: true, positive: true, initial: 1, nullable: false}),
-        angle: new NumberField({positive: true, min: 10, max: 360, nullable: false, initial: 30}),
-        self: new BooleanField({initial: true}),
-        range: new NumberField({integer: true, min: 0})
+        types: new SetField(new StringField({required: true, choices: Object.keys(SYSTEM.SPELL_TARGET_TYPES)})),
+        rating: new NumberField({integer: true, min: 0})
       })
     };
   }
@@ -77,7 +74,7 @@ export default class ArsenalData extends ItemSystemModel {
       const template = await MeasuredTemplateArtichron.fromToken(token, data).drawPreview();
       if (!template) return null;
       await actor.update({"system.pools.mana.value": actor.system.pools.mana.value - configuration.cost});
-      return new DamageRoll(part.formula, item.getRollData(), {type: part.type}).toMessage({
+      return new DamageRoll(configuration.formula, item.getRollData(), {type: part.type}).toMessage({
         speaker: ChatMessage.implementation.getSpeaker({actor: actor})
       });
     } else {

@@ -103,14 +103,14 @@ SYSTEM.HEALING_TYPES = {
 
 /**
  * @typedef {object} SpellTargetTypes
- * @property {string} label           Displayed label of the targeting type.
- * @property {Set<string>} scale      The properties that can scale with mana.
- * @property {number} faces           The size of the die this will add to the spell.
- * @property {number} [count]         The default count.
- * @property {number} [range]         The default range.
- * @property {number} [distance]      The default distance.
- * @property {number} [width]         The default width.
- * @property {number} [radius]        The default radius.
+ * @property {string} label             Displayed label of the targeting type.
+ * @property {Set<string>} scale        The properties that can scale with mana.
+ * @property {number} faces             The size of the die this will add to the spell.
+ * @property {number[]} [count]         The default count and how much each increase is.
+ * @property {number[]} [range]         The default range and how much each increase is.
+ * @property {number[]} [distance]      The default distance and how much each increase is.
+ * @property {number[]} [width]         The default width and how much each increase is.
+ * @property {number[]} [radius]        The default radius and how much each increase is.
  */
 
 /**
@@ -122,47 +122,35 @@ SYSTEM.SPELL_TARGET_TYPES = {
     label: "ARTICHRON.SpellType.SingleTarget",
     scale: new Set(["count", "range"]),
     faces: 12,
-    count: 1,
-    range: 6
+    count: [1, 1],
+    range: [6, 2]
   },
   ray: {
     label: "ARTICHRON.SpellType.AreaRay",
     scale: new Set(["distance", "width"]),
     faces: 10,
-    distance: 4,
-    width: 1
+    distance: [4, 2],
+    width: [1, 1]
   },
   cone: {
     label: "ARTICHRON.SpellType.AreaCone",
     scale: new Set(["distance"]),
     faces: 8,
-    distance: 3
+    distance: [3, 2]
   },
   circle: {
     label: "ARTICHRON.SpellType.AreaCircle",
     scale: new Set(["radius", "range"]),
     faces: 4,
-    radius: 1,
-    range: 10
+    radius: [1, 1],
+    range: [10, 2]
   },
   radius: {
     label: "ARTICHRON.SpellType.AreaRadius",
     scale: new Set(["radius"]),
     faces: 6,
-    radius: 2
+    radius: [2, 1]
   }
-};
-
-/**
- * How much a value scales with for each mana die.
- * @type {number}
- */
-SYSTEM.SPELL_TARGET_SCALE_VALUES = {
-  count: 1,
-  range: 2,
-  distance: 2,
-  radius: 1,
-  width: 1
 };
 
 // The types of physical defensive traits.
