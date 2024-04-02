@@ -72,11 +72,12 @@ export default class ArsenalData extends ItemSystemModel {
       const [token] = actor.isToken ? [actor.token?.object] : actor.getActiveTokens();
 
       const data = SpellcastingDialog.determineTemplateData(configuration);
+      const part = item.system.damage[configuration.part];
 
       const template = await MeasuredTemplateArtichron.fromToken(token, data).drawPreview();
       if (!template) return null;
       await actor.update({"system.pools.mana.value": actor.system.pools.mana.value - configuration.cost});
-      return new DamageRoll(configuration.formula, item.getRollData(), {type: configuration.dtype}).toMessage({
+      return new DamageRoll(part.formula, item.getRollData(), {type: part.type}).toMessage({
         speaker: ChatMessage.implementation.getSpeaker({actor: actor})
       });
     } else {

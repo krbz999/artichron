@@ -6,17 +6,12 @@
 
   {{#each system.damage as |damage idx|}}
   <div class="form-group damage">
-    <input class="number" type="text" name="system.damage.{{idx}}.number" value="{{damage.number}}">
     <select class="type" name="system.damage.{{idx}}.faces">
       {{selectOptions @root.config.DIE_SIZES selected=damage.faces}}
     </select>
     <select class="type" name="system.damage.{{idx}}.type">
       {{selectOptions @root.config.DAMAGE_TYPES selected=damage.type labelAttr="label" localize=true sort=true blank=""}}
     </select>
-    <label class="checkbox optional">
-      <input type="checkbox" name="system.damage.{{idx}}.optional" {{checked damage.optional}}>
-      {{localize "ARTICHRON.Optional"}}
-    </label>
     <a class="action" data-action="del" data-idx="{{idx}}"><i class="fa-solid fa-minus"></i></a>
   </div>
   {{/each}}

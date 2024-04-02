@@ -146,15 +146,14 @@ export class DamageDiceModel extends DiceModel {
     return {
       ...super.defineSchema(),
       number: new StringField({required: true}),
-      type: new StringField({required: true, label: "ARTICHRON.DamageType"}),
-      optional: new BooleanField()
+      type: new StringField({required: true, label: "ARTICHRON.DamageType"})
     };
   }
 
   /** @override */
   prepareDerivedData(rollData) {
     super.prepareDerivedData(rollData);
-    this.number = Math.max(1, artichron.utils.simplifyFormula(this.number, rollData));
+    this.number = Math.max(1, artichron.utils.simplifyFormula(this.number || "1", rollData));
   }
 
   /**

@@ -11,7 +11,6 @@ SYSTEM.RESISTANCE = {
  * @property {string} label             Displayed label of the damage type.
  * @property {string} color             Associated default color.
  * @property {string} icon              FA icon used for the damage type.
- * @property {number} faces             The default size of the die of this type.
  * @property {boolean} [elemental]      ...?
  * @property {boolean} [resist]         Whether this damage type can be resisted.
  * @property {boolean} [block]          Whether this damage type can be blocked.
@@ -29,32 +28,28 @@ SYSTEM.DAMAGE_TYPES = {
     color: "FF5733",
     icon: "fa-solid fa-fire",
     elemental: true,
-    resist: true,
-    faces: 12
+    resist: true
   },
   wind: {
     label: "ARTICHRON.DamageTypeWind",
     color: "8DEEB5",
     icon: "fa-solid fa-wind",
     elemental: true,
-    resist: true,
-    faces: 8
+    resist: true
   },
   lightning: {
     label: "ARTICHRON.DamageTypeLightning",
     color: "4B70A8",
     icon: "fa-solid fa-bolt",
     elemental: true,
-    resist: true,
-    faces: 6
+    resist: true
   },
   ice: {
     label: "ARTICHRON.DamageTypeIce",
     color: "54D7E0",
     icon: "fa-solid fa-snowflake",
     elemental: true,
-    resist: true,
-    faces: 10
+    resist: true
   },
   light: {
     label: "ARTICHRON.DamageTypeLight",
@@ -81,8 +76,7 @@ SYSTEM.DAMAGE_TYPES = {
     color: "C79FFF",
     icon: "fa-solid fa-wand-sparkles",
     block: true,
-    resist: true,
-    faces: 4
+    resist: true
   }
 };
 

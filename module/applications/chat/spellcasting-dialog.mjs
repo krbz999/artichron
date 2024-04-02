@@ -119,7 +119,8 @@ export default class SpellcastingDialog extends Application {
       label = `${data.distance}m radius from caster`;
     }
 
-    const dtype = game.i18n.localize(CONFIG.SYSTEM.DAMAGE_TYPES[this.model.dtype].label);
+    const part = this.item.system.damage[this.model.part];
+    const dtype = game.i18n.localize(CONFIG.SYSTEM.DAMAGE_TYPES[part.type].label);
 
     return `${this.formula} ${dtype} damage; ${label}`;
   }
@@ -129,13 +130,11 @@ export default class SpellcastingDialog extends Application {
    * @returns {object}
    */
   _getDamageOptions() {
-    let options = Object.entries(CONFIG.SYSTEM.DAMAGE_TYPES).reduce((acc, [k, v]) => {
-      if (Number.isInteger(v.faces)) {
-        acc.push([k, {label: `${game.i18n.localize(v.label)} [d${v.faces}]`, faces: v.faces}]);
-      }
-      return acc;
-    }, []);
-    options.sort((a, b) => b[1].faces - a[1].faces);
+    const options = this.item.system.damage.map((damage, i) => {
+      const obj = CONFIG.SYSTEM.DAMAGE_TYPES[damage.type];
+      const label = `${game.i18n.localize(obj.label)} [${damage.formula}]`;
+      return [i, {label: label}];
+    });
     return Object.fromEntries(options);
   }
 
@@ -157,7 +156,15 @@ export default class SpellcastingDialog extends Application {
    */
   _getManaOptions(scale) {
     let label;
-    if (scale === "damage") label = (n) => `+${n}d${CONFIG.SYSTEM.DAMAGE_TYPES[this.model.dtype].faces}`;
+    if (scale === "damage") {
+      const damage = this.item.system.damage[this.model.part];
+      const rollData = this.item.getRollData();
+      label = (n) => {
+        const roll = new Roll(damage.formula, rollData, {type: damage.type});
+        const formula = roll.alter(n, 0).formula;
+        return `+${formula}`;
+      };
+    }
     else if (scale === "count") label = (n) => `+${n}`;
     else label = (n) => `+${CONFIG.SYSTEM.SPELL_TARGET_SCALE_VALUES[scale] * n}m`;
     return Object.fromEntries(Array.fromRange(this.max, 1).map(n => [n, `${label(n)} [${n}/${this.max}]`]));
@@ -168,6 +175,7 @@ export default class SpellcastingDialog extends Application {
    * @type {DataModel}
    */
   get model() {
+    const max = this.item.system.damage.length - 1;
     return this._model ??= new (class SpellcastingModel extends foundry.abstract.DataModel {
       static defineSchema() {
         return {
@@ -180,7 +188,7 @@ export default class SpellcastingDialog extends Application {
             damage: new foundry.data.fields.NumberField({integer: true, min: 0})
 
           }),
-          dtype: new foundry.data.fields.StringField({required: true, initial: "fire"}),
+          part: new foundry.data.fields.NumberField({integer: true, min: 0, max: max, initial: 0}),
           shape: new foundry.data.fields.StringField({required: true, initial: "single"})
         };
       }
@@ -201,9 +209,10 @@ export default class SpellcastingDialog extends Application {
    * @type {string}
    */
   get formula() {
-    const p0 = `${1 + this.model.scale.damage}d${CONFIG.SYSTEM.DAMAGE_TYPES[this.model.dtype].faces}`;
+    const damage = this.item.system.damage[this.model.part];
+    const p0 = new Roll(damage.formula, this.item.getRollData(), {type: damage.type}).alter(1 + this.model.scale.damage, 0);
     const p1 = `1d${CONFIG.SYSTEM.SPELL_TARGET_TYPES[this.model.shape].faces}`;
-    return `${p0} + ${p1}`;
+    return `${p0.formula} + ${p1}`;
   }
 
   /** @override */
@@ -221,7 +230,6 @@ export default class SpellcastingDialog extends Application {
     html.querySelector("[data-action=confirm]").addEventListener("click", event => {
       const data = this.model.toObject();
       data.cost = this.cost;
-      data.formula = this.formula;
       this.resolve?.(data);
       this.close();
     });

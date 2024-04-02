@@ -30,10 +30,10 @@ export class DamageRoll extends Roll {
       "flags.artichron.totals": totals,
       rolls: rolls,
       type: CONST.CHAT_MESSAGE_TYPES.ROLL,
-      content: await renderTemplate("systems/artichron/templates/chat/damage-roll.hbs", {
+      /*content: await renderTemplate("systems/artichron/templates/chat/damage-roll.hbs", {
         rolls: rolls.map(r => ({roll: r, type: CONFIG.SYSTEM.DAMAGE_TYPES[r.options.type]})),
         total: total
-      }),
+      }),*/
       sound: "sounds/dice.wav",
       rollMode: game.settings.get("core", "rollMode")
     }, messageData, {inplace: false});
