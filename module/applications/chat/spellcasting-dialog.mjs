@@ -108,7 +108,7 @@ export default class SpellcastingDialog extends Application {
     const data = this.constructor.determineTemplateData(this.model.toObject());
     let label;
     if (this.model.shape === "single") {
-      label = `${this.model.scale.count + 1} target(s)`;
+      label = `${this.model.scale.count + 1} target(s), ${data.range}m range`;
     } else if (this.model.shape === "ray") {
       label = `${data.distance}m line, ${data.width}m wide`;
     } else if (this.model.shape === "cone") {
@@ -255,7 +255,12 @@ export default class SpellcastingDialog extends Application {
     };
 
     switch (data.shape) {
-      case "single": return; // TODO
+      case "single": {
+        type = "single";
+        count = getValue("count");
+        range = getValue("range");
+        break;
+      }
       case "ray": {
         type = "ray";
         distance = getValue("distance");

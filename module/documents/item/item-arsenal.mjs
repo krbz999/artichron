@@ -72,14 +72,23 @@ export default class ArsenalData extends ItemSystemModel {
       const data = SpellcastingDialog.determineTemplateData(configuration);
       const part = item.system.damage[configuration.part];
 
-      const template = await MeasuredTemplateArtichron.fromToken(token, data).drawPreview();
-      if (!template) return null;
-      await new Promise(r => setTimeout(r, 100));
+      let template;
+      let targets;
+
+      if (data.type !== "single") {
+        // Case 1: Area of effect.
+        template = await MeasuredTemplateArtichron.fromToken(token, data).drawPreview();
+        if (!template) return null;
+        await new Promise(r => setTimeout(r, 100));
+        targets = utils.getTokenTargets(utils.tokensInTemplate(template.object));
+      } else {
+        // Case 2: Singular targets.
+        targets = await utils.awaitTargets(data.count, {origin: token, range: data.range});
+      }
       await actor.update({"system.pools.mana.value": actor.system.pools.mana.value - configuration.cost});
-      const targets = utils.getTokenTargets(utils.tokensInTemplate(template.object));
       return new DamageRoll(configuration.formula, item.getRollData(), {type: part.type}).toMessage({
         speaker: ChatMessage.implementation.getSpeaker({actor: actor}),
-        "flags.artichron.targets": targets.map(target => target.uuid)
+        "flags.artichron.targets": targets?.map(target => target.uuid)
       });
     } else {
       const inCombat = actor.inCombat;
