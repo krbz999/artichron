@@ -75,8 +75,8 @@ export async function toggleEffect(name) {
 
 /**
  * Get the centers of all grid spaces that overlap with a token document.
- * @param {TokenDocument5e} tokenDoc      The token document on the scene.
- * @returns {object[]}                    An array of xy coordinates.
+ * @param {TokenDocumentArtichron} tokenDoc     The token document on the scene.
+ * @returns {object[]}                          An array of xy coordinates.
  */
 export function getOccupiedGridSpaces(tokenDoc) {
   const {width, height, x, y} = tokenDoc;
@@ -104,7 +104,8 @@ export function getOccupiedGridSpaces(tokenDoc) {
 
 /**
  * Create pixi circle with some size and restrictions, centered on a token.
- * @param {Token5e} token                         The center.
+ * This does take the size of the token into account.
+ * @param {TokenArtichron} token                  The center.
  * @param {number} size                           The range in feet.
  * @param {RestrictionOptions} [restrictions]     Wall restrictions.
  * @returns {ClockwiseSweepPolygon}
@@ -136,7 +137,8 @@ export function createRestrictedCircle(token, size, restrictions = {}) {
 
 /**
  * Create pixi rectangle with some size and restrictions, centered on a token.
- * @param {Token5e} token                         The center.
+ * This does take the size of the token into account.
+ * @param {TokenArtichron} token                  The center.
  * @param {number} size                           The range in feet.
  * @param {RestrictionOptions} [restrictions]     Wall restrictions.
  * @returns {ClockwiseSweepPolygon}
@@ -161,19 +163,32 @@ export function createRestrictedRect(token, size, restrictions = {}) {
 
 /**
  * Find tokens within a given circular distance from another token.
- * @param {Token5e} token                         The center.
- * @param {number} size                           The range in feet.
+ * This does take the size of the token into account.
+ * @param {TokenArtichron} token                  The center.
+ * @param {number} size                           The range in meters.
  * @param {RestrictionOptions} [restrictions]     Wall restrictions.
- * @returns {Token5e[]}
+ * @returns {TokenArtichron[]}
  */
 export function findTokensCircle(token, size, restrictions = {}) {
+  const circular = game.settings.get("artichron", "circularTokens");
+  const threshold = game.settings.get("artichron", "templateAreaThreshold");
+
+  const dp = canvas.dimensions.distancePixels;
+  const limit = (circular ? Math.PI * (dp ** 2) / 4 : dp ** 2) * threshold;
+
+  const tokenArea = (token) => {
+    if (!circular) return token.bounds.toPolygon();
+    return ClockwiseSweepPolygon.create(token.center, {
+      radius: token.w / 2,
+      hasLimitedRadius: true
+    });
+  };
+
   const sweep = createRestrictedCircle(token, size, restrictions);
-  const rect = createRect(token, size);
-  const tokens = canvas.tokens.quadtree.getObjects(rect, {
+  const tokens = canvas.tokens.quadtree.getObjects(sweep.bounds, {
     collisionTest: ({t}) => {
-      if (t.id === token.id) return false;
-      const centers = getOccupiedGridSpaces(t.document);
-      return centers.some(c => sweep.contains(c.x, c.y));
+      const intersection = sweep.intersectPolygon(tokenArea(t));
+      return intersection.signedArea() >= limit;
     }
   });
   return Array.from(tokens);
@@ -181,10 +196,11 @@ export function findTokensCircle(token, size, restrictions = {}) {
 
 /**
  * Find tokens within a given rectangle centered on a token.
- * @param {Token5e} token                         The center.
+ * This does take the size of the token into account.
+ * @param {TokenArtichron} token                  The center.
  * @param {number} size                           The range in feet.
  * @param {RestrictionOptions} [restrictions]     Wall restrictions.
- * @returns {Token5e[]}
+ * @returns {TokenArtichron[]}
  */
 export function findTokensRect(token, size, restrictions = {}) {
   const sweep = createRestrictedRect(token, size, restrictions);
@@ -201,8 +217,9 @@ export function findTokensRect(token, size, restrictions = {}) {
 
 /**
  * Create a rectangle of a given size centered on a token.
- * @param {Token5e} token     The token that is in the center of the rectangle.
- * @param {number} size       The 'radius' of the rectangle, in feet.
+ * This does take the size of the token into account.
+ * @param {TokenArtichron} token      The token that is in the center of the rectangle.
+ * @param {number} size               The 'radius' of the rectangle, in feet.
  * @returns {PIXI}
  */
 export function createRect(token, size) {
@@ -244,4 +261,81 @@ export function tokensInTemplate(template) {
   });
 
   return tokens;
+}
+
+/**
+ * Helper method to prompt for a number of targets, and then returns the targeted tokens.
+ * A user can right-click to dismiss, which skips one 'step'.
+ * @param {number} count                            The number of targets asked for.
+ * @param {object} [options]                        Additional options.
+ * @param {TokenArtichron} [options.origin]         Origin point for determining max range.
+ * @param {number} [options.range]                  Maximum range between origin and target.
+ * @returns {Promise<TokenDocumentArtichron[]>}     The token documents of those targeted.
+ */
+export async function awaitTargets(count, {origin, range} = {}) {
+  await game.user.updateTokenTargets();
+
+  const useRange = !!origin && Number.isInteger(range) && (range > 0);
+
+  const bar = (v) => {
+    SceneNavigation.displayProgressBar({label: `Pick ${count} targets (${v}/${count})`, pct: v / count * 100});
+  };
+
+  bar(0);
+
+  return new Promise(resolve => {
+    ui.notifications.info(`Pick ${count} targets`);
+    let value = 0;
+    let id;
+
+    canvas.app.view.oncontextmenu = (event) => {
+      if (!event.shiftKey) return;
+      count--;
+      value = game.user.targets.size;
+      bar(value);
+      if (value === count) {
+        Hooks.off("targetToken", id);
+        canvas.app.view.oncontextmenu = null;
+        resolve(Array.from(game.user.targets).map(token => token.document));
+      }
+    };
+
+    id = Hooks.on("targetToken", (user, token, bool) => {
+      if (game.user !== user) return;
+      if (bool && useRange && !findTokensCircle(origin, range).includes(token)) {
+        removeTarget(token);
+        ui.notifications.warn("The targeted token is outside the range!");
+        return;
+      }
+      value = game.user.targets.size;
+      bar(value);
+      if (value === count) {
+        Hooks.off("targetToken", id);
+        canvas.app.view.oncontextmenu = null;
+        resolve(Array.from(game.user.targets).map(token => token.document));
+      }
+    });
+  });
+}
+
+/**
+ * Properly and visually remove a target from the user.
+ * @param {TokenArtichron} token      The token to remove.
+ * @returns {void}
+ */
+export function removeTarget(token) {
+  const targets = new Set(game.user.targets);
+  targets.delete(token);
+  return game.user.updateTokenTargets([...targets.map(token => token.id)]);
+}
+
+/**
+ * Properly and visually add a target to the user.
+ * @param {TokenArtichron} token      The token to add.
+ * @returns {void}
+ */
+export function addTarget(token) {
+  const targets = new Set(game.user.targets);
+  targets.add(token);
+  return game.user.updateTokenTargets([...targets.map(token => token.id)]);
 }
