@@ -4,6 +4,7 @@ import {SYSTEM} from "../../helpers/config.mjs";
 import {DamageDiceModel, DefenseDiceModel} from "../fields/die.mjs";
 import MeasuredTemplateArtichron from "../template/template.mjs";
 import {ItemSystemModel} from "./system-model.mjs";
+import * as utils from "../../helpers/utils.mjs";
 
 const {ArrayField, NumberField, SchemaField, StringField, EmbeddedDataField, SetField} = foundry.data.fields;
 
@@ -73,9 +74,12 @@ export default class ArsenalData extends ItemSystemModel {
 
       const template = await MeasuredTemplateArtichron.fromToken(token, data).drawPreview();
       if (!template) return null;
+      await new Promise(r => setTimeout(r, 100));
       await actor.update({"system.pools.mana.value": actor.system.pools.mana.value - configuration.cost});
+      const targets = utils.getTokenTargets(utils.tokensInTemplate(template.object));
       return new DamageRoll(configuration.formula, item.getRollData(), {type: part.type}).toMessage({
-        speaker: ChatMessage.implementation.getSpeaker({actor: actor})
+        speaker: ChatMessage.implementation.getSpeaker({actor: actor}),
+        "flags.artichron.targets": targets.map(target => target.uuid)
       });
     } else {
       const inCombat = actor.inCombat;

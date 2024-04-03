@@ -1,19 +1,30 @@
 <div class="artichron damage-rolls">
+
   {{#each rolls}}
-  <div class="damage-roll {{roll.type}}" data-total="{{roll.total}}" data-type="{{roll.type}}" data-tooltip="{{type.label}}">
-    {{roll.total}}
-    <span class="icon"></span>
+  <div class="dice-roll">
+    <i class="{{config.icon}}" style="color: {{config.color}}"></i>
+    <div class="dice-result">
+      <div class="dice-formula">{{formula}}</div>
+      {{{tooltip}}}
+      <h4 class="dice-total">{{total}}</h4>
+    </div>
   </div>
   {{/each}}
-</div>
-{{#if (gt rolls.length 1)}}
-<div class="artichron apply-damage">
-  <div class="damage-properties" data-total="{{total}}" data-type="all">
-    <button data-action="apply-damage" data-tooltip="ARTICHRON.ApplyDamage">
-      <i class="fa-solid fa-burst"></i>
-    </button>
-    <div class="damage-total">{{total}}</div>
-    <div class="damage-type">{{localize "ARTICHRON.DamageTotal"}}</div>
+
+  <button type="button" data-action="apply-damage">
+    <i class="fa-solid fa-burst"></i>
+    {{localize "ARTICHRON.ApplyDamage"}}
+  </button>
+
+  {{#if targets}}
+  <div class="targets">
+    {{#each targets}}
+    <div class="target" data-token-uuid="{{uuid}}">
+      <img src="{{texture.src}}" alt="">
+      <span class="name">{{name}}</span>
+    </div>
+    {{/each}}
   </div>
+  {{/if}}
+
 </div>
-{{/if}}

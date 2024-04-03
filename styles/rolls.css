@@ -2,36 +2,52 @@
 .artichron.damage-rolls {
   display: flex;
   position: relative;
+  flex-direction: column;
 
-  .damage-roll {
-    justify-content: center;
-    align-items: center;
+  .dice-roll {
+    position: relative;
+
+    .fa-solid {
+      position: absolute;
+      opacity: 0.5;
+      left: 0;
+      padding: 5px;
+    }
+  }
+
+  [data-action="apply-damage"] {
+    width: 100%;
+    margin: 3px 0 7px 0;
+  }
+
+  .targets {
     display: flex;
     flex-wrap: wrap;
-    text-align: center;
-    flex: 1;
-    position: relative;
-    height: 50px;
-    font-size: 40px;
-    white-space: nowrap;
+    justify-content: space-around;
 
-    .icon {
-      background-size: 100% 100%;
-      position: absolute;
-      min-width: 100%;
-      max-width: 100%;
-      min-height: 100%;
-      max-height: 100%;
-      opacity: 0.5;
-    }
+    .target {
+      width: calc(100% / 5);
+      gap: 5px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
 
-    &.fire {
-      .icon {
-        background-image: url("../assets/icons/fire.svg");
-        filter: sepia(1) hue-rotate(270deg) drop-shadow(0 0 1px red);
+      & img {
+        border: none;
+        width: calc(100% - 10px);
+      }
+      .name {
+        font-size: 12px;
+        border: 1px solid black;
+        border-radius: 3px;
+        width: calc(100% - 4px);
+        background: rgba(0, 0, 0, 0.6);
+        color: rgba(200, 200, 200, 1);
+        white-space: nowrap;
+        overflow: hidden;
       }
     }
-
   }
 }
 
@@ -81,10 +97,4 @@
       background-image: url(../../../icons/svg/d20-grey.svg);
     }
   }
-}
-
-.artichron.apply-damage {
-  margin: 5px 0;
-  border-top: 2px groove;
-  padding-top: 5px;
 }

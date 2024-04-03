@@ -22,21 +22,16 @@ export class DamageRoll extends Roll {
       acc[type] += roll.total;
       return acc;
     }, {});
-    const total = Object.values(totals).reduce((acc, total) => {
-      return acc + (Number.isInteger(total) ? total : 0);
-    }, 0);
 
     messageData = foundry.utils.mergeObject({
       "flags.artichron.totals": totals,
       rolls: rolls,
       type: CONST.CHAT_MESSAGE_TYPES.ROLL,
-      /*content: await renderTemplate("systems/artichron/templates/chat/damage-roll.hbs", {
-        rolls: rolls.map(r => ({roll: r, type: CONFIG.SYSTEM.DAMAGE_TYPES[r.options.type]})),
-        total: total
-      }),*/
       sound: "sounds/dice.wav",
       rollMode: game.settings.get("core", "rollMode")
     }, messageData, {inplace: false});
+    messageData.content = await this._renderTemplateMethod(messageData);
+
     return ChatMessage.implementation.create(messageData);
   }
 
@@ -46,5 +41,25 @@ export class DamageRoll extends Roll {
    */
   async toMessage(messageData = {}) {
     return this.constructor.toMessage([this], messageData);
+  }
+
+  static async _renderTemplateMethod(messageData) {
+    const targets = messageData.flags.artichron?.targets;
+    const rolls = messageData.rolls;
+    const tokens = targets?.map(uuid => fromUuidSync(uuid));
+
+    const promises = rolls.map(async (roll) => {
+      return {
+        formula: roll.formula,
+        tooltip: await roll.getTooltip(),
+        config: CONFIG.SYSTEM.DAMAGE_TYPES[roll.options.type],
+        total: roll.total
+      };
+    });
+
+    return renderTemplate("systems/artichron/templates/chat/damage-roll.hbs", {
+      targets: tokens,
+      rolls: await Promise.all(promises)
+    });
   }
 }
