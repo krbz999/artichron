@@ -9,46 +9,34 @@ export class ChatLog {
    * @param {HTMLElement} html
    */
   static renderChatMessage(message, [html]) {
-    html.querySelectorAll(".damage-roll").forEach(n => {
-      n.addEventListener("click", ChatLog._onDiceRollClick);
-    });
     html.querySelectorAll("[data-action]").forEach(n => {
       const action = n.dataset.action;
       if (action === "apply-damage") n.addEventListener("click", ChatLog._onApplyDamage);
     });
-  }
-
-  /**
-   * Expand and collapse dice rolls.
-   * @param {PointerEvent} event
-   */
-  static _onDiceRollClick(event) {
-    event.currentTarget.classList.toggle("expanded");
-    return;
-    event.preventDefault();
-    const roll = event.currentTarget;
-    roll.querySelectorAll(".damage-roll-tooltip").forEach(tip => {
-      const has = tip.classList.contains("expanded");
-      if (has) $(tip).slideUp(200);
-      else $(tip).slideDown(200);
-      tip.classList.toggle("expanded");
+    html.querySelectorAll(".targets .target").forEach(n => {
+      const uuid = n.dataset.tokenUuid;
+      const actor = fromUuidSync(uuid).actor;
+      if (!actor.isOwner) n.style.opacity = 0.5;
     });
   }
 
   /**
-   * Apply damage to selected tokens' actors.
-   * @param {PointerEvent} event
+   * Apply damage to targeted tokens' actors.
+   * @param {Event} event     Initiating click event.
    */
   static _onApplyDamage(event) {
     event.stopImmediatePropagation();
     const message = game.messages.get(event.currentTarget.closest("[data-message-id]").dataset.messageId);
-    const totals = message.flags.artichron.totals;
-    const type = event.currentTarget.closest("[data-type]").dataset.type;
-    const actors = canvas.tokens.controlled.reduce((acc, token) => {
-      if (token.actor) acc.add(token.actor);
-      return acc;
-    }, new Set());
-    const data = (type === "all") ? totals : {[type]: Number(event.currentTarget.closest("[data-total]").dataset.total)};
-    actors.forEach(actor => actor.applyDamage(data));
+
+    let actors = new Set();
+
+    const tokens = canvas.tokens.controlled;
+    if (tokens.length) {
+      for (const token of tokens) if (token.actor) actors.add(token.actor);
+    } else {
+      actors = message.flags.artichron.targets.map(uuid => fromUuidSync(uuid).actor);
+      actors = actors.filter(actor => actor.isOwner);
+    }
+    actors.forEach(actor => actor.applyDamage(message.flags.artichron.totals));
   }
 }

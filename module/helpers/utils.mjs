@@ -1,7 +1,7 @@
 /**
  * Convert a bonus value to a number.
  * @param {number|string|null} formula      The string to parse.
- * @param {object} [data={}]                The roll data used to replace terms.
+ * @param {object} [data]                   The roll data used to replace terms.
  * @returns {number}
  */
 export function simplifyFormula(formula, data = {}) {
@@ -14,6 +14,20 @@ export function simplifyFormula(formula, data = {}) {
     console.error(error);
     return 0;
   }
+}
+
+export function getActorTargets(tokens) {
+  const actors = new Set();
+  for (const token of tokens) if (token.actor) actors.add(token.actor);
+  return Array.from(actors);
+}
+
+export function getTokenTargets(tokens) {
+  const map = new Map();
+  for (const token of tokens) {
+    if (token.actor) map.set(token.actor.uuid, token.document);
+  }
+  return Array.from(map.values());
 }
 
 /* ---------------------------------- */
