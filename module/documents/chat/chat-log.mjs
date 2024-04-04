@@ -15,8 +15,8 @@ export class ChatLog {
     });
     html.querySelectorAll(".targets .target").forEach(n => {
       const uuid = n.dataset.tokenUuid;
-      const actor = fromUuidSync(uuid).actor;
-      if (!actor.isOwner) n.style.opacity = 0.5;
+      const actor = fromUuidSync(uuid)?.actor;
+      if (!actor?.isOwner) n.style.opacity = 0.5;
     });
   }
 
@@ -34,8 +34,8 @@ export class ChatLog {
     if (tokens.length) {
       for (const token of tokens) if (token.actor) actors.add(token.actor);
     } else {
-      actors = message.flags.artichron.targets.map(uuid => fromUuidSync(uuid).actor);
-      actors = actors.filter(actor => actor.isOwner);
+      actors = message.flags.artichron.targets.map(uuid => fromUuidSync(uuid)?.actor);
+      actors = actors.filter(actor => actor?.isOwner);
     }
     actors.forEach(actor => actor.applyDamage(message.flags.artichron.totals));
   }
