@@ -144,6 +144,7 @@ export default class SpellcastingDialog extends Application {
    */
   _getShapeOptions() {
     return Object.entries(CONFIG.SYSTEM.SPELL_TARGET_TYPES).reduce((acc, [k, v]) => {
+      if (!this.item.system.template.types.has(k)) return acc;
       acc[k] = {...v, label: `${game.i18n.localize(v.label)} [d${v.faces}]`};
       return acc;
     }, {});
