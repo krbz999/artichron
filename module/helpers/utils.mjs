@@ -1,3 +1,5 @@
+import MeasuredTemplateArtichron from "../documents/template/template.mjs";
+
 /**
  * Convert a bonus value to a number.
  * @param {number|string|null} formula      The string to parse.
@@ -240,8 +242,7 @@ export function tokensInTemplate(template) {
   const circular = game.settings.get("artichron", "circularTokens");
   const threshold = game.settings.get("artichron", "templateAreaThreshold");
 
-  const clone = template.shape.clone();
-  Object.assign(clone, template.center);
+  const shape = template._getGridHighlightShape();
   const dp = canvas.dimensions.distancePixels;
   const limit = (circular ? Math.PI * (dp ** 2) / 4 : dp ** 2) * threshold;
 
@@ -254,8 +255,8 @@ export function tokensInTemplate(template) {
   };
 
   const tokens = canvas.tokens.quadtree.getObjects(template.bounds, {
-    collisionTest: ({t}) => {
-      const intersection = clone.intersectPolygon(tokenArea(t));
+    collisionTest: ({t: token}) => {
+      const intersection = shape.intersectPolygon(tokenArea(token));
       return intersection.signedArea() >= limit;
     }
   });
