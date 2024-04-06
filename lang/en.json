@@ -176,5 +176,11 @@
     "CircularTokensHint": "Are tokens treated as circular for the purpose of their hit area?",
     "TemplateAreaThreshold": "Template Area Threshold",
     "TemplateAreaThresholdHint": "The percentage a token must overlap a template to be considered 'inside' it."
+  },
+
+  "ARTICHRON.Warning": {
+    "ItemHasNoTemplateTypes": "This item has no template types set!",
+    "ItemIsNotEquipped": "The item must be equipped to be used!",
+    "NotEnoughPips": "You do not have enough pips remaining to make an attack!"
   }
 }

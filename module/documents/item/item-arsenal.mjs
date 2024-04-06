@@ -60,11 +60,16 @@ export default class ArsenalData extends ItemSystemModel {
     const {first, second} = actor.arsenal;
     const key = (first === item) ? "first" : (second === item) ? "second" : null;
     if (!key) {
-      ui.notifications.warn("Arsenal must be equipped to be used.");
+      ui.notifications.warn("ARTICHRON.Warning.ItemIsNotEquipped", {localize: true});
       return null;
     }
 
     if (this.isSpell) {
+      if (!this.template.types.size) {
+        ui.notifications.warn("ARTICHRON.Warning.ItemHasNoTemplateTypes", {localize: true});
+        return null;
+      }
+
       const configuration = await SpellcastingDialog.create(actor, item);
       if (!configuration) return null;
       const [token] = actor.isToken ? [actor.token?.object] : actor.getActiveTokens();
@@ -97,7 +102,7 @@ export default class ArsenalData extends ItemSystemModel {
         const pips = combatant.pips;
         const cost = this.isOneHanded ? 1 : this.isTwoHanded ? 2 : 0;
         if (cost > pips) {
-          ui.notifications.warn("You do not have enough pips remaining two make an attack!");
+          ui.notifications.warn("ARTICHRON.Warning.NotEnoughPips", {localize: true});
           return null;
         }
 
