@@ -88,7 +88,7 @@ export default class SpellcastingDialog extends Application {
       dtypeOptions: dtypeOptions,
       shapeOptions: shapeOptions,
       model: this.model,
-      invalid: (this.cost > this.max) || !scales.size,
+      invalid: ((this.cost > this.max) && this.model.mana) || !scales.size,
       damageOptions: this._getManaOptions("damage"),
       countOptions: scales.has("count") ? this._getManaOptions("count") : null,
       distanceOptions: scales.has("distance") ? this._getManaOptions("distance") : null,
@@ -97,7 +97,8 @@ export default class SpellcastingDialog extends Application {
       radiusOptions: scales.has("radius") ? this._getManaOptions("radius") : null,
       formula: this.formula,
       label: this._getLabel(),
-      noscales: !scales.size
+      noscales: !scales.size,
+      cost: this.cost
     };
   }
 
@@ -185,7 +186,7 @@ export default class SpellcastingDialog extends Application {
       return this._model;
     }
 
-    const {SchemaField, NumberField, StringField} = foundry.data.fields;
+    const {SchemaField, NumberField, StringField, BooleanField} = foundry.data.fields;
     const options = {integer: true, min: 0};
 
     this._model = new (class SpellcastingModel extends foundry.abstract.DataModel {
@@ -201,7 +202,8 @@ export default class SpellcastingDialog extends Application {
 
           }),
           part: new NumberField({...options, initial: 0}),
-          shape: new StringField({required: true, initial: types.first()})
+          shape: new StringField({required: true, initial: types.first()}),
+          mana: new BooleanField({initial: true})
         };
       }
     })();
@@ -234,7 +236,7 @@ export default class SpellcastingDialog extends Application {
   activateListeners(html) {
     super.activateListeners(html);
     html = html[0];
-    html.querySelectorAll("SELECT").forEach(n => {
+    html.querySelectorAll("SELECT, INPUT").forEach(n => {
       n.addEventListener("change", event => {
         const data = new FormDataExtended(event.currentTarget.closest("FORM")).object;
         this.model.updateSource(data);

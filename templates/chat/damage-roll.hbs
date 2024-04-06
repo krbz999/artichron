@@ -16,6 +16,13 @@
     {{localize "ARTICHRON.ApplyDamage"}}
   </button>
 
+  {{#if templateData}}
+  <button type="button" class="gold-button" data-action="template">
+    <i class="fa-solid fa-ruler-combined"></i>
+    {{localize "ARTICHRON.PlaceTemplate"}}
+  </button>
+  {{/if}}
+
   {{#if targets}}
   <div class="targets">
     {{#each targets}}

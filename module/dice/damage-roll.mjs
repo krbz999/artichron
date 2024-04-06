@@ -44,7 +44,7 @@ export class DamageRoll extends Roll {
   }
 
   static async _renderTemplateMethod(messageData) {
-    const targets = messageData.flags.artichron?.targets;
+    const {targets, templateData} = messageData.flags.artichron ?? {};
     const rolls = messageData.rolls;
     const tokens = targets?.map(uuid => fromUuidSync(uuid));
 
@@ -59,6 +59,7 @@ export class DamageRoll extends Roll {
 
     return renderTemplate("systems/artichron/templates/chat/damage-roll.hbs", {
       targets: tokens,
+      templateData: templateData,
       rolls: await Promise.all(promises)
     });
   }

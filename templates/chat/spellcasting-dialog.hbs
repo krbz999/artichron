@@ -87,6 +87,13 @@
   <p class="notification formula">{{label}}</p>
   {{/if}}
 
+  <div class="form-group">
+    <label class="checkbox">
+      <input type="checkbox" name="mana" {{checked model.mana}}>
+      {{localize "ARTICHRON.SpellcastingDialog.SpendMana" n=cost}}
+    </label>
+  </div>
+
   <footer>
     <button type="button" class="gold-button" data-action="confirm" {{disabled invalid}}>
       <i class="fa-solid fa-check"></i>
