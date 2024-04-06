@@ -82,10 +82,10 @@ export default class ArsenalData extends ItemSystemModel {
 
       if (data.type !== "single") {
         // Case 1: Area of effect.
-        template = await MeasuredTemplateArtichron.fromToken(token, data).drawPreview();
-        if (!template) return null;
-        await new Promise(r => setTimeout(r, 100));
-        targets = utils.getTokenTargets(utils.tokensInTemplate(template.object));
+        template = await this._createTemplate(data);
+        const shape = await template?.waitForShape();
+        if (!template || !shape) return null;
+        targets = template.object.containedTokens;
       } else {
         // Case 2: Singular targets.
         targets = await utils.awaitTargets(data.count, {origin: token, range: data.range});
@@ -141,5 +141,9 @@ export default class ArsenalData extends ItemSystemModel {
   }
   get isShield() {
     return this.type.category === "shield";
+  }
+
+  async _createTemplate(templateData) {
+    return MeasuredTemplateArtichron.fromToken(this.parent.token, templateData).drawPreview();
   }
 }
