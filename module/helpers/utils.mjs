@@ -279,7 +279,9 @@ export async function awaitTargets(count, {origin, range} = {}) {
   const useRange = !!origin && Number.isInteger(range) && (range > 0);
 
   const bar = (v) => {
-    SceneNavigation.displayProgressBar({label: `Pick ${count} targets (${v}/${count})`, pct: v / count * 100});
+    const label = !count ? "" : `Pick ${count} targets (${v}/${count})`;
+    const pct = !count ? 100 : (v / count * 100).toNearest(0.1);
+    SceneNavigation.displayProgressBar({label: label, pct: pct});
   };
 
   bar(0);

@@ -90,10 +90,17 @@ export default class ArsenalData extends ItemSystemModel {
         // Case 2: Singular targets.
         targets = await utils.awaitTargets(data.count, {origin: token, range: data.range});
       }
-      await actor.update({"system.pools.mana.value": actor.system.pools.mana.value - configuration.cost});
+      if (data.mana) await actor.update({"system.pools.mana.value": actor.system.pools.mana.value - configuration.cost});
       return new DamageRoll(configuration.formula, item.getRollData(), {type: part.type}).toMessage({
         speaker: ChatMessage.implementation.getSpeaker({actor: actor}),
-        "flags.artichron.targets": targets?.map(target => target.uuid)
+        "flags.artichron.targets": targets?.map(target => target.uuid),
+        "flags.artichron.templateData": (data.type !== "single") ? {
+          ...data,
+          formula: configuration.formula,
+          damageType: part.type
+        } : null,
+        "flags.artichron.actorUuid": actor.uuid,
+        "flags.artichron.itemUuid": item.uuid
       });
     } else {
       const inCombat = actor.inCombat;

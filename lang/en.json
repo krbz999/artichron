@@ -138,6 +138,7 @@
   "ARTICHRON.Opacity": "Opacity",
   "ARTICHRON.Optional": "Optional",
   "ARTICHRON.PickEquippedItem": "Equip Item",
+  "ARTICHRON.PlaceTemplate": "Place Template",
   "ARTICHRON.PoolRoll": "{name}: {type} Roll",
   "ARTICHRON.Pools": "Dice Pools",
   "ARTICHRON.Recover": "Recover",
@@ -161,7 +162,8 @@
     "Radius": "Radius",
     "Width": "Width",
     "Confirm": "Confirm",
-    "Warn": "You cannot spend this many mana dice!"
+    "Warn": "You cannot spend this many mana dice!",
+    "SpendMana": "Spend {n} Mana"
   },
   "ARTICHRON.SpellType": {
     "SingleTarget": "Single Target",
