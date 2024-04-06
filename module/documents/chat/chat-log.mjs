@@ -44,21 +44,4 @@ export class ChatLog {
       "flags.artichron.itemUuid": message.item.uuid
     });
   }
-
-  /**
-   * Apply damage to targeted tokens' actors.
-   * @this ChatMessage
-   */
-  static _onApplyDamage() {
-    let actors = new Set();
-
-    const tokens = canvas.tokens.controlled;
-    if (tokens.length) {
-      for (const token of tokens) if (token.actor) actors.add(token.actor);
-    } else {
-      actors = this.flags.artichron.targets.map(uuid => fromUuidSync(uuid)?.actor);
-      actors = actors.filter(actor => actor?.isOwner);
-    }
-    actors.forEach(actor => actor.applyDamage(this.flags.artichron.totals));
-  }
 }
