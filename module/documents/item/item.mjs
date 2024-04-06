@@ -28,6 +28,13 @@ export default class ItemArtichron extends Item {
     return this.system.isShield ?? false;
   }
 
+  get token() {
+    const actor = this.actor;
+    if (!actor) return null;
+    const [token] = actor.isToken ? [actor.token?.object] : actor.getActiveTokens();
+    return token ?? null;
+  }
+
   /* ---------------------------------------- */
   /*                                          */
   /*            PREPARATION METHODS           */

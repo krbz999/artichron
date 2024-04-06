@@ -41,6 +41,8 @@ Hooks.once("init", function() {
   CONFIG.Token.documentClass = documents.tokenDocument;
   CONFIG.Token.objectClass = documents.token;
   CONFIG.MeasuredTemplate.objectClass = documents.template;
+  CONFIG.MeasuredTemplate.documentClass = documents.templateDocument;
+  CONFIG.ChatMessage.documentClass = documents.message;
 
   // Hook up system data types
   CONFIG.Actor.dataModels = dataModels.actor;

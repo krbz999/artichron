@@ -11,6 +11,8 @@ import ItemArtichron from "./item/item.mjs";
 import MeasuredTemplateArtichron from "./template/template.mjs";
 import TokenDocumentArtichron from "./token/token-document.mjs";
 import TokenArtichron from "./token/token-placeable.mjs";
+import ChatMessageArtichron from "./chat/chatmessage.mjs";
+import MeasuredTemplateDocumentArtichron from "./template/template-document.mjs";
 
 export const dataModels = {
   actor: {
@@ -32,5 +34,7 @@ export const documents = {
   combatant: CombatantArtichron,
   tokenDocument: TokenDocumentArtichron,
   token: TokenArtichron,
-  template: MeasuredTemplateArtichron
+  template: MeasuredTemplateArtichron,
+  templateDocument: MeasuredTemplateDocumentArtichron,
+  message: ChatMessageArtichron
 };

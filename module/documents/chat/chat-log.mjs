@@ -1,4 +1,3 @@
-import MeasuredTemplateArtichron from "../template/template.mjs";
 import * as utils from "../../helpers/utils.mjs";
 import {DamageRoll} from "../../dice/damage-roll.mjs";
 
@@ -15,8 +14,8 @@ export class ChatLog {
   static renderChatMessage(message, [html]) {
     html.querySelectorAll("[data-action]").forEach(n => {
       const action = n.dataset.action;
-      if (action === "apply-damage") n.addEventListener("click", ChatLog._onApplyDamage.bind(message));
-      else if (action === "template") n.addEventListener("click", ChatLog._onTemplate.bind(message));
+      if (action === "apply-damage") n.addEventListener("click", () => message.applyDamage());
+      else if (action === "template") n.addEventListener("click", ChatLog._onTemplate);
     });
     html.querySelectorAll(".targets .target").forEach(n => {
       const uuid = n.dataset.tokenUuid;
@@ -27,25 +26,22 @@ export class ChatLog {
 
   /**
    * Create a measured template from data embedded in a chat message, then perform a damage roll.
-   * @this ChatMessage
+   * @param {Event} event     Initiating click event.
    */
-  static async _onTemplate() {
-    const {itemUuid, templateData} = this.flags.artichron ?? {};
-    const item = await fromUuid(itemUuid);
-    const actor = item?.actor;
-    const [token] = actor?.isToken ? [actor?.token?.object] : actor?.getActiveTokens() ?? [];
+  static async _onTemplate(event) {
+    const message = game.messages.get(event.currentTarget.closest("[data-message-id]").dataset.messageId);
+    const template = await message.createMeasuredTemplate();
+    if (!template) return null;
 
-    if (!token) return null;
-
-    const template = await MeasuredTemplateArtichron.fromToken(token, templateData).drawPreview();
-    await new Promise(r => setTimeout(r, 100));
-    const targets = utils.getTokenTargets(utils.tokensInTemplate(template.object));
-    return new DamageRoll(templateData.formula, item.getRollData(), {type: templateData.damageType}).toMessage({
-      speaker: this.speaker,
+    await template.waitForShape();
+    const targets = template.object.containedTokens;
+    const roll = message.rolls[0];
+    return new DamageRoll(roll.formula, message.item.getRollData(), {type: roll.options.type}).toMessage({
+      speaker: message.speaker,
       "flags.artichron.targets": targets.map(target => target.uuid),
-      "flags.artichron.templateData": {...templateData},
-      "flags.artichron.actorUuid": actor.uuid,
-      "flags.artichron.itemUuid": item.uuid
+      "flags.artichron.templateData": {...message.flags.artichron.templateData},
+      "flags.artichron.actorUuid": message.actor.uuid,
+      "flags.artichron.itemUuid": message.item.uuid
     });
   }
 
