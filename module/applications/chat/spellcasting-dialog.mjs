@@ -82,13 +82,13 @@ export default class SpellcastingDialog extends Application {
     const dtypeOptions = this._getDamageOptions();
     const shapeOptions = this._getShapeOptions();
 
-    const scales = CONFIG.SYSTEM.SPELL_TARGET_TYPES[this.model.shape].scale;
+    const scales = CONFIG.SYSTEM.SPELL_TARGET_TYPES[this.model.shape]?.scale ?? new Set();
 
     return {
       dtypeOptions: dtypeOptions,
       shapeOptions: shapeOptions,
       model: this.model,
-      invalid: this.cost > this.max,
+      invalid: (this.cost > this.max) || !scales.size,
       damageOptions: this._getManaOptions("damage"),
       countOptions: scales.has("count") ? this._getManaOptions("count") : null,
       distanceOptions: scales.has("distance") ? this._getManaOptions("distance") : null,
@@ -96,7 +96,8 @@ export default class SpellcastingDialog extends Application {
       rangeOptions: scales.has("range") ? this._getManaOptions("range") : null,
       radiusOptions: scales.has("radius") ? this._getManaOptions("radius") : null,
       formula: this.formula,
-      label: this._getLabel()
+      label: this._getLabel(),
+      noscales: !scales.size
     };
   }
 
@@ -118,6 +119,7 @@ export default class SpellcastingDialog extends Application {
     } else if (this.model.shape === "radius") {
       label = `${data.distance}m radius from caster`;
     }
+    if (!label) return "";
 
     const part = this.item.system.damage[this.model.part];
     const dtype = game.i18n.localize(CONFIG.SYSTEM.DAMAGE_TYPES[part.type].label);
@@ -176,23 +178,35 @@ export default class SpellcastingDialog extends Application {
    * @type {DataModel}
    */
   get model() {
-    return this._model ??= new (class SpellcastingModel extends foundry.abstract.DataModel {
+    const types = this.item.system.template.types;
+    if (this._model) {
+      const type = this._model.shape;
+      if (!types.has(type)) this._model.updateSource({shape: types.first() || ""});
+      return this._model;
+    }
+
+    const {SchemaField, NumberField, StringField} = foundry.data.fields;
+    const options = {integer: true, min: 0};
+
+    this._model = new (class SpellcastingModel extends foundry.abstract.DataModel {
       static defineSchema() {
         return {
-          scale: new foundry.data.fields.SchemaField({
-            count: new foundry.data.fields.NumberField({integer: true, min: 0}),
-            distance: new foundry.data.fields.NumberField({integer: true, min: 0}),
-            width: new foundry.data.fields.NumberField({integer: true, min: 0}),
-            range: new foundry.data.fields.NumberField({integer: true, min: 0}),
-            radius: new foundry.data.fields.NumberField({integer: true, min: 0}),
-            damage: new foundry.data.fields.NumberField({integer: true, min: 0})
+          scale: new SchemaField({
+            count: new NumberField({...options}),
+            distance: new NumberField({...options}),
+            width: new NumberField({...options}),
+            range: new NumberField({...options}),
+            radius: new NumberField({...options}),
+            damage: new NumberField({...options})
 
           }),
-          part: new foundry.data.fields.NumberField({integer: true, min: 0, initial: 0}),
-          shape: new foundry.data.fields.StringField({required: true, initial: "single"})
+          part: new NumberField({...options, initial: 0}),
+          shape: new StringField({required: true, initial: types.first()})
         };
       }
     })();
+
+    return this._model;
   }
 
   /**
@@ -201,7 +215,7 @@ export default class SpellcastingDialog extends Application {
    */
   get cost() {
     const spellType = CONFIG.SYSTEM.SPELL_TARGET_TYPES[this.model.shape];
-    return spellType.scale.reduce((acc, k) => acc + this.model.scale[k], this.model.scale.damage);
+    return spellType?.scale.reduce((acc, k) => acc + this.model.scale[k], this.model.scale.damage) ?? 0;
   }
 
   /**
@@ -209,6 +223,7 @@ export default class SpellcastingDialog extends Application {
    * @type {string}
    */
   get formula() {
+    if (!this.model.shape) return "";
     const damage = this.item.system.damage[this.model.part];
     const p0 = new Roll(damage.formula, this.item.getRollData(), {type: damage.type}).alter(1 + this.model.scale.damage, 0);
     const p1 = `1d${CONFIG.SYSTEM.SPELL_TARGET_TYPES[this.model.shape].faces}`;
@@ -221,8 +236,8 @@ export default class SpellcastingDialog extends Application {
     html = html[0];
     html.querySelectorAll("SELECT").forEach(n => {
       n.addEventListener("change", event => {
-        const {name, value} = event.currentTarget;
-        this.model.updateSource({[name]: value});
+        const data = new FormDataExtended(event.currentTarget.closest("FORM")).object;
+        this.model.updateSource(data);
         this.render();
       });
     });

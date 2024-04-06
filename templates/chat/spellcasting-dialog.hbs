@@ -79,14 +79,16 @@
   </div>
   {{/if}}
 
-  {{#if invalid}}
+  {{#if noscales}}
+  <p class="notification warning">{{localize "ARTICHRON.Warning.ItemHasNoTemplateTypes"}}</p>
+  {{else if invalid}}
   <p class="notification warning">{{localize "ARTICHRON.SpellcastingDialog.Warn"}}</p>
-  {{else}}
+  {{else if label}}
   <p class="notification formula">{{label}}</p>
   {{/if}}
 
   <footer>
-    <button type="button" data-action="confirm" {{disabled invalid}}>
+    <button type="button" class="gold-button" data-action="confirm" {{disabled invalid}}>
       <i class="fa-solid fa-check"></i>
       {{localize "ARTICHRON.SpellcastingDialog.Confirm"}}
     </button>
