@@ -30,11 +30,16 @@ export class ChatLog {
    */
   static async _onTemplate(event) {
     const message = game.messages.get(event.currentTarget.closest("[data-message-id]").dataset.messageId);
-    const template = await message.createMeasuredTemplate();
-    if (!template) return null;
+    const count = message.flags.artichron.templateData.count;
+    const templates = await message.createMeasuredTemplate(count);
+    if (!templates) return null;
 
-    await template.waitForShape();
-    const targets = template.object.containedTokens;
+    await Promise.all(templates.map(template => template.waitForShape()));
+
+    let targets = new Set();
+    for (const t of templates) for (const tok of t.object.containedTokens) targets.add(tok);
+    targets = Array.from(targets);
+
     const roll = message.rolls[0];
     return new DamageRoll(roll.formula, message.item.getRollData(), {type: roll.options.type}).toMessage({
       speaker: message.speaker,

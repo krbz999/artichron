@@ -77,15 +77,18 @@ export default class ArsenalData extends ItemSystemModel {
       const data = SpellcastingDialog.determineTemplateData(configuration);
       const part = item.system.damage[configuration.part];
 
-      let template;
-      let targets;
+      let targets = new Set();
 
       if (data.type !== "single") {
         // Case 1: Area of effect.
-        template = await this._createTemplate(data);
-        const shape = await template?.waitForShape();
-        if (!template || !shape) return null;
-        targets = template.object.containedTokens;
+        const initialLayer = canvas.activeLayer;
+        for (let i = 0; i < data.count; i++) {
+          const template = await this._createTemplate(data);
+          const shape = await template?.waitForShape();
+          if (!template || !shape) break;
+          template.object.containedTokens.forEach(tok => targets.add(tok));
+        }
+        initialLayer.activate();
       } else {
         // Case 2: Singular targets.
         targets = await utils.awaitTargets(data.count, {origin: token, range: data.range});
@@ -93,7 +96,7 @@ export default class ArsenalData extends ItemSystemModel {
       if (data.mana) await actor.update({"system.pools.mana.value": actor.system.pools.mana.value - configuration.cost});
       return new DamageRoll(configuration.formula, item.getRollData(), {type: part.type}).toMessage({
         speaker: ChatMessage.implementation.getSpeaker({actor: actor}),
-        "flags.artichron.targets": targets?.map(target => target.uuid),
+        "flags.artichron.targets": Array.from(targets ?? []).map(target => target.uuid),
         "flags.artichron.templateData": (data.type !== "single") ? {
           ...data,
           formula: configuration.formula,

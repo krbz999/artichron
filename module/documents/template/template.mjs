@@ -105,7 +105,6 @@ export default class MeasuredTemplateArtichron extends MeasuredTemplate {
   /* -------------------------------------------- */
 
   drawPreview() {
-    const initialLayer = canvas.activeLayer;
     this.origin = this.token.center;
 
     // Draw the template and switch to the template layer
@@ -117,19 +116,17 @@ export default class MeasuredTemplateArtichron extends MeasuredTemplate {
     this.actorSheet?.minimize();
 
     // Activate interactivity
-    return this.activatePreviewListeners(initialLayer);
+    return this.activatePreviewListeners();
   }
 
   /* -------------------------------------------- */
 
   /**
    * Activate listeners for the template preview
-   * @param {CanvasLayer} initialLayer  The initially active CanvasLayer to re-activate after the workflow is complete
    * @returns {Promise}                 A promise that resolves with the final measured template if created.
    */
-  activatePreviewListeners(initialLayer) {
+  activatePreviewListeners() {
     return new Promise((resolve, reject) => {
-      this.#initialLayer = initialLayer;
       this.#events = {
         cancel: this._onCancelPlacement.bind(this),
         confirm: this._onConfirmPlacement.bind(this),
@@ -159,7 +156,6 @@ export default class MeasuredTemplateArtichron extends MeasuredTemplate {
     canvas.stage.off("mousedown", this.#events.confirm);
     canvas.app.view.oncontextmenu = null;
     canvas.app.view.onwheel = null;
-    this.#initialLayer.activate();
   }
 
   /* -------------------------------------------- */
@@ -236,7 +232,7 @@ export default class MeasuredTemplateArtichron extends MeasuredTemplate {
    */
   async _onCancelPlacement(event) {
     await this._finishPlacement(event);
-    this.#events.reject(null);
+    this.#events.resolve(null);
   }
 
   /* -------------------------------------------- */
