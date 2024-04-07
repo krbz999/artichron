@@ -127,23 +127,26 @@ SYSTEM.SPELL_TARGET_TYPES = {
   },
   ray: {
     label: "ARTICHRON.SpellType.AreaRay",
-    scale: new Set(["distance", "width"]),
+    scale: new Set(["count", "distance", "width"]),
     faces: 10,
+    count: [1, 1],
     distance: [4, 2],
     width: [1, 1]
   },
   cone: {
     label: "ARTICHRON.SpellType.AreaCone",
-    scale: new Set(["distance"]),
+    scale: new Set(["count", "distance"]),
     faces: 8,
+    count: [1, 1],
     distance: [3, 2]
   },
   circle: {
     label: "ARTICHRON.SpellType.AreaCircle",
-    scale: new Set(["radius", "range"]),
+    scale: new Set(["count", "radius", "range"]),
     faces: 4,
+    count: [1, 1],
     radius: [1, 1],
-    range: [10, 2]
+    range: [5, 2]
   },
   radius: {
     label: "ARTICHRON.SpellType.AreaRadius",

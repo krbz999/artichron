@@ -283,12 +283,14 @@ export default class SpellcastingDialog extends Application {
         type = "ray";
         distance = getValue("distance");
         width = getValue("width");
+        count = getValue("count");
         attach = true;
         break;
       }
       case "cone": {
         type = "cone";
         distance = getValue("distance");
+        count = getValue("count");
         angle = 45;
         attach = true;
         break;
@@ -297,6 +299,7 @@ export default class SpellcastingDialog extends Application {
         type = "circle";
         distance = getValue("radius");
         range = getValue("range");
+        count = getValue("count");
         attach = false;
         break;
       }
