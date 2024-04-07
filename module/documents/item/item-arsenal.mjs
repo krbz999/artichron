@@ -82,12 +82,16 @@ export default class ArsenalData extends ItemSystemModel {
       if (data.type !== "single") {
         // Case 1: Area of effect.
         const initialLayer = canvas.activeLayer;
+        const templateDatas = [];
         for (let i = 0; i < data.count; i++) {
-          const template = await this._createTemplate(data);
-          const shape = await template?.waitForShape();
-          if (!template || !shape) break;
-          template.object.containedTokens.forEach(tok => targets.add(tok));
+          const templateData = await this._createTemplate(data, {lock: true});
+          if (templateData) templateDatas.push(templateData);
+          else break;
         }
+        canvas.templates.clearPreviewContainer();
+        const templates = await canvas.scene.createEmbeddedDocuments("MeasuredTemplate", templateDatas);
+        await Promise.all(templates.map(template => template.waitForShape()));
+        templates.forEach(template => template.object.containedTokens.forEach(tok => targets.add(tok)));
         initialLayer.activate();
       } else {
         // Case 2: Singular targets.
@@ -146,7 +150,7 @@ export default class ArsenalData extends ItemSystemModel {
     return this.type.category === "shield";
   }
 
-  async _createTemplate(templateData) {
-    return MeasuredTemplateArtichron.fromToken(this.parent.token, templateData).drawPreview();
+  async _createTemplate(templateData, options = {}) {
+    return MeasuredTemplateArtichron.fromToken(this.parent.token, templateData, options).drawPreview();
   }
 }
