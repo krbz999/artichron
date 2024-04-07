@@ -70,10 +70,37 @@ export default class TokenArtichron extends Token {
     this.tokenAuras?.destroy();
   }
 
-  /** @inheritdoc */
+  /** @override */
   _applyRenderFlags(flags) {
     super._applyRenderFlags(flags);
     this.drawShield();
     this.drawAura();
+  }
+
+  /** @override */
+  _refreshBorder() {
+    const b = this.border;
+    b.clear();
+
+    // Determine the desired border color
+    const borderColor = this._getBorderColor();
+    if (!borderColor) return;
+
+    // Draw Hex border for size 1 tokens on a hex grid
+    const t = CONFIG.Canvas.objectBorderThickness;
+    if (canvas.grid.isHex) {
+      const polygon = canvas.grid.grid.getBorderPolygon(this.document.width, this.document.height, t);
+      if (polygon) {
+        b.lineStyle(t, 0x000000, 0.8).drawPolygon(polygon);
+        b.lineStyle(t / 2, borderColor, 1.0).drawPolygon(polygon);
+      }
+    }
+
+    // Otherwise, draw square border
+    else {
+      const h = Math.round(t / 2);
+      b.lineStyle(t, 0x000000, 0.8).drawCircle(this.w / 2, this.h / 2, this.h / 2 + t);
+      b.lineStyle(h, borderColor, 1).drawCircle(this.w / 2, this.h / 2, this.h / 2 + t);
+    }
   }
 }
