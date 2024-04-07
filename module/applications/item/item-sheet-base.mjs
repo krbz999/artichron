@@ -36,7 +36,7 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(ItemSheet) {
         effects: this._prepareEffects(),
         isFavorited: this.document.actor?.system.equipped.favorites.has(this.document) ?? null,
         templates: Object.entries(SYSTEM.SPELL_TARGET_TYPES).map(([k, v]) => {
-          return {key: k, label: v.label, selected: this.item.system.template.types.has(k)};
+          return {key: k, label: v.label, selected: this.item.system.template?.types.has(k)};
         })
       },
       descriptions: {

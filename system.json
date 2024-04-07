@@ -80,5 +80,20 @@
       "extensions": ["css", "hbs"],
       "paths": ["lang/en.json", "styles/*.css", "templates/**/*.hbs"]
     }
+  },
+  "documentTypes": {
+    "Actor": {
+      "hero": {},
+      "monster": {},
+      "merchant": {},
+      "boss": {}
+    },
+    "Item": {
+      "arsenal": {},
+      "armor": {},
+      "food": {},
+      "elixir": {},
+      "part": {}
+    }
   }
 }
