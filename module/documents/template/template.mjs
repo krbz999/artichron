@@ -7,11 +7,29 @@ export default class MeasuredTemplateArtichron extends MeasuredTemplate {
    */
   token = null;
 
+  /* -------------------------------------------- */
+
+  /**
+   * Is this a preview currently locked in place?
+   * @type {boolean}
+   */
+  #locked = false;
+
+  /* -------------------------------------------- */
+
   /**
    * Template configuration.
    * @type {object}
    */
   config = null;
+
+  /* -------------------------------------------- */
+
+  /**
+   * Template preview options.
+   * @type {object}
+   */
+  options = null;
 
   /* -------------------------------------------- */
 
@@ -24,14 +42,6 @@ export default class MeasuredTemplateArtichron extends MeasuredTemplate {
   /* -------------------------------------------- */
 
   /**
-   * The initially active CanvasLayer to re-activate after the workflow is complete.
-   * @type {CanvasLayer}
-   */
-  #initialLayer;
-
-  /* -------------------------------------------- */
-
-  /**
    * Track the bound event handlers so they can be properly canceled later.
    * @type {object}
    */
@@ -39,7 +49,7 @@ export default class MeasuredTemplateArtichron extends MeasuredTemplate {
 
   /* -------------------------------------------- */
 
-  static fromData(data) {
+  static fromData(data, {lock = false} = {}) {
     // Prepare template data
     const templateData = foundry.utils.mergeObject({
       user: game.user.id,
@@ -53,10 +63,13 @@ export default class MeasuredTemplateArtichron extends MeasuredTemplate {
     const cls = CONFIG.MeasuredTemplate.documentClass;
     const template = new cls(templateData, {parent: canvas.scene});
     const object = new this(template);
+    object.options = {
+      lock: lock
+    };
     return object;
   }
 
-  static fromItem(item) {
+  static fromItem(item, options = {}) {
     const {type, distance, width, self, angle, range} = item.system.template;
     const [token] = item.actor.isToken ? [item.actor.token?.object] : item.actor.getActiveTokens();
     if (!token) throw new Error("No token available for placing template!");
@@ -68,10 +81,10 @@ export default class MeasuredTemplateArtichron extends MeasuredTemplate {
       angle: angle,
       attach: self,
       range: range
-    });
+    }, options);
   }
 
-  static fromToken(token, {type, distance, width, attach, angle, range} = {}) {
+  static fromToken(token, {type, distance, width, attach, angle, range} = {}, options = {}) {
     if (!token) throw new Error("No token available for placing template!");
 
     // Increase size of attached circles.
@@ -90,7 +103,7 @@ export default class MeasuredTemplateArtichron extends MeasuredTemplate {
       ...token.center
     };
 
-    const template = this.fromData(data);
+    const template = this.fromData(data, options);
     template.token = token;
     template.config = {
       distance: distance,
@@ -151,7 +164,7 @@ export default class MeasuredTemplateArtichron extends MeasuredTemplate {
    * @param {Event} event  Triggering event that ended the placement.
    */
   async _finishPlacement(event) {
-    this.layer._onDragLeftCancel(event);
+    if (!this.#locked) this.layer._onDragLeftCancel(event);
     canvas.stage.off("mousemove", this.#events.move);
     canvas.stage.off("mousedown", this.#events.confirm);
     canvas.app.view.oncontextmenu = null;
@@ -165,6 +178,7 @@ export default class MeasuredTemplateArtichron extends MeasuredTemplate {
    * @param {Event} event  Triggering mouse event.
    */
   _onMovePlacement(event) {
+    if (this.#locked) return;
     event.stopPropagation();
     const now = Date.now(); // Apply a 20ms throttle
     if (now - this.#moveTime <= 20) return;
@@ -218,10 +232,12 @@ export default class MeasuredTemplateArtichron extends MeasuredTemplate {
    * @param {Event} event  Triggering mouse event.
    */
   async _onConfirmPlacement(event) {
+    if (this.options.lock) this.#locked = true;
     await this._finishPlacement(event);
     const templateData = this.document.toObject();
     const Cls = CONFIG.MeasuredTemplate.documentClass;
-    this.#events.resolve(Cls.create(templateData, {parent: this.document.parent}));
+    if (this.#locked) this.#events.resolve(templateData);
+    else this.#events.resolve(Cls.create(templateData, {parent: this.document.parent}));
   }
 
   /* -------------------------------------------- */
