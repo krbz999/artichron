@@ -10,10 +10,12 @@
       <img src="{{img}}" {{#if hasDamage}}data-action="control" data-control="use"{{/if}}>
       <div class="expand-out">
         <div class="controls">
+          {{#if @root.sheet.isEditMode}}
           {{#if item}}
           <a class="control" data-action="control" data-control="edit"><i class="fa-solid fa-edit"></i> {{localize "ARTICHRON.EditItem"}}</a>
           {{/if}}
           <a class="control" data-action="control" data-control="change"><i class="fa-solid fa-shield"></i> {{localize "ARTICHRON.ChangeItem"}}</a>
+          {{/if}}
         </div>
         <div class="content">{{{item.system.description.value}}}</div>
       </div>
