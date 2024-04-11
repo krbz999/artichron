@@ -4,6 +4,14 @@
  * @returns {*}         Extended class.
  */
 export const ArtichronSheetMixin = Base => class extends Base {
+  static SHEET_MODES = {EDIT: 0, PLAY: 1};
+
+  /**
+   * The current sheet mode.
+   * @type {number}
+   */
+  _sheetMode = this.constructor.SHEET_MODES.PLAY;
+
   /** @override */
   getData() {
     const types = game.system.template[this.document.documentName].types;
@@ -12,7 +20,8 @@ export const ArtichronSheetMixin = Base => class extends Base {
       document: this.document,
       system: this.document.system,
       source: this.document.system.toObject(),
-      config: CONFIG.SYSTEM
+      config: CONFIG.SYSTEM,
+      sheet: this
     };
     types.forEach(type => data[`is${type.capitalize()}`] = this.document.type === type);
     return data;
@@ -56,7 +65,12 @@ export const ArtichronSheetMixin = Base => class extends Base {
       label: "ARTICHRON.Opacity",
       class: "opacity",
       icon: "fa-solid",
-      onclick: this._onToggleOpacity
+      onclick: this._onToggleOpacity.bind(this)
+    }, {
+      label: "ARTICHRON.SheetMode",
+      class: "sheet-mode",
+      icon: "fa-solid",
+      onclick: this._onToggleSheetMode.bind(this)
     });
     return buttons;
   }
@@ -67,6 +81,22 @@ export const ArtichronSheetMixin = Base => class extends Base {
    */
   _onToggleOpacity(event) {
     event.currentTarget.closest(".app").classList.toggle("opacity");
+  }
+
+  /**
+   * Toggle the sheet mode between edit and play.
+   */
+  _onToggleSheetMode() {
+    const modes = this.constructor.SHEET_MODES;
+    this._sheetMode = this.isEditMode ? modes.PLAY : modes.EDIT;
+    this.render();
+  }
+
+  get isPlayMode() {
+    return this._sheetMode === this.constructor.SHEET_MODES.PLAY;
+  }
+  get isEditMode() {
+    return this._sheetMode === this.constructor.SHEET_MODES.EDIT;
   }
 
   /** @override */

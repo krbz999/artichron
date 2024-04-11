@@ -416,17 +416,17 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(ActorSheet)
    */
   async _onClickManageActor(event) {
     switch (event.currentTarget.dataset.manage) {
-    case "defend": return this.document.rollDefense();
-    case "recover": return this.document.recover();
-    case "pool": {
-      const type = event.currentTarget.dataset.pool;
-      return this.document.rollPool(type, {event});
-    }
-    case "damage": {
-      const slot = event.currentTarget.closest("[data-arsenal]").dataset.arsenal;
-      return this.document.rollDamage(slot, {event});
-    }
-    case "img": return this._onEditImg(event);
+      case "defend": return this.document.rollDefense();
+      case "recover": return this.document.recover();
+      case "pool": {
+        const type = event.currentTarget.dataset.pool;
+        return this.document.rollPool(type, {event});
+      }
+      case "damage": {
+        const slot = event.currentTarget.closest("[data-arsenal]").dataset.arsenal;
+        return this.document.rollDamage(slot, {event});
+      }
+      case "img": return this._onEditImg(event);
     }
   }
 
