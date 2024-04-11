@@ -83,9 +83,7 @@ export const ArtichronSheetMixin = Base => class extends Base {
     event.currentTarget.closest(".app").classList.toggle("opacity");
   }
 
-  /**
-   * Toggle the sheet mode between edit and play.
-   */
+  /** Toggle the sheet mode between edit and play. */
   _onToggleSheetMode() {
     const modes = this.constructor.SHEET_MODES;
     this._sheetMode = this.isEditMode ? modes.PLAY : modes.EDIT;
@@ -103,5 +101,24 @@ export const ArtichronSheetMixin = Base => class extends Base {
   setPosition(pos = {}) {
     if (!pos.height && !this._minimized && (this._tabs[0].active !== "description")) pos.height = "auto";
     return super.setPosition(pos);
+  }
+
+  /** @override */
+  async _renderOuter() {
+    const html = await super._renderOuter();
+    const header = html[0].querySelector(".window-header");
+    header.querySelectorAll(".header-button").forEach(btn => {
+      const label = btn.querySelector(":scope > i").nextSibling;
+      btn.dataset.tooltip = label.textContent;
+      btn.setAttribute("aria-label", label.textContent);
+      label.remove();
+    });
+    return html;
+  }
+
+  /** @override */
+  _onToggleMinimize(event) {
+    if (event.target.closest(".header-button.control, .document-id-link")) return;
+    return super._onToggleMinimize(event);
   }
 };
