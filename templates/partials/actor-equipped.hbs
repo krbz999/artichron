@@ -1,7 +1,9 @@
 <div class="equipped-items" data-collection="items">
   <div class="backdrop border"></div>
   <div class="backdrop image" style="background-image: url({{document.img}})"></div>
+  {{#if sheet.isEditMode}}
   <div class="edit" data-manage="img" data-action="manage"></div>
+  {{/if}}
   {{#each context.equipped}}
   <div class="equipped {{cssClass}}" data-tooltip-direction="UP" data-tooltip="{{tooltip}}" {{#if item}} data-item-id="{{item.id}}" {{/if}}>
     <div class="equipped-item" {{#each data}} {{#if this}} data-{{@key}}="{{this}}" {{/if}} {{/each}}>
