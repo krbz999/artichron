@@ -105,7 +105,7 @@ SYSTEM.HEALING_TYPES = {
  * @typedef {object} SpellTargetTypes
  * @property {string} label             Displayed label of the targeting type.
  * @property {Set<string>} scale        The properties that can scale with mana.
- * @property {number} faces             The size of the die this will add to the spell.
+ * @property {string} modifier          The die modifier to attach to this damage roll.
  * @property {number[]} [count]         The default count and how much each increase is.
  * @property {number[]} [range]         The default range and how much each increase is.
  * @property {number[]} [distance]      The default distance and how much each increase is.
@@ -121,14 +121,14 @@ SYSTEM.SPELL_TARGET_TYPES = {
   single: {
     label: "ARTICHRON.SpellType.SingleTarget",
     scale: new Set(["count", "range"]),
-    faces: 12,
+    modifier: "x",
     count: [1, 1],
     range: [6, 2]
   },
   ray: {
     label: "ARTICHRON.SpellType.AreaRay",
     scale: new Set(["count", "distance", "width"]),
-    faces: 10,
+    modifier: "xo",
     count: [1, 1],
     distance: [4, 2],
     width: [1, 1]
@@ -136,14 +136,14 @@ SYSTEM.SPELL_TARGET_TYPES = {
   cone: {
     label: "ARTICHRON.SpellType.AreaCone",
     scale: new Set(["count", "distance"]),
-    faces: 8,
+    modifier: "min2",
     count: [1, 1],
     distance: [3, 2]
   },
   circle: {
     label: "ARTICHRON.SpellType.AreaCircle",
     scale: new Set(["count", "radius", "range"]),
-    faces: 4,
+    modifier: "",
     count: [1, 1],
     radius: [1, 1],
     range: [5, 2]
@@ -151,7 +151,7 @@ SYSTEM.SPELL_TARGET_TYPES = {
   radius: {
     label: "ARTICHRON.SpellType.AreaRadius",
     scale: new Set(["radius"]),
-    faces: 6,
+    modifier: "rr",
     radius: [2, 1]
   }
 };
