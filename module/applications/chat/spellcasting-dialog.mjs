@@ -148,7 +148,7 @@ export default class SpellcastingDialog extends Application {
   _getShapeOptions() {
     return Object.entries(CONFIG.SYSTEM.SPELL_TARGET_TYPES).reduce((acc, [k, v]) => {
       if (!this.item.system.template.types.has(k)) return acc;
-      acc[k] = {...v, label: `${game.i18n.localize(v.label)} [d${v.faces}]`};
+      acc[k] = {...v, label: `${game.i18n.localize(v.label)} ${v.modifier ? `[${v.modifier}]` : ""}`};
       return acc;
     }, {});
   }
@@ -227,9 +227,10 @@ export default class SpellcastingDialog extends Application {
   get formula() {
     if (!this.model.shape) return "";
     const damage = this.item.system.damage[this.model.part];
-    const p0 = new Roll(damage.formula, this.item.getRollData(), {type: damage.type}).alter(1 + this.model.scale.damage, 0);
-    const p1 = `1d${CONFIG.SYSTEM.SPELL_TARGET_TYPES[this.model.shape].faces}`;
-    return `${p0.formula} + ${p1}`;
+    const c = CONFIG.SYSTEM.SPELL_TARGET_TYPES[this.model.shape];
+    const formula = `${damage.formula}${c.modifier}`;
+    const roll = new Roll(formula, this.item.getRollData(), {type: damage.type}).alter(1 + this.model.scale.damage, 0);
+    return roll.formula;
   }
 
   /** @override */
