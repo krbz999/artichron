@@ -104,6 +104,9 @@
     .header-button.control.opacity i::before {
       content: "\f205";
     }
+
+    &:has(form.edit-mode) .header-button.control.sheet-mode i::before { content: "\f4ff"; }
+    &:has(form.play-mode) .header-button.control.sheet-mode i::before { content: "\f502"; }
   }
 
   .rollable {

@@ -39,13 +39,17 @@
 }
 .artichron.sheet.actor.hero .equipped-items .backdrop.image {
   background-repeat: no-repeat;
-  opacity: 0.5;
+  opacity: 0.8;
   background-position-y: center;
   background-position-x: center;
-  transition: filter 200ms;
+  transition: all 200ms ease;
+}
+.artichron.sheet.actor.hero form.play-mode .equipped-items .backdrop.image {
+  opacity: 0.5;
 }
 .artichron.sheet.actor.hero .equipped-items:has([data-manage=img]:hover) .backdrop.image {
-  filter: drop-shadow(0 0 5px var(--artichron-theme-dark));
+  filter: drop-shadow(0 0 25px var(--artichron-color-blue));
+  opacity: 1;
 }
 .artichron.sheet.actor.hero .equipped-items [data-manage=img] {
   top: 0;
