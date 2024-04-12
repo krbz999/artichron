@@ -23,7 +23,8 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(ItemSheet) {
 
   /** @override */
   get template() {
-    return `systems/artichron/templates/item/item-sheet-${this.document.type}.hbs`;
+    const type = ["weapon", "spell"].includes(this.document.type) ? "arsenal" : this.document.type;
+    return `systems/artichron/templates/item/item-sheet-${type}.hbs`;
   }
 
   /* -------------------------------------------- */
@@ -46,9 +47,12 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(ItemSheet) {
       }
     });
 
-    if (data.isArsenal) {
+    if (data.isWeapon) {
       data.context.categories = data.config.ARSENAL_TYPES;
       data.context.subtypes = data.config.ARSENAL_TYPES[data.system.type.category]?.items ?? {};
+      data.costOptions = {health: "ARTICHRON.Health", stamina: "ARTICHRON.Stamina", mana: "ARTICHRON.Mana"};
+    } else if (data.isSpell) {
+      data.context.categories = data.config.SPELL_TYPES;
       data.costOptions = {health: "ARTICHRON.Health", stamina: "ARTICHRON.Stamina", mana: "ARTICHRON.Mana"};
     } else if (data.isArmor) {
       data.context.categories = data.config.ARMOR_TYPES;

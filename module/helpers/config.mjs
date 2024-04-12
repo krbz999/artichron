@@ -220,15 +220,14 @@ SYSTEM.ARSENAL_TYPES = {
         width: 3
       }
     }
-  },
-  spell: {
-    label: "ARTICHRON.ArsenalCategorySpell",
-    items: {
-      offense: {label: "ARTICHRON.SpellTypeOffense"},
-      defense: {label: "ARTICHRON.SpellTypeDefense"},
-      buff: {label: "ARTICHRON.SpellTypeBuff"}
-    }
   }
+};
+
+// Spell types.
+SYSTEM.SPELL_TYPES = {
+  offense: {label: "ARTICHRON.SpellTypeOffense"},
+  defense: {label: "ARTICHRON.SpellTypeDefense"},
+  buff: {label: "ARTICHRON.SpellTypeBuff"}
 };
 
 // Armor subtypes.
