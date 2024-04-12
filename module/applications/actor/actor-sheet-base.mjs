@@ -119,7 +119,7 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(ActorSheet)
       label: `TYPES.Item.${key}Pl`
     });
     return {
-      inventory: ["arsenal", "armor", "part"].map(map),
+      inventory: ["weapon", "spell", "armor", "part"].map(map),
       consumable: ["food", "elixir"].map(map)
     };
   }

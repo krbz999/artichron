@@ -13,6 +13,8 @@ import TokenDocumentArtichron from "./token/token-document.mjs";
 import TokenArtichron from "./token/token-placeable.mjs";
 import ChatMessageArtichron from "./chat/chatmessage.mjs";
 import MeasuredTemplateDocumentArtichron from "./template/template-document.mjs";
+import SpellData from "./item/item-arsenal-spell.mjs";
+import WeaponData from "./item/item-arsenal-weapon.mjs";
 
 export const dataModels = {
   actor: {
@@ -20,7 +22,8 @@ export const dataModels = {
   },
   item: {
     armor: ArmorData,
-    arsenal: ArsenalData,
+    spell: SpellData,
+    weapon: WeaponData,
     elixir: ElixirData,
     food: FoodData,
     part: PartData

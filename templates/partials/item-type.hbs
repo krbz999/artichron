@@ -1,9 +1,12 @@
+{{#if context.categories}}
 <div class="form-group">
   <label>{{localize "ARTICHRON.ItemPropertyCategory"}}</label>
   <select name="system.type.category">
     {{selectOptions context.categories selected=system.type.category localize=true labelAttr="label" blank="" sort=true}}
   </select>
 </div>
+{{/if}}
+
 {{#if context.subtypes}}
 <div class="form-group">
   <label>{{localize "ARTICHRON.ItemPropertySubtype"}}</label>
@@ -12,6 +15,7 @@
   </select>
 </div>
 {{/if}}
+
 {{#if isArmor}}
 <div class="form-group">
   <label>{{localize "ARTICHRON.SetIdentifier"}}</label>
@@ -20,6 +24,7 @@
   </select>
 </div>
 {{/if}}
+
 {{#if system.wield}}
 <div class="form-group">
   <label>{{localize "ARTICHRON.ItemPropertyWield"}}</label>
@@ -32,6 +37,7 @@
   <input type="number" name="system.wield.range" value="{{source.wield.range}}">
 </div>
 {{/if}}
+
 {{#if system.cost}}
 <div class="form-group">
   <label>{{localize "ARTICHRON.ItemPropertyCost"}}</label>
@@ -41,6 +47,7 @@
   </select>
 </div>
 {{/if}}
+
 {{#if system.price}}
 <div class="form-group">
   <label>{{localize "ARTICHRON.ItemPropertyPrice"}}</label>
@@ -65,12 +72,14 @@
   <input class="delta" data-dtype="Number" type="text" name="system.weight.value" value="{{source.weight.value}}">
 </div>
 {{/if}}
+
 {{#if system.quantity}}
 <div class="form-group">
   <label>{{localize "ARTICHRON.ItemPropertyQuantity"}}</label>
   <input class="delta" data-dtype="Number" type="text" name="system.quantity.value" value="{{system.quantity.value}}">
 </div>
 {{/if}}
+
 {{#if system.usage}}
 <div class="form-group item-usage">
   <label>{{localize "ARTICHRON.ItemPropertyUsage"}}</label>
@@ -79,6 +88,7 @@
   <input type="text" name="system.usage.max" value="{{source.usage.max}}">
 </div>
 {{/if}}
+
 {{#if document.isEmbedded}}
 <div class="form-group">
   <label>{{localize "ARTICHRON.Favorited"}}</label>

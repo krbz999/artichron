@@ -16,8 +16,10 @@
   "Item.foodPl": "Foods",
   "Item.part": "Monster Part",
   "Item.partPl": "Monster Parts",
-  "Item.arsenal": "Arsenal",
-  "Item.arsenalPl": "Arsenal"
+  "Item.weapon": "Weapon",
+  "Item.weaponPl": "Weapons",
+  "Item.spell": "Spell",
+  "Item.spellPl": "Spells"
 },
 "ARTICHRON": {
   "ActorSheetHero": "Artichron Hero Sheet",

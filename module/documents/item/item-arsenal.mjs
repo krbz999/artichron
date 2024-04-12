@@ -1,12 +1,7 @@
-import SpellcastingDialog from "../../applications/chat/spellcasting-dialog.mjs";
-import {DamageRoll} from "../../dice/damage-roll.mjs";
-import {SYSTEM} from "../../helpers/config.mjs";
-import {DamageDiceModel, DefenseDiceModel} from "../fields/die.mjs";
-import MeasuredTemplateArtichron from "../template/template.mjs";
+import {DamageDiceModel} from "../fields/die.mjs";
 import {ItemSystemModel} from "./system-model.mjs";
-import * as utils from "../../helpers/utils.mjs";
 
-const {ArrayField, NumberField, SchemaField, StringField, EmbeddedDataField, SetField} = foundry.data.fields;
+const {ArrayField, NumberField, SchemaField, StringField, EmbeddedDataField} = foundry.data.fields;
 
 export default class ArsenalData extends ItemSystemModel {
   /** @override */
@@ -14,22 +9,13 @@ export default class ArsenalData extends ItemSystemModel {
     return {
       ...super.defineSchema(),
       damage: new ArrayField(new EmbeddedDataField(DamageDiceModel)),
-      parry: new EmbeddedDataField(DefenseDiceModel),
-      block: new EmbeddedDataField(DefenseDiceModel),
       wield: new SchemaField({
         value: new NumberField({choices: [1, 2], initial: 1}),
         range: new NumberField({integer: true, min: 0})
       }),
-      armor: new SchemaField({
-        value: new NumberField({integer: true, min: 0})
-      }),
       cost: new SchemaField({
         value: new NumberField({integer: true, min: 0}),
         type: new StringField({choices: ["health", "stamina", "mana"]})
-      }),
-      template: new SchemaField({
-        types: new SetField(new StringField({required: true, choices: Object.keys(SYSTEM.SPELL_TARGET_TYPES)})),
-        rating: new NumberField({integer: true, min: 0})
       })
     };
   }
@@ -37,94 +23,15 @@ export default class ArsenalData extends ItemSystemModel {
   prepareDerivedData() {
     super.prepareDerivedData();
     const rollData = this.parent.getRollData();
-    ["parry", "block"].forEach(v => this[v].prepareDerivedData(rollData));
     this.damage.forEach(v => v.prepareDerivedData(rollData));
   }
 
   /** @override */
   static get BONUS_FIELDS() {
     return super.BONUS_FIELDS.union(new Set([
-      "parry.number", "parry.faces",
-      "block.number", "block.faces",
       "wield.range",
-      "armor.value",
-      "cost.value",
-      "template.distance", "template.width", "template.angle"
+      "cost.value"
     ]));
-  }
-
-  async use() {
-    const item = this.parent;
-    const actor = item.actor;
-
-    const {first, second} = actor.arsenal;
-    const key = (first === item) ? "first" : (second === item) ? "second" : null;
-    if (!key) {
-      ui.notifications.warn("ARTICHRON.Warning.ItemIsNotEquipped", {localize: true});
-      return null;
-    }
-
-    if (this.isSpell) {
-      if (!this.template.types.size) {
-        ui.notifications.warn("ARTICHRON.Warning.ItemHasNoTemplateTypes", {localize: true});
-        return null;
-      }
-
-      const configuration = await SpellcastingDialog.create(actor, item);
-      if (!configuration) return null;
-      const [token] = actor.isToken ? [actor.token?.object] : actor.getActiveTokens();
-
-      const data = SpellcastingDialog.determineTemplateData(configuration);
-      const part = item.system.damage[configuration.part];
-
-      let targets = new Set();
-
-      if (data.type !== "single") {
-        // Case 1: Area of effect.
-        const initialLayer = canvas.activeLayer;
-        const templateDatas = [];
-        for (let i = 0; i < data.count; i++) {
-          const templateData = await this._createTemplate(data, {lock: true});
-          if (templateData) templateDatas.push(templateData);
-          else break;
-        }
-        canvas.templates.clearPreviewContainer();
-        const templates = await canvas.scene.createEmbeddedDocuments("MeasuredTemplate", templateDatas);
-        await Promise.all(templates.map(template => template.waitForShape()));
-        templates.forEach(template => template.object.containedTokens.forEach(tok => targets.add(tok)));
-        initialLayer.activate();
-      } else {
-        // Case 2: Singular targets.
-        targets = await utils.awaitTargets(data.count, {origin: token, range: data.range});
-      }
-      if (data.mana) await actor.update({"system.pools.mana.value": actor.system.pools.mana.value - configuration.cost});
-      return new DamageRoll(configuration.formula, item.getRollData(), {type: part.type}).toMessage({
-        speaker: ChatMessage.implementation.getSpeaker({actor: actor}),
-        "flags.artichron.targets": Array.from(targets ?? []).map(target => target.uuid),
-        "flags.artichron.templateData": (data.type !== "single") ? {
-          ...data,
-          formula: configuration.formula,
-          damageType: part.type
-        } : null,
-        "flags.artichron.actorUuid": actor.uuid,
-        "flags.artichron.itemUuid": item.uuid
-      });
-    } else {
-      const inCombat = actor.inCombat;
-      if (inCombat) {
-        const combatant = game.combat.getCombatantByActor(actor);
-        const pips = combatant.pips;
-        const cost = this.isOneHanded ? 1 : this.isTwoHanded ? 2 : 0;
-        if (cost > pips) {
-          ui.notifications.warn("ARTICHRON.Warning.NotEnoughPips", {localize: true});
-          return null;
-        }
-
-        await combatant.setFlag("artichron", "pips", pips - cost);
-      }
-
-      return actor.rollDamage(key);
-    }
   }
 
   /**
@@ -148,9 +55,5 @@ export default class ArsenalData extends ItemSystemModel {
   }
   get isShield() {
     return this.type.category === "shield";
-  }
-
-  async _createTemplate(templateData, options = {}) {
-    return MeasuredTemplateArtichron.fromToken(this.parent.token, templateData, options).drawPreview();
   }
 }
