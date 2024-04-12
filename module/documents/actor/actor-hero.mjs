@@ -68,15 +68,4 @@ export default class HeroData extends ActorSystemModel {
       speaker: ChatMessage.implementation.getSpeaker({actor: this.parent})
     });
   }
-
-  /**
-   * Make an effort.
-   */
-  async rollEffort(key) {
-    const formula = this.efforts[key].formula;
-    return new Roll(formula).toMessage({
-      flavor: game.i18n.localize(`ARTICHRON.Effort${key.capitalize()}`),
-      speaker: ChatMessage.implementation.getSpeaker({actor: this.parent})
-    });
-  }
 }

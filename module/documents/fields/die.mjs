@@ -74,15 +74,15 @@ export class PoolDiceModel extends DiceModel {
   static defineSchema() {
     return {
       ...super.defineSchema(),
-      value: new NumberField({integer: true, min: 0, initial: null}),
-      max: new StringField({required: true})
+      value: new NumberField({integer: true, min: 0, initial: 3}),
+      max: new NumberField({integer: true, positive: true, initial: 3})
     };
   }
 
   /** @override */
   prepareDerivedData(rollData) {
     super.prepareDerivedData(rollData);
-    this.max = Math.max(0, artichron.utils.simplifyFormula(this.max, rollData));
+    // this.max = Math.max(0, artichron.utils.simplifyFormula(this.max, rollData));
   }
 
   /**
