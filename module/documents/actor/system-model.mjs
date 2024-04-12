@@ -1,9 +1,9 @@
-import {DiceModel, PoolDiceModel} from "../fields/die.mjs";
+import {DiceModel, PoolDiceModel, SkillDiceModel} from "../fields/die.mjs";
 import ResistanceModel from "../fields/resistance.mjs";
 import {SYSTEM} from "../../helpers/config.mjs";
 import {LocalIdField} from "../fields/local-id.mjs";
 
-const {SchemaField, NumberField, SetField, EmbeddedDataField} = foundry.data.fields;
+const {SchemaField, NumberField, SetField, EmbeddedDataField, StringField} = foundry.data.fields;
 
 export class ActorSystemModel extends foundry.abstract.TypeDataModel {
   /** @override */
@@ -42,6 +42,14 @@ export class ActorSystemModel extends foundry.abstract.TypeDataModel {
         running: new NumberField({min: 0, integer: true}),
         flying: new NumberField({min: 0, integer: true}),
         swimming: new NumberField({min: 0, integer: true})
+      }),
+      skills: new SchemaField({
+        head: new EmbeddedDataField(SkillDiceModel),
+        arms: new EmbeddedDataField(SkillDiceModel),
+        legs: new EmbeddedDataField(SkillDiceModel)
+      }),
+      traits: new SchemaField({
+        pool: new StringField({required: true, initial: "health", choices: ["health", "stamina", "mana"]})
       })
     };
   }
@@ -116,16 +124,18 @@ export class ActorSystemModel extends foundry.abstract.TypeDataModel {
   _prepareArmor(rollData) {
     const armor = this.defenses.armor;
     armor.total = artichron.utils.simplifyFormula(armor.bonus, rollData);
-    Object.values({...this.armor, ...this.arsenal}).forEach(item => armor.total += (item?.system.armor?.value ?? 0));
+    Object.values({...this.parent.armor, ...this.parent.arsenal}).forEach(item => {
+      armor.total += (item?.system.armor?.value ?? 0);
+    });
   }
 
   /** Prepare block and parry. */
   _prepareDefenses() {
     const def = this.defenses;
-    const items = Object.values(this.arsenal);
+    const items = Object.values(this.parent.arsenal);
     ["parry", "block"].forEach(k => {
       def[k].rolls = items.reduce((acc, item) => {
-        const r = item?.system[k].formula;
+        const r = item?.system[k]?.formula;
         if (r) acc.push(r);
         return acc;
       }, []);
@@ -138,7 +148,7 @@ export class ActorSystemModel extends foundry.abstract.TypeDataModel {
     Object.keys(res).forEach(k => res[k].total = artichron.utils.simplifyFormula(res[k].bonus, rollData));
 
     // Add all armor items' bonuses to resistances.
-    Object.values(this.armor).forEach(w => {
+    Object.values(this.parent.armor).forEach(w => {
       const ir = w?.system.resistances ?? [];
       ir.forEach(({type, value}) => {
         if (type in res) res[type].total += value;
@@ -150,8 +160,9 @@ export class ActorSystemModel extends foundry.abstract.TypeDataModel {
 
   /** Prepare any embedded models. */
   _prepareEmbeddedData(rollData) {
-    Object.values(this.pools).forEach(v => v.prepareDerivedData(rollData));
+    Object.entries(this.pools).forEach(([k, v]) => v.prepareDerivedData(rollData, k === this.traits.pool));
     Object.values(this.defenses).forEach(v => v.prepareDerivedData(rollData));
+    Object.values(this.skills).forEach(v => v.prepareDerivedData(rollData));
   }
 
   /* ---------------------------------------- */

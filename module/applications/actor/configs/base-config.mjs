@@ -24,11 +24,6 @@ export default class BaseConfig extends FormApplication {
     return `${game.i18n.localize(label)}: ${this.actor.name}`;
   }
 
-  /** @override */
-  get id() {
-    return `config-${this.configType}-${this.actor.uuid.replaceAll(".", "-")}`;
-  }
-
   /**
    * What type of config is this?
    * @type {string}
@@ -51,13 +46,6 @@ export default class BaseConfig extends FormApplication {
     const config = CONFIG.SYSTEM;
     return {
       config: config,
-      pools: Object.entries(pools).map(([key, pool]) => ({
-        key: key,
-        value: pool.value,
-        max: pool.max,
-        faces: pool.faces,
-        label: `ARTICHRON.${key.capitalize()}DiePl`
-      })),
       resistances: Object.entries(resistances).map(([key, {bonus}]) => ({
         ...config.DAMAGE_TYPES[key],
         bonus,
@@ -68,6 +56,6 @@ export default class BaseConfig extends FormApplication {
 
   /** @override */
   async _updateObject(event, formData) {
-    return this.actor.update({[`system.${this.configType}`]: formData});
+    return this.actor.update(formData);
   }
 }

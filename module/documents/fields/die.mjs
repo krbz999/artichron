@@ -80,9 +80,9 @@ export class PoolDiceModel extends DiceModel {
   }
 
   /** @override */
-  prepareDerivedData(rollData) {
+  prepareDerivedData(rollData, isPrimary = false) {
     super.prepareDerivedData(rollData);
-    // this.max = Math.max(0, artichron.utils.simplifyFormula(this.max, rollData));
+    this.faces = isPrimary ? 6 : 4;
   }
 
   /**
@@ -162,5 +162,30 @@ export class DamageDiceModel extends DiceModel {
    */
   get formula() {
     return `${this.number}${this.die}`;
+  }
+}
+
+/**
+ * Specialized dice model for head, arms, legs dice.
+ */
+export class SkillDiceModel extends DiceModel {
+  /** @override */
+  static defineSchema() {
+    return {
+      ...super.defineSchema()
+    };
+  }
+
+  /** @override */
+  prepareDerivedData(rollData) {
+    super.prepareDerivedData(rollData);
+  }
+
+  /**
+   * The full formula.
+   * @type {string}
+   */
+  get formula() {
+    return `1${this.die}`;
   }
 }

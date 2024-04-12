@@ -71,7 +71,7 @@ export default class ActorArtichron extends Actor {
 
   /** @override */
   prepareDerivedData() {
-    // No need to call super here.
+    // No need to call super here (will be in v12).
   }
 
   /* ---------------------------------------- */
@@ -124,7 +124,7 @@ export default class ActorArtichron extends Actor {
     };
 
     for (const t of tokens) {
-      if (!t.visible) continue;
+      if (!t.visible || !t.renderable) continue;
       for (const type in damages) {
         const config = (type in CONFIG.SYSTEM.HEALING_TYPES) ? CONFIG.SYSTEM.HEALING_TYPES : CONFIG.SYSTEM.DAMAGE_TYPES;
         canvas.interface.createScrollingText(t.center, damages[type].signedString(), {
@@ -150,7 +150,7 @@ export default class ActorArtichron extends Actor {
     for (const e of ["arsenal", "armor"]) {
       data[e] = {};
       const items = this[e];
-      Object.entries(items).forEach(([key, item]) => data[e][key] = {...items[key]?.system ?? {}});
+      Object.entries(items).forEach(([key, item]) => data[e][key] = {...item?.system ?? {}});
     }
     return data;
   }
@@ -291,6 +291,39 @@ export default class ActorArtichron extends Actor {
       speaker: ChatMessage.implementation.getSpeaker({actor: this}),
       flavor: game.i18n.format("ARTICHRON.DefenseRoll", {name: this.name})
     });
+  }
+
+  /**
+   * Roll a skill.
+   * @param {string} skillId            The type of skill (head, arms, legs).
+   * @param {object} [options]          Roll options.
+   * @param {string} [options.pool]     The type of pool to use (health, stamina, mana). If omitted, the user is prompted.
+   * @returns {Promise}
+   */
+  async rollSkill(skillId, options = {}) {
+    const pool = options.pool ??= await Dialog.wait({
+      buttons: ["health", "stamina", "mana"].reduce((acc, pool) => {
+        acc[pool] = {
+          label: game.i18n.localize(`ARTICHRON.Pools.${pool.capitalize()}`),
+          callback: (html, event) => event.currentTarget.dataset.button
+        };
+        return acc;
+      }, {}),
+      close: () => null,
+      title: "TODO"
+    });
+    if (!pool) return null;
+
+    const formula = [this.system.skills[skillId].formula, this.system.pools[pool].formula].join(" + ");
+    const rollData = this.getRollData();
+    const speaker = ChatMessage.implementation.getSpeaker({actor: this});
+    const rollMode = game.settings.get("core", "rollMode");
+    const flavor = game.i18n.format("ARTICHRON.Skills.RollFlavor", {
+      skill: game.i18n.localize(`ARTICHRON.Skills.${skillId.capitalize()}`),
+      pool: game.i18n.localize(`ARTICHRON.Pools.${pool.capitalize()}`)
+    });
+
+    return new Roll(formula, rollData).toMessage({flavor, speaker}, {rollMode});
   }
 
   /**

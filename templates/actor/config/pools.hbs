@@ -1,22 +1,18 @@
 <form>
+  <div class="form-group">
+    <label>{{localize "ARTICHRON.Pools.Primary"}}</label>
+    {{radioBoxes "system.traits.pool" primaryChoices checked=primary localize=true}}
+  </div>
   {{#each pools as |pool|}}
   <div class="form-group">
     <label>{{localize pool.label}}</label>
-    <input class="tiny delta" type="number" name="{{pool.key}}.value" value="{{pool.value}}">
+    <input class="tiny delta" type="number" name="system.pools.{{pool.key}}.value" value="{{pool.value}}">
     <span class="sep">/</span>
-    <input class="tiny delta" type="number" name="{{pool.key}}.max" value="{{pool.max}}" disabled>
-    <select name="{{pool.key}}.faces">
-      {{#select pool.faces}}
-      <option value="">&mdash;</option>
-      <option value="4">d4</option>
-      <option value="8">d8</option>
-      <option value="12">d12</option>
-      {{/select}}
-    </select>
+    <input class="tiny delta" type="number" name="system.pools.{{pool.key}}.max" value="{{pool.max}}" disabled>
   </div>
   {{/each}}
 
-  <button type="submit" {{disabled disabled}}>
+  <button type="submit">
     <i class="fa-solid fa-save"></i> {{localize "Save"}}
   </button>
 </form>
