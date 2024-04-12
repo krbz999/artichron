@@ -154,6 +154,10 @@
   "AuraColor": "Aura Color",
   "AuraOpacity": "Aura Opacity",
 
+  "PoolConfig": {
+    "Title": "Pools: {name}"
+  },
+
   "SpellcastingDialog": {
     "Title": "Configure Spell: {item}",
     "DamageType": "Damage Type",

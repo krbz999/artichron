@@ -4,14 +4,19 @@
     <label>{{localize pool.label}}</label>
     <input class="tiny delta" type="number" name="{{pool.key}}.value" value="{{pool.value}}">
     <span class="sep">/</span>
-    <input class="tiny delta" type="number" name="{{pool.key}}.max" value="{{pool.max}}" {{disabled maxDis}}>
-    <select name="{{pool.key}}.faces" {{disabled faceDis}}>
-      {{selectOptions @root.config.DIE_SIZES selected=pool.faces}}
+    <input class="tiny delta" type="number" name="{{pool.key}}.max" value="{{pool.max}}" disabled>
+    <select name="{{pool.key}}.faces">
+      {{#select pool.faces}}
+      <option value="">&mdash;</option>
+      <option value="4">d4</option>
+      <option value="8">d8</option>
+      <option value="12">d12</option>
+      {{/select}}
     </select>
   </div>
   {{/each}}
 
-  <button type="submit">
+  <button type="submit" {{disabled disabled}}>
     <i class="fa-solid fa-save"></i> {{localize "Save"}}
   </button>
 </form>

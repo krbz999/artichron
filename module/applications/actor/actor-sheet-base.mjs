@@ -1,6 +1,7 @@
 import ItemArtichron from "../../documents/item/item.mjs";
 import {ArtichronSheetMixin} from "../base-sheet.mjs";
 import config from "./configs/base-config.mjs";
+import PoolConfig from "./configs/pool-config.mjs";
 
 /**
  * Extend the basic ActorSheet with some very simple modifications
@@ -407,6 +408,7 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(ActorSheet)
    */
   _onClickConfig(event) {
     const trait = event.currentTarget.dataset.trait;
+    if (trait === "pools") return new PoolConfig(this.actor, {trait}).render(true);
     return new config(this.actor, {trait}).render(true);
   }
 
