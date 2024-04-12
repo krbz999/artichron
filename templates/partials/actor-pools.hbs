@@ -1,8 +1,13 @@
 <header class="section-header">
   {{localize "ARTICHRON.Pools"}}
+  {{#if sheet.isEditMode}}
+  <a class="edit" data-action="toggle-config" data-tooltip="ARTICHRON.EditSkills" data-trait="skills" style="right: 25px">
+    <i class="fa-solid fa-cog"></i>
+  </a>
   <a class="edit" data-action="toggle-config" data-tooltip="ARTICHRON.EditPools" data-trait="pools">
     <i class="fa-solid fa-cog"></i>
   </a>
+  {{/if}}
 </header>
 <div class="pool-rolls darken">
   {{#each context.pools as |pool|}}

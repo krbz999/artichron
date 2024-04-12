@@ -100,14 +100,10 @@
   font-size: 20px;
   text-align: center;
 }
-.artichron.sheet.actor section:hover > .section-header .edit[data-action] {
-  display: block;
-}
 .artichron.sheet.actor .edit[data-action] {
   position: absolute;
   top: 0;
   right: 0;
-  display: none;
   padding: 4px;
   font-size: 12px;
 }

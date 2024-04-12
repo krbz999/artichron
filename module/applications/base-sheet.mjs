@@ -21,7 +21,8 @@ export const ArtichronSheetMixin = Base => class extends Base {
       system: this.document.system,
       source: this.document.system.toObject(),
       config: CONFIG.SYSTEM,
-      sheet: this
+      sheet: this,
+      isEditMode: this.isEditMode
     };
     types.forEach(type => data[`is${type.capitalize()}`] = this.document.type === type);
     return data;

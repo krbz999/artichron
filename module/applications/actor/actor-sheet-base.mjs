@@ -2,6 +2,7 @@ import ItemArtichron from "../../documents/item/item.mjs";
 import {ArtichronSheetMixin} from "../base-sheet.mjs";
 import config from "./configs/base-config.mjs";
 import PoolConfig from "./configs/pool-config.mjs";
+import SkillConfig from "./configs/skill-config.mjs";
 
 /**
  * Extend the basic ActorSheet with some very simple modifications
@@ -151,13 +152,13 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(ActorSheet)
    */
   _prepareResistances() {
     const res = this.document.system.resistances;
-    const max = Math.max(...Object.values(res).map(r => r.total));
     const resistances = {};
-    for (const r in res) {
-      resistances[r] = {
-        ...CONFIG.SYSTEM.DAMAGE_TYPES[r],
-        total: res[r].total,
-        height: Math.round((res[r].total / max) * 100)
+    for (const [k, v] of Object.entries(res)) {
+      resistances[k] = {
+        ...CONFIG.SYSTEM.DAMAGE_TYPES[k],
+        total: v.total,
+        source: v.toObject(),
+        key: k
       };
     }
     return resistances;
@@ -408,7 +409,8 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(ActorSheet)
    */
   _onClickConfig(event) {
     const trait = event.currentTarget.dataset.trait;
-    if (trait === "pools") return new PoolConfig(this.actor, {trait}).render(true);
+    if (trait === "pools") return new PoolConfig(this.actor).render(true);
+    else if (trait === "skills") return new SkillConfig(this.actor).render(true);
     return new config(this.actor, {trait}).render(true);
   }
 

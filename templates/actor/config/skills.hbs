@@ -1,0 +1,19 @@
+<form>
+  {{#each skills}}
+  <div class="form-group">
+    <label>{{localize label}}</label>
+    <select name="system.skills.{{key}}.faces">
+      {{#select faces}}
+      <option value="">&mdash;</option>
+      <option value="4">d4</option>
+      <option value="8">d8</option>
+      <option value="12">d12</option>
+      {{/select}}
+    </select>
+  </div>
+  {{/each}}
+
+  <button type="submit" {{disabled disabled}}>
+    <i class="fa-solid fa-save"></i> {{localize "Save"}}
+  </button>
+</form>

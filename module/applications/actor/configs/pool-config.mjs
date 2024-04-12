@@ -14,7 +14,12 @@ export default class PoolConfig extends BaseConfig {
 
   /** @override */
   get title() {
-    return game.i18n.format("ARTICHRON.PoolConfig.Title", {name: this.actor.name});
+    return game.i18n.format("ARTICHRON.Pools.Config", {name: this.actor.name});
+  }
+
+  /** @override */
+  get id() {
+    return `config-pools-${this.actor.uuid.replaceAll(".", "-")}`;
   }
 
   /** @override */
@@ -23,39 +28,20 @@ export default class PoolConfig extends BaseConfig {
     const config = CONFIG.SYSTEM;
     const data = {
       config: config,
+      primary: this.actor.system.traits.pool,
+      primaryChoices: {
+        health: "ARTICHRON.Pools.Health",
+        stamina: "ARTICHRON.Pools.Stamina",
+        mana: "ARTICHRON.Pools.Mana"
+      },
       pools: Object.entries(pools).map(([key, pool]) => ({
         key: key,
         value: pool.value,
         max: 3, //pool.max,
         faces: pool.faces,
-        label: `ARTICHRON.${key.capitalize()}DiePl`
+        label: `ARTICHRON.Pools.${key.capitalize()}DiePl`
       }))
     };
-    data.disabled = new Set(data.pools.map(p => p.faces)).size !== 3;
     return data;
-  }
-
-  /** @override */
-  _getSubmitData() {
-    if (!this.form) throw new Error("The FormApplication subclass has no registered form element");
-    const fd = new FormDataExtended(this.form, {editors: this.editors});
-    const data = fd.object;
-    Object.keys(data).forEach(k => {
-      if (k.endsWith(".faces")) data[k] ||= 4;
-    });
-    return data;
-  }
-
-  /** @override */
-  async _onChangeInput(event) {
-    await super._onChangeInput(event);
-    const data = this._getSubmitData();
-    const disabled = Object.keys(data).reduce((acc, k) => {
-      if (!k.endsWith(".faces")) return acc;
-      const n = Number(data[k]);
-      acc.add(n);
-      return acc;
-    }, new Set()).size !== 3;
-    this.form.querySelector("[type=submit]").disabled = disabled;
   }
 }

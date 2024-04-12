@@ -3,7 +3,6 @@ import ActorArtichron from "./actor/actor.mjs";
 import CombatArtichron from "./combat/combat.mjs";
 import CombatantArtichron from "./combat/combatant.mjs";
 import ArmorData from "./item/item-armor.mjs";
-import ArsenalData from "./item/item-arsenal.mjs";
 import ElixirData from "./item/item-elixir.mjs";
 import FoodData from "./item/item-food.mjs";
 import PartData from "./item/item-part.mjs";

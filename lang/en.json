@@ -53,19 +53,31 @@
   "SheetTabInventory": "Inventory",
   "SheetTabLoot": "Loot",
 
-  "Health": "Health",
-  "HealthDie": "Health Die",
-  "HealthDiePl": "Health Dice",
-  "Mana": "Mana",
-  "ManaDie": "Mana Die",
-  "ManaDiePl": "Mana Dice",
-  "ManaDieCount": "1 Mana Die",
-  "ManaDieCountPl": "{count} Mana Dice",
-  "Stamina": "Stamina",
-  "StaminaDie": "Stamina Die",
-  "StaminaDiePl": "Stamina Dice",
-  "StaminaDieCount": "1 Stamina Die",
-  "StaminaDieCountPl": "{count} Stamina Dice",
+  "Pools": {
+    "Config": "Pools: {name}",
+    "Primary": "Primary Pool",
+    "Health": "Health",
+    "HealthDie": "Health Die",
+    "HealthDiePl": "Health Dice",
+    "Mana": "Mana",
+    "ManaDie": "Mana Die",
+    "ManaDiePl": "Mana Dice",
+    "ManaDieCount": "1 Mana Die",
+    "ManaDieCountPl": "{count} Mana Dice",
+    "Stamina": "Stamina",
+    "StaminaDie": "Stamina Die",
+    "StaminaDiePl": "Stamina Dice",
+    "StaminaDieCount": "1 Stamina Die",
+    "StaminaDieCountPl": "{count} Stamina Dice"
+  },
+
+  "Skills": {
+    "Config": "Skills: {name}",
+    "RollFlavor": "{skill} Roll ({pool})",
+    "Head": "Head",
+    "Arms": "Arms",
+    "Legs": "Legs"
+  },
 
   "DamageTypeArcane": "Arcane",
   "DamageTypeDarkness": "Darkness",
@@ -143,7 +155,6 @@
   "PickEquippedItem": "Equip Item",
   "PlaceTemplate": "Place Template",
   "PoolRoll": "{name}: {type} Roll",
-  "Pools": "Dice Pools",
   "Recover": "Recover",
   "Resistance": "Resistance",
   "Resistances": "Resistances",
@@ -155,10 +166,6 @@
   "Auras": "Auras",
   "AuraColor": "Aura Color",
   "AuraOpacity": "Aura Opacity",
-
-  "PoolConfig": {
-    "Title": "Pools: {name}"
-  },
 
   "SpellcastingDialog": {
     "Title": "Configure Spell: {item}",
@@ -193,5 +200,4 @@
     "ItemIsNotEquipped": "The item must be equipped to be used!",
     "NotEnoughPips": "You do not have enough pips remaining to make an attack!"
   }
-}
-}
+}}
