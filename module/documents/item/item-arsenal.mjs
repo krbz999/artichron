@@ -50,9 +50,6 @@ export default class ArsenalData extends ItemSystemModel {
   get isRanged() {
     return this.type.category === "ranged";
   }
-  get isSpell() {
-    return this.type.category === "spell";
-  }
   get isShield() {
     return this.type.category === "shield";
   }

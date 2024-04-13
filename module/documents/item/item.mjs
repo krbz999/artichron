@@ -22,7 +22,13 @@ export default class ItemArtichron extends Item {
     return this.system.isRanged ?? false;
   }
   get isSpell() {
-    return this.system.isSpell ?? false;
+    return this.type === "spell";
+  }
+  get isWeapon() {
+    return this.type === "weapon";
+  }
+  get isArsenal() {
+    return this.isSpell || this.isWeapon || this.isShield;
   }
   get isShield() {
     return this.system.isShield ?? false;

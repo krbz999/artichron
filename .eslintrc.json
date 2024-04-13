@@ -39,6 +39,12 @@
     "no-undef": "off",
     "space-before-blocks": 2,
     "arrow-spacing": 2,
-    "eol-last": ["error", "always"]
+    "eol-last": ["error", "always"],
+    "no-mixed-operators": ["error", {
+      "allowSamePrecedence": true,
+      "groups": [
+        ["==", "!=", "===", "!==", ">", ">=", "<", "<=", "&&", "||", "in", "instanceof"]
+      ]
+    }]
   }
 }
