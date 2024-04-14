@@ -1,5 +1,7 @@
 import {DefenseDiceModel} from "../fields/die.mjs";
 import ArsenalData from "./item-arsenal.mjs";
+import * as utils from "../../helpers/utils.mjs";
+import {DamageRoll} from "../../dice/damage-roll.mjs";
 
 const {NumberField, SchemaField, EmbeddedDataField} = foundry.data.fields;
 
@@ -41,19 +43,23 @@ export default class WeaponData extends ArsenalData {
       return null;
     }
 
-    const inCombat = actor.inCombat;
-    if (inCombat) {
-      const combatant = game.combat.getCombatantByActor(actor);
-      const pips = combatant.pips;
-      const cost = this.isOneHanded ? 1 : this.isTwoHanded ? 2 : 0;
-      if (cost > pips) {
-        ui.notifications.warn("ARTICHRON.Warning.NotEnoughPips", {localize: true});
-        return null;
-      }
-
-      await combatant.setFlag("artichron", "pips", pips - cost);
+    const token = this.parent.token;
+    if (!token) {
+      ui.notifications.warn("ARTICHRON.Warning.TokenMissing", {localize: true});
+      return null;
     }
 
-    return actor.rollDamage(key);
+    const [target] = await utils.awaitTargets(1, {origin: token, range: item.system.wield.range || 1});
+    if (!target) return null;
+
+    const rollData = item.getRollData();
+    const rolls = item.system.damage.map(d => new DamageRoll(d.formula, rollData, {type: d.type}));
+
+    return DamageRoll.toMessage(rolls, {
+      speaker: ChatMessage.implementation.getSpeaker({actor: actor}),
+      "flags.artichron.targets": [target.uuid],
+      "flags.artichron.actorUuid": actor.uuid,
+      "flags.artichron.itemUuid": item.uuid
+    });
   }
 }
