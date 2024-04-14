@@ -252,6 +252,7 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(ActorSheet)
       else if (action === "toggle-config") n.addEventListener("click", this._onClickConfig.bind(this));
       else if (action === "manage") n.addEventListener("click", this._onClickManageActor.bind(this));
       else if (action === "update") n.addEventListener("change", this._onChangeManageItem.bind(this));
+      else if (action === "rollSkill") n.addEventListener("click", this._onClickSkill.bind(this));
     });
   }
 
@@ -400,6 +401,15 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(ActorSheet)
         return this.document.update(update);
       }
     });
+  }
+
+  /**
+   * Handle click events on skill buttons.
+   * @param {Event} event     Initiating click event.
+   */
+  async _onClickSkill(event) {
+    const skillId = event.currentTarget.dataset.skill;
+    return this.document.rollSkill(skillId);
   }
 
   /**

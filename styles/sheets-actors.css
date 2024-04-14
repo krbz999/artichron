@@ -20,6 +20,15 @@
 .artichron.sheet.actor .tab.attributes section.pools .pool-rolls {
   display: flex;
   justify-content: space-around;
+  flex-direction: column;
+
+  .pools {
+    display: flex;
+  }
+
+  .skill-buttons {
+    display: flex;
+  }
 }
 .artichron.sheet.actor .tab.attributes section.pools .pool-rolls .pool {
   padding: 1em;

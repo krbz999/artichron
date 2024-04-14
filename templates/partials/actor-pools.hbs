@@ -10,9 +10,17 @@
   {{/if}}
 </header>
 <div class="pool-rolls darken">
-  {{#each context.pools as |pool|}}
-  <a class="pool" data-action="manage" data-manage="pool" data-pool="{{pool.key}}">
-    <span class="die {{pool.denom}} {{pool.key}}" data-tooltip="{{pool.value}} / {{pool.max}} ({{pool.die}})">{{pool.value}}</span>
-  </a>
-  {{/each}}
+  <div class="pools">
+    {{#each context.pools as |pool|}}
+    <a class="pool" data-action="manage" data-manage="pool" data-pool="{{pool.key}}">
+      <span class="die {{pool.denom}} {{pool.key}}" data-tooltip="{{pool.value}} / {{pool.max}} ({{pool.die}})">{{pool.value}}</span>
+    </a>
+    {{/each}}
+  </div>
+
+  <div class="skill-buttons">
+    <button type="button" data-action="rollSkill" data-skill="head">Roll Head</button>
+    <button type="button" data-action="rollSkill" data-skill="arms">Roll Arms</button>
+    <button type="button" data-action="rollSkill" data-skill="legs">Roll Legs</button>
+  </div>
 </div>
