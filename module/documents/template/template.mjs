@@ -1,6 +1,12 @@
 import * as utils from "../../helpers/utils.mjs";
 
 export default class MeasuredTemplateArtichron extends MeasuredTemplate {
+  static SYSTEM_SHAPES = {
+    STAR: "star",
+    CLOVER: "clover",
+    TEE: "tee"
+  };
+
   /**
    * Reference to a token to which this template is oriented.
    * @type {TokenArtichron}
@@ -87,18 +93,27 @@ export default class MeasuredTemplateArtichron extends MeasuredTemplate {
   static fromToken(token, {type, distance, width, attach, angle, range} = {}, options = {}) {
     if (!token) throw new Error("No token available for placing template!");
 
+    let t = type;
+
     // Increase size of attached circles.
-    if ((type === "circle") && attach) {
+    if ((type === "radius") || (type === "bang")) {
+      t = "circle";
+      if (type === "bang") type = "star";
       distance += token.document.width * canvas.scene.dimensions.distance / 2;
+    } else if (type === "star") {
+      t = "circle";
+    } else if (type === "tee") {
+      t = "cone";
     }
 
     const data = {
-      t: type,
+      t: t,
       distance: distance,
       width: width,
       user: game.user.id,
       fillColor: game.user.color,
       direction: 0,
+      "flags.artichron.t": type,
       angle: angle,
       ...token.center
     };
@@ -260,5 +275,80 @@ export default class MeasuredTemplateArtichron extends MeasuredTemplate {
   get containedTokens() {
     const tokens = utils.tokensInTemplate(this);
     return utils.getTokenTargets(tokens);
+  }
+
+  static getCloverShape(distance) {
+    const px = distance;// * canvas.dimensions.distancePixels;
+
+    const shape = canvas.primary.addChild(new PIXI.Graphics());
+    shape.lineStyle(4, 0x000000, 0.75);
+    shape
+      .arc(0, -px, px / 2, Math.toRadians(166), Math.toRadians(14))
+      .arc(0, 0, px, Math.toRadians(300), Math.toRadians(330))
+      .arc(px, 0, px / 2, Math.toRadians(256), Math.toRadians(104))
+      .arc(0, 0, px, Math.toRadians(30), Math.toRadians(60))
+      .arc(0, px, px / 2, Math.toRadians(346), Math.toRadians(194))
+      .arc(0, 0, px, Math.toRadians(120), Math.toRadians(150))
+      .arc(-px, 0, px / 2, Math.toRadians(76), Math.toRadians(284))
+      .arc(0, 0, px, Math.toRadians(210), Math.toRadians(240))
+      .closePath();
+
+    const c1 = ClockwiseSweepPolygon.create({x: -100, y: 0}, {radius: 150, hasLimitedRadius: true});
+    const c2 = ClockwiseSweepPolygon.create({x: 100, y: 0}, {radius: 150, hasLimitedRadius: true});
+    return new PIXI.Polygon(c1.points.concat(c2.points));
+
+    console.warn(shape, shape.geometry.points);
+    return new PIXI.Polygon(shape.geometry.points);
+  }
+
+  static getStarShape(direction, distance) {
+    const rays = Array.fromRange(5).flatMap(n => {
+      const angle = Math.toRadians(n * 360 / 5) + direction;
+      const angle2 = Math.toRadians(n * 360 / 5 + 36) + direction;
+      return [Ray.fromAngle(0, 0, angle, distance), Ray.fromAngle(0, 0, angle2, distance / 2)];
+    });
+
+    const points = rays.flatMap(ray => [ray.B.x, ray.B.y]);
+    return new PIXI.Polygon(points);
+  }
+
+  static getTeeShape(direction, distance, width) {
+    const dp = canvas.dimensions.distancePixels;
+
+    const OH = Ray.fromAngle(0, 0, direction - Math.toRadians(90), (width / 2) + 1);
+    const OA = Ray.fromAngle(0, 0, direction + Math.toRadians(90), (width / 2) + 1);
+
+    const AB = Ray.fromAngle(OA.B.x, OA.B.y, direction, distance + 1);
+    const HG = Ray.fromAngle(OH.B.x, OH.B.y, direction, distance + 1);
+
+    const BC = Ray.fromAngle(AB.B.x, AB.B.y, direction + Math.toRadians(90), Math.abs(dp / 2 - distance) + 1);
+    const CD = Ray.fromAngle(BC.B.x, BC.B.y, direction, dp + 1);
+
+    const GF = Ray.fromAngle(HG.B.x, HG.B.y, direction - Math.toRadians(90), Math.abs(dp / 2 - distance) + 1);
+    const FE = Ray.fromAngle(GF.B.x, GF.B.y, direction, dp + 1);
+
+    const points = [
+      AB.A.x, AB.A.y,
+      AB.B.x, AB.B.y,
+      BC.B.x, BC.B.y,
+      CD.B.x, CD.B.y,
+      FE.B.x, FE.B.y,
+      FE.A.x, FE.A.y,
+      GF.A.x, GF.A.y,
+      HG.A.x, HG.A.y
+    ];
+    return new PIXI.Polygon(points);
+  }
+
+  /** @override */
+  _computeShape() {
+    let {angle, width, x, y} = this.document;
+    const {angle: direction, distance} = this.ray;
+    width *= canvas.dimensions.distancePixels;
+    const t = this.document.flags.artichron?.t ?? null;
+    if (t === "star") return this.constructor.getStarShape(direction, distance);
+    else if (t === "clover") return this.constructor.getCloverShape(distance);
+    else if (t === "tee") return this.constructor.getTeeShape(direction, distance, width);
+    else return super._computeShape();
   }
 }

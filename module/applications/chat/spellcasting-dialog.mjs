@@ -266,7 +266,7 @@ export default class SpellcastingDialog extends Application {
     let attach;
     let angle;
     let range;
-    let count;
+    let count = 1;
 
     const getValue = (d) => {
       const [base, increase] = CONFIG.SYSTEM.SPELL_TARGET_TYPES[data.shape][d];
@@ -275,43 +275,41 @@ export default class SpellcastingDialog extends Application {
 
     switch (data.shape) {
       case "single": {
-        type = "single";
         count = getValue("count");
         range = getValue("range");
         break;
       }
       case "ray": {
-        type = "ray";
         distance = getValue("distance");
         width = getValue("width");
         count = getValue("count");
         attach = true;
         break;
       }
-      case "cone": {
-        type = "cone";
+      case "cone":
+      case "tee": {
         distance = getValue("distance");
         count = getValue("count");
         angle = 45;
         attach = true;
         break;
       }
-      case "circle": {
-        type = "circle";
+      case "circle":
+      case "star": {
         distance = getValue("radius");
         range = getValue("range");
         count = getValue("count");
         attach = false;
         break;
       }
-      case "radius": {
-        type = "circle";
+      case "radius":
+      case "bang": {
         distance = getValue("radius");
         attach = true;
         break;
       }
     }
 
-    return {type, distance, width, attach, angle, range, count};
+    return {type: data.shape, distance, width, attach, angle, range, count};
   }
 }
