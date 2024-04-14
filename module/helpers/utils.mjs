@@ -85,7 +85,7 @@ export function getOccupiedGridSpaces(tokenDoc) {
   const grid = tokenDoc.parent.grid.size;
   const halfGrid = grid / 2;
 
-  if (width <= 1 && height <= 1) return [{x: x + halfGrid, y: y + halfGrid}];
+  if ((width <= 1) && (height <= 1)) return [{x: x + halfGrid, y: y + halfGrid}];
 
   const centers = [];
   for (let a = 0; a < width; a++) {
@@ -108,7 +108,7 @@ export function getOccupiedGridSpaces(tokenDoc) {
  * Create pixi circle with some size and restrictions, centered on a token.
  * This does take the size of the token into account.
  * @param {TokenArtichron} token                  The center.
- * @param {number} size                           The range in feet.
+ * @param {number} size                           The range in meters.
  * @param {RestrictionOptions} [restrictions]     Wall restrictions.
  * @returns {ClockwiseSweepPolygon}
  */
@@ -141,7 +141,7 @@ export function createRestrictedCircle(token, size, restrictions = {}) {
  * Create pixi rectangle with some size and restrictions, centered on a token.
  * This does take the size of the token into account.
  * @param {TokenArtichron} token                  The center.
- * @param {number} size                           The range in feet.
+ * @param {number} size                           The range in meters.
  * @param {RestrictionOptions} [restrictions]     Wall restrictions.
  * @returns {ClockwiseSweepPolygon}
  */
@@ -200,7 +200,7 @@ export function findTokensCircle(token, size, restrictions = {}) {
  * Find tokens within a given rectangle centered on a token.
  * This does take the size of the token into account.
  * @param {TokenArtichron} token                  The center.
- * @param {number} size                           The range in feet.
+ * @param {number} size                           The range in meters.
  * @param {RestrictionOptions} [restrictions]     Wall restrictions.
  * @returns {TokenArtichron[]}
  */
@@ -221,7 +221,7 @@ export function findTokensRect(token, size, restrictions = {}) {
  * Create a rectangle of a given size centered on a token.
  * This does take the size of the token into account.
  * @param {TokenArtichron} token      The token that is in the center of the rectangle.
- * @param {number} size               The 'radius' of the rectangle, in feet.
+ * @param {number} size               The 'radius' of the rectangle, in meters.
  * @returns {PIXI}
  */
 export function createRect(token, size) {
@@ -269,7 +269,7 @@ export function tokensInTemplate(template) {
  * A user can right-click to dismiss, which skips one 'step'.
  * @param {number} count                            The number of targets asked for.
  * @param {object} [options]                        Additional options.
- * @param {TokenArtichron} [options.origin]         Origin point for determining max range.
+ * @param {TokenArtichron} [options.origin]         The token acting as the origin.
  * @param {number} [options.range]                  Maximum range between origin and target.
  * @returns {Promise<TokenDocumentArtichron[]>}     The token documents of those targeted.
  */
@@ -283,6 +283,14 @@ export async function awaitTargets(count, {origin, range} = {}) {
     const pct = !count ? 100 : (v / count * 100).toNearest(0.1);
     SceneNavigation.displayProgressBar({label: label, pct: pct});
   };
+
+  let c;
+  if (useRange) {
+    c = new PIXI.Graphics();
+    const r = canvas.dimensions.distancePixels * range + origin.w / 2;
+    c.lineStyle(3, 0x000000, 1).drawCircle(origin.w / 2, origin.h / 2, r);
+    origin.addChild(c);
+  }
 
   bar(0);
 
@@ -299,6 +307,7 @@ export async function awaitTargets(count, {origin, range} = {}) {
       if (value === count) {
         Hooks.off("targetToken", id);
         canvas.app.view.oncontextmenu = null;
+        c?.destroy();
         resolve(Array.from(game.user.targets).map(token => token.document));
       }
     };
@@ -315,6 +324,7 @@ export async function awaitTargets(count, {origin, range} = {}) {
       if (value === count) {
         Hooks.off("targetToken", id);
         canvas.app.view.oncontextmenu = null;
+        c?.destroy();
         resolve(Array.from(game.user.targets).map(token => token.document));
       }
     });
