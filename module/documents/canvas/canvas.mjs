@@ -16,7 +16,7 @@ class Auras {
     const div = document.createElement("DIV");
 
     // Expand the width
-    config.position.width = 540;
+    config.position.width = 560;
     config.setPosition(config.position);
 
     const nav = html.querySelector("nav.sheet-tabs.tabs[data-group=\"main\"]");
@@ -29,7 +29,7 @@ class Auras {
 
     const color = aura.color ? `value="${aura.color}"` : "";
     const alpha = Number.isNumeric(aura.alpha) ? `value="${Math.clamped(aura.alpha, 0, 1)}"` : "";
-    const distance = Number.isNumeric(aura.distance) && aura.distance > 0 ? `value="${aura.distance}"` : "";
+    const distance = Number.isNumeric(aura.distance) && (aura.distance > 0) ? `value="${aura.distance}"` : "";
 
     const auraConfig = `
     <div class="form-group">
@@ -45,7 +45,7 @@ class Auras {
         <span class="units">(0 &mdash; 1)</span>
       </label>
       <div class="form-fields">
-        <input type="number" ${alpha} step="any" min="0" max="1" name="flags.artichron.aura.alpha">
+        <input type="number" ${alpha} step="0.1" min="0" max="1" name="flags.artichron.aura.alpha">
       </div>
     </div>
     <div class="form-group">
@@ -54,7 +54,7 @@ class Auras {
         <span class="units">(${game.i18n.localize("GridUnits")})</span>
       </label>
       <div class="form-fields">
-        <input type="number" ${distance} step="any" name="flags.artichron.aura.distance" min="0">
+        <input type="number" ${distance} step="1" name="flags.artichron.aura.distance" min="0">
       </div>
     </div>`;
 
