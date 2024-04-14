@@ -14,9 +14,7 @@ export default class TokenArtichron extends Token {
    * @type {number}
    */
   get barsWidth() {
-    let h = Math.max((canvas.dimensions.size / 12), 8);
-    if (this.document.height >= 2) h *= 1.6;
-    return h;
+    return this.borderWidth * this.document.height + 1;
   }
 
   /**
@@ -24,7 +22,7 @@ export default class TokenArtichron extends Token {
    * @type {number}
    */
   get shieldWidth() {
-    return this.barsWidth / 2;
+    return this.borderWidth * 2;
   }
 
   /**
@@ -40,7 +38,7 @@ export default class TokenArtichron extends Token {
    * @type {number}
    */
   get barsRadius() {
-    return this.borderRadius + this.borderWidth / 2 + this.barsWidth / 2;
+    return this.borderRadius - this.borderWidth / 2 - this.barsWidth / 2;
   }
 
   /**
@@ -48,7 +46,7 @@ export default class TokenArtichron extends Token {
    * @type {number}
    */
   get shieldRadius() {
-    return this.barsRadius + this.barsWidth / 2 + this.shieldWidth / 2;
+    return this.borderRadius + this.borderWidth / 2 + this.shieldWidth / 2;
   }
 
   /**
@@ -104,7 +102,7 @@ export default class TokenArtichron extends Token {
 
   /**
    * Create aura PIXI element.
-   * @param {object} aura     The aura configuration.
+   * @param {object} aura               The aura configuration.
    * @param {number} aura.distance      The range, in grid units.
    * @param {string} aura.color         The color of the aura.
    * @param {number} aura.alpha         The aura opacity.
@@ -119,7 +117,8 @@ export default class TokenArtichron extends Token {
     const m = CONFIG.Canvas.polygonBackends.move.create({x, y}, {
       type: "move",
       hasLimitedRadius: true,
-      radius: radius
+      radius: radius,
+      density: PIXI.Circle.approximateVertexDensity(radius) * 2
     });
     shape.beginFill(color, alpha).drawShape(m).endFill();
     shape.pivot.set(x, y);
@@ -151,8 +150,10 @@ export default class TokenArtichron extends Token {
 
     const radius = this.borderRadius;
     const width = this.borderWidth;
-    b.lineStyle(width, 0x000000, 0.8).drawCircle(this.w / 2, this.h / 2, radius);
-    b.lineStyle(width - 2, borderColor, 1).drawCircle(this.w / 2, this.h / 2, radius);
+    const p = {x: this.w / 2, y: this.h / 2};
+    const color = {black: 0x000000, fill: borderColor};
+    b.lineStyle(width, color.black, 1).drawCircle(p.x, p.y, radius);
+    b.lineStyle(width - 2, color.fill, 1).drawCircle(p.x, p.y, radius);
   }
 
   /** @override */
@@ -165,6 +166,7 @@ export default class TokenArtichron extends Token {
 
     const val = Number(data.value);
     const pct = Math.clamped(val, 0, data.max) / data.max;
+    const isZero = number === 0;
 
     // Determine sizing
     const width = this.barsWidth;
@@ -172,25 +174,28 @@ export default class TokenArtichron extends Token {
 
     // Determine the color to use
     const color = {black: 0x00000, fill: null};
-    if (number === 0) color.fill = Color.fromRGB([(1 - (pct / 2)), pct, 0]);
+    if (isZero) color.fill = Color.fromRGB([(1 - (pct / 2)), pct, 0]);
     else color.fill = Color.fromRGB([(0.5 * pct), (0.7 * pct), 0.5 + (pct / 2)]);
 
     // End point and length variables.
-    const o = (number === 0) ? 0 : 180;
-    const c = 130;
-    const a = 180 - (180 - c) / 2 + o;
-    const b = {black: a - c, fill: a - c * pct};
-    const counter = true;
+    const d = isZero ? 1 : -1;
+    const c = Math.clamped(game.settings.get("artichron", "tokenBarLength"), 30, 180);
+    const a = d * (90 + c / 2);
+    const b = {
+      black: d * (90 - c / 2),
+      fill: d * (90 + c * (1 / 2 - pct))
+    };
+    const p = {x: this.w / 2, y: this.h / 2};
 
     // Draw the bar
     bar.clear();
     bar.children.forEach(c => c.destroy());
     bar.lineStyle({width: width, color: color.black, cap: cap});
-    bar.arc(this.w / 2, this.h / 2, radius, Math.toRadians(a), Math.toRadians(b.black), counter);
+    bar.arc(p.x, p.y, radius, Math.toRadians(a), Math.toRadians(b.black), isZero);
 
     const hpline = bar.addChild(new PIXI.Graphics());
-    hpline.lineStyle({width: width - 2, color: color.fill, cap: cap});
-    hpline.arc(this.w / 2, this.h / 2, radius, Math.toRadians(a), Math.toRadians(b.fill), counter);
+    hpline.lineStyle({width: width - 1, color: color.fill, cap: cap});
+    hpline.arc(p.x, p.y, radius, Math.toRadians(a), Math.toRadians(b.fill), isZero);
 
     bar.position.set(0, 0);
 

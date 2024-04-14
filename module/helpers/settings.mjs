@@ -22,4 +22,15 @@ export function registerSettings() {
     name: "ARTICHRON.Setting.TemplateAreaThreshold",
     hint: "ARTICHRON.Setting.TemplateAreaThresholdHint"
   });
+
+  // The length of the token bars (between 90 and 180).
+  game.settings.register(id, "tokenBarLength", {
+    scope: "world",
+    requiresReload: false,
+    type: Number,
+    default: 120,
+    config: true,
+    name: "ARTICHRON.Setting.TokenBarLength",
+    hint: "ARTICHRON.Setting.TokenBarLengthHint"
+  });
 }
