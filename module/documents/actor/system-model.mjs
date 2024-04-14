@@ -77,6 +77,7 @@ export class ActorSystemModel extends foundry.abstract.TypeDataModel {
   /** @override */
   prepareDerivedData() {
     const rollData = this.parent.getRollData();
+    this._preparePools(rollData);
     this._prepareHealth();
     this._prepareEquipped();
     this._prepareEncumbrance();
@@ -84,6 +85,11 @@ export class ActorSystemModel extends foundry.abstract.TypeDataModel {
     this._prepareDefenses();
     this._prepareResistances(rollData);
     this._prepareEmbeddedData(rollData);
+  }
+
+  /** Prepare pools. */
+  _preparePools(rollData) {
+    Object.entries(this.pools).forEach(([k, v]) => v.prepareDerivedData(rollData, k === this.traits.pool));
   }
 
   /** Prepare maximum health and clamp current health. */
@@ -169,7 +175,6 @@ export class ActorSystemModel extends foundry.abstract.TypeDataModel {
 
   /** Prepare any embedded models. */
   _prepareEmbeddedData(rollData) {
-    Object.entries(this.pools).forEach(([k, v]) => v.prepareDerivedData(rollData, k === this.traits.pool));
     Object.values(this.defenses).forEach(v => v.prepareDerivedData(rollData));
     Object.values(this.skills).forEach(v => v.prepareDerivedData(rollData));
   }
