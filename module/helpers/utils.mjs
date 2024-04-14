@@ -255,7 +255,7 @@ export function tokensInTemplate(template) {
     });
   };
 
-  const tokens = canvas.tokens.quadtree.getObjects(template.bounds, {
+  const tokens = canvas.tokens.quadtree.getObjects(shape.getBounds(), {
     collisionTest: ({t: token}) => {
       const intersection = shape.intersectPolygon(tokenArea(token));
       return intersection.signedArea() >= limit;
