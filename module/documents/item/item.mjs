@@ -33,6 +33,16 @@ export default class ItemArtichron extends Item {
   get isShield() {
     return this.system.isShield ?? false;
   }
+  get isArmor() {
+    return this.type === "armor";
+  }
+
+  get isEquipped() {
+    if (!this.isEmbedded) return false;
+    if (this.isArsenal) return Object.values(this.actor.arsenal).includes(this);
+    else if (this.isArmor) return Object.values(this.actor.armor).includes(this);
+    return false;
+  }
 
   get token() {
     const actor = this.actor;
@@ -60,7 +70,12 @@ export default class ItemArtichron extends Item {
 
   /** @override */
   async _preUpdate(update, options, user) {
-    return super._preUpdate(update, options, user);
+    const allowed = await super._preUpdate(update, options, user);
+    if (allowed === false) return false;
+    if (this.isEquipped && ("value" in (update.system?.wield ?? {}))) {
+      ui.notifications.warn("You cannot change the Wield state of an equipped item.");
+      return false;
+    }
   }
 
   /** @override */
