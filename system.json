@@ -77,7 +77,7 @@
   "changelog": "CHANGELOG.md",
   "flags": {
     "hotReload": {
-      "extensions": ["css", "hbs"],
+      "extensions": ["css", "hbs", "json"],
       "paths": ["lang/en.json", "styles/*.css", "templates/**/*.hbs"]
     }
   },

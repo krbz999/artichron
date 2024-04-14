@@ -63,6 +63,7 @@
   },
 
   "Pools": {
+    "Section": "Pools",
     "Config": "Pools: {name}",
     "Primary": "Primary Pool",
     "Health": "Health",

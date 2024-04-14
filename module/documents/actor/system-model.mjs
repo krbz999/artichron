@@ -27,8 +27,8 @@ export class ActorSystemModel extends foundry.abstract.TypeDataModel {
           acc[key] = new LocalIdField(foundry.documents.BaseItem);
           return acc;
         }, {})),
-        ammo: new SetField(new LocalIdField(foundry.documents.BaseItem)),
-        favorites: new SetField(new LocalIdField(foundry.documents.BaseItem))
+        ammo: new SetField(new LocalIdField(foundry.documents.BaseItem, {idOnly: true})),
+        favorites: new SetField(new LocalIdField(foundry.documents.BaseItem, {idOnly: true}))
       }),
       resistances: new SchemaField(Object.entries(SYSTEM.DAMAGE_TYPES).reduce((acc, [key, data]) => {
         if (data.resist) acc[key] = new EmbeddedDataField(ResistanceModel);
@@ -96,7 +96,7 @@ export class ActorSystemModel extends foundry.abstract.TypeDataModel {
 
   /** Prepare equipped items. */
   _prepareEquipped() {
-    const {arsenal, armor, ammo, favorites} = this.equipped;
+    const {arsenal, armor} = this.equipped;
 
     if (arsenal.first?.isTwoHanded || arsenal.second?.isTwoHanded) arsenal.second = null;
 
@@ -105,8 +105,17 @@ export class ActorSystemModel extends foundry.abstract.TypeDataModel {
       armor[key] = ((item.type === "armor") && (item.system.type.category === key)) ? item : null;
     }
 
-    for (const item of ammo) if (!item?.isAmmo) ammo.delete(item);
-    for (const item of favorites) if (!item) favorites.delete(item);
+    this.equipped.ammo = this.equipped.ammo.reduce((acc, id) => {
+      const item = this.parent.items.get(id);
+      if (item && item.isAmmo) acc.add(item);
+      return acc;
+    }, new Set());
+
+    this.equipped.favorites = this.equipped.favorites.reduce((acc, id) => {
+      const item = this.parent.items.get(id);
+      if (item) acc.add(item);
+      return acc;
+    }, new Set());
   }
 
   /** Prepare current and max encumbrance. */
