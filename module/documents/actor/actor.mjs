@@ -40,7 +40,7 @@ export default class ActorArtichron extends Actor {
    * @type {boolean}
    */
   get hasShield() {
-    return this.system.hasShield ?? false;
+    return Object.values(this.arsenal).some(a => a?.isShield);
   }
 
   /* ---------------------------------------- */
@@ -157,17 +157,20 @@ export default class ActorArtichron extends Actor {
 
   /**
    * Apply damage to this actor.
-   * @param {object} values         An object with keys from DAMAGE_TYPES or HEALING_TYPES.
-   * @returns {Promise<Actor>}      The actor after the update.
+   * @param {number|object} values      An object with keys from DAMAGE_TYPES or HEALING_TYPES.
+   * @returns {Promise<Actor>}          The actor after the update.
    */
-  async applyDamage(values = {}) {
+  async applyDamage(values) {
+    if (foundry.utils.getType(values) === "number") {
+      values = {none: values};
+    }
     const resistances = this.system.resistances;
     const armor = this.system.defenses.armor;
     const types = {...CONFIG.SYSTEM.DAMAGE_TYPES, ...CONFIG.SYSTEM.HEALING_TYPES};
 
     const indivs = {};
     const amount = Math.round(Object.entries(values).reduce((acc, [type, value]) => {
-      if (!(type in types)) return acc;
+      if (type === "none") return acc - value;
 
       // Is this damage type resisted?
       if (types[type].resist) value -= Math.max(resistances[type].total, 0);

@@ -240,12 +240,4 @@ export class ActorSystemModel extends foundry.abstract.TypeDataModel {
   get isBurning() {
     return this.parent.statuses.has("burning");
   }
-
-  /**
-   * Does this actor have a shield equipped?
-   * @type {boolean}
-   */
-  get hasShield() {
-    return Object.values(this.arsenal).some(a => a?.isShield);
-  }
 }
