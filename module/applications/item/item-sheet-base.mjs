@@ -11,10 +11,14 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(ItemSheet) {
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
       width: 400,
-      height: 500,
       tabs: [
         {navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "description", group: "primary"},
-        {navSelector: "[data-tab=effects] > .effects.tabs[data-group=effects]", contentSelector: ".tab.effects", initial: "active", group: "effects"}
+        {
+          navSelector: "[data-tab=effects] > .effects.tabs[data-group=effects]",
+          contentSelector: ".tab.effects",
+          initial: "active",
+          group: "effects"
+        }
       ],
       classes: ["sheet", "item", "artichron"],
       scrollY: [".editor-content", ".documents-list"]
@@ -23,8 +27,7 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(ItemSheet) {
 
   /** @override */
   get template() {
-    const type = ["weapon", "spell"].includes(this.document.type) ? "arsenal" : this.document.type;
-    return `systems/artichron/templates/item/item-sheet-${type}.hbs`;
+    return "systems/artichron/templates/item/item-sheet.hbs";
   }
 
   /* -------------------------------------------- */

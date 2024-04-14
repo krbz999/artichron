@@ -210,7 +210,7 @@ export default class ActorArtichron extends Actor {
     if (type === "health") {
       const hp = this.system.health;
       if (hp.value >= hp.max) {
-        ui.notifications.warn(game.i18n.format("ARTICHRON.AlreadyAtMaxHealth", {name: this.name}));
+        ui.notifications.warn(game.i18n.format("ARTICHRON.Warning.AlreadyAtMaxHealth", {name: this.name}));
         return null;
       }
     }

@@ -1,4 +1,4 @@
-import {DamageDiceModel} from "../fields/die.mjs";
+import {DamageModel} from "../fields/damage.mjs";
 import {ItemSystemModel} from "./system-model.mjs";
 
 const {ArrayField, NumberField, SchemaField, StringField, EmbeddedDataField} = foundry.data.fields;
@@ -8,14 +8,10 @@ export default class ArsenalData extends ItemSystemModel {
   static defineSchema() {
     return {
       ...super.defineSchema(),
-      damage: new ArrayField(new EmbeddedDataField(DamageDiceModel)),
+      damage: new ArrayField(new EmbeddedDataField(DamageModel)),
       wield: new SchemaField({
         value: new NumberField({choices: [1, 2], initial: 1}),
         range: new NumberField({integer: true, min: 0})
-      }),
-      cost: new SchemaField({
-        value: new NumberField({integer: true, min: 0}),
-        type: new StringField({choices: ["health", "stamina", "mana"]})
       })
     };
   }

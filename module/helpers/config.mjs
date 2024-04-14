@@ -24,47 +24,47 @@ SYSTEM.RESISTANCE = {
  */
 SYSTEM.DAMAGE_TYPES = {
   fire: {
-    label: "ARTICHRON.DamageTypeFire",
+    label: "ARTICHRON.DamageType.Fire",
     color: "FF5733",
     icon: "fa-solid fa-fire",
     elemental: true,
     resist: true
   },
   wind: {
-    label: "ARTICHRON.DamageTypeWind",
+    label: "ARTICHRON.DamageType.Wind",
     color: "8DEEB5",
     icon: "fa-solid fa-wind",
     elemental: true,
     resist: true
   },
   lightning: {
-    label: "ARTICHRON.DamageTypeLightning",
+    label: "ARTICHRON.DamageType.Lightning",
     color: "4B70A8",
     icon: "fa-solid fa-bolt",
     elemental: true,
     resist: true
   },
   ice: {
-    label: "ARTICHRON.DamageTypeIce",
+    label: "ARTICHRON.DamageType.Ice",
     color: "54D7E0",
     icon: "fa-solid fa-snowflake",
     elemental: true,
     resist: true
   },
   light: {
-    label: "ARTICHRON.DamageTypeLight",
+    label: "ARTICHRON.DamageType.Light",
     color: "FCFFBF",
     icon: "fa-solid fa-sun",
     resist: true
   },
   darkness: {
-    label: "ARTICHRON.DamageTypeDarkness",
+    label: "ARTICHRON.DamageType.Darkness",
     color: "910B94",
     icon: "fa-solid fa-moon",
     resist: true
   },
   physical: {
-    label: "ARTICHRON.DamageTypePhysical",
+    label: "ARTICHRON.DamageType.Physical",
     color: "868686",
     icon: "fa-solid fa-hand-fist",
     block: true,
@@ -72,7 +72,7 @@ SYSTEM.DAMAGE_TYPES = {
     armor: true
   },
   arcane: {
-    label: "ARTICHRON.DamageTypeArcane",
+    label: "ARTICHRON.DamageType.Arcane",
     color: "C79FFF",
     icon: "fa-solid fa-wand-sparkles",
     block: true,
@@ -94,7 +94,7 @@ SYSTEM.DAMAGE_TYPES = {
  */
 SYSTEM.HEALING_TYPES = {
   healing: {
-    label: "ARTICHRON.HealingTypeHealing",
+    label: "ARTICHRON.HealingType.Healing",
     color: "33FF33",
     icon: "fa-solid fa-heart",
     faces: 8
@@ -119,14 +119,14 @@ SYSTEM.HEALING_TYPES = {
  */
 SYSTEM.SPELL_TARGET_TYPES = {
   single: {
-    label: "ARTICHRON.SpellType.SingleTarget",
+    label: "ARTICHRON.SpellShape.SingleTarget",
     scale: new Set(["count", "range"]),
     modifier: "x",
     count: [1, 1],
     range: [6, 2]
   },
   ray: {
-    label: "ARTICHRON.SpellType.AreaRay",
+    label: "ARTICHRON.SpellShape.AreaRay",
     scale: new Set(["count", "distance", "width"]),
     modifier: "xo",
     count: [1, 1],
@@ -134,14 +134,14 @@ SYSTEM.SPELL_TARGET_TYPES = {
     width: [1, 1]
   },
   cone: {
-    label: "ARTICHRON.SpellType.AreaCone",
+    label: "ARTICHRON.SpellShape.AreaCone",
     scale: new Set(["count", "distance"]),
     modifier: "min2",
     count: [1, 1],
     distance: [3, 2]
   },
   circle: {
-    label: "ARTICHRON.SpellType.AreaCircle",
+    label: "ARTICHRON.SpellShape.AreaCircle",
     scale: new Set(["count", "radius", "range"]),
     modifier: "",
     count: [1, 1],
@@ -149,7 +149,7 @@ SYSTEM.SPELL_TARGET_TYPES = {
     range: [5, 2]
   },
   radius: {
-    label: "ARTICHRON.SpellType.AreaRadius",
+    label: "ARTICHRON.SpellShape.AreaRadius",
     scale: new Set(["radius"]),
     modifier: "rr",
     radius: [2, 1]
@@ -179,44 +179,44 @@ SYSTEM.DIE_SIZES = {
 
 // Movement types.
 SYSTEM.MOVEMENT_TYPES = {
-  running: {label: "ARTICHRON.MovementRunning"},
-  flying: {label: "ARTICHRON.MovementFlying"},
-  swimming: {label: "ARTICHRON.MovementSwimming"}
+  running: {label: "ARTICHRON.Movement.Running"},
+  flying: {label: "ARTICHRON.Movement.Flying"},
+  swimming: {label: "ARTICHRON.Movement.Swimming"}
 };
 
 // Weapon subtypes.
 SYSTEM.ARSENAL_TYPES = {
   melee: {
-    label: "ARTICHRON.ArsenalCategoryMelee",
+    label: "ARTICHRON.ArsenalCategory.Melee",
     items: {
-      axe: {label: "ARTICHRON.WeaponTypeAxe"},
-      hammer: {label: "ARTICHRON.WeaponTypeHammer"},
+      axe: {label: "ARTICHRON.WeaponType.Axe"},
+      hammer: {label: "ARTICHRON.WeaponType.Hammer"},
       spear: {
-        label: "ARTICHRON.WeaponTypeSpear",
+        label: "ARTICHRON.WeaponType.Spear",
         fusion: {range: 1, hands: 2, damage: "1d6"} // bonuses on top of used target.
       },
-      sword: {label: "ARTICHRON.WeaponTypeSword"}
+      sword: {label: "ARTICHRON.WeaponType.Sword"}
     }
   },
   ranged: {
-    label: "ARTICHRON.ArsenalCategoryRanged",
+    label: "ARTICHRON.ArsenalCategory.Ranged",
     items: {
-      bow: {label: "ARTICHRON.WeaponTypeBow"}
+      bow: {label: "ARTICHRON.WeaponType.Bow"}
     }
   },
   shield: {
-    label: "ARTICHRON.ArsenalCategoryShield",
+    label: "ARTICHRON.ArsenalCategory.Shield",
     items: {
       buckler: {
-        label: "ARTICHRON.ShieldTypeBuckler",
+        label: "ARTICHRON.ShieldType.Buckler",
         width: 1
       },
       heater: {
-        label: "ARTICHRON.ShieldTypeHeater",
+        label: "ARTICHRON.ShieldType.Heater",
         width: 2
       },
       kite: {
-        label: "ARTICHRON.ShieldTypeKite",
+        label: "ARTICHRON.ShieldType.Kite",
         width: 3
       }
     }
@@ -225,28 +225,28 @@ SYSTEM.ARSENAL_TYPES = {
 
 // Spell types.
 SYSTEM.SPELL_TYPES = {
-  offense: {label: "ARTICHRON.SpellTypeOffense"},
-  defense: {label: "ARTICHRON.SpellTypeDefense"},
-  buff: {label: "ARTICHRON.SpellTypeBuff"}
+  offense: {label: "ARTICHRON.SpellType.Offense"},
+  defense: {label: "ARTICHRON.SpellType.Defense"},
+  buff: {label: "ARTICHRON.SpellType.Buff"}
 };
 
 // Armor subtypes.
 SYSTEM.ARMOR_TYPES = {
-  accessory: {label: "ARTICHRON.ArmorTypeAccessory"},
-  arms: {label: "ARTICHRON.ArmorTypeArms"},
-  chest: {label: "ARTICHRON.ArmorTypeChest"},
-  head: {label: "ARTICHRON.ArmorTypeHead"},
-  legs: {label: "ARTICHRON.ArmorTypeLegs"},
-  boots: {label: "ARTICHRON.ArmorTypeBoots"}
+  accessory: {label: "ARTICHRON.ArmorType.Accessory"},
+  arms: {label: "ARTICHRON.ArmorType.Arms"},
+  chest: {label: "ARTICHRON.ArmorType.Chest"},
+  head: {label: "ARTICHRON.ArmorType.Head"},
+  legs: {label: "ARTICHRON.ArmorType.Legs"},
+  boots: {label: "ARTICHRON.ArmorType.Boots"}
 };
 
 // Monster part types.
 SYSTEM.MONSTER_PART_TYPES = {
-  eye: {label: "ARTICHRON.MonsterPartTypeEye"},
-  fang: {label: "ARTICHRON.MonsterPartTypeFang"},
-  heart: {label: "ARTICHRON.MonsterPartTypeHeart"},
-  horn: {label: "ARTICHRON.MonsterPartTypeHorn"},
-  tail: {label: "ARTICHRON.MonsterPartTypeTail"}
+  eye: {label: "ARTICHRON.MonsterPartType.Eye"},
+  fang: {label: "ARTICHRON.MonsterPartType.Fang"},
+  heart: {label: "ARTICHRON.MonsterPartType.Heart"},
+  horn: {label: "ARTICHRON.MonsterPartType.Horn"},
+  tail: {label: "ARTICHRON.MonsterPartType.Tail"}
 };
 
 // Elixir subtypes.
@@ -255,6 +255,6 @@ SYSTEM.ELIXIR_TYPES = {};
 // Armor set identifiers.
 // bonus could be a function or a static bonus, idk
 SYSTEM.ARMOR_SETS = {
-  flame: {label: "ARTICHRON.ArmorSetFlame", bonus: {}},
-  glam: {label: "ARTICHRON.ArmorSetGlam", bonus: {}}
+  flame: {label: "ARTICHRON.ArmorSet.Flame", bonus: {}},
+  glam: {label: "ARTICHRON.ArmorSet.Glam", bonus: {}}
 };

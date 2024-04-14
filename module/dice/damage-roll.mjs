@@ -2,9 +2,16 @@ export class DamageRoll extends Roll {
   constructor(formula, data = {}, options = {}) {
     const type = options.type;
     if (!type) throw new Error("A damage roll was constructed without a type.");
+    formula = artichron.utils.simplifyRollFormula(formula);
     super(formula, data, options);
     this.type = type;
   }
+
+  /**
+   * The damage type of this roll.
+   * @type {string}
+   */
+  type = null;
 
   /**
    * Evaluate an array of rolls and create a singular chat message.

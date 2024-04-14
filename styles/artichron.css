@@ -23,133 +23,73 @@
 /* --------------------------- */
 /*     System-wide styling.    */
 /* --------------------------- */
-.system-artichron {
-
-  .window-header {
-    border-radius: 10px 10px 0 0;
-    border: none;
-  }
-
-  .gold-button {
-    background: var(--artichron-color-black);
-    color: var(--artichron-color-gold);
-    position: relative;
-    border-radius: 4px;
-    transition: all 250ms ease;
-    border: none;
-    margin: 0;
-    box-shadow: 0 0 6px var(--artichron-color-black-45);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 4px;
-
-    &::after {
-      position: absolute;
-      inset: 3px;
-      border: 1px solid var(--artichron-color-gold);
-      content: "";
-      border-radius: 3px;
-    }
-
-    &:hover {
-      box-shadow: 0 0 6px var(--artichron-color-gold);
-    }
-
-    &:disabled {
-      opacity: 0.3;
-      cursor: initial;
-      box-shadow: none;
-    }
-
-    > .fa-solid {
-      margin: 0;
-    }
-
-    & img {
-      border: none;
-    }
-  }
-
-  .chat-message.message {
-    background: none;
-    color: var(--artichron-color-white);
-
-    .message-header {
-      color: inherit;
-    }
-  }
-
-
+.window-header {
+  border: none;
 }
 
-.artichron {
-  .window-content {
-    border-radius: 0 0 10px 10px;
+
+
+.chat-message.message {
+  background: none;
+  color: var(--artichron-color-white);
+
+  .message-header {
+    color: inherit;
+  }
+}
+
+/* --------------------------- */
+/*        UI components.       */
+/* --------------------------- */
+
+.gold-button {
+  background: var(--artichron-color-black);
+  color: var(--artichron-color-gold);
+  position: relative;
+  border-radius: 4px;
+  transition: all 250ms ease;
+  border: none;
+  margin: 0;
+  box-shadow: 0 0 6px var(--artichron-color-black-45);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+
+  &::after {
+    position: absolute;
+    inset: 3px;
+    border: 1px solid var(--artichron-color-gold);
+    content: "";
+    border-radius: 3px;
   }
 
-  &.app {
-    &.opacity {
-      transition: opacity 250ms;
-
-      &:not(:hover) {
-        opacity: 0.1;
-      }
-
-      .header-button.control.opacity i::before {
-        content: "\f204";
-      }
-    }
-
-    .header-button.control.opacity i::before {
-      content: "\f205";
-    }
-
-    &:has(form.edit-mode) .header-button.control.sheet-mode i::before { content: "\f4ff"; }
-    &:has(form.play-mode) .header-button.control.sheet-mode i::before { content: "\f502"; }
+  &:hover {
+    box-shadow: 0 0 6px var(--artichron-color-gold);
   }
 
-  .rollable {
-    &:hover {
-      cursor: pointer;
-    }
+  &:disabled {
+    opacity: 0.3;
+    cursor: initial;
+    box-shadow: none;
   }
 
-  & form {
-    .form-group {
-      & label {
-        white-space: nowrap;
-        color: var(--artichron-label);
-        font-weight: bold;
-
-        &.checkbox {
-          flex: 0;
-        }
-      }
-
-      .sep {
-        white-space: nowrap;
-        flex: 0 0 10px;
-        text-align: center;
-        margin: 0 4px;
-      }
-
-      /* Common form-group styles */
-      &.input-select {
-        & select {
-          flex: 1;
-        }
-      }
-    }
-
-    & input.tiny {
-      max-width: 2em;
-      max-height: calc(min(2em, 100% - 2px));
-      aspect-ratio: 1/1;
-      text-align: center;
-      border: none;
-      border-radius: 5px;
-      padding: 0;
-    }
+  > .fa-solid {
+    margin: 0;
   }
+
+  & img {
+    border: none;
+  }
+}
+
+.artichron.app {
+  &.opacity {
+    transition: opacity 250ms;
+    &:not(:hover) { opacity: 0.1; }
+    .header-button.control.opacity i::before { content: "\f204"; }
+  }
+  .header-button.control.opacity i::before { content: "\f205"; }
+  &:has(form.edit-mode) .header-button.control.sheet-mode i::before { content: "\f4ff"; }
+  &:has(form.play-mode) .header-button.control.sheet-mode i::before { content: "\f502"; }
 }

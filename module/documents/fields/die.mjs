@@ -22,7 +22,7 @@ export class DiceModel extends foundry.abstract.DataModel {
    */
   prepareDerivedData(rollData) {
     ["r", "x", "min", "max"].forEach(k => {
-      const value = artichron.utils.simplifyFormula(this.modifiers[k], rollData);
+      const value = artichron.utils.simplifyBonus(this.modifiers[k], rollData);
       this.modifiers[k] = Math.max(0, value);
     });
 
@@ -125,35 +125,7 @@ export class DefenseDiceModel extends DiceModel {
   /** @override */
   prepareDerivedData(rollData) {
     super.prepareDerivedData(rollData);
-    this.number = Math.max(1, artichron.utils.simplifyFormula(this.number, rollData));
-  }
-
-  /**
-   * The full formula.
-   * @type {string}
-   */
-  get formula() {
-    return `${this.number}${this.die}`;
-  }
-}
-
-/**
- * Specialized dice model for damage dice.
- */
-export class DamageDiceModel extends DiceModel {
-  /** @override */
-  static defineSchema() {
-    return {
-      ...super.defineSchema(),
-      number: new StringField({required: true}),
-      type: new StringField({required: true, label: "ARTICHRON.DamageType"})
-    };
-  }
-
-  /** @override */
-  prepareDerivedData(rollData) {
-    super.prepareDerivedData(rollData);
-    this.number = Math.max(1, artichron.utils.simplifyFormula(this.number || "1", rollData));
+    this.number = Math.max(1, artichron.utils.simplifyBonus(this.number, rollData));
   }
 
   /**

@@ -1,4 +1,5 @@
 import MeasuredTemplateArtichron from "../documents/template/template.mjs";
+export {default as simplifyRollFormula} from "./simplify-formula.mjs";
 
 /**
  * Convert a bonus value to a number.
@@ -6,7 +7,7 @@ import MeasuredTemplateArtichron from "../documents/template/template.mjs";
  * @param {object} [data]                   The roll data used to replace terms.
  * @returns {number}
  */
-export function simplifyFormula(formula, data = {}) {
+export function simplifyBonus(formula, data = {}) {
   if (!formula) return 0;
   if (Number.isNumeric(formula)) return Number(formula);
   try {
@@ -271,11 +272,10 @@ export function tokensInTemplate(template) {
  * @param {object} [options]                        Additional options.
  * @param {TokenArtichron} [options.origin]         The token acting as the origin.
  * @param {number} [options.range]                  Maximum range between origin and target.
+ * @param {boolean} [options.allowPreTarget]        Are initial targets allowed to be used?
  * @returns {Promise<TokenDocumentArtichron[]>}     The token documents of those targeted.
  */
-export async function awaitTargets(count, {origin, range} = {}) {
-  await game.user.updateTokenTargets();
-
+export async function awaitTargets(count, {origin, range, allowPreTarget = false} = {}) {
   const useRange = !!origin && Number.isInteger(range) && (range > 0);
 
   const bar = (v) => {
@@ -284,20 +284,36 @@ export async function awaitTargets(count, {origin, range} = {}) {
     SceneNavigation.displayProgressBar({label: label, pct: pct});
   };
 
-  let c;
-  if (useRange) {
-    c = new PIXI.Graphics();
-    const r = canvas.dimensions.distancePixels * range + origin.w / 2;
-    c.lineStyle(3, 0x000000, 1).drawCircle(origin.w / 2, origin.h / 2, r);
-    origin.addChild(c);
-  }
+  const isValidTokenTarget = (t) => {
+    return !useRange || findTokensCircle(origin, range).includes(t);
+  };
 
-  bar(0);
+  // Set initial targets.
+  if (!allowPreTarget || (game.user.targets.size > count)) await game.user.updateTokenTargets();
+  else for (const t of game.user.targets) if (!isValidTokenTarget(t)) removeTarget(t);
 
   return new Promise(resolve => {
-    ui.notifications.info(`Pick ${count} targets`);
-    let value = 0;
+    let value = game.user.targets.size;
     let id;
+
+    const finish = () => resolve(Array.from(game.user.targets).map(token => token.document));
+
+    if (count === value) {
+      finish();
+      return;
+    }
+
+    ui.notifications.info(`Pick ${count} targets`);
+
+    let c;
+    if (useRange) {
+      c = new PIXI.Graphics();
+      const r = canvas.dimensions.distancePixels * range + origin.w / 2;
+      c.lineStyle(3, 0x000000, 1).drawCircle(origin.w / 2, origin.h / 2, r);
+      origin.addChild(c);
+    }
+
+    bar(0);
 
     canvas.app.view.oncontextmenu = (event) => {
       if (!event.shiftKey) return;
@@ -308,13 +324,13 @@ export async function awaitTargets(count, {origin, range} = {}) {
         Hooks.off("targetToken", id);
         canvas.app.view.oncontextmenu = null;
         c?.destroy();
-        resolve(Array.from(game.user.targets).map(token => token.document));
+        finish();
       }
     };
 
     id = Hooks.on("targetToken", (user, token, bool) => {
       if (game.user !== user) return;
-      if (bool && useRange && !findTokensCircle(origin, range).includes(token)) {
+      if (bool && !isValidTokenTarget(token)) {
         removeTarget(token);
         ui.notifications.warn("The targeted token is outside the range!");
         return;
@@ -325,7 +341,7 @@ export async function awaitTargets(count, {origin, range} = {}) {
         Hooks.off("targetToken", id);
         canvas.app.view.oncontextmenu = null;
         c?.destroy();
-        resolve(Array.from(game.user.targets).map(token => token.document));
+        finish();
       }
     });
   });

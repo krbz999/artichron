@@ -49,11 +49,17 @@ export default class WeaponData extends ArsenalData {
       return null;
     }
 
-    const [target] = await utils.awaitTargets(1, {origin: token, range: item.system.wield.range || 1});
+    const [target] = await utils.awaitTargets(1, {origin: token, range: item.system.wield.range || 1, allowPreTarget: true});
     if (!target) return null;
 
     const rollData = item.getRollData();
-    const rolls = item.system.damage.map(d => new DamageRoll(d.formula, rollData, {type: d.type}));
+    const rolls = Object.entries(item.system.damage.reduce((acc, d) => {
+      acc[d.type] ??= [];
+      acc[d.type].push(d.formula);
+      return acc;
+    }, {})).map(([type, formulas]) => {
+      return new DamageRoll(formulas.join("+"), rollData, {type: type});
+    });
 
     return DamageRoll.toMessage(rolls, {
       speaker: ChatMessage.implementation.getSpeaker({actor: actor}),

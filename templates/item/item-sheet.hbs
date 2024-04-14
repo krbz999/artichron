@@ -1,20 +1,16 @@
-<form autocomplete="off">
+<form autocomplete="off" class="{{ifThen sheet.isPlayMode 'play-mode' 'edit-mode'}}">
 
   {{!-- Sheet Header --}}
   <header class="sheet-header">
-    <img class="profile-img" src="{{document.img}}" data-edit="img" data-tooltip="{{document.name}}" height="100" width="100">
-    <div class="header-fields">
-      <h1 class="charname">
-        <input name="name" type="text" value="{{document.name}}" placeholder="{{localize 'Name'}}">
-      </h1>
-    </div>
+    <img class="profile-img" src="{{document.img}}" data-edit="img" data-tooltip="{{document.name}}">
+    <input class="charname" name="name" type="text" value="{{document.name}}" placeholder="{{localize 'Name'}}">
   </header>
 
   {{!-- Sheet Tab Navigation --}}
   <nav class="sheet-tabs tabs" data-group="primary">
-    <a class="item" data-tab="description">{{localize "ARTICHRON.SheetTabDescription"}}</a>
-    <a class="item" data-tab="attributes">{{localize "ARTICHRON.SheetTabAttributes"}}</a>
-    <a class="item" data-tab="effects">{{localize "ARTICHRON.SheetTabEffects"}}</a>
+    <a class="item" data-tab="description">{{localize "ARTICHRON.SheetTab.Description"}}</a>
+    <a class="item" data-tab="attributes">{{localize "ARTICHRON.SheetTab.Attributes"}}</a>
+    <a class="item" data-tab="effects">{{localize "ARTICHRON.SheetTab.Effects"}}</a>
   </nav>
 
   {{!-- Sheet Body --}}
@@ -29,12 +25,21 @@
       <section class="traits">
         {{> "systems/artichron/templates/partials/item-type.hbs"}}
       </section>
+      {{#if document.isArsenal}}
+      <section class="damages">
+        {{> "systems/artichron/templates/partials/item-damages.hbs"}}
+      </section>
+      {{/if}}
+      {{#if document.isArmor}}
       <section class="resistances">
         {{> "systems/artichron/templates/partials/item-resistances.hbs"}}
       </section>
+      {{/if}}
+      {{#if (or document.isArmor document.isShield)}}
       <section class="defenses">
         {{> "systems/artichron/templates/partials/item-defenses.hbs"}}
       </section>
+      {{/if}}
     </div>
 
     <div class="tab effects" data-group="primary" data-tab="effects">

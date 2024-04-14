@@ -34,7 +34,7 @@ export default class ElixirData extends ItemSystemModel {
    */
   _prepareUsage() {
     const us = this.usage;
-    if (us.max) us.max = artichron.utils.simplifyFormula(us.max, this.parent.getRollData());
+    if (us.max) us.max = artichron.utils.simplifyBonus(us.max, this.parent.getRollData());
   }
 
   async use() {
