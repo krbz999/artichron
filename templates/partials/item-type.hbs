@@ -28,13 +28,13 @@
 {{#if system.wield}}
 <div class="form-group">
   <label>{{localize "ARTICHRON.ItemPropertyWield"}}</label>
-  <select name="system.wield.value">
+  <select name="system.wield.value" {{disabled document.isEquipped}}>
     {{#select system.wield.value}}
     <option value="1">{{localize "ARTICHRON.ItemWieldOneHanded"}}</option>
     <option value="2">{{localize "ARTICHRON.ItemWieldTwoHanded"}}</option>
     {{/select}}
   </select>
-  <input type="number" name="system.wield.range" value="{{source.wield.range}}">
+  <input type="number" name="system.wield.range" value="{{source.wield.range}}" {{disabled document.isEquipped}}>
 </div>
 {{/if}}
 

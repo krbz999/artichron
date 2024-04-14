@@ -360,10 +360,10 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(ActorSheet)
 
     let items;
     if (type === "armor") {
-      items = this.document.items.filter(item => (item.type === "armor") && (item.system.type.category === slot));
-    } else if ((type === "weapon") || (type === "spell")) {
+      items = this.document.items.filter(item => item.isArmor && (item.system.type.category === slot));
+    } else if ((type === "arsenal")) {
       items = this.document.items.filter(item => {
-        if (!item.isWeapon && !item.isSpell) return false;
+        if (!item.isArsenal) return false;
         const {first, second} = this.document.arsenal;
         if (slot === "first") return !second || (second !== item);
         if (slot === "second") return (!first || (first !== item)) && item.isOneHanded;
