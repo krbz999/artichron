@@ -1,15 +1,9 @@
-<nav class="effects tabs" data-group="effects">
-  {{#each sections as |section key|}}
-  <a class="item effects-tab" data-tab="{{key}}">{{localize section.label}}</a>
-  {{/each}}
-</nav>
-
 {{#each sections as |section|}}
-<div class="tab document-section" data-active="{{key}}" data-tab="{{key}}" data-group="effects" data-collection="effects">
-  <h4 class="documents-list-header rollable" data-action="control" data-control="create">
-    {{localize "ARTICHRON.EffectCreate"}}
+<div class="document-section" data-active="{{key}}" data-group="effects" data-collection="effects">
+  <a class="documents-list-header" data-action="control" data-control="create">
+    {{localize "ARTICHRON.EffectCreate"}} {{localize section.label}}
     <i class="fa-solid fa-plus"></i>
-  </h4>
+  </a>
   <div class="documents-list">
     {{#each section.data as |data|}}
     <div class="document-item" data-item-id="{{data.effect.id}}">

@@ -5,24 +5,30 @@
 
   {{#if isArsenal}}
   <div class="form-group dice-combo">
-    <label>{{localize "ARTICHRON.ItemPropertyBlock"}}</label>
-    <input type="number" name="system.block.number" value="{{source.block.number}}">
-    <select class="type" name="system.block.faces">
-      {{selectOptions @root.config.DIE_SIZES selected=system.block.faces}}
-    </select>
+    <label>{{localize "ARTICHRON.ItemProperty.Block"}}</label>
+    <div class="form-fields">
+      <input type="number" name="system.block.number" value="{{source.block.number}}">
+      <select class="type" name="system.block.faces">
+        {{selectOptions @root.config.DIE_SIZES selected=system.block.faces}}
+      </select>
+    </div>
   </div>
 
   <div class="form-group dice-combo">
-    <label>{{localize "ARTICHRON.ItemPropertyParry"}}</label>
-    <input type="number" name="system.parry.number" value="{{source.parry.number}}">
-    <select class="type" name="system.parry.faces">
-      {{selectOptions @root.config.DIE_SIZES selected=system.parry.faces}}
-    </select>
+    <label>{{localize "ARTICHRON.ItemProperty.Parry"}}</label>
+    <div class="form-fields">
+      <input type="number" name="system.parry.number" value="{{source.parry.number}}">
+      <select class="type" name="system.parry.faces">
+        {{selectOptions @root.config.DIE_SIZES selected=system.parry.faces}}
+      </select>
+    </div>
   </div>
   {{/if}}
 
   <div class="form-group">
-    <label>{{localize "ARTICHRON.ItemPropertyArmor"}}</label>
-    <input type="number" name="system.armor.value" value="{{source.armor.value}}">
+    <label>{{localize "ARTICHRON.ItemProperty.Armor"}}</label>
+    <div class="form-fields">
+      <input type="number" name="system.armor.value" value="{{source.armor.value}}">
+    </div>
   </div>
 </fieldset>

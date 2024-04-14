@@ -123,7 +123,7 @@ export class ActorSystemModel extends foundry.abstract.TypeDataModel {
   /** Prepare armor value. */
   _prepareArmor(rollData) {
     const armor = this.defenses.armor;
-    armor.total = artichron.utils.simplifyFormula(armor.bonus, rollData);
+    armor.total = artichron.utils.simplifyBonus(armor.bonus, rollData);
     Object.values({...this.parent.armor, ...this.parent.arsenal}).forEach(item => {
       armor.total += (item?.system.armor?.value ?? 0);
     });
@@ -145,7 +145,7 @@ export class ActorSystemModel extends foundry.abstract.TypeDataModel {
   /** Prepare the value of actor resistances. */
   _prepareResistances(rollData) {
     const res = this.resistances;
-    Object.keys(res).forEach(k => res[k].total = artichron.utils.simplifyFormula(res[k].bonus, rollData));
+    Object.keys(res).forEach(k => res[k].total = artichron.utils.simplifyBonus(res[k].bonus, rollData));
 
     // Add all armor items' bonuses to resistances.
     Object.values(this.parent.armor).forEach(w => {

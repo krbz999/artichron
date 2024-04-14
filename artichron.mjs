@@ -60,26 +60,17 @@ Hooks.once("init", function() {
 
   // Register sheet application classes
   Actors.unregisterSheet("core", ActorSheet);
-  //Actors.registerSheet("artichron", applications.ActorSheetBoss, {types: ["boss"], makeDefault: true, label: "ARTICHRON.ActorSheetBoss"});
-  //Actors.registerSheet("artichron", applications.ActorSheetMonster, {types: ["monster"], makeDefault: true, label: "ARTICHRON.ActorSheetMonster"});
-  Actors.registerSheet("artichron", applications.ActorSheetHero, {types: ["hero"], makeDefault: true, label: "ARTICHRON.ActorSheetHero"});
-  //Actors.registerSheet("artichron", applications.ActorSheetMerchant, {types: ["merchant"], makeDefault: true, label: "ARTICHRON.ActorSheetMerchant"});
+  Actors.registerSheet("artichron", applications.ActorSheetHero, {
+    types: ["hero"],
+    makeDefault: true,
+    label: "ARTICHRON.ActorSheet.Hero"
+  });
 
   Items.unregisterSheet("core", ItemSheet);
-  Items.registerSheet("artichron", applications.ItemSheetArsenal, {
-    types: ["weapon", "spell"],
+  Items.registerSheet("artichron", applications.ItemSheetArtichron, {
+    types: ["weapon", "spell", "shield", "elixir", "armor"],
     makeDefault: true,
-    label: "ARTICHRON.ItemSheetArsenal"
-  });
-  Items.registerSheet("artichron", applications.ItemSheetArmor, {
-    types: ["armor"],
-    makeDefaut: true,
-    label: "ARTICHRON.ItemSheetArmor"
-  });
-  Items.registerSheet("artichron", applications.ItemSheetElixir, {
-    types: ["elixir"],
-    makeDefaut: true,
-    label: "ARTICHRON.ItemSheetElixir"
+    label: "ARTICHRON.ItemSheet.Base"
   });
 
   // Preload Handlebars templates.

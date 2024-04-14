@@ -17,10 +17,30 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(ActorSheet)
       top: 100,
       left: 200,
       tabs: [
-        {navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "attributes", group: "primary"},
-        {navSelector: "[data-tab=inventory] > .inventory.tabs[data-group=inventory]", contentSelector: ".tab.inventory", initial: "arsenal", group: "inventory"},
-        {navSelector: "[data-tab=consumables] > .inventory.tabs[data-group=inventory]", contentSelector: ".tab.consumables", initial: "food", group: "consumables"},
-        {navSelector: "[data-tab=effects] > .effects.tabs[data-group=effects]", contentSelector: ".tab.effects", initial: "active", group: "effects"}
+        {
+          navSelector: ".sheet-tabs",
+          contentSelector: ".sheet-body",
+          initial: "attributes",
+          group: "primary"
+        },
+        {
+          navSelector: "[data-tab=inventory] > .inventory.tabs[data-group=inventory]",
+          contentSelector: ".tab.inventory",
+          initial: "arsenal",
+          group: "inventory"
+        },
+        {
+          navSelector: "[data-tab=consumables] > .inventory.tabs[data-group=inventory]",
+          contentSelector: ".tab.consumables",
+          initial: "food",
+          group: "consumables"
+        },
+        {
+          navSelector: "[data-tab=effects] > .effects.tabs[data-group=effects]",
+          contentSelector: ".tab.effects",
+          initial: "active",
+          group: "effects"
+        }
       ],
       classes: ["sheet", "actor", "artichron"],
       resizable: false,

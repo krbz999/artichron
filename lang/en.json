@@ -22,36 +22,45 @@
   "Item.spellPl": "Spells"
 },
 "ARTICHRON": {
-  "ActorSheetHero": "Artichron Hero Sheet",
+  "ItemSheet": {
+    "Base": "Artichron Item Sheet"
+  },
+  "ActorSheet": {
+    "Hero": "Artichron Hero Sheet"
+  },
 
-  "WeaponTypeAxe": "Axe",
-  "WeaponTypeBow": "Bow",
-  "WeaponTypeHammer": "Hammer",
-  "WeaponTypeSpear": "Spear",
-  "WeaponTypeSword": "Sword",
+  "WeaponType": {
+    "Axe": "Axe",
+    "Bow": "Bow",
+    "Hammer": "Hammer",
+    "Spear": "Spear",
+    "Sword": "Sword"
+  },
 
-  "ArmorTypeAccessory": "Accessory",
-  "ArmorTypeArms": "Arm Piece",
-  "ArmorTypeBoots": "Boots",
-  "ArmorTypeChest": "Chest Piece",
-  "ArmorTypeHead": "Head Piece",
-  "ArmorTypeLegs": "Leg Piece",
+  "ArmorType": {
+    "Accessory": "Accessory",
+    "Arms": "Arm Piece",
+    "Boots": "Boots",
+    "Chest": "Chest Piece",
+    "Head": "Head Piece",
+    "Legs": "Leg Piece"
+  },
 
-  "ShieldTypeBuckler": "Buckler",
-  "ShieldTypeHeater": "Heater",
-  "ShieldTypeKite": "Kite",
+  "ShieldType": {
+    "Buckler": "Buckler",
+    "Heater": "Heater",
+    "Kite": "Kite"
+  },
 
-  "SpellTypeBuff": "Buff Magic",
-  "SpellTypeDefense": "Defensive Magic",
-  "SpellTypeOffense": "Offensive Magic",
-
-  "SheetTabAttributes": "Attributes",
-  "SheetTabConsumables": "Food & Elixirs",
-  "SheetTabDescription": "Description",
-  "SheetTabEffects": "Effects",
-  "SheetTabEquipment": "Equipment",
-  "SheetTabInventory": "Inventory",
-  "SheetTabLoot": "Loot",
+  "SheetTab": {
+    "Attributes": "Attributes",
+    "Consumables": "Food & Elixirs",
+    "Description": "Description",
+    "Effects": "Effects",
+    "Equipment": "Equipment",
+    "Inventory": "Inventory",
+    "Loot": "Loot"
+  },
 
   "Pools": {
     "Config": "Pools: {name}",
@@ -79,14 +88,16 @@
     "Legs": "Legs"
   },
 
-  "DamageTypeArcane": "Arcane",
-  "DamageTypeDarkness": "Darkness",
-  "DamageTypeFire": "Fire",
-  "DamageTypeIce": "Ice",
-  "DamageTypeLight": "Light",
-  "DamageTypeLightning": "Lightning",
-  "DamageTypePhysical": "Physical",
-  "DamageTypeWind": "Wind",
+  "DamageType": {
+    "Arcane": "Arcane",
+    "Darkness": "Darkness",
+    "Fire": "Fire",
+    "Ice": "Ice",
+    "Light": "Light",
+    "Lightning": "Lightning",
+    "Physical": "Physical",
+    "Wind": "Wind"
+  },
 
   "ArmorSet": "Armor Set",
   "ArmorSetFlame": "Flame Set",
@@ -104,13 +115,13 @@
   "ItemConfiguration": "Use Item: {name}",
 
   "Active": "Active",
-  "AlreadyAtMaxHealth": "{name} is already at their maximum health.",
   "ApplyDamage": "Apply Damage",
   "Armor": "Armor",
-  "ArsenalCategoryMelee": "Melee Weapon",
-  "ArsenalCategoryRanged": "Ranged Weapon",
-  "ArsenalCategoryShield": "Shield",
-  "ArsenalCategorySpell": "Spell",
+  "ArsenalCategory": {
+    "Melee": "Melee Weapon",
+    "Ranged": "Ranged Weapon",
+    "Shield": "Shield"
+  },
   "ChangeItem": "Change Item",
   "ConsumeUsage": "Consume Uses",
   "Damage": "Damage",
@@ -127,19 +138,23 @@
   "EquipItem": "Equip Item",
   "Favorited": "Favorited",
   "Favorites": "Favorites",
-  "ItemPropertyArmor": "Armor Value",
-  "ItemPropertyBlock": "Blocking",
-  "ItemPropertyCategory": "Category",
-  "ItemPropertyCost": "Usage Cost",
-  "ItemPropertyParry": "Parrying",
-  "ItemPropertyPrice": "Price",
-  "ItemPropertyQuantity": "Quantity",
-  "ItemPropertySubtype": "Subtype",
-  "ItemPropertyTemplate": "Template",
-  "ItemPropertyTemplateSelf": "Self",
-  "ItemPropertyUsage": "Uses",
-  "ItemPropertyWeight": "Weight",
-  "ItemPropertyWield": "Wielding",
+
+  "ItemProperty": {
+    "Armor": "Armor Value",
+    "Block": "Blocking",
+    "Category": "Category",
+    "Cost": "Usage Cost",
+    "Parry": "Parrying",
+    "Price": "Price",
+    "Quantity": "Quantity",
+    "Subtype": "Subtype",
+    "Template": "Template",
+    "TemplateSelf": "Self",
+    "Usage": "Uses",
+    "Weight": "Weight",
+    "Wield": "Wielding",
+    "Range": "Range"
+  },
   "ItemUsageOf": "of",
   "ItemWieldOneHanded": "One-Handed",
   "ItemWieldTwoHanded": "Two-Handed",
@@ -180,7 +195,14 @@
     "Warn": "You cannot spend this many mana dice!",
     "SpendMana": "Spend {n} Mana"
   },
+
   "SpellType": {
+    "Buff": "Buff Magic",
+    "Defense": "Defensive Magic",
+    "Offense": "Offensive Magic"
+  },
+
+  "SpellShape": {
     "SingleTarget": "Single Target",
     "AreaRay": "Line",
     "AreaCone": "Cone",
@@ -198,6 +220,7 @@
   "Warning": {
     "ItemHasNoTemplateTypes": "This item has no template types set!",
     "ItemIsNotEquipped": "The item must be equipped to be used!",
-    "NotEnoughPips": "You do not have enough pips remaining to make an attack!"
+    "NotEnoughPips": "You do not have enough pips remaining to make an attack!",
+    "AlreadyAtMaxHealth": "{name} is already at their maximum health."
   }
 }}

@@ -26,9 +26,8 @@ export default class ActorSheetHero extends ActorSheetArtichron {
   /** @override */
   activateListeners(html) {
     super.activateListeners(html);
-    // listeners that always work go here
+    html = html[0];
     if (!this.isEditable) return;
-    // listeners that only work on editable or owned sheets go here
   }
 
 }

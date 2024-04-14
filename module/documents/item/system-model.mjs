@@ -65,7 +65,7 @@ export class ItemSystemModel extends foundry.abstract.TypeDataModel {
 
     for (const {key, value, mode} of this.fusion) {
       if (!fields.has(key)) continue;
-      const v = artichron.utils.simplifyFormula(value, {});
+      const v = artichron.utils.simplifyBonus(value, {});
       const vc = foundry.utils.getProperty(this, key);
 
       switch (mode) {
