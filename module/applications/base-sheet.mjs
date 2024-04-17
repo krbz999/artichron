@@ -36,8 +36,8 @@ export const ArtichronSheetMixin = Base => class extends Base {
       n.addEventListener("focus", event => event.currentTarget.select());
     });
 
-    const {top, left} = this.position ?? {};
-    this.setPosition({top, left});
+    const {left, top} = this.position ?? {};
+    this.setPosition({left, top, height: "auto"});
   }
 
   /**
@@ -99,12 +99,6 @@ export const ArtichronSheetMixin = Base => class extends Base {
   }
 
   /** @override */
-  setPosition(pos = {}) {
-    if (!pos.height && !this._minimized && (this._tabs[0].active !== "description")) pos.height = "auto";
-    return super.setPosition(pos);
-  }
-
-  /** @override */
   async _renderOuter() {
     const html = await super._renderOuter();
     const header = html[0].querySelector(".window-header");
@@ -121,5 +115,10 @@ export const ArtichronSheetMixin = Base => class extends Base {
   _onToggleMinimize(event) {
     if (event.target.closest(".header-button.control, .document-id-link")) return;
     return super._onToggleMinimize(event);
+  }
+
+  /** @override */
+  _onChangeTab(event, tabs, active) {
+    this.setPosition({height: "auto"});
   }
 };

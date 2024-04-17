@@ -18,7 +18,9 @@
 
     {{!-- Tabs --}}
     <div class="tab description" data-group="primary" data-tab="description">
-      {{editor descriptions.value target="system.description.value" rollData=rollData button=true owner=owner editable=true engine="prosemirror"}}
+      <section class="description">
+        {{editor descriptions.value target="system.description.value" rollData=rollData button=false owner=owner editable=@root.isEditMode engine="prosemirror"}}
+      </section>
     </div>
 
     <div class="tab attributes" data-group="primary" data-tab="attributes">

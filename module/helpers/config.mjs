@@ -5,6 +5,7 @@ export const SYSTEM = {};
  * @property {string} label             Displayed label of the damage type.
  * @property {string} color             Associated default color.
  * @property {string} icon              FA icon used for the damage type.
+ * @property {string} group             An optgroup key to put this damage type in for rendering.
  * @property {boolean} [elemental]      ...?
  * @property {boolean} [resist]         Whether this damage type can be resisted.
  * @property {boolean} [block]          Whether this damage type can be blocked.
@@ -21,6 +22,7 @@ SYSTEM.DAMAGE_TYPES = {
     label: "ARTICHRON.DamageType.Fire",
     color: "FF5733",
     icon: "fa-solid fa-fire",
+    group: "elemental",
     elemental: true,
     resist: true
   },
@@ -28,6 +30,7 @@ SYSTEM.DAMAGE_TYPES = {
     label: "ARTICHRON.DamageType.Wind",
     color: "8DEEB5",
     icon: "fa-solid fa-wind",
+    group: "elemental",
     elemental: true,
     resist: true
   },
@@ -35,6 +38,7 @@ SYSTEM.DAMAGE_TYPES = {
     label: "ARTICHRON.DamageType.Lightning",
     color: "4B70A8",
     icon: "fa-solid fa-bolt",
+    group: "elemental",
     elemental: true,
     resist: true
   },
@@ -42,6 +46,7 @@ SYSTEM.DAMAGE_TYPES = {
     label: "ARTICHRON.DamageType.Ice",
     color: "54D7E0",
     icon: "fa-solid fa-snowflake",
+    group: "elemental",
     elemental: true,
     resist: true
   },
@@ -49,18 +54,21 @@ SYSTEM.DAMAGE_TYPES = {
     label: "ARTICHRON.DamageType.Light",
     color: "FCFFBF",
     icon: "fa-solid fa-sun",
+    group: "planar",
     resist: true
   },
   darkness: {
     label: "ARTICHRON.DamageType.Darkness",
     color: "910B94",
     icon: "fa-solid fa-moon",
+    group: "planar",
     resist: true
   },
   physical: {
     label: "ARTICHRON.DamageType.Physical",
     color: "868686",
     icon: "fa-solid fa-hand-fist",
+    group: "physical",
     block: true,
     parry: true,
     armor: true
@@ -69,6 +77,7 @@ SYSTEM.DAMAGE_TYPES = {
     label: "ARTICHRON.DamageType.Arcane",
     color: "C79FFF",
     icon: "fa-solid fa-wand-sparkles",
+    group: "planar",
     block: true,
     resist: true
   }

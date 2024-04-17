@@ -49,7 +49,11 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(ItemSheet) {
         },
         resistances: Object.entries(this.document.system.resistances ?? {}).map(([k, v]) => {
           return {...v, key: k, label: game.i18n.localize(`ARTICHRON.DamageType.${k.capitalize()}`)};
-        }).sort((a, b) => a.label.localeCompare(b.label))
+        }).sort((a, b) => a.label.localeCompare(b.label)),
+        damageTypes: Object.entries(SYSTEM.DAMAGE_TYPES).reduce((acc, [k, v]) => {
+          acc[v.group].push({key: k, label: v.label});
+          return acc;
+        }, {physical: [], elemental: [], planar: []})
       },
       descriptions: {
         value: await TextEditor.enrichHTML(this.document.system.description.value, {
@@ -107,8 +111,8 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(ItemSheet) {
     html.querySelectorAll("[data-action]").forEach(n => {
       switch (n.dataset.action) {
         case "control": n.addEventListener("click", this._onClickManageItem.bind(this)); break;
-        case "add": n.addEventListener("click", this._onClickAddFieldset.bind(this)); break;
-        case "del": n.addEventListener("click", this._onClickDelFieldSet.bind(this)); break;
+        case "add": n.addEventListener("click", this._onClickAddDamage.bind(this)); break;
+        case "del": n.addEventListener("click", this._onClickDelDamage.bind(this)); break;
       }
     });
     for (const element of html.querySelectorAll("multi-select")) {
@@ -165,10 +169,10 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(ItemSheet) {
    * @param {PointerEvent} event      The initiating click event.
    * @returns {Promise<ItemArtichron>}
    */
-  async _onClickAddFieldset(event) {
-    const prop = event.currentTarget.closest("FIELDSET").dataset.property;
-    const parts = this.document.system.toObject()[prop].concat([{}]);
-    return this.document.update({[`system.${prop}`]: parts});
+  async _onClickAddDamage(event) {
+    const type = (this.document.type === "spell") ? "fire" : "physical";
+    const parts = this.document.system.toObject().damage.concat([{formula: "", type: type}]);
+    return this.document.update({"system.damage": parts});
   }
 
   /**
@@ -176,11 +180,10 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(ItemSheet) {
    * @param {PointerEvent} event      The initiating click event.
    * @returns {Promise<ItemArtichron>}
    */
-  async _onClickDelFieldSet(event) {
+  async _onClickDelDamage(event) {
     const idx = event.currentTarget.dataset.idx;
-    const prop = event.currentTarget.closest("FIELDSET").dataset.property;
-    const parts = this.document.system.toObject()[prop];
+    const parts = this.document.system.toObject().damage;
     parts.splice(idx, 1);
-    return this.document.update({[`system.${prop}`]: parts});
+    return this.document.update({"system.damage": parts});
   }
 }

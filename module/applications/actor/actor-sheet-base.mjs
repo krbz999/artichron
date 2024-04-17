@@ -14,7 +14,6 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(ActorSheet)
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
       width: 500,
-      height: 600,
       top: 100,
       left: 200,
       tabs: [
@@ -44,7 +43,6 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(ActorSheet)
         }
       ],
       classes: ["sheet", "actor", "artichron"],
-      resizable: false,
       scrollY: [".equipped-items", ".documents-list"],
       dragDrop: [{dragSelector: ".item-name"}]
     });

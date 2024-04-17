@@ -7,9 +7,25 @@
   {{#each system.damage as |damage idx|}}
   <div class="form-group damage">
     <div class="form-fields">
-      <input class="formula" name="system.damage.{{idx}}.formula" value="{{damage.formula}}">
+      <input type="text" class="formula" name="system.damage.{{idx}}.formula" value="{{damage.formula}}">
       <select class="type" name="system.damage.{{idx}}.type">
-        {{selectOptions @root.config.DAMAGE_TYPES selected=damage.type labelAttr="label" localize=true sort=true blank=""}}
+        {{#select damage.type}}
+        <optgroup label="{{localize 'ARTICHRON.DamageTypeGroup.Physical'}}">
+          {{#each @root.context.damageTypes.physical}}
+          <option value="{{key}}">{{localize label}}</option>
+          {{/each}}
+        </optgroup>
+        <optgroup label="{{localize 'ARTICHRON.DamageTypeGroup.Elemental'}}">
+          {{#each @root.context.damageTypes.elemental}}
+          <option value="{{key}}">{{localize label}}</option>
+          {{/each}}
+        </optgroup>
+        <optgroup label="{{localize 'ARTICHRON.DamageTypeGroup.Planar'}}">
+          {{#each @root.context.damageTypes.planar}}
+          <option value="{{key}}">{{localize label}}</option>
+          {{/each}}
+        </optgroup>
+        {{/select}}
       </select>
       <a class="action" data-action="del" data-idx="{{idx}}"><i class="fa-solid fa-minus"></i></a>
     </div>
