@@ -95,8 +95,7 @@ export class ActorSystemModel extends foundry.abstract.TypeDataModel {
   /** Prepare maximum health and clamp current health. */
   _prepareHealth() {
     const dice = this.pools.health;
-    this.health.max = dice.max * dice.faces;
-    if (this.isDiseased) this.health.max = Math.round(this.health.max / 2);
+    this.health.max = 10 * dice.max * dice.faces;
     this.health.value = Math.min(this.health.value, this.health.max);
   }
 
@@ -169,8 +168,6 @@ export class ActorSystemModel extends foundry.abstract.TypeDataModel {
         if (type in res) res[type].total += value;
       });
     });
-
-    if (this.isBurning) res.fire.total += 1;
   }
 
   /** Prepare any embedded models. */
@@ -210,14 +207,6 @@ export class ActorSystemModel extends foundry.abstract.TypeDataModel {
   }
 
   /**
-   * Determine whether the actor is bleeding.
-   * @type {boolean}
-   */
-  get isDiseased() {
-    return this.parent.statuses.has("disease");
-  }
-
-  /**
    * Determine whether the actor is strengthened.
    * @type {boolean}
    */
@@ -231,13 +220,5 @@ export class ActorSystemModel extends foundry.abstract.TypeDataModel {
    */
   get isWeakened() {
     return this.parent.statuses.has("downgrade");
-  }
-
-  /**
-   * Determine whether the actor is burning.
-   * @type {boolean}
-   */
-  get isBurning() {
-    return this.parent.statuses.has("burning");
   }
 }
