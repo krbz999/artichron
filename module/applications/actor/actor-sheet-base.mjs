@@ -140,7 +140,7 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(ActorSheet)
       label: `TYPES.Item.${key}Pl`
     });
     return {
-      inventory: ["weapon", "spell", "armor", "part"].map(map),
+      inventory: ["weapon", "spell", "shield", "armor", "part"].map(map),
       consumable: ["food", "elixir"].map(map)
     };
   }
@@ -381,7 +381,7 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(ActorSheet)
 
     let items;
     if (type === "armor") {
-      items = this.document.items.filter(item => (item.type === "armor") && (item.system.type.category === slot));
+      items = this.document.items.filter(item => (item.type === "armor") && (item.system.category.subtype === slot));
     } else if ((type === "arsenal")) {
       items = this.document.items.filter(item => {
         if (!item.isArsenal) return false;

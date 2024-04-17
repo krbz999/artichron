@@ -10,6 +10,7 @@
   "Item": {
     "types": [
       "weapon",
+      "shield",
       "spell",
       "armor",
       "food",

@@ -1,20 +1,9 @@
-{{#if context.categories}}
-<div class="form-group">
-  <label>{{localize "ARTICHRON.ItemProperty.Category"}}</label>
-  <div class="form-fields">
-    <select name="system.type.category" {{disabled document.isEquipped}}>
-      {{selectOptions context.categories selected=system.type.category localize=true labelAttr="label" blank="" sort=true}}
-    </select>
-  </div>
-</div>
-{{/if}}
-
 {{#if context.subtypes}}
 <div class="form-group">
   <label>{{localize "ARTICHRON.ItemProperty.Subtype"}}</label>
   <div class="form-fields">
-    <select name="system.type.subtype">
-      {{selectOptions context.subtypes selected=system.type.subtype localize=true labelAttr="label" blank="" sort=true}}
+    <select name="system.category.subtype" {{disabled document.isEquipped}}>
+      {{selectOptions context.subtypes selected=system.category.subtype localize=true labelAttr="label" blank="" sort=true}}
     </select>
   </div>
 </div>

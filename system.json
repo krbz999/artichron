@@ -89,7 +89,9 @@
       "boss": {}
     },
     "Item": {
-      "arsenal": {},
+      "weapon": {},
+      "shield": {},
+      "spell": {},
       "armor": {},
       "food": {},
       "elixir": {},

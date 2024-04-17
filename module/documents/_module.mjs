@@ -14,6 +14,7 @@ import ChatMessageArtichron from "./chat/chatmessage.mjs";
 import MeasuredTemplateDocumentArtichron from "./template/template-document.mjs";
 import SpellData from "./item/item-arsenal-spell.mjs";
 import WeaponData from "./item/item-arsenal-weapon.mjs";
+import ShieldData from "./item/item-arsenal-shield.mjs";
 
 export const dataModels = {
   actor: {
@@ -21,6 +22,7 @@ export const dataModels = {
   },
   item: {
     armor: ArmorData,
+    shield: ShieldData,
     spell: SpellData,
     weapon: WeaponData,
     elixir: ElixirData,

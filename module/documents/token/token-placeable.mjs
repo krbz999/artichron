@@ -60,10 +60,10 @@ export default class TokenArtichron extends Token {
   /** Draw a rounded line to signify a shield and its size. */
   drawShield() {
     this.children.filter(c => c.name === "tokenShield").forEach(n => n.destroy());
-    const items = Object.values(this.actor?.arsenal ?? {}).filter(a => a?.isShield);
+    const items = Object.values(this.actor?.arsenal ?? {}).filter(a => a?.type === "shield");
     if (!items.length) return;
     const value = items.reduce((acc, item) => {
-      const w = CONFIG.SYSTEM.ARSENAL_TYPES.shield.items[item.system.type.subtype]?.width ?? 1;
+      const w = CONFIG.SYSTEM.SHIELD_TYPES[item.system.category.subtype]?.width ?? 1;
       return acc + w;
     }, 0);
     const radi = Math.clamped(value * (items.length > 1 ? 50 : 60), 0, 300);
