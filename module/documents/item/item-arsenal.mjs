@@ -1,7 +1,8 @@
 import {DamageModel} from "../fields/damage.mjs";
 import {ItemSystemModel} from "./system-model.mjs";
+import * as utils from "../../helpers/utils.mjs";
 
-const {ArrayField, NumberField, SchemaField, StringField, EmbeddedDataField} = foundry.data.fields;
+const {ArrayField, NumberField, SchemaField, EmbeddedDataField} = foundry.data.fields;
 
 export default class ArsenalData extends ItemSystemModel {
   /** @override */
@@ -11,7 +12,7 @@ export default class ArsenalData extends ItemSystemModel {
       damage: new ArrayField(new EmbeddedDataField(DamageModel)),
       wield: new SchemaField({
         value: new NumberField({choices: [1, 2], initial: 1}),
-        range: new NumberField({integer: true, min: 0})
+        range: new NumberField({integer: true, positive: true, initial: 1})
       })
     };
   }
@@ -25,8 +26,7 @@ export default class ArsenalData extends ItemSystemModel {
   /** @override */
   static get BONUS_FIELDS() {
     return super.BONUS_FIELDS.union(new Set([
-      "wield.range",
-      "cost.value"
+      "wield.range"
     ]));
   }
 
@@ -40,13 +40,19 @@ export default class ArsenalData extends ItemSystemModel {
   get isTwoHanded() {
     return this.wield.value === 2;
   }
-  get isMelee() {
-    return this.type.category === "melee";
-  }
-  get isRanged() {
-    return this.type.category === "ranged";
-  }
   get isShield() {
     return this.type.category === "shield";
+  }
+
+  /**
+   * Pick targets within range of this item.
+   * @param {object} [options]                        Additional options.
+   * @returns {Promise<TokenDocumentArtichron[]>}     The token documents of those targeted.
+   */
+  async pickTarget({count = 1, ...options} = {}) {
+    options.range ??= this.wield.range;
+    options.origin ??= this.parent.token;
+    const targets = await utils.awaitTargets(count, options);
+    return targets;
   }
 }
