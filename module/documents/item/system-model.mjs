@@ -1,25 +1,26 @@
+const {SchemaField, HTMLField, NumberField, StringField, ArrayField} = foundry.data.fields;
+
 export class ItemSystemModel extends foundry.abstract.TypeDataModel {
   /** @override */
   static defineSchema() {
-    const fields = foundry.data.fields;
     return {
-      description: new fields.SchemaField({
-        value: new fields.HTMLField({label: "ARTICHRON.DescriptionValue", required: true})
+      description: new SchemaField({
+        value: new HTMLField({label: "ARTICHRON.DescriptionValue", required: true})
       }),
-      weight: new fields.SchemaField({
-        value: new fields.NumberField({integer: true, min: 0, initial: 1})
+      weight: new SchemaField({
+        value: new NumberField({integer: true, min: 0, initial: 1})
       }),
-      price: new fields.SchemaField({
-        value: new fields.NumberField({integer: true, initial: null})
+      price: new SchemaField({
+        value: new NumberField({integer: true, min: 0, initial: null})
       }),
-      type: new fields.SchemaField({
-        category: new fields.StringField({required: true}),
-        subtype: new fields.StringField({required: true})
+      type: new SchemaField({
+        category: new StringField({required: true}),
+        subtype: new StringField({required: true})
       }),
-      fusion: new fields.ArrayField(new fields.SchemaField({
-        key: new fields.StringField({required: true}),
-        value: new fields.StringField({required: true}),
-        mode: new fields.NumberField({choices: Object.values(ItemSystemModel.FUSION_MODES)})
+      fusion: new ArrayField(new SchemaField({
+        key: new StringField({required: true}),
+        value: new StringField({required: true}),
+        mode: new NumberField({choices: Object.values(ItemSystemModel.FUSION_MODES)})
       }))
     };
   }

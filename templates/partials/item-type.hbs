@@ -2,7 +2,7 @@
 <div class="form-group">
   <label>{{localize "ARTICHRON.ItemProperty.Category"}}</label>
   <div class="form-fields">
-    <select name="system.type.category">
+    <select name="system.type.category" {{disabled document.isEquipped}}>
       {{selectOptions context.categories selected=system.type.category localize=true labelAttr="label" blank="" sort=true}}
     </select>
   </div>

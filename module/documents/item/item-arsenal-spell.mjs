@@ -65,7 +65,7 @@ export default class SpellData extends ArsenalData {
 
     return new DamageRoll(configuration.formula, item.getRollData(), {type: part.type}).toMessage({
       speaker: ChatMessage.implementation.getSpeaker({actor: actor}),
-      "flags.artichron.targets": Array.from(targets ?? []).map(target => target.uuid),
+      "flags.artichron.targets": Array.from(targets).map(target => target.uuid),
       "flags.artichron.templateData": (data.type !== "single") ? {
         ...data,
         formula: configuration.formula,

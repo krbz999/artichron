@@ -1,17 +1,17 @@
+import {QuantityField} from "../fields/quantity-field.mjs";
 import {ItemSystemModel} from "./system-model.mjs";
+
+const {SchemaField, NumberField, StringField} = foundry.data.fields;
 
 export default class ElixirData extends ItemSystemModel {
   /** @override */
   static defineSchema() {
-    const fields = foundry.data.fields;
     return {
       ...super.defineSchema(),
-      quantity: new fields.SchemaField({
-        value: new fields.NumberField({min: 0, integer: true, initial: 1})
-      }),
-      usage: new fields.SchemaField({
-        value: new fields.NumberField({integer: true, min: 0, initial: null}),
-        max: new fields.StringField({required: true, initial: ""})
+      quantity: new QuantityField(),
+      usage: new SchemaField({
+        value: new NumberField({integer: true, min: 0, initial: null}),
+        max: new StringField({required: true})
       })
     };
   }
@@ -60,9 +60,8 @@ export default class ElixirData extends ItemSystemModel {
         }
       },
       title: game.i18n.format("ARTICHRON.ItemConfiguration", {name: this.parent.name}),
-      close: () => null,
-      rejectClose: false
-    }, {rejectClose: false});
+      close: () => null
+    });
 
     if (!configuration) return null;
     foundry.utils.mergeObject(config, configuration);

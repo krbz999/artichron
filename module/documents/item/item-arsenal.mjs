@@ -31,15 +31,25 @@ export default class ArsenalData extends ItemSystemModel {
   }
 
   /**
-   * Is this one- or two-handed, melee or ranged?
+   * Is this a one-handed item?
    * @type {boolean}
    */
   get isOneHanded() {
     return this.wield.value === 1;
   }
+
+  /**
+   * Is this a two-handed item?
+   * @type {boolean}
+   */
   get isTwoHanded() {
     return this.wield.value === 2;
   }
+
+  /**
+   * Is this a shield?
+   * @type {boolean}
+   */
   get isShield() {
     return this.type.category === "shield";
   }
