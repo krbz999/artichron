@@ -2,7 +2,6 @@ import SpellcastingDialog from "../../applications/chat/spellcasting-dialog.mjs"
 import {DamageRoll} from "../../dice/damage-roll.mjs";
 import {SYSTEM} from "../../helpers/config.mjs";
 import MeasuredTemplateArtichron from "../template/template.mjs";
-import * as utils from "../../helpers/utils.mjs";
 import ArsenalData from "./item-arsenal.mjs";
 
 const {NumberField, SchemaField, StringField, SetField} = foundry.data.fields;
@@ -26,7 +25,7 @@ export default class SpellData extends ArsenalData {
   /** @override */
   static get BONUS_FIELDS() {
     return super.BONUS_FIELDS.union(new Set([
-      "template.distance", "template.width", "template.angle"
+      "template.rating"
     ]));
   }
 
@@ -34,21 +33,18 @@ export default class SpellData extends ArsenalData {
     const item = this.parent;
     const actor = item.actor;
 
-    const {first, second} = actor.arsenal;
-    const key = (first === item) ? "first" : (second === item) ? "second" : null;
-    if (!key) {
+    if (!item.isEquipped) {
       ui.notifications.warn("ARTICHRON.Warning.ItemIsNotEquipped", {localize: true});
       return null;
     }
 
-    if (!this.template.types.size) {
+    if (!this.hasTemplate) {
       ui.notifications.warn("ARTICHRON.Warning.ItemHasNoTemplateTypes", {localize: true});
       return null;
     }
 
     const configuration = await SpellcastingDialog.create(actor, item);
     if (!configuration) return null;
-    const [token] = actor.isToken ? [actor.token?.object] : actor.getActiveTokens();
 
     const data = SpellcastingDialog.determineTemplateData(configuration);
     const part = item.system.damage[configuration.part];
@@ -57,23 +53,16 @@ export default class SpellData extends ArsenalData {
 
     if (data.type !== "single") {
       // Case 1: Area of effect.
-      const initialLayer = canvas.activeLayer;
-      const templateDatas = [];
-      for (let i = 0; i < data.count; i++) {
-        const templateData = await this._createTemplate(data, {lock: true});
-        if (templateData) templateDatas.push(templateData);
-        else break;
-      }
-      canvas.templates.clearPreviewContainer();
-      const templates = await canvas.scene.createEmbeddedDocuments("MeasuredTemplate", templateDatas);
+      const templates = await this.placeTemplates(data);
       await Promise.all(templates.map(template => template.waitForShape()));
       templates.forEach(template => template.object.containedTokens.forEach(tok => targets.add(tok)));
-      initialLayer.activate();
     } else {
       // Case 2: Singular targets.
-      targets = await utils.awaitTargets(data.count, {origin: token, range: data.range});
+      targets = await this.pickTarget({count: data.count, range: data.range});
     }
+
     if (data.mana) await actor.update({"system.pools.mana.value": actor.system.pools.mana.value - configuration.cost});
+
     return new DamageRoll(configuration.formula, item.getRollData(), {type: part.type}).toMessage({
       speaker: ChatMessage.implementation.getSpeaker({actor: actor}),
       "flags.artichron.targets": Array.from(targets ?? []).map(target => target.uuid),
@@ -87,7 +76,38 @@ export default class SpellData extends ArsenalData {
     });
   }
 
-  async _createTemplate(templateData, options = {}) {
-    return MeasuredTemplateArtichron.fromToken(this.parent.token, templateData, options).drawPreview();
+  /**
+   * Prompt for placing templates using this item.
+   * @param {object} config     Template configuration and placement data.
+   * @returns {Promise<MeasuredTemplateArtichron[]>}
+   */
+  async placeTemplates(config) {
+    if (!this.hasTemplate) {
+      throw new Error("This item cannot create measured templates!");
+    }
+
+    const initialLayer = canvas.activeLayer;
+    const templateDatas = [];
+    const token = this.parent.token;
+    for (let i = 0; i < config.count; i++) {
+      const templateData = await MeasuredTemplateArtichron.fromToken(token, config, {
+        lock: true,
+        templateData: templateDatas.at(-1)
+      }).drawPreview();
+      if (templateData) templateDatas.push(templateData);
+      else break;
+    }
+    canvas.templates.clearPreviewContainer();
+    const templates = await canvas.scene.createEmbeddedDocuments("MeasuredTemplate", templateDatas);
+    initialLayer.activate();
+    return templates;
+  }
+
+  /**
+   * Does this item have any valid template or targeting types?
+   * @type {boolean}
+   */
+  get hasTemplate() {
+    return this.template.types.size > 0;
   }
 }

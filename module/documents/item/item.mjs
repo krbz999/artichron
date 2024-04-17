@@ -9,46 +9,67 @@ export default class ItemArtichron extends Item {
    * Getters to determine the type of arsenal an item is.
    * @type {boolean}
    */
+
+  /**
+   * Is this wielded in one hand?
+   * @type {boolean}
+   */
   get isOneHanded() {
     return this.system.isOneHanded ?? false;
   }
+
+  /**
+   * Is this wielded with two hands?
+   * @type {boolean}
+   */
   get isTwoHanded() {
     return this.system.isTwoHanded ?? false;
   }
-  get isMelee() {
-    return this.system.isMelee ?? false;
-  }
-  get isRanged() {
-    return this.system.isRanged ?? false;
-  }
-  get isSpell() {
-    return this.type === "spell";
-  }
-  get isWeapon() {
-    return this.type === "weapon";
-  }
+
+  /**
+   * Is this an arsenal item?
+   * @type {boolean}
+   */
   get isArsenal() {
-    return this.isSpell || this.isWeapon || this.isShield;
+    return (this.type === "spell") || (this.type === "weapon") || this.isShield;
   }
+
+  /**
+   * Is this a shield?
+   * @type {boolean}
+   */
   get isShield() {
     return this.system.isShield ?? false;
   }
-  get isArmor() {
-    return this.type === "armor";
-  }
 
+  /**
+   * Is this item equipped on the actor in one of the slots?
+   * @type {boolean}
+   */
   get isEquipped() {
     if (!this.isEmbedded) return false;
     if (this.isArsenal) return Object.values(this.actor.arsenal).includes(this);
-    else if (this.isArmor) return Object.values(this.actor.armor).includes(this);
+    else if (this.type === "armor") return Object.values(this.actor.armor).includes(this);
     return false;
   }
 
+  /**
+   * Retrieve a token from this item's owning actor.
+   * @type {TokenArtichron|null}
+   */
   get token() {
     const actor = this.actor;
     if (!actor) return null;
     const [token] = actor.isToken ? [actor.token?.object] : actor.getActiveTokens();
     return token ?? null;
+  }
+
+  /**
+   * Does this item have any valid template or targeting types?
+   * @type {boolean}
+   */
+  get hasTemplate() {
+    return this.system.hasTemplate ?? false;
   }
 
   /* ---------------------------------------- */
@@ -109,7 +130,29 @@ export default class ItemArtichron extends Item {
     return this.actor.update({"system.equipped.favorites": favorites});
   }
 
+  /**
+   * Perform usage of this item.
+   * @returns {Promise}
+   */
   async use() {
-    return this.system.use();
+    return this.system.use?.() ?? null;
+  }
+
+  /**
+   * Pick targets within range of this item.
+   * @param {object} [options]                        Additional options.
+   * @returns {Promise<TokenDocumentArtichron[]>}     The token documents of those targeted.
+   */
+  async pickTarget(options = {}) {
+    return this.system.pickTarget?.(options) ?? null;
+  }
+
+  /**
+   * Prompt for placing templates using this item.
+   * @param {object} config     Template configuration and placement data.
+   * @returns {Promise<MeasuredTemplateArtichron[]>}
+   */
+  async placeTemplates(config) {
+    return this.system.placeTemplates?.(config) ?? null;
   }
 }

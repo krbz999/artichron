@@ -381,7 +381,7 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(ActorSheet)
 
     let items;
     if (type === "armor") {
-      items = this.document.items.filter(item => item.isArmor && (item.system.type.category === slot));
+      items = this.document.items.filter(item => (item.type === "armor") && (item.system.type.category === slot));
     } else if ((type === "arsenal")) {
       items = this.document.items.filter(item => {
         if (!item.isArsenal) return false;

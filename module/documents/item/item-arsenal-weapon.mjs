@@ -36,20 +36,12 @@ export default class WeaponData extends ArsenalData {
     const item = this.parent;
     const actor = item.actor;
 
-    const {first, second} = actor.arsenal;
-    const key = (first === item) ? "first" : (second === item) ? "second" : null;
-    if (!key) {
+    if (!item.isEquipped) {
       ui.notifications.warn("ARTICHRON.Warning.ItemIsNotEquipped", {localize: true});
       return null;
     }
 
-    const token = this.parent.token;
-    if (!token) {
-      ui.notifications.warn("ARTICHRON.Warning.TokenMissing", {localize: true});
-      return null;
-    }
-
-    const [target] = await utils.awaitTargets(1, {origin: token, range: item.system.wield.range || 1, allowPreTarget: true});
+    const [target] = await this.pickTarget({count: 1, allowPreTarget: true});
     if (!target) return null;
 
     const rollData = item.getRollData();

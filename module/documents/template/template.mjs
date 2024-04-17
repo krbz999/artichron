@@ -106,17 +106,19 @@ export default class MeasuredTemplateArtichron extends MeasuredTemplate {
       t = "cone";
     }
 
-    const data = {
+    const mp = canvas.mousePosition;
+    const ray = Ray.towardsPoint(token.center, mp, token.w / 2);
+    const data = foundry.utils.mergeObject({
       t: t,
       distance: distance,
       width: width,
       user: game.user.id,
       fillColor: game.user.color,
-      direction: 0,
+      direction: Math.toDegrees(ray.angle),
       "flags.artichron.t": type,
       angle: angle,
-      ...token.center
-    };
+      ...(attach ? ((t !== "circle") ? ray.B : token.center) : mp)
+    }, options.templateData ?? {});
 
     const template = this.fromData(data, options);
     template.token = token;
@@ -197,33 +199,22 @@ export default class MeasuredTemplateArtichron extends MeasuredTemplate {
     event.stopPropagation();
     const now = Date.now(); // Apply a 20ms throttle
     if (now - this.#moveTime <= 20) return;
-    let pos;
-    if (this.config.attach) {
-      // The template is attached to the origin at all times.
-      pos = {...this.origin};
-      const B = event.data.getLocalPosition(this.layer);
-      const r = new Ray(pos, B);
-      pos.direction = r.angle * 180 / Math.PI;
-      // Offset slightly to token edge.
-      if (this.document.t !== "circle") {
-        const r2 = Ray.towardsPoint(r.A, r.B, this.token.w / 2);
-        pos.x = r2.B.x;
-        pos.y = r2.B.y;
-      }
-    } else {
-      // Set the x and y at the mouse cursor.
-      pos = {...event.data.getLocalPosition(this.layer)};
-      const r = new Ray(this.origin, pos);
-      const dp = canvas.dimensions.distancePixels;
-      const distance = canvas.grid.measureDistance(this.origin, pos);
+    const ray = new Ray({...this.origin}, event.data.getLocalPosition(this.layer));
+    const pos = this.config.attach ? ray.A : ray.B;
+    pos.direction = Math.toDegrees(ray.angle);
 
-      if ((this.config.range > 0) && (distance > this.config.range)) {
-        const r2 = Ray.fromAngle(this.origin.x, this.origin.y, r.angle, this.config.range * dp);
-        pos.x = r2.B.x;
-        pos.y = r2.B.y;
+    let pos2;
+    if (this.config.attach && (this.document.t !== "circle")) {
+      pos2 = Ray.towardsPoint(ray.A, ray.B, this.token.w / 2).B;
+    } else if (!this.config.attach) {
+      const dp = canvas.dimensions.distancePixels;
+      const r = this.config.range;
+      if ((r > 0) && (canvas.grid.measureDistance(ray.A, pos) > r)) {
+        pos2 = Ray.fromAngle(ray.A.x, ray.A.y, ray.angle, r * dp).B;
       }
-      pos.direction = r.angle * 180 / Math.PI;
     }
+
+    if (pos2) foundry.utils.mergeObject(pos, pos2);
 
     this.document.updateSource(pos);
     this.refresh();
@@ -296,9 +287,6 @@ export default class MeasuredTemplateArtichron extends MeasuredTemplate {
     const c1 = ClockwiseSweepPolygon.create({x: -100, y: 0}, {radius: 150, hasLimitedRadius: true});
     const c2 = ClockwiseSweepPolygon.create({x: 100, y: 0}, {radius: 150, hasLimitedRadius: true});
     return new PIXI.Polygon(c1.points.concat(c2.points));
-
-    console.warn(shape, shape.geometry.points);
-    return new PIXI.Polygon(shape.geometry.points);
   }
 
   static getStarShape(direction, distance) {
