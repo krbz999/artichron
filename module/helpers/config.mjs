@@ -1,11 +1,5 @@
 export const SYSTEM = {};
 
-// Resistance percentages. Not currently in use since resistances subtract numeric values, not percentages.
-SYSTEM.RESISTANCE = {
-  VALUES: [0, 0.25, 0.5, 0.75, 1],
-  MAX: 4
-};
-
 /**
  * @typedef {object} DamageTypeConfiguration
  * @property {string} label             Displayed label of the damage type.
@@ -85,7 +79,6 @@ SYSTEM.DAMAGE_TYPES = {
  * @property {string} label     Displayed label of the healing type.
  * @property {string} color     Associated default color.
  * @property {string} icon      FA icon used for the healing type.
- * @property {number} faces     The default size of the die of this type.
  */
 
 /**
@@ -96,8 +89,7 @@ SYSTEM.HEALING_TYPES = {
   healing: {
     label: "ARTICHRON.HealingType.Healing",
     color: "33FF33",
-    icon: "fa-solid fa-heart",
-    faces: 8
+    icon: "fa-solid fa-heart"
   }
 };
 

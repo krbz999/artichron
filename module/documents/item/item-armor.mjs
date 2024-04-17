@@ -1,8 +1,7 @@
 import {ArmorField} from "../fields/armor-field.mjs";
 import {IdentifierField} from "../fields/identifier.mjs";
+import {ResistanceField} from "../fields/resistance-field.mjs";
 import {ItemSystemModel} from "./system-model.mjs";
-
-const {ArrayField, SchemaField, StringField, NumberField} = foundry.data.fields;
 
 export default class ArmorData extends ItemSystemModel {
   /** @override */
@@ -10,10 +9,7 @@ export default class ArmorData extends ItemSystemModel {
     return {
       ...super.defineSchema(),
       identifier: new IdentifierField(),
-      resistances: new ArrayField(new SchemaField({
-        type: new StringField({required: true}),
-        value: new NumberField({integer: true})
-      })),
+      resistances: new ResistanceField(),
       armor: new ArmorField()
     };
   }
@@ -21,7 +17,11 @@ export default class ArmorData extends ItemSystemModel {
   /** @override */
   static get BONUS_FIELDS() {
     return super.BONUS_FIELDS.union(new Set([
-      "armor.value"
+      "armor.value",
+      ...Object.entries(CONFIG.SYSTEM.DAMAGE_TYPES).reduce((acc, [k, v]) => {
+        if (v.resist) acc.push(`resistances.${k}.value`);
+        return acc;
+      }, [])
     ]));
   }
 }

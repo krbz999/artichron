@@ -1,4 +1,5 @@
 import ItemArtichron from "../../documents/item/item.mjs";
+import {SYSTEM} from "../../helpers/config.mjs";
 import {ArtichronSheetMixin} from "../base-sheet.mjs";
 import config from "./configs/base-config.mjs";
 import PoolConfig from "./configs/pool-config.mjs";
@@ -175,7 +176,7 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(ActorSheet)
     const resistances = {};
     for (const [k, v] of Object.entries(res)) {
       resistances[k] = {
-        ...CONFIG.SYSTEM.DAMAGE_TYPES[k],
+        ...SYSTEM.DAMAGE_TYPES[k],
         total: v.total,
         source: v.toObject(),
         key: k
