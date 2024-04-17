@@ -1,46 +1,18 @@
-.artichron.sheet .editor {
-  height: 100%;
-}
-.artichron.sheet form {
-  overflow: hidden;
-}
-.artichron .sheet-body {
-  overflow: hidden;
-}
-/* Actor Inventories and Actor/Item Effects */
-.artichron.sheet .document-section {
-  overflow: hidden;
-}
-.artichron.sheet .document-section .documents-list {
-  overflow: hidden auto;
-  max-height: 600px;
-}
-.artichron.sheet .document-section .document-item {
-  display: flex;
-  justify-content: space-between;
-}
-.artichron.sheet .document-section .document-item .document-input {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  white-space: nowrap;
-}
-.artichron.sheet .document-section .document-item .item-controls {
-  display: flex;
-  align-items: center;
-}
-.artichron.sheet {
+.artichron.sheet.app {
   & * {
     background: none;
     color: var(--artichron-color-white);
-    transition: all 250ms ease;
   }
 
-  & label, input, select, select option {
+  & label, input, select, select optgroup, select option {
     font-family: var(--artichron-font-labels);
   }
 
-  & select option {
+  & input, button {
+    transition: all 250ms ease;
+  }
+
+  & select optgroup, select option {
     background: rgba(0, 0, 0, 0.85);
   }
 }

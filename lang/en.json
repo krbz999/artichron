@@ -102,6 +102,12 @@
     "Wind": "Wind"
   },
 
+  "DamageTypeGroup": {
+    "Physical": "Physical",
+    "Elemental": "Elemental",
+    "Planar": "Planar"
+  },
+
   "ArmorSet": "Armor Set",
   "ArmorSetFlame": "Flame Set",
   "ArmorSetGlam": "Glamour Set",
@@ -204,7 +210,10 @@
     "AreaRay": "Line",
     "AreaCone": "Cone",
     "AreaCircle": "Circle",
-    "AreaRadius": "Radius"
+    "AreaRadius": "Radius",
+    "AreaTee": "Tee",
+    "AreaStar": "Star",
+    "AreaBang": "Bang"
   },
 
   "Setting": {

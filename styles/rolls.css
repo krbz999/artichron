@@ -51,7 +51,7 @@
   }
 }
 
-.artichron {
+.system-artichron .artichron {
   .die, .roll {
     min-width: 24px;
     line-height: 24px;

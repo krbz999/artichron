@@ -23,11 +23,17 @@
 /* --------------------------- */
 /*     System-wide styling.    */
 /* --------------------------- */
-.window-header {
-  border: none;
+
+multi-select .tags.chosen {
+  flex-wrap: wrap;
+
+  .tag {
+    white-space: nowrap;
+    margin: 0 3px;
+    padding: 1px 3px;
+    border: 1px solid var(--artichron-color-white);
+  }
 }
-
-
 
 .chat-message.message {
   background: none;
