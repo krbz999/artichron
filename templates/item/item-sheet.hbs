@@ -25,17 +25,17 @@
       <section class="traits">
         {{> "systems/artichron/templates/partials/item-type.hbs"}}
       </section>
-      {{#if document.system.damage}}
+      {{#if context.sections.damage}}
       <section class="damages">
         {{> "systems/artichron/templates/partials/item-damages.hbs"}}
       </section>
       {{/if}}
-      {{#if document.system.resistances}}
+      {{#if context.sections.resistances}}
       <section class="resistances">
         {{> "systems/artichron/templates/partials/item-resistances.hbs"}}
       </section>
       {{/if}}
-      {{#if document.system.armor}}
+      {{#if context.sections.armor}}
       <section class="defenses">
         {{> "systems/artichron/templates/partials/item-defenses.hbs"}}
       </section>

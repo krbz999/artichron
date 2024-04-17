@@ -163,10 +163,9 @@ export class ActorSystemModel extends foundry.abstract.TypeDataModel {
 
     // Add all armor items' bonuses to resistances.
     Object.values(this.parent.armor).forEach(w => {
-      const ir = w?.system.resistances ?? [];
-      ir.forEach(({type, value}) => {
-        if (type in res) res[type].total += value;
-      });
+      for (const [type, {value}] of Object.entries(w?.system.resistances ?? {})) {
+        res[type].total += value;
+      }
     });
   }
 

@@ -46,7 +46,10 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(ItemSheet) {
           damage: !!this.document.system.damage,
           armor: !!this.document.system.armor,
           resistances: !!this.document.system.resistances
-        }
+        },
+        resistances: Object.entries(this.document.system.resistances ?? {}).map(([k, v]) => {
+          return {...v, key: k, label: game.i18n.localize(`ARTICHRON.DamageType.${k.capitalize()}`)};
+        }).sort((a, b) => a.label.localeCompare(b.label))
       },
       descriptions: {
         value: await TextEditor.enrichHTML(this.document.system.description.value, {
@@ -63,10 +66,6 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(ItemSheet) {
       data.context.subtypes = data.config.SPELL_TYPES;
     } else if (data.isArmor) {
       data.context.subtypes = data.config.ARMOR_TYPES;
-      data.context.resistanceOptions = Object.entries(data.config.DAMAGE_TYPES).reduce((acc, [k, v]) => {
-        if (v.resist) acc[k] = v;
-        return acc;
-      }, {});
     } else if (data.isElixir) {
       data.context.subtypes = data.config.ELIXIR_TYPES;
     }
