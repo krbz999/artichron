@@ -1,16 +1,18 @@
 import {DefenseDiceModel} from "../fields/die.mjs";
 import ArsenalData from "./item-arsenal.mjs";
 import {DamageRoll} from "../../dice/damage-roll.mjs";
+import {ArmorField} from "../fields/armor-field.mjs";
 
 const {EmbeddedDataField} = foundry.data.fields;
 
-export default class WeaponData extends ArsenalData {
+export default class ShieldData extends ArsenalData {
   /** @override */
   static defineSchema() {
     return {
       ...super.defineSchema(),
       parry: new EmbeddedDataField(DefenseDiceModel),
-      block: new EmbeddedDataField(DefenseDiceModel)
+      block: new EmbeddedDataField(DefenseDiceModel),
+      armor: new ArmorField()
     };
   }
 
@@ -23,7 +25,8 @@ export default class WeaponData extends ArsenalData {
   static get BONUS_FIELDS() {
     return super.BONUS_FIELDS.union(new Set([
       "parry.number", "parry.faces",
-      "block.number", "block.faces"
+      "block.number", "block.faces",
+      "armor.value"
     ]));
   }
 

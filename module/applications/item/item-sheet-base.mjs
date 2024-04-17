@@ -41,7 +41,12 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(ItemSheet) {
         isFavorited: this.document.actor?.system.equipped.favorites.has(this.document) ?? null,
         templates: Object.entries(SYSTEM.SPELL_TARGET_TYPES).map(([k, v]) => {
           return {key: k, label: v.label, selected: this.item.system.template?.types.has(k)};
-        })
+        }),
+        sections: {
+          damage: !!this.document.system.damage,
+          armor: !!this.document.system.armor,
+          resistances: !!this.document.system.resistances
+        }
       },
       descriptions: {
         value: await TextEditor.enrichHTML(this.document.system.description.value, {
@@ -51,17 +56,19 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(ItemSheet) {
     });
 
     if (data.isWeapon) {
-      data.context.categories = data.config.ARSENAL_TYPES;
-      data.context.subtypes = data.config.ARSENAL_TYPES[data.system.type.category]?.items ?? {};
-      data.costOptions = {health: "ARTICHRON.Health", stamina: "ARTICHRON.Stamina", mana: "ARTICHRON.Mana"};
+      data.context.subtypes = data.config.ARSENAL_TYPES;
+    } else if (data.isShield) {
+      data.context.subtypes = data.config.SHIELD_TYPES;
     } else if (data.isSpell) {
-      data.context.categories = data.config.SPELL_TYPES;
-      data.costOptions = {health: "ARTICHRON.Health", stamina: "ARTICHRON.Stamina", mana: "ARTICHRON.Mana"};
+      data.context.subtypes = data.config.SPELL_TYPES;
     } else if (data.isArmor) {
-      data.context.categories = data.config.ARMOR_TYPES;
-      data.context.resistanceOptions = Object.fromEntries(Object.entries(data.config.DAMAGE_TYPES).filter(([k, v]) => v.resist));
+      data.context.subtypes = data.config.ARMOR_TYPES;
+      data.context.resistanceOptions = Object.entries(data.config.DAMAGE_TYPES).reduce((acc, [k, v]) => {
+        if (v.resist) acc[k] = v;
+        return acc;
+      }, {});
     } else if (data.isElixir) {
-      data.context.categories = data.config.ELIXIR_TYPES;
+      data.context.subtypes = data.config.ELIXIR_TYPES;
     }
     return data;
   }

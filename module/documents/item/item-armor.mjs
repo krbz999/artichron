@@ -1,3 +1,4 @@
+import {ArmorField} from "../fields/armor-field.mjs";
 import {IdentifierField} from "../fields/identifier.mjs";
 import {ItemSystemModel} from "./system-model.mjs";
 
@@ -13,9 +14,7 @@ export default class ArmorData extends ItemSystemModel {
         type: new StringField({required: true}),
         value: new NumberField({integer: true})
       })),
-      armor: new SchemaField({
-        value: new NumberField({integer: true})
-      })
+      armor: new ArmorField()
     };
   }
 

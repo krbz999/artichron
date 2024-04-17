@@ -107,7 +107,7 @@ export class ActorSystemModel extends foundry.abstract.TypeDataModel {
 
     for (const [key, item] of Object.entries(armor)) {
       if (!item) continue;
-      armor[key] = ((item.type === "armor") && (item.system.type.category === key)) ? item : null;
+      armor[key] = ((item.type === "armor") && (item.system.category.subtype === key)) ? item : null;
     }
 
     this.equipped.ammo = this.equipped.ammo.reduce((acc, id) => {

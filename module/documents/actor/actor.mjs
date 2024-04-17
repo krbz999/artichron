@@ -40,7 +40,7 @@ export default class ActorArtichron extends Actor {
    * @type {boolean}
    */
   get hasShield() {
-    return Object.values(this.arsenal).some(a => a?.isShield);
+    return Object.values(this.arsenal).some(a => a?.type === "shield");
   }
 
   /* ---------------------------------------- */

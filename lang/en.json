@@ -16,10 +16,12 @@
   "Item.foodPl": "Foods",
   "Item.part": "Monster Part",
   "Item.partPl": "Monster Parts",
-  "Item.weapon": "Weapon",
-  "Item.weaponPl": "Weapons",
+  "Item.shield": "Shield",
+  "Item.shieldPl": "Shields",
   "Item.spell": "Spell",
-  "Item.spellPl": "Spells"
+  "Item.spellPl": "Spells",
+  "Item.weapon": "Weapon",
+  "Item.weaponPl": "Weapons"
 },
 "ARTICHRON": {
   "ItemSheet": {
@@ -118,11 +120,6 @@
   "Active": "Active",
   "ApplyDamage": "Apply Damage",
   "Armor": "Armor",
-  "ArsenalCategory": {
-    "Melee": "Melee Weapon",
-    "Ranged": "Ranged Weapon",
-    "Shield": "Shield"
-  },
   "ChangeItem": "Change Item",
   "ConsumeUsage": "Consume Uses",
   "Damage": "Damage",
@@ -143,7 +140,6 @@
   "ItemProperty": {
     "Armor": "Armor Value",
     "Block": "Blocking",
-    "Category": "Category",
     "Cost": "Usage Cost",
     "Parry": "Parrying",
     "Price": "Price",

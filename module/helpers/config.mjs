@@ -207,40 +207,29 @@ SYSTEM.MOVEMENT_TYPES = {
 
 // Weapon subtypes.
 SYSTEM.ARSENAL_TYPES = {
-  melee: {
-    label: "ARTICHRON.ArsenalCategory.Melee",
-    items: {
-      axe: {label: "ARTICHRON.WeaponType.Axe"},
-      hammer: {label: "ARTICHRON.WeaponType.Hammer"},
-      spear: {
-        label: "ARTICHRON.WeaponType.Spear",
-        fusion: {range: 1, hands: 2, damage: "1d6"} // bonuses on top of used target.
-      },
-      sword: {label: "ARTICHRON.WeaponType.Sword"}
-    }
+  axe: {label: "ARTICHRON.WeaponType.Axe"},
+  hammer: {label: "ARTICHRON.WeaponType.Hammer"},
+  spear: {
+    label: "ARTICHRON.WeaponType.Spear",
+    fusion: {range: 1, hands: 2, damage: "1d6"} // bonuses on top of used target.
   },
-  ranged: {
-    label: "ARTICHRON.ArsenalCategory.Ranged",
-    items: {
-      bow: {label: "ARTICHRON.WeaponType.Bow"}
-    }
+  sword: {label: "ARTICHRON.WeaponType.Sword"},
+  bow: {label: "ARTICHRON.WeaponType.Bow"}
+};
+
+// Shield types.
+SYSTEM.SHIELD_TYPES = {
+  buckler: {
+    label: "ARTICHRON.ShieldType.Buckler",
+    width: 1
   },
-  shield: {
-    label: "ARTICHRON.ArsenalCategory.Shield",
-    items: {
-      buckler: {
-        label: "ARTICHRON.ShieldType.Buckler",
-        width: 1
-      },
-      heater: {
-        label: "ARTICHRON.ShieldType.Heater",
-        width: 2
-      },
-      kite: {
-        label: "ARTICHRON.ShieldType.Kite",
-        width: 3
-      }
-    }
+  heater: {
+    label: "ARTICHRON.ShieldType.Heater",
+    width: 2
+  },
+  kite: {
+    label: "ARTICHRON.ShieldType.Kite",
+    width: 3
   }
 };
 

@@ -13,8 +13,7 @@ export class ItemSystemModel extends foundry.abstract.TypeDataModel {
       price: new SchemaField({
         value: new NumberField({integer: true, min: 0, initial: null})
       }),
-      type: new SchemaField({
-        category: new StringField({required: true}),
+      category: new SchemaField({
         subtype: new StringField({required: true})
       }),
       fusion: new ArrayField(new SchemaField({

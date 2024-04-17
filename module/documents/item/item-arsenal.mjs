@@ -21,6 +21,7 @@ export default class ArsenalData extends ItemSystemModel {
     super.prepareDerivedData();
     const rollData = this.parent.getRollData();
     this.damage.forEach(v => v.prepareDerivedData(rollData));
+    return rollData;
   }
 
   /** @override */
@@ -44,14 +45,6 @@ export default class ArsenalData extends ItemSystemModel {
    */
   get isTwoHanded() {
     return this.wield.value === 2;
-  }
-
-  /**
-   * Is this a shield?
-   * @type {boolean}
-   */
-  get isShield() {
-    return this.type.category === "shield";
   }
 
   /**

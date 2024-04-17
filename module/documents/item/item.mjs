@@ -31,15 +31,7 @@ export default class ItemArtichron extends Item {
    * @type {boolean}
    */
   get isArsenal() {
-    return (this.type === "spell") || (this.type === "weapon") || this.isShield;
-  }
-
-  /**
-   * Is this a shield?
-   * @type {boolean}
-   */
-  get isShield() {
-    return this.system.isShield ?? false;
+    return ["weapon", "spell", "shield"].includes(this.type);
   }
 
   /**
