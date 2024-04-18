@@ -1,0 +1,90 @@
+{
+  "name": "Heater",
+  "img": "icons/equipment/shield/heater-steel-boss-red.webp",
+  "type": "shield",
+  "system": {
+    "description": {
+      "value": ""
+    },
+    "weight": {
+      "value": 3
+    },
+    "price": {
+      "value": null
+    },
+    "damage": [
+      {
+        "formula": "2d4",
+        "type": "physical"
+      },
+      {
+        "formula": "",
+        "type": "arcane"
+      },
+      {
+        "formula": "",
+        "type": "arcane"
+      },
+      {
+        "formula": "",
+        "type": "fire"
+      },
+      {
+        "formula": "",
+        "type": "fire"
+      }
+    ],
+    "parry": {
+      "number": "1",
+      "faces": 4,
+      "modifiers": {
+        "r": "",
+        "x": "",
+        "min": "",
+        "max": "",
+        "xo": false,
+        "rr": false
+      }
+    },
+    "block": {
+      "number": "1",
+      "faces": 4,
+      "modifiers": {
+        "r": "",
+        "x": "",
+        "min": "",
+        "max": "",
+        "xo": false,
+        "rr": false
+      }
+    },
+    "wield": {
+      "value": 1,
+      "range": null
+    },
+    "fusion": [],
+    "armor": {
+      "value": 5
+    },
+    "category": {
+      "subtype": "heater"
+    }
+  },
+  "effects": [],
+  "folder": "LnoybnjbBjUtYqBI",
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "systemId": null,
+    "systemVersion": null,
+    "coreVersion": null,
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  },
+  "_id": "L0KfBg8MPoLcyZNd",
+  "sort": 0,
+  "_key": "!items!L0KfBg8MPoLcyZNd"
+}

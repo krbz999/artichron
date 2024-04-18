@@ -1,0 +1,75 @@
+{
+  "name": "Big Hammer",
+  "img": "icons/weapons/hammers/hammer-double-glowing-yellow.webp",
+  "type": "weapon",
+  "system": {
+    "description": {
+      "value": "<p>It's a big hammer for big swings.</p>"
+    },
+    "weight": {
+      "value": 0
+    },
+    "price": {
+      "value": 1
+    },
+    "damage": [
+      {
+        "formula": "2d8",
+        "type": "physical"
+      },
+      {
+        "formula": "1d4 + 3",
+        "type": "darkness"
+      }
+    ],
+    "parry": {
+      "number": "1",
+      "faces": 4,
+      "modifiers": {
+        "r": "",
+        "x": "",
+        "min": "",
+        "max": "",
+        "xo": false,
+        "rr": false
+      }
+    },
+    "block": {
+      "number": "1",
+      "faces": 4,
+      "modifiers": {
+        "r": "",
+        "x": "",
+        "min": "",
+        "max": "",
+        "xo": false,
+        "rr": false
+      }
+    },
+    "wield": {
+      "value": 2,
+      "range": 1
+    },
+    "fusion": [],
+    "category": {
+      "subtype": "hammer"
+    }
+  },
+  "effects": [],
+  "folder": "yzIxM76s5bHr5t6g",
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "systemId": null,
+    "systemVersion": null,
+    "coreVersion": null,
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  },
+  "_id": "d1Rr73S4HSBpGxsk",
+  "sort": 0,
+  "_key": "!items!d1Rr73S4HSBpGxsk"
+}

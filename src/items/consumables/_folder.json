@@ -8,12 +8,12 @@
   "color": "#a64dff",
   "flags": {},
   "_stats": {
-    "systemId": "artichron",
-    "systemVersion": "1.0.0",
-    "coreVersion": "11.315",
-    "createdTime": 1699805965932,
-    "modifiedTime": 1699805975275,
-    "lastModifiedBy": "3pWaVXzYT6XoJo1Y"
+    "systemId": null,
+    "systemVersion": null,
+    "coreVersion": null,
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
   },
   "_key": "!folders!kfEanDXifA2im2os"
 }

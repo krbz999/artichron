@@ -1,0 +1,64 @@
+{
+  "name": "Gloves",
+  "type": "armor",
+  "img": "icons/equipment/hand/gauntlet-armored-red-gold.webp",
+  "system": {
+    "description": {
+      "value": ""
+    },
+    "identifier": "",
+    "weight": {
+      "value": 0
+    },
+    "price": {
+      "value": null
+    },
+    "resistances": {
+      "arcane": {
+        "value": 3
+      },
+      "darkness": {
+        "value": null
+      },
+      "fire": {
+        "value": null
+      },
+      "ice": {
+        "value": null
+      },
+      "light": {
+        "value": null
+      },
+      "lightning": {
+        "value": null
+      },
+      "wind": {
+        "value": null
+      }
+    },
+    "armor": {
+      "value": null
+    },
+    "category": {
+      "subtype": "arms"
+    },
+    "fusion": []
+  },
+  "effects": [],
+  "folder": "a3CL70pOglIad3Gc",
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "systemId": null,
+    "systemVersion": null,
+    "coreVersion": null,
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  },
+  "_id": "Rr0ESG0qwpNDxdPK",
+  "sort": 0,
+  "_key": "!items!Rr0ESG0qwpNDxdPK"
+}
