@@ -1,0 +1,83 @@
+{
+  "name": "Cassandra",
+  "type": "weapon",
+  "img": "icons/weapons/guns/gun-topbarrel.webp",
+  "system": {
+    "description": {
+      "value": ""
+    },
+    "weight": {
+      "value": 1
+    },
+    "price": {
+      "value": 2
+    },
+    "fusion": [],
+    "damage": [
+      {
+        "formula": "3d4 + 1d10r + 3",
+        "type": "physical"
+      },
+      {
+        "formula": "1d4 + 3",
+        "type": "physical"
+      },
+      {
+        "formula": "1d10r + 3",
+        "type": "physical"
+      },
+      {
+        "formula": "3d4 + 5",
+        "type": "wind"
+      }
+    ],
+    "wield": {
+      "value": 2,
+      "range": 2
+    },
+    "parry": {
+      "faces": 4,
+      "modifiers": {
+        "r": "",
+        "x": "",
+        "min": "",
+        "max": "",
+        "xo": false,
+        "rr": false
+      },
+      "number": ""
+    },
+    "block": {
+      "faces": 4,
+      "modifiers": {
+        "r": "",
+        "x": "",
+        "min": "",
+        "max": "",
+        "xo": false,
+        "rr": false
+      },
+      "number": ""
+    },
+    "category": {
+      "subtype": "bow"
+    }
+  },
+  "effects": [],
+  "folder": "yzIxM76s5bHr5t6g",
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "systemId": null,
+    "systemVersion": null,
+    "coreVersion": null,
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  },
+  "_id": "rbD4AEp5sky3Gw9R",
+  "sort": 0,
+  "_key": "!items!rbD4AEp5sky3Gw9R"
+}

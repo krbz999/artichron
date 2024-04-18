@@ -1,0 +1,44 @@
+{
+  "name": "Fancy Potion",
+  "img": "icons/consumables/potions/bottle-bulb-corked-green.webp",
+  "type": "elixir",
+  "system": {
+    "description": {
+      "value": ""
+    },
+    "weight": {
+      "value": 1
+    },
+    "price": {
+      "value": null
+    },
+    "quantity": {
+      "value": 3
+    },
+    "usage": {
+      "value": 5,
+      "max": "5"
+    },
+    "category": {
+      "subtype": ""
+    },
+    "fusion": []
+  },
+  "effects": [],
+  "folder": "kfEanDXifA2im2os",
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "systemId": null,
+    "systemVersion": null,
+    "coreVersion": null,
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  },
+  "_id": "KcQcIaDUNM6BakAJ",
+  "sort": 0,
+  "_key": "!items!KcQcIaDUNM6BakAJ"
+}

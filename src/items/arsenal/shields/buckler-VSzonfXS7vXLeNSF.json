@@ -1,0 +1,78 @@
+{
+  "name": "Buckler",
+  "type": "shield",
+  "img": "icons/equipment/shield/buckler-wooden-boss-glowing-blue.webp",
+  "system": {
+    "description": {
+      "value": "<ul><li><p>Lotta text here.</p></li></ul>"
+    },
+    "weight": {
+      "value": 1
+    },
+    "price": {
+      "value": null
+    },
+    "category": {
+      "subtype": "buckler"
+    },
+    "fusion": [],
+    "damage": [
+      {
+        "formula": "",
+        "type": "physical"
+      },
+      {
+        "formula": "",
+        "type": "physical"
+      }
+    ],
+    "wield": {
+      "value": 1,
+      "range": 1
+    },
+    "parry": {
+      "faces": 4,
+      "modifiers": {
+        "r": "",
+        "x": "",
+        "min": "",
+        "max": "",
+        "xo": false,
+        "rr": false
+      },
+      "number": ""
+    },
+    "block": {
+      "faces": 4,
+      "modifiers": {
+        "r": "",
+        "x": "",
+        "min": "",
+        "max": "",
+        "xo": false,
+        "rr": false
+      },
+      "number": ""
+    },
+    "armor": {
+      "value": 10
+    }
+  },
+  "effects": [],
+  "folder": "LnoybnjbBjUtYqBI",
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "systemId": null,
+    "systemVersion": null,
+    "coreVersion": null,
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  },
+  "_id": "VSzonfXS7vXLeNSF",
+  "sort": 0,
+  "_key": "!items!VSzonfXS7vXLeNSF"
+}
