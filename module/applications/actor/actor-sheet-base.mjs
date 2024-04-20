@@ -97,7 +97,7 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(ActorSheet)
    */
   _prepareHealth() {
     const hp = this.document.system.health;
-    return {height: Math.clamped(hp.value / hp.max, 0, 1) * 100};
+    return {height: Math.clamp(hp.value / hp.max, 0, 1) * 100};
   }
 
   /**

@@ -187,7 +187,7 @@ export default class ActorArtichron extends Actor {
       return acc + value;
     }, 0));
     const hp = this.system.health;
-    const val = Math.clamped(hp.value - amount, 0, hp.max);
+    const val = Math.clamp(hp.value - amount, 0, hp.max);
     return this.update({"system.health.value": val}, {damages: indivs});
   }
 
@@ -245,7 +245,7 @@ export default class ActorArtichron extends Actor {
         html.querySelector("INPUT").addEventListener("change", function(event) {
           const pool = actor.system.pools[type];
           const value = event.currentTarget.value;
-          if (Number.isNumeric(value)) event.currentTarget.value = Math.clamped(value, 0, pool.value);
+          if (Number.isNumeric(value)) event.currentTarget.value = Math.clamp(value, 0, pool.value);
         });
       }
     }, {classes: ["dialog", "artichron"]});
@@ -265,7 +265,7 @@ export default class ActorArtichron extends Actor {
     // Apply healing.
     if (type === "health") {
       const hp = this.system.health;
-      update["system.health.value"] = Math.clamped(hp.value + roll.total, 0, hp.max);
+      update["system.health.value"] = Math.clamp(hp.value + roll.total, 0, hp.max);
       updateOptions.damages = {healing: Math.abs(update["system.health.value"] - hp.value)};
     }
     await this.update(update, updateOptions);
