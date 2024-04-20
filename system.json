@@ -50,6 +50,7 @@
     {
       "name": "Artichron",
       "sorting": "a",
+      "color": "#000000",
       "packs": [
         "actors",
         "items",
