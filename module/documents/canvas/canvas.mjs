@@ -28,7 +28,7 @@ class Auras {
     nav.appendChild(div.firstElementChild);
 
     const color = aura.color ? `value="${aura.color}"` : "";
-    const alpha = Number.isNumeric(aura.alpha) ? `value="${Math.clamped(aura.alpha, 0, 1)}"` : "";
+    const alpha = Number.isNumeric(aura.alpha) ? `value="${Math.clamp(aura.alpha, 0, 1)}"` : "";
     const distance = Number.isNumeric(aura.distance) && (aura.distance > 0) ? `value="${aura.distance}"` : "";
 
     const auraConfig = `
@@ -77,7 +77,7 @@ class Auras {
    * @param {GridLayer} layer     The grid layer.
    */
   static onDrawGridLayer(layer) {
-    layer.tokenAuras = layer.addChildAt(new PIXI.Container(), layer.getChildIndex(layer.borders));
+    layer.tokenAuras = layer.addChildAt(new PIXI.Container(), layer.getChildIndex(layer.mesh));
   }
 
 }

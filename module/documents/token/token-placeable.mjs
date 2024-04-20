@@ -66,7 +66,7 @@ export default class TokenArtichron extends Token {
       const w = CONFIG.SYSTEM.SHIELD_TYPES[item.system.category.subtype]?.width ?? 1;
       return acc + w;
     }, 0);
-    const radi = Math.clamped(value * (items.length > 1 ? 50 : 60), 0, 300);
+    const radi = Math.clamp(value * (items.length > 1 ? 50 : 60), 0, 300);
 
     const width = this.shieldWidth;
     const radius = this.shieldRadius;
@@ -140,7 +140,7 @@ export default class TokenArtichron extends Token {
 
   /** @override */
   _refreshBorder() {
-    if (canvas.grid.isHex || !this.isCircular) return super._refreshBorder();
+    if (canvas.grid.isHexagonal || !this.isCircular) return super._refreshBorder();
     const b = this.border;
     b.clear();
 
@@ -165,7 +165,7 @@ export default class TokenArtichron extends Token {
     }
 
     const val = Number(data.value);
-    const pct = Math.clamped(val, 0, data.max) / data.max;
+    const pct = Math.clamp(val, 0, data.max) / data.max;
     const isZero = number === 0;
 
     // Determine sizing
@@ -179,7 +179,7 @@ export default class TokenArtichron extends Token {
 
     // End point and length variables.
     const d = isZero ? 1 : -1;
-    const c = Math.clamped(game.settings.get("artichron", "tokenBarLength"), 30, 180);
+    const c = Math.clamp(game.settings.get("artichron", "tokenBarLength"), 30, 180);
     const a = d * (90 + c / 2);
     const b = {
       black: d * (90 - c / 2),

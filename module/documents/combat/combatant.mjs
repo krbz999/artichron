@@ -7,6 +7,6 @@ export default class CombatantArtichron extends Combatant {
 
   get pips() {
     const pips = this.flags.artichron?.pips ?? 0;
-    return Number.isInteger(pips) ? Math.clamped(pips, 0, 12) : 0;
+    return Number.isInteger(pips) ? Math.clamp(pips, 0, 12) : 0;
   }
 }
