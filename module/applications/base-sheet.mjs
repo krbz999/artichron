@@ -14,7 +14,7 @@ export const ArtichronSheetMixin = Base => class extends Base {
 
   /** @override */
   getData() {
-    const types = game.system.template[this.document.documentName].types;
+    const types = Object.keys(game.system.documentTypes[this.document.documentName]);
     const data = {
       rollData: this.document.getRollData(),
       document: this.document,
