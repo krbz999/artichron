@@ -39,6 +39,7 @@ Hooks.once("init", function() {
   CONFIG.Combatant.documentClass = documents.combatant;
   CONFIG.Token.documentClass = documents.tokenDocument;
   CONFIG.Token.objectClass = documents.token;
+  CONFIG.Token.hudClass = applications.TokenHUDArtichron;
   CONFIG.MeasuredTemplate.objectClass = documents.template;
   CONFIG.MeasuredTemplate.documentClass = documents.templateDocument;
   CONFIG.ChatMessage.documentClass = documents.message;

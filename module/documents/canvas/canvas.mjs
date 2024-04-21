@@ -79,5 +79,4 @@ class Auras {
   static onDrawGridLayer(layer) {
     layer.tokenAuras = layer.addChildAt(new PIXI.Container(), layer.getChildIndex(layer.mesh));
   }
-
 }

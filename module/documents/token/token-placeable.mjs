@@ -83,7 +83,7 @@ export default class TokenArtichron extends Token {
     bd.arc(0, 0, radius, Math.toRadians(90 - radi / 2), Math.toRadians(90 + radi / 2));
 
     shield.position.set(this.w / 2, this.h / 2);
-    this.setChildIndex(shield, 0);
+    this.setChildIndex(shield, 2);
   }
 
   /** Redraw token aura. */
@@ -94,7 +94,7 @@ export default class TokenArtichron extends Token {
     const aura = this.document.flags.artichron?.aura ?? {};
     if (!aura.distance || !(aura.distance > 0)) return;
 
-    this.tokenAuras ??= canvas.grid.tokenAuras.addChild(new PIXI.Container());
+    this.tokenAuras ??= canvas.interface.grid.tokenAuras.addChild(new PIXI.Container());
     const shape = this.createAura(aura);
     this.tokenAuras.addChild(shape);
     this.tokenAuras.position.set(...Object.values(this.center));
