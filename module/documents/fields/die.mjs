@@ -144,7 +144,8 @@ export class SkillDiceModel extends DiceModel {
   /** @override */
   static defineSchema() {
     return {
-      ...super.defineSchema()
+      ...super.defineSchema(),
+      faces: new NumberField({initial: 4, choices: {4: "d4", 8: "d8", 12: "d12"}})
     };
   }
 
