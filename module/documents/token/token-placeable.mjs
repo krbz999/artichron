@@ -95,10 +95,35 @@ export default class TokenArtichron extends Token {
     const aura = this.document.flags.artichron?.aura ?? {};
     if (!aura.distance || !(aura.distance > 0)) return;
 
-    this.tokenAuras ??= canvas.interface.grid.tokenAuras.addChild(new PIXI.Container());
     const shape = this.createAura(aura);
-    this.tokenAuras.addChild(shape);
-    this.tokenAuras.position.set(...Object.values(this.center));
+
+    if (canvas.grid.type !== CONST.GRID_TYPES.GRIDLESS) {
+      const b = shape.getBounds();
+      const minx = this.document.x + b.x + canvas.grid.sizeX;
+      const miny = this.document.y + b.y + canvas.grid.sizeY;
+      const positions = [];
+      for (let i = minx; i <= minx + b.width; i += canvas.grid.sizeX / 2) {
+        for (let j = miny; j <= miny + b.height; j += canvas.grid.sizeY / 2) {
+          const c = canvas.grid.getTopLeftPoint({x: i, y: j});
+          positions.push(c);
+        }
+      }
+
+      const name = `Token.${this.id}`;
+      const hl = canvas.interface.grid.addHighlightLayer(name);
+      canvas.interface.grid.clearHighlightLayer(name);
+
+      for (const p of positions) {
+        const q = {x: p.x - this.document.x, y: p.y - this.document.y};
+        if (shape.containsPoint(q)) canvas.interface.grid.highlightPosition(name, {
+          ...p, color: aura.color || undefined, alpha: aura.alpha || undefined
+        });
+      }
+    } else {
+      this.tokenAuras ??= canvas.interface.grid.tokenAuras.addChild(new PIXI.Container());
+      this.tokenAuras.addChild(shape);
+      this.tokenAuras.position.set(...Object.values(this.center));
+    }
   }
 
   /**
