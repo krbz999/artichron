@@ -1,4 +1,5 @@
 const cap = PIXI.LINE_CAP.ROUND;
+const join = PIXI.LINE_JOIN.ROUND;
 
 export default class TokenArtichron extends Token {
   /**
@@ -79,7 +80,7 @@ export default class TokenArtichron extends Token {
     shield.name = "tokenShield";
 
     const bd = shield.addChild(new PIXI.Graphics());
-    bd.lineStyle({width: width - 2, color: color.fill, cap: cap});
+    bd.lineStyle({width: width / 2, color: color.fill, cap: cap});
     bd.arc(0, 0, radius, Math.toRadians(90 - radi / 2), Math.toRadians(90 + radi / 2));
 
     shield.position.set(this.w / 2, this.h / 2);
@@ -110,16 +111,18 @@ export default class TokenArtichron extends Token {
    */
   createAura({distance, color, alpha}) {
     const shape = new PIXI.Graphics();
-    const radius = distance * canvas.dimensions.distancePixels + this.h / 2;
     color = Color.from(color);
     const {x, y} = this.center;
+    const radius = distance + this.document.width / 2;
+
+    const points = canvas.grid.getCircle({x, y}, radius).reduce((acc, p) => acc.concat(Object.values(p)), []);
 
     const m = CONFIG.Canvas.polygonBackends.move.create({x, y}, {
       type: "move",
-      hasLimitedRadius: true,
-      radius: radius,
-      density: PIXI.Circle.approximateVertexDensity(radius) * 2
+      boundaryShapes: [new PIXI.Polygon(points)],
+      debug: false
     });
+    shape.lineStyle({width: 3, color: color.subtract(0.5), alpha: alpha});
     shape.beginFill(color, alpha).drawShape(m).endFill();
     shape.pivot.set(x, y);
     return shape;
@@ -140,20 +143,20 @@ export default class TokenArtichron extends Token {
 
   /** @override */
   _refreshBorder() {
-    if (canvas.grid.isHexagonal || !this.isCircular) return super._refreshBorder();
-    const b = this.border;
-    b.clear();
+    if (canvas.grid.isHexagonal || !this.isCircular) {
+      super._refreshBorder();
+      return;
+    }
 
-    // Determine the desired border color
-    const borderColor = this._getBorderColor();
-    if (!borderColor) return;
-
+    const thickness = this.borderWidth;
     const radius = this.borderRadius;
-    const width = this.borderWidth;
     const p = {x: this.w / 2, y: this.h / 2};
-    const color = {black: 0x000000, fill: borderColor};
-    b.lineStyle(width, color.black, 1).drawCircle(p.x, p.y, radius);
-    b.lineStyle(width - 2, color.fill, 1).drawCircle(p.x, p.y, radius);
+
+    this.border.clear();
+    this.border.lineStyle({width: thickness, color: 0x000000, alignment: 0.75, join: PIXI.LINE_JOIN.ROUND});
+    this.border.drawCircle(p.x, p.y, radius);
+    this.border.lineStyle({width: thickness / 2, color: 0xFFFFFF, alignment: 1, join: PIXI.LINE_JOIN.ROUND});
+    this.border.drawCircle(p.x, p.y, radius);
   }
 
   /** @override */
@@ -194,7 +197,7 @@ export default class TokenArtichron extends Token {
     bar.arc(p.x, p.y, radius, Math.toRadians(a), Math.toRadians(b.black), isZero);
 
     const hpline = bar.addChild(new PIXI.Graphics());
-    hpline.lineStyle({width: width - 1, color: color.fill, cap: cap});
+    hpline.lineStyle({width: width / 2, color: color.fill, cap: cap});
     hpline.arc(p.x, p.y, radius, Math.toRadians(a), Math.toRadians(b.fill), isZero);
 
     bar.position.set(0, 0);
