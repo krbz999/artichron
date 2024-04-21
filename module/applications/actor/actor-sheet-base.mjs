@@ -439,7 +439,7 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(ActorSheet)
   _onClickConfig(event) {
     const trait = event.currentTarget.dataset.trait;
     if (trait === "pools") return new PoolConfig(this.actor).render(true);
-    else if (trait === "skills") return new SkillConfig(this.actor).render(true);
+    else if (trait === "skills") return new SkillConfig({document: this.actor}).render(true);
     return new config(this.actor, {trait}).render(true);
   }
 

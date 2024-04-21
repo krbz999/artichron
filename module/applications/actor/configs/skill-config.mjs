@@ -1,48 +1,60 @@
-import BaseConfig from "./base-config.mjs";
-
-export default class SkillConfig extends BaseConfig {
+export default class SkillConfig extends foundry.applications.api.HandlebarsApplicationMixin(foundry.applications.api.DocumentSheetV2) {
   /** @override */
-  static get defaultOptions() {
-    const options = super.defaultOptions;
-    return options;
+  static DEFAULT_OPTIONS = {
+    classes: super.DEFAULT_OPTIONS.classes.concat("artichron"),
+    sheetConfig: false,
+    position: {
+      width: 300,
+      height: "auto"
+    },
+    actions: {
+      onChangeSelect: SkillConfig.#onChangeSelect
+    },
+    form: {
+      handler: SkillConfig.#onSubmitDocumentForm,
+      closeOnSubmit: true
+    }
+  };
+
+  static async #onSubmitDocumentForm(event, form, formData) {
+    const submitData = this._prepareSubmitData(event, form, formData);
+    await this.document.update(submitData);
   }
 
   /** @override */
-  get template() {
-    return "systems/artichron/templates/actor/config/skills.hbs";
-  }
+  static PARTS = {
+    form: {
+      id: "form",
+      template: "systems/artichron/templates/actor/config/skills.hbs"
+    }
+  };
 
   /** @override */
   get title() {
-    return game.i18n.format("ARTICHRON.Skills.Config", {name: this.actor.name});
+    return game.i18n.format("ARTICHRON.Skills.Config", {name: this.document.name});
   }
 
   /** @override */
-  get id() {
-    return `config-skills-${this.actor.uuid.replaceAll(".", "-")}`;
-  }
-
-  /** @override */
-  getData() {
-    const skills = this.actor.system.toObject().skills;
-    const config = CONFIG.SYSTEM;
+  async _prepareContext(options) {
+    const skills = this.document.system.toObject().skills;
     const data = {
-      config: config,
+      config: CONFIG.SYSTEM,
+      choices: {4: "d4", 8: "d8", 12: "d12"},
       skills: Object.entries(skills).map(([key, skill]) => ({
         key: key,
-        faces: skill.faces,
+        selected: skill.faces,
         label: `ARTICHRON.Skills.${key.capitalize()}`
-      }))
+      })),
+      fields: artichron.dataModels.actor.hero.schema.fields.skills.fields,
+      source: this.document.toObject()
     };
-    data.disabled = new Set(data.skills.map(p => p.faces)).size !== 3;
+    data.disabled = new Set(data.skills.map(p => p.selected)).size !== 3;
     return data;
   }
 
   /** @override */
-  _getSubmitData() {
-    if (!this.form) throw new Error("The FormApplication subclass has no registered form element");
-    const fd = new FormDataExtended(this.form, {editors: this.editors});
-    const data = fd.object;
+  _prepareSubmitData(event, form, formData) {
+    const data = formData.object;
     Object.keys(data).forEach(k => {
       if (k.endsWith(".faces")) data[k] ||= 4;
     });
@@ -50,15 +62,13 @@ export default class SkillConfig extends BaseConfig {
   }
 
   /** @override */
-  async _onChangeInput(event) {
-    await super._onChangeInput(event);
-    const data = this._getSubmitData();
-    const disabled = Object.keys(data).reduce((acc, k) => {
-      if (!k.endsWith(".faces")) return acc;
-      const n = Number(data[k]);
+  static #onChangeSelect(event) {
+    const inputs = event.currentTarget.querySelectorAll("select");
+    const disabled = Array.from(inputs).reduce((acc, k) => {
+      const n = parseInt(k.value) || 4;
       acc.add(n);
       return acc;
     }, new Set()).size !== 3;
-    this.form.querySelector("[type=submit]").disabled = disabled;
+    event.currentTarget.querySelector("[type=submit]").disabled = disabled;
   }
 }
