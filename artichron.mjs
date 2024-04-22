@@ -47,6 +47,7 @@ Hooks.once("init", function() {
   // Hook up system data types
   CONFIG.Actor.dataModels = dataModels.actor;
   CONFIG.Item.dataModels = dataModels.item;
+  CONFIG.ChatMessage.dataModels = dataModels.message;
 
   // Hook up dice types.
   CONFIG.Dice.rolls.push(...Object.values(dice));

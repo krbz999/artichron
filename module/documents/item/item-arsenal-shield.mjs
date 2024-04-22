@@ -54,8 +54,9 @@ export default class ShieldData extends ArsenalData {
     return DamageRoll.toMessage(rolls, {
       speaker: ChatMessage.implementation.getSpeaker({actor: actor}),
       "flags.artichron.targets": [target.uuid],
-      "flags.artichron.actorUuid": actor.uuid,
-      "flags.artichron.itemUuid": item.uuid
+      "system.actor": actor.uuid,
+      "system.item": item.uuid,
+      type: "damage"
     });
   }
 }

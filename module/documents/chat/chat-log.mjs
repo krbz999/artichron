@@ -1,4 +1,3 @@
-import * as utils from "../../helpers/utils.mjs";
 import {DamageRoll} from "../../dice/damage-roll.mjs";
 
 export class ChatLog {
@@ -41,12 +40,14 @@ export class ChatLog {
     targets = Array.from(targets);
 
     const roll = message.rolls[0];
+    const src = message.toObject();
     return new DamageRoll(roll.formula, message.item.getRollData(), {type: roll.options.type}).toMessage({
-      speaker: message.speaker,
+      speaker: src.speaker,
       "flags.artichron.targets": targets.map(target => target.uuid),
       "flags.artichron.templateData": {...message.flags.artichron.templateData},
-      "flags.artichron.actorUuid": message.actor.uuid,
-      "flags.artichron.itemUuid": message.item.uuid
+      "system.actor": src.system.actor,
+      "system.item": src.system.item,
+      type: src.type
     });
   }
 }

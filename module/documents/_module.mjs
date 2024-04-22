@@ -15,6 +15,7 @@ import MeasuredTemplateDocumentArtichron from "./template/template-document.mjs"
 import SpellData from "./item/item-arsenal-spell.mjs";
 import WeaponData from "./item/item-arsenal-weapon.mjs";
 import ShieldData from "./item/item-arsenal-shield.mjs";
+import {DamageMessage} from "./chat/system-model.mjs";
 
 export const dataModels = {
   actor: {
@@ -28,6 +29,9 @@ export const dataModels = {
     elixir: ElixirData,
     food: FoodData,
     part: PartData
+  },
+  message: {
+    damage: DamageMessage
   }
 };
 

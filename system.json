@@ -97,6 +97,9 @@
       "food": {},
       "elixir": {},
       "part": {}
+    },
+    "ChatMessage": {
+      "damage": {}
     }
   }
 }

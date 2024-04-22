@@ -31,10 +31,10 @@ export default class ChatMessageArtichron extends ChatMessage {
   }
 
   get item() {
-    return fromUuidSync(this.flags.artichron?.itemUuid);
+    return this.system.item;
   }
 
   get actor() {
-    return fromUuidSync(this.flags.artichron?.actorUuid);
+    return this.system.actor;
   }
 }
