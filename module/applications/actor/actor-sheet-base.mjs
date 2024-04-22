@@ -1,7 +1,6 @@
 import ItemArtichron from "../../documents/item/item.mjs";
 import {SYSTEM} from "../../helpers/config.mjs";
 import {ArtichronSheetMixin} from "../base-sheet.mjs";
-import config from "./configs/base-config.mjs";
 import PoolConfig from "./configs/pool-config.mjs";
 import SkillConfig from "./configs/skill-config.mjs";
 
@@ -438,9 +437,8 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(ActorSheet)
    */
   _onClickConfig(event) {
     const trait = event.currentTarget.dataset.trait;
-    if (trait === "pools") return new PoolConfig(this.actor).render(true);
+    if (trait === "pools") return new PoolConfig({document: this.actor}).render(true);
     else if (trait === "skills") return new SkillConfig({document: this.actor}).render(true);
-    return new config(this.actor, {trait}).render(true);
   }
 
   /**

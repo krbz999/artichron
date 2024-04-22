@@ -2,45 +2,45 @@ import BaseConfig from "./base-config.mjs";
 
 export default class PoolConfig extends BaseConfig {
   /** @override */
-  static get defaultOptions() {
-    const options = super.defaultOptions;
-    return options;
-  }
+  static DEFAULT_OPTIONS = {
+    position: {
+      width: 350
+    }
+  };
 
   /** @override */
-  get template() {
-    return "systems/artichron/templates/actor/config/pools.hbs";
-  }
+  static PARTS = {
+    form: {
+      id: "form",
+      template: "systems/artichron/templates/actor/config/pools.hbs"
+    }
+  };
 
   /** @override */
   get title() {
-    return game.i18n.format("ARTICHRON.Pools.Config", {name: this.actor.name});
+    return game.i18n.format("ARTICHRON.Pools.Config", {name: this.document.name});
   }
 
   /** @override */
-  get id() {
-    return `config-pools-${this.actor.uuid.replaceAll(".", "-")}`;
-  }
-
-  /** @override */
-  getData() {
-    const pools = this.actor.system.toObject().pools;
-    const config = CONFIG.SYSTEM;
+  async _prepareContext() {
+    const fields = artichron.dataModels.actor.hero.schema.fields.pools.fields;
+    const pools = this.document.system.toObject().pools;
     const data = {
-      config: config,
-      primary: this.actor.system.traits.pool,
+      primary: this.document.system.traits.pool,
       primaryChoices: {
         health: "ARTICHRON.Pools.Health",
         stamina: "ARTICHRON.Pools.Stamina",
         mana: "ARTICHRON.Pools.Mana"
       },
-      pools: Object.entries(pools).map(([key, pool]) => ({
-        key: key,
-        value: pool.value,
-        max: 3, //pool.max,
-        faces: pool.faces,
-        label: `ARTICHRON.Pools.${key.capitalize()}DiePl`
-      }))
+      pools: ["health", "stamina", "mana"].map(key => {
+        const field = fields[key].fields;
+        return {
+          value: field.value,
+          max: field.max,
+          label: `ARTICHRON.Pools.${key.capitalize()}DiePl`,
+          current: pools[key].value
+        };
+      })
     };
     return data;
   }
