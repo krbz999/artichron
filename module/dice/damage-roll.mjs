@@ -33,7 +33,6 @@ export class DamageRoll extends Roll {
     messageData = foundry.utils.mergeObject({
       "flags.artichron.totals": totals,
       rolls: rolls,
-      type: CONST.CHAT_MESSAGE_TYPES.ROLL,
       sound: "sounds/dice.wav",
       rollMode: game.settings.get("core", "rollMode")
     }, messageData, {inplace: false});

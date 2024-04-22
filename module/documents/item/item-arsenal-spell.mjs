@@ -71,8 +71,9 @@ export default class SpellData extends ArsenalData {
         formula: configuration.formula,
         damageType: part.type
       } : null,
-      "flags.artichron.actorUuid": actor.uuid,
-      "flags.artichron.itemUuid": item.uuid
+      "system.actor": actor.uuid,
+      "system.item": item.uuid,
+      type: "damage"
     });
   }
 
