@@ -1,25 +1,12 @@
-export default class SkillConfig extends foundry.applications.api.HandlebarsApplicationMixin(foundry.applications.api.DocumentSheetV2) {
+import BaseConfig from "./base-config.mjs";
+
+export default class SkillConfig extends BaseConfig {
   /** @override */
   static DEFAULT_OPTIONS = {
-    classes: super.DEFAULT_OPTIONS.classes.concat("artichron"),
-    sheetConfig: false,
-    position: {
-      width: 300,
-      height: "auto"
-    },
     actions: {
       onChangeSelect: SkillConfig.#onChangeSelect
-    },
-    form: {
-      handler: SkillConfig.#onSubmitDocumentForm,
-      closeOnSubmit: true
     }
   };
-
-  static async #onSubmitDocumentForm(event, form, formData) {
-    const submitData = this._prepareSubmitData(event, form, formData);
-    await this.document.update(submitData);
-  }
 
   /** @override */
   static PARTS = {
@@ -38,17 +25,10 @@ export default class SkillConfig extends foundry.applications.api.HandlebarsAppl
   async _prepareContext(options) {
     const skills = this.document.system.toObject().skills;
     const data = {
-      config: CONFIG.SYSTEM,
-      choices: {4: "d4", 8: "d8", 12: "d12"},
-      skills: Object.entries(skills).map(([key, skill]) => ({
-        key: key,
-        selected: skill.faces,
-        label: `ARTICHRON.Skills.${key.capitalize()}`
-      })),
       fields: artichron.dataModels.actor.hero.schema.fields.skills.fields,
-      source: this.document.toObject()
+      source: skills,
+      disabled: new Set(Object.values(skills).map(k => k.faces)).size !== 3
     };
-    data.disabled = new Set(data.skills.map(p => p.selected)).size !== 3;
     return data;
   }
 
