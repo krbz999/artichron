@@ -65,8 +65,10 @@
       "path": "lang/en.json"
     }
   ],
-  "gridDistance": 1,
-  "gridUnits": "m",
+  "grid": {
+    "distance": 1,
+    "units": "m"
+  },
   "initiative": "1d20",
   "primaryTokenAttribute": "health",
   "secondaryTokenAttribute": "pools.health",
@@ -100,6 +102,9 @@
     },
     "ChatMessage": {
       "damage": {}
+    },
+    "Combatant": {
+      "hero": {}
     }
   }
 }
