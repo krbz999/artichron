@@ -31,13 +31,31 @@ export const ArtichronSheetMixin = Base => class extends Base {
   /** @override */
   activateListeners(html) {
     super.activateListeners(html);
-    html[0].querySelectorAll("[type=text], [type=number]").forEach(n => {
+    html = html[0];
+    html.querySelectorAll("[type=text], [type=number]").forEach(n => {
       if (n.classList.contains("delta")) n.addEventListener("change", this._onChangeDelta.bind(this));
       n.addEventListener("focus", event => event.currentTarget.select());
     });
 
     const {left, top} = this.position ?? {};
     this.setPosition({left, top, height: "auto"});
+    this._disableOverriddenFields(html);
+  }
+
+  /**
+   * Disable any input fields that are affected by an ActiveEffect.
+   * @param {HTMLElement} html
+   */
+  _disableOverriddenFields(html) {
+    const names = Object.keys(foundry.utils.flattenObject(this.document.overrides));
+    for (const name of names) {
+      html.querySelectorAll(`[name="${name}"]`).forEach(k => {
+        if (!k.classList.contains("source")) {
+          k.disabled = true;
+          k.dataset.tooltip = "ARTICHRON.Warning.FieldOverridden";
+        }
+      });
+    }
   }
 
   /**

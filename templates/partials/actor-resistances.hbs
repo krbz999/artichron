@@ -12,7 +12,7 @@
   {{#if (or @root.isEditMode total)}}
   <div class="resistance" style="color: #{{color}}" data-tooltip="{{label}}">
     {{#if @root.isEditMode}}
-    <input type="text" name="system.resistances.{{key}}.bonus" value="{{source.bonus}}">
+    <input type="text" class="source" name="system.resistances.{{key}}.bonus" value="{{source.bonus}}">
     {{else}}
     <span class="total">{{total}}</span>
     {{/if}}

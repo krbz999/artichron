@@ -51,27 +51,33 @@ export default class ActorArtichron extends Actor {
 
   /** @override */
   prepareData() {
-    // Prepare data for the actor. Calling the super version of this executes
-    // the following, in order: data reset (to clear active effects),
-    // prepareBaseData(), prepareEmbeddedDocuments() (including active effects),
-    // prepareDerivedData().
+    /**
+     * This calls, in order,
+     * system.prepareBaseData,
+     * prepareBaseData,
+     * prepareEmbeddedDocuments,
+     * system.prepareDerivedData,
+     * prepareDerivedData
+     */
     super.prepareData();
   }
 
   /** @override */
   prepareBaseData() {
     // Data modifications in this step occur before processing embedded documents or derived data.
-    // No need to call super here.
+    super.prepareBaseData();
   }
 
   /** @override */
   prepareEmbeddedDocuments() {
+    this._prepareEmbedded = true;
     super.prepareEmbeddedDocuments(); // this calls 'this.applyActiveEffects()'.
+    delete this._prepareEmbedded;
   }
 
   /** @override */
   prepareDerivedData() {
-    // No need to call super here (will be in v12).
+    super.prepareDerivedData();
   }
 
   /* ---------------------------------------- */
@@ -82,8 +88,9 @@ export default class ActorArtichron extends Actor {
 
   /** @override */
   async _preUpdate(update, options, user) {
-    await super._preUpdate(update, options, user);
-    await this.system._preUpdate(update.system, options, user);
+    // This also calls system._preUpdate.
+    const allowed = await super._preUpdate(update, options, user);
+    if (allowed === false) return false;
   }
 
   /** @override */
@@ -93,8 +100,8 @@ export default class ActorArtichron extends Actor {
   }
 
   /** @override */
-  async _preCreate(data, options, userId) {
-    if ((await super._preCreate(data, options, userId)) === false) return false;
+  async _preCreate(data, options, user) {
+    if ((await super._preCreate(data, options, user)) === false) return false;
 
     const isHero = this.type === "hero";
     const tokenData = {
