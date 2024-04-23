@@ -306,13 +306,13 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(ActorSheet)
         type: game.i18n.localize(`DOCUMENT.${collection.documentClass.documentName}`)
       });
       const img = {effects: "icons/svg/sun.svg", items: "icons/svg/chest.svg"}[embeddedName];
-      let type, disabled;
+      let type;
+      let disabled;
       if (embeddedName === "items") type = event.currentTarget.closest("[data-item-type]").dataset.itemType;
       if (embeddedName === "effects") disabled = event.currentTarget.closest("[data-active]").dataset.active === "inactive";
-      return collection.documentClass.create({
+      return collection.documentClass.implementation.createDialog({
         name: name,
         img: img,
-        icon: embeddedName === "effects" ? img : undefined,
         type: type,
         disabled: disabled
       }, {parent: this.document, renderSheet: true});

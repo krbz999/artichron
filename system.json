@@ -105,6 +105,10 @@
     },
     "Combatant": {
       "hero": {}
+    },
+    "ActiveEffect": {
+      "fusion": {},
+      "buff": {}
     }
   }
 }

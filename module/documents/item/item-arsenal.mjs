@@ -11,7 +11,13 @@ export default class ArsenalData extends ItemSystemModel {
       ...super.defineSchema(),
       damage: new ArrayField(new EmbeddedDataField(DamageModel)),
       wield: new SchemaField({
-        value: new NumberField({choices: [1, 2], initial: 1}),
+        value: new NumberField({
+          choices: {
+            1: "ARTICHRON.ItemProperty.WieldOneHanded",
+            2: "ARTICHRON.ItemProperty.WieldTwoHanded"
+          },
+          initial: 1
+        }),
         range: new NumberField({integer: true, positive: true, initial: 1})
       })
     };
