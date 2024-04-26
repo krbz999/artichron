@@ -224,7 +224,9 @@
     "CircularTokens": "Circular Tokens",
     "CircularTokensHint": "Are tokens treated as circular for the purpose of their hit area?",
     "TemplateAreaThreshold": "Template Area Threshold",
-    "TemplateAreaThresholdHint": "The percentage a token must overlap a template to be considered 'inside' it."
+    "TemplateAreaThresholdHint": "The percentage a token must overlap a template to be considered 'inside' it. The default is 0.4.",
+    "TokenBarLength": "Token Bar Length",
+    "TokenBarLengthHint": "The length of token bars, in degrees. The default is 120."
   },
 
   "Warning": {

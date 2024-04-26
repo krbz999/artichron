@@ -95,17 +95,22 @@ export default class TokenArtichron extends Token {
     const aura = this.document.flags.artichron?.aura ?? {};
     if (!aura.distance || !(aura.distance > 0)) return;
 
-    const shape = this.createAura(aura);
+    const c = this.center;
+    const radius = aura.distance + this.document.width * .5 * canvas.grid.distance;
+    const points = canvas.grid.getCircle(c, radius).reduce((acc, p) => acc.concat(Object.values(p)), []);
+    const shape = CONFIG.Canvas.polygonBackends.move.create(c, {
+      type: "move",
+      boundaryShapes: [new PIXI.Polygon(points)],
+      debug: false
+    });
 
     if (canvas.grid.type !== CONST.GRID_TYPES.GRIDLESS) {
-      const b = shape.getBounds();
-      const minx = this.document.x + b.x + canvas.grid.sizeX;
-      const miny = this.document.y + b.y + canvas.grid.sizeY;
+      const {x, y, width, height} = shape.bounds;
       const positions = [];
-      for (let i = minx; i <= minx + b.width; i += canvas.grid.sizeX / 2) {
-        for (let j = miny; j <= miny + b.height; j += canvas.grid.sizeY / 2) {
-          const c = canvas.grid.getTopLeftPoint({x: i, y: j});
-          positions.push(c);
+      for (let i = x; i < x + width; i += canvas.grid.sizeX / 2) {
+        for (let j = y; j < y + height; j += canvas.grid.sizeY / 2) {
+          const c = canvas.grid.getCenterPoint({x: i, y: j});
+          if (shape.contains(c.x, c.y)) positions.push(canvas.grid.getTopLeftPoint(c));
         }
       }
 
@@ -114,43 +119,20 @@ export default class TokenArtichron extends Token {
       canvas.interface.grid.clearHighlightLayer(name);
 
       for (const p of positions) {
-        const q = {x: p.x - this.document.x, y: p.y - this.document.y};
-        if (shape.containsPoint(q)) canvas.interface.grid.highlightPosition(name, {
+        canvas.interface.grid.highlightPosition(name, {
           ...p, color: aura.color || undefined, alpha: aura.alpha || undefined
         });
       }
     } else {
+      const m = new PIXI.Graphics();
+      const color = Color.from(aura.color);
+      m.lineStyle({width: 3, color: color.subtract(0.5), alpha: aura.alpha});
+      m.beginFill(color, aura.alpha).drawShape(shape).endFill();
+      m.pivot.set(c.x, c.y);
       this.tokenAuras ??= canvas.interface.grid.tokenAuras.addChild(new PIXI.Container());
-      this.tokenAuras.addChild(shape);
+      this.tokenAuras.addChild(m);
       this.tokenAuras.position.set(...Object.values(this.center));
     }
-  }
-
-  /**
-   * Create aura PIXI element.
-   * @param {object} aura               The aura configuration.
-   * @param {number} aura.distance      The range, in grid units.
-   * @param {string} aura.color         The color of the aura.
-   * @param {number} aura.alpha         The aura opacity.
-   * @returns {PIXI}
-   */
-  createAura({distance, color, alpha}) {
-    const shape = new PIXI.Graphics();
-    color = Color.from(color);
-    const {x, y} = this.center;
-    const radius = distance + this.document.width / 2;
-
-    const points = canvas.grid.getCircle({x, y}, radius).reduce((acc, p) => acc.concat(Object.values(p)), []);
-
-    const m = CONFIG.Canvas.polygonBackends.move.create({x, y}, {
-      type: "move",
-      boundaryShapes: [new PIXI.Polygon(points)],
-      debug: false
-    });
-    shape.lineStyle({width: 3, color: color.subtract(0.5), alpha: alpha});
-    shape.beginFill(color, alpha).drawShape(m).endFill();
-    shape.pivot.set(x, y);
-    return shape;
   }
 
   /** @override */

@@ -16,8 +16,9 @@ export function registerSettings() {
   game.settings.register(id, "templateAreaThreshold", {
     scope: "world",
     requiresReload: true,
-    type: Number,
-    default: 0.4,
+    type: new foundry.data.fields.NumberField({
+      initial: 0.4, min: 0.1, max: 1, step: 0.1
+    }),
     config: true,
     name: "ARTICHRON.Setting.TemplateAreaThreshold",
     hint: "ARTICHRON.Setting.TemplateAreaThresholdHint"
@@ -27,8 +28,9 @@ export function registerSettings() {
   game.settings.register(id, "tokenBarLength", {
     scope: "world",
     requiresReload: false,
-    type: Number,
-    default: 120,
+    type: new foundry.data.fields.NumberField({
+      initial: 120, min: 45, max: 180, step: 5
+    }),
     config: true,
     name: "ARTICHRON.Setting.TokenBarLength",
     hint: "ARTICHRON.Setting.TokenBarLengthHint"
