@@ -120,6 +120,15 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(ItemSheet) {
     }
   }
 
+  /** @override */
+  _disableOverriddenFields(html) {
+    super._disableOverriddenFields(html);
+    if (foundry.utils.hasProperty(this.document.overrides, "system.damage")) {
+      html.querySelectorAll("[data-action=add], [data-action=del]").forEach(n => n.remove());
+      html.querySelectorAll("[name^='system.damage']").forEach(n => n.disabled = true);
+    }
+  }
+
   /**
    * Handle clicking an item control.
    * @param {PointerEvent} event      The initiating click event.
