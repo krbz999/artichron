@@ -28,6 +28,7 @@ export default class WeaponData extends ArsenalData {
   }
 
   async use() {
+    if (this._targeting) return null; // Prevent initiating targeting twice.
     const item = this.parent;
     const actor = item.actor;
 
@@ -36,8 +37,12 @@ export default class WeaponData extends ArsenalData {
       return null;
     }
 
+    this._targeting = true;
     const [target] = await this.pickTarget({count: 1, allowPreTarget: true});
-    if (!target) return null;
+    if (!target) {
+      delete this._targeting;
+      return null;
+    }
 
     const rollData = item.getRollData();
     const rolls = Object.entries(item.system.damage.reduce((acc, d) => {
