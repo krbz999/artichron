@@ -31,6 +31,7 @@ export default class ShieldData extends ArsenalData {
   }
 
   async use() {
+    if (this._targeting) return null; // Prevent initiating targeting twice.
     const item = this.parent;
     const actor = item.actor;
 
@@ -39,7 +40,9 @@ export default class ShieldData extends ArsenalData {
       return null;
     }
 
+    this._targeting = true;
     const [target] = await this.pickTarget({count: 1, allowPreTarget: true});
+    delete this._targeting;
     if (!target) return null;
 
     const rollData = item.getRollData();

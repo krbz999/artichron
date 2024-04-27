@@ -39,10 +39,8 @@ export default class WeaponData extends ArsenalData {
 
     this._targeting = true;
     const [target] = await this.pickTarget({count: 1, allowPreTarget: true});
-    if (!target) {
-      delete this._targeting;
-      return null;
-    }
+    delete this._targeting;
+    if (!target) return null;
 
     const rollData = item.getRollData();
     const rolls = Object.entries(item.system.damage.reduce((acc, d) => {
