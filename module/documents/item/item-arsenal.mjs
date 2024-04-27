@@ -4,12 +4,22 @@ import * as utils from "../../helpers/utils.mjs";
 
 const {ArrayField, NumberField, SchemaField, EmbeddedDataField} = foundry.data.fields;
 
+// Minor class for array fields to store an additional embedded data model.
+class SystemDamageField extends ArrayField {
+  /** @override */
+  _applyChangeAdd(value, delta, model, change) {
+    delta = delta.map(d => new DamageModel(d));
+    value.push(...delta);
+    return value;
+  }
+}
+
 export default class ArsenalData extends ItemSystemModel {
   /** @override */
   static defineSchema() {
     return {
       ...super.defineSchema(),
-      damage: new ArrayField(new EmbeddedDataField(DamageModel)),
+      damage: new SystemDamageField(new EmbeddedDataField(DamageModel)),
       wield: new SchemaField({
         value: new NumberField({
           choices: {
@@ -23,6 +33,7 @@ export default class ArsenalData extends ItemSystemModel {
     };
   }
 
+  /** @override */
   prepareDerivedData() {
     super.prepareDerivedData();
     const rollData = this.parent.getRollData();
