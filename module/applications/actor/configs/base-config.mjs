@@ -1,61 +1,47 @@
-export default class BaseConfig extends FormApplication {
-  constructor(actor, options = {}) {
-    super(actor);
-    this.actor = actor;
-    this.trait = options.trait;
-  }
-
+const a = foundry.applications.api;
+export default class BaseConfig extends a.HandlebarsApplicationMixin(a.DocumentSheetV2) {
   /** @override */
-  static get defaultOptions() {
-    return foundry.utils.mergeObject(super.defaultOptions, {
+  static DEFAULT_OPTIONS = {
+    classes: super.DEFAULT_OPTIONS.classes.concat("artichron"),
+    sheetConfig: false,
+    position: {
       width: 300,
-      classes: ["artichron"]
-    });
-  }
+      height: "auto"
+    },
+    form: {
+      handler: this.#onSubmitDocumentForm,
+      closeOnSubmit: true
+    }
+  };
 
   /** @override */
-  get template() {
-    return `systems/artichron/templates/actor/config/${this.configType}.hbs`;
-  }
+  static PARTS = {
+    form: {
+      id: "form",
+      template: undefined // must be subclassed
+    }
+  };
 
   /** @override */
   get title() {
-    const label = `ARTICHRON.${this.configType.capitalize()}`;
-    return `${game.i18n.localize(label)}: ${this.actor.name}`;
+    throw new Error("Subclasses of BaseConfig must override the title getter.");
   }
 
   /**
-   * What type of config is this?
-   * @type {string}
+   * Update the document.
+   * @this BaseConfig
+   * @param {Event} event                   Initiating click event.
+   * @param {HTMLElement} form              The relevant form.
+   * @param {FormDataExtended} formData     The form data.
+   * @returns {Promise<ActorArtichron>}     A promise that resolves to the updated actor.
    */
-  get configType() {
-    return this.trait;
+  static async #onSubmitDocumentForm(event, form, formData) {
+    const submitData = this._prepareSubmitData(event, form, formData);
+    return this.document.update(submitData);
   }
 
   /** @override */
-  activateListeners(html) {
-    super.activateListeners(html);
-    html[0].querySelectorAll("INPUT[type=text], INPUT[type=number]").forEach(n => {
-      n.addEventListener("focus", event => event.currentTarget.select());
-    });
-  }
-
-  /** @override */
-  async getData(options = {}) {
-    const {pools, resistances} = this.actor.system.toObject();
-    const config = CONFIG.SYSTEM;
-    return {
-      config: config,
-      resistances: Object.entries(resistances).map(([key, {bonus}]) => ({
-        ...config.DAMAGE_TYPES[key],
-        bonus,
-        key
-      }))
-    };
-  }
-
-  /** @override */
-  async _updateObject(event, formData) {
-    return this.actor.update(formData);
+  _prepareSubmitData(event, form, formData) {
+    return formData.object;
   }
 }

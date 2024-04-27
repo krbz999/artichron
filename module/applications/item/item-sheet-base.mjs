@@ -38,7 +38,7 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(ItemSheet) {
     foundry.utils.mergeObject(data, {
       context: {
         effects: this._prepareEffects(),
-        isFavorited: this.document.actor?.system.equipped.favorites.has(this.document) ?? null,
+        isFavorited: this.document.actor?.system.equipped.favorites.has(this.document) ?? false,
         templates: Object.entries(SYSTEM.SPELL_TARGET_TYPES).map(([k, v]) => {
           return {key: k, label: v.label, selected: this.item.system.template?.types.has(k)};
         }),
@@ -51,9 +51,9 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(ItemSheet) {
           return {...v, key: k, label: game.i18n.localize(`ARTICHRON.DamageType.${k.capitalize()}`)};
         }).sort((a, b) => a.label.localeCompare(b.label)),
         damageTypes: Object.entries(SYSTEM.DAMAGE_TYPES).reduce((acc, [k, v]) => {
-          acc[v.group].push({key: k, label: v.label});
+          acc[v.group][k] = v.label;
           return acc;
-        }, {physical: [], elemental: [], planar: []})
+        }, {physical: {}, elemental: {}, planar: {}})
       },
       descriptions: {
         value: await TextEditor.enrichHTML(this.document.system.description.value, {
@@ -123,7 +123,7 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(ItemSheet) {
   /**
    * Handle clicking an item control.
    * @param {PointerEvent} event      The initiating click event.
-   * @returns {Promise<*>}
+   * @returns {Promise}
    */
   async _onClickManageItem(event) {
     const control = event.currentTarget.dataset.control;
@@ -131,9 +131,9 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(ItemSheet) {
 
     // Create a new document.
     if (control === "create") {
-      return collection.documentClass.create({
-        name: game.i18n.format("DOCUMENT.New", {type: game.i18n.localize("DOCUMENT.ActiveEffect")}),
-        icon: "icons/svg/sun.svg",
+      return collection.documentClass.implementation.createDialog({
+        name: collection.documentClass.implementation.defaultName(),
+        img: "icons/svg/sun.svg",
         disabled: event.currentTarget.closest("[data-active]").dataset.active === "inactive"
       }, {parent: this.document, renderSheet: true});
     }

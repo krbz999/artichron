@@ -29,5 +29,4 @@ export default class ActorSheetHero extends ActorSheetArtichron {
     html = html[0];
     if (!this.isEditable) return;
   }
-
 }

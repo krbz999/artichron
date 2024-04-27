@@ -39,13 +39,18 @@ Hooks.once("init", function() {
   CONFIG.Combatant.documentClass = documents.combatant;
   CONFIG.Token.documentClass = documents.tokenDocument;
   CONFIG.Token.objectClass = documents.token;
+  CONFIG.Token.hudClass = applications.TokenHUDArtichron;
   CONFIG.MeasuredTemplate.objectClass = documents.template;
   CONFIG.MeasuredTemplate.documentClass = documents.templateDocument;
   CONFIG.ChatMessage.documentClass = documents.message;
+  CONFIG.ActiveEffect.documentClass = documents.effect;
 
   // Hook up system data types
   CONFIG.Actor.dataModels = dataModels.actor;
   CONFIG.Item.dataModels = dataModels.item;
+  CONFIG.ChatMessage.dataModels = dataModels.message;
+  CONFIG.Combatant.dataModels = dataModels.combatant;
+  CONFIG.ActiveEffect.dataModels = dataModels.effect;
 
   // Hook up dice types.
   CONFIG.Dice.rolls.push(...Object.values(dice));

@@ -15,6 +15,10 @@ import MeasuredTemplateDocumentArtichron from "./template/template-document.mjs"
 import SpellData from "./item/item-arsenal-spell.mjs";
 import WeaponData from "./item/item-arsenal-weapon.mjs";
 import ShieldData from "./item/item-arsenal-shield.mjs";
+import {DamageMessageData} from "./chat/system-model.mjs";
+import {HeroCombatantData} from "./combat/system-model.mjs";
+import {EffectFusionData} from "./effect/system-model.mjs";
+import ActiveEffectArtichron from "./effect/active-effect.mjs";
 
 export const dataModels = {
   actor: {
@@ -28,6 +32,15 @@ export const dataModels = {
     elixir: ElixirData,
     food: FoodData,
     part: PartData
+  },
+  message: {
+    damage: DamageMessageData
+  },
+  combatant: {
+    hero: HeroCombatantData
+  },
+  effect: {
+    fusion: EffectFusionData
   }
 };
 
@@ -40,5 +53,6 @@ export const documents = {
   token: TokenArtichron,
   template: MeasuredTemplateArtichron,
   templateDocument: MeasuredTemplateDocumentArtichron,
-  message: ChatMessageArtichron
+  message: ChatMessageArtichron,
+  effect: ActiveEffectArtichron
 };

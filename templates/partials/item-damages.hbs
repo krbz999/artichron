@@ -9,23 +9,15 @@
     <div class="form-fields">
       <input type="text" class="formula" name="system.damage.{{idx}}.formula" value="{{damage.formula}}">
       <select class="type" name="system.damage.{{idx}}.type">
-        {{#select damage.type}}
         <optgroup label="{{localize 'ARTICHRON.DamageTypeGroup.Physical'}}">
-          {{#each @root.context.damageTypes.physical}}
-          <option value="{{key}}">{{localize label}}</option>
-          {{/each}}
+          {{selectOptions @root.context.damageTypes.physical selected=damage.type localize=true}}
         </optgroup>
         <optgroup label="{{localize 'ARTICHRON.DamageTypeGroup.Elemental'}}">
-          {{#each @root.context.damageTypes.elemental}}
-          <option value="{{key}}">{{localize label}}</option>
-          {{/each}}
+          {{selectOptions @root.context.damageTypes.elemental selected=damage.type localize=true}}
         </optgroup>
         <optgroup label="{{localize 'ARTICHRON.DamageTypeGroup.Planar'}}">
-          {{#each @root.context.damageTypes.planar}}
-          <option value="{{key}}">{{localize label}}</option>
-          {{/each}}
+          {{selectOptions @root.context.damageTypes.planar selected=damage.type localize=true}}
         </optgroup>
-        {{/select}}
       </select>
       <a class="action" data-action="del" data-idx="{{idx}}"><i class="fa-solid fa-minus"></i></a>
     </div>

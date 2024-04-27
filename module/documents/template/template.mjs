@@ -197,24 +197,32 @@ export default class MeasuredTemplateArtichron extends MeasuredTemplate {
   _onMovePlacement(event) {
     if (this.#locked) return;
     event.stopPropagation();
-    const now = Date.now(); // Apply a 20ms throttle
+    const now = Date.now();
     if (now - this.#moveTime <= 20) return;
-    const ray = new Ray({...this.origin}, event.data.getLocalPosition(this.layer));
+
+    const freeForm = (canvas.grid.type === CONST.GRID_TYPES.GRIDLESS) || event.shiftKey;
+    const cursor = event.data.getLocalPosition(this.layer);
+    const target = freeForm ? cursor : canvas.grid.getCenterPoint(cursor);
+
+    const ray = new Ray({...this.origin}, target);
     const pos = this.config.attach ? ray.A : ray.B;
     pos.direction = Math.toDegrees(ray.angle);
 
     let pos2;
     if (this.config.attach && (this.document.t !== "circle")) {
       pos2 = Ray.towardsPoint(ray.A, ray.B, this.token.w / 2).B;
-    } else if (!this.config.attach) {
-      const dp = canvas.dimensions.distancePixels;
-      const r = this.config.range;
-      if ((r > 0) && (canvas.grid.measureDistance(ray.A, pos) > r)) {
-        pos2 = Ray.fromAngle(ray.A.x, ray.A.y, ray.angle, r * dp).B;
+    } else if (!this.config.attach && (this.config.range > 0)) {
+      const point = canvas.grid.getCenterPoint(pos);
+      const tooFar = canvas.grid.measurePath([ray.A, point]).distance >= this.config.range;
+      if (tooFar) {
+        pos2 = canvas.grid.getTranslatedPoint(ray.A, pos.direction, this.config.range);
+        if (!freeForm) pos2 = canvas.grid.getCenterPoint(pos2);
+      } else if (!freeForm) {
+        pos2 = point;
       }
     }
 
-    if (pos2) foundry.utils.mergeObject(pos, pos2);
+    if (pos2) Object.assign(pos, pos2);
 
     this.document.updateSource(pos);
     this.refresh();
