@@ -75,6 +75,45 @@ export default class ItemArtichron extends Item {
     super.prepareData();
   }
 
+  /** @override */
+  prepareEmbeddedDocuments() {
+    super.prepareEmbeddedDocuments();
+    if (!this.isEmbedded || this.actor._prepareEmbedded) this.applyActiveEffects();
+  }
+
+  /**
+   * Apply changes from item-specific active effects.
+   */
+  applyActiveEffects() {
+    const overrides = {};
+    const changes = [];
+    for (const e of this.allApplicableEffects()) {
+      if (!e.active) continue;
+      changes.push(...e.changes.map(change => {
+        const c = foundry.utils.deepClone(change);
+        c.effect = e;
+        c.priority ??= c.mode * 10;
+        return c;
+      }));
+    }
+    changes.sort((a, b) => a.priority - b.priority);
+    for (const c of changes) {
+      if (!c.key) continue;
+      const result = c.effect.apply(this, c);
+      Object.assign(overrides, result);
+    }
+    this.overrides = foundry.utils.expandObject(overrides);
+  }
+
+  /**
+   * Get all effects that may apply to this item.
+   * @yields {ActiveEffectArtichron}
+   * @returns {Generator<ActiveEffectArtichron, void, void}
+   */
+  *allApplicableEffects() {
+    for (const e of this.effects) if (e.type === "fusion") yield e;
+  }
+
   /* ---------------------------------------- */
   /*                                          */
   /*               UPDATE METHODS             */

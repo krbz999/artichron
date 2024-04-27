@@ -1,19 +1,12 @@
-<form>
-  {{#each skills}}
-  <div class="form-group">
-    <label>{{localize label}}</label>
-    <select name="system.skills.{{key}}.faces">
-      {{#select faces}}
-      <option value="">&mdash;</option>
-      <option value="4">d4</option>
-      <option value="8">d8</option>
-      <option value="12">d12</option>
-      {{/select}}
-    </select>
-  </div>
-  {{/each}}
+<div class="standard-form" data-action="onChangeSelect">
+  {{formField fields.head.fields.faces value=source.head.faces label="ARTICHRON.Skills.Head" localize=true}}
+  {{formField fields.arms.fields.faces value=source.arms.faces label="ARTICHRON.Skills.Arms" localize=true}}
+  {{formField fields.legs.fields.faces value=source.legs.faces label="ARTICHRON.Skills.Legs" localize=true}}
 
-  <button type="submit" {{disabled disabled}}>
-    <i class="fa-solid fa-save"></i> {{localize "Save"}}
-  </button>
-</form>
+  <footer class="form-footer">
+    <button type="submit" {{disabled disabled}}>
+      <i class="fa-solid fa-save"></i>
+      <label>{{localize "Save"}}</label>
+    </button>
+  </footer>
+</div>

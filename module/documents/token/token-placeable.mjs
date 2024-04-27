@@ -1,4 +1,5 @@
 const cap = PIXI.LINE_CAP.ROUND;
+const join = PIXI.LINE_JOIN.ROUND;
 
 export default class TokenArtichron extends Token {
   /**
@@ -66,7 +67,7 @@ export default class TokenArtichron extends Token {
       const w = CONFIG.SYSTEM.SHIELD_TYPES[item.system.category.subtype]?.width ?? 1;
       return acc + w;
     }, 0);
-    const radi = Math.clamped(value * (items.length > 1 ? 50 : 60), 0, 300);
+    const radi = Math.clamp(value * (items.length > 1 ? 50 : 60), 0, 300);
 
     const width = this.shieldWidth;
     const radius = this.shieldRadius;
@@ -79,11 +80,11 @@ export default class TokenArtichron extends Token {
     shield.name = "tokenShield";
 
     const bd = shield.addChild(new PIXI.Graphics());
-    bd.lineStyle({width: width - 2, color: color.fill, cap: cap});
+    bd.lineStyle({width: width / 2, color: color.fill, cap: cap});
     bd.arc(0, 0, radius, Math.toRadians(90 - radi / 2), Math.toRadians(90 + radi / 2));
 
     shield.position.set(this.w / 2, this.h / 2);
-    this.setChildIndex(shield, 0);
+    this.setChildIndex(shield, 2);
   }
 
   /** Redraw token aura. */
@@ -94,35 +95,44 @@ export default class TokenArtichron extends Token {
     const aura = this.document.flags.artichron?.aura ?? {};
     if (!aura.distance || !(aura.distance > 0)) return;
 
-    this.tokenAuras ??= canvas.grid.tokenAuras.addChild(new PIXI.Container());
-    const shape = this.createAura(aura);
-    this.tokenAuras.addChild(shape);
-    this.tokenAuras.position.set(...Object.values(this.center));
-  }
-
-  /**
-   * Create aura PIXI element.
-   * @param {object} aura               The aura configuration.
-   * @param {number} aura.distance      The range, in grid units.
-   * @param {string} aura.color         The color of the aura.
-   * @param {number} aura.alpha         The aura opacity.
-   * @returns {PIXI}
-   */
-  createAura({distance, color, alpha}) {
-    const shape = new PIXI.Graphics();
-    const radius = distance * canvas.dimensions.distancePixels + this.h / 2;
-    color = Color.from(color);
-    const {x, y} = this.center;
-
-    const m = CONFIG.Canvas.polygonBackends.move.create({x, y}, {
+    const c = this.center;
+    const radius = aura.distance + this.document.width * .5 * canvas.grid.distance;
+    const points = canvas.grid.getCircle(c, radius).reduce((acc, p) => acc.concat(Object.values(p)), []);
+    const shape = CONFIG.Canvas.polygonBackends.move.create(c, {
       type: "move",
-      hasLimitedRadius: true,
-      radius: radius,
-      density: PIXI.Circle.approximateVertexDensity(radius) * 2
+      boundaryShapes: [new PIXI.Polygon(points)],
+      debug: false
     });
-    shape.beginFill(color, alpha).drawShape(m).endFill();
-    shape.pivot.set(x, y);
-    return shape;
+
+    if (canvas.grid.type !== CONST.GRID_TYPES.GRIDLESS) {
+      const {x, y, width, height} = shape.bounds;
+      const positions = [];
+      for (let i = x; i < x + width; i += canvas.grid.sizeX / 2) {
+        for (let j = y; j < y + height; j += canvas.grid.sizeY / 2) {
+          const c = canvas.grid.getCenterPoint({x: i, y: j});
+          if (shape.contains(c.x, c.y)) positions.push(canvas.grid.getTopLeftPoint(c));
+        }
+      }
+
+      const name = `Token.${this.id}`;
+      const hl = canvas.interface.grid.addHighlightLayer(name);
+      canvas.interface.grid.clearHighlightLayer(name);
+
+      for (const p of positions) {
+        canvas.interface.grid.highlightPosition(name, {
+          ...p, color: aura.color || undefined, alpha: aura.alpha || undefined
+        });
+      }
+    } else {
+      const m = new PIXI.Graphics();
+      const color = Color.from(aura.color);
+      m.lineStyle({width: 3, color: color.subtract(0.5), alpha: aura.alpha});
+      m.beginFill(color, aura.alpha).drawShape(shape).endFill();
+      m.pivot.set(c.x, c.y);
+      this.tokenAuras ??= canvas.interface.grid.tokenAuras.addChild(new PIXI.Container());
+      this.tokenAuras.addChild(m);
+      this.tokenAuras.position.set(...Object.values(this.center));
+    }
   }
 
   /** @override */
@@ -140,20 +150,20 @@ export default class TokenArtichron extends Token {
 
   /** @override */
   _refreshBorder() {
-    if (canvas.grid.isHex || !this.isCircular) return super._refreshBorder();
-    const b = this.border;
-    b.clear();
+    if (canvas.grid.isHexagonal || !this.isCircular) {
+      super._refreshBorder();
+      return;
+    }
 
-    // Determine the desired border color
-    const borderColor = this._getBorderColor();
-    if (!borderColor) return;
-
+    const thickness = this.borderWidth;
     const radius = this.borderRadius;
-    const width = this.borderWidth;
     const p = {x: this.w / 2, y: this.h / 2};
-    const color = {black: 0x000000, fill: borderColor};
-    b.lineStyle(width, color.black, 1).drawCircle(p.x, p.y, radius);
-    b.lineStyle(width - 2, color.fill, 1).drawCircle(p.x, p.y, radius);
+
+    this.border.clear();
+    this.border.lineStyle({width: thickness, color: 0x000000, alignment: 0.75, join: PIXI.LINE_JOIN.ROUND});
+    this.border.drawCircle(p.x, p.y, radius);
+    this.border.lineStyle({width: thickness / 2, color: 0xFFFFFF, alignment: 1, join: PIXI.LINE_JOIN.ROUND});
+    this.border.drawCircle(p.x, p.y, radius);
   }
 
   /** @override */
@@ -165,7 +175,7 @@ export default class TokenArtichron extends Token {
     }
 
     const val = Number(data.value);
-    const pct = Math.clamped(val, 0, data.max) / data.max;
+    const pct = Math.clamp(val, 0, data.max) / data.max;
     const isZero = number === 0;
 
     // Determine sizing
@@ -179,7 +189,7 @@ export default class TokenArtichron extends Token {
 
     // End point and length variables.
     const d = isZero ? 1 : -1;
-    const c = Math.clamped(game.settings.get("artichron", "tokenBarLength"), 30, 180);
+    const c = Math.clamp(game.settings.get("artichron", "tokenBarLength"), 30, 180);
     const a = d * (90 + c / 2);
     const b = {
       black: d * (90 - c / 2),
@@ -194,7 +204,7 @@ export default class TokenArtichron extends Token {
     bar.arc(p.x, p.y, radius, Math.toRadians(a), Math.toRadians(b.black), isZero);
 
     const hpline = bar.addChild(new PIXI.Graphics());
-    hpline.lineStyle({width: width - 1, color: color.fill, cap: cap});
+    hpline.lineStyle({width: width / 2, color: color.fill, cap: cap});
     hpline.arc(p.x, p.y, radius, Math.toRadians(a), Math.toRadians(b.fill), isZero);
 
     bar.position.set(0, 0);

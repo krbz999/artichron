@@ -1,7 +1,6 @@
 import ItemArtichron from "../../documents/item/item.mjs";
 import {SYSTEM} from "../../helpers/config.mjs";
 import {ArtichronSheetMixin} from "../base-sheet.mjs";
-import config from "./configs/base-config.mjs";
 import PoolConfig from "./configs/pool-config.mjs";
 import SkillConfig from "./configs/skill-config.mjs";
 
@@ -97,7 +96,7 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(ActorSheet)
    */
   _prepareHealth() {
     const hp = this.document.system.health;
-    return {height: Math.clamped(hp.value / hp.max, 0, 1) * 100};
+    return {height: Math.clamp(hp.value / hp.max, 0, 1) * 100};
   }
 
   /**
@@ -307,13 +306,13 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(ActorSheet)
         type: game.i18n.localize(`DOCUMENT.${collection.documentClass.documentName}`)
       });
       const img = {effects: "icons/svg/sun.svg", items: "icons/svg/chest.svg"}[embeddedName];
-      let type, disabled;
+      let type;
+      let disabled;
       if (embeddedName === "items") type = event.currentTarget.closest("[data-item-type]").dataset.itemType;
       if (embeddedName === "effects") disabled = event.currentTarget.closest("[data-active]").dataset.active === "inactive";
-      return collection.documentClass.create({
+      return collection.documentClass.implementation.createDialog({
         name: name,
         img: img,
-        icon: embeddedName === "effects" ? img : undefined,
         type: type,
         disabled: disabled
       }, {parent: this.document, renderSheet: true});
@@ -438,9 +437,8 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(ActorSheet)
    */
   _onClickConfig(event) {
     const trait = event.currentTarget.dataset.trait;
-    if (trait === "pools") return new PoolConfig(this.actor).render(true);
-    else if (trait === "skills") return new SkillConfig(this.actor).render(true);
-    return new config(this.actor, {trait}).render(true);
+    if (trait === "pools") return new PoolConfig({document: this.actor}).render(true);
+    else if (trait === "skills") return new SkillConfig({document: this.actor}).render(true);
   }
 
   /**
