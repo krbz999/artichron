@@ -30,6 +30,7 @@ export default class SpellData extends ArsenalData {
   }
 
   async use() {
+    if (this._targeting) return null; // Prevent initiating targeting twice.
     const item = this.parent;
     const actor = item.actor;
 
@@ -51,6 +52,7 @@ export default class SpellData extends ArsenalData {
 
     let targets = new Set();
 
+    this._targeting = true;
     if (data.type !== "single") {
       // Case 1: Area of effect.
       const templates = await this.placeTemplates(data);
@@ -60,6 +62,7 @@ export default class SpellData extends ArsenalData {
       // Case 2: Singular targets.
       targets = await this.pickTarget({count: data.count, range: data.range});
     }
+    delete this._targeting;
 
     if (data.mana) await actor.update({"system.pools.mana.value": actor.system.pools.mana.value - configuration.cost});
 
