@@ -89,11 +89,11 @@ export default class TokenArtichron extends Token {
 
   /** Redraw token aura. */
   drawAura() {
-    if (this.tokenAuras?.removeChildren) this.tokenAuras.removeChildren().forEach(c => c.destroy());
-    if (this.document.hidden && !game.user.isGM) return;
+    this.clearArtichronChildren();
+    if (!this.visible || !this.renderable) return;
 
     const aura = this.document.flags.artichron?.aura ?? {};
-    if (!aura.distance || !(aura.distance > 0)) return;
+    if (!aura.distance || !(aura.distance > 0) || !aura.alpha) return;
 
     const c = this.center;
     const radius = aura.distance + this.document.width * .5 * canvas.grid.distance;
@@ -116,11 +116,11 @@ export default class TokenArtichron extends Token {
 
       const name = `Token.${this.id}`;
       const hl = canvas.interface.grid.addHighlightLayer(name);
-      canvas.interface.grid.clearHighlightLayer(name);
+      const alpha = (this.document.hidden || this.actor.statuses.has("invisible")) ? aura.alpha / 2 : aura.alpha;
 
       for (const p of positions) {
         canvas.interface.grid.highlightPosition(name, {
-          ...p, color: aura.color || undefined, alpha: aura.alpha || undefined
+          ...p, color: aura.color || undefined, alpha: alpha
         });
       }
     } else {
@@ -135,10 +135,20 @@ export default class TokenArtichron extends Token {
     }
   }
 
+  /**
+   * Clear auras and grid highlights.
+   * @param {boolean} [full]      Remove the PIXI container from the grid interface?
+   */
+  clearArtichronChildren(full = false) {
+    canvas.interface.grid.clearHighlightLayer(`Token.${this.id}`);
+    if (full) this.tokenAuras?.destroy();
+    else if (this.tokenAuras?.removeChildren) this.tokenAuras.removeChildren().forEach(c => c.destroy());
+  }
+
   /** @override */
   _destroy(...args) {
-    super._destroy(...args);
-    this.tokenAuras?.destroy();
+    this.clearArtichronChildren(true);
+    return super._destroy(...args);
   }
 
   /** @override */
