@@ -1,4 +1,4 @@
-<form>
+<div class="standard-form">
 
   <!-- Damage type -->
   <div class="form-group">
@@ -94,10 +94,11 @@
     </label>
   </div>
 
-  <footer>
-    <button type="button" class="gold-button" data-action="confirm" {{disabled invalid}}>
+  <footer class="form-footer">
+    <button type="submit" class="gold-button" {{disabled invalid}}>
       <i class="fa-solid fa-check"></i>
       {{localize "ARTICHRON.SpellcastingDialog.Confirm"}}
     </button>
   </footer>
-</form>
+
+</div>

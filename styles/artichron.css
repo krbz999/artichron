@@ -89,7 +89,7 @@ multi-select .tags.chosen {
   }
 }
 
-.artichron.app {
+.artichron.app, .artichron.application {
   &.opacity {
     transition: opacity 250ms;
     &:not(:hover) { opacity: 0.1; }
