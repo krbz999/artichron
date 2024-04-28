@@ -1,8 +1,8 @@
-const a = foundry.applications.api;
-export default class BaseConfig extends a.HandlebarsApplicationMixin(a.DocumentSheetV2) {
+const {HandlebarsApplicationMixin, DocumentSheetV2} = foundry.applications.api;
+export default class BaseConfig extends HandlebarsApplicationMixin(DocumentSheetV2) {
   /** @override */
   static DEFAULT_OPTIONS = {
-    classes: super.DEFAULT_OPTIONS.classes.concat("artichron"),
+    classes: ["artichron"],
     sheetConfig: false,
     position: {
       width: 300,

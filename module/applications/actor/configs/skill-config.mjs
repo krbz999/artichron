@@ -2,11 +2,7 @@ import BaseConfig from "./base-config.mjs";
 
 export default class SkillConfig extends BaseConfig {
   /** @override */
-  static DEFAULT_OPTIONS = {
-    actions: {
-      onChangeSelect: SkillConfig.#onChangeSelect
-    }
-  };
+  static DEFAULT_OPTIONS = {};
 
   /** @override */
   static PARTS = {
@@ -27,7 +23,8 @@ export default class SkillConfig extends BaseConfig {
     const data = {
       fields: artichron.dataModels.actor.hero.schema.fields.skills.fields,
       source: skills,
-      disabled: new Set(Object.values(skills).map(k => k.faces)).size !== 3
+      disabled: new Set(Object.values(skills).map(k => k.faces)).size !== 3,
+      dataset: {action: "onChange"}
     };
     return data;
   }
@@ -42,13 +39,24 @@ export default class SkillConfig extends BaseConfig {
   }
 
   /** @override */
-  static #onChangeSelect(event) {
-    const inputs = event.currentTarget.querySelectorAll("select");
+  _onRender(context, options) {
+    super._onRender(context, options);
+    this.element.querySelectorAll("[data-action=onChange]").forEach(n => {
+      n.addEventListener("change", this._onChangeSelect.bind(this));
+    });
+  }
+
+  /**
+   * Set the disabled state when a select element is changed.
+   * @param {Event} event     The change event.
+   */
+  _onChangeSelect(event) {
+    const inputs = this.element.querySelectorAll("[data-action=onChange]");
     const disabled = Array.from(inputs).reduce((acc, k) => {
       const n = parseInt(k.value) || 4;
       acc.add(n);
       return acc;
     }, new Set()).size !== 3;
-    event.currentTarget.querySelector("[type=submit]").disabled = disabled;
+    this.element.querySelector("[type=submit]").disabled = disabled;
   }
 }

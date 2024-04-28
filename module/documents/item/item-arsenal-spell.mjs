@@ -44,7 +44,7 @@ export default class SpellData extends ArsenalData {
       return null;
     }
 
-    const configuration = await SpellcastingDialog.create(actor, item);
+    const configuration = await SpellcastingDialog.create({actor, item});
     if (!configuration) return null;
 
     const data = SpellcastingDialog.determineTemplateData(configuration);

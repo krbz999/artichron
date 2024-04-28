@@ -210,7 +210,8 @@ export default class MeasuredTemplateArtichron extends MeasuredTemplate {
 
     let pos2;
     if (this.config.attach && (this.document.t !== "circle")) {
-      pos2 = Ray.towardsPoint(ray.A, ray.B, this.token.w / 2).B;
+      const ray2 = Ray.towardsPoint(ray.A, cursor, this.token.w / 2);
+      pos2 = {...ray2.B, direction: Math.toDegrees(ray2.angle)};
     } else if (!this.config.attach && (this.config.range > 0)) {
       const point = canvas.grid.getCenterPoint(pos);
       const tooFar = canvas.grid.measurePath([ray.A, point]).distance >= this.config.range;

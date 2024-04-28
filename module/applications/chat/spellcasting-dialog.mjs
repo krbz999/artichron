@@ -1,12 +1,30 @@
-export default class SpellcastingDialog extends Application {
+const {HandlebarsApplicationMixin, ApplicationV2} = foundry.applications.api;
+
+export default class SpellcastingDialog extends HandlebarsApplicationMixin(ApplicationV2) {
   /** @override */
-  static get defaultOptions() {
-    const options = super.defaultOptions;
-    options.classes.push("artichron", "spellcasting-dialog");
-    options.height = "auto";
-    options.width = 400;
-    options.template = "systems/artichron/templates/chat/spellcasting-dialog.hbs";
-    return options;
+  static DEFAULT_OPTIONS = {
+    classes: ["artichron", "spellcasting-dialog"],
+    tag: "form",
+    position: {
+      height: "auto",
+      width: 400
+    },
+    form: {
+      handler: this.#onConfirm
+    }
+  };
+
+  /** @override */
+  static PARTS = {
+    form: {
+      id: "form",
+      template: "systems/artichron/templates/chat/spellcasting-dialog.hbs"
+    }
+  };
+
+  /** @override */
+  get title() {
+    return game.i18n.format("ARTICHRON.SpellcastingDialog.Title", {item: this.item.name});
   }
 
   /**
@@ -15,28 +33,18 @@ export default class SpellcastingDialog extends Application {
    * @param {ItemArtichron} item
    * @param {object} [options]
    */
-  static async create(actor, item, options = {}) {
+  static async create({actor, item, ...options} = {}) {
     return new Promise(resolve => {
-      new this(actor, item, {...options, resolve: resolve}).render(true);
+      new this({actor, item, ...options, resolve: resolve}).render({force: true});
     });
   }
 
-  /**
-   * @constructor
-   * @param {ActorArtichron} actor
-   * @param {ItemArtichron} item
-   * @param {object} [options]
-   */
-  constructor(actor, item, options = {}) {
+  /** @constructor */
+  constructor({actor, item, resolve, ...options} = {}) {
     super(options);
     this.actor = actor;
     this.item = item;
-    if (options.resolve) this.resolve = options.resolve;
-  }
-
-  /** @override */
-  get title() {
-    return game.i18n.format("ARTICHRON.SpellcastingDialog.Title", {item: this.item.name});
+    this.resolve = resolve;
   }
 
   /**
@@ -65,20 +73,13 @@ export default class SpellcastingDialog extends Application {
   }
 
   /** @override */
-  render(...args) {
-    this.actor.apps[this.appId] = this;
-    return super.render(...args);
-  }
-
-  /** @override */
   async close(...args) {
-    delete this.actor.apps[this.appId];
     this.resolve?.(null);
     return super.close(...args);
   }
 
   /** @override */
-  getData() {
+  async _prepareContext(options) {
     const dtypeOptions = this._getDamageOptions();
     const shapeOptions = this._getShapeOptions();
 
@@ -233,24 +234,35 @@ export default class SpellcastingDialog extends Application {
     return roll.formula;
   }
 
-  /** @override */
-  activateListeners(html) {
-    super.activateListeners(html);
-    html = html[0];
-    html.querySelectorAll("SELECT, INPUT").forEach(n => {
-      n.addEventListener("change", event => {
-        const data = new FormDataExtended(event.currentTarget.closest("FORM")).object;
-        this.model.updateSource(data);
-        this.render();
-      });
-    });
+  /**
+   * Handle change events select elements.
+   * @param {Event} event     Initiating change events.
+   */
+  #onChange(event) {
+    const data = new FormDataExtended(event.currentTarget.closest("FORM")).object;
+    this.model.updateSource(data);
+    this.render();
+  }
 
-    html.querySelector("[data-action=confirm]").addEventListener("click", event => {
-      const data = this.model.toObject();
-      data.cost = this.cost;
-      data.formula = this.formula;
-      this.resolve?.(data);
-      this.close();
+  /**
+   * Confirm and submit the form, and resolve the promise.
+   * @this SpellcastingDialog
+   * @param {Event} event             Initiating click event.
+   * @param {HTMLElement} target      The targeted element.
+   */
+  static #onConfirm(event, target) {
+    const data = this.model.toObject();
+    data.cost = this.cost;
+    data.formula = this.formula;
+    this.resolve?.(data);
+    this.close();
+  }
+
+  /** @override */
+  _onRender(context, options) {
+    super._onRender(context, options);
+    this.element.querySelectorAll("SELECT, INPUT").forEach(n => {
+      n.addEventListener("change", this.#onChange.bind(this));
     });
   }
 
