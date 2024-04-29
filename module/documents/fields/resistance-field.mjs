@@ -1,14 +1,15 @@
 import {SYSTEM} from "../../helpers/config.mjs";
+import {ResistanceBonusField} from "./resistance-bonus-field.mjs";
 
-const {NumberField, SchemaField} = foundry.data.fields;
+const {SchemaField} = foundry.data.fields;
 
 // For items.
-export class ResistanceField extends foundry.data.fields.SchemaField {
+export class ResistanceField extends SchemaField {
   constructor(schemaOptions = {}) {
     const fields = {};
     for (const [k, v] of Object.entries(SYSTEM.DAMAGE_TYPES)) {
       if (v.resist) fields[k] = new SchemaField({
-        value: new NumberField({integer: true, min: 0, initial: null})
+        value: new ResistanceBonusField({required: true})
       });
     }
     super(fields, schemaOptions);

@@ -42,33 +42,13 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(ActorSheet)
         }
       ],
       classes: ["sheet", "actor", "artichron"],
-      scrollY: [".equipped-items", ".documents-list"],
-      dragDrop: [{dragSelector: ".item-name"}]
+      scrollY: [".equipped-items", ".documents-list"]
     });
   }
 
   /** @override */
   get template() {
     return `systems/artichron/templates/actor/actor-sheet-${this.document.type}.hbs`;
-  }
-
-  /** @override */
-  _onDragStart(event) {
-    const entry = this._getEntryFromEvent(event);
-    const data = entry.toDragData();
-    event.dataTransfer.setData("text/plain", JSON.stringify(data));
-  }
-
-  /**
-   * Get the item or effect from this actor's collection, or an item's collection of effects.
-   * @param {Event} event
-   * @returns {ItemArtichron|ActiveEffectArtichron}
-   */
-  _getEntryFromEvent(event) {
-    const embeddedName = event.currentTarget.closest("[data-collection]").dataset.collection;
-    const data = event.currentTarget.closest("[data-item-id]").dataset;
-    const parent = data.parentId ? this.document.items.get(data.parentId) : this.document;
-    return parent.getEmbeddedCollection(embeddedName).get(data.itemId);
   }
 
   /* -------------------------------------------- */

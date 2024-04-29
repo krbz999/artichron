@@ -1,3 +1,4 @@
+import {SYSTEM} from "../../helpers/config.mjs";
 import {ArmorField} from "../fields/armor-field.mjs";
 import {IdentifierField} from "../fields/identifier.mjs";
 import {ResistanceField} from "../fields/resistance-field.mjs";
@@ -18,7 +19,7 @@ export default class ArmorData extends ItemSystemModel {
   static get BONUS_FIELDS() {
     return super.BONUS_FIELDS.union(new Set([
       "armor.value",
-      ...Object.entries(CONFIG.SYSTEM.DAMAGE_TYPES).reduce((acc, [k, v]) => {
+      ...Object.entries(SYSTEM.DAMAGE_TYPES).reduce((acc, [k, v]) => {
         if (v.resist) acc.push(`resistances.${k}.value`);
         return acc;
       }, [])

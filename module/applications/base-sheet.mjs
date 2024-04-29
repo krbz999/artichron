@@ -6,6 +6,31 @@
 export const ArtichronSheetMixin = Base => class extends Base {
   static SHEET_MODES = {EDIT: 0, PLAY: 1};
 
+  static get defaultOptions() {
+    const options = super.defaultOptions;
+    options.dragDrop = [{dragSelector: ".item-name"}];
+    return options;
+  }
+
+  /** @override */
+  _onDragStart(event) {
+    const entry = this._getEntryFromEvent(event);
+    const data = entry.toDragData();
+    event.dataTransfer.setData("text/plain", JSON.stringify(data));
+  }
+
+  /**
+   * Get the item or effect from this document's collection, or from an embedded document.
+   * @param {Event} event
+   * @returns {ItemArtichron|ActiveEffectArtichron}
+   */
+  _getEntryFromEvent(event) {
+    const embeddedName = event.currentTarget.closest("[data-collection]").dataset.collection;
+    const data = event.currentTarget.closest("[data-item-id]").dataset;
+    const parent = data.parentId ? this.document.items.get(data.parentId) : this.document;
+    return parent.getEmbeddedCollection(embeddedName).get(data.itemId);
+  }
+
   /**
    * The current sheet mode.
    * @type {number}
