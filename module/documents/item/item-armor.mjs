@@ -16,11 +16,11 @@ export default class ArmorData extends ItemSystemModel {
   }
 
   /** @override */
-  static get BONUS_FIELDS() {
+  get BONUS_FIELDS() {
     return super.BONUS_FIELDS.union(new Set([
-      "armor.value",
+      "system.armor.value",
       ...Object.entries(SYSTEM.DAMAGE_TYPES).reduce((acc, [k, v]) => {
-        if (v.resist) acc.push(`resistances.${k}.value`);
+        if (v.resist) acc.push(`system.resistances.${k}.value`);
         return acc;
       }, [])
     ]));

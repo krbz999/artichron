@@ -23,9 +23,9 @@ export default class SpellData extends ArsenalData {
   }
 
   /** @override */
-  static get BONUS_FIELDS() {
+  get BONUS_FIELDS() {
     return super.BONUS_FIELDS.union(new Set([
-      "template.rating"
+      "system.template.rating"
     ]));
   }
 

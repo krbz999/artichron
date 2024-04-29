@@ -42,9 +42,10 @@ export default class ArsenalData extends ItemSystemModel {
   }
 
   /** @override */
-  static get BONUS_FIELDS() {
+  get BONUS_FIELDS() {
     return super.BONUS_FIELDS.union(new Set([
-      "wield.range"
+      "system.wield.range",
+      "system.damage"
     ]));
   }
 
