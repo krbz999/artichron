@@ -54,18 +54,24 @@ function _getActor() {
 /**
  * Toggle an effect on an actor by name. It may be on an item.
  * @param {string} name     Name of the effect.
- * @returns {Promise<ActiveEffectArtichron>}
+ * @returns {Promise<ActiveEffectArtichron|null>}
  */
 export async function toggleEffect(name) {
   const actor = _getActor();
   if (!actor) return null;
-  let effect;
-  for (const e of actor.allApplicableEffects()) {
-    if (e.name === name) {
-      effect = e;
-      break;
+
+  const loop = parent => {
+    for (const e of parent.allApplicableEffects()) {
+      if (e.name === name) return e;
     }
+  };
+
+  let effect = loop(actor);
+  if (!effect) for (const item of actor.items) {
+    effect = loop(item);
+    if (effect) break;
   }
+
   if (!effect) return null;
   return effect.update({disabled: !effect.disabled});
 }
