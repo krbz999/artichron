@@ -206,7 +206,10 @@ SYSTEM.MOVEMENT_TYPES = {
   swimming: {label: "ARTICHRON.Movement.Swimming"}
 };
 
-// Weapon subtypes.
+/**
+ * Weapon subtypes.
+ * @enum {WeaponSubtype}
+ */
 SYSTEM.ARSENAL_TYPES = {
   axe: {label: "ARTICHRON.WeaponType.Axe"},
   hammer: {label: "ARTICHRON.WeaponType.Hammer"},
@@ -218,7 +221,10 @@ SYSTEM.ARSENAL_TYPES = {
   bow: {label: "ARTICHRON.WeaponType.Bow"}
 };
 
-// Shield types.
+/**
+ * Shield subtypes.
+ * @enum {ShieldSubtype}
+ */
 SYSTEM.SHIELD_TYPES = {
   buckler: {
     label: "ARTICHRON.ShieldType.Buckler",
@@ -234,14 +240,20 @@ SYSTEM.SHIELD_TYPES = {
   }
 };
 
-// Spell types.
+/**
+ * Spell subtypes.
+ * @enum {SpellSubtype}
+ */
 SYSTEM.SPELL_TYPES = {
   offense: {label: "ARTICHRON.SpellType.Offense"},
   defense: {label: "ARTICHRON.SpellType.Defense"},
   buff: {label: "ARTICHRON.SpellType.Buff"}
 };
 
-// Armor subtypes.
+/**
+ * Armor subtypes.
+ * @enum {ArmorSubtype}
+ */
 SYSTEM.ARMOR_TYPES = {
   accessory: {label: "ARTICHRON.ArmorType.Accessory"},
   arms: {label: "ARTICHRON.ArmorType.Arms"},
@@ -260,7 +272,10 @@ SYSTEM.MONSTER_PART_TYPES = {
   tail: {label: "ARTICHRON.MonsterPartType.Tail"}
 };
 
-// Elixir subtypes.
+/**
+ * Elixir subtypes.
+ * @enum {ElixirSubtype}
+ */
 SYSTEM.ELIXIR_TYPES = {};
 
 // Armor set identifiers.

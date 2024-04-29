@@ -1,3 +1,5 @@
+import {SYSTEM} from "../../helpers/config.mjs";
+
 const {HandlebarsApplicationMixin, ApplicationV2} = foundry.applications.api;
 
 export default class SpellcastingDialog extends HandlebarsApplicationMixin(ApplicationV2) {
@@ -83,7 +85,7 @@ export default class SpellcastingDialog extends HandlebarsApplicationMixin(Appli
     const dtypeOptions = this._getDamageOptions();
     const shapeOptions = this._getShapeOptions();
 
-    const scales = CONFIG.SYSTEM.SPELL_TARGET_TYPES[this.model.shape]?.scale ?? new Set();
+    const scales = SYSTEM.SPELL_TARGET_TYPES[this.model.shape]?.scale ?? new Set();
 
     return {
       dtypeOptions: dtypeOptions,
@@ -124,7 +126,7 @@ export default class SpellcastingDialog extends HandlebarsApplicationMixin(Appli
     if (!label) return "";
 
     const part = this.item.system.damage[this.model.part];
-    const dtype = game.i18n.localize(CONFIG.SYSTEM.DAMAGE_TYPES[part.type].label);
+    const dtype = game.i18n.localize(SYSTEM.DAMAGE_TYPES[part.type].label);
 
     return `${this.formula} ${dtype} damage; ${label}`;
   }
@@ -135,7 +137,7 @@ export default class SpellcastingDialog extends HandlebarsApplicationMixin(Appli
    */
   _getDamageOptions() {
     const options = this.item.system.damage.map((damage, i) => {
-      const obj = CONFIG.SYSTEM.DAMAGE_TYPES[damage.type];
+      const obj = SYSTEM.DAMAGE_TYPES[damage.type];
       const label = `${game.i18n.localize(obj.label)} [${damage.formula}]`;
       return [i, {label: label}];
     });
@@ -147,7 +149,7 @@ export default class SpellcastingDialog extends HandlebarsApplicationMixin(Appli
    * @returns {object}
    */
   _getShapeOptions() {
-    return Object.entries(CONFIG.SYSTEM.SPELL_TARGET_TYPES).reduce((acc, [k, v]) => {
+    return Object.entries(SYSTEM.SPELL_TARGET_TYPES).reduce((acc, [k, v]) => {
       if (!this.item.system.template.types.has(k)) return acc;
       acc[k] = {...v, label: `${game.i18n.localize(v.label)} ${v.modifier ? `[${v.modifier}]` : ""}`};
       return acc;
@@ -171,7 +173,7 @@ export default class SpellcastingDialog extends HandlebarsApplicationMixin(Appli
       };
     }
     else if (scale === "count") label = (n) => `+${n}`;
-    else label = (n) => `+${CONFIG.SYSTEM.SPELL_TARGET_TYPES[this.model.shape][scale][1] * n}m`;
+    else label = (n) => `+${SYSTEM.SPELL_TARGET_TYPES[this.model.shape][scale][1] * n}m`;
     return Object.fromEntries(Array.fromRange(this.max, 1).map(n => [n, `${label(n)} [${n}/${this.max}]`]));
   }
 
@@ -217,7 +219,7 @@ export default class SpellcastingDialog extends HandlebarsApplicationMixin(Appli
    * @type {number}
    */
   get cost() {
-    const spellType = CONFIG.SYSTEM.SPELL_TARGET_TYPES[this.model.shape];
+    const spellType = SYSTEM.SPELL_TARGET_TYPES[this.model.shape];
     return spellType?.scale.reduce((acc, k) => acc + this.model.scale[k], this.model.scale.damage) ?? 0;
   }
 
@@ -228,7 +230,7 @@ export default class SpellcastingDialog extends HandlebarsApplicationMixin(Appli
   get formula() {
     if (!this.model.shape) return "";
     const damage = this.item.system.damage[this.model.part];
-    const c = CONFIG.SYSTEM.SPELL_TARGET_TYPES[this.model.shape];
+    const c = SYSTEM.SPELL_TARGET_TYPES[this.model.shape];
     const formula = `${damage.formula}${c.modifier}`;
     const roll = new Roll(formula, this.item.getRollData(), {type: damage.type}).alter(1 + this.model.scale.damage, 0);
     return roll.formula;
@@ -281,7 +283,7 @@ export default class SpellcastingDialog extends HandlebarsApplicationMixin(Appli
     let count = 1;
 
     const getValue = (d) => {
-      const [base, increase] = CONFIG.SYSTEM.SPELL_TARGET_TYPES[data.shape][d];
+      const [base, increase] = SYSTEM.SPELL_TARGET_TYPES[data.shape][d];
       return base + increase * data.scale[d];
     };
 

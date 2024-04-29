@@ -1,3 +1,5 @@
+import {SYSTEM} from "../helpers/config.mjs";
+
 export class DamageRoll extends Roll {
   constructor(formula, data = {}, options = {}) {
     const type = options.type;
@@ -24,7 +26,7 @@ export class DamageRoll extends Roll {
 
     const totals = rolls.reduce((acc, roll) => {
       const type = roll.type;
-      if (!(type in CONFIG.SYSTEM.DAMAGE_TYPES)) return acc;
+      if (!(type in SYSTEM.DAMAGE_TYPES)) return acc;
       acc[type] ??= 0;
       acc[type] += roll.total;
       return acc;
@@ -58,7 +60,7 @@ export class DamageRoll extends Roll {
       return {
         formula: roll.formula,
         tooltip: await roll.getTooltip(),
-        config: CONFIG.SYSTEM.DAMAGE_TYPES[roll.options.type],
+        config: SYSTEM.DAMAGE_TYPES[roll.options.type],
         total: roll.total
       };
     });
