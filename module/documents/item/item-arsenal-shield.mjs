@@ -22,11 +22,11 @@ export default class ShieldData extends ArsenalData {
   }
 
   /** @override */
-  static get BONUS_FIELDS() {
+  get BONUS_FIELDS() {
     return super.BONUS_FIELDS.union(new Set([
-      "parry.number", "parry.faces",
-      "block.number", "block.faces",
-      "armor.value"
+      "system.parry.number", "system.parry.faces",
+      "system.block.number", "system.block.faces",
+      "system.armor.value"
     ]));
   }
 

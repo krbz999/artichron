@@ -117,7 +117,7 @@ async function createEffectMacro(bar, data, slot) {
     macro = await Macro.implementation.create({
       name: name,
       type: "script",
-      img: effect.icon,
+      img: effect.img,
       command: command
     });
   }

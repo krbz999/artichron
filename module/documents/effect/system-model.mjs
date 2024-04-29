@@ -15,6 +15,14 @@ export class EffectFusionData extends ActiveEffectSystemModel {
   prepareDerivedData() {
     this.parent.transfer = false;
   }
+
+  /**
+   * The fields this effect may apply to.
+   * @type {Set<string>}
+   */
+  get BONUS_FIELDS() {
+    return this.parent.parent.system.BONUS_FIELDS;
+  }
 }
 
 export class EffectBuffData extends ActiveEffectSystemModel {

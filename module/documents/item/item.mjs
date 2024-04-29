@@ -87,18 +87,23 @@ export default class ItemArtichron extends Item {
   applyActiveEffects() {
     const overrides = {};
     const changes = [];
+
+    const validFields = this.system.BONUS_FIELDS;
+
     for (const e of this.allApplicableEffects()) {
       if (!e.active) continue;
-      changes.push(...e.changes.map(change => {
-        const c = foundry.utils.deepClone(change);
-        c.effect = e;
-        c.priority ??= c.mode * 10;
-        return c;
-      }));
+      changes.push(...e.changes.reduce((acc, change) => {
+        if (validFields.has(change.key)) {
+          const c = foundry.utils.deepClone(change);
+          c.effect = e;
+          c.priority ??= c.mode * 10;
+          acc.push(c);
+        }
+        return acc;
+      }, []));
     }
     changes.sort((a, b) => a.priority - b.priority);
     for (const c of changes) {
-      if (!c.key) continue;
       const result = c.effect.apply(this, c);
       Object.assign(overrides, result);
     }
