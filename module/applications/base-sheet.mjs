@@ -1,3 +1,5 @@
+import {SYSTEM} from "../helpers/config.mjs";
+
 /**
  * Sheet class mixin to add common functions shared by all types of sheets.
  * @param {*} Base      The base class.
@@ -45,7 +47,7 @@ export const ArtichronSheetMixin = Base => class extends Base {
       document: this.document,
       system: this.document.system,
       source: this.document.system.toObject(),
-      config: CONFIG.SYSTEM,
+      config: SYSTEM,
       sheet: this,
       isEditMode: this.isEditMode
     };

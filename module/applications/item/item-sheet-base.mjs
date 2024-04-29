@@ -63,15 +63,15 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(ItemSheet) {
     });
 
     if (data.isWeapon) {
-      data.context.subtypes = data.config.ARSENAL_TYPES;
+      data.context.subtypes = SYSTEM.ARSENAL_TYPES;
     } else if (data.isShield) {
-      data.context.subtypes = data.config.SHIELD_TYPES;
+      data.context.subtypes = SYSTEM.SHIELD_TYPES;
     } else if (data.isSpell) {
-      data.context.subtypes = data.config.SPELL_TYPES;
+      data.context.subtypes = SYSTEM.SPELL_TYPES;
     } else if (data.isArmor) {
-      data.context.subtypes = data.config.ARMOR_TYPES;
+      data.context.subtypes = SYSTEM.ARMOR_TYPES;
     } else if (data.isElixir) {
-      data.context.subtypes = data.config.ELIXIR_TYPES;
+      data.context.subtypes = SYSTEM.ELIXIR_TYPES;
     }
     return data;
   }

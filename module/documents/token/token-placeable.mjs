@@ -1,3 +1,5 @@
+import {SYSTEM} from "../../helpers/config.mjs";
+
 const cap = PIXI.LINE_CAP.ROUND;
 const join = PIXI.LINE_JOIN.ROUND;
 
@@ -64,7 +66,7 @@ export default class TokenArtichron extends Token {
     const items = Object.values(this.actor?.arsenal ?? {}).filter(a => a?.type === "shield");
     if (!items.length) return;
     const value = items.reduce((acc, item) => {
-      const w = CONFIG.SYSTEM.SHIELD_TYPES[item.system.category.subtype]?.width ?? 1;
+      const w = SYSTEM.SHIELD_TYPES[item.system.category.subtype]?.width ?? 1;
       return acc + w;
     }, 0);
     const radi = Math.clamp(value * (items.length > 1 ? 50 : 60), 0, 300);
