@@ -16,8 +16,10 @@ export default class ShieldData extends ArsenalData {
     };
   }
 
+  /** @override */
   prepareDerivedData() {
-    const rollData = super.prepareDerivedData();
+    super.prepareDerivedData();
+    const rollData = this.parent.getRollData();
     ["parry", "block"].forEach(v => this[v].prepareDerivedData(rollData));
   }
 

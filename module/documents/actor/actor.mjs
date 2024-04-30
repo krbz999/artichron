@@ -62,6 +62,7 @@ export default class ActorArtichron extends Actor {
      * prepareDerivedData
      */
     super.prepareData();
+    this.items.forEach(item => item.system.preparePostData());
   }
 
   /** @override */

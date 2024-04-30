@@ -162,7 +162,8 @@
     "Wield": "Wielding",
     "WieldOneHanded": "One-Handed",
     "WieldTwoHanded": "Two-Handed",
-    "Range": "Range"
+    "Range": "Range",
+    "DescriptionValue": "Description"
   },
   "ItemUsageOf": "of",
   "Maximum": "Maximum",

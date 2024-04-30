@@ -25,7 +25,15 @@
   <label>{{localize "ARTICHRON.ItemProperty.Wield"}}</label>
   <div class="form-fields">
     {{formInput document.system.schema.fields.wield.fields.value value=document.system.wield.value disabled=document.isEquipped localize=true}}
-    <input type="number" name="system.wield.range" value="{{document.system.wield.range}}" placeholder="{{localize 'ARTICHRON.ItemProperty.Range'}}">
+  </div>
+</div>
+{{/if}}
+
+{{#if system.range}}
+<div class="form-group">
+  <label>{{localize "ARTICHRON.ItemProperty.Range"}}</label>
+  <div class="form-fields">
+    {{formInput document.system.schema.fields.range.fields.value value=source.range.value}}
   </div>
 </div>
 {{/if}}

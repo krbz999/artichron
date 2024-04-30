@@ -77,6 +77,12 @@ Hooks.once("init", function() {
     label: "ARTICHRON.ItemSheet.Base"
   });
 
+  DocumentSheetConfig.registerSheet(ActiveEffect, "artichron", applications.ActiveEffectSheetArtichron, {
+    types: ["fusion"],
+    makeDefault: true,
+    label: "ARTICHRON.ActiveEffectSheet.Fusion"
+  });
+
   // Preload Handlebars templates.
   preloadHandlebarsTemplates();
   ChatLog.init();
