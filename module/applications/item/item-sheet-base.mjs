@@ -53,12 +53,14 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(ItemSheet) {
         damageTypes: Object.entries(SYSTEM.DAMAGE_TYPES).reduce((acc, [k, v]) => {
           acc[v.group][k] = v.label;
           return acc;
-        }, {physical: {}, elemental: {}, planar: {}})
-      },
-      descriptions: {
-        value: await TextEditor.enrichHTML(this.document.system.description.value, {
-          rollData: data.rollData, async: true
-        })
+        }, {physical: {}, elemental: {}, planar: {}}),
+        description: {
+          enriched: await TextEditor.enrichHTML(this.document.system.description.value, {
+            rollData: data.rollData, async: true, relativeTo: this.document
+          }),
+          field: this.document.system.schema.getField("description.value"),
+          value: this.document.system.description.value
+        }
       }
     });
 

@@ -79,12 +79,6 @@ export class PoolDiceModel extends DiceModel {
     };
   }
 
-  /** @override */
-  prepareDerivedData(rollData, isPrimary = false) {
-    super.prepareDerivedData(rollData);
-    this.faces = isPrimary ? 6 : 4;
-  }
-
   /**
    * Is this pool overflowing?
    * @type {boolean}
@@ -147,11 +141,6 @@ export class SkillDiceModel extends DiceModel {
       ...super.defineSchema(),
       faces: new NumberField({initial: 4, choices: {4: "d4", 8: "d8", 12: "d12"}})
     };
-  }
-
-  /** @override */
-  prepareDerivedData(rollData) {
-    super.prepareDerivedData(rollData);
   }
 
   /**

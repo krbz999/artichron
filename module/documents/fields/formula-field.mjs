@@ -1,4 +1,4 @@
-export class ResistanceBonusField extends foundry.data.fields.StringField {
+export class FormulaField extends foundry.data.fields.StringField {
   /** @override */
   _applyChangeAdd(value, delta, model, change) {
     delta = delta.trim();

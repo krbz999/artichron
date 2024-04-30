@@ -5,7 +5,7 @@ export class ItemSystemModel extends foundry.abstract.TypeDataModel {
   static defineSchema() {
     return {
       description: new SchemaField({
-        value: new HTMLField({label: "ARTICHRON.DescriptionValue", required: true})
+        value: new HTMLField({label: "ARTICHRON.ItemProperty.DescriptionValue", required: true})
       }),
       weight: new SchemaField({
         value: new NumberField({integer: true, min: 0, initial: 1})
@@ -43,7 +43,12 @@ export class ItemSystemModel extends foundry.abstract.TypeDataModel {
 
   /** @override */
   prepareDerivedData() {
-    const rollData = this.parent.getRollData();
-    return rollData;
+    if (!this.parent.isEmbedded) this.preparePostData();
   }
+
+  /**
+   * Preparation method for any data that depends on prepared actor data. Called after all data
+   * preparation if the item is owned, otherwise at the end of `prepareDerivedData`.
+   */
+  preparePostData() {}
 }

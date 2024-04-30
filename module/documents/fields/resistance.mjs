@@ -1,10 +1,10 @@
-import {ResistanceBonusField} from "./resistance-bonus-field.mjs";
+import {FormulaField} from "./formula-field.mjs";
 
 export default class Resistance extends foundry.abstract.DataModel {
   /** @override */
   static defineSchema() {
     return {
-      bonus: new ResistanceBonusField({required: true})
+      bonus: new FormulaField({required: true})
     };
   }
 

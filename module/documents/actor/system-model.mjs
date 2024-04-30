@@ -10,8 +10,7 @@ export class ActorSystemModel extends foundry.abstract.TypeDataModel {
   static defineSchema() {
     return {
       health: new SchemaField({
-        value: new NumberField({min: 0, integer: true}),
-        max: new NumberField({min: 0, integer: true})
+        value: new NumberField({min: 0, integer: true})
       }),
       pools: new SchemaField({
         health: new EmbeddedDataField(PoolDiceModel),
@@ -66,7 +65,12 @@ export class ActorSystemModel extends foundry.abstract.TypeDataModel {
    * @param {object} options      The update options.
    * @param {User} user           The user performing the update.
    */
-  async _preUpdate(update, options, user) {}
+  async _preUpdate(update, options, user) {
+    const allowed = await super._preUpdate(update, options, user);
+    if (allowed === false) return false;
+    const health = update.system?.health ?? {};
+    if ("value" in health) health.value = Math.clamp(health.value, 0, this.health.max);
+  }
 
   /* ---------------------------------------- */
   /*                                          */
@@ -75,10 +79,23 @@ export class ActorSystemModel extends foundry.abstract.TypeDataModel {
   /* ---------------------------------------- */
 
   /** @override */
+  prepareBaseData() {
+    super.prepareBaseData();
+
+    // Set 'faces' of each pool.
+    for (const [k, v] of Object.entries(this.pools)) {
+      v.faces = (k === this.traits.pool) ? 6 : 4;
+    }
+
+    // Set health maximum and clamp current health.
+    this.health.max = 10 * this.pools.health.max * this.pools.health.faces;
+    this.health.value = Math.clamp(this.health.value, 0, this.health.max);
+  }
+
+  /** @override */
   prepareDerivedData() {
     const rollData = this.parent.getRollData();
     this._preparePools(rollData);
-    this._prepareHealth();
     this._prepareEquipped();
     this._prepareEncumbrance();
     this._prepareArmor(rollData);
@@ -89,14 +106,7 @@ export class ActorSystemModel extends foundry.abstract.TypeDataModel {
 
   /** Prepare pools. */
   _preparePools(rollData) {
-    Object.entries(this.pools).forEach(([k, v]) => v.prepareDerivedData(rollData, k === this.traits.pool));
-  }
-
-  /** Prepare maximum health and clamp current health. */
-  _prepareHealth() {
-    const dice = this.pools.health;
-    this.health.max = 10 * dice.max * dice.faces;
-    this.health.value = Math.min(this.health.value, this.health.max);
+    Object.entries(this.pools).forEach(([k, v]) => v.prepareDerivedData(rollData));
   }
 
   /** Prepare equipped items. */

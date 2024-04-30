@@ -18,10 +18,6 @@ export default class SpellData extends ArsenalData {
     };
   }
 
-  prepareDerivedData() {
-    const rollData = super.prepareDerivedData();
-  }
-
   /** @override */
   get BONUS_FIELDS() {
     return super.BONUS_FIELDS.union(new Set([

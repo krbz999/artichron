@@ -19,22 +19,29 @@ export default class ElixirData extends ItemSystemModel {
   /** @override */
   get BONUS_FIELDS() {
     return super.BONUS_FIELDS.union(new Set([
-      "system.usage.max"
+      "system.usage.bonus"
     ]));
   }
 
   /** @override */
-  prepareDerivedData() {
-    super.prepareDerivedData();
-    this._prepareUsage();
+  prepareBaseData() {
+    super.prepareBaseData();
+    this.usage.bonus = "";
+  }
+
+  /** @override */
+  preparePostData() {
+    super.preparePostData();
+    const rollData = this.parent.getRollData();
+    this._prepareUsage(rollData);
   }
 
   /**
    * Prepare max usage of the elixir.
    */
-  _prepareUsage() {
-    const us = this.usage;
-    if (us.max) us.max = artichron.utils.simplifyBonus(us.max, this.parent.getRollData());
+  _prepareUsage(rollData) {
+    const bonus = this.usage.bonus ? this.usage.bonus : "0";
+    this.usage.max = artichron.utils.simplifyBonus(`${this.usage.max} + ${bonus}`, rollData);
   }
 
   async use() {

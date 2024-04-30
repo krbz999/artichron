@@ -77,10 +77,8 @@ export const ArtichronSheetMixin = Base => class extends Base {
     const names = Object.keys(foundry.utils.flattenObject(this.document.overrides));
     for (const name of names) {
       html.querySelectorAll(`[name="${name}"]`).forEach(k => {
-        if (!k.classList.contains("source")) {
-          k.disabled = true;
-          k.dataset.tooltip = "ARTICHRON.Warning.FieldOverridden";
-        }
+        k.disabled = true;
+        k.dataset.tooltip = "ARTICHRON.Warning.FieldOverridden";
       });
     }
   }
