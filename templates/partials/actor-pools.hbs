@@ -1,10 +1,10 @@
 <header class="section-header">
   {{localize "ARTICHRON.Pools.Section"}}
   {{#if sheet.isEditMode}}
-  <a class="edit" data-action="toggle-config" data-tooltip="ARTICHRON.EditSkills" data-trait="skills" style="right: 25px">
+  <a class="edit" data-action="toggleConfig" data-tooltip="ARTICHRON.EditSkills" data-trait="skills" style="right: 25px">
     <i class="fa-solid fa-cog"></i>
   </a>
-  <a class="edit" data-action="toggle-config" data-tooltip="ARTICHRON.EditPools" data-trait="pools">
+  <a class="edit" data-action="toggleConfig" data-tooltip="ARTICHRON.EditPools" data-trait="pools">
     <i class="fa-solid fa-cog"></i>
   </a>
   {{/if}}
@@ -12,7 +12,7 @@
 <div class="pool-rolls darken">
   <div class="pools">
     {{#each context.pools as |pool|}}
-    <a class="pool" data-action="manage" data-manage="pool" data-pool="{{pool.key}}">
+    <a class="pool" data-action="rollPool" data-pool="{{pool.key}}">
       <span class="die {{pool.denom}} {{pool.key}}" data-tooltip="{{pool.value}} / {{pool.max}} ({{pool.die}})">{{pool.value}}</span>
     </a>
     {{/each}}

@@ -2,7 +2,10 @@
 
   {{#each effects}}
   <div class="effect" data-item-uuid="{{uuid}}">
-    <h3 class="name">{{name}}</h3>
+    <h4 class="name">
+      <img src="{{img}}" alt="{{name}}">
+      {{name}}
+    </h4>
     <div class="source">{{source}}</div>
     <div class="controls">
       <a class="control" data-action="toggleEffect" data-tooltip="ARTICHRON.Effect.{{toggleTooltip}}">
@@ -18,7 +21,7 @@
   </div>
   {{/each}}
 
-  <button type="button" data-tooltip="ARTICHRON.Effect.Add">
+  <button type="button" data-action="createEffect" data-tooltip="ARTICHRON.Effect.Add">
     <i class="fa-solid fa-plus"></i>
   </button>
 

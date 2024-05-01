@@ -125,23 +125,22 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(ActorSheet)
 
   /**
    * Prepare effects for rendering.
-   * @returns {object}
+   * @returns {object[]}
    */
   _prepareEffects() {
-    const effects = Array.from(this.document.allApplicableEffects());
-    const {active, inactive} = effects.reduce((acc, effect) => {
-      const data = {
-        effect: effect,
-        isItem: effect.parent instanceof CONFIG.Item.documentClass,
-        icon: !effect.disabled ? "fa-times" : "fa-check"
-      };
-      acc[effect.active ? "active" : "inactive"].push(data);
-      return acc;
-    }, {active: [], inactive: []});
-    return {
-      active: {label: "ARTICHRON.EffectsActive", data: active, key: "active"},
-      inactive: {label: "ARTICHRON.EffectsInactive", data: inactive, key: "inactive"}
-    };
+    const effects = [];
+    for (const effect of this.document.allApplicableEffects()) {
+      effects.push({
+        uuid: effect.uuid,
+        img: effect.img,
+        name: effect.name,
+        source: effect.parent.name,
+        toggleTooltip: effect.disabled ? "ToggleOn" : "ToggleOff",
+        toggleIcon: effect.disabled ? "fa-toggle-off" : "fa-toggle-on"
+      });
+    }
+    effects.sort((a, b) => a.name.localeCompare(b.name));
+    return effects;
   }
 
   /**
@@ -245,12 +244,21 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(ActorSheet)
 
     // listeners that only work on editable or owned sheets go here
     html[0].querySelectorAll("[data-action]").forEach(n => {
-      const action = n.dataset.action;
-      if (action === "control") n.addEventListener("click", this._onClickManageItem.bind(this));
-      else if (action === "toggle-config") n.addEventListener("click", this._onClickConfig.bind(this));
-      else if (action === "manage") n.addEventListener("click", this._onClickManageActor.bind(this));
-      else if (action === "update") n.addEventListener("change", this._onChangeManageItem.bind(this));
-      else if (action === "rollSkill") n.addEventListener("click", this._onClickSkill.bind(this));
+      switch (n.dataset.action) {
+        case "createItem": n.addEventListener("click", this._onCreateItem.bind(this)); break;
+        case "useItem": n.addEventListener("click", this._onUseItem.bind(this)); break;
+        case "updateEmbedded": n.addEventListener("change", this._onUpdateEmbedded.bind(this)); break;
+        case "favoriteItem": n.addEventListener("click", this._onFavoriteItem.bind(this)); break;
+        case "editItem": n.addEventListener("click", this._onEditItem.bind(this)); break;
+        case "deleteItem": n.addEventListener("click", this._onDeleteItem.bind(this)); break;
+        case "rollDefense": n.addEventListener("click", this._onRollDefense.bind(this)); break;
+        case "recover": n.addEventListener("click", this._onRecover.bind(this)); break;
+        case "toggleConfig": n.addEventListener("click", this._onToggleConfig.bind(this)); break;
+        case "rollSkill": n.addEventListener("click", this._onRollSkill.bind(this)); break;
+        case "rollPool": n.addEventListener("click", this._onRollPool.bind(this)); break;
+        case "editImage": n.addEventListener("click", this._onEditImage.bind(this)); break;
+        case "changeEquipped": n.addEventListener("click", this._onChangeEquipped.bind(this)); break;
+      }
     });
   }
 
@@ -258,7 +266,7 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(ActorSheet)
    * Handle editing actor image.
    * @param {PointerEvent} event      Initiating right-click event.
    */
-  _onEditImg(event) {
+  _onEditImage(event) {
     const current = this.document.img;
     const fp = new FilePicker({
       type: "image",
@@ -270,83 +278,52 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(ActorSheet)
     return fp.browse();
   }
 
-  /**
-   * Handle clicking an item control.
-   * @param {PointerEvent} event      The initiating click event.
-   * @returns {Promise<*>}
-   */
-  async _onClickManageItem(event) {
-    const control = event.currentTarget.dataset.control;
-    const embeddedName = event.currentTarget.closest("[data-collection]").dataset.collection;
-
-    // Create a new document.
-    if (control === "create") {
-      const collection = this.document.getEmbeddedCollection(embeddedName);
-      const name = game.i18n.format("DOCUMENT.New", {
-        type: game.i18n.localize(`DOCUMENT.${collection.documentClass.documentName}`)
-      });
-      const img = {effects: "icons/svg/sun.svg", items: "icons/svg/chest.svg"}[embeddedName];
-      let type;
-      let disabled;
-      if (embeddedName === "items") type = event.currentTarget.closest("[data-item-type]").dataset.itemType;
-      if (embeddedName === "effects") disabled = event.currentTarget.closest("[data-active]").dataset.active === "inactive";
-      return collection.documentClass.implementation.createDialog({
-        name: name,
-        img: img,
-        type: type,
-        disabled: disabled
-      }, {parent: this.document, renderSheet: true});
-    }
-
-    // Show the document's sheet.
-    else if (control === "edit") {
-      return this._getEntryFromEvent(event).sheet.render(true);
-    }
-
-    // Delete the document.
-    else if (control === "delete") {
-      return this._getEntryFromEvent(event).deleteDialog();
-    }
-
-    // Toggle an ActiveEffect.
-    else if (control === "toggle") {
-      const entry = this._getEntryFromEvent(event);
-      return entry.update({disabled: !entry.disabled});
-    }
-
-    // Toggle favoriting item.
-    else if (control === "favorite") {
-      return this._getEntryFromEvent(event).favorite();
-    }
-
-    // Use an item.
-    else if (control === "use") {
-      return this._getEntryFromEvent(event).use();
-    }
-
-    // Change loadout.
-    else if (control === "change") {
-      return this._onChangeItem(event);
-    }
+  _onCreateItem(event) {
+    getDocumentClass("Item").createDialog({
+      img: "icons/svg/chest.svg",
+      type: event.currentTarget.closest("[data-item-type]").dataset.itemType
+    }, {parent: this.document});
   }
-
-  /**
-   * Handle updating an item property via a change event.
-   * @param {PointerEvent} event      The initiating change event.
-   * @returns {Promise<ItemArtichron>}
-   */
-  async _onChangeManageItem(event) {
-    const property = event.currentTarget.dataset.update;
-    const id = event.currentTarget.closest("[data-item-id]").dataset.itemId;
-    const item = this.document.items.get(id);
-    const value = foundry.utils.getProperty(item.system, property);
+  _onUseItem(event) {
+    this._getEntryFromEvent(event).use();
+  }
+  _onEditItem(event) {
+    this._getEntryFromEvent(event).sheet.render(true);
+  }
+  _onDeleteItem(event) {
+    this._getEntryFromEvent(event).deleteDialog();
+  }
+  _onFavoriteItem(event) {
+    this._getEntryFromEvent(event).favorite();
+  }
+  _onUpdateEmbedded(event) {
+    const property = event.currentTarget.dataset.property;
+    const item = this._getEntryFromEvent(event);
+    const value = foundry.utils.getProperty(item, property);
     let tval = event.currentTarget.value;
     if (!tval.trim()) tval = null;
-    else {
-      if (/^[+-][0-9]+/.test(tval)) tval = Roll.safeEval(`${value} ${tval}`);
-      if (event.currentTarget.max) tval = Math.min(parseInt(event.currentTarget.max), tval);
+    else if (/^[+-][\d]+/.test(tval)) tval = Roll.safeEval(`${value} ${tval}`);
+    return item.update({[property]: tval});
+  }
+  _onRollSkill(event) {
+    this.document.rollSkill(event.currentTarget.dataset.skill);
+  }
+  _onToggleConfig(event) {
+    let Cls;
+    switch (event.currentTarget.dataset.trait) {
+      case "pools": Cls = PoolConfig; break;
+      case "skills": Cls = SkillConfig; break;
     }
-    return item.update({[`system.${property}`]: tval});
+    new Cls({document: this.actor}).render(true);
+  }
+  _onRollDefense(event) {
+    this.document.rollDefense();
+  }
+  _onRecover(event) {
+    this.document.recover();
+  }
+  _onRollPool(event) {
+    this.document.rollPool(event.currentTarget.dataset.pool, {event});
   }
 
   /**
@@ -354,12 +331,14 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(ActorSheet)
    * @param {PointerEvent} event      The initiating click event.
    * @returns {Promise<ActorArtichron|null>}
    */
-  async _onChangeItem(event) {
+  async _onChangeEquipped(event) {
     const [type, slot] = event.currentTarget.closest("[data-slot]").dataset.slot.split(".");
 
     let items;
+    let icon;
     if (type === "armor") {
       items = this.document.items.filter(item => (item.type === "armor") && (item.system.category.subtype === slot));
+      icon = "fa-solid fa-shield-alt";
     } else if ((type === "arsenal")) {
       items = this.document.items.filter(item => {
         if (!item.isArsenal) return false;
@@ -367,78 +346,69 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(ActorSheet)
         if (slot === "first") return !second || (second !== item);
         if (slot === "second") return (!first || (first !== item)) && item.isOneHanded;
       });
+      icon = "fa-solid fa-hand-fist";
     }
     if (!items?.length) {
       ui.notifications.warn("ARTICHRON.NoAvailableEquipment", {localize: true});
       return null;
     }
 
-    const choices = items.reduce((acc, item) => {
-      acc[item.id] = item.name;
-      return acc;
-    }, {});
-    const hash = {selected: this.document.system.equipped[type][slot]?.id ?? null, sort: true, blank: ""};
-    const options = HandlebarsHelpers.selectOptions(choices, {hash});
-    return Dialog.prompt({
-      rejectClose: false,
-      label: game.i18n.localize("ARTICHRON.Equip"),
-      content: `
-      <form>
-        <div class="form-group">
-          <label>${game.i18n.localize("ARTICHRON.PickEquippedItem")}</label>
-          <select>${options}</select>
-        </div>
-      </form>`,
-      callback: ([html]) => {
-        const id = html.querySelector("select").value || "";
-        const item = this.document.items.get(id);
-        const update = {[`system.equipped.${type}.${slot}`]: id};
-        if ((type === "arsenal") && (slot === "first") && item && item.isTwoHanded) {
-          update["system.equipped.arsenal.second"] = "";
-        }
-        return this.document.update(update);
-      }
+    const currentId = this.document.system.equipped[type][slot]?.id;
+
+    const buttons = items.map(item => {
+      return {
+        label: `<img src="${item.img}"> ${item.name}`,
+        action: item.id,
+        class: ["image-button", (item.id === currentId) ? "unequip" : null].filterJoin(" ")
+      };
     });
-  }
+    const style = `
+    <style>
+    .standard-form .form-footer {
+      max-height: 400px;
+      overflow: hidden auto;
 
-  /**
-   * Handle click events on skill buttons.
-   * @param {Event} event     Initiating click event.
-   */
-  async _onClickSkill(event) {
-    const skillId = event.currentTarget.dataset.skill;
-    return this.document.rollSkill(skillId);
-  }
+      & > button.image-button {
+        height: unset;
+        padding: 0;
+        overflow: hidden;
 
-  /**
-   * Render a configuration menu.
-   * @param {PointerEvent} event      The initiating click event.
-   * @returns
-   */
-  _onClickConfig(event) {
-    const trait = event.currentTarget.dataset.trait;
-    if (trait === "pools") return new PoolConfig({document: this.actor}).render(true);
-    else if (trait === "skills") return new SkillConfig({document: this.actor}).render(true);
-  }
+        & > span {
+          display: grid;
+          grid-template-columns: 75px 1fr;
+          align-items: center;
+          width: 100%;
+        }
 
-  /**
-   * Handle click events on any actor-related actions.
-   * @param {PointerEvent} event      The initiating click event.
-   */
-  async _onClickManageActor(event) {
-    switch (event.currentTarget.dataset.manage) {
-      case "defend": return this.document.rollDefense();
-      case "recover": return this.document.recover();
-      case "pool": {
-        const type = event.currentTarget.dataset.pool;
-        return this.document.rollPool(type, {event});
+        &.unequip {
+          text-decoration: line-through;
+          border-width: medium;
+        }
+
+        & img {
+          width: 75px;
+          height: 75px;
+          border: none;
+        }
       }
-      case "damage": {
-        const slot = event.currentTarget.closest("[data-arsenal]").dataset.arsenal;
-        return this.document.rollDamage(slot, {event});
-      }
-      case "img": return this._onEditImg(event);
     }
+    </style>`;
+
+    const itemId = await foundry.applications.api.DialogV2.wait({
+      rejectClose: false,
+      window: {title: "ARTICHRON.EquipDialog.Title", icon: icon},
+      position: {width: 350},
+      content: style,
+      buttons: buttons
+    });
+    if (!itemId) return null;
+    const item = this.document.items.get(itemId);
+    const unequip = currentId === itemId;
+    const update = {[`system.equipped.${type}.${slot}`]: unequip ? "" : itemId};
+    if ((type === "arsenal") && (slot === "first") && !unequip && item?.isTwoHanded) {
+      update["system.equipped.arsenal.second"] = "";
+    }
+    this.document.update(update);
   }
 
   /** @override */

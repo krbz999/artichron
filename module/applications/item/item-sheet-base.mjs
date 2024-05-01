@@ -83,17 +83,19 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(ItemSheet) {
 
   /**
    * Prepare effects for rendering.
-   * @returns {object}
+   * @returns {object[]}
    */
   _prepareEffects() {
     const effects = [];
     for (const effect of this.document.effects) {
       effects.push({
         uuid: effect.uuid,
+        img: effect.img,
         name: effect.name,
         source: effect.parent.name,
         toggleTooltip: effect.disabled ? "ToggleOn" : "ToggleOff",
-        toggleIcon: effect.disabled ? "fa-toggle-off" : "fa-toggle-on"
+        toggleIcon: effect.disabled ? "fa-toggle-off" : "fa-toggle-on",
+        isFusion: effect.type === "fusion"
       });
     }
     effects.sort((a, b) => a.name.localeCompare(b.name));
@@ -113,27 +115,11 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(ItemSheet) {
         case "control": n.addEventListener("click", this._onClickManageItem.bind(this)); break;
         case "add": n.addEventListener("click", this._onClickAddDamage.bind(this)); break;
         case "del": n.addEventListener("click", this._onClickDelDamage.bind(this)); break;
-        case "toggleEffect": n.addEventListener("click", this._onToggleEffect.bind(this)); break;
-        case "editEffect": n.addEventListener("click", this._onEditEffect.bind(this)); break;
-        case "deleteEffect": n.addEventListener("click", this._onDeleteEffect.bind(this)); break;
       }
     });
     for (const element of html.querySelectorAll("multi-select")) {
       element.addEventListener("change", this._onChangeInput.bind(this));
     }
-  }
-
-  async _onToggleEffect(event) {
-    const effect = await fromUuid(event.currentTarget.closest("[data-item-uuid]").dataset.itemUuid);
-    effect.update({disabled: !effect.disabled});
-  }
-  async _onEditEffect(event) {
-    const effect = await fromUuid(event.currentTarget.closest("[data-item-uuid]").dataset.itemUuid);
-    effect.sheet.render(true);
-  }
-  async _onDeleteEffect(event) {
-    const effect = await fromUuid(event.currentTarget.closest("[data-item-uuid]").dataset.itemUuid);
-    effect.deleteDialog();
   }
 
   /**

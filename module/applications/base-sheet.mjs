@@ -10,7 +10,7 @@ export const ArtichronSheetMixin = Base => class extends Base {
 
   static get defaultOptions() {
     const options = super.defaultOptions;
-    options.dragDrop = [{dragSelector: ".item-name"}];
+    options.dragDrop = [{dragSelector: ".item-name, .effect .name"}];
     return options;
   }
 
@@ -27,10 +27,9 @@ export const ArtichronSheetMixin = Base => class extends Base {
    * @returns {ItemArtichron|ActiveEffectArtichron}
    */
   _getEntryFromEvent(event) {
-    const embeddedName = event.currentTarget.closest("[data-collection]").dataset.collection;
-    const data = event.currentTarget.closest("[data-item-id]").dataset;
-    const parent = data.parentId ? this.document.items.get(data.parentId) : this.document;
-    return parent.getEmbeddedCollection(embeddedName).get(data.itemId);
+    const uuid = event.currentTarget.closest("[data-item-uuid]").dataset.itemUuid;
+    const {type, id} = foundry.utils.parseUuid(uuid, {relative: this.document});
+    return this.document.getEmbeddedCollection(type).get(id);
   }
 
   /**
@@ -60,12 +59,19 @@ export const ArtichronSheetMixin = Base => class extends Base {
   activateListeners(html) {
     super.activateListeners(html);
     html = html[0];
+
+    if (!this.isEditable) return;
     html.querySelectorAll("[type=text].delta").forEach(n => {
       n.addEventListener("change", this._onChangeDelta.bind(this));
     });
-
-    const {left, top} = this.position ?? {};
-    this.setPosition({left, top, height: "auto"});
+    html.querySelectorAll("[data-action]").forEach(n => {
+      switch (n.dataset.action) {
+        case "toggleEffect": n.addEventListener("click", this._onToggleEffect.bind(this)); break;
+        case "editEffect": n.addEventListener("click", this._onEditEffect.bind(this)); break;
+        case "deleteEffect": n.addEventListener("click", this._onDeleteEffect.bind(this)); break;
+        case "createEffect": n.addEventListener("click", this._onCreateEffect.bind(this)); break;
+      }
+    });
   }
 
   /**
@@ -85,6 +91,26 @@ export const ArtichronSheetMixin = Base => class extends Base {
     if (/^[+-][0-9]+/.test(value)) value = Roll.safeEval(`${prop} ${value}`);
     if (max !== null) value = Math.min(max, value);
     target.value = value;
+  }
+
+  /**
+   * ActiveEffect event handlers.
+   * @param {Event} event     Initiating click event.
+   */
+  _onToggleEffect(event) {
+    const effect = this._getEntryFromEvent(event);
+    effect.update({disabled: !effect.disabled});
+  }
+  _onEditEffect(event) {
+    const effect = this._getEntryFromEvent(event);
+    effect.sheet.render(true);
+  }
+  _onDeleteEffect(event) {
+    const effect = this._getEntryFromEvent(event);
+    effect.deleteDialog();
+  }
+  async _onCreateEffect(event) {
+    getDocumentClass("ActiveEffect").createDialog({type: "fusion", img: "icons/svg/sun.svg"}, {parent: this.document});
   }
 
   /** @override */
