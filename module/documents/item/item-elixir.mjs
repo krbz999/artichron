@@ -1,7 +1,8 @@
+import {FormulaField} from "../fields/formula-field.mjs";
 import {QuantityField} from "../fields/quantity-field.mjs";
 import {ItemSystemModel} from "./system-model.mjs";
 
-const {SchemaField, NumberField, StringField} = foundry.data.fields;
+const {SchemaField, NumberField} = foundry.data.fields;
 
 export default class ElixirData extends ItemSystemModel {
   /** @override */
@@ -11,7 +12,7 @@ export default class ElixirData extends ItemSystemModel {
       quantity: new QuantityField(),
       usage: new SchemaField({
         value: new NumberField({integer: true, min: 0, initial: null}),
-        max: new StringField({required: true})
+        max: new FormulaField({required: true})
       })
     };
   }
@@ -19,14 +20,13 @@ export default class ElixirData extends ItemSystemModel {
   /** @override */
   get BONUS_FIELDS() {
     return super.BONUS_FIELDS.union(new Set([
-      "system.usage.bonus"
+      "system.usage.max"
     ]));
   }
 
   /** @override */
   prepareBaseData() {
     super.prepareBaseData();
-    this.usage.bonus = "";
   }
 
   /** @override */
@@ -40,8 +40,7 @@ export default class ElixirData extends ItemSystemModel {
    * Prepare max usage of the elixir.
    */
   _prepareUsage(rollData) {
-    const bonus = this.usage.bonus ? this.usage.bonus : "0";
-    this.usage.max = artichron.utils.simplifyBonus(`${this.usage.max} + ${bonus}`, rollData);
+    this.usage.max = artichron.utils.simplifyBonus(this.usage.max, rollData);
   }
 
   async use() {
