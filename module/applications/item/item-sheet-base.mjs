@@ -50,6 +50,9 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(ItemSheet) {
         resistances: Object.entries(this.document.system.resistances ?? {}).map(([k, v]) => {
           return {...v, key: k, label: game.i18n.localize(`ARTICHRON.DamageType.${k.capitalize()}`)};
         }).sort((a, b) => a.label.localeCompare(b.label)),
+        damages: {
+          parts: data.isEditMode ? data.source.damage : this.document.system.damage
+        },
         damageTypes: Object.entries(SYSTEM.DAMAGE_TYPES).reduce((acc, [k, v]) => {
           acc[v.group][k] = v.label;
           return acc;
@@ -78,28 +81,23 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(ItemSheet) {
     return data;
   }
 
-  async _updateObject(event, formData) {
-    formData["system.template.types"] ??= [];
-    return super._updateObject(event, formData);
-  }
-
   /**
    * Prepare effects for rendering.
    * @returns {object}
    */
   _prepareEffects() {
-    const {active, inactive} = this.document.effects.reduce((acc, effect) => {
-      const data = {
-        effect: effect,
-        icon: !effect.disabled ? "fa-times" : "fa-check"
-      };
-      acc[effect.disabled ? "inactive" : "active"].push(data);
-      return acc;
-    }, {active: [], inactive: []});
-    return {
-      active: {label: "ARTICHRON.EffectsEnabled", data: active, key: "active"},
-      inactive: {label: "ARTICHRON.EffectsDisabled", data: inactive, key: "inactive"}
-    };
+    const effects = [];
+    for (const effect of this.document.effects) {
+      effects.push({
+        uuid: effect.uuid,
+        name: effect.name,
+        source: effect.parent.name,
+        toggleTooltip: effect.disabled ? "ToggleOn" : "ToggleOff",
+        toggleIcon: effect.disabled ? "fa-toggle-off" : "fa-toggle-on"
+      });
+    }
+    effects.sort((a, b) => a.name.localeCompare(b.name));
+    return effects;
   }
 
   /* -------------------------------------------- */
@@ -115,6 +113,9 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(ItemSheet) {
         case "control": n.addEventListener("click", this._onClickManageItem.bind(this)); break;
         case "add": n.addEventListener("click", this._onClickAddDamage.bind(this)); break;
         case "del": n.addEventListener("click", this._onClickDelDamage.bind(this)); break;
+        case "toggleEffect": n.addEventListener("click", this._onToggleEffect.bind(this)); break;
+        case "editEffect": n.addEventListener("click", this._onEditEffect.bind(this)); break;
+        case "deleteEffect": n.addEventListener("click", this._onDeleteEffect.bind(this)); break;
       }
     });
     for (const element of html.querySelectorAll("multi-select")) {
@@ -122,13 +123,17 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(ItemSheet) {
     }
   }
 
-  /** @override */
-  _disableOverriddenFields(html) {
-    super._disableOverriddenFields(html);
-    if (foundry.utils.hasProperty(this.document.overrides, "system.damage")) {
-      html.querySelectorAll("[data-action=add], [data-action=del]").forEach(n => n.remove());
-      html.querySelectorAll("[name^='system.damage']").forEach(n => n.disabled = true);
-    }
+  async _onToggleEffect(event) {
+    const effect = await fromUuid(event.currentTarget.closest("[data-item-uuid]").dataset.itemUuid);
+    effect.update({disabled: !effect.disabled});
+  }
+  async _onEditEffect(event) {
+    const effect = await fromUuid(event.currentTarget.closest("[data-item-uuid]").dataset.itemUuid);
+    effect.sheet.render(true);
+  }
+  async _onDeleteEffect(event) {
+    const effect = await fromUuid(event.currentTarget.closest("[data-item-uuid]").dataset.itemUuid);
+    effect.deleteDialog();
   }
 
   /**

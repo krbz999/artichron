@@ -1,0 +1,25 @@
+<section class="effects">
+
+  {{#each effects}}
+  <div class="effect" data-item-uuid="{{uuid}}">
+    <h3 class="name">{{name}}</h3>
+    <div class="source">{{source}}</div>
+    <div class="controls">
+      <a class="control" data-action="toggleEffect" data-tooltip="ARTICHRON.Effect.{{toggleTooltip}}">
+        <i class="fa-solid {{toggleIcon}}"></i>
+      </a>
+      <a class="control" data-action="editEffect" data-tooltip="ARTICHRON.Effect.Edit">
+        <i class="fa-solid fa-edit"></i>
+      </a>
+      <a class="control" data-action="deleteEffect" data-tooltip="ARTICHRON.Effect.Delete">
+        <i class="fa-solid fa-trash"></i>
+      </a>
+    </div>
+  </div>
+  {{/each}}
+
+  <button type="button" data-tooltip="ARTICHRON.Effect.Add">
+    <i class="fa-solid fa-plus"></i>
+  </button>
+
+</section>

@@ -41,8 +41,13 @@ export default class ArsenalData extends ItemSystemModel {
     super.prepareDerivedData();
     const rollData = this.parent.getRollData();
     this.damage.forEach(v => v.prepareDerivedData(rollData));
+  }
+
+  /** @override */
+  preparePostData() {
+    super.preparePostData();
+    const rollData = this.parent.getRollData();
     this.range.value = artichron.utils.simplifyBonus(this.range.value, rollData);
-    return rollData;
   }
 
   /** @override */
