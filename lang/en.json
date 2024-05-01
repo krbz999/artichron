@@ -237,5 +237,9 @@
     "AlreadyAtMaxHealth": "{name} is already at their maximum health.",
     "FieldOverridden": "This field has been disabled as it is being modified by an effect.",
     "InvalidActiveEffectType": "The chosen effect type is not valid for this parent."
+  },
+
+  "EquipDialog": {
+    "Title": "Change Equipped Item"
   }
 }}

@@ -3,8 +3,8 @@
 </header>
 <div class="favorites darken">
   {{#each system.equipped.favorites as |fav|}}
-  <span class="favorite" data-item-id="{{fav.id}}" data-collection="items">
-    <img class="img" src="{{fav.img}}" data-tooltip="{{fav.name}}" data-tooltip-direction="UP" data-action="control" data-control="edit">
+  <span class="favorite" data-item-uuid="{{fav.id}}">
+    <img class="img" src="{{fav.img}}" data-tooltip="{{fav.name}}" data-tooltip-direction="UP" data-action="useItem">
   </span>
   {{/each}}
 </div>
