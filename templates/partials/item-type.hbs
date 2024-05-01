@@ -1,9 +1,9 @@
-{{#if context.subtypes}}
+{{#if fields.category}}
 <div class="form-group">
-  <label>{{localize "ARTICHRON.ItemProperty.Subtype"}}</label>
+  <label>{{localize fields.category.label}}</label>
   <div class="form-fields">
-    <select name="system.category.subtype" {{disabled document.isEquipped}}>
-      {{selectOptions context.subtypes selected=document.system.category.subtype localize=true labelAttr="label" blank="" sort=true}}
+    <select name="{{fields.category.name}}" {{disabled fields.category.disabled}}>
+      {{selectOptions fields.category.choices selected=fields.category.selected localize=true labelAttr="label" blank="" sort=true}}
     </select>
   </div>
 </div>
@@ -13,7 +13,7 @@
 <div class="form-group">
   <label>{{localize "ARTICHRON.SetIdentifier"}}</label>
   <div class="form-fields">
-    <select name="system.identifier">
+    <select name="system.identifier" {{disabled isPlayMode}}>
       {{selectOptions config.ARMOR_SETS selected=document.system.identifier localize=true labelAttr="label" blank="" sort=true}}
     </select>
   </div>
@@ -24,7 +24,7 @@
 <div class="form-group">
   <label>{{localize "ARTICHRON.ItemProperty.Wield"}}</label>
   <div class="form-fields">
-    {{formInput document.system.schema.fields.wield.fields.value value=document.system.wield.value disabled=document.isEquipped localize=true}}
+    {{formInput document.system.schema.fields.wield.fields.value value=document.system.wield.value disabled=(or document.isEquipped isPlayMode) localize=true}}
   </div>
 </div>
 {{/if}}
@@ -33,7 +33,11 @@
 <div class="form-group">
   <label>{{localize "ARTICHRON.ItemProperty.Range"}}</label>
   <div class="form-fields">
+    {{#if isEditMode}}
     {{formInput document.system.schema.fields.range.fields.value value=source.range.value}}
+    {{else}}
+    {{formInput document.system.schema.fields.range.fields.value value=document.system.range.value disabled=true}}
+    {{/if}}
   </div>
 </div>
 {{/if}}
@@ -42,7 +46,11 @@
 <div class="form-group">
   <label>{{localize "ARTICHRON.ItemProperty.Price"}}</label>
   <div class="form-fields">
-    <input class="delta" data-dtype="Number" type="text" name="system.price.value" value="{{document.system.price.value}}">
+    {{#if isPlayMode}}
+    <input value="{{document.system.price.value}}" disabled>
+    {{else}}
+    <input class="delta" data-dtype="Number" type="text" name="system.price.value" value="{{source.price.value}}">
+    {{/if}}
   </div>
 </div>
 {{/if}}
@@ -51,7 +59,7 @@
 <div class="form-group">
   <label>{{localize "ARTICHRON.ItemProperty.Template"}}</label>
   <div class="form-fields">
-    <multi-select name="system.template.types">
+    <multi-select name="system.template.types" {{disabled isPlayMode}}>
       {{#each context.templates}}
       <option value="{{key}}" {{ifThen selected "selected" ""}}>{{localize label}}</option>
       {{/each}}
@@ -64,7 +72,11 @@
 <div class="form-group">
   <label>{{localize "ARTICHRON.ItemProperty.Weight"}}</label>
   <div class="form-fields">
-    <input class="delta" data-dtype="Number" type="text" name="system.weight.value" value="{{document.system.weight.value}}">
+    {{#if isPlayMode}}
+    <input type="text" value="{{document.system.weight.value}}" disabled>
+    {{else}}
+    <input class="delta" data-dtype="Number" type="text" name="system.weight.value" value="{{source.weight.value}}">
+    {{/if}}
   </div>
 </div>
 {{/if}}
@@ -73,7 +85,11 @@
 <div class="form-group">
   <label>{{localize "ARTICHRON.ItemProperty.Quantity"}}</label>
   <div class="form-fields">
-    <input class="delta" data-dtype="Number" type="text" name="system.quantity.value" value="{{document.system.quantity.value}}">
+    {{#if isPlayMode}}
+    <input type="text" value="{{document.system.quantity.value}}" disabled>
+    {{else}}
+    <input class="delta" data-dtype="Number" type="text" name="system.quantity.value" value="{{source.quantity.value}}">
+    {{/if}}
   </div>
 </div>
 {{/if}}
@@ -82,9 +98,17 @@
 <div class="form-group item-usage">
   <label>{{localize "ARTICHRON.ItemProperty.Usage"}}</label>
   <div class="form-fields">
-    <input class="delta" data-dtype="Number" type="text" name="system.usage.value" value="{{document.system.usage.value}}" max="{{document.system.usage.max}}">
+    {{#if isPlayMode}}
+    <input type="text" value="{{document.system.usage.value}}" disabled>
+    {{else}}
+    <input class="delta" data-dtype="Number" type="text" name="system.usage.value" value="{{source.usage.value}}">
+    {{/if}}
     <span class="sep">{{localize "ARTICHRON.ItemUsageOf"}}</span>
+    {{#if isPlayMode}}
+    <input type="text" value="{{document.system.usage.max}}" disabled>
+    {{else}}
     <input type="text" class="source" name="system.usage.max" value="{{source.usage.max}}">
+    {{/if}}
   </div>
 </div>
 {{/if}}

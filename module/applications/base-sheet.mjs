@@ -49,7 +49,8 @@ export const ArtichronSheetMixin = Base => class extends Base {
       source: this.document.system.toObject(),
       config: SYSTEM,
       sheet: this,
-      isEditMode: this.isEditMode
+      isEditMode: this.isEditMode,
+      isPlayMode: this.isPlayMode
     };
     types.forEach(type => data[`is${type.capitalize()}`] = this.document.type === type);
     return data;
@@ -59,28 +60,12 @@ export const ArtichronSheetMixin = Base => class extends Base {
   activateListeners(html) {
     super.activateListeners(html);
     html = html[0];
-    html.querySelectorAll("[type=text], [type=number]").forEach(n => {
-      if (n.classList.contains("delta")) n.addEventListener("change", this._onChangeDelta.bind(this));
-      n.addEventListener("focus", event => event.currentTarget.select());
+    html.querySelectorAll("[type=text].delta").forEach(n => {
+      n.addEventListener("change", this._onChangeDelta.bind(this));
     });
 
     const {left, top} = this.position ?? {};
     this.setPosition({left, top, height: "auto"});
-    this._disableOverriddenFields(html);
-  }
-
-  /**
-   * Disable any input fields that are affected by an ActiveEffect.
-   * @param {HTMLElement} html
-   */
-  _disableOverriddenFields(html) {
-    const names = Object.keys(foundry.utils.flattenObject(this.document.overrides));
-    for (const name of names) {
-      html.querySelectorAll(`[name="${name}"]`).forEach(k => {
-        k.disabled = true;
-        k.dataset.tooltip = "ARTICHRON.Warning.FieldOverridden";
-      });
-    }
   }
 
   /**

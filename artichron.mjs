@@ -77,10 +77,10 @@ Hooks.once("init", function() {
     label: "ARTICHRON.ItemSheet.Base"
   });
 
+  DocumentSheetConfig.unregisterSheet(ActiveEffect, "core", ActiveEffectConfig);
   DocumentSheetConfig.registerSheet(ActiveEffect, "artichron", applications.ActiveEffectSheetArtichron, {
-    types: ["fusion"],
     makeDefault: true,
-    label: "ARTICHRON.ActiveEffectSheet.Fusion"
+    label: "ARTICHRON.ActiveEffectSheet.Base"
   });
 
   // Preload Handlebars templates.
