@@ -306,6 +306,7 @@ export default class SpellcastingDialog extends HandlebarsApplicationMixin(Appli
         count = getValue("count");
         angle = 45;
         attach = true;
+        width = 1;
         break;
       }
       case "circle":
