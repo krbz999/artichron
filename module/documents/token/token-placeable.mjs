@@ -98,7 +98,7 @@ export default class TokenArtichron extends Token {
     if (!aura.distance || !(aura.distance > 0) || !aura.alpha) return;
 
     const c = this.center;
-    const radius = aura.distance + this.document.width * .5 * canvas.grid.distance;
+    const radius = aura.distance + canvas.grid.distance * (this.document.width * .5 + 1 / canvas.dimensions.distancePixels);
     const points = canvas.grid.getCircle(c, radius).reduce((acc, p) => acc.concat(Object.values(p)), []);
     const shape = CONFIG.Canvas.polygonBackends.move.create(c, {
       type: "move",
