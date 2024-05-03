@@ -75,21 +75,6 @@ export default class MeasuredTemplateArtichron extends MeasuredTemplate {
     return object;
   }
 
-  static fromItem(item, options = {}) {
-    const {type, distance, width, self, angle, range} = item.system.template;
-    const [token] = item.actor.isToken ? [item.actor.token?.object] : item.actor.getActiveTokens();
-    if (!token) throw new Error("No token available for placing template!");
-
-    return this.fromToken(token, {
-      type: type,
-      distance: distance,
-      width: width,
-      angle: angle,
-      attach: self,
-      range: range
-    }, options);
-  }
-
   static fromToken(token, {type, distance, width, attach, angle, range} = {}, options = {}) {
     if (!token) throw new Error("No token available for placing template!");
 
@@ -200,6 +185,7 @@ export default class MeasuredTemplateArtichron extends MeasuredTemplate {
     const now = Date.now();
     if (now - this.#moveTime <= 20) return;
 
+    const {VERTEX, EDGE_MIDPOINT, CENTER} = CONST.GRID_SNAPPING_MODES;
     const freeForm = (canvas.grid.type === CONST.GRID_TYPES.GRIDLESS) || event.shiftKey;
     const cursor = event.data.getLocalPosition(this.layer);
     const target = freeForm ? cursor : canvas.grid.getCenterPoint(cursor);
@@ -210,16 +196,21 @@ export default class MeasuredTemplateArtichron extends MeasuredTemplate {
 
     let pos2;
     if (this.config.attach && (this.document.t !== "circle")) {
-      const ray2 = Ray.towardsPoint(ray.A, cursor, this.token.w / 2);
-      pos2 = {...ray2.B, direction: Math.toDegrees(ray2.angle)};
+      let point = ray.A;
+      const direction = Math.toDegrees(Ray.towardsPoint(ray.A, cursor, this.token.w / 2).angle);
+      const distance = canvas.dimensions.distance * this.token.document.width / 2;
+      point = canvas.grid.getTranslatedPoint(point, direction, distance);
+      point = freeForm ? point : canvas.grid.getSnappedPoint(point, {mode: VERTEX | EDGE_MIDPOINT});
+      pos2 = {...point, direction: direction};
     } else if (!this.config.attach && (this.config.range > 0)) {
       const point = canvas.grid.getCenterPoint(pos);
-      const tooFar = canvas.grid.measurePath([ray.A, point]).distance >= this.config.range;
+      const r = canvas.grid.measurePath([ray.A, point]).distance;
+      const tooFar = r >= this.config.range;
       if (tooFar) {
         pos2 = canvas.grid.getTranslatedPoint(ray.A, pos.direction, this.config.range);
-        if (!freeForm) pos2 = canvas.grid.getCenterPoint(pos2);
+        if (!freeForm) pos2 = canvas.grid.getSnappedPoint(pos2, {mode: CENTER | VERTEX});
       } else if (!freeForm) {
-        pos2 = point;
+        pos2 = canvas.grid.getSnappedPoint(cursor, {mode: CENTER | VERTEX});
       }
     }
 
@@ -262,6 +253,7 @@ export default class MeasuredTemplateArtichron extends MeasuredTemplate {
    * @param {Event} event  Triggering mouse event.
    */
   async _onCancelPlacement(event) {
+    if (!event.shiftKey) return;
     await this._finishPlacement(event);
     this.#events.resolve(null);
   }
