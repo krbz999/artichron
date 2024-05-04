@@ -3,13 +3,13 @@
     {{localize "ARTICHRON.Defenses"}}
   </legend>
 
-  {{#if isArsenal}}
+  {{#if document.isArsenal}}
   <div class="form-group dice-combo">
     <label>{{localize "ARTICHRON.ItemProperty.Block"}}</label>
     <div class="form-fields">
       <input type="number" name="system.block.number" value="{{source.block.number}}">
       <select class="type" name="system.block.faces">
-        {{selectOptions @root.config.DIE_SIZES selected=system.block.faces}}
+        {{selectOptions @root.config.DIE_SIZES selected=document.system.block.faces}}
       </select>
     </div>
   </div>
@@ -19,7 +19,7 @@
     <div class="form-fields">
       <input type="number" name="system.parry.number" value="{{source.parry.number}}">
       <select class="type" name="system.parry.faces">
-        {{selectOptions @root.config.DIE_SIZES selected=system.parry.faces}}
+        {{selectOptions @root.config.DIE_SIZES selected=document.system.parry.faces}}
       </select>
     </div>
   </div>

@@ -1,8 +1,7 @@
-<section class="effects">
-
+<div class="tab scrollable {{ifThen tabs.effects.active 'active' ''}}" data-group="primary" data-tab="effects">
   {{#each effects}}
   <div class="effect" data-item-uuid="{{uuid}}">
-    <h4 class="name">
+    <h4 class="name" draggable>
       <img src="{{img}}" alt="{{name}}">
       {{name}}
     </h4>
@@ -24,5 +23,4 @@
   <button type="button" data-action="createEffect" data-tooltip="ARTICHRON.Effect.Add">
     <i class="fa-solid fa-plus"></i>
   </button>
-
-</section>
+</div>

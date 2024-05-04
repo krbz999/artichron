@@ -1,28 +1,30 @@
-<fieldset data-property="damage">
+<fieldset>
   <legend class="header">
     {{localize "ARTICHRON.Damage"}}
     {{#if isEditMode}}
-    <a class="action" data-action="add"><i class="fa-solid fa-plus"></i></a>
+    <a class="action" data-action="addDamage"><i class="fa-solid fa-plus"></i></a>
     {{/if}}
   </legend>
 
-  {{#each context.damages.parts as |damage idx|}}
+  {{#each damages.parts as |damage idx|}}
   <div class="form-group damage">
     <div class="form-fields">
       <input type="text" class="formula" name="system.damage.{{idx}}.formula" value="{{damage.formula}}" {{disabled @root.isPlayMode}}>
       <select class="type" name="system.damage.{{idx}}.type" {{disabled @root.isPlayMode}}>
         <optgroup label="{{localize 'ARTICHRON.DamageTypeGroup.Physical'}}">
-          {{selectOptions @root.context.damageTypes.physical selected=damage.type localize=true}}
+          {{selectOptions @root.damageTypes.physical selected=damage.type localize=true}}
         </optgroup>
         <optgroup label="{{localize 'ARTICHRON.DamageTypeGroup.Elemental'}}">
-          {{selectOptions @root.context.damageTypes.elemental selected=damage.type localize=true}}
+          {{selectOptions @root.damageTypes.elemental selected=damage.type localize=true}}
         </optgroup>
         <optgroup label="{{localize 'ARTICHRON.DamageTypeGroup.Planar'}}">
-          {{selectOptions @root.context.damageTypes.planar selected=damage.type localize=true}}
+          {{selectOptions @root.damageTypes.planar selected=damage.type localize=true}}
         </optgroup>
       </select>
       {{#if @root.isEditMode}}
-      <a class="action" data-action="del" data-idx="{{idx}}"><i class="fa-solid fa-minus"></i></a>
+      <div class="controls">
+        <a class="control" data-action="deleteDamage" data-idx="{{idx}}"><i class="fa-solid fa-minus"></i></a>
+      </div>
       {{/if}}
     </div>
   </div>
