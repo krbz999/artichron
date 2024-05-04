@@ -24,17 +24,6 @@
 /*     System-wide styling.    */
 /* --------------------------- */
 
-multi-select .tags.chosen {
-  flex-wrap: wrap;
-
-  .tag {
-    white-space: nowrap;
-    margin: 0 3px;
-    padding: 1px 3px;
-    border: 1px solid var(--artichron-color-white);
-  }
-}
-
 .chat-message.message {
   background: none;
   color: var(--artichron-color-white);
@@ -90,7 +79,7 @@ multi-select .tags.chosen {
 }
 
 .artichron.app, .artichron.application {
-  &.opacity {
+  &.opacity:not(.maximizing, .minimized, .minimizing) {
     transition: opacity 250ms;
     &:not(:hover) { opacity: 0.1; }
     .header-button.control.opacity i::before { content: "\f204"; }

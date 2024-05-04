@@ -1,15 +1,15 @@
-{{#if context.subtypes}}
+{{#if subtypes}}
 <div class="form-group">
   <label>{{localize "ARTICHRON.ItemProperty.Subtype"}}</label>
   <div class="form-fields">
     <select name="system.category.subtype" {{disabled (or document.isEquipped isPlayMode)}}>
-      {{selectOptions context.subtypes selected=system.category.subtype localize=true labelAttr="label" blank="" sort=true}}
+      {{selectOptions subtypes selected=document.system.category.subtype localize=true labelAttr="label" blank="" sort=true}}
     </select>
   </div>
 </div>
 {{/if}}
 
-{{#if isArmor}}
+{{#if sections.identifier}}
 <div class="form-group">
   <label>{{localize "ARTICHRON.SetIdentifier"}}</label>
   <div class="form-fields">
@@ -20,7 +20,7 @@
 </div>
 {{/if}}
 
-{{#if system.wield}}
+{{#if sections.wield}}
 <div class="form-group">
   <label>{{localize "ARTICHRON.ItemProperty.Wield"}}</label>
   <div class="form-fields">
@@ -29,7 +29,7 @@
 </div>
 {{/if}}
 
-{{#if system.range}}
+{{#if sections.range}}
 <div class="form-group">
   <label>{{localize "ARTICHRON.ItemProperty.Range"}}</label>
   <div class="form-fields">
@@ -42,12 +42,12 @@
 </div>
 {{/if}}
 
-{{#if system.price}}
+{{#if sections.price}}
 <div class="form-group">
   <label>{{localize "ARTICHRON.ItemProperty.Price"}}</label>
   <div class="form-fields">
     {{#if isPlayMode}}
-    <input value="{{document.system.price.value}}" disabled>
+    <input type="text" value="{{document.system.price.value}}" disabled>
     {{else}}
     <input class="delta" data-dtype="Number" type="text" name="system.price.value" value="{{source.price.value}}">
     {{/if}}
@@ -55,12 +55,12 @@
 </div>
 {{/if}}
 
-{{#if system.template}}
+{{#if sections.template}}
 <div class="form-group">
   <label>{{localize "ARTICHRON.ItemProperty.Template"}}</label>
   <div class="form-fields">
     <multi-select name="system.template.types" {{disabled isPlayMode}}>
-      {{#each context.templates}}
+      {{#each templates}}
       <option value="{{key}}" {{ifThen selected "selected" ""}}>{{localize label}}</option>
       {{/each}}
     </multi-select>
@@ -68,7 +68,7 @@
 </div>
 {{/if}}
 
-{{#if system.weight}}
+{{#if sections.weight}}
 <div class="form-group">
   <label>{{localize "ARTICHRON.ItemProperty.Weight"}}</label>
   <div class="form-fields">
@@ -81,7 +81,7 @@
 </div>
 {{/if}}
 
-{{#if system.quantity}}
+{{#if sections.quantity}}
 <div class="form-group">
   <label>{{localize "ARTICHRON.ItemProperty.Quantity"}}</label>
   <div class="form-fields">
@@ -94,7 +94,7 @@
 </div>
 {{/if}}
 
-{{#if system.usage}}
+{{#if sections.usage}}
 <div class="form-group item-usage">
   <label>{{localize "ARTICHRON.ItemProperty.Usage"}}</label>
   <div class="form-fields">
@@ -116,8 +116,8 @@
 {{#if document.isEmbedded}}
 <div class="form-group">
   <label>{{localize "ARTICHRON.Favorited"}}</label>
-  <a class="action" data-action="control" data-control="favorite">
-    <i class="fa-{{ifThen context.isFavorited 'solid' 'regular'}} fa-star"></i>
+  <a class="action" data-action="favoriteItem">
+    <i class="fa-{{ifThen isFavorited 'solid' 'regular'}} fa-star"></i>
   </a>
 </div>
 {{/if}}

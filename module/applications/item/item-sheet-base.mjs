@@ -1,28 +1,66 @@
-import {SYSTEM} from "../../helpers/config.mjs";
-import {ArtichronSheetMixin} from "../base-sheet.mjs";
+const mixin = foundry.applications.api.HandlebarsApplicationMixin;
 
-/**
- * Extend the basic ItemSheet with some very simple modifications
- * @extends {ItemSheet}
- */
-export default class ItemSheetArtichron extends ArtichronSheetMixin(ItemSheet) {
-
-  /** @override */
-  static get defaultOptions() {
-    return foundry.utils.mergeObject(super.defaultOptions, {
+export default class ItemSheetArtichron extends mixin(foundry.applications.sheets.ItemSheetV2) {
+  static DEFAULT_OPTIONS = {
+    classes: ["artichron", "item"],
+    position: {
       width: 400,
-      tabs: [
-        {navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "description", group: "primary"},
-        {
-          navSelector: "[data-tab=effects] > .effects.tabs[data-group=effects]",
-          contentSelector: ".tab.effects",
-          initial: "active",
-          group: "effects"
-        }
-      ],
-      classes: ["sheet", "item", "artichron"],
-      scrollY: [".editor-content", ".documents-list"]
-    });
+      height: "auto"
+    },
+    actions: {
+      addDamage: this._onAddDamage,
+      deleteDamage: this._onDeleteDamage,
+      favoriteItem: this._onFavoriteItem,
+      toggleSheetMode: this._onToggleSheetMode,
+      toggleOpacity: this._ontoggleOpacity,
+      toggleEffect: this._onToggleEffect,
+      editEffect: this._onEditEffect,
+      deleteEffect: this._onDeleteEffect,
+      createEffect: this._onCreateEffect,
+      editImage: this._onEditImage
+    },
+    form: {
+      submitOnChange: true
+    },
+    window: {
+      contentClasses: [],
+      controls: [{
+        action: "toggleSheetMode",
+        label: "ARTICHRON.HeaderControl.SheetMode",
+        icon: "fa-solid fa-otter"
+      }, {
+        action: "toggleOpacity",
+        label: "ARTICHRON.HeaderControl.Opacity",
+        icon: "fa-solid fa-otter"
+      }]
+    }
+  };
+
+  static PARTS = {
+    header: {template: "systems/artichron/templates/partials/sheet-header.hbs"},
+    tabs: {template: "systems/artichron/templates/partials/tabs.hbs"},
+    description: {template: "systems/artichron/templates/partials/item-description.hbs", scrollable: [""]},
+    details: {template: "systems/artichron/templates/partials/item-details.hbs", scrollable: [""]},
+    effects: {template: "systems/artichron/templates/partials/effects.hbs", scrollable: [""]}
+  };
+
+  static SHEET_MODES = {EDIT: 0, PLAY: 1};
+
+  /**
+   * The current sheet mode.
+   * @type {number}
+   */
+  _sheetMode = this.constructor.SHEET_MODES.EDIT;
+
+  tabGroups = {
+    primary: "description"
+  };
+
+  get isPlayMode() {
+    return this._sheetMode === this.constructor.SHEET_MODES.PLAY;
+  }
+  get isEditMode() {
+    return this._sheetMode === this.constructor.SHEET_MODES.EDIT;
   }
 
   /** @override */
@@ -30,56 +68,89 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(ItemSheet) {
     return "systems/artichron/templates/item/item-sheet.hbs";
   }
 
-  /* -------------------------------------------- */
-
-  /** @override */
-  async getData() {
-    const data = super.getData();
-    foundry.utils.mergeObject(data, {
-      context: {
-        effects: this._prepareEffects(),
-        isFavorited: this.document.actor?.system.equipped.favorites.has(this.document) ?? false,
-        templates: Object.entries(SYSTEM.SPELL_TARGET_TYPES).map(([k, v]) => {
-          return {key: k, label: v.label, selected: this.item.system.template?.types.has(k)};
-        }),
-        sections: {
-          damage: !!this.document.system.damage,
-          armor: !!this.document.system.armor,
-          resistances: !!this.document.system.resistances
-        },
-        resistances: Object.entries(this.document.system.resistances ?? {}).map(([k, v]) => {
-          return {...v, key: k, label: game.i18n.localize(`ARTICHRON.DamageType.${k.capitalize()}`)};
-        }).sort((a, b) => a.label.localeCompare(b.label)),
-        damages: {
-          parts: data.isEditMode ? data.source.damage : this.document.system.damage
-        },
-        damageTypes: Object.entries(SYSTEM.DAMAGE_TYPES).reduce((acc, [k, v]) => {
-          acc[v.group][k] = v.label;
-          return acc;
-        }, {physical: {}, elemental: {}, planar: {}}),
-        description: {
-          enriched: await TextEditor.enrichHTML(this.document.system.description.value, {
-            rollData: data.rollData, async: true, relativeTo: this.document
-          }),
-          field: this.document.system.schema.getField("description.value"),
-          value: this.document.system.description.value
-        }
-      }
-    });
-
-    if (data.isWeapon) {
-      data.context.subtypes = SYSTEM.ARSENAL_TYPES;
-    } else if (data.isShield) {
-      data.context.subtypes = SYSTEM.SHIELD_TYPES;
-    } else if (data.isSpell) {
-      data.context.subtypes = SYSTEM.SPELL_TYPES;
-    } else if (data.isArmor) {
-      data.context.subtypes = SYSTEM.ARMOR_TYPES;
-    } else if (data.isElixir) {
-      data.context.subtypes = SYSTEM.ELIXIR_TYPES;
+  #getTabs() {
+    const tabs = {
+      description: {id: "description", group: "primary", label: "ARTICHRON.SheetTab.Description"},
+      details: {id: "details", group: "primary", label: "ARTICHRON.SheetTab.Details"},
+      effects: {id: "effects", group: "primary", label: "ARTICHRON.SheetTab.Effects"}
+    };
+    for (const v of Object.values(tabs)) {
+      v.active = this.tabGroups[v.group] === v.id;
+      v.cssClass = v.active ? "active" : "";
     }
-    return data;
+    return tabs;
   }
+
+  async _prepareContext(options) {
+    const doc = this.document;
+    const src = doc.toObject();
+    const rollData = doc.getRollData();
+
+    const context = {
+      document: doc,
+      source: src.system,
+      config: CONFIG.SYSTEM,
+      effects: this._prepareEffects(),
+      isFavorited: this.actor?.system.equipped.favorites.has(doc) ?? false,
+      sections: {
+        damage: "damage" in src.system,
+        armor: "armor" in src.system,
+        resistances: "resistances" in src.system,
+        wield: "wield" in src.system,
+        identifier: "identifier" in src.system,
+        range: "range" in src.system,
+        price: "price" in src.system,
+        template: "template" in src.system,
+        weight: "weight" in src.system,
+        quantity: "quantity" in src.system,
+        usage: "usage" in src.system
+      },
+      description: {
+        enriched: await TextEditor.enrichHTML(doc.system.description.value, {
+          rollData: rollData, async: true, relativeTo: doc
+        }),
+        field: doc.system.schema.getField("description.value"),
+        value: doc.system.description.value
+      },
+      tabs: this.#getTabs(),
+      isEditMode: this.isEditMode,
+      isPlayMode: this.isPlayMode
+    };
+
+    // Damage parts.
+    if (context.sections.damage) {
+      context.damages = {parts: context.isEditMode ? src.system.damage : doc.system.damage};
+      context.damageTypes = Object.entries(CONFIG.SYSTEM.DAMAGE_TYPES).reduce((acc, [k, v]) => {
+        acc[v.group][k] = v.label;
+        return acc;
+      }, {physical: {}, elemental: {}, planar: {}});
+    }
+
+    // Resistances.
+    if (context.sections.resistances) {
+      context.resistances = Object.entries(doc.system.resistances).map(([k, v]) => {
+        return {...v, key: k, label: game.i18n.localize(`ARTICHRON.DamageType.${k.capitalize()}`)};
+      }).sort((a, b) => a.label.localeCompare(b.label));
+    }
+
+    // Template types.
+    if (context.sections.template) {
+      context.templates = Object.entries(CONFIG.SYSTEM.SPELL_TARGET_TYPES).map(([k, v]) => {
+        return {key: k, label: v.label, selected: doc.system.template?.types.has(k)};
+      });
+    }
+
+    // Subtype options.
+    if (doc.type === "weapon") context.subtypes = CONFIG.SYSTEM.ARSENAL_TYPES;
+    else if (doc.type === "shield") context.subtypes = CONFIG.SYSTEM.SHIELD_TYPES;
+    else if (doc.type === "spell") context.subtypes = CONFIG.SYSTEM.SPELL_TYPES;
+    else if (doc.type === "armor") context.subtypes = CONFIG.SYSTEM.ARMOR_TYPES;
+    else if (doc.type === "elixir") context.subtypes = CONFIG.SYSTEM.ELIXIR_TYPES;
+
+    return context;
+  }
+
+  /* -------------------------------------------- */
 
   /**
    * Prepare effects for rendering.
@@ -102,90 +173,113 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(ItemSheet) {
     return effects;
   }
 
+  _onRender(context, options) {
+    super._onRender(context, options);
+  }
+
+  _onFirstRender(context, options) {
+    super._onFirstRender(context, options);
+    this.element.addEventListener("drop", this._onDrop.bind(this));
+  }
+
+  /* -------------------------------------------- */
+  /*                EVENT HANDLERS                */
   /* -------------------------------------------- */
 
-  /** @override */
-  activateListeners(html) {
-    super.activateListeners(html);
-    // listeners that always work go here
-    if (!this.isEditable) return;
-    html = html[0];
-    html.querySelectorAll("[data-action]").forEach(n => {
-      switch (n.dataset.action) {
-        case "control": n.addEventListener("click", this._onClickManageItem.bind(this)); break;
-        case "add": n.addEventListener("click", this._onClickAddDamage.bind(this)); break;
-        case "del": n.addEventListener("click", this._onClickDelDamage.bind(this)); break;
+  async _onDrop(event) {
+    const {type, uuid} = TextEditor.getDragEventData(event);
+    if (!this.isEditable) return null;
+    const item = await fromUuid(uuid);
+    const itemData = item.toObject();
+
+    const modification = {
+      "-=_id": null,
+      "-=ownership": null,
+      "-=folder": null,
+      "-=sort": null
+    };
+
+    switch (type) {
+      case "ActiveEffect": {
+        foundry.utils.mergeObject(modification, {
+          "duration.-=combat": null,
+          "duration.-=startRound": null,
+          "duration.-=startTime": null,
+          "duration.-=startTurn": null,
+          origin: (item.type === "fusion") ? item.uuid : this.document.uuid
+        });
+        break;
       }
+      case "Item": {
+        break;
+      }
+      default: return;
+    }
+
+    foundry.utils.mergeObject(itemData, modification, {performDeletions: true});
+    return getDocumentClass(type).create(itemData, {parent: this.document});
+  }
+
+  static _onEditImage(event, target) {
+    const current = this.document.img;
+    const fp = new FilePicker({
+      type: "image",
+      current: current,
+      callback: path => this.document.update({img: path}),
+      top: this.position.top + 40,
+      left: this.position.left + 10
     });
-    for (const element of html.querySelectorAll("multi-select")) {
-      element.addEventListener("change", this._onChangeInput.bind(this));
-    }
+    return fp.browse();
   }
 
-  /**
-   * Handle clicking an item control.
-   * @param {PointerEvent} event      The initiating click event.
-   * @returns {Promise}
-   */
-  async _onClickManageItem(event) {
-    const control = event.currentTarget.dataset.control;
-    const collection = this.document.getEmbeddedCollection("effects");
-
-    // Create a new document.
-    if (control === "create") {
-      return collection.documentClass.implementation.createDialog({
-        name: collection.documentClass.implementation.defaultName(),
-        img: "icons/svg/sun.svg",
-        disabled: event.currentTarget.closest("[data-active]").dataset.active === "inactive"
-      }, {parent: this.document, renderSheet: true});
-    }
-
-    // Show the document's sheet.
-    else if (control === "edit") {
-      const id = event.currentTarget.closest("[data-item-id]").dataset.itemId;
-      return collection.get(id).sheet.render(true);
-    }
-
-    // Delete the document.
-    else if (control === "delete") {
-      const id = event.currentTarget.closest("[data-item-id]").dataset.itemId;
-      return collection.get(id).deleteDialog();
-    }
-
-    // Toggle an ActiveEffect.
-    else if (control === "toggle") {
-      const data = event.currentTarget.closest("[data-item-id]").dataset;
-      const item = collection.get(data.itemId);
-      return item.update({disabled: !item.disabled});
-    }
-
-    // Toggle favoriting.
-    else if (control === "favorite") {
-      await this.document.favorite();
-      return this.render();
-    }
-  }
-
-  /**
-   * Append a new entry to an array within a fieldset.
-   * @param {PointerEvent} event      The initiating click event.
-   * @returns {Promise<ItemArtichron>}
-   */
-  async _onClickAddDamage(event) {
+  /** Append a new entry to an array within a fieldset. */
+  static _onAddDamage(event, target) {
     const type = (this.document.type === "spell") ? "fire" : "physical";
     const parts = this.document.system.toObject().damage.concat([{formula: "", type: type}]);
-    return this.document.update({"system.damage": parts});
+    this.document.update({"system.damage": parts});
   }
 
-  /**
-   * Remove an entry from an array within a fieldset.
-   * @param {PointerEvent} event      The initiating click event.
-   * @returns {Promise<ItemArtichron>}
-   */
-  async _onClickDelDamage(event) {
-    const idx = event.currentTarget.dataset.idx;
+  /** Remove an entry from an array within a fieldset. */
+  static _onDeleteDamage(event, target) {
+    const idx = parseInt(target.dataset.idx);
     const parts = this.document.system.toObject().damage;
     parts.splice(idx, 1);
-    return this.document.update({"system.damage": parts});
+    this.document.update({"system.damage": parts});
+  }
+  static _onFavoriteItem(event, target) {
+    this.document.favorite().then(() => this.render());
+  }
+  static _ontoggleOpacity(event, target) {
+    target.closest(".application").classList.toggle("opacity");
+  }
+  static _onToggleSheetMode(event) {
+    const modes = this.constructor.SHEET_MODES;
+    this._sheetMode = this.isEditMode ? modes.PLAY : modes.EDIT;
+    this.render();
+  }
+
+  /** ActiveEffect event handlers. */
+  static _onToggleEffect(event, target) {
+    const uuid = target.closest("[data-item-uuid]").dataset.itemUuid;
+    const {type, id} = foundry.utils.parseUuid(uuid, {relative: this.document});
+    const effect = this.document.getEmbeddedCollection(type).get(id);
+    effect.update({disabled: !effect.disabled});
+  }
+  static _onEditEffect(event, target) {
+    const uuid = target.closest("[data-item-uuid]").dataset.itemUuid;
+    const {type, id} = foundry.utils.parseUuid(uuid, {relative: this.document});
+    const effect = this.document.getEmbeddedCollection(type).get(id);
+    effect.sheet.render(true);
+  }
+  static _onDeleteEffect(event, target) {
+    const uuid = target.closest("[data-item-uuid]").dataset.itemUuid;
+    const {type, id} = foundry.utils.parseUuid(uuid, {relative: this.document});
+    const effect = this.document.getEmbeddedCollection(type).get(id);
+    effect.deleteDialog();
+  }
+  static _onCreateEffect(event, target) {
+    getDocumentClass("ActiveEffect").createDialog({
+      type: "fusion", img: "icons/svg/sun.svg"
+    }, {parent: this.document});
   }
 }

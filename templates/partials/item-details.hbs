@@ -1,0 +1,12 @@
+<div class="tab scrollable {{ifThen tabs.details.active 'active' ''}}" data-group="primary" data-tab="details">
+  {{> "systems/artichron/templates/partials/item-type.hbs"}}
+  {{#if sections.damage}}
+  {{> "systems/artichron/templates/partials/item-damages.hbs"}}
+  {{/if}}
+  {{#if sections.resistances}}
+  {{> "systems/artichron/templates/partials/item-resistances.hbs"}}
+  {{/if}}
+  {{#if sections.armor}}
+  {{> "systems/artichron/templates/partials/item-defenses.hbs"}}
+  {{/if}}
+</div>

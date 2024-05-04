@@ -1,22 +1,54 @@
-.artichron.sheet.item {
-  min-width: 400px;
-  min-height: 400px;
+.artichron.application.sheet.item {
+  max-height: 90%;
 
-  .action {
-    float: right;
-    flex: none;
-    padding-left: 5px;
+  /* temp fix */
+  .controls-dropdown {
+    z-index: 1;
   }
 
-  & fieldset {
-    max-height: 600px;
-    overflow: hidden auto;
+  .tab.scrollable {
+    padding-top: 3px;
+    padding-bottom: 3px;
 
-    & legend.header { font-size: 20px; }
-    & select { flex: 0; }
-  }
+    .controls {
+      height: 100%;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      flex: 0;
+    }
 
-  .form-group {
-    & label { flex: 1; }
+    &[data-tab=description] {}
+
+    &[data-tab=details] {
+      .damage .type {
+        flex: 0;
+        width: fit-content;
+      }
+    }
+
+    &[data-tab=effects] {
+      .effect {
+        display: flex;
+        height: 30px;
+        align-items: center;
+        justify-content: space-between;
+
+        .name {
+          height: 100%;
+          margin: 0;
+          display: flex;
+          align-items: center;
+          font-size: initial;
+          font-family: initial;
+
+          & img {
+            height: 100%;
+          }
+        }
+
+        .source {}
+      }
+    }
   }
 }
