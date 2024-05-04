@@ -1,7 +1,10 @@
 .artichron.application.sheet.item {
   max-height: 90%;
+  overflow: visible;
 
-  /* temp fix */
+  .window-content { overflow: visible; }
+
+  /* TODO: remove this when fixed in core */
   .controls-dropdown {
     z-index: 1;
   }
@@ -48,6 +51,41 @@
         }
 
         .source {}
+      }
+    }
+  }
+
+  & nav.tabs {
+    position: absolute;
+    right: -60px;
+    width: 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+    border: none;
+
+    & [data-tab] {
+      margin: 0;
+      background: var(--background);
+      padding: 15px 10px 15px 0;
+      border-radius: 0 10px 10px 0;
+      width: 40px;
+      transition: width 200ms;
+      box-shadow: 0 0 5px #000;
+      position: relative;
+
+      &.active, &:hover { width: 60px; }
+
+      &:before {
+        position: absolute;
+        content: "";
+        border-radius: inherit;
+        border-color: var(--artichron-color-gold);
+        border-width: 2px;
+        border-style: groove;
+        border-left-style: none;
+        inset: 3px;
       }
     }
   }

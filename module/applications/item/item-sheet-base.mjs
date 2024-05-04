@@ -70,9 +70,9 @@ export default class ItemSheetArtichron extends mixin(foundry.applications.sheet
 
   #getTabs() {
     const tabs = {
-      description: {id: "description", group: "primary", label: "ARTICHRON.SheetTab.Description"},
-      details: {id: "details", group: "primary", label: "ARTICHRON.SheetTab.Details"},
-      effects: {id: "effects", group: "primary", label: "ARTICHRON.SheetTab.Effects"}
+      description: {id: "description", group: "primary", label: "ARTICHRON.SheetTab.Description", icon: "fa-solid fa-pen-clip"},
+      details: {id: "details", group: "primary", label: "ARTICHRON.SheetTab.Details", icon: "fa-solid fa-asterisk"},
+      effects: {id: "effects", group: "primary", label: "ARTICHRON.SheetTab.Effects", icon: "fa-solid fa-hurricane"}
     };
     for (const v of Object.values(tabs)) {
       v.active = this.tabGroups[v.group] === v.id;
