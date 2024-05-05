@@ -1,4 +1,13 @@
 <div class="tab scrollable {{ifThen tabs.effects.active 'active' ''}}" data-group="primary" data-tab="effects">
+
+  <header>
+    <span class="name"></span>
+    <span class="source">{{localize "ARTICHRON.Effect.Source"}}</span>
+    <button type="button" data-action="createEffect" data-tooltip="ARTICHRON.Effect.Add">
+      <i class="fa-solid fa-plus"></i>
+    </button>
+  </header>
+
   {{#each effects}}
   <div class="effect" data-item-uuid="{{uuid}}">
 
@@ -18,7 +27,4 @@
   </div>
   {{/each}}
 
-  <button type="button" data-action="createEffect" data-tooltip="ARTICHRON.Effect.Add">
-    <i class="fa-solid fa-plus"></i>
-  </button>
 </div>
