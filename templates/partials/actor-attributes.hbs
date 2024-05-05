@@ -1,0 +1,96 @@
+<div class="tab scrollable {{ifThen tabs.attributes.active 'active' ''}}" data-group="primary" data-tab="attributes">
+
+  <div class="left-pane">
+    <div class="health">
+      {{formInput health.field value=health.value}}
+      <span class="sep">/</span>
+      <span class="max">{{health.max}}</span>
+    </div>
+    <div class="health-bar" style="height: {{health.height}}%"></div>
+  </div>
+
+  <div class="center-pane">
+
+    <section class="controls">
+      <a class="control" data-action="rollDefense">
+        <i class="fa-solid fa-shield"></i>
+        {{localize "ARTICHRON.Defend"}}
+      </a>
+
+      <a class="control" data-action="recover">
+        <i class="fa-solid fa-heart"></i>
+        {{localize "ARTICHRON.Recover"}}
+      </a>
+    </section>
+
+    <section class="pools">
+      <header class="section-header">
+        {{localize "ARTICHRON.Pools.Section"}}
+        {{#if sheet.isEditMode}}
+        <a class="edit" data-action="toggleConfig" data-tooltip="ARTICHRON.EditSkills" data-trait="skills"
+          style="right: 25px">
+          <i class="fa-solid fa-cog"></i>
+        </a>
+        <a class="edit" data-action="toggleConfig" data-tooltip="ARTICHRON.EditPools" data-trait="pools">
+          <i class="fa-solid fa-cog"></i>
+        </a>
+        {{/if}}
+      </header>
+      <div class="pool-rolls darken">
+        <div class="pools">
+          {{#each context.pools as |pool|}}
+          <a class="pool" data-action="rollPool" data-pool="{{pool.key}}">
+            <span class="die {{pool.denom}} {{pool.key}}"
+              data-tooltip="{{pool.value}} / {{pool.max}} ({{pool.die}})">{{pool.value}}</span>
+          </a>
+          {{/each}}
+        </div>
+
+        <div class="skill-buttons">
+          <button type="button" data-action="rollSkill" data-skill="head">Roll Head</button>
+          <button type="button" data-action="rollSkill" data-skill="arms">Roll Arms</button>
+          <button type="button" data-action="rollSkill" data-skill="legs">Roll Legs</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="resistances">
+      <header class="section-header">
+        {{localize "ARTICHRON.ResistancePl"}}
+      </header>
+      <div class="resistance-bars darken" data-tooltip-direction="UP">
+        {{#unless isEditMode}}
+        <div class="resistance" style="color: #{{config.DAMAGE_TYPES.physical.color}}" data-tooltip="{{config.DAMAGE_TYPES.physical.label}}">
+          <span class="total">{{document.system.defenses.armor.value}}</span>
+          <i class="fa-solid fa-shield-alt"></i>
+        </div>
+        {{/unless}}
+        {{#each resistances}}
+        <div class="resistance" style="color: #{{color}}" data-tooltip="{{label}}">
+          {{#if @root.isEditMode}}
+          <input type="text" name="system.resistances.{{key}}.value" value="{{value}}">
+          {{else}}
+          <span class="total">{{value}}</span>
+          {{/if}}
+          <i class="{{icon}}"></i>
+        </div>
+        {{/each}}
+      </div>
+    </section>
+
+    <section class="favorites">
+      <header class="section-header">
+        {{localize "ARTICHRON.Favorites"}}
+      </header>
+      <div class="favorites darken">
+        {{#each document.system.equipped.favorites}}
+        <span class="favorite" data-item-uuid="{{uuid}}">
+          <img class="img" src="{{img}}" data-tooltip="{{name}}" data-tooltip-direction="UP" data-action="useItem">
+        </span>
+        {{/each}}
+      </div>
+    </section>
+
+  </div>
+
+</div>

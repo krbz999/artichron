@@ -1,178 +1,148 @@
-import {SYSTEM} from "../helpers/config.mjs";
-
 /**
  * Sheet class mixin to add common functions shared by all types of sheets.
  * @param {*} Base      The base class.
  * @returns {*}         Extended class.
  */
-export const ArtichronSheetMixin = Base => class extends Base {
-  static SHEET_MODES = {EDIT: 0, PLAY: 1};
+export const ArtichronSheetMixin = Base => {
+  const mixin = foundry.applications.api.HandlebarsApplicationMixin;
+  return class extends mixin(Base) {
 
-  static get defaultOptions() {
-    const options = super.defaultOptions;
-    options.dragDrop = [{dragSelector: ".item-name, .effect .name"}];
-    return options;
-  }
+    static SHEET_MODES = {EDIT: 0, PLAY: 1};
 
-  /** @override */
-  _onDragStart(event) {
-    const entry = this._getEntryFromEvent(event);
-    const data = entry.toDragData();
-    event.dataTransfer.setData("text/plain", JSON.stringify(data));
-  }
-
-  /**
-   * Get the item or effect from this document's collection, or from an embedded document.
-   * @param {Event} event
-   * @returns {ItemArtichron|ActiveEffectArtichron}
-   */
-  _getEntryFromEvent(event) {
-    const uuid = event.currentTarget.closest("[data-item-uuid]").dataset.itemUuid;
-    const {type, id} = foundry.utils.parseUuid(uuid, {relative: this.document});
-    return this.document.getEmbeddedCollection(type).get(id);
-  }
-
-  /**
-   * The current sheet mode.
-   * @type {number}
-   */
-  _sheetMode = this.constructor.SHEET_MODES.PLAY;
-
-  /** @override */
-  getData() {
-    const types = Object.keys(game.system.documentTypes[this.document.documentName]);
-    const data = {
-      rollData: this.document.getRollData(),
-      document: this.document,
-      system: this.document.system,
-      source: this.document.system.toObject(),
-      config: SYSTEM,
-      sheet: this,
-      isEditMode: this.isEditMode,
-      isPlayMode: this.isPlayMode
-    };
-    types.forEach(type => data[`is${type.capitalize()}`] = this.document.type === type);
-    return data;
-  }
-
-  /** @override */
-  activateListeners(html) {
-    super.activateListeners(html);
-    html = html[0];
-
-    if (!this.isEditable) return;
-    html.querySelectorAll("[type=text].delta").forEach(n => {
-      n.addEventListener("change", this._onChangeDelta.bind(this));
-    });
-    html.querySelectorAll("[data-action]").forEach(n => {
-      switch (n.dataset.action) {
-        case "toggleEffect": n.addEventListener("click", this._onToggleEffect.bind(this)); break;
-        case "editEffect": n.addEventListener("click", this._onEditEffect.bind(this)); break;
-        case "deleteEffect": n.addEventListener("click", this._onDeleteEffect.bind(this)); break;
-        case "createEffect": n.addEventListener("click", this._onCreateEffect.bind(this)); break;
+    static DEFAULT_OPTIONS = {
+      form: {submitOnChange: true},
+      window: {
+        contentClasses: [],
+        controls: [{
+          action: "toggleSheetMode",
+          label: "ARTICHRON.HeaderControl.SheetMode",
+          icon: "fa-solid fa-otter"
+        }, {
+          action: "toggleOpacity",
+          label: "ARTICHRON.HeaderControl.Opacity",
+          icon: "fa-solid fa-otter"
+        }]
+      },
+      actions: {
+        editImage: this._onEditImage,
+        toggleSheetMode: this._onToggleSheetMode,
+        toggleOpacity: this._ontoggleOpacity,
+        toggleEffect: this._onToggleEffect,
+        editEffect: this._onEditEffect,
+        deleteEffect: this._onDeleteEffect,
+        createEffect: this._onCreateEffect
       }
-    });
-  }
+    };
 
-  /**
-   * Allow for deltas in input fields.
-   * @param {PointerEvent} event      The initiating change event.
-   */
-  _onChangeDelta(event) {
-    const target = event.currentTarget;
-    if (!target.value) {
-      target.value = null;
-      return;
+    /**
+     * The current sheet mode.
+     * @type {number}
+     */
+    _sheetMode = this.constructor.SHEET_MODES.PLAY;
+
+    get isPlayMode() {
+      return this._sheetMode === this.constructor.SHEET_MODES.PLAY;
     }
-    const prop = foundry.utils.getProperty(this.document, target.name);
-    const max = Number.isNumeric(target.max) ? Number(target.max) : null;
+    get isEditMode() {
+      return this._sheetMode === this.constructor.SHEET_MODES.EDIT;
+    }
 
-    let value = target.value;
-    if (/^[+-][0-9]+/.test(value)) value = Roll.safeEval(`${prop} ${value}`);
-    if (max !== null) value = Math.min(max, value);
-    target.value = value;
-  }
+    tabGroups = {
+      primary: undefined
+    };
 
-  /**
-   * ActiveEffect event handlers.
-   * @param {Event} event     Initiating click event.
-   */
-  _onToggleEffect(event) {
-    const effect = this._getEntryFromEvent(event);
-    effect.update({disabled: !effect.disabled});
-  }
-  _onEditEffect(event) {
-    const effect = this._getEntryFromEvent(event);
-    effect.sheet.render(true);
-  }
-  _onDeleteEffect(event) {
-    const effect = this._getEntryFromEvent(event);
-    effect.deleteDialog();
-  }
-  async _onCreateEffect(event) {
-    getDocumentClass("ActiveEffect").createDialog({type: "fusion", img: "icons/svg/sun.svg"}, {parent: this.document});
-  }
+    /** @override */
+    _renderHeaderControl(control) {
+      // Core does not localize header buttons.
+      control = {...control};
+      control.label = game.i18n.localize(control.label);
+      return super._renderHeaderControl(control);
+    }
 
-  /** @override */
-  _getHeaderButtons() {
-    const buttons = super._getHeaderButtons();
-    buttons.unshift({
-      label: "ARTICHRON.Opacity",
-      class: "opacity",
-      icon: "fa-solid",
-      onclick: this._onToggleOpacity.bind(this)
-    }, {
-      label: "ARTICHRON.SheetMode",
-      class: "sheet-mode",
-      icon: "fa-solid",
-      onclick: this._onToggleSheetMode.bind(this)
-    });
-    return buttons;
-  }
+    /**
+     * Prepare effects for rendering.
+     * @returns {object[]}
+     */
+    _prepareEffects() {
+      const effects = [];
 
-  /**
-   * Toggle the opacity class on this application.
-   * @param {PointerEvent} event
-   */
-  _onToggleOpacity(event) {
-    event.currentTarget.closest(".app").classList.toggle("opacity");
-  }
+      const entry = effect => {
+        effects.push({
+          uuid: effect.uuid,
+          img: effect.img,
+          name: effect.name,
+          source: effect.parent.name,
+          isFusion: effect.type === "fusion",
+          disabled: effect.disabled
+        });
+      };
 
-  /** Toggle the sheet mode between edit and play. */
-  _onToggleSheetMode() {
-    const modes = this.constructor.SHEET_MODES;
-    this._sheetMode = this.isEditMode ? modes.PLAY : modes.EDIT;
-    this.render();
-  }
+      if (this.document instanceof Item) for (const e of this.document.effects) entry(e);
+      else for (const e of this.document.allApplicableEffects()) entry(e);
 
-  get isPlayMode() {
-    return this._sheetMode === this.constructor.SHEET_MODES.PLAY;
-  }
-  get isEditMode() {
-    return this._sheetMode === this.constructor.SHEET_MODES.EDIT;
-  }
+      effects.sort((a, b) => a.name.localeCompare(b.name));
+      return effects;
+    }
 
-  /** @override */
-  async _renderOuter() {
-    const html = await super._renderOuter();
-    const header = html[0].querySelector(".window-header");
-    header.querySelectorAll(".header-button").forEach(btn => {
-      const label = btn.querySelector(":scope > i").nextSibling;
-      btn.dataset.tooltip = label.textContent;
-      btn.setAttribute("aria-label", label.textContent);
-      label.remove();
-    });
-    return html;
-  }
+    /** @override */
+    _onRender(context, options) {
+      super._onRender(context, options);
+      this.element.querySelectorAll("input.delta").forEach(n => {
+        n.addEventListener("focus", event => event.currentTarget.select());
+      });
+    }
 
-  /** @override */
-  _onToggleMinimize(event) {
-    if (event.target.closest(".header-button.control, .document-id-link")) return;
-    return super._onToggleMinimize(event);
-  }
+    /** @override */
+    _syncPartState(partId, newElement, priorElement, state) {
+      super._syncPartState(partId, newElement, priorElement, state);
+      const focus = newElement.querySelector(":focus");
+      if (focus && focus.classList.contains("delta")) focus.select();
+    }
 
-  /** @override */
-  _onChangeTab(event, tabs, active) {
-    this.setPosition({height: "auto"});
-  }
+    /* -------------------------------------------- */
+    /*                EVENT HANDLERS                */
+    /* -------------------------------------------- */
+
+    static _onEditImage(event, target) {
+      const current = this.document.img;
+      const fp = new FilePicker({
+        type: "image",
+        current: current,
+        callback: path => this.document.update({img: path}),
+        top: this.position.top + 40,
+        left: this.position.left + 10
+      });
+      return fp.browse();
+    }
+    static _ontoggleOpacity(event, target) {
+      target.closest(".application").classList.toggle("opacity");
+    }
+    static _onToggleSheetMode(event) {
+      const modes = this.constructor.SHEET_MODES;
+      this._sheetMode = this.isEditMode ? modes.PLAY : modes.EDIT;
+      this.render();
+    }
+
+    /** ActiveEffect event handlers. */
+    static async _onToggleEffect(event, target) {
+      const uuid = target.closest("[data-item-uuid]").dataset.itemUuid;
+      const effect = await fromUuid(uuid);
+      effect.update({disabled: !effect.disabled});
+    }
+    static async _onEditEffect(event, target) {
+      const uuid = target.closest("[data-item-uuid]").dataset.itemUuid;
+      const effect = await fromUuid(uuid);
+      effect.sheet.render(true);
+    }
+    static async _onDeleteEffect(event, target) {
+      const uuid = target.closest("[data-item-uuid]").dataset.itemUuid;
+      const effect = await fromUuid(uuid);
+      effect.deleteDialog();
+    }
+    static _onCreateEffect(event, target) {
+      getDocumentClass("ActiveEffect").createDialog({
+        type: "fusion", img: "icons/svg/sun.svg"
+      }, {parent: this.document});
+    }
+  };
 };

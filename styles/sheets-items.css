@@ -1,11 +1,6 @@
 .artichron.application.sheet.item {
   max-height: 90%;
 
-  /* temp fix */
-  .controls-dropdown {
-    z-index: 1;
-  }
-
   .tab.scrollable {
     padding-top: 3px;
     padding-bottom: 3px;
@@ -38,56 +33,6 @@
         justify-content: space-around;
         align-items: center;
         flex: 0;
-      }
-    }
-
-    &[data-tab=effects] {
-      gap: 5px;
-      flex-direction: column;
-
-      &.active { display: flex; }
-
-      .effect {
-        height: 3rem;
-        display: flex;
-        border: 1px solid gray;
-        border-radius: 3px;
-        align-items: center;
-
-        .wrapper {
-          height: 100%;
-          flex: 1;
-          display: flex;
-          align-items: center;
-
-          .image {
-            height: 100%;
-            border: none;
-            margin-right: 5px;
-          }
-
-          .name {
-            pointer-events: none;
-          }
-        }
-
-        .source {
-          flex: var(--artichron-effect-source-flex);
-          text-align: center;
-        }
-
-        .controls {
-          flex: var(--artichron-effect-controls-flex);
-          display: flex;
-          justify-content: space-around;
-        }
-      }
-
-      & header {
-        display: flex;
-        .name { flex: 1; }
-        .source { flex: var(--artichron-effect-source-flex); text-align: center; }
-        [data-action=createEffect] { flex: var(--artichron-effect-controls-flex); }
       }
     }
   }

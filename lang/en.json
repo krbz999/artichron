@@ -60,13 +60,11 @@
 
   "SheetTab": {
     "Attributes": "Attributes",
-    "Consumables": "Food & Elixirs",
+    "Equipped": "Equipped",
+    "Inventory": "Inventory",
     "Description": "Description",
     "Details": "Details",
-    "Effects": "Effects",
-    "Equipment": "Equipment",
-    "Inventory": "Inventory",
-    "Loot": "Loot"
+    "Effects": "Effects"
   },
 
   "Pools": {

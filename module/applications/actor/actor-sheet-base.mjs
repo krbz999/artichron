@@ -2,70 +2,75 @@ import {ArtichronSheetMixin} from "../base-sheet.mjs";
 import PoolConfig from "./configs/pool-config.mjs";
 import SkillConfig from "./configs/skill-config.mjs";
 
-/**
- * Extend the basic ActorSheet with some very simple modifications
- * @extends {ActorSheet}
- */
-export default class ActorSheetArtichron extends ArtichronSheetMixin(ActorSheet) {
-  /** @override */
-  static get defaultOptions() {
-    return foundry.utils.mergeObject(super.defaultOptions, {
-      width: 500,
-      top: 100,
-      left: 200,
-      tabs: [
-        {
-          navSelector: ".sheet-tabs",
-          contentSelector: ".sheet-body",
-          initial: "attributes",
-          group: "primary"
-        },
-        {
-          navSelector: "[data-tab=inventory] > .inventory.tabs[data-group=inventory]",
-          contentSelector: ".tab.inventory",
-          initial: "arsenal",
-          group: "inventory"
-        },
-        {
-          navSelector: "[data-tab=consumables] > .inventory.tabs[data-group=inventory]",
-          contentSelector: ".tab.consumables",
-          initial: "food",
-          group: "consumables"
-        },
-        {
-          navSelector: "[data-tab=effects] > .effects.tabs[data-group=effects]",
-          contentSelector: ".tab.effects",
-          initial: "active",
-          group: "effects"
-        }
-      ],
-      classes: ["sheet", "actor", "artichron"],
-      scrollY: [".equipped-items", ".documents-list"]
-    });
+export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.applications.sheets.ActorSheetV2) {
+  static DEFAULT_OPTIONS = {
+    classes: ["artichron", "actor"],
+    position: {width: 500, top: 100, left: 200, height: "auto"},
+    actions: {
+      createItem: this._onCreateItem,
+      useItem: this._onUseItem,
+      editItem: this._onEditItem,
+      favoriteItem: this._onFavoriteItem,
+      deleteItem: this._onDeleteItem,
+      rollDefense: this._onRollDefense,
+      recover: this._onRecover,
+      toggleConfig: this._onToggleConfig,
+      rollSkill: this._onRollSkill,
+      changeEquipped: this._onChangeEquipped
+    }
+  };
+
+  static PARTS = {
+    header: {template: "systems/artichron/templates/partials/sheet-header.hbs"},
+    tabs: {template: "systems/artichron/templates/partials/tabs.hbs"},
+    attributes: {template: "systems/artichron/templates/partials/actor-attributes.hbs", scrollable: [""]},
+    equipped: {template: "systems/artichron/templates/partials/actor-equipped.hbs", scrollable: [""]},
+    inventory: {template: "systems/artichron/templates/partials/actor-inventory.hbs", scrollable: [""]},
+    effects: {template: "systems/artichron/templates/partials/effects.hbs", scrollable: [""]},
+    encumbrance: {template: "systems/artichron/templates/partials/actor-encumbrance.hbs"}
+  };
+
+  tabGroups = {
+    primary: "attributes",
+    inventory: "weapon"
+  };
+
+  #getTabs() {
+    const tabs = {
+      attributes: {id: "attributes", group: "primary", label: "ARTICHRON.SheetTab.Attributes"},
+      equipped: {id: "equipped", group: "primary", label: "ARTICHRON.SheetTab.Equipped"},
+      inventory: {id: "inventory", group: "primary", label: "ARTICHRON.SheetTab.Inventory"},
+      effects: {id: "effects", group: "primary", label: "ARTICHRON.SheetTab.Effects"}
+    };
+    for (const v of Object.values(tabs)) {
+      v.active = this.tabGroups[v.group] === v.id;
+      v.cssClass = v.active ? "active" : "";
+    }
+    return tabs;
   }
 
   /** @override */
-  get template() {
-    return `systems/artichron/templates/actor/actor-sheet-${this.document.type}.hbs`;
-  }
+  async _prepareContext(options) {
+    const doc = this.document;
+    const src = doc.toObject();
+    const rollData = doc.getRollData();
 
-  /* -------------------------------------------- */
+    const context = {
+      document: doc,
+      config: CONFIG.SYSTEM,
+      health: this._prepareHealth(),
+      pools: this._preparePools(),
+      resistances: this._prepareResistances(),
+      equipped: this._prepareEquipment(),
+      items: this._prepareItems(),
+      encumbrance: this._prepareEncumbrance(),
+      effects: this._prepareEffects(),
+      tabs: this.#getTabs(),
+      isEditMode: this.isEditMode,
+      isPlayMode: this.isPlayMode
+    };
 
-  /** @override */
-  async getData(options = {}) {
-    const data = super.getData();
-    foundry.utils.mergeObject(data, {
-      context: {
-        equipped: this._prepareEquipment(),
-        resistances: this._prepareResistances(),
-        items: this._prepareItems(),
-        pools: this._preparePools(),
-        effects: this._prepareEffects(),
-        health: this._prepareHealth(),
-        encumbrance: this._prepareEncumbrance()
-      }
-    });
-    return data;
+    return context;
   }
 
   /**
@@ -74,16 +79,12 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(ActorSheet)
    */
   _prepareHealth() {
     const hp = this.document.system.health;
-    return {height: Math.clamp(hp.value / hp.max, 0, 1) * 100};
-  }
-
-  /**
-   * Prepare encumbrance bar.
-   * @returns {object}
-   */
-  _prepareEncumbrance() {
-    const enc = this.document.system.encumbrance;
-    return {percent: Math.round(enc.value / enc.max * 100)};
+    return {
+      field: this.document.system.schema.getField("health.value"),
+      value: hp.value,
+      max: hp.max,
+      height: Math.round(Math.clamp(hp.value / hp.max, 0, 1) * 100)
+    };
   }
 
   /**
@@ -98,65 +99,25 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(ActorSheet)
   }
 
   /**
-   * Prepare the items for rendering.
-   * @returns {object}
-   */
-  _prepareItems() {
-    const types = this.document.itemTypes;
-    const map = key => ({
-      key: key,
-      items: types[key].map(item => {
-        return {
-          item: item,
-          favorited: this.document.system.equipped.favorites.has(item),
-          hasQty: "quantity" in item.system,
-          hasUsage: ("usage" in item.system) && (item.system.usage.max > 0)
-        };
-      }),
-      label: `TYPES.Item.${key}Pl`
-    });
-    return {
-      inventory: ["weapon", "spell", "shield", "armor", "part"].map(map),
-      consumable: ["food", "elixir"].map(map)
-    };
-  }
-
-  /**
-   * Prepare effects for rendering.
-   * @returns {object[]}
-   */
-  _prepareEffects() {
-    const effects = [];
-    for (const effect of this.document.allApplicableEffects()) {
-      effects.push({
-        uuid: effect.uuid,
-        img: effect.img,
-        name: effect.name,
-        source: effect.parent.name,
-        toggleTooltip: effect.disabled ? "ToggleOn" : "ToggleOff",
-        toggleIcon: effect.disabled ? "fa-toggle-off" : "fa-toggle-on"
-      });
-    }
-    effects.sort((a, b) => a.name.localeCompare(b.name));
-    return effects;
-  }
-
-  /**
    * Prepare resistances for rendering.
    * @returns {object}
    */
   _prepareResistances() {
-    const res = this.document.system.resistances;
+    const resistances = [];
+    const ie = this.isEditMode;
     const src = this.document.system.toObject().resistances;
-    const resistances = {};
-    for (const [k, v] of Object.entries(res)) {
-      resistances[k] = {
-        ...CONFIG.SYSTEM.DAMAGE_TYPES[k],
-        total: v.value,
-        source: src[k],
+
+    for (const [k, v] of Object.entries(this.document.system.resistances)) {
+      if (!ie && !v.value) continue;
+      resistances.push({
+        label: CONFIG.SYSTEM.DAMAGE_TYPES[k].label,
+        color: CONFIG.SYSTEM.DAMAGE_TYPES[k].color,
+        icon: CONFIG.SYSTEM.DAMAGE_TYPES[k].icon,
+        value: ie ? src[k].value : v.value,
         key: k
-      };
+      });
     }
+
     return resistances;
   }
 
@@ -234,104 +195,110 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(ActorSheet)
     return equipped;
   }
 
-  /* -------------------------------------------- */
-
-  /** @override */
-  activateListeners(html) {
-    super.activateListeners(html);
-    if (!this.isEditable) return;
-
-    // listeners that only work on editable or owned sheets go here
-    html[0].querySelectorAll("[data-action]").forEach(n => {
-      switch (n.dataset.action) {
-        case "createItem": n.addEventListener("click", this._onCreateItem.bind(this)); break;
-        case "useItem": n.addEventListener("click", this._onUseItem.bind(this)); break;
-        case "updateEmbedded": n.addEventListener("change", this._onUpdateEmbedded.bind(this)); break;
-        case "favoriteItem": n.addEventListener("click", this._onFavoriteItem.bind(this)); break;
-        case "editItem": n.addEventListener("click", this._onEditItem.bind(this)); break;
-        case "deleteItem": n.addEventListener("click", this._onDeleteItem.bind(this)); break;
-        case "rollDefense": n.addEventListener("click", this._onRollDefense.bind(this)); break;
-        case "recover": n.addEventListener("click", this._onRecover.bind(this)); break;
-        case "toggleConfig": n.addEventListener("click", this._onToggleConfig.bind(this)); break;
-        case "rollSkill": n.addEventListener("click", this._onRollSkill.bind(this)); break;
-        case "rollPool": n.addEventListener("click", this._onRollPool.bind(this)); break;
-        case "editImage": n.addEventListener("click", this._onEditImage.bind(this)); break;
-        case "changeEquipped": n.addEventListener("click", this._onChangeEquipped.bind(this)); break;
-      }
+  /**
+   * Prepare the items for rendering.
+   * @returns {object}
+   */
+  _prepareItems() {
+    const types = this.document.itemTypes;
+    const map = key => ({
+      key: key,
+      items: types[key].map(item => {
+        return {
+          item: item,
+          favorited: this.document.system.equipped.favorites.has(item),
+          hasQty: "quantity" in item.system,
+          hasUsage: ("usage" in item.system) && (item.system.usage.max > 0)
+        };
+      }),
+      label: `TYPES.Item.${key}Pl`,
+      active: this.tabGroups.inventory === key
     });
+
+    return ["weapon", "spell", "shield", "armor", "elixir", "food", "part"].map(map);
   }
 
   /**
-   * Handle editing actor image.
-   * @param {PointerEvent} event      Initiating right-click event.
+   * Prepare encumbrance bar.
+   * @returns {object}
    */
-  _onEditImage(event) {
-    const current = this.document.img;
-    const fp = new FilePicker({
-      type: "image",
-      current: current,
-      callback: path => this.document.update({img: path}),
-      top: this.position.top + 40,
-      left: this.position.left + 10
-    });
-    return fp.browse();
+  _prepareEncumbrance() {
+    const enc = this.document.system.encumbrance;
+    return {...enc, percent: Math.round(Math.clamp(enc.value / enc.max, 0, 1) * 100)};
   }
 
-  _onCreateItem(event) {
+  _onRender(context, options) {
+    super._onRender(context, options);
+    this.element.querySelectorAll("[data-action=updateEmbedded").forEach(n => {
+      n.addEventListener("change", this._onUpdateEmbedded.bind(this));
+    });
+  }
+
+  /* -------------------------------------------- */
+  /*                EVENT HANDLERS                */
+  /* -------------------------------------------- */
+
+  static _onCreateItem(event, target) {
     getDocumentClass("Item").createDialog({
-      img: "icons/svg/chest.svg",
-      type: event.currentTarget.closest("[data-item-type]").dataset.itemType
+      img: "icons/svg/chest.svg"
     }, {parent: this.document});
   }
-  _onUseItem(event) {
-    this._getEntryFromEvent(event).use();
+  static async _onUseItem(event, target) {
+    const uuid = target.closest("[data-item-uuid]").dataset.itemUuid;
+    const item = await fromUuid(uuid);
+    item.use();
   }
-  _onEditItem(event) {
-    this._getEntryFromEvent(event).sheet.render(true);
+  static async _onEditItem(event, target) {
+    const uuid = target.closest("[data-item-uuid]").dataset.itemUuid;
+    const item = await fromUuid(uuid);
+    item.sheet.render(true);
   }
-  _onDeleteItem(event) {
-    this._getEntryFromEvent(event).deleteDialog();
+  static async _onDeleteItem(event, target) {
+    const uuid = target.closest("[data-item-uuid]").dataset.itemUuid;
+    const item = await fromUuid(uuid);
+    item.deleteDialog();
   }
-  _onFavoriteItem(event) {
-    this._getEntryFromEvent(event).favorite();
+  static async _onFavoriteItem(event, target) {
+    const uuid = target.closest("[data-item-uuid]").dataset.itemUuid;
+    const item = await fromUuid(uuid);
+    item.favorite();
   }
-  _onUpdateEmbedded(event) {
-    const property = event.currentTarget.dataset.property;
-    const item = this._getEntryFromEvent(event);
+  async _onUpdateEmbedded(event) {
+    const target = event.currentTarget;
+    const property = target.dataset.property;
+    const uuid = target.closest("[data-item-uuid]").dataset.itemUuid;
+    const item = await fromUuid(uuid);
     const value = foundry.utils.getProperty(item, property);
-    let tval = event.currentTarget.value;
+    let tval = target.value;
     if (!tval.trim()) tval = null;
     else if (/^[+-][\d]+/.test(tval)) tval = Roll.safeEval(`${value} ${tval}`);
-    return item.update({[property]: tval});
+    if (target.max) tval = Math.clamp(tval || value, 0, parseInt(target.max));
+    item.update({[property]: tval});
   }
-  _onRollSkill(event) {
-    this.document.rollSkill(event.currentTarget.dataset.skill);
+  static _onRollSkill(event, target) {
+    this.document.rollSkill(target.dataset.skill);
   }
-  _onToggleConfig(event) {
+  static _onToggleConfig(event, target) {
     let Cls;
-    switch (event.currentTarget.dataset.trait) {
+    switch (target.dataset.trait) {
       case "pools": Cls = PoolConfig; break;
       case "skills": Cls = SkillConfig; break;
     }
-    new Cls({document: this.actor}).render(true);
+    new Cls({document: this.document}).render(true);
   }
-  _onRollDefense(event) {
+  static _onRollDefense(event, target) {
     this.document.rollDefense();
   }
-  _onRecover(event) {
+  static _onRecover(event, target) {
     this.document.recover();
   }
-  _onRollPool(event) {
-    this.document.rollPool(event.currentTarget.dataset.pool, {event});
+  static _onRollPool(event, target) {
+    this.document.rollPool(target.dataset.pool, {event});
   }
 
-  /**
-   * Handle changing the equipped item in a particular slot.
-   * @param {PointerEvent} event      The initiating click event.
-   * @returns {Promise<ActorArtichron|null>}
-   */
-  async _onChangeEquipped(event) {
-    const [type, slot] = event.currentTarget.closest("[data-slot]").dataset.slot.split(".");
+  /** Handle changing the equipped item in a particular slot. */
+  static async _onChangeEquipped(event, target) {
+    const [type, slot] = target.closest("[data-slot]").dataset.slot.split(".");
 
     let items;
     let icon;
@@ -410,45 +377,21 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(ActorSheet)
     this.document.update(update);
   }
 
-  /** @override */
-  _saveScrollPositions(html) {
-    super._saveScrollPositions(html);
-    this._healthY = html[0].querySelector(".health-bar").style.height;
-    this._encumW = html[0].querySelector(".encumbrance-bar").style.width;
-  }
+  _syncPartState(partId, newElement, priorElement, state) {
+    super._syncPartState(partId, newElement, priorElement, state);
 
-  /** @override */
-  _restoreScrollPositions(html) {
-    super._restoreScrollPositions(html);
-    this._restoreHealthHeight(html);
-    this._restoreEncumbranceWidth(html);
-  }
+    if (partId === "attributes") {
+      const oldBar = priorElement.querySelector(".health-bar");
+      const newBar = newElement.querySelector(".health-bar");
+      const frames = [{height: oldBar.style.height}, {height: newBar.style.height}];
+      newBar.animate(frames, {duration: 1000, easing: "ease"});
+    }
 
-  /**
-   * Ease differences in the health value.
-   * @param {HTMLElement} html
-   */
-  _restoreHealthHeight([html]) {
-    const y = this._healthY;
-    if (!y) return;
-    delete this._healthY;
-    const bar = html.querySelector(".health-bar");
-    const frames = [{height: y, easing: "ease"}, {height: bar.style.top}];
-    const duration = 1000;
-    bar.animate(frames, duration);
-  }
-
-  /**
-   * Ease differences in encumbrance.
-   * @param {HTMLElement} html
-   */
-  _restoreEncumbranceWidth([html]) {
-    const w = this._encumW;
-    if (!w) return;
-    delete this._encumW;
-    const bar = html.querySelector(".encumbrance-bar");
-    const frames = [{width: w, easing: "ease"}, {width: bar.style.width}];
-    const duration = 1000;
-    bar.animate(frames, duration);
+    else if (partId === "encumbrance") {
+      const oldBar = priorElement.querySelector(".encumbrance-bar");
+      const newBar = newElement.querySelector(".encumbrance-bar");
+      const frames = [{width: oldBar.style.width}, {width: newBar.style.width}];
+      newBar.animate(frames, {duration: 1000, easing: "ease"});
+    }
   }
 }

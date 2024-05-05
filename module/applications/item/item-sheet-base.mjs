@@ -1,38 +1,13 @@
-const mixin = foundry.applications.api.HandlebarsApplicationMixin;
+import {ArtichronSheetMixin} from "../base-sheet.mjs";
 
-export default class ItemSheetArtichron extends mixin(foundry.applications.sheets.ItemSheetV2) {
+export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.applications.sheets.ItemSheetV2) {
   static DEFAULT_OPTIONS = {
     classes: ["artichron", "item"],
-    position: {
-      width: 400,
-      height: "auto"
-    },
+    position: {width: 400, height: "auto"},
     actions: {
       addDamage: this._onAddDamage,
       deleteDamage: this._onDeleteDamage,
-      favoriteItem: this._onFavoriteItem,
-      toggleSheetMode: this._onToggleSheetMode,
-      toggleOpacity: this._ontoggleOpacity,
-      toggleEffect: this._onToggleEffect,
-      editEffect: this._onEditEffect,
-      deleteEffect: this._onDeleteEffect,
-      createEffect: this._onCreateEffect,
-      editImage: this._onEditImage
-    },
-    form: {
-      submitOnChange: true
-    },
-    window: {
-      contentClasses: [],
-      controls: [{
-        action: "toggleSheetMode",
-        label: "ARTICHRON.HeaderControl.SheetMode",
-        icon: "fa-solid fa-otter"
-      }, {
-        action: "toggleOpacity",
-        label: "ARTICHRON.HeaderControl.Opacity",
-        icon: "fa-solid fa-otter"
-      }]
+      favoriteItem: this._onFavoriteItem
     }
   };
 
@@ -44,29 +19,12 @@ export default class ItemSheetArtichron extends mixin(foundry.applications.sheet
     effects: {template: "systems/artichron/templates/partials/effects.hbs", scrollable: [""]}
   };
 
-  static SHEET_MODES = {EDIT: 0, PLAY: 1};
-
-  /**
-   * The current sheet mode.
-   * @type {number}
-   */
+  /** @override */
   _sheetMode = this.constructor.SHEET_MODES.EDIT;
 
   tabGroups = {
     primary: "description"
   };
-
-  get isPlayMode() {
-    return this._sheetMode === this.constructor.SHEET_MODES.PLAY;
-  }
-  get isEditMode() {
-    return this._sheetMode === this.constructor.SHEET_MODES.EDIT;
-  }
-
-  /** @override */
-  get template() {
-    return "systems/artichron/templates/item/item-sheet.hbs";
-  }
 
   #getTabs() {
     const tabs = {
@@ -197,37 +155,9 @@ export default class ItemSheetArtichron extends mixin(foundry.applications.sheet
 
   /* -------------------------------------------- */
 
-  /**
-   * Prepare effects for rendering.
-   * @returns {object[]}
-   */
-  _prepareEffects() {
-    const effects = [];
-    for (const effect of this.document.effects) {
-      effects.push({
-        uuid: effect.uuid,
-        img: effect.img,
-        name: effect.name,
-        source: effect.parent.name,
-        isFusion: effect.type === "fusion",
-        disabled: effect.disabled
-      });
-    }
-    effects.sort((a, b) => a.name.localeCompare(b.name));
-    return effects;
-  }
-
-  _onRender(context, options) {
-    super._onRender(context, options);
-  }
-
   _onFirstRender(context, options) {
     super._onFirstRender(context, options);
     this.element.addEventListener("drop", this._onDrop.bind(this));
-  }
-
-  _preSyncPartState(partId, newElement, priorElement, state) {
-    super._preSyncPartState(partId, newElement, priorElement, state);
   }
 
   _syncPartState(partId, newElement, priorElement, state) {
@@ -242,12 +172,6 @@ export default class ItemSheetArtichron extends mixin(foundry.applications.sheet
         n.animate([{opacity: old.style.opacity}, {opacity: n.style.opacity}], {duration: 200, easing: "ease-in-out"});
       });
     }
-  }
-
-  _renderHeaderControl(control) {
-    control = {...control};
-    control.label = game.i18n.localize(control.label);
-    return super._renderHeaderControl(control);
   }
 
   /* -------------------------------------------- */
@@ -274,7 +198,7 @@ export default class ItemSheetArtichron extends mixin(foundry.applications.sheet
           "duration.-=startRound": null,
           "duration.-=startTime": null,
           "duration.-=startTurn": null,
-          origin: (item.type === "fusion") ? item.uuid : this.document.uuid
+          origin: (item.type === "fusion") ? item.parent.uuid : this.document.uuid
         });
         break;
       }
@@ -286,18 +210,6 @@ export default class ItemSheetArtichron extends mixin(foundry.applications.sheet
 
     foundry.utils.mergeObject(itemData, modification, {performDeletions: true});
     return getDocumentClass(type).create(itemData, {parent: this.document});
-  }
-
-  static _onEditImage(event, target) {
-    const current = this.document.img;
-    const fp = new FilePicker({
-      type: "image",
-      current: current,
-      callback: path => this.document.update({img: path}),
-      top: this.position.top + 40,
-      left: this.position.left + 10
-    });
-    return fp.browse();
   }
 
   /** Append a new entry to an array within a fieldset. */
@@ -316,38 +228,5 @@ export default class ItemSheetArtichron extends mixin(foundry.applications.sheet
   }
   static _onFavoriteItem(event, target) {
     this.document.favorite().then(() => this.render());
-  }
-  static _ontoggleOpacity(event, target) {
-    target.closest(".application").classList.toggle("opacity");
-  }
-  static _onToggleSheetMode(event) {
-    const modes = this.constructor.SHEET_MODES;
-    this._sheetMode = this.isEditMode ? modes.PLAY : modes.EDIT;
-    this.render();
-  }
-
-  /** ActiveEffect event handlers. */
-  static _onToggleEffect(event, target) {
-    const uuid = target.closest("[data-item-uuid]").dataset.itemUuid;
-    const {type, id} = foundry.utils.parseUuid(uuid, {relative: this.document});
-    const effect = this.document.getEmbeddedCollection(type).get(id);
-    effect.update({disabled: !effect.disabled});
-  }
-  static _onEditEffect(event, target) {
-    const uuid = target.closest("[data-item-uuid]").dataset.itemUuid;
-    const {type, id} = foundry.utils.parseUuid(uuid, {relative: this.document});
-    const effect = this.document.getEmbeddedCollection(type).get(id);
-    effect.sheet.render(true);
-  }
-  static _onDeleteEffect(event, target) {
-    const uuid = target.closest("[data-item-uuid]").dataset.itemUuid;
-    const {type, id} = foundry.utils.parseUuid(uuid, {relative: this.document});
-    const effect = this.document.getEmbeddedCollection(type).get(id);
-    effect.deleteDialog();
-  }
-  static _onCreateEffect(event, target) {
-    getDocumentClass("ActiveEffect").createDialog({
-      type: "fusion", img: "icons/svg/sun.svg"
-    }, {parent: this.document});
   }
 }

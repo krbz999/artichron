@@ -1,3 +1,109 @@
+.artichron.application.sheet {
+  max-height: 90%;
+
+  /* temp fix */
+  .controls-dropdown {
+    z-index: 1;
+  }
+
+  [data-tab=inventory] > .tab.scrollable,
+  .tab.scrollable[data-tab=effects] {
+    gap: 5px;
+    flex-direction: column;
+
+    &.active { display: flex; }
+
+    .effect, .item {
+      height: 3rem;
+      display: flex;
+      border: 1px solid gray;
+      border-radius: 3px;
+      align-items: center;
+
+      .wrapper {
+        height: 100%;
+        flex: 1;
+        display: flex;
+        align-items: center;
+
+        .image {
+          height: 100%;
+          border: none;
+          margin-right: 5px;
+        }
+
+        .name {
+          pointer-events: none;
+        }
+      }
+
+      .source {
+        flex: var(--artichron-effect-source-flex);
+        text-align: center;
+      }
+
+      .properties {
+        flex: var(--artichron-item-properties-flex);
+        text-align: center;
+        display: flex;
+        font-size: 10px;
+
+        .property {
+          flex: 1;
+
+          .counter {
+            display: flex;
+            align-items: center;
+            gap: 3px;
+
+            & input, .max {
+              margin: 0;
+              padding: 0;
+              flex: 1;
+              font-size: 10px;
+              height: 100%;
+              background: unset;
+            }
+          }
+        }
+      }
+
+      .controls {
+        flex: var(--artichron-effect-controls-flex);
+        display: flex;
+        justify-content: space-around;
+      }
+    }
+
+    & header {
+      display: flex;
+      position: sticky;
+      top: 0;
+
+      .name { flex: 1; }
+
+      .source { flex: var(--artichron-effect-source-flex); text-align: center; }
+      [data-action=createEffect] { flex: var(--artichron-effect-controls-flex); }
+
+      .properties { flex: var(--artichron-item-properties-flex); text-align: center; }
+      [data-action=createItem] { flex: var(--artichron-effect-controls-flex); }
+    }
+  }
+
+  [data-tab=inventory] {
+    &.active {
+      display: flex;
+      overflow: hidden;
+      flex-direction: column;
+    }
+
+    .tab.scrollable.active header {
+      position: sticky;
+      top: 0;
+    }
+  }
+}
+
 .artichron.sheet.app {
   & * {
     background: none;
