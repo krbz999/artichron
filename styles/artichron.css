@@ -18,6 +18,9 @@
   --artichron-color-black: rgb(0, 0, 0);
   --artichron-color-black-45: rgba(0, 0, 0, 0.45);
   --artichron-color-gold: #9f9275;
+
+  --artichron-effect-source-flex: 0 0 100px;
+  --artichron-effect-controls-flex: 0 0 50px;
 }
 
 /* --------------------------- */

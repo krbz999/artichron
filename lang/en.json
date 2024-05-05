@@ -246,6 +246,7 @@
 
   "Effect": {
     "Add": "Create New Effect",
-    "isFusion": "Fusion"
+    "isFusion": "Fusion",
+    "Source": "Source"
   }
 }}

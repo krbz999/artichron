@@ -72,18 +72,23 @@
         }
 
         .source {
-          flex: 0 0 100px;
+          flex: var(--artichron-effect-source-flex);
           text-align: center;
         }
 
         .controls {
-          flex: 0 0 50px;
+          flex: var(--artichron-effect-controls-flex);
           display: flex;
           justify-content: space-around;
         }
       }
 
-      [data-action=createEffect] {}
+      & header {
+        display: flex;
+        .name { flex: 1; }
+        .source { flex: var(--artichron-effect-source-flex); text-align: center; }
+        [data-action=createEffect] { flex: var(--artichron-effect-controls-flex); }
+      }
     }
   }
 }
