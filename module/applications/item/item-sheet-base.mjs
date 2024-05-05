@@ -13,8 +13,7 @@ export default class ItemSheetArtichron extends mixin(foundry.applications.sheet
       favoriteItem: this._onFavoriteItem,
       toggleSheetMode: this._onToggleSheetMode,
       toggleOpacity: this._ontoggleOpacity,
-      toggleEffect: this._onToggleEffect,
-      editEffect: this._onEditEffect,
+      toggleEffect: {handler: this._onToggleEffect, buttons: [0, 2]},
       deleteEffect: this._onDeleteEffect,
       createEffect: this._onCreateEffect,
       editImage: this._onEditImage
@@ -166,7 +165,8 @@ export default class ItemSheetArtichron extends mixin(foundry.applications.sheet
         source: effect.parent.name,
         toggleTooltip: effect.disabled ? "ToggleOn" : "ToggleOff",
         toggleIcon: effect.disabled ? "fa-toggle-off" : "fa-toggle-on",
-        isFusion: effect.type === "fusion"
+        isFusion: effect.type === "fusion",
+        disabled: effect.disabled
       });
     }
     effects.sort((a, b) => a.name.localeCompare(b.name));
@@ -180,6 +180,24 @@ export default class ItemSheetArtichron extends mixin(foundry.applications.sheet
   _onFirstRender(context, options) {
     super._onFirstRender(context, options);
     this.element.addEventListener("drop", this._onDrop.bind(this));
+  }
+
+  _preSyncPartState(partId, newElement, priorElement, state) {
+    super._preSyncPartState(partId, newElement, priorElement, state);
+  }
+
+  _syncPartState(partId, newElement, priorElement, state) {
+    super._syncPartState(partId, newElement, priorElement, state);
+
+    if (partId === "effects") {
+      newElement.querySelectorAll("[data-item-uuid].effect").forEach(n => {
+        const uuid = n.dataset.itemUuid;
+        n = n.querySelector(".name");
+        const old = priorElement.querySelector(`[data-item-uuid="${uuid}"].effect .name`);
+        if (!old) return;
+        n.animate([{opacity: old.style.opacity}, {opacity: n.style.opacity}], {duration: 200, easing: "ease-in-out"});
+      });
+    }
   }
 
   /* -------------------------------------------- */
@@ -260,16 +278,11 @@ export default class ItemSheetArtichron extends mixin(foundry.applications.sheet
 
   /** ActiveEffect event handlers. */
   static _onToggleEffect(event, target) {
+    const context = event.button === 2;
     const uuid = target.closest("[data-item-uuid]").dataset.itemUuid;
     const {type, id} = foundry.utils.parseUuid(uuid, {relative: this.document});
     const effect = this.document.getEmbeddedCollection(type).get(id);
-    effect.update({disabled: !effect.disabled});
-  }
-  static _onEditEffect(event, target) {
-    const uuid = target.closest("[data-item-uuid]").dataset.itemUuid;
-    const {type, id} = foundry.utils.parseUuid(uuid, {relative: this.document});
-    const effect = this.document.getEmbeddedCollection(type).get(id);
-    effect.sheet.render(true);
+    context ? effect.sheet.render(true) : effect.update({disabled: !effect.disabled});
   }
   static _onDeleteEffect(event, target) {
     const uuid = target.closest("[data-item-uuid]").dataset.itemUuid;

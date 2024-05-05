@@ -10,13 +10,7 @@
     padding-top: 3px;
     padding-bottom: 3px;
 
-    .controls {
-      height: 100%;
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-      flex: 0;
-    }
+
 
     &[data-tab=description] {}
 
@@ -25,30 +19,65 @@
         flex: 0;
         width: fit-content;
       }
+
+      .controls {
+        height: 100%;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        flex: 0;
+      }
     }
 
     &[data-tab=effects] {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 3px;
+      row-gap: 3px;
+
+      &.active { display: grid; }
+
       .effect {
-        display: flex;
-        height: 30px;
-        align-items: center;
-        justify-content: space-between;
+        position: relative;
+        cursor: pointer;
 
         .name {
-          height: 100%;
-          margin: 0;
-          display: flex;
-          align-items: center;
-          font-size: initial;
-          font-family: initial;
+          position: relative;
+          margin: 0 3px;
+          padding: 0;
+          aspect-ratio: 1 / 1;
+          font-size: 20px;
+          text-align: center;
+          place-content: center;
+          border: 1px solid gray;
+          border-radius: 3px;
+          overflow: hidden;
+          color: white;
 
-          & img {
-            height: 100%;
+          .backdrop {
+            background-size: contain;
+            background-repeat: no-repeat;
+            opacity: 0.5;
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            z-index: -1;
           }
         }
 
-        .source {}
+        .delete {
+          position: absolute;
+          top: 0;
+          right: 0;
+          padding: 4px;
+          display: none;
+        }
+
+        &:hover .delete { display: block; }
       }
+
+      [data-action=createEffect] {}
     }
   }
 }
