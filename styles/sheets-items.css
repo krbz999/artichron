@@ -15,6 +15,18 @@
     &[data-tab=description] {}
 
     &[data-tab=details] {
+      .usage {
+        & input {
+          transition: outline-color 0.5s, flex 300ms;
+          flex: 1;
+          min-width: 2rem;
+        }
+
+        &:has(input:focus) input:not(:focus) {
+          flex: 0;
+        }
+      }
+
       .damage .type {
         flex: 0;
         width: fit-content;
@@ -30,51 +42,45 @@
     }
 
     &[data-tab=effects] {
-      grid-template-columns: repeat(4, 1fr);
-      gap: 3px;
-      row-gap: 3px;
+      gap: 5px;
+      flex-direction: column;
 
-      &.active { display: grid; }
+      &.active { display: flex; }
 
       .effect {
-        position: relative;
-        cursor: pointer;
+        height: 3rem;
+        display: flex;
+        border: 1px solid gray;
+        border-radius: 3px;
+        align-items: center;
 
-        .name {
-          position: relative;
-          margin: 0 3px;
-          padding: 0;
-          aspect-ratio: 1 / 1;
-          font-size: 20px;
-          text-align: center;
-          place-content: center;
-          border: 1px solid gray;
-          border-radius: 3px;
-          overflow: hidden;
-          color: white;
+        .wrapper {
+          height: 100%;
+          flex: 1;
+          display: flex;
+          align-items: center;
 
-          .backdrop {
-            background-size: contain;
-            background-repeat: no-repeat;
-            opacity: 0.5;
-            position: absolute;
-            left: 0;
-            right: 0;
-            top: 0;
-            bottom: 0;
-            z-index: -1;
+          .image {
+            height: 100%;
+            border: none;
+            margin-right: 5px;
+          }
+
+          .name {
+            pointer-events: none;
           }
         }
 
-        .delete {
-          position: absolute;
-          top: 0;
-          right: 0;
-          padding: 4px;
-          display: none;
+        .source {
+          flex: 0 0 100px;
+          text-align: center;
         }
 
-        &:hover .delete { display: block; }
+        .controls {
+          flex: 0 0 50px;
+          display: flex;
+          justify-content: space-around;
+        }
       }
 
       [data-action=createEffect] {}

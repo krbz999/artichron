@@ -95,19 +95,19 @@
 {{/if}}
 
 {{#if sections.usage}}
-<div class="form-group item-usage">
+<div class="form-group usage">
   <label>{{localize "ARTICHRON.ItemProperty.Usage"}}</label>
   <div class="form-fields">
     {{#if isPlayMode}}
-    <input type="text" value="{{document.system.usage.value}}" disabled>
+    <input type="number" value="{{document.system.usage.value}}" disabled>
     {{else}}
-    <input class="delta" data-dtype="Number" type="text" name="system.usage.value" value="{{source.usage.value}}">
+    <input class="value" type="number" name="system.usage.value" value="{{source.usage.value}}">
     {{/if}}
     <span class="sep">{{localize "ARTICHRON.ItemUsageOf"}}</span>
     {{#if isPlayMode}}
     <input type="text" value="{{document.system.usage.max}}" disabled>
     {{else}}
-    <input type="text" class="source" name="system.usage.max" value="{{source.usage.max}}">
+    <input type="text" name="system.usage.max" value="{{source.usage.max}}">
     {{/if}}
   </div>
 </div>

@@ -1,13 +1,20 @@
 <div class="tab scrollable {{ifThen tabs.effects.active 'active' ''}}" data-group="primary" data-tab="effects">
   {{#each effects}}
-  <div class="effect" data-item-uuid="{{uuid}}" data-tooltip="From '{{source}}'" data-tooltip-direction="UP">
-    <div class="name" data-action="toggleEffect" style="opacity: {{ifThen disabled 0.25 1}}">
-      <span>{{name}}</span>
-      <div class="backdrop" style="background-image: url({{img}})"></div>
-    </div>
-    <a class="delete" data-action="deleteEffect">
-      <i class="fa-solid fa-trash"></i>
+  <div class="effect" data-item-uuid="{{uuid}}">
+
+    <a class="wrapper" data-action="toggleEffect" style="opacity: {{ifThen disabled 0.25 1}}">
+      <img class="image" src="{{img}}" alt="{{name}}">
+      <label class="name">{{name}}</label>
     </a>
+
+    {{#if isFusion}} <i class="fa-solid fa-volcano" data-tooltip="ARTICHRON.Effect.isFusion"></i> {{/if}}
+
+    <div class="source">{{source}}</div>
+
+    <div class="controls">
+      <a class="control" data-action="editEffect"><i class="fa-solid fa-edit"></i></a>
+      <a class="control" data-action="deleteEffect"><i class="fa-solid fa-trash"></i></a>
+    </div>
   </div>
   {{/each}}
 

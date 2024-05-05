@@ -242,5 +242,10 @@
 
   "EquipDialog": {
     "Title": "Change Equipped Item"
+  },
+
+  "Effect": {
+    "Add": "Create New Effect",
+    "isFusion": "Fusion"
   }
 }}
