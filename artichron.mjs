@@ -66,10 +66,10 @@ Hooks.once("init", function() {
 
   // Register sheet application classes
   Actors.unregisterSheet("core", ActorSheet);
-  Actors.registerSheet("artichron", applications.ActorSheetHero, {
+  Actors.registerSheet("artichron", applications.ActorSheetArtichron, {
     types: ["hero"],
     makeDefault: true,
-    label: "ARTICHRON.ActorSheet.Hero"
+    label: "ARTICHRON.ActorSheet.Base"
   });
 
   Items.unregisterSheet("core", ItemSheet);

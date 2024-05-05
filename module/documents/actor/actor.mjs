@@ -176,10 +176,10 @@ export default class ActorArtichron extends Actor {
       if (type === "none") return acc - value;
 
       // Is this damage type resisted?
-      if (types[type].resist) value -= Math.max(resistances[type].total, 0);
+      if (types[type].resist) value -= Math.max(resistances[type].value, 0);
 
       // Is this damage type reduced by armor?
-      if (types[type].armor) value -= armor.total;
+      if (types[type].armor) value -= armor.value;
 
       if (type in CONFIG.SYSTEM.HEALING_TYPES) {
         indivs[type] = value;
