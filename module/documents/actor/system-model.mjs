@@ -1,8 +1,7 @@
 import {PoolDiceModel, SkillDiceModel} from "../fields/die.mjs";
-import ResistanceModel from "../fields/resistance.mjs";
-import {SYSTEM} from "../../helpers/config.mjs";
 import {LocalIdField} from "../fields/local-id.mjs";
 import {FormulaField} from "../fields/formula-field.mjs";
+import {ResistanceField} from "../fields/resistance-field.mjs";
 
 const {SchemaField, NumberField, SetField, EmbeddedDataField, StringField} = foundry.data.fields;
 
@@ -23,17 +22,14 @@ export class ActorSystemModel extends foundry.abstract.TypeDataModel {
           first: new LocalIdField(foundry.documents.BaseItem),
           second: new LocalIdField(foundry.documents.BaseItem)
         }),
-        armor: new SchemaField(Object.keys(SYSTEM.ARMOR_TYPES).reduce((acc, key) => {
+        armor: new SchemaField(Object.keys(CONFIG.SYSTEM.ARMOR_TYPES).reduce((acc, key) => {
           acc[key] = new LocalIdField(foundry.documents.BaseItem);
           return acc;
         }, {})),
         ammo: new SetField(new LocalIdField(foundry.documents.BaseItem, {idOnly: true})),
         favorites: new SetField(new LocalIdField(foundry.documents.BaseItem, {idOnly: true}))
       }),
-      resistances: new SchemaField(Object.entries(SYSTEM.DAMAGE_TYPES).reduce((acc, [key, data]) => {
-        if (data.resist) acc[key] = new EmbeddedDataField(ResistanceModel);
-        return acc;
-      }, {})),
+      resistances: new ResistanceField(),
       defenses: new SchemaField({
         armor: new SchemaField({
           value: new FormulaField({required: true})
@@ -158,15 +154,18 @@ export class ActorSystemModel extends foundry.abstract.TypeDataModel {
 
   /** Prepare the value of actor resistances. */
   _prepareResistances(rollData) {
-    const res = this.resistances;
-    Object.keys(res).forEach(k => res[k].total = artichron.utils.simplifyBonus(res[k].bonus, rollData));
+    const armors = Object.values(this.parent.armor).reduce((acc, w) => {
+      if (w) acc.push([w, w.getRollData()]);
+      return acc;
+    }, []);
 
-    // Add all armor items' bonuses to resistances.
-    Object.values(this.parent.armor).forEach(w => {
-      for (const [type, {value}] of Object.entries(w?.system.resistances ?? {})) {
-        res[type].total += artichron.utils.simplifyBonus(value, w.getRollData());
+    for (const [k, v] of Object.entries(this.resistances)) {
+      let total = artichron.utils.simplifyBonus(v.value, rollData);
+      for (const [item, rollData] of armors) {
+        total += artichron.utils.simplifyBonus(item.system.resistances[k].value, rollData);
       }
-    });
+      v.value = total;
+    }
   }
 
   /** Prepare any embedded models. */

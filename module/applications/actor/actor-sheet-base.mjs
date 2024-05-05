@@ -147,12 +147,13 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(ActorSheet)
    */
   _prepareResistances() {
     const res = this.document.system.resistances;
+    const src = this.document.system.toObject().resistances;
     const resistances = {};
     for (const [k, v] of Object.entries(res)) {
       resistances[k] = {
         ...CONFIG.SYSTEM.DAMAGE_TYPES[k],
-        total: v.total,
-        source: v.toObject(),
+        total: v.value,
+        source: src[k],
         key: k
       };
     }
