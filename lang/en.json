@@ -64,7 +64,11 @@
     "Inventory": "Inventory",
     "Description": "Description",
     "Details": "Details",
-    "Effects": "Effects"
+    "Effects": "Effects",
+    "Arsenal": "Arsenal",
+    "Gear": "Gear",
+    "Consumables": "Consumables",
+    "Loot": "Loot"
   },
 
   "Pools": {

@@ -32,7 +32,7 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
 
   tabGroups = {
     primary: "attributes",
-    inventory: "weapon"
+    inventory: "arsenal"
   };
 
   #getTabs() {
@@ -201,21 +201,46 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
    */
   _prepareItems() {
     const types = this.document.itemTypes;
-    const map = key => ({
-      key: key,
-      items: types[key].map(item => {
-        return {
-          item: item,
-          favorited: this.document.system.equipped.favorites.has(item),
-          hasQty: "quantity" in item.system,
-          hasUsage: ("usage" in item.system) && (item.system.usage.max > 0)
-        };
-      }),
-      label: `TYPES.Item.${key}Pl`,
-      active: this.tabGroups.inventory === key
-    });
+    const sections = {
+      arsenal: {
+        label: "ARTICHRON.SheetTab.Arsenal",
+        types: ["weapon", "spell", "shield"]
+      },
+      armor: {
+        label: "ARTICHRON.SheetTab.Gear",
+        types: ["armor"]
+      },
+      consumables: {
+        label: "ARTICHRON.SheetTab.Consumables",
+        types: ["elixir", "food"]
+      },
+      loot: {
+        label: "ARTICHRON.SheetTab.Loot",
+        types: ["part"]
+      }
+    };
 
-    return ["weapon", "spell", "shield", "armor", "elixir", "food", "part"].map(map);
+    const tabs = [];
+    for (const [k, v] of Object.entries(sections)) {
+      const section = {
+        label: v.label,
+        active: this.tabGroups.inventory === k,
+        key: k,
+        items: []
+      };
+      for (const t of v.types) {
+        for (const item of types[t]) {
+          section.items.push({
+            item: item,
+            favorited: this.document.system.equipped.favorites.has(item),
+            hasQty: "quantity" in item.system,
+            hasUsage: ("usage" in item.system) && (item.system.usage.max > 0)
+          });
+        }
+      }
+      tabs.push(section);
+    }
+    return tabs;
   }
 
   /**
