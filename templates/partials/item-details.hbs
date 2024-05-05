@@ -1,12 +1,60 @@
 <div class="tab scrollable {{ifThen tabs.details.active 'active' ''}}" data-group="primary" data-tab="details">
   {{> "systems/artichron/templates/partials/item-type.hbs"}}
+
   {{#if sections.damage}}
-  {{> "systems/artichron/templates/partials/item-damages.hbs"}}
+  <fieldset>
+    <legend class="header">
+      {{localize "ARTICHRON.Damage"}}
+      {{#if isEditMode}}
+      <a class="action" data-action="addDamage"><i class="fa-solid fa-plus"></i></a>
+      {{/if}}
+    </legend>
+
+    {{#each damages.parts as |damage idx|}}
+    <div class="form-group damage">
+      <div class="form-fields">
+        <input type="text" class="formula" name="system.damage.{{idx}}.formula" value="{{damage.formula}}" {{disabled @root.isPlayMode}}>
+        <select class="type" name="system.damage.{{idx}}.type" {{disabled @root.isPlayMode}}>
+          <optgroup label="{{localize 'ARTICHRON.DamageTypeGroup.Physical'}}">
+            {{selectOptions @root.damageTypes.physical selected=damage.type localize=true}}
+          </optgroup>
+          <optgroup label="{{localize 'ARTICHRON.DamageTypeGroup.Elemental'}}">
+            {{selectOptions @root.damageTypes.elemental selected=damage.type localize=true}}
+          </optgroup>
+          <optgroup label="{{localize 'ARTICHRON.DamageTypeGroup.Planar'}}">
+            {{selectOptions @root.damageTypes.planar selected=damage.type localize=true}}
+          </optgroup>
+        </select>
+        {{#if @root.isEditMode}}
+        <div class="controls">
+          <a class="control" data-action="deleteDamage" data-idx="{{idx}}"><i class="fa-solid fa-minus"></i></a>
+        </div>
+        {{/if}}
+      </div>
+    </div>
+    {{/each}}
+  </fieldset>
   {{/if}}
+
   {{#if sections.resistances}}
-  {{> "systems/artichron/templates/partials/item-resistances.hbs"}}
+  <fieldset data-property="resistances">
+    <legend class="header">{{localize "ARTICHRON.ResistancePl"}}</legend>
+
+    {{#each resistances}}
+    {{formField field value=value disabled=disabled localize=true}}
+    {{/each}}
+  </fieldset>
   {{/if}}
+
   {{#if sections.armor}}
-  {{> "systems/artichron/templates/partials/item-defenses.hbs"}}
+  <fieldset>
+    <legend class="header">
+      {{localize "ARTICHRON.Defenses"}}
+    </legend>
+
+    {{#if sections.armor}}
+    {{formField armor.field value=armor.value disabled=armor.disabled localize=true}}
+    {{/if}}
+  </fieldset>
   {{/if}}
 </div>

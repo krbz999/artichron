@@ -1,3 +1,5 @@
+import {FormulaField} from "../fields/formula-field.mjs";
+
 const {SchemaField, HTMLField, NumberField, StringField, ArrayField} = foundry.data.fields;
 
 export class ItemSystemModel extends foundry.abstract.TypeDataModel {
@@ -8,13 +10,13 @@ export class ItemSystemModel extends foundry.abstract.TypeDataModel {
         value: new HTMLField({label: "ARTICHRON.ItemProperty.DescriptionValue", required: true})
       }),
       weight: new SchemaField({
-        value: new NumberField({integer: true, min: 0, initial: 1})
+        value: new FormulaField({required: true, label: "ARTICHRON.ItemProperty.Weight"})
       }),
       price: new SchemaField({
-        value: new NumberField({integer: true, min: 0, initial: null})
+        value: new FormulaField({required: true, label: "ARTICHRON.ItemProperty.Price"})
       }),
       category: new SchemaField({
-        subtype: new StringField({required: true})
+        subtype: new StringField({required: true, label: "ARTICHRON.ItemProperty.Subtype"})
       }),
       fusion: new ArrayField(new SchemaField({ // UNUSED
         key: new StringField({required: true}),
@@ -51,4 +53,15 @@ export class ItemSystemModel extends foundry.abstract.TypeDataModel {
    * preparation if the item is owned, otherwise at the end of `prepareDerivedData`.
    */
   preparePostData() {}
+
+  /**
+   * The total weight of this stack of an item.
+   * @type {number}
+   */
+  get totalWeight() {
+    const rollData = this.parent.getRollData();
+    const w = artichron.utils.simplifyBonus(this.weight.value, rollData);
+    const q = ("quantity" in this) ? this.quantity.value : 1;
+    return Math.max(0, w) * q;
+  }
 }

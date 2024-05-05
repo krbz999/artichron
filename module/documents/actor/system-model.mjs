@@ -1,7 +1,8 @@
-import {DiceModel, PoolDiceModel, SkillDiceModel} from "../fields/die.mjs";
+import {PoolDiceModel, SkillDiceModel} from "../fields/die.mjs";
 import ResistanceModel from "../fields/resistance.mjs";
 import {SYSTEM} from "../../helpers/config.mjs";
 import {LocalIdField} from "../fields/local-id.mjs";
+import {FormulaField} from "../fields/formula-field.mjs";
 
 const {SchemaField, NumberField, SetField, EmbeddedDataField, StringField} = foundry.data.fields;
 
@@ -33,10 +34,11 @@ export class ActorSystemModel extends foundry.abstract.TypeDataModel {
         if (data.resist) acc[key] = new EmbeddedDataField(ResistanceModel);
         return acc;
       }, {})),
-      defenses: new SchemaField(Object.keys(SYSTEM.DEFENSE_TYPES).reduce((acc, key) => {
-        acc[key] = new EmbeddedDataField(DiceModel);
-        return acc;
-      }, {})),
+      defenses: new SchemaField({
+        armor: new SchemaField({
+          value: new FormulaField({required: true})
+        })
+      }),
       movement: new SchemaField({
         running: new NumberField({min: 0, integer: true}),
         flying: new NumberField({min: 0, integer: true}),
@@ -99,7 +101,6 @@ export class ActorSystemModel extends foundry.abstract.TypeDataModel {
     this._prepareEquipped();
     this._prepareEncumbrance();
     this._prepareArmor(rollData);
-    this._prepareDefenses();
     this._prepareResistances(rollData);
     this._prepareEmbeddedData(rollData);
   }
@@ -140,30 +141,19 @@ export class ActorSystemModel extends foundry.abstract.TypeDataModel {
     const modifier = (this.isBuffed ? 2 : 1) * (this.isWeakened ? 0.5 : 1);
     this.encumbrance.max = Math.round(dice.max * dice.faces * modifier);
     this.encumbrance.value = this.parent.items.reduce((acc, item) => {
-      return acc + (item.system.weight?.value ?? 0) * (item.system.quantity?.value ?? 1);
+      return acc + (item.system.totalWeight);
     }, 0);
   }
 
   /** Prepare armor value. */
   _prepareArmor(rollData) {
     const armor = this.defenses.armor;
-    armor.total = artichron.utils.simplifyBonus(armor.bonus, rollData);
-    Object.values({...this.parent.armor, ...this.parent.arsenal}).forEach(item => {
-      armor.total += (item?.system.armor?.value ?? 0);
-    });
-  }
-
-  /** Prepare block and parry. */
-  _prepareDefenses() {
-    const def = this.defenses;
-    const items = Object.values(this.parent.arsenal);
-    ["parry", "block"].forEach(k => {
-      def[k].rolls = items.reduce((acc, item) => {
-        const r = item?.system[k]?.formula;
-        if (r) acc.push(r);
-        return acc;
-      }, []);
-    });
+    armor.value = Object.values({...this.parent.armor, ...this.parent.arsenal}).reduce((acc, item) => {
+      let v = item?.system.armor?.value ?? 0;
+      if (v) v = artichron.utils.simplifyBonus(v, item.getRollData());
+      else v = 0;
+      return acc + v;
+    }, artichron.utils.simplifyBonus(armor.value, rollData));
   }
 
   /** Prepare the value of actor resistances. */
@@ -181,7 +171,6 @@ export class ActorSystemModel extends foundry.abstract.TypeDataModel {
 
   /** Prepare any embedded models. */
   _prepareEmbeddedData(rollData) {
-    Object.values(this.defenses).forEach(v => v.prepareDerivedData(rollData));
     Object.values(this.skills).forEach(v => v.prepareDerivedData(rollData));
   }
 

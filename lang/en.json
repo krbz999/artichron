@@ -150,9 +150,7 @@
 
   "ItemProperty": {
     "Armor": "Armor Value",
-    "Block": "Blocking",
     "Cost": "Usage Cost",
-    "Parry": "Parrying",
     "Price": "Price",
     "Quantity": "Quantity",
     "Subtype": "Subtype",
@@ -174,7 +172,6 @@
   "NoItemInSlot": "You have no item equipped in that slot.",
   "NotEnoughPoolDice": "{name} does not have enough {type} dice left!",
   "OK": "OK",
-  "Opacity": "Opacity",
   "Optional": "Optional",
   "PickEquippedItem": "Equip Item",
   "PlaceTemplate": "Place Template",
@@ -183,9 +180,6 @@
   "Resistance": "Resistance",
   "ResistancePl": "Resistances",
   "Roll": "Roll",
-  "SetIdentifier": "Item Set",
-  "DefenseRoll": "{name}: Defense Roll",
-  "SheetMode": "Sheet Mode",
 
   "Auras": "Auras",
   "AuraColor": "Aura Color",
@@ -242,6 +236,11 @@
 
   "EquipDialog": {
     "Title": "Change Equipped Item"
+  },
+
+  "HeaderControl": {
+    "SheetMode": "Sheet Mode",
+    "Opacity": "Opacity"
   },
 
   "Effect": {

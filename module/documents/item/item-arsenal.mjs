@@ -1,6 +1,5 @@
 import {DamageModel} from "../fields/damage.mjs";
 import {ItemSystemModel} from "./system-model.mjs";
-import * as utils from "../../helpers/utils.mjs";
 import {FormulaField} from "../fields/formula-field.mjs";
 
 const {ArrayField, NumberField, SchemaField, EmbeddedDataField} = foundry.data.fields;
@@ -27,11 +26,12 @@ export default class ArsenalData extends ItemSystemModel {
             1: "ARTICHRON.ItemProperty.WieldOneHanded",
             2: "ARTICHRON.ItemProperty.WieldTwoHanded"
           },
-          initial: 1
+          initial: 1,
+          label: "ARTICHRON.ItemProperty.Wield"
         })
       }),
       range: new SchemaField({
-        value: new FormulaField({required: true})
+        value: new FormulaField({required: true, label: "ARTICHRON.ItemProperty.Range"})
       })
     };
   }
@@ -41,13 +41,6 @@ export default class ArsenalData extends ItemSystemModel {
     super.prepareDerivedData();
     const rollData = this.parent.getRollData();
     this.damage.forEach(v => v.prepareDerivedData(rollData));
-  }
-
-  /** @override */
-  preparePostData() {
-    super.preparePostData();
-    const rollData = this.parent.getRollData();
-    this.range.value = artichron.utils.simplifyBonus(this.range.value, rollData);
   }
 
   /** @override */
@@ -83,7 +76,7 @@ export default class ArsenalData extends ItemSystemModel {
   async pickTarget({count = 1, ...options} = {}) {
     options.range ??= this.range.value;
     options.origin ??= this.parent.token;
-    const targets = await utils.awaitTargets(count, options);
+    const targets = await artichron.utils.awaitTargets(count, options);
     return targets;
   }
 }
