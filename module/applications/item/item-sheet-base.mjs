@@ -97,7 +97,6 @@ export default class ItemSheetArtichron extends mixin(foundry.applications.sheet
         armor: "armor" in src.system,
         resistances: "resistances" in src.system,
         wield: "wield" in src.system,
-        identifier: "identifier" in src.system,
         range: "range" in src.system,
         price: "price" in src.system,
         template: "template" in src.system,
@@ -117,6 +116,66 @@ export default class ItemSheetArtichron extends mixin(foundry.applications.sheet
       isPlayMode: this.isPlayMode
     };
 
+    const makeField = (path, formula = true) => {
+      const field = doc.system.schema.getField(path);
+      const dv = foundry.utils.getProperty(doc.system, path);
+      const src = foundry.utils.getProperty(context.source, path);
+      let value;
+
+      if (formula) {
+        if (!dv || (dv === "0")) value = "";
+        else if (context.isPlayMode) value = artichron.utils.simplifyBonus(dv, rollData);
+        else value = src;
+      } else {
+        value = context.isPlayMode ? dv : src;
+      }
+
+      return {field: field, value: value, disabled: context.isPlayMode};
+    };
+
+    // Subtype options.
+    if (doc.type === "weapon") context.subtypes = CONFIG.SYSTEM.ARSENAL_TYPES;
+    else if (doc.type === "shield") context.subtypes = CONFIG.SYSTEM.SHIELD_TYPES;
+    else if (doc.type === "spell") context.subtypes = CONFIG.SYSTEM.SPELL_TYPES;
+    else if (doc.type === "armor") context.subtypes = CONFIG.SYSTEM.ARMOR_TYPES;
+    else if (doc.type === "elixir") context.subtypes = CONFIG.SYSTEM.ELIXIR_TYPES;
+
+    // Wield.
+    if (context.sections.wield) {
+      context.wield = makeField("wield.value", false);
+      if (doc.isEquipped) context.wield.disabled = true;
+    }
+
+    // Range.
+    if (context.sections.range) context.range = makeField("range.value");
+
+    // Price.
+    if (context.sections.price) context.price = makeField("price.value");
+
+    // Template types.
+    if (context.sections.template) {
+      context.templates = Object.entries(CONFIG.SYSTEM.SPELL_TARGET_TYPES).map(([k, v]) => {
+        return {key: k, label: v.label, selected: doc.system.template?.types.has(k)};
+      });
+    }
+
+    // Weight.
+    if (context.sections.weight) context.weight = makeField("weight.value");
+
+    // Quantity.
+    if (context.sections.quantity) context.quantity = makeField("quantity.value", false);
+
+    // Usage.
+    if (context.sections.usage) {
+      context.usage = {
+        value: makeField("usage.value", false),
+        max: makeField("usage.max", true)
+      };
+    }
+
+    // Defenses.
+    if (context.sections.armor) context.armor = makeField("armor.value", false);
+
     // Damage parts.
     if (context.sections.damage) {
       context.damages = {parts: context.isEditMode ? src.system.damage : doc.system.damage};
@@ -128,24 +187,10 @@ export default class ItemSheetArtichron extends mixin(foundry.applications.sheet
 
     // Resistances.
     if (context.sections.resistances) {
-      context.resistances = Object.entries(doc.system.resistances).map(([k, v]) => {
-        return {...v, key: k, label: game.i18n.localize(`ARTICHRON.DamageType.${k.capitalize()}`)};
-      }).sort((a, b) => a.label.localeCompare(b.label));
-    }
-
-    // Template types.
-    if (context.sections.template) {
-      context.templates = Object.entries(CONFIG.SYSTEM.SPELL_TARGET_TYPES).map(([k, v]) => {
-        return {key: k, label: v.label, selected: doc.system.template?.types.has(k)};
+      context.resistances = Object.keys(doc.system.resistances).map(k => {
+        return makeField(`resistances.${k}.value`);
       });
     }
-
-    // Subtype options.
-    if (doc.type === "weapon") context.subtypes = CONFIG.SYSTEM.ARSENAL_TYPES;
-    else if (doc.type === "shield") context.subtypes = CONFIG.SYSTEM.SHIELD_TYPES;
-    else if (doc.type === "spell") context.subtypes = CONFIG.SYSTEM.SPELL_TYPES;
-    else if (doc.type === "armor") context.subtypes = CONFIG.SYSTEM.ARMOR_TYPES;
-    else if (doc.type === "elixir") context.subtypes = CONFIG.SYSTEM.ELIXIR_TYPES;
 
     return context;
   }
@@ -197,6 +242,12 @@ export default class ItemSheetArtichron extends mixin(foundry.applications.sheet
         n.animate([{opacity: old.style.opacity}, {opacity: n.style.opacity}], {duration: 200, easing: "ease-in-out"});
       });
     }
+  }
+
+  _renderHeaderControl(control) {
+    control = {...control};
+    control.label = game.i18n.localize(control.label);
+    return super._renderHeaderControl(control);
   }
 
   /* -------------------------------------------- */

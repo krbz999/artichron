@@ -105,33 +105,6 @@ export class PoolDiceModel extends DiceModel {
 }
 
 /**
- * Specialized dice model for parry and block dice.
- */
-export class DefenseDiceModel extends DiceModel {
-  /** @override */
-  static defineSchema() {
-    return {
-      ...super.defineSchema(),
-      number: new StringField({required: true})
-    };
-  }
-
-  /** @override */
-  prepareDerivedData(rollData) {
-    super.prepareDerivedData(rollData);
-    this.number = Math.max(1, artichron.utils.simplifyBonus(this.number, rollData));
-  }
-
-  /**
-   * The full formula.
-   * @type {string}
-   */
-  get formula() {
-    return `${this.number}${this.die}`;
-  }
-}
-
-/**
  * Specialized dice model for head, arms, legs dice.
  */
 export class SkillDiceModel extends DiceModel {

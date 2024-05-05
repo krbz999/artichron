@@ -1,6 +1,5 @@
 import SpellcastingDialog from "../../applications/chat/spellcasting-dialog.mjs";
 import {DamageRoll} from "../../dice/damage-roll.mjs";
-import {SYSTEM} from "../../helpers/config.mjs";
 import MeasuredTemplateArtichron from "../template/template.mjs";
 import ArsenalData from "./item-arsenal.mjs";
 
@@ -12,7 +11,7 @@ export default class SpellData extends ArsenalData {
     return {
       ...super.defineSchema(),
       template: new SchemaField({
-        types: new SetField(new StringField({required: true, choices: Object.keys(SYSTEM.SPELL_TARGET_TYPES)})),
+        types: new SetField(new StringField({required: true, choices: Object.keys(CONFIG.SYSTEM.SPELL_TARGET_TYPES)})),
         rating: new NumberField({integer: true, min: 0})
       })
     };

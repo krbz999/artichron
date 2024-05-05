@@ -1,5 +1,3 @@
-import {SYSTEM} from "../../helpers/config.mjs";
-
 export default class ActorArtichron extends Actor {
   /* ---------------------------------------- */
   /*                                          */
@@ -33,7 +31,7 @@ export default class ActorArtichron extends Actor {
   get armor() {
     const armor = this.system.armor ?? {};
     const obj = {};
-    for (const type of Object.keys(SYSTEM.ARMOR_TYPES)) obj[type] = armor[type] ?? null;
+    for (const type of Object.keys(CONFIG.SYSTEM.ARMOR_TYPES)) obj[type] = armor[type] ?? null;
     return obj;
   }
 
@@ -76,11 +74,6 @@ export default class ActorArtichron extends Actor {
     this._prepareEmbedded = true;
     super.prepareEmbeddedDocuments(); // this calls 'this.applyActiveEffects()'.
     delete this._prepareEmbedded;
-  }
-
-  /** @override */
-  prepareDerivedData() {
-    super.prepareDerivedData();
   }
 
   /* ---------------------------------------- */
@@ -136,7 +129,7 @@ export default class ActorArtichron extends Actor {
     for (const t of tokens) {
       if (!t.visible || !t.renderable) continue;
       for (const type in damages) {
-        const config = (type in SYSTEM.HEALING_TYPES) ? SYSTEM.HEALING_TYPES : SYSTEM.DAMAGE_TYPES;
+        const config = (type in CONFIG.SYSTEM.HEALING_TYPES) ? CONFIG.SYSTEM.HEALING_TYPES : CONFIG.SYSTEM.DAMAGE_TYPES;
         canvas.interface.createScrollingText(t.center, damages[type].signedString(), {
           ...options, fill: config[type].color
         });
@@ -154,7 +147,7 @@ export default class ActorArtichron extends Actor {
   /** @override */
   getRollData() {
     const data = {...this.system};
-
+    data.name = this.name;
     // RollData of equipped items.
     delete data.equipped;
     for (const e of ["arsenal", "armor"]) {
@@ -176,7 +169,7 @@ export default class ActorArtichron extends Actor {
     }
     const resistances = this.system.resistances;
     const armor = this.system.defenses.armor;
-    const types = {...SYSTEM.DAMAGE_TYPES, ...SYSTEM.HEALING_TYPES};
+    const types = {...CONFIG.SYSTEM.DAMAGE_TYPES, ...CONFIG.SYSTEM.HEALING_TYPES};
 
     const indivs = {};
     const amount = Math.round(Object.entries(values).reduce((acc, [type, value]) => {
@@ -188,7 +181,7 @@ export default class ActorArtichron extends Actor {
       // Is this damage type reduced by armor?
       if (types[type].armor) value -= armor.total;
 
-      if (type in SYSTEM.HEALING_TYPES) {
+      if (type in CONFIG.SYSTEM.HEALING_TYPES) {
         indivs[type] = value;
       } else {
         value = Math.max(value, 0);
@@ -298,12 +291,7 @@ export default class ActorArtichron extends Actor {
    * @returns {Promise<ChatMessage>}      A promise that resolves to the created chat message.
    */
   async rollDefense(options = {}) {
-    const formula = this.system.defenses.parry.rolls.concat(this.system.defenses.block.rolls).filterJoin(" + ");
-    const data = this.getRollData();
-    return new Roll(formula, data).toMessage({
-      speaker: ChatMessage.implementation.getSpeaker({actor: this}),
-      flavor: game.i18n.format("ARTICHRON.DefenseRoll", {name: this.name})
-    });
+    throw new Error("Defense rolls are not implemented yet.");
   }
 
   /**

@@ -1,34 +1,7 @@
-import {DefenseDiceModel} from "../fields/die.mjs";
 import ArsenalData from "./item-arsenal.mjs";
 import {DamageRoll} from "../../dice/damage-roll.mjs";
 
-const {EmbeddedDataField} = foundry.data.fields;
-
 export default class WeaponData extends ArsenalData {
-  /** @override */
-  static defineSchema() {
-    return {
-      ...super.defineSchema(),
-      parry: new EmbeddedDataField(DefenseDiceModel),
-      block: new EmbeddedDataField(DefenseDiceModel)
-    };
-  }
-
-  /** @override */
-  prepareDerivedData() {
-    super.prepareDerivedData();
-    const rollData = this.parent.getRollData();
-    ["parry", "block"].forEach(v => this[v].prepareDerivedData(rollData));
-  }
-
-  /** @override */
-  get BONUS_FIELDS() {
-    return super.BONUS_FIELDS.union(new Set([
-      "system.parry.number", "system.parry.faces",
-      "system.block.number", "system.block.faces"
-    ]));
-  }
-
   async use() {
     if (this._targeting) return null; // Prevent initiating targeting twice.
     const item = this.parent;

@@ -8,8 +8,6 @@ export const SYSTEM = {};
  * @property {string} group             An optgroup key to put this damage type in for rendering.
  * @property {boolean} [elemental]      ...?
  * @property {boolean} [resist]         Whether this damage type can be resisted.
- * @property {boolean} [block]          Whether this damage type can be blocked.
- * @property {boolean} [parry]          Whether this damage type can be parried.
  * @property {boolean} [armor]          Whether this damage type is resisted by armor rating.
  */
 
@@ -69,8 +67,6 @@ SYSTEM.DAMAGE_TYPES = {
     color: "868686",
     icon: "fa-solid fa-hand-fist",
     group: "physical",
-    block: true,
-    parry: true,
     armor: true
   },
   arcane: {
@@ -78,7 +74,6 @@ SYSTEM.DAMAGE_TYPES = {
     color: "C79FFF",
     icon: "fa-solid fa-wand-sparkles",
     group: "planar",
-    block: true,
     resist: true
   }
 };
@@ -178,13 +173,6 @@ SYSTEM.SPELL_TARGET_TYPES = {
   }
 };
 
-// The types of physical defensive traits.
-SYSTEM.DEFENSE_TYPES = {
-  armor: "",
-  parry: "",
-  block: ""
-};
-
 // The array of damage dice values.
 SYSTEM.DIE_SIZES = {
   2: "d2",
@@ -277,10 +265,3 @@ SYSTEM.MONSTER_PART_TYPES = {
  * @enum {ElixirSubtype}
  */
 SYSTEM.ELIXIR_TYPES = {};
-
-// Armor set identifiers.
-// bonus could be a function or a static bonus, idk
-SYSTEM.ARMOR_SETS = {
-  flame: {label: "ARTICHRON.ArmorSet.Flame", bonus: {}},
-  glam: {label: "ARTICHRON.ArmorSet.Glam", bonus: {}}
-};

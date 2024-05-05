@@ -1,4 +1,3 @@
-import {SYSTEM} from "../../helpers/config.mjs";
 import {FormulaField} from "./formula-field.mjs";
 
 const {SchemaField} = foundry.data.fields;
@@ -7,9 +6,12 @@ const {SchemaField} = foundry.data.fields;
 export class ResistanceField extends SchemaField {
   constructor(schemaOptions = {}) {
     const fields = {};
-    for (const [k, v] of Object.entries(SYSTEM.DAMAGE_TYPES)) {
+    for (const [k, v] of Object.entries(CONFIG.SYSTEM.DAMAGE_TYPES)) {
       if (v.resist) fields[k] = new SchemaField({
-        value: new FormulaField({required: true})
+        value: new FormulaField({
+          required: true,
+          label: v.label
+        })
       });
     }
     super(fields, schemaOptions);

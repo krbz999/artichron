@@ -151,6 +151,7 @@ export default class ItemArtichron extends Item {
     if (!this.actor) return null;
     const data = this.actor.getRollData();
     data.item = {...this.system};
+    data.item.name = this.name;
     return data;
   }
 
