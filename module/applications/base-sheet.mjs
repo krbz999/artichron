@@ -89,6 +89,9 @@ export const ArtichronSheetMixin = Base => {
       super._onRender(context, options);
       this.element.querySelectorAll("input.delta").forEach(n => {
         n.addEventListener("focus", event => event.currentTarget.select());
+        if (n.name) n.addEventListener("change", event => {
+          artichron.utils.parseInputDelta(event.currentTarget, this.document);
+        });
       });
     }
 

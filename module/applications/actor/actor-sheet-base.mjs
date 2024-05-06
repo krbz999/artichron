@@ -80,7 +80,6 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
   _prepareHealth() {
     const hp = this.document.system.health;
     return {
-      field: this.document.system.schema.getField("health.value"),
       value: hp.value,
       max: hp.max,
       height: Math.round(Math.clamp(hp.value / hp.max, 0, 1) * 100)
@@ -293,12 +292,8 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
     const property = target.dataset.property;
     const uuid = target.closest("[data-item-uuid]").dataset.itemUuid;
     const item = await fromUuid(uuid);
-    const value = foundry.utils.getProperty(item, property);
-    let tval = target.value;
-    if (!tval.trim()) tval = null;
-    else if (/^[+-][\d]+/.test(tval)) tval = Roll.safeEval(`${value} ${tval}`);
-    if (target.max) tval = Math.clamp(tval || value, 0, parseInt(target.max));
-    item.update({[property]: tval});
+    const result = artichron.utils.parseInputDelta(target, item);
+    if (result !== undefined) item.update({[property]: result});
   }
   static _onRollSkill(event, target) {
     this.document.rollSkill(target.dataset.skill);
