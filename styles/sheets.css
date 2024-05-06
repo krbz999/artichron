@@ -37,24 +37,26 @@
         }
       }
 
-      .source {
-        flex: var(--artichron-effect-source-flex);
-        text-align: center;
-      }
-
       .properties {
         flex: var(--artichron-item-properties-flex);
         text-align: center;
         display: flex;
         font-size: 10px;
 
+        &.source {
+          flex: var(--artichron-effect-source-flex);
+        }
+
         .property {
           flex: 1;
 
-          .counter {
+          .counter, .origin {
             display: flex;
             align-items: center;
             gap: 3px;
+            justify-content: center;
+
+            &.origin { font-size: 13px; }
 
             & input, .max {
               margin: 0;
@@ -64,6 +66,10 @@
               height: 100%;
               background: unset;
             }
+          }
+
+          .label {
+            color: var(--artichron-color-gold);
           }
         }
       }

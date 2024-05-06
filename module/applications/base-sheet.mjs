@@ -93,22 +93,24 @@ export const ArtichronSheetMixin = Base => {
      * Prepare effects for rendering.
      * @returns {object[]}
      */
-    _prepareEffects() {
+    async _prepareEffects() {
       const effects = [];
 
-      const entry = effect => {
+      const entry = async (effect) => {
+        const source = effect.system.source ? await fromUuid(effect.system.source) : null;
         effects.push({
           uuid: effect.uuid,
           img: effect.img,
           name: effect.name,
-          source: effect.parent.name,
+          sourceItem: source ? source.name : null,
+          sourceActor: source ? source.actor.name : null,
           isFusion: effect.type === "fusion",
           disabled: effect.disabled
         });
       };
 
-      if (this.document instanceof Item) for (const e of this.document.effects) entry(e);
-      else for (const e of this.document.allApplicableEffects()) entry(e);
+      if (this.document instanceof Item) for (const e of this.document.effects) await entry(e);
+      else for (const e of this.document.allApplicableEffects()) await entry(e);
 
       effects.sort((a, b) => a.name.localeCompare(b.name));
       return effects;

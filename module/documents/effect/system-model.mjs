@@ -1,6 +1,10 @@
+const {DocumentUUIDField} = foundry.data.fields;
+
 export class ActiveEffectSystemModel extends foundry.abstract.TypeDataModel {
   static defineSchema() {
-    return {};
+    return {
+      source: new DocumentUUIDField({type: "Item", embedded: true, label: "ARTICHRON.EffectProperty.Source"})
+    };
   }
 }
 
