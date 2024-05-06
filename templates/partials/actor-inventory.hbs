@@ -1,13 +1,13 @@
-<div class="tab scrollable {{ifThen tabs.inventory.active 'active' ''}}" data-group="primary" data-tab="inventory">
+<div class="{{tabs.inventory.tabCssClass}}" data-group="primary" data-tab="inventory">
 
-  <nav class="inventory tabs" data-group="inventory">
+  <nav class="inventory tabs">
     {{#each items}}
-    <a class="item {{ifThen active 'active' ''}}" data-action="tab" data-tab="{{key}}" data-group="inventory">{{localize label}}</a>
+    <a class="{{cssClass}}" data-action="tab" data-tab="{{id}}" data-group="inventory">{{localize label}}</a>
     {{/each}}
   </nav>
 
   {{#each items}}
-  <div class="tab scrollable {{ifThen active 'active' ''}}" data-tab="{{key}}" data-group="inventory">
+  <div class="{{tabCssClass}}" data-tab="{{id}}" data-group="inventory">
 
     <header>
       <span class="name"></span>

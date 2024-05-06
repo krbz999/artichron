@@ -3,6 +3,7 @@ import PoolConfig from "./configs/pool-config.mjs";
 import SkillConfig from "./configs/skill-config.mjs";
 
 export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.applications.sheets.ActorSheetV2) {
+  /** @override */
   static DEFAULT_OPTIONS = {
     classes: ["artichron", "actor"],
     position: {width: 500, top: 100, left: 200, height: "auto"},
@@ -20,6 +21,7 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
     }
   };
 
+  /** @override */
   static PARTS = {
     header: {template: "systems/artichron/templates/partials/sheet-header.hbs"},
     tabs: {template: "systems/artichron/templates/partials/tabs.hbs"},
@@ -30,24 +32,19 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
     encumbrance: {template: "systems/artichron/templates/partials/actor-encumbrance.hbs"}
   };
 
+  /** @override */
   tabGroups = {
     primary: "attributes",
     inventory: "arsenal"
   };
 
-  #getTabs() {
-    const tabs = {
-      attributes: {id: "attributes", group: "primary", label: "ARTICHRON.SheetTab.Attributes"},
-      equipped: {id: "equipped", group: "primary", label: "ARTICHRON.SheetTab.Equipped"},
-      inventory: {id: "inventory", group: "primary", label: "ARTICHRON.SheetTab.Inventory"},
-      effects: {id: "effects", group: "primary", label: "ARTICHRON.SheetTab.Effects"}
-    };
-    for (const v of Object.values(tabs)) {
-      v.active = this.tabGroups[v.group] === v.id;
-      v.cssClass = v.active ? "active" : "";
-    }
-    return tabs;
-  }
+  /** @override */
+  static TABS = {
+    attributes: {id: "attributes", group: "primary", label: "ARTICHRON.SheetTab.Attributes"},
+    equipped: {id: "equipped", group: "primary", label: "ARTICHRON.SheetTab.Equipped"},
+    inventory: {id: "inventory", group: "primary", label: "ARTICHRON.SheetTab.Inventory"},
+    effects: {id: "effects", group: "primary", label: "ARTICHRON.SheetTab.Effects"}
+  };
 
   /** @override */
   async _prepareContext(options) {
@@ -65,7 +62,7 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
       items: this._prepareItems(),
       encumbrance: this._prepareEncumbrance(),
       effects: this._prepareEffects(),
-      tabs: this.#getTabs(),
+      tabs: this._getTabs(),
       isEditMode: this.isEditMode,
       isPlayMode: this.isPlayMode
     };
@@ -221,10 +218,12 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
 
     const tabs = [];
     for (const [k, v] of Object.entries(sections)) {
+      const isActive = this.tabGroups.inventory === k;
       const section = {
         label: v.label,
-        active: this.tabGroups.inventory === k,
-        key: k,
+        cssClass: isActive ? "item active" : "item",
+        tabCssClass: isActive ? "tab scrollable active" : "tab scrollable",
+        id: k,
         items: []
       };
       for (const t of v.types) {
@@ -251,11 +250,31 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
     return {...enc, percent: Math.round(Math.clamp(enc.value / enc.max, 0, 1) * 100)};
   }
 
+  /** @override */
   _onRender(context, options) {
     super._onRender(context, options);
     this.element.querySelectorAll("[data-action=updateEmbedded").forEach(n => {
       n.addEventListener("change", this._onUpdateEmbedded.bind(this));
     });
+  }
+
+  /** @override */
+  _syncPartState(partId, newElement, priorElement, state) {
+    super._syncPartState(partId, newElement, priorElement, state);
+
+    if (partId === "attributes") {
+      const oldBar = priorElement.querySelector(".health-bar");
+      const newBar = newElement.querySelector(".health-bar");
+      const frames = [{height: oldBar.style.height}, {height: newBar.style.height}];
+      newBar.animate(frames, {duration: 1000, easing: "ease"});
+    }
+
+    else if (partId === "encumbrance") {
+      const oldBar = priorElement.querySelector(".encumbrance-bar");
+      const newBar = newElement.querySelector(".encumbrance-bar");
+      const frames = [{width: oldBar.style.width}, {width: newBar.style.width}];
+      newBar.animate(frames, {duration: 1000, easing: "ease"});
+    }
   }
 
   /* -------------------------------------------- */
@@ -395,23 +414,5 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
       update["system.equipped.arsenal.second"] = "";
     }
     this.document.update(update);
-  }
-
-  _syncPartState(partId, newElement, priorElement, state) {
-    super._syncPartState(partId, newElement, priorElement, state);
-
-    if (partId === "attributes") {
-      const oldBar = priorElement.querySelector(".health-bar");
-      const newBar = newElement.querySelector(".health-bar");
-      const frames = [{height: oldBar.style.height}, {height: newBar.style.height}];
-      newBar.animate(frames, {duration: 1000, easing: "ease"});
-    }
-
-    else if (partId === "encumbrance") {
-      const oldBar = priorElement.querySelector(".encumbrance-bar");
-      const newBar = newElement.querySelector(".encumbrance-bar");
-      const frames = [{width: oldBar.style.width}, {width: newBar.style.width}];
-      newBar.animate(frames, {duration: 1000, easing: "ease"});
-    }
   }
 }
