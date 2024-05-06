@@ -36,9 +36,15 @@ export class ActorSystemModel extends foundry.abstract.TypeDataModel {
         })
       }),
       movement: new SchemaField({
-        running: new NumberField({min: 0, integer: true}),
-        flying: new NumberField({min: 0, integer: true}),
-        swimming: new NumberField({min: 0, integer: true})
+        running: new SchemaField({
+          value: new FormulaField({required: true, label: "ARTICHRON.ActorProperty.MovementRunning"})
+        }),
+        flying: new SchemaField({
+          value: new FormulaField({required: true, label: "ARTICHRON.ActorProperty.MovementFlying"})
+        }),
+        swimming: new SchemaField({
+          value: new FormulaField({required: true, label: "ARTICHRON.ActorProperty.MovementSwimming"})
+        })
       }),
       skills: new SchemaField({
         head: new EmbeddedDataField(SkillDiceModel),
@@ -178,6 +184,29 @@ export class ActorSystemModel extends foundry.abstract.TypeDataModel {
   /*                  GETTERS                 */
   /*                                          */
   /* ---------------------------------------- */
+
+  get BONUS_FIELDS() {
+    const s = new Set();
+    for (const [k, v] of Object.entries(this.pools)) {
+      s.add(`system.pools.${k}.max`).add(`system.pools.${k}.faces`);
+      for (const w of Object.keys(v.modifiers)) {
+        s.add(`system.pools.${k}.modifiers.${w}`);
+      }
+    }
+    for (const k of Object.keys(this.resistances)) {
+      s.add(`system.resistances.${k}.value`);
+    }
+    s.add("system.defenses.armor.value");
+    for (const k of Object.keys(this.movement)) {
+      s.add(`system.movement.${k}.value`);
+    }
+    for (const [k, v] of Object.entries(this.skills)) {
+      for (const w of Object.keys(v.modifiers)) {
+        s.add(`system.skills.${k}.modifiers.${w}`);
+      }
+    }
+    return s;
+  }
 
   /**
    * The currently equipped ammunition.

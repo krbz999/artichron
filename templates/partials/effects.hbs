@@ -18,7 +18,12 @@
 
     {{#if isFusion}} <i class="fa-solid fa-volcano" data-tooltip="ARTICHRON.Effect.isFusion"></i> {{/if}}
 
-    <div class="source">{{source}}</div>
+    <div class="properties source">
+      <div class="property">
+        <span class="origin">{{sourceItem}}</span>
+        <span class="label">{{sourceActor}}</span>
+      </div>
+    </div>
 
     <div class="controls">
       <a class="control" data-action="editEffect"><i class="fa-solid fa-edit"></i></a>

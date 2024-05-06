@@ -46,7 +46,7 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
       document: doc,
       source: src.system,
       config: CONFIG.SYSTEM,
-      effects: this._prepareEffects(),
+      effects: await this._prepareEffects(),
       isFavorited: this.actor?.system.equipped.favorites.has(doc) ?? false,
       sections: {
         damage: "damage" in src.system,

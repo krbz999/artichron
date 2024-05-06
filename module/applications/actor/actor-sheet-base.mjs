@@ -61,7 +61,7 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
       equipped: this._prepareEquipment(),
       items: this._prepareItems(),
       encumbrance: this._prepareEncumbrance(),
-      effects: this._prepareEffects(),
+      effects: await this._prepareEffects(),
       tabs: this._getTabs(),
       isEditMode: this.isEditMode,
       isPlayMode: this.isPlayMode
