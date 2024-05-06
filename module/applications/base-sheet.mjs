@@ -1,14 +1,22 @@
 /**
+ * @typedef {object} TabConfiguration
+ * @property {string} id        The unique key for this tab.
+ * @property {string} group     The group that this tab belongs to.
+ * @property {string} label     The displayed label for this tab.
+ */
+
+/**
  * Sheet class mixin to add common functions shared by all types of sheets.
  * @param {*} Base      The base class.
  * @returns {*}         Extended class.
  */
 export const ArtichronSheetMixin = Base => {
   const mixin = foundry.applications.api.HandlebarsApplicationMixin;
-  return class extends mixin(Base) {
+  return class DocumentSheetArtichron extends mixin(Base) {
 
     static SHEET_MODES = {EDIT: 0, PLAY: 1};
 
+    /** @override */
     static DEFAULT_OPTIONS = {
       form: {submitOnChange: true},
       window: {
@@ -47,9 +55,31 @@ export const ArtichronSheetMixin = Base => {
       return this._sheetMode === this.constructor.SHEET_MODES.EDIT;
     }
 
-    tabGroups = {
-      primary: undefined
-    };
+    /** @override */
+    tabGroups = {};
+
+    /**
+     * Tabs that are present on this sheet.
+     * @enum {TabConfiguration}
+     */
+    static TABS = {};
+
+    /**
+     * Utility method for _prepareContext to create the tab navigation.
+     * @returns {object}
+     */
+    _getTabs() {
+      return Object.values(this.constructor.TABS).reduce((acc, v) => {
+        const isActive = this.tabGroups[v.group] === v.id;
+        acc[v.id] = {
+          ...v,
+          active: isActive,
+          cssClass: isActive ? "item active" : "item",
+          tabCssClass: isActive ? "tab scrollable active" : "tab scrollable"
+        };
+        return acc;
+      }, {});
+    }
 
     /** @override */
     _renderHeaderControl(control) {

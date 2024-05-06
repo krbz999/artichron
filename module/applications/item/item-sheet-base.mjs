@@ -1,6 +1,7 @@
 import {ArtichronSheetMixin} from "../base-sheet.mjs";
 
 export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.applications.sheets.ItemSheetV2) {
+  /** @override */
   static DEFAULT_OPTIONS = {
     classes: ["artichron", "item"],
     position: {width: 400, height: "auto"},
@@ -11,6 +12,7 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
     }
   };
 
+  /** @override */
   static PARTS = {
     header: {template: "systems/artichron/templates/partials/sheet-header.hbs"},
     tabs: {template: "systems/artichron/templates/partials/tabs.hbs"},
@@ -20,25 +22,21 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
   };
 
   /** @override */
+  static TABS = {
+    description: {id: "description", group: "primary", label: "ARTICHRON.SheetTab.Description"},
+    details: {id: "details", group: "primary", label: "ARTICHRON.SheetTab.Details"},
+    effects: {id: "effects", group: "primary", label: "ARTICHRON.SheetTab.Effects"}
+  };
+
+  /** @override */
   _sheetMode = this.constructor.SHEET_MODES.EDIT;
 
+  /** @override */
   tabGroups = {
     primary: "description"
   };
 
-  #getTabs() {
-    const tabs = {
-      description: {id: "description", group: "primary", label: "ARTICHRON.SheetTab.Description"},
-      details: {id: "details", group: "primary", label: "ARTICHRON.SheetTab.Details"},
-      effects: {id: "effects", group: "primary", label: "ARTICHRON.SheetTab.Effects"}
-    };
-    for (const v of Object.values(tabs)) {
-      v.active = this.tabGroups[v.group] === v.id;
-      v.cssClass = v.active ? "active" : "";
-    }
-    return tabs;
-  }
-
+  /** @override */
   async _prepareContext(options) {
     const doc = this.document;
     const src = doc.toObject();
@@ -69,7 +67,7 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
         field: doc.system.schema.getField("description.value"),
         value: doc.system.description.value
       },
-      tabs: this.#getTabs(),
+      tabs: this._getTabs(),
       isEditMode: this.isEditMode,
       isPlayMode: this.isPlayMode
     };
@@ -155,11 +153,13 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
 
   /* -------------------------------------------- */
 
+  /** @override */
   _onFirstRender(context, options) {
     super._onFirstRender(context, options);
     this.element.addEventListener("drop", this._onDrop.bind(this));
   }
 
+  /** @override */
   _syncPartState(partId, newElement, priorElement, state) {
     super._syncPartState(partId, newElement, priorElement, state);
 

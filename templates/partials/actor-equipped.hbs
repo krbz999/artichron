@@ -1,4 +1,5 @@
-<div class="tab scrollable {{ifThen tabs.equipped.active 'active' ''}}" data-group="primary" data-tab="equipped">
+<div class="{{tabs.equipped.tabCssClass}}" data-group="primary" data-tab="equipped">
+
   <div class="backdrop border"></div>
   <div class="backdrop image" style="background-image: url({{document.img}})"></div>
   {{#if isEditMode}}
@@ -20,4 +21,5 @@
     </div>
   </div>
   {{/each}}
+
 </div>
