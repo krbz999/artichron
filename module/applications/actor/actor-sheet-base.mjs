@@ -67,6 +67,12 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
       isPlayMode: this.isPlayMode
     };
 
+    // Name and img.
+    context.header = {
+      name: context.isPlayMode ? doc.name : src.name,
+      img: context.isPlayMode ? doc.img : src.img
+    };
+
     return context;
   }
 
@@ -270,8 +276,8 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
     }
 
     else if (partId === "encumbrance") {
-      const oldBar = priorElement.querySelector(".encumbrance-bar");
-      const newBar = newElement.querySelector(".encumbrance-bar");
+      const oldBar = priorElement.querySelector(".encumbrance .bar");
+      const newBar = newElement.querySelector(".encumbrance .bar");
       const frames = [{width: oldBar.style.width}, {width: newBar.style.width}];
       newBar.animate(frames, {duration: 1000, easing: "ease"});
     }

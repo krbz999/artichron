@@ -1,0 +1,11 @@
+<div class="{{tabs.details.tabCssClass}}" data-group="primary" data-tab="details">
+  {{formField fields.tint.field value=fields.tint.value localize=true disabled=isPlayMode}}
+
+  {{formField fields.description.field value=fields.description.value enriched=fields.description.enriched localize=true toggled=isPlayMode height=300 collaborate=true documentUUID=fields.description.uuid}}
+
+  {{formField fields.disabled.field value=fields.disabled.value label="EFFECT.Disabled" localize=true disabled=isPlayMode}}
+
+  {{#if fields.transfer}}
+  {{formField fields.transfer.field value=fields.transfer.value label=fields.transfer.label hint=fields.transfer.hint localize=true disabled=isPlayMode}}
+  {{/if}}
+</div>

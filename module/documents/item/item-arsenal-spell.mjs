@@ -1,7 +1,11 @@
 import SpellcastingDialog from "../../applications/chat/spellcasting-dialog.mjs";
 import {DamageRoll} from "../../dice/damage-roll.mjs";
+import ActorArtichron from "../actor/actor.mjs";
+import ActiveEffectArtichron from "../effect/active-effect.mjs";
+import {EffectBuffData} from "../effect/system-model.mjs";
 import MeasuredTemplateArtichron from "../template/template.mjs";
 import ArsenalData from "./item-arsenal.mjs";
+import ItemArtichron from "./item.mjs";
 
 const {NumberField, SchemaField, StringField, SetField} = foundry.data.fields;
 
@@ -26,6 +30,7 @@ export default class SpellData extends ArsenalData {
 
   async use() {
     if (this._targeting) return null; // Prevent initiating targeting twice.
+    const isDamage = this.category.subtype === "offense";
     const item = this.parent;
     const actor = item.actor;
 
@@ -39,11 +44,10 @@ export default class SpellData extends ArsenalData {
       return null;
     }
 
-    const configuration = await SpellcastingDialog.create({actor, item});
+    const configuration = await SpellcastingDialog.create({actor, item, damage: isDamage});
     if (!configuration) return null;
 
     const data = SpellcastingDialog.determineTemplateData(configuration);
-    const part = item.system.damage[configuration.part];
 
     let targets = new Set();
 
@@ -61,18 +65,32 @@ export default class SpellData extends ArsenalData {
 
     if (data.mana) await actor.update({"system.pools.mana.value": actor.system.pools.mana.value - configuration.cost});
 
-    return new DamageRoll(configuration.formula, item.getRollData(), {type: part.type}).toMessage({
-      speaker: ChatMessage.implementation.getSpeaker({actor: actor}),
-      "flags.artichron.targets": Array.from(targets).map(target => target.uuid),
-      "flags.artichron.templateData": (data.type !== "single") ? {
-        ...data,
-        formula: configuration.formula,
-        damageType: part.type
-      } : null,
-      "system.actor": actor.uuid,
-      "system.item": item.uuid,
-      type: "damage"
-    });
+    if (isDamage) {
+      // Offensive magic
+      const part = item.system.damage[configuration.part];
+      return new DamageRoll(configuration.formula, item.getRollData(), {type: part.type}).toMessage({
+        speaker: ChatMessage.implementation.getSpeaker({actor: actor}),
+        "flags.artichron.targets": Array.from(targets).map(target => target.uuid),
+        "flags.artichron.templateData": (data.type !== "single") ? {
+          ...data,
+          formula: configuration.formula,
+          damageType: part.type
+        } : null,
+        "system.actor": actor.uuid,
+        "system.item": item.uuid,
+        type: "damage"
+      });
+    } else {
+      // Buff or Defensive magic
+      return DamageRoll.toMessage([], {
+        speaker: ChatMessage.implementation.getSpeaker({actor: actor}),
+        "flags.artichron.targets": Array.from(targets).map(target => target.uuid),
+        "flags.artichron.templateData": (data.type !== "single") ? {...data} : null,
+        "system.actor": actor.uuid,
+        "system.item": item.uuid
+        //type: "effect"
+      });
+    }
   }
 
   /**
@@ -101,6 +119,62 @@ export default class SpellData extends ArsenalData {
     initialLayer.activate();
     return templates;
   }
+
+  /* -------------------------- */
+  /*         Buff Magic         */
+  /* -------------------------- */
+
+  /**
+   * Retrieve all buff effects that were created by this item.
+   * @returns {Set<ActiveEffectArtichron>}
+   */
+  getBuffs() {
+    const uuids = EffectBuffData.origins.get(this.parent.uuid) ?? new Set();
+    return uuids.reduce((acc, uuid) => {
+      if (uuid.startsWith("Compendium.")) return acc;
+      const buff = fromUuidSync(uuid);
+      if (buff) acc.add(buff);
+      return acc;
+    }, new Set());
+  }
+
+  /**
+   * Grant a buff to an actor.
+   * @param {ActiveEffectArtichron} effect
+   * @param {ActorArtichron} actor
+   * @returns {Promise<ActiveEffectArtichron>}
+   */
+  static async grantBuff(effect, actor) {
+    if (!actor.testUserPermission(game.user, "OWNER")) {
+      throw new Error("You must be owner of the actor to grant it a buff!");
+    }
+
+    if (!(effect.type === "buff")) {
+      throw new Error("The buff being granted is of the wrong type!");
+    }
+
+    if (!(effect.parent instanceof ItemArtichron)) {
+      throw new Error("Buffs can only be granted by items!");
+    }
+
+    const effectData = foundry.utils.mergeObject(effect.toObject(), {
+      "system.source": effect.parent.uuid,
+      disabled: false
+    });
+
+    // TODO: put this in the chat message.
+
+    return ActiveEffectArtichron.create(effectData, {parent: actor});
+  }
+
+  async grantBuff() {
+    const effects = this.parent.effects.filter(u => (u.type === "buff") && !u.transfer);
+    if (effects.length === 1) return this.constructor.grantBuff(effects[0], actor);
+  }
+
+  /* -------------------------- */
+  /*         Properties         */
+  /* -------------------------- */
 
   /**
    * Does this item have any valid template or targeting types?

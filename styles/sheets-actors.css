@@ -28,7 +28,39 @@
       }
     }
   }
+
+  .encumbrance {
+    position: relative;
+    min-height: 22px;
+    border-radius: 10px;
+    border: 2px var(--artichron-color-gold) inset;
+    text-align: center;
+    overflow: hidden;
+    margin-top: 5px;
+
+    .values {
+      z-index: 1;
+    }
+
+    .bar {
+      position: absolute;
+      top: 0;
+      height: 100%;
+      z-index: -1;
+      background: linear-gradient(
+        90deg,
+        rgb(240 160 0 / 38%) 0%,
+        rgb(240 160 0 / 55%) 15%,
+        rgb(240 160 0 / 74%) 85%,
+        rgb(240 160 0 / 17%) 95%,
+        rgb(240 160 0 / 0%) 100%
+      );
+    }
+  }
 }
+
+
+
 
 
 .artichron.sheet.actor .tab.attributes section.pools .pool-rolls .pool {
@@ -104,27 +136,4 @@
   text-shadow: 0 0 3px black;
   min-width: 1em;
   max-width: 1em;
-}
-.artichron.sheet.actor .encumbrance {
-  position: relative;
-  width: 100%;
-  height: 22px;
-  min-height: 22px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-  border-radius: 10px;
-  border-width: 1px 2px;
-}
-.artichron.sheet.actor .encumbrance-values {
-  font-size: 14px;
-  z-index: 1;
-}
-.artichron.sheet.actor .encumbrance-bar {
-  position: absolute;
-  left: 0;
-  top: 1px;
-  bottom: 1px;
-  background-color: white;
 }

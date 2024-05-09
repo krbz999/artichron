@@ -1,0 +1,30 @@
+.artichron.application.sheet.effect {
+  .tab.scrollable[data-tab=changes] {
+    .controls {
+      flex: var(--artichron-effect-controls-flex);
+      text-align: center;
+    }
+
+    & header {
+      height: 25px;
+      display: flex;
+      position: sticky;
+      top: 0;
+      z-index: 1;
+      background: var(--background);
+      margin: 4px 0;
+
+      .key, .mode, .value {
+        text-align: center;
+        flex: 1;
+      }
+    }
+
+    .change .key { margin-left: 2px; }
+
+    .change .key, .change .value {
+      transition: flex 200ms ease;
+      &:focus { flex: 3; }
+    }
+  }
+}

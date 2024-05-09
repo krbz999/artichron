@@ -26,7 +26,7 @@ export class DamageRoll extends Roll {
 
     const totals = rolls.reduce((acc, roll) => {
       const type = roll.type;
-      if (!(type in SYSTEM.DAMAGE_TYPES)) return acc;
+      if (!(type in CONFIG.SYSTEM.DAMAGE_TYPES)) return acc;
       acc[type] ??= 0;
       acc[type] += roll.total;
       return acc;
@@ -36,7 +36,8 @@ export class DamageRoll extends Roll {
       "flags.artichron.totals": totals,
       rolls: rolls,
       sound: "sounds/dice.wav",
-      rollMode: game.settings.get("core", "rollMode")
+      rollMode: game.settings.get("core", "rollMode"),
+      type: "damage"
     }, messageData, {inplace: false});
     messageData.content = await this._renderTemplateMethod(messageData);
 

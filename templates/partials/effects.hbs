@@ -1,9 +1,9 @@
 <div class="{{tabs.effects.tabCssClass}}" data-group="primary" data-tab="effects">
 
   <header>
-    <span class="name"></span>
+    <span class="name">{{localize "ARTICHRON.Effect.Active"}}</span>
     <span class="source">{{localize "ARTICHRON.Effect.Source"}}</span>
-    <button type="button" data-action="createEffect" data-tooltip="ARTICHRON.Effect.Add">
+    <button type="button" data-action="createEffect" data-tooltip="ARTICHRON.Effect.Add" data-type="buff">
       <i class="fa-solid fa-plus"></i>
     </button>
   </header>
@@ -17,6 +17,7 @@
     </a>
 
     {{#if isFusion}} <i class="fa-solid fa-volcano" data-tooltip="ARTICHRON.Effect.isFusion"></i> {{/if}}
+    {{#if isActiveBuff}} <i class="fa-solid fa-user" data-tooltip="ARTICHRON.Effect.isActiveBuff"></i> {{/if}}
 
     <div class="properties source">
       <div class="property">
@@ -32,5 +33,33 @@
 
   </div>
   {{/each}}
+
+  {{#if isItem}}
+  <header>
+    <span class="name">{{localize "ARTICHRON.Effect.Fusions"}}</span>
+    <span class="source"></span>
+    <button type="button" data-action="createEffect" data-tooltip="ARTICHRON.Effect.Add" data-type="fusion">
+      <i class="fa-solid fa-plus"></i>
+    </button>
+  </header>
+
+  {{#each fusions}}
+  <div class="effect" data-item-uuid="{{uuid}}">
+
+    <div class="wrapper">
+      <img class="image" src="{{img}}" alt="{{name}}">
+      <label class="name">{{name}}</label>
+    </div>
+
+    <div class="properties source"></div>
+
+    <div class="controls">
+      <a class="control" data-action="editEffect"><i class="fa-solid fa-edit"></i></a>
+      <a class="control" data-action="deleteEffect"><i class="fa-solid fa-trash"></i></a>
+    </div>
+
+  </div>
+  {{/each}}
+  {{/if}}
 
 </div>

@@ -68,7 +68,10 @@
     "Arsenal": "Arsenal",
     "Gear": "Gear",
     "Consumables": "Consumables",
-    "Loot": "Loot"
+    "Loot": "Loot",
+    "EffectDetails": "Details",
+    "EffectDuration": "Duration",
+    "EffectChanges": "Changes"
   },
 
   "Pools": {
@@ -166,6 +169,18 @@
     "Range": "Range",
     "DescriptionValue": "Description"
   },
+
+  "EffectProperty": {
+    "ChangeKey": "Key",
+    "ChangeMode": "Mode",
+    "ChangeValue": "Value",
+    "ChangePriority": "Priority",
+    "Duration": "Duration",
+    "DurationNone": "None",
+    "DurationCombat": "Combat",
+    "DurationDay": "Day"
+  },
+
   "ItemUsageOf": "of",
   "Maximum": "Maximum",
   "Minimum": "Minimum",
@@ -248,6 +263,8 @@
   "Effect": {
     "Add": "Create New Effect",
     "isFusion": "Fusion",
-    "Source": "Source"
+    "Source": "Source",
+    "Active": "Active Effects",
+    "Fusions": "Fusions"
   }
 }}

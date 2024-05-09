@@ -393,3 +393,17 @@ export function parseInputDelta(input, target) {
   input.value = value;
   return value;
 }
+
+/**
+ * Find the 'first' active user who is the owner of a document.
+ * @param {Document} document     An actor, combatant, or other document.
+ * @returns {User|null}           An owner.
+ */
+export function firstOwner(document) {
+  const [players, gms] = game.users.filter(u => {
+    return u.active && document.testUserPermission(u, "OWNER");
+  }).sort((a, b) => a.id.localeCompare(b.id)).partition(u => u.isGM);
+  if (players.length) return players[0];
+  if (gms.length) return gms[0];
+  return null;
+}

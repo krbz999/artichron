@@ -39,9 +39,15 @@ export class ChatLog {
     for (const t of templates) for (const tok of t.object.containedTokens) targets.add(tok);
     targets = Array.from(targets);
 
-    const roll = message.rolls[0];
+    let rolls = [];
     const src = message.toObject();
-    return new DamageRoll(roll.formula, message.item.getRollData(), {type: roll.options.type}).toMessage({
+
+    if (message.rolls.length) {
+      const {formula, options: {type}} = message.rolls.length[0];
+      rolls = [new DamageRoll(formula, message.item.getRollData(), {type: type})];
+    }
+
+    return DamageRoll.toMessage(rolls, {
       speaker: src.speaker,
       "flags.artichron.targets": targets.map(target => target.uuid),
       "flags.artichron.templateData": {...message.flags.artichron.templateData},

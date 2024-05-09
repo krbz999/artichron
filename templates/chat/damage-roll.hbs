@@ -1,5 +1,6 @@
 <div class="artichron damage-rolls">
 
+  {{#if rolls.length}}
   {{#each rolls}}
   <div class="dice-roll">
     <i class="{{config.icon}}" style="color: {{config.color}}"></i>
@@ -15,6 +16,7 @@
     <i class="fa-solid fa-burst"></i>
     {{localize "ARTICHRON.ApplyDamage"}}
   </button>
+  {{/if}}
 
   {{#if templateData}}
   <button type="button" class="gold-button" data-action="template">
