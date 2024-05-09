@@ -265,3 +265,19 @@ SYSTEM.MONSTER_PART_TYPES = {
  * @enum {ElixirSubtype}
  */
 SYSTEM.ELIXIR_TYPES = {};
+
+/**
+ * Effect duration types.
+ * @enum {EffectDurationConfig}
+ */
+SYSTEM.EFFECT_DURATION_TYPES = {
+  none: {
+    label: "ARTICHRON.EffectProperty.DurationNone"
+  },
+  combat: {
+    label: "ARTICHRON.EffectProperty.DurationCombat"
+  },
+  day: {
+    label: "ARTICHRON.EffectProperty.DurationDay"
+  }
+};

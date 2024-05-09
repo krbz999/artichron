@@ -2,7 +2,7 @@ import {SYSTEM} from "./module/helpers/config.mjs";
 import * as applications from "./module/applications/_module.mjs";
 import {preloadHandlebarsTemplates} from "./module/helpers/templates.mjs";
 import {dice} from "./module/dice/_module.mjs";
-import {dataModels, documents} from "./module/documents/_module.mjs";
+import * as documents from "./module/documents/_module.mjs";
 import {ChatLog} from "./module/documents/chat/chat-log.mjs";
 import * as utils from "./module/helpers/utils.mjs";
 import auraInit from "./module/documents/canvas/canvas.mjs";
@@ -16,11 +16,12 @@ import {registerEnrichers} from "./module/helpers/enrichers.mjs";
 globalThis.artichron = {
   applications: applications,
   config: SYSTEM,
-  dataModels: dataModels,
+  dataModels: documents.dataModels,
   dice: dice,
-  documents: documents,
+  documents: documents.documentClasses,
   migrations: {},
-  utils: utils
+  utils: utils,
+  templates: documents.templates
 };
 
 /* -------------------------------------------- */
@@ -35,24 +36,24 @@ Hooks.once("init", function() {
 
   // Record Configuration Values
   CONFIG.SYSTEM = SYSTEM;
-  CONFIG.Actor.documentClass = documents.actor;
-  CONFIG.Item.documentClass = documents.item;
-  CONFIG.Combat.documentClass = documents.combat;
-  CONFIG.Combatant.documentClass = documents.combatant;
-  CONFIG.Token.documentClass = documents.tokenDocument;
-  CONFIG.Token.objectClass = documents.token;
+  CONFIG.Actor.documentClass = documents.documentClasses.actor;
+  CONFIG.Item.documentClass = documents.documentClasses.item;
+  CONFIG.Combat.documentClass = documents.documentClasses.combat;
+  CONFIG.Combatant.documentClass = documents.documentClasses.combatant;
+  CONFIG.Token.documentClass = documents.documentClasses.tokenDocument;
+  CONFIG.Token.objectClass = documents.documentClasses.token;
   CONFIG.Token.hudClass = applications.TokenHUDArtichron;
-  CONFIG.MeasuredTemplate.objectClass = documents.template;
-  CONFIG.MeasuredTemplate.documentClass = documents.templateDocument;
-  CONFIG.ChatMessage.documentClass = documents.message;
-  CONFIG.ActiveEffect.documentClass = documents.effect;
+  CONFIG.MeasuredTemplate.objectClass = documents.documentClasses.template;
+  CONFIG.MeasuredTemplate.documentClass = documents.documentClasses.templateDocument;
+  CONFIG.ChatMessage.documentClass = documents.documentClasses.message;
+  CONFIG.ActiveEffect.documentClass = documents.documentClasses.effect;
 
   // Hook up system data types
-  CONFIG.Actor.dataModels = dataModels.actor;
-  CONFIG.Item.dataModels = dataModels.item;
-  CONFIG.ChatMessage.dataModels = dataModels.message;
-  CONFIG.Combatant.dataModels = dataModels.combatant;
-  CONFIG.ActiveEffect.dataModels = dataModels.effect;
+  CONFIG.Actor.dataModels = documents.dataModels.actor;
+  CONFIG.Item.dataModels = documents.dataModels.item;
+  CONFIG.ChatMessage.dataModels = documents.dataModels.message;
+  CONFIG.Combatant.dataModels = documents.dataModels.combatant;
+  CONFIG.ActiveEffect.dataModels = documents.dataModels.effect;
 
   // Hook up dice types.
   CONFIG.Dice.rolls.push(...Object.values(dice));
@@ -85,8 +86,10 @@ Hooks.once("init", function() {
 
   // Preload Handlebars templates.
   preloadHandlebarsTemplates();
+
   ChatLog.init();
   auraInit();
+  documents.templates.ActiveEffectSystemModel.activateListeners();
 });
 
 /* -------------------------------------------- */

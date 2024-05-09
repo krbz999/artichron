@@ -119,6 +119,14 @@ export default class ItemArtichron extends Item {
     for (const e of this.effects) if (e.type === "fusion") yield e;
   }
 
+  get appliedEffects() {
+    const effects = [];
+    for (const e of this.allApplicableEffects()) {
+      if (e.active) effects.push(e);
+    }
+    return effects;
+  }
+
   /* ---------------------------------------- */
   /*                                          */
   /*               UPDATE METHODS             */

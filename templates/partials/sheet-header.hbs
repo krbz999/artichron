@@ -1,5 +1,5 @@
 {{!-- Sheet Header --}}
 <header class="sheet-header">
-  <img class="profile-img" src="{{document.img}}" {{#if isEditMode}}data-action="editImage" style="cursor: pointer"{{/if}}>
-  <input name="name" type="text" value="{{document.name}}" placeholder="{{localize 'Name'}}" {{disabled isPlayMode}}>
+  <img class="profile-img" src="{{header.img}}" {{#if isEditMode}}data-action="editImage" style="cursor: pointer"{{/if}}>
+  <input name="name" type="text" value="{{header.name}}" placeholder="{{localize 'Name'}}" {{disabled isPlayMode}}>
 </header>

@@ -1,25 +1,22 @@
-import {DamageModel} from "../fields/damage.mjs";
 import {ItemSystemModel} from "./system-model.mjs";
-import {FormulaField} from "../fields/formula-field.mjs";
 
-const {ArrayField, NumberField, SchemaField, EmbeddedDataField} = foundry.data.fields;
-
-// Minor class for array fields to store an additional embedded data model.
-class SystemDamageField extends ArrayField {
-  /** @override */
-  _applyChangeAdd(value, delta, model, change) {
-    delta = delta.map(d => new DamageModel(d));
-    value.push(...delta);
-    return value;
-  }
-}
+const {ArrayField, NumberField, SchemaField, StringField} = foundry.data.fields;
 
 export default class ArsenalData extends ItemSystemModel {
   /** @override */
   static defineSchema() {
     return {
       ...super.defineSchema(),
-      damage: new SystemDamageField(new EmbeddedDataField(DamageModel)),
+      damage: new ArrayField(new SchemaField({
+        formula: new StringField({
+          required: true,
+          label: "ARTICHRON.ItemProperty.DamageFormula"
+        }),
+        type: new StringField({
+          choices: CONFIG.SYSTEM.DAMAGE_TYPES,
+          label: "ARTICHRON.ItemProperty.DamageType"
+        })
+      })),
       wield: new SchemaField({
         value: new NumberField({
           choices: {
@@ -31,16 +28,12 @@ export default class ArsenalData extends ItemSystemModel {
         })
       }),
       range: new SchemaField({
-        value: new FormulaField({required: true, label: "ARTICHRON.ItemProperty.Range"})
+        value: new NumberField({integer: true, positive: true, initial: 1, label: "ARTICHRON.ItemProperty.Range"})
+      }),
+      targets: new SchemaField({
+        value: new NumberField({integer: true, positive: true, label: "ARTICHRON.ItemProperty.Targets"})
       })
     };
-  }
-
-  /** @override */
-  prepareDerivedData() {
-    super.prepareDerivedData();
-    const rollData = this.parent.getRollData();
-    this.damage.forEach(v => v.prepareDerivedData(rollData));
   }
 
   /** @override */

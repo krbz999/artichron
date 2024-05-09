@@ -7,8 +7,8 @@
 
 /**
  * Sheet class mixin to add common functions shared by all types of sheets.
- * @param {*} Base      The base class.
- * @returns {*}         Extended class.
+ * @param {*} Base                        The base class.
+ * @returns {DocumentSheetArtichron}      Extended class.
  */
 export const ArtichronSheetMixin = Base => {
   const mixin = foundry.applications.api.HandlebarsApplicationMixin;
@@ -84,6 +84,7 @@ export const ArtichronSheetMixin = Base => {
     /** @override */
     _renderHeaderControl(control) {
       // Core does not localize header buttons.
+      // TODO: remove in 12.322.
       control = {...control};
       control.label = game.i18n.localize(control.label);
       return super._renderHeaderControl(control);
@@ -104,8 +105,10 @@ export const ArtichronSheetMixin = Base => {
           name: effect.name,
           sourceItem: source ? source.name : null,
           sourceActor: source ? source.actor.name : null,
-          isFusion: effect.type === "fusion",
-          disabled: effect.disabled
+          isFusion: (effect.type === "fusion"),
+          disabled: effect.disabled,
+          suppressed: effect.isSuppressed,
+          isActiveBuff: (this.document instanceof Item) && (effect.target instanceof Actor)
         });
       };
 
@@ -125,13 +128,119 @@ export const ArtichronSheetMixin = Base => {
           artichron.utils.parseInputDelta(event.currentTarget, this.document);
         });
       });
+      this._setupDragAndDrop();
     }
 
     /** @override */
     _syncPartState(partId, newElement, priorElement, state) {
       super._syncPartState(partId, newElement, priorElement, state);
+
+      // Refocus on a delta.
       const focus = newElement.querySelector(":focus");
       if (focus && focus.classList.contains("delta")) focus.select();
+
+      // Fade in or out a toggled effect.
+      if (partId === "effects") {
+        newElement.querySelectorAll("[data-item-uuid].effect").forEach(n => {
+          const uuid = n.dataset.itemUuid;
+          n = n.querySelector(".wrapper");
+          const old = priorElement.querySelector(`[data-item-uuid="${uuid}"].effect .wrapper`);
+          if (!old) return;
+          n.animate([{opacity: old.style.opacity}, {opacity: n.style.opacity}], {duration: 200, easing: "ease-in-out"});
+        });
+      }
+    }
+
+    /* -------------------------------------------- */
+    /*             DRAG AND DROP HANDLERS           */
+    /* -------------------------------------------- */
+
+    /**
+     * Set up drag-and-drop handlers.
+     */
+    _setupDragAndDrop() {
+      const dd = new DragDrop({
+        dragSelector: "[data-item-uuid]",
+        dropSelector: ".application",
+        permissions: {
+          dragstart: this._canDragStart.bind(this),
+          drop: this._canDragDrop.bind(this)
+        },
+        callbacks: {
+          dragstart: this._onDragStart.bind(this),
+          drop: this._onDrop.bind(this)
+        }
+      });
+      dd.bind(this.element);
+    }
+
+    /**
+     * Can the user drag this?
+     * @param {string} selector
+     */
+    _canDragStart(selector) {
+      return true;
+    }
+
+    /**
+     * Can the user drop here?
+     * @param {string} selector
+     */
+    _canDragDrop(selector) {
+      return this.document.isOwner;
+    }
+
+    /**
+     * Handle a drag event being initiated.
+     * @param {Event} event
+     */
+    async _onDragStart(event) {
+      const uuid = event.currentTarget.dataset.itemUuid;
+      const item = await fromUuid(uuid);
+      const data = item.toDragData();
+      event.dataTransfer.setData("text/plain", JSON.stringify(data));
+    }
+
+    /**
+     * Handle a drop event.
+     * @param {Event} event
+     */
+    async _onDrop(event) {
+      event.preventDefault();
+      const {type, uuid} = TextEditor.getDragEventData(event);
+      if (!this.isEditable) return;
+      const item = await fromUuid(uuid);
+      const itemData = item.toObject();
+
+      if (!Object.keys(this.document.constructor.metadata.embedded).includes(type)) return;
+      if ((item.parent === this.document) || (item.parent.parent === this.document)) return;
+
+      const modification = {
+        "-=_id": null,
+        "-=ownership": null,
+        "-=folder": null,
+        "-=sort": null
+      };
+
+      switch (type) {
+        case "ActiveEffect": {
+          foundry.utils.mergeObject(modification, {
+            "duration.-=combat": null,
+            "duration.-=startRound": null,
+            "duration.-=startTime": null,
+            "duration.-=startTurn": null,
+            "system.source": null
+          });
+          break;
+        }
+        case "Item": {
+          break;
+        }
+        default: return;
+      }
+
+      foundry.utils.mergeObject(itemData, modification, {performDeletions: true});
+      getDocumentClass(type).create(itemData, {parent: this.document});
     }
 
     /* -------------------------------------------- */
@@ -152,7 +261,7 @@ export const ArtichronSheetMixin = Base => {
     static _ontoggleOpacity(event, target) {
       target.closest(".application").classList.toggle("opacity");
     }
-    static _onToggleSheetMode(event) {
+    static _onToggleSheetMode(event, target) {
       const modes = this.constructor.SHEET_MODES;
       this._sheetMode = this.isEditMode ? modes.PLAY : modes.EDIT;
       this.render();
@@ -175,8 +284,9 @@ export const ArtichronSheetMixin = Base => {
       effect.deleteDialog();
     }
     static _onCreateEffect(event, target) {
+      const type = target.dataset.type;
       getDocumentClass("ActiveEffect").createDialog({
-        type: "fusion", img: "icons/svg/sun.svg"
+        type: type, img: "icons/svg/sun.svg"
       }, {parent: this.document});
     }
   };

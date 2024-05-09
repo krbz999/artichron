@@ -15,10 +15,12 @@ import MeasuredTemplateDocumentArtichron from "./template/template-document.mjs"
 import SpellData from "./item/item-arsenal-spell.mjs";
 import WeaponData from "./item/item-arsenal-weapon.mjs";
 import ShieldData from "./item/item-arsenal-shield.mjs";
-import {DamageMessageData} from "./chat/system-model.mjs";
-import {HeroCombatantData} from "./combat/system-model.mjs";
-import {EffectFusionData} from "./effect/system-model.mjs";
+import {ChatMessageSystemModel, DamageMessageData} from "./chat/system-model.mjs";
+import {CombatantSystemModel, HeroCombatantData} from "./combat/system-model.mjs";
+import {ActiveEffectSystemModel, EffectBuffData, EffectFusionData} from "./effect/system-model.mjs";
 import ActiveEffectArtichron from "./effect/active-effect.mjs";
+import {ItemSystemModel} from "./item/system-model.mjs";
+import {ActorSystemModel} from "./actor/system-model.mjs";
 
 export const dataModels = {
   actor: {
@@ -40,11 +42,20 @@ export const dataModels = {
     hero: HeroCombatantData
   },
   effect: {
+    buff: EffectBuffData,
     fusion: EffectFusionData
   }
 };
 
-export const documents = {
+export const templates = {
+  ActorSystemModel,
+  ItemSystemModel,
+  ChatMessageSystemModel,
+  CombatantSystemModel,
+  ActiveEffectSystemModel
+};
+
+export const documentClasses = {
   actor: ActorArtichron,
   item: ItemArtichron,
   combat: CombatArtichron,

@@ -29,9 +29,6 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
   };
 
   /** @override */
-  _sheetMode = this.constructor.SHEET_MODES.EDIT;
-
-  /** @override */
   tabGroups = {
     primary: "description"
   };
@@ -42,14 +39,17 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
     const src = doc.toObject();
     const rollData = doc.getRollData();
 
+    const [effects, fusions] = (await this._prepareEffects()).partition(e => e.isFusion && e.suppressed);
+
     const context = {
       document: doc,
       source: src.system,
       config: CONFIG.SYSTEM,
-      effects: await this._prepareEffects(),
+      effects: effects,
+      fusions: fusions,
       isFavorited: this.actor?.system.equipped.favorites.has(doc) ?? false,
       sections: {
-        damage: "damage" in src.system,
+        damage: ("damage" in src.system) && ((doc.type !== "spell") || (doc.system.category.subtype === "offense")),
         armor: "armor" in src.system,
         resistances: "resistances" in src.system,
         wield: "wield" in src.system,
@@ -65,11 +65,19 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
           rollData: rollData, async: true, relativeTo: doc
         }),
         field: doc.system.schema.getField("description.value"),
-        value: doc.system.description.value
+        value: doc.system.description.value,
+        uuid: doc.uuid
       },
       tabs: this._getTabs(),
       isEditMode: this.isEditMode,
-      isPlayMode: this.isPlayMode
+      isPlayMode: this.isPlayMode,
+      isItem: true
+    };
+
+    // Name and img.
+    context.header = {
+      name: context.isPlayMode ? doc.name : src.name,
+      img: context.isPlayMode ? doc.img : src.img
     };
 
     const makeField = (path, formula = true) => {
@@ -152,65 +160,8 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
   }
 
   /* -------------------------------------------- */
-
-  /** @override */
-  _onFirstRender(context, options) {
-    super._onFirstRender(context, options);
-    this.element.addEventListener("drop", this._onDrop.bind(this));
-  }
-
-  /** @override */
-  _syncPartState(partId, newElement, priorElement, state) {
-    super._syncPartState(partId, newElement, priorElement, state);
-
-    if (partId === "effects") {
-      newElement.querySelectorAll("[data-item-uuid].effect").forEach(n => {
-        const uuid = n.dataset.itemUuid;
-        n = n.querySelector(".wrapper");
-        const old = priorElement.querySelector(`[data-item-uuid="${uuid}"].effect .wrapper`);
-        if (!old) return;
-        n.animate([{opacity: old.style.opacity}, {opacity: n.style.opacity}], {duration: 200, easing: "ease-in-out"});
-      });
-    }
-  }
-
-  /* -------------------------------------------- */
   /*                EVENT HANDLERS                */
   /* -------------------------------------------- */
-
-  async _onDrop(event) {
-    const {type, uuid} = TextEditor.getDragEventData(event);
-    if (!this.isEditable) return null;
-    const item = await fromUuid(uuid);
-    const itemData = item.toObject();
-
-    const modification = {
-      "-=_id": null,
-      "-=ownership": null,
-      "-=folder": null,
-      "-=sort": null
-    };
-
-    switch (type) {
-      case "ActiveEffect": {
-        foundry.utils.mergeObject(modification, {
-          "duration.-=combat": null,
-          "duration.-=startRound": null,
-          "duration.-=startTime": null,
-          "duration.-=startTurn": null,
-          origin: (item.type === "fusion") ? item.parent.uuid : this.document.uuid
-        });
-        break;
-      }
-      case "Item": {
-        break;
-      }
-      default: return;
-    }
-
-    foundry.utils.mergeObject(itemData, modification, {performDeletions: true});
-    return getDocumentClass(type).create(itemData, {parent: this.document});
-  }
 
   /** Append a new entry to an array within a fieldset. */
   static _onAddDamage(event, target) {
