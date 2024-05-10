@@ -74,6 +74,17 @@
     "EffectChanges": "Changes"
   },
 
+  "SheetActions": {
+    "RecoverHealth": "Recover Health",
+    "EditSkills": "Edit Skills",
+    "EditPools": "Edit Pools",
+    "RollSkillHead": "Roll Head",
+    "RollSkillArms": "Roll Arms",
+    "RollSkillLegs": "Roll Legs",
+    "CreateItem": "Create New Item",
+    "CreateEffect": "Create New Effect"
+  },
+
   "Pools": {
     "Section": "Pools",
     "Config": "Pools: {name}",
@@ -118,41 +129,6 @@
     "Planar": "Planar"
   },
 
-  "ArmorSet": "Armor Set",
-  "ArmorSetFlame": "Flame Set",
-  "ArmorSetGlam": "Glamour Set",
-
-  "EffectsActive": "Applied Effects",
-  "EffectsDisabled": "Disabled Effects",
-  "EffectsEnabled": "Enabled Effects",
-  "EffectsInactive": "Inactive Effects",
-  "EffectCreate": "Create Effect",
-  "EffectTransfer": "Transfer Effects",
-  "EffectToggleMacro": "Toggle Effect: {name}",
-
-  "ItemCreate": "Create Item",
-  "ItemConfiguration": "Use Item: {name}",
-
-  "Active": "Active",
-  "ApplyDamage": "Apply Damage",
-  "Armor": "Armor",
-  "ChangeItem": "Change Item",
-  "ConsumeUsage": "Consume Uses",
-  "Damage": "Damage",
-  "DamageRoll": "Damage Roll",
-  "DamageTotal": "Total",
-  "Defend": "Defend",
-  "Defenses": "Defenses",
-  "DieSize": "Die Size",
-  "EditItem": "Edit Item",
-  "EditPools": "Edit Pools",
-  "EditResistances": "Edit Resistances",
-  "EmptySlot": "Nothing Equipped",
-  "Equip": "Equip",
-  "EquipItem": "Equip Item",
-  "Favorited": "Favorited",
-  "Favorites": "Favorites",
-
   "ItemProperty": {
     "Armor": "Armor Value",
     "Cost": "Usage Cost",
@@ -180,27 +156,6 @@
     "DurationCombat": "Combat",
     "DurationDay": "Day"
   },
-
-  "ItemUsageOf": "of",
-  "Maximum": "Maximum",
-  "Minimum": "Minimum",
-  "NoAvailableEquipment": "You have no equipment of that type available.",
-  "NoDamageRollsInItem": "The item contained no formulas to roll.",
-  "NoItemInSlot": "You have no item equipped in that slot.",
-  "NotEnoughPoolDice": "{name} does not have enough {type} dice left!",
-  "OK": "OK",
-  "Optional": "Optional",
-  "PickEquippedItem": "Equip Item",
-  "PlaceTemplate": "Place Template",
-  "PoolRoll": "{name}: {type} Roll",
-  "Recover": "Recover",
-  "Resistance": "Resistance",
-  "ResistancePl": "Resistances",
-  "Roll": "Roll",
-
-  "Auras": "Auras",
-  "AuraColor": "Aura Color",
-  "AuraOpacity": "Aura Opacity",
 
   "SpellcastingDialog": {
     "Title": "Configure Spell: {item}",
@@ -261,7 +216,6 @@
   },
 
   "Effect": {
-    "Add": "Create New Effect",
     "isFusion": "Fusion",
     "Source": "Source",
     "Active": "Active Effects",

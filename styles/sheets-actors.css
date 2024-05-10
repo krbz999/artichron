@@ -4,6 +4,8 @@
 
     .left-pane {
       position: relative;
+      min-width: 70px;
+      width: 70px;
 
       .health {
         place-content: center;
@@ -18,6 +20,7 @@
           margin: 0 4px;
         }
       }
+
       .health-bar {
         position: absolute;
         left: 0;
@@ -25,6 +28,95 @@
         bottom: 0;
         z-index: -1;
         background: linear-gradient(90deg, rgba(130, 0, 0, 0.6) 0%, rgba(198, 0, 0, 0.5) 81%, rgba(255, 0, 0, 0.4) 100%);
+      }
+
+      .control {
+        position: absolute;
+        top: 0;
+        right: 0;
+        padding: 4px;
+      }
+    }
+
+    .center-pane {
+
+      & section {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+        padding: 5px 0;
+
+        [data-action=toggleConfig] {
+          position: absolute;
+          top: 0;
+          right: 0;
+          padding: 4px;
+          font-size: 12px;
+          z-index: 1;
+        }
+      }
+
+      .skills {
+        [data-action=rollSkill] {
+          flex: 1;
+          font-size: 45px;
+          text-align: center;
+        }
+      }
+
+      .pools {
+        [data-action=rollPool] {
+          font-size: 45px;
+          flex: 1;
+          background-repeat: no-repeat;
+          text-align: center;
+          background-position: center;
+          background-size: contain;
+          padding: 1rem 0;
+          background-image: url(../../../icons/svg/d4-grey.svg);
+          &.d6 { background-image: url(../../../icons/svg/d6-grey.svg); }
+
+          &.health {
+            filter: var(--health-filter);
+          }
+          &.stamina {
+            filter: var(--stamina-filter);
+          }
+          &.mana {
+            filter: var(--mana-filter);
+          }
+        }
+      }
+
+      .resistances {
+        .resistance {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          flex: 1;
+          height: 50px;
+          justify-content: space-between;
+
+          .total { font-size: 22px; }
+          .fa-solid {
+            place-content: end;
+          }
+          & input {
+            text-align: center;
+            width: calc(100% - 6px);
+          }
+        }
+      }
+
+      .favorites {
+        flex-wrap: wrap;
+        justify-content: flex-start;
+
+        .favorite {
+          flex: 0 0 47px;
+          cursor: pointer;
+        }
       }
     }
   }
@@ -57,83 +149,4 @@
       );
     }
   }
-}
-
-
-
-
-
-.artichron.sheet.actor .tab.attributes section.pools .pool-rolls .pool {
-  padding: 1em;
-  transition: background-size 700ms;
-  background-size: 0;
-  background-repeat: no-repeat;
-  background-position-x: center;
-  transition-timing-function: cubic-bezier(1, 1.67, 0.72, 1.13);
-}
-.artichron.sheet.actor .tab.attributes section.pools .pool-rolls .pool:hover {
-  background-size: 100%;
-}
-.artichron.sheet.actor .tab.attributes .pool-rolls .pool[data-pool=health] {
-  background: radial-gradient(circle, rgb(255, 77, 77) 0%, rgba(0, 0, 0, 0) 75%);
-}
-.artichron.sheet.actor .tab.attributes .pool-rolls .pool[data-pool=stamina] {
-  background: radial-gradient(circle, rgb(0, 255, 0) 0%, rgba(0, 0, 0, 0) 75%);
-}
-.artichron.sheet.actor .tab.attributes .pool-rolls .pool[data-pool=mana] {
-  background: radial-gradient(circle, rgb(73, 73, 255) 0%, rgba(0, 0, 0, 0) 75%);
-}
-.artichron.sheet.actor .tab.attributes section.pools .pool-rolls .pool .die {
-  background-size: 100% 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-width: var(--artichron-pool-die-size);
-  max-width: var(--artichron-pool-die-size);
-  min-height: var(--artichron-pool-die-size);
-  max-height: var(--artichron-pool-die-size);
-}
-
-
-
-.artichron.sheet.actor .edit[data-action] {
-  position: absolute;
-  top: 0;
-  right: 0;
-  padding: 4px;
-  font-size: 12px;
-}
-
-
-.artichron.sheet.actor .attributes-sections .center-pane {
-  flex: 1;
-}
-.artichron.sheet.actor .center-pane section {
-  border-radius: 10px;
-  overflow: hidden;
-  border: 1px inset;
-}
-.artichron.sheet.actor .center-pane section:not(:last-child) {
-  margin-bottom: 5px;
-}
-.artichron.sheet.actor .tab.attributes section.resistances {}
-
-.artichron.sheet.actor .tab.attributes .resistance {
-  font-size: 25px;
-  line-height: 20px;
-  margin: 3px 0;
-  flex: 1;
-  text-align: center;
-  padding-bottom: 5px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-.artichron.sheet.actor .tab.attributes .resistance .total {
-  margin: 5px 0;
-}
-.artichron.sheet.actor .tab.attributes .resistance .fa-solid {
-  text-shadow: 0 0 3px black;
-  min-width: 1em;
-  max-width: 1em;
 }

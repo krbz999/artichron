@@ -286,15 +286,6 @@ export default class ActorArtichron extends Actor {
   }
 
   /**
-   * Roll parry or defense.
-   * @param {object} [options]            Options to modify the roll.
-   * @returns {Promise<ChatMessage>}      A promise that resolves to the created chat message.
-   */
-  async rollDefense(options = {}) {
-    throw new Error("Defense rolls are not implemented yet.");
-  }
-
-  /**
    * Roll a skill.
    * @param {string} skillId            The type of skill (head, arms, legs).
    * @param {object} [options]          Roll options.
