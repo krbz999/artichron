@@ -81,15 +81,6 @@ export const ArtichronSheetMixin = Base => {
       }, {});
     }
 
-    /** @override */
-    _renderHeaderControl(control) {
-      // Core does not localize header buttons.
-      // TODO: remove in 12.322.
-      control = {...control};
-      control.label = game.i18n.localize(control.label);
-      return super._renderHeaderControl(control);
-    }
-
     /**
      * Prepare effects for rendering.
      * @returns {object[]}
