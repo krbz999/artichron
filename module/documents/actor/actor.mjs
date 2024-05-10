@@ -20,7 +20,7 @@ export default class ActorArtichron extends Actor {
   get arsenal() {
     const items = this.system.arsenal ?? {};
     const obj = {};
-    for (const type of ["first", "second"]) obj[type] = items[type] ?? null;
+    for (const type of ["primary", "secondary"]) obj[type] = items[type] ?? null;
     return obj;
   }
 
@@ -277,7 +277,7 @@ export default class ActorArtichron extends Actor {
 
   /**
    * Roll damage with an equipped arsenal item.
-   * @param {string} [key]          Arsenal to roll with, 'first' or 'second'.
+   * @param {string} [key]          Arsenal to roll with, 'primary' or 'secondary'.
    * @param {object} [options]      Options to modify the roll.
    * @returns {Promise}
    */

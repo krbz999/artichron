@@ -26,7 +26,7 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
     header: {template: "systems/artichron/templates/partials/sheet-header.hbs"},
     tabs: {template: "systems/artichron/templates/partials/tabs.hbs"},
     attributes: {template: "systems/artichron/templates/partials/actor-attributes.hbs", scrollable: [""]},
-    equipped: {template: "systems/artichron/templates/partials/actor-equipped.hbs", scrollable: [""]},
+    equipment: {template: "systems/artichron/templates/partials/actor-equipment.hbs", scrollable: [""]},
     inventory: {template: "systems/artichron/templates/partials/actor-inventory.hbs", scrollable: [""]},
     effects: {template: "systems/artichron/templates/partials/effects.hbs", scrollable: [""]},
     encumbrance: {template: "systems/artichron/templates/partials/actor-encumbrance.hbs"}
@@ -41,7 +41,7 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
   /** @override */
   static TABS = {
     attributes: {id: "attributes", group: "primary", label: "ARTICHRON.SheetTab.Attributes"},
-    equipped: {id: "equipped", group: "primary", label: "ARTICHRON.SheetTab.Equipped"},
+    equipment: {id: "equipment", group: "primary", label: "ARTICHRON.SheetTab.Equipment"},
     inventory: {id: "inventory", group: "primary", label: "ARTICHRON.SheetTab.Inventory"},
     effects: {id: "effects", group: "primary", label: "ARTICHRON.SheetTab.Effects"}
   };
@@ -57,7 +57,7 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
       config: CONFIG.SYSTEM,
       health: this._prepareHealth(),
       pools: this._preparePools(),
-      equipped: this._prepareEquipment(),
+      equipment: await this._prepareEquipment(),
       items: this._prepareItems(),
       encumbrance: this._prepareEncumbrance(),
       effects: await this._prepareEffects(),
@@ -145,11 +145,10 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
 
   /**
    * Prepare equipped items for rendering.
-   * @returns {object[]}
+   * @returns {Promise<object[]>}
    */
-  _prepareEquipment() {
-    const [main, second] = Object.values(this.document.arsenal);
-    const armor = Object.entries(this.document.armor);
+  async _prepareEquipment() {
+    const [primary, secondary] = Object.values(this.document.arsenal);
 
     const emptySlotIcons = {
       arsenal: "icons/weapons/axes/axe-broad-brown.webp",
@@ -161,60 +160,58 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
       boots: "icons/equipment/feet/boots-leather-engraved-brown.webp"
     };
 
-    const equipped = [];
+    const orders = {
+      primary: 1,
+      secondary: 2,
 
-    // Main weapon.
-    equipped.push({
-      cssClass: `weapon main ${main ? "" : "empty"}`,
-      item: main,
-      img: main ? main.img : emptySlotIcons.arsenal,
-      tooltip: main ? main.name : "ARTICHRON.EquipItem",
-      hasDamage: main,
-      data: {
-        "item-id": main ? main.id : null,
-        arsenal: main ? "first" : null,
-        slot: "arsenal.first"
-      }
-    });
+      head: 1,
+      chest: 2,
+      legs: 3,
 
-    // Secondary weapon.
-    const disableSecond = main && main.isTwoHanded;
-    const emptySecond = !disableSecond && !second;
-    const cssClass = [
-      "weapon",
-      "second",
-      emptySecond ? "empty" : null,
-      disableSecond ? "disabled" : null
-    ].filterJoin(" ");
-    equipped.push({
-      cssClass: cssClass,
-      item: disableSecond ? null : second,
-      img: disableSecond ? main.img : second ? second.img : emptySlotIcons.arsenal,
-      tooltip: disableSecond ? null : second ? second.name : "ARTICHRON.EquipItem",
-      hasDamage: !emptySecond,
-      data: {
-        "item-id": (!disableSecond && second) ? second.id : null,
-        arsenal: disableSecond ? null : "second",
-        slot: disableSecond ? null : "arsenal.second"
-      }
-    });
+      accessory: 1,
+      arms: 2,
+      boots: 3
+    };
 
-    // Equipped armor.
-    equipped.push(...armor.map(([key, item]) => {
-      const e = item ? "" : "empty";
-      return {
-        cssClass: `${key} ${e}`,
-        item: item,
-        img: item ? item.img : emptySlotIcons[key],
-        tooltip: item ? item.name : "ARTICHRON.EquipItem",
-        data: {
-          "item-id": item ? item.id : null,
-          slot: `armor.${key}`
-        }
+    const equipped = {
+      left: {},
+      center: {},
+      right: {}
+    };
+
+    const setup = async (key, column = "left", item = null, order) => {
+      equipped[column][key] = {
+        cssClass: item ? "" : "empty",
+        img: item ? item.img : (emptySlotIcons[key] ?? emptySlotIcons.arsenal),
+        canEdit: !!item,
+        content: item ? await TextEditor.enrichHTML(item.system.description.value, {
+          rollData: item.getRollData(), relativeTo: item
+        }) : "",
+        order: order,
+        dataset: [
+          ["item-uuid", item?.uuid],
+          ["tooltip", item?.name],
+          ["tooltip-direction", "UP"],
+          ["equipment-slot", key]
+        ].filter(([k, v]) => !!v)
       };
-    }));
+    };
 
-    return equipped;
+    // Arsenal.
+    await setup("primary", "center", primary, orders.primary);
+    if (!primary || !primary.isTwoHanded) await setup("secondary", "center", secondary, orders.secondary);
+
+    // Equipment.
+    for (const [key, item] of Object.entries(this.document.armor)) {
+      const col = ["head", "chest", "legs"].includes(key) ? "left" : "right";
+      await setup(key, col, item, orders[key]);
+    }
+
+    return {
+      left: Object.values(equipped.left),
+      center: Object.values(equipped.center),
+      right: Object.values(equipped.right)
+    };
   }
 
   /**
@@ -360,24 +357,27 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
 
   /** Handle changing the equipped item in a particular slot. */
   static async _onChangeEquipped(event, target) {
-    const [type, slot] = target.closest("[data-slot]").dataset.slot.split(".");
+    const slot = target.closest("[data-equipment-slot]").dataset.equipmentSlot;
 
     let items;
     let icon;
-    if (type === "armor") {
+    let type;
+    if (["head", "chest", "legs", "accessory", "arms", "boots"].includes(slot)) {
       items = this.document.items.filter(item => (item.type === "armor") && (item.system.category.subtype === slot));
       icon = "fa-solid fa-shield-alt";
-    } else if ((type === "arsenal")) {
+      type = "armor";
+    } else if (["primary", "secondary"].includes(slot)) {
       items = this.document.items.filter(item => {
         if (!item.isArsenal) return false;
-        const {first, second} = this.document.arsenal;
-        if (slot === "first") return !second || (second !== item);
-        if (slot === "second") return (!first || (first !== item)) && item.isOneHanded;
+        const {primary, secondary} = this.document.arsenal;
+        if (slot === "primary") return !secondary || (secondary !== item);
+        if (slot === "secondary") return (!primary || (primary !== item)) && item.isOneHanded;
       });
       icon = "fa-solid fa-hand-fist";
+      type = "arsenal";
     }
     if (!items?.length) {
-      ui.notifications.warn("ARTICHRON.NoAvailableEquipment", {localize: true});
+      ui.notifications.warn("ARTICHRON.Warning.NoAvailableEquipment", {localize: true});
       return null;
     }
 
@@ -432,9 +432,9 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
     if (!itemId) return null;
     const item = this.document.items.get(itemId);
     const unequip = currentId === itemId;
-    const update = {[`system.equipped.${type}.${slot}`]: unequip ? "" : itemId};
-    if ((type === "arsenal") && (slot === "first") && !unequip && item?.isTwoHanded) {
-      update["system.equipped.arsenal.second"] = "";
+    const update = {[`system.equipped.${type}.${slot}`]: unequip ? null : itemId};
+    if ((type === "arsenal") && (slot === "primary") && !unequip && item?.isTwoHanded) {
+      update["system.equipped.arsenal.secondary"] = null;
     }
     this.document.update(update);
   }
