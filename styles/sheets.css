@@ -1,11 +1,6 @@
 .artichron.application.sheet {
   max-height: 90%;
 
-  /* TODO: remove in 12.322 */
-  .controls-dropdown {
-    z-index: 1;
-  }
-
   [data-tab=inventory] > .tab.scrollable,
   .tab.scrollable[data-tab=effects] {
     gap: 5px;
