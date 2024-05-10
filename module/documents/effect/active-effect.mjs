@@ -21,14 +21,18 @@ export default class ActiveEffectArtichron extends ActiveEffect {
     }
   }
 
-  getRollData({async = false} = {}) {
-    return this.system.getRollData?.({async}) ?? {};
+  getRollData() {
+    const data = this.parent.getRollData();
+    data.effect = this.system.getRollData();
+    data.effect.name = this.name;
+    return data;
   }
 
   /** @override */
   get isSuppressed() {
     if (this.type === "fusion") {
-      return !this.system.source;
+      // If a fusion can be transferred, it does not apply to its parent.
+      return this.transferrableFusion;
     }
     return false;
   }
@@ -36,5 +40,13 @@ export default class ActiveEffectArtichron extends ActiveEffect {
   /** @override */
   get isTemporary() {
     return super.isTemporary || this.system.isTemporary;
+  }
+
+  /**
+   * Is this a fusion that can be transferred?
+   * @type {boolean}
+   */
+  get transferrableFusion() {
+    return this.system.transferrableFusion ?? false;
   }
 }

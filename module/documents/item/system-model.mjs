@@ -1,6 +1,6 @@
 import {FormulaField} from "../fields/formula-field.mjs";
 
-const {SchemaField, HTMLField, NumberField, StringField, ArrayField} = foundry.data.fields;
+const {SchemaField, HTMLField, StringField} = foundry.data.fields;
 
 export class ItemSystemModel extends foundry.abstract.TypeDataModel {
   /** @override */
@@ -17,12 +17,7 @@ export class ItemSystemModel extends foundry.abstract.TypeDataModel {
       }),
       category: new SchemaField({
         subtype: new StringField({required: true, label: "ARTICHRON.ItemProperty.Subtype"})
-      }),
-      fusion: new ArrayField(new SchemaField({ // UNUSED
-        key: new StringField({required: true}),
-        value: new StringField({required: true}),
-        mode: new NumberField({/*choices: Object.values(ItemSystemModel.FUSION_MODES)*/})
-      }))
+      })
     };
   }
 
