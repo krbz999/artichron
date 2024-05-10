@@ -106,25 +106,6 @@
   }
 }
 
-.artichron.sheet.app {
-  & * {
-    background: none;
-    color: var(--artichron-color-white);
-  }
-
-  & label, input, select, select optgroup, select option {
-    font-family: var(--artichron-font-labels);
-  }
-
-  & input, button {
-    transition: all 250ms ease;
-  }
-
-  & select optgroup, select option {
-    background: rgba(0, 0, 0, 0.85);
-  }
-}
-
 /* --------------------------- */
 /*  Token HUD status effects   */
 /* --------------------------- */
