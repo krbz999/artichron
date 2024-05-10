@@ -1,0 +1,45 @@
+<div class="{{tabs.equipment.tabCssClass}}" data-group="primary" data-tab="equipment">
+
+  <section class="left">
+  {{#each equipment.left}}
+  <div class="{{cssClass}}" {{#each dataset}} data-{{0}}="{{1}}" {{/each}} style="order: {{order}}">
+    <img src="{{img}}" data-action="useItem">
+    <div class="controls">
+      {{#if canEdit}}
+      <a data-action="editItem" data-tooltip="ARTICHRON.SheetActions.EditItem"><i class="fa-solid fa-edit"></i></a>
+      {{/if}}
+      <a data-action="changeEquipped" data-tooltip="ARTICHRON.SheetActions.ChangeItem"><i class="fa-solid fa-shield"></i></a>
+    </div>
+  </div>
+  {{/each}}
+  </section>
+
+  <section class="center">
+  {{#each equipment.center}}
+  <div class="{{cssClass}}" {{#each dataset}} data-{{0}}="{{1}}" {{/each}} style="order: {{order}}">
+    <img src="{{img}}" data-action="useItem">
+    <div class="controls">
+      {{#if canEdit}}
+      <a data-action="editItem" data-tooltip="ARTICHRON.SheetActions.EditItem"><i class="fa-solid fa-edit"></i></a>
+      {{/if}}
+      <a data-action="changeEquipped" data-tooltip="ARTICHRON.SheetActions.ChangeItem"><i class="fa-solid fa-shield"></i></a>
+    </div>
+  </div>
+  {{/each}}
+  </section>
+
+  <section class="right">
+  {{#each equipment.right}}
+  <div class="{{cssClass}}" {{#each dataset}} data-{{0}}="{{1}}" {{/each}} style="order: {{order}}">
+    <img src="{{img}}" data-action="useItem">
+    <div class="controls">
+      {{#if canEdit}}
+      <a data-action="editItem" data-tooltip="ARTICHRON.SheetActions.EditItem"><i class="fa-solid fa-edit"></i></a>
+      {{/if}}
+      <a data-action="changeEquipped" data-tooltip="ARTICHRON.SheetActions.ChangeItem"><i class="fa-solid fa-shield"></i></a>
+    </div>
+  </div>
+  {{/each}}
+  </section>
+
+</div>

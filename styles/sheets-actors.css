@@ -121,6 +121,41 @@
     }
   }
 
+  .tab[data-tab=equipment].active {
+    display: flex;
+    justify-content: space-between;
+    gap: 3em;
+
+    .left, .center, .right {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-evenly;
+      gap: 2em;
+
+      &.center { flex: 2; }
+      &.left, &.right {
+        gap: 4em;
+      }
+
+      [data-equipment-slot] {
+        position: relative;
+
+        .controls {
+          opacity: 0;
+          position: absolute;
+          top: 0;
+          right: 0;
+          transition: opacity 200ms;
+
+          .control { padding: 4px; }
+        }
+
+        &:hover .controls { opacity: 1; }
+      }
+    }
+  }
+
   .encumbrance {
     position: relative;
     min-height: 22px;

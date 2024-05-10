@@ -19,8 +19,8 @@ export class ActorSystemModel extends foundry.abstract.TypeDataModel {
       }),
       equipped: new SchemaField({
         arsenal: new SchemaField({
-          first: new LocalIdField(foundry.documents.BaseItem),
-          second: new LocalIdField(foundry.documents.BaseItem)
+          primary: new LocalIdField(foundry.documents.BaseItem),
+          secondary: new LocalIdField(foundry.documents.BaseItem)
         }),
         armor: new SchemaField(Object.keys(CONFIG.SYSTEM.ARMOR_TYPES).reduce((acc, key) => {
           acc[key] = new LocalIdField(foundry.documents.BaseItem);
@@ -116,7 +116,7 @@ export class ActorSystemModel extends foundry.abstract.TypeDataModel {
   _prepareEquipped() {
     const {arsenal, armor} = this.equipped;
 
-    if (arsenal.first?.isTwoHanded || arsenal.second?.isTwoHanded) arsenal.second = null;
+    if (arsenal.primary?.isTwoHanded || arsenal.secondary?.isTwoHanded) arsenal.secondary = null;
 
     for (const [key, item] of Object.entries(armor)) {
       if (!item) continue;

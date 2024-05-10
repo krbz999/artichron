@@ -60,7 +60,7 @@
 
   "SheetTab": {
     "Attributes": "Attributes",
-    "Equipped": "Equipped",
+    "Equipment": "Equipment",
     "Inventory": "Inventory",
     "Description": "Description",
     "Details": "Details",
@@ -82,7 +82,9 @@
     "RollSkillArms": "Roll Arms",
     "RollSkillLegs": "Roll Legs",
     "CreateItem": "Create New Item",
-    "CreateEffect": "Create New Effect"
+    "CreateEffect": "Create New Effect",
+    "EditItem": "Edit Item",
+    "ChangeItem": "Change Item"
   },
 
   "Pools": {
@@ -203,7 +205,8 @@
     "NotEnoughPips": "You do not have enough pips remaining to make an attack!",
     "AlreadyAtMaxHealth": "{name} is already at their maximum health.",
     "FieldOverridden": "This field has been disabled as it is being modified by an effect.",
-    "InvalidActiveEffectType": "The chosen effect type is not valid for this parent."
+    "InvalidActiveEffectType": "The chosen effect type is not valid for this parent.",
+    "NoAvailableEquipment": "You have no available equipment of that type."
   },
 
   "EquipDialog": {

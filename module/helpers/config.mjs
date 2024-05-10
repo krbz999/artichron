@@ -173,27 +173,6 @@ SYSTEM.SPELL_TARGET_TYPES = {
   }
 };
 
-// The array of damage dice values.
-SYSTEM.DIE_SIZES = {
-  2: "d2",
-  3: "d3",
-  4: "d4",
-  5: "d5",
-  6: "d6",
-  8: "d8",
-  10: "d10",
-  12: "d12",
-  20: "d20",
-  100: "d100"
-};
-
-// Movement types.
-SYSTEM.MOVEMENT_TYPES = {
-  running: {label: "ARTICHRON.Movement.Running"},
-  flying: {label: "ARTICHRON.Movement.Flying"},
-  swimming: {label: "ARTICHRON.Movement.Swimming"}
-};
-
 /**
  * Weapon subtypes.
  * @enum {WeaponSubtype}
@@ -249,15 +228,6 @@ SYSTEM.ARMOR_TYPES = {
   head: {label: "ARTICHRON.ArmorType.Head"},
   legs: {label: "ARTICHRON.ArmorType.Legs"},
   boots: {label: "ARTICHRON.ArmorType.Boots"}
-};
-
-// Monster part types.
-SYSTEM.MONSTER_PART_TYPES = {
-  eye: {label: "ARTICHRON.MonsterPartType.Eye"},
-  fang: {label: "ARTICHRON.MonsterPartType.Fang"},
-  heart: {label: "ARTICHRON.MonsterPartType.Heart"},
-  horn: {label: "ARTICHRON.MonsterPartType.Horn"},
-  tail: {label: "ARTICHRON.MonsterPartType.Tail"}
 };
 
 /**
