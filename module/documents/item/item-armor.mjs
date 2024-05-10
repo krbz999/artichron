@@ -1,10 +1,11 @@
 import {FormulaField} from "../fields/formula-field.mjs";
 import {ResistanceField} from "../fields/resistance-field.mjs";
 import {ItemSystemModel} from "./system-model.mjs";
+import {FusionTemplateMixin} from "./templates/fusion-data.mjs";
 
 const {SchemaField} = foundry.data.fields;
 
-export default class ArmorData extends ItemSystemModel {
+export default class ArmorData extends FusionTemplateMixin(ItemSystemModel) {
   /** @override */
   static defineSchema() {
     return {

@@ -1,8 +1,9 @@
 import {ItemSystemModel} from "./system-model.mjs";
+import {FusionTemplateMixin} from "./templates/fusion-data.mjs";
 
 const {ArrayField, NumberField, SchemaField, StringField} = foundry.data.fields;
 
-export default class ArsenalData extends ItemSystemModel {
+export default class ArsenalData extends FusionTemplateMixin(ItemSystemModel) {
   /** @override */
   static defineSchema() {
     return {
