@@ -13,10 +13,10 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
       editItem: this._onEditItem,
       favoriteItem: this._onFavoriteItem,
       deleteItem: this._onDeleteItem,
-      rollDefense: this._onRollDefense,
-      recover: this._onRecover,
+      recoverHealth: this._onRecoverHealth,
       toggleConfig: this._onToggleConfig,
       rollSkill: this._onRollSkill,
+      rollPool: this._onRollPool,
       changeEquipped: this._onChangeEquipped
     }
   };
@@ -57,7 +57,6 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
       config: CONFIG.SYSTEM,
       health: this._prepareHealth(),
       pools: this._preparePools(),
-      resistances: this._prepareResistances(),
       equipped: this._prepareEquipment(),
       items: this._prepareItems(),
       encumbrance: this._prepareEncumbrance(),
@@ -66,6 +65,27 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
       isEditMode: this.isEditMode,
       isPlayMode: this.isPlayMode
     };
+
+    const makeResistance = (key, path) => {
+      context.resistances ??= {};
+      const value = foundry.utils.getProperty(context.isEditMode ? src.system : doc.system, path);
+      if (!context.isEditMode && !value) return;
+      context.resistances[key] = {
+        field: doc.system.schema.getField(path),
+        value: value,
+        label: CONFIG.SYSTEM.DAMAGE_TYPES[key].label,
+        color: CONFIG.SYSTEM.DAMAGE_TYPES[key].color,
+        icon: CONFIG.SYSTEM.DAMAGE_TYPES[key].icon,
+        name: `system.${path}`
+      };
+    };
+
+    // Armor and resistances.
+    makeResistance("physical", "defenses.armor.value");
+    for (const k of Object.keys(doc.system.resistances)) {
+      makeResistance(k, `resistances.${k}.value`);
+    }
+    context.resistances = Object.values(context.resistances);
 
     // Name and img.
     context.header = {
@@ -331,10 +351,7 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
     }
     new Cls({document: this.document}).render(true);
   }
-  static _onRollDefense(event, target) {
-    this.document.rollDefense();
-  }
-  static _onRecover(event, target) {
+  static _onRecoverHealth(event, target) {
     this.document.recover();
   }
   static _onRollPool(event, target) {
