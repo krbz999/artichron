@@ -3,8 +3,8 @@
 
   {{#if sections.damage}}
   <fieldset>
-    <legend class="header">
-      {{localize "ARTICHRON.Damage"}}
+    <legend>
+      {{localize "ARTICHRON.ItemProperty.Damage"}}
       {{#if isEditMode}}
       <a class="action" data-action="addDamage"><i class="fa-solid fa-plus"></i></a>
       {{/if}}
@@ -38,7 +38,7 @@
 
   {{#if sections.resistances}}
   <fieldset data-property="resistances">
-    <legend class="header">{{localize "ARTICHRON.ResistancePl"}}</legend>
+    <legend>{{localize "ARTICHRON.ItemProperty.ResistancePl"}}</legend>
 
     {{#each resistances}}
     {{formField field value=value disabled=disabled localize=true}}
@@ -48,8 +48,8 @@
 
   {{#if sections.armor}}
   <fieldset>
-    <legend class="header">
-      {{localize "ARTICHRON.Defenses"}}
+    <legend>
+      {{localize "ARTICHRON.ItemProperty.DefensePl"}}
     </legend>
 
     {{#if sections.armor}}

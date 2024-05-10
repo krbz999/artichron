@@ -5,10 +5,6 @@
     padding-top: 3px;
     padding-bottom: 3px;
 
-
-
-    &[data-tab=description] {}
-
     &[data-tab=details] {
       .usage {
         & input {
@@ -34,6 +30,10 @@
         align-items: center;
         flex: 0;
       }
+    }
+
+    &[data-tab=effects] {
+      min-height: 300px;
     }
   }
 }

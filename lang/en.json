@@ -83,6 +83,7 @@
     "RollSkillLegs": "Roll Legs",
     "CreateItem": "Create New Item",
     "CreateEffect": "Create New Effect",
+    "CreateFusion": "Create New Fusion",
     "EditItem": "Edit Item",
     "ChangeItem": "Change Item"
   },
@@ -134,8 +135,14 @@
   "ItemProperty": {
     "Armor": "Armor Value",
     "Cost": "Usage Cost",
+    "Damage": "Damage",
+    "DefensePl": "Defenses",
+    "DescriptionValue": "Description",
+    "Favorited": "Favorited",
     "Price": "Price",
     "Quantity": "Quantity",
+    "Range": "Range",
+    "ResistancePl": "Resistances",
     "Subtype": "Subtype",
     "Template": "Template",
     "TemplateSelf": "Self",
@@ -143,9 +150,7 @@
     "Weight": "Weight",
     "Wield": "Wielding",
     "WieldOneHanded": "One-Handed",
-    "WieldTwoHanded": "Two-Handed",
-    "Range": "Range",
-    "DescriptionValue": "Description"
+    "WieldTwoHanded": "Two-Handed"
   },
 
   "EffectProperty": {

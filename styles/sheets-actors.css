@@ -1,4 +1,8 @@
 .artichron.application.sheet.actor {
+  .tab[data-tab] {
+    min-height: 400px;
+  }
+
   .tab[data-tab=attributes].active {
     display: flex;
 
