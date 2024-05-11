@@ -75,6 +75,14 @@ export default class ItemArtichron extends Item {
     return this.system.isFused ?? false;
   }
 
+  /**
+   * Does this item have a limited number of uses?
+   * @type {boolean}
+   */
+  get hasUses() {
+    return this.system.hasUses ?? false;
+  }
+
   /* ---------------------------------------- */
   /*                                          */
   /*            PREPARATION METHODS           */

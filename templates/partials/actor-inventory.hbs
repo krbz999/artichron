@@ -27,7 +27,7 @@
 
       <div class="properties">
 
-        {{#if hasUsage}}
+        {{#if hasUses}}
         <div class="property">
           <div class="counter">
             <input type="text" class="delta" id="{{item.id}}" value="{{item.system.usage.value}}" data-action="updateEmbedded" data-property="system.usage.value" placeholder="0" max="{{item.system.usage.max}}">
@@ -48,6 +48,14 @@
         {{/if}}
 
       </div>
+
+      {{#if hasFusions}}
+      <div class="controls fusion">
+        <a data-action="fuseItem" data-tooltip="ARTICHRON.SheetActions.FuseItem">
+          <i class="fa-solid fa-volcano"></i>
+        </a>
+      </div>
+      {{/if}}
 
       <div class="controls">
         <a class="control" data-action="favoriteItem"><i class="fa-{{ifThen favorited 'solid' 'regular'}} fa-star"></i></a>

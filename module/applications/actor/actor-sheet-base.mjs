@@ -17,7 +17,8 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
       toggleConfig: this._onToggleConfig,
       rollSkill: this._onRollSkill,
       rollPool: this._onRollPool,
-      changeEquipped: this._onChangeEquipped
+      changeEquipped: this._onChangeEquipped,
+      fuseItem: this._onFuseItem
     }
   };
 
@@ -255,7 +256,8 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
             item: item,
             favorited: this.document.system.equipped.favorites.has(item),
             hasQty: "quantity" in item.system,
-            hasUsage: ("usage" in item.system) && (item.system.usage.max > 0)
+            hasUses: item.hasUses,
+            hasFusions: item.hasFusions && !item.isFused
           });
         }
         section.items.sort((a, b) => {
@@ -358,6 +360,11 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
   }
   static _onRollPool(event, target) {
     this.document.rollPool(target.dataset.pool, {event});
+  }
+  static async _onFuseItem(event, target) {
+    const uuid = target.closest("[data-item-uuid]").dataset.itemUuid;
+    const item = await fromUuid(uuid);
+    item.fuseDialog();
   }
 
   /** Handle changing the equipped item in a particular slot. */
