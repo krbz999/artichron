@@ -258,6 +258,11 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
             hasUsage: ("usage" in item.system) && (item.system.usage.max > 0)
           });
         }
+        section.items.sort((a, b) => {
+          const sort = a.item.sort - b.item.sort;
+          if (sort) return sort;
+          return a.item.name.localeCompare(b.item.name);
+        });
       }
       tabs.push(section);
     }
