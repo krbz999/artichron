@@ -178,6 +178,13 @@
     "SpendMana": "Spend {n} Mana"
   },
 
+  "FusionDialog": {
+    "FuseTitle": "Fuse '{source}' and '{target}'?",
+    "UnfuseTitle": "Split '{source}' and '{target}'?",
+    "Select": "Available Fusions",
+    "Confirm": "Confirm"
+  },
+
   "SpellType": {
     "Buff": "Buff Magic",
     "Defense": "Defensive Magic",
@@ -224,9 +231,11 @@
   },
 
   "Effect": {
-    "isFusion": "Fusion",
+    "ActiveFusions": "Active Fusions",
+    "Buffs": "Buffs",
+    "FusionOptions": "Fusion Options",
     "Source": "Source",
-    "Active": "Active Effects",
-    "Fusions": "Fusions"
+    "ActiveFusion": "Fusion",
+    "ActiveBuff": "Buff"
   }
 }}

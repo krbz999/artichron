@@ -1,9 +1,46 @@
 <div class="{{tabs.effects.tabCssClass}}" data-group="primary" data-tab="effects">
 
+  {{#if (and isItem activeFusions.length)}}
+
   <header>
-    <span class="name">{{localize "ARTICHRON.Effect.Active"}}</span>
+    <span class="name">{{localize "ARTICHRON.Effect.ActiveFusions"}}</span>
     <span class="source">{{localize "ARTICHRON.Effect.Source"}}</span>
-    <button type="button" data-action="createEffect" data-tooltip="ARTICHRON.SheetActions.CreateEffect" data-type="buff">
+    <span class="controls" style="margin-left: 2px;"></span>
+  </header>
+
+  {{#each activeFusions}}
+  <div class="effect" data-item-uuid="{{uuid}}">
+
+    <a class="wrapper" data-action="toggleEffect" style="opacity: {{ifThen disabled 0.25 1}}">
+      <img class="image" src="{{img}}" alt="{{name}}">
+      <label class="name">{{name}}</label>
+    </a>
+
+    <a data-action="undoFusion" data-tooltip="ARTICHRON.Effect.ActiveFusion">
+      <i class="fa-solid fa-volcano"></i>
+      <i class="fa-solid fa-recycle"></i>
+    </a>
+
+    <div class="properties source">
+      <div class="property">
+        <span class="label">{{sourceItem}}</span>
+      </div>
+    </div>
+
+    <div class="controls">
+      <a class="control" data-action="editEffect"><i class="fa-solid fa-edit"></i></a>
+      <a class="control" data-action="deleteEffect"><i class="fa-solid fa-trash"></i></a>
+    </div>
+
+  </div>
+  {{/each}}
+
+  {{/if}}
+
+  <header>
+    <span class="name">{{localize "ARTICHRON.Effect.Buffs"}}</span>
+    <span class="source">{{localize "ARTICHRON.Effect.Source"}}</span>
+    <button class="controls" type="button" data-action="createEffect" data-tooltip="ARTICHRON.SheetActions.CreateEffect" data-type="buff">
       <i class="fa-solid fa-plus"></i>
     </button>
   </header>
@@ -16,8 +53,7 @@
       <label class="name">{{name}}</label>
     </a>
 
-    {{#if isFusion}} <i class="fa-solid fa-volcano" data-tooltip="ARTICHRON.Effect.isFusion"></i> {{/if}}
-    {{#if isActiveBuff}} <i class="fa-solid fa-user" data-tooltip="ARTICHRON.Effect.isActiveBuff"></i> {{/if}}
+    {{#if transfer}} <i class="fa-solid fa-user" data-tooltip="ARTICHRON.Effect.ActiveBuff"></i> {{/if}}
 
     <div class="properties source">
       <div class="property">
@@ -36,9 +72,9 @@
 
   {{#if isItem}}
   <header>
-    <span class="name">{{localize "ARTICHRON.Effect.Fusions"}}</span>
+    <span class="name">{{localize "ARTICHRON.Effect.FusionOptions"}}</span>
     <span class="source"></span>
-    <button type="button" data-action="createEffect" data-tooltip="ARTICHRON.SheetActions.CreateFusion" data-type="fusion">
+    <button class="controls" type="button" data-action="createEffect" data-tooltip="ARTICHRON.SheetActions.CreateFusion" data-type="fusion">
       <i class="fa-solid fa-plus"></i>
     </button>
   </header>
