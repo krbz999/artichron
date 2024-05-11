@@ -85,7 +85,8 @@
     "CreateEffect": "Create New Effect",
     "CreateFusion": "Create New Fusion",
     "EditItem": "Edit Item",
-    "ChangeItem": "Change Item"
+    "ChangeItem": "Change Item",
+    "FuseItem": "Fuse Item"
   },
 
   "Pools": {

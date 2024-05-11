@@ -54,7 +54,7 @@ export default class ElixirData extends ItemSystemModel {
   async use() {
     const config = {
       effect: this.hasEffects,
-      usage: this.hasUsages
+      usage: this.hasUses
     };
 
     if (!Object.values(config).some(s => s)) return null;
@@ -107,7 +107,7 @@ export default class ElixirData extends ItemSystemModel {
    * Does this item have a limited number of uses?
    * @type {boolean}
    */
-  get hasUsages() {
+  get hasUses() {
     const use = this.usage;
     const qty = this.quantity;
     return (use.max > 0) && (qty.value > 0) && (use.value > 0);
@@ -126,6 +126,6 @@ export default class ElixirData extends ItemSystemModel {
    * @type {boolean}
    */
   get hasEffects() {
-    return this.hasUsages && (this.transferrableEffects.length > 0);
+    return this.hasUses && (this.transferrableEffects.length > 0);
   }
 }
