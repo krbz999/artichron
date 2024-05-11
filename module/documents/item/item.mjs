@@ -6,11 +6,6 @@ export default class ItemArtichron extends Item {
   /* ---------------------------------------- */
 
   /**
-   * Getters to determine the type of arsenal an item is.
-   * @type {boolean}
-   */
-
-  /**
    * Is this wielded in one hand?
    * @type {boolean}
    */
@@ -62,6 +57,22 @@ export default class ItemArtichron extends Item {
    */
   get hasTemplate() {
     return this.system.hasTemplate ?? false;
+  }
+
+  /**
+   * Does this item have any valid fusions it can apply?
+   * @type {boolean}
+   */
+  get hasFusions() {
+    return this.system.hasFusions ?? false;
+  }
+
+  /**
+   * Is this item currently under the effect of a fusion?
+   * @type {boolean}
+   */
+  get isFused() {
+    return this.system.isFused ?? false;
   }
 
   /* ---------------------------------------- */
@@ -119,6 +130,10 @@ export default class ItemArtichron extends Item {
     for (const e of this.effects) if (e.type === "fusion") yield e;
   }
 
+  /**
+   * Retrieve all effects that currently modify this item.
+   * @type {ActiveEffectArtichron[]}
+   */
   get appliedEffects() {
     const effects = [];
     for (const e of this.allApplicableEffects()) {
@@ -199,5 +214,27 @@ export default class ItemArtichron extends Item {
    */
   async placeTemplates(config) {
     return this.system.placeTemplates?.(config) ?? null;
+  }
+
+  /**
+   * Pick one of the fusion options of this item, grant it to a target item, and destroy this.
+   * @param {ItemArtichron} target      The target item.
+   * @returns {Promise<ActiveEffectArtichron|null>}
+   */
+  async fuse(target) {
+    // TODO: Merge 'fuse' and 'fuseDialog' into one application that lets the user pick
+    // both a target and an effect at the same time, and recycle 'fuse' to be an API-only method
+    // that takes both a target and effect and does not prompt.
+    if (this.system.fuse) return this.system.fuse(target);
+    return null;
+  }
+
+  /**
+   * Prompt a dialog to pick a valid fusion target, then pass the selection off to the 'fuse' method.
+   * @returns {Promise<ActiveEffectArtichron|null>}
+   */
+  async fuseDialog() {
+    if (this.system.fuseDialog) return this.system.fuseDialog();
+    return null;
   }
 }
