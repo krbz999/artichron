@@ -1,6 +1,6 @@
 <div class="{{tabs.inventory.tabCssClass}}" data-group="primary" data-tab="inventory">
 
-  <nav class="inventory tabs">
+  <nav class="inventory tabs" style="margin-bottom: 4px;">
     {{#each items}}
     <a class="{{cssClass}}" data-action="tab" data-tab="{{id}}" data-group="inventory">{{localize label}}</a>
     {{/each}}
@@ -12,7 +12,7 @@
     <header>
       <span class="name"></span>
       <span class="properties"></span>
-      <button type="button" data-action="createItem" data-tooltip="ARTICHRON.SheetActions.CreateItem">
+      <button class="controls" type="button" data-action="createItem" data-tooltip="ARTICHRON.SheetActions.CreateItem">
         <i class="fa-solid fa-plus"></i>
       </button>
     </header>

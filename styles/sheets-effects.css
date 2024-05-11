@@ -6,13 +6,14 @@
     }
 
     & header {
-      height: 25px;
       display: flex;
       position: sticky;
       top: 0;
       z-index: 1;
       background: var(--background);
       margin: 4px 0;
+      height: 20px;
+      line-height: 20px;
 
       .key, .mode, .value {
         text-align: center;

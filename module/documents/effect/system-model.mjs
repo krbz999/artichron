@@ -19,6 +19,10 @@ export class ActiveEffectSystemModel extends foundry.abstract.TypeDataModel {
     };
   }
 
+  /**
+   * Retrieve an object for roll data.
+   * @returns {object}
+   */
   getRollData(options = {}) {
     throw new Error("The 'getRollData' method of active effects must be subclassed.");
   }
@@ -77,7 +81,7 @@ export class EffectFusionData extends ActiveEffectSystemModel {
   static defineSchema() {
     return {
       ...super.defineSchema(),
-      itemData: new JSONField({required: true, initial: ""})
+      itemData: new JSONField()
     };
   }
 
@@ -87,6 +91,7 @@ export class EffectFusionData extends ActiveEffectSystemModel {
     this.parent.transfer = false;
   }
 
+  /** @override */
   getRollData() {
     return {
       fusion: {
@@ -112,9 +117,23 @@ export class EffectFusionData extends ActiveEffectSystemModel {
     return foundry.utils.getType(this.itemData) !== "Object";
   }
 
-  async unfuse() {
-    if (this.transferrableFusion) {
-      throw new Error("The effect is not a granted fusion!");
+  /**
+   * Is this a fusion that is currently modifying a target item?
+   * @type {boolean}
+   */
+  get isActiveFusion() {
+    return !this.transferrableFusion;
+  }
+
+  /**
+   * Delete this fusion and restore the original item.
+   * @param {object} [options]              Options to modify the splitting process.
+   * @param {boolean} [options.keepId]      Restore the item with its original id?
+   * @returns {Promise<ItemArtichron|null>}
+   */
+  async unfuse({keepId = true} = {}) {
+    if (!this.isActiveFusion) {
+      throw new Error("This is not an active fusion.");
     }
 
     const item = this.parent.parent;
@@ -125,10 +144,39 @@ export class EffectFusionData extends ActiveEffectSystemModel {
     const actor = item.isEmbedded ? item.parent : undefined;
     const pack = item.isEmbedded ? undefined : item.compendium?.metadata.id ?? undefined;
 
-    return Promise.all([
-      Item.implementation.create(this.itemData, {pack, parent: actor}),
-      this.parent.delete()
-    ]);
+    if (actor && actor.items.has(this.itemData._id)) keepId = false;
+    else if (item.compendium && item.compendium.index.has(this.itemData._id)) keepId = false;
+    else if (game.items.has(this.itemData._id)) keepId = false;
+
+    await this.parent.delete();
+    return getDocumentClass("Item").create(this.itemData, {pack, parent: actor, keepId});
+  }
+
+  /**
+   * Create a prompt to delete this fusion and restore the original item.
+   * @param {object} [options]      Options to modify the splitting process.
+   * @returns {Promise<ItemArtichron|null>}
+   */
+  async unfuseDialog(options = {}) {
+    if (!this.isActiveFusion) {
+      throw new Error("This is not an active fusion.");
+    }
+
+    const confirm = await foundry.applications.api.DialogV2.confirm({
+      window: {
+        title: game.i18n.format("ARTICHRON.FusionDialog.UnfuseTitle", {
+          source: this.itemData.name,
+          target: this.parent.parent.name
+        }),
+        icon: "fa-solid fa-volcano"
+      },
+      yes: {icon: "fa-solid fa-bolt"},
+      rejectClose: false
+    });
+
+    if (!confirm) return null;
+
+    return this.unfuse(options);
   }
 }
 
@@ -146,6 +194,7 @@ export class EffectBuffData extends ActiveEffectSystemModel {
     };
   }
 
+  /** @override */
   getRollData() {
     if (!this.source) return {};
 
@@ -159,6 +208,10 @@ export class EffectBuffData extends ActiveEffectSystemModel {
     return source.getRollData?.() ?? {};
   }
 
+  /**
+   * A store of granted buffs.
+   * @type {Map<string, Set<string>>}
+   */
   static origins = new Map();
 
   /** @override */

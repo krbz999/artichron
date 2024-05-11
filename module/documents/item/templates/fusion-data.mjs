@@ -16,6 +16,11 @@ export const FusionTemplateMixin = (Base) => {
         return null;
       }
 
+      if (!(target instanceof Item)) {
+        ui.notifications.warn("ARTICHRON.Warning.TargetNotItem", {localize: true});
+        return null;
+      }
+
       if (!target.isOwner) {
         ui.notifications.warn("ARTICHRON.Warning.NotOwnerOfFusionTarget", {localize: true});
         return null;
@@ -38,7 +43,14 @@ export const FusionTemplateMixin = (Base) => {
         blank: false
       }});
       const effectId = await foundry.applications.api.DialogV2.prompt({
-        window: {title: "ARTICHRON.FusionDialog.Title", icon: "fa-solid fa-volcano"},
+        window: {
+          title: game.i18n.format("ARTICHRON.FusionDialog.FuseTitle", {
+            source: this.parent.name,
+            target: target.name
+          }),
+          icon: "fa-solid fa-volcano"
+        },
+        position: {width: 400},
         content: content,
         rejectClose: false,
         ok: {
@@ -50,13 +62,11 @@ export const FusionTemplateMixin = (Base) => {
 
       const effect = this.parent.effects.get(effectId).clone();
       effect.updateSource({"system.itemData": game.items.fromCompendium(this.parent, {
-        clearFolder: true
+        clearFolder: true, keepId: true
       })});
 
-      return Promise.all([
-        ActiveEffect.implementation.create(effect.toObject(), {parent: target}),
-        this.parent.delete()
-      ]);
+      await this.parent.delete();
+      return getDocumentClass("ActiveEffect").create(effect.toObject(), {parent: target});
     }
   };
 };

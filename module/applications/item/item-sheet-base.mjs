@@ -8,7 +8,8 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
     actions: {
       addDamage: this._onAddDamage,
       deleteDamage: this._onDeleteDamage,
-      favoriteItem: this._onFavoriteItem
+      favoriteItem: this._onFavoriteItem,
+      undoFusion: this._onUndoFusion
     }
   };
 
@@ -39,14 +40,20 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
     const src = doc.toObject();
     const rollData = doc.getRollData();
 
-    const [effects, fusions] = (await this._prepareEffects()).partition(e => e.isFusion && e.suppressed);
+    const [activeFusions, buffs, fusionOptions] = (await this._prepareEffects()).reduce((acc, data) => {
+      if (data.isActiveFusion) acc[0].push(data);
+      else if (data.isFusionOption) acc[2].push(data);
+      else acc[1].push(data);
+      return acc;
+    }, [[], [], []]);
 
     const context = {
       document: doc,
       source: src.system,
       config: CONFIG.SYSTEM,
-      effects: effects,
-      fusions: fusions,
+      activeFusions: activeFusions,
+      effects: buffs,
+      fusions: fusionOptions,
       isFavorited: this.actor?.system.equipped.favorites.has(doc) ?? false,
       sections: {
         damage: ("damage" in src.system) && ((doc.type !== "spell") || (doc.system.category.subtype === "offense")),
@@ -179,5 +186,9 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
   }
   static _onFavoriteItem(event, target) {
     this.document.favorite().then(() => this.render());
+  }
+  static async _onUndoFusion(event, target) {
+    const effect = await fromUuid(target.closest("[data-item-uuid]").dataset.itemUuid);
+    effect.unfuseDialog();
   }
 }

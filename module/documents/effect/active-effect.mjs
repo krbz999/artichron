@@ -21,11 +21,25 @@ export default class ActiveEffectArtichron extends ActiveEffect {
     }
   }
 
+  /**
+   * Retrieve an object for roll data.
+   * @returns {object}
+   */
   getRollData() {
     const data = this.parent.getRollData();
     data.effect = this.system.getRollData();
     data.effect.name = this.name;
     return data;
+  }
+
+  /**
+   * Create a prompt to destroy this fusion and create the two base items.
+   * @param {object} [options]      Options to modify the splitting process.
+   * @returns {Promise<ItemArtichron|null>}
+   */
+  async unfuseDialog(options = {}) {
+    if (this.system.unfuseDialog) return this.system.unfuseDialog(options);
+    return null;
   }
 
   /** @override */
@@ -48,5 +62,13 @@ export default class ActiveEffectArtichron extends ActiveEffect {
    */
   get transferrableFusion() {
     return this.system.transferrableFusion ?? false;
+  }
+
+  /**
+   * Is this a fusion that is currently modifying a target item?
+   * @type {boolean}
+   */
+  get isActiveFusion() {
+    return this.system.isActiveFusion ?? false;
   }
 }

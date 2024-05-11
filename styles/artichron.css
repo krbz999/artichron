@@ -5,7 +5,6 @@
   --mana-filter: sepia(1) hue-rotate(180deg) drop-shadow(0 0 1px blue);
   --health-filter: sepia(1) hue-rotate(270deg) drop-shadow(0 0 1px red);
   --stamina-filter: sepia(1) hue-rotate(90deg) drop-shadow(0 0 1px green);
-  --equipment-margin: 25px;
   --artichron-theme-bright: rgb(222, 225, 255);
   --artichron-pool-die-size: 100px;
   --artichron-font-primary: "Bruno Ace";
@@ -22,6 +21,7 @@
   --artichron-effect-source-flex: 0 0 100px;
   --artichron-effect-controls-flex: 0 0 50px;
   --artichron-item-properties-flex: 0 0 120px;
+  --artichron-inventory-controls-flex: 0 0 60px;
 }
 
 /* --------------------------- */

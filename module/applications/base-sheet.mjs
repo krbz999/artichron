@@ -89,17 +89,28 @@ export const ArtichronSheetMixin = Base => {
       const effects = [];
 
       const entry = async (effect) => {
-        const source = effect.system.source ? await fromUuid(effect.system.source) : null;
+        let sourceItem = null;
+        let sourceActor = null;
+
+        if ((effect.type === "buff") && effect.system.source) {
+          sourceItem = await fromUuid(effect.system.source);
+          sourceActor = sourceItem?.parent?.name ?? "";
+          sourceItem = sourceItem?.name ?? "";
+        } else if (effect.type === "fusion") {
+          sourceItem = effect.system.itemData?.name ?? "";
+        }
+
         effects.push({
           uuid: effect.uuid,
           img: effect.img,
           name: effect.name,
-          sourceItem: source ? source.name : null,
-          sourceActor: source ? source.actor.name : null,
-          isFusion: (effect.type === "fusion"),
+          sourceItem: sourceItem,
+          sourceActor: sourceActor,
           disabled: effect.disabled,
-          suppressed: effect.isSuppressed,
-          isActiveBuff: (this.document instanceof Item) && (effect.target instanceof Actor)
+          transfer: effect.transfer,
+
+          isActiveFusion: effect.isActiveFusion,
+          isFusionOption: effect.transferrableFusion
         });
       };
 
