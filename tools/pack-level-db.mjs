@@ -57,9 +57,9 @@ function packageCommand() {
   };
 }
 
-/* ----------------------------------------- */
-/*  Clean Packs                              */
-/* ----------------------------------------- */
+/* ---------------------------------------- */
+/*  Clean Packs                             */
+/* ---------------------------------------- */
 
 /**
  * Removes unwanted flags, permissions, and other data from entries before extracting or compiling.
@@ -140,9 +140,9 @@ async function cleanPacks(packName, entryName) {
   }
 }
 
-/* ----------------------------------------- */
-/*  Compile Packs                            */
-/* ----------------------------------------- */
+/* ---------------------------------------- */
+/*  Compile Packs                           */
+/* ---------------------------------------- */
 
 /**
  * Compile the source JSON files into compendium packs.
@@ -165,9 +165,9 @@ async function compilePacks(packName) {
   }
 }
 
-/* ----------------------------------------- */
-/*  Extract Packs                            */
-/* ----------------------------------------- */
+/* ---------------------------------------- */
+/*  Extract Packs                           */
+/* ---------------------------------------- */
 
 /**
  * Extract the contents of compendium packs to JSON files.

@@ -164,14 +164,15 @@ export class EffectFusionData extends ActiveEffectSystemModel {
 
     const confirm = await foundry.applications.api.DialogV2.confirm({
       window: {
-        title: game.i18n.format("ARTICHRON.FusionDialog.UnfuseTitle", {
+        title: game.i18n.format("ARTICHRON.ItemFusionDialog.UnfuseTitle", {
           source: this.itemData.name,
           target: this.parent.parent.name
         }),
         icon: "fa-solid fa-volcano"
       },
       yes: {icon: "fa-solid fa-bolt"},
-      rejectClose: false
+      rejectClose: false,
+      modal: true
     });
 
     if (!confirm) return null;
