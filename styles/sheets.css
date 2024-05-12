@@ -2,6 +2,10 @@
   max-height: 90%;
 
   /* Opacity control */
+  &.opacity:not(.maximizing, .minimized, .minimizing) {
+    transition: opacity 250ms;
+    &:not(:hover) { opacity: 0.1; }
+  }
   [data-action=toggleOpacity] .fa-solid::before { content: "\f06e"; }
   &.opacity [data-action=toggleOpacity] .fa-solid::before { content: "\f2a8"; }
 
