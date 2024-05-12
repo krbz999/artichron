@@ -19,21 +19,9 @@ export const ArtichronSheetMixin = Base => {
     /** @override */
     static DEFAULT_OPTIONS = {
       form: {submitOnChange: true},
-      window: {
-        contentClasses: [],
-        controls: [{
-          action: "toggleSheetMode",
-          label: "ARTICHRON.HeaderControl.SheetMode",
-          icon: "fa-solid fa-otter"
-        }, {
-          action: "toggleOpacity",
-          label: "ARTICHRON.HeaderControl.Opacity",
-          icon: "fa-solid fa-otter"
-        }]
-      },
       actions: {
         editImage: this._onEditImage,
-        toggleSheetMode: this._onToggleSheetMode,
+        toggleSheet: this._onToggleSheet,
         toggleOpacity: this._ontoggleOpacity,
         toggleEffect: this._onToggleEffect,
         editEffect: this._onEditEffect,
@@ -293,7 +281,7 @@ export const ArtichronSheetMixin = Base => {
     static _ontoggleOpacity(event, target) {
       target.closest(".application").classList.toggle("opacity");
     }
-    static _onToggleSheetMode(event, target) {
+    static _onToggleSheet(event, target) {
       const modes = this.constructor.SHEET_MODES;
       this._sheetMode = this.isEditMode ? modes.PLAY : modes.EDIT;
       this.render();
