@@ -37,3 +37,30 @@
     }
   }
 }
+
+/* Fusion Dialog */
+.artichron.application.fusion {
+  .indicators {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-bottom: 5px;
+
+    .arrow {
+      width: 70px;
+      height: 70px;
+      border: none;
+      transform: rotate(90deg);
+    }
+
+    .target, .source {
+      width: 100px;
+      height: 100px;
+      border-radius: 30%;
+      border: 2px gray inset;
+      overflow: hidden;
+
+      &.disabled img { opacity: 0.25; }
+    }
+  }
+}
