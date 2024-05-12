@@ -9,13 +9,14 @@ export default class TokenDocumentArtichron extends TokenDocument {
 
   /** @override */
   async _preUpdate(data, options, user) {
-    await super._preUpdate(data, options, user);
-    if ((options.animate === false)) return;
+    const allowed = await super._preUpdate(data, options, user);
+    if (allowed === false) return false;
 
-    const moveX = ("x" in data) && (data.x !== this.x);
-    const moveY = ("y" in data) && (data.y !== this.y);
-    if (!moveX && !moveY) return;
-    const ray = new Ray(this, {x: data.x ?? this.x, y: data.y ?? this.y});
+    if ((options.animate === false)) return;
+    const x = data.x ?? this.x;
+    const y = data.y ?? this.y;
+    if ((this.x + this.y) - (x + y) === 0) return;
+    const ray = new Ray(this, {x, y});
     data.rotation = Math.toDegrees(ray.angle) - 90;
   }
 
