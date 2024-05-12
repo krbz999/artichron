@@ -85,15 +85,3 @@
     border: none;
   }
 }
-
-/* TODO: put header buttons in a better location in each sheet. */
-.artichron.app, .artichron.application {
-  &.opacity:not(.maximizing, .minimized, .minimizing) {
-    transition: opacity 250ms;
-    &:not(:hover) { opacity: 0.1; }
-    .header-button.control.opacity i::before { content: "\f204"; }
-  }
-  .header-button.control.opacity i::before { content: "\f205"; }
-  &:has(form.edit-mode) .header-button.control.sheet-mode i::before { content: "\f4ff"; }
-  &:has(form.play-mode) .header-button.control.sheet-mode i::before { content: "\f502"; }
-}
