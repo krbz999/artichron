@@ -37,7 +37,7 @@
   {{/if}}
 
   {{#if sections.resistances}}
-  <fieldset data-property="resistances">
+  <fieldset>
     <legend>{{localize "ARTICHRON.ItemProperty.ResistancePl"}}</legend>
 
     {{#each resistances}}
@@ -46,15 +46,4 @@
   </fieldset>
   {{/if}}
 
-  {{#if sections.armor}}
-  <fieldset>
-    <legend>
-      {{localize "ARTICHRON.ItemProperty.DefensePl"}}
-    </legend>
-
-    {{#if sections.armor}}
-    {{formField armor.field value=armor.value disabled=armor.disabled localize=true}}
-    {{/if}}
-  </fieldset>
-  {{/if}}
 </div>

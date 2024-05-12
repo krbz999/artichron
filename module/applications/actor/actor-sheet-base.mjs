@@ -28,7 +28,10 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
     tabs: {template: "systems/artichron/templates/partials/tabs.hbs"},
     attributes: {template: "systems/artichron/templates/partials/actor-attributes.hbs", scrollable: [""]},
     equipment: {template: "systems/artichron/templates/partials/actor-equipment.hbs", scrollable: [""]},
-    inventory: {template: "systems/artichron/templates/partials/actor-inventory.hbs", scrollable: [""]},
+    inventory: {
+      template: "systems/artichron/templates/partials/actor-inventory.hbs",
+      scrollable: ["[data-group='inventory'].scrollable.active"]
+    },
     effects: {template: "systems/artichron/templates/partials/effects.hbs", scrollable: [""]},
     encumbrance: {template: "systems/artichron/templates/partials/actor-encumbrance.hbs"}
   };
@@ -263,7 +266,7 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
         section.items.sort((a, b) => {
           const sort = a.item.sort - b.item.sort;
           if (sort) return sort;
-          return a.item.name.localeCompare(b.item.name);
+          return a.item._source.name.localeCompare(b.item._source.name);
         });
       }
       tabs.push(section);

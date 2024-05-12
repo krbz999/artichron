@@ -2,7 +2,6 @@
   max-height: 90%;
 
   .tab.scrollable {
-    padding-top: 3px;
     padding-bottom: 3px;
 
     &[data-tab=details] {
@@ -44,13 +43,13 @@
     display: flex;
     justify-content: space-around;
     align-items: center;
-    margin-bottom: 5px;
+    margin-top: 10px;
 
     .arrow {
       width: 70px;
       height: 70px;
       border: none;
-      transform: rotate(90deg);
+      transform: rotate(270deg);
     }
 
     .target, .source {

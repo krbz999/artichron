@@ -53,6 +53,10 @@
 </div>
 {{/if}}
 
+{{#if sections.armor}}
+{{formField armor.field value=armor.value disabled=armor.disabled localize=true}}
+{{/if}}
+
 {{#if document.isEmbedded}}
 <div class="form-group">
   <label>{{localize "ARTICHRON.ItemProperty.Favorited"}}</label>

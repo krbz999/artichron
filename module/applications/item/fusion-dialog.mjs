@@ -128,7 +128,7 @@ export default class ItemFusionDialog extends HandlebarsApplicationMixin(Applica
   _prepareTarget() {
     const targets = this.item.actor.items.filter(item => {
       const isType = (this.item.isArsenal && item.isArsenal) || (this.item.type === item.type);
-      return (item !== this.item) && isType && !item.isFused;
+      return (item !== this.item) && isType;
     });
 
     const field = new foundry.data.fields.StringField({

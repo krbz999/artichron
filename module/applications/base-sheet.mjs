@@ -80,6 +80,7 @@ export const ArtichronSheetMixin = Base => {
         let sourceItem = null;
         let sourceActor = null;
 
+        // Create label for transferred effects.
         if ((effect.type === "buff") && effect.system.source) {
           sourceItem = await fromUuid(effect.system.source);
           sourceActor = sourceItem?.parent?.name ?? "";
