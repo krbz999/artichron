@@ -23,9 +23,7 @@ export default class PoolConfig extends BaseConfig {
 
   /** @override */
   async _prepareContext() {
-    const fields = artichron.dataModels.actor.hero.schema.fields.pools.fields;
-    const pools = this.document.system.toObject().pools;
-    const data = {
+    return {
       primary: this.document.system.traits.pool,
       primaryChoices: {
         health: "ARTICHRON.Pools.Health",
@@ -33,15 +31,13 @@ export default class PoolConfig extends BaseConfig {
         mana: "ARTICHRON.Pools.Mana"
       },
       pools: ["health", "stamina", "mana"].map(key => {
-        const field = fields[key].fields;
         return {
-          value: field.value,
-          max: field.max,
+          valueField: this.document.system.schema.getField(`pools.${key}.value`),
+          maxField: this.document.system.schema.getField(`pools.${key}.max`),
           label: `ARTICHRON.Pools.${key.capitalize()}DiePl`,
-          current: pools[key].value
+          value: this.document.system.pools[key].value
         };
       })
     };
-    return data;
   }
 }

@@ -10,9 +10,9 @@
   <div class="form-group">
     <label>{{localize label}}</label>
     <div class="form-fields">
-      {{formInput value value=current}}
+      {{formInput valueField value=value}}
       <span class="sep">/</span>
-      {{formInput max value=3 disabled=true}}
+      {{formInput maxField value=3 disabled=true}}
     </div>
   </div>
   {{/each}}

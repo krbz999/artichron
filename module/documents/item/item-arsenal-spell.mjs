@@ -162,8 +162,6 @@ export default class SpellData extends ArsenalData {
       disabled: false
     });
 
-    // TODO: put this in the chat message.
-
     return ActiveEffectArtichron.create(effectData, {parent: actor});
   }
 

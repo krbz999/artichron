@@ -140,8 +140,7 @@ export class ActorSystemModel extends foundry.abstract.TypeDataModel {
   _prepareEncumbrance() {
     const dice = this.pools.stamina;
     this.encumbrance = {};
-    const modifier = (this.isBuffed ? 2 : 1) * (this.isWeakened ? 0.5 : 1);
-    this.encumbrance.max = Math.round(dice.max * dice.faces * modifier);
+    this.encumbrance.max = dice.max * dice.faces;
     this.encumbrance.value = this.parent.items.reduce((acc, item) => {
       return acc + (item.system.totalWeight);
     }, 0);
@@ -210,7 +209,7 @@ export class ActorSystemModel extends foundry.abstract.TypeDataModel {
 
   /**
    * The currently equipped ammunition.
-   * @type {Set<Item>}
+   * @type {Set<ItemArtichron>}
    */
   get ammo() {
     return this.equipped.ammo;
@@ -218,10 +217,14 @@ export class ActorSystemModel extends foundry.abstract.TypeDataModel {
 
   /**
    * The currently equipped arsenal.
-   * @type {object}
+   * @type {{primary: ItemArtichron, secondary: ItemArtichron}}
    */
   get arsenal() {
-    return this.equipped.arsenal;
+    const items = this.equipped.arsenal;
+    return {
+      primary: items.primary ?? null,
+      secondary: items.secondary ?? null
+    };
   }
 
   /**
@@ -229,22 +232,19 @@ export class ActorSystemModel extends foundry.abstract.TypeDataModel {
    * @type {object}
    */
   get armor() {
-    return this.equipped.armor;
+    const items = this.equipped.armor;
+    return Object.keys(CONFIG.SYSTEM.ARMOR_TYPES).reduce((acc, k) => {
+      acc[k] = items[k] ?? null;
+      return acc;
+    }, {});
   }
 
   /**
-   * Determine whether the actor is strengthened.
+   * Does this actor have a shield equipped?
    * @type {boolean}
    */
-  get isBuffed() {
-    return this.parent.statuses.has("upgrade");
-  }
-
-  /**
-   * Determine whether the actor is weakened.
-   * @type {boolean}
-   */
-  get isWeakened() {
-    return this.parent.statuses.has("downgrade");
+  get hasShield() {
+    return (this.equipped.arsenal.primary?.type === "shield")
+      || (this.equipped.arsenal.secondary?.type === "shield");
   }
 }

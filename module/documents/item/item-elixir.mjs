@@ -41,13 +41,8 @@ export default class ElixirData extends ItemSystemModel {
   preparePostData() {
     super.preparePostData();
     const rollData = this.parent.getRollData();
-    this._prepareUsage(rollData);
-  }
 
-  /**
-   * Prepare max usage of the elixir.
-   */
-  _prepareUsage(rollData) {
+    // Prepare max usage of the elixir.
     this.usage.max = artichron.utils.simplifyBonus(this.usage.max, rollData);
   }
 

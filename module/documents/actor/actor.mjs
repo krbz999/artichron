@@ -7,7 +7,7 @@ export default class ActorArtichron extends Actor {
 
   /**
    * The currently equipped ammunition.
-   * @type {Set<Item>}
+   * @type {Set<ItemArtichron>}
    */
   get ammo() {
     return this.system.ammo ?? new Set();
@@ -15,13 +15,10 @@ export default class ActorArtichron extends Actor {
 
   /**
    * The currently equipped arsenal.
-   * @type {object}
+   * @type {{primary: ItemArtichron, secondary: ItemArtichron}}
    */
   get arsenal() {
-    const items = this.system.arsenal ?? {};
-    const obj = {};
-    for (const type of ["primary", "secondary"]) obj[type] = items[type] ?? null;
-    return obj;
+    return this.system.arsenal ?? {};
   }
 
   /**
@@ -29,10 +26,7 @@ export default class ActorArtichron extends Actor {
    * @type {object}
    */
   get armor() {
-    const armor = this.system.armor ?? {};
-    const obj = {};
-    for (const type of Object.keys(CONFIG.SYSTEM.ARMOR_TYPES)) obj[type] = armor[type] ?? null;
-    return obj;
+    return this.system.armor ?? {};
   }
 
   /**
@@ -40,7 +34,7 @@ export default class ActorArtichron extends Actor {
    * @type {boolean}
    */
   get hasShield() {
-    return Object.values(this.arsenal).some(a => a?.type === "shield");
+    return this.system.hasShield ?? false;
   }
 
   /* ---------------------------------------- */

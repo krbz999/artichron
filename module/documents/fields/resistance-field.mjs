@@ -2,7 +2,6 @@ import {FormulaField} from "./formula-field.mjs";
 
 const {SchemaField} = foundry.data.fields;
 
-// For items.
 export class ResistanceField extends SchemaField {
   constructor(schemaOptions = {}) {
     const fields = {};
