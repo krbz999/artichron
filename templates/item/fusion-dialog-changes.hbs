@@ -1,1 +1,9 @@
-<div class="changes"></div>
+<div class="changes">
+  {{#if changes}}
+  <ul>
+  {{#each changes}}
+  <li>{{this}}</li>
+  {{/each}}
+  </ul>
+  {{/if}}
+</div>

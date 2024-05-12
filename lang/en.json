@@ -187,6 +187,42 @@
     "UnfuseTitle": "Split '{source}' and '{target}'?"
   },
 
+  "ItemFusionChanges": {
+    "Name.Label": "Name",
+    "Name.ADD": "The name will be appended '{change}'.",
+    "Name.OVERRIDE": "The name will become '{change}'.",
+
+    "Image.Label": "Image",
+    "Image.OVERRIDE": "The image will become '{change}'.",
+
+    "Price.Label": "Price",
+    "Price.ADD": "The price of the item will increase by {change}.",
+    "Price.OVERRIDE": "The price of the item will become {change}.",
+
+    "Weight.Label": "Weight",
+    "Weight.ADD": "The weight of the item will increase by {change}.",
+    "Weight.OVERRIDE": "The weight of the item will become {change}.",
+
+    "Armor.Label": "Armor",
+    "Armor.ADD": "The armor value of the item will increase by {change}.",
+    "Armor.OVERRIDE": "The armor value of the item will become {change}.",
+
+    "Resistance.Label": "{type} Resistance",
+    "Resistance.ADD": "The item will grant an additional {change} points of {type} resistance.",
+    "Resistance.OVERRIDE": "The item will grant {change} points of {type} resistance.",
+
+    "Range.Label": "Range",
+    "Range.ADD": "The range of the item will increase by {change}.",
+    "Range.OVERRIDE": "The range of the item will become {change}.",
+
+    "Wield.Label": "Wielding",
+    "Wield.OVERRIDE": "The item will require using one hand to wield.",
+    "WieldPl.OVERRIDE": "The item will require using two hands to wield.",
+
+    "Damage.Label": "Damage",
+    "Damage.ADD": "The item will deal an additional {change} damage."
+  },
+
   "SpellType": {
     "Buff": "Buff Magic",
     "Defense": "Defensive Magic",

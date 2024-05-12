@@ -76,6 +76,14 @@ export default class ItemArtichron extends Item {
   }
 
   /**
+   * Is this a valid item type for fusing?
+   * @type {boolean}
+   */
+  get canFuse() {
+    return (this.type === "armor") || this.isArsenal;
+  }
+
+  /**
    * Does this item have a limited number of uses?
    * @type {boolean}
    */

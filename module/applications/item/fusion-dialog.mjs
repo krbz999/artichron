@@ -114,6 +114,10 @@ export default class ItemFusionDialog extends HandlebarsApplicationMixin(Applica
     context.sourceImage = this.item.img;
     context.targetDisabled = !target;
 
+    // Changes.
+    const effect = this.item.effects.get(this._selectedFusion);
+    context.changes = effect ? effect.system.translateChanges() : null;
+
     return context;
   }
 

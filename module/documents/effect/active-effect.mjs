@@ -4,9 +4,13 @@ export default class ActiveEffectArtichron extends ActiveEffect {
     const allowed = await super._preUpdate(data, options, user);
     if (allowed === false) return false;
 
-    if ((this.parent.documentName === "Actor") && (data.type === "fusion")) {
-      ui.notifications.warn("ARTICHRON.Warning.InvalidActiveEffectType", {localize: true});
-      return false;
+    if (data.type === "fusion") {
+      const isActor = this.parent.documentName === "Actor";
+      const invalidItem = (this.parent.documentName === "Item") && !this.parent.canFuse;
+      if (isActor || invalidItem) {
+        ui.notifications.warn("ARTICHRON.Warning.InvalidActiveEffectType", {localize: true});
+        return false;
+      }
     }
   }
 
