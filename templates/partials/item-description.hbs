@@ -1,3 +1,8 @@
 <div class="{{tabs.description.tabCssClass}}" data-group="primary" data-tab="description">
   {{formField description.field value=description.value enriched=description.enriched localize=true toggled=isPlayMode height=300 collaborate=true documentUUID=description.uuid}}
+
+  {{#if canFuse}}
+  <hr>
+  {{#each fusionTexts}}{{{this}}}{{/each}}
+  {{/if}}
 </div>

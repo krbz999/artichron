@@ -81,6 +81,10 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
       canFuse: doc.canFuse
     };
 
+    if (context.canFuse) {
+      context.fusionTexts = this._prepareFusionDescriptions(context.fusions);
+    }
+
     // Name and img.
     context.header = {
       name: context.isPlayMode ? doc.name : src.name,
@@ -164,6 +168,18 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
     }
 
     return context;
+  }
+
+  /**
+   *
+   */
+  _prepareFusionDescriptions(effects) {
+    const labels = [];
+    for (const {effect} of effects) {
+      const list = effect.system.translateChanges().join(" ");
+      labels.push(`<p><strong>${effect.name}.</strong> ${list}</p>`);
+    }
+    return labels;
   }
 
   /* ---------------------------------------- */
