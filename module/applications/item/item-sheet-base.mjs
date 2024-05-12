@@ -149,7 +149,9 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
 
     // Damage parts.
     if (context.sections.damage) {
-      context.damages = {parts: context.isEditMode ? src.system.damage : doc.system.damage};
+      context.damages = {
+        parts: context.isEditMode ? src.system.damage : doc.system.damage.filter(u => !!u.formula)
+      };
       context.damageTypes = Object.entries(CONFIG.SYSTEM.DAMAGE_TYPES).reduce((acc, [k, v]) => {
         acc[v.group][k] = v.label;
         return acc;
@@ -158,9 +160,11 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
 
     // Resistances.
     if (context.sections.resistances) {
-      context.resistances = Object.keys(doc.system.resistances).map(k => {
-        return makeField(`resistances.${k}.value`);
-      });
+      context.resistances = Object.keys(doc.system.resistances).reduce((acc, k) => {
+        const data = makeField(`resistances.${k}.value`);
+        if ((data.value !== "") || context.isEditMode) acc.push(data);
+        return acc;
+      }, []);
     }
 
     return context;

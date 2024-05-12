@@ -105,7 +105,7 @@ export default class EffectSheetArtichron extends ArtichronSheetMixin(foundry.ap
   /** @override */
   _prepareSubmitData(event, form, formData) {
     const data = foundry.utils.expandObject(formData.object);
-    if (data.changes) data.changes = Array.from(Object.values(data.changes || {}));
+    if (this.isEditMode) data.changes = Array.from(Object.values(data.changes || {}));
     data.statuses ??= [];
     return data;
   }
