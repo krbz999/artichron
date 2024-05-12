@@ -1,5 +1,5 @@
 <div class="indicators">
-  <img src="{{targetImage}}">
-  <img src="icons/svg/down.svg" style="transform: rotate(90deg);">
-  <img src="{{sourceImage}}">
+  <div class="target {{#if targetDisabled}}disabled{{/if}}"><img src="{{targetImage}}"></div>
+  <img class="arrow" src="icons/svg/down.svg">
+  <div class="source"><img src="{{sourceImage}}"></div>
 </div>

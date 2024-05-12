@@ -97,9 +97,3 @@
   &:has(form.edit-mode) .header-button.control.sheet-mode i::before { content: "\f4ff"; }
   &:has(form.play-mode) .header-button.control.sheet-mode i::before { content: "\f502"; }
 }
-
-.artichron.application.fusion {
-  .indicators {
-    & img { width: 100px; }
-  }
-}

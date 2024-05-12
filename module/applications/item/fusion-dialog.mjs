@@ -6,10 +6,10 @@ export default class ItemFusionDialog extends HandlebarsApplicationMixin(Applica
     classes: ["artichron", "fusion"],
     tag: "form",
     window: {
-      width: 400,
       title: "ARTICHRON.ItemFusionDialog.Title",
       icon: "fa-solid fa-volcano"
     },
+    position: {width: 400},
     form: {
       handler: this._onSubmitForm,
       submitOnChange: false,
@@ -109,8 +109,10 @@ export default class ItemFusionDialog extends HandlebarsApplicationMixin(Applica
     }
 
     // Indicators.
-    context.targetImage = this.item.actor.items.get(this._selectedTarget)?.img ?? CONFIG.Item.documentClass.DEFAULT_ICON;
+    const target = this.item.actor.items.get(this._selectedTarget);
+    context.targetImage = target?.img ?? CONFIG.Item.documentClass.DEFAULT_ICON;
     context.sourceImage = this.item.img;
+    context.targetDisabled = !target;
 
     return context;
   }
