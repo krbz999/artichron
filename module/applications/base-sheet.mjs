@@ -89,6 +89,7 @@ export const ArtichronSheetMixin = Base => {
         }
 
         effects.push({
+          effect: effect,
           uuid: effect.uuid,
           img: effect.img,
           name: effect.name,

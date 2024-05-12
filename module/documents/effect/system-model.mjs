@@ -225,7 +225,7 @@ export class EffectFusionData extends ActiveEffectSystemModel {
 
     // Regular cases
     else {
-      key = {
+      const map = {
         name: "Name",
         img: "Image",
         "system.price.value": "Price",
@@ -234,12 +234,12 @@ export class EffectFusionData extends ActiveEffectSystemModel {
         "system.range.value": "Range",
         "system.damage": "Damage"
       }[key];
-      locale = `ARTICHRON.ItemFusionChanges.${key}.${mode}`;
+      locale = `ARTICHRON.ItemFusionChanges.${map}.${mode}`;
       options = {change: value};
     }
 
     if (game.i18n.has(locale)) return game.i18n.format(locale, options);
-    throw new Error("The attempted key to translate was invalid!");
+    throw new Error(`The attempted key '${key}' is an invalid key to translate!`);
   }
 
   /**
