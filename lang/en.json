@@ -86,7 +86,9 @@
     "CreateFusion": "Create New Fusion",
     "EditItem": "Edit Item",
     "ChangeItem": "Change Item",
-    "FuseItem": "Fuse Item"
+    "FuseItem": "Fuse Item",
+    "ToggleSheet": "Toggle Sheet",
+    "ToggleOpacity": "Toggle Opacity"
   },
 
   "Pools": {
@@ -261,11 +263,6 @@
 
   "EquipDialog": {
     "Title": "Change Equipped Item"
-  },
-
-  "HeaderControl": {
-    "SheetMode": "Sheet Mode",
-    "Opacity": "Opacity"
   },
 
   "Effect": {

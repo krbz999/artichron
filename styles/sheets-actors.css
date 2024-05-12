@@ -8,8 +8,8 @@
 
     .left-pane {
       position: relative;
-      min-width: 70px;
-      width: 70px;
+      min-width: 64px;
+      width: 64px;
 
       .health {
         place-content: center;
