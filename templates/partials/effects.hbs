@@ -1,6 +1,6 @@
 <div class="{{tabs.effects.tabCssClass}}" data-group="primary" data-tab="effects">
 
-  {{#if (and isItem activeFusions.length)}}
+  {{#if (and canFuse activeFusions.length)}}
 
   <header>
     <span class="name">{{localize "ARTICHRON.Effect.ActiveFusions"}}</span>
@@ -70,7 +70,7 @@
   </div>
   {{/each}}
 
-  {{#if isItem}}
+  {{#if canFuse}}
   <header>
     <span class="name">{{localize "ARTICHRON.Effect.FusionOptions"}}</span>
     <span class="source"></span>

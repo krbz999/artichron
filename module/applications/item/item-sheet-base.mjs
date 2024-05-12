@@ -78,7 +78,7 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
       tabs: this._getTabs(),
       isEditMode: this.isEditMode,
       isPlayMode: this.isPlayMode,
-      isItem: true
+      canFuse: doc.canFuse
     };
 
     // Name and img.

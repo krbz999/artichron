@@ -179,6 +179,85 @@ export class EffectFusionData extends ActiveEffectSystemModel {
 
     return this.unfuse(options);
   }
+
+  /**
+   * Utility method for translating a change into a human-readable label.
+   * @param {object} change
+   * @param {string} change.key
+   * @param {number} change.mode
+   * @param {string} change.value
+   * @returns {string}
+   */
+  static translateChange({key, mode, value}) {
+    if (mode === CONST.ACTIVE_EFFECT_MODES.ADD) mode = "ADD";
+    else if (mode === CONST.ACTIVE_EFFECT_MODES.OVERRIDE) mode = "OVERRIDE";
+    else if (mode === CONST.ACTIVE_EFFECT_MODES.UPGRADE) mode = "OVERRIDE";
+
+    let locale;
+    let options;
+
+    // Special cases: resistances
+    if (key.startsWith("system.resistances.")) {
+      const [,, type] = key.split(".");
+      locale = `ARTICHRON.ItemFusionChanges.Resistance.${mode}`;
+      options = {change: value, type: type};
+    }
+
+    // Special case: damage
+    else if (key.startsWith("system.damage")) {
+      value = JSON.parse(`[${value}]`);
+      value = Array.isArray(value) ? value : [value];
+
+      const formatter = new Intl.ListFormat("en", {style: "long", type: "conjunction"});
+      const list = formatter.format(value.map(({formula, type}) => {
+        return `${formula} ${game.i18n.localize(CONFIG.SYSTEM.DAMAGE_TYPES[type].label)}`;
+      }));
+
+      locale = `ARTICHRON.ItemFusionChanges.Damage.${mode}`;
+      options = {change: list};
+    }
+
+    // Special case: wielding
+    else if (key.startsWith("system.wield.")) {
+      value = parseInt(value);
+      locale = `ARTICHRON.ItemFusionChanges.${value === 1 ? "Wield" : "WieldPl"}.${mode}`;
+    }
+
+    // Regular cases
+    else {
+      key = {
+        name: "Name",
+        img: "Image",
+        "system.price.value": "Price",
+        "system.weight.value": "Weight",
+        "system.armor.value": "Armor",
+        "system.range.value": "Range",
+        "system.damage": "Damage"
+      }[key];
+      locale = `ARTICHRON.ItemFusionChanges.${key}.${mode}`;
+      options = {change: value};
+    }
+
+    if (game.i18n.has(locale)) return game.i18n.format(locale, options);
+    throw new Error("The attempted key to translate was invalid!");
+  }
+
+  /**
+   * Attempt to translate the changes of this fusion into something human-readable.
+   * @returns {string[]}      Readable labels.
+   */
+  translateChanges() {
+    const labels = [];
+    for (const change of this.parent.changes) {
+      try {
+        const label = this.constructor.translateChange(change);
+        labels.push(label);
+      } catch (err) {
+        console.warn(err);
+      }
+    }
+    return labels;
+  }
 }
 
 /**
