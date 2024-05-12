@@ -179,11 +179,12 @@
     "SpendMana": "Spend {n} Mana"
   },
 
-  "FusionDialog": {
-    "FuseTitle": "Fuse '{source}' and '{target}'?",
-    "UnfuseTitle": "Split '{source}' and '{target}'?",
-    "Select": "Available Fusions",
-    "Confirm": "Confirm"
+  "ItemFusionDialog": {
+    "Title": "{source}: Fuse",
+    "TargetLabel": "Target",
+    "FusionLabel": "Fusion",
+    "Confirm": "Confirm",
+    "UnfuseTitle": "Split '{source}' and '{target}'?"
   },
 
   "SpellType": {

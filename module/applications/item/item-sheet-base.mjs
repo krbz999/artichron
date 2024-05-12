@@ -166,9 +166,9 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
     return context;
   }
 
-  /* -------------------------------------------- */
-  /*                EVENT HANDLERS                */
-  /* -------------------------------------------- */
+  /* ---------------------------------------- */
+  /*              EVENT HANDLERS              */
+  /* ---------------------------------------- */
 
   /** Append a new entry to an array within a fieldset. */
   static _onAddDamage(event, target) {

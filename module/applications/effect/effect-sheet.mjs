@@ -110,9 +110,9 @@ export default class EffectSheetArtichron extends ArtichronSheetMixin(foundry.ap
     return data;
   }
 
-  /* -------------------------------------------- */
-  /*                EVENT HANDLERS                */
-  /* -------------------------------------------- */
+  /* ---------------------------------------- */
+  /*              EVENT HANDLERS              */
+  /* ---------------------------------------- */
 
   static _onAddChange(event, target) {
     const idx = this.document.changes.length;

@@ -226,14 +226,12 @@ export default class ItemArtichron extends Item {
 
   /**
    * Pick one of the fusion options of this item, grant it to a target item, and destroy this.
-   * @param {ItemArtichron} target      The target item.
-   * @returns {Promise<ActiveEffectArtichron|null>}
+   * @param {ItemArtichron} target                      The target item.
+   * @param {ActiveEffectArtichron} fusion              The fusion template effect.
+   * @returns {Promise<ActiveEffectArtichron|null>}     The created fusion effect.
    */
-  async fuse(target) {
-    // TODO: Merge 'fuse' and 'fuseDialog' into one application that lets the user pick
-    // both a target and an effect at the same time, and recycle 'fuse' to be an API-only method
-    // that takes both a target and effect and does not prompt.
-    if (this.system.fuse) return this.system.fuse(target);
+  async fuse(target, fusion) {
+    if (this.system.fuse) return this.system.fuse(target, fusion);
     return null;
   }
 

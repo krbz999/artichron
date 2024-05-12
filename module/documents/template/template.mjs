@@ -13,7 +13,7 @@ export default class MeasuredTemplateArtichron extends MeasuredTemplate {
    */
   token = null;
 
-  /* -------------------------------------------- */
+  /* ---------------------------------------- */
 
   /**
    * Is this a preview currently locked in place?
@@ -21,7 +21,7 @@ export default class MeasuredTemplateArtichron extends MeasuredTemplate {
    */
   #locked = false;
 
-  /* -------------------------------------------- */
+  /* ---------------------------------------- */
 
   /**
    * Template configuration.
@@ -29,7 +29,7 @@ export default class MeasuredTemplateArtichron extends MeasuredTemplate {
    */
   config = null;
 
-  /* -------------------------------------------- */
+  /* ---------------------------------------- */
 
   /**
    * Template preview options.
@@ -37,7 +37,7 @@ export default class MeasuredTemplateArtichron extends MeasuredTemplate {
    */
   options = null;
 
-  /* -------------------------------------------- */
+  /* ---------------------------------------- */
 
   /**
    * Track the timestamp when the last mouse move event was captured.
@@ -45,7 +45,7 @@ export default class MeasuredTemplateArtichron extends MeasuredTemplate {
    */
   #moveTime = 0;
 
-  /* -------------------------------------------- */
+  /* ---------------------------------------- */
 
   /**
    * Track the bound event handlers so they can be properly canceled later.
@@ -53,7 +53,7 @@ export default class MeasuredTemplateArtichron extends MeasuredTemplate {
    */
   #events;
 
-  /* -------------------------------------------- */
+  /* ---------------------------------------- */
 
   static fromData(data, {lock = false} = {}) {
     // Prepare template data
@@ -117,7 +117,7 @@ export default class MeasuredTemplateArtichron extends MeasuredTemplate {
     return template;
   }
 
-  /* -------------------------------------------- */
+  /* ---------------------------------------- */
 
   drawPreview() {
     this.origin = this.token.center;
@@ -134,7 +134,7 @@ export default class MeasuredTemplateArtichron extends MeasuredTemplate {
     return this.activatePreviewListeners();
   }
 
-  /* -------------------------------------------- */
+  /* ---------------------------------------- */
 
   /**
    * Activate listeners for the template preview
@@ -159,7 +159,7 @@ export default class MeasuredTemplateArtichron extends MeasuredTemplate {
     });
   }
 
-  /* -------------------------------------------- */
+  /* ---------------------------------------- */
 
   /**
    * Shared code for when template placement ends by being confirmed or canceled.
@@ -173,7 +173,7 @@ export default class MeasuredTemplateArtichron extends MeasuredTemplate {
     canvas.app.view.onwheel = null;
   }
 
-  /* -------------------------------------------- */
+  /* ---------------------------------------- */
 
   /**
    * Move the template preview when the mouse moves.
@@ -221,7 +221,7 @@ export default class MeasuredTemplateArtichron extends MeasuredTemplate {
     this.#moveTime = now;
   }
 
-  /* -------------------------------------------- */
+  /* ---------------------------------------- */
 
   /**
    * Rotate the template preview by 3˚ increments when the mouse wheel is rotated.
@@ -231,7 +231,7 @@ export default class MeasuredTemplateArtichron extends MeasuredTemplate {
     return;
   }
 
-  /* -------------------------------------------- */
+  /* ---------------------------------------- */
 
   /**
    * Confirm placement when the left mouse button is clicked.
@@ -246,7 +246,7 @@ export default class MeasuredTemplateArtichron extends MeasuredTemplate {
     else this.#events.resolve(Cls.create(templateData, {parent: this.document.parent}));
   }
 
-  /* -------------------------------------------- */
+  /* ---------------------------------------- */
 
   /**
    * Cancel placement when the right mouse button is clicked.
@@ -258,7 +258,7 @@ export default class MeasuredTemplateArtichron extends MeasuredTemplate {
     this.#events.resolve(null);
   }
 
-  /* -------------------------------------------- */
+  /* ---------------------------------------- */
 
   /**
    * Get targets contained within this template.

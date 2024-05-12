@@ -307,9 +307,9 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
     }
   }
 
-  /* -------------------------------------------- */
-  /*                EVENT HANDLERS                */
-  /* -------------------------------------------- */
+  /* ---------------------------------------- */
+  /*              EVENT HANDLERS              */
+  /* ---------------------------------------- */
 
   static _onCreateItem(event, target) {
     getDocumentClass("Item").createDialog({

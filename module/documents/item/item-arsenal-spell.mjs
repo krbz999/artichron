@@ -120,9 +120,9 @@ export default class SpellData extends ArsenalData {
     return templates;
   }
 
-  /* -------------------------- */
-  /*         Buff Magic         */
-  /* -------------------------- */
+  /* ---------------------------------------- */
+  /*                Buff Magic                */
+  /* ---------------------------------------- */
 
   /**
    * Retrieve all buff effects that were created by this item.
@@ -170,9 +170,9 @@ export default class SpellData extends ArsenalData {
     if (effects.length === 1) return this.constructor.grantBuff(effects[0], actor);
   }
 
-  /* -------------------------- */
-  /*         Properties         */
-  /* -------------------------- */
+  /* ---------------------------------------- */
+  /*                Properties                */
+  /* ---------------------------------------- */
 
   /**
    * Does this item have any valid template or targeting types?

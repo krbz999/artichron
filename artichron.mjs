@@ -9,9 +9,9 @@ import auraInit from "./module/documents/canvas/canvas.mjs";
 import {registerSettings} from "./module/helpers/settings.mjs";
 import {registerEnrichers} from "./module/helpers/enrichers.mjs";
 
-/* -------------------------------------------- */
-/*  Define Module Structure                     */
-/* -------------------------------------------- */
+/* ---------------------------------------- */
+/*  Define Module Structure                 */
+/* ---------------------------------------- */
 
 globalThis.artichron = {
   applications: applications,
@@ -24,9 +24,9 @@ globalThis.artichron = {
   templates: documents.templates
 };
 
-/* -------------------------------------------- */
-/*  Init Hook                                   */
-/* -------------------------------------------- */
+/* ---------------------------------------- */
+/*  Init Hook                               */
+/* ---------------------------------------- */
 
 Hooks.once("init", function() {
   registerSettings();
@@ -92,9 +92,9 @@ Hooks.once("init", function() {
   documents.templates.ActiveEffectSystemModel.activateListeners();
 });
 
-/* -------------------------------------------- */
-/*  Ready Hook                                  */
-/* -------------------------------------------- */
+/* ---------------------------------------- */
+/*  Ready Hook                              */
+/* ---------------------------------------- */
 
 Hooks.once("ready", function() {
   Hooks.on("hotbarDrop", function(bar, data, slot) {
@@ -105,9 +105,9 @@ Hooks.once("ready", function() {
   });
 });
 
-/* -------------------------------------------- */
-/*  Hotbar Macros                               */
-/* -------------------------------------------- */
+/* ---------------------------------------- */
+/*  Hotbar Macros                           */
+/* ---------------------------------------- */
 
 /**
  * Create a Macro from an ActiveEffect drop.

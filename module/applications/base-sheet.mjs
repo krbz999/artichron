@@ -153,9 +153,9 @@ export const ArtichronSheetMixin = Base => {
       }
     }
 
-    /* -------------------------------------------- */
-    /*             DRAG AND DROP HANDLERS           */
-    /* -------------------------------------------- */
+    /* ---------------------------------------- */
+    /*           DRAG AND DROP HANDLERS         */
+    /* ---------------------------------------- */
 
     /**
      * Set up drag-and-drop handlers.
@@ -275,9 +275,9 @@ export const ArtichronSheetMixin = Base => {
       this.document.updateEmbeddedDocuments("Item", updates);
     }
 
-    /* -------------------------------------------- */
-    /*                EVENT HANDLERS                */
-    /* -------------------------------------------- */
+    /* ---------------------------------------- */
+    /*              EVENT HANDLERS              */
+    /* ---------------------------------------- */
 
     static _onEditImage(event, target) {
       const current = this.document.img;

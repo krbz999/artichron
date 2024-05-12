@@ -33,11 +33,11 @@ export function getTokenTargets(tokens) {
   return Array.from(map.values());
 }
 
-/* ---------------------------------- */
-/*                                    */
-/*       Item and Effect macros       */
-/*                                    */
-/* ---------------------------------- */
+/* ---------------------------------------- */
+/*                                          */
+/*          Item and Effect macros          */
+/*                                          */
+/* ---------------------------------------- */
 
 /**
  * Get actor instance from speaker.
@@ -76,11 +76,11 @@ export async function toggleEffect(name) {
   return effect.update({disabled: !effect.disabled});
 }
 
-/* ---------------------------------- */
-/*                                    */
-/*           Canvas helpers           */
-/*                                    */
-/* ---------------------------------- */
+/* ---------------------------------------- */
+/*                                          */
+/*              Canvas helpers              */
+/*                                          */
+/* ---------------------------------------- */
 
 /**
  * Get the centers of all grid spaces that overlap with a token document.
