@@ -50,10 +50,13 @@
 
     <a class="wrapper" data-action="toggleEffect" style="opacity: {{ifThen disabled 0.25 1}}">
       <img class="image" src="{{img}}" alt="{{name}}">
-      <label class="name">{{name}}</label>
+      <label class="name stacked">
+        <span class="title">{{name}}</span>
+        {{#if parentName}}<span class="subtitle">{{parentName}}</span>{{/if}}
+      </label>
     </a>
 
-    {{#if transfer}} <i class="fa-solid fa-user" data-tooltip="ARTICHRON.Effect.ActiveBuff"></i> {{/if}}
+    {{#if transfer}} <i class="fa-solid fa-briefcase" data-tooltip="ARTICHRON.Effect.TransferredBuff"></i> {{/if}}
 
     <div class="properties source">
       <div class="property">
