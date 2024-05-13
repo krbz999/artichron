@@ -83,24 +83,42 @@ export async function toggleEffect(name) {
 /* ---------------------------------------- */
 
 /**
- * Get the centers of all grid spaces that overlap with a token document.
- * @param {TokenDocumentArtichron} tokenDoc     The token document on the scene.
- * @returns {object[]}                          An array of xy coordinates.
+ * Find the minimum distance between two tokens on the viewed scene.
+ * @param {TokenArtichron} token      The token on the scene.
+ * @returns {Point[]}                 An array of x-y coordinates.
  */
-export function getOccupiedGridSpaces(tokenDoc) {
-  const {width, height, x, y} = tokenDoc;
-  const grid = tokenDoc.parent.grid.size;
-  const halfGrid = grid / 2;
-
-  if ((width <= 1) && (height <= 1)) return [{x: x + halfGrid, y: y + halfGrid}];
-
-  const centers = [];
-  for (let a = 0; a < width; a++) {
-    for (let b = 0; b < height; b++) {
-      centers.push({x: x + a * grid + halfGrid, y: y + b * grid + halfGrid});
+export function getOccupiedGridSpaces(token) {
+  const points = [];
+  const shape = token.shape;
+  const [i, j, i1, j1] = canvas.grid.getOffsetRange(token.bounds);
+  const delta = (canvas.grid.type === CONST.GRID_TYPES.GRIDLESS) ? canvas.dimensions.size : 1;
+  const offset = (canvas.grid.type === CONST.GRID_TYPES.GRIDLESS) ? canvas.dimensions.size / 2 : 0;
+  for (let x = i; x < i1; x += delta) {
+    for (let y = j; y < j1; y += delta) {
+      const point = canvas.grid.getCenterPoint({i: x + offset, j: y + offset});
+      if (shape.contains(point.x - token.document.x, point.y - token.document.y)) points.push(point);
     }
   }
-  return centers;
+  return points;
+}
+
+/**
+ * Get the minimum distance between two tokens.
+ * @param {TokenArtichron} A
+ * @param {TokenArtichron} B
+ * @returns {number}
+ */
+export function getMinimumDistanceBetweenTokens(A, B) {
+  A = getOccupiedGridSpaces(A);
+  B = getOccupiedGridSpaces(B);
+  let min = Infinity;
+  for (const p of A) {
+    for (const q of B) {
+      const d = canvas.grid.measurePath([p, q]);
+      if (d.distance < min) min = d.distance;
+    }
+  }
+  return min;
 }
 
 /**
@@ -291,7 +309,8 @@ export async function awaitTargets(count, {origin, range, allowPreTarget = false
   };
 
   const isValidTokenTarget = (t) => {
-    return !useRange || findTokensCircle(origin, range).includes(t);
+    if (!useRange) return true;
+    return getMinimumDistanceBetweenTokens(origin, t) <= range;
   };
 
   // Set initial targets.
@@ -313,9 +332,18 @@ export async function awaitTargets(count, {origin, range, allowPreTarget = false
 
     let c;
     if (useRange) {
+      const radius = range + canvas.grid.distance * (origin.document.width * .5);
+      const points = canvas.grid.getCircle({x: 0, y: 0}, radius).reduce((acc, p) => acc.concat(Object.values(p)), []);
+      // const shape = CONFIG.Canvas.polygonBackends.move.create(center, {
+      //   type: "move",
+      //   boundaryShapes: [new PIXI.Polygon(points)],
+      //   debug: false
+      // });
+
       c = new PIXI.Graphics();
-      const r = canvas.dimensions.distancePixels * range + origin.w / 2;
-      c.lineStyle(3, 0x000000, 1).drawCircle(origin.w / 2, origin.h / 2, r);
+      c.lineStyle({width: 4, color: 0x000000, alpha: 1});
+      c.drawShape(new PIXI.Polygon(points));
+      c.pivot.set(-origin.w / 2, -origin.h / 2);
       origin.addChild(c);
     }
 
