@@ -140,6 +140,21 @@
 
       .properties { flex: var(--artichron-item-properties-flex); text-align: center; }
     }
+
+    .effect label.name.stacked {
+      display: flex;
+      flex-direction: column;
+
+      .title {
+        padding-left: 3px;
+      }
+
+      .subtitle {
+        color: var(--artichron-color-gold);
+        font-size: 10px;
+        padding-left: 6px;
+      }
+    }
   }
 
   [data-tab=inventory] {

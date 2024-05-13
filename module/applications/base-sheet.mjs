@@ -89,6 +89,9 @@ export const ArtichronSheetMixin = Base => {
           sourceItem = effect.system.itemData?.name ?? "";
         }
 
+        const isItem = effect.parent instanceof Item;
+        const transfer = isItem && effect.transfer;
+
         effects.push({
           effect: effect,
           uuid: effect.uuid,
@@ -97,7 +100,8 @@ export const ArtichronSheetMixin = Base => {
           sourceItem: sourceItem,
           sourceActor: sourceActor,
           disabled: effect.disabled,
-          transfer: effect.transfer,
+          transfer: transfer,
+          parentName: transfer && (this.document instanceof Actor) ? effect.parent.name : null,
 
           isActiveFusion: effect.isActiveFusion,
           isFusionOption: effect.transferrableFusion
