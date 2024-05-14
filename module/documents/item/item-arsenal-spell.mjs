@@ -31,6 +31,7 @@ export default class SpellData extends ArsenalData {
   async use() {
     if (this._targeting) return null; // Prevent initiating targeting twice.
     const isDamage = this.category.subtype === "offense";
+    const isBuff = this.category.subtype === "buff";
     const item = this.parent;
     const actor = item.actor;
 
@@ -49,22 +50,31 @@ export default class SpellData extends ArsenalData {
       return null;
     }
 
-    const configuration = await SpellcastingDialog.create({actor, item, damage: isDamage});
+    const configuration = await SpellcastingDialog.create({actor, item, damage: isDamage, isBuff: isBuff});
     if (!configuration) return null;
 
     const data = SpellcastingDialog.determineTemplateData(configuration);
 
-    let targets = new Set();
+    const targets = new Set();
 
     this._targeting = true;
     if (data.type !== "single") {
       // Case 1: Area of effect.
       const templates = await this.placeTemplates(data);
       await Promise.all(templates.map(template => template.waitForShape()));
-      templates.forEach(template => template.object.containedTokens.forEach(tok => targets.add(tok)));
+      for (const template of templates) {
+        for (const token of template.object.containedTokens) {
+          const actor = token.actor;
+          if (actor) targets.add(actor);
+        }
+      }
     } else {
       // Case 2: Singular targets.
-      targets = await this.pickTarget({count: data.count, range: data.range});
+      const tokens = await this.pickTarget({count: data.count, range: data.range});
+      for (const token of tokens) {
+        const actor = token.actor;
+        if (actor) targets.add(actor);
+      }
     }
     delete this._targeting;
 
@@ -75,8 +85,8 @@ export default class SpellData extends ArsenalData {
       const part = item.system.damage[configuration.part];
       return new DamageRoll(configuration.formula, item.getRollData(), {type: part.type}).toMessage({
         speaker: ChatMessage.implementation.getSpeaker({actor: actor}),
-        "flags.artichron.targets": Array.from(targets).map(target => target.uuid),
-        "flags.artichron.templateData": (data.type !== "single") ? {
+        "flags.artichron.use.targetUuids": Array.from(targets).map(target => target.uuid),
+        "flags.artichron.use.templateData": (data.type !== "single") ? {
           ...data,
           formula: configuration.formula,
           damageType: part.type
@@ -87,13 +97,20 @@ export default class SpellData extends ArsenalData {
       });
     } else {
       // Buff or Defensive magic
-      return DamageRoll.toMessage([], {
-        speaker: ChatMessage.implementation.getSpeaker({actor: actor}),
-        "flags.artichron.targets": Array.from(targets).map(target => target.uuid),
-        "flags.artichron.templateData": (data.type !== "single") ? {...data} : null,
+      const speaker = ChatMessage.implementation.getSpeaker({actor: actor});
+      const templateData = (data.type !== "single") ? {...data} : null;
+      const effectId = configuration.effectId;
+      const effect = this.parent.effects.get(effectId);
+      return ChatMessage.implementation.create({
+        "flags.artichron.use.targetUuids": Array.from(targets).map(target => target.uuid),
+        "flags.artichron.use.templateData": templateData,
+        "flags.artichron.use.effectUuid": effect.uuid,
         "system.actor": actor.uuid,
-        "system.item": item.uuid
-        //type: "effect"
+        "system.item": item.uuid,
+        speaker: speaker,
+        content: await renderTemplate("systems/artichron/templates/chat/damage-roll.hbs", {
+          templateData, effectId, targets
+        })
       });
     }
   }

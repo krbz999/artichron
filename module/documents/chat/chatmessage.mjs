@@ -2,7 +2,7 @@ import MeasuredTemplateArtichron from "../template/template.mjs";
 
 export default class ChatMessageArtichron extends ChatMessage {
   async createMeasuredTemplate(count = 1) {
-    const {templateData} = this.flags.artichron ?? {};
+    const templateData = this.flags.artichron?.use?.templateData;
     const {item, actor} = this;
     const token = item?.token;
     if (!token || !item?.isOwner || !actor?.isOwner || !templateData) return null;
@@ -24,10 +24,10 @@ export default class ChatMessageArtichron extends ChatMessage {
     if (tokens.length) {
       for (const token of tokens) if (token.actor) actors.add(token.actor);
     } else {
-      actors = this.flags.artichron.targets.map(uuid => fromUuidSync(uuid)?.actor);
-      actors = actors.filter(actor => actor?.isOwner);
+      actors = this.flags.artichron.use.targetUuids.map(uuid => fromUuidSync(uuid));
+      actors = new Set(actors.filter(actor => actor?.isOwner));
     }
-    actors.forEach(actor => actor.applyDamage(this.flags.artichron.totals));
+    for (const actor of actors) actor.applyDamage(this.flags.artichron.use.totals);
   }
 
   get item() {
