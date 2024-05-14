@@ -118,6 +118,11 @@ export default class EffectSheetArtichron extends ArtichronSheetMixin(foundry.ap
   /*              EVENT HANDLERS              */
   /* ---------------------------------------- */
 
+  /**
+   * Handle click events to add a new Change to this effect.
+   * @param {Event} event             The initiating click event.
+   * @param {HTMLElement} target      The current target of the event listener.
+   */
   static _onAddChange(event, target) {
     const idx = this.document.changes.length;
     const change = {
@@ -131,13 +136,18 @@ export default class EffectSheetArtichron extends ArtichronSheetMixin(foundry.ap
     this.document.update(formData);
   }
 
+  /**
+   * Handle click events to remove a Change from this effect.
+   * @param {Event} event             The initiating click event.
+   * @param {HTMLElement} target      The current target of the event listener.
+   */
   static _onDeleteChange(event, target) {
     target.closest(".form-group").remove();
     this._onSubmitForm({...this.options.form, closeOnSubmit: false}, event);
   }
 
   async _renderInner(...args) {
-    // TODO
+    // TODO: redo the sheet to have dropdowns, not inputs.
     const jq = await super._renderInner(...args);
     const html = jq[0];
     if (this.document.type !== "fusion") return jq;

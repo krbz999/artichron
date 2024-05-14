@@ -22,6 +22,7 @@ export default class ShieldData extends ArsenalData {
     ]));
   }
 
+  /** @override */
   async use() {
     if (!this.hasDamage) {
       ui.notifications.warn("ARTICHRON.Warning.ItemHasNoDamageRolls", {localize: true});

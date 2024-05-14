@@ -46,6 +46,7 @@ export default class ElixirData extends ItemSystemModel {
     this.usage.max = artichron.utils.simplifyBonus(this.usage.max, rollData);
   }
 
+  /** @override */
   async use() {
     const config = {
       effect: this.hasEffects,

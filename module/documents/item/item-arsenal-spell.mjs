@@ -28,6 +28,7 @@ export default class SpellData extends ArsenalData {
     ]));
   }
 
+  /** @override */
   async use() {
     if (this._targeting) return null; // Prevent initiating targeting twice.
     const isDamage = this.category.subtype === "offense";
@@ -158,38 +159,6 @@ export default class SpellData extends ArsenalData {
       if (buff) acc.add(buff);
       return acc;
     }, new Set());
-  }
-
-  /**
-   * Grant a buff to an actor.
-   * @param {ActiveEffectArtichron} effect
-   * @param {ActorArtichron} actor
-   * @returns {Promise<ActiveEffectArtichron>}
-   */
-  static async grantBuff(effect, actor) {
-    if (!actor.testUserPermission(game.user, "OWNER")) {
-      throw new Error("You must be owner of the actor to grant it a buff!");
-    }
-
-    if (!(effect.type === "buff")) {
-      throw new Error("The buff being granted is of the wrong type!");
-    }
-
-    if (!(effect.parent instanceof ItemArtichron)) {
-      throw new Error("Buffs can only be granted by items!");
-    }
-
-    const effectData = foundry.utils.mergeObject(effect.toObject(), {
-      "system.source": effect.parent.uuid,
-      disabled: false
-    });
-
-    return ActiveEffectArtichron.create(effectData, {parent: actor});
-  }
-
-  async grantBuff() {
-    const effects = this.parent.effects.filter(u => (u.type === "buff") && !u.transfer);
-    if (effects.length === 1) return this.constructor.grantBuff(effects[0], actor);
   }
 
   /* ---------------------------------------- */
