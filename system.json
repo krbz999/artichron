@@ -1,11 +1,11 @@
 {
   "id": "artichron",
   "title": "Artichron",
-  "description": "Artifice Chronicles System",
+  "description": "Implementation of the Artifice Chronicles system.",
   "version": "1.0.0",
   "compatibility": {
-    "minimum": 11,
-    "verified": 11,
+    "minimum": 12,
+    "verified": 12,
     "maximum": 12
   },
   "authors": [
