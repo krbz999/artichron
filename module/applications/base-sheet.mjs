@@ -14,6 +14,10 @@ export const ArtichronSheetMixin = Base => {
   const mixin = foundry.applications.api.HandlebarsApplicationMixin;
   return class DocumentSheetArtichron extends mixin(Base) {
 
+    /**
+     * Different sheet modes.
+     * @enum {number}
+     */
     static SHEET_MODES = {EDIT: 0, PLAY: 1};
 
     /** @override */
@@ -36,9 +40,18 @@ export const ArtichronSheetMixin = Base => {
      */
     _sheetMode = this.constructor.SHEET_MODES.PLAY;
 
+    /**
+     * Is the sheet currently in 'Play' mode?
+     * @type {boolean}
+     */
     get isPlayMode() {
       return this._sheetMode === this.constructor.SHEET_MODES.PLAY;
     }
+
+    /**
+     * Is the sheet currently in 'Edit' mode?
+     * @type {boolean}
+     */
     get isEditMode() {
       return this._sheetMode === this.constructor.SHEET_MODES.EDIT;
     }
@@ -171,16 +184,18 @@ export const ArtichronSheetMixin = Base => {
     }
 
     /**
-     * Can the user drag this?
-     * @param {string} selector
+     * Can the user start a drag event?
+     * @param {string} selector     The selector used to initiate the drag event.
+     * @returns {boolean}
      */
     _canDragStart(selector) {
       return true;
     }
 
     /**
-     * Can the user drop here?
-     * @param {string} selector
+     * Can the user perform a drop event?
+     * @param {string} selector     The selector used to initiate the drop event.
+     * @returns {boolean}
      */
     _canDragDrop(selector) {
       return this.document.isOwner;
@@ -273,6 +288,11 @@ export const ArtichronSheetMixin = Base => {
     /*              EVENT HANDLERS              */
     /* ---------------------------------------- */
 
+    /**
+     * Handle editing the document's image.
+     * @param {Event} event             The initiating click event.
+     * @param {HTMLElement} target      The current target of the event listener.
+     */
     static _onEditImage(event, target) {
       const current = this.document.img;
       const fp = new FilePicker({
@@ -282,35 +302,70 @@ export const ArtichronSheetMixin = Base => {
         top: this.position.top + 40,
         left: this.position.left + 10
       });
-      return fp.browse();
+      fp.browse();
     }
+
+    /**
+     * Handle toggling the Opacity lock of the sheet.
+     * @param {Event} event             The initiating click event.
+     * @param {HTMLElement} target      The current target of the event listener.
+     */
     static _ontoggleOpacity(event, target) {
       target.closest(".application").classList.toggle("opacity");
     }
+
+    /**
+     * Handle toggling between Edit and Play mode.
+     * @param {Event} event             The initiating click event.
+     * @param {HTMLElement} target      The current target of the event listener.
+     */
     static _onToggleSheet(event, target) {
       const modes = this.constructor.SHEET_MODES;
       this._sheetMode = this.isEditMode ? modes.PLAY : modes.EDIT;
       this.render();
     }
 
-    /** ActiveEffect event handlers. */
+    /**
+     * Handle toggling an active effect on or off.
+     * @param {Event} event             The initiating click event.
+     * @param {HTMLElement} target      The current target of the event listener.
+     */
     static async _onToggleEffect(event, target) {
       const uuid = target.closest("[data-item-uuid]").dataset.itemUuid;
       const effect = await fromUuid(uuid);
       effect.update({disabled: !effect.disabled});
     }
+
+    /**
+     * Handle click events to render an effect's sheet.
+     * @param {Event} event             The initiating click event.
+     * @param {HTMLElement} target      The current target of the event listener.
+     */
     static async _onEditEffect(event, target) {
       const uuid = target.closest("[data-item-uuid]").dataset.itemUuid;
       const effect = await fromUuid(uuid);
       effect.sheet.render(true);
     }
+
+    /**
+     * Handle click events to delete an effect.
+     * @param {Event} event             The initiating click event.
+     * @param {HTMLElement} target      The current target of the event listener.
+     */
     static async _onDeleteEffect(event, target) {
       const uuid = target.closest("[data-item-uuid]").dataset.itemUuid;
       const effect = await fromUuid(uuid);
       effect.deleteDialog();
     }
+
+    /**
+     * Handle click events to create an effect.
+     * @param {Event} event             The initiating click event.
+     * @param {HTMLElement} target      The current target of the event listener.
+     */
     static _onCreateEffect(event, target) {
       const type = target.dataset.type;
+      // TODO: issue 10870, only allow for buffs and/or fusions, depending.
       getDocumentClass("ActiveEffect").createDialog({
         type: type, img: "icons/svg/sun.svg"
       }, {parent: this.document});

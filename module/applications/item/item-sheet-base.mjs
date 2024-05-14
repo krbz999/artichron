@@ -174,23 +174,43 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
   /*              EVENT HANDLERS              */
   /* ---------------------------------------- */
 
-  /** Append a new entry to an array within a fieldset. */
+  /**
+   * Handle click events to add a new damage formula.
+   * @param {Event} event             The initiating click event.
+   * @param {HTMLElement} target      The current target of the event listener.
+   */
   static _onAddDamage(event, target) {
     const type = (this.document.type === "spell") ? "fire" : "physical";
     const parts = this.document.system.toObject().damage.concat([{formula: "", type: type}]);
     this.document.update({"system.damage": parts});
   }
 
-  /** Remove an entry from an array within a fieldset. */
+  /**
+   * Handle click events to remove a particular damage formula.
+   * @param {Event} event             The initiating click event.
+   * @param {HTMLElement} target      The current target of the event listener.
+   */
   static _onDeleteDamage(event, target) {
     const idx = parseInt(target.dataset.idx);
     const parts = this.document.system.toObject().damage;
     parts.splice(idx, 1);
     this.document.update({"system.damage": parts});
   }
+
+  /**
+   * Handle click events to toggle an item's Favorited state.
+   * @param {Event} event             The initiating click event.
+   * @param {HTMLElement} target      The current target of the event listener.
+   */
   static _onFavoriteItem(event, target) {
     this.document.favorite().then(() => this.render());
   }
+
+  /**
+   * Handle click events to unfuse this item.
+   * @param {Event} event             The initiating click event.
+   * @param {HTMLElement} target      The current target of the event listener.
+   */
   static async _onUndoFusion(event, target) {
     const effect = await fromUuid(target.closest("[data-item-uuid]").dataset.itemUuid);
     effect.unfuseDialog();
