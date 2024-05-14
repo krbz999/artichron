@@ -32,15 +32,6 @@
   transition: background-color 0.25s, border-color 0.25s;
 }
 
-.chat-message.message {
-  background: none;
-  color: var(--artichron-color-white);
-
-  .message-header {
-    color: inherit;
-  }
-}
-
 /* ---------------------------------------- */
 /*              UI components               */
 /* ---------------------------------------- */
