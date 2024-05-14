@@ -91,6 +91,14 @@ export default class ItemArtichron extends Item {
     return this.system.hasUses ?? false;
   }
 
+  /**
+   * Does this item have any valid damage formulas?
+   * @type {boolean}
+   */
+  get hasDamage() {
+    return this.system.hasDamage ?? false;
+  }
+
   /* ---------------------------------------- */
   /*                                          */
   /*            PREPARATION METHODS           */

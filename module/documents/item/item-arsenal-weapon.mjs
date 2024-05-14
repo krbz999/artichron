@@ -3,6 +3,11 @@ import {DamageRoll} from "../../dice/damage-roll.mjs";
 
 export default class WeaponData extends ArsenalData {
   async use() {
+    if (!this.hasDamage) {
+      ui.notifications.warn("ARTICHRON.Warning.ItemHasNoDamageRolls", {localize: true});
+      return null;
+    }
+
     if (this._targeting) return null; // Prevent initiating targeting twice.
     const item = this.parent;
     const actor = item.actor;
@@ -19,6 +24,8 @@ export default class WeaponData extends ArsenalData {
 
     const rollData = item.getRollData();
     const rolls = Object.entries(item.system.damage.reduce((acc, d) => {
+      const isValid = d.formula && (d.type in CONFIG.SYSTEM.DAMAGE_TYPES) && Roll.validate(d.formula);
+      if (!isValid) return acc;
       acc[d.type] ??= [];
       acc[d.type].push(d.formula);
       return acc;

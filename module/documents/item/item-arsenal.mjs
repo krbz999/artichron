@@ -63,6 +63,16 @@ export default class ArsenalData extends FusionTemplateMixin(ItemSystemModel) {
   }
 
   /**
+   * Does this item have any valid damage formulas?
+   * @type {boolean}
+   */
+  get hasDamage() {
+    return this.damage.some(({formula, type}) => {
+      return formula && (type in CONFIG.SYSTEM.DAMAGE_TYPES) && Roll.validate(formula);
+    });
+  }
+
+  /**
    * Pick targets within range of this item.
    * @param {object} [options]                        Additional options.
    * @returns {Promise<TokenDocumentArtichron[]>}     The token documents of those targeted.
