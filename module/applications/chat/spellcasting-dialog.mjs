@@ -81,6 +81,14 @@ export default class SpellcastingDialog extends HandlebarsApplicationMixin(Appli
     return !!this.options.damage;
   }
 
+  /**
+   * Is this spell configuration for a buff spell?
+   * @type {boolean}
+   */
+  get isBuff() {
+    return !!this.options.isBuff;
+  }
+
   /** @override */
   async close(...args) {
     this.resolve?.(null);
@@ -109,8 +117,21 @@ export default class SpellcastingDialog extends HandlebarsApplicationMixin(Appli
       label: this._getLabel(),
       noscales: !scales.size,
       cost: this.cost,
-      isDamage: this.isDamage
+      isDamage: this.isDamage,
+
+      isBuff: this.isBuff,
+      buffOptions: this.isBuff ? this._getBuffOptions() : {}
     };
+  }
+
+  _getBuffOptions() {
+    const effects = {};
+    for (const effect of this.item.effects) {
+      if ((effect.type === "buff") && !effect.system.isGranted && !effect.transfer) {
+        effects[effect.id] = effect.name;
+      }
+    }
+    return effects;
   }
 
   /**
@@ -218,9 +239,11 @@ export default class SpellcastingDialog extends HandlebarsApplicationMixin(Appli
           }),
           part: new NumberField({...options, initial: 0}),
           shape: new StringField({required: true, initial: types.first()}),
-          mana: new BooleanField({initial: true})
+          mana: new BooleanField({initial: true}),
+          effectId: new StringField({required: true})
         };
         if (!app.isDamage) delete schema.scale.damage;
+        if (!app.isBuff) delete schema.effectId;
         return schema;
       }
     })();

@@ -1,6 +1,7 @@
 <div class="standard-form">
 
   <!-- Damage type -->
+  {{#if isDamage}}
   <div class="form-group">
     <label>{{localize "ARTICHRON.SpellcastingDialog.DamageType"}}</label>
     <div class="form-fields">
@@ -12,6 +13,7 @@
       </select>
     </div>
   </div>
+  {{/if}}
 
   <!-- Shape or type -->
   <div class="form-group">
@@ -74,6 +76,17 @@
     <div class="form-fields">
       <select name="scale.range">
         {{selectOptions rangeOptions selected=model.scale.range blank="" sort=false}}
+      </select>
+    </div>
+  </div>
+  {{/if}}
+
+  {{#if isBuff}}
+  <div class="form-group">
+    <label>{{localize "ARTICHRON.SpellcastingDialog.Buff"}}</label>
+    <div class="form-fields">
+      <select name="effectId">
+        {{selectOptions buffOptions selected=model.effectId blank="" sort=true}}
       </select>
     </div>
   </div>

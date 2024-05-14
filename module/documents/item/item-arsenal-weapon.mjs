@@ -35,7 +35,7 @@ export default class WeaponData extends ArsenalData {
 
     return DamageRoll.toMessage(rolls, {
       speaker: ChatMessage.implementation.getSpeaker({actor: actor}),
-      "flags.artichron.targets": [target.uuid],
+      "flags.artichron.use.targetUuids": [target.actor.uuid],
       "system.actor": actor.uuid,
       "system.item": item.uuid,
       type: "damage"

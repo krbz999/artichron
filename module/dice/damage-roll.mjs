@@ -1,5 +1,3 @@
-import {SYSTEM} from "../helpers/config.mjs";
-
 export class DamageRoll extends Roll {
   constructor(formula, data = {}, options = {}) {
     const type = options.type;
@@ -33,7 +31,7 @@ export class DamageRoll extends Roll {
     }, {});
 
     messageData = foundry.utils.mergeObject({
-      "flags.artichron.totals": totals,
+      "flags.artichron.use.totals": totals,
       rolls: rolls,
       sound: "sounds/dice.wav",
       rollMode: game.settings.get("core", "rollMode"),
@@ -53,21 +51,21 @@ export class DamageRoll extends Roll {
   }
 
   static async _renderTemplateMethod(messageData) {
-    const {targets, templateData} = messageData.flags.artichron ?? {};
+    const {targetUuids, templateData} = messageData.flags.artichron.use ?? {};
     const rolls = messageData.rolls;
-    const tokens = targets?.map(uuid => fromUuidSync(uuid));
+    const actors = targetUuids?.map(uuid => fromUuidSync(uuid));
 
     const promises = rolls.map(async (roll) => {
       return {
         formula: roll.formula,
         tooltip: await roll.getTooltip(),
-        config: SYSTEM.DAMAGE_TYPES[roll.options.type],
+        config: CONFIG.SYSTEM.DAMAGE_TYPES[roll.options.type],
         total: roll.total
       };
     });
 
     return renderTemplate("systems/artichron/templates/chat/damage-roll.hbs", {
-      targets: tokens,
+      targets: actors,
       templateData: templateData,
       rolls: await Promise.all(promises)
     });

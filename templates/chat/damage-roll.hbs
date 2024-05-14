@@ -12,24 +12,31 @@
   </div>
   {{/each}}
 
-  <button type="button" class="gold-button" data-action="apply-damage">
+  <button type="button" class="gold-button" data-action="applyDamage">
     <i class="fa-solid fa-burst"></i>
     {{localize "ARTICHRON.ApplyDamage"}}
   </button>
   {{/if}}
 
   {{#if templateData}}
-  <button type="button" class="gold-button" data-action="template">
+  <button type="button" class="gold-button" data-action="placeTemplate">
     <i class="fa-solid fa-ruler-combined"></i>
     {{localize "ARTICHRON.PlaceTemplate"}}
+  </button>
+  {{/if}}
+
+  {{#if effectId}}
+  <button type="button" class="gold-button" data-action="grantBuff">
+    <i class="fa-solid fa-bolt"></i>
+    {{localize "TODO"}}
   </button>
   {{/if}}
 
   {{#if targets}}
   <div class="targets">
     {{#each targets}}
-    <div class="target" data-token-uuid="{{uuid}}">
-      <img src="{{texture.src}}" alt="">
+    <div class="target" data-actor-uuid="{{uuid}}">
+      <img src="{{img}}" alt="">
       <span class="name">{{name}}</span>
     </div>
     {{/each}}

@@ -274,6 +274,10 @@ export class EffectBuffData extends ActiveEffectSystemModel {
     };
   }
 
+  get isGranted() {
+    return !!this.source && this.granted;
+  }
+
   /** @override */
   getRollData() {
     if (!this.source) return {};
