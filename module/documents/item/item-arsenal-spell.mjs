@@ -34,6 +34,11 @@ export default class SpellData extends ArsenalData {
     const item = this.parent;
     const actor = item.actor;
 
+    if (isDamage && !this.hasDamage) {
+      ui.notifications.warn("ARTICHRON.Warning.ItemHasNoDamageRolls", {localize: true});
+      return null;
+    }
+
     if (!item.isEquipped) {
       ui.notifications.warn("ARTICHRON.Warning.ItemIsNotEquipped", {localize: true});
       return null;
