@@ -1,5 +1,6 @@
 import MeasuredTemplateArtichron from "../documents/template/template.mjs";
 export {default as simplifyRollFormula} from "./simplify-formula.mjs";
+export {default as sockets} from "./sockets.mjs";
 
 /**
  * Convert a bonus value to a number.
@@ -83,7 +84,7 @@ export async function toggleEffect(name) {
 /* ---------------------------------------- */
 
 /**
- * Find the minimum distance between two tokens on the viewed scene.
+ * Find all occupied grid spaces of a token.
  * @param {TokenArtichron} token      The token on the scene.
  * @returns {Point[]}                 An array of x-y coordinates.
  */
