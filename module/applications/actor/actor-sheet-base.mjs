@@ -314,31 +314,66 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
   /*              EVENT HANDLERS              */
   /* ---------------------------------------- */
 
+  /**
+   * Handle click events to create an item.
+   * @param {Event} event             The initiating click event.
+   * @param {HTMLElement} target      The current target of the event listener.
+   */
   static _onCreateItem(event, target) {
+    // TODO: issue 10870, only allow for choice between subset of item types, depending.
     getDocumentClass("Item").createDialog({
       img: "icons/svg/chest.svg"
     }, {parent: this.document});
   }
+
+  /**
+   * Handle click events to use an item.
+   * @param {Event} event             The initiating click event.
+   * @param {HTMLElement} target      The current target of the event listener.
+   */
   static async _onUseItem(event, target) {
     const uuid = target.closest("[data-item-uuid]").dataset.itemUuid;
     const item = await fromUuid(uuid);
     item.use();
   }
+
+  /**
+   * Handle click events to render an item's sheet.
+   * @param {Event} event             The initiating click event.
+   * @param {HTMLElement} target      The current target of the event listener.
+   */
   static async _onEditItem(event, target) {
     const uuid = target.closest("[data-item-uuid]").dataset.itemUuid;
     const item = await fromUuid(uuid);
     item.sheet.render(true);
   }
+
+  /**
+   * Handle click events to delete an item.
+   * @param {Event} event             The initiating click event.
+   * @param {HTMLElement} target      The current target of the event listener.
+   */
   static async _onDeleteItem(event, target) {
     const uuid = target.closest("[data-item-uuid]").dataset.itemUuid;
     const item = await fromUuid(uuid);
     item.deleteDialog();
   }
+
+  /**
+   * Handle click events to toggle an item's Favorited state.
+   * @param {Event} event             The initiating click event.
+   * @param {HTMLElement} target      The current target of the event listener.
+   */
   static async _onFavoriteItem(event, target) {
     const uuid = target.closest("[data-item-uuid]").dataset.itemUuid;
     const item = await fromUuid(uuid);
     item.favorite();
   }
+
+  /**
+   * Handle the change events on input fields that should propagate to the embedded document.
+   * @param {Event} event             The initiating change event.
+   */
   async _onUpdateEmbedded(event) {
     const target = event.currentTarget;
     const property = target.dataset.property;
@@ -347,9 +382,21 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
     const result = artichron.utils.parseInputDelta(target, item);
     if (result !== undefined) item.update({[property]: result});
   }
+
+  /**
+   * Handle click events to roll a skill.
+   * @param {Event} event             The initiating click event.
+   * @param {HTMLElement} target      The current target of the event listener.
+   */
   static _onRollSkill(event, target) {
     this.document.rollSkill(target.dataset.skill);
   }
+
+  /**
+   * Handle click events to render a configuration menu.
+   * @param {Event} event             The initiating click event.
+   * @param {HTMLElement} target      The current target of the event listener.
+   */
   static _onToggleConfig(event, target) {
     let Cls;
     switch (target.dataset.trait) {
@@ -358,19 +405,41 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
     }
     new Cls({document: this.document}).render(true);
   }
+
+  /**
+   * Handle click events to restore the actor's hit points and other resources.
+   * @param {Event} event             The initiating click event.
+   * @param {HTMLElement} target      The current target of the event listener.
+   */
   static _onRecoverHealth(event, target) {
     this.document.recover();
   }
+
+  /**
+   * Handle click events to roll one of the pools.
+   * @param {Event} event             The initiating click event.
+   * @param {HTMLElement} target      The current target of the event listener.
+   */
   static _onRollPool(event, target) {
     this.document.rollPool(target.dataset.pool, {event});
   }
+
+  /**
+   * Handle click events to fuse one item onto another.
+   * @param {Event} event             The initiating click event.
+   * @param {HTMLElement} target      The current target of the event listener.
+   */
   static async _onFuseItem(event, target) {
     const uuid = target.closest("[data-item-uuid]").dataset.itemUuid;
     const item = await fromUuid(uuid);
     item.fuseDialog();
   }
 
-  /** Handle changing the equipped item in a particular slot. */
+  /**
+   * Handle click events to change an equipped item in a particular slot.
+   * @param {Event} event             The initiating click event.
+   * @param {HTMLElement} target      The current target of the event listener.
+   */
   static async _onChangeEquipped(event, target) {
     const slot = target.closest("[data-equipment-slot]").dataset.equipmentSlot;
 
