@@ -74,7 +74,8 @@ export default class EffectSheetArtichron extends ArtichronSheetMixin(foundry.ap
       changeModes: Object.entries(CONST.ACTIVE_EFFECT_MODES).reduce((obj, e) => {
         obj[e[1]] = game.i18n.localize(`EFFECT.MODE_${e[0]}`);
         return obj;
-      }, {})
+      }, {}),
+      hasSchema: !!doc.system.schema
     };
 
     if (!context.isFusion && (this.document.parent instanceof Item)) {
@@ -92,12 +93,15 @@ export default class EffectSheetArtichron extends ArtichronSheetMixin(foundry.ap
         field: doc.schema.getField("duration.combat"),
         value: doc.duration.combat,
         disabled: true
-      },
-      type: {
-        field: doc.system.schema.getField("duration.type"),
-        value: doc.system.duration.type
       }
     };
+
+    if (context.hasSchema) {
+      context.fields.duration.type = {
+        field: doc.system.schema.getField("duration.type"),
+        value: doc.system.duration.type
+      };
+    }
 
     return context;
   }
@@ -106,7 +110,7 @@ export default class EffectSheetArtichron extends ArtichronSheetMixin(foundry.ap
   _prepareSubmitData(event, form, formData) {
     const data = foundry.utils.expandObject(formData.object);
     if (this.isEditMode) data.changes = Array.from(Object.values(data.changes || {}));
-    data.statuses ??= [];
+    // data.statuses ??= [];
     return data;
   }
 

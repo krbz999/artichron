@@ -8,6 +8,7 @@ import * as utils from "./module/helpers/utils.mjs";
 import auraInit from "./module/documents/canvas/canvas.mjs";
 import {registerSettings} from "./module/helpers/settings.mjs";
 import {registerEnrichers} from "./module/helpers/enrichers.mjs";
+import {registerSockets} from "./module/helpers/sockets.mjs";
 
 /* ---------------------------------------- */
 /*  Define Module Structure                 */
@@ -31,6 +32,7 @@ globalThis.artichron = {
 Hooks.once("init", function() {
   registerSettings();
   registerEnrichers();
+  registerSockets();
   CONFIG.Canvas.dispositionColors.CONTROLLED = 2502655;
   CONFIG.ActiveEffect.legacyTransferral = false;
 

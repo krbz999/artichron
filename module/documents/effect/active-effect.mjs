@@ -31,7 +31,7 @@ export default class ActiveEffectArtichron extends ActiveEffect {
    */
   getRollData() {
     const data = this.parent.getRollData();
-    data.effect = this.system.getRollData();
+    data.effect = this.system.getRollData?.() ?? {};
     data.effect.name = this.name;
     return data;
   }
