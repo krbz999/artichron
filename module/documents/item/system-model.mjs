@@ -21,6 +21,10 @@ export class ItemSystemModel extends foundry.abstract.TypeDataModel {
     };
   }
 
+  /**
+   * Perform the item's type-specific main function.
+   * @returns {Promise}
+   */
   async use() {
     throw new Error("Subclasses of the Item System Data Model must override the #use method.");
   }

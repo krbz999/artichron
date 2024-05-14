@@ -215,11 +215,12 @@ export default class ItemArtichron extends Item {
   }
 
   /**
-   * Perform usage of this item.
+   * Perform the item's type-specific main function.
    * @returns {Promise}
    */
   async use() {
-    return this.system.use?.() ?? null;
+    if (this.system.use) return this.system.use();
+    return null;
   }
 
   /**
@@ -228,7 +229,8 @@ export default class ItemArtichron extends Item {
    * @returns {Promise<TokenDocumentArtichron[]>}     The token documents of those targeted.
    */
   async pickTarget(options = {}) {
-    return this.system.pickTarget?.(options) ?? null;
+    if (this.system.pickTarget) return this.system.pickTarget(options);
+    return null;
   }
 
   /**
@@ -237,7 +239,8 @@ export default class ItemArtichron extends Item {
    * @returns {Promise<MeasuredTemplateArtichron[]>}
    */
   async placeTemplates(config) {
-    return this.system.placeTemplates?.(config) ?? null;
+    if (this.system.placeTemplates) return this.system.placeTemplates(config);
+    return null;
   }
 
   /**

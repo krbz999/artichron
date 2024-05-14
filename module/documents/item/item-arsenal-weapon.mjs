@@ -2,6 +2,7 @@ import ArsenalData from "./item-arsenal.mjs";
 import {DamageRoll} from "../../dice/damage-roll.mjs";
 
 export default class WeaponData extends ArsenalData {
+  /** @override */
   async use() {
     if (!this.hasDamage) {
       ui.notifications.warn("ARTICHRON.Warning.ItemHasNoDamageRolls", {localize: true});
