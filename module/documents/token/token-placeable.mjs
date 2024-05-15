@@ -89,68 +89,36 @@ export default class TokenArtichron extends Token {
 
   /** Redraw token aura. */
   drawAura() {
-    // TODO: fix this workaround for gridded highlights.
-    if (this.isPreview && (canvas.grid.type !== CONST.GRID_TYPES.GRIDLESS)) return;
-
-    this.clearArtichronChildren();
+    if (this.tokenAuras?.removeChildren) this.tokenAuras.removeChildren().forEach(c => c.destroy());
     if (!this.visible || !this.renderable) return;
 
     const aura = this.document.flags.artichron?.aura ?? {};
     if (!aura.distance || !(aura.distance > 0) || !aura.alpha) return;
 
-    const c = this.center;
-    const radius = aura.distance + canvas.grid.distance * (this.document.width * .5 + 1 / canvas.dimensions.distancePixels);
-    const points = canvas.grid.getCircle(c, radius).reduce((acc, p) => acc.concat(Object.values(p)), []);
-    const shape = CONFIG.Canvas.polygonBackends.move.create(c, {
+    const {width, height} = this.document;
+    const center = this.center;
+
+    const radius = aura.distance + canvas.grid.distance * (Math.max(width, height) * .5);
+    const points = canvas.grid.getCircle(center, radius);
+    const shape = CONFIG.Canvas.polygonBackends.move.create(center, {
       type: "move",
       boundaryShapes: [new PIXI.Polygon(points)],
       debug: false
     });
 
-    if (canvas.grid.type !== CONST.GRID_TYPES.GRIDLESS) {
-      const {x, y, width, height} = shape.bounds;
-      const positions = [];
-      for (let i = x; i < x + width; i += canvas.grid.sizeX / 2) {
-        for (let j = y; j < y + height; j += canvas.grid.sizeY / 2) {
-          const c = canvas.grid.getCenterPoint({x: i, y: j});
-          if (shape.contains(c.x, c.y)) positions.push(canvas.grid.getTopLeftPoint(c));
-        }
-      }
-
-      const name = `Token.${this.id}`;
-      const hl = canvas.interface.grid.addHighlightLayer(name);
-      const alpha = (this.document.hidden || this.actor.statuses.has("invisible")) ? aura.alpha / 2 : aura.alpha;
-
-      for (const p of positions) {
-        canvas.interface.grid.highlightPosition(name, {
-          ...p, color: aura.color || undefined, alpha: alpha
-        });
-      }
-    } else {
-      const m = new PIXI.Graphics();
-      const color = Color.from(aura.color);
-      m.lineStyle({width: 3, color: color.subtract(0.5), alpha: aura.alpha});
-      m.beginFill(color, aura.alpha).drawShape(shape).endFill();
-      m.pivot.set(c.x, c.y);
-      this.tokenAuras ??= canvas.interface.grid.tokenAuras.addChild(new PIXI.Container());
-      this.tokenAuras.addChild(m);
-      this.tokenAuras.position.set(...Object.values(this.center));
-    }
-  }
-
-  /**
-   * Clear auras and grid highlights.
-   * @param {boolean} [full]      Remove the PIXI container from the grid interface?
-   */
-  clearArtichronChildren(full = false) {
-    canvas.interface.grid.clearHighlightLayer(`Token.${this.id}`);
-    if (full) this.tokenAuras?.destroy();
-    else if (this.tokenAuras?.removeChildren) this.tokenAuras.removeChildren().forEach(c => c.destroy());
+    const m = new PIXI.Graphics();
+    const color = Color.from(aura.color);
+    m.lineStyle({width: 3, color: color.subtract(0.5), alpha: aura.alpha});
+    m.beginFill(color, aura.alpha).drawShape(shape).endFill();
+    m.pivot.set(center.x, center.y);
+    this.tokenAuras ??= canvas.interface.grid.tokenAuras.addChild(new PIXI.Container());
+    this.tokenAuras.addChild(m);
+    this.tokenAuras.position.set(center.x, center.y);
   }
 
   /** @override */
   _destroy(...args) {
-    this.clearArtichronChildren(true);
+    this.tokenAuras?.destroy();
     return super._destroy(...args);
   }
 
