@@ -57,6 +57,31 @@ export const ArtichronSheetMixin = Base => {
       return this._sheetMode === this.constructor.SHEET_MODES.EDIT;
     }
 
+    /**
+     * A set of uuids of embedded documents whose descriptions have been expanded on this sheet.
+     * @type {Set<string>}
+     */
+    _expandedItems = new Set();
+
+    /**
+     * Convenience method for preparing a document's description for direct insertion.
+     * @param {HTMLElement} target      The containing element.
+     * @param {string} uuid             The uuid of the document.
+     */
+    async _insertDocumentDescription(target, uuid) {
+      const wrapper = target.querySelector(".description-wrapper");
+      if (wrapper.querySelector(".description")) return;
+      const item = await fromUuid(uuid);
+      const path = item.documentName === "ActiveEffect" ? "description" : "system.description.value";
+      const description = foundry.utils.getProperty(item, path);
+      const text = await TextEditor.enrichHTML(description, {relativeTo: item, rollData: item.getRollData()});
+      if (wrapper.querySelector(".description")) return;
+      const div = document.createElement("DIV");
+      div.classList.add("description");
+      div.innerHTML = text;
+      wrapper.replaceChildren(div);
+    }
+
     /** @override */
     tabGroups = {};
 
@@ -106,7 +131,7 @@ export const ArtichronSheetMixin = Base => {
         const isItem = effect.parent instanceof Item;
         const transfer = isItem && effect.transfer;
 
-        effects.push({
+        const data = {
           effect: effect,
           uuid: effect.uuid,
           img: effect.img,
@@ -116,13 +141,17 @@ export const ArtichronSheetMixin = Base => {
           disabled: effect.disabled,
           transfer: transfer,
           parentName: transfer && (this.document instanceof Actor) ? effect.parent.name : null,
-          enrichedText: await TextEditor.enrichHTML(effect.description, {
-            relativeTo: effect, rollData: effect.getRollData()
-          }),
+          isExpanded: this._expandedItems.has(effect.uuid),
 
           isActiveFusion: effect.isActiveFusion,
           isFusionOption: effect.transferrableFusion
-        });
+        };
+        if (data.isExpanded) {
+          data.enrichedText = await TextEditor.enrichHTML(effect.description, {
+            relativeTo: effect, rollData: effect.getRollData()
+          });
+        }
+        effects.push(data);
       };
 
       if (this.document instanceof Item) for (const e of this.document.effects) await entry(e);
@@ -157,17 +186,12 @@ export const ArtichronSheetMixin = Base => {
         newElement.querySelectorAll("[data-item-uuid].effect").forEach(n => {
           const uuid = n.dataset.itemUuid;
           const newWrapper = n.querySelector(".wrapper");
-          const oldElement = priorElement.querySelector(`[data-item-uuid="${uuid}"].effect`);
-          const oldWrapper = oldElement?.querySelector(".wrapper");
+          const oldWrapper = priorElement.querySelector(`[data-item-uuid="${uuid}"].effect .wrapper`);
           if (oldWrapper) {
             newWrapper.animate([
               {opacity: oldWrapper.style.opacity},
               {opacity: newWrapper.style.opacity}
             ], {duration: 200, easing: "ease-in-out"});
-          }
-
-          if (oldElement && oldElement.classList.contains("expanded")) {
-            n.classList.add("expanded", "no-transition");
           }
         });
       }
@@ -391,8 +415,12 @@ export const ArtichronSheetMixin = Base => {
      */
     static _onToggleEffectDescription(event, target) {
       const item = target.closest(".effect");
-      item.classList.toggle("expanded");
+      const has = item.classList.toggle("expanded");
       item.classList.remove("no-transition");
+      const uuid = item.dataset.itemUuid;
+      if (has) this._expandedItems.add(uuid);
+      else this._expandedItems.delete(uuid);
+      this._insertDocumentDescription(item, uuid);
     }
   };
 };
