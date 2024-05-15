@@ -11,7 +11,7 @@
   {{#each activeFusions}}
   <div class="effect {{#if isExpanded}}expanded no-transition{{/if}}" data-item-uuid="{{uuid}}">
 
-    <a class="wrapper" data-action="toggleEffectDescription" style="opacity: {{ifThen disabled 0.25 1}}">
+    <a class="wrapper" data-action="toggleDescription" style="opacity: {{ifThen disabled 0.25 1}}">
       <img class="image" src="{{img}}" alt="{{name}}" data-action="toggleEffect">
       <label class="name">{{name}}</label>
     </a>
@@ -54,7 +54,7 @@
   {{#each effects}}
   <div class="effect {{#if isExpanded}}expanded no-transition{{/if}}" data-item-uuid="{{uuid}}">
 
-    <a class="wrapper" data-action="toggleEffectDescription" style="opacity: {{ifThen disabled 0.25 1}}">
+    <a class="wrapper" data-action="toggleDescription" style="opacity: {{ifThen disabled 0.25 1}}">
       <img class="image" src="{{img}}" alt="{{name}}" data-action="toggleEffect">
       <label class="name stacked">
         <span class="title">{{name}}</span>
@@ -97,7 +97,7 @@
   {{#each fusions}}
   <div class="effect {{#if isExpanded}}expanded no-transition{{/if}}" data-item-uuid="{{uuid}}">
 
-    <div class="wrapper" data-action="toggleEffectDescription">
+    <div class="wrapper" data-action="toggleDescription">
       <img class="image" src="{{img}}" alt="{{name}}">
       <label class="name">{{name}}</label>
     </div>

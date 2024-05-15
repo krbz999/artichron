@@ -31,7 +31,7 @@ export const ArtichronSheetMixin = Base => {
         editEffect: this._onEditEffect,
         deleteEffect: this._onDeleteEffect,
         createEffect: this._onCreateEffect,
-        toggleEffectDescription: this._onToggleEffectDescription
+        toggleDescription: this._onToggleDescription
       }
     };
 
@@ -72,7 +72,7 @@ export const ArtichronSheetMixin = Base => {
       const wrapper = target.querySelector(".description-wrapper");
       if (wrapper.querySelector(".description")) return;
       const item = await fromUuid(uuid);
-      const path = item.documentName === "ActiveEffect" ? "description" : "system.description.value";
+      const path = (item.documentName === "ActiveEffect") ? "description" : "system.description.value";
       const description = foundry.utils.getProperty(item, path);
       const text = await TextEditor.enrichHTML(description, {relativeTo: item, rollData: item.getRollData()});
       if (wrapper.querySelector(".description")) return;
@@ -409,12 +409,12 @@ export const ArtichronSheetMixin = Base => {
     }
 
     /**
-     * Handle click events to toggele an effect's description.
+     * Handle click events to toggle a document's description.
      * @param {Event} event             The initiating click event.
      * @param {HTMLElement} target      The current target of the event listener.
      */
-    static _onToggleEffectDescription(event, target) {
-      const item = target.closest(".effect");
+    static _onToggleDescription(event, target) {
+      const item = target.closest("[data-item-uuid]");
       const has = item.classList.toggle("expanded");
       item.classList.remove("no-transition");
       const uuid = item.dataset.itemUuid;
