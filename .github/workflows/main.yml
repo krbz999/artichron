@@ -50,11 +50,11 @@ jobs:
         run: |
           npm run db:pack
           npm run build
-          mv --force artichron-compiled.mjs artichron.mjs
+          mv --force public/artichron.mjs artichron.mjs
 
       # Create zip file.
       - name: Create ZIP archive
-        run: zip -r ./system.zip system.json template.json artichron.css artichron.mjs packs/ lang/ templates/
+        run: zip -r ./system.zip system.json artichron.css artichron.mjs packs/ lang/ templates/ assets/
 
       # Create a release for this specific version.
       - name: Update Release with Files
