@@ -256,16 +256,21 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
       };
       for (const t of v.types) {
         for (const item of types[t]) {
-          section.items.push({
+          const data = {
             item: item,
             favorited: this.document.system.equipped.favorites.has(item),
             hasQty: "quantity" in item.system,
             hasUses: item.hasUses,
             hasFusions: item.hasFusions && !item.isFused,
-            enrichedText: await TextEditor.enrichHTML(item.system.description.value, {
+            isExpanded: this._expandedItems.has(item.uuid)
+          };
+          if (data.isExpanded) {
+            data.enrichedText = await TextEditor.enrichHTML(item.system.description.value, {
               relativeTo: item, rollData: item.getRollData()
-            })
-          });
+            });
+          }
+
+          section.items.push(data);
         }
         section.items.sort((a, b) => {
           const sort = a.item.sort - b.item.sort;
@@ -312,14 +317,6 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
       const frames = [{width: oldBar.style.width}, {width: newBar.style.width}];
       newBar.animate(frames, {duration: 1000, easing: "ease"});
     }
-
-    else if (partId === "inventory") {
-      const expandedItems = priorElement.querySelectorAll(".item.expanded");
-      for (const el of expandedItems) {
-        const element = newElement.querySelector(`.item[data-item-uuid="${el.dataset.itemUuid}"]`);
-        if (element) element.classList.add("expanded", "no-transition");
-      }
-    }
   }
 
   /* ---------------------------------------- */
@@ -357,8 +354,12 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
    */
   static _onToggleItemDescription(event, target) {
     const item = target.closest(".item");
-    item.classList.toggle("expanded");
+    const has = item.classList.toggle("expanded");
     item.classList.remove("no-transition");
+    const uuid = item.dataset.itemUuid;
+    if (has) this._expandedItems.add(uuid);
+    else this._expandedItems.delete(uuid);
+    this._insertDocumentDescription(item, uuid);
   }
 
   /**
