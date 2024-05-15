@@ -20,8 +20,8 @@
     {{#each items}}
     <div class="item" data-item-uuid="{{item.uuid}}">
 
-      <a class="wrapper" data-action="useItem">
-        <img src="{{item.img}}" alt="{{item.name}}" class="image">
+      <a class="wrapper" data-action="toggleItemDescription">
+        <img src="{{item.img}}" alt="{{item.name}}" class="image" data-action="useItem">
         <label class="name">{{item.name}}</label>
       </a>
 
@@ -49,18 +49,22 @@
 
       </div>
 
-      {{#if hasFusions}}
       <div class="controls fusion">
+        {{#if hasFusions}}
         <a data-action="fuseItem" data-tooltip="ARTICHRON.SheetActions.FuseItem">
           <i class="fa-solid fa-volcano"></i>
         </a>
+        {{/if}}
       </div>
-      {{/if}}
 
       <div class="controls">
         <a class="control" data-action="favoriteItem"><i class="fa-{{ifThen favorited 'solid' 'regular'}} fa-star"></i></a>
         <a class="control" data-action="editItem"><i class="fa-solid fa-edit"></i></a>
         <a class="control" data-action="deleteItem"><i class="fa-solid fa-trash"></i></a>
+      </div>
+
+      <div class="description-wrapper">
+        <div class="description">{{{enrichedText}}}</div>
       </div>
 
     </div>
