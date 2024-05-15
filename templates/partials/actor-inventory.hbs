@@ -20,7 +20,7 @@
     {{#each items}}
     <div class="item {{#if isExpanded}}expanded no-transition{{/if}}" data-item-uuid="{{item.uuid}}">
 
-      <a class="wrapper" data-action="toggleItemDescription">
+      <a class="wrapper" data-action="toggleDescription">
         <img src="{{item.img}}" alt="{{item.name}}" class="image" data-action="useItem">
         <label class="name">{{item.name}}</label>
       </a>

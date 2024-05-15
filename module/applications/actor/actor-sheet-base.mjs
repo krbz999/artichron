@@ -10,7 +10,6 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
     actions: {
       createItem: this._onCreateItem,
       useItem: this._onUseItem,
-      toggleItemDescription: this._onToggleItemDescription,
       editItem: this._onEditItem,
       favoriteItem: this._onFavoriteItem,
       deleteItem: this._onDeleteItem,
@@ -345,21 +344,6 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
     const uuid = target.closest("[data-item-uuid]").dataset.itemUuid;
     const item = await fromUuid(uuid);
     item.use();
-  }
-
-  /**
-   * Handle click events to show the item description.
-   * @param {Event} event             The initiating click event.
-   * @param {HTMLElement} target      The current target of the event listener.
-   */
-  static _onToggleItemDescription(event, target) {
-    const item = target.closest(".item");
-    const has = item.classList.toggle("expanded");
-    item.classList.remove("no-transition");
-    const uuid = item.dataset.itemUuid;
-    if (has) this._expandedItems.add(uuid);
-    else this._expandedItems.delete(uuid);
-    this._insertDocumentDescription(item, uuid);
   }
 
   /**
