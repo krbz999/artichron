@@ -16,13 +16,13 @@
         <input type="text" class="formula" name="system.damage.{{idx}}.formula" value="{{damage.formula}}" {{disabled @root.isPlayMode}}>
         <select class="type" name="system.damage.{{idx}}.type" {{disabled @root.isPlayMode}}>
           <optgroup label="{{localize 'ARTICHRON.DamageTypeGroup.Physical'}}">
-            {{selectOptions @root.damageTypes.physical selected=damage.type localize=true}}
+            {{selectOptions @root.damageTypes.physical selected=damage.type}}
           </optgroup>
           <optgroup label="{{localize 'ARTICHRON.DamageTypeGroup.Elemental'}}">
-            {{selectOptions @root.damageTypes.elemental selected=damage.type localize=true}}
+            {{selectOptions @root.damageTypes.elemental selected=damage.type}}
           </optgroup>
           <optgroup label="{{localize 'ARTICHRON.DamageTypeGroup.Planar'}}">
-            {{selectOptions @root.damageTypes.planar selected=damage.type localize=true}}
+            {{selectOptions @root.damageTypes.planar selected=damage.type}}
           </optgroup>
         </select>
         {{#if @root.isEditMode}}
@@ -41,7 +41,7 @@
     <legend>{{localize "ARTICHRON.ItemProperty.ResistancePl"}}</legend>
 
     {{#each resistances}}
-    {{formField field value=value disabled=disabled localize=true}}
+    {{formField field value=value disabled=disabled}}
     {{/each}}
   </fieldset>
   {{/if}}

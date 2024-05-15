@@ -156,7 +156,7 @@ export default class SpellcastingDialog extends HandlebarsApplicationMixin(Appli
 
     if (this.isDamage) {
       const part = this.item.system.damage[this.model.part];
-      const dtype = game.i18n.localize(CONFIG.SYSTEM.DAMAGE_TYPES[part.type].label);
+      const dtype = CONFIG.SYSTEM.DAMAGE_TYPES[part.type].label;
       return `${this.formula} ${dtype} damage; ${label}`;
     } else {
       return label;
@@ -171,7 +171,7 @@ export default class SpellcastingDialog extends HandlebarsApplicationMixin(Appli
     if (!this.isDamage) return {};
     const options = this.item.system.damage.map((damage, i) => {
       const obj = CONFIG.SYSTEM.DAMAGE_TYPES[damage.type];
-      const label = `${game.i18n.localize(obj.label)} [${damage.formula}]`;
+      const label = `${obj.label} [${damage.formula}]`;
       return [i, {label: label}];
     });
     return Object.fromEntries(options);
@@ -184,7 +184,7 @@ export default class SpellcastingDialog extends HandlebarsApplicationMixin(Appli
   _getShapeOptions() {
     return Object.entries(CONFIG.SYSTEM.SPELL_TARGET_TYPES).reduce((acc, [k, v]) => {
       if (!this.item.system.template.types.has(k)) return acc;
-      acc[k] = {...v, label: `${game.i18n.localize(v.label)} ${v.modifier ? `[${v.modifier}]` : ""}`};
+      acc[k] = {...v, label: `${v.label} ${v.modifier ? `[${v.modifier}]` : ""}`};
       return acc;
     }, {});
   }

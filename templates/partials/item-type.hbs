@@ -3,7 +3,7 @@
   <label>{{localize "ARTICHRON.ItemProperty.Subtype"}}</label>
   <div class="form-fields">
     <select name="system.category.subtype" {{disabled (or document.isEquipped isPlayMode)}}>
-      {{selectOptions subtypes selected=document.system.category.subtype localize=true labelAttr="label" blank="" sort=true}}
+      {{selectOptions subtypes selected=document.system.category.subtype labelAttr="label" blank="" sort=true}}
     </select>
   </div>
 </div>
@@ -27,7 +27,7 @@
   <div class="form-fields">
     <multi-select name="system.template.types" {{disabled isPlayMode}}>
       {{#each templates}}
-      <option value="{{key}}" {{ifThen selected "selected" ""}}>{{localize label}}</option>
+      <option value="{{key}}" {{ifThen selected "selected" ""}}>{{label}}</option>
       {{/each}}
     </multi-select>
   </div>
@@ -47,7 +47,7 @@
   <label>{{localize "ARTICHRON.ItemProperty.Usage"}}</label>
   <div class="form-fields">
     {{formInput usage.value.field value=usage.value.value disabled=usage.value.disabled}}
-    <span class="sep">{{localize "ARTICHRON.ItemUsageOf"}}</span>
+    <span class="sep">{{localize "ARTICHRON.ItemProperty.UsageOf"}}</span>
     {{formInput usage.max.field value=usage.max.value disabled=usage.max.disabled}}
   </div>
 </div>

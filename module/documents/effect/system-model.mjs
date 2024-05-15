@@ -210,7 +210,7 @@ export class EffectFusionData extends ActiveEffectSystemModel {
 
       const formatter = new Intl.ListFormat("en", {style: "long", type: "conjunction"});
       const list = formatter.format(value.map(({formula, type}) => {
-        return `${formula} ${game.i18n.localize(CONFIG.SYSTEM.DAMAGE_TYPES[type].label)}`;
+        return `${formula} ${CONFIG.SYSTEM.DAMAGE_TYPES[type].label}`;
       }));
 
       locale = `ARTICHRON.ItemFusionChanges.Damage.${mode}`;

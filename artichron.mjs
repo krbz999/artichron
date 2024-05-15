@@ -95,6 +95,29 @@ Hooks.once("init", function() {
 });
 
 /* ---------------------------------------- */
+/*  i18nInit Hook                           */
+/* ---------------------------------------- */
+
+Hooks.once("i18nInit", function() {
+
+  // Localize all strings in the global system configuration object.
+  const localize = (o, k, v) => {
+    const type = foundry.utils.getType(v);
+    if ((type === "string") && v.startsWith("ARTICHRON")) {
+      o[k] = game.i18n.localize(v);
+    } else if (type === "Object") {
+      for (const [x, y] of Object.entries(v)) {
+        localize(v, x, y);
+      }
+    }
+  };
+
+  for (const [k, v] of Object.entries(CONFIG.SYSTEM)) {
+    localize(CONFIG.SYSTEM, k, v);
+  }
+});
+
+/* ---------------------------------------- */
 /*  Ready Hook                              */
 /* ---------------------------------------- */
 

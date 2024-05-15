@@ -1,7 +1,7 @@
 export const SYSTEM = {};
 
 /**
- * @typedef {object} DamageTypeConfiguration
+ * @typedef {object} DamageTypeConfig
  * @property {string} label             Displayed label of the damage type.
  * @property {string} color             Associated default color.
  * @property {string} icon              FA icon used for the damage type.
@@ -13,7 +13,7 @@ export const SYSTEM = {};
 
 /**
  * Damage types and relevant properties.
- * @enum {DamageTypeConfiguration}
+ * @enum {DamageTypeConfig}
  */
 SYSTEM.DAMAGE_TYPES = {
   fire: {
@@ -79,7 +79,7 @@ SYSTEM.DAMAGE_TYPES = {
 };
 
 /**
- * @typedef {object} HealingTypeConfiguration
+ * @typedef {object} HealingTypeConfig
  * @property {string} label     Displayed label of the healing type.
  * @property {string} color     Associated default color.
  * @property {string} icon      FA icon used for the healing type.
@@ -87,7 +87,7 @@ SYSTEM.DAMAGE_TYPES = {
 
 /**
  * Healing types and relevant properties.
- * @enum {HealingTypeConfiguration}
+ * @enum {HealingTypeConfig}
  */
 SYSTEM.HEALING_TYPES = {
   healing: {
@@ -174,23 +174,32 @@ SYSTEM.SPELL_TARGET_TYPES = {
 };
 
 /**
+ * @typedef {object} WeaponTypeConfig
+ * @property {string} label     The human-readable label of this weapon type.
+ */
+
+/**
  * Weapon subtypes.
- * @enum {WeaponSubtype}
+ * @enum {WeaponTypeConfig}
  */
 SYSTEM.ARSENAL_TYPES = {
   axe: {label: "ARTICHRON.WeaponType.Axe"},
   hammer: {label: "ARTICHRON.WeaponType.Hammer"},
-  spear: {
-    label: "ARTICHRON.WeaponType.Spear",
-    fusion: {range: 1, hands: 2, damage: "1d6"} // bonuses on top of used target.
-  },
+  spear: {label: "ARTICHRON.WeaponType.Spear"},
   sword: {label: "ARTICHRON.WeaponType.Sword"},
-  bow: {label: "ARTICHRON.WeaponType.Bow"}
+  bow: {label: "ARTICHRON.WeaponType.Bow"},
+  gun: {label: "ARTICHRON.Weapontype.Gun"}
 };
 
 /**
+ * @typedef {object} ShieldTypeConfig
+ * @property {string} label     The human-readable label of this shield type.
+ * @property {number} width     The relative size of a shield of this type.
+ */
+
+/**
  * Shield subtypes.
- * @enum {ShieldSubtype}
+ * @enum {ShieldTypeConfig}
  */
 SYSTEM.SHIELD_TYPES = {
   buckler: {
@@ -208,8 +217,13 @@ SYSTEM.SHIELD_TYPES = {
 };
 
 /**
+ * @typedef {object} SpellTypeConfig
+ * @property {string} label     The human-readable label of this spell type.
+ */
+
+/**
  * Spell subtypes.
- * @enum {SpellSubtype}
+ * @enum {SpellTypeConfig}
  */
 SYSTEM.SPELL_TYPES = {
   offense: {label: "ARTICHRON.SpellType.Offense"},
@@ -218,8 +232,13 @@ SYSTEM.SPELL_TYPES = {
 };
 
 /**
+ * @typedef {object} ArmorTypeConfig
+ * @property {string} label     The human-readable label of this weapon type.
+ */
+
+/**
  * Armor subtypes.
- * @enum {ArmorSubtype}
+ * @enum {ArmorTypeConfig}
  */
 SYSTEM.ARMOR_TYPES = {
   accessory: {label: "ARTICHRON.ArmorType.Accessory"},
@@ -231,23 +250,26 @@ SYSTEM.ARMOR_TYPES = {
 };
 
 /**
+ * @typedef {object} ElixirTypeConfig
+ */
+
+/**
  * Elixir subtypes.
- * @enum {ElixirSubtype}
+ * @enum {ElixirTypeConfig}
  */
 SYSTEM.ELIXIR_TYPES = {};
+
+/**
+ * @typedef {object} EffectDurationConfig
+ * @property {string} label     The human-readable label of this weapon type.
+ */
 
 /**
  * Effect duration types.
  * @enum {EffectDurationConfig}
  */
 SYSTEM.EFFECT_DURATION_TYPES = {
-  none: {
-    label: "ARTICHRON.EffectProperty.DurationNone"
-  },
-  combat: {
-    label: "ARTICHRON.EffectProperty.DurationCombat"
-  },
-  day: {
-    label: "ARTICHRON.EffectProperty.DurationDay"
-  }
+  none: {label: "ARTICHRON.EffectProperty.DurationNone"},
+  combat: {label: "ARTICHRON.EffectProperty.DurationCombat"},
+  day: {label: "ARTICHRON.EffectProperty.DurationDay"}
 };
