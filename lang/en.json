@@ -8,6 +8,8 @@
   "Actor.merchantPl": "Merchants",
   "Actor.monster": "Monster",
   "Actor.monsterPl": "Monsters",
+  "Item.ammo": "Ammunition",
+  "Item.ammoPl": "Ammunition",
   "Item.armor": "Armor Piece",
   "Item.armorPl": "Armor Pieces",
   "Item.elixir": "Elixir",
@@ -38,8 +40,13 @@
   "WeaponType": {
     "Axe": "Axe",
     "Bow": "Bow",
+    "Chakram": "Chakram",
+    "Dagger": "Dagger",
     "Gun": "Gun",
     "Hammer": "Hammer",
+    "MeteorHammer": "Meteor Hammer",
+    "NunChuck": "Nun-Chuck",
+    "Rifle": "Rifle",
     "Spear": "Spear",
     "Sword": "Sword"
   },

@@ -182,13 +182,18 @@ SYSTEM.SPELL_TARGET_TYPES = {
  * Weapon subtypes.
  * @enum {WeaponTypeConfig}
  */
-SYSTEM.ARSENAL_TYPES = {
+SYSTEM.WEAPON_TYPES = {
   axe: {label: "ARTICHRON.WeaponType.Axe"},
-  hammer: {label: "ARTICHRON.WeaponType.Hammer"},
-  spear: {label: "ARTICHRON.WeaponType.Spear"},
-  sword: {label: "ARTICHRON.WeaponType.Sword"},
   bow: {label: "ARTICHRON.WeaponType.Bow"},
-  gun: {label: "ARTICHRON.Weapontype.Gun"}
+  chakram: {label: "ARTICHRON.WeaponType.Chakram"},
+  dagger: {label: "ARTICHRON.WeaponType.Dagger"},
+  gun: {label: "ARTICHRON.WeaponType.Gun"},
+  hammer: {label: "ARTICHRON.WeaponType.Hammer"},
+  meteorHammer: {label: "ARTICHRON.WeaponType.MeteorHammer"},
+  nunChuck: {label: "ARTICHRON.WeaponType.NunChuck"},
+  rifle: {label: "ARTICHRON.WeaponType.Rifle"},
+  spear: {label: "ARTICHRON.WeaponType.Spear"},
+  sword: {label: "ARTICHRON.WeaponType.Sword"}
 };
 
 /**

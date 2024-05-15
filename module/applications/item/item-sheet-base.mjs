@@ -105,7 +105,7 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
     };
 
     // Subtype options.
-    if (doc.type === "weapon") context.subtypes = CONFIG.SYSTEM.ARSENAL_TYPES;
+    if (doc.type === "weapon") context.subtypes = CONFIG.SYSTEM.WEAPON_TYPES;
     else if (doc.type === "shield") context.subtypes = CONFIG.SYSTEM.SHIELD_TYPES;
     else if (doc.type === "spell") context.subtypes = CONFIG.SYSTEM.SPELL_TYPES;
     else if (doc.type === "armor") context.subtypes = CONFIG.SYSTEM.ARMOR_TYPES;
