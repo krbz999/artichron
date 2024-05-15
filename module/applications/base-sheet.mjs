@@ -30,7 +30,8 @@ export const ArtichronSheetMixin = Base => {
         toggleEffect: this._onToggleEffect,
         editEffect: this._onEditEffect,
         deleteEffect: this._onDeleteEffect,
-        createEffect: this._onCreateEffect
+        createEffect: this._onCreateEffect,
+        toggleEffectDescription: this._onToggleEffectDescription
       }
     };
 
@@ -115,6 +116,9 @@ export const ArtichronSheetMixin = Base => {
           disabled: effect.disabled,
           transfer: transfer,
           parentName: transfer && (this.document instanceof Actor) ? effect.parent.name : null,
+          enrichedText: await TextEditor.enrichHTML(effect.description, {
+            relativeTo: effect, rollData: effect.getRollData()
+          }),
 
           isActiveFusion: effect.isActiveFusion,
           isFusionOption: effect.transferrableFusion
@@ -152,10 +156,19 @@ export const ArtichronSheetMixin = Base => {
       if (partId === "effects") {
         newElement.querySelectorAll("[data-item-uuid].effect").forEach(n => {
           const uuid = n.dataset.itemUuid;
-          n = n.querySelector(".wrapper");
-          const old = priorElement.querySelector(`[data-item-uuid="${uuid}"].effect .wrapper`);
-          if (!old) return;
-          n.animate([{opacity: old.style.opacity}, {opacity: n.style.opacity}], {duration: 200, easing: "ease-in-out"});
+          const newWrapper = n.querySelector(".wrapper");
+          const oldElement = priorElement.querySelector(`[data-item-uuid="${uuid}"].effect`);
+          const oldWrapper = oldElement?.querySelector(".wrapper");
+          if (oldWrapper) {
+            newWrapper.animate([
+              {opacity: oldWrapper.style.opacity},
+              {opacity: newWrapper.style.opacity}
+            ], {duration: 200, easing: "ease-in-out"});
+          }
+
+          if (oldElement && oldElement.classList.contains("expanded")) {
+            n.classList.add("expanded", "no-transition");
+          }
         });
       }
     }
@@ -369,6 +382,17 @@ export const ArtichronSheetMixin = Base => {
       getDocumentClass("ActiveEffect").createDialog({
         type: type, img: "icons/svg/sun.svg"
       }, {parent: this.document});
+    }
+
+    /**
+     * Handle click events to toggele an effect's description.
+     * @param {Event} event             The initiating click event.
+     * @param {HTMLElement} target      The current target of the event listener.
+     */
+    static _onToggleEffectDescription(event, target) {
+      const item = target.closest(".effect");
+      item.classList.toggle("expanded");
+      item.classList.remove("no-transition");
     }
   };
 };

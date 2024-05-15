@@ -9,6 +9,11 @@
   [data-action=toggleOpacity] .fa-solid::before { content: "\f06e"; }
   &.opacity [data-action=toggleOpacity] .fa-solid::before { content: "\f2a8"; }
 
+  /* Transition control */
+  .no-transition, .no-transition * {
+    transition: none !important;
+  }
+
   .header {
     height: 64px;
     gap: 8px;
@@ -43,22 +48,20 @@
 
   [data-tab=inventory] > .tab.scrollable,
   .tab.scrollable[data-tab=effects] {
-    gap: 5px;
     flex-direction: column;
+    gap: 5px;
 
     &.active { display: flex; }
 
     .effect, .item {
-      height: 3rem;
-      min-height: 3rem;
       display: flex;
       border: 1px solid gray;
       border-radius: 4px;
       align-items: center;
-      overflow: hidden;
+      flex-wrap: wrap;
 
       .wrapper {
-        height: 100%;
+        height: calc(3rem - 2px);
         flex: 1;
         display: flex;
         align-items: center;
@@ -129,6 +132,25 @@
           &.fa-recycle { opacity: 1; }
           &.fa-volcano { opacity: 0; }
         }
+      }
+
+      .description-wrapper {
+        display: grid;
+        grid-template-rows: 0fr;
+        flex: 0 0 100%;
+        overflow: hidden auto;
+        transition: grid-template-rows 300ms ease, margin 300ms ease;
+        padding: 0 5px;
+
+        .description {
+          overflow: hidden auto;
+          font-size: 12px;
+          max-height: 200px;
+        }
+      }
+      &.expanded .description-wrapper {
+        grid-template-rows: 1fr;
+        margin-top: 5px;
       }
     }
 

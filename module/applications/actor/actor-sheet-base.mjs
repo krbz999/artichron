@@ -10,6 +10,7 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
     actions: {
       createItem: this._onCreateItem,
       useItem: this._onUseItem,
+      toggleItemDescription: this._onToggleItemDescription,
       editItem: this._onEditItem,
       favoriteItem: this._onFavoriteItem,
       deleteItem: this._onDeleteItem,
@@ -62,7 +63,7 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
       health: this._prepareHealth(),
       pools: this._preparePools(),
       equipment: await this._prepareEquipment(),
-      items: this._prepareItems(),
+      items: await this._prepareItems(),
       encumbrance: this._prepareEncumbrance(),
       effects: await this._prepareEffects(),
       tabs: this._getTabs(),
@@ -220,9 +221,9 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
 
   /**
    * Prepare the items for rendering.
-   * @returns {object}
+   * @returns {Promise<object>}
    */
-  _prepareItems() {
+  async _prepareItems() {
     const types = this.document.itemTypes;
     const sections = {
       arsenal: {
@@ -260,7 +261,10 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
             favorited: this.document.system.equipped.favorites.has(item),
             hasQty: "quantity" in item.system,
             hasUses: item.hasUses,
-            hasFusions: item.hasFusions && !item.isFused
+            hasFusions: item.hasFusions && !item.isFused,
+            enrichedText: await TextEditor.enrichHTML(item.system.description.value, {
+              relativeTo: item, rollData: item.getRollData()
+            })
           });
         }
         section.items.sort((a, b) => {
@@ -308,6 +312,14 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
       const frames = [{width: oldBar.style.width}, {width: newBar.style.width}];
       newBar.animate(frames, {duration: 1000, easing: "ease"});
     }
+
+    else if (partId === "inventory") {
+      const expandedItems = priorElement.querySelectorAll(".item.expanded");
+      for (const el of expandedItems) {
+        const element = newElement.querySelector(`.item[data-item-uuid="${el.dataset.itemUuid}"]`);
+        if (element) element.classList.add("expanded", "no-transition");
+      }
+    }
   }
 
   /* ---------------------------------------- */
@@ -332,9 +344,21 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
    * @param {HTMLElement} target      The current target of the event listener.
    */
   static async _onUseItem(event, target) {
+    event.stopPropagation();
     const uuid = target.closest("[data-item-uuid]").dataset.itemUuid;
     const item = await fromUuid(uuid);
     item.use();
+  }
+
+  /**
+   * Handle click events to show the item description.
+   * @param {Event} event             The initiating click event.
+   * @param {HTMLElement} target      The current target of the event listener.
+   */
+  static _onToggleItemDescription(event, target) {
+    const item = target.closest(".item");
+    item.classList.toggle("expanded");
+    item.classList.remove("no-transition");
   }
 
   /**
