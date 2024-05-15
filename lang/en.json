@@ -32,12 +32,13 @@
     "Base": "Artichron Item Sheet"
   },
   "ActorSheet": {
-    "Hero": "Artichron Hero Sheet"
+    "Base": "Artichron Actor Sheet"
   },
 
   "WeaponType": {
     "Axe": "Axe",
     "Bow": "Bow",
+    "Gun": "Gun",
     "Hammer": "Hammer",
     "Spear": "Spear",
     "Sword": "Sword"
@@ -149,6 +150,7 @@
     "Template": "Template",
     "TemplateSelf": "Self",
     "Usage": "Uses",
+    "UsageOf": "of",
     "Weight": "Weight",
     "Wield": "Wielding",
     "WieldOneHanded": "One-Handed",

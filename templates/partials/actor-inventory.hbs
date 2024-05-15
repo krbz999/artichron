@@ -60,7 +60,9 @@
       <div class="controls">
         <a class="control" data-action="favoriteItem"><i class="fa-{{ifThen favorited 'solid' 'regular'}} fa-star"></i></a>
         <a class="control" data-action="editItem"><i class="fa-solid fa-edit"></i></a>
+        {{#if @root.isEditMode}}
         <a class="control" data-action="deleteItem"><i class="fa-solid fa-trash"></i></a>
+        {{/if}}
       </div>
 
       <div class="description-wrapper">
