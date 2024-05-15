@@ -21,6 +21,7 @@ import {ActiveEffectSystemModel, EffectBuffData, EffectFusionData} from "./effec
 import ActiveEffectArtichron from "./effect/active-effect.mjs";
 import {ItemSystemModel} from "./item/system-model.mjs";
 import {ActorSystemModel} from "./actor/system-model.mjs";
+import AmmunitionData from "./item/item-ammo.mjs";
 
 export const dataModels = {
   actor: {
@@ -33,7 +34,8 @@ export const dataModels = {
     weapon: WeaponData,
     elixir: ElixirData,
     food: FoodData,
-    part: PartData
+    part: PartData,
+    ammo: AmmunitionData
   },
   message: {
     damage: DamageMessageData
