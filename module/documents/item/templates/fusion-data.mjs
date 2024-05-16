@@ -39,7 +39,7 @@ export const FusionTemplateMixin = (Base) => {
      * @type {boolean}
      */
     get hasFusions() {
-      return this.parent.effects.some(effect => effect.transferrableFusion);
+      return this.parent.effects.some(effect => effect.isTransferrableFusion);
     }
 
     /**

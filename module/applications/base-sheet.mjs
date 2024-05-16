@@ -144,7 +144,7 @@ export const ArtichronSheetMixin = Base => {
           isExpanded: this._expandedItems.has(effect.uuid),
 
           isActiveFusion: effect.isActiveFusion,
-          isFusionOption: effect.transferrableFusion
+          isFusionOption: effect.isTransferrableFusion
         };
         if (data.isExpanded) {
           data.enrichedText = await TextEditor.enrichHTML(effect.description, {

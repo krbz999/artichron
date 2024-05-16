@@ -93,12 +93,11 @@ export class EffectFusionData extends ActiveEffectSystemModel {
 
   /** @override */
   getRollData() {
-    return {
-      fusion: {
-        ...this.itemData?.system ?? {},
-        name: this.itemData?.name ?? ""
-      }
+    const data = {
+      fusion: {...this.itemData?.system ?? {}}
     };
+    data.fusion.name = this.itemData?.name ?? "";
+    return data;
   }
 
   /**
@@ -113,7 +112,7 @@ export class EffectFusionData extends ActiveEffectSystemModel {
    * Is this a fusion that can be transferred?
    * @type {boolean}
    */
-  get transferrableFusion() {
+  get isTransferrableFusion() {
     return foundry.utils.getType(this.itemData) !== "Object";
   }
 
@@ -122,7 +121,7 @@ export class EffectFusionData extends ActiveEffectSystemModel {
    * @type {boolean}
    */
   get isActiveFusion() {
-    return !this.transferrableFusion;
+    return !this.isTransferrableFusion;
   }
 
   /**

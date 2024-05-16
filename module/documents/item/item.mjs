@@ -76,7 +76,7 @@ export default class ItemArtichron extends Item {
   }
 
   /**
-   * Is this a valid item type for fusing?
+   * Is this a valid item type for fusing onto another?
    * @type {boolean}
    */
   get canFuse() {
@@ -97,6 +97,14 @@ export default class ItemArtichron extends Item {
    */
   get hasDamage() {
     return this.system.hasDamage ?? false;
+  }
+
+  /**
+   * Is this item ammo?
+   * @type {boolean}
+   */
+  get isAmmo() {
+    return this.type === "ammo";
   }
 
   /* ---------------------------------------- */
@@ -195,9 +203,8 @@ export default class ItemArtichron extends Item {
 
   /** @override */
   getRollData() {
-    if (!this.actor) return null;
-    const data = this.actor.getRollData();
-    data.item = {...this.system};
+    const data = this.isEmbedded ? this.actor.getRollData() : {};
+    data.item = this.system.getRollData();
     data.item.name = this.name;
     return data;
   }

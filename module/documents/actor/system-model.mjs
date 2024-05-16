@@ -59,6 +59,20 @@ export class ActorSystemModel extends foundry.abstract.TypeDataModel {
 
   /* ---------------------------------------- */
   /*                                          */
+  /*              Instance methods            */
+  /*                                          */
+  /* ---------------------------------------- */
+
+  /**
+   * Retrieve an object for roll data.
+   * @returns {object}
+   */
+  getRollData() {
+    return {...this};
+  }
+
+  /* ---------------------------------------- */
+  /*                                          */
   /*              UPDATE METHODS              */
   /*                                          */
   /* ---------------------------------------- */
