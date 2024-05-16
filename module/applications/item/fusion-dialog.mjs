@@ -144,7 +144,7 @@ export default class ItemFusionDialog extends HandlebarsApplicationMixin(Applica
    * @returns {object}
    */
   _prepareFusion() {
-    const effects = this.item.effects.filter(effect => effect.transferrableFusion);
+    const effects = this.item.effects.filter(effect => effect.isTransferrableFusion);
     const field = new foundry.data.fields.StringField({
       choices: Object.fromEntries(effects.map(e => [e.id, e.name])),
       label: "ARTICHRON.ItemFusionDialog.FusionLabel"

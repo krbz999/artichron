@@ -42,6 +42,14 @@ export class ItemSystemModel extends foundry.abstract.TypeDataModel {
     ]);
   }
 
+  /**
+   * Retrieve an object for roll data.
+   * @returns {object}
+   */
+  getRollData() {
+    return {...this};
+  }
+
   /** @override */
   prepareDerivedData() {
     if (!this.parent.isEmbedded) this.preparePostData();

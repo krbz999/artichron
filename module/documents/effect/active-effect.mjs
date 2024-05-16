@@ -50,7 +50,7 @@ export default class ActiveEffectArtichron extends ActiveEffect {
   get isSuppressed() {
     if (this.type === "fusion") {
       // If a fusion can be transferred, it does not apply to its parent.
-      return this.transferrableFusion;
+      return this.isTransferrableFusion;
     }
     return false;
   }
@@ -64,8 +64,8 @@ export default class ActiveEffectArtichron extends ActiveEffect {
    * Is this a fusion that can be transferred?
    * @type {boolean}
    */
-  get transferrableFusion() {
-    return this.system.transferrableFusion ?? false;
+  get isTransferrableFusion() {
+    return this.system.isTransferrableFusion ?? false;
   }
 
   /**

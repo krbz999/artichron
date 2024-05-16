@@ -138,15 +138,8 @@ export default class ActorArtichron extends Actor {
 
   /** @override */
   getRollData() {
-    const data = {...this.system};
+    const data = this.system.getRollData();
     data.name = this.name;
-    // RollData of equipped items.
-    delete data.equipped;
-    for (const e of ["arsenal", "armor"]) {
-      data[e] = {};
-      const items = this[e];
-      Object.entries(items).forEach(([key, item]) => data[e][key] = {...item?.system ?? {}});
-    }
     return data;
   }
 
@@ -324,6 +317,7 @@ export default class ActorArtichron extends Actor {
     // Restore pools.
     Object.keys(pools).forEach(key => updates[`system.pools.${key}.value`] = Math.max(pools[key].value, pools[key].max));
 
-    return this.update(updates);
+    await this.update(updates);
+    return this;
   }
 }

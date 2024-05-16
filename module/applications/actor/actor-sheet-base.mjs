@@ -135,13 +135,8 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
 
     for (const [k, v] of Object.entries(this.document.system.resistances)) {
       if (!ie && !v.value) continue;
-      resistances.push({
-        label: CONFIG.SYSTEM.DAMAGE_TYPES[k].label,
-        color: CONFIG.SYSTEM.DAMAGE_TYPES[k].color,
-        icon: CONFIG.SYSTEM.DAMAGE_TYPES[k].icon,
-        value: ie ? src[k].value : v.value,
-        key: k
-      });
+      const {label, color, icon} = CONFIG.SYSTEM.DAMAGE_TYPES[k];
+      resistances.push({label, color, icon, key: k, value: ie ? src[k].value : v.value});
     }
 
     return resistances;
