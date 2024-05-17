@@ -79,6 +79,7 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
       tabs: this._getTabs(),
       isEditMode: this.isEditMode,
       isPlayMode: this.isPlayMode,
+      isEditable: this.isEditable,
       canFuse: doc.canFuse
     };
 
@@ -180,6 +181,7 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
    * @param {HTMLElement} target      The current target of the event listener.
    */
   static _onAddDamage(event, target) {
+    if (!this.isEditable) return;
     const type = (this.document.type === "spell") ? "fire" : "physical";
     const parts = this.document.system.toObject().damage.concat([{formula: "", type: type}]);
     this.document.update({"system.damage": parts});
@@ -191,6 +193,7 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
    * @param {HTMLElement} target      The current target of the event listener.
    */
   static _onDeleteDamage(event, target) {
+    if (!this.isEditable) return;
     const idx = parseInt(target.dataset.idx);
     const parts = this.document.system.toObject().damage;
     parts.splice(idx, 1);
@@ -203,6 +206,7 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
    * @param {HTMLElement} target      The current target of the event listener.
    */
   static _onFavoriteItem(event, target) {
+    if (!this.isEditable) return;
     this.document.favorite().then(() => this.render());
   }
 
@@ -212,6 +216,7 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
    * @param {HTMLElement} target      The current target of the event listener.
    */
   static async _onUndoFusion(event, target) {
+    if (!this.isEditable) return;
     const effect = await fromUuid(target.closest("[data-item-uuid]").dataset.itemUuid);
     effect.unfuseDialog();
   }
