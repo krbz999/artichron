@@ -131,7 +131,7 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
     }
 
     // Weight.
-    if (context.sections.weight) context.weight = makeField("weight.value");
+    if (context.sections.weight) context.weight = makeField("weight.value", false);
 
     // Quantity.
     if (context.sections.quantity) context.quantity = makeField("quantity.value", false);
