@@ -35,9 +35,11 @@
     }
   }
 
-  .description {
-    min-height: 300px;
-    height: 300px;
+  [data-tab=description], [data-tab=details] {
+    .description {
+      min-height: 300px;
+      height: 300px;
+    }
   }
 
   /* Tab headers */
