@@ -1,7 +1,11 @@
 <div class="{{tabs.details.tabCssClass}}" data-group="primary" data-tab="details">
   {{formField fields.tint.field value=fields.tint.value localize=true disabled=isPlayMode}}
 
-  {{formField fields.description.field value=fields.description.value enriched=fields.description.enriched localize=true toggled=isPlayMode height=300 collaborate=true documentUUID=fields.description.uuid}}
+  {{#if (and isEditable isEditMode)}}
+  {{formField fields.description.field value=fields.description.value enriched=fields.description.enriched localize=true toggled=true height=300 collaborate=true documentUUID=fields.description.uuid}}
+  {{else}}
+  {{{fields.description.enriched}}}
+  {{/if}}
 
   {{formField fields.disabled.field value=fields.disabled.value label="EFFECT.Disabled" localize=true disabled=isPlayMode}}
 

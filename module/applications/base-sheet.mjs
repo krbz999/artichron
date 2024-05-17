@@ -164,12 +164,21 @@ export const ArtichronSheetMixin = Base => {
     /** @override */
     _onRender(context, options) {
       super._onRender(context, options);
-      this.element.querySelectorAll("input.delta").forEach(n => {
-        n.addEventListener("focus", event => event.currentTarget.select());
-        if (n.name) n.addEventListener("change", event => {
-          artichron.utils.parseInputDelta(event.currentTarget, this.document);
+
+      if (this.isEditable) {
+        this.element.querySelectorAll("input.delta").forEach(n => {
+          n.addEventListener("focus", event => event.currentTarget.select());
+          if (n.name) n.addEventListener("change", event => {
+            artichron.utils.parseInputDelta(event.currentTarget, this.document);
+          });
         });
-      });
+      } else {
+        // Disable all fields.
+        this.element.querySelectorAll("input, select, textarea, multi-select").forEach(n => {
+          n.disabled = true;
+        });
+      }
+
       this._setupDragAndDrop();
     }
 
@@ -235,7 +244,7 @@ export const ArtichronSheetMixin = Base => {
      * @returns {boolean}
      */
     _canDragDrop(selector) {
-      return this.document.isOwner;
+      return this.isEditable && this.document.isOwner;
     }
 
     /**
@@ -331,6 +340,7 @@ export const ArtichronSheetMixin = Base => {
      * @param {HTMLElement} target      The current target of the event listener.
      */
     static _onEditImage(event, target) {
+      if (!this.isEditable) return;
       const current = this.document.img;
       const fp = new FilePicker({
         type: "image",
@@ -368,6 +378,7 @@ export const ArtichronSheetMixin = Base => {
      * @param {HTMLElement} target      The current target of the event listener.
      */
     static async _onToggleEffect(event, target) {
+      if (!this.isEditable) return;
       const uuid = target.closest("[data-item-uuid]").dataset.itemUuid;
       const effect = await fromUuid(uuid);
       effect.update({disabled: !effect.disabled});
@@ -390,6 +401,7 @@ export const ArtichronSheetMixin = Base => {
      * @param {HTMLElement} target      The current target of the event listener.
      */
     static async _onDeleteEffect(event, target) {
+      if (!this.isEditable) return;
       const uuid = target.closest("[data-item-uuid]").dataset.itemUuid;
       const effect = await fromUuid(uuid);
       effect.deleteDialog();
@@ -401,6 +413,7 @@ export const ArtichronSheetMixin = Base => {
      * @param {HTMLElement} target      The current target of the event listener.
      */
     static _onCreateEffect(event, target) {
+      if (!this.isEditable) return;
       const type = target.dataset.type;
       // TODO: issue 10870, only allow for buffs and/or fusions, depending.
       getDocumentClass("ActiveEffect").createDialog({

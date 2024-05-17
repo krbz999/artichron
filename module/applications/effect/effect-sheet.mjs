@@ -66,6 +66,7 @@ export default class EffectSheetArtichron extends ArtichronSheetMixin(foundry.ap
       },
       isEditMode: this.isEditMode,
       isPlayMode: this.isPlayMode,
+      isEditable: this.isEditable,
       isFusion: doc.type === "fusion",
       tabs: this._getTabs(),
       changes: doc.changes.map((c, i) => {
@@ -124,6 +125,7 @@ export default class EffectSheetArtichron extends ArtichronSheetMixin(foundry.ap
    * @param {HTMLElement} target      The current target of the event listener.
    */
   static _onAddChange(event, target) {
+    if (!this.isEditable) return;
     const idx = this.document.changes.length;
     const change = {
       key: "",
@@ -142,6 +144,7 @@ export default class EffectSheetArtichron extends ArtichronSheetMixin(foundry.ap
    * @param {HTMLElement} target      The current target of the event listener.
    */
   static _onDeleteChange(event, target) {
+    if (!this.isEditable) return;
     target.closest(".form-group").remove();
     this._onSubmitForm({...this.options.form, closeOnSubmit: false}, event);
   }

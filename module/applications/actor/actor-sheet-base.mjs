@@ -67,7 +67,8 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
       effects: await this._prepareEffects(),
       tabs: this._getTabs(),
       isEditMode: this.isEditMode,
-      isPlayMode: this.isPlayMode
+      isPlayMode: this.isPlayMode,
+      isEditable: this.isEditable
     };
 
     const makeResistance = (key, path) => {
@@ -283,6 +284,9 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
   /** @override */
   _onRender(context, options) {
     super._onRender(context, options);
+
+    if (!this.isEditable) return;
+
     this.element.querySelectorAll("[data-action=updateEmbedded").forEach(n => {
       n.addEventListener("change", this._onUpdateEmbedded.bind(this));
     });
@@ -317,6 +321,7 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
    * @param {HTMLElement} target      The current target of the event listener.
    */
   static _onCreateItem(event, target) {
+    if (!this.isEditable) return;
     // TODO: issue 10870, only allow for choice between subset of item types, depending.
     getDocumentClass("Item").createDialog({
       img: "icons/svg/chest.svg"
@@ -329,6 +334,7 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
    * @param {HTMLElement} target      The current target of the event listener.
    */
   static async _onUseItem(event, target) {
+    if (!this.isEditable) return;
     event.stopPropagation();
     const uuid = target.closest("[data-item-uuid]").dataset.itemUuid;
     const item = await fromUuid(uuid);
@@ -352,6 +358,7 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
    * @param {HTMLElement} target      The current target of the event listener.
    */
   static async _onDeleteItem(event, target) {
+    if (!this.isEditable) return;
     const uuid = target.closest("[data-item-uuid]").dataset.itemUuid;
     const item = await fromUuid(uuid);
     item.deleteDialog();
@@ -363,6 +370,7 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
    * @param {HTMLElement} target      The current target of the event listener.
    */
   static async _onFavoriteItem(event, target) {
+    if (!this.isEditable) return;
     const uuid = target.closest("[data-item-uuid]").dataset.itemUuid;
     const item = await fromUuid(uuid);
     item.favorite();
@@ -373,6 +381,7 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
    * @param {Event} event             The initiating change event.
    */
   async _onUpdateEmbedded(event) {
+    if (!this.isEditable) return;
     const target = event.currentTarget;
     const property = target.dataset.property;
     const uuid = target.closest("[data-item-uuid]").dataset.itemUuid;
@@ -387,6 +396,7 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
    * @param {HTMLElement} target      The current target of the event listener.
    */
   static _onRollSkill(event, target) {
+    if (!this.isEditable) return;
     this.document.rollSkill(target.dataset.skill);
   }
 
@@ -396,6 +406,7 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
    * @param {HTMLElement} target      The current target of the event listener.
    */
   static _onToggleConfig(event, target) {
+    if (!this.isEditable) return;
     let Cls;
     switch (target.dataset.trait) {
       case "pools": Cls = PoolConfig; break;
@@ -410,6 +421,7 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
    * @param {HTMLElement} target      The current target of the event listener.
    */
   static _onRecoverHealth(event, target) {
+    if (!this.isEditable) return;
     this.document.recover();
   }
 
@@ -419,6 +431,7 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
    * @param {HTMLElement} target      The current target of the event listener.
    */
   static _onRollPool(event, target) {
+    if (!this.isEditable) return;
     this.document.rollPool(target.dataset.pool, {event});
   }
 
@@ -428,6 +441,7 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
    * @param {HTMLElement} target      The current target of the event listener.
    */
   static async _onFuseItem(event, target) {
+    if (!this.isEditable) return;
     const uuid = target.closest("[data-item-uuid]").dataset.itemUuid;
     const item = await fromUuid(uuid);
     item.fuseDialog();
@@ -439,6 +453,7 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
    * @param {HTMLElement} target      The current target of the event listener.
    */
   static async _onChangeEquipped(event, target) {
+    if (!this.isEditable) return;
     const slot = target.closest("[data-equipment-slot]").dataset.equipmentSlot;
 
     let items;

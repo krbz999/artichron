@@ -1,3 +1,7 @@
 <div class="{{tabs.description.tabCssClass}}" data-group="primary" data-tab="description">
-  {{formField description.field value=description.value enriched=description.enriched localize=true toggled=isPlayMode height=300 collaborate=true documentUUID=description.uuid}}
+  {{#if (and isEditable isEditMode)}}
+  {{formField description.field value=description.value enriched=description.enriched localize=true toggled=true height=300 collaborate=true documentUUID=description.uuid}}
+  {{else}}
+  {{{description.enriched}}}
+  {{/if}}
 </div>
