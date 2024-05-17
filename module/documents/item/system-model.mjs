@@ -3,6 +3,15 @@ import {FormulaField} from "../fields/formula-field.mjs";
 const {SchemaField, HTMLField, NumberField} = foundry.data.fields;
 
 export class ItemSystemModel extends foundry.abstract.TypeDataModel {
+  /**
+   * An object of metadata.
+   * @type {object}
+   */
+  static metadata = Object.freeze({
+    inventorySection: "",
+    fusion: false
+  });
+
   /** @override */
   static defineSchema() {
     return {

@@ -415,10 +415,9 @@ export const ArtichronSheetMixin = Base => {
     static _onCreateEffect(event, target) {
       if (!this.isEditable) return;
       const type = target.dataset.type;
-      // TODO: issue 10870, only allow for buffs and/or fusions, depending.
       getDocumentClass("ActiveEffect").createDialog({
-        type: type, img: "icons/svg/sun.svg"
-      }, {parent: this.document});
+        img: "icons/svg/sun.svg"
+      }, {types: [type], parent: this.document});
     }
 
     /**
