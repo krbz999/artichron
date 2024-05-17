@@ -160,36 +160,29 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
     };
 
     const orders = {
-      primary: 1,
-      secondary: 2,
-
       head: 1,
       chest: 2,
       legs: 3,
-
-      accessory: 1,
-      arms: 2,
-      boots: 3
+      accessory: 4,
+      arms: 5,
+      boots: 6
     };
 
     const equipped = {
-      left: {},
-      center: {},
-      right: {}
+      arsenal: {},
+      armor: {}
     };
 
-    const setup = async (key, column = "left", item = null, order) => {
+    const setup = async (key, column, item, order = 0) => {
       equipped[column][key] = {
         cssClass: item ? "" : "empty",
         img: item ? item.img : (emptySlotIcons[key] ?? emptySlotIcons.arsenal),
+        name: item ? item.name : "",
         canEdit: !!item,
-        content: item ? await TextEditor.enrichHTML(item.system.description.value, {
-          rollData: item.getRollData(), relativeTo: item
-        }) : "",
         order: order,
         dataset: [
           ["item-uuid", item?.uuid],
-          ["tooltip", item?.name],
+          //["tooltip", item?.name],
           ["tooltip-direction", "UP"],
           ["equipment-slot", key]
         ].filter(([k, v]) => !!v)
@@ -197,19 +190,17 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
     };
 
     // Arsenal.
-    await setup("primary", "center", primary, orders.primary);
-    if (!primary || !primary.isTwoHanded) await setup("secondary", "center", secondary, orders.secondary);
+    await setup("primary", "arsenal", primary);
+    if (!primary || !primary.isTwoHanded) await setup("secondary", "arsenal", secondary);
 
-    // Equipment.
+    // Armor.
     for (const [key, item] of Object.entries(this.document.armor)) {
-      const col = ["head", "chest", "legs"].includes(key) ? "left" : "right";
-      await setup(key, col, item, orders[key]);
+      await setup(key, "armor", item, orders[key]);
     }
 
     return {
-      left: Object.values(equipped.left),
-      center: Object.values(equipped.center),
-      right: Object.values(equipped.right)
+      arsenal: Object.values(equipped.arsenal),
+      armor: Object.values(equipped.armor)
     };
   }
 
@@ -222,11 +213,13 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
     const sections = {
       arsenal: {
         label: "ARTICHRON.SheetTab.Arsenal",
-        types: ["weapon", "spell", "shield"]
+        types: ["weapon", "spell", "shield"],
+        fusion: true
       },
       armor: {
         label: "ARTICHRON.SheetTab.Gear",
-        types: ["armor"]
+        types: ["armor"],
+        fusion: true
       },
       consumables: {
         label: "ARTICHRON.SheetTab.Consumables",
@@ -246,7 +239,8 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
         cssClass: isActive ? "item active" : "item",
         tabCssClass: isActive ? "tab scrollable active" : "tab scrollable",
         id: k,
-        items: []
+        items: [],
+        fusions: v.fusion
       };
       for (const t of v.types) {
         for (const item of types[t]) {
