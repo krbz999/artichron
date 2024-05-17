@@ -214,13 +214,11 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
     const sections = {
       arsenal: {
         label: "ARTICHRON.SheetTab.Arsenal",
-        types: new Set(),
-        fusion: true
+        types: new Set()
       },
       gear: {
         label: "ARTICHRON.SheetTab.Gear",
-        types: new Set(),
-        fusion: true
+        types: new Set()
       },
       consumables: {
         label: "ARTICHRON.SheetTab.Consumables",
@@ -244,8 +242,7 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
         cssClass: isActive ? "item active" : "item",
         tabCssClass: isActive ? "tab scrollable active" : "tab scrollable",
         id: k,
-        items: [],
-        fusions: v.fusion
+        items: []
       };
       for (const t of v.types) {
         for (const item of types[t]) {
