@@ -4,7 +4,9 @@
   {{#if (and isEditable isEditMode)}}
   {{formField fields.description.field value=fields.description.value enriched=fields.description.enriched localize=true toggled=true height=300 collaborate=true documentUUID=fields.description.uuid}}
   {{else}}
-  {{{fields.description.enriched}}}
+  <div class="description">
+    {{{fields.description.enriched}}}
+  </div>
   {{/if}}
 
   {{formField fields.disabled.field value=fields.disabled.value label="EFFECT.Disabled" localize=true disabled=isPlayMode}}

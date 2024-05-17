@@ -35,6 +35,11 @@
     }
   }
 
+  .description {
+    min-height: 300px;
+    height: 300px;
+  }
+
   /* Tab headers */
   .tab.scrollable header {
     display: flex;

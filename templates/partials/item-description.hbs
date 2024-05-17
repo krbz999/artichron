@@ -2,6 +2,8 @@
   {{#if (and isEditable isEditMode)}}
   {{formField description.field value=description.value enriched=description.enriched localize=true toggled=true height=300 collaborate=true documentUUID=description.uuid}}
   {{else}}
-  {{{description.enriched}}}
+  <div class="description">
+    {{{description.enriched}}}
+  </div>
   {{/if}}
 </div>
