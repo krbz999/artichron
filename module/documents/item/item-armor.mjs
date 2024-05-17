@@ -1,3 +1,4 @@
+import {CategoryField} from "../fields/category-field.mjs";
 import {FormulaField} from "../fields/formula-field.mjs";
 import {ResistanceField} from "../fields/resistance-field.mjs";
 import {ItemSystemModel} from "./system-model.mjs";
@@ -13,6 +14,10 @@ export default class ArmorData extends FusionTemplateMixin(ItemSystemModel) {
       resistances: new ResistanceField(),
       armor: new SchemaField({
         value: new FormulaField({required: true, label: "ARTICHRON.ItemProperty.Armor"})
+      }),
+      category: new CategoryField({
+        label: "ARTICHRON.ItemProperty.EquipmentType",
+        choices: CONFIG.SYSTEM.EQUIPMENT_TYPES
       })
     };
   }

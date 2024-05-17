@@ -22,7 +22,7 @@ export class ActorSystemModel extends foundry.abstract.TypeDataModel {
           primary: new LocalIdField(foundry.documents.BaseItem),
           secondary: new LocalIdField(foundry.documents.BaseItem)
         }),
-        armor: new SchemaField(Object.keys(CONFIG.SYSTEM.ARMOR_TYPES).reduce((acc, key) => {
+        armor: new SchemaField(Object.keys(CONFIG.SYSTEM.EQUIPMENT_TYPES).reduce((acc, key) => {
           acc[key] = new LocalIdField(foundry.documents.BaseItem);
           return acc;
         }, {})),
@@ -247,7 +247,7 @@ export class ActorSystemModel extends foundry.abstract.TypeDataModel {
    */
   get armor() {
     const items = this.equipped.armor;
-    return Object.keys(CONFIG.SYSTEM.ARMOR_TYPES).reduce((acc, k) => {
+    return Object.keys(CONFIG.SYSTEM.EQUIPMENT_TYPES).reduce((acc, k) => {
       acc[k] = items[k] ?? null;
       return acc;
     }, {});

@@ -29,10 +29,19 @@ export default class ArsenalData extends FusionTemplateMixin(ItemSystemModel) {
         })
       }),
       range: new SchemaField({
-        value: new NumberField({integer: true, positive: true, initial: 1, label: "ARTICHRON.ItemProperty.Range"})
+        value: new NumberField({
+          integer: true,
+          positive: true,
+          initial: 1,
+          label: "ARTICHRON.ItemProperty.Range"
+        })
       }),
       targets: new SchemaField({
-        value: new NumberField({integer: true, positive: true, label: "ARTICHRON.ItemProperty.Targets"})
+        value: new NumberField({
+          integer: true,
+          positive: true,
+          label: "ARTICHRON.ItemProperty.Targets"
+        })
       })
     };
   }

@@ -237,15 +237,15 @@ SYSTEM.SPELL_TYPES = {
 };
 
 /**
- * @typedef {object} ArmorTypeConfig
- * @property {string} label     The human-readable label of this weapon type.
+ * @typedef {object} EquipmentTypeConfig
+ * @property {string} label     The human-readable label of this equipment type.
  */
 
 /**
- * Armor subtypes.
- * @enum {ArmorTypeConfig}
+ * Equipment subtypes.
+ * @enum {EquipmentTypeConfig}
  */
-SYSTEM.ARMOR_TYPES = {
+SYSTEM.EQUIPMENT_TYPES = {
   accessory: {label: "ARTICHRON.ArmorType.Accessory"},
   arms: {label: "ARTICHRON.ArmorType.Arms"},
   chest: {label: "ARTICHRON.ArmorType.Chest"},
@@ -261,12 +261,24 @@ SYSTEM.ARMOR_TYPES = {
 /**
  * Elixir subtypes.
  * @enum {ElixirTypeConfig}
+ * @property {string} label     The human-readable label of this elixir type.
  */
 SYSTEM.ELIXIR_TYPES = {};
 
 /**
+ * @typedef {object} AmmunitionTypeConfig
+ * @property {string} label     The human-readable label of this ammunition type.
+ */
+
+/**
+ * Ammunition subtypes.
+ * @enum {AmmunitionTypeConfig}
+ */
+SYSTEM.AMMUNITION_TYPES = {};
+
+/**
  * @typedef {object} EffectDurationConfig
- * @property {string} label     The human-readable label of this weapon type.
+ * @property {string} label     The human-readable label of this effect duration type.
  */
 
 /**

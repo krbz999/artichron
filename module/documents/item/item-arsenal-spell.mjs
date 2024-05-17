@@ -1,11 +1,10 @@
 import SpellcastingDialog from "../../applications/chat/spellcasting-dialog.mjs";
 import {DamageRoll} from "../../dice/damage-roll.mjs";
-import ActorArtichron from "../actor/actor.mjs";
 import ActiveEffectArtichron from "../effect/active-effect.mjs";
 import {EffectBuffData} from "../effect/system-model.mjs";
+import {CategoryField} from "../fields/category-field.mjs";
 import MeasuredTemplateArtichron from "../template/template.mjs";
 import ArsenalData from "./item-arsenal.mjs";
-import ItemArtichron from "./item.mjs";
 
 const {NumberField, SchemaField, StringField, SetField} = foundry.data.fields;
 
@@ -15,8 +14,15 @@ export default class SpellData extends ArsenalData {
     return {
       ...super.defineSchema(),
       template: new SchemaField({
-        types: new SetField(new StringField({required: true, choices: Object.keys(CONFIG.SYSTEM.SPELL_TARGET_TYPES)})),
+        types: new SetField(new StringField({
+          required: true,
+          choices: Object.keys(CONFIG.SYSTEM.SPELL_TARGET_TYPES)
+        })),
         rating: new NumberField({integer: true, min: 0})
+      }),
+      category: new CategoryField({
+        label: "ARTICHRON.ItemProperty.SpellType",
+        choices: CONFIG.SYSTEM.SPELL_TYPES
       })
     };
   }

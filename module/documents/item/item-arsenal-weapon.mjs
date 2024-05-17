@@ -1,7 +1,19 @@
 import ArsenalData from "./item-arsenal.mjs";
 import {DamageRoll} from "../../dice/damage-roll.mjs";
+import {CategoryField} from "../fields/category-field.mjs";
 
 export default class WeaponData extends ArsenalData {
+  /** @override */
+  static defineSchema() {
+    return {
+      ...super.defineSchema(),
+      category: new CategoryField({
+        label: "ARTICHRON.ItemProperty.WeaponType",
+        choices: CONFIG.SYSTEM.WEAPON_TYPES
+      })
+    };
+  }
+
   /** @override */
   async use() {
     if (!this.hasDamage) {
