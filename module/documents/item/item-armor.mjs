@@ -8,6 +8,11 @@ const {SchemaField} = foundry.data.fields;
 
 export default class ArmorData extends FusionTemplateMixin(ItemSystemModel) {
   /** @override */
+  static metadata = Object.freeze(foundry.utils.mergeObject(super.metadata, {
+    inventorySection: "gear"
+  }, {inplace: false}));
+
+  /** @override */
   static defineSchema() {
     return {
       ...super.defineSchema(),

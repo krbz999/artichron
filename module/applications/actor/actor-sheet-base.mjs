@@ -214,23 +214,27 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
     const sections = {
       arsenal: {
         label: "ARTICHRON.SheetTab.Arsenal",
-        types: ["weapon", "spell", "shield"],
+        types: new Set(),
         fusion: true
       },
-      armor: {
+      gear: {
         label: "ARTICHRON.SheetTab.Gear",
-        types: ["armor"],
+        types: new Set(),
         fusion: true
       },
       consumables: {
         label: "ARTICHRON.SheetTab.Consumables",
-        types: ["elixir", "ammo"]
+        types: new Set()
       },
       loot: {
         label: "ARTICHRON.SheetTab.Loot",
-        types: ["part"]
+        types: new Set()
       }
     };
+
+    for (const [type, Cls] of Object.entries(CONFIG.Item.dataModels)) {
+      sections[Cls.metadata.inventorySection].types.add(type);
+    }
 
     const tabs = [];
     for (const [k, v] of Object.entries(sections)) {
@@ -322,10 +326,15 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
    */
   static _onCreateItem(event, target) {
     if (!this.isEditable) return;
-    // TODO: issue 10870, only allow for choice between subset of item types, depending.
+    const types = Object.entries(CONFIG.Item.dataModels).reduce((acc, [type, cls]) => {
+      if (cls.metadata.inventorySection === target.dataset.section) {
+        acc.push(type);
+      }
+      return acc;
+    }, []);
     getDocumentClass("Item").createDialog({
       img: "icons/svg/chest.svg"
-    }, {parent: this.document});
+    }, {types: types, parent: this.document});
   }
 
   /**

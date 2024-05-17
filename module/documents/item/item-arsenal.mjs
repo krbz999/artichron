@@ -5,6 +5,12 @@ const {ArrayField, NumberField, SchemaField, StringField} = foundry.data.fields;
 
 export default class ArsenalData extends FusionTemplateMixin(ItemSystemModel) {
   /** @override */
+  static metadata = Object.freeze(foundry.utils.mergeObject(super.metadata, {
+    inventorySection: "arsenal",
+    fusion: true
+  }, {inplace: false}));
+
+  /** @override */
   static defineSchema() {
     return {
       ...super.defineSchema(),
