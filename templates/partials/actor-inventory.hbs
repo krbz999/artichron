@@ -25,37 +25,35 @@
         <label class="name">{{item.name}}</label>
       </a>
 
-      <div class="properties">
-
-        {{#if hasUses}}
-        <div class="property">
-          <div class="counter">
-            <input type="text" class="delta" id="{{item.id}}" value="{{item.system.usage.value}}" data-action="updateEmbedded" data-property="system.usage.value" placeholder="0" max="{{item.system.usage.max}}">
-            <span class="sep">/</span>
-            <span class="max">{{item.system.usage.max}}</span>
-          </div>
-          <span class="label">{{localize "ARTICHRON.ItemProperty.Usage"}}</span>
+      {{#if hasUses}}
+      <div class="property usage">
+        <div class="counter">
+          <input type="text" class="delta" id="{{item.id}}" value="{{item.system.usage.value}}" data-action="updateEmbedded" data-property="system.usage.value" placeholder="0" max="{{item.system.usage.max}}">
+          <span class="sep">/</span>
+          <span class="max">{{item.system.usage.max}}</span>
         </div>
-        {{/if}}
-
-        {{#if hasQty}}
-        <div class="property">
-          <div class="counter">
-            <input type="text" class="delta" id="{{item.id}}" value="{{item.system.quantity.value}}" data-action="updateEmbedded" data-property="system.quantity.value" placeholder="0">
-          </div>
-          <span class="label">{{localize "ARTICHRON.ItemProperty.Quantity"}}</span>
-        </div>
-        {{/if}}
-
+        <span class="label">{{localize "ARTICHRON.ItemProperty.Usage"}}</span>
       </div>
+      {{/if}}
 
-      <div class="controls fusion">
+      {{#if hasQty}}
+      <div class="property quantity">
+        <div class="counter">
+          <input type="text" class="delta" id="{{item.id}}" value="{{item.system.quantity.value}}" data-action="updateEmbedded" data-property="system.quantity.value" placeholder="0">
+        </div>
+        <span class="label">{{localize "ARTICHRON.ItemProperty.Quantity"}}</span>
+      </div>
+      {{/if}}
+
+      {{#if ../fusions}}
+      <div class="property fusion">
         {{#if hasFusions}}
         <a data-action="fuseItem" data-tooltip="ARTICHRON.SheetActions.FuseItem">
           <i class="fa-solid fa-volcano"></i>
         </a>
         {{/if}}
       </div>
+      {{/if}}
 
       <div class="controls">
         <a class="control" data-action="favoriteItem"><i class="fa-{{ifThen favorited 'solid' 'regular'}} fa-star"></i></a>

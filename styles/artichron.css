@@ -20,7 +20,7 @@
 
   --artichron-effect-source-flex: 0 0 100px;
   --artichron-effect-controls-flex: 0 0 50px;
-  --artichron-item-properties-flex: 0 0 120px;
+  --artichron-item-property-flex: 0 0 60px;
   --artichron-inventory-controls-flex: 0 0 60px;
 }
 
