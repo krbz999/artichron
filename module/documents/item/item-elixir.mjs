@@ -1,3 +1,4 @@
+import {CategoryField} from "../fields/category-field.mjs";
 import {FormulaField} from "../fields/formula-field.mjs";
 import {QuantityField} from "../fields/quantity-field.mjs";
 import {ItemSystemModel} from "./system-model.mjs";
@@ -21,7 +22,11 @@ export default class ElixirData extends ItemSystemModel {
           required: true,
           label: "ARTICHRON.ItemProperty.UsageMax"
         })
-      }, {label: "ARTICHRON.ItemProperty.Usage"})
+      }, {label: "ARTICHRON.ItemProperty.Usage"}),
+      category: new CategoryField({
+        label: "ARTICHRON.ItemProperty.ElixirType",
+        choices: CONFIG.SYSTEM.ELIXIR_TYPES
+      })
     };
   }
 

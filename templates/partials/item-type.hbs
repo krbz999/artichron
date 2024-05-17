@@ -1,12 +1,5 @@
-{{#if subtypes}}
-<div class="form-group">
-  <label>{{localize "ARTICHRON.ItemProperty.Subtype"}}</label>
-  <div class="form-fields">
-    <select name="system.category.subtype" {{disabled (or document.isEquipped isPlayMode)}}>
-      {{selectOptions subtypes selected=document.system.category.subtype labelAttr="label" blank="" sort=true}}
-    </select>
-  </div>
-</div>
+{{#if sections.category}}
+{{formField category.field value=category.value disabled=category.disabled localize=true blank=""}}
 {{/if}}
 
 {{#if sections.wield}}

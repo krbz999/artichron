@@ -1,6 +1,7 @@
 import ArsenalData from "./item-arsenal.mjs";
 import {DamageRoll} from "../../dice/damage-roll.mjs";
 import {FormulaField} from "../fields/formula-field.mjs";
+import {CategoryField} from "../fields/category-field.mjs";
 
 const {SchemaField} = foundry.data.fields;
 
@@ -11,6 +12,10 @@ export default class ShieldData extends ArsenalData {
       ...super.defineSchema(),
       armor: new SchemaField({
         value: new FormulaField({required: true, label: "ARTICHRON.ItemProperty.Armor"})
+      }),
+      category: new CategoryField({
+        label: "ARTICHRON.ItemProperty.ShieldType",
+        choices: CONFIG.SYSTEM.SHIELD_TYPES
       })
     };
   }

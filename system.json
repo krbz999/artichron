@@ -92,13 +92,13 @@
       "boss": {}
     },
     "Item": {
-      "weapon": {},
+      "ammo": {},
+      "armor": {},
+      "elixir": {},
+      "part": {},
       "shield": {},
       "spell": {},
-      "armor": {},
-      "food": {},
-      "elixir": {},
-      "part": {}
+      "weapon": {}
     },
     "ChatMessage": {
       "damage": {}

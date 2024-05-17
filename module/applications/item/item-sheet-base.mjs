@@ -65,7 +65,8 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
         template: "template" in src.system,
         weight: "weight" in src.system,
         quantity: "quantity" in src.system,
-        usage: "usage" in src.system
+        usage: "usage" in src.system,
+        category: "category" in src.system
       },
       description: {
         enriched: await TextEditor.enrichHTML(doc.system.description.value, {
@@ -105,11 +106,10 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
     };
 
     // Subtype options.
-    if (doc.type === "weapon") context.subtypes = CONFIG.SYSTEM.WEAPON_TYPES;
-    else if (doc.type === "shield") context.subtypes = CONFIG.SYSTEM.SHIELD_TYPES;
-    else if (doc.type === "spell") context.subtypes = CONFIG.SYSTEM.SPELL_TYPES;
-    else if (doc.type === "armor") context.subtypes = CONFIG.SYSTEM.ARMOR_TYPES;
-    else if (doc.type === "elixir") context.subtypes = CONFIG.SYSTEM.ELIXIR_TYPES;
+    if (context.sections.category) {
+      context.category = makeField("category.subtype", false);
+      if (doc.isEquipped) context.category.disabled = true;
+    }
 
     // Wield.
     if (context.sections.wield) {

@@ -1,6 +1,6 @@
 import {FormulaField} from "../fields/formula-field.mjs";
 
-const {SchemaField, HTMLField, StringField} = foundry.data.fields;
+const {SchemaField, HTMLField} = foundry.data.fields;
 
 export class ItemSystemModel extends foundry.abstract.TypeDataModel {
   /** @override */
@@ -14,9 +14,6 @@ export class ItemSystemModel extends foundry.abstract.TypeDataModel {
       }),
       price: new SchemaField({
         value: new FormulaField({required: true, label: "ARTICHRON.ItemProperty.Price"})
-      }),
-      category: new SchemaField({
-        subtype: new StringField({required: true, label: "ARTICHRON.ItemProperty.Subtype"})
       })
     };
   }

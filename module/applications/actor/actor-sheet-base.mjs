@@ -230,7 +230,7 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
       },
       consumables: {
         label: "ARTICHRON.SheetTab.Consumables",
-        types: ["elixir", "food"]
+        types: ["elixir", "ammo"]
       },
       loot: {
         label: "ARTICHRON.SheetTab.Loot",
