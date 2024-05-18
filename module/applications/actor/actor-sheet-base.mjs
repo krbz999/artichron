@@ -329,9 +329,7 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
       }
       return acc;
     }, []);
-    getDocumentClass("Item").createDialog({
-      img: "icons/svg/chest.svg"
-    }, {types: types, parent: this.document});
+    getDocumentClass("Item").createDialog({}, {types: types, parent: this.document});
   }
 
   /**

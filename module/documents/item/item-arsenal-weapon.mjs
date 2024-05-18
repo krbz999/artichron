@@ -5,6 +5,11 @@ import WeaponUseDialog from "../../applications/item/weapon-use-dialog.mjs";
 
 export default class WeaponData extends ArsenalData {
   /** @override */
+  static metadata = Object.freeze(foundry.utils.mergeObject(super.metadata, {
+    defaultIcon: "icons/svg/sword.svg"
+  }, {inplace: false}));
+
+  /** @override */
   static defineSchema() {
     return {
       ...super.defineSchema(),

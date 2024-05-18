@@ -32,6 +32,10 @@
   transition: background-color 0.25s, border-color 0.25s;
 }
 
+.artichron.application .form-footer {
+  margin-top: 1em;
+}
+
 /* ---------------------------------------- */
 /*              UI components               */
 /* ---------------------------------------- */

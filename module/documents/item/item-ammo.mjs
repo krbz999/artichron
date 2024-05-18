@@ -5,7 +5,8 @@ import {ItemSystemModel} from "./system-model.mjs";
 export default class AmmunitionData extends ItemSystemModel {
   /** @override */
   static metadata = Object.freeze(foundry.utils.mergeObject(super.metadata, {
-    inventorySection: "consumables"
+    inventorySection: "consumables",
+    defaultIcon: "icons/svg/target.svg"
   }, {inplace: false}));
 
   /** @override */

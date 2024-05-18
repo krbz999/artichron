@@ -1,7 +1,23 @@
 import {ItemSystemModel} from "./system-model.mjs";
 import {FusionTemplateMixin} from "./templates/fusion-data.mjs";
 
-const {ArrayField, NumberField, SchemaField, StringField} = foundry.data.fields;
+const {ArrayField, NumberField, SchemaField, StringField, DocumentIdField} = foundry.data.fields;
+
+class DamageIdField extends DocumentIdField {
+  /** @inheritdoc */
+  static get _defaults() {
+    return foundry.utils.mergeObject(super._defaults, {
+      nullable: false,
+      initial: foundry.utils.randomID,
+      validationError: "is not a valid ID string"
+    });
+  }
+
+  /** @override */
+  _cast(value) {
+    return String(value);
+  }
+}
 
 export default class ArsenalData extends FusionTemplateMixin(ItemSystemModel) {
   /** @override */
@@ -15,6 +31,7 @@ export default class ArsenalData extends FusionTemplateMixin(ItemSystemModel) {
     return {
       ...super.defineSchema(),
       damage: new ArrayField(new SchemaField({
+        id: new DamageIdField(),
         formula: new StringField({
           required: true,
           label: "ARTICHRON.ItemProperty.DamageFormula"
@@ -83,6 +100,16 @@ export default class ArsenalData extends FusionTemplateMixin(ItemSystemModel) {
    */
   get hasDamage() {
     return this.damage.some(({formula, type}) => {
+      return formula && (type in CONFIG.SYSTEM.DAMAGE_TYPES) && Roll.validate(formula);
+    });
+  }
+
+  /**
+   * Valid damage parts.
+   * @type {object[]}
+   */
+  get _damages() {
+    return this.damage.filter(({formula, type}) => {
       return formula && (type in CONFIG.SYSTEM.DAMAGE_TYPES) && Roll.validate(formula);
     });
   }
