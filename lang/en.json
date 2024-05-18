@@ -200,6 +200,13 @@
     "UnfuseTitle": "Split '{source}' and '{target}'?"
   },
 
+  "WeaponUseDialog": {
+    "Title": "{name}: Attack",
+    "Ammunition": "Ammunition",
+    "Stamina": "Stamina",
+    "Confirm": "Confirm"
+  },
+
   "ItemFusionChanges": {
     "Name.Label": "Name",
     "Name.ADD": "The name will be appended '{change}'.",
