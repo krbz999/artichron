@@ -151,7 +151,7 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
     // Damage parts.
     if (context.sections.damage) {
       context.damages = {
-        parts: context.isEditMode ? src.system.damage : doc.system.damage.filter(u => !!u.formula)
+        parts: context.isEditMode ? src.system.damage : doc.system._damages
       };
       context.damageTypes = Object.entries(CONFIG.SYSTEM.DAMAGE_TYPES).reduce((acc, [k, v]) => {
         acc[v.group][k] = v.label;

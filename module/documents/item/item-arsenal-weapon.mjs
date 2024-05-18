@@ -46,9 +46,8 @@ export default class WeaponData extends ArsenalData {
     if (!target) return null;
 
     const rollData = item.getRollData();
-    const rolls = Object.entries(item.system.damage.reduce((acc, d) => {
-      const isValid = d.formula && (d.type in CONFIG.SYSTEM.DAMAGE_TYPES) && Roll.validate(d.formula);
-      if (!isValid) return acc;
+    const parts = item.system._damages;
+    const rolls = Object.entries(parts.reduce((acc, d) => {
       acc[d.type] ??= [];
       acc[d.type].push(d.formula);
       return acc;
