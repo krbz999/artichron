@@ -54,7 +54,7 @@ export default class ShieldData extends ArsenalData {
     if (!target) return null;
 
     const rollData = item.getRollData();
-    const rolls = Object.entries(item.system.damage.reduce((acc, d) => {
+    const rolls = Object.entries(item.system._damages.reduce((acc, d) => {
       acc[d.type] ??= [];
       acc[d.type].push(d.formula);
       return acc;
