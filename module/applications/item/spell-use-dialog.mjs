@@ -1,6 +1,6 @@
 const {HandlebarsApplicationMixin, ApplicationV2} = foundry.applications.api;
 
-export default class SpellcastingDialog extends HandlebarsApplicationMixin(ApplicationV2) {
+export default class SpellUseDialog extends HandlebarsApplicationMixin(ApplicationV2) {
   constructor({item, resolve, ...options} = {}) {
     super(options);
     this.item = item;
@@ -27,7 +27,7 @@ export default class SpellcastingDialog extends HandlebarsApplicationMixin(Appli
 
   /** @override */
   static PARTS = {
-    form: {template: "systems/artichron/templates/chat/spellcasting-dialog.hbs"}
+    form: {template: "systems/artichron/templates/item/spell-use-dialog.hbs"}
   };
 
   /* ---------------------------------------- */

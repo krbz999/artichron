@@ -1,4 +1,4 @@
-import SpellcastingDialog from "../../applications/item/spellcasting-dialog.mjs";
+import SpellUseDialog from "../../applications/item/spell-use-dialog.mjs";
 import {DamageRoll} from "../../dice/damage-roll.mjs";
 import ActiveEffectArtichron from "../effect/active-effect.mjs";
 import {EffectBuffData} from "../effect/system-model.mjs";
@@ -62,10 +62,10 @@ export default class SpellData extends ArsenalData {
       return null;
     }
 
-    const configuration = await SpellcastingDialog.create(item);
+    const configuration = await SpellUseDialog.create(item);
     if (!configuration) return null;
 
-    const data = SpellcastingDialog.determineTemplateData(configuration);
+    const data = SpellUseDialog.determineTemplateData(configuration);
 
     const targets = new Set();
 
