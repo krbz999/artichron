@@ -49,7 +49,7 @@ export class ChatLog {
     const src = this.toObject();
 
     if (this.rolls.length) {
-      const {formula, options: {type}} = this.rolls.length[0];
+      const {formula, options: {type}} = this.rolls[0];
       rolls = [new DamageRoll(formula, this.item.getRollData(), {type: type})];
     }
 

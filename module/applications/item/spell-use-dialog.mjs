@@ -271,25 +271,32 @@ export default class SpellUseDialog extends HandlebarsApplicationMixin(Applicati
   _testValidity() {
     if (!this.shape) return false;
 
+    if ((this.item.system.category.subtype === "offense") && !this.damage) return false;
+    else if ((this.item.system.category.subtype === "buff") && !this.buff) return false;
+
+    return this.cost <= this.item.actor.system.pools.mana.value;
+  }
+
+  /**
+   * Calculate the current cost of the configuration.
+   * @type {number|null}
+   */
+  get cost() {
     let value = 0;
-    const max = this.item.actor.system.pools.mana.value;
 
     const shapeConfig = CONFIG.SYSTEM.SPELL_TARGET_TYPES[this.shape];
+    if (!shapeConfig) return null;
+
     for (const k of ["count", "range", "distance", "width", "radius"]) {
       if (!(k in shapeConfig)) continue;
       value += this[k];
     }
 
     if (this.item.system.category.subtype === "offense") {
-      if (!this.damage) return false;
       value += this.multiplier;
     }
 
-    else if (this.item.system.category.subtype === "buff") {
-      if (!this.buff) return false;
-    }
-
-    return value <= max;
+    return value;
   }
 
   _toggleHiddenStates() {
@@ -308,7 +315,7 @@ export default class SpellUseDialog extends HandlebarsApplicationMixin(Applicati
    * @param {HTMLElement} target      The targeted element.
    */
   static _onConfirm(event, target) {
-    const data = new FormDataExtended(this.element);
+    const data = new FormDataExtended(this.element).object;
     data.cost = this.cost;
     if (this.resolve) this.resolve(data);
   }
@@ -338,7 +345,7 @@ export default class SpellUseDialog extends HandlebarsApplicationMixin(Applicati
 
     const getValue = (d) => {
       const [base, increase] = CONFIG.SYSTEM.SPELL_TARGET_TYPES[data.shape][d];
-      return base + increase * data.scale[d];
+      return base + increase * data[d];
     };
 
     switch (data.shape) {
