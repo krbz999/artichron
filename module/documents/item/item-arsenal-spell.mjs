@@ -90,18 +90,19 @@ export default class SpellData extends ArsenalData {
     }
     delete this._targeting;
 
-    if (data.mana) await actor.update({"system.pools.mana.value": actor.system.pools.mana.value - configuration.cost});
+    if (data.cost) await actor.update({"system.pools.mana.value": actor.system.pools.mana.value - configuration.cost});
 
     if (isDamage) {
       // Offensive magic
-      const part = item.system.damage[configuration.part];
-      return new DamageRoll(configuration.formula, item.getRollData(), {type: part.type}).toMessage({
+      const {formula, type} = item.system.damage.find(d => d.id === configuration.damage);
+      const roll = new DamageRoll(formula, item.getRollData(), {type: type}).alter(configuration.multiplier || 1, 0);
+      return roll.toMessage({
         speaker: ChatMessage.implementation.getSpeaker({actor: actor}),
         "flags.artichron.use.targetUuids": Array.from(targets).map(target => target.uuid),
-        "flags.artichron.use.templateData": (data.type !== "single") ? {
+        "flags.artichron.use.templateData": (configuration.shape !== "single") ? {
           ...data,
-          formula: configuration.formula,
-          damageType: part.type
+          formula: roll.formula,
+          damageType: type
         } : null,
         "system.actor": actor.uuid,
         "system.item": item.uuid,
@@ -111,7 +112,7 @@ export default class SpellData extends ArsenalData {
       // Buff or Defensive magic
       const speaker = ChatMessage.implementation.getSpeaker({actor: actor});
       const templateData = (data.type !== "single") ? {...data} : null;
-      const effectId = configuration.effectId;
+      const effectId = configuration.buff;
       const effect = this.parent.effects.get(effectId);
       return ChatMessage.implementation.create({
         "flags.artichron.use.targetUuids": Array.from(targets).map(target => target.uuid),
@@ -130,7 +131,7 @@ export default class SpellData extends ArsenalData {
   /**
    * Prompt for placing templates using this item.
    * @param {object} config     Template configuration and placement data.
-   * @returns {Promise<MeasuredTemplateArtichron[]>}
+   * @returns {Promise<MeasuredTemplateDocumentArtichron[]>}
    */
   async placeTemplates(config) {
     if (!this.hasTemplate) {
