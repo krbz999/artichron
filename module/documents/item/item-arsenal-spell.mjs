@@ -1,4 +1,4 @@
-import SpellcastingDialog from "../../applications/chat/spellcasting-dialog.mjs";
+import SpellcastingDialog from "../../applications/item/spellcasting-dialog.mjs";
 import {DamageRoll} from "../../dice/damage-roll.mjs";
 import ActiveEffectArtichron from "../effect/active-effect.mjs";
 import {EffectBuffData} from "../effect/system-model.mjs";
