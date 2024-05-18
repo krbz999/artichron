@@ -215,7 +215,7 @@ export const ArtichronSheetMixin = Base => {
      */
     _setupDragAndDrop() {
       const dd = new DragDrop({
-        dragSelector: "[data-item-uuid]",
+        dragSelector: "[data-item-uuid] .wrapper",
         dropSelector: ".application",
         permissions: {
           dragstart: this._canDragStart.bind(this),
@@ -252,7 +252,7 @@ export const ArtichronSheetMixin = Base => {
      * @param {Event} event
      */
     async _onDragStart(event) {
-      const uuid = event.currentTarget.dataset.itemUuid;
+      const uuid = event.currentTarget.closest("[data-item-uuid]").dataset.itemUuid;
       const item = await fromUuid(uuid);
       const data = item.toDragData();
       event.dataTransfer.setData("text/plain", JSON.stringify(data));
