@@ -183,7 +183,11 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
   static _onAddDamage(event, target) {
     if (!this.isEditable) return;
     const type = (this.document.type === "spell") ? "fire" : "physical";
-    const parts = this.document.system.toObject().damage.concat([{formula: "", type: type}]);
+    const parts = this.document.system.toObject().damage.concat([{
+      type: type,
+      formula: "",
+      id: foundry.utils.randomID()
+    }]);
     this.document.update({"system.damage": parts});
   }
 
@@ -194,9 +198,9 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
    */
   static _onDeleteDamage(event, target) {
     if (!this.isEditable) return;
-    const idx = parseInt(target.dataset.idx);
+    const id = target.closest("[data-id]").dataset.id;
     const parts = this.document.system.toObject().damage;
-    parts.splice(idx, 1);
+    parts.findSplice(d => d.id === id);
     this.document.update({"system.damage": parts});
   }
 

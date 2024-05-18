@@ -11,8 +11,9 @@
     </legend>
 
     {{#each damages.parts as |damage idx|}}
-    <div class="form-group damage">
+    <div class="form-group damage" data-id="{{damage.id}}">
       <div class="form-fields">
+        <input type="text" name="system.damage.{{idx}}.id" value="{{damage.id}}" hidden readonly>
         <input type="text" class="formula" name="system.damage.{{idx}}.formula" value="{{damage.formula}}" {{disabled @root.isPlayMode}}>
         <select class="type" name="system.damage.{{idx}}.type" {{disabled @root.isPlayMode}}>
           <optgroup label="{{localize 'ARTICHRON.DamageTypeGroup.Physical'}}">

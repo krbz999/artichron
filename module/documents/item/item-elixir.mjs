@@ -8,7 +8,8 @@ const {SchemaField, NumberField} = foundry.data.fields;
 export default class ElixirData extends ItemSystemModel {
   /** @override */
   static metadata = Object.freeze(foundry.utils.mergeObject(super.metadata, {
-    inventorySection: "consumables"
+    inventorySection: "consumables",
+    defaultIcon: "icons/svg/explosion.svg"
   }, {inplace: false}));
 
   /** @override */

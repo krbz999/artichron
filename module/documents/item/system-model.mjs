@@ -9,6 +9,7 @@ export class ItemSystemModel extends foundry.abstract.TypeDataModel {
    */
   static metadata = Object.freeze({
     inventorySection: "",
+    defaultIcon: "",
     fusion: false
   });
 
@@ -26,6 +27,19 @@ export class ItemSystemModel extends foundry.abstract.TypeDataModel {
       })
     };
   }
+
+  /* ---------------------------------------- */
+  /*              Event Handlers              */
+  /* ---------------------------------------- */
+
+  async _preCreate(data, options, user) {
+    if (!data.img) this.parent.updateSource({img: this.constructor.metadata.defaultIcon});
+    return super._preCreate(data, options, user);
+  }
+
+  /* ---------------------------------------- */
+  /*               Item Methods               */
+  /* ---------------------------------------- */
 
   /**
    * Perform the item's type-specific main function.

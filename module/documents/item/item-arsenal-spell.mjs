@@ -10,6 +10,11 @@ const {NumberField, SchemaField, StringField, SetField} = foundry.data.fields;
 
 export default class SpellData extends ArsenalData {
   /** @override */
+  static metadata = Object.freeze(foundry.utils.mergeObject(super.metadata, {
+    defaultIcon: "icons/svg/book.svg"
+  }, {inplace: false}));
+
+  /** @override */
   static defineSchema() {
     return {
       ...super.defineSchema(),
@@ -57,7 +62,7 @@ export default class SpellData extends ArsenalData {
       return null;
     }
 
-    const configuration = await SpellcastingDialog.create({actor, item, damage: isDamage, isBuff: isBuff});
+    const configuration = await SpellcastingDialog.create(item);
     if (!configuration) return null;
 
     const data = SpellcastingDialog.determineTemplateData(configuration);

@@ -120,8 +120,7 @@ export default class WeaponUseDialog extends HandlebarsApplicationMixin(Applicat
     const ammoField = new foundry.data.fields.StringField({
       choices: ammos,
       blank: true,
-      label: "ARTICHRON.WeaponUseDialog.Ammunition",
-      name: "ammo"
+      label: "ARTICHRON.WeaponUseDialog.Ammunition"
     });
 
     const value = this.item.actor.system.pools.stamina.value;
@@ -130,8 +129,7 @@ export default class WeaponUseDialog extends HandlebarsApplicationMixin(Applicat
       nullable: true,
       max: value,
       step: 1,
-      label: "ARTICHRON.WeaponUseDialog.Stamina",
-      name: "stamina"
+      label: "ARTICHRON.WeaponUseDialog.Stamina"
     });
 
     return {

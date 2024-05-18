@@ -175,9 +175,7 @@ export default class ItemArtichron extends Item {
   }
 
   /* ---------------------------------------- */
-  /*                                          */
-  /*               UPDATE METHODS             */
-  /*                                          */
+  /*              Event Handlers              */
   /* ---------------------------------------- */
 
   /** @override */
@@ -196,9 +194,7 @@ export default class ItemArtichron extends Item {
   }
 
   /* ---------------------------------------- */
-  /*                                          */
-  /*                ITEM METHODS              */
-  /*                                          */
+  /*               Item Methods               */
   /* ---------------------------------------- */
 
   /** @override */
