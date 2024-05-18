@@ -1,116 +1,27 @@
-<div class="standard-form">
+<div class="">
 
   <!-- Damage type -->
   {{#if isDamage}}
-  <div class="form-group">
-    <label>{{localize "ARTICHRON.SpellcastingDialog.DamageType"}}</label>
-    <div class="form-fields">
-      <select name="part">
-        {{selectOptions dtypeOptions selected=model.part labelAttr="label" sort=false}}
-      </select>
-      <select name="scale.damage">
-        {{selectOptions damageOptions selected=model.scale.damage blank="" sort=false}}
-      </select>
-    </div>
-  </div>
-  {{/if}}
-
-  <!-- Shape or type -->
-  <div class="form-group">
-    <label>{{localize "ARTICHRON.SpellcastingDialog.Shape"}}</label>
-    <div class="form-fields">
-      <select name="shape">
-        {{selectOptions shapeOptions selected=model.shape labelAttr="label" sort=false}}
-      </select>
-    </div>
-  </div>
-
-  <!-- Scaling -->
-  {{#if countOptions}}
-  <div class="form-group">
-    <label>{{localize "ARTICHRON.SpellcastingDialog.Count"}}</label>
-    <div class="form-fields">
-      <select name="scale.count">
-        {{selectOptions countOptions selected=model.scale.count blank="" sort=false}}
-      </select>
-    </div>
-  </div>
-  {{/if}}
-
-  {{#if distanceOptions}}
-  <div class="form-group">
-    <label>{{localize "ARTICHRON.SpellcastingDialog.Distance"}}</label>
-    <div class="form-fields">
-      <select name="scale.distance">
-        {{selectOptions distanceOptions selected=model.scale.distance blank="" sort=false}}
-      </select>
-    </div>
-  </div>
-  {{/if}}
-
-  {{#if radiusOptions}}
-  <div class="form-group">
-    <label>{{localize "ARTICHRON.SpellcastingDialog.Radius"}}</label>
-    <div class="form-fields">
-      <select name="scale.radius">
-        {{selectOptions radiusOptions selected=model.scale.radius blank="" sort=false}}
-      </select>
-    </div>
-  </div>
-  {{/if}}
-
-  {{#if widthOptions}}
-  <div class="form-group">
-    <label>{{localize "ARTICHRON.SpellcastingDialog.Width"}}</label>
-    <div class="form-fields">
-      <select name="scale.width">
-        {{selectOptions widthOptions selected=model.scale.width blank="" sort=false}}
-      </select>
-    </div>
-  </div>
-  {{/if}}
-
-  {{#if rangeOptions}}
-  <div class="form-group">
-    <label>{{localize "ARTICHRON.SpellcastingDialog.Range"}}</label>
-    <div class="form-fields">
-      <select name="scale.range">
-        {{selectOptions rangeOptions selected=model.scale.range blank="" sort=false}}
-      </select>
-    </div>
-  </div>
+  {{formField damage.field value=damage.value localize=true name=damage.name}}
+  {{formField multiplier.field value=multiplier.value localize=true name=multiplier.name}}
   {{/if}}
 
   {{#if isBuff}}
-  <div class="form-group">
-    <label>{{localize "ARTICHRON.SpellcastingDialog.Buff"}}</label>
-    <div class="form-fields">
-      <select name="effectId">
-        {{selectOptions buffOptions selected=model.effectId blank="" sort=true}}
-      </select>
-    </div>
-  </div>
+  {{formField buff.field value=buff.value localize=true name=buff.name}}
   {{/if}}
 
-  {{#if noscales}}
-  <p class="notification warning">{{localize "ARTICHRON.Warning.ItemHasNoTemplateTypes"}}</p>
-  {{else if invalid}}
-  <p class="notification warning">{{localize "ARTICHRON.SpellcastingDialog.Warn"}}</p>
-  {{else if label}}
-  <p class="notification formula">{{label}}</p>
-  {{/if}}
+  {{formField shape.field value=shape.value localize=true name=shape.name}}
 
-  <div class="form-group">
-    <label class="checkbox">
-      <input type="checkbox" name="mana" {{checked model.mana}}>
-      {{localize "ARTICHRON.SpellcastingDialog.SpendMana" n=cost}}
-    </label>
-  </div>
+  {{formField count.field value=count.value localize=true name=count.name}}
+  {{formField range.field value=range.value localize=true name=range.name}}
+  {{formField distance.field value=distance.value localize=true name=distance.name}}
+  {{formField width.field value=width.value localize=true name=width.name}}
+  {{formField radius.field value=radius.value localize=true name=radius.name}}
 
   <footer class="form-footer">
-    <button type="submit" {{disabled invalid}}>
-      <i class="fa-solid fa-check"></i>
-      {{localize "ARTICHRON.SpellcastingDialog.Confirm"}}
+    <button type="submit" disabled>
+      <i class="fa-solid fa-hand-sparkles"></i>
+      {{localize "ARTICHRON.SpellUseDialog.Confirm"}}
     </button>
   </footer>
 

@@ -178,18 +178,18 @@
     "DurationDay": "Day"
   },
 
-  "SpellcastingDialog": {
-    "Title": "Configure Spell: {item}",
-    "DamageType": "Damage Type",
-    "Shape": "Shape",
-    "Count": "Count",
-    "Range": "Range",
-    "Distance": "Distance",
-    "Radius": "Radius",
-    "Width": "Width",
+  "SpellUseDialog": {
+    "Buff": "Buff",
     "Confirm": "Confirm",
-    "Warn": "You cannot spend this many mana dice!",
-    "SpendMana": "Spend {n} Mana"
+    "Count": "Count",
+    "Damage": "Damage",
+    "Distance": "Distance",
+    "Multiplier": "Damage Multiplier",
+    "Radius": "Radius",
+    "Range": "Range",
+    "Shape": "Shape",
+    "Title": "{item}: Spellcasting",
+    "Width": "Width"
   },
 
   "ItemFusionDialog": {

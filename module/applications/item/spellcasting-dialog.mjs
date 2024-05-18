@@ -1,286 +1,304 @@
 const {HandlebarsApplicationMixin, ApplicationV2} = foundry.applications.api;
 
 export default class SpellcastingDialog extends HandlebarsApplicationMixin(ApplicationV2) {
+  constructor({item, resolve, ...options} = {}) {
+    super(options);
+    this.item = item;
+    this.resolve = resolve;
+  }
+
   /** @override */
   static DEFAULT_OPTIONS = {
-    classes: ["artichron", "spellcasting-dialog"],
+    classes: ["artichron", "spell"],
     tag: "form",
+    window: {
+      icon: "fa-solid fa-hand-sparkles",
+      minimizable: false
+    },
     position: {
       height: "auto",
       width: 400
     },
     form: {
-      handler: this.#onConfirm
+      handler: this._onConfirm,
+      closeOnSubmit: true
     }
   };
 
   /** @override */
   static PARTS = {
-    form: {
-      id: "form",
-      template: "systems/artichron/templates/chat/spellcasting-dialog.hbs"
-    }
+    form: {template: "systems/artichron/templates/chat/spellcasting-dialog.hbs"}
   };
+
+  /* ---------------------------------------- */
+  /*                PROPERTIES                */
+  /* ---------------------------------------- */
 
   /** @override */
   get title() {
-    return game.i18n.format("ARTICHRON.SpellcastingDialog.Title", {item: this.item.name});
+    return game.i18n.format("ARTICHRON.SpellUseDialog.Title", {item: this.item.name});
   }
+
+  /**
+   * The spell being used.
+   * @type {ItemArtichron}
+   */
+  #item = null;
+  get item() {
+    return this.#item;
+  }
+  set item(item) {
+    if ((item instanceof Item) && (item.type === "spell")) this.#item = item;
+  }
+
+  /**
+   * The chosen shape of the spell.
+   * @type {string}
+   */
+  #shape = null;
+  get shape() {
+    return this.#shape;
+  }
+  set shape(shape) {
+    if (!shape) this.#shape = null;
+    else if (this.item.system.template.types.has(shape)) this.#shape = shape;
+  }
+
+  /**
+   * The number of additional templates that will be placed, or number of single targets.
+   * @type {number}
+   */
+  #count = null;
+  get count() {
+    return this.#count;
+  }
+  set count(count) {
+    if (Number.isInteger(count) && (count >= 0)) this.#count = count;
+  }
+
+  /**
+   * The bonus range of the spell.
+   * @type {number}
+   */
+  #range = null;
+  get range() {
+    return this.#range;
+  }
+  set range(range) {
+    if (Number.isInteger(range) && (range >= 0)) this.#range = range;
+  }
+
+  /**
+   * The bonus distance of the spell.
+   * @type {number}
+   */
+  #distance = null;
+  get distance() {
+    return this.#distance;
+  }
+  set distance(dist) {
+    if (Number.isInteger(dist) && (dist >= 0)) this.#distance = dist;
+  }
+
+  /**
+   * The bonus width of the spell.
+   * @type {number}
+   */
+  #width = null;
+  get width() {
+    return this.#width;
+  }
+  set width(w) {
+    if (Number.isInteger(w) && (w >= 0)) this.#width = w;
+  }
+
+  /**
+   * The bonus radius of the spell.
+   * @type {number}
+   */
+  #radius = null;
+  get radius() {
+    return this.#radius;
+  }
+  set radius(r) {
+    if (Number.isInteger(r) && (r >= 0)) this.#radius = r;
+  }
+
+  /**
+   * The damage multiplier of the spell.
+   * @type {number}
+   */
+  #multiplier = null;
+  get multiplier() {
+    return this.#multiplier;
+  }
+  set multiplier(m) {
+    if (Number.isInteger(m) && (m >= 0)) this.#multiplier = m;
+  }
+
+  /**
+   * The currently selected damage part.
+   * @type {string}
+   */
+  #damage = null;
+  get damage() {
+    return this.#damage;
+  }
+  set damage(id) {
+    if (this.item.system._damages.some(k => k.id === id)) this.#damage = id;
+  }
+
+  /**
+   * The currently selected buff effect.
+   * @type {string}
+   */
+  #buff = null;
+  get buff() {
+    return this.#buff;
+  }
+  set buff(id) {
+    const effect = this.item.effects.get(id);
+    if (effect && (effect.type === "buff") && !effect.system.isGranted && !effect.transfer) {
+      this.#buff = id;
+    }
+  }
+
+  /* ---------------------------------------- */
+  /*     Method Handling and Preparation      */
+  /* ---------------------------------------- */
 
   /**
    * Create an async instance of this application.
-   * @param {ActorArtichron} actor
    * @param {ItemArtichron} item
-   * @param {object} [options]
    */
-  static async create({actor, item, ...options} = {}) {
+  static async create(item) {
     return new Promise(resolve => {
-      new this({actor, item, ...options, resolve: resolve}).render({force: true});
+      const dialog = new this({item, resolve});
+      dialog.addEventListener("close", () => resolve(null), {once: true});
+      dialog.render({force: true});
     });
-  }
-
-  /** @constructor */
-  constructor({actor, item, resolve, ...options} = {}) {
-    super(options);
-    this.actor = actor;
-    this.item = item;
-    this.resolve = resolve;
-  }
-
-  /**
-   * The actor that is casting a spell.
-   * @type {ActorArtichron}
-   */
-  actor = null;
-
-  /**
-   * The item that is being used to cast the spell.
-   * @type {ItemArtichron}
-   */
-  item = null;
-
-  /**
-   * The resolve for async application.
-   * @type {function}
-   */
-  resolve = null;
-
-  /**
-   * The maximum mana that can be spent.
-   * @type {number}
-   */
-  get max() {
-    return this.actor.system.pools.mana.value;
-  }
-
-  /**
-   * Is this spell configuration for an offensive spell?
-   * @type {boolean}
-   */
-  get isDamage() {
-    return !!this.options.damage;
-  }
-
-  /**
-   * Is this spell configuration for a buff spell?
-   * @type {boolean}
-   */
-  get isBuff() {
-    return !!this.options.isBuff;
-  }
-
-  /** @override */
-  async close(...args) {
-    this.resolve?.(null);
-    return super.close(...args);
   }
 
   /** @override */
   async _prepareContext(options) {
-    const dtypeOptions = this._getDamageOptions();
-    const shapeOptions = this._getShapeOptions();
 
-    const scales = CONFIG.SYSTEM.SPELL_TARGET_TYPES[this.model.shape]?.scale ?? new Set();
+    const numField = (name, max) => {
+      const field = new foundry.data.fields.NumberField({
+        min: 0,
+        max: max,
+        nullable: true,
+        step: 1,
+        label: "ARTICHRON.SpellUseDialog." + name.capitalize()
+      });
 
-    return {
-      dtypeOptions: dtypeOptions,
-      shapeOptions: shapeOptions,
-      model: this.model,
-      invalid: ((this.cost > this.max) && this.model.mana) || !scales.size,
-      damageOptions: this.isDamage ? this._getManaOptions("damage") : {},
-      countOptions: scales.has("count") ? this._getManaOptions("count") : null,
-      distanceOptions: scales.has("distance") ? this._getManaOptions("distance") : null,
-      widthOptions: scales.has("width") ? this._getManaOptions("width") : null,
-      rangeOptions: scales.has("range") ? this._getManaOptions("range") : null,
-      radiusOptions: scales.has("radius") ? this._getManaOptions("radius") : null,
-      formula: this.isDamage ? this.formula : "",
-      label: this._getLabel(),
-      noscales: !scales.size,
-      cost: this.cost,
-      isDamage: this.isDamage,
-
-      isBuff: this.isBuff,
-      buffOptions: this.isBuff ? this._getBuffOptions() : {}
+      return {field: field, name: name, value: this[name] ?? 0};
     };
-  }
 
-  _getBuffOptions() {
-    const effects = {};
-    for (const effect of this.item.effects) {
-      if ((effect.type === "buff") && !effect.system.isGranted && !effect.transfer) {
-        effects[effect.id] = effect.name;
-      }
-    }
-    return effects;
-  }
+    const mana = this.item.actor.system.pools.mana.value;
 
-  /**
-   * Get the displayed label.
-   * @returns {string}
-   */
-  _getLabel() {
-    const data = this.constructor.determineTemplateData(this.model.toObject());
-    let label;
-    if (this.model.shape === "single") {
-      label = `${this.model.scale.count + 1} target(s), ${data.range}m range`;
-    } else if (this.model.shape === "ray") {
-      label = `${data.distance}m line, ${data.width}m wide`;
-    } else if (this.model.shape === "cone") {
-      label = `${data.distance}m cone`;
-    } else if (this.model.shape === "circle") {
-      label = `${data.distance}m circle, range up to ${data.range}m`;
-    } else if (this.model.shape === "radius") {
-      label = `${data.distance}m radius from caster`;
-    }
-    if (!label) return "";
+    const context = {
+      count: numField("count", mana),
+      range: numField("range", mana),
+      distance: numField("distance", mana),
+      width: numField("width", mana),
+      radius: numField("radius", mana)
+    };
 
-    if (this.isDamage) {
-      const part = this.item.system.damage[this.model.part];
-      const dtype = CONFIG.SYSTEM.DAMAGE_TYPES[part.type].label;
-      return `${this.formula} ${dtype} damage; ${label}`;
-    } else {
-      return label;
-    }
-  }
-
-  /**
-   * Get the damage type options.
-   * @returns {object}
-   */
-  _getDamageOptions() {
-    if (!this.isDamage) return {};
-    const options = this.item.system.damage.map((damage, i) => {
-      const obj = CONFIG.SYSTEM.DAMAGE_TYPES[damage.type];
-      const label = `${obj.label} [${damage.formula}]`;
-      return [i, {label: label}];
-    });
-    return Object.fromEntries(options);
-  }
-
-  /**
-   * Get the shape or type options.
-   * @returns {object}
-   */
-  _getShapeOptions() {
-    return Object.entries(CONFIG.SYSTEM.SPELL_TARGET_TYPES).reduce((acc, [k, v]) => {
-      if (!this.item.system.template.types.has(k)) return acc;
-      acc[k] = {...v, label: `${v.label} ${v.modifier ? `[${v.modifier}]` : ""}`};
-      return acc;
-    }, {});
-  }
-
-  /**
-   * Get the mana options for a scaling property.
-   * @param {string} scale      The property that is scaling.
-   * @returns {object}
-   */
-  _getManaOptions(scale) {
-    let label;
-    if (scale === "damage") {
-      const rollData = this.item.getRollData();
-      label = (n) => {
-        const damage = this.item.system.damage[this.model.part];
-        const roll = new Roll(damage.formula, rollData, {type: damage.type});
-        const formula = roll.alter(n, 0).formula;
-        return `+${formula}`;
-      };
-    }
-    else if (scale === "count") label = (n) => `+${n}`;
-    else label = (n) => `+${CONFIG.SYSTEM.SPELL_TARGET_TYPES[this.model.shape][scale][1] * n}m`;
-    return Object.fromEntries(Array.fromRange(this.max, 1).map(n => [n, `${label(n)} [${n}/${this.max}]`]));
-  }
-
-  /**
-   * Custom model for holding form data.
-   * @type {DataModel}
-   */
-  get model() {
+    // Build shape choices.
     const types = this.item.system.template.types;
-    if (this._model) {
-      const type = this._model.shape;
-      if (!types.has(type)) this._model.updateSource({shape: types.first() || ""});
-      return this._model;
+    const choices = {};
+    for (const [k, v] of Object.entries(CONFIG.SYSTEM.SPELL_TARGET_TYPES)) {
+      if (types.has(k)) choices[k] = v.label;
+    }
+    const field = new foundry.data.fields.StringField({
+      choices: choices,
+      label: "ARTICHRON.SpellUseDialog.Shape",
+      blank: true
+    });
+    context.shape = {field: field, name: "shape", value: this.shape};
+
+    if (this.item.system.category.subtype === "offense") {
+      context.isDamage = true;
+      context.multiplier = numField("multiplier", mana);
+
+      // Build damage parts.
+      const choices = {};
+      for (const {id, formula, type} of this.item.system._damages) {
+        choices[id] = `${CONFIG.SYSTEM.DAMAGE_TYPES[type].label} [${formula}]`;
+      }
+      const field = new foundry.data.fields.StringField({
+        choices: choices,
+        label: "ARTICHRON.SpellUseDialog.Damage",
+        blank: false
+      });
+      context.damage = {field: field, name: "damage", value: this.damage};
     }
 
-    const {SchemaField, NumberField, StringField, BooleanField} = foundry.data.fields;
-    const options = {integer: true, min: 0};
-    const app = this;
+    if (this.item.system.category.subtype === "buff") {
+      context.isBuff = true;
 
-    this._model = new (class SpellcastingModel extends foundry.abstract.DataModel {
-      static defineSchema() {
-        const schema = {
-          scale: new SchemaField({
-            count: new NumberField({...options}),
-            distance: new NumberField({...options}),
-            width: new NumberField({...options}),
-            range: new NumberField({...options}),
-            radius: new NumberField({...options}),
-            damage: new NumberField({...options})
-          }),
-          part: new NumberField({...options, initial: 0}),
-          shape: new StringField({required: true, initial: types.first()}),
-          mana: new BooleanField({initial: true}),
-          effectId: new StringField({required: true})
-        };
-        if (!app.isDamage) delete schema.scale.damage;
-        if (!app.isBuff) delete schema.effectId;
-        return schema;
+      // Build buff choices.
+      const choices = {};
+      for (const effect of this.item.effects) {
+        if ((effect.type === "buff") && !effect.system.isGranted && !effect.transfer) {
+          choices[effect.id] = effect.name;
+        }
       }
-    })();
+      const field = new foundry.data.fields.StringField({
+        choices: choices,
+        label: "ARTICHRON.SpellUseDialog.Buff",
+        blank: true
+      });
+      context.buff = {field: field, name: "buff", value: this.buff};
+    }
 
-    return this._model;
+    return context;
   }
 
   /**
-   * The current mana cost of the spell being sculpted.
-   * @type {number}
-   */
-  get cost() {
-    const spellType = CONFIG.SYSTEM.SPELL_TARGET_TYPES[this.model.shape];
-    return spellType?.scale.reduce((acc, k) => acc + this.model.scale[k], this.model.scale.damage || 0) ?? 0;
-  }
-
-  /**
-   * Get the current formula depending on choices made.
-   * @type {string}
-   */
-  get formula() {
-    if (!this.model.shape) return "";
-    const damage = this.item.system.damage[this.model.part];
-    const c = CONFIG.SYSTEM.SPELL_TARGET_TYPES[this.model.shape];
-    const formula = `${damage.formula}${c.modifier}`;
-    const roll = new Roll(formula, this.item.getRollData(), {type: damage.type}).alter(1 + this.model.scale.damage, 0);
-    return roll.formula;
-  }
-
-  /**
-   * Handle change events select elements.
+   * Handle change events.
    * @param {Event} event     Initiating change events.
    */
-  #onChange(event) {
-    const data = new FormDataExtended(event.currentTarget.closest("FORM")).object;
-    this.model.updateSource(data);
-    this.render();
+  _onChange(event) {
+    const {name, value, dtype} = event.currentTarget;
+    this[name] = (dtype === "Number") ? parseInt(value) : value;
+
+    this.element.querySelector("button[type=submit]").disabled = !this._testValidity();
+
+    if (name === "shape") this._toggleHiddenStates(value);
+  }
+
+  _testValidity() {
+    if (!this.shape) return false;
+
+    let value = 0;
+    const max = this.item.actor.system.pools.mana.value;
+
+    const shapeConfig = CONFIG.SYSTEM.SPELL_TARGET_TYPES[this.shape];
+    for (const k of ["count", "range", "distance", "width", "radius"]) {
+      if (!(k in shapeConfig)) continue;
+      value += this[k];
+    }
+
+    if (this.item.system.category.subtype === "offense") {
+      if (!this.damage) return false;
+      value += this.multiplier;
+    }
+
+    else if (this.item.system.category.subtype === "buff") {
+      if (!this.buff) return false;
+    }
+
+    return value <= max;
+  }
+
+  _toggleHiddenStates() {
+    const shapeConfig = CONFIG.SYSTEM.SPELL_TARGET_TYPES[this.shape] ?? {};
+    const names = ["count", "range", "distance", "width", "radius"];
+    for (const name of names) {
+      const element = this.element.querySelector(`[name="${name}"]`).closest(".form-group");
+      element.style.display = (name in shapeConfig) ? "" : "none";
+    }
   }
 
   /**
@@ -289,20 +307,19 @@ export default class SpellcastingDialog extends HandlebarsApplicationMixin(Appli
    * @param {Event} event             Initiating click event.
    * @param {HTMLElement} target      The targeted element.
    */
-  static #onConfirm(event, target) {
-    const data = this.model.toObject();
+  static _onConfirm(event, target) {
+    const data = new FormDataExtended(this.element);
     data.cost = this.cost;
-    if (this.isDamage) data.formula = this.formula;
-    this.resolve?.(data);
-    this.close();
+    if (this.resolve) this.resolve(data);
   }
 
   /** @override */
   _onRender(context, options) {
     super._onRender(context, options);
-    this.element.querySelectorAll("SELECT, INPUT").forEach(n => {
-      n.addEventListener("change", this.#onChange.bind(this));
+    this.element.querySelectorAll("[name]").forEach(n => {
+      n.addEventListener("change", this._onChange.bind(this));
     });
+    this._toggleHiddenStates();
   }
 
   /**
