@@ -58,12 +58,6 @@ export default class WeaponData extends ArsenalData {
     if (stamina) actor.update({"system.pools.stamina.value": actor.system.pools.stamina.value - stamina});
     if (ammo) ammo.update({"system.quantity.value": ammo.system.quantity.value - 1});
 
-    return DamageRoll.toMessage(rolls, {
-      speaker: ChatMessage.implementation.getSpeaker({actor: actor}),
-      "flags.artichron.use.targetUuids": [target.actor.uuid],
-      "system.actor": actor.uuid,
-      "system.item": item.uuid,
-      type: "damage"
-    });
+    return DamageRoll.toMessage(rolls, {"flags.artichron.use.targetUuids": [target.actor.uuid]}, {item: item});
   }
 }

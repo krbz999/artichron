@@ -1,5 +1,5 @@
-/* Damage Rolls */
-.artichron.damage-rolls {
+/* Chat Messages */
+.artichron.item-usage {
   display: flex;
   position: relative;
   flex-direction: column;
@@ -20,32 +20,68 @@
     margin: 3px 0 7px 0;
   }
 
-  .targets {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
+  .wrapper {
+    display: grid;
+    grid-template-rows: 0fr 0fr;
+    transition: grid-template-rows 200ms ease;
 
-    .target {
-      width: calc(100% / 5);
-      gap: 5px;
-      text-align: center;
+    &.expanded {
+      grid-template-rows: 0fr 1fr;
+    }
+
+    &:not(:has(.target)) { display: none; }
+
+    .toggle {
+      height: 20px;
       display: flex;
-      flex-direction: column;
+      flex-direction: row;
       align-items: center;
+      gap: 3px;
+      white-space: nowrap;
+      cursor: pointer;
 
-      & img {
-        border: none;
-        width: calc(100% - 10px);
+      &::before, &::after {
+        content: "";
+        flex-basis: 50%;
+        border-top: 1px dotted gray;
+        align-self: center;
       }
-      .name {
-        font-size: 12px;
-        border: 1px solid black;
-        border-radius: 3px;
-        width: calc(100% - 4px);
-        background: rgba(0, 0, 0, 0.6);
-        color: rgba(200, 200, 200, 1);
-        white-space: nowrap;
-        overflow: hidden;
+    }
+
+    .targets {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      overflow: hidden;
+
+      & damage-target {
+        width: calc(100% / 5);
+        transition: opacity 200ms ease;
+
+        &[disabled] { opacity: 0.5; }
+      }
+
+      .target {
+        gap: 5px;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        & img {
+          border: none;
+          width: calc(100% - 10px);
+        }
+        .name {
+          font-size: 12px;
+          border: 1px solid black;
+          border-radius: 3px;
+          width: calc(100% - 4px);
+          background: rgba(0, 0, 0, 0.6);
+          color: rgba(200, 200, 200, 1);
+          white-space: nowrap;
+          overflow: hidden;
+        }
       }
     }
   }

@@ -148,7 +148,7 @@ export default class ActorArtichron extends Actor {
    * @param {number|object} values      An object with keys from DAMAGE_TYPES or HEALING_TYPES.
    * @returns {Promise<Actor>}          The actor after the update.
    */
-  async applyDamage(values) {
+  async applyDamage(values, options = {}) {
     if (foundry.utils.getType(values) === "number") {
       values = {none: values};
     }
@@ -176,7 +176,7 @@ export default class ActorArtichron extends Actor {
     }, 0));
     const hp = this.system.health;
     const val = Math.clamp(hp.value - amount, 0, hp.max);
-    return this.update({"system.health.value": val}, {damages: indivs});
+    return this.update({"system.health.value": val}, {...options, damages: indivs});
   }
 
   /**

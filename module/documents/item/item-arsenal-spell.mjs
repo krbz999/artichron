@@ -97,20 +97,11 @@ export default class SpellData extends ArsenalData {
       const {formula, type} = item.system.damage.find(d => d.id === configuration.damage);
       const roll = new DamageRoll(formula, item.getRollData(), {type: type}).alter(configuration.multiplier || 1, 0);
       return roll.toMessage({
-        speaker: ChatMessage.implementation.getSpeaker({actor: actor}),
         "flags.artichron.use.targetUuids": Array.from(targets).map(target => target.uuid),
-        "flags.artichron.use.templateData": (configuration.shape !== "single") ? {
-          ...data,
-          formula: roll.formula,
-          damageType: type
-        } : null,
-        "system.actor": actor.uuid,
-        "system.item": item.uuid,
-        type: "damage"
-      });
+        "flags.artichron.use.templateData": (configuration.shape !== "single") ? {...data} : null
+      }, {item: item});
     } else {
       // Buff or Defensive magic
-      const speaker = ChatMessage.implementation.getSpeaker({actor: actor});
       const templateData = (data.type !== "single") ? {...data} : null;
       const effectId = configuration.buff;
       const effect = this.parent.effects.get(effectId);
@@ -120,8 +111,8 @@ export default class SpellData extends ArsenalData {
         "flags.artichron.use.effectUuid": effect.uuid,
         "system.actor": actor.uuid,
         "system.item": item.uuid,
-        speaker: speaker,
-        content: await renderTemplate("systems/artichron/templates/chat/damage-roll.hbs", {
+        speaker: ChatMessage.implementation.getSpeaker({actor: actor}),
+        content: await renderTemplate("systems/artichron/templates/chat/item-message.hbs", {
           templateData, effectId, targets
         })
       });

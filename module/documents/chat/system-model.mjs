@@ -16,7 +16,7 @@ export class ChatMessageSystemModel extends foundry.abstract.TypeDataModel {
   }
 }
 
-export class DamageMessageData extends ChatMessageSystemModel {
+export class ItemMessageData extends ChatMessageSystemModel {
   static defineSchema() {
     return {...super.defineSchema()};
   }
