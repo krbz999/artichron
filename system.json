@@ -101,7 +101,7 @@
       "weapon": {}
     },
     "ChatMessage": {
-      "damage": {}
+      "usage": {}
     },
     "Combatant": {
       "hero": {}

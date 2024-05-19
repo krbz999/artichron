@@ -90,7 +90,9 @@ export default class SpellData extends ArsenalData {
     }
     delete this._targeting;
 
-    if (data.cost) await actor.update({"system.pools.mana.value": actor.system.pools.mana.value - configuration.cost});
+    if (configuration.cost) {
+      await actor.update({"system.pools.mana.value": actor.system.pools.mana.value - configuration.cost});
+    }
 
     if (isDamage) {
       // Offensive magic
@@ -106,6 +108,7 @@ export default class SpellData extends ArsenalData {
       const effectId = configuration.buff;
       const effect = this.parent.effects.get(effectId);
       return ChatMessage.implementation.create({
+        type: "usage",
         "flags.artichron.use.targetUuids": Array.from(targets).map(target => target.uuid),
         "flags.artichron.use.templateData": templateData,
         "flags.artichron.use.effectUuid": effect.uuid,
@@ -113,7 +116,7 @@ export default class SpellData extends ArsenalData {
         "system.item": item.uuid,
         speaker: ChatMessage.implementation.getSpeaker({actor: actor}),
         content: await renderTemplate("systems/artichron/templates/chat/item-message.hbs", {
-          templateData, effectId, targets
+          templateData, effectId
         })
       });
     }

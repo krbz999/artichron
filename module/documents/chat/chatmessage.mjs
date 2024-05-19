@@ -1,3 +1,4 @@
+import {DamageRoll} from "../../dice/damage-roll.mjs";
 import MeasuredTemplateArtichron from "../template/template.mjs";
 
 export default class ChatMessageArtichron extends ChatMessage {
@@ -26,15 +27,25 @@ export default class ChatMessageArtichron extends ChatMessage {
     return this.system.actor;
   }
 
+  get isBuff() {
+    const item = this.item;
+    return (item?.type === "spell") && (item.system.category.subtype === "buff");
+  }
+
+  get isDamage() {
+    return this.rolls.some(roll => roll instanceof DamageRoll);
+  }
+
   /** @override */
   async getHTML(...T) {
     const html = await super.getHTML(...T);
 
-    const type = this.flags.artichron?.use?.type;
-    if (!type) return;
+    const uuids = this.flags.artichron?.use?.targetUuids ?? [];
+    if (!uuids.length) return html;
+
+    const tagName = this.isBuff ? "buff-target" : this.isDamage ? "damage-target" : "";
     const [toggle, targets] = html[0].querySelectorAll(".wrapper .toggle, .wrapper .targets");
-    const tagName = (type === "damage") ? "damage-target" : "buff-target";
-    for (const uuid of this.flags.artichron.use.targetUuids ?? []) {
+    for (const uuid of uuids) {
       const element = document.createElement(tagName);
       element.dataset.actorUuid = uuid;
       targets.appendChild(element);

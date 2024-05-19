@@ -45,7 +45,7 @@ export class DamageRoll extends Roll {
       foundry.utils.mergeObject(messageData, {
         "system.item": item.uuid,
         "system.actor": item.actor.uuid,
-        type: "item"
+        type: "usage"
       });
     }
     messageData.content = await this._renderTemplateMethod(messageData);

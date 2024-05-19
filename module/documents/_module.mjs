@@ -36,7 +36,7 @@ export const dataModels = {
     ammo: AmmunitionData
   },
   message: {
-    item: ItemMessageData
+    usage: ItemMessageData
   },
   combatant: {
     hero: HeroCombatantData

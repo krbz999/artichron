@@ -54,7 +54,7 @@
       justify-content: space-around;
       overflow: hidden;
 
-      & damage-target {
+      & damage-target, buff-target {
         width: calc(100% / 5);
         transition: opacity 200ms ease;
 
