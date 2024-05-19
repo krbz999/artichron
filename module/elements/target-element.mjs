@@ -126,7 +126,7 @@ export class BuffTarget extends TargetElement {
   /** @override */
   _onClick(event) {
     if (this.disabled) return;
-    const effect = fromUuidSync(this.flags.artichron.use.effectUuid);
+    const effect = fromUuidSync(this.chatMessage.flags.artichron.use.effectUuid);
     artichron.utils.sockets.grantBuff(effect, this.actor, {messageId: this.chatMessage.id});
   }
 }

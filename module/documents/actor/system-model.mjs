@@ -10,7 +10,8 @@ export class ActorSystemModel extends foundry.abstract.TypeDataModel {
   static defineSchema() {
     return {
       health: new SchemaField({
-        value: new NumberField({min: 0, integer: true})
+        value: new NumberField({min: 0, integer: true}),
+        max: new NumberField({initial: null})
       }),
       pools: new SchemaField({
         health: new EmbeddedDataField(PoolDiceModel),
