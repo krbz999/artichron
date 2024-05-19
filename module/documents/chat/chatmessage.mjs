@@ -18,23 +18,31 @@ export default class ChatMessageArtichron extends ChatMessage {
     return templates;
   }
 
-  async applyDamage() {
-    let actors = new Set();
-    const tokens = canvas.tokens.controlled;
-    if (tokens.length) {
-      for (const token of tokens) if (token.actor) actors.add(token.actor);
-    } else {
-      actors = this.flags.artichron.use.targetUuids.map(uuid => fromUuidSync(uuid));
-      actors = new Set(actors.filter(actor => actor?.isOwner));
-    }
-    for (const actor of actors) actor.applyDamage(this.flags.artichron.use.totals);
-  }
-
   get item() {
     return this.system.item;
   }
 
   get actor() {
     return this.system.actor;
+  }
+
+  /** @override */
+  async getHTML(...T) {
+    const html = await super.getHTML(...T);
+
+    const type = this.flags.artichron?.use?.type;
+    if (!type) return;
+    const [toggle, targets] = html[0].querySelectorAll(".wrapper .toggle, .wrapper .targets");
+    const tagName = (type === "damage") ? "damage-target" : "buff-target";
+    for (const uuid of this.flags.artichron.use.targetUuids ?? []) {
+      const element = document.createElement(tagName);
+      element.dataset.actorUuid = uuid;
+      targets.appendChild(element);
+    }
+    toggle.addEventListener("click", event => {
+      event.currentTarget.closest(".wrapper").classList.toggle("expanded");
+    });
+
+    return html;
   }
 }

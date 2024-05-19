@@ -9,6 +9,7 @@ import auraInit from "./module/documents/canvas/canvas.mjs";
 import {registerSettings} from "./module/helpers/settings.mjs";
 import {registerEnrichers} from "./module/helpers/enrichers.mjs";
 import {registerSockets} from "./module/helpers/sockets.mjs";
+import {BuffTarget, DamageTarget} from "./module/elements/target-element.mjs";
 
 /* ---------------------------------------- */
 /*  Define Module Structure                 */
@@ -92,6 +93,10 @@ Hooks.once("init", function() {
   ChatLog.init();
   auraInit();
   documents.templates.ActiveEffectSystemModel.activateListeners();
+
+  // Custom elements.
+  window.customElements.define("damage-target", DamageTarget);
+  window.customElements.define("buff-target", BuffTarget);
 });
 
 /* ---------------------------------------- */
