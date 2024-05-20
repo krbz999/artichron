@@ -6,7 +6,7 @@ import {CategoryField} from "../fields/category-field.mjs";
 import MeasuredTemplateArtichron from "../template/template.mjs";
 import ArsenalData from "./item-arsenal.mjs";
 
-const {NumberField, SchemaField, StringField, SetField} = foundry.data.fields;
+const {SchemaField, StringField, SetField} = foundry.data.fields;
 
 export default class SpellData extends ArsenalData {
   /** @override */
@@ -39,17 +39,13 @@ export default class SpellData extends ArsenalData {
   /** @override */
   async use() {
     if (this._targeting) return null; // Prevent initiating targeting twice.
-    const isDamage = this.category.subtype === "offense";
-    const isBuff = this.category.subtype === "buff";
-    const item = this.parent;
-    const actor = item.actor;
 
-    if (isDamage && !this.hasDamage) {
+    if ((this.category.subtype === "offense") && !this.hasDamage) {
       ui.notifications.warn("ARTICHRON.Warning.ItemHasNoDamageRolls", {localize: true});
       return null;
     }
 
-    if (!item.isEquipped) {
+    if (!this.parent.isEquipped) {
       ui.notifications.warn("ARTICHRON.Warning.ItemIsNotEquipped", {localize: true});
       return null;
     }
@@ -59,7 +55,7 @@ export default class SpellData extends ArsenalData {
       return null;
     }
 
-    const configuration = await SpellUseDialog.create(item);
+    const configuration = await SpellUseDialog.create(this.parent);
     if (!configuration) return null;
 
     const data = SpellUseDialog.determineTemplateData(configuration);
@@ -74,7 +70,7 @@ export default class SpellData extends ArsenalData {
       for (const template of templates) {
         for (const token of template.object.containedTokens) {
           const actor = token.actor;
-          if (actor) targets.add(actor);
+          if (actor) targets.add(actor.uuid);
         }
       }
     } else {
@@ -82,41 +78,33 @@ export default class SpellData extends ArsenalData {
       const tokens = await this.pickTarget({count: data.count, range: data.range});
       for (const token of tokens) {
         const actor = token.actor;
-        if (actor) targets.add(actor);
+        if (actor) targets.add(actor.uuid);
       }
     }
     delete this._targeting;
 
     if (configuration.cost) {
+      const actor = this.parent.actor;
       await actor.update({"system.pools.mana.value": actor.system.pools.mana.value - configuration.cost});
     }
 
-    if (isDamage) {
+    const messageData = {targets: Array.from(targets)};
+    if (configuration.shape !== "single") messageData.template = data;
+
+    if (this.category.subtype === "offense") {
       // Offensive magic
-      const {formula, type} = item.system.damage.parts.find(d => d.id === configuration.damage);
-      const roll = new DamageRoll(formula, item.getRollData(), {type: type}).alter(configuration.multiplier || 1, 0);
-      return roll.toMessage({
-        "flags.artichron.use.targetUuids": Array.from(targets).map(target => target.uuid),
-        "flags.artichron.use.templateData": (configuration.shape !== "single") ? {...data} : null
-      }, {item: item});
-    } else {
+      const {formula, type} = this.damage.parts.find(d => d.id === configuration.damage);
+      const rollData = this.parent.getRollData();
+      const roll = new DamageRoll(formula, rollData, {type: type}).alter(configuration.multiplier || 1, 0);
+      messageData.rolls = [roll];
+    } else if (this.category.subtype === "buff") {
       // Buff or Defensive magic
-      const templateData = (data.type !== "single") ? {...data} : null;
       const effectId = configuration.buff;
       const effect = this.parent.effects.get(effectId);
-      return ChatMessage.implementation.create({
-        type: "usage",
-        "flags.artichron.use.targetUuids": Array.from(targets).map(target => target.uuid),
-        "flags.artichron.use.templateData": templateData,
-        "flags.artichron.use.effectUuid": effect.uuid,
-        "system.actor": actor.uuid,
-        "system.item": item.uuid,
-        speaker: ChatMessage.implementation.getSpeaker({actor: actor}),
-        content: await renderTemplate("systems/artichron/templates/chat/item-message.hbs", {
-          templateData, effectId
-        })
-      });
+      messageData.effectUuid = effect.uuid;
     }
+
+    return this.toMessage(messageData);
   }
 
   /**

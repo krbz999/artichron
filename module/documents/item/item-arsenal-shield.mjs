@@ -62,6 +62,6 @@ export default class ShieldData extends ArsenalData {
       return new DamageRoll(formulas.join("+"), rollData, {type: type});
     });
 
-    return DamageRoll.toMessage(rolls, {"flags.artichron.use.targetUuids": [target.actor.uuid]}, {item: item});
+    return this.toMessage(rolls, {targets: [target.actor.uuid]});
   }
 }

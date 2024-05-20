@@ -1,3 +1,4 @@
+import {DamageRoll} from "../../dice/damage-roll.mjs";
 import {IdField} from "../fields/id-field.mjs";
 import {ItemSystemModel} from "./system-model.mjs";
 import {FusionTemplateMixin} from "./templates/fusion-data.mjs";
@@ -91,5 +92,42 @@ export default class ArsenalData extends FusionTemplateMixin(ItemSystemModel) {
     options.origin ??= this.parent.token;
     const targets = await artichron.utils.awaitTargets(count, options);
     return targets;
+  }
+
+  /**
+   * Display the result of this item's usage in the chat log.
+   * @param {object} [config]
+   * @param {DamageRoll[]} [config.rolls]
+   * @param {string[]} [config.targets]
+   * @param {string} [config.effectUuid]
+   * @param {object} [options]
+   * @param {string} [options.rollMode]
+   * @param {boolean} [options.create]
+   * @returns {Promise<ChatMessage|object>}     A promise that resolves to the created chat message or message data.
+   */
+  async toMessage({rolls = [], targets = [], template, effectUuid} = {}, {rollMode, create = true} = {}) {
+    // Evaluate unevaluated rolls.
+    for (const roll of rolls) {
+      if (!roll.evaluated) await roll.evaluate();
+    }
+
+    // Set up message data.
+    const messageData = {
+      type: "usage",
+      rolls: rolls,
+      speaker: ChatMessage.implementation.getSpeaker({actor: this.parent.actor}),
+      "system.item": this.parent.uuid,
+      "system.actor": this.parent.actor.uuid
+    };
+    if (rolls.length) {
+      messageData.sound = CONFIG.sounds.dice;
+      messageData.rollMode = rollMode ? rollMode : game.settings.get("core", "rollMode");
+    }
+    if (targets.length) messageData["system.targets"] = targets;
+    if (template) messageData["flags.artichron.use.templateData"] = foundry.utils.deepClone(template);
+    if (effectUuid) messageData["system.effect"] = effectUuid;
+
+    // Display the message or return the message data.
+    return create ? ChatMessage.implementation.create(messageData) : messageData;
   }
 }
