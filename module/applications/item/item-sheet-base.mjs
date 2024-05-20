@@ -47,6 +47,8 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
       return acc;
     }, [[], [], []]);
 
+    const isOffense = (doc.type === "spell") && (doc.system.category.subtype === "offense");
+
     const context = {
       document: doc,
       source: src.system,
@@ -56,13 +58,14 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
       fusions: fusionOptions,
       isFavorited: this.actor?.system.equipped.favorites.has(doc) ?? false,
       sections: {
-        damage: ("damage" in src.system) && ((doc.type !== "spell") || (doc.system.category.subtype === "offense")),
+        damage: ("parts" in (src.system.damage ?? {})) && ((doc.type !== "spell") || isOffense),
         armor: "armor" in src.system,
         resistances: "resistances" in src.system,
         wield: "wield" in src.system,
         range: "range" in src.system,
         price: "price" in src.system,
         template: "template" in src.system,
+        blast: "blast" in src.system,
         weight: "weight" in src.system,
         quantity: "quantity" in src.system,
         usage: "usage" in src.system,
@@ -80,7 +83,8 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
       isEditMode: this.isEditMode,
       isPlayMode: this.isPlayMode,
       isEditable: this.isEditable,
-      canFuse: doc.canFuse
+      canFuse: doc.canFuse,
+      isAmmo: doc.isAmmo
     };
 
     // Name and img.
@@ -126,9 +130,15 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
 
     // Template types.
     if (context.sections.template) {
-      context.templates = Object.entries(CONFIG.SYSTEM.SPELL_TARGET_TYPES).map(([k, v]) => {
+      context.templates = Object.entries(CONFIG.SYSTEM.AREA_TARGET_TYPES).map(([k, v]) => {
         return {key: k, label: v.label, selected: doc.system.template?.types.has(k)};
       });
+    }
+
+    // Blast zone.
+    if (context.sections.blast) {
+      context.blastSize = makeField("blast.size", false);
+      context.blastType = makeField("blast.type", false);
     }
 
     // Weight.
@@ -151,12 +161,20 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
     // Damage parts.
     if (context.sections.damage) {
       context.damages = {
-        parts: context.isEditMode ? src.system.damage : doc.system._damages
+        parts: context.isEditMode ? src.system.damage.parts : doc.system._damages
       };
       context.damageTypes = Object.entries(CONFIG.SYSTEM.DAMAGE_TYPES).reduce((acc, [k, v]) => {
         acc[v.group][k] = v.label;
         return acc;
       }, {physical: {}, elemental: {}, planar: {}});
+
+      // Damage type override (ammo).
+      if (context.isAmmo) {
+        context.damages.override = {
+          group: makeField("damage.override.group", false),
+          value: makeField("damage.override.value", false)
+        };
+      }
     }
 
     // Resistances.
@@ -183,12 +201,12 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
   static _onAddDamage(event, target) {
     if (!this.isEditable) return;
     const type = (this.document.type === "spell") ? "fire" : "physical";
-    const parts = this.document.system.toObject().damage.concat([{
+    const parts = this.document.system.toObject().damage.parts.concat([{
       type: type,
       formula: "",
       id: foundry.utils.randomID()
     }]);
-    this.document.update({"system.damage": parts});
+    this.document.update({"system.damage.parts": parts});
   }
 
   /**
@@ -199,9 +217,9 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
   static _onDeleteDamage(event, target) {
     if (!this.isEditable) return;
     const id = target.closest("[data-id]").dataset.id;
-    const parts = this.document.system.toObject().damage;
+    const parts = this.document.system.toObject().damage.parts;
     parts.findSplice(d => d.id === id);
-    this.document.update({"system.damage": parts});
+    this.document.update({"system.damage.parts": parts});
   }
 
   /**

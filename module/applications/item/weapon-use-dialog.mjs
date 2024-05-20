@@ -113,8 +113,12 @@ export default class WeaponUseDialog extends HandlebarsApplicationMixin(Applicat
 
   /** @override */
   async _prepareContext(options) {
+    const weaponType = this.item.system.category.subtype;
     const ammos = this.item.actor.items.reduce((acc, item) => {
-      if (item.isAmmo) acc[item.id] = item.name;
+      const isType = CONFIG.SYSTEM.AMMUNITION_TYPES[item.system.category?.subtype]?.weapons.has(weaponType);
+      if (isType && item.isAmmo && (item.system.quantity.value > 0)) {
+        acc[item.id] = item.name;
+      }
       return acc;
     }, {});
     const ammoField = new foundry.data.fields.StringField({

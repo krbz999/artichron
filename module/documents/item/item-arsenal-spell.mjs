@@ -21,9 +21,8 @@ export default class SpellData extends ArsenalData {
       template: new SchemaField({
         types: new SetField(new StringField({
           required: true,
-          choices: Object.keys(CONFIG.SYSTEM.SPELL_TARGET_TYPES)
-        })),
-        rating: new NumberField({integer: true, min: 0})
+          choices: CONFIG.SYSTEM.AREA_TARGET_TYPES
+        }))
       }),
       category: new CategoryField({
         label: "ARTICHRON.ItemProperty.SpellType",
@@ -34,9 +33,7 @@ export default class SpellData extends ArsenalData {
 
   /** @override */
   get BONUS_FIELDS() {
-    return super.BONUS_FIELDS.union(new Set([
-      "system.template.rating"
-    ]));
+    return super.BONUS_FIELDS;
   }
 
   /** @override */
@@ -96,7 +93,7 @@ export default class SpellData extends ArsenalData {
 
     if (isDamage) {
       // Offensive magic
-      const {formula, type} = item.system.damage.find(d => d.id === configuration.damage);
+      const {formula, type} = item.system.damage.parts.find(d => d.id === configuration.damage);
       const roll = new DamageRoll(formula, item.getRollData(), {type: type}).alter(configuration.multiplier || 1, 0);
       return roll.toMessage({
         "flags.artichron.use.targetUuids": Array.from(targets).map(target => target.uuid),

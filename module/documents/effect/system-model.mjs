@@ -203,7 +203,7 @@ export class EffectFusionData extends ActiveEffectSystemModel {
     }
 
     // Special case: damage
-    else if (key.startsWith("system.damage")) {
+    else if (key === "system.damage.parts") {
       value = JSON.parse(`[${value}]`);
       value = Array.isArray(value) ? value : [value];
 
@@ -231,7 +231,7 @@ export class EffectFusionData extends ActiveEffectSystemModel {
         "system.weight.value": "Weight",
         "system.armor.value": "Armor",
         "system.range.value": "Range",
-        "system.damage": "Damage"
+        "system.damage.parts": "Damage"
       }[key];
       locale = `ARTICHRON.ItemFusionChanges.${map}.${mode}`;
       options = {change: value};

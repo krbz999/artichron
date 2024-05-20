@@ -207,7 +207,7 @@ export default class SpellUseDialog extends HandlebarsApplicationMixin(Applicati
     // Build shape choices.
     const types = this.item.system.template.types;
     const choices = {};
-    for (const [k, v] of Object.entries(CONFIG.SYSTEM.SPELL_TARGET_TYPES)) {
+    for (const [k, v] of Object.entries(CONFIG.SYSTEM.AREA_TARGET_TYPES)) {
       if (types.has(k)) choices[k] = v.label;
     }
     const field = new foundry.data.fields.StringField({
@@ -284,7 +284,7 @@ export default class SpellUseDialog extends HandlebarsApplicationMixin(Applicati
   get cost() {
     let value = 0;
 
-    const shapeConfig = CONFIG.SYSTEM.SPELL_TARGET_TYPES[this.shape];
+    const shapeConfig = CONFIG.SYSTEM.AREA_TARGET_TYPES[this.shape];
     if (!shapeConfig) return null;
 
     for (const k of ["count", "range", "distance", "width", "radius"]) {
@@ -300,7 +300,7 @@ export default class SpellUseDialog extends HandlebarsApplicationMixin(Applicati
   }
 
   _toggleHiddenStates() {
-    const shapeConfig = CONFIG.SYSTEM.SPELL_TARGET_TYPES[this.shape] ?? {};
+    const shapeConfig = CONFIG.SYSTEM.AREA_TARGET_TYPES[this.shape] ?? {};
     const names = ["count", "range", "distance", "width", "radius"];
     for (const name of names) {
       const element = this.element.querySelector(`[name="${name}"]`).closest(".form-group");
@@ -344,7 +344,7 @@ export default class SpellUseDialog extends HandlebarsApplicationMixin(Applicati
     let count = 1;
 
     const getValue = (d) => {
-      const [base, increase] = CONFIG.SYSTEM.SPELL_TARGET_TYPES[data.shape][d];
+      const [base, increase] = CONFIG.SYSTEM.AREA_TARGET_TYPES[data.shape][d];
       return base + increase * data[d];
     };
 

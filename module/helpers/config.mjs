@@ -79,6 +79,21 @@ SYSTEM.DAMAGE_TYPES = {
 };
 
 /**
+ * @typedef {object} DamageTypeGroupConfig
+ * @property {string} label     The human-readable label of this damage group.
+ */
+
+/**
+ * Damage group types.
+ * @enum {DamageTypeGroupConfig}
+ */
+SYSTEM.DAMAGE_TYPE_GROUPS = {
+  physical: {label: "ARTICHRON.DamageTypeGroup.Physical"},
+  elemental: {label: "ARTICHRON.DamageTypeGroup.Elemental"},
+  planar: {label: "ARTICHRON.DamageTypeGroup.Planar"}
+};
+
+/**
  * @typedef {object} HealingTypeConfig
  * @property {string} label     Displayed label of the healing type.
  * @property {string} color     Associated default color.
@@ -98,10 +113,11 @@ SYSTEM.HEALING_TYPES = {
 };
 
 /**
- * @typedef {object} SpellTargetTypes
+ * @typedef {object} AreaTargetTypes
  * @property {string} label             Displayed label of the targeting type.
  * @property {Set<string>} scale        The properties that can scale with mana.
  * @property {string} modifier          The die modifier to attach to this damage roll.
+ * @property {boolean} [ammo]           Whether this is a valid area type for ammo.
  * @property {number[]} [count]         The default count and how much each increase is.
  * @property {number[]} [range]         The default range and how much each increase is.
  * @property {number[]} [distance]      The default distance and how much each increase is.
@@ -110,10 +126,11 @@ SYSTEM.HEALING_TYPES = {
  */
 
 /**
- * The types of targeting a spell can make.
- * @enum {SpellTargetTypes}
+ * The types of area targeting, enumerating both configurations for spell areas and upscaling
+ * with mana, as well as what blast zones a piece of ammo can create.
+ * @enum {AreaTargetTypes}
  */
-SYSTEM.SPELL_TARGET_TYPES = {
+SYSTEM.AREA_TARGET_TYPES = {
   single: {
     label: "ARTICHRON.SpellShape.SingleTarget",
     scale: new Set(["count", "range"]),
@@ -125,6 +142,7 @@ SYSTEM.SPELL_TARGET_TYPES = {
     label: "ARTICHRON.SpellShape.AreaRay",
     scale: new Set(["count", "distance", "width"]),
     modifier: "xo",
+    ammo: true,
     count: [1, 1],
     distance: [4, 2],
     width: [1, 1]
@@ -133,6 +151,7 @@ SYSTEM.SPELL_TARGET_TYPES = {
     label: "ARTICHRON.SpellShape.AreaCone",
     scale: new Set(["count", "distance"]),
     modifier: "min2",
+    ammo: true,
     count: [1, 1],
     distance: [3, 2]
   },
@@ -147,6 +166,7 @@ SYSTEM.SPELL_TARGET_TYPES = {
     label: "ARTICHRON.SpellShape.AreaCircle",
     scale: new Set(["count", "radius", "range"]),
     modifier: "",
+    ammo: true,
     count: [1, 1],
     radius: [1, 1],
     range: [5, 2]
@@ -267,14 +287,24 @@ SYSTEM.ELIXIR_TYPES = {};
 
 /**
  * @typedef {object} AmmunitionTypeConfig
- * @property {string} label     The human-readable label of this ammunition type.
+ * @property {string} label             The human-readable label of this ammunition type.
+ * @property {Set<string>} weapons      The weapon subtypes that can use this ammo.
  */
 
 /**
  * Ammunition subtypes.
  * @enum {AmmunitionTypeConfig}
  */
-SYSTEM.AMMUNITION_TYPES = {};
+SYSTEM.AMMUNITION_TYPES = {
+  arrow: {
+    label: "ARTICHRON.AmmunitionType.Arrow",
+    weapons: new Set(["bow"])
+  },
+  bullet: {
+    label: "ARTICHRON.AmmunitionType.Bullet",
+    weapons: new Set(["rifle", "gun"])
+  }
+};
 
 /**
  * @typedef {object} EffectDurationConfig
