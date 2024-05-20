@@ -35,6 +35,14 @@ export default class ActorArtichron extends Actor {
     return this.system.hasShield ?? false;
   }
 
+  /**
+   * The items that this actor has favorited.
+   * @type {Set<ItemArtichron>}
+   */
+  get favorites() {
+    return this.system.favorites;
+  }
+
   /* ---------------------------------------- */
   /*                                          */
   /*            PREPARATION METHODS           */

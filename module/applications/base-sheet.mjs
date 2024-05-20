@@ -162,6 +162,12 @@ export const ArtichronSheetMixin = Base => {
     }
 
     /** @override */
+    _onFirstRender(context, options) {
+      super._onFirstRender(context, options);
+      this._setupContextMenu();
+    }
+
+    /** @override */
     _onRender(context, options) {
       super._onRender(context, options);
 
@@ -204,6 +210,97 @@ export const ArtichronSheetMixin = Base => {
           }
         });
       }
+    }
+
+    /* ---------------------------------------- */
+    /*           Context Menu Handlers          */
+    /* ---------------------------------------- */
+
+    /**
+     * Bind a new context menu.
+     */
+    _setupContextMenu() {
+      new artichron.applications.ContextMenuArtichron(this.element, "[data-item-uuid]", [], {onOpen: element => {
+        const item = fromUuidSync(element.dataset.itemUuid);
+        if (!item) return;
+        if (item.documentName === "ActiveEffect") ui.context.menuItems = this._getEffectContextOptions(item);
+        else if (item.documentName === "Item") ui.context.menuItems = this._getItemContextOptions(item);
+      }});
+    }
+
+    /**
+     * Create context menu options for an active effect.
+     * @param {ActiveEffectArtichron} item      The effect.
+     * @returns {object[]}                      The array of options.
+     */
+    _getEffectContextOptions(item) {
+      const isOwner = item.isOwner;
+      return [{
+        name: "ARTICHRON.ContextMenu.EffectOption.Show",
+        icon: "<i class='fa-solid fa-fw fa-edit'></i>",
+        condition: () => isOwner,
+        callback: () => item.sheet.render(true),
+        group: "manage"
+      }, {
+        name: "ARTICHRON.ContextMenu.EffectOption.Delete",
+        icon: "<i class='fa-solid fa-fw fa-trash'></i>",
+        condition: () => isOwner,
+        callback: () => item.deleteDialog(),
+        group: "manage"
+      }, {
+        name: "ARTICHRON.ContextMenu.EffectOption.Enable",
+        icon: "<i class='fa-solid fa-fw fa-toggle-on'></i>",
+        condition: () => isOwner && item.disabled,
+        callback: () => item.update({disabled: false}),
+        group: "action"
+      }, {
+        name: "ARTICHRON.ContextMenu.EffectOption.Disable",
+        icon: "<i class='fa-solid fa-fw fa-toggle-off'></i>",
+        condition: () => isOwner && !item.disabled && !item.isTransferrableFusion,
+        callback: () => item.update({disabled: true}),
+        group: "action"
+      }];
+    }
+
+    /**
+     * Create context menu options for an item.
+     * @param {ItemArtichron} item      The item.
+     * @returns {object[]}              The array of options.
+     */
+    _getItemContextOptions(item) {
+      const isOwner = item.isOwner;
+      const isEquipped = item.isEquipped;
+      return [{
+        name: "ARTICHRON.ContextMenu.ItemOption.Show",
+        icon: "<i class='fa-solid fa-fw fa-edit'></i>",
+        condition: () => isOwner,
+        callback: () => item.sheet.render(true),
+        group: "manage"
+      }, {
+        name: "ARTICHRON.ContextMenu.ItemOption.Delete",
+        icon: "<i class='fa-solid fa-fw fa-trash'></i>",
+        condition: () => isOwner && !isEquipped,
+        callback: () => item.deleteDialog(),
+        group: "manage"
+      }, {
+        name: "ARTICHRON.ContextMenu.ItemOption.Unequip",
+        icon: "<i class='fa-solid fa-fw fa-shield-halved'></i>",
+        condition: () => isOwner && isEquipped,
+        callback: () => item.system.unequip(),
+        group: "action"
+      }, {
+        name: "ARTICHRON.ContextMenu.ItemOption.Favorite",
+        icon: "<i class='fa-solid fa-fw fa-star'></i>",
+        condition: () => isOwner && !item.isFavorite,
+        callback: () => item.favorite(),
+        group: "action"
+      }, {
+        name: "ARTICHRON.ContextMenu.ItemOption.Unfavorite",
+        icon: "<i class='fa-regular fa-fw fa-star'></i>",
+        condition: () => isOwner && item.isFavorite,
+        callback: () => item.favorite(),
+        group: "action"
+      }];
     }
 
     /* ---------------------------------------- */

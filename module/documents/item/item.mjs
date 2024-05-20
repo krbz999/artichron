@@ -107,6 +107,15 @@ export default class ItemArtichron extends Item {
     return this.type === "ammo";
   }
 
+  /**
+   * Is this item favorited by its owner?
+   * @type {boolean}
+   */
+  get isFavorite() {
+    if (!this.isEmbedded) return false;
+    return this.actor.favorites.has(this);
+  }
+
   /* ---------------------------------------- */
   /*                                          */
   /*            PREPARATION METHODS           */
