@@ -56,7 +56,7 @@ class TargetElement extends HTMLElement {
     </div>`;
 
     if (this.chatMessage.disabledUuids?.has(this.actor.uuid) || !this.actor.isOwner) this.disabled = true;
-    else this.addEventListener("click", this._onClick.bind(this));
+    else this.addEventListener("click", this.execute.bind(this));
   }
 
   /** @override */
@@ -82,14 +82,28 @@ class TargetElement extends HTMLElement {
     if (token.actor?.isToken && (token.actor === this.actor)) this.remove();
   }
 
-  /**
-   * The click event for any targets.
-   * @param {Event} event     Initiating click event.
-   */
-  _onClick(event) {}
+  /** Execute the main method of this element. */
+  execute() {}
 }
 
 export class DamageTarget extends TargetElement {
+  /**
+   * The damage totals by type.
+   * @type {object}
+   */
+  #damages = null;
+
+  /** @override */
+  connectedCallback() {
+    super.connectedCallback();
+
+    this.#damages = this.chatMessage.rolls.reduce((acc, roll) => {
+      acc[roll.type] ??= 0;
+      acc[roll.type] += roll.total;
+      return acc;
+    }, {});
+  }
+
   /** @override */
   _applyHooks() {
     super._applyHooks();
@@ -103,10 +117,9 @@ export class DamageTarget extends TargetElement {
   }
 
   /** @override */
-  _onClick(event) {
+  execute() {
     if (this.disabled) return;
-    const totals = this.chatMessage.flags.artichron.use.totals;
-    this.actor.applyDamage(totals, {messageId: this.chatMessage.id});
+    this.actor.applyDamage(this.#damages, {messageId: this.chatMessage.id});
   }
 }
 
@@ -124,9 +137,9 @@ export class BuffTarget extends TargetElement {
   }
 
   /** @override */
-  _onClick(event) {
+  execute() {
     if (this.disabled) return;
-    const effect = fromUuidSync(this.chatMessage.flags.artichron.use.effectUuid);
+    const effect = this.chatMessage.system.effect;
     artichron.utils.sockets.grantBuff(effect, this.actor, {messageId: this.chatMessage.id});
   }
 }

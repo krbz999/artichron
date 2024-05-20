@@ -83,14 +83,7 @@ export default class WeaponData extends ArsenalData {
     // Create a template for the blast zone and modify targets.
     const targets = new Set([target.actor.uuid]);
     if (ammoModifiers.has("blast")) {
-      const ray = Ray.towardsPoint(token.center, target.object.center, 1);
-      const templateData = MeasuredTemplateArtichron.fromData({
-        ...target.object.center,
-        t: ammo.system.blast.type,
-        direction: Math.toDegrees(ray.angle),
-        distance: ammo.system.blast.size
-      }).document.toObject();
-      const template = await getDocumentClass("MeasuredTemplate").create(templateData, {parent: canvas.scene});
+      const template = await this.constructor.createBlastZone(token, target.object, ammo.system.blast);
       await template.waitForShape();
       const additionalTargets = template.object.containedTokens;
       for (const t of additionalTargets) {
@@ -98,6 +91,30 @@ export default class WeaponData extends ArsenalData {
       }
     }
 
-    return DamageRoll.toMessage(rolls, {"flags.artichron.use.targetUuids": Array.from(targets)}, {item: item});
+    return this.toMessage({rolls, targets: Array.from(targets)});
+  }
+
+  /**
+   * Create a blast zone as product of some ammunition.
+   * @param {TokenArtichron} origin                             The token of the attacker.
+   * @param {TokenArtichron} target                             The token of the target.
+   * @param {object} [options]                                  Template shape options.
+   * @param {string} [options.type]                             The shape type of the blast zone.
+   * @param {number} [options.size]                             The distance of the blast zone.
+   * @returns {Promise<MeasuredTemplateDocumentArtichron>}      A promise that resolves to the created template.
+   */
+  static async createBlastZone(origin, target, {type = "ray", size = 1} = {}) {
+    const ray = Ray.towardsPoint(origin.center, target.center, 1);
+    const templateData = MeasuredTemplateArtichron.fromData({
+      ...target.center,
+      t: type,
+      direction: Math.toDegrees(ray.angle),
+      distance: size
+    }).document.toObject();
+    return getDocumentClass("MeasuredTemplate").create(templateData, {parent: canvas.scene});
+  }
+  async createBlastZone(target, {type = "ray", size = 1} = {}) {
+    const origin = this.parent.token;
+    return this.constructor.createBlastZone(origin, target, {type, size});
   }
 }

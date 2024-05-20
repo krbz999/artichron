@@ -3,7 +3,6 @@ import * as applications from "./module/applications/_module.mjs";
 import {preloadHandlebarsTemplates} from "./module/helpers/templates.mjs";
 import {dice} from "./module/dice/_module.mjs";
 import * as documents from "./module/documents/_module.mjs";
-import {ChatLog} from "./module/documents/chat/chat-log.mjs";
 import * as utils from "./module/helpers/utils.mjs";
 import auraInit from "./module/documents/canvas/canvas.mjs";
 import {registerSettings} from "./module/helpers/settings.mjs";
@@ -90,7 +89,6 @@ Hooks.once("init", function() {
   // Preload Handlebars templates.
   preloadHandlebarsTemplates();
 
-  ChatLog.init();
   auraInit();
   documents.templates.ActiveEffectSystemModel.activateListeners();
 
