@@ -1,23 +1,8 @@
+import {IdField} from "../fields/id-field.mjs";
 import {ItemSystemModel} from "./system-model.mjs";
 import {FusionTemplateMixin} from "./templates/fusion-data.mjs";
 
-const {ArrayField, NumberField, SchemaField, StringField, DocumentIdField} = foundry.data.fields;
-
-class DamageIdField extends DocumentIdField {
-  /** @inheritdoc */
-  static get _defaults() {
-    return foundry.utils.mergeObject(super._defaults, {
-      nullable: false,
-      initial: foundry.utils.randomID,
-      validationError: "is not a valid ID string"
-    });
-  }
-
-  /** @override */
-  _cast(value) {
-    return String(value);
-  }
-}
+const {ArrayField, NumberField, SchemaField, StringField} = foundry.data.fields;
 
 export default class ArsenalData extends FusionTemplateMixin(ItemSystemModel) {
   /** @override */
@@ -30,17 +15,19 @@ export default class ArsenalData extends FusionTemplateMixin(ItemSystemModel) {
   static defineSchema() {
     return {
       ...super.defineSchema(),
-      damage: new ArrayField(new SchemaField({
-        id: new DamageIdField(),
-        formula: new StringField({
-          required: true,
-          label: "ARTICHRON.ItemProperty.DamageFormula"
-        }),
-        type: new StringField({
-          choices: CONFIG.SYSTEM.DAMAGE_TYPES,
-          label: "ARTICHRON.ItemProperty.DamageType"
-        })
-      })),
+      damage: new SchemaField({
+        parts: new ArrayField(new SchemaField({
+          id: new IdField(),
+          formula: new StringField({
+            required: true,
+            label: "ARTICHRON.ItemProperty.DamageFormula"
+          }),
+          type: new StringField({
+            choices: CONFIG.SYSTEM.DAMAGE_TYPES,
+            label: "ARTICHRON.ItemProperty.DamageType"
+          })
+        }))
+      }),
       wield: new SchemaField({
         value: new NumberField({
           choices: {
@@ -74,7 +61,7 @@ export default class ArsenalData extends FusionTemplateMixin(ItemSystemModel) {
     return super.BONUS_FIELDS.union(new Set([
       "system.wield.value",
       "system.range.value",
-      "system.damage"
+      "system.damage.parts"
     ]));
   }
 
@@ -92,26 +79,6 @@ export default class ArsenalData extends FusionTemplateMixin(ItemSystemModel) {
    */
   get isTwoHanded() {
     return this.wield.value === 2;
-  }
-
-  /**
-   * Does this item have any valid damage formulas?
-   * @type {boolean}
-   */
-  get hasDamage() {
-    return this.damage.some(({formula, type}) => {
-      return formula && (type in CONFIG.SYSTEM.DAMAGE_TYPES) && Roll.validate(formula);
-    });
-  }
-
-  /**
-   * Valid damage parts.
-   * @type {object[]}
-   */
-  get _damages() {
-    return this.damage.filter(({formula, type}) => {
-      return formula && (type in CONFIG.SYSTEM.DAMAGE_TYPES) && Roll.validate(formula);
-    });
   }
 
   /**

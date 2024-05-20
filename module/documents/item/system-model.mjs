@@ -63,6 +63,30 @@ export class ItemSystemModel extends foundry.abstract.TypeDataModel {
   }
 
   /**
+   * Does this item have any valid damage formulas?
+   * @type {boolean}
+   */
+  get hasDamage() {
+    const parts = this.damage?.parts;
+    if (!parts) return false;
+    return parts.some(({formula, type}) => {
+      return formula && (type in CONFIG.SYSTEM.DAMAGE_TYPES) && Roll.validate(formula);
+    });
+  }
+
+  /**
+   * Valid damage parts.
+   * @type {object[]}
+   */
+  get _damages() {
+    const parts = this.damage?.parts;
+    if (!parts) return [];
+    return parts.filter(({formula, type}) => {
+      return formula && (type in CONFIG.SYSTEM.DAMAGE_TYPES) && Roll.validate(formula);
+    });
+  }
+
+  /**
    * Retrieve an object for roll data.
    * @returns {object}
    */

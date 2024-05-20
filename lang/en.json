@@ -64,6 +64,11 @@
     "Kite": "Kite"
   },
 
+  "AmmunitionType": {
+    "Arrow": "Arrow",
+    "Bullet": "Bullet"
+  },
+
   "SheetTab": {
     "Attributes": "Attributes",
     "Equipment": "Equipment",
@@ -142,6 +147,7 @@
   },
 
   "ItemProperty": {
+    "AllTypes": "All Types",
     "AmmunitionType": "Ammunition Type",
     "Armor": "Armor Value",
     "Cost": "Usage Cost",
@@ -164,7 +170,11 @@
     "Weight": "Weight",
     "Wield": "Wielding",
     "WieldOneHanded": "One-Handed",
-    "WieldTwoHanded": "Two-Handed"
+    "WieldTwoHanded": "Two-Handed",
+    "Blast": "Blast Zone",
+    "BlastSize": "Blast Size",
+    "BlastType": "Blast Type",
+    "DamageOverride": "Damage Override"
   },
 
   "EffectProperty": {

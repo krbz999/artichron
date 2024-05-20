@@ -14,6 +14,16 @@
 {{formField price.field value=price.value disabled=price.disabled localize=true}}
 {{/if}}
 
+{{#if sections.blast}}
+<div class="form-group">
+  <label>{{localize "ARTICHRON.ItemProperty.Blast"}}</label>
+  <div class="form-fields">
+    {{formInput blastSize.field value=blastSize.value disabled=blastSize.disabled}}
+    {{formInput blastType.field value=blastType.value disabled=blastType.disabled}}
+  </div>
+</div>
+{{/if}}
+
 {{#if sections.template}}
 <div class="form-group">
   <label>{{localize "ARTICHRON.ItemProperty.Template"}}</label>
@@ -48,6 +58,27 @@
 
 {{#if sections.armor}}
 {{formField armor.field value=armor.value disabled=armor.disabled localize=true}}
+{{/if}}
+
+{{#if isAmmo}}
+<div class="form-group">
+  <label>{{localize "ARTICHRON.ItemProperty.DamageOverride"}}</label>
+  <div class="form-fields">
+    {{formInput damages.override.group.field value=damages.override.group.value disabled=damages.override.group.disabled localize=true}}
+    <select class="type" name="system.damage.override.value" {{disabled @root.isPlayMode}}>
+      <option value=""></option>
+      <optgroup label="{{@root.config.DAMAGE_TYPE_GROUPS.physical.label}}">
+        {{selectOptions @root.damageTypes.physical selected=damages.override.value.value}}
+      </optgroup>
+      <optgroup label="{{@root.config.DAMAGE_TYPE_GROUPS.elemental.label}}">
+        {{selectOptions @root.damageTypes.elemental selected=damages.override.value.value}}
+      </optgroup>
+      <optgroup label="{{@root.config.DAMAGE_TYPE_GROUPS.planar.label}}">
+        {{selectOptions @root.damageTypes.planar selected=damages.override.value.value}}
+      </optgroup>
+    </select>
+  </div>
+</div>
 {{/if}}
 
 {{#if document.isEmbedded}}

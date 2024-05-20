@@ -303,6 +303,9 @@ export function tokensInTemplate(template) {
 export async function awaitTargets(count, {origin, range, allowPreTarget = false} = {}) {
   const useRange = !!origin && Number.isInteger(range) && (range > 0);
 
+  // Pad the range due to the token size.
+  if (useRange) range += (canvas.grid.distance * origin.document.width * .5);
+
   const bar = (v) => {
     const label = !count ? "" : `Pick ${count} targets (${v}/${count})`;
     const pct = !count ? 100 : (v / count * 100).toNearest(0.1);
@@ -333,8 +336,7 @@ export async function awaitTargets(count, {origin, range, allowPreTarget = false
 
     let c;
     if (useRange) {
-      const radius = range + canvas.grid.distance * (origin.document.width * .5);
-      const points = canvas.grid.getCircle({x: 0, y: 0}, radius).reduce((acc, p) => acc.concat(Object.values(p)), []);
+      const points = canvas.grid.getCircle({x: 0, y: 0}, range).reduce((acc, p) => acc.concat(Object.values(p)), []);
       // const shape = CONFIG.Canvas.polygonBackends.move.create(center, {
       //   type: "move",
       //   boundaryShapes: [new PIXI.Polygon(points)],
