@@ -300,5 +300,21 @@
     "Source": "Source",
     "ActiveFusion": "Fusion",
     "TransferredBuff": "Transferred Buff"
+  },
+
+  "ContextMenu": {
+    "EffectOption": {
+      "Show": "Show",
+      "Delete": "Delete",
+      "Enable": "Enable",
+      "Disable": "Disable"
+    },
+    "ItemOption": {
+      "Show": "Show",
+      "Delete": "Delete",
+      "Unequip": "Unequip",
+      "Favorite": "Favorite",
+      "Unfavorite": "Unfavorite"
+    }
   }
 }}

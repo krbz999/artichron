@@ -262,4 +262,12 @@ export class ActorSystemModel extends foundry.abstract.TypeDataModel {
     return (this.equipped.arsenal.primary?.type === "shield")
       || (this.equipped.arsenal.secondary?.type === "shield");
   }
+
+  /**
+   * The items that this actor has favorited.
+   * @type {Set<ItemArtichron>}
+   */
+  get favorites() {
+    return this.equipped.favorites;
+  }
 }

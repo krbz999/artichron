@@ -87,6 +87,32 @@ export class ItemSystemModel extends foundry.abstract.TypeDataModel {
   }
 
   /**
+   * Unequip this item.
+   * @returns {Promise<ItemArtichron|null>}
+   */
+  async unequip() {
+    if (!this.parent.isEquipped) return null;
+    const actor = this.parent.actor;
+    if (this.parent.isArsenal) {
+      const a = actor.arsenal;
+      for (const [k, v] of Object.entries(a)) {
+        if (v === this.parent) {
+          await actor.update({[`system.equipped.arsenal.${k}`]: ""});
+          return this.parent;
+        }
+      }
+    } else if (this.parent.type === "armor") {
+      const a = actor.armor;
+      for (const [k, v] of Object.entries(a)) {
+        if (v === this.parent) {
+          await actor.update({[`system.equipped.armor.${k}`]: ""});
+          return this.parent;
+        }
+      }
+    }
+  }
+
+  /**
    * Retrieve an object for roll data.
    * @returns {object}
    */
