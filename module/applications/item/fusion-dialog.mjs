@@ -40,7 +40,19 @@ export default class ItemFusionDialog extends HandlebarsApplicationMixin(Applica
    * Track the selected target item.
    * @type {string}
    */
-  _selectedTarget = null;
+  #selectedTarget = null;
+  get _selectedTarget() {
+    return this.#selectedTarget;
+  }
+  set _selectedTarget(id) {
+    const item = this.item.actor.items.get(id);
+    if (!item) return;
+    const isType = (this.item.isArsenal && item.isArsenal) || (this.item.type === item.type);
+    if ((item === this.item) || !isType) return;
+    this.#selectedTarget = id;
+    this.element.querySelector("[data-change=target]").value = id;
+    this.render();
+  }
 
   /**
    * Track the selected fusion.
@@ -84,8 +96,9 @@ export default class ItemFusionDialog extends HandlebarsApplicationMixin(Applica
 
   /** @override */
   _onRender(context, options) {
-    super._onFirstRender(context, options);
+    super._onRender(context, options);
     this.element.querySelector("button[type=submit]").disabled = !this.isValidSelection;
+    this._setupDragAndDrop();
   }
 
   /** @override */
@@ -150,6 +163,39 @@ export default class ItemFusionDialog extends HandlebarsApplicationMixin(Applica
       label: "ARTICHRON.ItemFusionDialog.FusionLabel"
     });
     return {field: field, dataset: {change: "fusion"}};
+  }
+
+  /* ---------------------------------------- */
+  /*           DRAG AND DROP HANDLERS         */
+  /* ---------------------------------------- */
+
+  /**
+   * Set up drag-and-drop handlers.
+   */
+  _setupDragAndDrop() {
+    const dd = new DragDrop({
+      dragSelector: "[data-item-uuid] .wrapper",
+      dropSelector: ".application",
+      permissions: {},
+      callbacks: {drop: this._onDrop.bind(this)}
+    });
+    dd.bind(this.element);
+  }
+
+  /**
+   * Handle a drop event.
+   * @param {Event} event
+   */
+  async _onDrop(event) {
+    event.preventDefault();
+    const {type, uuid} = TextEditor.getDragEventData(event);
+    if (type !== "Item") return;
+    const item = await fromUuid(uuid);
+
+    // The dropped entry must be an item, not the fusing item, and must be owned by the same actor.
+    if (!item || (item === this.item) || (item.actor !== this.item.actor)) return;
+    this._selectedTarget = item.id;
+    this.render({isFullRender: true});
   }
 
   /* ---------------------------------------- */
