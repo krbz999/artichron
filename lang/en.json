@@ -293,6 +293,10 @@
     "Title": "Change Equipped Item"
   },
 
+  "SkillDialog": {
+    "Title": "Roll Skill: {skill}"
+  },
+
   "Effect": {
     "ActiveFusions": "Active Fusions",
     "Buffs": "Buffs",

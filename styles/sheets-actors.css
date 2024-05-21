@@ -110,6 +110,9 @@
           & input {
             text-align: center;
             width: calc(100% - 6px);
+            transition: width 300ms ease;
+
+            &:focus { width: 10rem; }
           }
         }
       }
