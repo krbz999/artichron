@@ -286,16 +286,28 @@ export default class ActorArtichron extends Actor {
    * @returns {Promise}
    */
   async rollSkill(skillId, options = {}) {
-    const pool = options.pool ??= await Dialog.wait({
-      buttons: ["health", "stamina", "mana"].reduce((acc, pool) => {
-        acc[pool] = {
-          label: game.i18n.localize(`ARTICHRON.Pools.${pool.capitalize()}`),
-          callback: (html, event) => event.currentTarget.dataset.button
+    const pool = options.pool ?? await foundry.applications.api.DialogV2.wait({
+      buttons: ["health", "stamina", "mana"].map(pool => {
+        return {
+          action: pool,
+          label: `ARTICHRON.Pools.${pool.capitalize()}`
         };
-        return acc;
-      }, {}),
-      close: () => null,
-      title: "TODO"
+      }),
+      rejectClose: false,
+      modal: true,
+      window: {
+        title: game.i18n.format("ARTICHRON.SkillDialog.Title", {
+          skill: game.i18n.localize(`ARTICHRON.Skills.${skillId.capitalize()}`)
+        }),
+        icon: {
+          head: "fa-solid fa-horse-head",
+          arms: "fa-solid fa-hand-back-fist",
+          legs: "fa-solid fa-shoe-prints"
+        }[skillId]
+      },
+      position: {
+        width: 400
+      }
     });
     if (!pool) return null;
 
