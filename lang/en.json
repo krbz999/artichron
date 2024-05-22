@@ -204,6 +204,7 @@
 
   "ItemFusionDialog": {
     "Title": "{source}: Fuse",
+    "TitleUnfuse": "{item}: Split",
     "TargetLabel": "Target",
     "FusionLabel": "Fusion",
     "Confirm": "Confirm",
@@ -318,7 +319,10 @@
       "Delete": "Delete",
       "Unequip": "Unequip",
       "Favorite": "Favorite",
-      "Unfavorite": "Unfavorite"
+      "Unfavorite": "Unfavorite",
+      "Fuse": "Fuse Item",
+      "Unfuse": "Split Fusion",
+      "Use": "Use Item"
     }
   }
 }}

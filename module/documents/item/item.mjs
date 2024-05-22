@@ -108,6 +108,14 @@ export default class ItemArtichron extends Item {
   }
 
   /**
+   * Is this item armor?
+   * @type {boolean}
+   */
+  get isArmor() {
+    return this.type === "armor";
+  }
+
+  /**
    * Is this item favorited by its owner?
    * @type {boolean}
    */

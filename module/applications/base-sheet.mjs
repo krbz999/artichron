@@ -300,6 +300,24 @@ export const ArtichronSheetMixin = Base => {
         condition: () => isOwner && item.isFavorite,
         callback: () => item.favorite(),
         group: "action"
+      }, {
+        name: "ARTICHRON.ContextMenu.ItemOption.Use",
+        icon: `<i class="fa-solid fa-fw fa-${item.isArsenal ? "hand-fist" : "hand-sparkles"}"></i>`,
+        condition: () => isOwner && (isEquipped || (!item.isArsenal && !item.isArmor)),
+        callback: () => item.use(),
+        group: "action"
+      }, {
+        name: "ARTICHRON.ContextMenu.ItemOption.Fuse",
+        icon: "<i class='fa-solid fa-fw fa-volcano'></i>",
+        condition: () => isOwner && item.hasFusions && !item.isFused,
+        callback: () => item.fuseDialog(),
+        group: "action"
+      }, {
+        name: "ARTICHRON.ContextMenu.ItemOption.Unfuse",
+        icon: "<i class='fa-solid fa-fw fa-recycle'></i>",
+        condition: () => isOwner && item.isFused,
+        callback: () => item.system.unfuseDialog(),
+        group: "action"
       }];
     }
 
