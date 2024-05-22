@@ -35,6 +35,41 @@ export const FusionTemplateMixin = (Base) => {
     }
 
     /**
+     * Prompt a dialog to pick an active fusion on this item to end.
+     * @returns {Promise<ItemArtichron|null>}     A promise that resolves to the recreated item.
+     */
+    async unfuseDialog() {
+      if (!this.isFused) return null;
+      const choices = this.parent.effects.reduce((acc, e) => {
+        if (e.isActiveFusion) acc[e.id] = e.name;
+        return acc;
+      }, {});
+      const field = new foundry.data.fields.StringField({
+        choices: choices,
+        blank: true
+      });
+      const id = await foundry.applications.api.DialogV2.prompt({
+        rejectClose: false,
+        modal: true,
+        content: field.toInput({name: "effectId"}).outerHTML,
+        ok: {
+          label: "ARTICHRON.ItemFusionDialog.Confirm",
+          callback: (event, button, html) => button.form.elements.effectId.value
+        },
+        window: {
+          title: game.i18n.format("ARTICHRON.ItemFusionDialog.TitleUnfuse", {item: this.parent.name}),
+          icon: "fa-solid fa-recycle"
+        },
+        position: {
+          width: 300
+        }
+      });
+      if (!id) return null;
+      const effect = this.parent.effects.get(id);
+      return effect.system.unfuse();
+    }
+
+    /**
      * Does this item have any valid fusions it can apply?
      * @type {boolean}
      */
