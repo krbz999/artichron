@@ -1,0 +1,8 @@
+<div class="equip-buttons scrollable">
+  {{#each buttons}}
+  <button type="button" {{#if unequip}} class="unequip" {{/if}} data-action="itemButton" data-item-id="{{itemId}}">
+    <img src="{{img}}" alt="{{name}}">
+    <label>{{name}}</label>
+  </button>
+  {{/each}}
+</div>

@@ -1,4 +1,5 @@
 import {ArtichronSheetMixin} from "../base-sheet.mjs";
+import EquipDialog from "../item/equip-dialog.mjs";
 import PoolConfig from "./configs/pool-config.mjs";
 import SkillConfig from "./configs/skill-config.mjs";
 
@@ -459,84 +460,7 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
   static async _onChangeEquipped(event, target) {
     if (!this.isEditable) return;
     const slot = target.closest("[data-equipment-slot]").dataset.equipmentSlot;
-
-    let items;
-    let icon;
-    let type;
-    if (["head", "chest", "legs", "accessory", "arms", "boots"].includes(slot)) {
-      items = this.document.items.filter(item => (item.type === "armor") && (item.system.category.subtype === slot));
-      icon = "fa-solid fa-shield-alt";
-      type = "armor";
-    } else if (["primary", "secondary"].includes(slot)) {
-      items = this.document.items.filter(item => {
-        if (!item.isArsenal) return false;
-        const {primary, secondary} = this.document.arsenal;
-        if (slot === "primary") return !secondary || (secondary !== item);
-        if (slot === "secondary") return (!primary || (primary !== item)) && item.isOneHanded;
-      });
-      icon = "fa-solid fa-hand-fist";
-      type = "arsenal";
-    }
-    if (!items?.length) {
-      ui.notifications.warn("ARTICHRON.Warning.NoAvailableEquipment", {localize: true});
-      return null;
-    }
-
-    const currentId = this.document.system.equipped[type][slot]?.id;
-
-    const buttons = items.map(item => {
-      return {
-        label: `<img src="${item.img}"> ${item.name}`,
-        action: item.id,
-        class: ["image-button", (item.id === currentId) ? "unequip" : null].filterJoin(" ")
-      };
-    });
-    const style = `
-    <style>
-    .standard-form .form-footer {
-      max-height: 400px;
-      overflow: hidden auto;
-
-      & > button.image-button {
-        height: unset;
-        padding: 0;
-        overflow: hidden;
-
-        & > span {
-          display: grid;
-          grid-template-columns: 75px 1fr;
-          align-items: center;
-          width: 100%;
-        }
-
-        &.unequip {
-          text-decoration: line-through;
-          border-width: medium;
-        }
-
-        & img {
-          width: 75px;
-          height: 75px;
-          border: none;
-        }
-      }
-    }
-    </style>`;
-
-    const itemId = await foundry.applications.api.DialogV2.wait({
-      rejectClose: false,
-      window: {title: "ARTICHRON.EquipDialog.Title", icon: icon},
-      position: {width: 350},
-      content: style,
-      buttons: buttons
-    });
-    if (!itemId) return null;
-    const item = this.document.items.get(itemId);
-    const unequip = currentId === itemId;
-    const update = {[`system.equipped.${type}.${slot}`]: unequip ? null : itemId};
-    if ((type === "arsenal") && (slot === "primary") && !unequip && item?.isTwoHanded) {
-      update["system.equipped.arsenal.secondary"] = null;
-    }
-    this.document.update(update);
+    new EquipDialog({actor: this.document, slot: slot}).render(true);
+    return;
   }
 }
