@@ -23,6 +23,7 @@
     .avatar {
       flex: 0 0 64px;
       height: 100%;
+      object-fit: contain;
     }
 
     .controls {
