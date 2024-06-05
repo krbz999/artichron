@@ -150,6 +150,17 @@
     "Favorited": "Favorited",
     "ResistancePl": "Resistances",
 
+    "Fieldsets": {
+      "BlastZone": "Blast Zone",
+      "DamageOverrides": "Damage Overrides",
+      "Damages": "Damages",
+      "Defenses": "Defenses",
+      "Handling": "Handling",
+      "LimitedUses": "Limited Uses",
+      "Properties": "Properties",
+      "Resistances": "Resistances"
+    },
+
     "Description": {
       "Value": "Description",
       "ValueHint": ""
@@ -197,8 +208,7 @@
         "GroupChoiceAll": "All Types",
         "Value": "Type",
         "ValueHint": "The new damage type that will be used in place of the overridden group."
-      },
-      "Parts": "Damage"
+      }
     },
     "Armor": {
       "Value": "Armor",
