@@ -17,13 +17,28 @@ export class ItemSystemModel extends foundry.abstract.TypeDataModel {
   static defineSchema() {
     return {
       description: new SchemaField({
-        value: new HTMLField({label: "ARTICHRON.ItemProperty.DescriptionValue", required: true})
+        value: new HTMLField({
+          label: "ARTICHRON.ItemProperty.Description.Value",
+          hint: "ARTICHRON.ItemProperty.Description.ValueHint",
+          required: true
+        })
       }),
       weight: new SchemaField({
-        value: new NumberField({min: 0, nullable: true, step: 0.25, label: "ARTICHRON.ItemProperty.Weight"})
+        value: new NumberField({
+          min: 0,
+          nullable: true,
+          step: 0.25,
+          label: "ARTICHRON.ItemProperty.Weight.Value",
+          hint: "ARTICHRON.ItemProperty.Weight.ValueHint"
+        })
       }),
       price: new SchemaField({
-        value: new FormulaField({required: true, label: "ARTICHRON.ItemProperty.Price"})
+        value: new NumberField({
+          initial: 0,
+          integer: true,
+          label: "ARTICHRON.ItemProperty.Price.Value",
+          hint: "ARTICHRON.ItemProperty.Price.ValueHint"
+        })
       })
     };
   }

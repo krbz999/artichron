@@ -2,7 +2,6 @@ import SpellUseDialog from "../../applications/item/spell-use-dialog.mjs";
 import {DamageRoll} from "../../dice/damage-roll.mjs";
 import ActiveEffectArtichron from "../effect/active-effect.mjs";
 import {EffectBuffData} from "../effect/system-model.mjs";
-import {CategoryField} from "../fields/category-field.mjs";
 import MeasuredTemplateArtichron from "../template/template.mjs";
 import ArsenalData from "./item-arsenal.mjs";
 
@@ -22,11 +21,17 @@ export default class SpellData extends ArsenalData {
         types: new SetField(new StringField({
           required: true,
           choices: CONFIG.SYSTEM.AREA_TARGET_TYPES
-        }))
+        }), {
+          label: "ARTICHRON.ItemProperty.Template.Types",
+          hint: "ARTICHRON.ItemProperty.Template.TypesHint"
+        })
       }),
-      category: new CategoryField({
-        label: "ARTICHRON.ItemProperty.SpellType",
-        choices: CONFIG.SYSTEM.SPELL_TYPES
+      category: new SchemaField({
+        subtype: new StringField({
+          label: "ARTICHRON.ItemProperty.Category.SubtypeSpell",
+          hint: "ARTICHRON.ItemProperty.Category.SubtypeSpellHint",
+          choices: CONFIG.SYSTEM.SPELL_TYPES
+        })
       })
     };
   }

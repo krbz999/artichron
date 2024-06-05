@@ -43,6 +43,13 @@
     }
   }
 
+  .tab.standard-form {
+    gap: 1rem;
+    flex-direction: column;
+
+    &.active { display: flex; }
+  }
+
   /* Tab headers */
   .tab.scrollable header {
     display: flex;

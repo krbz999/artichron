@@ -22,7 +22,9 @@ export const ArtichronSheetMixin = Base => {
 
     /** @override */
     static DEFAULT_OPTIONS = {
-      form: {submitOnChange: true},
+      form: {
+        submitOnChange: true
+      },
       actions: {
         editImage: this._onEditImage,
         toggleSheet: this._onToggleSheet,

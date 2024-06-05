@@ -147,34 +147,79 @@
   },
 
   "ItemProperty": {
-    "AllTypes": "All Types",
-    "AmmunitionType": "Ammunition Type",
-    "Armor": "Armor Value",
-    "Cost": "Usage Cost",
-    "Damage": "Damage",
-    "DescriptionValue": "Description",
-    "ElixirType": "Elixir Type",
-    "EquipmentType": "Equipment Type",
     "Favorited": "Favorited",
-    "Price": "Price",
-    "Quantity": "Quantity",
-    "Range": "Range",
     "ResistancePl": "Resistances",
-    "ShieldType": "Shield Type",
-    "SpellType": "Spell Type",
-    "Template": "Template",
-    "TemplateSelf": "Self",
-    "Usage": "Uses",
-    "UsageOf": "of",
-    "WeaponType": "Weapon Type",
-    "Weight": "Weight",
-    "Wield": "Wielding",
-    "WieldOneHanded": "One-Handed",
-    "WieldTwoHanded": "Two-Handed",
-    "Blast": "Blast Zone",
-    "BlastSize": "Blast Size",
-    "BlastType": "Blast Type",
-    "DamageOverride": "Damage Override"
+
+    "Description": {
+      "Value": "Description",
+      "ValueHint": ""
+    },
+    "Category": {
+      "SubtypeAmmo": "Ammunition Type",
+      "SubtypeAmmoHint": "The ammunition type determines which weapons can make use of it.",
+      "SubtypeArmor": "Armor Type",
+      "SubtypeArmorHint": "The type of armor this is, which decides how it is equipped.",
+      "SubtypeElixir": "Elixir Type",
+      "SubtypeElixirHint": "The type of elixir this is.",
+      "SubtypeShield": "Shield Type",
+      "SubtypeShieldHint": "The shield type determines how much it protects the wielder.",
+      "SubtypeSpell": "Spell Type",
+      "SubtypeSpellHint": "The spell type determines how it affects enemies and allies.",
+      "SubtypeWeapon": "Weapon Type",
+      "SubtypeWeaponHint": "The weapon type determines the ammunition it can use."
+    },
+    "Range": {
+      "Value": "Range",
+      "ValueHint": "The maximum range of the item."
+    },
+    "Price": {
+      "Value": "Price",
+      "ValueHint": "The deemed value of the item."
+    },
+    "Blast": {
+      "Size": "Size",
+      "SizeHint": "The size of the accompanying blast zone when using this ammunition.",
+      "Type": "Shape",
+      "TypeHint": "The shape of the blast zone."
+    },
+    "Weight": {
+      "Value": "Weight",
+      "ValueHint": "The amount that this item contributes to its owner's encumbrance."
+    },
+    "Quantity": {
+      "Value": "Quantity",
+      "ValueHint": "The size of this stack of items."
+    },
+    "Damage": {
+      "Override": {
+        "Group": "Target Group",
+        "GroupHint": "The group of damage types that this ammunition will override the type of.",
+        "GroupChoiceAll": "All Types",
+        "Value": "Type",
+        "ValueHint": "The new damage type that will be used in place of the overridden group."
+      },
+      "Parts": "Damage"
+    },
+    "Armor": {
+      "Value": "Armor",
+      "ValueHint": "The armor value of this item, which reduces incoming physical damage."
+    },
+    "Wield": {
+      "Value": "Wielding",
+      "ValueHint": "The number of hands required to handle this item.",
+      "ValueChoiceOneHanded": "One-Handed",
+      "ValueChoiceTwoHanded": "Two-Handed"
+    },
+    "Template": {
+      "Types": "Targeting Types",
+      "TypesHint": "The shape or type of targeting of this spell."
+    },
+    "Usage": {
+      "Value": "Uses",
+      "ValueHint": "The number of remaining uses of this item.",
+      "Max": "Max Uses",
+      "MaxHint": "The total number of uses of this item."
+    }
   },
 
   "EffectProperty": {

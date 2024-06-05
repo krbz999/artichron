@@ -5,18 +5,6 @@
     padding-bottom: 3px;
 
     &[data-tab=details] {
-      .usage {
-        & input {
-          transition: outline-color 0.5s, flex 300ms;
-          flex: 1;
-          min-width: 2rem;
-        }
-
-        &:has(input:focus) input:not(:focus) {
-          flex: 0;
-        }
-      }
-
       .damage .type {
         flex: 0;
         width: fit-content;

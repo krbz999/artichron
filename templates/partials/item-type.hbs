@@ -1,84 +1,65 @@
-{{#if sections.category}}
-{{formField category.field value=category.value disabled=category.disabled localize=true blank=""}}
-{{/if}}
+<fieldset>
+  <legend></legend>
+  {{#if sections.category}}
+  {{formGroup category.field value=category.value disabled=category.disabled localize=true blank=""}}
+  {{/if}}
 
-{{#if sections.wield}}
-{{formField wield.field value=wield.value disabled=wield.disabled localize=true}}
-{{/if}}
+  {{#if sections.price}}
+  {{formGroup price.field value=price.value disabled=price.disabled localize=true}}
+  {{/if}}
 
-{{#if sections.range}}
-{{formField range.field value=range.value disabled=range.disabled localize=true}}
-{{/if}}
+  {{#if sections.weight}}
+  {{formGroup weight.field value=weight.value disabled=weight.disabled localize=true}}
+  {{/if}}
 
-{{#if sections.price}}
-{{formField price.field value=price.value disabled=price.disabled localize=true}}
+  {{#if sections.quantity}}
+  {{formGroup quantity.field value=quantity.value disabled=quantity.disabled localize=true}}
+  {{/if}}
+</fieldset>
+
+{{#if (or sections.wield sections.range sections.template)}}
+<fieldset>
+  <legend></legend>
+  {{#if sections.wield}}
+  {{formGroup wield.field value=wield.value disabled=wield.disabled localize=true}}
+  {{/if}}
+
+  {{#if sections.range}}
+  {{formGroup range.field value=range.value disabled=range.disabled localize=true}}
+  {{/if}}
+
+  {{#if sections.template}}
+  {{formGroup template.field value=template.value disabled=template.disabled localize=true}}
+  {{/if}}
+</fieldset>
 {{/if}}
 
 {{#if sections.blast}}
-<div class="form-group">
-  <label>{{localize "ARTICHRON.ItemProperty.Blast"}}</label>
-  <div class="form-fields">
-    {{formInput blastSize.field value=blastSize.value disabled=blastSize.disabled}}
-    {{formInput blastType.field value=blastType.value disabled=blastType.disabled}}
-  </div>
-</div>
-{{/if}}
-
-{{#if sections.template}}
-<div class="form-group">
-  <label>{{localize "ARTICHRON.ItemProperty.Template"}}</label>
-  <div class="form-fields">
-    <multi-select name="system.template.types" {{disabled isPlayMode}}>
-      {{#each templates}}
-      <option value="{{key}}" {{ifThen selected "selected" ""}}>{{label}}</option>
-      {{/each}}
-    </multi-select>
-  </div>
-</div>
-{{/if}}
-
-{{#if sections.weight}}
-{{formField weight.field value=weight.value disabled=weight.disabled localize=true}}
-{{/if}}
-
-{{#if sections.quantity}}
-{{formField quantity.field value=quantity.value disabled=quantity.disabled localize=true}}
+<fieldset class="blast">
+  <legend></legend>
+  {{formGroup blastSize.field value=blastSize.value disabled=blastSize.disabled localize=true}}
+  {{formGroup blastType.field value=blastType.value disabled=blastType.disabled localize=true}}
+</fieldset>
 {{/if}}
 
 {{#if sections.usage}}
-<div class="form-group usage">
-  <label>{{localize "ARTICHRON.ItemProperty.Usage"}}</label>
-  <div class="form-fields">
-    {{formInput usage.value.field value=usage.value.value disabled=usage.value.disabled}}
-    <span class="sep">{{localize "ARTICHRON.ItemProperty.UsageOf"}}</span>
-    {{formInput usage.max.field value=usage.max.value disabled=usage.max.disabled}}
-  </div>
-</div>
+<fieldset class="usage">
+  <legend></legend>
+  {{formGroup usage.value.field value=usage.value.value disabled=usage.value.disabled localize=true}}
+  {{formGroup usage.max.field value=usage.max.value disabled=usage.max.disabled localize=true}}
+</fieldset>
 {{/if}}
 
 {{#if sections.armor}}
-{{formField armor.field value=armor.value disabled=armor.disabled localize=true}}
+{{formGroup armor.field value=armor.value disabled=armor.disabled localize=true}}
 {{/if}}
 
 {{#if isAmmo}}
-<div class="form-group">
-  <label>{{localize "ARTICHRON.ItemProperty.DamageOverride"}}</label>
-  <div class="form-fields">
-    {{formInput damages.override.group.field value=damages.override.group.value disabled=damages.override.group.disabled localize=true}}
-    <select class="type" name="system.damage.override.value" {{disabled @root.isPlayMode}}>
-      <option value=""></option>
-      <optgroup label="{{@root.config.DAMAGE_TYPE_GROUPS.physical.label}}">
-        {{selectOptions @root.damageTypes.physical selected=damages.override.value.value}}
-      </optgroup>
-      <optgroup label="{{@root.config.DAMAGE_TYPE_GROUPS.elemental.label}}">
-        {{selectOptions @root.damageTypes.elemental selected=damages.override.value.value}}
-      </optgroup>
-      <optgroup label="{{@root.config.DAMAGE_TYPE_GROUPS.planar.label}}">
-        {{selectOptions @root.damageTypes.planar selected=damages.override.value.value}}
-      </optgroup>
-    </select>
-  </div>
-</div>
+<fieldset class="damage">
+  <legend></legend>
+  {{formGroup damages.override.group.field value=damages.override.group.value disabled=damages.override.group.disabled localize=true}}
+  {{formGroup damages.override.value.field value=damages.override.value.value disabled=damages.override.value.disabled localize=true options=damages.options}}
+</fieldset>
 {{/if}}
 
 {{#if document.isEmbedded}}
