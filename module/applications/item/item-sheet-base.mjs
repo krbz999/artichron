@@ -6,7 +6,7 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
   static DEFAULT_OPTIONS = {
     classes: ["artichron", "item"],
     position: {
-      width: 400,
+      width: 500,
       height: "auto"
     },
     actions: {
@@ -97,7 +97,7 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
       img: context.isPlayMode ? doc.img : src.img
     };
 
-    const makeField = path => {
+    const makeField = (path, options = {}) => {
       const field = doc.system.schema.getField(path);
       const formula = field instanceof FormulaField;
       const dv = foundry.utils.getProperty(doc.system, path);
@@ -112,19 +112,17 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
         value = context.isPlayMode ? dv : src;
       }
 
-      return {field: field, value: value, disabled: context.isPlayMode};
+      return {field: field, value: value, disabled: context.isPlayMode, ...options};
     };
 
     // Subtype options.
     if (context.sections.category) {
-      context.category = makeField("category.subtype");
-      if (doc.isEquipped) context.category.disabled = true;
+      context.category = makeField("category.subtype", doc.isEquipped ? {disabled: true} : undefined);
     }
 
     // Wield.
     if (context.sections.wield) {
-      context.wield = makeField("wield.value");
-      if (doc.isEquipped) context.wield.disabled = true;
+      context.wield = makeField("wield.value", doc.isEquipped ? {disabled: true} : undefined);
     }
 
     // Range.
@@ -161,24 +159,41 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
 
     // Damage parts.
     if (context.sections.damage) {
+      context.damageTypes = [];
       context.damages = {
-        parts: context.isEditMode ? src.system.damage.parts : doc.system._damages,
-        options: [],
+        parts: (context.isEditMode ? src.system.damage.parts : doc.system._damages).map((k, idx) => {
+          return {
+            id: {
+              field: doc.system.schema.getField("damage.parts.element.id"),
+              value: k.id,
+              name: `system.damage.parts.${idx}.id`,
+              disabled: !context.isEditMode
+            },
+            formula: {
+              field: doc.system.schema.getField("damage.parts.element.formula"),
+              value: k.formula,
+              name: `system.damage.parts.${idx}.formula`,
+              disabled: !context.isEditMode
+            },
+            type: {
+              field: doc.system.schema.getField("damage.parts.element.type"),
+              value: k.type,
+              name: `system.damage.parts.${idx}.type`,
+              disabled: !context.isEditMode,
+              options: context.damageTypes
+            }
+          };
+        }),
         groups: CONFIG.SYSTEM.DAMAGE_TYPE_GROUPS
       };
 
       for (const [k, v] of Object.entries(CONFIG.SYSTEM.DAMAGE_TYPES)) {
-        context.damages.options.push({
+        context.damageTypes.push({
           group: context.damages.groups[v.group].label,
           value: k,
           label: v.label
         });
       }
-
-      context.damageTypes = Object.entries(CONFIG.SYSTEM.DAMAGE_TYPES).reduce((acc, [k, v]) => {
-        acc[v.group][k] = v.label;
-        return acc;
-      }, {physical: {}, elemental: {}, planar: {}});
 
       // Damage type override (ammo).
       if (context.isAmmo) {

@@ -1,5 +1,5 @@
 <fieldset>
-  <legend></legend>
+  <legend>{{localize "ARTICHRON.ItemProperty.Fieldsets.Properties"}}</legend>
   {{#if sections.category}}
   {{formGroup category.field value=category.value disabled=category.disabled localize=true blank=""}}
   {{/if}}
@@ -19,7 +19,7 @@
 
 {{#if (or sections.wield sections.range sections.template)}}
 <fieldset>
-  <legend></legend>
+  <legend>{{localize "ARTICHRON.ItemProperty.Fieldsets.Handling"}}</legend>
   {{#if sections.wield}}
   {{formGroup wield.field value=wield.value disabled=wield.disabled localize=true}}
   {{/if}}
@@ -36,7 +36,7 @@
 
 {{#if sections.blast}}
 <fieldset class="blast">
-  <legend></legend>
+  <legend>{{localize "ARTICHRON.ItemProperty.Fieldsets.BlastZone"}}</legend>
   {{formGroup blastSize.field value=blastSize.value disabled=blastSize.disabled localize=true}}
   {{formGroup blastType.field value=blastType.value disabled=blastType.disabled localize=true}}
 </fieldset>
@@ -44,21 +44,26 @@
 
 {{#if sections.usage}}
 <fieldset class="usage">
-  <legend></legend>
+  <legend>{{localize "ARTICHRON.ItemProperty.Fieldsets.LimitedUses"}}</legend>
   {{formGroup usage.value.field value=usage.value.value disabled=usage.value.disabled localize=true}}
   {{formGroup usage.max.field value=usage.max.value disabled=usage.max.disabled localize=true}}
 </fieldset>
 {{/if}}
 
 {{#if sections.armor}}
-{{formGroup armor.field value=armor.value disabled=armor.disabled localize=true}}
+<fieldset class="armor">
+  <legend>{{localize "ARTICHRON.ItemProperty.Fieldsets.Defenses"}}</legend>
+  {{formGroup armor.field value=armor.value disabled=armor.disabled localize=true}}
+</fieldset>
 {{/if}}
 
 {{#if isAmmo}}
 <fieldset class="damage">
-  <legend></legend>
-  {{formGroup damages.override.group.field value=damages.override.group.value disabled=damages.override.group.disabled localize=true}}
-  {{formGroup damages.override.value.field value=damages.override.value.value disabled=damages.override.value.disabled localize=true options=damages.options}}
+  <legend>{{localize "ARTICHRON.ItemProperty.Fieldsets.DamageOverrides"}}</legend>
+  {{#with damages.override}}
+  {{formGroup group.field value=group.value disabled=group.disabled localize=true}}
+  {{formGroup value.field value=value.value disabled=value.disabled localize=true options=@root.damageTypes}}
+  {{/with}}
 </fieldset>
 {{/if}}
 
