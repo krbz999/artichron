@@ -1,10 +1,9 @@
-import {CategoryField} from "../fields/category-field.mjs";
 import {FormulaField} from "../fields/formula-field.mjs";
 import {ResistanceField} from "../fields/resistance-field.mjs";
 import {ItemSystemModel} from "./system-model.mjs";
 import {FusionTemplateMixin} from "./templates/fusion-data.mjs";
 
-const {SchemaField} = foundry.data.fields;
+const {SchemaField, StringField} = foundry.data.fields;
 
 export default class ArmorData extends FusionTemplateMixin(ItemSystemModel) {
   /** @override */
@@ -19,11 +18,18 @@ export default class ArmorData extends FusionTemplateMixin(ItemSystemModel) {
       ...super.defineSchema(),
       resistances: new ResistanceField(),
       armor: new SchemaField({
-        value: new FormulaField({required: true, label: "ARTICHRON.ItemProperty.Armor"})
+        value: new FormulaField({
+          required: true,
+          label: "ARTICHRON.ItemProperty.Armor.Value",
+          hint: "ARTICHRON.ItemProperty.Armor.ValueHint"
+        })
       }),
-      category: new CategoryField({
-        label: "ARTICHRON.ItemProperty.EquipmentType",
-        choices: CONFIG.SYSTEM.EQUIPMENT_TYPES
+      category: new SchemaField({
+        subtype: new StringField({
+          label: "ARTICHRON.ItemProperty.Category.SubtypeArmor",
+          hint: "ARTICHRON.ItemProperty.Category.SubtypeArmorHint",
+          choices: CONFIG.SYSTEM.EQUIPMENT_TYPES
+        })
       })
     };
   }

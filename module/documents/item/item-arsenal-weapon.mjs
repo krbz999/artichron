@@ -1,8 +1,9 @@
 import ArsenalData from "./item-arsenal.mjs";
 import {DamageRoll} from "../../dice/damage-roll.mjs";
-import {CategoryField} from "../fields/category-field.mjs";
 import WeaponUseDialog from "../../applications/item/weapon-use-dialog.mjs";
 import MeasuredTemplateArtichron from "../template/template.mjs";
+
+const {SchemaField, StringField} = foundry.data.fields;
 
 export default class WeaponData extends ArsenalData {
   /** @override */
@@ -14,9 +15,12 @@ export default class WeaponData extends ArsenalData {
   static defineSchema() {
     return {
       ...super.defineSchema(),
-      category: new CategoryField({
-        label: "ARTICHRON.ItemProperty.WeaponType",
-        choices: CONFIG.SYSTEM.WEAPON_TYPES
+      category: new SchemaField({
+        subtype: new StringField({
+          label: "ARTICHRON.ItemProperty.Category.SubtypeWeapon",
+          hint: "ARTICHRON.ItemProperty.Category.SubtypeWeaponHint",
+          choices: CONFIG.SYSTEM.WEAPON_TYPES
+        })
       })
     };
   }

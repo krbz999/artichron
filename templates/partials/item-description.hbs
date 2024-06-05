@@ -1,6 +1,8 @@
 <div class="{{tabs.description.tabCssClass}}" data-group="primary" data-tab="description">
   {{#if (and isEditable isEditMode)}}
-  {{formField description.field value=description.value enriched=description.enriched localize=true toggled=true height=300 collaborate=true documentUUID=description.uuid}}
+  {{#with description}}
+  {{formGroup field value=value enriched=enriched localize=true toggled=true height=300 collaborate=true documentUUID=uuid}}
+  {{/with}}
   {{else}}
   <div class="description">
     {{{description.enriched}}}

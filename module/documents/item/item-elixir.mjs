@@ -1,9 +1,7 @@
-import {CategoryField} from "../fields/category-field.mjs";
 import {FormulaField} from "../fields/formula-field.mjs";
-import {QuantityField} from "../fields/quantity-field.mjs";
 import {ItemSystemModel} from "./system-model.mjs";
 
-const {SchemaField, NumberField} = foundry.data.fields;
+const {SchemaField, NumberField, StringField} = foundry.data.fields;
 
 export default class ElixirData extends ItemSystemModel {
   /** @override */
@@ -16,22 +14,36 @@ export default class ElixirData extends ItemSystemModel {
   static defineSchema() {
     return {
       ...super.defineSchema(),
-      quantity: new QuantityField(),
+      quantity: new SchemaField({
+        value: new NumberField({
+          initial: 1,
+          minimum: 0,
+          integer: true,
+          nullable: true,
+          label: "ARTICHRON.ItemProperty.Quantity.Value",
+          hint: "ARTICHRON.ItemProperty.Quantity.ValueHint"
+        })
+      }),
       usage: new SchemaField({
         value: new NumberField({
           integer: true,
           min: 0,
           initial: null,
-          label: "ARTICHRON.ItemProperty.UsageValue"
+          label: "ARTICHRON.ItemProperty.Usage.Value",
+          hint: "ARTICHRON.ItemProperty.Usage.ValueHint"
         }),
         max: new FormulaField({
           required: true,
-          label: "ARTICHRON.ItemProperty.UsageMax"
+          label: "ARTICHRON.ItemProperty.Usage.Max",
+          hint: "ARTICHRON.ItemProperty.Usage.MaxHint"
         })
-      }, {label: "ARTICHRON.ItemProperty.Usage"}),
-      category: new CategoryField({
-        label: "ARTICHRON.ItemProperty.ElixirType",
-        choices: CONFIG.SYSTEM.ELIXIR_TYPES
+      }),
+      category: new SchemaField({
+        subtype: new StringField({
+          label: "ARTICHRON.ItemProperty.Category.SubtypeElixir",
+          hint: "ARTICHRON.ItemProperty.Category.SubtypeElixirHint",
+          choices: CONFIG.SYSTEM.ELIXIR_TYPES
+        })
       })
     };
   }

@@ -1,7 +1,4 @@
-import {CategoryField} from "../fields/category-field.mjs";
-import {FormulaField} from "../fields/formula-field.mjs";
 import {IdField} from "../fields/id-field.mjs";
-import {QuantityField} from "../fields/quantity-field.mjs";
 import {ItemSystemModel} from "./system-model.mjs";
 
 const {SchemaField, StringField, NumberField, ArrayField} = foundry.data.fields;
@@ -17,16 +14,29 @@ export default class AmmunitionData extends ItemSystemModel {
   static defineSchema() {
     return {
       ...super.defineSchema(),
-      quantity: new QuantityField(),
-      category: new CategoryField({
-        label: "ARTICHRON.ItemProperty.AmmunitionType",
-        choices: CONFIG.SYSTEM.AMMUNITION_TYPES
+      quantity: new SchemaField({
+        value: new NumberField({
+          initial: 1,
+          min: 0,
+          integer: true,
+          nullable: true,
+          label: "ARTICHRON.ItemProperty.Quantity.Value",
+          hint: "ARTICHRON.ItemProperty.Quantity.ValueHint"
+        })
+      }),
+      category: new SchemaField({
+        subtype: new StringField({
+          label: "ARTICHRON.ItemProperty.Category.SubtypeAmmo",
+          hint: "ARTICHRON.ItemProperty.Category.SubtypeAmmoHint",
+          choices: CONFIG.SYSTEM.AMMUNITION_TYPES
+        })
       }),
       range: new SchemaField({
         value: new NumberField({
           integer: true,
           initial: null,
-          label: "ARTICHRON.ItemProperty.Range"
+          label: "ARTICHRON.ItemProperty.Range.Value",
+          hint: "ARTICHRON.ItemProperty.Range.ValueHint"
         })
       }),
       blast: new SchemaField({
@@ -34,7 +44,8 @@ export default class AmmunitionData extends ItemSystemModel {
           integer: true,
           min: 1,
           nullable: true,
-          label: "ARTICHRON.ItemProperty.BlastSize"
+          label: "ARTICHRON.ItemProperty.Blast.Size",
+          hint: "ARTICHRON.ItemProperty.Blast.SizeHint"
         }),
         type: new StringField({
           required: true,
@@ -42,34 +53,41 @@ export default class AmmunitionData extends ItemSystemModel {
           choices: Object.entries(CONFIG.SYSTEM.AREA_TARGET_TYPES).reduce((acc, [k, v]) => {
             return v.ammo ? Object.assign(acc, {[k]: v}) : acc;
           }, {}),
-          label: "ARTICHRON.ItemProperty.BlastType"
+          label: "ARTICHRON.ItemProperty.Blast.Type",
+          hint: "ARTICHRON.ItemProperty.Blast.TypeHint"
         })
-      }, {label: "ARTICHRON.ItemProperty.Blast"}),
+      }),
       damage: new SchemaField({
         override: new SchemaField({
           group: new StringField({
             required: true,
             blank: true,
             choices: {
-              all: "ARTICHRON.ItemProperty.AllTypes",
+              all: "ARTICHRON.ItemProperty.Damage.Override.GroupChoiceAll",
               ...CONFIG.SYSTEM.DAMAGE_TYPE_GROUPS
-            }
+            },
+            label: "ARTICHRON.ItemProperty.Damage.Override.Group",
+            hint: "ARTICHRON.ItemProperty.Damage.Override.GroupHint"
           }),
           value: new StringField({
             required: true,
             blank: true,
-            choices: CONFIG.SYSTEM.DAMAGE_TYPES
+            choices: CONFIG.SYSTEM.DAMAGE_TYPES,
+            label: "ARTICHRON.ItemProperty.Damage.Override.Value",
+            hint: "ARTICHRON.ItemProperty.Damage.Override.ValueHint"
           })
         }),
         parts: new ArrayField(new SchemaField({
           id: new IdField(),
           formula: new StringField({
             required: true,
-            label: "ARTICHRON.ItemProperty.DamageFormula"
+            label: "ARTICHRON.ItemProperty.Damage.Parts.Formula",
+            hint: "ARTICHRON.ItemProperty.Damage.Parts.FormulaHint"
           }),
           type: new StringField({
             choices: CONFIG.SYSTEM.DAMAGE_TYPES,
-            label: "ARTICHRON.ItemProperty.DamageType"
+            label: "ARTICHRON.ItemProperty.Damage.Parts.Type",
+            hint: "ARTICHRON.ItemProperty.Damage.parts.TypeHint"
           })
         }))
       })

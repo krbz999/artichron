@@ -21,22 +21,25 @@ export default class ArsenalData extends FusionTemplateMixin(ItemSystemModel) {
           id: new IdField(),
           formula: new StringField({
             required: true,
-            label: "ARTICHRON.ItemProperty.DamageFormula"
+            label: "ARTICHRON.ItemProperty.Damage.Parts.Formula",
+            hint: "ARTICHRON.ItemProperty.Damage.Parts.FormulaHint"
           }),
           type: new StringField({
             choices: CONFIG.SYSTEM.DAMAGE_TYPES,
-            label: "ARTICHRON.ItemProperty.DamageType"
+            label: "ARTICHRON.ItemProperty.Damage.Parts.Type",
+            hint: "ARTICHRON.ItemProperty.Damage.Parts.TypeHint"
           })
         }))
       }),
       wield: new SchemaField({
         value: new NumberField({
           choices: {
-            1: "ARTICHRON.ItemProperty.WieldOneHanded",
-            2: "ARTICHRON.ItemProperty.WieldTwoHanded"
+            1: "ARTICHRON.ItemProperty.Wield.ValueChoiceOneHanded",
+            2: "ARTICHRON.ItemProperty.Wield.ValueChoiceTwoHanded"
           },
           initial: 1,
-          label: "ARTICHRON.ItemProperty.Wield"
+          label: "ARTICHRON.ItemProperty.Wield.Value",
+          hint: "ARTICHRON.ItemProperty.Wield.ValueHint"
         })
       }),
       range: new SchemaField({
@@ -44,14 +47,17 @@ export default class ArsenalData extends FusionTemplateMixin(ItemSystemModel) {
           integer: true,
           positive: true,
           initial: 1,
-          label: "ARTICHRON.ItemProperty.Range"
+          label: "ARTICHRON.ItemProperty.Range.Value",
+          hint: "ARTICHRON.ItemProperty.Range.ValueHint"
         })
       }),
       targets: new SchemaField({
         value: new NumberField({
           integer: true,
           positive: true,
-          label: "ARTICHRON.ItemProperty.Targets"
+          initial: 1,
+          label: "ARTICHRON.ItemProperty.Targets.Value",
+          hint: "ARTICHRON.ItemProperty.Targets.ValueHint"
         })
       })
     };

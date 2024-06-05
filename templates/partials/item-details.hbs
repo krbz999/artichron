@@ -1,10 +1,10 @@
-<div class="{{tabs.details.tabCssClass}}" data-group="primary" data-tab="details">
+<div class="{{tabs.details.tabCssClass}} standard-form" data-group="primary" data-tab="details">
   {{> "systems/artichron/templates/partials/item-type.hbs"}}
 
   {{#if sections.damage}}
   <fieldset>
     <legend>
-      {{localize "ARTICHRON.ItemProperty.Damage"}}
+      {{localize "ARTICHRON.ItemProperty.Damage.Parts"}}
       {{#if isEditMode}}
       <a class="action" data-action="addDamage"><i class="fa-solid fa-plus"></i></a>
       {{/if}}

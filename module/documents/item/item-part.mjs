@@ -1,5 +1,6 @@
-import {QuantityField} from "../fields/quantity-field.mjs";
 import {ItemSystemModel} from "./system-model.mjs";
+
+const {SchemaField, NumberField} = foundry.data.fields;
 
 export default class PartData extends ItemSystemModel {
   /** @override */
@@ -12,7 +13,16 @@ export default class PartData extends ItemSystemModel {
   static defineSchema() {
     return {
       ...super.defineSchema(),
-      quantity: new QuantityField()
+      quantity: new SchemaField({
+        value: new NumberField({
+          initial: 1,
+          min: 0,
+          integer: true,
+          nullable: true,
+          label: "ARTICHRON.ItemProperty.Quantity.Value",
+          hint: "ARTICHRON.ItemProperty.Quantity.ValueHint"
+        })
+      })
     };
   }
 }

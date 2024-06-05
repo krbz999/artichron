@@ -1,10 +1,14 @@
+import {FormulaField} from "../../documents/fields/formula-field.mjs";
 import {ArtichronSheetMixin} from "../base-sheet.mjs";
 
 export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.applications.sheets.ItemSheetV2) {
   /** @override */
   static DEFAULT_OPTIONS = {
     classes: ["artichron", "item"],
-    position: {width: 400, height: "auto"},
+    position: {
+      width: 400,
+      height: "auto"
+    },
     actions: {
       addDamage: this._onAddDamage,
       deleteDamage: this._onDeleteDamage,
@@ -93,8 +97,9 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
       img: context.isPlayMode ? doc.img : src.img
     };
 
-    const makeField = (path, formula = true) => {
+    const makeField = path => {
       const field = doc.system.schema.getField(path);
+      const formula = field instanceof FormulaField;
       const dv = foundry.utils.getProperty(doc.system, path);
       const src = foundry.utils.getProperty(context.source, path);
       let value;
@@ -112,13 +117,13 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
 
     // Subtype options.
     if (context.sections.category) {
-      context.category = makeField("category.subtype", false);
+      context.category = makeField("category.subtype");
       if (doc.isEquipped) context.category.disabled = true;
     }
 
     // Wield.
     if (context.sections.wield) {
-      context.wield = makeField("wield.value", false);
+      context.wield = makeField("wield.value");
       if (doc.isEquipped) context.wield.disabled = true;
     }
 
@@ -129,40 +134,47 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
     if (context.sections.price) context.price = makeField("price.value");
 
     // Template types.
-    if (context.sections.template) {
-      context.templates = Object.entries(CONFIG.SYSTEM.AREA_TARGET_TYPES).map(([k, v]) => {
-        return {key: k, label: v.label, selected: doc.system.template?.types.has(k)};
-      });
-    }
+    if (context.sections.template) context.template = makeField("template.types");
 
     // Blast zone.
     if (context.sections.blast) {
-      context.blastSize = makeField("blast.size", false);
-      context.blastType = makeField("blast.type", false);
+      context.blastSize = makeField("blast.size");
+      context.blastType = makeField("blast.type");
     }
 
     // Weight.
-    if (context.sections.weight) context.weight = makeField("weight.value", false);
+    if (context.sections.weight) context.weight = makeField("weight.value");
 
     // Quantity.
-    if (context.sections.quantity) context.quantity = makeField("quantity.value", false);
+    if (context.sections.quantity) context.quantity = makeField("quantity.value");
 
     // Usage.
     if (context.sections.usage) {
       context.usage = {
-        value: makeField("usage.value", false),
-        max: makeField("usage.max", true)
+        value: makeField("usage.value"),
+        max: makeField("usage.max")
       };
     }
 
     // Defenses.
-    if (context.sections.armor) context.armor = makeField("armor.value", false);
+    if (context.sections.armor) context.armor = makeField("armor.value");
 
     // Damage parts.
     if (context.sections.damage) {
       context.damages = {
-        parts: context.isEditMode ? src.system.damage.parts : doc.system._damages
+        parts: context.isEditMode ? src.system.damage.parts : doc.system._damages,
+        options: [],
+        groups: CONFIG.SYSTEM.DAMAGE_TYPE_GROUPS
       };
+
+      for (const [k, v] of Object.entries(CONFIG.SYSTEM.DAMAGE_TYPES)) {
+        context.damages.options.push({
+          group: context.damages.groups[v.group].label,
+          value: k,
+          label: v.label
+        });
+      }
+
       context.damageTypes = Object.entries(CONFIG.SYSTEM.DAMAGE_TYPES).reduce((acc, [k, v]) => {
         acc[v.group][k] = v.label;
         return acc;
@@ -171,8 +183,8 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
       // Damage type override (ammo).
       if (context.isAmmo) {
         context.damages.override = {
-          group: makeField("damage.override.group", false),
-          value: makeField("damage.override.value", false)
+          group: makeField("damage.override.group"),
+          value: makeField("damage.override.value")
         };
       }
     }
