@@ -32,7 +32,7 @@ export default class ShieldData extends ArsenalData {
   }
 
   /** @override */
-  get BONUS_FIELDS() {
+  static get BONUS_FIELDS() {
     return super.BONUS_FIELDS.union(new Set([
       "system.armor.value"
     ]));

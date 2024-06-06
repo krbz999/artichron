@@ -35,7 +35,7 @@ export default class ArmorData extends FusionTemplateMixin(ItemSystemModel) {
   }
 
   /** @override */
-  get BONUS_FIELDS() {
+  static get BONUS_FIELDS() {
     return super.BONUS_FIELDS.union(new Set([
       "system.armor.value",
       ...Object.entries(CONFIG.SYSTEM.DAMAGE_TYPES).reduce((acc, [k, v]) => {

@@ -95,7 +95,7 @@ export default class AmmunitionData extends ItemSystemModel {
   }
 
   /** @override */
-  get BONUS_FIELDS() {
+  static get BONUS_FIELDS() {
     const fields = super.BONUS_FIELDS;
     fields.add("system.range.value").add("system.damage.parts");
     return fields;

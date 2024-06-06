@@ -315,8 +315,8 @@ SYSTEM.AMMUNITION_TYPES = {
  * Effect duration types.
  * @enum {EffectDurationConfig}
  */
-SYSTEM.EFFECT_DURATION_TYPES = {
-  none: {label: "ARTICHRON.EffectProperty.DurationNone"},
-  combat: {label: "ARTICHRON.EffectProperty.DurationCombat"},
-  day: {label: "ARTICHRON.EffectProperty.DurationDay"}
+SYSTEM.EFFECT_EXPIRATION_TYPES = {
+  none: {label: "ARTICHRON.EffectProperty.ExpirationNone"},
+  combat: {label: "ARTICHRON.EffectProperty.ExpirationCombat"},
+  day: {label: "ARTICHRON.EffectProperty.ExpirationDay"}
 };

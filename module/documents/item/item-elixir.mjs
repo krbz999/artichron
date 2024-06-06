@@ -49,7 +49,7 @@ export default class ElixirData extends ItemSystemModel {
   }
 
   /** @override */
-  get BONUS_FIELDS() {
+  static get BONUS_FIELDS() {
     return super.BONUS_FIELDS.union(new Set([
       "system.usage.max"
     ]));

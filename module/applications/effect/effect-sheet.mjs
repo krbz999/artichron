@@ -3,12 +3,15 @@ import {ArtichronSheetMixin} from "../base-sheet.mjs";
 export default class EffectSheetArtichron extends ArtichronSheetMixin(foundry.applications.api.DocumentSheetV2) {
   /** @override */
   static DEFAULT_OPTIONS = {
-    form: {submitOnChange: false, closeOnSubmit: true},
+    form: {submitOnChange: true, closeOnSubmit: false},
     classes: ["artichron", "effect"],
     position: {width: 500, height: "auto"},
     actions: {
       addChange: this._onAddChange,
       deleteChange: this._onDeleteChange
+    },
+    window: {
+      contentClasses: ["standard-form"]
     }
   };
 
@@ -16,16 +19,13 @@ export default class EffectSheetArtichron extends ArtichronSheetMixin(foundry.ap
   static PARTS = {
     header: {template: "systems/artichron/templates/partials/sheet-header.hbs"},
     tabs: {template: "systems/artichron/templates/partials/tabs.hbs"},
-    details: {template: "systems/artichron/templates/effect-config/tab-details.hbs"},
-    duration: {template: "systems/artichron/templates/effect-config/tab-duration.hbs"},
-    changes: {template: "systems/artichron/templates/effect-config/tab-changes.hbs"},
-    footer: {template: "systems/artichron/templates/effect-config/footer.hbs"}
+    details: {template: "systems/artichron/templates/effect-config/tab-details.hbs", scrollable: [""]},
+    changes: {template: "systems/artichron/templates/effect-config/tab-changes.hbs", scrollable: [".changes"]}
   };
 
   /** @override */
   static TABS = {
     details: {id: "details", group: "primary", label: "ARTICHRON.SheetTab.EffectDetails"},
-    duration: {id: "duration", group: "primary", label: "ARTICHRON.SheetTab.EffectDuration"},
     changes: {id: "changes", group: "primary", label: "ARTICHRON.SheetTab.EffectChanges"}
   };
 
@@ -42,6 +42,19 @@ export default class EffectSheetArtichron extends ArtichronSheetMixin(foundry.ap
     const doc = this.document;
     const rollData = doc.getRollData();
 
+    const makeField = path => {
+      const [head, ...tail] = path.split(".");
+      let field;
+      if (head === "system") {
+        field = this.document.system.schema.getField(tail.join("."));
+      } else {
+        field = this.document.schema.getField(path);
+      }
+      const value = foundry.utils.getProperty(this.document, path);
+
+      return {field, value};
+    };
+
     const context = {
       document: doc,
       header: {
@@ -49,60 +62,73 @@ export default class EffectSheetArtichron extends ArtichronSheetMixin(foundry.ap
         name: doc.name
       },
       fields: {
-        tint: {
-          field: doc.schema.getField("tint"),
-          value: doc.tint
+        tint: makeField("tint"),
+        disabled: makeField("disabled"),
+        transfer: {
+          ...makeField("transfer"),
+          show: (doc.type !== "fusion") && (doc.parent instanceof Item)
         },
         description: {
           enriched: await TextEditor.enrichHTML(doc.description, {relativeTo: doc, rollData: rollData}),
-          field: doc.schema.getField("description"),
-          value: doc.description,
-          uuid: doc.uuid
+          uuid: doc.uuid,
+          ...makeField("description")
         },
-        disabled: {
-          field: doc.schema.getField("disabled"),
-          value: doc.disabled
-        }
+        combat: makeField("duration.combat")
       },
       isEditMode: this.isEditMode,
       isPlayMode: this.isPlayMode,
       isEditable: this.isEditable,
-      isFusion: doc.type === "fusion",
-      tabs: this._getTabs(),
-      changes: doc.changes.map((c, i) => {
-        return {...c, priority: c.priority ?? 20, idx: i};
-      }),
-      changeModes: Object.entries(CONST.ACTIVE_EFFECT_MODES).reduce((obj, e) => {
-        obj[e[1]] = game.i18n.localize(`EFFECT.MODE_${e[0]}`);
-        return obj;
-      }, {}),
-      hasSchema: !!doc.system.schema
+      tabs: this._getTabs()
     };
 
-    if (!context.isFusion && (this.document.parent instanceof Item)) {
-      context.fields.transfer = {
-        field: doc.schema.getField("transfer"),
-        value: doc.transfer,
-        label: "EFFECT.Transfer",
-        hint: "EFFECT.TransferHint"
-      };
+    // Subtype field.
+    if (this.document.system?.schema) {
+      context.fields.subtype = makeField("system.subtype");
+      context.fields.expiration = makeField("system.expiration.type");
     }
 
-    // Duration.
-    context.fields.duration = {
-      combat: {
-        field: doc.schema.getField("duration.combat"),
-        value: doc.duration.combat,
-        disabled: true
-      }
+    // Changes options
+    const c = CONFIG[(doc.type === "fusion") ? "Item" : "Actor"];
+    const choices = c.dataModels[context.fields.subtype.value]?.BONUS_FIELDS.reduce((acc, k) => {
+      acc[k] = k;
+      return acc;
+    }, {});
+    const modeChoices = Object.entries(CONST.ACTIVE_EFFECT_MODES).reduce((obj, e) => {
+      obj[e[1]] = game.i18n.localize(`EFFECT.MODE_${e[0]}`);
+      return obj;
+    }, {});
+
+    const fields = {
+      key: this.document.schema.getField("changes.element.key"),
+      mode: this.document.schema.getField("changes.element.mode"),
+      value: this.document.schema.getField("changes.element.value")
     };
 
-    if (context.hasSchema) {
-      context.fields.duration.type = {
-        field: doc.system.schema.getField("duration.type"),
-        value: doc.system.duration.type
+    context.changes = doc.changes.map((c, idx) => {
+      return {
+        idx: idx,
+        key: {
+          name: `changes.${idx}.key`,
+          value: c.key,
+          choices: choices,
+          disabled: context.isPlayMode,
+          field: fields.key
+        },
+        mode: {
+          name: `changes.${idx}.mode`,
+          value: c.mode,
+          choices: modeChoices,
+          disabled: context.isPlayMode,
+          field: fields.mode
+        },
+        value: {
+          name: `changes.${idx}.value`,
+          value: c.value,
+          disabled: context.isPlayMode,
+          field: fields.value
+        }
       };
-    }
+    });
 
     return context;
   }
@@ -145,26 +171,7 @@ export default class EffectSheetArtichron extends ArtichronSheetMixin(foundry.ap
    */
   static _onDeleteChange(event, target) {
     if (!this.isEditable) return;
-    target.closest(".form-group").remove();
+    target.closest("fieldset").remove();
     this._onSubmitForm({...this.options.form, closeOnSubmit: false}, event);
-  }
-
-  async _renderInner(...args) {
-    // TODO: redo the sheet to have dropdowns, not inputs.
-    const jq = await super._renderInner(...args);
-    const html = jq[0];
-    if (this.document.type !== "fusion") return jq;
-    const choices = Array.from(this.document.system.BONUS_FIELDS).reduce((acc, k) => {
-      acc[k] = k;
-      return acc;
-    }, {});
-    html.querySelectorAll("[name^='changes.'][name$='.key']").forEach(n => {
-      const div = document.createElement("DIV");
-      div.innerHTML = `<select name="${n.name}">` + HandlebarsHelpers.selectOptions(choices, {hash: {
-        selected: n.value, blank: "", sort: true
-      }}) + "</select>";
-      n.replaceWith(div.firstElementChild);
-    });
-    return jq;
   }
 }

@@ -37,7 +37,7 @@ export default class SpellData extends ArsenalData {
   }
 
   /** @override */
-  get BONUS_FIELDS() {
+  static get BONUS_FIELDS() {
     return super.BONUS_FIELDS;
   }
 

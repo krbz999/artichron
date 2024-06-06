@@ -68,7 +68,7 @@ export class ItemSystemModel extends foundry.abstract.TypeDataModel {
    * Properties that can be amplified by a fused item.
    * @type {Set<string>}
    */
-  get BONUS_FIELDS() {
+  static get BONUS_FIELDS() {
     return new Set([
       "name",
       "img",
