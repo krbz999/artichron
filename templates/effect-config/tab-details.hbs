@@ -1,17 +1,28 @@
 <div class="{{tabs.details.tabCssClass}}" data-group="primary" data-tab="details">
-  {{formField fields.tint.field value=fields.tint.value localize=true disabled=isPlayMode}}
 
-  {{#if (and isEditable isEditMode)}}
-  {{formField fields.description.field value=fields.description.value enriched=fields.description.enriched localize=true toggled=true height=300 collaborate=true documentUUID=fields.description.uuid}}
-  {{else}}
-  <div class="description">
-    {{{fields.description.enriched}}}
-  </div>
-  {{/if}}
+  {{#with fields.description}}
+  {{formField field value=value enriched=enriched localize=true height=150 collaborate=true documentUUID=uuid disabled=true toggled=true}}
+  {{/with}}
 
-  {{formField fields.disabled.field value=fields.disabled.value label="EFFECT.Disabled" localize=true disabled=isPlayMode}}
+  <fieldset>
+    <legend>{{localize "ARTICHRON.EffectProperty.FieldsetDetails"}}</legend>
+    {{formGroup fields.subtype.field value=fields.subtype.value localize=true disabled=isPlayMode}}
 
-  {{#if fields.transfer}}
-  {{formField fields.transfer.field value=fields.transfer.value label=fields.transfer.label hint=fields.transfer.hint localize=true disabled=isPlayMode}}
-  {{/if}}
+    {{formField fields.tint.field value=fields.tint.value localize=true disabled=isPlayMode}}
+    {{formField fields.disabled.field value=fields.disabled.value label="EFFECT.Disabled" localize=true disabled=isPlayMode}}
+
+    {{#if fields.transfer.show}}
+    {{formField fields.transfer.field value=fields.transfer.value label="EFFECT.Transfer" hint="EFFECT.TransferHint" localize=true disabled=root.isPlayMode}}
+    {{/if}}
+  </fieldset>
+
+  <fieldset>
+    <legend>{{localize "ARTICHRON.EffectProperty.FieldsetDuration"}}</legend>
+    {{formField fields.combat.field value=fields.combat.value localize=true disabled=true}}
+
+    {{#if fields.expiration}}
+    {{formGroup fields.expiration.field value=fields.expiration.value localize=true disabled=isPlayMode}}
+    {{/if}}
+  </fieldset>
+
 </div>

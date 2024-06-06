@@ -1,26 +1,21 @@
 <div class="{{tabs.changes.tabCssClass}}" data-group="primary" data-tab="changes">
-  <header>
-    <span class="key">{{localize "ARTICHRON.EffectProperty.ChangeKey"}}</span>
-    <span class="mode">{{localize "ARTICHRON.EffectProperty.ChangeMode"}}</span>
-    <span class="value">{{localize "ARTICHRON.EffectProperty.ChangeValue"}}</span>
-    <button class="controls" type="button" data-action="addChange" {{disabled isPlayMode}}>
-      <i class="fa-solid fa-plus"></i>
-    </button>
-  </header>
+  <button type="button" data-action="addChange" {{disabled isPlayMode}}>
+    <i class="fa-solid fa-plus"></i>
+  </button>
 
-  {{#each changes}}
-  <div class="change form-group" data-idx="{{idx}}">
-    <div class="form-fields">
-      <input class="key" type="text" name="changes.{{idx}}.key" value="{{key}}" {{disabled @root.isPlayMode}}>
-      <select class="mode" name="changes.{{idx}}.mode" data-dtype="Number" {{disabled @root.isPlayMode}}>
-        {{selectOptions @root.changeModes selected=mode}}
-      </select>
-      <input class="value" type="text" name="changes.{{idx}}.value" value="{{value}}" {{disabled @root.isPlayMode}}>
-
-      <div class="controls">
-        <a class="control" data-action="deleteChange" {{disabled @root.isPlayMode}}><i class="fa-solid fa-trash"></i></a>
-      </div>
-    </div>
-  </div>
-  {{/each}}
+  <section class="changes scrollable">
+    {{#each changes}}
+    <fieldset data-idx="{{idx}}">
+      <legend>
+        {{idx}}
+        <a class="control" data-action="deleteChange" {{disabled @root.isPlayMode}}>
+          <i class="fa-solid fa-trash"></i>
+        </a>
+      </legend>
+      {{formGroup key.field value=key.value choices=key.choices name=key.name disabled=key.disabled localize=true}}
+      {{formGroup mode.field value=mode.value choices=mode.choices name=mode.name disabled=mode.disabled localize=true}}
+      {{formGroup value.field value=value.value name=value.name disabled=value.disabled localize=true}}
+    </fieldset>
+    {{/each}}
+  </section>
 </div>

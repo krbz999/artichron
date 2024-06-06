@@ -2,18 +2,19 @@ const {BooleanField, DocumentUUIDField, JSONField, StringField, SchemaField} = f
 
 /**
  * System data for ActiveEffects.
- * @property {object} duration
- * @property {string} duration.type       When does this effect automatically expire?
+ * @property {object} expiration
+ * @property {string} expiration.type     When does this effect automatically expire?
  */
 export class ActiveEffectSystemModel extends foundry.abstract.TypeDataModel {
   static defineSchema() {
     return {
-      duration: new SchemaField({
+      expiration: new SchemaField({
         type: new StringField({
           required: true,
           initial: "none",
-          choices: CONFIG.SYSTEM.EFFECT_DURATION_TYPES,
-          label: "ARTICHRON.EffectProperty.Duration"
+          choices: CONFIG.SYSTEM.EFFECT_EXPIRATION_TYPES,
+          label: "ARTICHRON.EffectProperty.Expiration",
+          hint: "ARTICHRON.EffectProperty.ExpirationHint"
         })
       })
     };
@@ -81,7 +82,19 @@ export class EffectFusionData extends ActiveEffectSystemModel {
   static defineSchema() {
     return {
       ...super.defineSchema(),
-      itemData: new JSONField()
+      itemData: new JSONField(),
+      subtype: new StringField({
+        required: true,
+        blank: false,
+        initial: "weapon",
+        label: "ARTICHRON.EffectProperty.SubtypeFusion",
+        hint: "ARTICHRON.EffectProperty.SubtypeFusionHint",
+        choices: () => {
+          const choices = foundry.utils.deepClone(CONFIG.Item.typeLabels);
+          delete choices.base;
+          return choices;
+        }
+      })
     };
   }
 
@@ -104,8 +117,8 @@ export class EffectFusionData extends ActiveEffectSystemModel {
    * The fields this effect may apply to.
    * @type {Set<string>}
    */
-  get BONUS_FIELDS() {
-    return this.parent.parent.system.BONUS_FIELDS;
+  static get BONUS_FIELDS() {
+    return this.parent.parent.system.constructor.BONUS_FIELDS;
   }
 
   /**
@@ -269,7 +282,16 @@ export class EffectBuffData extends ActiveEffectSystemModel {
     return {
       ...super.defineSchema(),
       source: new DocumentUUIDField({type: "Item", embedded: true, label: "ARTICHRON.EffectProperty.Source"}),
-      granted: new BooleanField({label: "ARTICHRON.EffectProperty.Granted"})
+      granted: new BooleanField({label: "ARTICHRON.EffectProperty.Granted"}),
+      subtype: new StringField({
+        label: "ARTICHRON.EffectProperty.SubtypeBuff",
+        hint: "ARTICHRON.EffectProperty.SubtypeBuffHint",
+        choices: () => {
+          const choices = foundry.utils.deepClone(CONFIG.Actor.typeLabels);
+          delete choices.base;
+          return choices;
+        }
+      })
     };
   }
 

@@ -199,22 +199,23 @@ export class ActorSystemModel extends foundry.abstract.TypeDataModel {
   /*                                          */
   /* ---------------------------------------- */
 
-  get BONUS_FIELDS() {
-    const s = new Set();
-    for (const [k, v] of Object.entries(this.pools)) {
+  static get BONUS_FIELDS() {
+    const s = new Set(["name", "img"]);
+    const schema = this.schema.initial();
+    for (const [k, v] of Object.entries(schema.pools)) {
       s.add(`system.pools.${k}.max`).add(`system.pools.${k}.faces`);
       for (const w of Object.keys(v.modifiers)) {
         s.add(`system.pools.${k}.modifiers.${w}`);
       }
     }
-    for (const k of Object.keys(this.resistances)) {
+    for (const k of Object.keys(schema.resistances)) {
       s.add(`system.resistances.${k}.value`);
     }
     s.add("system.defenses.armor.value");
-    for (const k of Object.keys(this.movement)) {
+    for (const k of Object.keys(schema.movement)) {
       s.add(`system.movement.${k}.value`);
     }
-    for (const [k, v] of Object.entries(this.skills)) {
+    for (const [k, v] of Object.entries(schema.skills)) {
       for (const w of Object.keys(v.modifiers)) {
         s.add(`system.skills.${k}.modifiers.${w}`);
       }

@@ -148,7 +148,7 @@ export default class ItemArtichron extends Item {
     const overrides = {};
     const changes = [];
 
-    const validFields = this.system.BONUS_FIELDS;
+    const validFields = this.system.constructor.BONUS_FIELDS;
 
     for (const e of this.allApplicableEffects()) {
       if (!e.active) continue;

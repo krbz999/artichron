@@ -233,14 +233,16 @@
   },
 
   "EffectProperty": {
-    "ChangeKey": "Key",
-    "ChangeMode": "Mode",
-    "ChangeValue": "Value",
-    "ChangePriority": "Priority",
-    "Duration": "Duration",
-    "DurationNone": "None",
-    "DurationCombat": "Combat",
-    "DurationDay": "Day"
+    "Expiration": "Expiration",
+    "ExpirationHint": "The trigger for when this effect will expire.",
+    "ExpirationNone": "None",
+    "ExpirationCombat": "Combat",
+    "ExpirationDay": "Day",
+    "SubtypeBuff": "Subtype",
+    "SubtypeFusion": "Fusion Subtype",
+    "SubtypeFusionHint": "The properties available to choose from, derived from the chosen item subtype.",
+    "FieldsetDetails": "Details",
+    "FieldsetDuration": "Duration"
   },
 
   "SpellUseDialog": {
