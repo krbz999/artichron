@@ -1,0 +1,11 @@
+{{#if traded}}
+<p class="notification">{{localize "ARTICHRON.ChatMessage.TradeComplete"}}</p>
+{{else if item}}
+<p class="notification">{{localize "ARTICHRON.ChatMessage.TradeInfo" item=item.name actor=actor.name target=target.name}}</p>
+{{#if isTarget}}
+<button type="button" data-action="acceptTrade">
+  <i class="fa-solid fa-check"></i>
+  {{localize "ARTICHRON.ChatMessage.AcceptTrade"}}
+</button>
+{{/if}}
+{{/if}}
