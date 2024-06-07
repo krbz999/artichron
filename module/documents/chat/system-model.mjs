@@ -1,6 +1,6 @@
 import {DamageRoll} from "../../dice/damage-roll.mjs";
 
-const {SetField, StringField, DocumentUUIDField} = foundry.data.fields;
+const {SetField, StringField, DocumentUUIDField, BooleanField, JSONField} = foundry.data.fields;
 
 class ForeignDocumentUUIDField extends DocumentUUIDField {
   initialize(value, model, options = {}) {
@@ -16,6 +16,64 @@ export class ChatMessageSystemModel extends foundry.abstract.TypeDataModel {
       item: new ForeignDocumentUUIDField({type: "Item"})
     };
   }
+
+  /**
+   * Make system-specific adjustments to the chat message when created by an item.
+   * @param {HTMLElement} html      The default html.
+   */
+  async adjustHTML(html) {}
+}
+
+export class TradeMessageData extends ChatMessageSystemModel {
+  static defineSchema() {
+    return {
+      itemData: new JSONField(),
+      actor: new ForeignDocumentUUIDField({type: "Actor"}),
+      target: new ForeignDocumentUUIDField({type: "Actor"}),
+      traded: new BooleanField()
+    };
+  }
+
+  /**
+   * An ephemeral item constructed from the saved item data.
+   * @type {ItemArtichron|null}
+   */
+  get item() {
+    if (!this.itemData || !this.actor || this.traded) return null;
+    const Cls = getDocumentClass("Item");
+    return new Cls(this.itemData, {parent: this.actor});
+  }
+
+  /** @override */
+  async adjustHTML(html) {
+    const template = "systems/artichron/templates/chat/trade-message.hbs";
+    html.querySelector(".message-content").innerHTML = await renderTemplate(template, {
+      traded: this.traded,
+      item: this.item,
+      actor: this.actor,
+      target: this.target,
+      isTarget: !!this.target?.isOwner,
+      canCancel: !!this.actor?.isOwner && !!this.parent.isOwner
+    });
+
+    html.querySelector("[data-action=acceptTrade]")?.addEventListener("click", this._onAcceptTrade.bind(this));
+  }
+
+  /**
+   * Handle click events on the Accept Trade button.
+   * @param {Event} event     Initiating click event.
+   */
+  async _onAcceptTrade(event) {
+    const canAccept = !this.traded && !!this.item?.isOwner && !!this.target?.isOwner;
+    if (!canAccept) return;
+
+    const button = event.currentTarget;
+    button.disabled = true;
+
+    const itemData = game.items.fromCompendium(this.item);
+    await this.target.createEmbeddedDocuments("Item", [itemData]);
+    this.parent.update({"system.traded": true});
+  }
 }
 
 export class ItemMessageData extends ChatMessageSystemModel {
@@ -27,10 +85,7 @@ export class ItemMessageData extends ChatMessageSystemModel {
     };
   }
 
-  /**
-   * Make system-specific adjustments to the chat message when created by an item.
-   * @param {HTMLElement} html      The default html.
-   */
+  /** @override */
   async adjustHTML(html) {
     const {templateData} = this.parent.flags.artichron?.use ?? {};
     const {item, actor, targets, effect} = this;

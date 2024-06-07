@@ -14,7 +14,7 @@ import MeasuredTemplateDocumentArtichron from "./template/template-document.mjs"
 import SpellData from "./item/item-arsenal-spell.mjs";
 import WeaponData from "./item/item-arsenal-weapon.mjs";
 import ShieldData from "./item/item-arsenal-shield.mjs";
-import {ChatMessageSystemModel, ItemMessageData} from "./chat/system-model.mjs";
+import {ChatMessageSystemModel, ItemMessageData, TradeMessageData} from "./chat/system-model.mjs";
 import {CombatantSystemModel, HeroCombatantData} from "./combat/system-model.mjs";
 import {ActiveEffectSystemModel, EffectBuffData, EffectFusionData} from "./effect/system-model.mjs";
 import ActiveEffectArtichron from "./effect/active-effect.mjs";
@@ -36,7 +36,8 @@ export const dataModels = {
     ammo: AmmunitionData
   },
   message: {
-    usage: ItemMessageData
+    usage: ItemMessageData,
+    trade: TradeMessageData
   },
   combatant: {
     hero: HeroCombatantData

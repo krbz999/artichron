@@ -381,5 +381,11 @@
       "Unfuse": "Split Fusion",
       "Use": "Use Item"
     }
+  },
+
+  "ChatMessage": {
+    "TradeComplete": "Trade Complete!",
+    "TradeInfo": "{actor} wants to trade {item} to {target}.",
+    "AcceptTrade": "Accept Trade"
   }
 }}
