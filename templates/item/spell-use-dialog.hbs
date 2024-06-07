@@ -1,21 +1,11 @@
 <fieldset>
 
-  <!-- Damage type -->
   {{#if isDamage}}
   {{formField damage.field value=damage.value localize=true name=damage.name}}
-  {{formField multiplier.field value=multiplier.value localize=true name=multiplier.name}}
   {{/if}}
-
   {{#if isBuff}}
   {{formField buff.field value=buff.value localize=true name=buff.name}}
   {{/if}}
-
   {{formField shape.field value=shape.value localize=true name=shape.name}}
-
-  {{formField count.field value=count.value localize=true name=count.name}}
-  {{formField range.field value=range.value localize=true name=range.name}}
-  {{formField distance.field value=distance.value localize=true name=distance.name}}
-  {{formField width.field value=width.value localize=true name=width.name}}
-  {{formField radius.field value=radius.value localize=true name=radius.name}}
 
 </fieldset>
