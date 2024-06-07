@@ -3,7 +3,7 @@ const {HandlebarsApplicationMixin, ApplicationV2} = foundry.applications.api;
 export default class WeaponUseDialog extends HandlebarsApplicationMixin(ApplicationV2) {
   constructor({item, resolve, ...options} = {}) {
     super(options);
-    this.item = item;
+    this.#item = item;
     this.resolve = resolve;
   }
 
@@ -11,9 +11,14 @@ export default class WeaponUseDialog extends HandlebarsApplicationMixin(Applicat
   static DEFAULT_OPTIONS = {
     classes: ["artichron", "weapon"],
     tag: "form",
+    position: {
+      width: 400,
+      height: "auto"
+    },
     window: {
       icon: "fa-solid fa-hand-fist",
-      minimizable: false
+      minimizable: false,
+      contentClasses: ["standard-form"]
     },
     form: {
       handler: this._onSubmit,
@@ -24,7 +29,7 @@ export default class WeaponUseDialog extends HandlebarsApplicationMixin(Applicat
   /** @override */
   static PARTS = {
     form: {template: "systems/artichron/templates/item/weapon-use-dialog.hbs"},
-    footer: {template: "systems/artichron/templates/item/weapon-use-dialog-footer.hbs"}
+    footer: {template: "systems/artichron/templates/item/arsenal-use-dialog-footer.hbs"}
   };
 
   /* ---------------------------------------- */
@@ -40,50 +45,10 @@ export default class WeaponUseDialog extends HandlebarsApplicationMixin(Applicat
    * The weapon being used to attack.
    * @type {ItemArtichron}
    */
-  #item = null;
-
   get item() {
     return this.#item;
   }
-
-  set item(item) {
-    if (item instanceof Item) this.#item = item;
-  }
-
-  /**
-   * The amount of stamina the user is wanting to spend.
-   * @type {number}
-   */
-  #stamina = null;
-
-  get stamina() {
-    return this.#stamina;
-  }
-
-  set stamina(number) {
-    number = Number(number);
-    if (Number.isInteger(number) && (number >= 0)) this.#stamina = number;
-    else if (number === null) this.#stamina = number;
-  }
-
-  /**
-   * The ammo that will be applied to this attack.
-   * @type {ItemArtichron}
-   */
-  #ammo = null;
-
-  get ammo() {
-    return this.#ammo;
-  }
-
-  set ammo(item) {
-    if (item === null) this.#ammo = null;
-    else if (item instanceof Item) this.#ammo = item;
-    else if (typeof item === "string") {
-      item = this.item.actor.items.get(item);
-      if (item) this.#ammo = item;
-    }
-  }
+  #item = null;
 
   /* ---------------------------------------- */
   /*     Method Handling and Preparation      */
@@ -103,15 +68,6 @@ export default class WeaponUseDialog extends HandlebarsApplicationMixin(Applicat
   }
 
   /** @override */
-  _onRender(...T) {
-    super._onRender(...T);
-
-    this.element.querySelectorAll("[data-change]").forEach(n => {
-      n.addEventListener("change", this._onChangeProperty.bind(this));
-    });
-  }
-
-  /** @override */
   async _prepareContext(options) {
     const weaponType = this.item.system.category.subtype;
     const ammos = this.item.actor.items.reduce((acc, item) => {
@@ -124,16 +80,18 @@ export default class WeaponUseDialog extends HandlebarsApplicationMixin(Applicat
     const ammoField = new foundry.data.fields.StringField({
       choices: ammos,
       blank: true,
-      label: "ARTICHRON.WeaponUseDialog.Ammunition"
+      label: "ARTICHRON.WeaponUseDialog.Ammunition",
+      hint: "ARTICHRON.WeaponUseDialog.AmmunitionHint"
     });
 
     const value = this.item.actor.system.pools.stamina.value;
     const staminaField = new foundry.data.fields.NumberField({
       min: 0,
-      nullable: true,
+      initial: 0,
       max: value,
       step: 1,
-      label: "ARTICHRON.WeaponUseDialog.Stamina"
+      label: "ARTICHRON.WeaponUseDialog.Stamina",
+      hint: "ARTICHRON.WeaponUseDialog.StaminaHint"
     });
 
     return {
@@ -146,7 +104,8 @@ export default class WeaponUseDialog extends HandlebarsApplicationMixin(Applicat
         field: staminaField,
         dataset: {change: "stamina"},
         show: value > 0
-      }
+      },
+      submitIcon: this.options.window.icon
     };
   }
 
@@ -157,21 +116,12 @@ export default class WeaponUseDialog extends HandlebarsApplicationMixin(Applicat
   /**
    * Handle submission of the form.
    */
-  static _onSubmit() {
+  static _onSubmit(event, target, formData) {
     const data = {
-      stamina: this.stamina,
-      ammo: this.ammo
+      stamina: formData.object.stamina,
+      ammo: this.item.actor.items.get(formData.object.ammo) ?? null
     };
 
     if (this.resolve) this.resolve(data);
-  }
-
-  /**
-   * Handle changes to an input.
-   * @param {Event} event     The initiating change event.
-   */
-  _onChangeProperty(event) {
-    const name = event.currentTarget.name;
-    this[name] = event.currentTarget.value;
   }
 }

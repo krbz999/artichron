@@ -245,9 +245,12 @@
     "FieldsetDuration": "Duration"
   },
 
+  "ItemUseDialog": {
+    "Confirm": "Confirm"
+  },
+
   "SpellUseDialog": {
     "Buff": "Buff",
-    "Confirm": "Confirm",
     "Count": "Count",
     "Damage": "Damage",
     "Distance": "Distance",
@@ -271,8 +274,9 @@
   "WeaponUseDialog": {
     "Title": "{name}: Attack",
     "Ammunition": "Ammunition",
+    "AmmunitionHint": "An optional ammunition to use for this attack, which will alter the damage roll.",
     "Stamina": "Stamina",
-    "Confirm": "Confirm"
+    "StaminaHint": "TODO"
   },
 
   "ItemFusionChanges": {

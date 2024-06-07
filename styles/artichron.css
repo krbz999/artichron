@@ -28,14 +28,6 @@
 /*            System-wide styling           */
 /* ---------------------------------------- */
 
-.application button {
-  transition: background-color 0.25s, border-color 0.25s;
-}
-
-.artichron.application .form-footer {
-  margin-top: 1em;
-}
-
 #context-menu.artichron {
   width: 200px;
 }
