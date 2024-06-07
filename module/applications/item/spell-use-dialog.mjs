@@ -29,8 +29,23 @@ export default class SpellUseDialog extends HandlebarsApplicationMixin(Applicati
   /** @override */
   static PARTS = {
     form: {template: "systems/artichron/templates/item/spell-use-dialog.hbs"},
+    options: {template: "systems/artichron/templates/item/spell-use-dialog-options.hbs"},
     footer: {template: "systems/artichron/templates/item/arsenal-use-dialog-footer.hbs"}
   };
+
+  _onChangeForm(formConfig, event) {
+    super._onChangeForm(formConfig, event);
+
+    const part = event.target.closest("[data-application-part]").dataset.applicationPart;
+    if (part === "form") {
+      if (event.target.name === "damage") this.#damage = event.target.value;
+      else if (event.target.name === "shape") this.#shape = event.target.value;
+      else if (event.target.name === "buff") this.#buff = event.target.value;
+      this.render({parts: ["options", "footer"]});
+    } else if (part === "options") {
+      this.render({parts: ["footer"]});
+    }
+  }
 
   /* ---------------------------------------- */
   /*                PROPERTIES                */
@@ -58,82 +73,6 @@ export default class SpellUseDialog extends HandlebarsApplicationMixin(Applicati
   get shape() {
     return this.#shape;
   }
-  set shape(shape) {
-    if (!shape) this.#shape = null;
-    else if (this.item.system.template.types.has(shape)) this.#shape = shape;
-  }
-
-  /**
-   * The number of additional templates that will be placed, or number of single targets.
-   * @type {number}
-   */
-  #count = null;
-  get count() {
-    return this.#count;
-  }
-  set count(count) {
-    if (Number.isInteger(count) && (count >= 0)) this.#count = count;
-  }
-
-  /**
-   * The bonus range of the spell.
-   * @type {number}
-   */
-  #range = null;
-  get range() {
-    return this.#range;
-  }
-  set range(range) {
-    if (Number.isInteger(range) && (range >= 0)) this.#range = range;
-  }
-
-  /**
-   * The bonus distance of the spell.
-   * @type {number}
-   */
-  #distance = null;
-  get distance() {
-    return this.#distance;
-  }
-  set distance(dist) {
-    if (Number.isInteger(dist) && (dist >= 0)) this.#distance = dist;
-  }
-
-  /**
-   * The bonus width of the spell.
-   * @type {number}
-   */
-  #width = null;
-  get width() {
-    return this.#width;
-  }
-  set width(w) {
-    if (Number.isInteger(w) && (w >= 0)) this.#width = w;
-  }
-
-  /**
-   * The bonus radius of the spell.
-   * @type {number}
-   */
-  #radius = null;
-  get radius() {
-    return this.#radius;
-  }
-  set radius(r) {
-    if (Number.isInteger(r) && (r >= 0)) this.#radius = r;
-  }
-
-  /**
-   * The damage multiplier of the spell.
-   * @type {number}
-   */
-  #multiplier = null;
-  get multiplier() {
-    return this.#multiplier;
-  }
-  set multiplier(m) {
-    if (Number.isInteger(m) && (m >= 0)) this.#multiplier = m;
-  }
 
   /**
    * The currently selected damage part.
@@ -143,9 +82,6 @@ export default class SpellUseDialog extends HandlebarsApplicationMixin(Applicati
   get damage() {
     return this.#damage;
   }
-  set damage(id) {
-    if (this.item.system._damages.some(k => k.id === id)) this.#damage = id;
-  }
 
   /**
    * The currently selected buff effect.
@@ -154,12 +90,6 @@ export default class SpellUseDialog extends HandlebarsApplicationMixin(Applicati
   #buff = null;
   get buff() {
     return this.#buff;
-  }
-  set buff(id) {
-    const effect = this.item.effects.get(id);
-    if (effect && (effect.type === "buff") && !effect.system.isGranted && !effect.transfer) {
-      this.#buff = id;
-    }
   }
 
   /* ---------------------------------------- */
@@ -179,135 +109,109 @@ export default class SpellUseDialog extends HandlebarsApplicationMixin(Applicati
   }
 
   /** @override */
-  async _prepareContext(options) {
+  async _preparePartContext(partId, context, options) {
+    context = await super._preparePartContext(partId, context, options);
+    context.isDamage = this.item.system.category.subtype === "offense";
+    context.isBuff = this.item.system.category.subtype === "buff";
 
-    const numField = (name, max) => {
-      const field = new foundry.data.fields.NumberField({
-        min: 0,
-        max: max,
-        nullable: true,
-        step: 1,
-        initial: 0,
-        label: "ARTICHRON.SpellUseDialog." + name.capitalize()
-      });
+    if (partId === "form") {
+      if (context.isDamage) {
 
-      return {field: field, name: name, value: this[name] ?? 0};
-    };
-
-    const mana = this.item.actor.system.pools.mana.value;
-
-    const context = {
-      count: numField("count", mana),
-      range: numField("range", mana),
-      distance: numField("distance", mana),
-      width: numField("width", mana),
-      radius: numField("radius", mana)
-    };
-
-    // Build shape choices.
-    const types = this.item.system.template.types;
-    const choices = {};
-    for (const [k, v] of Object.entries(CONFIG.SYSTEM.AREA_TARGET_TYPES)) {
-      if (types.has(k)) choices[k] = v.label;
-    }
-    const field = new foundry.data.fields.StringField({
-      choices: choices,
-      label: "ARTICHRON.SpellUseDialog.Shape",
-      blank: true
-    });
-    context.shape = {field: field, name: "shape", value: this.shape};
-
-    if (this.item.system.category.subtype === "offense") {
-      context.isDamage = true;
-      context.multiplier = numField("multiplier", mana);
-
-      // Build damage parts.
-      const choices = {};
-      for (const {id, formula, type} of this.item.system._damages) {
-        choices[id] = `${CONFIG.SYSTEM.DAMAGE_TYPES[type].label} [${formula}]`;
-      }
-      const field = new foundry.data.fields.StringField({
-        choices: choices,
-        label: "ARTICHRON.SpellUseDialog.Damage",
-        blank: false
-      });
-      context.damage = {field: field, name: "damage", value: this.damage};
-    }
-
-    if (this.item.system.category.subtype === "buff") {
-      context.isBuff = true;
-
-      // Build buff choices.
-      const choices = {};
-      for (const effect of this.item.effects) {
-        if ((effect.type === "buff") && !effect.system.isGranted && !effect.transfer) {
-          choices[effect.id] = effect.name;
+        // Build damage parts.
+        const choices = {};
+        for (const {id, formula, type} of this.item.system._damages) {
+          choices[id] = `${CONFIG.SYSTEM.DAMAGE_TYPES[type].label} [${formula}]`;
         }
+        const field = new foundry.data.fields.StringField({
+          choices: choices,
+          label: "ARTICHRON.SpellUseDialog.Damage",
+          blank: false
+        });
+        context.damage = {field: field, name: "damage", value: this.damage};
+      }
+
+      // Build shape choices.
+      const types = this.item.system.template.types;
+      const choices = {};
+      for (const [k, v] of Object.entries(CONFIG.SYSTEM.AREA_TARGET_TYPES)) {
+        if (types.has(k)) choices[k] = v.label;
       }
       const field = new foundry.data.fields.StringField({
         choices: choices,
-        label: "ARTICHRON.SpellUseDialog.Buff",
+        label: "ARTICHRON.SpellUseDialog.Shape",
         blank: true
       });
-      context.buff = {field: field, name: "buff", value: this.buff};
+      context.shape = {field: field, name: "shape", value: this.shape};
+
+      if (context.isBuff) {
+
+        // Build buff choices.
+        const choices = {};
+        for (const effect of this.item.effects) {
+          if ((effect.type === "buff") && !effect.system.isGranted && !effect.transfer) {
+            choices[effect.id] = effect.name;
+          }
+        }
+        const field = new foundry.data.fields.StringField({
+          choices: choices,
+          label: "ARTICHRON.SpellUseDialog.Buff",
+          blank: true
+        });
+        context.buff = {field: field, name: "buff", value: this.buff};
+      }
     }
 
-    context.submitIcon = this.options.window.icon;
+    else if (partId === "options") {
+      const numField = (name, max) => {
+        const field = new foundry.data.fields.NumberField({
+          min: 0,
+          max: max,
+          nullable: true,
+          step: 1,
+          initial: 0,
+          label: "ARTICHRON.SpellUseDialog." + name.capitalize()
+        });
+
+        return {field: field, name: name, value: this[name] ?? 0};
+      };
+
+      const mana = this.item.actor.system.pools.mana.value;
+      context.sliders = [];
+      for (const k of ["count", "range", "distance", "width", "radius"]) {
+
+        if (CONFIG.SYSTEM.AREA_TARGET_TYPES[this.shape]?.[k]) {
+          context.sliders.push(numField(k, mana));
+        }
+      }
+      if (context.isDamage) context.sliders.unshift(numField("multiplier", mana));
+    }
+
+    else if (partId === "footer") {
+      context.submitIcon = this.options.window.icon;
+
+      // Disable footer button.
+      let state = false;
+      if (!this.shape) state = true;
+      else if (context.isDamage && !this.damage) state = true;
+      else if (context.isBuff && !this.buff) state = true;
+      else if (this.cost > this.item.actor.system.pools.mana.value) state = true;
+      context.disabled = state;
+    }
 
     return context;
   }
 
   /**
-   * Handle change events.
-   * @param {Event} event     Initiating change events.
-   */
-  _onChange(event) {
-    const {name, value, dtype} = event.currentTarget;
-    this[name] = (dtype === "Number") ? parseInt(value) : value;
-
-    this.element.querySelector("button[type=submit]").disabled = !this._testValidity();
-
-    if (name === "shape") this._toggleHiddenStates(value);
-  }
-
-  _testValidity() {
-    if (!this.shape) return false;
-
-    if ((this.item.system.category.subtype === "offense") && !this.damage) return false;
-    else if ((this.item.system.category.subtype === "buff") && !this.buff) return false;
-
-    return this.cost <= this.item.actor.system.pools.mana.value;
-  }
-
-  /**
    * Calculate the current cost of the configuration.
-   * @type {number|null}
+   * @type {number}
    */
   get cost() {
     let value = 0;
-
-    const shapeConfig = CONFIG.SYSTEM.AREA_TARGET_TYPES[this.shape];
-    if (!shapeConfig) return null;
-
-    for (const k of ["count", "range", "distance", "width", "radius"]) {
-      if (!(k in shapeConfig)) continue;
-      value += this[k];
+    const element = this.element.elements;
+    for (const k of ["multiplier", "count", "range", "distance", "width", "radius"]) {
+      if (element[k]?.value) value += element[k].value;
     }
-
-    if (this.item.system.category.subtype === "offense") {
-      value += this.multiplier;
-    }
-
     return value;
-  }
-
-  _toggleHiddenStates() {
-    const shapeConfig = CONFIG.SYSTEM.AREA_TARGET_TYPES[this.shape] ?? {};
-    const names = ["count", "range", "distance", "width", "radius"];
-    for (const name of names) {
-      const element = this.element.querySelector(`[name="${name}"]`).closest(".form-group");
-      element.style.display = (name in shapeConfig) ? "" : "none";
-    }
   }
 
   /**
@@ -320,15 +224,6 @@ export default class SpellUseDialog extends HandlebarsApplicationMixin(Applicati
     const data = formData.object;
     data.cost = this.cost;
     if (this.resolve) this.resolve(data);
-  }
-
-  /** @override */
-  _onRender(context, options) {
-    super._onRender(context, options);
-    this.element.querySelectorAll("[name]").forEach(n => {
-      n.addEventListener("change", this._onChange.bind(this));
-    });
-    this._toggleHiddenStates();
   }
 
   /**

@@ -70,7 +70,7 @@ export class ActiveEffectSystemModel extends foundry.abstract.TypeDataModel {
    * @type {boolean}
    */
   get isTemporary() {
-    return this.duration.type !== "none";
+    return this.expiration.type !== "none";
   }
 }
 
