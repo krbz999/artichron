@@ -3,7 +3,7 @@ const {HandlebarsApplicationMixin, ApplicationV2} = foundry.applications.api;
 export default class SpellUseDialog extends HandlebarsApplicationMixin(ApplicationV2) {
   constructor({item, resolve, ...options} = {}) {
     super(options);
-    this.item = item;
+    this.#item = item;
     this.resolve = resolve;
   }
 
@@ -13,7 +13,8 @@ export default class SpellUseDialog extends HandlebarsApplicationMixin(Applicati
     tag: "form",
     window: {
       icon: "fa-solid fa-hand-sparkles",
-      minimizable: false
+      minimizable: false,
+      contentClasses: ["standard-form"]
     },
     position: {
       height: "auto",
@@ -27,7 +28,8 @@ export default class SpellUseDialog extends HandlebarsApplicationMixin(Applicati
 
   /** @override */
   static PARTS = {
-    form: {template: "systems/artichron/templates/item/spell-use-dialog.hbs"}
+    form: {template: "systems/artichron/templates/item/spell-use-dialog.hbs"},
+    footer: {template: "systems/artichron/templates/item/arsenal-use-dialog-footer.hbs"}
   };
 
   /* ---------------------------------------- */
@@ -43,13 +45,10 @@ export default class SpellUseDialog extends HandlebarsApplicationMixin(Applicati
    * The spell being used.
    * @type {ItemArtichron}
    */
-  #item = null;
   get item() {
     return this.#item;
   }
-  set item(item) {
-    if ((item instanceof Item) && (item.type === "spell")) this.#item = item;
-  }
+  #item = null;
 
   /**
    * The chosen shape of the spell.
@@ -188,6 +187,7 @@ export default class SpellUseDialog extends HandlebarsApplicationMixin(Applicati
         max: max,
         nullable: true,
         step: 1,
+        initial: 0,
         label: "ARTICHRON.SpellUseDialog." + name.capitalize()
       });
 
@@ -252,6 +252,8 @@ export default class SpellUseDialog extends HandlebarsApplicationMixin(Applicati
       context.buff = {field: field, name: "buff", value: this.buff};
     }
 
+    context.submitIcon = this.options.window.icon;
+
     return context;
   }
 
@@ -314,8 +316,8 @@ export default class SpellUseDialog extends HandlebarsApplicationMixin(Applicati
    * @param {Event} event             Initiating click event.
    * @param {HTMLElement} target      The targeted element.
    */
-  static _onConfirm(event, target) {
-    const data = new FormDataExtended(this.element).object;
+  static _onConfirm(event, target, formData) {
+    const data = formData.object;
     data.cost = this.cost;
     if (this.resolve) this.resolve(data);
   }
