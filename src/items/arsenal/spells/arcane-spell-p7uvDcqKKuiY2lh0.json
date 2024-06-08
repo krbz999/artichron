@@ -12,21 +12,9 @@
     "price": {
       "value": null
     },
-    "damage": [
-      {
-        "formula": "",
-        "type": "fire"
-      },
-      {
-        "formula": "",
-        "type": "fire"
-      }
-    ],
     "wield": {
-      "value": 1,
-      "range": null
+      "value": 1
     },
-    "fusion": [],
     "template": {
       "types": [
         "ray",
@@ -36,11 +24,19 @@
         "star",
         "radius",
         "bang"
-      ],
-      "rating": null
+      ]
     },
     "category": {
       "subtype": "offense"
+    },
+    "range": {
+      "value": 1
+    },
+    "targets": {
+      "value": 1
+    },
+    "damage": {
+      "parts": []
     }
   },
   "effects": [],
@@ -50,9 +46,11 @@
   },
   "flags": {},
   "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": null,
     "systemId": null,
     "systemVersion": null,
-    "coreVersion": null,
     "createdTime": null,
     "modifiedTime": null,
     "lastModifiedBy": null

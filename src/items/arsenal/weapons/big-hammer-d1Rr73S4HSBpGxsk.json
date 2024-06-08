@@ -12,47 +12,20 @@
     "price": {
       "value": 1
     },
-    "damage": [
-      {
-        "formula": "2d8",
-        "type": "physical"
-      },
-      {
-        "formula": "1d4 + 3",
-        "type": "darkness"
-      }
-    ],
-    "parry": {
-      "number": "1",
-      "faces": 4,
-      "modifiers": {
-        "r": "",
-        "x": "",
-        "min": "",
-        "max": "",
-        "xo": false,
-        "rr": false
-      }
-    },
-    "block": {
-      "number": "1",
-      "faces": 4,
-      "modifiers": {
-        "r": "",
-        "x": "",
-        "min": "",
-        "max": "",
-        "xo": false,
-        "rr": false
-      }
-    },
     "wield": {
-      "value": 2,
-      "range": 1
+      "value": 2
     },
-    "fusion": [],
     "category": {
       "subtype": "hammer"
+    },
+    "range": {
+      "value": 1
+    },
+    "targets": {
+      "value": 1
+    },
+    "damage": {
+      "parts": []
     }
   },
   "effects": [],
@@ -62,9 +35,11 @@
   },
   "flags": {},
   "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": null,
     "systemId": null,
     "systemVersion": null,
-    "coreVersion": null,
     "createdTime": null,
     "modifiedTime": null,
     "lastModifiedBy": null

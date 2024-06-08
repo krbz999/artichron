@@ -12,62 +12,23 @@
     "price": {
       "value": null
     },
-    "damage": [
-      {
-        "formula": "2d4",
-        "type": "physical"
-      },
-      {
-        "formula": "",
-        "type": "arcane"
-      },
-      {
-        "formula": "",
-        "type": "arcane"
-      },
-      {
-        "formula": "",
-        "type": "fire"
-      },
-      {
-        "formula": "",
-        "type": "fire"
-      }
-    ],
-    "parry": {
-      "number": "1",
-      "faces": 4,
-      "modifiers": {
-        "r": "",
-        "x": "",
-        "min": "",
-        "max": "",
-        "xo": false,
-        "rr": false
-      }
-    },
-    "block": {
-      "number": "1",
-      "faces": 4,
-      "modifiers": {
-        "r": "",
-        "x": "",
-        "min": "",
-        "max": "",
-        "xo": false,
-        "rr": false
-      }
-    },
     "wield": {
-      "value": 1,
-      "range": null
+      "value": 1
     },
-    "fusion": [],
     "armor": {
-      "value": 5
+      "value": "5"
     },
     "category": {
       "subtype": "heater"
+    },
+    "range": {
+      "value": 1
+    },
+    "targets": {
+      "value": 1
+    },
+    "damage": {
+      "parts": []
     }
   },
   "effects": [],
@@ -77,9 +38,11 @@
   },
   "flags": {},
   "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": null,
     "systemId": null,
     "systemVersion": null,
-    "coreVersion": null,
     "createdTime": null,
     "modifiedTime": null,
     "lastModifiedBy": null

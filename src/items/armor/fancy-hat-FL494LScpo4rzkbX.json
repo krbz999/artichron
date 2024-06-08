@@ -6,7 +6,6 @@
     "description": {
       "value": "<p>Just a hat, really. Not much to it. There are many like it, but this one is yours.</p>"
     },
-    "identifier": "",
     "weight": {
       "value": 0
     },
@@ -15,31 +14,30 @@
     },
     "resistances": {
       "arcane": {
-        "value": null
+        "value": ""
       },
       "darkness": {
-        "value": null
+        "value": ""
       },
       "fire": {
-        "value": null
+        "value": ""
       },
       "ice": {
-        "value": null
+        "value": ""
       },
       "light": {
-        "value": null
+        "value": ""
       },
       "lightning": {
-        "value": null
+        "value": ""
       },
       "wind": {
-        "value": null
+        "value": ""
       }
     },
     "armor": {
-      "value": 5
+      "value": "5"
     },
-    "fusion": [],
     "category": {
       "subtype": "head"
     }
@@ -51,9 +49,11 @@
   },
   "flags": {},
   "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": null,
     "systemId": null,
     "systemVersion": null,
-    "coreVersion": null,
     "createdTime": null,
     "modifiedTime": null,
     "lastModifiedBy": null
