@@ -186,7 +186,11 @@
       "offsetX": 0,
       "offsetY": 0,
       "rotation": 0,
-      "tint": null
+      "tint": "#ffffff",
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "fit": "contain",
+      "alphaThreshold": 0.75
     },
     "width": 1,
     "height": 1,
@@ -222,7 +226,9 @@
         "min": 0,
         "max": 1
       },
-      "color": null
+      "color": null,
+      "negative": false,
+      "priority": 0
     },
     "sight": {
       "enabled": true,
@@ -237,170 +243,25 @@
     },
     "detectionModes": [],
     "flags": {},
-    "randomImg": false
+    "randomImg": false,
+    "hexagonalShape": 0,
+    "occludable": {
+      "radius": 0
+    },
+    "ring": {
+      "enabled": false,
+      "colors": {
+        "ring": null,
+        "background": null
+      },
+      "effects": 1,
+      "subject": {
+        "scale": 1,
+        "texture": null
+      }
+    }
   },
   "items": [
-    {
-      "name": "Chest Piece",
-      "type": "armor",
-      "_id": "k0NcfI8E2KtfKBHJ",
-      "img": "icons/equipment/chest/breastplate-banded-leather-purple.webp",
-      "system": {
-        "description": {
-          "value": ""
-        },
-        "identifier": "",
-        "resistances": [
-          null
-        ],
-        "weight": {
-          "value": 0
-        },
-        "price": {
-          "value": null
-        },
-        "armor": {
-          "value": null
-        },
-        "category": {
-          "subtype": "chest"
-        },
-        "fusion": []
-      },
-      "effects": [],
-      "folder": null,
-      "sort": 0,
-      "ownership": {
-        "default": 0,
-        "3pWaVXzYT6XoJo1Y": 3
-      },
-      "flags": {
-        "core": {
-          "sourceId": "Item.BTaVzoKcpizEhGHR"
-        }
-      },
-      "_stats": {
-        "systemId": "artichron",
-        "systemVersion": "1.0.0",
-        "coreVersion": "11.315",
-        "createdTime": 1697016724160,
-        "modifiedTime": 1713372380891,
-        "lastModifiedBy": "3pWaVXzYT6XoJo1Y"
-      },
-      "_key": "!actors.items!k8B1sfM7pj0yBDdT.k0NcfI8E2KtfKBHJ"
-    },
-    {
-      "name": "Booties",
-      "type": "armor",
-      "_id": "y1r8UUqX41g5lX76",
-      "img": "icons/equipment/feet/boots-collared-red.webp",
-      "system": {
-        "description": {
-          "value": ""
-        },
-        "weight": {
-          "value": 0
-        },
-        "price": {
-          "value": null
-        },
-        "identifier": "",
-        "armor": {
-          "value": null
-        },
-        "resistances": [],
-        "category": {
-          "subtype": "legs"
-        },
-        "fusion": []
-      },
-      "effects": [],
-      "folder": null,
-      "sort": 0,
-      "ownership": {
-        "default": 0,
-        "3pWaVXzYT6XoJo1Y": 3
-      },
-      "flags": {
-        "core": {
-          "sourceId": "Item.iWeJGSbfIcDPjttl"
-        }
-      },
-      "_stats": {
-        "systemId": "artichron",
-        "systemVersion": "1.0.0",
-        "coreVersion": "11.315",
-        "createdTime": 1698398446181,
-        "modifiedTime": 1713372390818,
-        "lastModifiedBy": "3pWaVXzYT6XoJo1Y"
-      },
-      "_key": "!actors.items!k8B1sfM7pj0yBDdT.y1r8UUqX41g5lX76"
-    },
-    {
-      "name": "Wind Spell",
-      "type": "spell",
-      "_id": "jaZBHm4vUzm9essy",
-      "img": "icons/sundries/books/book-symbol-reverse-blue.webp",
-      "system": {
-        "damage": [
-          {
-            "type": "wind",
-            "formula": ""
-          },
-          {
-            "type": "arcane",
-            "formula": ""
-          }
-        ],
-        "wield": {
-          "value": 1,
-          "range": 15
-        },
-        "fusion": [],
-        "description": {
-          "value": "<p>This one goes WOOSH!</p>"
-        },
-        "weight": {
-          "value": 0
-        },
-        "price": {
-          "value": null
-        },
-        "template": {
-          "types": [
-            "single",
-            "ray",
-            "cone",
-            "circle"
-          ],
-          "rating": null
-        },
-        "category": {
-          "subtype": ""
-        }
-      },
-      "effects": [],
-      "folder": null,
-      "sort": 0,
-      "ownership": {
-        "default": 0,
-        "3pWaVXzYT6XoJo1Y": 3
-      },
-      "flags": {
-        "core": {
-          "sourceId": "Actor.luN6ZWHg1EQnWvV9.Item.jaZBHm4vUzm9essy"
-        }
-      },
-      "_stats": {
-        "systemId": "artichron",
-        "systemVersion": "1.0.0",
-        "coreVersion": "11.315",
-        "createdTime": 1688210568754,
-        "modifiedTime": 1712932019716,
-        "lastModifiedBy": "3pWaVXzYT6XoJo1Y"
-      },
-      "_key": "!actors.items!k8B1sfM7pj0yBDdT.jaZBHm4vUzm9essy"
-    },
     {
       "name": "Accessory",
       "type": "armor",
@@ -410,7 +271,6 @@
         "description": {
           "value": ""
         },
-        "identifier": "",
         "weight": {
           "value": 0
         },
@@ -419,12 +279,11 @@
         },
         "resistances": [],
         "armor": {
-          "value": null
+          "value": ""
         },
         "category": {
           "subtype": "accessory"
-        },
-        "fusion": []
+        }
       },
       "effects": [],
       "folder": null,
@@ -439,11 +298,13 @@
         }
       },
       "_stats": {
+        "compendiumSource": "Item.BTaVzoKcpizEhGHR",
+        "duplicateSource": null,
+        "coreVersion": "12.325",
         "systemId": "artichron",
         "systemVersion": "1.0.0",
-        "coreVersion": "11.315",
-        "createdTime": 1697016724160,
-        "modifiedTime": 1713373790583,
+        "createdTime": 1717832902329,
+        "modifiedTime": 1717832902329,
         "lastModifiedBy": "3pWaVXzYT6XoJo1Y"
       },
       "_key": "!actors.items!k8B1sfM7pj0yBDdT.QFDEPZBFxUcJT8FN"
@@ -457,7 +318,6 @@
         "description": {
           "value": ""
         },
-        "identifier": "",
         "weight": {
           "value": 0
         },
@@ -466,34 +326,33 @@
         },
         "resistances": {
           "arcane": {
-            "value": 3
+            "value": "3"
           },
           "darkness": {
-            "value": null
+            "value": ""
           },
           "fire": {
-            "value": null
+            "value": ""
           },
           "ice": {
-            "value": null
+            "value": ""
           },
           "light": {
-            "value": null
+            "value": ""
           },
           "lightning": {
-            "value": null
+            "value": ""
           },
           "wind": {
-            "value": null
+            "value": ""
           }
         },
         "armor": {
-          "value": null
+          "value": ""
         },
         "category": {
           "subtype": "arms"
-        },
-        "fusion": []
+        }
       },
       "effects": [],
       "folder": null,
@@ -508,11 +367,13 @@
         }
       },
       "_stats": {
+        "compendiumSource": "Item.BTaVzoKcpizEhGHR",
+        "duplicateSource": null,
+        "coreVersion": "12.325",
         "systemId": "artichron",
         "systemVersion": "1.0.0",
-        "coreVersion": "11.315",
-        "createdTime": 1697016724160,
-        "modifiedTime": 1713380886101,
+        "createdTime": 1717832902338,
+        "modifiedTime": 1717832902338,
         "lastModifiedBy": "3pWaVXzYT6XoJo1Y"
       },
       "_key": "!actors.items!k8B1sfM7pj0yBDdT.SlF6mYdZNihfPpI1"
@@ -526,7 +387,6 @@
         "description": {
           "value": ""
         },
-        "identifier": "",
         "weight": {
           "value": 0
         },
@@ -535,12 +395,11 @@
         },
         "resistances": [],
         "armor": {
-          "value": null
+          "value": ""
         },
         "category": {
           "subtype": "legs"
-        },
-        "fusion": []
+        }
       },
       "effects": [],
       "folder": null,
@@ -555,11 +414,13 @@
         }
       },
       "_stats": {
+        "compendiumSource": "Item.BTaVzoKcpizEhGHR",
+        "duplicateSource": null,
+        "coreVersion": "12.325",
         "systemId": "artichron",
         "systemVersion": "1.0.0",
-        "coreVersion": "11.315",
-        "createdTime": 1697016724160,
-        "modifiedTime": 1713372387046,
+        "createdTime": 1717832902348,
+        "modifiedTime": 1717832902348,
         "lastModifiedBy": "3pWaVXzYT6XoJo1Y"
       },
       "_key": "!actors.items!k8B1sfM7pj0yBDdT.Us6kXgA3awiYJRtT"
@@ -573,7 +434,6 @@
         "description": {
           "value": "<p>Just a hat, really. Not much to it. There are many like it, but this one is yours.</p>"
         },
-        "identifier": "",
         "weight": {
           "value": 0
         },
@@ -584,9 +444,8 @@
           null
         ],
         "armor": {
-          "value": 5
+          "value": "5"
         },
-        "fusion": [],
         "category": {
           "subtype": "head"
         }
@@ -604,11 +463,13 @@
         }
       },
       "_stats": {
+        "compendiumSource": "Item.BTaVzoKcpizEhGHR",
+        "duplicateSource": null,
+        "coreVersion": "12.325",
         "systemId": "artichron",
         "systemVersion": "1.0.0",
-        "coreVersion": "11.315",
-        "createdTime": 1697016724160,
-        "modifiedTime": 1713372368738,
+        "createdTime": 1717832902356,
+        "modifiedTime": 1717832902356,
         "lastModifiedBy": "3pWaVXzYT6XoJo1Y"
       },
       "_key": "!actors.items!k8B1sfM7pj0yBDdT.jFFNCgllre6UHTFN"
@@ -628,21 +489,9 @@
         "price": {
           "value": null
         },
-        "damage": [
-          {
-            "formula": "",
-            "type": "fire"
-          },
-          {
-            "formula": "",
-            "type": "fire"
-          }
-        ],
         "wield": {
-          "value": 1,
-          "range": null
+          "value": 1
         },
-        "fusion": [],
         "template": {
           "types": [
             "ray",
@@ -652,11 +501,19 @@
             "star",
             "radius",
             "bang"
-          ],
-          "rating": null
+          ]
         },
         "category": {
           "subtype": "offense"
+        },
+        "range": {
+          "value": 1
+        },
+        "targets": {
+          "value": 1
+        },
+        "damage": {
+          "parts": []
         }
       },
       "effects": [],
@@ -672,11 +529,13 @@
         }
       },
       "_stats": {
+        "compendiumSource": "Actor.luN6ZWHg1EQnWvV9.Item.cDARteddh59TtDnx",
+        "duplicateSource": null,
+        "coreVersion": "12.325",
         "systemId": "artichron",
         "systemVersion": "1.0.0",
-        "coreVersion": "11.315",
-        "createdTime": 1698615160630,
-        "modifiedTime": 1713385874745,
+        "createdTime": 1717832902365,
+        "modifiedTime": 1717832902365,
         "lastModifiedBy": "3pWaVXzYT6XoJo1Y"
       },
       "_key": "!actors.items!k8B1sfM7pj0yBDdT.cDARteddh59TtDnx"
@@ -696,47 +555,20 @@
         "price": {
           "value": 1
         },
-        "damage": [
-          {
-            "formula": "2d8",
-            "type": "physical"
-          },
-          {
-            "formula": "1d4 + 3",
-            "type": "darkness"
-          }
-        ],
-        "parry": {
-          "number": "1",
-          "faces": 4,
-          "modifiers": {
-            "r": "",
-            "x": "",
-            "min": "",
-            "max": "",
-            "xo": false,
-            "rr": false
-          }
-        },
-        "block": {
-          "number": "1",
-          "faces": 4,
-          "modifiers": {
-            "r": "",
-            "x": "",
-            "min": "",
-            "max": "",
-            "xo": false,
-            "rr": false
-          }
-        },
         "wield": {
-          "value": 2,
-          "range": 1
+          "value": 2
         },
-        "fusion": [],
         "category": {
           "subtype": "hammer"
+        },
+        "range": {
+          "value": 1
+        },
+        "targets": {
+          "value": 1
+        },
+        "damage": {
+          "parts": []
         }
       },
       "effects": [],
@@ -752,11 +584,13 @@
         }
       },
       "_stats": {
+        "compendiumSource": "Actor.luN6ZWHg1EQnWvV9.Item.oLFJuXum1XF63MKA",
+        "duplicateSource": null,
+        "coreVersion": "12.325",
         "systemId": "artichron",
         "systemVersion": "1.0.0",
-        "coreVersion": "11.315",
-        "createdTime": 1699097827238,
-        "modifiedTime": 1713372453155,
+        "createdTime": 1717832902374,
+        "modifiedTime": 1717832902374,
         "lastModifiedBy": "3pWaVXzYT6XoJo1Y"
       },
       "_key": "!actors.items!k8B1sfM7pj0yBDdT.oLFJuXum1XF63MKA"
@@ -783,10 +617,7 @@
           "value": 5,
           "max": "5"
         },
-        "category": {
-          "subtype": ""
-        },
-        "fusion": []
+        "category": {}
       },
       "effects": [],
       "folder": null,
@@ -801,11 +632,13 @@
         }
       },
       "_stats": {
+        "compendiumSource": "Actor.luN6ZWHg1EQnWvV9.Item.KX3mNE70dTefeyoV",
+        "duplicateSource": null,
+        "coreVersion": "12.325",
         "systemId": "artichron",
         "systemVersion": "1.0.0",
-        "coreVersion": "11.315",
-        "createdTime": 1702770353102,
-        "modifiedTime": 1713371158402,
+        "createdTime": 1717832902383,
+        "modifiedTime": 1717832902383,
         "lastModifiedBy": "3pWaVXzYT6XoJo1Y"
       },
       "_key": "!actors.items!k8B1sfM7pj0yBDdT.KX3mNE70dTefeyoV"
@@ -825,55 +658,20 @@
         "price": {
           "value": 2
         },
-        "fusion": [],
-        "damage": [
-          {
-            "formula": "3d4 + 1d10r + 3",
-            "type": "physical"
-          },
-          {
-            "formula": "1d4 + 3",
-            "type": "physical"
-          },
-          {
-            "formula": "1d10r + 3",
-            "type": "physical"
-          },
-          {
-            "formula": "3d4 + 5",
-            "type": "wind"
-          }
-        ],
         "wield": {
-          "value": 2,
-          "range": 2
-        },
-        "parry": {
-          "faces": 4,
-          "modifiers": {
-            "r": "",
-            "x": "",
-            "min": "",
-            "max": "",
-            "xo": false,
-            "rr": false
-          },
-          "number": ""
-        },
-        "block": {
-          "faces": 4,
-          "modifiers": {
-            "r": "",
-            "x": "",
-            "min": "",
-            "max": "",
-            "xo": false,
-            "rr": false
-          },
-          "number": ""
+          "value": 2
         },
         "category": {
           "subtype": "bow"
+        },
+        "range": {
+          "value": 1
+        },
+        "targets": {
+          "value": 1
+        },
+        "damage": {
+          "parts": []
         }
       },
       "effects": [],
@@ -889,11 +687,13 @@
         }
       },
       "_stats": {
+        "compendiumSource": "Item.iQBAQxd9wclaCTaB",
+        "duplicateSource": null,
+        "coreVersion": "12.325",
         "systemId": "artichron",
         "systemVersion": "1.0.0",
-        "coreVersion": "11.315",
-        "createdTime": 1713099775482,
-        "modifiedTime": 1713372258494,
+        "createdTime": 1717832902392,
+        "modifiedTime": 1717832902392,
         "lastModifiedBy": "3pWaVXzYT6XoJo1Y"
       },
       "_key": "!actors.items!k8B1sfM7pj0yBDdT.7E24dtL5j9wQx47u"
@@ -913,62 +713,23 @@
         "price": {
           "value": null
         },
-        "damage": [
-          {
-            "formula": "2d4",
-            "type": "physical"
-          },
-          {
-            "formula": "",
-            "type": "arcane"
-          },
-          {
-            "formula": "",
-            "type": "arcane"
-          },
-          {
-            "formula": "",
-            "type": "fire"
-          },
-          {
-            "formula": "",
-            "type": "fire"
-          }
-        ],
-        "parry": {
-          "number": "1",
-          "faces": 4,
-          "modifiers": {
-            "r": "",
-            "x": "",
-            "min": "",
-            "max": "",
-            "xo": false,
-            "rr": false
-          }
-        },
-        "block": {
-          "number": "1",
-          "faces": 4,
-          "modifiers": {
-            "r": "",
-            "x": "",
-            "min": "",
-            "max": "",
-            "xo": false,
-            "rr": false
-          }
-        },
         "wield": {
-          "value": 1,
-          "range": null
+          "value": 1
         },
-        "fusion": [],
         "armor": {
-          "value": 5
+          "value": "5"
         },
         "category": {
           "subtype": "heater"
+        },
+        "range": {
+          "value": 1
+        },
+        "targets": {
+          "value": 1
+        },
+        "damage": {
+          "parts": []
         }
       },
       "effects": [],
@@ -984,11 +745,13 @@
         }
       },
       "_stats": {
+        "compendiumSource": "Actor.EXxRXwne5cIXBzYB.Item.rBr73WbSe7Y5FMn2",
+        "duplicateSource": null,
+        "coreVersion": "12.325",
         "systemId": "artichron",
         "systemVersion": "1.0.0",
-        "coreVersion": "11.315",
-        "createdTime": 1699730641576,
-        "modifiedTime": 1713383111462,
+        "createdTime": 1717832902400,
+        "modifiedTime": 1717832902400,
         "lastModifiedBy": "3pWaVXzYT6XoJo1Y"
       },
       "_key": "!actors.items!k8B1sfM7pj0yBDdT.Sf5vA29BJurdGvsG"
@@ -1011,47 +774,20 @@
         "category": {
           "subtype": "buckler"
         },
-        "fusion": [],
-        "damage": [
-          {
-            "formula": "",
-            "type": "physical"
-          },
-          {
-            "formula": "",
-            "type": "physical"
-          }
-        ],
         "wield": {
-          "value": 1,
-          "range": 1
-        },
-        "parry": {
-          "faces": 4,
-          "modifiers": {
-            "r": "",
-            "x": "",
-            "min": "",
-            "max": "",
-            "xo": false,
-            "rr": false
-          },
-          "number": ""
-        },
-        "block": {
-          "faces": 4,
-          "modifiers": {
-            "r": "",
-            "x": "",
-            "min": "",
-            "max": "",
-            "xo": false,
-            "rr": false
-          },
-          "number": ""
+          "value": 1
         },
         "armor": {
-          "value": 10
+          "value": "10"
+        },
+        "range": {
+          "value": 1
+        },
+        "targets": {
+          "value": 1
+        },
+        "damage": {
+          "parts": []
         }
       },
       "effects": [],
@@ -1067,14 +803,112 @@
         }
       },
       "_stats": {
+        "compendiumSource": "Item.1kM0rKfIqnZRg5Y7",
+        "duplicateSource": null,
+        "coreVersion": "12.325",
         "systemId": "artichron",
         "systemVersion": "1.0.0",
-        "coreVersion": "11.315",
-        "createdTime": 1713372688174,
-        "modifiedTime": 1713387894149,
+        "createdTime": 1717832902408,
+        "modifiedTime": 1717832902408,
         "lastModifiedBy": "3pWaVXzYT6XoJo1Y"
       },
       "_key": "!actors.items!k8B1sfM7pj0yBDdT.e7tFyraps0R2tLF6"
+    },
+    {
+      "name": "Chest Piece",
+      "type": "armor",
+      "_id": "k0NcfI8E2KtfKBHJ",
+      "img": "icons/equipment/chest/breastplate-banded-leather-purple.webp",
+      "system": {
+        "description": {
+          "value": ""
+        },
+        "resistances": [
+          null
+        ],
+        "weight": {
+          "value": 0
+        },
+        "price": {
+          "value": null
+        },
+        "armor": {
+          "value": ""
+        },
+        "category": {
+          "subtype": "chest"
+        }
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0,
+        "3pWaVXzYT6XoJo1Y": 3
+      },
+      "flags": {
+        "core": {
+          "sourceId": "Item.BTaVzoKcpizEhGHR"
+        }
+      },
+      "_stats": {
+        "compendiumSource": "Item.BTaVzoKcpizEhGHR",
+        "duplicateSource": null,
+        "coreVersion": "12.325",
+        "systemId": "artichron",
+        "systemVersion": "1.0.0",
+        "createdTime": 1717832902417,
+        "modifiedTime": 1717832902417,
+        "lastModifiedBy": "3pWaVXzYT6XoJo1Y"
+      },
+      "_key": "!actors.items!k8B1sfM7pj0yBDdT.k0NcfI8E2KtfKBHJ"
+    },
+    {
+      "name": "Booties",
+      "type": "armor",
+      "_id": "y1r8UUqX41g5lX76",
+      "img": "icons/equipment/feet/boots-collared-red.webp",
+      "system": {
+        "description": {
+          "value": ""
+        },
+        "weight": {
+          "value": 0
+        },
+        "price": {
+          "value": null
+        },
+        "armor": {
+          "value": ""
+        },
+        "resistances": [],
+        "category": {
+          "subtype": "legs"
+        }
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0,
+        "3pWaVXzYT6XoJo1Y": 3
+      },
+      "flags": {
+        "core": {
+          "sourceId": "Item.iWeJGSbfIcDPjttl"
+        }
+      },
+      "_stats": {
+        "compendiumSource": "Item.iWeJGSbfIcDPjttl",
+        "duplicateSource": null,
+        "coreVersion": "12.325",
+        "systemId": "artichron",
+        "systemVersion": "1.0.0",
+        "createdTime": 1717832902425,
+        "modifiedTime": 1717832902425,
+        "lastModifiedBy": "3pWaVXzYT6XoJo1Y"
+      },
+      "_key": "!actors.items!k8B1sfM7pj0yBDdT.y1r8UUqX41g5lX76"
     }
   ],
   "effects": [],
@@ -1089,7 +923,9 @@
     "coreVersion": null,
     "createdTime": null,
     "modifiedTime": null,
-    "lastModifiedBy": null
+    "lastModifiedBy": null,
+    "compendiumSource": null,
+    "duplicateSource": null
   },
   "_id": "k8B1sfM7pj0yBDdT",
   "sort": 0,
