@@ -185,3 +185,7 @@
     }
   }
 }
+
+dialog.skill .form-footer {
+  flex-direction: column;
+}
