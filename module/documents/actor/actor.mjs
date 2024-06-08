@@ -295,6 +295,7 @@ export default class ActorArtichron extends Actor {
       }),
       rejectClose: false,
       modal: true,
+      classes: ["skill"],
       window: {
         title: game.i18n.format("ARTICHRON.SkillDialog.Title", {
           skill: game.i18n.localize(`ARTICHRON.Skills.${skillId.capitalize()}`)
@@ -306,7 +307,8 @@ export default class ActorArtichron extends Actor {
         }[skillId]
       },
       position: {
-        width: 400
+        width: 400,
+        height: "auto"
       }
     });
     if (!pool) return null;
