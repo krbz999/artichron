@@ -1,8 +1,30 @@
+/**
+ * Register sockets.
+ */
 export function registerSockets() {
-  game.socket.on("artichron.grantBuff", _grantBuffReceive);
+  game.socket.on("system.artichron", handleSocket);
 }
 
-async function _grantBuffReceive({userId, actorUuid, effectUuid, options = {}}) {
+/**
+ * Utility method to direct the socket event.
+ * @param {object} eventData
+ */
+function handleSocket({action, ...data}) {
+  switch (action) {
+    case "grantBuff": return _grantBuff(data);
+    default: return null;
+  }
+}
+
+/**
+ * Handle the creation of the buff.
+ * @param {object} data                 Emitted data.
+ * @param {string} data.userId          The id of the user to handle the event.
+ * @param {string} data.actorUuid       Uuid of the targeted actor.
+ * @param {string} data.effectUuid      Uuid of the effect to create a copy of.
+ * @param {object} [data.options]       Effect creation options.
+ */
+async function _grantBuff({userId, actorUuid, effectUuid, options = {}}) {
   if (game.user.id !== userId) return null;
   const actor = await fromUuid(actorUuid);
   const effect = await fromUuid(effectUuid);
@@ -15,7 +37,7 @@ async function _grantBuffReceive({userId, actorUuid, effectUuid, options = {}}) 
     "system.source": effect.parent.uuid,
     "system.granted": true
   });
-  return ActiveEffect.implementation.create(effectData, {...options, parent: actor});
+  ActiveEffect.implementation.create(effectData, {...options, parent: actor});
 }
 
 /**
@@ -26,18 +48,9 @@ async function _grantBuffReceive({userId, actorUuid, effectUuid, options = {}}) 
  * @returns {Promise<ActiveEffectArtichron|void>}     The created effect, if able to create it yourself.
  */
 async function createBuffEmit(effect, actor, options = {}) {
-  let userId;
-  if (actor.isOwner) userId = game.user.id;
-  else {
-    const gm = game.users.find(u => u.active && u.isGM);
-    if (gm) userId = gm.id;
-    else {
-      const pl = game.users.find(u => {
-        return u.active && !u.isGM && actor.testUserPermission(u, "OWNER");
-      });
-      if (pl) userId = pl.id;
-    }
-  }
+  const userId = actor.isOwner ? game.user.id : game.users.find(u => {
+    return u.active && actor.testUserPermission(u, "OWNER");
+  })?.id;
 
   if (!userId) {
     ui.notifications.warn("ARTICHRON.Warning.CannotEmitRequest", {localize: true});
@@ -45,14 +58,15 @@ async function createBuffEmit(effect, actor, options = {}) {
   }
 
   const data = {
+    action: "grantBuff",
     userId: userId,
     actorUuid: actor.uuid,
     effectUuid: effect.uuid,
     options: options
   };
 
-  if (userId === game.user.id) return _grantBuffReceive(data);
-  game.socket.emit("artichron.grantBuff", data, true);
+  if (userId === game.user.id) return _grantBuff(data);
+  game.socket.emit("system.artichron", data);
 }
 
 export default {
