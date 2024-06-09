@@ -391,7 +391,7 @@ export const ArtichronSheetMixin = Base => {
       if (!Object.keys(this.document.constructor.metadata.embedded).includes(type)) return;
 
       // Disallow dropping effects from items onto the item's parent.
-      if (item.parent.parent === this.document) return;
+      if (item.parent?.parent === this.document) return;
 
       // If dropped onto self, perform sorting.
       if (item.parent === this.document) return this._onSortItem(item, target);
