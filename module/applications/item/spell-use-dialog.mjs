@@ -258,8 +258,7 @@ export default class SpellUseDialog extends HandlebarsApplicationMixin(Applicati
         attach = true;
         break;
       }
-      case "cone":
-      case "tee": {
+      case "cone": {
         distance = getValue("distance");
         count = getValue("count");
         angle = 45;
@@ -267,16 +266,14 @@ export default class SpellUseDialog extends HandlebarsApplicationMixin(Applicati
         width = 1;
         break;
       }
-      case "circle":
-      case "star": {
+      case "circle": {
         distance = getValue("radius");
         range = getValue("range");
         count = getValue("count");
         attach = false;
         break;
       }
-      case "radius":
-      case "bang": {
+      case "radius": {
         distance = getValue("radius");
         attach = true;
         break;
