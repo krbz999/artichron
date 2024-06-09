@@ -155,13 +155,6 @@ SYSTEM.AREA_TARGET_TYPES = {
     count: [1, 1],
     distance: [3, 2]
   },
-  tee: {
-    label: "ARTICHRON.SpellShape.AreaTee",
-    scale: new Set(["count", "distance"]),
-    modifier: "min2",
-    count: [1, 1],
-    distance: [3, 2]
-  },
   circle: {
     label: "ARTICHRON.SpellShape.AreaCircle",
     scale: new Set(["count", "radius", "range"]),
@@ -171,22 +164,8 @@ SYSTEM.AREA_TARGET_TYPES = {
     radius: [1, 1],
     range: [5, 2]
   },
-  star: {
-    label: "ARTICHRON.SpellShape.AreaStar",
-    scale: new Set(["count", "radius", "range"]),
-    modifier: "",
-    count: [1, 1],
-    radius: [1, 1],
-    range: [5, 2]
-  },
   radius: {
     label: "ARTICHRON.SpellShape.AreaRadius",
-    scale: new Set(["radius"]),
-    modifier: "rr",
-    radius: [2, 1]
-  },
-  bang: {
-    label: "ARTICHRON.SpellShape.AreaBang",
     scale: new Set(["radius"]),
     modifier: "rr",
     radius: [2, 1]

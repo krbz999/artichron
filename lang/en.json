@@ -329,10 +329,7 @@
     "AreaRay": "Line",
     "AreaCone": "Cone",
     "AreaCircle": "Circle",
-    "AreaRadius": "Radius",
-    "AreaTee": "Tee",
-    "AreaStar": "Star",
-    "AreaBang": "Bang"
+    "AreaRadius": "Radius"
   },
 
   "Setting": {

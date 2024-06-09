@@ -19,11 +19,8 @@
       "types": [
         "ray",
         "cone",
-        "tee",
         "circle",
-        "star",
-        "radius",
-        "bang"
+        "radius"
       ]
     },
     "category": {
