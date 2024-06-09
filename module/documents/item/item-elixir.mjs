@@ -28,12 +28,13 @@ export default class ElixirData extends ItemSystemModel {
         value: new NumberField({
           integer: true,
           min: 0,
-          initial: null,
+          initial: 1,
           label: "ARTICHRON.ItemProperty.Usage.Value",
           hint: "ARTICHRON.ItemProperty.Usage.ValueHint"
         }),
         max: new FormulaField({
           required: true,
+          initial: "1",
           label: "ARTICHRON.ItemProperty.Usage.Max",
           hint: "ARTICHRON.ItemProperty.Usage.MaxHint"
         })
@@ -71,55 +72,76 @@ export default class ElixirData extends ItemSystemModel {
 
   /** @override */
   async use() {
-    const config = {
-      effect: this.hasEffects,
-      usage: this.hasUses
+    if (!this.hasUses) {
+      ui.notifications.warn("ARTICHRON.ElixirDialog.WarningUsage", {localize: true});
+      return null;
+    }
+
+    if (!this.hasEffects) {
+      ui.notifications.warn("ARTICHRON.ElixirDialog.WarningEffects", {localize: true});
+      return null;
+    }
+
+    const context = {
+      field: new foundry.data.fields.StringField({
+        label: "ARTICHRON.ElixirDialog.Effect",
+        hint: "ARTICHRON.ElixirDialog.EffectHint",
+        choices: this.transferrableEffects.reduce((acc, e) => {
+          acc[e.id] = e.name;
+          return acc;
+        }, {})
+      })
     };
 
-    if (!Object.values(config).some(s => s)) return null;
-
-    const configuration = await Dialog.wait({
-      content: await renderTemplate("systems/artichron/templates/chat/item-use.hbs", config),
-      buttons: {
-        ok: {
-          label: game.i18n.localize("ARTICHRON.OK"),
-          icon: "<i class='fa-solid fa-check'></i>",
-          callback: ([html]) => new FormDataExtended(html.querySelector("FORM")).object
-        },
-        cancel: {
-          label: game.i18n.localize("Cancel"),
-          icon: "<i class='fa-solid fa-times'></i>",
-          callback: () => null
-        }
-      },
-      title: game.i18n.format("ARTICHRON.ItemConfiguration", {name: this.parent.name}),
-      close: () => null
-    });
-
-    if (!configuration) return null;
-    foundry.utils.mergeObject(config, configuration);
-
-    if (config.effect) {
-      const effects = this.transferrableEffects.map(effect => {
-        const data = effect.toObject();
-        delete data.transfer;
-        delete data.duration.startTime;
-        delete data.disabled;
-        return data;
+    const render = (event, html) => {
+      const button = html.querySelector("button[type=submit]");
+      html.querySelector("SELECT").addEventListener("change", (event) => {
+        button.disabled = !event.currentTarget.value;
       });
-      await this.parent.actor.createEmbeddedDocuments("ActiveEffect", effects);
-    }
-    if (config.usage) {
-      const usage = this.usage;
-      const update = {};
-      if (usage.value - 1 === 0) {
-        update["system.usage.value"] = usage.max;
-        update["system.quantity.value"] = this.quantity.value - 1;
-      } else {
-        update["system.usage.value"] = usage.value - 1;
+    };
+
+    const effectId = await foundry.applications.api.DialogV2.prompt({
+      content: await renderTemplate("systems/artichron/templates/item/elixir-dialog.hbs", context),
+      rejectClose: false,
+      modal: true,
+      render: render,
+      position: {
+        width: 400,
+        height: "auto"
+      },
+      ok: {
+        label: "ARTICHRON.ElixirDialog.Confirm",
+        icon: "fa-solid fa-flask",
+        callback: (event, button, html) => button.form.elements.effect.value
+      },
+      window: {
+        title: game.i18n.format("ARTICHRON.ElixirDialog.Title", {name: this.parent.name}),
+        icon: "fa-solid fa-flask"
       }
-      await this.parent.update(update);
+    });
+    if (!effectId) return null;
+
+    const effect = this.parent.effects.get(effectId);
+    const effectData = foundry.utils.mergeObject(effect.toObject(), {
+      transfer: false,
+      "-=duration": null,
+      disabled: false,
+      "system.source": this.parent.uuid,
+      "system.granted": true
+    }, {performDeletions: true});
+
+    const update = {};
+    if (this.usage.value - 1 === 0) {
+      update["system.usage.value"] = this.usage.max;
+      update["system.quantity.value"] = this.quantity.value - 1;
+    } else {
+      update["system.usage.value"] = this.usage.value - 1;
     }
+
+    return Promise.all([
+      this.parent.update(update),
+      getDocumentClass("ActiveEffect").create(effectData, {parent: this.parent.actor})
+    ]);
   }
 
   /**
