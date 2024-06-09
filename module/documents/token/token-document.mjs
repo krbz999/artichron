@@ -13,8 +13,8 @@ export default class TokenDocumentArtichron extends TokenDocument {
     if (allowed === false) return false;
 
     if ((options.animate === false)) return;
-    const x = data.x ?? this.x;
-    const y = data.y ?? this.y;
+    const x = Math.round(data.x ?? this.x);
+    const y = Math.round(data.y ?? this.y);
     if ((this.x + this.y) - (x + y) === 0) return;
     const ray = new Ray(this, {x, y});
     data.rotation = Math.toDegrees(ray.angle) - 90;
