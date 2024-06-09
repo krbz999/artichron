@@ -14,7 +14,13 @@ export default class CombatArtichron extends Combat {
 
     const rule = (combatant) => combatant?.token.disposition >= 0;
 
-    const [hostile, friendly] = turns.partition(rule);
+    const [hostile, friendly] = turns.reduce((acc, combatant) => {
+      if (!combatant.token) return acc;
+      const friendly = rule(combatant);
+      if (friendly) acc[1].push(combatant);
+      else acc[0].push(combatant);
+      return acc;
+    }, [[], []]);
     const [first, second] = rule(turns[0]) ? [friendly, hostile] : [hostile, friendly];
 
     let newarr = [];
@@ -39,6 +45,6 @@ export default class CombatArtichron extends Combat {
       i++;
     }
 
-    this.turns = newarr;
+    return this.turns = newarr;
   }
 }
