@@ -176,7 +176,9 @@ export default class ItemArtichron extends Item {
    * @returns {Generator<ActiveEffectArtichron, void, void}
    */
   *allApplicableEffects() {
-    for (const e of this.effects) if (e.type === "fusion") yield e;
+    for (const e of this.effects) {
+      if ((e.type === "fusion") || (e.type === "enhancement")) yield e;
+    }
   }
 
   /**

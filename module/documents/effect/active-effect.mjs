@@ -1,20 +1,5 @@
 export default class ActiveEffectArtichron extends ActiveEffect {
   /** @override */
-  async _preCreate(data, options, user) {
-    const allowed = await super._preUpdate(data, options, user);
-    if (allowed === false) return false;
-
-    if (data.type === "fusion") {
-      const isActor = this.parent.documentName === "Actor";
-      const invalidItem = (this.parent.documentName === "Item") && !this.parent.canFuse;
-      if (isActor || invalidItem) {
-        ui.notifications.warn("ARTICHRON.Warning.InvalidActiveEffectType", {localize: true});
-        return false;
-      }
-    }
-  }
-
-  /** @override */
   static applyField(model, change, field) {
     if ((change.key === "name") && (change.value.includes("{{}}"))) {
       const name = change.value.replaceAll("{{}}", model.name);
@@ -34,6 +19,12 @@ export default class ActiveEffectArtichron extends ActiveEffect {
     data.effect = this.system.getRollData?.() ?? {};
     data.effect.name = this.name;
     return data;
+  }
+
+  /** @override */
+  prepareDerivedData() {
+    super.prepareDerivedData();
+    this.system.prepareDerivedData?.();
   }
 
   /**

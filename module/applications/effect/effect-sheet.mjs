@@ -66,7 +66,7 @@ export default class EffectSheetArtichron extends ArtichronSheetMixin(foundry.ap
         disabled: makeField("disabled"),
         transfer: {
           ...makeField("transfer"),
-          show: (doc.type !== "fusion") && (doc.parent instanceof Item)
+          show: (doc.type === "buff") || (doc.type === "base")
         },
         description: {
           enriched: await TextEditor.enrichHTML(doc.description, {relativeTo: doc, rollData: rollData}),
@@ -89,7 +89,7 @@ export default class EffectSheetArtichron extends ArtichronSheetMixin(foundry.ap
 
     // Changes options
     const c = CONFIG[(doc.type === "fusion") ? "Item" : "Actor"];
-    const choices = c.dataModels[context.fields.subtype.value]?.BONUS_FIELDS.reduce((acc, k) => {
+    const choices = c.dataModels[context.fields.subtype?.value]?.BONUS_FIELDS.reduce((acc, k) => {
       acc[k] = k;
       return acc;
     }, {});

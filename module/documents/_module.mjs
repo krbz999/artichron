@@ -16,7 +16,7 @@ import WeaponData from "./item/item-arsenal-weapon.mjs";
 import ShieldData from "./item/item-arsenal-shield.mjs";
 import {ChatMessageSystemModel, ItemMessageData, TradeMessageData} from "./chat/system-model.mjs";
 import {CombatantSystemModel, HeroCombatantData} from "./combat/system-model.mjs";
-import {ActiveEffectSystemModel, EffectBuffData, EffectFusionData} from "./effect/system-model.mjs";
+import {ActiveEffectSystemModel, EffectBuffData, EffectEnhancementData, EffectFusionData} from "./effect/system-model.mjs";
 import ActiveEffectArtichron from "./effect/active-effect.mjs";
 import {ItemSystemModel} from "./item/system-model.mjs";
 import {ActorSystemModel} from "./actor/system-model.mjs";
@@ -44,7 +44,8 @@ export const dataModels = {
   },
   effect: {
     buff: EffectBuffData,
-    fusion: EffectFusionData
+    fusion: EffectFusionData,
+    enhancement: EffectEnhancementData
   }
 };
 

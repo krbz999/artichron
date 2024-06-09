@@ -44,12 +44,13 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
     const src = doc.toObject();
     const rollData = doc.getRollData();
 
-    const [activeFusions, buffs, fusionOptions] = (await this._prepareEffects()).reduce((acc, data) => {
+    const [activeFusions, buffs, fusionOptions, enhancements] = (await this._prepareEffects()).reduce((acc, data) => {
       if (data.isActiveFusion) acc[0].push(data);
       else if (data.isFusionOption) acc[2].push(data);
+      else if (data.effect.type === "enhancement") acc[3].push(data);
       else acc[1].push(data);
       return acc;
-    }, [[], [], []]);
+    }, [[], [], [], []]);
 
     const isOffense = (doc.type === "spell") && (doc.system.category.subtype === "offense");
 
@@ -60,6 +61,7 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
       activeFusions: activeFusions,
       effects: buffs,
       fusions: fusionOptions,
+      enhancements: enhancements,
       isFavorited: this.actor?.system.equipped.favorites.has(doc) ?? false,
       sections: {
         damage: ("parts" in (src.system.damage ?? {})) && ((doc.type !== "spell") || isOffense),
@@ -88,7 +90,8 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
       isPlayMode: this.isPlayMode,
       isEditable: this.isEditable,
       canFuse: doc.canFuse,
-      isAmmo: doc.isAmmo
+      isAmmo: doc.isAmmo,
+      isItem: true
     };
 
     // Name and img.

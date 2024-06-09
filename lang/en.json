@@ -25,7 +25,9 @@
   "ActiveEffect.fusion": "Fusion",
   "ActiveEffect.fusionPl": "Fusions",
   "ActiveEffect.buff": "Buff",
-  "ActiveEffect.buffPl": "Buffs"
+  "ActiveEffect.buffPl": "Buffs",
+  "ActiveEffect.enhancement": "Enhancement",
+  "ActiveEffect.enhancementPl": "Enhancements"
 },
 "ARTICHRON": {
   "ItemSheet": {
@@ -95,6 +97,7 @@
     "CreateItem": "Create New Item",
     "CreateBuff": "Create New Buff",
     "CreateFusion": "Create New Fusion",
+    "CreateEnhancement": "Create Enhancement",
     "EditItem": "Edit Item",
     "ChangeItem": "Change Item",
     "FuseItem": "Fuse Item",

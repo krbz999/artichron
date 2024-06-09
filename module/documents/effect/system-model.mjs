@@ -76,7 +76,9 @@ export class ActiveEffectSystemModel extends foundry.abstract.TypeDataModel {
 
 /**
  * System data for "Fusions".
+ * Fusions are effects that hold data for an item which has been destroyed and fused onto another item.
  * @property {string} itemData      A block of item data for a source item.
+ * @property {string} subtype       An item subtype this fusion can apply to.
  */
 export class EffectFusionData extends ActiveEffectSystemModel {
   static defineSchema() {
@@ -99,8 +101,23 @@ export class EffectFusionData extends ActiveEffectSystemModel {
   }
 
   /** @override */
+  async _preCreate(...T) {
+    const allowed = await super._preCreate(...T);
+    if (allowed === false) return false;
+
+    const isActor = this.parent.parent.documentName === "Actor";
+    const invalidItem = (this.parent.parent.documentName === "Item") && !this.parent.parent.canFuse;
+    if (isActor || invalidItem) {
+      ui.notifications.warn("ARTICHRON.Warning.InvalidActiveEffectType", {localize: true});
+      return false;
+    }
+  }
+
+  /** @override */
   prepareDerivedData() {
     super.prepareDerivedData();
+
+    // Fusions never apply to their actor.
     this.parent.transfer = false;
   }
 
@@ -274,6 +291,7 @@ export class EffectFusionData extends ActiveEffectSystemModel {
 
 /**
  * System data for "Buffs".
+ * Buffs are effects that apply to an actor. They can live on an item or actor.
  * @property {string} source        The uuid of a source item this effect was granted by.
  * @property {boolean} granted      Has this been granted?
  */
@@ -325,5 +343,33 @@ export class EffectBuffData extends ActiveEffectSystemModel {
     if (!this.source || this.parent.uuid.startsWith("Item.") || this.parent.uuid.startsWith("Compendium.")) return;
     if (!EffectBuffData.origins.get(this.source)) EffectBuffData.origins.set(this.source, new Set());
     EffectBuffData.origins.get(this.source).add(this.parent.uuid);
+  }
+}
+
+/**
+ * System data for 'Enhancements'.
+ * Enhancements are effects that apply to an item. They can live only on an item.
+ */
+export class EffectEnhancementData extends ActiveEffectSystemModel {
+  /** @override */
+  async _preCreate(...T) {
+    const allowed = await super._preCreate(...T);
+    if (allowed === false) return false;
+
+    if (this.parent.parent.documentName === "Actor") {
+      ui.notifications.warn("Enhancements can only live on an item.");
+      return false;
+    }
+  }
+
+  /** @override */
+  prepareDerivedData() {
+    super.prepareDerivedData();
+    this.parent.transfer = false;
+  }
+
+  /** @override */
+  getRollData() {
+    return {};
   }
 }
