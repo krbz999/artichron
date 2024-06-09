@@ -340,6 +340,12 @@ export class EffectBuffData extends ActiveEffectSystemModel {
   /** @override */
   prepareDerivedData() {
     super.prepareDerivedData();
+
+    // Buffs do not apply to the actor while on an elixir.
+    if ((this.parent.parent.documentName === "Item") && (this.parent.parent.type === "elixir")) {
+      this.parent.transfer = false;
+    }
+
     if (!this.source || this.parent.uuid.startsWith("Item.") || this.parent.uuid.startsWith("Compendium.")) return;
     if (!EffectBuffData.origins.get(this.source)) EffectBuffData.origins.set(this.source, new Set());
     EffectBuffData.origins.get(this.source).add(this.parent.uuid);

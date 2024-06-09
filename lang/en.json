@@ -359,6 +359,15 @@
     "Title": "Roll Skill: {skill}"
   },
 
+  "ElixirDialog": {
+    "Title": "Use Elixir: {name}",
+    "Effect": "Effect",
+    "EffectHint": "Pick one of the effects from the elixir that will be granted.",
+    "Confirm": "Confirm",
+    "WarningUsage": "The elixir has no remaining uses left!",
+    "WarningEffects": "The elixir has no effects it can grant!"
+  },
+
   "Effect": {
     "ActiveFusions": "Active Fusions",
     "Buffs": "Buffs",
