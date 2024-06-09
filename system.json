@@ -109,7 +109,8 @@
     },
     "ActiveEffect": {
       "fusion": {},
-      "buff": {}
+      "buff": {},
+      "enhancement": {}
     }
   }
 }

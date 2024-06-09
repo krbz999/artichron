@@ -6,7 +6,9 @@
 
   <fieldset>
     <legend>{{localize "ARTICHRON.EffectProperty.FieldsetDetails"}}</legend>
+    {{#if fields.subtype.field}}
     {{formGroup fields.subtype.field value=fields.subtype.value localize=true disabled=isPlayMode}}
+    {{/if}}
 
     {{formField fields.tint.field value=fields.tint.value localize=true disabled=isPlayMode}}
     {{formField fields.disabled.field value=fields.disabled.value label="EFFECT.Disabled" localize=true disabled=isPlayMode}}
