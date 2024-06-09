@@ -151,7 +151,7 @@ export default class ElixirData extends ItemSystemModel {
   get hasUses() {
     const use = this.usage;
     const qty = this.quantity;
-    return (use.max > 0) && (qty.value > 0) && (use.value > 0);
+    return (use.max > 0) && (qty.value > 0);
   }
 
   /**
