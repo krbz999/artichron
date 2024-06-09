@@ -240,7 +240,7 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
       const isActive = this.tabGroups.inventory === k;
       const section = {
         label: v.label,
-        cssClass: isActive ? "item active" : "item",
+        cssClass: isActive ? "active" : "",
         tabCssClass: isActive ? "tab scrollable active" : "tab scrollable",
         id: k,
         items: []

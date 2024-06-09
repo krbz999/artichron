@@ -103,7 +103,7 @@ export const ArtichronSheetMixin = Base => {
         acc[v.id] = {
           ...v,
           active: isActive,
-          cssClass: isActive ? "item active" : "item",
+          cssClass: isActive ? "active" : "",
           tabCssClass: isActive ? "tab scrollable active" : "tab scrollable"
         };
         return acc;
