@@ -21,12 +21,6 @@ export default class ActiveEffectArtichron extends ActiveEffect {
     return data;
   }
 
-  /** @override */
-  prepareDerivedData() {
-    super.prepareDerivedData();
-    this.system.prepareDerivedData?.();
-  }
-
   /**
    * Create a prompt to destroy this fusion and create the two base items.
    * @param {object} [options]      Options to modify the splitting process.
