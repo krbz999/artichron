@@ -133,14 +133,6 @@ export default class EffectSheetArtichron extends ArtichronSheetMixin(foundry.ap
     return context;
   }
 
-  /** @override */
-  _prepareSubmitData(event, form, formData) {
-    const data = foundry.utils.expandObject(formData.object);
-    if (this.isEditMode) data.changes = Array.from(Object.values(data.changes || {}));
-    // data.statuses ??= [];
-    return data;
-  }
-
   /* ---------------------------------------- */
   /*              EVENT HANDLERS              */
   /* ---------------------------------------- */
@@ -152,16 +144,9 @@ export default class EffectSheetArtichron extends ArtichronSheetMixin(foundry.ap
    */
   static _onAddChange(event, target) {
     if (!this.isEditable) return;
-    const idx = this.document.changes.length;
-    const change = {
-      key: "",
-      mode: CONST.ACTIVE_EFFECT_MODES.ADD,
-      value: ""
-    };
-    let formData = foundry.utils.expandObject(new FormDataExtended(event.currentTarget).object);
-    foundry.utils.setProperty(formData, `changes.${idx}`, change);
-    formData = foundry.utils.flattenObject(formData);
-    this.document.update(formData);
+    const changes = foundry.utils.deepClone(this.document.changes);
+    changes.push({key: "", mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: ""});
+    this.document.update({changes: changes});
   }
 
   /**
@@ -171,7 +156,9 @@ export default class EffectSheetArtichron extends ArtichronSheetMixin(foundry.ap
    */
   static _onDeleteChange(event, target) {
     if (!this.isEditable) return;
-    target.closest("fieldset").remove();
-    this._onSubmitForm({...this.options.form, closeOnSubmit: false}, event);
+    const idx = parseInt(target.closest("[data-idx]").dataset.idx);
+    const changes = foundry.utils.deepClone(this.document.changes);
+    changes.splice(idx, 1);
+    this.document.update({changes: changes});
   }
 }
