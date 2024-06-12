@@ -25,16 +25,16 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
 
   /** @override */
   static PARTS = {
-    header: {template: "systems/artichron/templates/partials/sheet-header.hbs"},
-    tabs: {template: "systems/artichron/templates/partials/tabs.hbs"},
-    attributes: {template: "systems/artichron/templates/partials/actor-attributes.hbs", scrollable: [""]},
-    equipment: {template: "systems/artichron/templates/partials/actor-equipment.hbs", scrollable: [""]},
+    header: {template: "systems/artichron/templates/shared/sheet-header.hbs"},
+    tabs: {template: "systems/artichron/templates/shared/tabs.hbs"},
+    attributes: {template: "systems/artichron/templates/actor/tab-attributes.hbs", scrollable: [""]},
+    equipment: {template: "systems/artichron/templates/actor/tab-equipment.hbs", scrollable: [""]},
     inventory: {
-      template: "systems/artichron/templates/partials/actor-inventory.hbs",
+      template: "systems/artichron/templates/actor/tab-inventory.hbs",
       scrollable: ["[data-group='inventory'].scrollable.active"]
     },
-    effects: {template: "systems/artichron/templates/partials/effects.hbs", scrollable: [""]},
-    encumbrance: {template: "systems/artichron/templates/partials/actor-encumbrance.hbs"}
+    effects: {template: "systems/artichron/templates/shared/effects.hbs", scrollable: [""]},
+    encumbrance: {template: "systems/artichron/templates/actor/tab-encumbrance.hbs"}
   };
 
   /** @override */

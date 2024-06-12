@@ -19,11 +19,11 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
 
   /** @override */
   static PARTS = {
-    header: {template: "systems/artichron/templates/partials/sheet-header.hbs"},
-    tabs: {template: "systems/artichron/templates/partials/tabs.hbs"},
-    description: {template: "systems/artichron/templates/partials/item-description.hbs", scrollable: [""]},
-    details: {template: "systems/artichron/templates/partials/item-details.hbs", scrollable: [""]},
-    effects: {template: "systems/artichron/templates/partials/effects.hbs", scrollable: [""]}
+    header: {template: "systems/artichron/templates/shared/sheet-header.hbs"},
+    tabs: {template: "systems/artichron/templates/shared/tabs.hbs"},
+    description: {template: "systems/artichron/templates/item/item-description.hbs", scrollable: [""]},
+    details: {template: "systems/artichron/templates/item/item-details.hbs", scrollable: [""]},
+    effects: {template: "systems/artichron/templates/shared/effects.hbs", scrollable: [""]}
   };
 
   /** @override */
