@@ -17,8 +17,8 @@ export default class EffectSheetArtichron extends ArtichronSheetMixin(foundry.ap
 
   /** @override */
   static PARTS = {
-    header: {template: "systems/artichron/templates/partials/sheet-header.hbs"},
-    tabs: {template: "systems/artichron/templates/partials/tabs.hbs"},
+    header: {template: "systems/artichron/templates/shared/sheet-header.hbs"},
+    tabs: {template: "systems/artichron/templates/shared/tabs.hbs"},
     details: {template: "systems/artichron/templates/effect-config/tab-details.hbs", scrollable: [""]},
     changes: {template: "systems/artichron/templates/effect-config/tab-changes.hbs", scrollable: [".changes"]}
   };
