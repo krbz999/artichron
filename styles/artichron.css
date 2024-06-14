@@ -36,47 +36,23 @@ dialog:-internal-dialog-in-top-layer::backdrop {
   background: rgba(0, 0, 0, 0.25);
 }
 
-/* ---------------------------------------- */
-/*              UI components               */
-/* ---------------------------------------- */
-
-.gold-button {
-  background: var(--artichron-color-black);
-  color: var(--artichron-color-gold);
-  position: relative;
-  border-radius: 4px;
-  transition: all 250ms ease;
-  border: none;
-  margin: 0;
-  box-shadow: 0 0 6px var(--artichron-color-black-45);
+.sheet fieldset legend {
+  white-space: nowrap;
   display: flex;
-  justify-content: center;
   align-items: center;
-  gap: 4px;
+  gap: 0.5rem;
+}
 
-  &::after {
-    position: absolute;
-    inset: 3px;
-    border: 1px solid var(--artichron-color-gold);
-    content: "";
-    border-radius: 3px;
-  }
+.sheet .controls {
+  flex: none;
 
-  &:hover {
-    box-shadow: 0 0 6px var(--artichron-color-gold);
-  }
-
-  &:disabled {
-    opacity: 0.3;
-    cursor: initial;
-    box-shadow: none;
-  }
-
-  > .fa-solid {
+  & button.control {
     margin: 0;
-  }
+    flex: none;
 
-  & img {
-    border: none;
+    .fa-solid {
+      margin: 0;
+      padding: 0;
+    }
   }
 }

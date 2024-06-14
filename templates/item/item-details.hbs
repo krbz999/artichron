@@ -18,7 +18,9 @@
         {{formInput type.field value=type.value disabled=type.disabled name=type.name options=type.options}}
         {{#if @root.isEditMode}}
         <div class="controls">
-          <a class="control" data-action="deleteDamage"><i class="fa-solid fa-minus"></i></a>
+          <button type="button" class="control" data-action="deleteDamage">
+            <i class="fa-solid fa-minus"></i>
+          </button>
         </div>
         {{/if}}
       </div>
