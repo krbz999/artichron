@@ -7,10 +7,14 @@
     {{#each changes}}
     <fieldset data-idx="{{idx}}">
       <legend>
-        {{idx}}
-        <a class="control" data-action="deleteChange" {{disabled @root.isPlayMode}}>
-          <i class="fa-solid fa-trash"></i>
-        </a>
+        {{#if @root.isEditMode}}
+        <div class="controls">
+          <button type="button" class="control" data-action="deleteChange" {{disabled @root.isPlayMode}}>
+            <i class="fa-solid fa-trash"></i>
+          </button>
+        </div>
+        {{/if}}
+        Change {{idx}}
       </legend>
       {{formGroup key.field value=key.value choices=key.choices name=key.name disabled=key.disabled localize=true}}
       {{formGroup mode.field value=mode.value choices=mode.choices name=mode.name disabled=mode.disabled localize=true}}
