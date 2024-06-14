@@ -261,6 +261,12 @@ export const ArtichronSheetMixin = Base => {
         condition: () => isOwner && !item.disabled && !item.isTransferrableFusion,
         callback: () => item.update({disabled: true}),
         group: "action"
+      }, {
+        name: "ARTICHRON.ContextMenu.EffectOption.Duplicate",
+        icon: "<i class='fa-solid fa-fw fa-copy'></i>",
+        condition: () => isOwner,
+        callback: () => item.clone({}, {save: true}),
+        group: "action"
       }];
     }
 
