@@ -63,7 +63,8 @@
   "ShieldType": {
     "Buckler": "Buckler",
     "Heater": "Heater",
-    "Kite": "Kite"
+    "Kite": "Kite",
+    "Tower": "Tower"
   },
 
   "AmmunitionType": {

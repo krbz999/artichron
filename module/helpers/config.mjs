@@ -217,6 +217,10 @@ SYSTEM.SHIELD_TYPES = {
   kite: {
     label: "ARTICHRON.ShieldType.Kite",
     width: 3
+  },
+  tower: {
+    label: "ARTICHRON.ShieldType.Tower",
+    width: 4
   }
 };
 
