@@ -1,0 +1,106 @@
+{
+  "name": "Mage Armor",
+  "type": "spell",
+  "img": "icons/sundries/books/book-embossed-clasp-gold-brown.webp",
+  "system": {
+    "wield": {
+      "value": 1
+    },
+    "description": {
+      "value": "<p>A defensive spell, this can conjure a buff on nearby allies granting them each a +5 bonus to their Armor value until the end of the current combat scenario.</p>"
+    },
+    "weight": {
+      "value": 1
+    },
+    "price": {
+      "value": 1
+    },
+    "template": {
+      "types": [
+        "radius"
+      ]
+    },
+    "category": {
+      "subtype": "buff"
+    },
+    "range": {
+      "value": 1
+    },
+    "targets": {
+      "value": 1
+    },
+    "damage": {
+      "parts": []
+    }
+  },
+  "effects": [
+    {
+      "img": "icons/magic/defensive/barrier-shield-dome-pink.webp",
+      "name": "Mage Armor",
+      "type": "buff",
+      "_id": "JVcgElSH1pxCc6t8",
+      "system": {
+        "expiration": {
+          "type": "combat"
+        },
+        "source": null,
+        "granted": false,
+        "subtype": "hero"
+      },
+      "changes": [
+        {
+          "key": "system.defenses.armor.value",
+          "mode": 2,
+          "value": "5",
+          "priority": null
+        }
+      ],
+      "disabled": false,
+      "duration": {
+        "startTime": null,
+        "seconds": null,
+        "combat": null,
+        "rounds": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "description": "",
+      "origin": null,
+      "tint": "#ffffff",
+      "transfer": false,
+      "statuses": [],
+      "sort": 0,
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "12.327",
+        "systemId": "artichron",
+        "systemVersion": "1.0.0",
+        "createdTime": 1718402527089,
+        "modifiedTime": 1718402729050,
+        "lastModifiedBy": "3pWaVXzYT6XoJo1Y"
+      },
+      "_key": "!items.effects!zPJ8fPvSprDfdXrf.JVcgElSH1pxCc6t8"
+    }
+  ],
+  "folder": "QL0FWiBXFgKzFslL",
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": null,
+    "systemId": null,
+    "systemVersion": null,
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  },
+  "_id": "zPJ8fPvSprDfdXrf",
+  "sort": 0,
+  "_key": "!items!zPJ8fPvSprDfdXrf"
+}

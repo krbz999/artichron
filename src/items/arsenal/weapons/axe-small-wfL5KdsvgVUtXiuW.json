@@ -1,10 +1,12 @@
 {
-  "name": "Buckler",
-  "type": "shield",
-  "img": "icons/equipment/shield/buckler-wooden-boss-glowing-blue.webp",
+  "folder": "yzIxM76s5bHr5t6g",
+  "name": "Axe, Small",
+  "type": "weapon",
+  "_id": "wfL5KdsvgVUtXiuW",
+  "img": "icons/weapons/axes/axe-broad-engraved.webp",
   "system": {
     "description": {
-      "value": "<p>A simple shield to protect the user.</p>"
+      "value": "<p>A small axe that can be wielded in one hand.</p>"
     },
     "weight": {
       "value": 1
@@ -12,14 +14,17 @@
     "price": {
       "value": 1
     },
-    "category": {
-      "subtype": "buckler"
+    "damage": {
+      "parts": [
+        {
+          "id": "sFZIY5obcwh7WL68",
+          "formula": "4d6",
+          "type": "physical"
+        }
+      ]
     },
     "wield": {
       "value": 1
-    },
-    "armor": {
-      "value": "10"
     },
     "range": {
       "value": 1
@@ -27,18 +32,12 @@
     "targets": {
       "value": 1
     },
-    "damage": {
-      "parts": [
-        {
-          "id": "cjPqv1CiQNW9iKBh",
-          "formula": "4d6",
-          "type": "physical"
-        }
-      ]
+    "category": {
+      "subtype": "axe"
     }
   },
   "effects": [],
-  "folder": "LnoybnjbBjUtYqBI",
+  "sort": 0,
   "ownership": {
     "default": 0
   },
@@ -53,7 +52,5 @@
     "modifiedTime": null,
     "lastModifiedBy": null
   },
-  "_id": "VSzonfXS7vXLeNSF",
-  "sort": 0,
-  "_key": "!items!VSzonfXS7vXLeNSF"
+  "_key": "!items!wfL5KdsvgVUtXiuW"
 }

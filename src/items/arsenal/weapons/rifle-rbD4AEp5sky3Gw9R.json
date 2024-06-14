@@ -1,31 +1,37 @@
 {
-  "name": "Cassandra",
+  "name": "Rifle",
   "type": "weapon",
-  "img": "icons/weapons/guns/gun-topbarrel.webp",
+  "img": "icons/weapons/guns/rifle-brown.webp",
   "system": {
     "description": {
-      "value": ""
+      "value": "<p>Rifles are extremely deadly weapons, able to lay waste to foes from a great distance.</p>"
     },
     "weight": {
-      "value": 1
+      "value": 2
     },
     "price": {
-      "value": 2
+      "value": 1
     },
     "wield": {
       "value": 2
     },
     "category": {
-      "subtype": "bow"
+      "subtype": "rifle"
     },
     "range": {
-      "value": 1
+      "value": 30
     },
     "targets": {
       "value": 1
     },
     "damage": {
-      "parts": []
+      "parts": [
+        {
+          "id": "DA5RlixaxY6wtlDZ",
+          "formula": "4d12",
+          "type": "physical"
+        }
+      ]
     }
   },
   "effects": [],

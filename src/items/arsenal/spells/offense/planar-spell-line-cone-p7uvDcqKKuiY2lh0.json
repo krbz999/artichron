@@ -1,16 +1,16 @@
 {
-  "name": "Arcane Spell",
-  "img": "icons/sundries/books/book-eye-purple.webp",
+  "name": "Planar Spell (Line, Cone)",
+  "img": "icons/sundries/books/book-purple-glyph.webp",
   "type": "spell",
   "system": {
     "description": {
-      "value": "<p>This one goes brrr?????</p>"
+      "value": "<p>A simple spell that the caster can use to cause some havoc in a straight line or in a cone. This spell can deal light, darkness, or arcane damage.</p>"
     },
     "weight": {
-      "value": 0
+      "value": 1
     },
     "price": {
-      "value": null
+      "value": 1
     },
     "wield": {
       "value": 1
@@ -18,26 +18,40 @@
     "template": {
       "types": [
         "ray",
-        "cone",
-        "circle",
-        "radius"
+        "cone"
       ]
     },
     "category": {
       "subtype": "offense"
     },
     "range": {
-      "value": 1
+      "value": 15
     },
     "targets": {
       "value": 1
     },
     "damage": {
-      "parts": []
+      "parts": [
+        {
+          "id": "CaKeawhIYyG6njvW",
+          "formula": "4d8",
+          "type": "light"
+        },
+        {
+          "id": "nuk8d9wl9rMIOnJe",
+          "formula": "4d8",
+          "type": "darkness"
+        },
+        {
+          "id": "dLGnYRY5O6t017or",
+          "formula": "4d8",
+          "type": "arcane"
+        }
+      ]
     }
   },
   "effects": [],
-  "folder": "W4nKn02FcAyptpth",
+  "folder": "vdB5ExhILgSwkTRd",
   "ownership": {
     "default": 0
   },

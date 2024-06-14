@@ -4,19 +4,19 @@
   "type": "shield",
   "system": {
     "description": {
-      "value": ""
+      "value": "<p>Sturdier than a buckler, a heater grants more protection and a wider defensive line.</p>"
     },
     "weight": {
-      "value": 3
+      "value": 2
     },
     "price": {
-      "value": null
+      "value": 1
     },
     "wield": {
       "value": 1
     },
     "armor": {
-      "value": "5"
+      "value": "12"
     },
     "category": {
       "subtype": "heater"
@@ -28,7 +28,13 @@
       "value": 1
     },
     "damage": {
-      "parts": []
+      "parts": [
+        {
+          "id": "XaFiXYQb0u6JRZ6U",
+          "formula": "4d8",
+          "type": "physical"
+        }
+      ]
     }
   },
   "effects": [],
