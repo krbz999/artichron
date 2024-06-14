@@ -1,6 +1,5 @@
 import {SYSTEM} from "./module/helpers/config.mjs";
 import * as applications from "./module/applications/_module.mjs";
-import {preloadHandlebarsTemplates} from "./module/helpers/templates.mjs";
 import {dice} from "./module/dice/_module.mjs";
 import * as documents from "./module/documents/_module.mjs";
 import * as utils from "./module/helpers/utils.mjs";
@@ -85,9 +84,6 @@ Hooks.once("init", function() {
     makeDefault: true,
     label: "ARTICHRON.ActiveEffectSheet.Base"
   });
-
-  // Preload Handlebars templates.
-  preloadHandlebarsTemplates();
 
   auraInit();
   documents.templates.ActiveEffectSystemModel.activateListeners();
