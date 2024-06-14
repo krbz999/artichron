@@ -1,0 +1,56 @@
+{
+  "folder": "yzIxM76s5bHr5t6g",
+  "name": "Bow",
+  "type": "weapon",
+  "_id": "siAqsuJkFy5AJlBw",
+  "img": "icons/weapons/bows/longbow-recurve-leather-brown.webp",
+  "system": {
+    "description": {
+      "value": "<p>A trusty bow of simple make can be used to shoot enemies from afar.</p>"
+    },
+    "weight": {
+      "value": 1
+    },
+    "price": {
+      "value": 1
+    },
+    "damage": {
+      "parts": [
+        {
+          "id": "CjzVXrCIivOcnoad",
+          "formula": "4d8",
+          "type": "physical"
+        }
+      ]
+    },
+    "wield": {
+      "value": 2
+    },
+    "range": {
+      "value": 20
+    },
+    "targets": {
+      "value": 1
+    },
+    "category": {
+      "subtype": "bow"
+    }
+  },
+  "effects": [],
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": null,
+    "systemId": null,
+    "systemVersion": null,
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  },
+  "_key": "!items!siAqsuJkFy5AJlBw"
+}

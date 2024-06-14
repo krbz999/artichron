@@ -1,10 +1,12 @@
 {
-  "name": "Buckler",
-  "type": "shield",
-  "img": "icons/equipment/shield/buckler-wooden-boss-glowing-blue.webp",
+  "folder": "yzIxM76s5bHr5t6g",
+  "name": "Dagger",
+  "type": "weapon",
+  "_id": "LgRfNIemfIM86PS4",
+  "img": "icons/weapons/daggers/dagger-straight-blue.webp",
   "system": {
     "description": {
-      "value": "<p>A simple shield to protect the user.</p>"
+      "value": "<p>Easily concealed, deadly, and precise, a dagger is a very common weapon.</p>"
     },
     "weight": {
       "value": 1
@@ -12,14 +14,17 @@
     "price": {
       "value": 1
     },
-    "category": {
-      "subtype": "buckler"
+    "damage": {
+      "parts": [
+        {
+          "id": "QIgnmOPrpMUBbp0x",
+          "formula": "4d6",
+          "type": "physical"
+        }
+      ]
     },
     "wield": {
       "value": 1
-    },
-    "armor": {
-      "value": "10"
     },
     "range": {
       "value": 1
@@ -27,18 +32,12 @@
     "targets": {
       "value": 1
     },
-    "damage": {
-      "parts": [
-        {
-          "id": "cjPqv1CiQNW9iKBh",
-          "formula": "4d6",
-          "type": "physical"
-        }
-      ]
+    "category": {
+      "subtype": "dagger"
     }
   },
   "effects": [],
-  "folder": "LnoybnjbBjUtYqBI",
+  "sort": 0,
   "ownership": {
     "default": 0
   },
@@ -53,7 +52,5 @@
     "modifiedTime": null,
     "lastModifiedBy": null
   },
-  "_id": "VSzonfXS7vXLeNSF",
-  "sort": 0,
-  "_key": "!items!VSzonfXS7vXLeNSF"
+  "_key": "!items!LgRfNIemfIM86PS4"
 }

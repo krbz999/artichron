@@ -1,25 +1,22 @@
 {
-  "name": "Buckler",
-  "type": "shield",
-  "img": "icons/equipment/shield/buckler-wooden-boss-glowing-blue.webp",
+  "name": "Hammer, Large",
+  "img": "icons/weapons/hammers/hammer-double-bronze.webp",
+  "type": "weapon",
   "system": {
     "description": {
-      "value": "<p>A simple shield to protect the user.</p>"
+      "value": "<p>A hammer wielded in two hands finishes foes off quickly.</p>"
     },
     "weight": {
-      "value": 1
+      "value": 2
     },
     "price": {
       "value": 1
     },
-    "category": {
-      "subtype": "buckler"
-    },
     "wield": {
-      "value": 1
+      "value": 2
     },
-    "armor": {
-      "value": "10"
+    "category": {
+      "subtype": "hammer"
     },
     "range": {
       "value": 1
@@ -30,15 +27,15 @@
     "damage": {
       "parts": [
         {
-          "id": "cjPqv1CiQNW9iKBh",
-          "formula": "4d6",
+          "id": "UuP3jEn5dm1Pgc0i",
+          "formula": "4d12",
           "type": "physical"
         }
       ]
     }
   },
   "effects": [],
-  "folder": "LnoybnjbBjUtYqBI",
+  "folder": "yzIxM76s5bHr5t6g",
   "ownership": {
     "default": 0
   },
@@ -53,7 +50,7 @@
     "modifiedTime": null,
     "lastModifiedBy": null
   },
-  "_id": "VSzonfXS7vXLeNSF",
+  "_id": "d1Rr73S4HSBpGxsk",
   "sort": 0,
-  "_key": "!items!VSzonfXS7vXLeNSF"
+  "_key": "!items!d1Rr73S4HSBpGxsk"
 }

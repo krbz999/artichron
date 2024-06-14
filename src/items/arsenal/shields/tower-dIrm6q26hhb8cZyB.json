@@ -1,0 +1,59 @@
+{
+  "folder": "LnoybnjbBjUtYqBI",
+  "name": "Tower",
+  "type": "shield",
+  "_id": "dIrm6q26hhb8cZyB",
+  "img": "icons/equipment/shield/Scutum-steel-worn.webp",
+  "system": {
+    "description": {
+      "value": "<p>A tower shield grants an immense amount of armor and cover, but must be wielded with two hands.</p>"
+    },
+    "weight": {
+      "value": 4
+    },
+    "price": {
+      "value": 0
+    },
+    "damage": {
+      "parts": [
+        {
+          "id": "kCLCDc5kYRYBPiyM",
+          "formula": "4d12",
+          "type": "physical"
+        }
+      ]
+    },
+    "wield": {
+      "value": 2
+    },
+    "range": {
+      "value": 1
+    },
+    "targets": {
+      "value": 1
+    },
+    "armor": {
+      "value": "16"
+    },
+    "category": {
+      "subtype": "tower"
+    }
+  },
+  "effects": [],
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": null,
+    "systemId": null,
+    "systemVersion": null,
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  },
+  "_key": "!items!dIrm6q26hhb8cZyB"
+}

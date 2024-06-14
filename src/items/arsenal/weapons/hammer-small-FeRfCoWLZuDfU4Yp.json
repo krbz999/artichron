@@ -1,25 +1,30 @@
 {
-  "name": "Buckler",
-  "type": "shield",
-  "img": "icons/equipment/shield/buckler-wooden-boss-glowing-blue.webp",
+  "folder": "yzIxM76s5bHr5t6g",
+  "name": "Hammer, Small",
+  "type": "weapon",
+  "_id": "FeRfCoWLZuDfU4Yp",
+  "img": "icons/weapons/hammers/shorthammer-double-stone-engraved.webp",
   "system": {
     "description": {
-      "value": "<p>A simple shield to protect the user.</p>"
+      "value": "<p>Hammers strike hard and forcefully though often with little precision.</p>"
     },
     "weight": {
-      "value": 1
+      "value": 2
     },
     "price": {
       "value": 1
     },
-    "category": {
-      "subtype": "buckler"
+    "damage": {
+      "parts": [
+        {
+          "id": "QzPxnEjXiOsrkIlo",
+          "formula": "4d8",
+          "type": "physical"
+        }
+      ]
     },
     "wield": {
       "value": 1
-    },
-    "armor": {
-      "value": "10"
     },
     "range": {
       "value": 1
@@ -27,18 +32,12 @@
     "targets": {
       "value": 1
     },
-    "damage": {
-      "parts": [
-        {
-          "id": "cjPqv1CiQNW9iKBh",
-          "formula": "4d6",
-          "type": "physical"
-        }
-      ]
+    "category": {
+      "subtype": "hammer"
     }
   },
   "effects": [],
-  "folder": "LnoybnjbBjUtYqBI",
+  "sort": 0,
   "ownership": {
     "default": 0
   },
@@ -53,7 +52,5 @@
     "modifiedTime": null,
     "lastModifiedBy": null
   },
-  "_id": "VSzonfXS7vXLeNSF",
-  "sort": 0,
-  "_key": "!items!VSzonfXS7vXLeNSF"
+  "_key": "!items!FeRfCoWLZuDfU4Yp"
 }

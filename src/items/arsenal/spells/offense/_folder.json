@@ -1,0 +1,22 @@
+{
+  "name": "Offense",
+  "sorting": "a",
+  "folder": "W4nKn02FcAyptpth",
+  "type": "Item",
+  "_id": "vdB5ExhILgSwkTRd",
+  "description": "",
+  "sort": 0,
+  "color": null,
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": null,
+    "systemId": null,
+    "systemVersion": null,
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  },
+  "_key": "!folders!vdB5ExhILgSwkTRd"
+}

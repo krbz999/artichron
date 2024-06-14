@@ -1,25 +1,30 @@
 {
-  "name": "Buckler",
+  "folder": "LnoybnjbBjUtYqBI",
+  "name": "Kite",
   "type": "shield",
-  "img": "icons/equipment/shield/buckler-wooden-boss-glowing-blue.webp",
+  "_id": "64FEhEQrA9rfx7gh",
+  "img": "icons/equipment/shield/kite-wooden-boss-steel-red.webp",
   "system": {
     "description": {
-      "value": "<p>A simple shield to protect the user.</p>"
+      "value": "<p>A tall shield, a kite provides enough cover that it can be ducked behind.</p>"
     },
     "weight": {
-      "value": 1
+      "value": 3
     },
     "price": {
       "value": 1
     },
-    "category": {
-      "subtype": "buckler"
+    "damage": {
+      "parts": [
+        {
+          "id": "oa43kXiK6atSlLA8",
+          "formula": "4d8",
+          "type": "physical"
+        }
+      ]
     },
     "wield": {
       "value": 1
-    },
-    "armor": {
-      "value": "10"
     },
     "range": {
       "value": 1
@@ -27,18 +32,15 @@
     "targets": {
       "value": 1
     },
-    "damage": {
-      "parts": [
-        {
-          "id": "cjPqv1CiQNW9iKBh",
-          "formula": "4d6",
-          "type": "physical"
-        }
-      ]
+    "armor": {
+      "value": "14"
+    },
+    "category": {
+      "subtype": "kite"
     }
   },
   "effects": [],
-  "folder": "LnoybnjbBjUtYqBI",
+  "sort": 0,
   "ownership": {
     "default": 0
   },
@@ -53,7 +55,5 @@
     "modifiedTime": null,
     "lastModifiedBy": null
   },
-  "_id": "VSzonfXS7vXLeNSF",
-  "sort": 0,
-  "_key": "!items!VSzonfXS7vXLeNSF"
+  "_key": "!items!64FEhEQrA9rfx7gh"
 }

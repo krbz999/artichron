@@ -1,0 +1,67 @@
+{
+  "folder": "vdB5ExhILgSwkTRd",
+  "name": "Heavy Spell",
+  "type": "spell",
+  "_id": "TMIDn4W5elGR2Gu0",
+  "img": "icons/sundries/books/book-worn-blue.webp",
+  "system": {
+    "description": {
+      "value": "<p>A heavy-hitting spell that requires two hands and a lot of focus to conjure. This can deal wind or lightning damage against a single target or in a straight line.</p>"
+    },
+    "weight": {
+      "value": 1
+    },
+    "price": {
+      "value": 1
+    },
+    "damage": {
+      "parts": [
+        {
+          "id": "iHoOyqNoiNQ7eLRG",
+          "formula": "4d12",
+          "type": "wind"
+        },
+        {
+          "id": "3UaFKXFgAndFMmOL",
+          "formula": "4d12",
+          "type": "lightning"
+        }
+      ]
+    },
+    "wield": {
+      "value": 2
+    },
+    "range": {
+      "value": 10
+    },
+    "targets": {
+      "value": 1
+    },
+    "template": {
+      "types": [
+        "single",
+        "ray"
+      ]
+    },
+    "category": {
+      "subtype": "offense"
+    }
+  },
+  "effects": [],
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": null,
+    "systemId": null,
+    "systemVersion": null,
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  },
+  "_key": "!items!TMIDn4W5elGR2Gu0"
+}

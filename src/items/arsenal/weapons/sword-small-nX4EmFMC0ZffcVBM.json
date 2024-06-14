@@ -1,10 +1,12 @@
 {
-  "name": "Buckler",
-  "type": "shield",
-  "img": "icons/equipment/shield/buckler-wooden-boss-glowing-blue.webp",
+  "folder": "yzIxM76s5bHr5t6g",
+  "name": "Sword, Small",
+  "type": "weapon",
+  "_id": "nX4EmFMC0ZffcVBM",
+  "img": "icons/weapons/swords/shortsword-guard-worn.webp",
   "system": {
     "description": {
-      "value": "<p>A simple shield to protect the user.</p>"
+      "value": "<p>A typical adventuring sword, wielded in one hand. One of the most common forms of weaponry.</p>"
     },
     "weight": {
       "value": 1
@@ -12,14 +14,17 @@
     "price": {
       "value": 1
     },
-    "category": {
-      "subtype": "buckler"
+    "damage": {
+      "parts": [
+        {
+          "id": "axeWQtHOuPd7zSeB",
+          "formula": "4d8",
+          "type": "physical"
+        }
+      ]
     },
     "wield": {
       "value": 1
-    },
-    "armor": {
-      "value": "10"
     },
     "range": {
       "value": 1
@@ -27,18 +32,12 @@
     "targets": {
       "value": 1
     },
-    "damage": {
-      "parts": [
-        {
-          "id": "cjPqv1CiQNW9iKBh",
-          "formula": "4d6",
-          "type": "physical"
-        }
-      ]
+    "category": {
+      "subtype": "sword"
     }
   },
   "effects": [],
-  "folder": "LnoybnjbBjUtYqBI",
+  "sort": 0,
   "ownership": {
     "default": 0
   },
@@ -53,7 +52,5 @@
     "modifiedTime": null,
     "lastModifiedBy": null
   },
-  "_id": "VSzonfXS7vXLeNSF",
-  "sort": 0,
-  "_key": "!items!VSzonfXS7vXLeNSF"
+  "_key": "!items!nX4EmFMC0ZffcVBM"
 }
