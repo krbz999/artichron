@@ -41,11 +41,15 @@ export default class ElixirData extends ItemSystemModel {
       }),
       category: new SchemaField({
         subtype: new StringField({
+          required: true,
           label: "ARTICHRON.ItemProperty.Category.SubtypeElixir",
           hint: "ARTICHRON.ItemProperty.Category.SubtypeElixirHint",
+          initial: "booster",
           choices: CONFIG.SYSTEM.ELIXIR_TYPES
         }),
         pool: new StringField({
+          required: true,
+          initial: "health",
           choices: {
             health: "ARTICHRON.ItemProperty.Category.PoolElixirChoiceHealth",
             stamina: "ARTICHRON.ItemProperty.Category.PoolElixirChoiceStamina",
@@ -79,6 +83,10 @@ export default class ElixirData extends ItemSystemModel {
 
   /** @override */
   async use() {
+    if (this.isBoostElixir) {
+      return null;
+    }
+
     if (!this.hasUses) {
       ui.notifications.warn("ARTICHRON.ElixirDialog.WarningUsage", {localize: true});
       return null;
@@ -187,5 +195,13 @@ export default class ElixirData extends ItemSystemModel {
    */
   get hasEffects() {
     return this.hasUses && (this.transferrableEffects.length > 0);
+  }
+
+  /**
+   * Is this a boosting elixir?
+   * @type {boolean}
+   */
+  get isBoostElixir() {
+    return this.category.subtype === "booster";
   }
 }
