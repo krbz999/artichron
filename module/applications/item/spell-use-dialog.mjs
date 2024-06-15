@@ -110,10 +110,16 @@ export default class SpellUseDialog extends HandlebarsApplicationMixin(Applicati
   }
 
   /** @override */
+  async _prepareContext(options) {
+    return {
+      isDamage: this.item.system.category.subtype === "offense",
+      isBuff: this.item.system.category.subtype === "buff"
+    };
+  }
+
+  /** @override */
   async _preparePartContext(partId, context, options) {
     context = await super._preparePartContext(partId, context, options);
-    context.isDamage = this.item.system.category.subtype === "offense";
-    context.isBuff = this.item.system.category.subtype === "buff";
 
     if (partId === "form") {
       if (context.isDamage) {
