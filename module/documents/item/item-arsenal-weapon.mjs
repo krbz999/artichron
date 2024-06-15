@@ -105,7 +105,7 @@ export default class WeaponData extends ArsenalData {
       }
     }
 
-    return this.toMessage({rolls, targets: Array.from(targets)});
+    return this.toMessage({rolls: rolls, targets: Array.from(targets)});
   }
 
   /**
