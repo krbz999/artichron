@@ -45,7 +45,7 @@ export default class WeaponData extends ArsenalData {
     if (!configuration) return null;
     const stamina = configuration.stamina;
     const ammo = actor.items.get(configuration.ammo) ?? null;
-    const boosters = configuration.boosters.map(id => actor.items.get(id));
+    const booster = actor.items.get(configuration.booster);
     const ammoModifiers = ammo ? ammo.system.ammoProperties : new Set();
 
     // Ammo modifying range.
@@ -80,14 +80,14 @@ export default class WeaponData extends ArsenalData {
       acc[d.type].push(d.formula);
       return acc;
     }, {})).map(([type, formulas]) => {
-      return new DamageRoll(formulas.join("+"), rollData, {type: type}).alter(1, stamina + boosters.length);
+      return new DamageRoll(formulas.join("+"), rollData, {type: type}).alter(1, stamina + (configuration.uses || 0));
     });
 
     const actorUpdate = {};
     const itemUpdates = [];
     if (stamina) actorUpdate["system.pools.stamina.value"] = actor.system.pools.stamina.value - stamina;
     if (ammo) itemUpdates.push({_id: ammo.id, "system.quantity.value": ammo.system.quantity.value - 1});
-    for (const elixir of boosters) itemUpdates.push(elixir.system._usageUpdate());
+    if (booster) itemUpdates.push(booster.system._usageUpdate(configuration.uses || 0));
 
     await Promise.all([
       foundry.utils.isEmpty(actorUpdate) ? null : actor.update(actorUpdate),

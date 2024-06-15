@@ -100,11 +100,17 @@ export default class WeaponUseDialog extends HandlebarsApplicationMixin(Applicat
       if (isBooster && item.hasUses && (item.system.usage.value > 0)) acc[item.id] = item.name;
       return acc;
     }, {});
-    const boosters = new foundry.data.fields.SetField(new foundry.data.fields.StringField({
-      choices: elixirs
-    }), {
-      label: "ARTICHRON.WeaponUseDialog.Boosters",
-      hint: "ARTICHRON.WeaponUseDialog.BoostersHint"
+    const booster = new foundry.data.fields.StringField({
+      choices: elixirs,
+      label: "ARTICHRON.WeaponUseDialog.BoosterItem",
+      hint: "ARTICHRON.WeaponUseDialog.BoosterItemHint"
+    });
+    const uses = new foundry.data.fields.NumberField({
+      min: 0,
+      max: 0,
+      step: 1,
+      initial: 0,
+      label: "ARTICHRON.WeaponUseDialog.BoosterUses"
     });
 
     return {
@@ -118,9 +124,8 @@ export default class WeaponUseDialog extends HandlebarsApplicationMixin(Applicat
         dataset: {change: "stamina"},
         show: value > 0
       },
-      boosters: {
-        field: boosters
-      },
+      booster: booster,
+      uses: uses,
       submitIcon: this.options.window.icon
     };
   }
@@ -128,6 +133,24 @@ export default class WeaponUseDialog extends HandlebarsApplicationMixin(Applicat
   /* ---------------------------------------- */
   /*              EVENT HANDLERS              */
   /* ---------------------------------------- */
+
+  /** @override */
+  _onChangeForm(formConfig, event) {
+    super._onChangeForm(formConfig, event);
+    if (event.target.name === "booster") {
+      const booster = event.target;
+      const uses = this.element.elements.uses;
+      uses.disabled = !booster.value;
+      if (booster.value) {
+        const item = this.item.actor.items.get(booster.value);
+        const max = item.system.usage.value;
+        for (const k of [uses, ...uses.children]) {
+          k.setAttribute("max", max);
+          k.value = (uses.value > max) ? 0 : uses.value;
+        }
+      }
+    }
+  }
 
   /**
    * Handle submission of the form.

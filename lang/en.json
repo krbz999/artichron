@@ -295,8 +295,9 @@
     "AmmunitionHint": "An optional ammunition to use for this attack, which will alter the damage roll.",
     "Stamina": "Stamina",
     "StaminaHint": "Each point of stamina expended will increase the dice roll quantity by one.",
-    "Boosters": "Boosters",
-    "BoostersHint": "Boosting elixirs to consume which each act as consuming 1 additional point of stamina."
+    "BoosterItem": "Booster",
+    "BoosterItemHint": "Consume the uses of a boosting elixir, each consumed use acting as 1 additional point of stamina.",
+    "BoosterUses": "Boost Uses"
   },
 
   "ItemFusionChanges": {
