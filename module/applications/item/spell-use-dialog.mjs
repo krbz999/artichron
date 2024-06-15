@@ -33,6 +33,7 @@ export default class SpellUseDialog extends HandlebarsApplicationMixin(Applicati
     footer: {template: "systems/artichron/templates/item/arsenal-use-dialog-footer.hbs"}
   };
 
+  /** @override */
   _onChangeForm(formConfig, event) {
     super._onChangeForm(formConfig, event);
 
@@ -159,6 +160,21 @@ export default class SpellUseDialog extends HandlebarsApplicationMixin(Applicati
         });
         context.buff = {field: field, name: "buff", value: this.buff};
       }
+
+      const elixirs = this.item.actor.items.reduce((acc, item) => {
+        const category = item.system.category;
+        const isBooster = (item.type === "elixir") && (category.subtype === "booster") && (category.pool === "mana");
+        if (isBooster && item.hasUses && (item.system.usage.value > 0)) acc[item.id] = item.name;
+        return acc;
+      }, {});
+      const boosters = new foundry.data.fields.SetField(new foundry.data.fields.StringField({
+        choices: elixirs
+      }), {
+        label: "ARTICHRON.SpellUseDialog.Boosters",
+        hint: "ARTICHRON.SpellUseDialog.BoostersHint"
+      });
+
+      context.boosters = boosters;
     }
 
     else if (partId === "options") {
@@ -175,7 +191,7 @@ export default class SpellUseDialog extends HandlebarsApplicationMixin(Applicati
         return {field: field, name: name, value: this[name] ?? 0};
       };
 
-      const mana = this.item.actor.system.pools.mana.value;
+      const mana = this.maxMana;
       context.sliders = [];
       for (const k of ["count", "range", "distance", "width", "radius"]) {
 
@@ -183,7 +199,7 @@ export default class SpellUseDialog extends HandlebarsApplicationMixin(Applicati
           context.sliders.push(numField(k, mana));
         }
       }
-      if (context.isDamage) context.sliders.unshift(numField("multiplier", mana));
+      if (context.isDamage) context.sliders.unshift(numField("additional", mana));
     }
 
     else if (partId === "footer") {
@@ -194,11 +210,26 @@ export default class SpellUseDialog extends HandlebarsApplicationMixin(Applicati
       if (!this.shape) state = true;
       else if (context.isDamage && !this.damage) state = true;
       else if (context.isBuff && !this.buff) state = true;
-      else if (this.cost > this.item.actor.system.pools.mana.value) state = true;
+      else if (this.cost > this.maxMana) state = true;
       context.disabled = state;
     }
 
     return context;
+  }
+
+  /** @override */
+  _syncPartState(partId, newEl, oldEl, state) {
+    super._syncPartState(partId, newEl, oldEl, state);
+    if (partId === "options") {
+      for (const k of ["additional", "count", "range", "distance", "width", "radius"]) {
+        const selector = `[name=${k}]`;
+        const n = newEl.querySelector(selector);
+        if (n) {
+          const o = oldEl.querySelector(selector);
+          if (o) n.value = Math.clamp(o.value, 0, parseInt(n.getAttribute("max")));
+        }
+      }
+    }
   }
 
   /**
@@ -208,10 +239,21 @@ export default class SpellUseDialog extends HandlebarsApplicationMixin(Applicati
   get cost() {
     let value = 0;
     const element = this.element.elements;
-    for (const k of ["multiplier", "count", "range", "distance", "width", "radius"]) {
+    for (const k of ["additional", "count", "range", "distance", "width", "radius"]) {
       if (element[k]?.value) value += element[k].value;
     }
     return value;
+  }
+
+  /**
+   * Calculate the maximum for each range determined by the mana available and any selected boosters.
+   * @type {number}
+   */
+  get maxMana() {
+    const mana = this.item.actor.system.pools.mana.value;
+    const boosters = this.element?.elements.boosters;
+    if (boosters) return mana + boosters.value.length;
+    return mana;
   }
 
   /**
