@@ -79,7 +79,8 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
         weight: "weight" in src.system,
         quantity: "quantity" in src.system,
         usage: "usage" in src.system,
-        category: "category" in src.system
+        category: "category" in src.system,
+        categoryPool: ("pool" in (src.system.category ?? {})) && !!doc.system.category?.subtype
       },
       description: {
         enriched: await TextEditor.enrichHTML(doc.system.description.value, {
@@ -125,6 +126,12 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
     // Subtype options.
     if (context.sections.category) {
       context.category = makeField("category.subtype", doc.isEquipped ? {disabled: true} : undefined);
+      if (context.sections.categoryPool) {
+        context.categoryPool = makeField("category.pool");
+        const subtype = doc.system.category.subtype;
+        context.categoryPool.label = `ARTICHRON.ItemProperty.Category.Pool${subtype.capitalize()}`;
+        context.categoryPool.hint = `ARTICHRON.ItemProperty.Category.Pool${subtype.capitalize()}Hint`;
+      }
     }
 
     // Wield.
@@ -159,6 +166,7 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
         value: makeField("usage.value"),
         max: makeField("usage.max")
       };
+      context.usage.value.max = doc.system.usage.max || 0;
     }
 
     // Defenses.

@@ -266,7 +266,14 @@ SYSTEM.EQUIPMENT_TYPES = {
  * @enum {ElixirTypeConfig}
  * @property {string} label     The human-readable label of this elixir type.
  */
-SYSTEM.ELIXIR_TYPES = {};
+SYSTEM.ELIXIR_TYPES = {
+  booster: {
+    label: "ARTICHRON.ElixirType.Booster"
+  },
+  restorative: {
+    label: "ARTICHRON.ElixirType.Restorative"
+  }
+};
 
 /**
  * @typedef {object} AmmunitionTypeConfig

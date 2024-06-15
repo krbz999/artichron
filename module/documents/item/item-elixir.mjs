@@ -17,7 +17,7 @@ export default class ElixirData extends ItemSystemModel {
       quantity: new SchemaField({
         value: new NumberField({
           initial: 1,
-          minimum: 0,
+          min: 0,
           integer: true,
           nullable: true,
           label: "ARTICHRON.ItemProperty.Quantity.Value",
@@ -44,6 +44,13 @@ export default class ElixirData extends ItemSystemModel {
           label: "ARTICHRON.ItemProperty.Category.SubtypeElixir",
           hint: "ARTICHRON.ItemProperty.Category.SubtypeElixirHint",
           choices: CONFIG.SYSTEM.ELIXIR_TYPES
+        }),
+        pool: new StringField({
+          choices: {
+            health: "ARTICHRON.ItemProperty.Category.PoolElixirChoiceHealth",
+            stamina: "ARTICHRON.ItemProperty.Category.PoolElixirChoiceStamina",
+            mana: "ARTICHRON.ItemProperty.Category.PoolElixirChoiceMana"
+          }
         })
       })
     };
@@ -130,18 +137,27 @@ export default class ElixirData extends ItemSystemModel {
       "system.granted": true
     }, {performDeletions: true});
 
-    const update = {};
+    const update = this._usageUpdate();
+
+    return Promise.all([
+      this.parent.update(update),
+      getDocumentClass("ActiveEffect").create(effectData, {parent: this.parent.actor})
+    ]);
+  }
+
+  /**
+   * Utility method for crafting the usage update for an elixir.
+   * @returns {object}
+   */
+  _usageUpdate() {
+    const update = {_id: this.parent.id};
     if (this.usage.value - 1 === 0) {
       update["system.usage.value"] = this.usage.max;
       update["system.quantity.value"] = this.quantity.value - 1;
     } else {
       update["system.usage.value"] = this.usage.value - 1;
     }
-
-    return Promise.all([
-      this.parent.update(update),
-      getDocumentClass("ActiveEffect").create(effectData, {parent: this.parent.actor})
-    ]);
+    return update;
   }
 
   /**
