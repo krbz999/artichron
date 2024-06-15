@@ -1,12 +1,12 @@
 {
   "folder": "yzIxM76s5bHr5t6g",
-  "name": "Gun",
+  "name": "Pistol",
   "type": "weapon",
   "_id": "4czaj4vKvxDwFzzB",
   "img": "icons/weapons/guns/gun-pistol-flintlock.webp",
   "system": {
     "description": {
-      "value": "<p>A loud and forceful weapon, a gun can strike the target hard and fast.</p>"
+      "value": "<p>A loud and forceful weapon, a pistol can strike the target hard and fast.</p>"
     },
     "weight": {
       "value": 1
@@ -27,13 +27,13 @@
       "value": 1
     },
     "range": {
-      "value": 20
+      "value": 15
     },
     "targets": {
       "value": 1
     },
     "category": {
-      "subtype": "gun"
+      "subtype": "pistol"
     }
   },
   "effects": [],

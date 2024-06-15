@@ -190,6 +190,7 @@ SYSTEM.WEAPON_TYPES = {
   hammer: {label: "ARTICHRON.WeaponType.Hammer"},
   meteorHammer: {label: "ARTICHRON.WeaponType.MeteorHammer"},
   nunChuck: {label: "ARTICHRON.WeaponType.NunChuck"},
+  pistol: {label: "ARTICHRON.WeaponType.Pistol"},
   rifle: {label: "ARTICHRON.WeaponType.Rifle"},
   spear: {label: "ARTICHRON.WeaponType.Spear"},
   sword: {label: "ARTICHRON.WeaponType.Sword"}
