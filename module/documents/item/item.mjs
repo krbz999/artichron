@@ -124,6 +124,14 @@ export default class ItemArtichron extends Item {
     return this.actor.favorites.has(this);
   }
 
+  /**
+   * Is this a boosting elixir?
+   * @type {boolean}
+   */
+  get isBoostElixir() {
+    return this.system.isBoostElixir ?? false;
+  }
+
   /* ---------------------------------------- */
   /*                                          */
   /*            PREPARATION METHODS           */

@@ -162,8 +162,7 @@ export default class SpellUseDialog extends HandlebarsApplicationMixin(Applicati
       }
 
       const elixirs = this.item.actor.items.reduce((acc, item) => {
-        const category = item.system.category;
-        const isBooster = (item.type === "elixir") && (category.subtype === "booster") && (category.pool === "mana");
+        const isBooster = item.isBoostElixir && (item.system.category.pool === "mana");
         if (isBooster && item.hasUses && (item.system.usage.value > 0)) acc[item.id] = item.name;
         return acc;
       }, {});
