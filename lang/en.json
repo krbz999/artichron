@@ -42,11 +42,12 @@
     "Bow": "Bow",
     "Chakram": "Chakram",
     "Dagger": "Dagger",
-    "Pistol": "Pistol",
     "Hammer": "Hammer",
     "MeteorHammer": "Meteor Hammer",
     "NunChuck": "Nun-Chuck",
+    "Pistol": "Pistol",
     "Rifle": "Rifle",
+    "Shotgun": "Shotgun",
     "Spear": "Spear",
     "Sword": "Sword"
   },
@@ -69,7 +70,9 @@
 
   "AmmunitionType": {
     "Arrow": "Arrow",
-    "Bullet": "Bullet"
+    "Bullet": "Bullet",
+    "Round": "Round",
+    "Shell": "Shotgun Shell"
   },
 
   "ElixirType": {
