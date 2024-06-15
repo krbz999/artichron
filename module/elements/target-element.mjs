@@ -113,7 +113,9 @@ export class DamageTarget extends TargetElement {
 
   /** Hook event for actors being damaged. */
   _onActorTakesDamage(actor, change, options, userId) {
-    if ((options.messageId === this.chatMessage.id) && (actor === this.actor)) this.disabled = true;
+    if ((options.messageId === this.chatMessage.id) && (actor === this.actor)) {
+      this.disabled = true;
+    }
   }
 
   /** @override */
@@ -133,7 +135,9 @@ export class BuffTarget extends TargetElement {
 
   /** Hook event for buffs being created. */
   _onCreateBuff(effect, options, userId) {
-    if (options.messageId === this.chatMessage.id) this.disabled = true;
+    if ((options.messageId === this.chatMessage.id) && (effect.parent === this.actor)) {
+      this.disabled = true;
+    }
   }
 
   /** @override */
