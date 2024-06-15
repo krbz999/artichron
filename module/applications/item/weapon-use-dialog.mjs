@@ -94,6 +94,19 @@ export default class WeaponUseDialog extends HandlebarsApplicationMixin(Applicat
       hint: "ARTICHRON.WeaponUseDialog.StaminaHint"
     });
 
+    const elixirs = this.item.actor.items.reduce((acc, item) => {
+      const category = item.system.category;
+      const isBooster = (item.type === "elixir") && (category.subtype === "booster") && (category.pool === "stamina");
+      if (isBooster && item.hasUses && (item.system.usage.value > 0)) acc[item.id] = item.name;
+      return acc;
+    }, {});
+    const boosters = new foundry.data.fields.SetField(new foundry.data.fields.StringField({
+      choices: elixirs
+    }), {
+      label: "ARTICHRON.WeaponUseDialog.Boosters",
+      hint: "ARTICHRON.WeaponUseDialog.BoostersHint"
+    });
+
     return {
       ammo: {
         field: ammoField,
@@ -104,6 +117,9 @@ export default class WeaponUseDialog extends HandlebarsApplicationMixin(Applicat
         field: staminaField,
         dataset: {change: "stamina"},
         show: value > 0
+      },
+      boosters: {
+        field: boosters
       },
       submitIcon: this.options.window.icon
     };
@@ -117,11 +133,6 @@ export default class WeaponUseDialog extends HandlebarsApplicationMixin(Applicat
    * Handle submission of the form.
    */
   static _onSubmit(event, target, formData) {
-    const data = {
-      stamina: formData.object.stamina,
-      ammo: this.item.actor.items.get(formData.object.ammo) ?? null
-    };
-
-    if (this.resolve) this.resolve(data);
+    if (this.resolve) this.resolve(formData.object);
   }
 }

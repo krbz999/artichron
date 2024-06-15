@@ -72,6 +72,11 @@
     "Bullet": "Bullet"
   },
 
+  "ElixirType": {
+    "Booster": "Booster",
+    "Restorative": "Restorative"
+  },
+
   "SheetTab": {
     "Attributes": "Attributes",
     "Equipment": "Equipment",
@@ -181,7 +186,14 @@
       "SubtypeSpell": "Spell Type",
       "SubtypeSpellHint": "The spell type determines how it affects enemies and allies.",
       "SubtypeWeapon": "Weapon Type",
-      "SubtypeWeaponHint": "The weapon type determines the ammunition it can use."
+      "SubtypeWeaponHint": "The weapon type determines the ammunition it can use.",
+      "PoolBooster": "Boost",
+      "PoolBoosterHint": "The pool that this elixir can grant a boost of during an attack.",
+      "PoolRestorative": "Pool",
+      "PoolRestorativeHint": "The pool that this elixir can restore when consumed.",
+      "PoolElixirChoiceHealth": "Health",
+      "PoolElixirChoiceStamina": "Stamina",
+      "PoolElixirChoiceMana": "Mana"
     },
     "Range": {
       "Value": "Range",
@@ -280,7 +292,9 @@
     "Ammunition": "Ammunition",
     "AmmunitionHint": "An optional ammunition to use for this attack, which will alter the damage roll.",
     "Stamina": "Stamina",
-    "StaminaHint": "TODO"
+    "StaminaHint": "Each point of stamina expended will increase the dice roll quantity by one.",
+    "Boosters": "Boosters",
+    "BoostersHint": "Boosting elixirs to consume which each act as consuming 1 additional point of stamina."
   },
 
   "ItemFusionChanges": {

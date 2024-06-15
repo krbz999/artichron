@@ -43,7 +43,9 @@ export default class WeaponData extends ArsenalData {
 
     const configuration = await WeaponUseDialog.create(item);
     if (!configuration) return null;
-    const {ammo, stamina} = configuration;
+    const stamina = configuration.stamina;
+    const ammo = actor.items.get(configuration.ammo) ?? null;
+    const boosters = configuration.boosters.map(id => actor.items.get(id));
     const ammoModifiers = ammo ? ammo.system.ammoProperties : new Set();
 
     // Ammo modifying range.
@@ -78,11 +80,19 @@ export default class WeaponData extends ArsenalData {
       acc[d.type].push(d.formula);
       return acc;
     }, {})).map(([type, formulas]) => {
-      return new DamageRoll(formulas.join("+"), rollData, {type: type});
+      return new DamageRoll(formulas.join("+"), rollData, {type: type}).alter(1, stamina + boosters.length);
     });
 
-    if (stamina) actor.update({"system.pools.stamina.value": actor.system.pools.stamina.value - stamina});
-    if (ammo) ammo.update({"system.quantity.value": ammo.system.quantity.value - 1});
+    const actorUpdate = {};
+    const itemUpdates = [];
+    if (stamina) actorUpdate["system.pools.stamina.value"] = actor.system.pools.stamina.value - stamina;
+    if (ammo) itemUpdates.push({_id: ammo.id, "system.quantity.value": ammo.system.quantity.value - 1});
+    for (const elixir of boosters) itemUpdates.push(elixir.system._usageUpdate());
+
+    await Promise.all([
+      foundry.utils.isEmpty(actorUpdate) ? null : actor.update(actorUpdate),
+      foundry.utils.isEmpty(itemUpdates) ? null : actor.updateEmbeddedDocuments("Item", itemUpdates)
+    ]);
 
     // Create a template for the blast zone and modify targets.
     const targets = new Set([target.actor.uuid]);

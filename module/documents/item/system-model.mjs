@@ -34,7 +34,8 @@ export class ItemSystemModel extends foundry.abstract.TypeDataModel {
       }),
       price: new SchemaField({
         value: new NumberField({
-          initial: 0,
+          min: 0,
+          initial: null,
           integer: true,
           label: "ARTICHRON.ItemProperty.Price.Value",
           hint: "ARTICHRON.ItemProperty.Price.ValueHint"

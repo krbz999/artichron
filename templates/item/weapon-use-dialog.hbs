@@ -1,9 +1,11 @@
 <fieldset>
   {{#if ammo.show}}
-  {{formField ammo.field dataset=ammo.dataset localize=true sort=true name="ammo"}}
+  {{formGroup ammo.field dataset=ammo.dataset localize=true sort=true name="ammo"}}
   {{/if}}
 
   {{#if stamina.show}}
-  {{formField stamina.field dataset=stamina.dataset localize=true name="stamina"}}
+  {{formGroup stamina.field dataset=stamina.dataset localize=true name="stamina"}}
   {{/if}}
+
+  {{formGroup boosters.field localize=true name="boosters"}}
 </fieldset>

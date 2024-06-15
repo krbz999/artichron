@@ -1,7 +1,12 @@
 <fieldset>
   <legend>{{localize "ARTICHRON.ItemProperty.Fieldsets.Properties"}}</legend>
   {{#if sections.category}}
-  {{formGroup category.field value=category.value disabled=category.disabled localize=true blank=""}}
+  {{formGroup category.field value=category.value disabled=category.disabled localize=true blank=false}}
+  {{#if sections.categoryPool}}
+  {{#with categoryPool}}
+  {{formGroup field value=value disabled=disabled localize=true blank=false label=label hint=hint}}
+  {{/with}}
+  {{/if}}
   {{/if}}
 
   {{#if sections.price}}
@@ -45,7 +50,7 @@
 {{#if sections.usage}}
 <fieldset class="usage">
   <legend>{{localize "ARTICHRON.ItemProperty.Fieldsets.LimitedUses"}}</legend>
-  {{formGroup usage.value.field value=usage.value.value disabled=usage.value.disabled localize=true}}
+  {{formGroup usage.value.field value=usage.value.value disabled=usage.value.disabled localize=true max=usage.value.max}}
   {{formGroup usage.max.field value=usage.max.value disabled=usage.max.disabled localize=true}}
 </fieldset>
 {{/if}}
