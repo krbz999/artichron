@@ -88,10 +88,27 @@ export default class SpellData extends ArsenalData {
     }
     delete this._targeting;
 
-    if (configuration.cost) {
-      const actor = this.parent.actor;
-      await actor.update({"system.pools.mana.value": actor.system.pools.mana.value - configuration.cost});
+    // Create and perform updates.
+    const actorUpdate = {};
+    const itemUpdates = [];
+    const actor = this.parent.actor;
+
+    for (const id of configuration.boosters) {
+      const elixir = actor.items.get(id);
+      const update = elixir.system._usageUpdate();
+      itemUpdates.push(update);
+      configuration.cost--;
     }
+
+    if (configuration.cost) {
+      const mana = actor.system.pools.mana.value;
+      actorUpdate["system.pools.mana.value"] = mana - configuration.cost;
+    }
+
+    await Promise.all([
+      foundry.utils.isEmpty(actorUpdate) ? null : actor.update(actorUpdate),
+      foundry.utils.isEmpty(itemUpdates) ? null : actor.updateEmbeddedDocuments("Item", itemUpdates)
+    ]);
 
     const messageData = {targets: Array.from(targets)};
     if (configuration.shape !== "single") messageData.template = data;
@@ -100,7 +117,8 @@ export default class SpellData extends ArsenalData {
       // Offensive magic
       const {formula, type} = this.damage.parts.find(d => d.id === configuration.damage);
       const rollData = this.parent.getRollData();
-      const roll = new DamageRoll(formula, rollData, {type: type}).alter(configuration.multiplier || 1, 0);
+      const roll = new DamageRoll(formula, rollData, {type: type});
+      if (configuration.additional) roll.alter(1, configuration.additional);
       messageData.rolls = [roll];
     } else if (this.category.subtype === "buff") {
       // Buff or Defensive magic

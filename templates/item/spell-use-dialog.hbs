@@ -1,11 +1,12 @@
 <fieldset>
 
   {{#if isDamage}}
-  {{formField damage.field value=damage.value localize=true name=damage.name}}
+  {{formGroup damage.field value=damage.value localize=true name=damage.name}}
   {{/if}}
   {{#if isBuff}}
-  {{formField buff.field value=buff.value localize=true name=buff.name}}
+  {{formGroup buff.field value=buff.value localize=true name=buff.name}}
   {{/if}}
-  {{formField shape.field value=shape.value localize=true name=shape.name}}
+  {{formGroup shape.field value=shape.value localize=true name=shape.name}}
+  {{formGroup boosters localize=true name="boosters"}}
 
 </fieldset>

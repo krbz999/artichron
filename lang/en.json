@@ -270,12 +270,14 @@
     "Count": "Count",
     "Damage": "Damage",
     "Distance": "Distance",
-    "Multiplier": "Damage Multiplier",
+    "Additional": "Additional",
     "Radius": "Radius",
     "Range": "Range",
     "Shape": "Shape",
     "Title": "{item}: Spellcasting",
-    "Width": "Width"
+    "Width": "Width",
+    "Boosters": "Boosters",
+    "BoostersHint": "Boosting elixirs to consume which each act as consuming 1 additional point of mana."
   },
 
   "ItemFusionDialog": {
