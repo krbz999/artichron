@@ -186,12 +186,12 @@ SYSTEM.WEAPON_TYPES = {
   bow: {label: "ARTICHRON.WeaponType.Bow"},
   chakram: {label: "ARTICHRON.WeaponType.Chakram"},
   dagger: {label: "ARTICHRON.WeaponType.Dagger"},
-  gun: {label: "ARTICHRON.WeaponType.Gun"},
   hammer: {label: "ARTICHRON.WeaponType.Hammer"},
   meteorHammer: {label: "ARTICHRON.WeaponType.MeteorHammer"},
   nunChuck: {label: "ARTICHRON.WeaponType.NunChuck"},
   pistol: {label: "ARTICHRON.WeaponType.Pistol"},
   rifle: {label: "ARTICHRON.WeaponType.Rifle"},
+  shotgun: {label: "ARTICHRON.WeaponType.Shotgun"},
   spear: {label: "ARTICHRON.WeaponType.Spear"},
   sword: {label: "ARTICHRON.WeaponType.Sword"}
 };
@@ -293,7 +293,15 @@ SYSTEM.AMMUNITION_TYPES = {
   },
   bullet: {
     label: "ARTICHRON.AmmunitionType.Bullet",
-    weapons: new Set(["rifle", "gun"])
+    weapons: new Set(["pistol"])
+  },
+  round: {
+    label: "ARTICHRON.AmmunitionType.Round",
+    weapons: new Set(["rifle"])
+  },
+  shell: {
+    label: "ARTICHRON.AmmunitionType.Shell",
+    weapons: new Set(["shotgun"])
   }
 };
 
