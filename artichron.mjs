@@ -60,11 +60,9 @@ Hooks.once("init", function() {
   CONFIG.Dice.rolls.push(...Object.values(dice));
   CONFIG.Dice.DamageRoll = dice.DamageRoll;
 
-  /**
-   * Set an initiative formula for the system
-   * @type {String}
-   */
+  /** Set an initiative formula for the system */
   CONFIG.Combat.initiative.formula = "1d12<=(12 - @pips)";
+  CONFIG.ui.combat = applications.CombatTrackerArtichron;
 
   // Register sheet application classes
   Actors.unregisterSheet("core", ActorSheet);

@@ -15,7 +15,7 @@ import SpellData from "./item/item-arsenal-spell.mjs";
 import WeaponData from "./item/item-arsenal-weapon.mjs";
 import ShieldData from "./item/item-arsenal-shield.mjs";
 import {ChatMessageSystemModel, ItemMessageData, TradeMessageData} from "./chat/system-model.mjs";
-import {CombatantSystemModel, HeroCombatantData} from "./combat/system-model.mjs";
+import CombatantSystemModel from "./combat/system-model.mjs";
 import {ActiveEffectSystemModel, EffectBuffData, EffectEnhancementData, EffectFusionData} from "./effect/system-model.mjs";
 import ActiveEffectArtichron from "./effect/active-effect.mjs";
 import {ItemSystemModel} from "./item/system-model.mjs";
@@ -40,7 +40,7 @@ export const dataModels = {
     trade: TradeMessageData
   },
   combatant: {
-    hero: HeroCombatantData
+    artichron: CombatantSystemModel
   },
   effect: {
     buff: EffectBuffData,
@@ -53,7 +53,6 @@ export const templates = {
   ActorSystemModel,
   ItemSystemModel,
   ChatMessageSystemModel,
-  CombatantSystemModel,
   ActiveEffectSystemModel
 };
 

@@ -1,11 +1,14 @@
 export default class CombatantArtichron extends Combatant {
   /** @override */
   _getInitiativeFormula() {
-    const pips = this.pips;
+    const pips = this.system.pips || 0;
     return pips ? `1d12x>${Math.max(12 - pips, 1)}` : "1d12x";
   }
 
-  get pips() {
-    return (this.actor?.type === "hero") ? this.system.pips : 0;
+  /** @override */
+  async _preCreate(data, options, user) {
+    const allowed = await super._preCreate(data, options, user);
+    if (allowed === false) return false;
+    this.updateSource({type: "artichron"});
   }
 }

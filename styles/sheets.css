@@ -251,3 +251,16 @@
     }
   }
 }
+
+/** Combat tracker overrides. */
+.combat-sidebar {
+  .combatant {
+    .pips {
+      flex: 100%;
+      font-size: 12px;
+      text-align: center;
+      padding: 0;
+      line-height: 24px;
+    }
+  }
+}
