@@ -7,7 +7,8 @@ const {SchemaField, StringField} = foundry.data.fields;
 export default class ShieldData extends ArsenalData {
   /** @override */
   static metadata = Object.freeze(foundry.utils.mergeObject(super.metadata, {
-    defaultIcon: "icons/svg/shield.svg"
+    defaultIcon: "icons/svg/shield.svg",
+    type: "shield"
   }, {inplace: false}));
 
   /** @override */
@@ -23,6 +24,8 @@ export default class ShieldData extends ArsenalData {
       }),
       category: new SchemaField({
         subtype: new StringField({
+          required: true,
+          initial: "buckler",
           label: "ARTICHRON.ItemProperty.Category.SubtypeShield",
           hint: "ARTICHRON.ItemProperty.Category.SubtypeShieldHint",
           choices: CONFIG.SYSTEM.SHIELD_TYPES

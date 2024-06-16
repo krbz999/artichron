@@ -86,6 +86,7 @@
     "Inventory": "Inventory",
     "Description": "Description",
     "Details": "Details",
+    "Properties": "Properties",
     "Effects": "Effects",
     "Arsenal": "Arsenal",
     "Gear": "Gear",
@@ -169,10 +170,15 @@
       "Defenses": "Defenses",
       "Handling": "Handling",
       "LimitedUses": "Limited Uses",
-      "Properties": "Properties",
+      "Attributes": "Attributes",
+      "Configuration": "Configuration",
       "Resistances": "Resistances"
     },
 
+    "Attributes": {
+      "Value": "Attributes",
+      "ValueHint": "Unique attributes of this item."
+    },
     "Description": {
       "Value": "Description",
       "ValueHint": ""
@@ -184,6 +190,8 @@
       "SubtypeArmorHint": "The type of armor this is, which decides how it is equipped.",
       "SubtypeElixir": "Elixir Type",
       "SubtypeElixirHint": "The type of elixir this is.",
+      "SubtypePart": "Subtype",
+      "SubtypePartHint": "TODO",
       "SubtypeShield": "Shield Type",
       "SubtypeShieldHint": "The shield type determines how much it protects the wielder.",
       "SubtypeSpell": "Spell Type",
@@ -249,6 +257,12 @@
       "Max": "Max Uses",
       "MaxHint": "The total number of uses of this item."
     }
+  },
+
+  "ItemAttribute": {
+    "Blocking": "Blocking",
+    "Magical": "Magical",
+    "Parrying": "Parrying"
   },
 
   "EffectProperty": {

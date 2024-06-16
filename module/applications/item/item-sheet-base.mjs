@@ -22,11 +22,8 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
     header: {template: "systems/artichron/templates/shared/sheet-header.hbs"},
     tabs: {template: "systems/artichron/templates/shared/tabs.hbs"},
     description: {template: "systems/artichron/templates/item/item-description.hbs", scrollable: [""]},
-    details: {
-      template: "systems/artichron/templates/item/item-details.hbs",
-      templates: ["systems/artichron/templates/item/item-type.hbs"],
-      scrollable: [""]
-    },
+    details: {template: "systems/artichron/templates/item/item-details.hbs", scrollable: [""]},
+    secondary: {template: "systems/artichron/templates/item/item-secondary.hbs", scrollable: [""]},
     effects: {template: "systems/artichron/templates/shared/effects.hbs", scrollable: [""]}
   };
 
@@ -34,6 +31,7 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
   static TABS = {
     description: {id: "description", group: "primary", label: "ARTICHRON.SheetTab.Description"},
     details: {id: "details", group: "primary", label: "ARTICHRON.SheetTab.Details"},
+    secondary: {id: "secondary", group: "primary", label: "ARTICHRON.SheetTab.Properties"},
     effects: {id: "effects", group: "primary", label: "ARTICHRON.SheetTab.Effects"}
   };
 
@@ -61,6 +59,7 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
     const context = {
       document: doc,
       source: src.system,
+      rollData: rollData,
       config: CONFIG.SYSTEM,
       activeFusions: activeFusions,
       effects: buffs,
@@ -69,18 +68,8 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
       isFavorited: this.actor?.system.equipped.favorites.has(doc) ?? false,
       sections: {
         damage: ("parts" in (src.system.damage ?? {})) && ((doc.type !== "spell") || isOffense),
-        armor: "armor" in src.system,
         resistances: "resistances" in src.system,
-        wield: "wield" in src.system,
-        range: "range" in src.system,
-        price: "price" in src.system,
-        template: "template" in src.system,
-        blast: "blast" in src.system,
-        weight: "weight" in src.system,
-        quantity: "quantity" in src.system,
-        usage: "usage" in src.system,
-        category: "category" in src.system,
-        categoryPool: ("pool" in (src.system.category ?? {})) && !!doc.system.category?.subtype
+        range: ("range" in src.system) && !doc.isAmmo
       },
       description: {
         enriched: await TextEditor.enrichHTML(doc.system.description.value, {
@@ -96,7 +85,8 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
       isEditable: this.isEditable,
       canFuse: doc.canFuse,
       isAmmo: doc.isAmmo,
-      isItem: true
+      isItem: true,
+      fieldsets: []
     };
 
     // Name and img.
@@ -105,72 +95,74 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
       img: context.isPlayMode ? doc.img : src.img
     };
 
-    const makeField = (path, options = {}) => {
-      const field = doc.system.schema.getField(path);
-      const formula = field instanceof FormulaField;
-      const dv = foundry.utils.getProperty(doc.system, path);
-      const src = foundry.utils.getProperty(context.source, path);
-      let value;
+    context.details = {};
 
-      if (formula) {
-        if (!dv || (dv === "0")) value = "";
-        else if (context.isPlayMode) value = artichron.utils.simplifyBonus(dv, rollData);
-        else value = src;
-      } else {
-        value = context.isPlayMode ? dv : src;
-      }
+    // Attributes fieldset
+    context.details.attributes = this._makeField(context, "attributes.value", {type: "checkboxes"});
 
-      return {field: field, value: value, disabled: context.isPlayMode, ...options};
-    };
-
-    // Subtype options.
-    if (context.sections.category) {
-      context.category = makeField("category.subtype", doc.isEquipped ? {disabled: true} : undefined);
-      if (context.sections.categoryPool) {
-        context.categoryPool = makeField("category.pool");
-        const subtype = doc.system.category.subtype;
-        context.categoryPool.label = `ARTICHRON.ItemProperty.Category.Pool${subtype.capitalize()}`;
-        context.categoryPool.hint = `ARTICHRON.ItemProperty.Category.Pool${subtype.capitalize()}Hint`;
-      }
+    // Configuration fieldset
+    context.details.configuration = [];
+    context.details.configuration.push(this._makeField(context, "category.subtype", {blank: false}));
+    const hasPool = ("pool" in (src.system.category ?? {})) && !!doc.system.category?.subtype;
+    if (hasPool) {
+      const pool = this._makeField(context, "category.pool");
+      const subtype = doc.system.category.subtype;
+      pool.label = `ARTICHRON.ItemProperty.Category.Pool${subtype.capitalize()}`;
+      pool.hint = `ARTICHRON.ItemProperty.Category.Pool${subtype.capitalize()}Hint`;
+      context.details.configuration.push(pool);
+    }
+    if ("price" in src.system) {
+      context.details.configuration.push(this._makeField(context, "price.value"));
+    }
+    if ("weight" in src.system) {
+      context.details.configuration.push(this._makeField(context, "weight.value"));
+    }
+    if ("quantity" in src.system) {
+      context.details.configuration.push(this._makeField(context, "quantity.value"));
     }
 
-    // Wield.
-    if (context.sections.wield) {
-      context.wield = makeField("wield.value", doc.isEquipped ? {disabled: true} : undefined);
+    // Handling fieldset
+    context.details.handling = [];
+    if ("wield" in src.system) context.details.handling.push(this._makeField(context, "wield.value"));
+    if (("range" in src.system) && !doc.isAmmo) {
+      context.details.handling.push(this._makeField(context, "range.value"));
     }
+    if (doc.type === "spell") context.details.handling.push(this._makeField(context, "template.types"));
 
     // Range.
-    if (context.sections.range) context.range = makeField("range.value");
-
-    // Price.
-    if (context.sections.price) context.price = makeField("price.value");
-
-    // Template types.
-    if (context.sections.template) context.template = makeField("template.types");
+    if (context.sections.range) context.range = this._makeField(context, "range.value");
+    else if (doc.isAmmo) context.fieldsets.push({
+      legend: "ARTICHRON.ItemProperty.Fieldsets.Handling",
+      formGroups: [this._makeField(context, "range.value")]
+    });
 
     // Blast zone.
-    if (context.sections.blast) {
-      context.blastSize = makeField("blast.size");
-      context.blastType = makeField("blast.type");
+    if (doc.isAmmo) {
+      context.fieldsets.push({
+        legend: "ARTICHRON.ItemProperty.Fieldsets.BlastZone",
+        formGroups: [
+          this._makeField(context, "blast.size"),
+          this._makeField(context, "blast.type")
+        ]
+      });
     }
 
-    // Weight.
-    if (context.sections.weight) context.weight = makeField("weight.value");
-
-    // Quantity.
-    if (context.sections.quantity) context.quantity = makeField("quantity.value");
-
     // Usage.
-    if (context.sections.usage) {
-      context.usage = {
-        value: makeField("usage.value"),
-        max: makeField("usage.max")
-      };
-      context.usage.value.max = doc.system.usage.max || 0;
+    if (doc.type === "elixir") {
+      context.fieldsets.push({
+        legend: "ARTICHRON.ItemProperty.Fieldsets.LimitedUses",
+        formGroups: [
+          this._makeField(context, "usage.value", {max: doc.system.usage.max || 0}),
+          this._makeField(context, "usage.max")
+        ]
+      });
     }
 
     // Defenses.
-    if (context.sections.armor) context.armor = makeField("armor.value");
+    if (doc.isArmor || (doc.type === "shield")) context.fieldsets.push({
+      legend: "ARTICHRON.ItemProperty.Fieldsets.Defenses",
+      formGroups: [this._makeField(context, "armor.value")]
+    });
 
     // Damage parts.
     if (context.sections.damage) {
@@ -213,22 +205,48 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
       // Damage type override (ammo).
       if (context.isAmmo) {
         context.damages.override = {
-          group: makeField("damage.override.group"),
-          value: makeField("damage.override.value")
+          group: this._makeField(context, "damage.override.group"),
+          value: this._makeField(context, "damage.override.value")
         };
       }
     }
 
     // Resistances.
-    if (context.sections.resistances) {
-      context.resistances = Object.keys(doc.system.resistances).reduce((acc, k) => {
-        const data = makeField(`resistances.${k}.value`);
+    if (doc.isArmor) context.fieldsets.push({
+      legend: "ARTICHRON.ItemProperty.Fieldsets.Resistances",
+      formGroups: Object.keys(doc.system.resistances).reduce((acc, k) => {
+        const data = this._makeField(context, `resistances.${k}.value`);
         if ((data.value !== "") || context.isEditMode) acc.push(data);
         return acc;
-      }, []);
-    }
+      }, [])
+    });
 
     return context;
+  }
+
+  /**
+   * Utility method to format a data field for the form group helper.
+   * @param {object} context        Current rendering context.
+   * @param {string} path           The path to the data field, relative to 'system'.
+   * @param {object} [options]      Additional data to add.
+   * @returns {object}              Object with at least field, value, disabled.
+   */
+  _makeField(context, path, options = {}) {
+    const field = this.document.system.schema.getField(path);
+    const formula = field instanceof FormulaField;
+    const dv = foundry.utils.getProperty(this.document.system, path);
+    const src = foundry.utils.getProperty(context.source, path);
+    let value;
+
+    if (formula) {
+      if (!dv || (dv === "0")) value = "";
+      else if (context.isPlayMode) value = artichron.utils.simplifyBonus(dv, context.rollData);
+      else value = src;
+    } else {
+      value = context.isPlayMode ? dv : src;
+    }
+
+    return {field: field, value: value, disabled: context.isPlayMode, ...options};
   }
 
   /* ---------------------------------------- */

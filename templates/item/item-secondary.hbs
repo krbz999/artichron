@@ -1,0 +1,48 @@
+<div class="standard-form {{tabs.secondary.tabCssClass}}" data-group="primary" data-tab="secondary">
+  {{#each fieldsets}}
+  <fieldset>
+    <legend>{{localize legend}}</legend>
+    {{#each formGroups}}
+    {{formGroup field value=value localize=true disabled=disabled max=max}}
+    {{/each}}
+  </fieldset>
+  {{/each}}
+
+  {{#if isAmmo}}
+  <fieldset class="damage">
+    <legend>{{localize "ARTICHRON.ItemProperty.Fieldsets.DamageOverrides"}}</legend>
+    {{#with damages.override}}
+    {{formGroup group.field value=group.value disabled=group.disabled localize=true}}
+    {{formGroup value.field value=value.value disabled=value.disabled localize=true options=@root.damageTypes}}
+    {{/with}}
+  </fieldset>
+  {{/if}}
+
+  {{#if sections.damage}}
+  <fieldset class="damage">
+    <legend>
+      {{localize "ARTICHRON.ItemProperty.Fieldsets.Damages"}}
+      {{#if isEditMode}}
+      <a class="action" data-action="addDamage"><i class="fa-solid fa-plus"></i></a>
+      {{/if}}
+    </legend>
+
+    {{#each damages.parts}}
+    <div class="form-group damage" data-id="{{id.value}}">
+      <div class="form-fields">
+        <input type="text" name="{{id.name}}" value="{{id.value}}" hidden readonly>
+        {{formInput formula.field value=formula.value disabled=formula.disabled name=formula.name}}
+        {{formInput type.field value=type.value disabled=type.disabled name=type.name options=type.options}}
+      </div>
+      {{#if @root.isEditMode}}
+      <div class="controls">
+        <button type="button" class="control" data-action="deleteDamage">
+          <i class="fa-solid fa-minus"></i>
+        </button>
+      </div>
+      {{/if}}
+    </div>
+    {{/each}}
+  </fieldset>
+  {{/if}}
+</div>
