@@ -4,8 +4,14 @@
   .tab.scrollable {
     padding-bottom: 3px;
 
-    &[data-tab=details] {
-      .damage .type {
+    & fieldset.attributes {
+      & label.checkbox:has(input:not(:checked):disabled) {
+        display: none;
+      }
+    }
+
+    & fieldset.damage {
+      .form-fields select {
         flex: 0;
         width: fit-content;
       }

@@ -306,6 +306,17 @@ SYSTEM.AMMUNITION_TYPES = {
 };
 
 /**
+ * @typedef {object} PartTypeConfig
+ * @property {string} label     The human-readable label of this monster part type.
+ */
+
+/**
+ * Monster part subtypes.
+ * @enum {PartTypeConfig}
+ */
+SYSTEM.PART_TYPES = {};
+
+/**
  * @typedef {object} EffectDurationConfig
  * @property {string} label     The human-readable label of this effect duration type.
  */
@@ -318,4 +329,28 @@ SYSTEM.EFFECT_EXPIRATION_TYPES = {
   none: {label: "ARTICHRON.EffectProperty.ExpirationNone"},
   combat: {label: "ARTICHRON.EffectProperty.ExpirationCombat"},
   day: {label: "ARTICHRON.EffectProperty.ExpirationDay"}
+};
+
+/**
+ * @typedef {object} ItemAttributeConfig
+ * @property {string} label             The human-readable label of this item attribute.
+ * @property {Set<string>} [types]      A set of item types this can be an option for. If empty or omitted, then all types.
+ */
+
+/**
+ * Various item attributes.
+ * @enum {ItemAttributeConfig}
+ */
+SYSTEM.ITEM_ATTRIBUTES = {
+  blocking: {
+    label: "ARTICHRON.ItemAttribute.Blocking",
+    types: new Set(["weapon", "shield", "spell"])
+  },
+  magical: {
+    label: "ARTICHRON.ItemAttribute.Magical"
+  },
+  parrying: {
+    label: "ARTICHRON.ItemAttribute.Parrying",
+    types: new Set(["weapon", "shield", "spell"])
+  }
 };

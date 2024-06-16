@@ -1,12 +1,13 @@
 import {ItemSystemModel} from "./system-model.mjs";
 
-const {SchemaField, NumberField} = foundry.data.fields;
+const {SchemaField, StringField, NumberField} = foundry.data.fields;
 
 export default class PartData extends ItemSystemModel {
   /** @override */
   static metadata = Object.freeze(foundry.utils.mergeObject(super.metadata, {
     inventorySection: "loot",
-    defaultIcon: "icons/svg/bones.svg"
+    defaultIcon: "icons/svg/bones.svg",
+    type: "part"
   }, {inplace: false}));
 
   /** @override */
@@ -21,6 +22,13 @@ export default class PartData extends ItemSystemModel {
           nullable: true,
           label: "ARTICHRON.ItemProperty.Quantity.Value",
           hint: "ARTICHRON.ItemProperty.Quantity.ValueHint"
+        })
+      }),
+      category: new SchemaField({
+        subtype: new StringField({
+          label: "ARTICHRON.ItemProperty.Category.SubtypePart",
+          hint: "ARTICHRON.ItemProperty.Category.SubtypePartHint",
+          choices: CONFIG.SYSTEM.PART_TYPES
         })
       })
     };

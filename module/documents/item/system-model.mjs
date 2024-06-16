@@ -1,6 +1,4 @@
-import {FormulaField} from "../fields/formula-field.mjs";
-
-const {SchemaField, HTMLField, NumberField} = foundry.data.fields;
+const {StringField, SchemaField, HTMLField, NumberField, SetField} = foundry.data.fields;
 
 export class ItemSystemModel extends foundry.abstract.TypeDataModel {
   /**
@@ -40,8 +38,29 @@ export class ItemSystemModel extends foundry.abstract.TypeDataModel {
           label: "ARTICHRON.ItemProperty.Price.Value",
           hint: "ARTICHRON.ItemProperty.Price.ValueHint"
         })
+      }),
+      attributes: new SchemaField({
+        value: new SetField(new StringField({
+          choices: () => this._attributeChoices()
+        }), {
+          label: "ARTICHRON.ItemProperty.Attributes.Value",
+          hint: "ARTICHRON.ItemProperty.Attributes.ValueHint"
+        })
       })
     };
+  }
+
+  /**
+   * Create the choices for the attributes fieldset of this item type.
+   * @returns {object}      Filtered choices from 'SYSTEM.ITEM_ATTRIBUTES'.
+   */
+  static _attributeChoices() {
+    const choices = {};
+    const type = this.metadata.type;
+    for (const [k, v] of Object.entries(CONFIG.SYSTEM.ITEM_ATTRIBUTES)) {
+      if (!v.types?.size || v.types.has(type)) choices[k] = v;
+    }
+    return choices;
   }
 
   /* ---------------------------------------- */
@@ -49,7 +68,20 @@ export class ItemSystemModel extends foundry.abstract.TypeDataModel {
   /* ---------------------------------------- */
 
   async _preCreate(data, options, user) {
-    if (!data.img) this.parent.updateSource({img: this.constructor.metadata.defaultIcon});
+    const update = {};
+
+    // Set default image.
+    if (!data.img) update.img = this.constructor.metadata.defaultIcon;
+
+    // Set default attributes per item type.
+    const attr = new Set(data.system?.attributes?.value ?? []);
+    if (data.type === "spell") attr.add("magical");
+    else if (data.type === "shield") attr.add("blocking");
+    else if (data.type === "weapon") attr.add("parrying");
+    update["system.attributes.value"] = attr;
+
+    this.parent.updateSource(update);
+
     return super._preCreate(data, options, user);
   }
 
@@ -73,8 +105,10 @@ export class ItemSystemModel extends foundry.abstract.TypeDataModel {
     return new Set([
       "name",
       "img",
+      "system.description.value",
       "system.price.value",
-      "system.weight.value"
+      "system.weight.value",
+      "system.attributes.value"
     ]);
   }
 

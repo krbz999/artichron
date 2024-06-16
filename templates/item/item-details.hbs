@@ -1,42 +1,39 @@
 <div class="{{tabs.details.tabCssClass}} standard-form" data-group="primary" data-tab="details">
-  {{> "systems/artichron/templates/item/item-type.hbs"}}
-
-  {{#if sections.damage}}
-  <fieldset>
-    <legend>
-      {{localize "ARTICHRON.ItemProperty.Fieldsets.Damages"}}
-      {{#if isEditMode}}
-      <a class="action" data-action="addDamage"><i class="fa-solid fa-plus"></i></a>
-      {{/if}}
-    </legend>
-
-    {{#each damages.parts}}
-    <div class="form-group damage" data-id="{{id.value}}">
-      <div class="form-fields">
-        <input type="text" name="{{id.name}}" value="{{id.value}}" hidden readonly>
-        {{formInput formula.field value=formula.value disabled=formula.disabled name=formula.name}}
-        {{formInput type.field value=type.value disabled=type.disabled name=type.name options=type.options}}
-        {{#if @root.isEditMode}}
-        <div class="controls">
-          <button type="button" class="control" data-action="deleteDamage">
-            <i class="fa-solid fa-minus"></i>
-          </button>
-        </div>
-        {{/if}}
-      </div>
+  <fieldset class="attributes">
+    <legend>{{localize "ARTICHRON.ItemProperty.Fieldsets.Attributes"}}</legend>
+    {{#with details.attributes}}
+    <div class="form-group">
+      {{formInput field value=value disabled=disabled localize=true type=type}}
+      <p class="hint">{{localize field.hint}}</p>
     </div>
+    {{/with}}
+  </fieldset>
+
+  {{#if details.configuration.length}}
+  <fieldset>
+    <legend>{{localize "ARTICHRON.ItemProperty.Fieldsets.Configuration"}}</legend>
+    {{#each details.configuration}}
+    {{formGroup field value=value disabled=disabled localize=true blank=blank label=label hint=hint}}
     {{/each}}
   </fieldset>
   {{/if}}
 
-  {{#if sections.resistances}}
+  {{#if details.handling.length}}
   <fieldset>
-    <legend>{{localize "ARTICHRON.ItemProperty.Fieldsets.Resistances"}}</legend>
-
-    {{#each resistances}}
-    {{formField field value=value disabled=disabled localize=true}}
+    <legend>{{localize "ARTICHRON.ItemProperty.Fieldsets.Handling"}}</legend>
+    {{#each details.handling}}
+    {{formGroup field value=value disabled=disabled localize=true}}
     {{/each}}
   </fieldset>
+  {{/if}}
+
+  {{#if document.isEmbedded}}
+  <div class="form-group">
+    <label>{{localize "ARTICHRON.ItemProperty.Favorited"}}</label>
+    <a class="action" data-action="favoriteItem">
+      <i class="fa-{{ifThen isFavorited 'solid' 'regular'}} fa-star"></i>
+    </a>
+  </div>
   {{/if}}
 
 </div>
