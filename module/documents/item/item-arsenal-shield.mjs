@@ -68,7 +68,7 @@ export default class ShieldData extends ArsenalData {
       acc[d.type].push(d.formula);
       return acc;
     }, {})).map(([type, formulas]) => {
-      return new DamageRoll(formulas.join("+"), rollData, {type: type});
+      return new DamageRoll(formulas.join("+"), rollData, {type: type}).alter(0.5);
     });
 
     return this.toMessage({rolls: rolls, targets: [target.actor.uuid]});

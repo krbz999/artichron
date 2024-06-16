@@ -127,11 +127,11 @@ export default class ActorArtichron extends Actor {
     };
 
     for (const t of tokens) {
-      if (!t.visible || !t.renderable) continue;
+      if (!t.visible || t.document.isSecret) continue;
+      const c = t.center;
       for (const type in damages) {
-        const config = (type in CONFIG.SYSTEM.HEALING_TYPES) ? CONFIG.SYSTEM.HEALING_TYPES : CONFIG.SYSTEM.DAMAGE_TYPES;
-        canvas.interface.createScrollingText(t.center, damages[type].signedString(), {
-          ...options, fill: config[type].color
+        canvas.interface.createScrollingText(c, (-damages[type]).signedString(), {
+          ...options, fill: CONFIG.SYSTEM.DAMAGE_TYPES[type].color
         });
         await new Promise(r => setTimeout(r, 200));
       }
@@ -154,37 +154,49 @@ export default class ActorArtichron extends Actor {
   /**
    * Apply damage to this actor.
    * @param {number|object} values      An object with keys from DAMAGE_TYPES or HEALING_TYPES.
-   * @returns {Promise<Actor>}          The actor after the update.
+   * @returns {Promise<ActorArtichron>}
    */
   async applyDamage(values, options = {}) {
     if (foundry.utils.getType(values) === "number") {
       values = {none: values};
     }
+
+    values = foundry.utils.deepClone(values);
+
     const resistances = this.system.resistances;
     const armor = this.system.defenses.armor;
-    const types = {...CONFIG.SYSTEM.DAMAGE_TYPES, ...CONFIG.SYSTEM.HEALING_TYPES};
+    const types = CONFIG.SYSTEM.DAMAGE_TYPES;
 
-    const indivs = {};
-    const amount = Math.round(Object.entries(values).reduce((acc, [type, value]) => {
-      if (type === "none") return acc - value;
+    // Modify values to take resistances into account.
+    for (let [type, value] of Object.entries(values)) {
+      if (type === "none") continue;
 
-      // Is this damage type resisted?
-      if (types[type].resist) value -= Math.max(resistances[type].value, 0);
+      // Resisted?
+      if (types[type].resist) value -= resistances[type].value;
 
-      // Is this damage type reduced by armor?
+      // Reduced by armor?
       if (types[type].armor) value -= armor.value;
 
-      if (type in CONFIG.SYSTEM.HEALING_TYPES) {
-        indivs[type] = value;
-      } else {
-        value = Math.max(value, 0);
-        if (value) indivs[type] = -value;
-      }
-      return acc + value;
-    }, 0));
+      if (value <= 0) delete values[type];
+      else values[type] = value;
+    }
+
+    let dmg = Object.entries(values).reduce((acc, [k, v]) => acc + v, 0);
+    let blocking = await this.defenseDialog(dmg);
+    if (blocking === false) return this;
+
+    for (const [type, value] of Object.entries(values)) {
+      if (!blocking) break;
+      const diff = Math.min(value, blocking);
+      blocking -= diff;
+      values[type] -= diff;
+    }
+
+    // Recalculate damage after defensive rolls.
+    dmg = Object.entries(values).reduce((acc, [k, v]) => acc + v, 0);
     const hp = this.system.health;
-    const val = Math.clamp(hp.value - amount, 0, hp.max);
-    return this.update({"system.health.value": val}, {...options, damages: indivs});
+    const val = Math.clamp(hp.value - Math.max(0, dmg), 0, hp.max);
+    return this.update({"system.health.value": val}, {...options, damages: values, diff: false});
   }
 
   /**
@@ -341,5 +353,76 @@ export default class ActorArtichron extends Actor {
 
     await this.update(updates);
     return this;
+  }
+
+  /**
+   * Prompt the user to roll block and parry to reduce incoming damage using any of their equipped arsenal.
+   * @returns {Promise<number|false>}     A promise that resolves to the total of all defensive rolls, or false
+   *                                      if the dialog was cancelled, which will be taken to mean the damage
+   *                                      application should also be cancelled.
+   */
+  async defenseDialog(damage = null) {
+    const items = Object.values(this.arsenal).filter(item => {
+      return (item?.system.attributes.value.has("blocking") || item?.system.attributes.value.has("parrying"));
+    });
+
+    if (!items.length) return 0;
+
+    const choices = items.reduce((acc, item) => {
+      acc[item.id] = item.name;
+      return acc;
+    }, {});
+    const field = new foundry.data.fields.SetField(new foundry.data.fields.StringField({choices: choices}), {
+      label: "ARTICHRON.DefenseDialog.Items",
+      hint: "ARTICHRON.DefenseDialog.ItemsHint"
+    });
+
+    const template = `
+    ${Number.isInteger(damage) ? "<p>You are gonna take " + damage + " damage, oh no.</p>" : ""}
+    <fieldset>
+      <legend>{{localize "ARTICHRON.DefenseDialog.Items"}}</legend>
+      <div class="form-group">
+        <div class="form-fields">
+          {{formInput field name="items" type="checkboxes"}}
+        </div>
+        <p class="hint">{{localize "ARTICHRON.DefenseDialog.ItemsHint"}}</p>
+      </div>
+    </fieldset>`;
+    const content = Handlebars.compile(template)({field});
+    const itemIds = await foundry.applications.api.DialogV2.prompt({
+      content: content,
+      rejectClose: false,
+      modal: true,
+      window: {
+        icon: "fa-solid fa-shield",
+        title: "ARTICHRON.DefenseDialog.Title"
+      },
+      position: {
+        width: 400,
+        height: "auto"
+      },
+      ok: {
+        icon: "fa-solid fa-dice",
+        label: "ARTICHRON.DefenseDialog.Confirm",
+        callback: (event, button, html) => button.form.elements.items.value
+      }
+    });
+    let value = 0;
+    if (!itemIds) return false;
+    for (const id of itemIds) {
+      const item = this.items.get(id);
+      let message;
+      if ((item.type === "weapon") && item.system.attributes.value.has("parrying")) {
+        message = await item.system.rollParry();
+      } else if (item.system.attributes.value.has("blocking")) {
+        message = await item.system.rollBlock();
+      } else {
+        message = await item.system.rollParry();
+      }
+
+      value += message.rolls.reduce((acc, roll) => acc + roll.total, 0);
+    }
+
+    return value;
   }
 }

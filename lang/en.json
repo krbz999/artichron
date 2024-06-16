@@ -403,6 +403,13 @@
     "WarningEffects": "The elixir has no effects it can grant!"
   },
 
+  "DefenseDialog": {
+    "Title": "Defense Roll",
+    "Items": "Arsenal",
+    "ItemsHint": "Choose any of your equipped arsenal to defend against the attack and reduce incoming damage.",
+    "Confirm": "Roll"
+  },
+
   "Effect": {
     "ActiveFusions": "Active Fusions",
     "Buffs": "Buffs",
@@ -435,6 +442,8 @@
   "ChatMessage": {
     "TradeComplete": "Trade Complete!",
     "TradeInfo": "{actor} wants to trade {item} to {target}.",
-    "AcceptTrade": "Accept Trade"
+    "AcceptTrade": "Accept Trade",
+    "BlockFlavor": "{name}: Blocking",
+    "ParryFlavor": "{name}: Parrying"
   }
 }}
