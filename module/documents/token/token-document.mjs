@@ -19,31 +19,4 @@ export default class TokenDocumentArtichron extends TokenDocument {
     const ray = new Ray(this, {x, y});
     data.rotation = Math.toDegrees(ray.angle) - 90;
   }
-
-  /** @override */
-  static async createCombatants(tokens, {combat} = {}) {
-    // Identify the target Combat encounter
-    combat ??= game.combats.viewed;
-    if (!combat) {
-      if (game.user.isGM) {
-        const cls = getDocumentClass("Combat");
-        combat = await cls.create({scene: canvas.scene.id, active: true}, {render: false});
-      }
-      else throw new Error(game.i18n.localize("COMBAT.NoneActive"));
-    }
-
-    // Add tokens to the Combat encounter
-    const createData = tokens.reduce((arr, token) => {
-      if (token.inCombat) return arr;
-      arr.push({
-        tokenId: token.id,
-        sceneId: token.parent.id,
-        actorId: token.actorId,
-        hidden: token.hidden,
-        type: (token.actor?.type === "hero") ? "hero" : undefined
-      });
-      return arr;
-    }, []);
-    return combat.createEmbeddedDocuments("Combatant", createData);
-  }
 }

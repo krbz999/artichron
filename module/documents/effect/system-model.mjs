@@ -29,43 +29,6 @@ export class ActiveEffectSystemModel extends foundry.abstract.TypeDataModel {
   }
 
   /**
-   * Activate socket listeners for deleting buffs when appropriate.
-   */
-  static activateListeners() {
-    Hooks.on("deleteCombat", combat => {
-      const actors = new Set(combat.combatants.reduce((acc, c) => {
-        const a = c.actor;
-        if (a) acc.push(a);
-        return acc;
-      }, []));
-
-      const loop = doc => {
-        const ids = [];
-        for (const effect of doc.appliedEffects) {
-          if (effect.system.duration.type === "combat") ids.push(effect.id);
-        }
-        return ids;
-      };
-
-      for (const actor of actors) {
-        if (game.user !== artichron.utils.firstOwner(actor)) continue;
-
-        const updates = [];
-
-        const ids = loop(actor);
-        if (ids.length) updates.push([actor, ids]);
-
-        for (const item of actor.items) {
-          const ids = loop(item);
-          if (ids.length) updates.push(item, ids);
-        }
-
-        Promise.all(updates.map(([doc, ids]) => doc.deleteEmbeddedDocuments("ActiveEffect", ids)));
-      }
-    });
-  }
-
-  /**
    * Describe whether the ActiveEffect has a temporary duration based on when it expires.
    * @type {boolean}
    */

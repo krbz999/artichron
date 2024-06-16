@@ -47,4 +47,47 @@ export default class CombatArtichron extends Combat {
 
     return this.turns = newarr;
   }
+
+  /** @override */
+  _onDelete(options, userId) {
+    super._onDelete(options, userId);
+    if (game.user.id === userId) this.expireCombatEffects();
+  }
+
+  /**
+   * Delete any effects that expire when combat ends.
+   * @returns {Promise<ActiveEffectArtichron[]>}      All the deleted effects.
+   */
+  async expireCombatEffects() {
+    const actors = new Set(this.combatants.map(c => c.actor));
+    const deleted = [];
+
+    const loop = doc => {
+      const ids = [];
+      for (const effect of doc.appliedEffects) {
+        if (effect.system.expiration.type === "combat") ids.push(effect.id);
+      }
+      return ids;
+    };
+
+    const deleteEffects = async (doc, ids) => {
+      const del = await doc.deleteEmbeddedDocuments("ActiveEffect", ids);
+      deleted.push(...del);
+      return true;
+    };
+
+    for (const actor of actors) {
+      if (!actor) continue;
+
+      const ids = loop(actor);
+      if (ids.length) await deleteEffects(actor, ids);
+
+      for (const item of actor.items) {
+        const ids = loop(item);
+        if (ids.length) deleteEffects(item, ids);
+      }
+    }
+
+    return deleted;
+  }
 }
