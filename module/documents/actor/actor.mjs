@@ -92,7 +92,7 @@ export default class ActorArtichron extends Actor {
   /** @override */
   _onUpdate(update, options, user) {
     super._onUpdate(update, options, user);
-    this._displayScrollingNumbers(options.damages);
+    this._displayScrollingNumbers(options.damages, options.health);
   }
 
   /** @override */
@@ -112,11 +112,12 @@ export default class ActorArtichron extends Actor {
 
   /**
    * Display scrolling damage numbers on each of this actor's tokens.
-   * @param {object} damages      An object of damage/healing types to their values.
+   * @param {object} [damages]      An object of damage/healing types to their values.
+   * @param {object} [health]       An object describing changes to health.
    * @returns {Promise<void>}
    */
-  async _displayScrollingNumbers(damages) {
-    if (!damages) return;
+  async _displayScrollingNumbers(damages, health) {
+    if (!damages && !health) return;
     const tokens = this.isToken ? [this.token?.object] : this.getActiveTokens(true);
     const options = {
       duration: 3000,
@@ -129,10 +130,12 @@ export default class ActorArtichron extends Actor {
     for (const t of tokens) {
       if (!t.visible || t.document.isSecret) continue;
       const c = t.center;
-      for (const type in damages) {
-        canvas.interface.createScrollingText(c, (-damages[type]).signedString(), {
-          ...options, fill: CONFIG.SYSTEM.DAMAGE_TYPES[type].color
-        });
+      damages = damages ? damages : {none: -health.delta};
+      for (const [type, value] of Object.entries(damages)) {
+        if (!value) continue;
+        const isHeal = value < 0;
+        const color = isHeal ? new Color(0x00FF00) : CONFIG.SYSTEM.DAMAGE_TYPES[type]?.color ?? new Color(0xFF0000);
+        canvas.interface.createScrollingText(c, (-value).signedString(), {...options, fill: color});
         await new Promise(r => setTimeout(r, 200));
       }
     }
