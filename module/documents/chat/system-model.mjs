@@ -64,15 +64,17 @@ export class TradeMessageData extends ChatMessageSystemModel {
    * @param {Event} event     Initiating click event.
    */
   async _onAcceptTrade(event) {
-    const canAccept = !this.traded && !!this.item?.isOwner && !!this.target?.isOwner;
+    const canAccept = !this.traded && !!this.target?.isOwner;
     if (!canAccept) return;
+
+    const emit = await artichron.utils.sockets.acceptTrade(this.parent);
+    if (emit === false) return;
 
     const button = event.currentTarget;
     button.disabled = true;
 
     const itemData = game.items.fromCompendium(this.item);
     await this.target.createEmbeddedDocuments("Item", [itemData]);
-    this.parent.update({"system.traded": true});
   }
 }
 
@@ -170,4 +172,40 @@ export class ItemMessageData extends ChatMessageSystemModel {
   async _onGrantBuff(event) {
     event.currentTarget.closest("[data-message-id]").querySelectorAll("buff-target").forEach(n => n.execute());
   }
+}
+
+Hooks.once("renderChatLog", (app, [html]) => {
+  const log = html.querySelector("#chat-log");
+  log.addEventListener("drop", _onDropItem);
+});
+
+async function _onDropItem(event) {
+  const data = TextEditor.getDragEventData(event);
+  if (data.type !== "Item") return;
+  const item = await fromUuid(data.uuid);
+  if (!item || !item.isOwner || !item.isEmbedded) return;
+
+  const confirm = await foundry.applications.api.DialogV2.confirm({
+    window: {
+      title: `Trade ${item.name}?`,
+      icon: "fa-solid fa-cart-flatbed-suitcase"
+    },
+    content: "Target an actor before confirming.",
+    rejectClose: false
+  });
+  if (!confirm) return;
+
+  const actor = game.user.targets.first()?.actor;
+  if (!actor) return;
+
+  const message = await ChatMessage.implementation.create({
+    type: "trade",
+    system: {
+      traded: false,
+      itemData: game.items.fromCompendium(item, {keepId: true}),
+      target: actor.uuid,
+      actor: item.actor.uuid
+    }
+  });
+  if (message) item.delete();
 }
