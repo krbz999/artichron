@@ -18,8 +18,20 @@ export const FusionTemplateMixin = (Base) => {
         clearFolder: true, keepId: true
       })});
 
+      const effectData = effect.toObject();
+
+      // Arsenal items always carry over their attributes.
+      if (this.parent.isArsenal) {
+        const value = Array.from(this.parent.system.attributes.value).map(a => `"${a}"`).join(", ");
+        effectData.changes.push({
+          key: "system.attributes.value",
+          mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+          value: `[${value}]`
+        });
+      }
+
       await this.parent.delete();
-      return getDocumentClass("ActiveEffect").create(effect.toObject(), {parent: target});
+      return getDocumentClass("ActiveEffect").create(effectData, {parent: target});
     }
 
     /**
