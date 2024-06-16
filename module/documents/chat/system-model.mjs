@@ -100,9 +100,10 @@ export class ItemMessageData extends ChatMessageSystemModel {
     };
     const rolls = await Promise.all(this.parent.rolls.map(formatRoll));
 
+    const isDamage = this.parent.rolls.some(roll => roll instanceof DamageRoll);
     const hbs = "systems/artichron/templates/chat/item-message.hbs";
     const content = await renderTemplate(hbs, {
-      item, actor, targets, effect, rolls, templateData
+      item, actor, targets, effect, rolls, templateData, isDamage: isDamage
     });
     html.querySelector(".message-content").innerHTML = content;
 
@@ -118,7 +119,7 @@ export class ItemMessageData extends ChatMessageSystemModel {
     });
 
     let tag;
-    if (this.parent.rolls.some(roll => roll instanceof DamageRoll)) tag = "damage-target";
+    if (isDamage) tag = "damage-target";
     else if (effect) tag = "buff-target";
 
     if (!tag) return;

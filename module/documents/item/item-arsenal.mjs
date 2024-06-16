@@ -106,12 +106,13 @@ export default class ArsenalData extends FusionTemplateMixin(ItemSystemModel) {
    * @param {DamageRoll[]} [config.rolls]
    * @param {string[]} [config.targets]
    * @param {string} [config.effectUuid]
+   * @param {string} [config.flavor]
    * @param {object} [options]
    * @param {string} [options.rollMode]
    * @param {boolean} [options.create]
    * @returns {Promise<ChatMessage|object>}     A promise that resolves to the created chat message or message data.
    */
-  async toMessage({rolls = [], targets = [], template, effectUuid} = {}, {rollMode, create = true} = {}) {
+  async toMessage({rolls = [], targets = [], template, effectUuid, flavor} = {}, {rollMode, create = true} = {}) {
     // Evaluate unevaluated rolls.
     for (const roll of rolls) {
       if (!roll.evaluated) await roll.evaluate();
@@ -123,7 +124,8 @@ export default class ArsenalData extends FusionTemplateMixin(ItemSystemModel) {
       rolls: rolls,
       speaker: ChatMessage.implementation.getSpeaker({actor: this.parent.actor}),
       "system.item": this.parent.uuid,
-      "system.actor": this.parent.actor.uuid
+      "system.actor": this.parent.actor.uuid,
+      flavor: flavor
     };
     if (rolls.length) {
       messageData.sound = CONFIG.sounds.dice;
@@ -135,5 +137,39 @@ export default class ArsenalData extends FusionTemplateMixin(ItemSystemModel) {
 
     // Display the message or return the message data.
     return create ? ChatMessage.implementation.create(messageData) : messageData;
+  }
+
+  /**
+   * Roll damage dice to block and reduce the incoming damage.
+   * @returns {Promise<ChatMessageArtichron>}     A promise that resolves to the created chat message.
+   */
+  async rollBlock() {
+    if (!this.attributes.value.has("blocking")) {
+      throw new Error("This item cannot block incoming damage!");
+    }
+
+    const formula = this._damages.map(d => d.formula).join("+");
+    const roll = new Roll(formula, this.parent.getRollData());
+    if (this.parent.type !== "shield") roll.alter(0.5);
+    const flavor = game.i18n.format("ARTICHRON.ChatMessage.BlockFlavor", {name: this.parent.name});
+
+    return this.toMessage({rolls: [roll], flavor});
+  }
+
+  /**
+   * Roll damage dice to parry and reduce the incoming damage.
+   * @returns {Promise<ChatMessageArtichron>}     A promise that resolves to the created chat message.
+   */
+  async rollParry() {
+    if (!this.attributes.value.has("parrying")) {
+      throw new Error("This item cannot parry incoming damage!");
+    }
+
+    const formula = this._damages.map(d => d.formula).join("+");
+    const roll = new Roll(formula, this.parent.getRollData());
+    roll.alter(0.5);
+    const flavor = game.i18n.format("ARTICHRON.ChatMessage.ParryFlavor", {name: this.parent.name});
+
+    return this.toMessage({rolls: [roll], flavor});
   }
 }
