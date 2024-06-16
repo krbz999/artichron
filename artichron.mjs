@@ -84,7 +84,6 @@ Hooks.once("init", function() {
   });
 
   auraInit();
-  documents.templates.ActiveEffectSystemModel.activateListeners();
 
   // Custom elements.
   window.customElements.define("damage-target", DamageTarget);

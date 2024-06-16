@@ -12,8 +12,40 @@ export function registerSockets() {
 function handleSocket({action, ...data}) {
   switch (action) {
     case "grantBuff": return _grantBuff(data);
+    case "acceptTrade": return _acceptTrade(data);
     default: return null;
   }
+}
+
+/**
+ * Update a chat message to display that a trade has been accepted.
+ */
+async function _acceptTrade({userId, messageId}) {
+  if (game.user.id === userId) game.messages.get(messageId).update({"system.traded": true});
+}
+
+/**
+ * Request to update a chat message to note that the trade has been completed.
+ * @returns {Promise<void|false>}     Returns false if the request could not be completed.
+ */
+async function acceptTradeEmit(message) {
+  const userId = message.canUserModify(game.user, "update") ? game.user.id : game.users.find(u => {
+    return u.active && message.canUserModify(u, "update");
+  })?.id;
+
+  if (!userId) {
+    ui.notifications.warn("ARTICHRON.Warning.CannotEmitRequest", {localize: true});
+    return false;
+  }
+
+  const data = {
+    action: "acceptTrade",
+    userId: userId,
+    messageId: message.id
+  };
+
+  if (userId === game.user.id) return _acceptTrade(data);
+  game.socket.emit("system.artichron", data);
 }
 
 /**
@@ -70,5 +102,6 @@ async function createBuffEmit(effect, actor, options = {}) {
 }
 
 export default {
-  grantBuff: createBuffEmit
+  grantBuff: createBuffEmit,
+  acceptTrade: acceptTradeEmit
 };
