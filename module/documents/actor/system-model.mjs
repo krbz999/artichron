@@ -88,7 +88,19 @@ export class ActorSystemModel extends foundry.abstract.TypeDataModel {
     const allowed = await super._preUpdate(update, options, user);
     if (allowed === false) return false;
     const health = update.system?.health ?? {};
-    if ("value" in health) health.value = Math.clamp(health.value, 0, this.health.max);
+    if ("value" in health) {
+      health.value = Math.clamp(health.value, 0, this.health.max);
+      options.health = {o: this.health.value};
+    }
+  }
+
+  /** @override */
+  _onUpdate(changed, options, userId) {
+    super._onUpdate(changed, options, userId);
+    if (options.health) {
+      options.health.n = this.health.value;
+      options.health.delta = options.health.n - options.health.o;
+    }
   }
 
   /* ---------------------------------------- */
