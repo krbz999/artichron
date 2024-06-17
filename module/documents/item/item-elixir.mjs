@@ -45,7 +45,7 @@ export default class ElixirData extends ItemSystemModel {
           required: true,
           label: "ARTICHRON.ItemProperty.Category.SubtypeElixir",
           hint: "ARTICHRON.ItemProperty.Category.SubtypeElixirHint",
-          initial: "booster",
+          initial: "buff",
           choices: CONFIG.SYSTEM.ELIXIR_TYPES
         }),
         pool: new StringField({
@@ -95,6 +95,11 @@ export default class ElixirData extends ItemSystemModel {
 
     if (!this.hasEffects) {
       ui.notifications.warn("ARTICHRON.ElixirDialog.WarningEffects", {localize: true});
+      return null;
+    }
+
+    if (!this.parent.actor.canPerformActionPoints(1)) {
+      ui.notifications.warn("ARTICHRON.Warning.MissingActionPoints", {localize: true});
       return null;
     }
 
@@ -150,7 +155,8 @@ export default class ElixirData extends ItemSystemModel {
 
     return Promise.all([
       this.parent.update(update),
-      getDocumentClass("ActiveEffect").create(effectData, {parent: this.parent.actor})
+      getDocumentClass("ActiveEffect").create(effectData, {parent: this.parent.actor}),
+      this.parent.actor.inCombat ? this.parent.actor.spendActionPoints(1) : null
     ]);
   }
 

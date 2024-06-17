@@ -487,4 +487,14 @@ export default class ActorArtichron extends Actor {
     await c.update({"system.pips": c.system.pips - value});
     return c;
   }
+
+  /**
+   * Can this actor perform an action that costs a certain amount of action points?
+   * @param {number} [value]      The action point cost.
+   * @returns {boolean}
+   */
+  canPerformActionPoints(value = 1) {
+    if (!this.inCombat) return true;
+    return this.actionPoints >= value;
+  }
 }
