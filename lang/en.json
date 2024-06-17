@@ -220,6 +220,12 @@
       "Type": "Shape",
       "TypeHint": "The shape of the blast zone."
     },
+    "Cost": {
+      "Value": "Action Cost",
+      "ValueHintWeapon": "The action point cost to make an attack with this weapon.",
+      "ValueHintSpell": "The action point cost to cast a spell using this item.",
+      "ValueHintShield": "The action point cost to make an attack with this shield."
+    },
     "Weight": {
       "Value": "Weight",
       "ValueHint": "The amount that this item contributes to its owner's encumbrance."

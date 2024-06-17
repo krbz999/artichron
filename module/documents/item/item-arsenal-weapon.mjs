@@ -3,7 +3,7 @@ import {DamageRoll} from "../../dice/damage-roll.mjs";
 import WeaponUseDialog from "../../applications/item/weapon-use-dialog.mjs";
 import MeasuredTemplateArtichron from "../template/template.mjs";
 
-const {SchemaField, StringField} = foundry.data.fields;
+const {NumberField, SchemaField, StringField} = foundry.data.fields;
 
 export default class WeaponData extends ArsenalData {
   /** @override */
@@ -21,6 +21,15 @@ export default class WeaponData extends ArsenalData {
           label: "ARTICHRON.ItemProperty.Category.SubtypeWeapon",
           hint: "ARTICHRON.ItemProperty.Category.SubtypeWeaponHint",
           choices: CONFIG.SYSTEM.WEAPON_TYPES
+        })
+      }),
+      cost: new SchemaField({
+        value: new NumberField({
+          min: 0,
+          initial: 1,
+          nullable: false,
+          label: "ARTICHRON.ItemProperty.Cost.Value",
+          hint: "ARTICHRON.ItemProperty.Cost.ValueHintWeapon"
         })
       })
     };

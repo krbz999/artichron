@@ -128,6 +128,7 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
       context.details.handling.push(this._makeField(context, "range.value"));
     }
     if (doc.type === "spell") context.details.handling.push(this._makeField(context, "template.types"));
+    if (doc.isArsenal) context.details.handling.push(this._makeField(context, "cost.value"));
 
     // Range.
     if (context.sections.range) context.range = this._makeField(context, "range.value");

@@ -2,7 +2,7 @@ import ArsenalData from "./item-arsenal.mjs";
 import {DamageRoll} from "../../dice/damage-roll.mjs";
 import {FormulaField} from "../fields/formula-field.mjs";
 
-const {SchemaField, StringField} = foundry.data.fields;
+const {NumberField, SchemaField, StringField} = foundry.data.fields;
 
 export default class ShieldData extends ArsenalData {
   /** @override */
@@ -29,6 +29,15 @@ export default class ShieldData extends ArsenalData {
           label: "ARTICHRON.ItemProperty.Category.SubtypeShield",
           hint: "ARTICHRON.ItemProperty.Category.SubtypeShieldHint",
           choices: CONFIG.SYSTEM.SHIELD_TYPES
+        })
+      }),
+      cost: new SchemaField({
+        value: new NumberField({
+          min: 0,
+          initial: 1,
+          nullable: false,
+          label: "ARTICHRON.ItemProperty.Cost.Value",
+          hint: "ARTICHRON.ItemProperty.Cost.ValueHintShield"
         })
       })
     };
