@@ -66,6 +66,11 @@ export default class ShieldData extends ArsenalData {
       return null;
     }
 
+    if (!this.canUsePips) {
+      ui.notifications.warn("ARTICHRON.Warning.MissingActionPoints", {localize: true});
+      return null;
+    }
+
     this._targeting = true;
     const [target] = await this.pickTarget({count: 1, allowPreTarget: true});
     delete this._targeting;
@@ -79,6 +84,10 @@ export default class ShieldData extends ArsenalData {
     }, {})).map(([type, formulas]) => {
       return new DamageRoll(formulas.join("+"), rollData, {type: type}).alter(0.5);
     });
+
+    if (actor.inCombat) {
+      await actor.spendActionPoints(item.system.cost.value);
+    }
 
     return this.toMessage({rolls: rolls, targets: [target.actor.uuid]});
   }
