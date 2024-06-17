@@ -368,17 +368,32 @@ export default class ActorArtichron extends Actor {
     const items = Object.values(this.arsenal).filter(item => {
       return (item?.system.attributes.value.has("blocking") || item?.system.attributes.value.has("parrying"));
     });
-
     if (!items.length) return 0;
+
+    // An actor requires at least 1 pip to defend.
+    const inCombat = this.inCombat;
+    const pips = this.actionPoints;
+    if (inCombat && !pips) return 0;
 
     const choices = items.reduce((acc, item) => {
       acc[item.id] = item.name;
       return acc;
     }, {});
+
     const field = new foundry.data.fields.SetField(new foundry.data.fields.StringField({choices: choices}), {
       label: "ARTICHRON.DefenseDialog.Items",
       hint: "ARTICHRON.DefenseDialog.ItemsHint"
     });
+
+    const render = (event, html) => {
+      if (!inCombat) return;
+      const items = html.querySelector("[name=items]");
+      const button = html.querySelector("[data-action=ok]");
+      items.addEventListener("change", event => {
+        const length = event.currentTarget.value.length;
+        button.disabled = length > pips;
+      });
+    };
 
     const template = `
     ${Number.isInteger(damage) ? "<p>You are gonna take " + damage + " damage, oh no.</p>" : ""}
@@ -396,6 +411,7 @@ export default class ActorArtichron extends Actor {
       content: content,
       rejectClose: false,
       modal: true,
+      render: render,
       window: {
         icon: "fa-solid fa-shield",
         title: "ARTICHRON.DefenseDialog.Title"
@@ -426,6 +442,9 @@ export default class ActorArtichron extends Actor {
       value += message.rolls.reduce((acc, roll) => acc + roll.total, 0);
     }
 
+    // If in combat, remove spent pips.
+    if (inCombat) await this.spendActionPoints(itemIds.length);
+
     return value;
   }
 
@@ -450,7 +469,7 @@ export default class ActorArtichron extends Actor {
 
   /**
    * Reference to this actor's combatant's current amount of pips.
-   * @type {number|null}
+   * @type {number|null}      The action points, or null if not in combat.
    */
   get actionPoints() {
     const c = this.combatant;
