@@ -5,7 +5,7 @@ import {EffectBuffData} from "../effect/system-model.mjs";
 import MeasuredTemplateArtichron from "../template/template.mjs";
 import ArsenalData from "./item-arsenal.mjs";
 
-const {SchemaField, StringField, SetField} = foundry.data.fields;
+const {NumberField, SchemaField, StringField, SetField} = foundry.data.fields;
 
 export default class SpellData extends ArsenalData {
   /** @override */
@@ -34,6 +34,15 @@ export default class SpellData extends ArsenalData {
           label: "ARTICHRON.ItemProperty.Category.SubtypeSpell",
           hint: "ARTICHRON.ItemProperty.Category.SubtypeSpellHint",
           choices: CONFIG.SYSTEM.SPELL_TYPES
+        })
+      }),
+      cost: new SchemaField({
+        value: new NumberField({
+          min: 0,
+          initial: 2,
+          nullable: false,
+          label: "ARTICHRON.ItemProperty.Cost.Value",
+          hint: "ARTICHRON.ItemProperty.Cost.ValueHintSpell"
         })
       })
     };
