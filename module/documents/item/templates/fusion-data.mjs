@@ -39,10 +39,18 @@ export const FusionTemplateMixin = (Base) => {
      * @returns {Promise<ActiveEffectArtichron|null>}
      */
     async fuseDialog() {
+      if (!this.parent.actor.canPerformActionPoints(1)) {
+        ui.notifications.warn("ARTICHRON.Warning.MissingActionPoints", {localize: true});
+        return null;
+      }
+
       const prompt = await ItemFusionDialog.create(this.parent);
       if (!prompt) return null;
       const target = this.parent.actor.items.get(prompt.itemId);
       const effect = this.parent.effects.get(prompt.effectId);
+
+      if (this.parent.actor.inCombat) await this.parent.actor.spendActionPoints(1);
+
       return this.fuse(target, effect);
     }
 
