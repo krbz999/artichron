@@ -103,7 +103,7 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
     // Configuration fieldset
     context.details.configuration = [];
     context.details.configuration.push(this._makeField(context, "category.subtype", {blank: false}));
-    const hasPool = ("pool" in (src.system.category ?? {})) && !!doc.system.category?.subtype;
+    const hasPool = (doc.type === "elixir") && ["booster", "restorative"].includes(doc.system.category.subtype);
     if (hasPool) {
       const pool = this._makeField(context, "category.pool");
       const subtype = doc.system.category.subtype;

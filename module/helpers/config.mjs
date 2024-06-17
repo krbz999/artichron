@@ -271,6 +271,9 @@ SYSTEM.ELIXIR_TYPES = {
   booster: {
     label: "ARTICHRON.ElixirType.Booster"
   },
+  buff: {
+    label: "ARTICHRON.ElixirType.Buff"
+  },
   restorative: {
     label: "ARTICHRON.ElixirType.Restorative"
   }

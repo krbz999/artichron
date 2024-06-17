@@ -94,9 +94,7 @@ export default class ArsenalData extends FusionTemplateMixin(ItemSystemModel) {
    * @type {boolean}
    */
   get canUsePips() {
-    const pips = this.parent.actor.actionPoints;
-    if (!this.parent.actor.inCombat) return true;
-    return pips >= this.cost.value;
+    return this.parent.actor.canPerformActionPoints(this.cost.value);
   }
 
   /**
