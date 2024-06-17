@@ -72,6 +72,11 @@ export default class SpellData extends ArsenalData {
       return null;
     }
 
+    if (!this.canUsePips) {
+      ui.notifications.warn("ARTICHRON.Warning.MissingActionPoints", {localize: true});
+      return null;
+    }
+
     const configuration = await SpellUseDialog.create(this.parent);
     if (!configuration) return null;
 
@@ -137,6 +142,10 @@ export default class SpellData extends ArsenalData {
       const effectId = configuration.buff;
       const effect = this.parent.effects.get(effectId);
       messageData.effectUuid = effect.uuid;
+    }
+
+    if (actor.inCombat) {
+      await actor.spendActionPoints(item.system.cost.value);
     }
 
     return this.toMessage(messageData);

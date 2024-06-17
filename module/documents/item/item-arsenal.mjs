@@ -68,7 +68,8 @@ export default class ArsenalData extends FusionTemplateMixin(ItemSystemModel) {
     return super.BONUS_FIELDS.union(new Set([
       "system.wield.value",
       "system.range.value",
-      "system.damage.parts"
+      "system.damage.parts",
+      "system.cost.value"
     ]));
   }
 
@@ -86,6 +87,16 @@ export default class ArsenalData extends FusionTemplateMixin(ItemSystemModel) {
    */
   get isTwoHanded() {
     return this.wield.value === 2;
+  }
+
+  /**
+   * Can this item be used to make an attack due to action point cost?
+   * @type {boolean}
+   */
+  get canUsePips() {
+    const pips = this.parent.actor.actionPoints;
+    if (!this.parent.actor.inCombat) return true;
+    return pips >= this.cost.value;
   }
 
   /**

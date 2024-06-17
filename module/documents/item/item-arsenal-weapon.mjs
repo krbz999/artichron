@@ -51,6 +51,11 @@ export default class WeaponData extends ArsenalData {
       return null;
     }
 
+    if (!this.canUsePips) {
+      ui.notifications.warn("ARTICHRON.Warning.MissingActionPoints", {localize: true});
+      return null;
+    }
+
     const configuration = await WeaponUseDialog.create(item);
     if (!configuration) return null;
     const stamina = configuration.stamina;
@@ -113,6 +118,10 @@ export default class WeaponData extends ArsenalData {
       for (const t of additionalTargets) {
         if (t.actor) targets.add(t.actor.uuid);
       }
+    }
+
+    if (actor.inCombat) {
+      await actor.spendActionPoints(item.system.cost.value);
     }
 
     return this.toMessage({rolls: rolls, targets: Array.from(targets)});
