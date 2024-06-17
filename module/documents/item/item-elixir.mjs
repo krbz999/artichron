@@ -93,13 +93,22 @@ export default class ElixirData extends ItemSystemModel {
       return null;
     }
 
-    if (!this.hasEffects) {
-      ui.notifications.warn("ARTICHRON.ElixirDialog.WarningEffects", {localize: true});
+    if (!this.parent.actor.canPerformActionPoints(1)) {
+      ui.notifications.warn("ARTICHRON.Warning.MissingActionPoints", {localize: true});
       return null;
     }
 
-    if (!this.parent.actor.canPerformActionPoints(1)) {
-      ui.notifications.warn("ARTICHRON.Warning.MissingActionPoints", {localize: true});
+    if (this.isBuffElixir) return this.#useBuff();
+    else if (this.category.subtype === "restorative") return this.#useRestorative();
+  }
+
+  /**
+   * Use a 'buff' type elixir.
+   * @returns {Promise}
+   */
+  async #useBuff() {
+    if (!this.hasEffects) {
+      ui.notifications.warn("ARTICHRON.ElixirDialog.WarningEffects", {localize: true});
       return null;
     }
 
@@ -161,6 +170,35 @@ export default class ElixirData extends ItemSystemModel {
   }
 
   /**
+   * Use a 'restorative' type elixir.
+   * @returns {Promise}
+   */
+  async #useRestorative() {
+    const type = this.category.pool;
+    const title = `ARTICHRON.ElixirDialog.TitleRestore${type.capitalize()}`;
+    const confirm = await foundry.applications.api.DialogV2.confirm({
+      rejectClose: false,
+      modal: true,
+      window: {
+        title: title,
+        icon: "fa-solid fa-flask"
+      },
+      position: {
+        width: 400,
+        height: "auto"
+      }
+    });
+    if (!confirm) return;
+
+    const rollData = this.parent.getRollData();
+    const formula = `1@pools.${type}.die`;
+    const roll = await new Roll(formula, rollData).evaluate();
+    const update = this._usageUpdate();
+
+    // TODO: What is actually restored here?
+  }
+
+  /**
    * Utility method for crafting the usage update for an elixir.
    * @param {number} [uses]     The uses to subtract.
    * @returns {object}
@@ -210,5 +248,13 @@ export default class ElixirData extends ItemSystemModel {
    */
   get isBoostElixir() {
     return this.category.subtype === "booster";
+  }
+
+  /**
+   * Is this a buff elixir?
+   * @type {boolean}
+   */
+  get isBuffElixir() {
+    return this.category.subtype === "buff";
   }
 }
