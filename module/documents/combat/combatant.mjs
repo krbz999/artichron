@@ -2,7 +2,17 @@ export default class CombatantArtichron extends Combatant {
   /** @override */
   _getInitiativeFormula() {
     const pips = this.system.pips || 0;
-    return pips ? `1d12x>${Math.max(12 - pips, 1)}` : "1d12x";
+    if (!pips) return "1d12x5=12";
+    if (pips < 10) return `1d12x5>=${12 - pips}`;
+    return "1d12x5>=1";
+  }
+
+  /** @override */
+  getInitiativeRoll(formula) {
+    formula = formula || this._getInitiativeFormula();
+    const rollData = this.actor?.getRollData() || {};
+    rollData.pips = this.system.pips || 0;
+    return Roll.create(formula, rollData);
   }
 
   /** @override */
