@@ -97,6 +97,8 @@ export default class CombatArtichron extends Combat {
   async _onEndTurn(combatant) {
     await super._onEndTurn(combatant);
 
+    // TODO: do not run this update if 'combatant' is the last active combatant in this round.
+
     // Get the highest of the actor's stamina/mana pool, and keep that many of the combatant's pips.
     const actor = combatant.actor;
     if (!actor) return;
@@ -104,5 +106,35 @@ export default class CombatArtichron extends Combat {
     const {stamina, mana} = actor.system.pools;
     const max = Math.max(stamina.max, mana.max);
     await combatant.update({"system.pips": Math.min(pips, max)});
+  }
+
+  /** @override */
+  async _onEndRound() {
+    await super._onEndRound();
+
+    if (this.previous.round === 0) return;
+
+    const [defeated, undefeated] = this.combatants.contents.partition(c => !c.isDefeated && !!c.actor);
+
+    const updates = [];
+    for (const [i, c] of undefeated.entries()) {
+      const roll = c.getInitiativeRoll();
+      await roll.toMessage({
+        sound: i ? null : CONFIG.sounds.dice,
+        flavor: game.i18n.format("COMBAT.RollsInitiative", {name: c.name}),
+        speaker: ChatMessage.implementation.getSpeaker({
+          actor: c.actor,
+          token: c.token,
+          alias: c.name
+        }),
+        flags: {"core.initiativeRoll": true}
+      });
+      updates.push({_id: c.id, initiative: roll.total});
+    }
+
+    for (const c of defeated) updates.push({_id: c.id, initiative: null});
+
+    await this.updateEmbeddedDocuments("Combatant", updates);
+    await this.update({turn: 0});
   }
 }
