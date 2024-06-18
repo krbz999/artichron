@@ -92,4 +92,17 @@ export default class CombatArtichron extends Combat {
 
     return deleted;
   }
+
+  /** @override */
+  async _onEndTurn(combatant) {
+    await super._onEndTurn(combatant);
+
+    // Get the highest of the actor's stamina/mana pool, and keep that many of the combatant's pips.
+    const actor = combatant.actor;
+    if (!actor) return;
+    const pips = combatant.system.pips;
+    const {stamina, mana} = actor.system.pools;
+    const max = Math.max(stamina.max, mana.max);
+    await combatant.update({"system.pips": Math.min(pips, max)});
+  }
 }
