@@ -129,7 +129,8 @@ export default class CombatArtichron extends Combat {
         }),
         flags: {"core.initiativeRoll": true}
       });
-      updates.push({_id: c.id, initiative: roll.total});
+      const health = c.actor.system.pools.health.max;
+      updates.push({_id: c.id, initiative: roll.total, "system.pips": c.system.pips + health});
     }
 
     for (const c of defeated) updates.push({_id: c.id, initiative: null});
