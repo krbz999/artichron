@@ -218,40 +218,6 @@
   }
 }
 
-/* ---------------------------------------- */
-/*         Token HUD status effects         */
-/* ---------------------------------------- */
-
-#token-hud .status-effects {
-  column-gap: 0.5em;
-  color: var(--color-text-light-1);
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  overflow: hidden;
-
-  height: 400px;
-  top: -100px;
-  width: unset;
-
-  .status-column {
-    overflow: hidden auto;
-    min-width: max-content;
-
-    .status-effect {
-      height: 30px;
-      display: flex;
-      align-items: center;
-      gap: 3px;
-
-      .img { border: none; height: 30px; opacity: 0.15; }
-      .name { opacity: 0.4; }
-
-      &.active { color: yellowgreen; opacity: 1; & > * { opacity: 1; } }
-      &.overlay { color: deepskyblue; opacity: 1; & > * { opacity: 1; } }
-    }
-  }
-}
-
 /** Combat tracker overrides. */
 .combat-sidebar {
   .combatant {

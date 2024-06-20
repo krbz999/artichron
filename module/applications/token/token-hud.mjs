@@ -1,48 +1,61 @@
+const staticId = id => {
+  if (id.length >= 16) return id.substring(0, 16);
+  return id.padEnd(16, "0");
+};
+
 export default class TokenHUDArtichron extends CONFIG.Token.hudClass {
-  static get defaultOptions() {
-    const options = super.defaultOptions;
-    options.scrollY ??= [];
-    options.scrollY.push(".status-column");
-    return options;
-  }
-
-  getData(options = {}) {
-    const data = super.getData(options);
-    this._effects = data.statusEffects;
-    return data;
-  }
-
+  /** @override */
   activateListeners(html) {
     super.activateListeners(html);
+    html = html[0];
 
-    let innerHTML = Object.values(this._effects).reduce((acc, eff, i) => {
-      const c = i < (Object.values(this._effects)).length / 2 ? "left" : "right";
-      const status = `
-      <div class="status-effect ${eff.cssClass}" data-status-id="${eff.id}">
-        <img class="img" src="${eff.src}">
-        <label class="name">${eff.title}</label>
-      </div>`;
-      acc[c].push(status);
-      return acc;
-    }, {left: [], right: []});
-    innerHTML = Object.values(innerHTML).map(c => `<div class="status-column">${c.join("")}</div>`).join("");
+    for (const [statusId, {levels}] of Object.entries(CONFIG.SYSTEM.STATUS_CONDITIONS)) {
+      if (!levels || !(levels > 1)) continue;
+      const img = html.querySelector(`[data-status-id="${statusId}"]`);
+      img.addEventListener("click", this._onClickLeveledCondition.bind(this));
+      img.addEventListener("contextmenu", this._onContextLeveledCondition.bind(this));
 
-    const effects = html[0].querySelector(".status-effects");
-    effects.innerHTML = innerHTML;
-    effects.querySelectorAll(".status-effect").forEach(n => {
-      n.addEventListener("click", this.#onToggleEffect.bind(this));
-      n.addEventListener("contextmenu", event => this.#onToggleEffect(event, {overlay: true}));
-    });
+      const id = staticId(statusId);
+      const effect = this.object?.actor?.effects.get(id);
+      if (effect) img.dataset.tooltip += ` ${effect.system.level}`;
+    }
   }
 
-  #onToggleEffect(event, {overlay = false} = {}) {
-    event.preventDefault();
-    event.stopPropagation();
-    if (!this.actor) {
-      ui.notifications.warn("HUD.WarningEffectNoActor", {localize: true});
-      return;
+  /**
+   * Override the click events of the token hud for conditions with levels.
+   * @param {Event} event     Initiating click event.
+   */
+  _onClickLeveledCondition(event) {
+    const target = event.currentTarget;
+    const statusId = target.dataset.statusId;
+    if (!target.classList.contains("active")) return;
+    const actor = this.object?.actor;
+    if (!actor) return;
+    event.stopImmediatePropagation();
+    const curr = actor.effects.get(staticId(statusId));
+    const max = CONFIG.SYSTEM.STATUS_CONDITIONS[statusId].levels;
+    const level = curr.system.level;
+    if (level === max) return;
+    curr.update({"system.level": Math.min(curr.system.level + 1, max)});
+    curr._displayScrollingStatus(true);
+  }
+
+  /**
+   * Override the right-click events of the token hud for conditions with levels.
+   * @param {Event} event     Initiating click event.
+   */
+  _onContextLeveledCondition(event) {
+    const target = event.currentTarget;
+    const statusId = target.dataset.statusId;
+    if (!target.classList.contains("active")) return;
+    const actor = this.object?.actor;
+    if (!actor) return;
+    const curr = actor.effects.get(staticId(statusId));
+    const level = curr.system.level;
+    if (level > 1) {
+      event.stopImmediatePropagation();
+      curr.update({"system.level": Math.max(level - 1, 1)});
+      curr._displayScrollingStatus(false);
     }
-    const statusId = event.currentTarget.dataset.statusId;
-    this.actor.toggleStatusEffect(statusId, {overlay});
   }
 }

@@ -20,10 +20,11 @@ export default class CombatantArtichron extends Combatant {
     const allowed = await super._preCreate(data, options, user);
     if (allowed === false) return false;
     const pools = this.actor.system.pools;
+    const hindered = this.actor.appliedConditionLevel("hindered");
     const update = {
       type: "artichron",
       system: {
-        pips: pools.health.max + Math.max(pools.stamina.max, pools.mana.max)
+        pips: Math.max(pools.health.max + Math.max(pools.stamina.max, pools.mana.max) - hindered, 1)
       }
     };
     this.updateSource(update);

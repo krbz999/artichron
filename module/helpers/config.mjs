@@ -357,3 +357,54 @@ SYSTEM.ITEM_ATTRIBUTES = {
     types: new Set(["weapon", "shield", "spell"])
   }
 };
+
+/**
+ * @typedef {object} StatusConditionConfig
+ * @property {string} name          The displayed name of the condition.
+ * @property {string} img           The displayed image of the condition.
+ * @property {number} [levels]      The amount of stacking levels of the condition.
+ * @property {boolean} hud          Whether this appears on the token hud.
+ */
+
+/**
+ * The status conditions available.
+ * @enum {StatusConditionConfig}
+ */
+SYSTEM.STATUS_CONDITIONS = {
+  defeated: {
+    name: "ARTICHRON.StatusConditions.Defeated",
+    img: "icons/svg/skull.svg",
+    hud: true
+  },
+  blind: {
+    name: "ARTICHRON.StatusConditions.Blind",
+    img: "icons/svg/blind.svg",
+    hud: true
+  },
+  hindered: {
+    name: "ARTICHRON.StatusConditions.Hindered",
+    img: "icons/svg/stoned.svg",
+    levels: 10,
+    hud: true
+  },
+  invisible: {
+    name: "ARTICHRON.StatusConditions.Invisible",
+    img: "icons/svg/invisible.svg",
+    hud: true
+  },
+  underground: {
+    name: "ARTICHRON.StatusConditions.Underground",
+    img: "icons/svg/mole.svg",
+    hud: true
+  },
+  flying: {
+    name: "ARTICHRON.StatusConditions.Flying",
+    img: "icons/svg/wing.svg",
+    hud: true
+  },
+  levitating: {
+    name: "ARTICHRON.StatusConditions.Levitating",
+    img: "icons/svg/wingfoot.svg",
+    hud: true
+  }
+};

@@ -10,6 +10,18 @@ export default class ActiveEffectArtichron extends ActiveEffect {
     }
   }
 
+  /** @override */
+  static async _fromStatusEffect(statusId, effectData, options) {
+    foundry.utils.mergeObject(effectData, {
+      type: "condition",
+      "system.primary": statusId
+    });
+    if (CONFIG.SYSTEM.STATUS_CONDITIONS[statusId].levels > 0) {
+      effectData.system.level = 1;
+    }
+    return new this(effectData, options);
+  }
+
   /**
    * Retrieve an object for roll data.
    * @returns {object}
