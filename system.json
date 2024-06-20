@@ -108,9 +108,10 @@
       "artichron": {}
     },
     "ActiveEffect": {
-      "fusion": {},
       "buff": {},
-      "enhancement": {}
+      "condition": {},
+      "enhancement": {},
+      "fusion": {}
     }
   }
 }

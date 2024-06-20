@@ -26,6 +26,8 @@
   "ActiveEffect.fusionPl": "Fusions",
   "ActiveEffect.buff": "Buff",
   "ActiveEffect.buffPl": "Buffs",
+  "ActiveEffect.condition": "Condition",
+  "ActiveEffect.conditionPl": "Conditions",
   "ActiveEffect.enhancement": "Enhancement",
   "ActiveEffect.enhancementPl": "Enhancements"
 },
@@ -453,5 +455,15 @@
     "AcceptTrade": "Accept Trade",
     "BlockFlavor": "{name}: Blocking",
     "ParryFlavor": "{name}: Parrying"
+  },
+
+  "StatusConditions": {
+    "Defeated": "Defeated",
+    "Blind": "Blind",
+    "Hindered": "Hindered",
+    "Invisible": "Invisible",
+    "Underground": "Underground",
+    "Flying": "Flying",
+    "Levitating": "Levitating"
   }
 }}

@@ -1,4 +1,4 @@
-const {BooleanField, DocumentUUIDField, JSONField, StringField, SchemaField} = foundry.data.fields;
+const {NumberField, BooleanField, DocumentUUIDField, JSONField, StringField, SchemaField} = foundry.data.fields;
 
 /**
  * System data for ActiveEffects.
@@ -254,7 +254,7 @@ export class EffectFusionData extends ActiveEffectSystemModel {
 
 /**
  * System data for "Buffs".
- * Buffs are effects that apply to an actor. They can live on an item or actor.
+ * Buffs are effects that apply to an actor. They can live on an item or actor and are granted from a source.
  * @property {string} source        The uuid of a source item this effect was granted by.
  * @property {boolean} granted      Has this been granted?
  */
@@ -340,5 +340,38 @@ export class EffectEnhancementData extends ActiveEffectSystemModel {
   /** @override */
   getRollData() {
     return {};
+  }
+}
+
+/**
+ * System data for 'Conditions'.
+ * These are ailments or other effects with optional support for levels of severity. Can apply to an actor or item.
+ * @property {string} primary     The primary status of this condition.
+ * @property {number} level       The level of this condition.
+ */
+export class EffectConditionData extends ActiveEffectSystemModel {
+  /** @override */
+  static defineSchema() {
+    return {
+      ...super.defineSchema(),
+      primary: new StringField({required: true, blank: false}),
+      level: new NumberField({nullable: true, initial: null, integer: true})
+    };
+  }
+
+  /** @override */
+  prepareDerivedData() {
+    super.prepareDerivedData();
+    this.parent.transfer = false;
+    this.parent.statuses.add(this.primary);
+    this.maxLevel = CONFIG.SYSTEM.STATUS_CONDITIONS[this.primary].levels || null;
+    if (!this.maxLevel || (this.level > this.maxLevel)) this.level = this.maxLevel;
+  }
+
+  /** @override */
+  getRollData() {
+    const rollData = {};
+    for (const status of this.parent.statuses) rollData[status] = 1;
+    return rollData;
   }
 }

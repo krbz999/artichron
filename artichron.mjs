@@ -88,6 +88,21 @@ Hooks.once("init", function() {
   // Custom elements.
   window.customElements.define("damage-target", DamageTarget);
   window.customElements.define("buff-target", BuffTarget);
+
+  // Set up conditions.
+  const staticId = id => {
+    if (id.length >= 16) return id.substring(0, 16);
+    return id.padEnd(16, "0");
+  };
+  CONFIG.statusEffects = [];
+  for (const [id, config] of Object.entries(SYSTEM.STATUS_CONDITIONS)) {
+    CONFIG.statusEffects.push({...config, id: id, _id: staticId(id)});
+  }
+
+  CONFIG.specialStatusEffects.DEFEATED = "defeated";
+  CONFIG.specialStatusEffects.BURROW = "underground";
+  CONFIG.specialStatusEffects.FLY = "flying";
+  CONFIG.specialStatusEffects.HOVER = "levitating";
 });
 
 /* ---------------------------------------- */

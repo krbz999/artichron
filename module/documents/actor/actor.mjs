@@ -448,6 +448,20 @@ export default class ActorArtichron extends Actor {
     return value;
   }
 
+  /**
+   * Retrieve the level of a condition effect.
+   * @param {string} status
+   * @returns {number}
+   */
+  appliedConditionLevel(status) {
+    const staticId = id => {
+      if (id.length >= 16) return id.substring(0, 16);
+      return id.padEnd(16, "0");
+    };
+    const effect = this.effects.get(staticId(status));
+    return effect ? effect.system.level : 0;
+  }
+
   /* ---------------------------------------- */
   /*                                          */
   /*               Action Points              */
