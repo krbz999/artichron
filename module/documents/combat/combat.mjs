@@ -94,23 +94,8 @@ export default class CombatArtichron extends Combat {
   }
 
   /** @override */
-  async _onEndTurn(combatant) {
-    await super._onEndTurn(combatant);
-
-    // TODO: do not run this update if 'combatant' is the last active combatant in this round.
-
-    // Get the highest of the actor's stamina/mana pool, and keep that many of the combatant's pips.
-    const actor = combatant.actor;
-    if (!actor) return;
-    const pips = combatant.system.pips;
-    const {stamina, mana} = actor.system.pools;
-    const max = Math.max(stamina.max, mana.max);
-    await combatant.update({"system.pips": Math.min(pips, max)});
-  }
-
-  /** @override */
-  async _onEndRound() {
-    await super._onEndRound();
+  async _onStartRound() {
+    await super._onStartRound();
 
     if (this.previous.round === 0) return;
 
@@ -139,5 +124,18 @@ export default class CombatArtichron extends Combat {
 
     await this.updateEmbeddedDocuments("Combatant", updates);
     await this.update({turn: 0});
+  }
+
+  /** @override */
+  async _onEndTurn(combatant) {
+    await super._onEndTurn(combatant);
+
+    // Get the highest of the actor's stamina/mana pool, and keep that many of the combatant's pips.
+    const actor = combatant.actor;
+    if (!actor) return;
+    const pips = combatant.system.pips;
+    const {stamina, mana} = actor.system.pools;
+    const max = Math.max(stamina.max, mana.max);
+    await combatant.update({"system.pips": Math.min(pips, max)});
   }
 }
