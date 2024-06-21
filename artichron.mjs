@@ -57,7 +57,9 @@ Hooks.once("init", function() {
   CONFIG.ActiveEffect.dataModels = documents.dataModels.effect;
 
   // Hook up dice types.
-  CONFIG.Dice.rolls.push(...Object.values(dice));
+  CONFIG.Dice.rolls[0] = dice.RollArtichron;
+  CONFIG.Dice.rolls.push(dice.DamageRoll);
+  CONFIG.Dice.Roll = dice.RollArtichron;
   CONFIG.Dice.DamageRoll = dice.DamageRoll;
 
   /** Set an initiative formula for the system */

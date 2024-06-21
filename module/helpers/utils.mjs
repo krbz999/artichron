@@ -12,7 +12,7 @@ export function simplifyBonus(formula, data = {}) {
   if (!formula) return 0;
   if (Number.isNumeric(formula)) return Number(formula);
   try {
-    const roll = new Roll(formula, data);
+    const roll = Roll.create(formula, data);
     return roll.isDeterministic ? Roll.safeEval(roll.formula) : 0;
   } catch (error) {
     console.error(error);

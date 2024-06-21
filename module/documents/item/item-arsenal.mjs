@@ -1,4 +1,3 @@
-import {DamageRoll} from "../../dice/damage-roll.mjs";
 import {IdField} from "../fields/id-field.mjs";
 import {ItemSystemModel} from "./system-model.mjs";
 import {FusionTemplateMixin} from "./templates/fusion-data.mjs";
@@ -158,7 +157,7 @@ export default class ArsenalData extends FusionTemplateMixin(ItemSystemModel) {
     }
 
     const formula = this._damages.map(d => d.formula).join("+");
-    const roll = new Roll(formula, this.parent.getRollData());
+    const roll = Roll.create(formula, this.parent.getRollData());
     if (this.parent.type !== "shield") roll.alter(0.5);
     const flavor = game.i18n.format("ARTICHRON.ChatMessage.BlockFlavor", {name: this.parent.name});
 
@@ -175,7 +174,7 @@ export default class ArsenalData extends FusionTemplateMixin(ItemSystemModel) {
     }
 
     const formula = this._damages.map(d => d.formula).join("+");
-    const roll = new Roll(formula, this.parent.getRollData());
+    const roll = Roll.create(formula, this.parent.getRollData());
     roll.alter(0.5);
     const flavor = game.i18n.format("ARTICHRON.ChatMessage.ParryFlavor", {name: this.parent.name});
 

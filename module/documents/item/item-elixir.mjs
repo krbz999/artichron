@@ -192,7 +192,7 @@ export default class ElixirData extends ItemSystemModel {
 
     const rollData = this.parent.getRollData();
     const formula = `1@pools.${type}.die`;
-    const roll = await new Roll(formula, rollData).evaluate();
+    const roll = await Roll.create(formula, rollData).evaluate();
     const update = this._usageUpdate();
 
     // TODO: What is actually restored here?
