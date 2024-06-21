@@ -45,6 +45,7 @@ export default class TokenHUDArtichron extends CONFIG.Token.hudClass {
    * @param {Event} event     Initiating click event.
    */
   _onContextLeveledCondition(event) {
+    event.stopImmediatePropagation();
     const target = event.currentTarget;
     const statusId = target.dataset.statusId;
     if (!target.classList.contains("active")) return;
@@ -53,9 +54,10 @@ export default class TokenHUDArtichron extends CONFIG.Token.hudClass {
     const curr = actor.effects.get(staticId(statusId));
     const level = curr.system.level;
     if (level > 1) {
-      event.stopImmediatePropagation();
       curr.update({"system.level": Math.max(level - 1, 1)});
       curr._displayScrollingStatus(false);
+    } else {
+      curr.delete();
     }
   }
 }
