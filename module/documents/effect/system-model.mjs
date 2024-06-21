@@ -390,7 +390,10 @@ export class EffectConditionData extends ActiveEffectSystemModel {
    * The status ids that have a 'start of round' event.
    * @type {Set<string>}
    */
-  static ROUND_START = new Set(["burning"]);
+  static ROUND_START = new Set([
+    "bleeding",
+    "burning"
+  ]);
 
   /* ---------------------------------------- */
 
@@ -467,6 +470,7 @@ export class EffectConditionData extends ActiveEffectSystemModel {
   async execute() {
     switch (this.primary) {
       case "burning": return this.#executeBurning();
+      case "bleeding": return this.#executeBleeding();
     }
   }
 
@@ -477,11 +481,28 @@ export class EffectConditionData extends ActiveEffectSystemModel {
   async #executeBurning() {
     const actor = this.parent.parent;
     const formula = "(@level)d12";
-    const roll = new CONFIG.Dice.DamageRoll(formula, {level: this.level}, {type: "fire"});
+    const type = "fire";
+    const roll = new CONFIG.Dice.DamageRoll(formula, {level: this.level}, {type: type});
     await roll.toMessage({
       flavor: game.i18n.format("ARTICHRON.StatusConditions.BurningFlavor", {actor: actor.name}),
       sound: null
     });
-    return actor.applyDamage({fire: roll.total}, {defendable: false});
+    return actor.applyDamage({[type]: roll.total}, {defendable: false});
+  }
+
+  /**
+   * Execute the effects of the 'burning' condition.
+   * @returns {Promise}
+   */
+  async #executeBleeding() {
+    const actor = this.parent.parent;
+    const formula = "(@level)d6";
+    const type = "physical";
+    const roll = new CONFIG.Dice.DamageRoll(formula, {level: this.level}, {type: type});
+    await roll.toMessage({
+      flavor: game.i18n.format("ARTICHRON.StatusConditions.BleedingFlavor", {actor: actor.name}),
+      sound: null
+    });
+    return actor.applyDamage({[type]: roll.total}, {defendable: false, resisted: false});
   }
 }

@@ -159,9 +159,10 @@ export default class ActorArtichron extends Actor {
    * @param {number|object} values              An object with keys from DAMAGE_TYPES or HEALING_TYPES.
    * @param {object} [options]                  Damage application options.
    * @param {boolean} [options.defendable]      Whether the actor can parry or block this damage.
+   * @param {boolean} [options.resisted]        Whether resistances and armor can reduce this damage.
    * @returns {Promise<ActorArtichron>}
    */
-  async applyDamage(values, {defendable = true, ...options} = {}) {
+  async applyDamage(values, {defendable = true, resisted = true, ...options} = {}) {
     if (!this.system.health.value) return this;
 
     if (foundry.utils.getType(values) === "number") {
@@ -176,7 +177,7 @@ export default class ActorArtichron extends Actor {
 
     // Modify values to take resistances into account.
     for (let [type, value] of Object.entries(values)) {
-      if (type === "none") continue;
+      if (!resisted || (type === "none")) continue;
 
       // Resisted?
       if (types[type].resist) value -= resistances[type].value;

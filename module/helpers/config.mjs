@@ -407,6 +407,12 @@ SYSTEM.STATUS_CONDITIONS = {
     img: "icons/svg/wingfoot.svg",
     hud: true
   },
+  bleeding: {
+    name: "ARTICHRON.StatusConditions.Bleeding",
+    img: "icons/svg/blood.svg",
+    levels: 10,
+    hud: true
+  },
   burning: {
     name: "ARTICHRON.StatusConditions.Burning",
     img: "icons/svg/fire.svg",
