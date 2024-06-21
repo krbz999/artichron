@@ -459,6 +459,9 @@
 
   "StatusConditions": {
     "Blind": "Blind",
+    "Bleeding": "Bleeding",
+    "BleedingHint": "{actor} takes {level}d6 physical damage at the start of every round.",
+    "BleedingFlavor": "{actor} is bleeding",
     "Burning": "Burning",
     "BurningHint": "{actor} takes {level}d12 fire damage at the start of every round.",
     "BurningFlavor": "{actor} is burning",
