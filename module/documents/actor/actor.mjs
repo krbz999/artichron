@@ -160,9 +160,11 @@ export default class ActorArtichron extends Actor {
    * @param {object} [options]                  Damage application options.
    * @param {boolean} [options.defendable]      Whether the actor can parry or block this damage.
    * @param {boolean} [options.resisted]        Whether resistances and armor can reduce this damage.
+   * @param {Set<string>} [options.attributes]  Item attributes that change the application behavior.
+   * @param {object} [context]                  Update options that are passed along to the final update.
    * @returns {Promise<ActorArtichron>}
    */
-  async applyDamage(values, {defendable = true, resisted = true, ...options} = {}) {
+  async applyDamage(values, {defendable = true, resisted = true, attributes = new Set()} = {}, context = {}) {
     if (!this.system.health.value) return this;
 
     if (foundry.utils.getType(values) === "number") {
@@ -202,13 +204,23 @@ export default class ActorArtichron extends Actor {
 
     // Recalculate damage after defensive rolls.
     dmg = Object.entries(values).reduce((acc, [k, v]) => acc + v, 0);
-    const hp = this.system.health;
+    const hp = foundry.utils.deepClone(this.system.health);
     const val = Math.clamp(hp.value - Math.max(0, dmg), 0, hp.max);
-    return this.update({"system.health.value": val}, {
-      ...options,
+    await this.update({"system.health.value": val}, {
+      ...context,
       damages: values,
       diff: false
     });
+
+    // If the actor was damaged, apply any relevant status conditions.
+    const damaged = hp.value > this.system.health.value;
+    if (damaged) {
+      if (attributes.has("rending")) {
+        await this.applyCondition("bleeding");
+      }
+    }
+
+    return this;
   }
 
   /**
@@ -463,12 +475,20 @@ export default class ActorArtichron extends Actor {
    * @returns {number}
    */
   appliedConditionLevel(status) {
-    const staticId = id => {
-      if (id.length >= 16) return id.substring(0, 16);
-      return id.padEnd(16, "0");
-    };
-    const effect = this.effects.get(staticId(status));
+    const effect = this.effects.get(artichron.utils.staticId(status));
     return effect ? effect.system.level : 0;
+  }
+
+  /**
+   * Utility method to either apply or increase the level of a status condition.
+   * This method can safely be used on statuses that do not have levels.
+   * @param {string} status
+   * @returns {Promise}
+   */
+  async applyCondition(status) {
+    const id = artichron.utils.staticId(status);
+    if (this.effects.has(id)) return this.effects.get(id).system.increase();
+    else return this.toggleStatusEffect(status);
   }
 
   /* ---------------------------------------- */

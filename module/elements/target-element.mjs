@@ -82,8 +82,11 @@ class TargetElement extends HTMLElement {
     if (token.actor?.isToken && (token.actor === this.actor)) this.remove();
   }
 
-  /** Execute the main method of this element. */
-  execute() {}
+  /**
+   * Execute the main method of this element.
+   * @param {object} [options]      Execution options.
+   */
+  execute(options = {}) {}
 }
 
 export class DamageTarget extends TargetElement {
@@ -119,9 +122,10 @@ export class DamageTarget extends TargetElement {
   }
 
   /** @override */
-  execute() {
+  execute(options = {}) {
     if (this.disabled) return;
-    this.actor.applyDamage(this.#damages, {messageId: this.chatMessage.id});
+    const attributes = this.chatMessage.item?.system.attributes?.value;
+    this.actor.applyDamage(this.#damages, {attributes}, {messageId: this.chatMessage.id});
   }
 }
 

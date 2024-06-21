@@ -92,13 +92,9 @@ Hooks.once("init", function() {
   window.customElements.define("buff-target", BuffTarget);
 
   // Set up conditions.
-  const staticId = id => {
-    if (id.length >= 16) return id.substring(0, 16);
-    return id.padEnd(16, "0");
-  };
   CONFIG.statusEffects = [];
   for (const [id, config] of Object.entries(SYSTEM.STATUS_CONDITIONS)) {
-    CONFIG.statusEffects.push({...config, id: id, _id: staticId(id)});
+    CONFIG.statusEffects.push({...config, id: id, _id: utils.staticId(id)});
   }
 
   CONFIG.specialStatusEffects.DEFEATED = "defeated";
