@@ -57,6 +57,9 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
     const src = doc.toObject();
     const rollData = doc.getRollData();
 
+    const effects = await this._prepareEffects();
+    const [buffs, conditions] = effects.partition(e => e.effect.type === "condition");
+
     const context = {
       document: doc,
       config: CONFIG.SYSTEM,
@@ -65,7 +68,8 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
       equipment: await this._prepareEquipment(),
       items: await this._prepareItems(),
       encumbrance: this._prepareEncumbrance(),
-      effects: await this._prepareEffects(),
+      effects: buffs,
+      conditions: conditions,
       tabs: this._getTabs(),
       isEditMode: this.isEditMode,
       isPlayMode: this.isPlayMode,

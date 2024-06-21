@@ -146,8 +146,10 @@ export const ArtichronSheetMixin = Base => {
           isExpanded: this._expandedItems.has(effect.uuid),
 
           isActiveFusion: effect.isActiveFusion,
-          isFusionOption: effect.isTransferrableFusion
+          isFusionOption: effect.isTransferrableFusion,
+          isCondition: effect.type === "condition"
         };
+        if (data.isCondition) data.level = effect.system.level || null;
         if (data.isExpanded) {
           data.enrichedText = await TextEditor.enrichHTML(effect.description, {
             relativeTo: effect, rollData: effect.getRollData()
@@ -264,7 +266,7 @@ export const ArtichronSheetMixin = Base => {
       }, {
         name: "ARTICHRON.ContextMenu.EffectOption.Duplicate",
         icon: "<i class='fa-solid fa-fw fa-copy'></i>",
-        condition: () => isOwner,
+        condition: () => isOwner && (item.type !== "condition"),
         callback: () => item.clone({}, {save: true}),
         group: "action"
       }];

@@ -426,7 +426,9 @@
     "FusionOptions": "Fusion Options",
     "Source": "Source",
     "ActiveFusion": "Fusion",
-    "TransferredBuff": "Transferred Buff"
+    "TransferredBuff": "Transferred Buff",
+    "Conditions": "Conditions",
+    "Level":"Level: {level}"
   },
 
   "ContextMenu": {

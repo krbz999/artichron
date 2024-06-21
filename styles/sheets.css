@@ -170,7 +170,6 @@
       }
       &.expanded .description-wrapper {
         grid-template-rows: 1fr;
-        margin-top: 5px;
       }
     }
 

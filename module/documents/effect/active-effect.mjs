@@ -16,9 +16,9 @@ export default class ActiveEffectArtichron extends ActiveEffect {
       type: "condition",
       "system.primary": statusId
     });
-    if (CONFIG.SYSTEM.STATUS_CONDITIONS[statusId].levels > 0) {
-      effectData.system.level = 1;
-    }
+    const {reference, levels} = CONFIG.SYSTEM.STATUS_CONDITIONS[statusId];
+    if (reference) effectData.description = `@Embed[${reference} caption=false cite=false inline]`;
+    if (levels > 0) effectData.system.level = 1;
     return new this(effectData, options);
   }
 

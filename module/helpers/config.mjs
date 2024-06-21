@@ -364,6 +364,7 @@ SYSTEM.ITEM_ATTRIBUTES = {
  * @property {string} img           The displayed image of the condition.
  * @property {number} [levels]      The amount of stacking levels of the condition.
  * @property {boolean} hud          Whether this appears on the token hud.
+ * @property {string} reference     The uuid of a journal entry page that contains the details of this condition.
  */
 
 /**
@@ -385,7 +386,8 @@ SYSTEM.STATUS_CONDITIONS = {
     name: "ARTICHRON.StatusConditions.Hindered",
     img: "icons/svg/stoned.svg",
     levels: 10,
-    hud: true
+    hud: true,
+    reference: "Compendium.artichron.rules.JournalEntry.JjiZqfbpC2YVXV4R.JournalEntryPage.uVv9k9xheOkxzBhO"
   },
   invisible: {
     name: "ARTICHRON.StatusConditions.Invisible",
@@ -411,12 +413,14 @@ SYSTEM.STATUS_CONDITIONS = {
     name: "ARTICHRON.StatusConditions.Bleeding",
     img: "icons/svg/blood.svg",
     levels: 10,
-    hud: true
+    hud: true,
+    reference: "Compendium.artichron.rules.JournalEntry.JjiZqfbpC2YVXV4R.JournalEntryPage.nIvx3xXwYP9iGSeh"
   },
   burning: {
     name: "ARTICHRON.StatusConditions.Burning",
     img: "icons/svg/fire.svg",
     levels: 10,
-    hud: true
+    hud: true,
+    reference: "Compendium.artichron.rules.JournalEntry.JjiZqfbpC2YVXV4R.JournalEntryPage.3VoSsDfCrBGG8Bzy"
   }
 };
