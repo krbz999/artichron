@@ -355,6 +355,10 @@ SYSTEM.ITEM_ATTRIBUTES = {
   parrying: {
     label: "ARTICHRON.ItemAttribute.Parrying",
     types: new Set(["weapon", "shield", "spell"])
+  },
+  rending: {
+    label: "ARTICHRON.ItemAttribute.Rending",
+    types: new Set(["weapon", "shield", "spell"])
   }
 };
 
