@@ -27,7 +27,7 @@ export class RollArtichron extends Roll {
    * @returns {Promise<ChatMessage|object>}     A promise that resolves to the created chat message.
    */
   static async toMessage(rolls, messageData = {}, {rollMode, create = true} = {}) {
-    for (const roll of rolls) if (!roll.evaluated) await roll.evaluate();
+    for (const roll of rolls) if (!roll._evaluated) await roll.evaluate();
 
     messageData = foundry.utils.mergeObject({
       rolls: rolls,
