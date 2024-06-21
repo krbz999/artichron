@@ -138,7 +138,9 @@ export class ItemMessageData extends ChatMessageSystemModel {
    * @param {Event} event     Initiating click event.
    */
   _onApplyDamage(event) {
-    event.currentTarget.closest(".artichron.item-usage").querySelectorAll("damage-target").forEach(n => n.execute());
+    for (const target of event.currentTarget.closest(".artichron.item-usage").querySelectorAll("damage-target")) {
+      target.execute();
+    }
   }
 
   /**

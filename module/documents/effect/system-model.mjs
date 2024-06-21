@@ -464,6 +464,39 @@ export class EffectConditionData extends ActiveEffectSystemModel {
   /* ---------------------------------------- */
 
   /**
+   * Increase the level of a condition that has multiple stages.
+   * @returns {Promise}
+   */
+  async increase() {
+    const max = CONFIG.SYSTEM.STATUS_CONDITIONS[this.primary].levels;
+    if (!max || !(max > 1) || (this.level === max)) return;
+    const disabled = this.parent.disabled;
+    await this.parent.update({
+      "system.level": Math.min(max, this.level + 1),
+      disabled: false
+    });
+    if (!disabled) this.parent._displayScrollingStatus(true);
+  }
+
+  /* ---------------------------------------- */
+
+  /**
+   * Decrease the level of a condition that has multiple stages.
+   * It is the responsibility of the caller to delete the condition if it would go below level 1.
+   * @returns {Promise}
+   */
+  async decrease() {
+    const disabled = this.parent.disabled;
+    await this.parent.update({
+      "system.level": this.level - 1,
+      disabled: false
+    });
+    if (!disabled) this.parent._displayScrollingStatus(false);
+  }
+
+  /* ---------------------------------------- */
+
+  /**
    * Do whatever it may be that this condition might do to its owner.
    * @returns {Promise}
    */

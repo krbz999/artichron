@@ -3,6 +3,16 @@ export {default as simplifyRollFormula} from "./simplify-formula.mjs";
 export {default as sockets} from "./sockets.mjs";
 
 /**
+ * Create a unique id for a status condition.
+ * @param {string} status     The primary status.
+ * @returns {string}          A unique 16-character id.
+ */
+export function staticId(status) {
+  if (status.length >= 16) return status.substring(0, 16);
+  return status.padEnd(16, "0");
+}
+
+/**
  * Convert a bonus value to a number.
  * @param {number|string|null} formula      The string to parse.
  * @param {object} [data]                   The roll data used to replace terms.
