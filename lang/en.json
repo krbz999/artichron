@@ -271,7 +271,8 @@
   "ItemAttribute": {
     "Blocking": "Blocking",
     "Magical": "Magical",
-    "Parrying": "Parrying"
+    "Parrying": "Parrying",
+    "Rending": "Rending"
   },
 
   "EffectProperty": {
