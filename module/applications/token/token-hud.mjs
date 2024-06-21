@@ -36,8 +36,9 @@ export default class TokenHUDArtichron extends CONFIG.Token.hudClass {
     const max = CONFIG.SYSTEM.STATUS_CONDITIONS[statusId].levels;
     const level = curr.system.level;
     if (level === max) return;
-    curr.update({"system.level": Math.min(curr.system.level + 1, max)});
-    curr._displayScrollingStatus(true);
+    const disabled = curr.disabled;
+    curr.update({"system.level": Math.min(curr.system.level + 1, max), disabled: false});
+    if (!disabled) curr._displayScrollingStatus(true);
   }
 
   /**
@@ -54,8 +55,9 @@ export default class TokenHUDArtichron extends CONFIG.Token.hudClass {
     const curr = actor.effects.get(staticId(statusId));
     const level = curr.system.level;
     if (level > 1) {
-      curr.update({"system.level": Math.max(level - 1, 1)});
-      curr._displayScrollingStatus(false);
+      const disabled = curr.disabled;
+      curr.update({"system.level": Math.max(level - 1, 1), disabled: false});
+      if (!disabled) curr._displayScrollingStatus(false);
     } else {
       curr.delete();
     }

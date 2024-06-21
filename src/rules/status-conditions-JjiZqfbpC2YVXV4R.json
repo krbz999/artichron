@@ -1,0 +1,131 @@
+{
+  "name": "Status Conditions",
+  "_id": "JjiZqfbpC2YVXV4R",
+  "pages": [
+    {
+      "sort": 0,
+      "name": "Hindered",
+      "type": "text",
+      "_id": "uVv9k9xheOkxzBhO",
+      "system": {},
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "image": {},
+      "text": {
+        "format": 1,
+        "content": "<p>While hindered, you start with one less action point each turn for each level of this condition. You cannot start your turn with less than 1 action point.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": null,
+      "ownership": {
+        "default": -1
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": null,
+        "systemId": null,
+        "systemVersion": null,
+        "createdTime": null,
+        "modifiedTime": null,
+        "lastModifiedBy": null
+      },
+      "_key": "!journal.pages!JjiZqfbpC2YVXV4R.uVv9k9xheOkxzBhO"
+    },
+    {
+      "sort": 0,
+      "name": "Burning",
+      "type": "text",
+      "_id": "3VoSsDfCrBGG8Bzy",
+      "system": {},
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "image": {},
+      "text": {
+        "format": 1,
+        "content": "<p>While burning, a combatant takes 1d12 fire damage at the start of the round. For each level of this condition, the combatant takes an additional 1d12 fire damage.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": null,
+      "ownership": {
+        "default": -1
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": null,
+        "systemId": null,
+        "systemVersion": null,
+        "createdTime": null,
+        "modifiedTime": null,
+        "lastModifiedBy": null
+      },
+      "_key": "!journal.pages!JjiZqfbpC2YVXV4R.3VoSsDfCrBGG8Bzy"
+    },
+    {
+      "sort": 0,
+      "name": "Bleeding",
+      "type": "text",
+      "system": {},
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "image": {},
+      "text": {
+        "format": 1,
+        "content": "<p>While bleeding, a combatant takes 1d6 physical damage at the start of the round. For each level of this condition, the combatant takes an additional 1d6 physical damage. This damage cannot be reduced by armor.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": null,
+      "ownership": {
+        "default": -1
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": null,
+        "systemId": null,
+        "systemVersion": null,
+        "createdTime": null,
+        "modifiedTime": null,
+        "lastModifiedBy": null
+      },
+      "_id": "nIvx3xXwYP9iGSeh",
+      "_key": "!journal.pages!JjiZqfbpC2YVXV4R.nIvx3xXwYP9iGSeh"
+    }
+  ],
+  "folder": null,
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": null,
+    "systemId": null,
+    "systemVersion": null,
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  },
+  "_key": "!journal!JjiZqfbpC2YVXV4R"
+}

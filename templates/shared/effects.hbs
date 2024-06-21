@@ -1,5 +1,39 @@
 <div class="{{tabs.effects.tabCssClass}}" data-group="primary" data-tab="effects">
 
+  {{#if conditions.length}}
+  <header>
+    <span class="name">{{localize "ARTICHRON.Effect.Conditions"}}</span>
+    <span class="controls" style="margin-left: 2px;"></span>
+  </header>
+
+  {{#each conditions}}
+  <div class="effect {{#if isExpanded}}expanded no-transition{{/if}}" data-item-uuid="{{uuid}}">
+
+    <a class="wrapper" data-action="toggleDescription" style="opacity: {{ifThen disabled 0.25 1}}">
+      <img class="image" src="{{img}}" alt="{{name}}" data-action="toggleEffect">
+      <label class="name stacked">
+        <span class="title">{{name}}</span>
+        {{#if level}}<span class="subtitle">{{localize "ARTICHRON.Effect.Level" level=level}}</span>{{/if}}
+      </label>
+    </a>
+
+    <div class="controls">
+      <a class="control" data-action="editEffect"><i class="fa-solid fa-edit"></i></a>
+      {{#if @root.isEditMode}}
+      <a class="control" data-action="deleteEffect"><i class="fa-solid fa-trash"></i></a>
+      {{/if}}
+    </div>
+
+    <div class="description-wrapper">
+      {{#if isExpanded}}
+      <div class="description">{{{enrichedText}}}</div>
+      {{/if}}
+    </div>
+
+  </div>
+  {{/each}}
+  {{/if}}
+
   {{#if (and canFuse activeFusions.length)}}
 
   <header>
