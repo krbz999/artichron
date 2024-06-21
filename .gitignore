@@ -1,11 +1,4 @@
 .gitattributes
-packs/**/*.log
-packs/**/*.old
-packs/**/*.ldb
-packs/**/LOCK
-packs/**/MANIFEST
-packs/**/CURRENT
-packs/**/LOG
-packs/**/MANIFEST-*
+packs/
 *.lock
 node_modules/
