@@ -20,6 +20,8 @@ export class ActiveEffectSystemModel extends foundry.abstract.TypeDataModel {
     };
   }
 
+  /* ---------------------------------------- */
+
   /**
    * Retrieve an object for roll data.
    * @returns {object}
@@ -27,6 +29,8 @@ export class ActiveEffectSystemModel extends foundry.abstract.TypeDataModel {
   getRollData(options = {}) {
     throw new Error("The 'getRollData' method of active effects must be subclassed.");
   }
+
+  /* ---------------------------------------- */
 
   /**
    * Describe whether the ActiveEffect has a temporary duration based on when it expires.
@@ -63,6 +67,8 @@ export class EffectFusionData extends ActiveEffectSystemModel {
     };
   }
 
+  /* ---------------------------------------- */
+
   /** @override */
   async _preCreate(...T) {
     const allowed = await super._preCreate(...T);
@@ -76,6 +82,8 @@ export class EffectFusionData extends ActiveEffectSystemModel {
     }
   }
 
+  /* ---------------------------------------- */
+
   /** @override */
   prepareDerivedData() {
     super.prepareDerivedData();
@@ -83,6 +91,8 @@ export class EffectFusionData extends ActiveEffectSystemModel {
     // Fusions never apply to their actor.
     this.parent.transfer = false;
   }
+
+  /* ---------------------------------------- */
 
   /** @override */
   getRollData() {
@@ -93,6 +103,8 @@ export class EffectFusionData extends ActiveEffectSystemModel {
     return data;
   }
 
+  /* ---------------------------------------- */
+
   /**
    * The fields this effect may apply to.
    * @type {Set<string>}
@@ -100,6 +112,8 @@ export class EffectFusionData extends ActiveEffectSystemModel {
   static get BONUS_FIELDS() {
     return this.parent.parent.system.constructor.BONUS_FIELDS;
   }
+
+  /* ---------------------------------------- */
 
   /**
    * Is this a fusion that can be transferred?
@@ -109,6 +123,8 @@ export class EffectFusionData extends ActiveEffectSystemModel {
     return foundry.utils.getType(this.itemData) !== "Object";
   }
 
+  /* ---------------------------------------- */
+
   /**
    * Is this a fusion that is currently modifying a target item?
    * @type {boolean}
@@ -116,6 +132,8 @@ export class EffectFusionData extends ActiveEffectSystemModel {
   get isActiveFusion() {
     return !this.isTransferrableFusion;
   }
+
+  /* ---------------------------------------- */
 
   /**
    * Delete this fusion and restore the original item.
@@ -144,6 +162,8 @@ export class EffectFusionData extends ActiveEffectSystemModel {
     return getDocumentClass("Item").create(this.itemData, {pack, parent: actor, keepId});
   }
 
+  /* ---------------------------------------- */
+
   /**
    * Create a prompt to delete this fusion and restore the original item.
    * @param {object} [options]      Options to modify the splitting process.
@@ -171,6 +191,8 @@ export class EffectFusionData extends ActiveEffectSystemModel {
 
     return this.unfuse(options);
   }
+
+  /* ---------------------------------------- */
 
   /**
    * Utility method for translating a change into a human-readable label.
@@ -234,6 +256,8 @@ export class EffectFusionData extends ActiveEffectSystemModel {
     throw new Error(`The attempted key '${key}' is an invalid key to translate!`);
   }
 
+  /* ---------------------------------------- */
+
   /**
    * Attempt to translate the changes of this fusion into something human-readable.
    * @returns {string[]}      Readable labels.
@@ -276,9 +300,13 @@ export class EffectBuffData extends ActiveEffectSystemModel {
     };
   }
 
+  /* ---------------------------------------- */
+
   get isGranted() {
     return !!this.source && this.granted;
   }
+
+  /* ---------------------------------------- */
 
   /** @override */
   getRollData() {
@@ -294,11 +322,15 @@ export class EffectBuffData extends ActiveEffectSystemModel {
     return source.getRollData?.() ?? {};
   }
 
+  /* ---------------------------------------- */
+
   /**
    * A store of granted buffs.
    * @type {Map<string, Set<string>>}
    */
   static origins = new Map();
+
+  /* ---------------------------------------- */
 
   /** @override */
   prepareDerivedData() {
@@ -331,11 +363,15 @@ export class EffectEnhancementData extends ActiveEffectSystemModel {
     }
   }
 
+  /* ---------------------------------------- */
+
   /** @override */
   prepareDerivedData() {
     super.prepareDerivedData();
     this.parent.transfer = false;
   }
+
+  /* ---------------------------------------- */
 
   /** @override */
   getRollData() {
@@ -350,6 +386,14 @@ export class EffectEnhancementData extends ActiveEffectSystemModel {
  * @property {number} level       The level of this condition.
  */
 export class EffectConditionData extends ActiveEffectSystemModel {
+  /**
+   * The status ids that have a 'start of round' event.
+   * @type {Set<string>}
+   */
+  static ROUND_START = new Set(["burning"]);
+
+  /* ---------------------------------------- */
+
   /** @override */
   static defineSchema() {
     return {
@@ -358,6 +402,8 @@ export class EffectConditionData extends ActiveEffectSystemModel {
       level: new NumberField({nullable: true, initial: null, integer: true})
     };
   }
+
+  /* ---------------------------------------- */
 
   /** @override */
   prepareDerivedData() {
@@ -368,10 +414,74 @@ export class EffectConditionData extends ActiveEffectSystemModel {
     if (!this.maxLevel || (this.level > this.maxLevel)) this.level = this.maxLevel;
   }
 
+  /* ---------------------------------------- */
+
   /** @override */
   getRollData() {
     const rollData = {};
     for (const status of this.parent.statuses) rollData[status] = 1;
     return rollData;
+  }
+
+  /* ---------------------------------------- */
+
+  /**
+   * Transform this condition into a formgroup.
+   * @returns {HTMLElement}
+   */
+  toFormGroup() {
+    const fg = document.createElement("DIV");
+    fg.classList.add("form-group");
+
+    const label = document.createElement("LABEL");
+    label.textContent = this.parent.name;
+    fg.appendChild(label);
+
+    const ff = document.createElement("DIV");
+    ff.classList.add("form-fields");
+    fg.appendChild(ff);
+
+    const input = document.createElement("INPUT");
+    input.type = "checkbox";
+    input.name = this.parent.uuid;
+    input.setAttribute("checked", "");
+    ff.appendChild(input);
+
+    const hint = document.createElement("P");
+    hint.classList.add("hint");
+    hint.textContent = game.i18n.format(`ARTICHRON.StatusConditions.${this.primary.capitalize()}Hint`, {
+      actor: this.parent.parent.name,
+      level: this.level
+    });
+    fg.appendChild(hint);
+
+    return fg;
+  }
+
+  /* ---------------------------------------- */
+
+  /**
+   * Do whatever it may be that this condition might do to its owner.
+   * @returns {Promise}
+   */
+  async execute() {
+    switch (this.primary) {
+      case "burning": return this.#executeBurning();
+    }
+  }
+
+  /**
+   * Execute the effects of the 'burning' condition.
+   * @returns {Promise}
+   */
+  async #executeBurning() {
+    const actor = this.parent.parent;
+    const formula = `${this.level}d12`;
+    const roll = new CONFIG.Dice.DamageRoll(formula, {}, {type: "fire"});
+    await roll.toMessage({
+      flavor: game.i18n.format("ARTICHRON.StatusConditions.BurningFlavor", {actor: actor.name}),
+      sound: null
+    });
+    return actor.applyDamage({fire: roll.total}, {defendable: false});
   }
 }

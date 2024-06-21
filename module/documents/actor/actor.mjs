@@ -156,10 +156,14 @@ export default class ActorArtichron extends Actor {
 
   /**
    * Apply damage to this actor.
-   * @param {number|object} values      An object with keys from DAMAGE_TYPES or HEALING_TYPES.
+   * @param {number|object} values              An object with keys from DAMAGE_TYPES or HEALING_TYPES.
+   * @param {object} [options]                  Damage application options.
+   * @param {boolean} [options.defendable]      Whether the actor can parry or block this damage.
    * @returns {Promise<ActorArtichron>}
    */
-  async applyDamage(values, options = {}) {
+  async applyDamage(values, {defendable = true, ...options} = {}) {
+    if (!this.system.health.value) return this;
+
     if (foundry.utils.getType(values) === "number") {
       values = {none: values};
     }
@@ -185,7 +189,7 @@ export default class ActorArtichron extends Actor {
     }
 
     let dmg = Object.entries(values).reduce((acc, [k, v]) => acc + v, 0);
-    let blocking = await this.defenseDialog(dmg);
+    let blocking = defendable ? await this.defenseDialog(dmg) : 0;
     if (blocking === false) return this;
 
     for (const [type, value] of Object.entries(values)) {
@@ -199,7 +203,11 @@ export default class ActorArtichron extends Actor {
     dmg = Object.entries(values).reduce((acc, [k, v]) => acc + v, 0);
     const hp = this.system.health;
     const val = Math.clamp(hp.value - Math.max(0, dmg), 0, hp.max);
-    return this.update({"system.health.value": val}, {...options, damages: values, diff: false});
+    return this.update({"system.health.value": val}, {
+      ...options,
+      damages: values,
+      diff: false
+    });
   }
 
   /**

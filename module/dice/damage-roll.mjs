@@ -3,7 +3,6 @@ export class DamageRoll extends Roll {
     if (!options.type || !(options.type in CONFIG.SYSTEM.DAMAGE_TYPES)) {
       throw new Error("A damage roll was constructed without a type.");
     }
-    formula = artichron.utils.simplifyRollFormula(formula);
     super(formula, data, options);
   }
 
