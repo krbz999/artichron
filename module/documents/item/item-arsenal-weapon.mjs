@@ -1,5 +1,4 @@
 import ArsenalData from "./item-arsenal.mjs";
-import {DamageRoll} from "../../dice/damage-roll.mjs";
 import WeaponUseDialog from "../../applications/item/weapon-use-dialog.mjs";
 import MeasuredTemplateArtichron from "../template/template.mjs";
 
@@ -95,7 +94,9 @@ export default class WeaponData extends ArsenalData {
       acc[d.type].push(d.formula);
       return acc;
     }, {})).map(([type, formulas]) => {
-      return new DamageRoll(formulas.join("+"), rollData, {type: type}).alter(1, stamina + (configuration.uses || 0));
+      const roll = new CONFIG.Dice.DamageRoll(formulas.join("+"), rollData, {type: type});
+      roll.alter(1, stamina + (configuration.uses || 0));
+      return roll;
     });
 
     const actorUpdate = {};

@@ -1,5 +1,3 @@
-import {DamageRoll} from "../../dice/damage-roll.mjs";
-
 const {SetField, StringField, DocumentUUIDField, BooleanField, JSONField} = foundry.data.fields;
 
 class ForeignDocumentUUIDField extends DocumentUUIDField {
@@ -102,7 +100,7 @@ export class ItemMessageData extends ChatMessageSystemModel {
     };
     const rolls = await Promise.all(this.parent.rolls.map(formatRoll));
 
-    const isDamage = this.parent.rolls.some(roll => roll instanceof DamageRoll);
+    const isDamage = this.parent.rolls.some(roll => roll instanceof CONFIG.Dice.DamageRoll);
     const hbs = "systems/artichron/templates/chat/item-message.hbs";
     const content = await renderTemplate(hbs, {
       item, actor, targets, effect, rolls, templateData, isDamage: isDamage

@@ -270,7 +270,7 @@ export default class ActorArtichron extends Actor {
     }, {classes: ["dialog", "artichron"]});
     if (!amount) return null;
 
-    const roll = await new Roll(pool.formula).alter(1, amount - 1).evaluate();
+    const roll = await Roll.create(pool.formula).alter(1, amount - 1).evaluate();
     update[`system.pools.${type}.value`] = pool.value - amount;
     if (message) {
       const dice = game.i18n.localize(`ARTICHRON.${type.capitalize()}DiePl`);
@@ -345,7 +345,7 @@ export default class ActorArtichron extends Actor {
       pool: game.i18n.localize(`ARTICHRON.Pools.${pool.capitalize()}`)
     });
 
-    return new Roll(formula, rollData).toMessage({flavor, speaker}, {rollMode});
+    return Roll.create(formula, rollData).toMessage({flavor, speaker}, {rollMode});
   }
 
   /**

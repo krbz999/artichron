@@ -1,5 +1,4 @@
 import SpellUseDialog from "../../applications/item/spell-use-dialog.mjs";
-import {DamageRoll} from "../../dice/damage-roll.mjs";
 import ActiveEffectArtichron from "../effect/active-effect.mjs";
 import {EffectBuffData} from "../effect/system-model.mjs";
 import MeasuredTemplateArtichron from "../template/template.mjs";
@@ -134,7 +133,7 @@ export default class SpellData extends ArsenalData {
       // Offensive magic
       const {formula, type} = this.damage.parts.find(d => d.id === configuration.damage);
       const rollData = this.parent.getRollData();
-      const roll = new DamageRoll(formula, rollData, {type: type});
+      const roll = new CONFIG.Dice.DamageRoll(formula, rollData, {type: type});
       if (configuration.additional) roll.alter(1, configuration.additional);
       messageData.rolls = [roll];
     } else if (this.category.subtype === "buff") {

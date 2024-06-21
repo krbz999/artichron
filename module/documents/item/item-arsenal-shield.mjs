@@ -1,5 +1,4 @@
 import ArsenalData from "./item-arsenal.mjs";
-import {DamageRoll} from "../../dice/damage-roll.mjs";
 import {FormulaField} from "../fields/formula-field.mjs";
 
 const {NumberField, SchemaField, StringField} = foundry.data.fields;
@@ -82,7 +81,7 @@ export default class ShieldData extends ArsenalData {
       acc[d.type].push(d.formula);
       return acc;
     }, {})).map(([type, formulas]) => {
-      return new DamageRoll(formulas.join("+"), rollData, {type: type}).alter(0.5);
+      return new CONFIG.Dice.DamageRoll(formulas.join("+"), rollData, {type: type}).alter(0.5);
     });
 
     if (actor.inCombat) {

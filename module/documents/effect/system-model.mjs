@@ -476,8 +476,8 @@ export class EffectConditionData extends ActiveEffectSystemModel {
    */
   async #executeBurning() {
     const actor = this.parent.parent;
-    const formula = `${this.level}d12`;
-    const roll = new CONFIG.Dice.DamageRoll(formula, {}, {type: "fire"});
+    const formula = "(@level)d12";
+    const roll = new CONFIG.Dice.DamageRoll(formula, {level: this.level}, {type: "fire"});
     await roll.toMessage({
       flavor: game.i18n.format("ARTICHRON.StatusConditions.BurningFlavor", {actor: actor.name}),
       sound: null
