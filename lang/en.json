@@ -458,12 +458,20 @@
   },
 
   "StatusConditions": {
-    "Defeated": "Defeated",
     "Blind": "Blind",
+    "Burning": "Burning",
+    "BurningHint": "{actor} takes {level}d12 fire damage at the start of every round.",
+    "BurningFlavor": "{actor} is burning",
+    "Defeated": "Defeated",
+    "Flying": "Flying",
     "Hindered": "Hindered",
     "Invisible": "Invisible",
-    "Underground": "Underground",
-    "Flying": "Flying",
-    "Levitating": "Levitating"
+    "Levitating": "Levitating",
+    "Underground": "Underground"
+  },
+
+  "Combat": {
+    "StartRoundTitle": "Start of Round Conditions",
+    "StartRoundConfirm": "Apply"
   }
 }}

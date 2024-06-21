@@ -97,9 +97,10 @@ export default class CombatArtichron extends Combat {
   async _onStartRound() {
     await super._onStartRound();
 
-    if (this.previous.round === 0) return;
-
     const [defeated, undefeated] = this.combatants.contents.partition(c => !c.isDefeated && !!c.actor);
+    await this._promptRoundStartConditions(undefeated);
+
+    if (this.previous.round === 0) return;
 
     const updates = [];
     for (const [i, c] of undefeated.entries()) {
@@ -137,5 +138,73 @@ export default class CombatArtichron extends Combat {
     const {stamina, mana} = actor.system.pools;
     const max = Math.max(stamina.max, mana.max);
     await combatant.update({"system.pips": Math.min(pips, max)});
+  }
+
+  /**
+   * Prompt the GM to apply any effects from conditions that apply at the start of the round.
+   * @param {Combatant[]} combatants      An array of undefeated combatants whose conditions to apply.
+   * @returns {Promise}
+   */
+  async _promptRoundStartConditions(combatants) {
+    const actors = new Set(combatants.map(c => c.actor));
+
+    const fieldsets = [];
+
+    for (const actor of actors) {
+      const effects = [];
+      for (const effect of actor.appliedEffects) {
+        if (effect.type !== "condition") continue;
+        const primary = effect.system.primary;
+        if (!effect.system.constructor.ROUND_START.has(primary)) continue;
+        effects.push(effect);
+      }
+
+      if (effects.length) {
+        fieldsets.push({
+          actor: actor,
+          effects: effects.map(e => e.system.toFormGroup())
+        });
+      }
+    }
+
+    if (!fieldsets.length) return;
+
+    const content = fieldsets.map(({actor, effects}) => {
+      const fieldset = document.createElement("FIELDSET");
+      fieldset.dataset.actorUuid = actor.uuid;
+
+      const legend = document.createElement("LEGEND");
+      legend.textContent = actor.name;
+
+      fieldset.appendChild(legend);
+      for (const e of effects) fieldset.appendChild(e);
+
+      return fieldset.outerHTML;
+    }).join("");
+
+    const uuids = await foundry.applications.api.DialogV2.prompt({
+      rejectClose: false,
+      modal: true,
+      content: content,
+      window: {
+        icon: "fa-solid fa-bolt",
+        title: "ARTICHRON.Combat.StartRoundTitle"
+      },
+      position: {
+        width: 400,
+        height: "auto"
+      },
+      ok: {
+        label: "ARTICHRON.Combat.StartRoundConfirm",
+        icon: "fa-solid fa-bolt",
+        callback: (event, button, html) => new FormDataExtended(button.form).object
+      }
+    });
+
+    for (const [uuid, active] of Object.entries(uuids)) {
+      if (!active) continue;
+      const effect = await fromUuid(uuid);
+      await effect.system.execute();
+    }
   }
 }
