@@ -1,8 +1,12 @@
 export default class CombatArtichron extends Combat {
   /** @override */
   setupTurns() {
+    const o = this.turn; // store the old turn value since core will bludgeon it.
     const turns = super.setupTurns();
-    return this._alternateSort(turns);
+    const result = this._alternateSort(turns);
+    this.turns = result;
+    if (o !== null) this.turn = Math.clamp(o, 0, result.length);
+    return result;
   }
 
   /**
@@ -206,5 +210,26 @@ export default class CombatArtichron extends Combat {
       const effect = await fromUuid(uuid);
       await effect.system.execute();
     }
+  }
+
+  /** @inheritDoc */
+  _onUpdateDescendantDocuments(parent, collection, documents, changes, options, userId) {
+    // overriding this option since core will find the first entry of the combatant and use its turn value
+    options.combatTurn = this.turn;
+    super._onUpdateDescendantDocuments(parent, collection, documents, changes, options, userId);
+  }
+
+  /** @inheritDoc */
+  _onCreateDescendantDocuments(parent, collection, documents, changes, options, userId) {
+    // overriding this option since core will find the first entry of the combatant and use its turn value
+    options.combatTurn = this.turn;
+    super._onUpdateDescendantDocuments(parent, collection, documents, changes, options, userId);
+  }
+
+  /** @inheritDoc */
+  _onDeleteDescendantDocuments(parent, collection, documents, changes, options, userId) {
+    // overriding this option since core will find the first entry of the combatant and use its turn value
+    options.combatTurn = this.turn;
+    super._onUpdateDescendantDocuments(parent, collection, documents, changes, options, userId);
   }
 }

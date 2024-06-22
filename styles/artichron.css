@@ -22,6 +22,8 @@
   --artichron-effect-controls-flex: 0 0 50px;
   --artichron-item-property-flex: 0 0 60px;
   --artichron-inventory-controls-flex: 0 0 60px;
+
+  --combatant-carousel-width: 70px;
 }
 
 /* ---------------------------------------- */
@@ -53,6 +55,157 @@ dialog:-internal-dialog-in-top-layer::backdrop {
     .fa-solid {
       margin: 0;
       padding: 0;
+    }
+  }
+}
+
+/* ---------------------------------------- */
+
+#interface:has(#ui-top #navigation.collapsed) ~ #combat-carousel {
+  top: 20px;
+  left: 175px;
+}
+
+#combat-carousel {
+  position: absolute;
+  top: 60px;
+  height: 150px;
+  left: 150px;
+  display: flex;
+  gap: 1rem;
+
+  .controls {
+    gap: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 1rem;
+
+    & button {
+      display: flex;
+      width: 24px;
+      height: 24px;
+      align-items: center;
+      justify-content: center;
+      background: var(--button-background-color);
+      border: 1px solid var(--button-border-color);
+      border-radius: 4px;
+      color: var(--button-text-color);
+      text-decoration: none;
+      font-size: var(--font-size-14);
+
+      .fa-solid {
+        padding: 4px;
+        margin: 0;
+      }
+
+      &:hover {
+        background: var(--button-hover-background-color);
+        color: var(--button-hover-text-color);
+        border-color: var(--button-hover-border-color);
+        transition: background-color 0.5s, border-color 0.5s;
+      }
+    }
+  }
+
+  [data-application-part=tracker] {
+    display: flex;
+    position: relative;
+
+    .combatant {
+      width: calc(var(--combatant-carousel-width) + 1rem + 10px);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      position: absolute;
+      color: white;
+      background: rgba(0, 0, 0, 0.75);
+      padding: 5px;
+      border-width: 1px;
+      border-style: solid;
+      border-color: var(--artichron-color-gold);
+      border-radius: 5px;
+      min-height: calc(var(--combatant-carousel-width) * 2);
+
+      &.current {
+        border-color: rgb(204, 167, 35);
+        top: 1rem;
+      }
+      &.hidden {
+        border-color: rgb(75, 75, 75);
+        .avatar {
+          opacity: 0.2;
+          scale: 0.7;
+        }
+      }
+      &.defeated {
+        border-color: rgb(175, 75, 75);
+        .name { color: rgb(175, 75, 75); }
+        .avatar {
+          opacity: 0.5;
+          scale: 0.7;
+        }
+      }
+
+      &:hover {
+        .avatar { opacity: 0.2; }
+        .actions { opacity: 1; }
+      }
+
+      .avatar {
+        width: var(--combatant-carousel-width);
+        height: var(--combatant-carousel-width);
+        border: none;
+        margin: 0 auto;
+      }
+
+      .actions {
+        width: calc(var(--combatant-carousel-width) + 1rem);
+        position: absolute;
+        opacity: 0;
+        top: calc(var(--combatant-carousel-width) / 2);
+        display: flex;
+        justify-content: space-around;
+        text-align: center;
+
+        [data-action] {
+          flex: 1;
+          opacity: 0.5;
+          &.active { opacity: 1; }
+        }
+      }
+
+      .name {
+        font-family: "Bruno Ace";
+        overflow: hidden;
+        width: var(--combatant-carousel-width);
+        white-space: nowrap;
+        display: block;
+      }
+
+      .pips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2px;
+
+        .pip {
+          background-color: var(--artichron-color-gold);
+          height: calc(var(--combatant-carousel-width) / 5);
+          width: calc(var(--combatant-carousel-width) / 5);
+          border-radius: 50%;
+        }
+      }
+
+      .conditions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2px;
+
+        & img {
+          width: calc(var(--combatant-carousel-width) / 3);
+          height: calc(var(--combatant-carousel-width) / 3);
+        }
+      }
     }
   }
 }
