@@ -5,3 +5,4 @@ export {default as ActiveEffectSheetArtichron} from "./effect/effect-sheet.mjs";
 export {default as ItemFusionDialog} from "./item/fusion-dialog.mjs";
 export {default as ContextMenuArtichron} from "./context-menu.mjs";
 export {default as CombatTrackerArtichron} from "./combat/tracker.mjs";
+export {CombatCarousel} from "./combat/tracker.mjs";

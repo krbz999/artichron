@@ -1,0 +1,13 @@
+<div class="controls">
+  {{#if combat}}
+
+  {{#if active}}
+  <button type="button" data-action="endCombat" data-tooltip="ARTICHRON.Combat.EndCombat"><i class="fa-solid fa-trash"></i></button>
+  <button type="button" data-action="previousTurn" data-tooltip="ARTICHRON.Combat.PreviousTurn"><i class="fa-solid fa-arrow-left"></i></button>
+  <button type="button" data-action="nextTurn" data-tooltip="ARTICHRON.Combat.NextTurn"><i class="fa-solid fa-arrow-right"></i></button>
+  {{else}}
+  <button type="button" data-action="beginCombat" data-tooltip="ARTICHRON.Combat.BeginCombat"><i class="fa-solid fa-hand-fist"></i></button>
+  {{/if}}
+
+  {{/if}}
+</div>
