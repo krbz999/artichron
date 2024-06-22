@@ -478,6 +478,13 @@
 
   "Combat": {
     "StartRoundTitle": "Start of Round Conditions",
-    "StartRoundConfirm": "Apply"
+    "StartRoundConfirm": "Apply",
+    "BeginCombat": "Begin Combat",
+    "EndCombat": "End Combat",
+    "PreviousTurn": "Previous Turn",
+    "NextTurn": "Next Turn",
+    "PingCombatant": "Ping Combatant",
+    "ToggleDefeated": "Toggle Defeated",
+    "ToggleHidden": "Toggle Hidden"
   }
 }}

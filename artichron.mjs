@@ -104,6 +104,12 @@ Hooks.once("init", function() {
 });
 
 /* ---------------------------------------- */
+/*  Setup Hook                              */
+/* ---------------------------------------- */
+
+Hooks.once("setup", function() {});
+
+/* ---------------------------------------- */
 /*  i18nInit Hook                           */
 /* ---------------------------------------- */
 
@@ -137,7 +143,18 @@ Hooks.once("ready", function() {
       return false;
     }
   });
+
+  setupCarousel();
 });
+
+/**
+ * Create a new carousel combat tracker and render it.
+ */
+async function setupCarousel() {
+  const cls = applications.CombatCarousel;
+  const app = new cls();
+  app.render({force: true});
+}
 
 /* ---------------------------------------- */
 /*  Hotbar Macros                           */

@@ -1,0 +1,35 @@
+<div class="{{#if active}}active{{/if}}">
+  {{#if active}}
+  {{#each turns}}
+  {{#unless hide}}
+  <div class="{{cssClasses}}" data-idx="{{idx}}" style="left: {{left}};" data-id="{{combatant.id}}">
+    <img class="avatar" src="{{token.texture.src}}" alt="">
+    <div class="actions">
+      {{#if canPing}}
+      <a data-action="pingCombatant" data-tooltip="ARTICHRON.Combat.PingCombatant"><i class="fa-solid fa-bullseye-arrow"></i></a>
+      {{/if}}
+      {{#if @root.isGM}}
+      <a class="{{#if combatant.hidden}}active{{/if}}" data-action="toggleHidden" data-tooltip="ARTICHRON.Combat.ToggleHidden"><i class="fa-solid fa-eye-slash"></i></a>
+      {{/if}}
+      {{#if isOwner}}
+      <a class="{{#if defeated}}active{{/if}}" data-action="toggleDefeated" data-tooltip="ARTICHRON.Combat.ToggleDefeated"><i class="fa-solid fa-skull"></i></a>
+      {{/if}}
+    </div>
+    <span class="name">{{combatant.name}}</span>
+    <div class="pips">
+      {{#if isObserver}}
+      {{#each pips}}
+      <span class="pip"></span>
+      {{/each}}
+      {{/if}}
+    </div>
+    <div class="conditions">
+      {{#each conditions}}
+      <img src="{{img}}" alt="{{name}}" data-tooltip="{{name}}">
+      {{/each}}
+    </div>
+  </div>
+  {{/unless}}
+  {{/each}}
+  {{/if}}
+</div>
