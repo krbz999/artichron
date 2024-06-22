@@ -1,6 +1,7 @@
 const renderCarousel = foundry.utils.debounce(ct => ct.apps?.[0]?.render(), 150);
 
 export default class CombatTrackerArtichron extends CombatTracker {
+  /** @override */
   render(...args) {
     const result = super.render(...args);
     renderCarousel(this);
@@ -11,6 +12,12 @@ export default class CombatTrackerArtichron extends CombatTracker {
 const {HandlebarsApplicationMixin, ApplicationV2} = foundry.applications.api;
 
 export class CombatCarousel extends HandlebarsApplicationMixin(ApplicationV2) {
+  constructor(options = {}) {
+    super(options);
+    ui.combat.apps = [this];
+  }
+
+  /** @override */
   static DEFAULT_OPTIONS = {
     id: "combat-carousel",
     classes: ["combat-carousel"],
@@ -33,6 +40,7 @@ export class CombatCarousel extends HandlebarsApplicationMixin(ApplicationV2) {
     }
   };
 
+  /** @override */
   static PARTS = {
     controls: {
       template: "systems/artichron/templates/combat/carousel-controls.hbs"
@@ -42,25 +50,30 @@ export class CombatCarousel extends HandlebarsApplicationMixin(ApplicationV2) {
     }
   };
 
+  /**
+   * Any current combat.
+   * @type {CombatArtichron|null}
+   */
   get combat() {
     return game.combats.active;
   }
 
+  /**
+   * Any current combat's combatants.
+   * @type {CombatantArtichron[]}
+   */
   get combatants() {
     return this.combat.combatants;
   }
 
-  constructor(options = {}) {
-    super(options);
-    ui.combat.apps = [this];
-  }
-
+  /** @override */
   _insertElement(element) {
     const existing = document.getElementById(element.id);
     if (existing) existing.replaceWith(element);
     else document.querySelector("#ui-top #navigation").insertAdjacentElement("afterend", element);
   }
 
+  /** @override */
   async _prepareContext(options) {
     const context = {};
 
@@ -108,6 +121,7 @@ export class CombatCarousel extends HandlebarsApplicationMixin(ApplicationV2) {
     return context;
   }
 
+  /** @override */
   _preSyncPartState(partId, newElement, priorElement, state) {
     super._preSyncPartState(partId, newElement, priorElement, state);
 
@@ -118,6 +132,7 @@ export class CombatCarousel extends HandlebarsApplicationMixin(ApplicationV2) {
     }
   }
 
+  /** @override */
   _syncPartState(partId, newElement, priorElement, state) {
     super._syncPartState(partId, newElement, priorElement, state);
 
@@ -130,22 +145,47 @@ export class CombatCarousel extends HandlebarsApplicationMixin(ApplicationV2) {
     }
   }
 
+  /**
+   * Handle initiating combat.
+   * @param {Event} event             Initiating click event.
+   * @param {HTMLElement} target      The clicked element.
+   */
   static #beginCombat(event, target) {
     this.combat.startCombat();
   }
 
+  /**
+   * Handle ending combat.
+   * @param {Event} event             Initiating click event.
+   * @param {HTMLElement} target      The clicked element.
+   */
   static #endCombat(event, target) {
     this.combat.endCombat();
   }
 
+  /**
+   * Handle moving to the previous turn.
+   * @param {Event} event             Initiating click event.
+   * @param {HTMLElement} target      The clicked element.
+   */
   static #previousTurn(event, target) {
     this.combat.previousTurn();
   }
 
+  /**
+   * Handle moving to the next turn.
+   * @param {Event} event             Initiating click event.
+   * @param {HTMLElement} target      The clicked element.
+   */
   static #nextTurn(event, target) {
     this.combat.nextTurn();
   }
 
+  /**
+   * Handle pinging a combatant.
+   * @param {Event} event             Initiating click event.
+   * @param {HTMLElement} target      The clicked element.
+   */
   static #pingCombatant(event, target) {
     const id = target.closest("[data-id]").dataset.id;
     const combatant = this.combat.combatants.get(id);
@@ -155,6 +195,11 @@ export class CombatCarousel extends HandlebarsApplicationMixin(ApplicationV2) {
     } else canvas.ping(combatant.token.object.center);
   }
 
+  /**
+   * Handle toggling the defeated status.
+   * @param {Event} event             Initiating click event.
+   * @param {HTMLElement} target      The clicked element.
+   */
   static #toggleDefeated(event, target) {
     const id = target.closest("[data-id]").dataset.id;
     const combatant = this.combat.combatants.get(id);
@@ -162,6 +207,11 @@ export class CombatCarousel extends HandlebarsApplicationMixin(ApplicationV2) {
     if (actor) actor.toggleStatusEffect(CONFIG.specialStatusEffects.DEFEATED, {overlay: true});
   }
 
+  /**
+   * Handle toggling the 'hidden' property.
+   * @param {Event} event             Initiating click event.
+   * @param {HTMLElement} target      The clicked element.
+   */
   static #toggleHidden(event, target) {
     const id = target.closest("[data-id]").dataset.id;
     const combatant = this.combat.combatants.get(id);
