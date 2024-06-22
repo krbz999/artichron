@@ -1,57 +1,7 @@
 export default class CombatArtichron extends Combat {
   /** @override */
   setupTurns() {
-    const o = this.turn; // store the old turn value since core will bludgeon it.
-    const turns = super.setupTurns();
-    const result = this._alternateSort(turns);
-    this.turns = result;
-    if (o !== null) this.turn = Math.clamp(o, 0, result.length);
-    return result;
-  }
-
-  /**
-   * Sort combatants, alternating between negative and non-negative disposition.
-   * @param {Combatant[]} turns     The normal initiative-defined turn order.
-   */
-  _alternateSort(turns) {
-    if (!turns.length) return;
-
-    const rule = (combatant) => combatant?.token.disposition >= 0;
-
-    let firstC;
-    const [hostile, friendly] = turns.reduce((acc, combatant) => {
-      if (!combatant.token) return acc;
-      const friendly = rule(combatant);
-      if (friendly) acc[1].push(combatant);
-      else acc[0].push(combatant);
-      firstC ??= combatant;
-      return acc;
-    }, [[], []]);
-    const [first, second] = rule(firstC) ? [friendly, hostile] : [hostile, friendly];
-
-    let newarr = [];
-    let i = 0;
-    let f = 0;
-    let s = 0;
-
-    while (first[i] || second[i]) {
-      if (first[i]) {
-        newarr.push(first[i]);
-      } else if (first.length) {
-        newarr.push(first[f]);
-        f = (f + 1 === first.length) ? 0 : f + 1;
-      }
-
-      if (second[i]) {
-        newarr.push(second[i]);
-      } else if (second.length) {
-        newarr.push(second[s]);
-        s = (s + 1 === second.length) ? 0 : s + 1;
-      }
-      i++;
-    }
-
-    return this.turns = newarr;
+    return super.setupTurns();
   }
 
   /** @override */
@@ -101,47 +51,86 @@ export default class CombatArtichron extends Combat {
   async _onStartRound() {
     await super._onStartRound();
 
-    const [defeated, undefeated] = this.combatants.contents.partition(c => !c.isDefeated && !!c.actor);
-    await this._promptRoundStartConditions(undefeated);
+    const {originals, duplicates, defeated} = this.combatants.reduce((acc, c) => {
+      if (c.isDefeated || !c.actor) acc.defeated.push(c);
+      else if (c.flags.artichron?.duplicate) acc.duplicates.push(c);
+      else acc.originals.push(c);
+      return acc;
+    }, {originals: [], duplicates: [], defeated: []});
 
-    if (this.previous.round === 0) return;
+    await this._promptRoundStartConditions(originals);
 
-    const updates = [];
-    for (const [i, c] of undefeated.entries()) {
-      const roll = c.getInitiativeRoll();
-      await roll.toMessage({
-        sound: i ? null : CONFIG.sounds.dice,
-        flavor: game.i18n.format("COMBAT.RollsInitiative", {name: c.name}),
-        speaker: ChatMessage.implementation.getSpeaker({
-          actor: c.actor,
-          token: c.token,
-          alias: c.name
-        }),
-        flags: {"core.initiativeRoll": true}
-      });
-      const health = c.actor.system.pools.health.max;
-      const hindered = c.actor.appliedConditionLevel("hindered");
-      const value = Math.max(1, c.system.pips + health - hindered);
-      updates.push({_id: c.id, initiative: roll.total, "system.pips": value});
+    const reroll = this.round > 1;
+    const combatantUpdates = []; // array of objects
+    const combatantCreations = []; // array of objects
+
+    // If needed, reroll initiative internally first.
+    const combatants = [];
+    if (reroll) {
+      for (const [i, c] of originals.entries()) {
+        const roll = c.getInitiativeRoll();
+        await roll.toMessage({
+          sound: i ? null : CONFIG.sounds.dice,
+          flavor: game.i18n.format("COMBAT.RollsInitiative", {name: c.name}),
+          speaker: ChatMessage.implementation.getSpeaker({
+            actor: c.actor,
+            token: c.token,
+            alias: c.name
+          }),
+          flags: {"core.initiativeRoll": true}
+        });
+        const clone = c.clone({initiative: roll.total}, {keepId: true});
+        combatants.push(clone);
+      }
     }
 
-    for (const c of defeated) updates.push({_id: c.id, initiative: null});
+    // Make the ordering of combatants using actors.
+    const order = this._createActorOrder(reroll ? combatants : originals);
+    const actors = new Set(); // original actors, for reference later since 'originals' gets emptied.
+    for (const {actor} of originals) if (actor) actors.add(actor);
 
-    await this.updateEmbeddedDocuments("Combatant", updates);
+    // Replace each actor in `order` with a combatant. If none exists, make sure to create one.
+    for (const [i, actor] of order.entries()) {
+      const o = originals.findSplice(c => c.actor === actor);
+      if (o) {
+        combatantUpdates.push({_id: o.id, initiative: 100 - i});
+        continue;
+      }
+
+      const d = duplicates.findSplice(c => c.actor === actor);
+      if (d) {
+        combatantUpdates.push({_id: d.id, initiative: 100 - i});
+        continue;
+      }
+
+      combatantCreations.push(foundry.utils.mergeObject(actor.combatant.toObject(), {
+        "flags.artichron.duplicate": true,
+        initiative: 100 - i
+      }));
+    }
+
+    const deleteIds = duplicates.map(c => c.id);
+    for (const d of defeated) deleteIds.push(d.id);
+
+    await Promise.all([
+      this.deleteEmbeddedDocuments("Combatant", deleteIds),
+      this.createEmbeddedDocuments("Combatant", combatantCreations),
+      this.updateEmbeddedDocuments("Combatant", combatantUpdates)
+    ]);
+
+    // Create and perform actor updates.
+    const actorUpdates = [];
+    for (const actor of actors) {
+      const health = actor.system.pools.health.max;
+      const hindered = actor.appliedConditionLevel("hindered");
+      const value = Math.max(1, health - hindered);
+      const bonus = actor.system.pips.turn * this.getCombatantsByActor(actor).length;
+      actorUpdates.push([actor, {"system.pips.value": value + bonus}]);
+    }
+
+    await Promise.all(actorUpdates.map(([actor, update]) => actor.update(update)));
+
     await this.update({turn: 0});
-  }
-
-  /** @override */
-  async _onEndTurn(combatant) {
-    await super._onEndTurn(combatant);
-
-    // Get the highest of the actor's stamina/mana pool, and keep that many of the combatant's pips.
-    const actor = combatant.actor;
-    if (!actor) return;
-    const pips = combatant.system.pips;
-    const {stamina, mana} = actor.system.pools;
-    const max = Math.max(stamina.max, mana.max);
-    await combatant.update({"system.pips": Math.min(pips, max)});
   }
 
   /**
@@ -212,24 +201,45 @@ export default class CombatArtichron extends Combat {
     }
   }
 
-  /** @inheritDoc */
-  _onUpdateDescendantDocuments(parent, collection, documents, changes, options, userId) {
-    // overriding this option since core will find the first entry of the combatant and use its turn value
-    options.combatTurn = this.turn;
-    super._onUpdateDescendantDocuments(parent, collection, documents, changes, options, userId);
-  }
+  /**
+   * Create the initiative order using just actors. This array will contain repeats.
+   * @param {Combatant[]} combatants      Array of undefeated, unique combatants.
+   * @returns {ActorArtichron[]}          Array of actors, with repeats, in initiative order.
+   */
+  _createActorOrder(combatants) {
+    const [hostile, friendly] = combatants.partition(c => c.token.disposition >= 0);
+    hostile.sort(this._sortCombatants);
+    friendly.sort(this._sortCombatants);
 
-  /** @inheritDoc */
-  _onCreateDescendantDocuments(parent, collection, documents, changes, options, userId) {
-    // overriding this option since core will find the first entry of the combatant and use its turn value
-    options.combatTurn = this.turn;
-    super._onUpdateDescendantDocuments(parent, collection, documents, changes, options, userId);
-  }
+    const equalize = (a, b) => {
+      let i = 0;
+      const d = [...a];
+      while (a.length < b.length) {
+        let e = d[i];
+        if (!e) i = 0;
+        e = d[i];
+        a.push(e);
+        i++;
+      }
+    };
 
-  /** @inheritDoc */
-  _onDeleteDescendantDocuments(parent, collection, documents, changes, options, userId) {
-    // overriding this option since core will find the first entry of the combatant and use its turn value
-    options.combatTurn = this.turn;
-    super._onUpdateDescendantDocuments(parent, collection, documents, changes, options, userId);
+    // Make the arrays equal length.
+    equalize(hostile, friendly);
+    equalize(friendly, hostile);
+
+    const zip = (a, b) => {
+      const z = [];
+      for (const [i, c] of a.entries()) {
+        const e = b[i];
+        z.push(c.actor, e.actor);
+      }
+      return z;
+    };
+
+    let order;
+    if (hostile[0].initiative >= friendly[0].initiative) order = zip(hostile, friendly);
+    else order = zip(friendly, hostile);
+
+    return order;
   }
 }

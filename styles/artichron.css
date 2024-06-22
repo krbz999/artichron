@@ -61,18 +61,17 @@ dialog:-internal-dialog-in-top-layer::backdrop {
 
 /* ---------------------------------------- */
 
-#interface:has(#ui-top #navigation.collapsed) ~ #combat-carousel {
-  top: 20px;
-  left: 175px;
+#interface #ui-top #navigation.collapsed + #combat-carousel [data-application-part=tracker] {
+  top: -2rem;
 }
 
 #combat-carousel {
   position: absolute;
   top: 60px;
-  height: 150px;
-  left: 150px;
+  height: calc(150px + 1rem);
   display: flex;
   gap: 1rem;
+  width: 100%;
 
   .controls {
     gap: 0.5rem;
@@ -93,6 +92,7 @@ dialog:-internal-dialog-in-top-layer::backdrop {
       color: var(--button-text-color);
       text-decoration: none;
       font-size: var(--font-size-14);
+      pointer-events: all;
 
       .fa-solid {
         padding: 4px;
@@ -111,6 +111,9 @@ dialog:-internal-dialog-in-top-layer::backdrop {
   [data-application-part=tracker] {
     display: flex;
     position: relative;
+    width: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
 
     .combatant {
       width: calc(var(--combatant-carousel-width) + 1rem + 10px);
@@ -126,6 +129,7 @@ dialog:-internal-dialog-in-top-layer::backdrop {
       border-color: var(--artichron-color-gold);
       border-radius: 5px;
       min-height: calc(var(--combatant-carousel-width) * 2);
+      pointer-events: all;
 
       &.current {
         border-color: rgb(204, 167, 35);

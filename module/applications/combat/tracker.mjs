@@ -55,6 +55,12 @@ export class CombatCarousel extends HandlebarsApplicationMixin(ApplicationV2) {
     ui.combat.apps = [this];
   }
 
+  _insertElement(element) {
+    const existing = document.getElementById(element.id);
+    if (existing) existing.replaceWith(element);
+    else document.querySelector("#ui-top #navigation").insertAdjacentElement("afterend", element);
+  }
+
   async _prepareContext(options) {
     const context = {};
 
@@ -85,7 +91,7 @@ export class CombatCarousel extends HandlebarsApplicationMixin(ApplicationV2) {
           token: t.token,
           idx: i,
           combatant: t,
-          pips: Array(t.system.pips).fill(0),
+          pips: Array(t.actor.system.pips.value).fill(0),
           left: left,
           defeated: dead,
           initiative: t.initiative,
@@ -94,7 +100,7 @@ export class CombatCarousel extends HandlebarsApplicationMixin(ApplicationV2) {
           cssClasses: cssClasses,
           conditions: conditions,
           canPing: (t.sceneId === canvas.scene?.id) && game.user.hasPermission("PING_CANVAS"),
-          hide: !context.isGM && t.hidden
+          hide: !context.isGM && t.token.hidden
         });
       }
     }
@@ -107,8 +113,8 @@ export class CombatCarousel extends HandlebarsApplicationMixin(ApplicationV2) {
 
     for (const c of priorElement.querySelectorAll(".combatant")) {
       const id = c.dataset.id;
-      state[id] ??= [];
-      state[id].push(c.offsetLeft);
+      state.offsets ??= {};
+      state.offsets[id] = c.offsetLeft;
     }
   }
 
@@ -117,18 +123,9 @@ export class CombatCarousel extends HandlebarsApplicationMixin(ApplicationV2) {
 
     if (partId === "tracker") {
       const turnsN = newElement.querySelectorAll(".combatant");
-
-      const ids = new Set();
-      for (const n of turnsN) ids.add(n.dataset.id);
-
-      for (const id of ids) {
-        const lefts = state[id];
-        if (!lefts) continue;
-        const turns = Array.from(turnsN).filter(k => k.dataset.id === id);
-        for (const [i, left] of lefts.entries()) {
-          const t = turns[i];
-          if (t) t.animate([{left: `${left}px`}, {left: `${t.offsetLeft}px`}], {duration: 300, easing: "ease-in-out"});
-        }
+      for (const n of turnsN) {
+        const o = state.offsets?.[n.dataset.id];
+        if (o) n.animate([{left: `${o}px`}, {left: `${n.offsetLeft}px`}], {duration: 300, easing: "ease-in-out"});
       }
     }
   }
@@ -168,6 +165,7 @@ export class CombatCarousel extends HandlebarsApplicationMixin(ApplicationV2) {
   static #toggleHidden(event, target) {
     const id = target.closest("[data-id]").dataset.id;
     const combatant = this.combat.combatants.get(id);
-    combatant.update({hidden: !combatant.hidden});
+    const combatants = this.combat.getCombatantsByToken(combatant.token);
+    this.combat.updateEmbeddedDocuments("Combatant", combatants.map(c => ({_id: c.id, hidden: !combatant.hidden})));
   }
 }

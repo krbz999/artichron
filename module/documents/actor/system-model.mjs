@@ -52,6 +52,10 @@ export class ActorSystemModel extends foundry.abstract.TypeDataModel {
         arms: new EmbeddedDataField(SkillDiceModel),
         legs: new EmbeddedDataField(SkillDiceModel)
       }),
+      pips: new SchemaField({
+        value: new NumberField({min: 0, integer: true}),
+        turn: new NumberField({min: 0, integer: true, initial: 2})
+      }),
       traits: new SchemaField({
         pool: new StringField({required: true, initial: "health", choices: ["health", "stamina", "mana"]})
       })

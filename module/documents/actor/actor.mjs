@@ -511,24 +511,23 @@ export default class ActorArtichron extends Actor {
   }
 
   /**
-   * Reference to this actor's combatant's current amount of pips.
+   * Reference to this actor's current amount of pips.
    * @type {number|null}      The action points, or null if not in combat.
    */
   get actionPoints() {
-    const c = this.combatant;
-    return c ? c.system.pips : null;
+    if (!this.inCombat) return null;
+    return this.system.pips.value;
   }
 
   /**
    * Adjust the remaining action points of this actor.
-   * @param {number} [value]            The amount to spend. Omit to spend 1 point, use negative values to gain points.
-   * @returns {Promise<Combatant>}      A promise that resolves to the updated combatant.
+   * @param {number} [value]                The amount to spend. Omit to spend 1 point, use negative values to gain points.
+   * @returns {Promise<ActorArtichron>}     A promise that resolves to the updated actor.
    */
   async spendActionPoints(value = 1) {
-    const c = this.combatant;
-    if (!c) throw new Error("This actor is not in combat.");
-    await c.update({"system.pips": c.system.pips - value});
-    return c;
+    if (!this.inCombat) throw new Error("This actor is not in combat.");
+    await this.update({"system.pips.value": this.system.pips.value - value});
+    return this;
   }
 
   /**
