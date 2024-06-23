@@ -100,6 +100,7 @@ export class CombatCarousel extends HandlebarsApplicationMixin(ApplicationV2) {
         }) ?? [];
 
         const pips = t.actor.system.pips.value;
+        const hp = t.actor.system.health;
         const observer = context.isGM || !!t.actor?.testUserPermission(game.user, "OBSERVER");
         const hide = !context.isGM && t.hidden;
         if (hide) hidden++;
@@ -123,7 +124,12 @@ export class CombatCarousel extends HandlebarsApplicationMixin(ApplicationV2) {
           cssClasses: cssClasses,
           conditions: conditions,
           canPing: (t.sceneId === canvas.scene?.id) && game.user.hasPermission("PING_CANVAS"),
-          hide: hide
+          hide: hide,
+          health: {
+            value: hp.value,
+            max: hp.max,
+            pct: hp.pct
+          }
         });
       }
     }
@@ -141,7 +147,8 @@ export class CombatCarousel extends HandlebarsApplicationMixin(ApplicationV2) {
         state.offsets ??= {};
         state.offsets[id] = {
           left: c.offsetLeft,
-          top: c.offsetTop
+          top: c.offsetTop,
+          hp: c.querySelector(".health")?.clientWidth ?? false
         };
       }
       state.scrollLeft = priorElement.scrollLeft;
@@ -158,7 +165,8 @@ export class CombatCarousel extends HandlebarsApplicationMixin(ApplicationV2) {
       for (const n of turnsN) {
         const o = state.offsets?.[n.dataset.id];
         const m = {left: n.offsetLeft, top: n.offsetTop};
-        if (o && !foundry.utils.objectsEqual(o, m)) transitions.push({
+        const positionChange = o ? (o.left !== m.left) || (o.top !== m.top) : false;
+        if (positionChange) transitions.push({
           element: n,
           params: [
             {left: `${o.left}px`, top: `${o.top}px`},
@@ -166,6 +174,14 @@ export class CombatCarousel extends HandlebarsApplicationMixin(ApplicationV2) {
           ],
           options: {duration: 300, easing: "ease-in-out"}
         });
+        if (o && (o.hp !== false)) {
+          const bar = n.querySelector(".health");
+          if (bar) transitions.push({
+            element: bar,
+            params: [{width: `${o.hp}px`}, {width: `${bar.clientWidth}px`}],
+            options: {duration: 300, easing: "ease-in-out"}
+          });
+        }
       }
 
       // Sync the left scroll position.

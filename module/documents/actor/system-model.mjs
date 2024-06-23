@@ -125,6 +125,7 @@ export class ActorSystemModel extends foundry.abstract.TypeDataModel {
     // Set health maximum and clamp current health.
     this.health.max = 10 * this.pools.health.max * this.pools.health.faces;
     this.health.value = Math.clamp(this.health.value, 0, this.health.max);
+    this.health.pct = Math.round(this.health.value / this.health.max * 100);
   }
 
   /** @override */

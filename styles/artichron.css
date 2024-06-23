@@ -68,7 +68,7 @@ dialog:-internal-dialog-in-top-layer::backdrop {
 #combat-carousel {
   position: absolute;
   top: 60px;
-  height: calc(150px + 1rem);
+  height: calc(150px + 5rem);
   display: flex;
   gap: 1rem;
   width: 100%;
@@ -184,6 +184,14 @@ dialog:-internal-dialog-in-top-layer::backdrop {
         width: var(--combatant-carousel-width);
         white-space: nowrap;
         display: block;
+      }
+
+      .health {
+        height: 5px;
+        background-color: brown;
+        border-radius: 0 1rem 1rem 0;
+        margin: 0.3rem 0;
+        width: var(--health-width);
       }
 
       .pips {
