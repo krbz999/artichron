@@ -72,6 +72,7 @@ dialog:-internal-dialog-in-top-layer::backdrop {
   display: flex;
   gap: 1rem;
   width: 100%;
+  --current-offset: 1rem;
 
   .controls {
     gap: 0.5rem;
@@ -115,7 +116,7 @@ dialog:-internal-dialog-in-top-layer::backdrop {
     overflow: hidden;
 
     .combatant {
-      width: calc(var(--combatant-carousel-width) + 1rem + 10px);
+      width: calc(var(--combatant-carousel-width) + 1rem);
       display: flex;
       flex-direction: column;
       justify-content: flex-start;
@@ -127,12 +128,13 @@ dialog:-internal-dialog-in-top-layer::backdrop {
       border-style: solid;
       border-color: var(--artichron-color-gold);
       border-radius: 5px;
-      min-height: calc(var(--combatant-carousel-width) * 2);
+      height: fit-content;
       pointer-events: all;
 
       &.current {
         border-color: rgb(204, 167, 35);
-        top: 1rem;
+        top: var(--current-offset);
+        box-shadow: 0 0 10px 5px rgb(204, 167, 35);
       }
       &.hidden {
         border-color: rgb(75, 75, 75);
@@ -162,8 +164,9 @@ dialog:-internal-dialog-in-top-layer::backdrop {
         margin: 0 auto;
       }
 
+      &.current .actions { top: calc(var(--combatant-carousel-width) / 2); }
       .actions {
-        width: calc(var(--combatant-carousel-width) + 1rem);
+        width: var(--combatant-carousel-width);
         position: absolute;
         opacity: 0;
         top: calc(var(--combatant-carousel-width) / 2);
@@ -195,21 +198,23 @@ dialog:-internal-dialog-in-top-layer::backdrop {
       }
 
       .pips {
+        --pip-gap: 2px;
         display: flex;
         flex-wrap: wrap;
-        gap: 2px;
+        gap: var(--pip-gap);
         color: var(--artichron-color-gold);
+        --pip-size: calc(var(--combatant-carousel-width) / 5 - var(--pip-gap));
 
         .pip {
           background-color: var(--artichron-color-gold);
-          height: calc(var(--combatant-carousel-width) / 5);
-          width: calc(var(--combatant-carousel-width) / 5);
+          height: var(--pip-size);
+          width: var(--pip-size);
           border-radius: 50%;
         }
 
         .fa-solid {
-          height: calc(var(--combatant-carousel-width) / 5);
-          width: calc(var(--combatant-carousel-width) / 5);
+          height: var(--pip-size);
+          width: var(--pip-size);
         }
       }
 
@@ -219,8 +224,8 @@ dialog:-internal-dialog-in-top-layer::backdrop {
         gap: 2px;
 
         & img {
-          width: calc(var(--combatant-carousel-width) / 3);
-          height: calc(var(--combatant-carousel-width) / 3);
+          width: calc(var(--combatant-carousel-width) / 3 - 2px);
+          height: calc(var(--combatant-carousel-width) / 3 - 2px);
         }
       }
     }
