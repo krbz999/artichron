@@ -112,8 +112,7 @@ dialog:-internal-dialog-in-top-layer::backdrop {
     display: flex;
     position: relative;
     width: 100%;
-    overflow-x: hidden;
-    overflow-y: auto;
+    overflow: hidden;
 
     .combatant {
       width: calc(var(--combatant-carousel-width) + 1rem + 10px);
@@ -191,12 +190,18 @@ dialog:-internal-dialog-in-top-layer::backdrop {
         display: flex;
         flex-wrap: wrap;
         gap: 2px;
+        color: var(--artichron-color-gold);
 
         .pip {
           background-color: var(--artichron-color-gold);
           height: calc(var(--combatant-carousel-width) / 5);
           width: calc(var(--combatant-carousel-width) / 5);
           border-radius: 50%;
+        }
+
+        .fa-solid {
+          height: calc(var(--combatant-carousel-width) / 5);
+          width: calc(var(--combatant-carousel-width) / 5);
         }
       }
 

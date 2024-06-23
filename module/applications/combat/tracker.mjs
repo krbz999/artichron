@@ -100,11 +100,17 @@ export class CombatCarousel extends HandlebarsApplicationMixin(ApplicationV2) {
 
         const left = `calc((var(--combatant-carousel-width) + 4px + 1rem + 10px) * ${i})`;
 
+        const pips = t.actor.system.pips.value;
+
         context.turns.push({
           token: t.token,
           idx: i,
           combatant: t,
-          pips: Array(t.actor.system.pips.value).fill(0),
+          ap: {
+            pips: Array(Math.min(pips, 10)).fill(0),
+            overflow: pips > 10,
+            amount: pips
+          },
           left: left,
           defeated: dead,
           initiative: t.initiative,
@@ -164,6 +170,39 @@ export class CombatCarousel extends HandlebarsApplicationMixin(ApplicationV2) {
       const current = newElement.querySelector(".combatant.current");
       this.transitionCombatantsAndScrollIntoView(current, transitions);
     }
+  }
+
+  /** @override */
+  _attachFrameListeners() {
+    super._attachFrameListeners();
+    if (game.user.isGM) {
+      new artichron.applications.ContextMenuArtichron(this.element, ".combatant[data-id]", [], {onOpen: element => {
+        const combatant = this.combat.combatants.get(element.dataset.id);
+        ui.context.menuItems = this._getCombatantContextOptions(combatant);
+      }});
+    }
+  }
+
+  /**
+   * Create context menu option for a combatant.
+   * @param {CombatantArtichron} combatant      The combatant.
+   * @returns {object[]}                        The array of options.
+   */
+  _getCombatantContextOptions(combatant) {
+    return [{
+      name: "ARTICHRON.Combat.ContextUpdateCombatant",
+      icon: "<i class='fa-solid fa-fw fa-edit'></i>",
+      callback: () => combatant.sheet.render(true)
+    }, {
+      name: "ARTICHRON.Combat.ContextClearInitiative",
+      icon: "<i class='fa-solid fa-fw fa-undo'></i>",
+      callback: () => combatant.update({initiative: null}),
+      condition: () => combatant.initiative !== null
+    }, {
+      name: "ARTICHRON.Combat.ContextRemoveCombatant",
+      icon: "<i class='fa-solid fa-fw fa-trash'></i>",
+      callback: () => combatant.delete()
+    }];
   }
 
   /**
