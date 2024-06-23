@@ -16,11 +16,10 @@
       {{/if}}
     </div>
     <span class="name">{{combatant.name}}</span>
-    <div class="pips">
+    <div class="pips" data-tooltip="{{localize 'ARTICHRON.Combat.ActionPointsOverflow' n=ap.amount}}">
       {{#if isObserver}}
-      {{#each pips}}
-      <span class="pip"></span>
-      {{/each}}
+      {{#each ap.pips}}<span class="pip"></span>{{/each}}
+      {{#if ap.overflow}}<i class="fa-solid fa-ellipsis"></i>{{/if}}
       {{/if}}
     </div>
     <div class="conditions">

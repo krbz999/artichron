@@ -485,6 +485,10 @@
     "NextTurn": "Next Turn",
     "PingCombatant": "Ping Combatant",
     "ToggleDefeated": "Toggle Defeated",
-    "ToggleHidden": "Toggle Hidden"
+    "ToggleHidden": "Toggle Hidden",
+    "ActionPointsOverflow": "Pips: {n}",
+    "ContextUpdateCombatant": "Update Combatant",
+    "ContextClearInitiative": "clear Initiative",
+    "ContextRemoveCombatant": "Remove Combatant"
   }
 }}

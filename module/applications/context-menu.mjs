@@ -10,7 +10,7 @@ export default class ContextMenuArtichron extends ContextMenu {
     const {width, height} = html.getBoundingClientRect();
 
     const {clientX, clientY} = event;
-    const left = Math.min(clientX, clientWidth - width);
+    const left = Math.min(clientX, clientWidth - width) + 1;
     this._expandUp = clientY + height > clientHeight;
     html.classList.add("artichron");
     html.classList.toggle("expand-up", this._expandUp);
@@ -18,7 +18,7 @@ export default class ContextMenuArtichron extends ContextMenu {
     html.style.visibility = "";
     html.style.left = `${left}px`;
     if (this._expandUp) html.style.bottom = `${clientHeight - clientY}px`;
-    else html.style.top = `${clientY}px`;
+    else html.style.top = `${clientY + 1}px`;
     target.classList.add("context");
     html.style.zIndex = `${_maxZ + 1}`;
   }
