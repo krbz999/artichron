@@ -105,7 +105,7 @@ export class CombatCarousel extends HandlebarsApplicationMixin(ApplicationV2) {
         const hide = !context.isGM && t.hidden;
         if (hide) hidden++;
 
-        const left = `calc((var(--combatant-carousel-width) + 4px + 1rem + 10px) * ${Math.max(i - hidden, 0)})`;
+        const left = `calc((var(--combatant-carousel-width) + 1rem + 4px) * ${Math.max(i - hidden, 0)})`;
 
         context.turns.push({
           token: t.token,
