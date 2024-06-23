@@ -12,9 +12,11 @@
     <header>
       <span class="name"></span>
       <span class="properties"></span>
+      {{#if @root.isEditMode}}
       <button class="controls" type="button" data-action="createItem" data-tooltip="ARTICHRON.SheetActions.CreateItem" data-section="{{id}}">
         <i class="fa-solid fa-plus"></i>
       </button>
+      {{/if}}
     </header>
 
     {{#each items}}
@@ -55,8 +57,8 @@
 
       <div class="controls">
         <a class="control" data-action="favoriteItem"><i class="fa-{{ifThen favorited 'solid' 'regular'}} fa-star"></i></a>
-        <a class="control" data-action="editItem"><i class="fa-solid fa-edit"></i></a>
         {{#if @root.isEditMode}}
+        <a class="control" data-action="editItem"><i class="fa-solid fa-edit"></i></a>
         <a class="control" data-action="deleteItem"><i class="fa-solid fa-trash"></i></a>
         {{/if}}
       </div>
