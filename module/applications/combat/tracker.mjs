@@ -86,6 +86,7 @@ export class CombatCarousel extends HandlebarsApplicationMixin(ApplicationV2) {
       context.active = true;
       context.turns = [];
       const turn = c.turn;
+      let hidden = 0;
       for (const [i, t] of c.turns.entries()) {
         const dead = t.isDefeated;
         const cssClasses = [
@@ -98,9 +99,12 @@ export class CombatCarousel extends HandlebarsApplicationMixin(ApplicationV2) {
           return (e.type === "condition") && (e.system.primary !== CONFIG.specialStatusEffects.DEFEATED);
         }) ?? [];
 
-        const left = `calc((var(--combatant-carousel-width) + 4px + 1rem + 10px) * ${i})`;
-
         const pips = t.actor.system.pips.value;
+        const observer = context.isGM || !!t.actor?.testUserPermission(game.user, "OBSERVER");
+        const hide = !context.isGM && t.hidden;
+        if (hide) hidden++;
+
+        const left = `calc((var(--combatant-carousel-width) + 4px + 1rem + 10px) * ${Math.max(i - hidden, 0)})`;
 
         context.turns.push({
           token: t.token,
@@ -115,11 +119,11 @@ export class CombatCarousel extends HandlebarsApplicationMixin(ApplicationV2) {
           defeated: dead,
           initiative: t.initiative,
           isOwner: t.isOwner,
-          isObserver: context.isGM || !!t.actor?.testUserPermission(game.user, "OBSERVER"),
+          isObserver: observer,
           cssClasses: cssClasses,
           conditions: conditions,
           canPing: (t.sceneId === canvas.scene?.id) && game.user.hasPermission("PING_CANVAS"),
-          hide: !context.isGM && t.token.hidden
+          hide: hide
         });
       }
     }
