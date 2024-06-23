@@ -125,10 +125,16 @@ export class CombatCarousel extends HandlebarsApplicationMixin(ApplicationV2) {
   _preSyncPartState(partId, newElement, priorElement, state) {
     super._preSyncPartState(partId, newElement, priorElement, state);
 
-    for (const c of priorElement.querySelectorAll(".combatant")) {
-      const id = c.dataset.id;
-      state.offsets ??= {};
-      state.offsets[id] = c.offsetLeft;
+    if (partId === "tracker") {
+      for (const c of priorElement.querySelectorAll(".combatant")) {
+        const id = c.dataset.id;
+        state.offsets ??= {};
+        state.offsets[id] = {
+          left: c.offsetLeft,
+          top: c.offsetTop
+        };
+      }
+      state.scrollLeft = priorElement.scrollLeft;
     }
   }
 
@@ -138,10 +144,37 @@ export class CombatCarousel extends HandlebarsApplicationMixin(ApplicationV2) {
 
     if (partId === "tracker") {
       const turnsN = newElement.querySelectorAll(".combatant");
+      const transitions = [];
       for (const n of turnsN) {
         const o = state.offsets?.[n.dataset.id];
-        if (o) n.animate([{left: `${o}px`}, {left: `${n.offsetLeft}px`}], {duration: 300, easing: "ease-in-out"});
+        const m = {left: n.offsetLeft, top: n.offsetTop};
+        if (o && !foundry.utils.objectsEqual(o, m)) transitions.push({
+          element: n,
+          params: [
+            {left: `${o.left}px`, top: `${o.top}px`},
+            {left: `${m.left}px`, top: `${m.top}px`}
+          ],
+          options: {duration: 300, easing: "ease-in-out"}
+        });
       }
+
+      // Sync the left scroll position.
+      if (state.scrollLeft) newElement.scrollLeft = state.scrollLeft;
+
+      const current = newElement.querySelector(".combatant.current");
+      this.transitionCombatantsAndScrollIntoView(current, transitions);
+    }
+  }
+
+  /**
+   * Perform an animated scroll and transition of the combatants and the tracker.
+   * @param {HTMLElement} [current]     The combatant marked as 'current'.
+   * @param {object[]} transitions      The configuration of animations.
+   */
+  transitionCombatantsAndScrollIntoView(current, transitions) {
+    current?.scrollIntoView({behavior: "smooth", inline: "center"});
+    for (const {element, params, options} of transitions) {
+      element.animate(params, options);
     }
   }
 
