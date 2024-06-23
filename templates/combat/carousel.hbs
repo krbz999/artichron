@@ -16,6 +16,9 @@
       {{/if}}
     </div>
     <span class="name">{{combatant.name}}</span>
+    {{#if isObserver}}
+    <span class="health" style="--health-width: {{health.pct}}%;" data-tooltip="{{localize 'ARTICHRON.Combat.HealthBar' value=health.value max=health.max}}"></span>
+    {{/if}}
     <div class="pips" data-tooltip="{{localize 'ARTICHRON.Combat.ActionPointsOverflow' n=ap.amount}}">
       {{#if isObserver}}
       {{#each ap.pips}}<span class="pip"></span>{{/each}}
