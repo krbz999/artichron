@@ -53,8 +53,19 @@ export class ActorSystemModel extends foundry.abstract.TypeDataModel {
         legs: new EmbeddedDataField(SkillDiceModel)
       }),
       pips: new SchemaField({
-        value: new NumberField({min: 0, integer: true}),
-        turn: new NumberField({min: 0, integer: true, initial: 2})
+        value: new NumberField({
+          min: 0,
+          integer: true,
+          label: "ARTICHRON.ActorProperty.ActionPoints.Value",
+          hint: "ARTICHRON.ActorProperty.ActionPoints.ValueHint"
+        }),
+        turn: new NumberField({
+          min: 0,
+          integer: true,
+          initial: 2,
+          label: "ARTICHRON.ActorProperty.ActionPoints.Turn",
+          hint: "ARTICHRON.ActorProperty.ActionPoints.TurnHint"
+        })
       }),
       traits: new SchemaField({
         pool: new StringField({required: true, initial: "health", choices: ["health", "stamina", "mana"]})

@@ -539,4 +539,31 @@ export default class ActorArtichron extends Actor {
     if (!this.inCombat) return true;
     return this.actionPoints >= value;
   }
+
+  /**
+   * Render a dialog to adjust the action points.
+   * @returns {Promise}
+   */
+  async actionPointsDialog() {
+    if (!this.inCombat) return null;
+    const field = this.system.schema.getField("pips.value");
+    const max = Math.max(this.system.pips.value, 15);
+    const value = this.system.pips.value;
+    const content = field.toFormGroup({localize: true}, {max: max, value: value});
+    foundry.applications.api.DialogV2.prompt({
+      content: `<fieldset>${content.outerHTML}</fieldset>`,
+      modal: true,
+      rejectClose: false,
+      window: {title: field.label, icon: "fa-solid fa-circle"},
+      position: {width: 400, height: "auto"},
+      ok: {
+        icon: "fa-solid fa-check",
+        label: "Confirm",
+        callback: (event, button, html) => {
+          const name = "system.pips.value";
+          this.update({[name]: button.form.elements[name].value});
+        }
+      }
+    });
+  }
 }
