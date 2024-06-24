@@ -112,8 +112,8 @@ export class CombatCarousel extends HandlebarsApplicationMixin(ApplicationV2) {
           idx: i,
           combatant: t,
           ap: {
-            pips: Array(Math.min(pips, 10)).fill(0),
-            overflow: pips > 10,
+            pips: Array(pips > 15 ? 14 : pips).fill(0),
+            overflow: pips > 15,
             amount: pips
           },
           left: left,
@@ -195,12 +195,10 @@ export class CombatCarousel extends HandlebarsApplicationMixin(ApplicationV2) {
   /** @override */
   _attachFrameListeners() {
     super._attachFrameListeners();
-    if (game.user.isGM) {
-      new artichron.applications.ContextMenuArtichron(this.element, ".combatant[data-id]", [], {onOpen: element => {
-        const combatant = this.combat.combatants.get(element.dataset.id);
-        ui.context.menuItems = this._getCombatantContextOptions(combatant);
-      }});
-    }
+    new artichron.applications.ContextMenuArtichron(this.element, ".combatant[data-id]", [], {onOpen: element => {
+      const combatant = this.combat.combatants.get(element.dataset.id);
+      ui.context.menuItems = this._getCombatantContextOptions(combatant);
+    }});
   }
 
   /**
@@ -209,19 +207,27 @@ export class CombatCarousel extends HandlebarsApplicationMixin(ApplicationV2) {
    * @returns {object[]}                        The array of options.
    */
   _getCombatantContextOptions(combatant) {
+    const isGM = game.user.isGM;
     return [{
       name: "ARTICHRON.Combat.ContextUpdateCombatant",
       icon: "<i class='fa-solid fa-fw fa-edit'></i>",
-      callback: () => combatant.sheet.render(true)
+      callback: () => combatant.sheet.render(true),
+      condition: () => isGM
     }, {
       name: "ARTICHRON.Combat.ContextClearInitiative",
       icon: "<i class='fa-solid fa-fw fa-undo'></i>",
       callback: () => combatant.update({initiative: null}),
-      condition: () => combatant.initiative !== null
+      condition: () => isGM && (combatant.initiative !== null)
     }, {
       name: "ARTICHRON.Combat.ContextRemoveCombatant",
       icon: "<i class='fa-solid fa-fw fa-trash'></i>",
-      callback: () => combatant.delete()
+      callback: () => combatant.delete(),
+      condition: () => isGM
+    }, {
+      name: "ARTICHRON.Combat.ContextUpdateActionPoints",
+      icon: "<i class='fa-solid fa-fw fa-circle'></i>",
+      callback: () => combatant.actor.actionPointsDialog(),
+      condition: () => combatant.actor.isOwner
     }];
   }
 
