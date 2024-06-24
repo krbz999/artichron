@@ -162,6 +162,15 @@
     "Planar": "Planar"
   },
 
+  "ActorProperty": {
+    "ActionPoints": {
+      "Value": "Action Points",
+      "ValueHint": "The number of action points this actor has remaining to spend on actions during combat.",
+      "Turn": "Turn Bonus",
+      "TurnHint": "The number of additional action points this actor receives for each additional turn it may take in a combat round."
+    }
+  },
+
   "ItemProperty": {
     "Favorited": "Favorited",
     "ResistancePl": "Resistances",
@@ -489,6 +498,7 @@
     "ActionPointsOverflow": "Pips: {n}",
     "ContextUpdateCombatant": "Update Combatant",
     "ContextClearInitiative": "clear Initiative",
-    "ContextRemoveCombatant": "Remove Combatant"
+    "ContextRemoveCombatant": "Remove Combatant",
+    "ContextUpdateActionPoints": "Update Action Points"
   }
 }}
