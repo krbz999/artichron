@@ -144,7 +144,7 @@ export default class SpellData extends ArsenalData {
     }
 
     if (actor.inCombat) {
-      await actor.spendActionPoints(item.system.cost.value);
+      await actor.spendActionPoints(this.parent.system.cost.value);
     }
 
     return this.toMessage(messageData);
