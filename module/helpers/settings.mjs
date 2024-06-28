@@ -24,7 +24,7 @@ export function registerSettings() {
     hint: "ARTICHRON.Setting.TemplateAreaThresholdHint"
   });
 
-  // The length of the token bars (between 90 and 180).
+  // The length of the token bars (between 45 and 180).
   game.settings.register(id, "tokenBarLength", {
     scope: "world",
     requiresReload: false,
@@ -34,5 +34,13 @@ export function registerSettings() {
     config: true,
     name: "ARTICHRON.Setting.TokenBarLength",
     hint: "ARTICHRON.Setting.TokenBarLengthHint"
+  });
+
+  // Client setting for saving the collapsed state of the combat tracker.
+  game.settings.register(id, "combatTrackerCollapsed", {
+    scope: "client",
+    requiresReload: false,
+    type: new foundry.data.fields.BooleanField({initial: false}),
+    config: false
   });
 }

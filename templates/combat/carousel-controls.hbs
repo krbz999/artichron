@@ -1,4 +1,4 @@
-<div class="controls">
+<div class="controls {{collapsed}}" data-tooltip-direction="RIGHT">
   {{#if combat}}
 
   {{#if active}}
@@ -8,6 +8,7 @@
   {{else}}
   <button type="button" data-action="beginCombat" data-tooltip="ARTICHRON.Combat.BeginCombat"><i class="fa-solid fa-hand-fist"></i></button>
   {{/if}}
+  <button type="button" data-action="toggleCollapsed" data-tooltip="ARTICHRON.Combat.ToggleCollapsed"><i class="fa-solid fa-chevron-down"></i></button>
 
   {{/if}}
 </div>
