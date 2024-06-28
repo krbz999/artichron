@@ -114,8 +114,8 @@ export class CombatCarousel extends HandlebarsApplicationMixin(ApplicationV2) {
           idx: i,
           combatant: t,
           ap: {
-            pips: Array(pips > 15 ? 14 : pips).fill(0),
-            overflow: pips > 15,
+            pips: Array(pips > 18 ? 17 : pips).fill(0),
+            overflow: pips > 18,
             amount: pips
           },
           left: Math.max(i - hidden, 0),
