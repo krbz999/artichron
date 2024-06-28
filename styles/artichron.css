@@ -63,12 +63,12 @@ dialog:-internal-dialog-in-top-layer::backdrop {
 /* ---------------------------------------- */
 
 #interface #ui-top #navigation.collapsed + #combat-carousel [data-application-part=tracker] {
-  top: -3rem;
+  top: -44px;
 }
 
 #combat-carousel {
-  position: absolute;
-  top: 60px;
+  position: static;
+  top: 32px;
   height: calc(var(--combatant-width) * 3);
   display: flex;
   width: 100%;
@@ -239,6 +239,9 @@ dialog:-internal-dialog-in-top-layer::backdrop {
         color: var(--artichron-color-gold);
         --pip-size: calc(var(--combatant-inner-width) / 6 - var(--pip-gap) / 2);
         gap: var(--pip-gap);
+        overflow: hidden auto;
+        scrollbar-width: none;
+        max-height: calc(var(--combatant-inner-width) + 2 * var(--pip-gap));
 
         .pip {
           background-color: var(--artichron-color-gold);
@@ -250,6 +253,14 @@ dialog:-internal-dialog-in-top-layer::backdrop {
         .fa-solid {
           height: var(--pip-size);
           width: var(--pip-size);
+          &::before {
+            line-height: var(--pip-size);
+            width: var(--pip-size);
+            font-size: var(--pip-size);
+            display: flex;
+            justify-content: center;
+            text-align: center;
+          }
         }
       }
 
