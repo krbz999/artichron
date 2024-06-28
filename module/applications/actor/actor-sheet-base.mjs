@@ -115,7 +115,7 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
     return {
       value: hp.value,
       max: hp.max,
-      height: Math.round(Math.clamp(hp.value / hp.max, 0, 1) * 100)
+      height: Math.round((1 - Math.clamp(hp.value / hp.max, 0, 1)) * 100)
     };
   }
 
@@ -299,21 +299,29 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
   }
 
   /** @override */
+  _preSyncPartState(p, ne, pe, s) {
+    super._preSyncPartState(p, ne, pe, s);
+    if (p === "attributes") {
+      const o = pe.querySelector(".health-bar");
+      s.healthHeight = o.offsetTop;
+    }
+  }
+
+  /** @override */
   _syncPartState(partId, newElement, priorElement, state) {
     super._syncPartState(partId, newElement, priorElement, state);
 
     if (partId === "attributes") {
-      const oldBar = priorElement.querySelector(".health-bar");
       const newBar = newElement.querySelector(".health-bar");
-      const frames = [{height: oldBar.style.height}, {height: newBar.style.height}];
-      newBar.animate(frames, {duration: 1000, easing: "ease"});
+      const frames = [{top: `${state.healthHeight}px`}, {top: `${newBar.offsetTop}px`}];
+      newBar.animate(frames, {duration: 1000, easing: "ease-in-out"});
     }
 
     else if (partId === "encumbrance") {
       const oldBar = priorElement.querySelector(".encumbrance .bar");
       const newBar = newElement.querySelector(".encumbrance .bar");
       const frames = [{width: oldBar.style.width}, {width: newBar.style.width}];
-      newBar.animate(frames, {duration: 1000, easing: "ease"});
+      newBar.animate(frames, {duration: 1000, easing: "ease-in-out"});
     }
   }
 
