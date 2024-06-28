@@ -18,12 +18,13 @@
   --artichron-color-black-45: rgba(0, 0, 0, 0.45);
   --artichron-color-gold: #9f9275;
 
+  --artichron-color-enemy: rgba(255, 97, 144, 0.699);
+  --artichron-color-ally: rgba(98, 98, 255, 0.788);
+
   --artichron-effect-source-flex: 0 0 100px;
   --artichron-effect-controls-flex: 0 0 50px;
   --artichron-item-property-flex: 0 0 60px;
   --artichron-inventory-controls-flex: 0 0 60px;
-
-  --combatant-carousel-width: 70px;
 }
 
 /* ---------------------------------------- */
@@ -62,17 +63,21 @@ dialog:-internal-dialog-in-top-layer::backdrop {
 /* ---------------------------------------- */
 
 #interface #ui-top #navigation.collapsed + #combat-carousel [data-application-part=tracker] {
-  top: -2rem;
+  top: -3rem;
 }
 
 #combat-carousel {
   position: absolute;
   top: 60px;
-  height: calc(150px + 5rem);
+  height: calc(var(--combatant-width) * 3);
   display: flex;
-  gap: 1rem;
   width: 100%;
   --current-offset: 1rem;
+  --margin-left: 1rem;
+  --combatant-gap: 4px;
+  --combatant-inner-width: 3rem;
+  --combatant-width: calc(var(--combatant-inner-width) + 1rem);
+  --pip-gap: 2px;
 
   .controls {
     gap: 0.5rem;
@@ -114,17 +119,23 @@ dialog:-internal-dialog-in-top-layer::backdrop {
     position: relative;
     width: 100%;
     overflow: hidden;
+    padding-left: var(--margin-left);
+    margin-left: var(--margin-left);
+    top: 0;
+    transition: top 150ms cubic-bezier(0.31, 0.73, 0.47, 1.67);
 
     .combatant {
-      width: calc(var(--combatant-carousel-width) + 1rem);
+      width: var(--combatant-width);
       display: flex;
       flex-direction: column;
       justify-content: flex-start;
       position: absolute;
+      left: calc(var(--margin-left) + (var(--combatant-width) + var(--combatant-gap)) * var(--combatant-left-idx));
       color: white;
       background: rgba(0, 0, 0, 0.75);
       padding: 5px;
       border-width: 1px;
+      border-top-width: 5px;
       border-style: solid;
       border-color: var(--artichron-color-gold);
       border-radius: 5px;
@@ -151,6 +162,12 @@ dialog:-internal-dialog-in-top-layer::backdrop {
           scale: 0.7;
         }
       }
+      &.hostile {
+        border-top-color: var(--artichron-color-enemy);
+      }
+      &.friendly {
+        border-top-color: var(--artichron-color-ally);
+      }
 
       &:hover {
         .avatar { opacity: 0.2; }
@@ -158,25 +175,27 @@ dialog:-internal-dialog-in-top-layer::backdrop {
       }
 
       .avatar {
-        width: var(--combatant-carousel-width);
-        height: var(--combatant-carousel-width);
+        width: var(--combatant-inner-width);
+        height: var(--combatant-inner-width);
         border: none;
         margin: 0 auto;
       }
 
-      &.current .actions { top: calc(var(--combatant-carousel-width) / 2); }
+      &.current .actions { top: calc(var(--combatant-inner-width) / 2); }
       .actions {
-        width: var(--combatant-carousel-width);
+        width: var(--combatant-inner-width);
         position: absolute;
         opacity: 0;
-        top: calc(var(--combatant-carousel-width) / 2);
+        top: calc(var(--combatant-inner-width) / 2);
         display: flex;
-        justify-content: space-around;
+        flex-wrap: wrap;
+        justify-content: space-evenly;
         text-align: center;
 
         [data-action] {
           flex: 1;
           opacity: 0.5;
+          font-size: calc(var(--combatant-inner-width) / 5);
           &.active { opacity: 1; }
         }
       }
@@ -184,26 +203,32 @@ dialog:-internal-dialog-in-top-layer::backdrop {
       .name {
         font-family: "Bruno Ace";
         overflow: hidden;
-        width: var(--combatant-carousel-width);
+        width: var(--combatant-inner-width);
         white-space: nowrap;
         display: block;
+        font-size: calc(var(--combatant-inner-width) / 4);
       }
 
       .health {
         height: 5px;
-        background-color: brown;
+        width: 100%;
         border-radius: 0 1rem 1rem 0;
         margin: 0.3rem 0;
-        width: var(--health-width);
+        display: flex;
+
+        .bar {
+          background-color: brown;
+          width: var(--health-width);
+        }
       }
 
       .pips {
         --pip-gap: 2px;
         display: flex;
         flex-wrap: wrap;
-        gap: var(--pip-gap);
         color: var(--artichron-color-gold);
-        --pip-size: calc(var(--combatant-carousel-width) / 5 - var(--pip-gap));
+        --pip-size: calc(var(--combatant-inner-width) / 6 - var(--pip-gap) / 2);
+        gap: var(--pip-gap);
 
         .pip {
           background-color: var(--artichron-color-gold);
@@ -221,11 +246,15 @@ dialog:-internal-dialog-in-top-layer::backdrop {
       .conditions {
         display: flex;
         flex-wrap: wrap;
-        gap: 2px;
+        overflow: hidden auto;
+        scrollbar-width: none;
+        max-height: var(--combatant-inner-width);
+        gap: var(--pip-gap);
+        --size: calc(100% / 3 - var(--pip-gap));
 
         & img {
-          width: calc(var(--combatant-carousel-width) / 3 - 2px);
-          height: calc(var(--combatant-carousel-width) / 3 - 2px);
+          width: var(--size);
+          height: var(--size);
         }
       }
     }

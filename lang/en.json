@@ -486,19 +486,20 @@
   },
 
   "Combat": {
-    "StartRoundTitle": "Start of Round Conditions",
-    "StartRoundConfirm": "Apply",
-    "BeginCombat": "Begin Combat",
-    "EndCombat": "End Combat",
-    "PreviousTurn": "Previous Turn",
-    "NextTurn": "Next Turn",
-    "PingCombatant": "Ping Combatant",
-    "ToggleDefeated": "Toggle Defeated",
-    "ToggleHidden": "Toggle Hidden",
     "ActionPointsOverflow": "Pips: {n}",
-    "ContextUpdateCombatant": "Update Combatant",
+    "BeginCombat": "Begin Combat",
     "ContextClearInitiative": "clear Initiative",
     "ContextRemoveCombatant": "Remove Combatant",
-    "ContextUpdateActionPoints": "Update Action Points"
+    "ContextUpdateActionPoints": "Update Action Points",
+    "ContextUpdateCombatant": "Update Combatant",
+    "EndCombat": "End Combat",
+    "HealthBar": "Health ({value} / {max})",
+    "NextTurn": "Next Turn",
+    "PingCombatant": "Ping Combatant",
+    "PreviousTurn": "Previous Turn",
+    "StartRoundConfirm": "Apply",
+    "StartRoundTitle": "Start of Round Conditions",
+    "ToggleDefeated": "Toggle Defeated",
+    "ToggleHidden": "Toggle Hidden"
   }
 }}
