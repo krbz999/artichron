@@ -36,7 +36,8 @@ export class CombatCarousel extends HandlebarsApplicationMixin(ApplicationV2) {
       nextTurn: this.#nextTurn,
       pingCombatant: this.#pingCombatant,
       toggleDefeated: this.#toggleDefeated,
-      toggleHidden: this.#toggleHidden
+      toggleHidden: this.#toggleHidden,
+      toggleCollapsed: this.#toggleCollapsed
     }
   };
 
@@ -81,6 +82,7 @@ export class CombatCarousel extends HandlebarsApplicationMixin(ApplicationV2) {
     context.isGM = game.user.isGM;
     context.combat = c;
     context.active = false;
+    context.collapsed = game.settings.get("artichron", "combatTrackerCollapsed") ? "collapsed" : "";
 
     if (c && c.started) {
       context.active = true;
@@ -315,5 +317,15 @@ export class CombatCarousel extends HandlebarsApplicationMixin(ApplicationV2) {
     const combatant = this.combat.combatants.get(id);
     const combatants = this.combat.getCombatantsByToken(combatant.token);
     this.combat.updateEmbeddedDocuments("Combatant", combatants.map(c => ({_id: c.id, hidden: !combatant.hidden})));
+  }
+
+  /**
+   * Toggle the collapsed state of the combat tracker.
+   * @param {Event} event             Initiating click event.
+   * @param {HTMLElement} target      The clicked element.
+   */
+  static #toggleCollapsed(event, target) {
+    const collapsed = target.closest(".controls").classList.toggle("collapsed");
+    game.settings.set("artichron", "combatTrackerCollapsed", collapsed);
   }
 }
