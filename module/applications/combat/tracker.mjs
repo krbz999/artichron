@@ -93,7 +93,9 @@ export class CombatCarousel extends HandlebarsApplicationMixin(ApplicationV2) {
           "combatant",
           t.hidden ? "hidden" : null,
           dead ? "defeated" : null,
-          (turn === i) ? "current" : null
+          (turn === i) ? "current" : null,
+          (t.token.disposition === CONST.TOKEN_DISPOSITIONS.HOSTILE) ? "hostile" : null,
+          (t.token.disposition === CONST.TOKEN_DISPOSITIONS.FRIENDLY) ? "friendly" : null
         ].filterJoin(" ");
         const conditions = t.actor?.effects.filter(e => {
           return (e.type === "condition") && (e.system.primary !== CONFIG.specialStatusEffects.DEFEATED);
@@ -105,8 +107,6 @@ export class CombatCarousel extends HandlebarsApplicationMixin(ApplicationV2) {
         const hide = !context.isGM && t.hidden;
         if (hide) hidden++;
 
-        const left = `calc((var(--combatant-carousel-width) + 1rem + 4px) * ${Math.max(i - hidden, 0)})`;
-
         context.turns.push({
           token: t.token,
           idx: i,
@@ -116,7 +116,7 @@ export class CombatCarousel extends HandlebarsApplicationMixin(ApplicationV2) {
             overflow: pips > 15,
             amount: pips
           },
-          left: left,
+          left: Math.max(i - hidden, 0),
           defeated: dead,
           initiative: t.initiative,
           isOwner: t.isOwner,
@@ -148,7 +148,7 @@ export class CombatCarousel extends HandlebarsApplicationMixin(ApplicationV2) {
         state.offsets[id] = {
           left: c.offsetLeft,
           top: c.offsetTop,
-          hp: c.querySelector(".health")?.clientWidth ?? false
+          hp: c.querySelector(".health .bar")?.clientWidth ?? false
         };
       }
       state.scrollLeft = priorElement.scrollLeft;
@@ -175,7 +175,7 @@ export class CombatCarousel extends HandlebarsApplicationMixin(ApplicationV2) {
           options: {duration: 300, easing: "ease-in-out"}
         });
         if (o && (o.hp !== false)) {
-          const bar = n.querySelector(".health");
+          const bar = n.querySelector(".health .bar");
           if (bar) transitions.push({
             element: bar,
             params: [{width: `${o.hp}px`}, {width: `${bar.clientWidth}px`}],
