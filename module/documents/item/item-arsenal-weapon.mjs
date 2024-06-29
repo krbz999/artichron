@@ -67,9 +67,8 @@ export default class WeaponData extends ArsenalData {
 
     this._targeting = true;
     const token = this.parent.token;
-    const [target] = await this.pickTarget({origin: token, count: 1, allowPreTarget: true, range});
+    let targets = await this.pickTarget({origin: token, count: 1, allowPreTarget: true, range});
     delete this._targeting;
-    if (!target) return null;
 
     // Construct roll data and damage parts.
     const rollData = item.getRollData();
@@ -111,7 +110,7 @@ export default class WeaponData extends ArsenalData {
     ]);
 
     // Create a template for the blast zone and modify targets.
-    const targets = new Set([target.actor.uuid]);
+    targets = targets.map(t => t.actor.uuid);
     if (ammoModifiers.has("blast")) {
       const template = await this.constructor.createBlastZone(token, target.object, ammo.system.blast);
       await template.waitForShape();

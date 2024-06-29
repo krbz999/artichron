@@ -1,506 +1,509 @@
 {
 "TYPES": {
-  "Actor.boss": "Boss",
-  "Actor.bossPl": "Bosses",
-  "Actor.hero": "Hero",
-  "Actor.heroPl": "Heroes",
-  "Actor.merchant": "Merchant",
-  "Actor.merchantPl": "Merchants",
-  "Actor.monster": "Monster",
-  "Actor.monsterPl": "Monsters",
-  "Item.ammo": "Ammunition",
-  "Item.ammoPl": "Ammunition",
-  "Item.armor": "Armor Piece",
-  "Item.armorPl": "Armor Pieces",
-  "Item.elixir": "Elixir",
-  "Item.elixirPl": "Elixirs",
-  "Item.part": "Monster Part",
-  "Item.partPl": "Monster Parts",
-  "Item.shield": "Shield",
-  "Item.shieldPl": "Shields",
-  "Item.spell": "Spell",
-  "Item.spellPl": "Spells",
-  "Item.weapon": "Weapon",
-  "Item.weaponPl": "Weapons",
-  "ActiveEffect.fusion": "Fusion",
-  "ActiveEffect.fusionPl": "Fusions",
-  "ActiveEffect.buff": "Buff",
-  "ActiveEffect.buffPl": "Buffs",
-  "ActiveEffect.condition": "Condition",
-  "ActiveEffect.conditionPl": "Conditions",
-  "ActiveEffect.enhancement": "Enhancement",
-  "ActiveEffect.enhancementPl": "Enhancements"
+"Actor.boss": "Boss",
+"Actor.bossPl": "Bosses",
+"Actor.hero": "Hero",
+"Actor.heroPl": "Heroes",
+"Actor.merchant": "Merchant",
+"Actor.merchantPl": "Merchants",
+"Actor.monster": "Monster",
+"Actor.monsterPl": "Monsters",
+"Item.ammo": "Ammunition",
+"Item.ammoPl": "Ammunition",
+"Item.armor": "Armor Piece",
+"Item.armorPl": "Armor Pieces",
+"Item.elixir": "Elixir",
+"Item.elixirPl": "Elixirs",
+"Item.part": "Monster Part",
+"Item.partPl": "Monster Parts",
+"Item.shield": "Shield",
+"Item.shieldPl": "Shields",
+"Item.spell": "Spell",
+"Item.spellPl": "Spells",
+"Item.weapon": "Weapon",
+"Item.weaponPl": "Weapons",
+"ActiveEffect.fusion": "Fusion",
+"ActiveEffect.fusionPl": "Fusions",
+"ActiveEffect.buff": "Buff",
+"ActiveEffect.buffPl": "Buffs",
+"ActiveEffect.condition": "Condition",
+"ActiveEffect.conditionPl": "Conditions",
+"ActiveEffect.enhancement": "Enhancement",
+"ActiveEffect.enhancementPl": "Enhancements"
 },
 "ARTICHRON": {
-  "ItemSheet": {
-    "Base": "Artichron Item Sheet"
-  },
-  "ActorSheet": {
-    "Base": "Artichron Actor Sheet"
-  },
 
-  "WeaponType": {
-    "Axe": "Axe",
-    "Bow": "Bow",
-    "Chakram": "Chakram",
-    "Dagger": "Dagger",
-    "Hammer": "Hammer",
-    "MeteorHammer": "Meteor Hammer",
-    "NunChuck": "Nun-Chuck",
-    "Pistol": "Pistol",
-    "Rifle": "Rifle",
-    "Shotgun": "Shotgun",
-    "Spear": "Spear",
-    "Sword": "Sword"
-  },
+"ItemSheet": {
+  "Base": "Artichron Item Sheet"
+},
+"ActorSheet": {
+  "Base": "Artichron Actor Sheet"
+},
 
-  "ArmorType": {
-    "Accessory": "Accessory",
-    "Arms": "Arm Piece",
-    "Boots": "Boots",
-    "Chest": "Chest Piece",
-    "Head": "Head Piece",
-    "Legs": "Leg Piece"
-  },
+"WeaponType": {
+  "Axe": "Axe",
+  "Bow": "Bow",
+  "Chakram": "Chakram",
+  "Dagger": "Dagger",
+  "Hammer": "Hammer",
+  "MeteorHammer": "Meteor Hammer",
+  "NunChuck": "Nun-Chuck",
+  "Pistol": "Pistol",
+  "Rifle": "Rifle",
+  "Shotgun": "Shotgun",
+  "Spear": "Spear",
+  "Sword": "Sword"
+},
 
-  "ShieldType": {
-    "Buckler": "Buckler",
-    "Heater": "Heater",
-    "Kite": "Kite",
-    "Tower": "Tower"
-  },
+"ArmorType": {
+  "Accessory": "Accessory",
+  "Arms": "Arm Piece",
+  "Boots": "Boots",
+  "Chest": "Chest Piece",
+  "Head": "Head Piece",
+  "Legs": "Leg Piece"
+},
 
-  "AmmunitionType": {
-    "Arrow": "Arrow",
-    "Bullet": "Bullet",
-    "Round": "Round",
-    "Shell": "Shotgun Shell"
-  },
+"ShieldType": {
+  "Buckler": "Buckler",
+  "Heater": "Heater",
+  "Kite": "Kite",
+  "Tower": "Tower"
+},
 
-  "ElixirType": {
-    "Booster": "Booster",
-    "Buff": "Buff",
-    "Restorative": "Restorative"
-  },
+"AmmunitionType": {
+  "Arrow": "Arrow",
+  "Bullet": "Bullet",
+  "Round": "Round",
+  "Shell": "Shotgun Shell"
+},
 
-  "SheetTab": {
-    "Attributes": "Attributes",
-    "Equipment": "Equipment",
-    "Inventory": "Inventory",
-    "Description": "Description",
-    "Details": "Details",
-    "Properties": "Properties",
-    "Effects": "Effects",
-    "Arsenal": "Arsenal",
-    "Gear": "Gear",
-    "Consumables": "Consumables",
-    "Loot": "Loot",
-    "EffectDetails": "Details",
-    "EffectDuration": "Duration",
-    "EffectChanges": "Changes"
-  },
+"ElixirType": {
+  "Booster": "Booster",
+  "Buff": "Buff",
+  "Restorative": "Restorative"
+},
 
-  "SheetActions": {
-    "RecoverHealth": "Recover Health",
-    "EditSkills": "Edit Skills",
-    "EditPools": "Edit Pools",
-    "RollSkillHead": "Roll Head",
-    "RollSkillArms": "Roll Arms",
-    "RollSkillLegs": "Roll Legs",
-    "CreateItem": "Create New Item",
-    "CreateBuff": "Create New Buff",
-    "CreateFusion": "Create New Fusion",
-    "CreateEnhancement": "Create Enhancement",
-    "EditItem": "Edit Item",
-    "ChangeItem": "Change Item",
-    "FuseItem": "Fuse Item",
-    "ToggleSheet": "Toggle Sheet",
-    "ToggleOpacity": "Toggle Opacity"
-  },
+"SheetTab": {
+  "Attributes": "Attributes",
+  "Equipment": "Equipment",
+  "Inventory": "Inventory",
+  "Description": "Description",
+  "Details": "Details",
+  "Properties": "Properties",
+  "Effects": "Effects",
+  "Arsenal": "Arsenal",
+  "Gear": "Gear",
+  "Consumables": "Consumables",
+  "Loot": "Loot",
+  "EffectDetails": "Details",
+  "EffectDuration": "Duration",
+  "EffectChanges": "Changes"
+},
 
-  "Pools": {
-    "Section": "Pools",
-    "Config": "Pools: {name}",
-    "Primary": "Primary Pool",
-    "Health": "Health",
-    "HealthDie": "Health Die",
-    "HealthDiePl": "Health Dice",
-    "Mana": "Mana",
-    "ManaDie": "Mana Die",
-    "ManaDiePl": "Mana Dice",
-    "ManaDieCount": "1 Mana Die",
-    "ManaDieCountPl": "{count} Mana Dice",
-    "Stamina": "Stamina",
-    "StaminaDie": "Stamina Die",
-    "StaminaDiePl": "Stamina Dice",
-    "StaminaDieCount": "1 Stamina Die",
-    "StaminaDieCountPl": "{count} Stamina Dice"
-  },
+"SheetActions": {
+  "RecoverHealth": "Recover Health",
+  "EditSkills": "Edit Skills",
+  "EditPools": "Edit Pools",
+  "RollSkillHead": "Roll Head",
+  "RollSkillArms": "Roll Arms",
+  "RollSkillLegs": "Roll Legs",
+  "CreateItem": "Create New Item",
+  "CreateBuff": "Create New Buff",
+  "CreateFusion": "Create New Fusion",
+  "CreateEnhancement": "Create Enhancement",
+  "EditItem": "Edit Item",
+  "ChangeItem": "Change Item",
+  "FuseItem": "Fuse Item",
+  "ToggleSheet": "Toggle Sheet",
+  "ToggleOpacity": "Toggle Opacity"
+},
 
-  "Skills": {
-    "Config": "Skills: {name}",
-    "RollFlavor": "{skill} Roll ({pool})",
-    "Head": "Head",
-    "Arms": "Arms",
-    "Legs": "Legs"
-  },
+"Pools": {
+  "Section": "Pools",
+  "Config": "Pools: {name}",
+  "Primary": "Primary Pool",
+  "Health": "Health",
+  "HealthDie": "Health Die",
+  "HealthDiePl": "Health Dice",
+  "Mana": "Mana",
+  "ManaDie": "Mana Die",
+  "ManaDiePl": "Mana Dice",
+  "ManaDieCount": "1 Mana Die",
+  "ManaDieCountPl": "{count} Mana Dice",
+  "Stamina": "Stamina",
+  "StaminaDie": "Stamina Die",
+  "StaminaDiePl": "Stamina Dice",
+  "StaminaDieCount": "1 Stamina Die",
+  "StaminaDieCountPl": "{count} Stamina Dice"
+},
 
-  "DamageType": {
-    "Arcane": "Arcane",
-    "Darkness": "Darkness",
-    "Fire": "Fire",
-    "Ice": "Ice",
-    "Light": "Light",
-    "Lightning": "Lightning",
-    "Physical": "Physical",
-    "Wind": "Wind"
-  },
+"Skills": {
+  "Config": "Skills: {name}",
+  "RollFlavor": "{skill} Roll ({pool})",
+  "Head": "Head",
+  "Arms": "Arms",
+  "Legs": "Legs"
+},
 
-  "DamageTypeGroup": {
-    "Physical": "Physical",
-    "Elemental": "Elemental",
-    "Planar": "Planar"
-  },
+"DamageType": {
+  "Arcane": "Arcane",
+  "Darkness": "Darkness",
+  "Fire": "Fire",
+  "Ice": "Ice",
+  "Light": "Light",
+  "Lightning": "Lightning",
+  "Physical": "Physical",
+  "Wind": "Wind"
+},
 
-  "ActorProperty": {
-    "ActionPoints": {
-      "Value": "Action Points",
-      "ValueHint": "The number of action points this actor has remaining to spend on actions during combat.",
-      "Turn": "Turn Bonus",
-      "TurnHint": "The number of additional action points this actor receives for each additional turn it may take in a combat round."
-    }
-  },
+"DamageTypeGroup": {
+  "Physical": "Physical",
+  "Elemental": "Elemental",
+  "Planar": "Planar"
+},
 
-  "ItemProperty": {
-    "Favorited": "Favorited",
-    "ResistancePl": "Resistances",
-
-    "Fieldsets": {
-      "BlastZone": "Blast Zone",
-      "DamageOverrides": "Damage Overrides",
-      "Damages": "Damages",
-      "Defenses": "Defenses",
-      "Handling": "Handling",
-      "LimitedUses": "Limited Uses",
-      "Attributes": "Attributes",
-      "Configuration": "Configuration",
-      "Resistances": "Resistances"
-    },
-
-    "Attributes": {
-      "Value": "Attributes",
-      "ValueHint": "Unique attributes of this item."
-    },
-    "Description": {
-      "Value": "Description",
-      "ValueHint": ""
-    },
-    "Category": {
-      "SubtypeAmmo": "Ammunition Type",
-      "SubtypeAmmoHint": "The ammunition type determines which weapons can make use of it.",
-      "SubtypeArmor": "Armor Type",
-      "SubtypeArmorHint": "The type of armor this is, which decides how it is equipped.",
-      "SubtypeElixir": "Elixir Type",
-      "SubtypeElixirHint": "The type of elixir this is.",
-      "SubtypePart": "Subtype",
-      "SubtypePartHint": "TODO",
-      "SubtypeShield": "Shield Type",
-      "SubtypeShieldHint": "The shield type determines how much it protects the wielder.",
-      "SubtypeSpell": "Spell Type",
-      "SubtypeSpellHint": "The spell type determines how it affects enemies and allies.",
-      "SubtypeWeapon": "Weapon Type",
-      "SubtypeWeaponHint": "The weapon type determines the ammunition it can use.",
-      "PoolBooster": "Boost",
-      "PoolBoosterHint": "The pool that this elixir can grant a boost of during an attack.",
-      "PoolRestorative": "Pool",
-      "PoolRestorativeHint": "The pool that this elixir can restore when consumed.",
-      "PoolElixirChoiceHealth": "Health",
-      "PoolElixirChoiceStamina": "Stamina",
-      "PoolElixirChoiceMana": "Mana"
-    },
-    "Range": {
-      "Value": "Range",
-      "ValueHint": "The maximum range of the item."
-    },
-    "Price": {
-      "Value": "Price",
-      "ValueHint": "The deemed value of the item."
-    },
-    "Blast": {
-      "Size": "Size",
-      "SizeHint": "The size of the accompanying blast zone when using this ammunition.",
-      "Type": "Shape",
-      "TypeHint": "The shape of the blast zone."
-    },
-    "Cost": {
-      "Value": "Action Cost",
-      "ValueHintWeapon": "The action point cost to make an attack with this weapon.",
-      "ValueHintSpell": "The action point cost to cast a spell using this item.",
-      "ValueHintShield": "The action point cost to make an attack with this shield."
-    },
-    "Weight": {
-      "Value": "Weight",
-      "ValueHint": "The amount that this item contributes to its owner's encumbrance."
-    },
-    "Quantity": {
-      "Value": "Quantity",
-      "ValueHint": "The size of this stack of items."
-    },
-    "Damage": {
-      "Override": {
-        "Group": "Target Group",
-        "GroupHint": "The group of damage types that this ammunition will override the type of.",
-        "GroupChoiceAll": "All Types",
-        "Value": "Type",
-        "ValueHint": "The new damage type that will be used in place of the overridden group."
-      }
-    },
-    "Armor": {
-      "Value": "Armor",
-      "ValueHint": "The armor value of this item, which reduces incoming physical damage."
-    },
-    "Wield": {
-      "Value": "Wielding",
-      "ValueHint": "The number of hands required to handle this item.",
-      "ValueChoiceOneHanded": "One-Handed",
-      "ValueChoiceTwoHanded": "Two-Handed"
-    },
-    "Template": {
-      "Types": "Targeting Types",
-      "TypesHint": "The shape or type of targeting of this spell."
-    },
-    "Usage": {
-      "Value": "Uses",
-      "ValueHint": "The number of remaining uses of this item.",
-      "Max": "Max Uses",
-      "MaxHint": "The total number of uses of this item."
-    }
-  },
-
-  "ItemAttribute": {
-    "Blocking": "Blocking",
-    "Magical": "Magical",
-    "Parrying": "Parrying",
-    "Rending": "Rending"
-  },
-
-  "EffectProperty": {
-    "Expiration": "Expiration",
-    "ExpirationHint": "The trigger for when this effect will expire.",
-    "ExpirationNone": "None",
-    "ExpirationCombat": "Combat",
-    "ExpirationDay": "Day",
-    "SubtypeBuff": "Subtype",
-    "SubtypeFusion": "Fusion Subtype",
-    "SubtypeFusionHint": "The properties available to choose from, derived from the chosen item subtype.",
-    "FieldsetDetails": "Details",
-    "FieldsetDuration": "Duration"
-  },
-
-  "ItemUseDialog": {
-    "Confirm": "Confirm"
-  },
-
-  "SpellUseDialog": {
-    "Buff": "Buff",
-    "Count": "Count",
-    "Damage": "Damage",
-    "Distance": "Distance",
-    "Additional": "Additional",
-    "Radius": "Radius",
-    "Range": "Range",
-    "Shape": "Shape",
-    "Title": "{item}: Spellcasting",
-    "Width": "Width",
-    "Boosters": "Boosters",
-    "BoostersHint": "Boosting elixirs to consume which each act as consuming 1 additional point of mana."
-  },
-
-  "ItemFusionDialog": {
-    "Title": "{source}: Fuse",
-    "TitleUnfuse": "{item}: Split",
-    "TargetLabel": "Target",
-    "FusionLabel": "Fusion",
-    "Confirm": "Confirm",
-    "UnfuseTitle": "Split '{source}' and '{target}'?"
-  },
-
-  "WeaponUseDialog": {
-    "Title": "{name}: Attack",
-    "Ammunition": "Ammunition",
-    "AmmunitionHint": "An optional ammunition to use for this attack, which will alter the damage roll.",
-    "Stamina": "Stamina",
-    "StaminaHint": "Each point of stamina expended will increase the dice roll quantity by one.",
-    "BoosterItem": "Booster",
-    "BoosterItemHint": "Consume the uses of a boosting elixir, each consumed use acting as 1 additional point of stamina.",
-    "BoosterUses": "Boost Uses"
-  },
-
-  "ItemFusionChanges": {
-    "Name.Label": "Name",
-    "Name.ADD": "The name will be appended '{change}'.",
-    "Name.OVERRIDE": "The name will become '{change}'.",
-
-    "Image.Label": "Image",
-    "Image.OVERRIDE": "The image will become '{change}'.",
-
-    "Price.Label": "Price",
-    "Price.ADD": "The price of the item will increase by {change}.",
-    "Price.OVERRIDE": "The price of the item will become {change}.",
-
-    "Weight.Label": "Weight",
-    "Weight.ADD": "The weight of the item will increase by {change}.",
-    "Weight.OVERRIDE": "The weight of the item will become {change}.",
-
-    "Armor.Label": "Armor",
-    "Armor.ADD": "The armor value of the item will increase by {change}.",
-    "Armor.OVERRIDE": "The armor value of the item will become {change}.",
-
-    "Resistance.Label": "{type} Resistance",
-    "Resistance.ADD": "The item will grant an additional {change} points of {type} resistance.",
-    "Resistance.OVERRIDE": "The item will grant {change} points of {type} resistance.",
-
-    "Range.Label": "Range",
-    "Range.ADD": "The range of the item will increase by {change}.",
-    "Range.OVERRIDE": "The range of the item will become {change}.",
-
-    "Wield.Label": "Wielding",
-    "Wield.OVERRIDE": "The item will require using one hand to wield.",
-    "WieldPl.OVERRIDE": "The item will require using two hands to wield.",
-
-    "Damage.Label": "Damage",
-    "Damage.ADD": "The item will deal an additional {change} damage."
-  },
-
-  "SpellType": {
-    "Buff": "Buff Magic",
-    "Defense": "Defensive Magic",
-    "Offense": "Offensive Magic"
-  },
-
-  "SpellShape": {
-    "SingleTarget": "Single Target",
-    "AreaRay": "Line",
-    "AreaCone": "Cone",
-    "AreaCircle": "Circle",
-    "AreaRadius": "Radius"
-  },
-
-  "Setting": {
-    "CircularTokens": "Circular Tokens",
-    "CircularTokensHint": "Are tokens treated as circular for the purpose of their hit area?",
-    "TemplateAreaThreshold": "Template Area Threshold",
-    "TemplateAreaThresholdHint": "The percentage a token must overlap a template to be considered 'inside' it. The default is 0.4.",
-    "TokenBarLength": "Token Bar Length",
-    "TokenBarLengthHint": "The length of token bars, in degrees. The default is 120."
-  },
-
-  "Warning": {
-    "ItemHasNoTemplateTypes": "This item has no template types set!",
-    "ItemIsNotEquipped": "The item must be equipped to be used!",
-    "NotEnoughPips": "You do not have enough pips remaining to make an attack!",
-    "AlreadyAtMaxHealth": "{name} is already at their maximum health.",
-    "FieldOverridden": "This field has been disabled as it is being modified by an effect.",
-    "InvalidActiveEffectType": "The chosen effect type is not valid for this parent.",
-    "NoAvailableEquipment": "You have no available equipment of that type.",
-    "MissingActionPoints": "You do not have enough Action Points to perform that action."
-  },
-
-  "EquipDialog": {
-    "Title": "Change Equipped Item"
-  },
-
-  "SkillDialog": {
-    "Title": "Roll Skill: {skill}"
-  },
-
-  "ElixirDialog": {
-    "Title": "Use Elixir: {name}",
-    "Effect": "Effect",
-    "EffectHint": "Pick one of the effects from the elixir that will be granted.",
-    "Confirm": "Confirm",
-    "WarningUsage": "The elixir has no remaining uses left!",
-    "WarningEffects": "The elixir has no effects it can grant!"
-  },
-
-  "DefenseDialog": {
-    "Title": "Defense Roll",
-    "Items": "Arsenal",
-    "ItemsHint": "Choose any of your equipped arsenal to defend against the attack and reduce incoming damage. Each item used will require 1 pip.",
-    "Confirm": "Roll"
-  },
-
-  "Effect": {
-    "ActiveFusions": "Active Fusions",
-    "Buffs": "Buffs",
-    "FusionOptions": "Fusion Options",
-    "Source": "Source",
-    "ActiveFusion": "Fusion",
-    "TransferredBuff": "Transferred Buff",
-    "Conditions": "Conditions",
-    "Level":"Level: {level}"
-  },
-
-  "ContextMenu": {
-    "EffectOption": {
-      "Show": "Show",
-      "Delete": "Delete",
-      "Enable": "Enable",
-      "Disable": "Disable",
-      "Duplicate": "Duplicate"
-    },
-    "ItemOption": {
-      "Show": "Show",
-      "Delete": "Delete",
-      "Unequip": "Unequip",
-      "Favorite": "Favorite",
-      "Unfavorite": "Unfavorite",
-      "Fuse": "Fuse Item",
-      "Unfuse": "Split Fusion",
-      "Use": "Use Item"
-    }
-  },
-
-  "ChatMessage": {
-    "TradeComplete": "Trade Complete!",
-    "TradeInfo": "{actor} wants to trade {item} to {target}.",
-    "AcceptTrade": "Accept Trade",
-    "BlockFlavor": "{name}: Blocking",
-    "ParryFlavor": "{name}: Parrying"
-  },
-
-  "StatusConditions": {
-    "Blind": "Blind",
-    "Bleeding": "Bleeding",
-    "BleedingHint": "{actor} takes {level}d6 physical damage at the start of every round.",
-    "BleedingFlavor": "{actor} is bleeding",
-    "Burning": "Burning",
-    "BurningHint": "{actor} takes {level}d12 fire damage at the start of every round.",
-    "BurningFlavor": "{actor} is burning",
-    "Defeated": "Defeated",
-    "Flying": "Flying",
-    "Hindered": "Hindered",
-    "Invisible": "Invisible",
-    "Levitating": "Levitating",
-    "Underground": "Underground"
-  },
-
-  "Combat": {
-    "ActionPointsOverflow": "Pips: {n}",
-    "BeginCombat": "Begin Combat",
-    "ContextClearInitiative": "clear Initiative",
-    "ContextRemoveCombatant": "Remove Combatant",
-    "ContextUpdateActionPoints": "Update Action Points",
-    "ContextUpdateCombatant": "Update Combatant",
-    "EndCombat": "End Combat",
-    "HealthBar": "Health ({value} / {max})",
-    "NextTurn": "Next Turn",
-    "PingCombatant": "Ping Combatant",
-    "PreviousTurn": "Previous Turn",
-    "StartRoundConfirm": "Apply",
-    "StartRoundTitle": "Start of Round Conditions",
-    "ToggleCollapsed": "Collapse",
-    "ToggleDefeated": "Toggle Defeated",
-    "ToggleHidden": "Toggle Hidden"
+"ActorProperty": {
+  "ActionPoints": {
+    "Value": "Action Points",
+    "ValueHint": "The number of action points this actor has remaining to spend on actions during combat.",
+    "Turn": "Turn Bonus",
+    "TurnHint": "The number of additional action points this actor receives for each additional turn it may take in a combat round."
   }
-}}
+},
+
+"ItemProperty": {
+  "Favorited": "Favorited",
+  "ResistancePl": "Resistances",
+
+  "Fieldsets": {
+    "BlastZone": "Blast Zone",
+    "DamageOverrides": "Damage Overrides",
+    "Damages": "Damages",
+    "Defenses": "Defenses",
+    "Handling": "Handling",
+    "LimitedUses": "Limited Uses",
+    "Attributes": "Attributes",
+    "Configuration": "Configuration",
+    "Resistances": "Resistances"
+  },
+
+  "Attributes": {
+    "Value": "Attributes",
+    "ValueHint": "Unique attributes of this item."
+  },
+  "Description": {
+    "Value": "Description",
+    "ValueHint": ""
+  },
+  "Category": {
+    "SubtypeAmmo": "Ammunition Type",
+    "SubtypeAmmoHint": "The ammunition type determines which weapons can make use of it.",
+    "SubtypeArmor": "Armor Type",
+    "SubtypeArmorHint": "The type of armor this is, which decides how it is equipped.",
+    "SubtypeElixir": "Elixir Type",
+    "SubtypeElixirHint": "The type of elixir this is.",
+    "SubtypePart": "Subtype",
+    "SubtypePartHint": "TODO",
+    "SubtypeShield": "Shield Type",
+    "SubtypeShieldHint": "The shield type determines how much it protects the wielder.",
+    "SubtypeSpell": "Spell Type",
+    "SubtypeSpellHint": "The spell type determines how it affects enemies and allies.",
+    "SubtypeWeapon": "Weapon Type",
+    "SubtypeWeaponHint": "The weapon type determines the ammunition it can use.",
+    "PoolBooster": "Boost",
+    "PoolBoosterHint": "The pool that this elixir can grant a boost of during an attack.",
+    "PoolRestorative": "Pool",
+    "PoolRestorativeHint": "The pool that this elixir can restore when consumed.",
+    "PoolElixirChoiceHealth": "Health",
+    "PoolElixirChoiceStamina": "Stamina",
+    "PoolElixirChoiceMana": "Mana"
+  },
+  "Range": {
+    "Value": "Range",
+    "ValueHint": "The maximum range of the item."
+  },
+  "Price": {
+    "Value": "Price",
+    "ValueHint": "The deemed value of the item."
+  },
+  "Blast": {
+    "Size": "Size",
+    "SizeHint": "The size of the accompanying blast zone when using this ammunition.",
+    "Type": "Shape",
+    "TypeHint": "The shape of the blast zone."
+  },
+  "Cost": {
+    "Value": "Action Cost",
+    "ValueHintWeapon": "The action point cost to make an attack with this weapon.",
+    "ValueHintSpell": "The action point cost to cast a spell using this item.",
+    "ValueHintShield": "The action point cost to make an attack with this shield."
+  },
+  "Weight": {
+    "Value": "Weight",
+    "ValueHint": "The amount that this item contributes to its owner's encumbrance."
+  },
+  "Quantity": {
+    "Value": "Quantity",
+    "ValueHint": "The size of this stack of items."
+  },
+  "Damage": {
+    "Override": {
+      "Group": "Target Group",
+      "GroupHint": "The group of damage types that this ammunition will override the type of.",
+      "GroupChoiceAll": "All Types",
+      "Value": "Type",
+      "ValueHint": "The new damage type that will be used in place of the overridden group."
+    }
+  },
+  "Armor": {
+    "Value": "Armor",
+    "ValueHint": "The armor value of this item, which reduces incoming physical damage."
+  },
+  "Wield": {
+    "Value": "Wielding",
+    "ValueHint": "The number of hands required to handle this item.",
+    "ValueChoiceOneHanded": "One-Handed",
+    "ValueChoiceTwoHanded": "Two-Handed"
+  },
+  "Template": {
+    "Types": "Targeting Types",
+    "TypesHint": "The shape or type of targeting of this spell."
+  },
+  "Usage": {
+    "Value": "Uses",
+    "ValueHint": "The number of remaining uses of this item.",
+    "Max": "Max Uses",
+    "MaxHint": "The total number of uses of this item."
+  }
+},
+
+"ItemAttribute": {
+  "Blocking": "Blocking",
+  "Magical": "Magical",
+  "Parrying": "Parrying",
+  "Rending": "Rending"
+},
+
+"EffectProperty": {
+  "Expiration": "Expiration",
+  "ExpirationHint": "The trigger for when this effect will expire.",
+  "ExpirationNone": "None",
+  "ExpirationCombat": "Combat",
+  "ExpirationDay": "Day",
+  "SubtypeBuff": "Subtype",
+  "SubtypeFusion": "Fusion Subtype",
+  "SubtypeFusionHint": "The properties available to choose from, derived from the chosen item subtype.",
+  "FieldsetDetails": "Details",
+  "FieldsetDuration": "Duration"
+},
+
+"ItemUseDialog": {
+  "Confirm": "Confirm"
+},
+
+"SpellUseDialog": {
+  "Buff": "Buff",
+  "Count": "Count",
+  "Damage": "Damage",
+  "Distance": "Distance",
+  "Additional": "Additional",
+  "Radius": "Radius",
+  "Range": "Range",
+  "Shape": "Shape",
+  "Title": "{item}: Spellcasting",
+  "Width": "Width",
+  "Boosters": "Boosters",
+  "BoostersHint": "Boosting elixirs to consume which each act as consuming 1 additional point of mana."
+},
+
+"ItemFusionDialog": {
+  "Title": "{source}: Fuse",
+  "TitleUnfuse": "{item}: Split",
+  "TargetLabel": "Target",
+  "FusionLabel": "Fusion",
+  "Confirm": "Confirm",
+  "UnfuseTitle": "Split '{source}' and '{target}'?"
+},
+
+"WeaponUseDialog": {
+  "Title": "{name}: Attack",
+  "Ammunition": "Ammunition",
+  "AmmunitionHint": "An optional ammunition to use for this attack, which will alter the damage roll.",
+  "Stamina": "Stamina",
+  "StaminaHint": "Each point of stamina expended will increase the dice roll quantity by one.",
+  "BoosterItem": "Booster",
+  "BoosterItemHint": "Consume the uses of a boosting elixir, each consumed use acting as 1 additional point of stamina.",
+  "BoosterUses": "Boost Uses"
+},
+
+"ItemFusionChanges": {
+  "Name.Label": "Name",
+  "Name.ADD": "The name will be appended '{change}'.",
+  "Name.OVERRIDE": "The name will become '{change}'.",
+
+  "Image.Label": "Image",
+  "Image.OVERRIDE": "The image will become '{change}'.",
+
+  "Price.Label": "Price",
+  "Price.ADD": "The price of the item will increase by {change}.",
+  "Price.OVERRIDE": "The price of the item will become {change}.",
+
+  "Weight.Label": "Weight",
+  "Weight.ADD": "The weight of the item will increase by {change}.",
+  "Weight.OVERRIDE": "The weight of the item will become {change}.",
+
+  "Armor.Label": "Armor",
+  "Armor.ADD": "The armor value of the item will increase by {change}.",
+  "Armor.OVERRIDE": "The armor value of the item will become {change}.",
+
+  "Resistance.Label": "{type} Resistance",
+  "Resistance.ADD": "The item will grant an additional {change} points of {type} resistance.",
+  "Resistance.OVERRIDE": "The item will grant {change} points of {type} resistance.",
+
+  "Range.Label": "Range",
+  "Range.ADD": "The range of the item will increase by {change}.",
+  "Range.OVERRIDE": "The range of the item will become {change}.",
+
+  "Wield.Label": "Wielding",
+  "Wield.OVERRIDE": "The item will require using one hand to wield.",
+  "WieldPl.OVERRIDE": "The item will require using two hands to wield.",
+
+  "Damage.Label": "Damage",
+  "Damage.ADD": "The item will deal an additional {change} damage."
+},
+
+"SpellType": {
+  "Buff": "Buff Magic",
+  "Defense": "Defensive Magic",
+  "Offense": "Offensive Magic"
+},
+
+"SpellShape": {
+  "SingleTarget": "Single Target",
+  "AreaRay": "Line",
+  "AreaCone": "Cone",
+  "AreaCircle": "Circle",
+  "AreaRadius": "Radius"
+},
+
+"Setting": {
+  "CircularTokens": "Circular Tokens",
+  "CircularTokensHint": "Are tokens treated as circular for the purpose of their hit area?",
+  "TemplateAreaThreshold": "Template Area Threshold",
+  "TemplateAreaThresholdHint": "The percentage a token must overlap a template to be considered 'inside' it. The default is 0.4.",
+  "TokenBarLength": "Token Bar Length",
+  "TokenBarLengthHint": "The length of token bars, in degrees. The default is 120."
+},
+
+"Warning": {
+  "ItemHasNoTemplateTypes": "This item has no template types set!",
+  "ItemIsNotEquipped": "The item must be equipped to be used!",
+  "NotEnoughPips": "You do not have enough pips remaining to make an attack!",
+  "AlreadyAtMaxHealth": "{name} is already at their maximum health.",
+  "FieldOverridden": "This field has been disabled as it is being modified by an effect.",
+  "InvalidActiveEffectType": "The chosen effect type is not valid for this parent.",
+  "NoAvailableEquipment": "You have no available equipment of that type.",
+  "MissingActionPoints": "You do not have enough Action Points to perform that action."
+},
+
+"EquipDialog": {
+  "Title": "Change Equipped Item"
+},
+
+"SkillDialog": {
+  "Title": "Roll Skill: {skill}"
+},
+
+"ElixirDialog": {
+  "Title": "Use Elixir: {name}",
+  "Effect": "Effect",
+  "EffectHint": "Pick one of the effects from the elixir that will be granted.",
+  "Confirm": "Confirm",
+  "WarningUsage": "The elixir has no remaining uses left!",
+  "WarningEffects": "The elixir has no effects it can grant!"
+},
+
+"DefenseDialog": {
+  "Title": "Defense Roll",
+  "Items": "Arsenal",
+  "ItemsHint": "Choose any of your equipped arsenal to defend against the attack and reduce incoming damage. Each item used will require 1 pip.",
+  "Confirm": "Roll"
+},
+
+"Effect": {
+  "ActiveFusions": "Active Fusions",
+  "Buffs": "Buffs",
+  "FusionOptions": "Fusion Options",
+  "Source": "Source",
+  "ActiveFusion": "Fusion",
+  "TransferredBuff": "Transferred Buff",
+  "Conditions": "Conditions",
+  "Level":"Level: {level}"
+},
+
+"ContextMenu": {
+  "EffectOption": {
+    "Show": "Show",
+    "Delete": "Delete",
+    "Enable": "Enable",
+    "Disable": "Disable",
+    "Duplicate": "Duplicate"
+  },
+  "ItemOption": {
+    "Show": "Show",
+    "Delete": "Delete",
+    "Unequip": "Unequip",
+    "Favorite": "Favorite",
+    "Unfavorite": "Unfavorite",
+    "Fuse": "Fuse Item",
+    "Unfuse": "Split Fusion",
+    "Use": "Use Item"
+  }
+},
+
+"ChatMessage": {
+  "TradeComplete": "Trade Complete!",
+  "TradeInfo": "{actor} wants to trade {item} to {target}.",
+  "AcceptTrade": "Accept Trade",
+  "BlockFlavor": "{name}: Blocking",
+  "ParryFlavor": "{name}: Parrying",
+  "ApplyDamage": "Apply Damage",
+  "PlaceTemplate": "Place Template",
+  "GrantBuff": "GrantBuff"
+},
+
+"StatusConditions": {
+  "Blind": "Blind",
+  "Bleeding": "Bleeding",
+  "BleedingHint": "{actor} takes {level}d6 physical damage at the start of every round.",
+  "BleedingFlavor": "{actor} is bleeding",
+  "Burning": "Burning",
+  "BurningHint": "{actor} takes {level}d12 fire damage at the start of every round.",
+  "BurningFlavor": "{actor} is burning",
+  "Defeated": "Defeated",
+  "Flying": "Flying",
+  "Hindered": "Hindered",
+  "Invisible": "Invisible",
+  "Levitating": "Levitating",
+  "Underground": "Underground"
+},
+
+"Combat": {
+  "ActionPointsOverflow": "Pips: {n}",
+  "BeginCombat": "Begin Combat",
+  "ContextClearInitiative": "clear Initiative",
+  "ContextRemoveCombatant": "Remove Combatant",
+  "ContextUpdateActionPoints": "Update Action Points",
+  "ContextUpdateCombatant": "Update Combatant",
+  "EndCombat": "End Combat",
+  "HealthBar": "Health ({value} / {max})",
+  "NextTurn": "Next Turn",
+  "PingCombatant": "Ping Combatant",
+  "PreviousTurn": "Previous Turn",
+  "StartRoundConfirm": "Apply",
+  "StartRoundTitle": "Start of Round Conditions",
+  "ToggleCollapsed": "Collapse",
+  "ToggleDefeated": "Toggle Defeated",
+  "ToggleHidden": "Toggle Hidden"
+}}}
