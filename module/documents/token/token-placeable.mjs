@@ -203,4 +203,26 @@ export default class TokenArtichron extends Token {
     style._fontSize = 20;
     return style;
   }
+
+  /* ------------------------- */
+  /* Region containment        */
+  /* ------------------------- */
+
+  /** @override */
+  testInsideRegion(region, position) {
+    const points = artichron.utils.getOccupiedGridSpaces(this, {relativeZero: false});
+    let pct = 0;
+    for (const p of points) {
+      const test = region.testPoint(p, position?.elevation ?? this.document.elevation);
+      if (test) pct++;
+    }
+    console.warn({pct, points, n: pct / points.length, inside: (pct / points.length) >= 0.4});
+    return (pct / points.length) >= 0.4;
+  }
+
+  /** @override */
+  segmentizeRegionMovement(region, waypoints, {teleport = false} = {}) {
+    const points = artichron.utils.getOccupiedGridSpaces(this, {relativeZero: true});
+    return region.segmentizeMovement(waypoints, points, {teleport});
+  }
 }

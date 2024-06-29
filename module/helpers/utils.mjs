@@ -95,19 +95,26 @@ export async function toggleEffect(name) {
 
 /**
  * Find all occupied grid spaces of a token.
- * @param {TokenArtichron} token      The token on the scene.
- * @returns {Point[]}                 An array of x-y coordinates.
+ * @param {TokenArtichron} token                The token on the scene.
+ * @param {object} [options]                    Options.
+ * @param {boolean} [options.relativeZero]      Subtract the token's center coordinates from the points?
+ * @returns {Point[]}                           An array of x-y coordinates.
  */
-export function getOccupiedGridSpaces(token) {
+export function getOccupiedGridSpaces(token, {relativeZero = false} = {}) {
   const points = [];
-  const shape = token.shape;
+  const shape = token.shape ?? token.getShape();
+  const c = token.center;
   const [i, j, i1, j1] = canvas.grid.getOffsetRange(token.bounds);
   const delta = (canvas.grid.type === CONST.GRID_TYPES.GRIDLESS) ? canvas.dimensions.size : 1;
   const offset = (canvas.grid.type === CONST.GRID_TYPES.GRIDLESS) ? canvas.dimensions.size / 2 : 0;
   for (let x = i; x < i1; x += delta) {
     for (let y = j; y < j1; y += delta) {
       const point = canvas.grid.getCenterPoint({i: x + offset, j: y + offset});
-      if (shape.contains(point.x - token.document.x, point.y - token.document.y)) points.push(point);
+      if (relativeZero) {
+        point.x -= c.x - delta;
+        point.y -= c.y - delta;
+      }
+      points.push(point);
     }
   }
   return points;
