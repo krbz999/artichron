@@ -71,9 +71,8 @@ export default class ShieldData extends ArsenalData {
     }
 
     this._targeting = true;
-    const [target] = await this.pickTarget({count: 1, allowPreTarget: true});
+    const targets = await this.pickTarget({count: 1, allowPreTarget: true});
     delete this._targeting;
-    if (!target) return null;
 
     const rollData = item.getRollData();
     const rolls = Object.entries(item.system._damages.reduce((acc, d) => {
@@ -88,6 +87,6 @@ export default class ShieldData extends ArsenalData {
       await actor.spendActionPoints(item.system.cost.value);
     }
 
-    return this.toMessage({rolls: rolls, targets: [target.actor.uuid]});
+    return this.toMessage({rolls: rolls, targets: Array.from(targets.map(t => t.actor.uuid))});
   }
 }
