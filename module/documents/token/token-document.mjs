@@ -12,7 +12,7 @@ export default class TokenDocumentArtichron extends TokenDocument {
     const allowed = await super._preUpdate(data, options, user);
     if (allowed === false) return false;
 
-    if ((options.animate === false)) return;
+    if ((options.animate === false) || (options.teleport === true)) return;
     const x = Math.round(data.x ?? this.x);
     const y = Math.round(data.y ?? this.y);
     if (!(this.x - x) && !(this.y - y)) return;

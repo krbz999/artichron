@@ -127,6 +127,10 @@ export default class ActorArtichron extends Actor {
       jitter: 2
     };
 
+    const red = 0xFF0000;
+    const green = 0x00FF00;
+    const blue = 0x0000FF;
+
     for (const t of tokens) {
       if (!t.visible || t.document.isSecret) continue;
       const c = t.center;
@@ -134,9 +138,10 @@ export default class ActorArtichron extends Actor {
       for (const [type, value] of Object.entries(damages)) {
         if (!value) continue;
         const isHeal = value < 0;
-        const color = isHeal ? new Color(0x00FF00) : CONFIG.SYSTEM.DAMAGE_TYPES[type]?.color ?? new Color(0xFF0000);
+        const color = foundry.utils.Color.from(isHeal ? green : CONFIG.SYSTEM.DAMAGE_TYPES[type]?.color ?? red);
         canvas.interface.createScrollingText(c, (-value).signedString(), {...options, fill: color});
-        await new Promise(r => setTimeout(r, 200));
+        t.ring?.flashColor(color);
+        await new Promise(r => setTimeout(r, 500));
       }
     }
   }

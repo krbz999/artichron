@@ -44,6 +44,8 @@ export class TradeMessageData extends ChatMessageSystemModel {
 
   /** @override */
   async adjustHTML(html) {
+    await super.adjustHTML(html);
+
     const template = "systems/artichron/templates/chat/trade-message.hbs";
     html.querySelector(".message-content").innerHTML = await renderTemplate(template, {
       traded: this.traded,
@@ -87,6 +89,8 @@ export class ItemMessageData extends ChatMessageSystemModel {
 
   /** @override */
   async adjustHTML(html) {
+    await super.adjustHTML(html);
+
     const {templateData} = this.parent.flags.artichron?.use ?? {};
     const {item, actor, targets, effect} = this;
 
