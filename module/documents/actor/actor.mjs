@@ -40,7 +40,7 @@ export default class ActorArtichron extends Actor {
    * @type {Set<ItemArtichron>}
    */
   get favorites() {
-    return this.system.favorites;
+    return this.system.favorites ?? new Set();
   }
 
   /* ---------------------------------------- */

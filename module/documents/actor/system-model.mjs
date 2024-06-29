@@ -134,7 +134,8 @@ export class ActorSystemModel extends foundry.abstract.TypeDataModel {
     }
 
     // Set health maximum and clamp current health.
-    this.health.max = 10 * this.pools.health.max * this.pools.health.faces;
+    const injury = 1 - this.parent.appliedConditionLevel("injured") / 100;
+    this.health.max = Math.ceil(10 * this.pools.health.max * this.pools.health.faces * injury);
     this.health.value = Math.clamp(this.health.value, 0, this.health.max);
     this.health.pct = Math.round(this.health.value / this.health.max * 100);
   }
@@ -185,7 +186,7 @@ export class ActorSystemModel extends foundry.abstract.TypeDataModel {
     this.encumbrance = {};
     this.encumbrance.max = dice.max * dice.faces;
     this.encumbrance.value = this.parent.items.reduce((acc, item) => {
-      return acc + (item.system.weight.total);
+      return acc + item.system.weight.total;
     }, 0);
   }
 

@@ -426,5 +426,12 @@ SYSTEM.STATUS_CONDITIONS = {
     levels: 10,
     hud: true,
     reference: "Compendium.artichron.rules.JournalEntry.JjiZqfbpC2YVXV4R.JournalEntryPage.3VoSsDfCrBGG8Bzy"
+  },
+  injured: {
+    name: "ARTICHRON.StatusConditions.Injured",
+    img: "icons/svg/bones.svg",
+    levels: 100,
+    hud: true,
+    reference: "Compendium.artichron.rules.JournalEntry.JjiZqfbpC2YVXV4R.JournalEntryPage.FRQ8zjWTfTYZWGx3"
   }
 };
