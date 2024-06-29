@@ -1,12 +1,12 @@
 {
-  "name": "Status Conditions",
-  "_id": "JjiZqfbpC2YVXV4R",
+  "name": "Elixirs",
+  "_id": "XX1b4ftmFoJ7LHeB",
   "pages": [
     {
       "sort": 0,
-      "name": "Hindered",
+      "name": "Elixir Subtypes",
       "type": "text",
-      "_id": "uVv9k9xheOkxzBhO",
+      "_id": "TfBQRuKTHh8QOSXG",
       "system": {},
       "title": {
         "show": true,
@@ -15,7 +15,7 @@
       "image": {},
       "text": {
         "format": 1,
-        "content": "<p>While hindered, you start with one less action point each turn for each level of this condition. You cannot start your turn with less than 1 action point.</p>"
+        "content": "<p>TODO</p>"
       },
       "video": {
         "controls": true,
@@ -36,13 +36,13 @@
         "modifiedTime": null,
         "lastModifiedBy": null
       },
-      "_key": "!journal.pages!JjiZqfbpC2YVXV4R.uVv9k9xheOkxzBhO"
+      "_key": "!journal.pages!XX1b4ftmFoJ7LHeB.TfBQRuKTHh8QOSXG"
     },
     {
       "sort": 0,
-      "name": "Burning",
+      "name": "Boosters",
       "type": "text",
-      "_id": "3VoSsDfCrBGG8Bzy",
+      "_id": "0VqRPSM5cDSyyRYX",
       "system": {},
       "title": {
         "show": true,
@@ -51,7 +51,7 @@
       "image": {},
       "text": {
         "format": 1,
-        "content": "<p>While burning, a combatant takes 1d12 fire damage at the start of the round. For each level of this condition, the combatant takes an additional 1d12 fire damage.</p>"
+        "content": "<p>A booster elixir can be used during an attack with a weapon or casting of a spell. A stamina booster will provide an additional point of stamina for use with the weapon's damage roll, and a mana booster will provide additional mana to craft the spell.</p>"
       },
       "video": {
         "controls": true,
@@ -72,12 +72,13 @@
         "modifiedTime": null,
         "lastModifiedBy": null
       },
-      "_key": "!journal.pages!JjiZqfbpC2YVXV4R.3VoSsDfCrBGG8Bzy"
+      "_key": "!journal.pages!XX1b4ftmFoJ7LHeB.0VqRPSM5cDSyyRYX"
     },
     {
       "sort": 0,
-      "name": "Bleeding",
+      "name": "Restorative Elixirs",
       "type": "text",
+      "_id": "YkodoePzmtmWGNb0",
       "system": {},
       "title": {
         "show": true,
@@ -86,7 +87,7 @@
       "image": {},
       "text": {
         "format": 1,
-        "content": "<p>While bleeding, a combatant takes 1d6 physical damage at the start of the round. For each level of this condition, the combatant takes an additional 1d6 physical damage. This damage cannot be reduced by armor.</p>"
+        "content": "<p>TODO</p>"
       },
       "video": {
         "controls": true,
@@ -107,44 +108,7 @@
         "modifiedTime": null,
         "lastModifiedBy": null
       },
-      "_id": "nIvx3xXwYP9iGSeh",
-      "_key": "!journal.pages!JjiZqfbpC2YVXV4R.nIvx3xXwYP9iGSeh"
-    },
-    {
-      "sort": 0,
-      "name": "Injured",
-      "type": "text",
-      "_id": "FRQ8zjWTfTYZWGx3",
-      "system": {},
-      "title": {
-        "show": true,
-        "level": 1
-      },
-      "image": {},
-      "text": {
-        "format": 1,
-        "content": "<p>While injured, a character has their maximum health reduced by 1%. This condition stacks up to a hundred times; if a character has 25 stacks of the Injured condition, their maximum health is reduced by 25%. If this reaches 100%, the character is permanently dead.</p>"
-      },
-      "video": {
-        "controls": true,
-        "volume": 0.5
-      },
-      "src": null,
-      "ownership": {
-        "default": -1
-      },
-      "flags": {},
-      "_stats": {
-        "compendiumSource": null,
-        "duplicateSource": null,
-        "coreVersion": null,
-        "systemId": null,
-        "systemVersion": null,
-        "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
-      },
-      "_key": "!journal.pages!JjiZqfbpC2YVXV4R.FRQ8zjWTfTYZWGx3"
+      "_key": "!journal.pages!XX1b4ftmFoJ7LHeB.YkodoePzmtmWGNb0"
     }
   ],
   "folder": null,
@@ -163,5 +127,5 @@
     "modifiedTime": null,
     "lastModifiedBy": null
   },
-  "_key": "!journal!JjiZqfbpC2YVXV4R"
+  "_key": "!journal!XX1b4ftmFoJ7LHeB"
 }
