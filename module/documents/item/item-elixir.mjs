@@ -119,7 +119,7 @@ export default class ElixirData extends ItemSystemModel {
    * @returns {Promise}
    */
   async #useBuff() {
-    if (!this.hasEffects) {
+    if (!this.hasTransferrableEffects) {
       ui.notifications.warn("ARTICHRON.ElixirDialog.WarningEffects", {localize: true});
       return null;
     }
@@ -260,7 +260,7 @@ export default class ElixirData extends ItemSystemModel {
    * Does this item have any effects that can be transferred to the actor when this item is used?
    * @type {boolean}
    */
-  get hasEffects() {
+  get hasTransferrableEffects() {
     return this.hasUses && (this.transferrableEffects.length > 0);
   }
 

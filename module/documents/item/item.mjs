@@ -169,6 +169,46 @@ export default class ItemArtichron extends Item {
   }
 
   /* -------------------------------------------------- */
+
+  /**
+   * Does this item have any effects that can be transferred to the actor when this item is used?
+   * @type {boolean}
+   */
+  get hasTransferrableEffects() {
+    return this.system.hasTransferrableEffects ?? false;
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * The effects that can be transferred to the actor when this item is used.
+   * @type {ActiveEffectArtichron[]}
+   */
+  get transferrableEffects() {
+    return this.system.transferrableEffects ?? [];
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Is this a buff elixir?
+   * @type {boolean}
+   */
+  get isBuffElixir() {
+    return this.system.isBuffElixir ?? false;
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * The properties of a weapon this ammunition modifies.
+   * @type {Set<string>}
+   */
+  get ammoProperties() {
+    return this.system.ammoProperties ?? new Set();
+  }
+
+  /* -------------------------------------------------- */
   /*   Preparation methods                              */
   /* -------------------------------------------------- */
 
