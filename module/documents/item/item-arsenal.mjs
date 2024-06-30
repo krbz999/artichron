@@ -4,7 +4,10 @@ import {FusionTemplateMixin} from "./templates/fusion-data.mjs";
 
 const {NumberField, SchemaField} = foundry.data.fields;
 
-export default class ArsenalData extends DamageTemplateMixin(FusionTemplateMixin(ItemSystemModel)) {
+export default class ArsenalData extends ItemSystemModel.mixin(
+  DamageTemplateMixin,
+  FusionTemplateMixin
+) {
   /** @override */
   static metadata = Object.freeze(foundry.utils.mergeObject(super.metadata, {
     inventorySection: "arsenal",
