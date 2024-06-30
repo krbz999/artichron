@@ -9,7 +9,7 @@
   {{/each}}
 
   {{#if isAmmo}}
-  <fieldset class="damage">
+  <fieldset>
     <legend>{{localize "ARTICHRON.ItemProperty.Fieldsets.DamageOverrides"}}</legend>
     {{#with damages.override}}
     {{formGroup group.field value=group.value disabled=group.disabled localize=true}}

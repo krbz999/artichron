@@ -1,9 +1,10 @@
 import {IdField} from "../fields/id-field.mjs";
 import {ItemSystemModel} from "./system-model.mjs";
+import {DamageTemplateMixin} from "./templates/damage-data.mjs";
 
 const {SchemaField, StringField, NumberField, ArrayField} = foundry.data.fields;
 
-export default class AmmunitionData extends ItemSystemModel {
+export default class AmmunitionData extends ItemSystemModel.mixin(DamageTemplateMixin) {
   /** @override */
   static metadata = Object.freeze(foundry.utils.mergeObject(super.metadata, {
     inventorySection: "consumables",
