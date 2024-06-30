@@ -80,14 +80,7 @@ export default class ShieldData extends ArsenalData {
     const targets = await this.pickTarget({count: 1, allowPreTarget: true});
     delete this._targeting;
 
-    const rollData = item.getRollData();
-    const rolls = Object.entries(item.system._damages.reduce((acc, d) => {
-      acc[d.type] ??= [];
-      acc[d.type].push(d.formula);
-      return acc;
-    }, {})).map(([type, formulas]) => {
-      return new CONFIG.Dice.DamageRoll(formulas.join("+"), rollData, {type: type}).alter(0.5);
-    });
+    const rolls = await this.rollDamage({multiply: 0.5}, {create: false});
 
     if (actor.inCombat) {
       await actor.spendActionPoints(item.system.cost.value);

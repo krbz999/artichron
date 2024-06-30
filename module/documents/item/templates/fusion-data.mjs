@@ -1,6 +1,4 @@
-import ItemFusionDialog from "../../../applications/item/fusion-dialog.mjs";
-
-export const FusionTemplateMixin = (Base) => {
+export const FusionTemplateMixin = Base => {
   return class FusionTemplate extends Base {
     /**
      * Pick one of the fusion options of this item, grant it to a target item, and destroy this.
@@ -42,7 +40,7 @@ export const FusionTemplateMixin = (Base) => {
         return null;
       }
 
-      const prompt = await ItemFusionDialog.create(this.parent);
+      const prompt = await artichron.applications.ItemFusionDialog.create(this.parent);
       if (!prompt) return null;
       const target = this.parent.actor.items.get(prompt.itemId);
       const effect = this.parent.effects.get(prompt.effectId);

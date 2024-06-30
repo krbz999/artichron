@@ -137,11 +137,11 @@ export default class SpellData extends ArsenalData {
 
     if (this.category.subtype === "offense") {
       // Offensive magic
-      const {formula, type} = this.damage.parts.find(d => d.id === configuration.damage);
-      const rollData = this.parent.getRollData();
-      const roll = new CONFIG.Dice.DamageRoll(formula, rollData, {type: type});
-      if (configuration.additional) roll.alter(1, configuration.additional);
-      messageData.rolls = [roll];
+      const rolls = await this.rollDamage({
+        ids: [configuration.damage],
+        addition: configuration.additional
+      }, {create: false});
+      messageData.rolls = rolls;
     } else if (this.category.subtype === "buff") {
       // Buff or Defensive magic
       const effectId = configuration.buff;

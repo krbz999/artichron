@@ -159,6 +159,16 @@ export default class ItemArtichron extends Item {
   }
 
   /* -------------------------------------------------- */
+
+  /**
+   * Can this item be used to make an attack due to action point cost?
+   * @type {boolean}
+   */
+  get canUsePips() {
+    return this.system.canUsePips ?? false;
+  }
+
+  /* -------------------------------------------------- */
   /*   Preparation methods                              */
   /* -------------------------------------------------- */
 

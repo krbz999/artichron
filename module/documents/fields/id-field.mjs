@@ -3,7 +3,7 @@ export class IdField extends foundry.data.fields.DocumentIdField {
   static get _defaults() {
     return foundry.utils.mergeObject(super._defaults, {
       nullable: false,
-      initial: foundry.utils.randomID,
+      initial: () => foundry.utils.randomID(),
       validationError: "is not a valid ID string"
     });
   }
