@@ -7,6 +7,8 @@ export default class CombatantArtichron extends Combatant {
     return "1d12x5>=1";
   }
 
+  /* -------------------------------------------------- */
+
   /** @override */
   getInitiativeRoll(formula) {
     formula = formula || this._getInitiativeFormula();
@@ -14,6 +16,8 @@ export default class CombatantArtichron extends Combatant {
     rollData.pips = this.actor?.actionPoints ?? 0;
     return Roll.create(formula, rollData);
   }
+
+  /* -------------------------------------------------- */
 
   /** @override */
   async _preCreate(data, options, user) {

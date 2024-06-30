@@ -5,6 +5,8 @@ export default function auraInit() {
   Hooks.on("drawGridLayer", Auras.onDrawGridLayer);
 }
 
+/* -------------------------------------------------- */
+
 class Auras {
   /**
    * Inject new tab and form on Token config.
@@ -65,12 +67,16 @@ class Auras {
     html.querySelector("footer").before(div.firstElementChild);
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Immediately refresh auras when a wall is changed, such as a new wall created, or a door opened.
    */
   static onRefreshWall() {
     for (const token of canvas.tokens.placeables) token.drawAura();
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Initialize container for token auras on the grid layer.

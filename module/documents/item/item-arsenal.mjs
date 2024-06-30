@@ -11,6 +11,8 @@ export default class ArsenalData extends FusionTemplateMixin(ItemSystemModel) {
     fusion: true
   }, {inplace: false}));
 
+  /* -------------------------------------------------- */
+
   /** @override */
   static defineSchema() {
     return {
@@ -62,6 +64,8 @@ export default class ArsenalData extends FusionTemplateMixin(ItemSystemModel) {
     };
   }
 
+  /* -------------------------------------------------- */
+
   /** @override */
   static get BONUS_FIELDS() {
     return super.BONUS_FIELDS.union(new Set([
@@ -72,6 +76,8 @@ export default class ArsenalData extends FusionTemplateMixin(ItemSystemModel) {
     ]));
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Is this a one-handed item?
    * @type {boolean}
@@ -79,6 +85,8 @@ export default class ArsenalData extends FusionTemplateMixin(ItemSystemModel) {
   get isOneHanded() {
     return this.wield.value === 1;
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Is this a two-handed item?
@@ -88,6 +96,8 @@ export default class ArsenalData extends FusionTemplateMixin(ItemSystemModel) {
     return this.wield.value === 2;
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Can this item be used to make an attack due to action point cost?
    * @type {boolean}
@@ -95,6 +105,8 @@ export default class ArsenalData extends FusionTemplateMixin(ItemSystemModel) {
   get canUsePips() {
     return this.parent.actor.canPerformActionPoints(this.cost.value);
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Pick targets within range of this item.
@@ -107,6 +119,8 @@ export default class ArsenalData extends FusionTemplateMixin(ItemSystemModel) {
     const targets = await artichron.utils.awaitTargets(count, options);
     return targets;
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Display the result of this item's usage in the chat log.
@@ -147,6 +161,8 @@ export default class ArsenalData extends FusionTemplateMixin(ItemSystemModel) {
     return create ? ChatMessage.implementation.create(messageData) : messageData;
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Roll damage dice to block and reduce the incoming damage.
    * @returns {Promise<ChatMessageArtichron>}     A promise that resolves to the created chat message.
@@ -163,6 +179,8 @@ export default class ArsenalData extends FusionTemplateMixin(ItemSystemModel) {
 
     return this.toMessage({rolls: [roll], flavor});
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Roll damage dice to parry and reduce the incoming damage.

@@ -13,6 +13,8 @@ export default class SpellData extends ArsenalData {
     type: "spell"
   }, {inplace: false}));
 
+  /* -------------------------------------------------- */
+
   /** @override */
   static defineSchema() {
     return {
@@ -47,10 +49,14 @@ export default class SpellData extends ArsenalData {
     };
   }
 
+  /* -------------------------------------------------- */
+
   /** @override */
   static get BONUS_FIELDS() {
     return super.BONUS_FIELDS;
   }
+
+  /* -------------------------------------------------- */
 
   /** @override */
   async use() {
@@ -150,6 +156,8 @@ export default class SpellData extends ArsenalData {
     return this.toMessage(messageData);
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Prompt for placing templates using this item.
    * @param {object} config     Template configuration and placement data.
@@ -177,9 +185,9 @@ export default class SpellData extends ArsenalData {
     return templates;
   }
 
-  /* ---------------------------------------- */
-  /*                Buff Magic                */
-  /* ---------------------------------------- */
+  /* -------------------------------------------------- */
+  /*   Buff magic                                       */
+  /* -------------------------------------------------- */
 
   /**
    * Retrieve all buff effects that were created by this item.
@@ -195,9 +203,9 @@ export default class SpellData extends ArsenalData {
     }, new Set());
   }
 
-  /* ---------------------------------------- */
-  /*                Properties                */
-  /* ---------------------------------------- */
+  /* -------------------------------------------------- */
+  /*   Properties                                       */
+  /* -------------------------------------------------- */
 
   /**
    * Does this item have any valid template or targeting types?

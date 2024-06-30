@@ -2,9 +2,6 @@ import BaseConfig from "./base-config.mjs";
 
 export default class SkillConfig extends BaseConfig {
   /** @override */
-  static DEFAULT_OPTIONS = {};
-
-  /** @override */
   static PARTS = {
     form: {
       id: "form",
@@ -12,10 +9,14 @@ export default class SkillConfig extends BaseConfig {
     }
   };
 
+  /* -------------------------------------------------- */
+
   /** @override */
   get title() {
     return game.i18n.format("ARTICHRON.Skills.Config", {name: this.document.name});
   }
+
+  /* -------------------------------------------------- */
 
   /** @override */
   async _prepareContext(options) {
@@ -29,6 +30,8 @@ export default class SkillConfig extends BaseConfig {
     return data;
   }
 
+  /* -------------------------------------------------- */
+
   /** @override */
   _prepareSubmitData(event, form, formData) {
     const data = formData.object;
@@ -38,6 +41,8 @@ export default class SkillConfig extends BaseConfig {
     return data;
   }
 
+  /* -------------------------------------------------- */
+
   /** @override */
   _onRender(context, options) {
     super._onRender(context, options);
@@ -45,6 +50,8 @@ export default class SkillConfig extends BaseConfig {
       n.addEventListener("change", this._onChangeSelect.bind(this));
     });
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Set the disabled state when a select element is changed.

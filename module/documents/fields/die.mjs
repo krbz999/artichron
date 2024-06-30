@@ -16,6 +16,8 @@ export class DiceModel extends foundry.abstract.DataModel {
     };
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Prepare derived values.
    * @param {object} rollData     Roll data object provided by the parent actor.
@@ -49,6 +51,8 @@ export class DiceModel extends foundry.abstract.DataModel {
     this.mods = mods;
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * The die denomination, with no modifiers.
    * @type {string}
@@ -56,6 +60,8 @@ export class DiceModel extends foundry.abstract.DataModel {
   get denom() {
     return `d${this.faces}`;
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * The die, with modifiers.
@@ -65,6 +71,8 @@ export class DiceModel extends foundry.abstract.DataModel {
     return `${this.denom}${this.mods}`;
   }
 }
+
+/* -------------------------------------------------- */
 
 /**
  * Specialized dice model for health, mana, and stamina dice.
@@ -79,6 +87,8 @@ export class PoolDiceModel extends DiceModel {
     };
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Is this pool overflowing?
    * @type {boolean}
@@ -86,6 +96,8 @@ export class PoolDiceModel extends DiceModel {
   get overflow() {
     return this.value > this.max;
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Does this pool have uses remaining?
@@ -95,6 +107,8 @@ export class PoolDiceModel extends DiceModel {
     return (this.value > 0) && (this.max > 0);
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * The full formula.
    * @type {string}
@@ -103,6 +117,8 @@ export class PoolDiceModel extends DiceModel {
     return `1${this.die}`;
   }
 }
+
+/* -------------------------------------------------- */
 
 /**
  * Specialized dice model for head, arms, legs dice.
@@ -115,6 +131,8 @@ export class SkillDiceModel extends DiceModel {
       faces: new NumberField({initial: 4, choices: {4: "d4", 8: "d8", 12: "d12"}})
     };
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * The full formula.

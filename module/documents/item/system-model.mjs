@@ -11,6 +11,8 @@ export class ItemSystemModel extends foundry.abstract.TypeDataModel {
     fusion: false
   });
 
+  /* -------------------------------------------------- */
+
   /** @override */
   static defineSchema() {
     return {
@@ -50,6 +52,8 @@ export class ItemSystemModel extends foundry.abstract.TypeDataModel {
     };
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Create the choices for the attributes fieldset of this item type.
    * @returns {object}      Filtered choices from 'SYSTEM.ITEM_ATTRIBUTES'.
@@ -63,9 +67,9 @@ export class ItemSystemModel extends foundry.abstract.TypeDataModel {
     return choices;
   }
 
-  /* ---------------------------------------- */
-  /*              Event Handlers              */
-  /* ---------------------------------------- */
+  /* -------------------------------------------------- */
+  /*   Life-cycle methods                               */
+  /* -------------------------------------------------- */
 
   async _preCreate(data, options, user) {
     const update = {};
@@ -85,9 +89,9 @@ export class ItemSystemModel extends foundry.abstract.TypeDataModel {
     return super._preCreate(data, options, user);
   }
 
-  /* ---------------------------------------- */
-  /*               Item Methods               */
-  /* ---------------------------------------- */
+  /* -------------------------------------------------- */
+  /*   Instance methods                                 */
+  /* -------------------------------------------------- */
 
   /**
    * Perform the item's type-specific main function.
@@ -97,44 +101,7 @@ export class ItemSystemModel extends foundry.abstract.TypeDataModel {
     throw new Error("Subclasses of the Item System Data Model must override the #use method.");
   }
 
-  /**
-   * Properties that can be amplified by a fused item.
-   * @type {Set<string>}
-   */
-  static get BONUS_FIELDS() {
-    return new Set([
-      "name",
-      "img",
-      "system.description.value",
-      "system.price.value",
-      "system.weight.value",
-      "system.attributes.value"
-    ]);
-  }
-
-  /**
-   * Does this item have any valid damage formulas?
-   * @type {boolean}
-   */
-  get hasDamage() {
-    const parts = this.damage?.parts;
-    if (!parts) return false;
-    return parts.some(({formula, type}) => {
-      return formula && (type in CONFIG.SYSTEM.DAMAGE_TYPES) && Roll.validate(formula);
-    });
-  }
-
-  /**
-   * Valid damage parts.
-   * @type {object[]}
-   */
-  get _damages() {
-    const parts = this.damage?.parts;
-    if (!parts) return [];
-    return parts.filter(({formula, type}) => {
-      return formula && (type in CONFIG.SYSTEM.DAMAGE_TYPES) && Roll.validate(formula);
-    });
-  }
+  /* -------------------------------------------------- */
 
   /**
    * Unequip this item.
@@ -162,19 +129,74 @@ export class ItemSystemModel extends foundry.abstract.TypeDataModel {
     }
   }
 
+  /* -------------------------------------------------- */
+
   /**
-   * Retrieve an object for roll data.
-   * @returns {object}
-   */
+     * Retrieve an object for roll data.
+     * @returns {object}
+     */
   getRollData() {
     return {...this};
   }
+
+  /* -------------------------------------------------- */
+  /*   Properties                                       */
+  /* -------------------------------------------------- */
+
+  /**
+   * Properties that can be amplified by a fused item.
+   * @type {Set<string>}
+   */
+  static get BONUS_FIELDS() {
+    return new Set([
+      "name",
+      "img",
+      "system.description.value",
+      "system.price.value",
+      "system.weight.value",
+      "system.attributes.value"
+    ]);
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Does this item have any valid damage formulas?
+   * @type {boolean}
+   */
+  get hasDamage() {
+    const parts = this.damage?.parts;
+    if (!parts) return false;
+    return parts.some(({formula, type}) => {
+      return formula && (type in CONFIG.SYSTEM.DAMAGE_TYPES) && Roll.validate(formula);
+    });
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Valid damage parts.
+   * @type {object[]}
+   */
+  get _damages() {
+    const parts = this.damage?.parts;
+    if (!parts) return [];
+    return parts.filter(({formula, type}) => {
+      return formula && (type in CONFIG.SYSTEM.DAMAGE_TYPES) && Roll.validate(formula);
+    });
+  }
+
+  /* -------------------------------------------------- */
+  /*   Preparation methods                              */
+  /* -------------------------------------------------- */
 
   /** @override */
   prepareDerivedData() {
     this.weight.total = this.weight.value * (this.quantity?.value ?? 1);
     if (!this.parent.isEmbedded) this.preparePostData();
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Preparation method for any data that depends on prepared actor data. Called after all data

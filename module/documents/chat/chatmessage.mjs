@@ -18,13 +18,19 @@ export default class ChatMessageArtichron extends ChatMessage {
     return templates;
   }
 
+  /* -------------------------------------------------- */
+
   get item() {
     return this.system.item;
   }
 
+  /* -------------------------------------------------- */
+
   get actor() {
     return this.system.actor;
   }
+
+  /* -------------------------------------------------- */
 
   /** @override */
   async getHTML(...T) {

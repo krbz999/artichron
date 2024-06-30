@@ -13,6 +13,8 @@ export default class ArmorData extends FusionTemplateMixin(ItemSystemModel) {
     type: "armor"
   }, {inplace: false}));
 
+  /* -------------------------------------------------- */
+
   /** @override */
   static defineSchema() {
     return {
@@ -34,6 +36,8 @@ export default class ArmorData extends FusionTemplateMixin(ItemSystemModel) {
       })
     };
   }
+
+  /* -------------------------------------------------- */
 
   /** @override */
   static get BONUS_FIELDS() {

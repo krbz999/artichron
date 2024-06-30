@@ -11,6 +11,8 @@ export default class WeaponData extends ArsenalData {
     type: "weapon"
   }, {inplace: false}));
 
+  /* -------------------------------------------------- */
+
   /** @override */
   static defineSchema() {
     return {
@@ -33,6 +35,8 @@ export default class WeaponData extends ArsenalData {
       })
     };
   }
+
+  /* -------------------------------------------------- */
 
   /** @override */
   async use() {
@@ -127,6 +131,8 @@ export default class WeaponData extends ArsenalData {
     return this.toMessage({rolls: rolls, targets: Array.from(targets)});
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Create a blast zone as product of some ammunition.
    * @param {TokenArtichron} origin                             The token of the attacker.
@@ -146,6 +152,9 @@ export default class WeaponData extends ArsenalData {
     }).document.toObject();
     return getDocumentClass("MeasuredTemplate").create(templateData, {parent: canvas.scene});
   }
+
+  /* -------------------------------------------------- */
+
   async createBlastZone(target, {type = "ray", size = 1} = {}) {
     const origin = this.parent.token;
     return this.constructor.createBlastZone(origin, target, {type, size});

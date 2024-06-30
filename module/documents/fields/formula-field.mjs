@@ -8,15 +8,21 @@ export class FormulaField extends foundry.data.fields.StringField {
     return super._applyChangeAdd(value, delta, model, change);
   }
 
+  /* -------------------------------------------------- */
+
   /** @override */
   _applyChangeMultiply(value, delta, model, change) {
     return `(${value}) * ${delta}`;
   }
 
+  /* -------------------------------------------------- */
+
   /** @override */
   _applyChangeUpgrade(value, delta, model, change) {
     return `max(${value}, ${delta})`;
   }
+
+  /* -------------------------------------------------- */
 
   /** @override */
   _applyChangeDowngrade(value, delta, model, change) {

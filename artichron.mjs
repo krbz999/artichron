@@ -9,9 +9,9 @@ import {registerEnrichers} from "./module/helpers/enrichers.mjs";
 import {registerSockets} from "./module/helpers/sockets.mjs";
 import {BuffTarget, DamageTarget} from "./module/elements/target-element.mjs";
 
-/* ---------------------------------------- */
-/*  Define Module Structure                 */
-/* ---------------------------------------- */
+/* -------------------------------------------------- */
+/*   Define module structure                          */
+/* -------------------------------------------------- */
 
 globalThis.artichron = {
   applications: applications,
@@ -24,9 +24,9 @@ globalThis.artichron = {
   templates: documents.templates
 };
 
-/* ---------------------------------------- */
-/*  Init Hook                               */
-/* ---------------------------------------- */
+/* -------------------------------------------------- */
+/*   Init hook                                        */
+/* -------------------------------------------------- */
 
 Hooks.once("init", function() {
   registerSettings();
@@ -103,15 +103,15 @@ Hooks.once("init", function() {
   CONFIG.specialStatusEffects.HOVER = "levitating";
 });
 
-/* ---------------------------------------- */
-/*  Setup Hook                              */
-/* ---------------------------------------- */
+/* -------------------------------------------------- */
+/*   Setup hook                                       */
+/* -------------------------------------------------- */
 
 Hooks.once("setup", function() {});
 
-/* ---------------------------------------- */
-/*  i18nInit Hook                           */
-/* ---------------------------------------- */
+/* -------------------------------------------------- */
+/*   i18nInit hook                                    */
+/* -------------------------------------------------- */
 
 Hooks.once("i18nInit", function() {
 
@@ -132,9 +132,9 @@ Hooks.once("i18nInit", function() {
   }
 });
 
-/* ---------------------------------------- */
-/*  Ready Hook                              */
-/* ---------------------------------------- */
+/* -------------------------------------------------- */
+/*   Ready hook                                       */
+/* -------------------------------------------------- */
 
 Hooks.once("ready", function() {
   Hooks.on("hotbarDrop", function(bar, data, slot) {
@@ -147,6 +147,8 @@ Hooks.once("ready", function() {
   setupCarousel();
 });
 
+/* -------------------------------------------------- */
+
 /**
  * Create a new carousel combat tracker and render it.
  */
@@ -156,9 +158,9 @@ async function setupCarousel() {
   app.render({force: true});
 }
 
-/* ---------------------------------------- */
-/*  Hotbar Macros                           */
-/* ---------------------------------------- */
+/* -------------------------------------------------- */
+/*   Hotbar macros                                    */
+/* -------------------------------------------------- */
 
 /**
  * Create a Macro from an ActiveEffect drop.

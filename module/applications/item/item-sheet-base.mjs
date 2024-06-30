@@ -17,6 +17,8 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
     }
   };
 
+  /* -------------------------------------------------- */
+
   /** @override */
   static PARTS = {
     header: {template: "systems/artichron/templates/shared/sheet-header.hbs"},
@@ -27,6 +29,8 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
     effects: {template: "systems/artichron/templates/shared/effects.hbs", scrollable: [""]}
   };
 
+  /* -------------------------------------------------- */
+
   /** @override */
   static TABS = {
     description: {id: "description", group: "primary", label: "ARTICHRON.SheetTab.Description"},
@@ -35,10 +39,14 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
     effects: {id: "effects", group: "primary", label: "ARTICHRON.SheetTab.Effects"}
   };
 
+  /* -------------------------------------------------- */
+
   /** @override */
   tabGroups = {
     primary: "description"
   };
+
+  /* -------------------------------------------------- */
 
   /** @override */
   async _prepareContext(options) {
@@ -225,6 +233,8 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
     return context;
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Utility method to format a data field for the form group helper.
    * @param {object} context        Current rendering context.
@@ -250,9 +260,9 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
     return {field: field, value: value, disabled: context.isPlayMode, ...options};
   }
 
-  /* ---------------------------------------- */
-  /*              EVENT HANDLERS              */
-  /* ---------------------------------------- */
+  /* -------------------------------------------------- */
+  /*   Event handlers                                   */
+  /* -------------------------------------------------- */
 
   /**
    * Handle click events to add a new damage formula.
@@ -270,6 +280,8 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
     this.document.update({"system.damage.parts": parts});
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Handle click events to remove a particular damage formula.
    * @param {Event} event             The initiating click event.
@@ -283,6 +295,8 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
     this.document.update({"system.damage.parts": parts});
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Handle click events to toggle an item's Favorited state.
    * @param {Event} event             The initiating click event.
@@ -292,6 +306,8 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
     if (!this.isEditable) return;
     this.document.favorite().then(() => this.render());
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Handle click events to unfuse this item.

@@ -78,6 +78,8 @@ SYSTEM.DAMAGE_TYPES = {
   }
 };
 
+/* -------------------------------------------------- */
+
 /**
  * @typedef {object} DamageTypeGroupConfig
  * @property {string} label     The human-readable label of this damage group.
@@ -92,6 +94,8 @@ SYSTEM.DAMAGE_TYPE_GROUPS = {
   elemental: {label: "ARTICHRON.DamageTypeGroup.Elemental"},
   planar: {label: "ARTICHRON.DamageTypeGroup.Planar"}
 };
+
+/* -------------------------------------------------- */
 
 /**
  * @typedef {object} HealingTypeConfig
@@ -111,6 +115,8 @@ SYSTEM.HEALING_TYPES = {
     icon: "fa-solid fa-heart"
   }
 };
+
+/* -------------------------------------------------- */
 
 /**
  * @typedef {object} AreaTargetTypes
@@ -172,6 +178,8 @@ SYSTEM.AREA_TARGET_TYPES = {
   }
 };
 
+/* -------------------------------------------------- */
+
 /**
  * @typedef {object} WeaponTypeConfig
  * @property {string} label     The human-readable label of this weapon type.
@@ -195,6 +203,8 @@ SYSTEM.WEAPON_TYPES = {
   spear: {label: "ARTICHRON.WeaponType.Spear"},
   sword: {label: "ARTICHRON.WeaponType.Sword"}
 };
+
+/* -------------------------------------------------- */
 
 /**
  * @typedef {object} ShieldTypeConfig
@@ -225,6 +235,8 @@ SYSTEM.SHIELD_TYPES = {
   }
 };
 
+/* -------------------------------------------------- */
+
 /**
  * @typedef {object} SpellTypeConfig
  * @property {string} label     The human-readable label of this spell type.
@@ -239,6 +251,8 @@ SYSTEM.SPELL_TYPES = {
   defense: {label: "ARTICHRON.SpellType.Defense"},
   buff: {label: "ARTICHRON.SpellType.Buff"}
 };
+
+/* -------------------------------------------------- */
 
 /**
  * @typedef {object} EquipmentTypeConfig
@@ -258,14 +272,16 @@ SYSTEM.EQUIPMENT_TYPES = {
   boots: {label: "ARTICHRON.ArmorType.Boots"}
 };
 
+/* -------------------------------------------------- */
+
 /**
  * @typedef {object} ElixirTypeConfig
+ * @property {string} label     The human-readable label of this elixir type.
  */
 
 /**
  * Elixir subtypes.
  * @enum {ElixirTypeConfig}
- * @property {string} label     The human-readable label of this elixir type.
  */
 SYSTEM.ELIXIR_TYPES = {
   booster: {
@@ -278,6 +294,8 @@ SYSTEM.ELIXIR_TYPES = {
     label: "ARTICHRON.ElixirType.Restorative"
   }
 };
+
+/* -------------------------------------------------- */
 
 /**
  * @typedef {object} AmmunitionTypeConfig
@@ -308,6 +326,8 @@ SYSTEM.AMMUNITION_TYPES = {
   }
 };
 
+/* -------------------------------------------------- */
+
 /**
  * @typedef {object} PartTypeConfig
  * @property {string} label     The human-readable label of this monster part type.
@@ -318,6 +338,8 @@ SYSTEM.AMMUNITION_TYPES = {
  * @enum {PartTypeConfig}
  */
 SYSTEM.PART_TYPES = {};
+
+/* -------------------------------------------------- */
 
 /**
  * @typedef {object} EffectDurationConfig
@@ -333,6 +355,8 @@ SYSTEM.EFFECT_EXPIRATION_TYPES = {
   combat: {label: "ARTICHRON.EffectProperty.ExpirationCombat"},
   day: {label: "ARTICHRON.EffectProperty.ExpirationDay"}
 };
+
+/* -------------------------------------------------- */
 
 /**
  * @typedef {object} ItemAttributeConfig
@@ -361,6 +385,8 @@ SYSTEM.ITEM_ATTRIBUTES = {
     types: new Set(["weapon", "shield", "spell"])
   }
 };
+
+/* -------------------------------------------------- */
 
 /**
  * @typedef {object} StatusConditionConfig

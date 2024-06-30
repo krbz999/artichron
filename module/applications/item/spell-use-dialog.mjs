@@ -7,6 +7,8 @@ export default class SpellUseDialog extends HandlebarsApplicationMixin(Applicati
     this.resolve = resolve;
   }
 
+  /* -------------------------------------------------- */
+
   /** @override */
   static DEFAULT_OPTIONS = {
     classes: ["artichron", "spell"],
@@ -26,12 +28,16 @@ export default class SpellUseDialog extends HandlebarsApplicationMixin(Applicati
     }
   };
 
+  /* -------------------------------------------------- */
+
   /** @override */
   static PARTS = {
     form: {template: "systems/artichron/templates/item/spell-use-dialog.hbs"},
     options: {template: "systems/artichron/templates/item/spell-use-dialog-options.hbs"},
     footer: {template: "systems/artichron/templates/item/arsenal-use-dialog-footer.hbs"}
   };
+
+  /* -------------------------------------------------- */
 
   /** @override */
   _onChangeForm(formConfig, event) {
@@ -48,14 +54,16 @@ export default class SpellUseDialog extends HandlebarsApplicationMixin(Applicati
     }
   }
 
-  /* ---------------------------------------- */
-  /*                PROPERTIES                */
-  /* ---------------------------------------- */
+  /* -------------------------------------------------- */
+  /*   Properties                                       */
+  /* -------------------------------------------------- */
 
   /** @override */
   get title() {
     return game.i18n.format("ARTICHRON.SpellUseDialog.Title", {item: this.item.name});
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * The spell being used.
@@ -66,6 +74,8 @@ export default class SpellUseDialog extends HandlebarsApplicationMixin(Applicati
   }
   #item = null;
 
+  /* -------------------------------------------------- */
+
   /**
    * The chosen shape of the spell.
    * @type {string}
@@ -74,6 +84,8 @@ export default class SpellUseDialog extends HandlebarsApplicationMixin(Applicati
   get shape() {
     return this.#shape;
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * The currently selected damage part.
@@ -84,6 +96,8 @@ export default class SpellUseDialog extends HandlebarsApplicationMixin(Applicati
     return this.#damage;
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * The currently selected buff effect.
    * @type {string}
@@ -93,9 +107,9 @@ export default class SpellUseDialog extends HandlebarsApplicationMixin(Applicati
     return this.#buff;
   }
 
-  /* ---------------------------------------- */
-  /*     Method Handling and Preparation      */
-  /* ---------------------------------------- */
+  /* -------------------------------------------------- */
+  /*   Method handling and preparation                  */
+  /* -------------------------------------------------- */
 
   /**
    * Create an async instance of this application.
@@ -109,6 +123,8 @@ export default class SpellUseDialog extends HandlebarsApplicationMixin(Applicati
     });
   }
 
+  /* -------------------------------------------------- */
+
   /** @override */
   async _prepareContext(options) {
     return {
@@ -116,6 +132,8 @@ export default class SpellUseDialog extends HandlebarsApplicationMixin(Applicati
       isBuff: this.item.system.category.subtype === "buff"
     };
   }
+
+  /* -------------------------------------------------- */
 
   /** @override */
   async _preparePartContext(partId, context, options) {
@@ -222,6 +240,8 @@ export default class SpellUseDialog extends HandlebarsApplicationMixin(Applicati
     return context;
   }
 
+  /* -------------------------------------------------- */
+
   /** @override */
   _syncPartState(partId, newEl, oldEl, state) {
     super._syncPartState(partId, newEl, oldEl, state);
@@ -237,6 +257,8 @@ export default class SpellUseDialog extends HandlebarsApplicationMixin(Applicati
     }
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Calculate the current cost of the configuration.
    * @type {number}
@@ -250,6 +272,8 @@ export default class SpellUseDialog extends HandlebarsApplicationMixin(Applicati
     return value;
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Calculate the maximum for each range determined by the mana available and any selected boosters.
    * @type {number}
@@ -260,6 +284,8 @@ export default class SpellUseDialog extends HandlebarsApplicationMixin(Applicati
     if (boosters) return mana + boosters.value.length;
     return mana;
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Confirm and submit the form, and resolve the promise.
@@ -272,6 +298,8 @@ export default class SpellUseDialog extends HandlebarsApplicationMixin(Applicati
     data.cost = this.cost;
     if (this.resolve) this.resolve(data);
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Helper method to adjust the spellcasting model's data into template data.

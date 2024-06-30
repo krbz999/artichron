@@ -10,6 +10,8 @@ export default class ActiveEffectArtichron extends ActiveEffect {
     }
   }
 
+  /* -------------------------------------------------- */
+
   /** @override */
   static async _fromStatusEffect(statusId, effectData, options) {
     foundry.utils.mergeObject(effectData, {
@@ -22,6 +24,8 @@ export default class ActiveEffectArtichron extends ActiveEffect {
     return new this(effectData, options);
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Retrieve an object for roll data.
    * @returns {object}
@@ -33,6 +37,8 @@ export default class ActiveEffectArtichron extends ActiveEffect {
     return data;
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Create a prompt to destroy this fusion and create the two base items.
    * @param {object} [options]      Options to modify the splitting process.
@@ -43,6 +49,8 @@ export default class ActiveEffectArtichron extends ActiveEffect {
     return null;
   }
 
+  /* -------------------------------------------------- */
+
   /** @override */
   get isSuppressed() {
     if (this.type === "fusion") {
@@ -52,10 +60,14 @@ export default class ActiveEffectArtichron extends ActiveEffect {
     return false;
   }
 
+  /* -------------------------------------------------- */
+
   /** @override */
   get isTemporary() {
     return super.isTemporary || this.system.isTemporary;
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Is this a fusion that can be transferred?
@@ -64,6 +76,8 @@ export default class ActiveEffectArtichron extends ActiveEffect {
   get isTransferrableFusion() {
     return this.system.isTransferrableFusion ?? false;
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Is this a fusion that is currently modifying a target item?

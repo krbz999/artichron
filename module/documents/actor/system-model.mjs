@@ -73,11 +73,9 @@ export class ActorSystemModel extends foundry.abstract.TypeDataModel {
     };
   }
 
-  /* ---------------------------------------- */
-  /*                                          */
-  /*              Instance methods            */
-  /*                                          */
-  /* ---------------------------------------- */
+  /* -------------------------------------------------- */
+  /*   Instance methods                                 */
+  /* -------------------------------------------------- */
 
   /**
    * Retrieve an object for roll data.
@@ -87,11 +85,9 @@ export class ActorSystemModel extends foundry.abstract.TypeDataModel {
     return {...this};
   }
 
-  /* ---------------------------------------- */
-  /*                                          */
-  /*              UPDATE METHODS              */
-  /*                                          */
-  /* ---------------------------------------- */
+  /* -------------------------------------------------- */
+  /*   Life-cycle methods                               */
+  /* -------------------------------------------------- */
 
   /**
    * Modify the update to the system data model.
@@ -109,6 +105,8 @@ export class ActorSystemModel extends foundry.abstract.TypeDataModel {
     }
   }
 
+  /* -------------------------------------------------- */
+
   /** @override */
   _onUpdate(changed, options, userId) {
     super._onUpdate(changed, options, userId);
@@ -118,11 +116,9 @@ export class ActorSystemModel extends foundry.abstract.TypeDataModel {
     }
   }
 
-  /* ---------------------------------------- */
-  /*                                          */
-  /*            PREPARATION METHODS           */
-  /*                                          */
-  /* ---------------------------------------- */
+  /* -------------------------------------------------- */
+  /*   Preparation methods                              */
+  /* -------------------------------------------------- */
 
   /** @override */
   prepareBaseData() {
@@ -140,6 +136,8 @@ export class ActorSystemModel extends foundry.abstract.TypeDataModel {
     this.health.pct = Math.round(this.health.value / this.health.max * 100);
   }
 
+  /* -------------------------------------------------- */
+
   /** @override */
   prepareDerivedData() {
     const rollData = this.parent.getRollData();
@@ -151,10 +149,14 @@ export class ActorSystemModel extends foundry.abstract.TypeDataModel {
     this._prepareEmbeddedData(rollData);
   }
 
+  /* -------------------------------------------------- */
+
   /** Prepare pools. */
   _preparePools(rollData) {
     Object.entries(this.pools).forEach(([k, v]) => v.prepareDerivedData(rollData));
   }
+
+  /* -------------------------------------------------- */
 
   /** Prepare equipped items. */
   _prepareEquipped() {
@@ -180,6 +182,8 @@ export class ActorSystemModel extends foundry.abstract.TypeDataModel {
     }, new Set());
   }
 
+  /* -------------------------------------------------- */
+
   /** Prepare current and max encumbrance. */
   _prepareEncumbrance() {
     const dice = this.pools.stamina;
@@ -189,6 +193,8 @@ export class ActorSystemModel extends foundry.abstract.TypeDataModel {
       return acc + item.system.weight.total;
     }, 0);
   }
+
+  /* -------------------------------------------------- */
 
   /** Prepare armor value. */
   _prepareArmor(rollData) {
@@ -200,6 +206,8 @@ export class ActorSystemModel extends foundry.abstract.TypeDataModel {
       return acc + v;
     }, artichron.utils.simplifyBonus(armor.value, rollData));
   }
+
+  /* -------------------------------------------------- */
 
   /** Prepare the value of actor resistances. */
   _prepareResistances(rollData) {
@@ -217,16 +225,16 @@ export class ActorSystemModel extends foundry.abstract.TypeDataModel {
     }
   }
 
+  /* -------------------------------------------------- */
+
   /** Prepare any embedded models. */
   _prepareEmbeddedData(rollData) {
     Object.values(this.skills).forEach(v => v.prepareDerivedData(rollData));
   }
 
-  /* ---------------------------------------- */
-  /*                                          */
-  /*                  GETTERS                 */
-  /*                                          */
-  /* ---------------------------------------- */
+  /* -------------------------------------------------- */
+  /*   Properties                                       */
+  /* -------------------------------------------------- */
 
   static get BONUS_FIELDS() {
     const s = new Set(["name", "img"]);
@@ -252,6 +260,8 @@ export class ActorSystemModel extends foundry.abstract.TypeDataModel {
     return s;
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * The currently equipped ammunition.
    * @type {Set<ItemArtichron>}
@@ -259,6 +269,8 @@ export class ActorSystemModel extends foundry.abstract.TypeDataModel {
   get ammo() {
     return this.equipped.ammo;
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * The currently equipped arsenal.
@@ -272,6 +284,8 @@ export class ActorSystemModel extends foundry.abstract.TypeDataModel {
     };
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * The currently equipped armor set.
    * @type {object}
@@ -284,6 +298,8 @@ export class ActorSystemModel extends foundry.abstract.TypeDataModel {
     }, {});
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Does this actor have a shield equipped?
    * @type {boolean}
@@ -292,6 +308,8 @@ export class ActorSystemModel extends foundry.abstract.TypeDataModel {
     return (this.equipped.arsenal.primary?.type === "shield")
       || (this.equipped.arsenal.secondary?.type === "shield");
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * The items that this actor has favorited.

@@ -20,7 +20,7 @@ export class ActiveEffectSystemModel extends foundry.abstract.TypeDataModel {
     };
   }
 
-  /* ---------------------------------------- */
+  /* -------------------------------------------------- */
 
   /**
    * Retrieve an object for roll data.
@@ -30,7 +30,7 @@ export class ActiveEffectSystemModel extends foundry.abstract.TypeDataModel {
     throw new Error("The 'getRollData' method of active effects must be subclassed.");
   }
 
-  /* ---------------------------------------- */
+  /* -------------------------------------------------- */
 
   /**
    * Describe whether the ActiveEffect has a temporary duration based on when it expires.
@@ -40,6 +40,8 @@ export class ActiveEffectSystemModel extends foundry.abstract.TypeDataModel {
     return this.expiration.type !== "none";
   }
 }
+
+/* -------------------------------------------------- */
 
 /**
  * System data for "Fusions".
@@ -67,7 +69,7 @@ export class EffectFusionData extends ActiveEffectSystemModel {
     };
   }
 
-  /* ---------------------------------------- */
+  /* -------------------------------------------------- */
 
   /** @override */
   async _preCreate(...T) {
@@ -82,7 +84,7 @@ export class EffectFusionData extends ActiveEffectSystemModel {
     }
   }
 
-  /* ---------------------------------------- */
+  /* -------------------------------------------------- */
 
   /** @override */
   prepareDerivedData() {
@@ -92,7 +94,7 @@ export class EffectFusionData extends ActiveEffectSystemModel {
     this.parent.transfer = false;
   }
 
-  /* ---------------------------------------- */
+  /* -------------------------------------------------- */
 
   /** @override */
   getRollData() {
@@ -103,7 +105,7 @@ export class EffectFusionData extends ActiveEffectSystemModel {
     return data;
   }
 
-  /* ---------------------------------------- */
+  /* -------------------------------------------------- */
 
   /**
    * The fields this effect may apply to.
@@ -113,7 +115,7 @@ export class EffectFusionData extends ActiveEffectSystemModel {
     return this.parent.parent.system.constructor.BONUS_FIELDS;
   }
 
-  /* ---------------------------------------- */
+  /* -------------------------------------------------- */
 
   /**
    * Is this a fusion that can be transferred?
@@ -123,7 +125,7 @@ export class EffectFusionData extends ActiveEffectSystemModel {
     return foundry.utils.getType(this.itemData) !== "Object";
   }
 
-  /* ---------------------------------------- */
+  /* -------------------------------------------------- */
 
   /**
    * Is this a fusion that is currently modifying a target item?
@@ -133,7 +135,7 @@ export class EffectFusionData extends ActiveEffectSystemModel {
     return !this.isTransferrableFusion;
   }
 
-  /* ---------------------------------------- */
+  /* -------------------------------------------------- */
 
   /**
    * Delete this fusion and restore the original item.
@@ -162,7 +164,7 @@ export class EffectFusionData extends ActiveEffectSystemModel {
     return getDocumentClass("Item").create(this.itemData, {pack, parent: actor, keepId});
   }
 
-  /* ---------------------------------------- */
+  /* -------------------------------------------------- */
 
   /**
    * Create a prompt to delete this fusion and restore the original item.
@@ -192,7 +194,7 @@ export class EffectFusionData extends ActiveEffectSystemModel {
     return this.unfuse(options);
   }
 
-  /* ---------------------------------------- */
+  /* -------------------------------------------------- */
 
   /**
    * Utility method for translating a change into a human-readable label.
@@ -256,7 +258,7 @@ export class EffectFusionData extends ActiveEffectSystemModel {
     throw new Error(`The attempted key '${key}' is an invalid key to translate!`);
   }
 
-  /* ---------------------------------------- */
+  /* -------------------------------------------------- */
 
   /**
    * Attempt to translate the changes of this fusion into something human-readable.
@@ -275,6 +277,8 @@ export class EffectFusionData extends ActiveEffectSystemModel {
     return labels;
   }
 }
+
+/* -------------------------------------------------- */
 
 /**
  * System data for "Buffs".
@@ -300,13 +304,13 @@ export class EffectBuffData extends ActiveEffectSystemModel {
     };
   }
 
-  /* ---------------------------------------- */
+  /* -------------------------------------------------- */
 
   get isGranted() {
     return !!this.source && this.granted;
   }
 
-  /* ---------------------------------------- */
+  /* -------------------------------------------------- */
 
   /** @override */
   getRollData() {
@@ -322,7 +326,7 @@ export class EffectBuffData extends ActiveEffectSystemModel {
     return source.getRollData?.() ?? {};
   }
 
-  /* ---------------------------------------- */
+  /* -------------------------------------------------- */
 
   /**
    * A store of granted buffs.
@@ -330,7 +334,7 @@ export class EffectBuffData extends ActiveEffectSystemModel {
    */
   static origins = new Map();
 
-  /* ---------------------------------------- */
+  /* -------------------------------------------------- */
 
   /** @override */
   prepareDerivedData() {
@@ -346,6 +350,8 @@ export class EffectBuffData extends ActiveEffectSystemModel {
     EffectBuffData.origins.get(this.source).add(this.parent.uuid);
   }
 }
+
+/* -------------------------------------------------- */
 
 /**
  * System data for 'Enhancements'.
@@ -363,7 +369,7 @@ export class EffectEnhancementData extends ActiveEffectSystemModel {
     }
   }
 
-  /* ---------------------------------------- */
+  /* -------------------------------------------------- */
 
   /** @override */
   prepareDerivedData() {
@@ -371,13 +377,15 @@ export class EffectEnhancementData extends ActiveEffectSystemModel {
     this.parent.transfer = false;
   }
 
-  /* ---------------------------------------- */
+  /* -------------------------------------------------- */
 
   /** @override */
   getRollData() {
     return {};
   }
 }
+
+/* -------------------------------------------------- */
 
 /**
  * System data for 'Conditions'.
@@ -395,7 +403,7 @@ export class EffectConditionData extends ActiveEffectSystemModel {
     "burning"
   ]);
 
-  /* ---------------------------------------- */
+  /* -------------------------------------------------- */
 
   /** @override */
   static defineSchema() {
@@ -406,7 +414,7 @@ export class EffectConditionData extends ActiveEffectSystemModel {
     };
   }
 
-  /* ---------------------------------------- */
+  /* -------------------------------------------------- */
 
   /** @override */
   prepareDerivedData() {
@@ -417,7 +425,7 @@ export class EffectConditionData extends ActiveEffectSystemModel {
     if (!this.maxLevel || (this.level > this.maxLevel)) this.level = this.maxLevel;
   }
 
-  /* ---------------------------------------- */
+  /* -------------------------------------------------- */
 
   /** @override */
   getRollData() {
@@ -426,7 +434,7 @@ export class EffectConditionData extends ActiveEffectSystemModel {
     return rollData;
   }
 
-  /* ---------------------------------------- */
+  /* -------------------------------------------------- */
 
   /**
    * Transform this condition into a formgroup.
@@ -461,7 +469,7 @@ export class EffectConditionData extends ActiveEffectSystemModel {
     return fg;
   }
 
-  /* ---------------------------------------- */
+  /* -------------------------------------------------- */
 
   /**
    * Increase the level of a condition that has multiple stages.
@@ -478,7 +486,7 @@ export class EffectConditionData extends ActiveEffectSystemModel {
     if (!disabled) this.parent._displayScrollingStatus(true);
   }
 
-  /* ---------------------------------------- */
+  /* -------------------------------------------------- */
 
   /**
    * Decrease the level of a condition that has multiple stages.
@@ -494,7 +502,7 @@ export class EffectConditionData extends ActiveEffectSystemModel {
     if (!disabled) this.parent._displayScrollingStatus(false);
   }
 
-  /* ---------------------------------------- */
+  /* -------------------------------------------------- */
 
   /**
    * Do whatever it may be that this condition might do to its owner.
@@ -506,6 +514,8 @@ export class EffectConditionData extends ActiveEffectSystemModel {
       case "bleeding": return this.#executeBleeding();
     }
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Execute the effects of the 'burning' condition.
@@ -522,6 +532,8 @@ export class EffectConditionData extends ActiveEffectSystemModel {
     });
     return actor.applyDamage({[type]: roll.total}, {defendable: false});
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Execute the effects of the 'burning' condition.

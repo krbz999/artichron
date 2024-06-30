@@ -11,6 +11,8 @@ export default class AmmunitionData extends ItemSystemModel {
     type: "ammo"
   }, {inplace: false}));
 
+  /* -------------------------------------------------- */
+
   /** @override */
   static defineSchema() {
     return {
@@ -95,12 +97,16 @@ export default class AmmunitionData extends ItemSystemModel {
     };
   }
 
+  /* -------------------------------------------------- */
+
   /** @override */
   static get BONUS_FIELDS() {
     const fields = super.BONUS_FIELDS;
     fields.add("system.range.value").add("system.damage.parts");
     return fields;
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * The properties of a weapon this ammunition modifies.

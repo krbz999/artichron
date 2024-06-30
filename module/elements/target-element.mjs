@@ -17,11 +17,15 @@ class TargetElement extends HTMLElement {
     }
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * The chat message this element is created within.
    * @type {ChatMessage}
    */
   chatMessage = null;
+
+  /* -------------------------------------------------- */
 
   /**
    * The actor that is the target of this element.
@@ -29,11 +33,15 @@ class TargetElement extends HTMLElement {
    */
   actor = null;
 
+  /* -------------------------------------------------- */
+
   /**
    * Hook ids.
    * @type {Map<Record<string, Set<number>>}
    */
   hookIds = new Map();
+
+  /* -------------------------------------------------- */
 
   /** @override */
   connectedCallback() {
@@ -59,10 +67,14 @@ class TargetElement extends HTMLElement {
     else this.addEventListener("click", this.execute.bind(this));
   }
 
+  /* -------------------------------------------------- */
+
   /** @override */
   disconnectedCallback() {
     for (const [id, hook] of this.hookIds) Hooks.off(hook, id);
   }
+
+  /* -------------------------------------------------- */
 
   /** Apply all relevant hooks to keep the targets updated. */
   _applyHooks() {
@@ -72,15 +84,21 @@ class TargetElement extends HTMLElement {
     this.hookIds.set(id, "deleteToken");
   }
 
+  /* -------------------------------------------------- */
+
   /** Hook event for actors being deleted. */
   _onActorDeleted(actor) {
     if (actor === this.actor) this.remove();
   }
 
+  /* -------------------------------------------------- */
+
   /** Hook event for synthetic actors being removed. */
   _onTokenDeleted(token) {
     if (token.actor?.isToken && (token.actor === this.actor)) this.remove();
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Execute the main method of this element.
@@ -89,12 +107,16 @@ class TargetElement extends HTMLElement {
   execute(options = {}) {}
 }
 
+/* -------------------------------------------------- */
+
 export class DamageTarget extends TargetElement {
   /**
    * The damage totals by type.
    * @type {object}
    */
   #damages = null;
+
+  /* -------------------------------------------------- */
 
   /** @override */
   connectedCallback() {
@@ -107,6 +129,8 @@ export class DamageTarget extends TargetElement {
     }, {});
   }
 
+  /* -------------------------------------------------- */
+
   /** @override */
   _applyHooks() {
     super._applyHooks();
@@ -114,12 +138,16 @@ export class DamageTarget extends TargetElement {
     this.hookIds.set(id, "updateActor");
   }
 
+  /* -------------------------------------------------- */
+
   /** Hook event for actors being damaged. */
   _onActorTakesDamage(actor, change, options, userId) {
     if ((options.messageId === this.chatMessage.id) && (actor === this.actor)) {
       this.disabled = true;
     }
   }
+
+  /* -------------------------------------------------- */
 
   /** @override */
   execute(options = {}) {
@@ -129,6 +157,8 @@ export class DamageTarget extends TargetElement {
   }
 }
 
+/* -------------------------------------------------- */
+
 export class BuffTarget extends TargetElement {
   /** @override */
   _applyHooks() {
@@ -137,12 +167,16 @@ export class BuffTarget extends TargetElement {
     this.hookIds.set(id, "createActiveEffect");
   }
 
+  /* -------------------------------------------------- */
+
   /** Hook event for buffs being created. */
   _onCreateBuff(effect, options, userId) {
     if ((options.messageId === this.chatMessage.id) && (effect.parent === this.actor)) {
       this.disabled = true;
     }
   }
+
+  /* -------------------------------------------------- */
 
   /** @override */
   execute() {

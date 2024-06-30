@@ -12,10 +12,16 @@ export default class CombatTrackerArtichron extends CombatTracker {
 const {HandlebarsApplicationMixin, ApplicationV2} = foundry.applications.api;
 
 export class CombatCarousel extends HandlebarsApplicationMixin(ApplicationV2) {
+  /**
+   * @class
+   * @param {object} [options]      Application rendering options.
+   */
   constructor(options = {}) {
     super(options);
     ui.combat.apps = [this];
   }
+
+  /* -------------------------------------------------- */
 
   /** @override */
   static DEFAULT_OPTIONS = {
@@ -41,6 +47,8 @@ export class CombatCarousel extends HandlebarsApplicationMixin(ApplicationV2) {
     }
   };
 
+  /* -------------------------------------------------- */
+
   /** @override */
   static PARTS = {
     controls: {
@@ -51,6 +59,8 @@ export class CombatCarousel extends HandlebarsApplicationMixin(ApplicationV2) {
     }
   };
 
+  /* -------------------------------------------------- */
+
   /**
    * Any current combat.
    * @type {CombatArtichron|null}
@@ -58,6 +68,8 @@ export class CombatCarousel extends HandlebarsApplicationMixin(ApplicationV2) {
   get combat() {
     return game.combats.active;
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Any current combat's combatants.
@@ -67,12 +79,16 @@ export class CombatCarousel extends HandlebarsApplicationMixin(ApplicationV2) {
     return this.combat.combatants;
   }
 
+  /* -------------------------------------------------- */
+
   /** @override */
   _insertElement(element) {
     const existing = document.getElementById(element.id);
     if (existing) existing.replaceWith(element);
     else document.querySelector("#ui-top #navigation").insertAdjacentElement("afterend", element);
   }
+
+  /* -------------------------------------------------- */
 
   /** @override */
   async _prepareContext(options) {
@@ -139,6 +155,8 @@ export class CombatCarousel extends HandlebarsApplicationMixin(ApplicationV2) {
     return context;
   }
 
+  /* -------------------------------------------------- */
+
   /** @override */
   _preSyncPartState(partId, newElement, priorElement, state) {
     super._preSyncPartState(partId, newElement, priorElement, state);
@@ -156,6 +174,8 @@ export class CombatCarousel extends HandlebarsApplicationMixin(ApplicationV2) {
       state.scrollLeft = priorElement.scrollLeft;
     }
   }
+
+  /* -------------------------------------------------- */
 
   /** @override */
   _syncPartState(partId, newElement, priorElement, state) {
@@ -194,6 +214,8 @@ export class CombatCarousel extends HandlebarsApplicationMixin(ApplicationV2) {
     }
   }
 
+  /* -------------------------------------------------- */
+
   /** @override */
   _attachFrameListeners() {
     super._attachFrameListeners();
@@ -202,6 +224,8 @@ export class CombatCarousel extends HandlebarsApplicationMixin(ApplicationV2) {
       ui.context.menuItems = this._getCombatantContextOptions(combatant);
     }});
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Create context menu option for a combatant.
@@ -233,6 +257,8 @@ export class CombatCarousel extends HandlebarsApplicationMixin(ApplicationV2) {
     }];
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Perform an animated scroll and transition of the combatants and the tracker.
    * @param {HTMLElement} [current]     The combatant marked as 'current'.
@@ -245,6 +271,8 @@ export class CombatCarousel extends HandlebarsApplicationMixin(ApplicationV2) {
     }
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Handle initiating combat.
    * @param {Event} event             Initiating click event.
@@ -253,6 +281,8 @@ export class CombatCarousel extends HandlebarsApplicationMixin(ApplicationV2) {
   static #beginCombat(event, target) {
     this.combat.startCombat();
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Handle ending combat.
@@ -263,6 +293,8 @@ export class CombatCarousel extends HandlebarsApplicationMixin(ApplicationV2) {
     this.combat.endCombat();
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Handle moving to the previous turn.
    * @param {Event} event             Initiating click event.
@@ -272,6 +304,8 @@ export class CombatCarousel extends HandlebarsApplicationMixin(ApplicationV2) {
     this.combat.previousTurn();
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Handle moving to the next turn.
    * @param {Event} event             Initiating click event.
@@ -280,6 +314,8 @@ export class CombatCarousel extends HandlebarsApplicationMixin(ApplicationV2) {
   static #nextTurn(event, target) {
     this.combat.nextTurn();
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Handle pinging a combatant.
@@ -295,6 +331,8 @@ export class CombatCarousel extends HandlebarsApplicationMixin(ApplicationV2) {
     } else canvas.ping(combatant.token.object.center);
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Handle toggling the defeated status.
    * @param {Event} event             Initiating click event.
@@ -307,6 +345,8 @@ export class CombatCarousel extends HandlebarsApplicationMixin(ApplicationV2) {
     if (actor) actor.toggleStatusEffect(CONFIG.specialStatusEffects.DEFEATED, {overlay: true});
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Handle toggling the 'hidden' property.
    * @param {Event} event             Initiating click event.
@@ -318,6 +358,8 @@ export class CombatCarousel extends HandlebarsApplicationMixin(ApplicationV2) {
     const combatants = this.combat.getCombatantsByToken(combatant.token);
     this.combat.updateEmbeddedDocuments("Combatant", combatants.map(c => ({_id: c.id, hidden: !combatant.hidden})));
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Toggle the collapsed state of the combat tracker.

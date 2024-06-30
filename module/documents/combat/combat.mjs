@@ -1,14 +1,11 @@
 export default class CombatArtichron extends Combat {
   /** @override */
-  setupTurns() {
-    return super.setupTurns();
-  }
-
-  /** @override */
   _onDelete(options, userId) {
     super._onDelete(options, userId);
     if (game.user.id === userId) this.expireCombatEffects();
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Delete any effects that expire when combat ends.
@@ -46,6 +43,8 @@ export default class CombatArtichron extends Combat {
 
     return deleted;
   }
+
+  /* -------------------------------------------------- */
 
   /** @override */
   async _onStartRound() {
@@ -133,6 +132,8 @@ export default class CombatArtichron extends Combat {
     await this.update({turn: 0});
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Prompt the GM to apply any effects from conditions that apply at the start of the round.
    * @param {Combatant[]} combatants      An array of undefeated combatants whose conditions to apply.
@@ -200,6 +201,8 @@ export default class CombatArtichron extends Combat {
       await effect.system.execute();
     }
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Create the initiative order using just actors. This array will contain repeats.

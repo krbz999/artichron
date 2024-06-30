@@ -10,6 +10,8 @@ export default class PartData extends ItemSystemModel {
     type: "part"
   }, {inplace: false}));
 
+  /* -------------------------------------------------- */
+
   /** @override */
   static defineSchema() {
     return {

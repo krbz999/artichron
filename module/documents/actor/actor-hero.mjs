@@ -6,6 +6,8 @@ export default class HeroData extends ActorSystemModel {
     return super.defineSchema();
   }
 
+  /* -------------------------------------------------- */
+
   /** @override */
   async _preUpdate(update, options, user) {
     return super._preUpdate(update, options, user);

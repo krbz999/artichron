@@ -10,6 +10,8 @@ export default class ShieldData extends ArsenalData {
     type: "shield"
   }, {inplace: false}));
 
+  /* -------------------------------------------------- */
+
   /** @override */
   static defineSchema() {
     return {
@@ -42,12 +44,16 @@ export default class ShieldData extends ArsenalData {
     };
   }
 
+  /* -------------------------------------------------- */
+
   /** @override */
   static get BONUS_FIELDS() {
     return super.BONUS_FIELDS.union(new Set([
       "system.armor.value"
     ]));
   }
+
+  /* -------------------------------------------------- */
 
   /** @override */
   async use() {

@@ -19,7 +19,7 @@ export class LocalIdField extends foundry.data.fields.DocumentIdField {
     this.model = model;
   }
 
-  /* ---------------------------------------- */
+  /* -------------------------------------------------- */
 
   /**
    * A reference to the model class which is stored in this field.
@@ -27,7 +27,7 @@ export class LocalIdField extends foundry.data.fields.DocumentIdField {
    */
   model;
 
-  /* ---------------------------------------- */
+  /* -------------------------------------------------- */
 
   /** @inheritdoc */
   static get _defaults() {
@@ -39,7 +39,7 @@ export class LocalIdField extends foundry.data.fields.DocumentIdField {
     });
   }
 
-  /* ---------------------------------------- */
+  /* -------------------------------------------------- */
 
   /** @override */
   _cast(value) {
@@ -48,14 +48,14 @@ export class LocalIdField extends foundry.data.fields.DocumentIdField {
     throw new Error(`The value provided to a LocalDocumentField must be a ${this.model.name} instance.`);
   }
 
-  /* ---------------------------------------- */
+  /* -------------------------------------------------- */
 
   /** @inheritdoc */
   _validateType(value) {
     if (!this.options.fallback) super._validateType(value);
   }
 
-  /* ---------------------------------------- */
+  /* -------------------------------------------------- */
 
   /** @override */
   initialize(value, model, options = {}) {
@@ -73,7 +73,7 @@ export class LocalIdField extends foundry.data.fields.DocumentIdField {
     };
   }
 
-  /* ---------------------------------------- */
+  /* -------------------------------------------------- */
 
   /** @inheritdoc */
   toObject(value) {

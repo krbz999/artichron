@@ -8,6 +8,8 @@ export default class PoolConfig extends BaseConfig {
     }
   };
 
+  /* -------------------------------------------------- */
+
   /** @override */
   static PARTS = {
     form: {
@@ -16,10 +18,14 @@ export default class PoolConfig extends BaseConfig {
     }
   };
 
+  /* -------------------------------------------------- */
+
   /** @override */
   get title() {
     return game.i18n.format("ARTICHRON.Pools.Config", {name: this.document.name});
   }
+
+  /* -------------------------------------------------- */
 
   /** @override */
   async _prepareContext() {

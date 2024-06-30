@@ -2,10 +2,6 @@ import ItemFusionDialog from "../../../applications/item/fusion-dialog.mjs";
 
 export const FusionTemplateMixin = (Base) => {
   return class FusionTemplate extends Base {
-    /* ---------------------------------------- */
-    /*                 Fusion                   */
-    /* ---------------------------------------- */
-
     /**
      * Pick one of the fusion options of this item, grant it to a target item, and destroy this.
      * @param {ItemArtichron} target                      The target item.
@@ -34,6 +30,8 @@ export const FusionTemplateMixin = (Base) => {
       return getDocumentClass("ActiveEffect").create(effectData, {parent: target});
     }
 
+    /* -------------------------------------------------- */
+
     /**
      * Prompt a dialog to pick a valid fusion target and effect, then pass the selection off to the 'fuse' method.
      * @returns {Promise<ActiveEffectArtichron|null>}
@@ -53,6 +51,8 @@ export const FusionTemplateMixin = (Base) => {
 
       return this.fuse(target, effect);
     }
+
+    /* -------------------------------------------------- */
 
     /**
      * Prompt a dialog to pick an active fusion on this item to end.
@@ -89,6 +89,8 @@ export const FusionTemplateMixin = (Base) => {
       return effect.system.unfuse();
     }
 
+    /* -------------------------------------------------- */
+
     /**
      * Does this item have any valid fusions it can apply?
      * @type {boolean}
@@ -96,6 +98,8 @@ export const FusionTemplateMixin = (Base) => {
     get hasFusions() {
       return this.parent.effects.some(effect => effect.isTransferrableFusion);
     }
+
+    /* -------------------------------------------------- */
 
     /**
      * Is this item currently under the effect of a fusion?

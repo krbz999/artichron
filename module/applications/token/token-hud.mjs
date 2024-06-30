@@ -16,6 +16,8 @@ export default class TokenHUDArtichron extends CONFIG.Token.hudClass {
     }
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Override the click events of the token hud for conditions with levels.
    * @param {Event} event     Initiating click event.
@@ -30,6 +32,8 @@ export default class TokenHUDArtichron extends CONFIG.Token.hudClass {
     const curr = actor.effects.get(artichron.utils.staticId(statusId));
     curr.system.increase();
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Override the right-click events of the token hud for conditions with levels.

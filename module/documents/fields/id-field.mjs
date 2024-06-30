@@ -8,6 +8,8 @@ export class IdField extends foundry.data.fields.DocumentIdField {
     });
   }
 
+  /* -------------------------------------------------- */
+
   /** @override */
   _cast(value) {
     return String(value);
