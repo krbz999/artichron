@@ -1,10 +1,10 @@
-import {IdField} from "../fields/id-field.mjs";
 import {ItemSystemModel} from "./system-model.mjs";
+import {DamageTemplateMixin} from "./templates/damage-data.mjs";
 import {FusionTemplateMixin} from "./templates/fusion-data.mjs";
 
-const {ArrayField, NumberField, SchemaField, StringField} = foundry.data.fields;
+const {NumberField, SchemaField} = foundry.data.fields;
 
-export default class ArsenalData extends FusionTemplateMixin(ItemSystemModel) {
+export default class ArsenalData extends DamageTemplateMixin(FusionTemplateMixin(ItemSystemModel)) {
   /** @override */
   static metadata = Object.freeze(foundry.utils.mergeObject(super.metadata, {
     inventorySection: "arsenal",
@@ -17,21 +17,6 @@ export default class ArsenalData extends FusionTemplateMixin(ItemSystemModel) {
   static defineSchema() {
     return {
       ...super.defineSchema(),
-      damage: new SchemaField({
-        parts: new ArrayField(new SchemaField({
-          id: new IdField(),
-          formula: new StringField({
-            required: true,
-            label: "ARTICHRON.ItemProperty.Damage.Parts.Formula",
-            hint: "ARTICHRON.ItemProperty.Damage.Parts.FormulaHint"
-          }),
-          type: new StringField({
-            choices: CONFIG.SYSTEM.DAMAGE_TYPES,
-            label: "ARTICHRON.ItemProperty.Damage.Parts.Type",
-            hint: "ARTICHRON.ItemProperty.Damage.Parts.TypeHint"
-          })
-        }))
-      }),
       wield: new SchemaField({
         value: new NumberField({
           choices: {
@@ -71,7 +56,6 @@ export default class ArsenalData extends FusionTemplateMixin(ItemSystemModel) {
     return super.BONUS_FIELDS.union(new Set([
       "system.wield.value",
       "system.range.value",
-      "system.damage.parts",
       "system.cost.value"
     ]));
   }
@@ -136,9 +120,7 @@ export default class ArsenalData extends FusionTemplateMixin(ItemSystemModel) {
    */
   async toMessage({rolls = [], targets = [], template, effectUuid, flavor} = {}, {rollMode, create = true} = {}) {
     // Evaluate unevaluated rolls.
-    for (const roll of rolls) {
-      if (!roll.evaluated) await roll.evaluate();
-    }
+    for (const roll of rolls) if (!roll._evaluated) await roll.evaluate();
 
     // Set up message data.
     const messageData = {

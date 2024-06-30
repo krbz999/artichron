@@ -74,33 +74,8 @@ export default class WeaponData extends ArsenalData {
     let targets = await this.pickTarget({origin: token, count: 1, allowPreTarget: true, range});
     delete this._targeting;
 
-    // Construct roll data and damage parts.
-    const rollData = item.getRollData();
-    if (ammo) rollData.ammo = ammo.getRollData();
-    const parts = foundry.utils.deepClone(item.system._damages);
-
-    // Ammo modifying damage parts and damage types.
-    if (ammoModifiers.has("damageOverride")) {
-      const override = ammo.system.damage.override;
-      for (const p of parts) {
-        if ((override.group === "all") || (CONFIG.SYSTEM.DAMAGE_TYPES[p.type].group === override.group)) {
-          p.type = override.value;
-        }
-      }
-    }
-
-    // Ammo adding additional damage parts.
-    if (ammoModifiers.has("damageParts")) parts.push(...ammo.system._damages);
-
-    const rolls = Object.entries(parts.reduce((acc, d) => {
-      acc[d.type] ??= [];
-      acc[d.type].push(d.formula);
-      return acc;
-    }, {})).map(([type, formulas]) => {
-      const roll = new CONFIG.Dice.DamageRoll(formulas.join("+"), rollData, {type: type});
-      roll.alter(1, stamina + (configuration.uses || 0));
-      return roll;
-    });
+    // Create damage rolls.
+    const rolls = await this.rollDamage({ammo: ammo, addition: stamina + (configuration.uses || 0)}, {create: false});
 
     const actorUpdate = {};
     const itemUpdates = [];
