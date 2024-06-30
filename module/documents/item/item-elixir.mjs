@@ -11,6 +11,8 @@ export default class ElixirData extends ItemSystemModel {
     type: "elixir"
   }, {inplace: false}));
 
+  /* -------------------------------------------------- */
+
   /** @override */
   static defineSchema() {
     return {
@@ -61,6 +63,8 @@ export default class ElixirData extends ItemSystemModel {
     };
   }
 
+  /* -------------------------------------------------- */
+
   /** @override */
   static get BONUS_FIELDS() {
     return super.BONUS_FIELDS.union(new Set([
@@ -68,10 +72,14 @@ export default class ElixirData extends ItemSystemModel {
     ]));
   }
 
+  /* -------------------------------------------------- */
+
   /** @override */
   prepareBaseData() {
     super.prepareBaseData();
   }
+
+  /* -------------------------------------------------- */
 
   /** @override */
   preparePostData() {
@@ -81,6 +89,8 @@ export default class ElixirData extends ItemSystemModel {
     // Prepare max usage of the elixir.
     this.usage.max = artichron.utils.simplifyBonus(this.usage.max, rollData);
   }
+
+  /* -------------------------------------------------- */
 
   /** @override */
   async use() {
@@ -101,6 +111,8 @@ export default class ElixirData extends ItemSystemModel {
     if (this.isBuffElixir) return this.#useBuff();
     else if (this.category.subtype === "restorative") return this.#useRestorative();
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Use a 'buff' type elixir.
@@ -169,6 +181,8 @@ export default class ElixirData extends ItemSystemModel {
     ]);
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Use a 'restorative' type elixir.
    * @returns {Promise}
@@ -198,6 +212,8 @@ export default class ElixirData extends ItemSystemModel {
     // TODO: What is actually restored here?
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Utility method for crafting the usage update for an elixir.
    * @param {number} [uses]     The uses to subtract.
@@ -216,6 +232,8 @@ export default class ElixirData extends ItemSystemModel {
     return update;
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Does this item have a limited number of uses?
    * @type {boolean}
@@ -226,6 +244,8 @@ export default class ElixirData extends ItemSystemModel {
     return (use.max > 0) && (qty.value > 0);
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * The effects that can be transferred to the actor when this item is used.
    * @type {ActiveEffectArtichron[]}
@@ -233,6 +253,8 @@ export default class ElixirData extends ItemSystemModel {
   get transferrableEffects() {
     return this.parent.effects.filter(e => !e.transfer);
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Does this item have any effects that can be transferred to the actor when this item is used?
@@ -242,6 +264,8 @@ export default class ElixirData extends ItemSystemModel {
     return this.hasUses && (this.transferrableEffects.length > 0);
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Is this a boosting elixir?
    * @type {boolean}
@@ -249,6 +273,8 @@ export default class ElixirData extends ItemSystemModel {
   get isBoostElixir() {
     return this.category.subtype === "booster";
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Is this a buff elixir?

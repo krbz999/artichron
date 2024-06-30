@@ -10,6 +10,8 @@ export default class TokenArtichron extends Token {
     return CONFIG.Canvas.objectBorderThickness;
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * The width of the token bars when circular.
    * @type {number}
@@ -17,6 +19,8 @@ export default class TokenArtichron extends Token {
   get barsWidth() {
     return this.borderWidth * this.document.height + 1;
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * The width of the shield when circular.
@@ -26,6 +30,8 @@ export default class TokenArtichron extends Token {
     return this.borderWidth * 2;
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * The radius of the selection border when circular.
    * @type {number}
@@ -33,6 +39,8 @@ export default class TokenArtichron extends Token {
   get borderRadius() {
     return Math.max(this.h, this.w) / 2 + this.borderWidth;
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * The radius of the token bars when circular.
@@ -42,6 +50,8 @@ export default class TokenArtichron extends Token {
     return this.borderRadius - this.borderWidth / 2 - this.barsWidth / 2;
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * The radius of the shield when circular.
    * @type {number}
@@ -50,6 +60,8 @@ export default class TokenArtichron extends Token {
     return this.borderRadius + this.borderWidth / 2 + this.shieldWidth / 2;
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Is this token circular (equal width and height)?
    * @type {boolean}
@@ -57,6 +69,8 @@ export default class TokenArtichron extends Token {
   get isCircular() {
     return this.document.width === this.document.height;
   }
+
+  /* -------------------------------------------------- */
 
   /** Draw a rounded line to signify a shield and its size. */
   drawShield() {
@@ -87,6 +101,8 @@ export default class TokenArtichron extends Token {
     this.setChildIndex(shield, 2);
   }
 
+  /* -------------------------------------------------- */
+
   /** Redraw token aura. */
   drawAura() {
     if (this.tokenAuras?.removeChildren) this.tokenAuras.removeChildren().forEach(c => c.destroy());
@@ -116,11 +132,15 @@ export default class TokenArtichron extends Token {
     this.tokenAuras.position.set(center.x, center.y);
   }
 
+  /* -------------------------------------------------- */
+
   /** @override */
   _destroy(...args) {
     this.tokenAuras?.destroy();
     return super._destroy(...args);
   }
+
+  /* -------------------------------------------------- */
 
   /** @override */
   _applyRenderFlags(flags) {
@@ -128,6 +148,8 @@ export default class TokenArtichron extends Token {
     this.drawShield();
     this.drawAura();
   }
+
+  /* -------------------------------------------------- */
 
   /** @override */
   _refreshBorder() {
@@ -146,6 +168,8 @@ export default class TokenArtichron extends Token {
     this.border.lineStyle({width: thickness / 2, color: 0xFFFFFF, alignment: 1, join: PIXI.LINE_JOIN.ROUND});
     this.border.drawCircle(p.x, p.y, radius);
   }
+
+  /* -------------------------------------------------- */
 
   /** @override */
   _drawBar(number, bar, data) {
@@ -192,6 +216,8 @@ export default class TokenArtichron extends Token {
 
     return true;
   }
+
+  /* -------------------------------------------------- */
 
   /** @override */
   _getTextStyle() {

@@ -13,12 +13,13 @@
 export const ArtichronSheetMixin = Base => {
   const mixin = foundry.applications.api.HandlebarsApplicationMixin;
   return class DocumentSheetArtichron extends mixin(Base) {
-
     /**
      * Different sheet modes.
      * @enum {number}
      */
     static SHEET_MODES = {EDIT: 0, PLAY: 1};
+
+    /* -------------------------------------------------- */
 
     /** @override */
     static DEFAULT_OPTIONS = {
@@ -37,11 +38,15 @@ export const ArtichronSheetMixin = Base => {
       }
     };
 
+    /* -------------------------------------------------- */
+
     /**
      * The current sheet mode.
      * @type {number}
      */
     _sheetMode = this.constructor.SHEET_MODES.PLAY;
+
+    /* -------------------------------------------------- */
 
     /**
      * Is the sheet currently in 'Play' mode?
@@ -51,6 +56,8 @@ export const ArtichronSheetMixin = Base => {
       return this._sheetMode === this.constructor.SHEET_MODES.PLAY;
     }
 
+    /* -------------------------------------------------- */
+
     /**
      * Is the sheet currently in 'Edit' mode?
      * @type {boolean}
@@ -58,6 +65,8 @@ export const ArtichronSheetMixin = Base => {
     get isEditMode() {
       return this._sheetMode === this.constructor.SHEET_MODES.EDIT;
     }
+
+    /* -------------------------------------------------- */
 
     /**
      * A set of uuids of embedded documents whose descriptions have been expanded on this sheet.
@@ -84,14 +93,20 @@ export const ArtichronSheetMixin = Base => {
       wrapper.replaceChildren(div);
     }
 
+    /* -------------------------------------------------- */
+
     /** @override */
     tabGroups = {};
+
+    /* -------------------------------------------------- */
 
     /**
      * Tabs that are present on this sheet.
      * @enum {TabConfiguration}
      */
     static TABS = {};
+
+    /* -------------------------------------------------- */
 
     /**
      * Utility method for _prepareContext to create the tab navigation.
@@ -109,6 +124,8 @@ export const ArtichronSheetMixin = Base => {
         return acc;
       }, {});
     }
+
+    /* -------------------------------------------------- */
 
     /**
      * Prepare effects for rendering.
@@ -165,11 +182,15 @@ export const ArtichronSheetMixin = Base => {
       return effects;
     }
 
+    /* -------------------------------------------------- */
+
     /** @override */
     _onFirstRender(context, options) {
       super._onFirstRender(context, options);
       this._setupContextMenu();
     }
+
+    /* -------------------------------------------------- */
 
     /** @override */
     _onRender(context, options) {
@@ -191,6 +212,8 @@ export const ArtichronSheetMixin = Base => {
 
       this._setupDragAndDrop();
     }
+
+    /* -------------------------------------------------- */
 
     /** @override */
     _syncPartState(partId, newElement, priorElement, state) {
@@ -216,9 +239,9 @@ export const ArtichronSheetMixin = Base => {
       }
     }
 
-    /* ---------------------------------------- */
-    /*           Context Menu Handlers          */
-    /* ---------------------------------------- */
+    /* -------------------------------------------------- */
+    /*   Context menu handlers                            */
+    /* -------------------------------------------------- */
 
     /**
      * Bind a new context menu.
@@ -231,6 +254,8 @@ export const ArtichronSheetMixin = Base => {
         else if (item.documentName === "Item") ui.context.menuItems = this._getItemContextOptions(item);
       }});
     }
+
+    /* -------------------------------------------------- */
 
     /**
      * Create context menu options for an active effect.
@@ -271,6 +296,8 @@ export const ArtichronSheetMixin = Base => {
         group: "action"
       }];
     }
+
+    /* -------------------------------------------------- */
 
     /**
      * Create context menu options for an item.
@@ -331,9 +358,9 @@ export const ArtichronSheetMixin = Base => {
       }];
     }
 
-    /* ---------------------------------------- */
-    /*           DRAG AND DROP HANDLERS         */
-    /* ---------------------------------------- */
+    /* -------------------------------------------------- */
+    /*   Drag and drop handlers                           */
+    /* -------------------------------------------------- */
 
     /**
      * Set up drag-and-drop handlers.
@@ -354,6 +381,8 @@ export const ArtichronSheetMixin = Base => {
       dd.bind(this.element);
     }
 
+    /* -------------------------------------------------- */
+
     /**
      * Can the user start a drag event?
      * @param {string} selector     The selector used to initiate the drag event.
@@ -363,6 +392,8 @@ export const ArtichronSheetMixin = Base => {
       return true;
     }
 
+    /* -------------------------------------------------- */
+
     /**
      * Can the user perform a drop event?
      * @param {string} selector     The selector used to initiate the drop event.
@@ -371,6 +402,8 @@ export const ArtichronSheetMixin = Base => {
     _canDragDrop(selector) {
       return this.isEditable && this.document.isOwner;
     }
+
+    /* -------------------------------------------------- */
 
     /**
      * Handle a drag event being initiated.
@@ -382,6 +415,8 @@ export const ArtichronSheetMixin = Base => {
       const data = item.toDragData();
       event.dataTransfer.setData("text/plain", JSON.stringify(data));
     }
+
+    /* -------------------------------------------------- */
 
     /**
      * Handle a drop event.
@@ -432,6 +467,8 @@ export const ArtichronSheetMixin = Base => {
       getDocumentClass(type).create(itemData, {parent: this.document});
     }
 
+    /* -------------------------------------------------- */
+
     /**
      * Perform sorting of items.
      * @param {ItemArtichron} item      The document being dropped.
@@ -455,9 +492,9 @@ export const ArtichronSheetMixin = Base => {
       this.document.updateEmbeddedDocuments("Item", updates);
     }
 
-    /* ---------------------------------------- */
-    /*              EVENT HANDLERS              */
-    /* ---------------------------------------- */
+    /* -------------------------------------------------- */
+    /*   Event handlers                                   */
+    /* -------------------------------------------------- */
 
     /**
      * Handle editing the document's image.
@@ -477,6 +514,8 @@ export const ArtichronSheetMixin = Base => {
       fp.browse();
     }
 
+    /* -------------------------------------------------- */
+
     /**
      * Handle toggling the Opacity lock of the sheet.
      * @param {Event} event             The initiating click event.
@@ -485,6 +524,8 @@ export const ArtichronSheetMixin = Base => {
     static _ontoggleOpacity(event, target) {
       target.closest(".application").classList.toggle("opacity");
     }
+
+    /* -------------------------------------------------- */
 
     /**
      * Handle toggling between Edit and Play mode.
@@ -496,6 +537,8 @@ export const ArtichronSheetMixin = Base => {
       this._sheetMode = this.isEditMode ? modes.PLAY : modes.EDIT;
       this.render();
     }
+
+    /* -------------------------------------------------- */
 
     /**
      * Handle toggling an active effect on or off.
@@ -509,6 +552,8 @@ export const ArtichronSheetMixin = Base => {
       effect.update({disabled: !effect.disabled});
     }
 
+    /* -------------------------------------------------- */
+
     /**
      * Handle click events to render an effect's sheet.
      * @param {Event} event             The initiating click event.
@@ -519,6 +564,8 @@ export const ArtichronSheetMixin = Base => {
       const effect = await fromUuid(uuid);
       effect.sheet.render(true);
     }
+
+    /* -------------------------------------------------- */
 
     /**
      * Handle click events to delete an effect.
@@ -532,6 +579,8 @@ export const ArtichronSheetMixin = Base => {
       effect.deleteDialog();
     }
 
+    /* -------------------------------------------------- */
+
     /**
      * Handle click events to create an effect.
      * @param {Event} event             The initiating click event.
@@ -544,6 +593,8 @@ export const ArtichronSheetMixin = Base => {
         img: "icons/svg/sun.svg"
       }, {types: [type], parent: this.document});
     }
+
+    /* -------------------------------------------------- */
 
     /**
      * Handle click events to toggle a document's description.

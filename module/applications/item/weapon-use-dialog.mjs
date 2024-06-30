@@ -7,6 +7,8 @@ export default class WeaponUseDialog extends HandlebarsApplicationMixin(Applicat
     this.resolve = resolve;
   }
 
+  /* -------------------------------------------------- */
+
   /** @override */
   static DEFAULT_OPTIONS = {
     classes: ["artichron", "weapon"],
@@ -26,20 +28,24 @@ export default class WeaponUseDialog extends HandlebarsApplicationMixin(Applicat
     }
   };
 
+  /* -------------------------------------------------- */
+
   /** @override */
   static PARTS = {
     form: {template: "systems/artichron/templates/item/weapon-use-dialog.hbs"},
     footer: {template: "systems/artichron/templates/item/arsenal-use-dialog-footer.hbs"}
   };
 
-  /* ---------------------------------------- */
-  /*                PROPERTIES                */
-  /* ---------------------------------------- */
+  /* -------------------------------------------------- */
+  /*   Properties                                       */
+  /* -------------------------------------------------- */
 
   /** @override */
   get title() {
     return game.i18n.format("ARTICHRON.WeaponUseDialog.Title", {name: this.item.name});
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * The weapon being used to attack.
@@ -50,9 +56,9 @@ export default class WeaponUseDialog extends HandlebarsApplicationMixin(Applicat
   }
   #item = null;
 
-  /* ---------------------------------------- */
-  /*     Method Handling and Preparation      */
-  /* ---------------------------------------- */
+  /* -------------------------------------------------- */
+  /*   Method handling and preparation                  */
+  /* -------------------------------------------------- */
 
   /**
    * Factory method for asynchronous handling.
@@ -66,6 +72,8 @@ export default class WeaponUseDialog extends HandlebarsApplicationMixin(Applicat
       dialog.render({force: true});
     });
   }
+
+  /* -------------------------------------------------- */
 
   /** @override */
   async _prepareContext(options) {
@@ -129,9 +137,9 @@ export default class WeaponUseDialog extends HandlebarsApplicationMixin(Applicat
     };
   }
 
-  /* ---------------------------------------- */
-  /*              EVENT HANDLERS              */
-  /* ---------------------------------------- */
+  /* -------------------------------------------------- */
+  /*   Event handlers                                   */
+  /* -------------------------------------------------- */
 
   /** @override */
   _onChangeForm(formConfig, event) {
@@ -150,6 +158,8 @@ export default class WeaponUseDialog extends HandlebarsApplicationMixin(Applicat
       }
     }
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Handle submission of the form.

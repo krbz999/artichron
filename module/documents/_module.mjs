@@ -56,12 +56,16 @@ export const dataModels = {
   }
 };
 
+/* -------------------------------------------------- */
+
 export const templates = {
   ActorSystemModel,
   ItemSystemModel,
   ChatMessageSystemModel,
   ActiveEffectSystemModel
 };
+
+/* -------------------------------------------------- */
 
 export const documentClasses = {
   actor: ActorArtichron,

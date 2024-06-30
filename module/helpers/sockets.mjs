@@ -5,6 +5,8 @@ export function registerSockets() {
   game.socket.on("system.artichron", handleSocket);
 }
 
+/* -------------------------------------------------- */
+
 /**
  * Utility method to direct the socket event.
  * @param {object} eventData
@@ -17,12 +19,16 @@ function handleSocket({action, ...data}) {
   }
 }
 
+/* -------------------------------------------------- */
+
 /**
  * Update a chat message to display that a trade has been accepted.
  */
 async function _acceptTrade({userId, messageId}) {
   if (game.user.id === userId) game.messages.get(messageId).update({"system.traded": true});
 }
+
+/* -------------------------------------------------- */
 
 /**
  * Request to update a chat message to note that the trade has been completed.
@@ -48,6 +54,8 @@ async function acceptTradeEmit(message) {
   game.socket.emit("system.artichron", data);
 }
 
+/* -------------------------------------------------- */
+
 /**
  * Handle the creation of the buff.
  * @param {object} data                 Emitted data.
@@ -71,6 +79,8 @@ async function _grantBuff({userId, actorUuid, effectUuid, options = {}}) {
   });
   ActiveEffect.implementation.create(effectData, {...options, parent: actor});
 }
+
+/* -------------------------------------------------- */
 
 /**
  * Grant a buff to an actor, either directly if possible, or via socket.
@@ -100,6 +110,8 @@ async function createBuffEmit(effect, actor, options = {}) {
   if (userId === game.user.id) return _grantBuff(data);
   game.socket.emit("system.artichron", data);
 }
+
+/* -------------------------------------------------- */
 
 export default {
   grantBuff: createBuffEmit,

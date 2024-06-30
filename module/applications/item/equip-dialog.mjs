@@ -13,57 +13,69 @@ export default class EquipDialog extends HandlebarsApplicationMixin(ApplicationV
     },
     position: {width: 350, height: "auto"},
     actions: {
-      itemButton: this._onItemButton
+      itemButton: this.#onItemButton
     }
   };
+
+  /* -------------------------------------------------- */
 
   /** @override */
   static PARTS = {
     selections: {template: "systems/artichron/templates/item/equip-dialog-selections.hbs"}
   };
 
+  /* -------------------------------------------------- */
+
+  /**
+   * @class
+   * @param {object} options                    Application rendering options.
+   * @param {ActorArtichron} options.actor      The actor equipping an item.
+   * @param {string} options.slot               The equipment slot.
+   */
   constructor({actor, slot, ...options}) {
     super(options);
     this.#actor = actor;
     this.#slot = slot;
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * The actor changing their equipment.
    * @type {ActorArtichron}
    */
   #actor = null;
-  get actor() {
-    return this.#actor;
-  }
+
+  /* -------------------------------------------------- */
 
   /**
    * The targeted slot that is having its equipped item changed.
    * @type {string}
    */
   #slot = null;
-  get slot() {
-    return this.#slot;
-  }
+
+  /* -------------------------------------------------- */
 
   /**
    * Is this armor or arsenal?
    * @type {string}
    */
   get type() {
-    if (["primary", "secondary"].includes(this.slot)) return "arsenal";
+    if (["primary", "secondary"].includes(this.#slot)) return "arsenal";
     return "armor";
   }
 
-  /* ---------------------------------------- */
-  /*                Rendering                 */
-  /* ---------------------------------------- */
+  /* -------------------------------------------------- */
+  /*   Rendering                                        */
+  /* -------------------------------------------------- */
 
   /** @override */
   _onFirstRender(_context, _options) {
     if (this.options.modal) this.element.showModal();
     else this.element.show();
   }
+
+  /* -------------------------------------------------- */
 
   /** @override */
   async _prepareContext(options) {
@@ -73,19 +85,19 @@ export default class EquipDialog extends HandlebarsApplicationMixin(ApplicationV
     let icon;
 
     if (this.type === "armor") {
-      items = this.actor.items.filter(item => (item.type === "armor") && (item.system.category.subtype === this.slot));
+      items = this.#actor.items.filter(item => (item.type === "armor") && (item.system.category.subtype === this.#slot));
       icon = "fa-solid fa-shield-alt";
     } else {
-      items = this.actor.items.filter(item => {
+      items = this.#actor.items.filter(item => {
         if (!item.isArsenal) return false;
-        const {primary, secondary} = this.actor.arsenal;
-        if (this.slot === "primary") return !secondary || (secondary !== item);
-        if (this.slot === "secondary") return (!primary || (primary !== item)) && item.isOneHanded;
+        const {primary, secondary} = this.#actor.arsenal;
+        if (this.#slot === "primary") return !secondary || (secondary !== item);
+        if (this.#slot === "secondary") return (!primary || (primary !== item)) && item.isOneHanded;
       });
       icon = "fa-solid fa-hand-fist";
     }
 
-    const currentItem = this.actor.system.equipped[this.type][this.slot];
+    const currentItem = this.#actor.system.equipped[this.type][this.#slot];
     context.buttons = items.map(item => {
       return {
         itemId: item.id,
@@ -98,25 +110,26 @@ export default class EquipDialog extends HandlebarsApplicationMixin(ApplicationV
     return context;
   }
 
-  /* ---------------------------------------- */
-  /*              EVENT HANDLERS              */
-  /* ---------------------------------------- */
+  /* -------------------------------------------------- */
+  /*   Event Handlers                                   */
+  /* -------------------------------------------------- */
 
   /**
    * Close the dialog and change the equipped item.
+   * @this {EquipDialog}
    * @param {Event} event             Initiating click event.
    * @param {HTMLElement} target      Current target of the event.
    */
-  static _onItemButton(event, target) {
+  static #onItemButton(event, target) {
     const id = target.dataset.itemId;
-    const item = this.actor.items.get(id);
-    const current = this.actor.system.equipped[this.type][this.slot];
+    const item = this.#actor.items.get(id);
+    const current = this.#actor.system.equipped[this.type][this.#slot];
     const value = (id === current?.id) ? null : id;
-    const update = {[`system.equipped.${this.type}.${this.slot}`]: value};
-    if ((this.type === "arsenal") && (this.slot === "primary") && !(id === current?.id) && item.isTwoHanded) {
+    const update = {[`system.equipped.${this.type}.${this.#slot}`]: value};
+    if ((this.type === "arsenal") && (this.#slot === "primary") && !(id === current?.id) && item.isTwoHanded) {
       update["system.equipped.arsenal.secondary"] = null;
     }
     this.close();
-    this.actor.update(update);
+    this.#actor.update(update);
   }
 }

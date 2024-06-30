@@ -4,6 +4,8 @@ export class RollArtichron extends Roll {
     this.configure();
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Simplify numbers and faces.
    */
@@ -16,6 +18,8 @@ export class RollArtichron extends Roll {
     }
     this.resetFormula();
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Evaluate an array of rolls and create a singular chat message.
@@ -38,6 +42,8 @@ export class RollArtichron extends Roll {
     if (create) return ChatMessage.implementation.create(messageData);
     return messageData;
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Create a chat message with all the rolls.

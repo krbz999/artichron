@@ -11,17 +11,23 @@ import {compilePack, extractPack} from "@foundryvtt/foundryvtt-cli";
  */
 const PACK_DEST = "packs";
 
+/* -------------------------------------------------- */
+
 /**
  * Folder where source JSON files should be located relative to the module folder.
  * @type {string}
  */
 const PACK_SRC = "src";
 
+/* -------------------------------------------------- */
+
 // eslint-disable-next-line
 const argv = yargs(hideBin(process.argv))
   .command(packageCommand())
   .help().alias("help", "h")
   .argv;
+
+/* -------------------------------------------------- */
 
 // eslint-disable-next-line
 function packageCommand() {
@@ -57,9 +63,9 @@ function packageCommand() {
   };
 }
 
-/* ---------------------------------------- */
-/*  Clean Packs                             */
-/* ---------------------------------------- */
+/* -------------------------------------------------- */
+/*   Clean packs                                      */
+/* -------------------------------------------------- */
 
 /**
  * Removes unwanted flags, permissions, and other data from entries before extracting or compiling.
@@ -86,6 +92,8 @@ function cleanPackEntry(data, {clearSourceId = true, ownership = 0} = {}) {
   if (data.name) data.name = cleanString(data.name);
 }
 
+/* -------------------------------------------------- */
+
 /**
  * Removes invisible whitespace characters and normalizes single- and double-quotes.
  * @param {string} str  The string to be cleaned.
@@ -94,6 +102,8 @@ function cleanPackEntry(data, {clearSourceId = true, ownership = 0} = {}) {
 function cleanString(str) {
   return str.replace(/\u2060/gu, "").replace(/[‘’]/gu, "'").replace(/[“”]/gu, "\"");
 }
+
+/* -------------------------------------------------- */
 
 /**
  * Cleans and formats source JSON files, removing unnecessary permissions and flags and adding the proper spacing.
@@ -140,9 +150,9 @@ async function cleanPacks(packName, entryName) {
   }
 }
 
-/* ---------------------------------------- */
-/*  Compile Packs                           */
-/* ---------------------------------------- */
+/* -------------------------------------------------- */
+/*   Compile packs                                    */
+/* -------------------------------------------------- */
 
 /**
  * Compile the source JSON files into compendium packs.
@@ -165,9 +175,9 @@ async function compilePacks(packName) {
   }
 }
 
-/* ---------------------------------------- */
-/*  Extract Packs                           */
-/* ---------------------------------------- */
+/* -------------------------------------------------- */
+/*   Extract Packs                                    */
+/* -------------------------------------------------- */
 
 /**
  * Extract the contents of compendium packs to JSON files.
@@ -231,6 +241,8 @@ async function extractPacks(packName, entryName) {
     });
   }
 }
+
+/* -------------------------------------------------- */
 
 /**
  * Standardize name format.

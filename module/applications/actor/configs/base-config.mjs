@@ -1,4 +1,5 @@
 const {HandlebarsApplicationMixin, DocumentSheetV2} = foundry.applications.api;
+
 export default class BaseConfig extends HandlebarsApplicationMixin(DocumentSheetV2) {
   /** @override */
   static DEFAULT_OPTIONS = {
@@ -14,6 +15,8 @@ export default class BaseConfig extends HandlebarsApplicationMixin(DocumentSheet
     }
   };
 
+  /* -------------------------------------------------- */
+
   /** @override */
   static PARTS = {
     form: {
@@ -22,10 +25,14 @@ export default class BaseConfig extends HandlebarsApplicationMixin(DocumentSheet
     }
   };
 
+  /* -------------------------------------------------- */
+
   /** @override */
   get title() {
     throw new Error("Subclasses of BaseConfig must override the title getter.");
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Update the document.
@@ -40,8 +47,12 @@ export default class BaseConfig extends HandlebarsApplicationMixin(DocumentSheet
     return this.document.update(submitData);
   }
 
+  /* -------------------------------------------------- */
+
   /** @override */
   _prepareSubmitData(event, form, formData) {
     return formData.object;
   }
+
+  /* -------------------------------------------------- */
 }

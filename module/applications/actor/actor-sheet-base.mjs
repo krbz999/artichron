@@ -23,6 +23,8 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
     }
   };
 
+  /* -------------------------------------------------- */
+
   /** @override */
   static PARTS = {
     header: {template: "systems/artichron/templates/shared/sheet-header.hbs"},
@@ -37,11 +39,15 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
     encumbrance: {template: "systems/artichron/templates/actor/tab-encumbrance.hbs"}
   };
 
+  /* -------------------------------------------------- */
+
   /** @override */
   tabGroups = {
     primary: "attributes",
     inventory: "arsenal"
   };
+
+  /* -------------------------------------------------- */
 
   /** @override */
   static TABS = {
@@ -50,6 +56,8 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
     inventory: {id: "inventory", group: "primary", label: "ARTICHRON.SheetTab.Inventory"},
     effects: {id: "effects", group: "primary", label: "ARTICHRON.SheetTab.Effects"}
   };
+
+  /* -------------------------------------------------- */
 
   /** @override */
   async _prepareContext(options) {
@@ -106,6 +114,8 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
     return context;
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Prepare health.
    * @returns {object}
@@ -119,6 +129,8 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
     };
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Prepare health, stamina, mana pools.
    * @returns {object[]}
@@ -129,6 +141,8 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
     });
     return pools;
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Prepare resistances for rendering.
@@ -147,6 +161,8 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
 
     return resistances;
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Prepare equipped items for rendering.
@@ -209,6 +225,8 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
       armor: Object.values(equipped.armor)
     };
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Prepare the items for rendering.
@@ -278,6 +296,8 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
     return tabs;
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Prepare encumbrance bar.
    * @returns {object}
@@ -286,6 +306,8 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
     const enc = this.document.system.encumbrance;
     return {...enc, percent: Math.round(Math.clamp(enc.value / enc.max, 0, 1) * 100)};
   }
+
+  /* -------------------------------------------------- */
 
   /** @override */
   _onRender(context, options) {
@@ -298,6 +320,8 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
     });
   }
 
+  /* -------------------------------------------------- */
+
   /** @override */
   _preSyncPartState(p, ne, pe, s) {
     super._preSyncPartState(p, ne, pe, s);
@@ -306,6 +330,8 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
       s.healthHeight = o.offsetTop;
     }
   }
+
+  /* -------------------------------------------------- */
 
   /** @override */
   _syncPartState(partId, newElement, priorElement, state) {
@@ -325,9 +351,9 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
     }
   }
 
-  /* ---------------------------------------- */
-  /*              EVENT HANDLERS              */
-  /* ---------------------------------------- */
+  /* -------------------------------------------------- */
+  /*   Event Handlers                                   */
+  /* -------------------------------------------------- */
 
   /**
    * Handle click events to create an item.
@@ -345,6 +371,8 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
     getDocumentClass("Item").createDialog({}, {types: types, parent: this.document});
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Handle click events to use an item.
    * @param {Event} event             The initiating click event.
@@ -358,6 +386,8 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
     item.use();
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Handle click events to render an item's sheet.
    * @param {Event} event             The initiating click event.
@@ -368,6 +398,8 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
     const item = await fromUuid(uuid);
     item.sheet.render(true);
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Handle click events to delete an item.
@@ -381,6 +413,8 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
     item.deleteDialog();
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Handle click events to toggle an item's Favorited state.
    * @param {Event} event             The initiating click event.
@@ -392,6 +426,8 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
     const item = await fromUuid(uuid);
     item.favorite();
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Handle the change events on input fields that should propagate to the embedded document.
@@ -407,6 +443,8 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
     if (result !== undefined) item.update({[property]: result});
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Handle click events to roll a skill.
    * @param {Event} event             The initiating click event.
@@ -416,6 +454,8 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
     if (!this.isEditable) return;
     this.document.rollSkill(target.dataset.skill);
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Handle click events to render a configuration menu.
@@ -432,6 +472,8 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
     new Cls({document: this.document}).render(true);
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Handle click events to restore the actor's hit points and other resources.
    * @param {Event} event             The initiating click event.
@@ -442,6 +484,8 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
     this.document.recover();
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Handle click events to roll one of the pools.
    * @param {Event} event             The initiating click event.
@@ -451,6 +495,8 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
     if (!this.isEditable) return;
     this.document.rollPool(target.dataset.pool, {event});
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Handle click events to fuse one item onto another.
@@ -463,6 +509,8 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
     const item = await fromUuid(uuid);
     item.fuseDialog();
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Handle click events to change an equipped item in a particular slot.

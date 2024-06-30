@@ -12,6 +12,8 @@ export function staticId(status) {
   return status.padEnd(16, "0");
 }
 
+/* -------------------------------------------------- */
+
 /**
  * Convert a bonus value to a number.
  * @param {number|string|null} formula      The string to parse.
@@ -30,11 +32,15 @@ export function simplifyBonus(formula, data = {}) {
   }
 }
 
+/* -------------------------------------------------- */
+
 export function getActorTargets(tokens) {
   const actors = new Set();
   for (const token of tokens) if (token.actor) actors.add(token.actor);
   return Array.from(actors);
 }
+
+/* -------------------------------------------------- */
 
 export function getTokenTargets(tokens) {
   const map = new Map();
@@ -44,11 +50,9 @@ export function getTokenTargets(tokens) {
   return Array.from(map.values());
 }
 
-/* ---------------------------------------- */
-/*                                          */
-/*          Item and Effect macros          */
-/*                                          */
-/* ---------------------------------------- */
+/* -------------------------------------------------- */
+/*   Item and effect macros                           */
+/* -------------------------------------------------- */
 
 /**
  * Get actor instance from speaker.
@@ -61,6 +65,8 @@ function _getActor() {
   actor ??= game.actors.get(s.actor);
   return actor ?? null;
 }
+
+/* -------------------------------------------------- */
 
 /**
  * Toggle an effect on an actor by name. It may be on an item.
@@ -87,11 +93,9 @@ export async function toggleEffect(name) {
   return effect.update({disabled: !effect.disabled});
 }
 
-/* ---------------------------------------- */
-/*                                          */
-/*              Canvas helpers              */
-/*                                          */
-/* ---------------------------------------- */
+/* -------------------------------------------------- */
+/*   Canvas helpers                                   */
+/* -------------------------------------------------- */
 
 /**
  * Find all occupied grid spaces of a token.
@@ -113,6 +117,8 @@ export function getOccupiedGridSpaces(token) {
   return points;
 }
 
+/* -------------------------------------------------- */
+
 /**
  * Get the minimum distance between two tokens.
  * @param {TokenArtichron} A
@@ -131,6 +137,8 @@ export function getMinimumDistanceBetweenTokens(A, B) {
   }
   return min;
 }
+
+/* -------------------------------------------------- */
 
 /**
  * @typedef {object} RestrictionOptions
@@ -173,6 +181,8 @@ export function createRestrictedCircle(token, size, restrictions = {}) {
   return sweep;
 }
 
+/* -------------------------------------------------- */
+
 /**
  * Create pixi rectangle with some size and restrictions, centered on a token.
  * This does take the size of the token into account.
@@ -198,6 +208,8 @@ export function createRestrictedRect(token, size, restrictions = {}) {
   }
   return sweep;
 }
+
+/* -------------------------------------------------- */
 
 /**
  * Find tokens within a given circular distance from another token.
@@ -232,6 +244,8 @@ export function findTokensCircle(token, size, restrictions = {}) {
   return Array.from(tokens);
 }
 
+/* -------------------------------------------------- */
+
 /**
  * Find tokens within a given rectangle centered on a token.
  * This does take the size of the token into account.
@@ -253,6 +267,8 @@ export function findTokensRect(token, size, restrictions = {}) {
   return Array.from(tokens);
 }
 
+/* -------------------------------------------------- */
+
 /**
  * Create a rectangle of a given size centered on a token.
  * This does take the size of the token into account.
@@ -268,6 +284,8 @@ export function createRect(token, size) {
   const dist = (width + 2 * spaces) * canvas.grid.size;
   return new PIXI.Rectangle(x0, y0, dist, dist);
 }
+
+/* -------------------------------------------------- */
 
 /**
  * Find all token placeables that are at least 50% within a template.
@@ -299,6 +317,8 @@ export function tokensInTemplate(template) {
 
   return tokens;
 }
+
+/* -------------------------------------------------- */
 
 /**
  * Helper method to prompt for a number of targets, and then returns the targeted tokens.
@@ -394,6 +414,8 @@ export async function awaitTargets(count, {origin, range, allowPreTarget = false
   });
 }
 
+/* -------------------------------------------------- */
+
 /**
  * Properly and visually remove a target from the user.
  * @param {TokenArtichron} token      The token to remove.
@@ -405,6 +427,8 @@ export function removeTarget(token) {
   return game.user.updateTokenTargets([...targets.map(token => token.id)]);
 }
 
+/* -------------------------------------------------- */
+
 /**
  * Properly and visually add a target to the user.
  * @param {TokenArtichron} token      The token to add.
@@ -415,6 +439,8 @@ export function addTarget(token) {
   targets.add(token);
   return game.user.updateTokenTargets([...targets.map(token => token.id)]);
 }
+
+/* -------------------------------------------------- */
 
 /**
  * Handle a delta input for a number value from a form.
@@ -434,6 +460,8 @@ export function parseInputDelta(input, target) {
   input.value = value;
   return value;
 }
+
+/* -------------------------------------------------- */
 
 /**
  * Find the 'first' active user who is the owner of a document.

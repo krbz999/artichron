@@ -8,6 +8,8 @@ export class DamageRoll extends RollArtichron {
     super(formula, data, options);
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * The damage type of this roll.
    * @type {string}

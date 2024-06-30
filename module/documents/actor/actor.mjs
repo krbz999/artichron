@@ -1,7 +1,7 @@
 export default class ActorArtichron extends Actor {
-  /* ---------------------------------------- */
-  /*                  GETTERS                 */
-  /* ---------------------------------------- */
+  /* -------------------------------------------------- */
+  /*   Properties                                       */
+  /* -------------------------------------------------- */
 
   /**
    * The currently equipped ammunition.
@@ -11,6 +11,8 @@ export default class ActorArtichron extends Actor {
     return this.system.ammo ?? new Set();
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * The currently equipped arsenal.
    * @type {{primary: ItemArtichron, secondary: ItemArtichron}}
@@ -18,6 +20,8 @@ export default class ActorArtichron extends Actor {
   get arsenal() {
     return this.system.arsenal ?? {};
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * The currently equipped armor set.
@@ -27,6 +31,8 @@ export default class ActorArtichron extends Actor {
     return this.system.armor ?? {};
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Does this actor have a shield equipped?
    * @type {boolean}
@@ -34,6 +40,8 @@ export default class ActorArtichron extends Actor {
   get hasShield() {
     return this.system.hasShield ?? false;
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * The items that this actor has favorited.
@@ -43,11 +51,9 @@ export default class ActorArtichron extends Actor {
     return this.system.favorites ?? new Set();
   }
 
-  /* ---------------------------------------- */
-  /*                                          */
-  /*            PREPARATION METHODS           */
-  /*                                          */
-  /* ---------------------------------------- */
+  /* -------------------------------------------------- */
+  /*   Preparation                                      */
+  /* -------------------------------------------------- */
 
   /** @override */
   prepareData() {
@@ -63,11 +69,15 @@ export default class ActorArtichron extends Actor {
     this.items.forEach(item => item.system.preparePostData());
   }
 
+  /* -------------------------------------------------- */
+
   /** @override */
   prepareBaseData() {
     // Data modifications in this step occur before processing embedded documents or derived data.
     super.prepareBaseData();
   }
+
+  /* -------------------------------------------------- */
 
   /** @override */
   prepareEmbeddedDocuments() {
@@ -76,11 +86,9 @@ export default class ActorArtichron extends Actor {
     delete this._prepareEmbedded;
   }
 
-  /* ---------------------------------------- */
-  /*                                          */
-  /*               UPDATE METHODS             */
-  /*                                          */
-  /* ---------------------------------------- */
+  /* -------------------------------------------------- */
+  /*   Life-cycle methods                               */
+  /* -------------------------------------------------- */
 
   /** @override */
   async _preUpdate(update, options, user) {
@@ -89,11 +97,15 @@ export default class ActorArtichron extends Actor {
     if (allowed === false) return false;
   }
 
+  /* -------------------------------------------------- */
+
   /** @override */
   _onUpdate(update, options, user) {
     super._onUpdate(update, options, user);
     this._displayScrollingNumbers(options.damages, options.health);
   }
+
+  /* -------------------------------------------------- */
 
   /** @override */
   async _preCreate(data, options, user) {
@@ -109,6 +121,8 @@ export default class ActorArtichron extends Actor {
     };
     this.updateSource({prototypeToken: tokenData});
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Display scrolling damage numbers on each of this actor's tokens.
@@ -146,11 +160,9 @@ export default class ActorArtichron extends Actor {
     }
   }
 
-  /* ---------------------------------------- */
-  /*                                          */
-  /*               ACTOR METHODS              */
-  /*                                          */
-  /*  --------------------------------------- */
+  /* -------------------------------------------------- */
+  /*   Methods                                          */
+  /* -------------------------------------------------- */
 
   /** @override */
   getRollData() {
@@ -158,6 +170,8 @@ export default class ActorArtichron extends Actor {
     data.name = this.name;
     return data;
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Apply damage to this actor.
@@ -227,6 +241,8 @@ export default class ActorArtichron extends Actor {
 
     return this;
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Roll one or more dice from a pool.
@@ -309,6 +325,8 @@ export default class ActorArtichron extends Actor {
     return roll;
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Roll damage with an equipped arsenal item.
    * @param {string} [key]          Arsenal to roll with, 'primary' or 'secondary'.
@@ -318,6 +336,8 @@ export default class ActorArtichron extends Actor {
   async rollDamage(key = null, options = {}) {
     return this.system.rollDamage(key, options);
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Roll a skill.
@@ -366,6 +386,8 @@ export default class ActorArtichron extends Actor {
     return Roll.create(formula, rollData).toMessage({flavor, speaker}, {rollMode});
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Restore health and pools to maximums.
    * @returns {Promise<ActorArtichron>}
@@ -383,6 +405,8 @@ export default class ActorArtichron extends Actor {
     await this.update(updates);
     return this;
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Prompt the user to roll block and parry to reduce incoming damage using any of their equipped arsenal.
@@ -474,6 +498,8 @@ export default class ActorArtichron extends Actor {
     return value;
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Retrieve the level of a condition effect.
    * @param {string} status
@@ -483,6 +509,8 @@ export default class ActorArtichron extends Actor {
     const effect = this.effects.get(artichron.utils.staticId(status));
     return effect ? effect.system.level : 0;
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Utility method to either apply or increase the level of a status condition.
@@ -496,16 +524,16 @@ export default class ActorArtichron extends Actor {
     else return this.toggleStatusEffect(status);
   }
 
-  /* ---------------------------------------- */
-  /*                                          */
-  /*               Action Points              */
-  /*                                          */
-  /*  --------------------------------------- */
+  /* -------------------------------------------------- */
+  /*   Action Points                                    */
+  /* -------------------------------------------------- */
 
   /** @override */
   get inCombat() {
     return super.inCombat;
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * This actor's current combatant.
@@ -515,6 +543,8 @@ export default class ActorArtichron extends Actor {
     return game.combat?.getCombatantsByActor(this)[0] ?? null;
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Reference to this actor's current amount of pips.
    * @type {number|null}      The action points, or null if not in combat.
@@ -523,6 +553,8 @@ export default class ActorArtichron extends Actor {
     if (!this.inCombat) return null;
     return this.system.pips.value;
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Adjust the remaining action points of this actor.
@@ -535,6 +567,8 @@ export default class ActorArtichron extends Actor {
     return this;
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Can this actor perform an action that costs a certain amount of action points?
    * @param {number} [value]      The action point cost.
@@ -544,6 +578,8 @@ export default class ActorArtichron extends Actor {
     if (!this.inCombat) return true;
     return this.actionPoints >= value;
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Render a dialog to adjust the action points.

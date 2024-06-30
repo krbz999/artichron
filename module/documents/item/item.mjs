@@ -1,9 +1,7 @@
 export default class ItemArtichron extends Item {
-  /* ---------------------------------------- */
-  /*                                          */
-  /*                  GETTERS                 */
-  /*                                          */
-  /* ---------------------------------------- */
+  /* -------------------------------------------------- */
+  /*   Properties                                       */
+  /* -------------------------------------------------- */
 
   /**
    * Is this wielded in one hand?
@@ -13,6 +11,8 @@ export default class ItemArtichron extends Item {
     return this.system.isOneHanded ?? false;
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Is this wielded with two hands?
    * @type {boolean}
@@ -21,6 +21,8 @@ export default class ItemArtichron extends Item {
     return this.system.isTwoHanded ?? false;
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Is this an arsenal item?
    * @type {boolean}
@@ -28,6 +30,8 @@ export default class ItemArtichron extends Item {
   get isArsenal() {
     return ["weapon", "spell", "shield"].includes(this.type);
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Is this item equipped on the actor in one of the slots?
@@ -40,6 +44,8 @@ export default class ItemArtichron extends Item {
     return false;
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Retrieve a token from this item's owning actor.
    * @type {TokenArtichron|null}
@@ -51,6 +57,8 @@ export default class ItemArtichron extends Item {
     return token ?? null;
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Does this item have any valid template or targeting types?
    * @type {boolean}
@@ -58,6 +66,8 @@ export default class ItemArtichron extends Item {
   get hasTemplate() {
     return this.system.hasTemplate ?? false;
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Does this item have any valid fusions it can apply?
@@ -67,6 +77,8 @@ export default class ItemArtichron extends Item {
     return this.system.hasFusions ?? false;
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Is this item currently under the effect of a fusion?
    * @type {boolean}
@@ -74,6 +86,8 @@ export default class ItemArtichron extends Item {
   get isFused() {
     return this.system.isFused ?? false;
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Is this a valid item type for fusing onto another?
@@ -83,6 +97,8 @@ export default class ItemArtichron extends Item {
     return (this.type === "armor") || this.isArsenal;
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Does this item have a limited number of uses?
    * @type {boolean}
@@ -90,6 +106,8 @@ export default class ItemArtichron extends Item {
   get hasUses() {
     return this.system.hasUses ?? false;
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Does this item have any valid damage formulas?
@@ -99,6 +117,8 @@ export default class ItemArtichron extends Item {
     return this.system.hasDamage ?? false;
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Is this item ammo?
    * @type {boolean}
@@ -107,6 +127,8 @@ export default class ItemArtichron extends Item {
     return this.type === "ammo";
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Is this item armor?
    * @type {boolean}
@@ -114,6 +136,8 @@ export default class ItemArtichron extends Item {
   get isArmor() {
     return this.type === "armor";
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Is this item favorited by its owner?
@@ -124,6 +148,8 @@ export default class ItemArtichron extends Item {
     return this.actor.favorites.has(this);
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Is this a boosting elixir?
    * @type {boolean}
@@ -132,22 +158,24 @@ export default class ItemArtichron extends Item {
     return this.system.isBoostElixir ?? false;
   }
 
-  /* ---------------------------------------- */
-  /*                                          */
-  /*            PREPARATION METHODS           */
-  /*                                          */
-  /* ---------------------------------------- */
+  /* -------------------------------------------------- */
+  /*   Preparation methods                              */
+  /* -------------------------------------------------- */
 
   /** @override */
   prepareData() {
     super.prepareData();
   }
 
+  /* -------------------------------------------------- */
+
   /** @override */
   prepareEmbeddedDocuments() {
     super.prepareEmbeddedDocuments();
     if (!this.isEmbedded || this.actor._prepareEmbedded) this.applyActiveEffects();
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Apply changes from item-specific active effects.
@@ -178,6 +206,8 @@ export default class ItemArtichron extends Item {
     this.overrides = foundry.utils.expandObject(overrides);
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Get all effects that may apply to this item.
    * @yields {ActiveEffectArtichron}
@@ -188,6 +218,8 @@ export default class ItemArtichron extends Item {
       if ((e.type === "fusion") || (e.type === "enhancement")) yield e;
     }
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Retrieve all effects that currently modify this item.
@@ -201,9 +233,9 @@ export default class ItemArtichron extends Item {
     return effects;
   }
 
-  /* ---------------------------------------- */
-  /*              Event Handlers              */
-  /* ---------------------------------------- */
+  /* -------------------------------------------------- */
+  /*   Life-cycle methods                               */
+  /* -------------------------------------------------- */
 
   /** @override */
   async _preUpdate(update, options, user) {
@@ -217,14 +249,16 @@ export default class ItemArtichron extends Item {
     }
   }
 
+  /* -------------------------------------------------- */
+
   /** @override */
   _onUpdate(update, options, user) {
     return super._onUpdate(update, options, user);
   }
 
-  /* ---------------------------------------- */
-  /*               Item Methods               */
-  /* ---------------------------------------- */
+  /* -------------------------------------------------- */
+  /*   Instance methods                                 */
+  /* -------------------------------------------------- */
 
   /** @override */
   getRollData() {
@@ -233,6 +267,8 @@ export default class ItemArtichron extends Item {
     data.item.name = this.name;
     return data;
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Favorite this item on its actor.
@@ -246,6 +282,8 @@ export default class ItemArtichron extends Item {
     return this.actor.update({"system.equipped.favorites": favorites});
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Perform the item's type-specific main function.
    * @returns {Promise}
@@ -254,6 +292,8 @@ export default class ItemArtichron extends Item {
     if (this.system.use) return this.system.use();
     return null;
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Pick targets within range of this item.
@@ -265,6 +305,8 @@ export default class ItemArtichron extends Item {
     return null;
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Prompt for placing templates using this item.
    * @param {object} config     Template configuration and placement data.
@@ -274,6 +316,8 @@ export default class ItemArtichron extends Item {
     if (this.system.placeTemplates) return this.system.placeTemplates(config);
     return null;
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Pick one of the fusion options of this item, grant it to a target item, and destroy this.
@@ -285,6 +329,8 @@ export default class ItemArtichron extends Item {
     if (this.system.fuse) return this.system.fuse(target, fusion);
     return null;
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Prompt a dialog to pick a valid fusion target, then pass the selection off to the 'fuse' method.

@@ -7,6 +7,8 @@ export default class TokenDocumentArtichron extends TokenDocument {
     if (("aura" in flags) || isRedraw) this.object?.drawAura();
   }
 
+  /* -------------------------------------------------- */
+
   /** @override */
   async _preUpdate(data, options, user) {
     const allowed = await super._preUpdate(data, options, user);

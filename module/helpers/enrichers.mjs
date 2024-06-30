@@ -6,6 +6,8 @@ export function registerEnrichers() {
   });
 }
 
+/* -------------------------------------------------- */
+
 async function enrichString(match, options) {
   let {type, config, label} = match.groups;
   config = parseConfig(config);
@@ -15,6 +17,8 @@ async function enrichString(match, options) {
   }
   return null;
 }
+
+/* -------------------------------------------------- */
 
 function parseConfig(match) {
   const config = {_config: match, values: []};
@@ -29,6 +33,8 @@ function parseConfig(match) {
   }
   return config;
 }
+
+/* -------------------------------------------------- */
 
 function enrichLookup(config, fallback, options) {
   let keyPath = config.path;

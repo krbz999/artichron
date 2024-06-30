@@ -7,13 +7,15 @@ export default class EffectSheetArtichron extends ArtichronSheetMixin(foundry.ap
     classes: ["artichron", "effect"],
     position: {width: 500, height: "auto"},
     actions: {
-      addChange: this._onAddChange,
-      deleteChange: this._onDeleteChange
+      addChange: this.#onAddChange,
+      deleteChange: this.#onDeleteChange
     },
     window: {
       contentClasses: ["standard-form"]
     }
   };
+
+  /* -------------------------------------------------- */
 
   /** @override */
   static PARTS = {
@@ -23,19 +25,27 @@ export default class EffectSheetArtichron extends ArtichronSheetMixin(foundry.ap
     changes: {template: "systems/artichron/templates/effect-config/tab-changes.hbs", scrollable: [".changes"]}
   };
 
+  /* -------------------------------------------------- */
+
   /** @override */
   static TABS = {
     details: {id: "details", group: "primary", label: "ARTICHRON.SheetTab.EffectDetails"},
     changes: {id: "changes", group: "primary", label: "ARTICHRON.SheetTab.EffectChanges"}
   };
 
+  /* -------------------------------------------------- */
+
   /** @override */
   tabGroups = {
     primary: "details"
   };
 
+  /* -------------------------------------------------- */
+
   /** @override */
   _sheetMode = this.constructor.SHEET_MODES.EDIT;
+
+  /* -------------------------------------------------- */
 
   /** @override */
   async _prepareContext(options) {
@@ -133,28 +143,32 @@ export default class EffectSheetArtichron extends ArtichronSheetMixin(foundry.ap
     return context;
   }
 
-  /* ---------------------------------------- */
-  /*              EVENT HANDLERS              */
-  /* ---------------------------------------- */
+  /* -------------------------------------------------- */
+  /*   Event Handlers                                   */
+  /* -------------------------------------------------- */
 
   /**
    * Handle click events to add a new Change to this effect.
+   * @this {EffectSheetArtichron}
    * @param {Event} event             The initiating click event.
    * @param {HTMLElement} target      The current target of the event listener.
    */
-  static _onAddChange(event, target) {
+  static #onAddChange(event, target) {
     if (!this.isEditable) return;
     const changes = foundry.utils.deepClone(this.document.changes);
     changes.push({key: "", mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: ""});
     this.document.update({changes: changes});
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Handle click events to remove a Change from this effect.
+   * @this {EffectSheetArtichron}
    * @param {Event} event             The initiating click event.
    * @param {HTMLElement} target      The current target of the event listener.
    */
-  static _onDeleteChange(event, target) {
+  static #onDeleteChange(event, target) {
     if (!this.isEditable) return;
     const idx = parseInt(target.closest("[data-idx]").dataset.idx);
     const changes = foundry.utils.deepClone(this.document.changes);

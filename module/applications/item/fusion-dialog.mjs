@@ -17,6 +17,8 @@ export default class ItemFusionDialog extends HandlebarsApplicationMixin(Applica
     }
   };
 
+  /* -------------------------------------------------- */
+
   /** @override */
   static PARTS = {
     selections: {template: "systems/artichron/templates/item/fusion-dialog-selections.hbs"},
@@ -25,16 +27,27 @@ export default class ItemFusionDialog extends HandlebarsApplicationMixin(Applica
     footer: {template: "systems/artichron/templates/item/fusion-dialog-footer.hbs"}
   };
 
+  /* -------------------------------------------------- */
+
+  /**
+   * @class
+   * @param {object} options                  Application rendering options.
+   * @param {ItemArtichron} options.item      The item being fused onto another.
+   */
   constructor({item, ...options}) {
     super(options);
-    this.item = item;
+    this.#item = item;
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * The item being fused onto another.
    * @type {ItemArtichron}
    */
-  item = null;
+  #item = null;
+
+  /* -------------------------------------------------- */
 
   /**
    * Track the selected target item.
@@ -45,14 +58,16 @@ export default class ItemFusionDialog extends HandlebarsApplicationMixin(Applica
     return this.#selectedTarget;
   }
   set _selectedTarget(id) {
-    const item = this.item.actor.items.get(id);
+    const item = this.#item.actor.items.get(id);
     if (!item) return;
-    const isType = (this.item.isArsenal && item.isArsenal) || (this.item.type === item.type);
-    if ((item === this.item) || !isType) return;
+    const isType = (this.#item.isArsenal && item.isArsenal) || (this.#item.type === item.type);
+    if ((item === this.#item) || !isType) return;
     this.#selectedTarget = id;
     this.element.querySelector("[data-change=target]").value = id;
     this.render();
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Track the selected fusion.
@@ -60,22 +75,26 @@ export default class ItemFusionDialog extends HandlebarsApplicationMixin(Applica
    */
   _selectedFusion = null;
 
+  /* -------------------------------------------------- */
+
   /** @override */
   get title() {
-    return game.i18n.format(this.options.window.title, {source: this.item.name});
+    return game.i18n.format(this.options.window.title, {source: this.#item.name});
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Are the selections valid?
    * @type {boolean}
    */
   get isValidSelection() {
-    return !!this.item.actor.items.get(this._selectedTarget) && !!this.item.effects.get(this._selectedFusion);
+    return !!this.#item.actor.items.get(this._selectedTarget) && !!this.#item.effects.get(this._selectedFusion);
   }
 
-  /* ---------------------------------------- */
-  /*                Rendering                 */
-  /* ---------------------------------------- */
+  /* -------------------------------------------------- */
+  /*   Rendering                                        */
+  /* -------------------------------------------------- */
 
   /** @override */
   _onFirstRender(context, options) {
@@ -94,12 +113,16 @@ export default class ItemFusionDialog extends HandlebarsApplicationMixin(Applica
     });
   }
 
+  /* -------------------------------------------------- */
+
   /** @override */
   _onRender(context, options) {
     super._onRender(context, options);
     this.element.querySelector("button[type=submit]").disabled = !this.isValidSelection;
     this._setupDragAndDrop();
   }
+
+  /* -------------------------------------------------- */
 
   /** @override */
   async _renderHTML(context, options) {
@@ -110,6 +133,8 @@ export default class ItemFusionDialog extends HandlebarsApplicationMixin(Applica
     options.parts = parts;
     return super._renderHTML(context, options);
   }
+
+  /* -------------------------------------------------- */
 
   /** @override */
   async _prepareContext(options) {
@@ -122,26 +147,28 @@ export default class ItemFusionDialog extends HandlebarsApplicationMixin(Applica
     }
 
     // Indicators.
-    const target = this.item.actor.items.get(this._selectedTarget);
+    const target = this.#item.actor.items.get(this._selectedTarget);
     context.targetImage = target?.img ?? CONFIG.Item.documentClass.DEFAULT_ICON;
-    context.sourceImage = this.item.img;
+    context.sourceImage = this.#item.img;
     context.targetDisabled = !target;
 
     // Changes.
-    const effect = this.item.effects.get(this._selectedFusion);
+    const effect = this.#item.effects.get(this._selectedFusion);
     context.changes = effect ? effect.system.translateChanges() : null;
 
     return context;
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Prepare the target selection.
    * @returns {object}
    */
   _prepareTarget() {
-    const targets = this.item.actor.items.filter(item => {
-      const isType = (this.item.isArsenal && item.isArsenal) || (this.item.type === item.type);
-      return (item !== this.item) && isType;
+    const targets = this.#item.actor.items.filter(item => {
+      const isType = (this.#item.isArsenal && item.isArsenal) || (this.#item.type === item.type);
+      return (item !== this.#item) && isType;
     });
 
     const field = new foundry.data.fields.StringField({
@@ -152,12 +179,14 @@ export default class ItemFusionDialog extends HandlebarsApplicationMixin(Applica
     return {field: field, dataset: {change: "target"}};
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Prepare the fusion selection.
    * @returns {object}
    */
   _prepareFusion() {
-    const effects = this.item.effects.filter(effect => effect.isTransferrableFusion);
+    const effects = this.#item.effects.filter(effect => effect.isTransferrableFusion);
     const field = new foundry.data.fields.StringField({
       choices: Object.fromEntries(effects.map(e => [e.id, e.name])),
       label: "ARTICHRON.ItemFusionDialog.FusionLabel"
@@ -165,9 +194,9 @@ export default class ItemFusionDialog extends HandlebarsApplicationMixin(Applica
     return {field: field, dataset: {change: "fusion"}};
   }
 
-  /* ---------------------------------------- */
-  /*           DRAG AND DROP HANDLERS         */
-  /* ---------------------------------------- */
+  /* -------------------------------------------------- */
+  /* Drag and drop handlers                             */
+  /* -------------------------------------------------- */
 
   /**
    * Set up drag-and-drop handlers.
@@ -182,6 +211,8 @@ export default class ItemFusionDialog extends HandlebarsApplicationMixin(Applica
     dd.bind(this.element);
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Handle a drop event.
    * @param {Event} event
@@ -193,14 +224,14 @@ export default class ItemFusionDialog extends HandlebarsApplicationMixin(Applica
     const item = await fromUuid(uuid);
 
     // The dropped entry must be an item, not the fusing item, and must be owned by the same actor.
-    if (!item || (item === this.item) || (item.actor !== this.item.actor)) return;
+    if (!item || (item === this.#item) || (item.actor !== this.#item.actor)) return;
     this._selectedTarget = item.id;
     this.render({isFullRender: true});
   }
 
-  /* ---------------------------------------- */
-  /*              EVENT HANDLERS              */
-  /* ---------------------------------------- */
+  /* -------------------------------------------------- */
+  /*   Event Handlers                                   */
+  /* -------------------------------------------------- */
 
   /**
    * Return the selected ids.
@@ -211,6 +242,10 @@ export default class ItemFusionDialog extends HandlebarsApplicationMixin(Applica
     if (this.options.resolve) this.options.resolve(data);
     else return data;
   }
+
+  /* -------------------------------------------------- */
+  /*   Factory methods                                  */
+  /* -------------------------------------------------- */
 
   /**
    * Create an asynchronous instance of this application.

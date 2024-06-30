@@ -7,6 +7,8 @@ class ForeignDocumentUUIDField extends DocumentUUIDField {
   }
 }
 
+/* -------------------------------------------------- */
+
 export class ChatMessageSystemModel extends foundry.abstract.TypeDataModel {
   static defineSchema() {
     return {
@@ -15,12 +17,16 @@ export class ChatMessageSystemModel extends foundry.abstract.TypeDataModel {
     };
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Make system-specific adjustments to the chat message when created by an item.
    * @param {HTMLElement} html      The default html.
    */
   async adjustHTML(html) {}
 }
+
+/* -------------------------------------------------- */
 
 export class TradeMessageData extends ChatMessageSystemModel {
   static defineSchema() {
@@ -32,6 +38,8 @@ export class TradeMessageData extends ChatMessageSystemModel {
     };
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * An ephemeral item constructed from the saved item data.
    * @type {ItemArtichron|null}
@@ -41,6 +49,8 @@ export class TradeMessageData extends ChatMessageSystemModel {
     const Cls = getDocumentClass("Item");
     return new Cls(this.itemData, {parent: this.actor});
   }
+
+  /* -------------------------------------------------- */
 
   /** @override */
   async adjustHTML(html) {
@@ -58,6 +68,8 @@ export class TradeMessageData extends ChatMessageSystemModel {
 
     html.querySelector("[data-action=acceptTrade]")?.addEventListener("click", this._onAcceptTrade.bind(this));
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Handle click events on the Accept Trade button.
@@ -78,6 +90,8 @@ export class TradeMessageData extends ChatMessageSystemModel {
   }
 }
 
+/* -------------------------------------------------- */
+
 export class ItemMessageData extends ChatMessageSystemModel {
   static defineSchema() {
     return {
@@ -86,6 +100,8 @@ export class ItemMessageData extends ChatMessageSystemModel {
       effect: new ForeignDocumentUUIDField({type: "ActiveEffect", embedded: true})
     };
   }
+
+  /* -------------------------------------------------- */
 
   /** @override */
   async adjustHTML(html) {
@@ -136,6 +152,8 @@ export class ItemMessageData extends ChatMessageSystemModel {
     toggle.addEventListener("click", event => event.currentTarget.closest(".wrapper").classList.toggle("expanded"));
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Dispatch a click event on all damage targets.
    * @this ChatMessage
@@ -146,6 +164,8 @@ export class ItemMessageData extends ChatMessageSystemModel {
       target.execute();
     }
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Create a measured template from data embedded in a chat message, then perform a damage roll.
@@ -168,6 +188,8 @@ export class ItemMessageData extends ChatMessageSystemModel {
     this.update({"system.targets": Array.from(uuids)});
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Transfer buffs to targets.
    * @this ChatMessage
@@ -178,10 +200,14 @@ export class ItemMessageData extends ChatMessageSystemModel {
   }
 }
 
+/* -------------------------------------------------- */
+
 Hooks.once("renderChatLog", (app, [html]) => {
   const log = html.querySelector("#chat-log");
   log.addEventListener("drop", _onDropItem);
 });
+
+/* -------------------------------------------------- */
 
 async function _onDropItem(event) {
   const data = TextEditor.getDragEventData(event);
