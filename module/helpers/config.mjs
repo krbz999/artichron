@@ -98,27 +98,6 @@ SYSTEM.DAMAGE_TYPE_GROUPS = {
 /* -------------------------------------------------- */
 
 /**
- * @typedef {object} HealingTypeConfig
- * @property {string} label     Displayed label of the healing type.
- * @property {string} color     Associated default color.
- * @property {string} icon      FA icon used for the healing type.
- */
-
-/**
- * Healing types and relevant properties.
- * @enum {HealingTypeConfig}
- */
-SYSTEM.HEALING_TYPES = {
-  healing: {
-    label: "ARTICHRON.HealingType.Healing",
-    color: "33FF33",
-    icon: "fa-solid fa-heart"
-  }
-};
-
-/* -------------------------------------------------- */
-
-/**
  * @typedef {object} AreaTargetTypes
  * @property {string} label             Displayed label of the targeting type.
  * @property {Set<string>} scale        The properties that can scale with mana.

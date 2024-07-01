@@ -175,7 +175,7 @@ export default class ActorArtichron extends Actor {
 
   /**
    * Apply damage to this actor.
-   * @param {number|object} values              An object with keys from DAMAGE_TYPES or HEALING_TYPES.
+   * @param {number|object} values              An object with keys from DAMAGE_TYPES.
    * @param {object} [options]                  Damage application options.
    * @param {boolean} [options.defendable]      Whether the actor can parry or block this damage.
    * @param {boolean} [options.resisted]        Whether resistances and armor can reduce this damage.
