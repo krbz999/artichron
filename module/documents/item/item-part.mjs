@@ -6,7 +6,6 @@ export default class PartData extends ItemSystemModel {
   /** @override */
   static metadata = Object.freeze(foundry.utils.mergeObject(super.metadata, {
     inventorySection: "loot",
-    defaultIcon: "icons/svg/bones.svg",
     type: "part"
   }, {inplace: false}));
 

@@ -6,7 +6,6 @@ const {NumberField, SchemaField, StringField} = foundry.data.fields;
 export default class ShieldData extends ArsenalData {
   /** @override */
   static metadata = Object.freeze(foundry.utils.mergeObject(super.metadata, {
-    defaultIcon: "icons/svg/shield.svg",
     type: "shield"
   }, {inplace: false}));
 
