@@ -1,7 +1,8 @@
-import {PoolDiceModel, SkillDiceModel} from "../fields/die.mjs";
+import {PoolDiceModel} from "../fields/die.mjs";
 import {LocalIdField} from "../fields/local-id.mjs";
 import {FormulaField} from "../fields/formula-field.mjs";
 import {ResistanceField} from "../fields/resistance-field.mjs";
+import {SkillField} from "../fields/skill-field.mjs";
 
 const {SchemaField, NumberField, SetField, EmbeddedDataField, StringField} = foundry.data.fields;
 
@@ -36,22 +37,10 @@ export class ActorSystemModel extends foundry.abstract.TypeDataModel {
           value: new FormulaField({required: true})
         })
       }),
-      movement: new SchemaField({
-        running: new SchemaField({
-          value: new FormulaField({required: true, label: "ARTICHRON.ActorProperty.MovementRunning"})
-        }),
-        flying: new SchemaField({
-          value: new FormulaField({required: true, label: "ARTICHRON.ActorProperty.MovementFlying"})
-        }),
-        swimming: new SchemaField({
-          value: new FormulaField({required: true, label: "ARTICHRON.ActorProperty.MovementSwimming"})
-        })
-      }),
-      skills: new SchemaField({
-        head: new EmbeddedDataField(SkillDiceModel),
-        arms: new EmbeddedDataField(SkillDiceModel),
-        legs: new EmbeddedDataField(SkillDiceModel)
-      }),
+      skills: new SchemaField(Object.keys(CONFIG.SYSTEM.SKILLS).reduce((acc, skill) => {
+        acc[skill] = new SkillField(skill);
+        return acc;
+      }, {})),
       pips: new SchemaField({
         value: new NumberField({
           min: 0,
@@ -68,7 +57,7 @@ export class ActorSystemModel extends foundry.abstract.TypeDataModel {
         })
       }),
       traits: new SchemaField({
-        pool: new StringField({required: true, initial: "health", choices: ["health", "stamina", "mana"]})
+        pool: new StringField({required: true, initial: "health", choices: ["health", "stamina", "mana"]}) // TODO
       })
     };
   }
@@ -228,9 +217,7 @@ export class ActorSystemModel extends foundry.abstract.TypeDataModel {
   /* -------------------------------------------------- */
 
   /** Prepare any embedded models. */
-  _prepareEmbeddedData(rollData) {
-    Object.values(this.skills).forEach(v => v.prepareDerivedData(rollData));
-  }
+  _prepareEmbeddedData(rollData) {}
 
   /* -------------------------------------------------- */
   /*   Properties                                       */
@@ -245,18 +232,9 @@ export class ActorSystemModel extends foundry.abstract.TypeDataModel {
         s.add(`system.pools.${k}.modifiers.${w}`);
       }
     }
-    for (const k of Object.keys(schema.resistances)) {
-      s.add(`system.resistances.${k}.value`);
-    }
     s.add("system.defenses.armor.value");
-    for (const k of Object.keys(schema.movement)) {
-      s.add(`system.movement.${k}.value`);
-    }
-    for (const [k, v] of Object.entries(schema.skills)) {
-      for (const w of Object.keys(v.modifiers)) {
-        s.add(`system.skills.${k}.modifiers.${w}`);
-      }
-    }
+    for (const k of Object.keys(schema.resistances)) s.add(`system.resistances.${k}.value`);
+    for (const k of Object.keys(schema.skills)) s.add(`system.skills.${k}.value`);
     return s;
   }
 

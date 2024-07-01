@@ -85,29 +85,29 @@
 },
 
 "SheetTab": {
+  "Arsenal": "Arsenal",
   "Attributes": "Attributes",
-  "Equipment": "Equipment",
-  "Inventory": "Inventory",
+  "Consumables": "Consumables",
+  "Defenses": "Defenses",
   "Description": "Description",
   "Details": "Details",
-  "Properties": "Properties",
-  "Effects": "Effects",
-  "Arsenal": "Arsenal",
-  "Gear": "Gear",
-  "Consumables": "Consumables",
-  "Loot": "Loot",
+  "EffectChanges": "Changes",
   "EffectDetails": "Details",
   "EffectDuration": "Duration",
-  "EffectChanges": "Changes"
+  "Effects": "Effects",
+  "Equipment": "Equipment",
+  "Favorites": "Favorites",
+  "Gear": "Gear",
+  "Inventory": "Inventory",
+  "Loot": "Loot",
+  "Properties": "Properties",
+  "Skills": "Skills"
 },
 
 "SheetActions": {
   "RecoverHealth": "Recover Health",
   "EditSkills": "Edit Skills",
   "EditPools": "Edit Pools",
-  "RollSkillHead": "Roll Head",
-  "RollSkillArms": "Roll Arms",
-  "RollSkillLegs": "Roll Legs",
   "CreateItem": "Create New Item",
   "CreateBuff": "Create New Buff",
   "CreateFusion": "Create New Fusion",
@@ -138,12 +138,40 @@
   "StaminaDieCountPl": "{count} Stamina Dice"
 },
 
+"Skill": {
+  "AvoidDetection": "Avoid Detection",
+  "AvoidEnchantment": "Avoid Enchantment",
+  "Bamboozle": "Bamboozle",
+  "Barter": "Barter",
+  "Climb": "Climb",
+  "Drinking": "Drinking",
+  "Examine": "Examine",
+  "FindPath": "Find Path",
+  "Flirt": "Flirt",
+  "Heartiness": "Heartiness",
+  "Jump": "Jump",
+  "KnowledgeHistory": "History",
+  "KnowledgeMagic": "Arcane Knowledge",
+  "KnowledgeReligion": "Religion",
+  "KnowledgeScience": "Science Knowledge",
+  "KnowledgeTech": "Technology",
+  "Lift": "Lift",
+  "Menace": "Menace",
+  "Mettle": "Mettle",
+  "Persuade": "Persuade",
+  "Pickpocket": "Pickpocket",
+  "Reason": "Reason",
+  "Research": "Research",
+  "Sprinting": "Sprinting",
+  "Swim": "Swim",
+  "Throw": "Throw",
+  "TrapAvoidance": "Trap Avoidance",
+  "Understanding": "Understanding",
+  "WardDetection": "Ward Detection"
+},
+
 "Skills": {
-  "Config": "Skills: {name}",
-  "RollFlavor": "{skill} Roll ({pool})",
-  "Head": "Head",
-  "Arms": "Arms",
-  "Legs": "Legs"
+  "ChatMessageFlavor": "{actor}: {skill}"
 },
 
 "DamageType": {
@@ -409,10 +437,6 @@
 
 "EquipDialog": {
   "Title": "Change Equipped Item"
-},
-
-"SkillDialog": {
-  "Title": "Roll Skill: {skill}"
 },
 
 "ElixirDialog": {

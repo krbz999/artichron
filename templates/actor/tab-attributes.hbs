@@ -12,20 +12,18 @@
     </a>
   </div>
 
-  <div class="center-pane scrollable">
+  <div class="center-pane scrollable standard-form">
 
-    <section class="skills">
-      {{#if isEditMode}}
-      <a class="edit" data-action="toggleConfig" data-tooltip="ARTICHRON.SheetActions.EditSkills" data-trait="skills">
-        <i class="fa-solid fa-cog"></i>
+    <fieldset class="favorites">
+      <legend>{{localize "ARTICHRON.SheetTab.Favorites"}}</legend>
+      {{#each document.system.equipped.favorites}}
+      <a class="favorite" data-item-uuid="{{uuid}}" data-action="useItem">
+        <img src="{{img}}" data-tooltip="{{name}}" data-tooltip-direction="UP">
       </a>
-      {{/if}}
-      <a data-action="rollSkill" data-skill="head" data-tooltip="ARTICHRON.SheetActions.RollSkillHead"><i class="fa-solid fa-horse-head"></i></a>
-      <a data-action="rollSkill" data-skill="arms" data-tooltip="ARTICHRON.SheetActions.RollSkillArms"><i class="fa-solid fa-hand-back-fist"></i></a>
-      <a data-action="rollSkill" data-skill="legs" data-tooltip="ARTICHRON.SheetActions.RollSkillLegs"><i class="fa-solid fa-shoe-prints"></i></a>
-    </section>
+      {{/each}}
+    </fieldset>
 
-    <section class="pools">
+    <fieldset class="pools">
       {{#if isEditMode}}
       <a class="edit" data-action="toggleConfig" data-tooltip="ARTICHRON.SheetActions.EditPools" data-trait="pools">
         <i class="fa-solid fa-cog"></i>
@@ -34,11 +32,12 @@
       {{#each pools}}
       <a class="pool die {{denom}} {{key}}" data-action="rollPool" data-pool="{{key}}" data-tooltip="{{value}} / {{max}} ({{die}})">{{value}}</a>
       {{/each}}
-    </section>
+    </fieldset>
 
-    <section class="resistances">
+    <fieldset class="resistances">
+      <legend>{{localize "ARTICHRON.SheetTab.Defenses"}}</legend>
       {{#each resistances}}
-      <div class="resistance" data-tooltip="{{label}}" style="color: #{{color}}">
+      <div class="resistance {{#if active}} active {{/if}}" data-tooltip="{{label}}" style="color: #{{color}}">
         {{#if @root.isEditMode}}
         <input type="text" name="{{name}}" value="{{value}}">
         {{else}}
@@ -47,15 +46,26 @@
         <i class="{{icon}}"></i>
       </div>
       {{/each}}
-    </section>
+    </fieldset>
 
-    <section class="favorites">
-      {{#each document.system.equipped.favorites}}
-      <a class="favorite" data-item-uuid="{{uuid}}" data-action="useItem">
-        <img src="{{img}}" data-tooltip="{{name}}" data-tooltip-direction="UP">
-      </a>
+    <fieldset class="skills">
+      <legend>{{localize "ARTICHRON.SheetTab.Skills"}}</legend>
+      {{#each skills as |k v|}}
+      <section data-group="{{v}}">
+        {{#each k}}
+        <div class="skill">
+          <a class="label" data-action="rollSkill" data-skill-id="{{skillId}}">{{label}}</a>
+          <span class="pips">
+            {{#each pips}}
+            <span class="pip"></span>
+            {{/each}}
+          </span>
+          <span class="level">{{{level}}}</span>
+        </div>
+        {{/each}}
+      </section>
       {{/each}}
-    </section>
+    </fieldset>
 
   </div>
 

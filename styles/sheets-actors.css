@@ -5,11 +5,13 @@
 
   .tab[data-tab=attributes].active {
     display: flex;
+    min-height: 600px;
 
     .left-pane {
       position: relative;
       min-width: 64px;
       width: 64px;
+      margin-right: 1rem;
 
       .health {
         place-content: center;
@@ -46,12 +48,8 @@
     .center-pane {
       flex: 1;
 
-      & section {
+      & fieldset {
         position: relative;
-        display: flex;
-        align-items: center;
-        justify-content: space-evenly;
-        padding: 5px 0;
 
         [data-action=toggleConfig] {
           position: absolute;
@@ -64,14 +62,70 @@
       }
 
       .skills {
-        [data-action=rollSkill] {
-          flex: 1;
-          font-size: 45px;
-          text-align: center;
+        --border-var: 1px solid rgba(128, 128, 128, 0.5);
+        --color-mind: rgba(100, 200, 150, 0.15);
+        --color-body: rgba(255, 255, 100, 0.15);
+        --color-soul: rgba(255, 100, 255, 0.15);
+
+        [data-group] {
+          display: flex;
+          flex-direction: column;
+          border: var(--border-var);
+          border-radius: inherit;
+
+          &[data-group=mind] { background-color: var(--color-mind); }
+          &[data-group=body] { background-color: var(--color-body); }
+          &[data-group=soul] { background-color: var(--color-soul); }
+
+          .skill {
+            font-size: 0.85rem;
+            font-family: "Amiri";
+            padding: 0;
+            line-height: 1.5rem;
+            display: flex;
+            border-bottom: var(--border-var);
+            &:last-child { border: none; }
+
+
+            .label {
+              padding-left: 0.5rem;
+              border-right: var(--border-var);
+              flex: 0 0 35%;
+            }
+
+            .pips {
+              display: grid;
+              grid-template-columns: repeat(10, 1fr);
+              flex: 1;
+              margin: 0 4px;
+              align-items: center;
+              gap: 3px;
+              overflow: hidden;
+
+              .pip {
+                width: 1rem;
+                height: 1rem;
+                border-radius: 0%;
+                background-color: rgba(62, 197, 190, 0.336);
+                border-style: outset;
+                border-width: 1px;
+                border-color: rgb(54, 106, 204);
+                transform: matrix(1, 0, 1, -1, 0, 0) translateX(-0.5rem);
+              }
+            }
+
+            .level {
+              text-align: center;
+              flex: 0 0 3rem;
+              border-left: var(--border-var);
+            }
+          }
         }
       }
 
       .pools {
+        flex-direction: row;
+
         [data-action=rollPool] {
           font-size: 45px;
           flex: 1;
@@ -96,6 +150,9 @@
       }
 
       .resistances {
+        flex-direction: row;
+        gap: 1px;
+
         .resistance {
           display: flex;
           flex-direction: column;
@@ -103,10 +160,19 @@
           flex: 1;
           height: 50px;
           justify-content: space-between;
+          opacity: 0.3;
+          padding-bottom: 4px;
+
+          &.active {
+            opacity: 1;
+          }
 
           .total { font-size: 22px; }
           .fa-solid {
             place-content: end;
+            margin: 0;
+            padding: 0;
+            margin-top: 4px;
           }
           & input {
             text-align: center;
@@ -119,12 +185,23 @@
       }
 
       .favorites {
+        flex-direction: row;
         flex-wrap: wrap;
-        justify-content: flex-start;
+        --gap: 4px;
+        gap: var(--gap);
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
 
         .favorite {
-          flex: 0 0 47px;
-          cursor: pointer;
+          border: 1px solid var(--artichron-color-gold);
+          border-radius: 3px;
+          overflow: hidden;
+          aspect-ratio: 1/1;
+
+          & img {
+            border: none;
+            border-radius: inherit;
+          }
         }
       }
     }
