@@ -232,15 +232,16 @@ export default class CombatArtichron extends Combat {
 
     const zip = (a, b) => {
       const z = [];
-      for (const [i, c] of a.entries()) {
-        const e = b[i];
-        z.push(c.actor, e.actor);
+      for (const [i, {actor}] of a.entries()) {
+        const e = b[i]?.actor;
+        if (actor) z.push(actor);
+        if (e) z.push(e);
       }
       return z;
     };
 
     let order;
-    if (hostile[0].initiative >= friendly[0].initiative) order = zip(hostile, friendly);
+    if (hostile[0]?.initiative >= friendly[0]?.initiative) order = zip(hostile, friendly);
     else order = zip(friendly, hostile);
 
     return order;
