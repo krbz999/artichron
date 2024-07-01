@@ -2,7 +2,7 @@
 
   <nav class="inventory tabs" style="margin-bottom: 4px;">
     {{#each items}}
-    <a class="{{cssClass}}" data-action="tab" data-tab="{{id}}" data-group="inventory">{{localize label}}</a>
+    <a class="item {{cssClass}}" data-action="tab" data-tab="{{id}}" data-group="inventory">{{localize label}}</a>
     {{/each}}
   </nav>
 
