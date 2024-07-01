@@ -2,20 +2,9 @@ import BaseConfig from "./base-config.mjs";
 
 export default class PoolConfig extends BaseConfig {
   /** @override */
-  static DEFAULT_OPTIONS = {
-    position: {
-      width: 350
-    }
-  };
-
-  /* -------------------------------------------------- */
-
-  /** @override */
   static PARTS = {
-    form: {
-      id: "form",
-      template: "systems/artichron/templates/actor/config/pools.hbs"
-    }
+    form: {template: "systems/artichron/templates/actor/config/pools.hbs"},
+    footer: {template: "systems/artichron/templates/shared/footer.hbs"}
   };
 
   /* -------------------------------------------------- */
@@ -43,7 +32,8 @@ export default class PoolConfig extends BaseConfig {
           label: `ARTICHRON.Pools.${key.capitalize()}DiePl`,
           value: this.document.system.pools[key].value
         };
-      })
+      }),
+      footer: {disabled: false}
     };
   }
 }

@@ -6,11 +6,13 @@ export default class BaseConfig extends HandlebarsApplicationMixin(DocumentSheet
     classes: ["artichron"],
     sheetConfig: false,
     position: {
-      width: 300,
+      width: 400,
       height: "auto"
     },
+    window: {
+      contentClasses: ["standard-form"]
+    },
     form: {
-      handler: this.#onSubmitDocumentForm,
       closeOnSubmit: true
     }
   };
@@ -18,12 +20,7 @@ export default class BaseConfig extends HandlebarsApplicationMixin(DocumentSheet
   /* -------------------------------------------------- */
 
   /** @override */
-  static PARTS = {
-    form: {
-      id: "form",
-      template: undefined // must be subclassed
-    }
-  };
+  static PARTS = {};
 
   /* -------------------------------------------------- */
 
@@ -31,28 +28,4 @@ export default class BaseConfig extends HandlebarsApplicationMixin(DocumentSheet
   get title() {
     throw new Error("Subclasses of BaseConfig must override the title getter.");
   }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Update the document.
-   * @this BaseConfig
-   * @param {Event} event                   Initiating click event.
-   * @param {HTMLElement} form              The relevant form.
-   * @param {FormDataExtended} formData     The form data.
-   * @returns {Promise<ActorArtichron>}     A promise that resolves to the updated actor.
-   */
-  static async #onSubmitDocumentForm(event, form, formData) {
-    const submitData = this._prepareSubmitData(event, form, formData);
-    return this.document.update(submitData);
-  }
-
-  /* -------------------------------------------------- */
-
-  /** @override */
-  _prepareSubmitData(event, form, formData) {
-    return formData.object;
-  }
-
-  /* -------------------------------------------------- */
 }
