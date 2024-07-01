@@ -7,7 +7,6 @@ export class ItemSystemModel extends foundry.abstract.TypeDataModel {
    */
   static metadata = Object.freeze({
     inventorySection: "",
-    defaultIcon: "",
     fusion: false
   });
 
@@ -84,9 +83,6 @@ export class ItemSystemModel extends foundry.abstract.TypeDataModel {
 
   async _preCreate(data, options, user) {
     const update = {};
-
-    // Set default image.
-    if (!data.img) update.img = this.constructor.metadata.defaultIcon;
 
     // Set default attributes per item type.
     const attr = new Set(data.system?.attributes?.value ?? []);

@@ -1,4 +1,21 @@
 export default class ItemArtichron extends Item {
+  /** @override */
+  static getDefaultArtwork(itemData) {
+    let img;
+    switch (itemData.type) {
+      case "part": img = "icons/svg/bones.svg"; break;
+      case "elixir": img = "icons/svg/explosion.svg"; break;
+      case "weapon": img = "icons/svg/sword.svg"; break;
+      case "spell": img = "icons/svg/book.svg"; break;
+      case "shield": img = "icons/svg/shield.svg"; break;
+      case "armor": img = "icons/svg/chest.svg"; break;
+      case "ammo": img = "icons/svg/target.svg"; break;
+    }
+    return img ? {img: img} : super.getDefaultArtWork(itemData);
+  }
+
+  /* -------------------------------------------------- */
+
   /* -------------------------------------------------- */
   /*   Properties                                       */
   /* -------------------------------------------------- */

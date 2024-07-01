@@ -7,7 +7,6 @@ export default class ElixirData extends ItemSystemModel {
   /** @override */
   static metadata = Object.freeze(foundry.utils.mergeObject(super.metadata, {
     inventorySection: "consumables",
-    defaultIcon: "icons/svg/explosion.svg",
     type: "elixir"
   }, {inplace: false}));
 

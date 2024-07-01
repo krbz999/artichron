@@ -9,7 +9,6 @@ export default class ArmorData extends FusionTemplateMixin(ItemSystemModel) {
   /** @override */
   static metadata = Object.freeze(foundry.utils.mergeObject(super.metadata, {
     inventorySection: "gear",
-    defaultIcon: "icons/svg/chest.svg",
     type: "armor"
   }, {inplace: false}));
 
