@@ -1,13 +1,17 @@
 import {ArtichronSheetMixin} from "../base-sheet.mjs";
 import EquipDialog from "../item/equip-dialog.mjs";
 import PoolConfig from "./configs/pool-config.mjs";
-import SkillConfig from "./configs/skill-config.mjs";
 
 export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.applications.sheets.ActorSheetV2) {
   /** @override */
   static DEFAULT_OPTIONS = {
     classes: ["artichron", "actor"],
-    position: {width: 500, top: 100, left: 200, height: "auto"},
+    position: {
+      width: 550,
+      top: 100,
+      left: 200,
+      height: "auto"
+    },
     actions: {
       createItem: this._onCreateItem,
       useItem: this._onUseItem,
@@ -29,7 +33,10 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
   static PARTS = {
     header: {template: "systems/artichron/templates/shared/sheet-header.hbs"},
     tabs: {template: "systems/artichron/templates/shared/tabs.hbs"},
-    attributes: {template: "systems/artichron/templates/actor/tab-attributes.hbs", scrollable: [""]},
+    attributes: {
+      template: "systems/artichron/templates/actor/tab-attributes.hbs",
+      scrollable: [".center-pane"]
+    },
     equipment: {template: "systems/artichron/templates/actor/tab-equipment.hbs", scrollable: [""]},
     inventory: {
       template: "systems/artichron/templates/actor/tab-inventory.hbs",
@@ -87,14 +94,14 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
     const makeResistance = (key, path) => {
       context.resistances ??= {};
       const value = foundry.utils.getProperty(context.isEditMode ? src.system : doc.system, path);
-      if (!context.isEditMode && !value) return;
       context.resistances[key] = {
         field: doc.system.schema.getField(path),
         value: value,
         label: CONFIG.SYSTEM.DAMAGE_TYPES[key].label,
         color: CONFIG.SYSTEM.DAMAGE_TYPES[key].color,
         icon: CONFIG.SYSTEM.DAMAGE_TYPES[key].icon,
-        name: `system.${path}`
+        name: `system.${path}`,
+        active: context.isEditMode || !!value
       };
     };
 
@@ -104,6 +111,24 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
       makeResistance(k, `resistances.${k}.value`);
     }
     context.resistances = Object.values(context.resistances);
+
+    // Skills.
+    context.skills = Object.entries(doc.system.skills).reduce((acc, [k, v]) => {
+      const c = CONFIG.SYSTEM.SKILLS[k];
+      const pips = [];
+      for (let i = 0; i < v.value; i++) {
+        if (i >= 10) continue;
+        pips.push({});
+      }
+      acc[c.group].push({
+        level: v.value ? artichron.utils.romanize(v.value) : "&ndash;",
+        label: c.label,
+        skillId: k,
+        pips: pips
+      });
+      return acc;
+    }, {mind: [], body: [], soul: []});
+    Object.values(context.skills).forEach(v => v.sort((a, b) => a.label.localeCompare(b.label)));
 
     // Name and img.
     context.header = {
@@ -140,26 +165,6 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
       return {...pool, key: key, value: pool.value || 0, die: pool.die, denom: pool.denom};
     });
     return pools;
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Prepare resistances for rendering.
-   * @returns {object}
-   */
-  _prepareResistances() {
-    const resistances = [];
-    const ie = this.isEditMode;
-    const src = this.document.system.toObject().resistances;
-
-    for (const [k, v] of Object.entries(this.document.system.resistances)) {
-      if (!ie && !v.value) continue;
-      const {label, color, icon} = CONFIG.SYSTEM.DAMAGE_TYPES[k];
-      resistances.push({label, color, icon, key: k, value: ie ? src[k].value : v.value});
-    }
-
-    return resistances;
   }
 
   /* -------------------------------------------------- */
@@ -452,7 +457,7 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
    */
   static _onRollSkill(event, target) {
     if (!this.isEditable) return;
-    this.document.rollSkill(target.dataset.skill);
+    this.document.rollSkill({skillId: target.dataset.skillId});
   }
 
   /* -------------------------------------------------- */
@@ -467,7 +472,6 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
     let Cls;
     switch (target.dataset.trait) {
       case "pools": Cls = PoolConfig; break;
-      case "skills": Cls = SkillConfig; break;
     }
     new Cls({document: this.document}).render(true);
   }

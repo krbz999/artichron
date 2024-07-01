@@ -341,49 +341,28 @@ export default class ActorArtichron extends Actor {
 
   /**
    * Roll a skill.
-   * @param {string} skillId            The type of skill (head, arms, legs).
-   * @param {object} [options]          Roll options.
-   * @param {string} [options.pool]     The type of pool to use (health, stamina, mana). If omitted, the user is prompted.
-   * @returns {Promise}
+   * @param {object} config                   Roll configuration object.
+   * @param {string} config.skillId           The internal key used for the skill.
+   * @param {object} [options]                Options to modify the rolling.
+   * @param {string} [options.rollMode]       The roll mode to use for the chat message.
+   * @param {boolean} [options.create]        Whether to create a chat message or return the evaluated roll.
+   * @returns {Promise<ChatMessage|Roll>}     The created chat message, or the evaluated roll.
    */
-  async rollSkill(skillId, options = {}) {
-    const pool = options.pool ?? await foundry.applications.api.DialogV2.wait({
-      buttons: ["health", "stamina", "mana"].map(pool => {
-        return {
-          action: pool,
-          label: `ARTICHRON.Pools.${pool.capitalize()}`
-        };
-      }),
-      rejectClose: false,
-      modal: true,
-      classes: ["skill"],
-      window: {
-        title: game.i18n.format("ARTICHRON.SkillDialog.Title", {
-          skill: game.i18n.localize(`ARTICHRON.Skills.${skillId.capitalize()}`)
-        }),
-        icon: {
-          head: "fa-solid fa-horse-head",
-          arms: "fa-solid fa-hand-back-fist",
-          legs: "fa-solid fa-shoe-prints"
-        }[skillId]
-      },
-      position: {
-        width: 400,
-        height: "auto"
-      }
-    });
-    if (!pool) return null;
-
-    const formula = [this.system.skills[skillId].formula, this.system.pools[pool].formula].join(" + ");
+  async rollSkill({skillId, ...config}, {rollMode, create = true} = {}) {
     const rollData = this.getRollData();
+    rollData.value = config.value ?? rollData.skills[skillId].value;
+    const roll = foundry.dice.Roll.create("(@value)d6even", rollData);
     const speaker = ChatMessage.implementation.getSpeaker({actor: this});
-    const rollMode = game.settings.get("core", "rollMode");
-    const flavor = game.i18n.format("ARTICHRON.Skills.RollFlavor", {
-      skill: game.i18n.localize(`ARTICHRON.Skills.${skillId.capitalize()}`),
-      pool: game.i18n.localize(`ARTICHRON.Pools.${pool.capitalize()}`)
+    rollMode ??= game.settings.get("core", "rollMode");
+    const flavor = game.i18n.format("ARTICHRON.Skills.ChatMessageFlavor", {
+      skill: CONFIG.SYSTEM.SKILLS[skillId].label,
+      actor: this.name
     });
+    const messageData = {flavor, speaker, rolls: [roll]};
+    ChatMessage.implementation.applyRollMode(messageData, rollMode);
 
-    return Roll.create(formula, rollData).toMessage({flavor, speaker}, {rollMode});
+    await roll.evaluate();
+    return create ? ChatMessage.implementation.create(messageData) : roll;
   }
 
   /* -------------------------------------------------- */

@@ -440,3 +440,134 @@ SYSTEM.STATUS_CONDITIONS = {
     reference: "Compendium.artichron.rules.JournalEntry.JjiZqfbpC2YVXV4R.JournalEntryPage.FRQ8zjWTfTYZWGx3"
   }
 };
+
+/* -------------------------------------------------- */
+
+/**
+ * @typedef {object} SkillConfig
+ * @property {string} label     The displayed label of the skill.
+ * @property {string} group     The skill group this belongs to (mind, body, soul).
+ */
+
+/**
+ * The skills available.
+ * @enum {SkillConfig}
+ */
+SYSTEM.SKILLS = {
+  avoidDetection: {
+    label: "ARTICHRON.Skill.AvoidDetection",
+    group: "soul"
+  },
+  avoidEnchantment: {
+    label: "ARTICHRON.Skill.AvoidEnchantment",
+    group: "soul"
+  },
+  bamboozle: {
+    label: "ARTICHRON.Skill.Bamboozle",
+    group: "soul"
+  },
+  barter: {
+    label: "ARTICHRON.Skill.Barter",
+    group: "soul"
+  },
+  climb: {
+    label: "ARTICHRON.Skill.Climb",
+    group: "body"
+  },
+  drinking: {
+    label: "ARTICHRON.Skill.Drinking",
+    group: "body"
+  },
+  examine: {
+    label: "ARTICHRON.Skill.Examine",
+    group: "mind"
+  },
+  findPath: {
+    label: "ARTICHRON.Skill.FindPath",
+    group: "mind"
+  },
+  flirt: {
+    label: "ARTICHRON.Skill.Flirt",
+    group: "soul"
+  },
+  heartiness: {
+    label: "ARTICHRON.Skill.Heartiness",
+    group: "body"
+  },
+  jump: {
+    label: "ARTICHRON.Skill.Jump",
+    group: "body"
+  },
+  knowledgeHistory: {
+    label: "ARTICHRON.Skill.KnowledgeHistory",
+    group: "mind"
+  },
+  knowledgeMagic: {
+    label: "ARTICHRON.Skill.KnowledgeMagic",
+    group: "mind"
+  },
+  knowledgeReligion: {
+    label: "ARTICHRON.Skill.KnowledgeReligion",
+    group: "mind"
+  },
+  knowledgeScience: {
+    label: "ARTICHRON.Skill.KnowledgeScience",
+    group: "mind"
+  },
+  knowledgeTech: {
+    label: "ARTICHRON.Skill.KnowledgeTech",
+    group: "mind"
+  },
+  lift: {
+    label: "ARTICHRON.Skill.Lift",
+    group: "body"
+  },
+  menace: {
+    label: "ARTICHRON.Skill.Menace",
+    group: "soul"
+  },
+  mettle: {
+    label: "ARTICHRON.Skill.Mettle",
+    group: "soul"
+  },
+  persuade: {
+    label: "ARTICHRON.Skill.Persuade",
+    group: "soul"
+  },
+  pickpocket: {
+    label: "ARTICHRON.Skill.Pickpocket",
+    group: "body"
+  },
+  reason: {
+    label: "ARTICHRON.Skill.Reason",
+    group: "mind"
+  },
+  research: {
+    label: "ARTICHRON.Skill.Research",
+    group: "mind"
+  },
+  sprinting: {
+    label: "ARTICHRON.Skill.Sprinting",
+    group: "body"
+  },
+  swim: {
+    label: "ARTICHRON.Skill.Swim",
+    group: "body"
+  },
+  throw: {
+    label: "ARTICHRON.Skill.Throw",
+    group: "body"
+  },
+  trapAvoidance: {
+    label: "ARTICHRON.Skill.TrapAvoidance",
+    group: "body"
+  },
+  understanding: {
+    label: "ARTICHRON.Skill.Understanding",
+    group: "soul"
+  },
+  wardDetection: {
+    label: "ARTICHRON.Skill.WardDetection",
+    group: "mind"
+  }
+};
