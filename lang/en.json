@@ -101,7 +101,8 @@
   "Inventory": "Inventory",
   "Loot": "Loot",
   "Properties": "Properties",
-  "Skills": "Skills"
+  "Skills": "Skills",
+  "Pools": "Pools"
 },
 
 "SheetActions": {

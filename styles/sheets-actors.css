@@ -6,42 +6,87 @@
   .tab[data-tab=attributes].active {
     display: flex;
     min-height: 600px;
+    gap: 1rem;
 
     .left-pane {
-      position: relative;
-      min-width: 64px;
-      width: 64px;
-      margin-right: 1rem;
+      width: 5rem;
+      display: flex;
+      flex-direction: column-reverse;
+      overflow: hidden;
 
       .health {
+        position: relative;
         place-content: center;
         display: flex;
         flex-direction: column;
         align-items: center;
-        height: 100%;
+        flex: 1;
+        padding-left: 0;
+        padding-right: 0;
 
         & input {
-          width: calc(100% - 8px);
+          width: calc(100% - 2px);
           text-align: center;
-          margin: 0 4px;
+        }
+
+        .health-bar {
+          position: absolute;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          top: var(--health-bar-top);
+          z-index: -1;
+          background: linear-gradient(90deg, rgba(130, 0, 0, 0.6) 0%, rgba(198, 0, 0, 0.5) 81%, rgba(255, 0, 0, 0.4) 100%);
+        }
+
+        .control {
+          position: absolute;
+          top: 0;
+          right: 0;
+          padding: 4px;
         }
       }
 
-      .health-bar {
-        position: absolute;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        top: var(--health-bar-top);
-        z-index: -1;
-        background: linear-gradient(90deg, rgba(130, 0, 0, 0.6) 0%, rgba(198, 0, 0, 0.5) 81%, rgba(255, 0, 0, 0.4) 100%);
-      }
+      .pools {
+        align-items: center;
+        position: relative;
 
-      .control {
-        position: absolute;
-        top: 0;
-        right: 0;
-        padding: 4px;
+        .pool {
+          font-size: 20px;
+          display: flex;
+          width: 100%;
+          aspect-ratio: 1/1;
+          justify-content: center;
+          align-items: center;
+          color: black;
+          background-repeat: no-repeat;
+          text-align: center;
+          background-position: center;
+          background-size: contain;
+          background-image: url(../../../icons/svg/d4-grey.svg);
+          &.d6 { background-image: url(../../../icons/svg/d6-grey.svg); }
+
+          .label {
+            width: 2rem;
+            line-height: 2rem;
+          }
+
+          &.health {
+            filter: var(--health-filter);
+          }
+          &.stamina {
+            filter: var(--stamina-filter);
+          }
+          &.mana {
+            filter: var(--mana-filter);
+          }
+        }
+
+        .edit {
+          position: absolute;
+          top: 4px;
+          right: 4px;
+        }
       }
     }
 
@@ -84,8 +129,8 @@
             line-height: 1.5rem;
             display: flex;
             border-bottom: var(--border-var);
+            align-items: center;
             &:last-child { border: none; }
-
 
             .label {
               padding-left: 0.5rem;
@@ -119,32 +164,6 @@
               flex: 0 0 3rem;
               border-left: var(--border-var);
             }
-          }
-        }
-      }
-
-      .pools {
-        flex-direction: row;
-
-        [data-action=rollPool] {
-          font-size: 45px;
-          flex: 1;
-          background-repeat: no-repeat;
-          text-align: center;
-          background-position: center;
-          background-size: contain;
-          padding: 1rem 0;
-          background-image: url(../../../icons/svg/d4-grey.svg);
-          &.d6 { background-image: url(../../../icons/svg/d6-grey.svg); }
-
-          &.health {
-            filter: var(--health-filter);
-          }
-          &.stamina {
-            filter: var(--stamina-filter);
-          }
-          &.mana {
-            filter: var(--mana-filter);
           }
         }
       }
