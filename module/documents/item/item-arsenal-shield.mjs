@@ -61,7 +61,7 @@ export default class ShieldData extends ArsenalData {
       return null;
     }
 
-    if (this._targeting) return null; // Prevent initiating targeting twice.
+    if (game.user._targeting) return null; // Prevent initiating targeting twice.
     const item = this.parent;
     const actor = item.actor;
 
@@ -75,9 +75,9 @@ export default class ShieldData extends ArsenalData {
       return null;
     }
 
-    this._targeting = true;
+    game.user._targeting = true;
     const targets = await this.pickTarget({count: 1, allowPreTarget: true});
-    delete this._targeting;
+    delete game.user._targeting;
 
     const rolls = await this.rollDamage({multiply: 0.5}, {create: false});
 
