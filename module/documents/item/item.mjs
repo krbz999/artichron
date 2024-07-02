@@ -407,4 +407,14 @@ export default class ItemArtichron extends Item {
     if (this.system.fuseDialog) return this.system.fuseDialog();
     return null;
   }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * TODO
+   */
+  async rollDamage(...args) {
+    if (this.system.rollDamage) return this.system.rollDamage(...args);
+    return null;
+  }
 }

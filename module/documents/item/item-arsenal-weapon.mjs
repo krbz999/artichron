@@ -44,7 +44,7 @@ export default class WeaponData extends ArsenalData {
       return null;
     }
 
-    if (this._targeting) return null; // Prevent initiating targeting twice.
+    if (game.user._targeting) return null; // Prevent initiating targeting twice.
     const item = this.parent;
     const actor = item.actor;
 
@@ -68,10 +68,10 @@ export default class WeaponData extends ArsenalData {
     // Ammo modifying range.
     const range = Math.max(1, this.range.value + (ammoModifiers.has("range") ? ammo.system.range.value : 0));
 
-    this._targeting = true;
+    game.user._targeting = true;
     const token = this.parent.token;
     let targets = await this.pickTarget({origin: token, count: 1, allowPreTarget: true, range});
-    delete this._targeting;
+    delete game.user._targeting;
 
     // Create damage rolls.
     const rolls = await this.rollDamage({ammo: ammo, addition: stamina + (configuration.uses || 0)}, {create: false});

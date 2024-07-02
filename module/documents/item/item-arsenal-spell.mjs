@@ -59,7 +59,7 @@ export default class SpellData extends ArsenalData {
 
   /** @override */
   async use() {
-    if (this._targeting) return null; // Prevent initiating targeting twice.
+    if (game.user._targeting) return null; // Prevent initiating targeting twice.
 
     if ((this.category.subtype === "offense") && !this.hasDamage) {
       ui.notifications.warn("ARTICHRON.Warning.ItemHasNoDamageRolls", {localize: true});
@@ -88,7 +88,7 @@ export default class SpellData extends ArsenalData {
 
     const targets = new Set();
 
-    this._targeting = true;
+    game.user._targeting = true;
     if (data.type !== "single") {
       // Case 1: Area of effect.
       const templates = await this.placeTemplates(data);
@@ -107,7 +107,7 @@ export default class SpellData extends ArsenalData {
         if (actor) targets.add(actor.uuid);
       }
     }
-    delete this._targeting;
+    delete game.user._targeting;
 
     // Create and perform updates.
     const actorUpdate = {};
