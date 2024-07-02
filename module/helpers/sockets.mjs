@@ -15,10 +15,23 @@ function handleSocket({action, ...data}) {
   switch (action) {
     case "grantBuff": return _grantBuff(data);
     case "acceptTrade": return _acceptTrade(data);
+    case "stageMerchantItem": return _stageMerchantItem(data);
+    case "unstageMerchantItem": return _unstageMerchantItem(data);
     default: return null;
   }
 }
 
+/* -------------------------------------------------- */
+
+export default {
+  grantBuff: createBuffEmit,
+  acceptTrade: acceptTradeEmit,
+  stageMerchantItem: stageMerchantItemEmit,
+  unstageMerchantItem: unstageMerchantItemEmit
+};
+
+/* -------------------------------------------------- */
+/*   Trading items                                    */
 /* -------------------------------------------------- */
 
 /**
@@ -55,6 +68,8 @@ async function acceptTradeEmit(message) {
 }
 
 /* -------------------------------------------------- */
+/*   Granting buffs                                   */
+/* -------------------------------------------------- */
 
 /**
  * Handle the creation of the buff.
@@ -84,10 +99,10 @@ async function _grantBuff({userId, actorUuid, effectUuid, options = {}}) {
 
 /**
  * Grant a buff to an actor, either directly if possible, or via socket.
- * @param {ActiveEffectArtichron} effect              The buff to grant a copy of.
- * @param {ActorArtichron} actor                      The actor to receive the buff.
- * @param {object} [options]                          Options passed to the creation event.
- * @returns {Promise<ActiveEffectArtichron|void>}     The created effect, if able to create it yourself.
+ * @param {ActiveEffectArtichron} effect      The buff to grant a copy of.
+ * @param {ActorArtichron} actor              The actor to receive the buff.
+ * @param {object} [options]                  Options passed to the creation event.
+ * @returns {Promise}                         The created effect, if able to create it yourself.
  */
 async function createBuffEmit(effect, actor, options = {}) {
   const userId = actor.isOwner ? game.user.id : game.users.find(u => {
@@ -112,8 +127,89 @@ async function createBuffEmit(effect, actor, options = {}) {
 }
 
 /* -------------------------------------------------- */
+/*   Staging merchant items                           */
+/* -------------------------------------------------- */
 
-export default {
-  grantBuff: createBuffEmit,
-  acceptTrade: acceptTradeEmit
-};
+/**
+ * Retrieve an item via uuid and mark it as 'staged' on the merchant.
+ * @param {object} data               Emitted data.
+ * @param {string} data.userId        The id of the user to handle the event.
+ * @param {string} data.itemUuid      Uuid of the item to stage.
+ */
+async function _stageMerchantItem({userId, itemUuid}) {
+  if (userId !== game.user.id) return;
+  const item = await fromUuid(itemUuid);
+  const merchant = item.parent;
+  merchant.system.stageItem(item);
+}
+
+/* -------------------------------------------------- */
+
+/**
+ * Emit the event to stage an item on a merchant.
+ * @param {ItemArtichron} item      The item to stage.
+ * @returns {Promise}
+ */
+async function stageMerchantItemEmit(item) {
+  const userId = item.actor.isOwner ? game.user.id : game.users.find(u => {
+    return u.active && item.actor.testUserPermission(u, "OWNER");
+  })?.id;
+
+  if (!userId) {
+    ui.notifications.warn("ARTICHRON.Warning.CannotEmitRequest", {localize: true});
+    return false;
+  }
+
+  const data = {
+    action: "stageMerchantItem",
+    userId: userId,
+    itemUuid: item.uuid
+  };
+
+  if (userId === game.user.id) return _stageMerchantItem(data);
+  game.socket.emit("system.artichron", data);
+}
+
+/* -------------------------------------------------- */
+/*   Unstaging merchant items                         */
+/* -------------------------------------------------- */
+
+/**
+ * Retrieve an item via uuid and mark it as 'unstaged' on the merchant.
+ * @param {object} data               Emitted data.
+ * @param {string} data.userId        The id of the user to handle the event.
+ * @param {string} data.itemUuid      Uuid of the item to unstage.
+ */
+async function _unstageMerchantItem({userId, itemUuid}) {
+  if (userId !== game.user.id) return;
+  const item = await fromUuid(itemUuid);
+  const merchant = item.parent;
+  merchant.system.unstageItem(item);
+}
+
+/* -------------------------------------------------- */
+
+/**
+ * Emit the event to unstage an item on a merchant.
+ * @param {ItemArtichron} item      The item to unstage.
+ * @returns {Promise}
+ */
+async function unstageMerchantItemEmit(item) {
+  const userId = item.actor.isOwner ? game.user.id : game.users.find(u => {
+    return u.active && item.actor.testUserPermission(u, "OWNER");
+  })?.id;
+
+  if (!userId) {
+    ui.notifications.warn("ARTICHRON.Warning.CannotEmitRequest", {localize: true});
+    return false;
+  }
+
+  const data = {
+    action: "unstageMerchantItem",
+    userId: userId,
+    itemUuid: item.uuid
+  };
+
+  if (userId === game.user.id) return _unstageMerchantItem(data);
+  game.socket.emit("system.artichron", data);
+}

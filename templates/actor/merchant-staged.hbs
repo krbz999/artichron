@@ -1,0 +1,40 @@
+<section class="standard-form scrollable">
+  <fieldset class="avatar" style="background-image: url('{{actor.img}}');">
+    <legend>{{actor.name}}</legend>
+  </fieldset>
+  <fieldset class="stage-area scrollable">
+    <legend>Staged</legend>
+    {{#each items.staged}}
+    <div class="item {{#if isExpanded}}expanded no-transition{{/if}}" data-item-uuid="{{item.uuid}}">
+
+      <a class="wrapper" data-action="toggleDescription">
+        <img src="{{item.img}}" alt="{{item.name}}" class="image" data-action="useItem">
+        <label class="name">{{item.name}}</label>
+      </a>
+
+      {{#if hasQty}}
+      <div class="property quantity">
+        <div class="counter">
+          <span>{{item.system.quantity.value}}</span>
+        </div>
+        <span class="label">{{localize "ARTICHRON.ItemProperty.Quantity.Value"}}</span>
+      </div>
+      {{/if}}
+
+      <div class="property price">
+        <div class="counter">
+          <span>{{price}}</span>
+        </div>
+        <span class="label">{{localize "ARTICHRON.ItemProperty.Price.Value"}}</span>
+      </div>
+
+      <div class="description-wrapper">
+        {{#if isExpanded}}
+        <div class="description">{{{enrichedText}}}</div>
+        {{/if}}
+      </div>
+
+    </div>
+    {{/each}}
+  </fieldset>
+</section>

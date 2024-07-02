@@ -67,7 +67,8 @@
   }
 
   [data-tab=inventory] > .tab.scrollable,
-  .tab.scrollable[data-tab=effects] {
+  .tab.scrollable[data-tab=effects],
+  fieldset.stock-area, fieldset.stage-area {
     flex-direction: column;
     gap: 5px;
 
