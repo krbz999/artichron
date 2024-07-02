@@ -124,7 +124,9 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
         level: v.value ? artichron.utils.romanize(v.value) : "&ndash;",
         label: c.label,
         skillId: k,
-        pips: pips
+        pips: pips,
+        value: v.value,
+        name: `system.skills.${k}.value`
       });
       return acc;
     }, {mind: [], body: [], soul: []});
@@ -162,7 +164,7 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
    */
   _preparePools() {
     const pools = Object.entries(this.document.system.pools).map(([key, pool]) => {
-      return {...pool, key: key, value: pool.value || 0, die: pool.die, denom: pool.denom};
+      return {...pool, key: key, value: pool.value ?? 0, die: pool.die, denom: pool.denom};
     });
     return pools;
   }
@@ -332,7 +334,7 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
     super._preSyncPartState(p, ne, pe, s);
     if (p === "attributes") {
       const o = pe.querySelector(".health-bar");
-      s.healthHeight = o.offsetTop;
+      s.healthHeight = Math.max(o.offsetTop, 0);
     }
   }
 
@@ -344,7 +346,7 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
 
     if (partId === "attributes") {
       const newBar = newElement.querySelector(".health-bar");
-      const frames = [{top: `${state.healthHeight}px`}, {top: `${newBar.offsetTop}px`}];
+      const frames = [{top: `${state.healthHeight}px`}, {top: `${Math.max(newBar.offsetTop, 0)}px`}];
       newBar.animate(frames, {duration: 1000, easing: "ease-in-out"});
     }
 

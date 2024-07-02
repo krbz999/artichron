@@ -1,15 +1,29 @@
 <div class="{{tabs.attributes.tabCssClass}}" data-group="primary" data-tab="attributes">
 
-  <div class="left-pane">
-    <div class="health">
+  <div class="left-pane standard-form">
+    <fieldset class="health">
       <input type="text" name="system.health.value" class="delta" value="{{health.value}}" placeholder="0">
       <span class="sep">/</span>
       <span class="max">{{health.max}}</span>
-    </div>
-    <div class="health-bar" style="--health-bar-top: {{health.height}}%"></div>
-    <a class="control" data-action="recoverHealth" data-tooltip="ARTICHRON.SheetActions.RecoverHealth">
-      <i class="fa-solid fa-heart"></i>
-    </a>
+
+      <div class="health-bar" style="--health-bar-top: {{health.height}}%"></div>
+      <a class="control" data-action="recoverHealth" data-tooltip="ARTICHRON.SheetActions.RecoverHealth">
+        <i class="fa-solid fa-heart"></i>
+      </a>
+    </fieldset>
+
+    <fieldset class="pools">
+      {{#if isEditMode}}
+      <a class="edit" data-action="toggleConfig" data-tooltip="ARTICHRON.SheetActions.EditPools" data-trait="pools">
+        <i class="fa-solid fa-cog"></i>
+      </a>
+      {{/if}}
+      {{#each pools}}
+      <a class="pool die {{denom}} {{key}}" data-action="rollPool" data-pool="{{key}}" data-tooltip="{{value}} / {{max}} ({{die}})">
+        <span class="label">{{value}}</span>
+      </a>
+      {{/each}}
+    </fieldset>
   </div>
 
   <div class="center-pane scrollable standard-form">
@@ -20,17 +34,6 @@
       <a class="favorite" data-item-uuid="{{uuid}}" data-action="useItem">
         <img src="{{img}}" data-tooltip="{{name}}" data-tooltip-direction="UP">
       </a>
-      {{/each}}
-    </fieldset>
-
-    <fieldset class="pools">
-      {{#if isEditMode}}
-      <a class="edit" data-action="toggleConfig" data-tooltip="ARTICHRON.SheetActions.EditPools" data-trait="pools">
-        <i class="fa-solid fa-cog"></i>
-      </a>
-      {{/if}}
-      {{#each pools}}
-      <a class="pool die {{denom}} {{key}}" data-action="rollPool" data-pool="{{key}}" data-tooltip="{{value}} / {{max}} ({{die}})">{{value}}</a>
       {{/each}}
     </fieldset>
 
@@ -60,7 +63,11 @@
             <span class="pip"></span>
             {{/each}}
           </span>
+          {{#if @root.isEditMode}}
+          <input class="level" type="number" name="{{name}}" value="{{value}}">
+          {{else}}
           <span class="level">{{{level}}}</span>
+          {{/if}}
         </div>
         {{/each}}
       </section>
