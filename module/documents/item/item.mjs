@@ -342,11 +342,12 @@ export default class ItemArtichron extends Item {
    * @returns {Promise<ActorArtichron|null>}
    */
   async favorite() {
-    if (!this.actor) return null;
-    const favorites = this.actor.system.toObject().equipped.favorites;
-    if (favorites.includes(this.id)) favorites.findSplice(i => i === this.id);
-    else favorites.push(this.id);
-    return this.actor.update({"system.equipped.favorites": favorites});
+    if (!this.isEmbedded) return null;
+    const favorites = new Set(this.actor.system.equipped.favorites);
+    if (favorites.has(this)) favorites.delete(this);
+    else favorites.add(this);
+    const value = Array.from(favorites).map(k => k.id);
+    return this.actor.update({"system.equipped.favorites": value});
   }
 
   /* -------------------------------------------------- */
