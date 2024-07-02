@@ -74,6 +74,8 @@ export const ArtichronSheetMixin = Base => {
      */
     _expandedItems = new Set();
 
+    /* -------------------------------------------------- */
+
     /**
      * Convenience method for preparing a document's description for direct insertion.
      * @param {HTMLElement} target      The containing element.
@@ -426,9 +428,8 @@ export const ArtichronSheetMixin = Base => {
       event.preventDefault();
       const target = event.target;
       const {type, uuid} = TextEditor.getDragEventData(event);
-      if (!this.isEditable) return;
       const item = await fromUuid(uuid);
-      const itemData = item.toObject();
+      const itemData = (type === "Item") ? game.items.fromCompendium(item) : item.toObject();
 
       // Disallow dropping invalid document types.
       if (!Object.keys(this.document.constructor.metadata.embedded).includes(type)) return;

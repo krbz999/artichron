@@ -27,10 +27,12 @@ import ActiveEffectArtichron from "./effect/active-effect.mjs";
 import {ItemSystemModel} from "./item/system-model.mjs";
 import {ActorSystemModel} from "./actor/system-model.mjs";
 import AmmunitionData from "./item/item-ammo.mjs";
+import MerchantData from "./actor/actor-merchant.mjs";
 
 export const dataModels = {
   actor: {
-    hero: HeroData
+    hero: HeroData,
+    merchant: MerchantData
   },
   item: {
     armor: ArmorData,

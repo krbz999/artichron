@@ -70,7 +70,13 @@ Hooks.once("init", function() {
   Actors.unregisterSheet("core", ActorSheet);
   Actors.registerSheet("artichron", applications.ActorSheetArtichron, {
     makeDefault: true,
-    label: "ARTICHRON.ActorSheet.Base"
+    label: "ARTICHRON.ActorSheet.Base",
+    types: ["hero"]
+  });
+  Actors.registerSheet("artichron", applications.MerchantSheet, {
+    makeDefault: true,
+    label: "ARTICHRON.ActorSheet.Merchant",
+    types: ["merchant"]
   });
 
   Items.unregisterSheet("core", ItemSheet);

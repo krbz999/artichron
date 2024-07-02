@@ -286,3 +286,29 @@
 dialog.skill .form-footer {
   flex-direction: column;
 }
+
+.artichron.application.sheet.merchant {
+  height: 90%;
+
+  .window-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+
+    [data-application-part=staged] {
+      display: grid;
+      grid-template-rows: 1fr 2fr;
+
+      .avatar {
+        flex: 0 0 300px;
+        overflow: hidden;
+        background-repeat: no-repeat;
+        background-size: cover;
+      }
+
+      .stage-area {
+        margin-right: 0 !important;
+      }
+    }
+  }
+}
