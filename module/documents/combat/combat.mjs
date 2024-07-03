@@ -111,6 +111,7 @@ export default class CombatArtichron extends Combat {
     const deleteIds = duplicates.map(c => c.id);
     for (const d of defeated) deleteIds.push(d.id);
 
+    // Delete, create, and update combatants before updating actors with action points.
     await Promise.all([
       this.deleteEmbeddedDocuments("Combatant", deleteIds),
       this.createEmbeddedDocuments("Combatant", combatantCreations),
