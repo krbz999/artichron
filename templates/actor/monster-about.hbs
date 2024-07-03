@@ -1,0 +1,8 @@
+<div class="{{tabs.about.tabCssClass}} standard-form" data-group="primary" data-tab="about">
+  <fieldset>
+    <legend>{{localize "ARTICHRON.SheetTab.Biography"}}</legend>
+    {{#with biography}}
+    {{formGroup field value=value enriched=enriched height=350 localize=true toggled=true disabled=@root.isPlayMode}}
+    {{/with}}
+  </fieldset>
+</div>

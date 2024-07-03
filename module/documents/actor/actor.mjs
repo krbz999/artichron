@@ -52,6 +52,16 @@ export default class ActorArtichron extends Actor {
   }
 
   /* -------------------------------------------------- */
+
+  /**
+   * The items that this monster will drop when killed.
+   * @type {object[]}     Objects with an index entry and quantity.
+   */
+  get lootDrops() {
+    return this.system.lootDrops ?? [];
+  }
+
+  /* -------------------------------------------------- */
   /*   Preparation                                      */
   /* -------------------------------------------------- */
 
@@ -161,7 +171,7 @@ export default class ActorArtichron extends Actor {
   }
 
   /* -------------------------------------------------- */
-  /*   Methods                                          */
+  /*   Instance methods                                 */
   /* -------------------------------------------------- */
 
   /** @override */
@@ -501,6 +511,84 @@ export default class ActorArtichron extends Actor {
     const id = artichron.utils.staticId(status);
     if (this.effects.has(id)) return this.effects.get(id).system.increase();
     else return this.toggleStatusEffect(status);
+  }
+
+  /* -------------------------------------------------- */
+  /*   Item favoriting                                  */
+  /* -------------------------------------------------- */
+
+  async toggleFavoriteItem(id) {
+    const item = this.items.get(id);
+    if (!item) return null;
+    const favorites = new Set(this.favorites);
+    if (favorites.has(item)) favorites.delete(item);
+    else favorites.add(item);
+    const value = Array.from(favorites).map(k => k.id);
+    return this.update({"system.equipped.favorites": value});
+  }
+
+  /* -------------------------------------------------- */
+
+  async removeFavoriteItem(id) {
+    const item = this.items.get(id);
+    if (!item) return null;
+    const favorites = new Set(this.favorites);
+    if (!favorites.has(item)) return null;
+    favorites.delete(item);
+    const value = Array.from(favorites).map(k => k.id);
+    return this.update({"system.equipped.favorites": value});
+  }
+
+  /* -------------------------------------------------- */
+
+  async addFavoriteItem(id) {
+    const item = this.items.get(id);
+    if (!item) return null;
+    const favorites = new Set(this.favorites);
+    if (favorites.has(item)) return null;
+    favorites.add(item);
+    const value = Array.from(favorites).map(k => k.id);
+    return this.update({"system.equipped.favorites": value});
+  }
+
+  /* -------------------------------------------------- */
+  /*   Item monster loot                                */
+  /* -------------------------------------------------- */
+
+  /**
+   * Add a new loot item.
+   * @param {string} uuid           Uuid of the item.
+   * @param {number} [quantity]     The quantity of the item.
+   * @returns {Promise<ActorArtichron>}
+   */
+  async addLootDrop(uuid, quantity = 1) {
+    if (this.system.addLootDrop) await this.system.addLootDrop(uuid, quantity);
+    return this;
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Remove a loot item.
+   * @param {string} uuid     Uuid of the item.
+   * @returns {Promise<ActorArtichron>}
+   */
+  async removeLootDrop(uuid) {
+    if (this.system.removeLootDrop) await this.system.removeLootDrop(uuid);
+    return this;
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Adjust a loot item's quantity.
+   * @param {string} uuid         Uuid of the item.
+   * @param {number} quantity     The quantity to add or remove. Reducing to 0 will remove the stack.
+   * @returns {Promise<ActorArtichron>}
+   */
+  async adjustLootDrop(uuid, quantity) {
+    if (this.system.adjustLootDrop) await this.system.adjustLootDrop(uuid, quantity);
+    return this;
   }
 
   /* -------------------------------------------------- */

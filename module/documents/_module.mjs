@@ -28,10 +28,12 @@ import {ItemSystemModel} from "./item/system-model.mjs";
 import {ActorSystemModel} from "./actor/system-model.mjs";
 import AmmunitionData from "./item/item-ammo.mjs";
 import MerchantData from "./actor/actor-merchant.mjs";
+import MonsterData from "./actor/actor-monster.mjs";
 
 export const dataModels = {
   actor: {
     hero: HeroData,
+    monster: MonsterData,
     merchant: MerchantData
   },
   item: {

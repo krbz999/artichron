@@ -1,0 +1,12 @@
+<div class="standard-form">
+  <fieldset class="health">
+    <input type="text" name="system.health.value" class="delta" value="{{health.value}}" placeholder="0">
+    <span class="sep">/</span>
+    <span class="max">{{health.max}}</span>
+
+    <div class="health-bar" style="--health-bar-pct: {{health.pct}}%"></div>
+    <a class="control" data-action="recoverHealth" data-tooltip="ARTICHRON.SheetActions.RecoverHealth">
+      <i class="fa-solid fa-heart"></i>
+    </a>
+  </fieldset>
+</div>

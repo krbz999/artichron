@@ -73,7 +73,7 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
       effects: buffs,
       fusions: fusionOptions,
       enhancements: enhancements,
-      isFavorited: this.actor?.system.equipped.favorites.has(doc) ?? false,
+      isFavorited: this.actor?.favorites.has(doc) ?? false,
       sections: {
         damage: ("parts" in (src.system.damage ?? {})) && ((doc.type !== "spell") || isOffense),
         resistances: "resistances" in src.system,

@@ -308,6 +308,8 @@ export const ArtichronSheetMixin = Base => {
      */
     _getItemContextOptions(item) {
       const isOwner = item.isOwner;
+      const isHero = item.actor.type === "hero";
+      const isMonster = item.actor.type === "monster";
       const isEquipped = item.isEquipped;
       return [{
         name: "ARTICHRON.ContextMenu.ItemOption.Show",
@@ -324,7 +326,7 @@ export const ArtichronSheetMixin = Base => {
       }, {
         name: "ARTICHRON.ContextMenu.ItemOption.Unequip",
         icon: "<i class='fa-solid fa-fw fa-shield-halved'></i>",
-        condition: () => isOwner && isEquipped,
+        condition: () => isHero && isOwner && isEquipped,
         callback: () => item.system.unequip(),
         group: "action"
       }, {
