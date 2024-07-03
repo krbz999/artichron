@@ -78,7 +78,7 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
     const context = {
       document: doc,
       config: CONFIG.SYSTEM,
-      health: this._prepareHealth(),
+      health: this.document.system.health,
       pools: this._preparePools(),
       equipment: await this._prepareEquipment(),
       items: await this._prepareItems(),
@@ -139,21 +139,6 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
     };
 
     return context;
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Prepare health.
-   * @returns {object}
-   */
-  _prepareHealth() {
-    const hp = this.document.system.health;
-    return {
-      value: hp.value,
-      max: hp.max,
-      height: Math.round((1 - Math.clamp(hp.value / hp.max, 0, 1)) * 100)
-    };
   }
 
   /* -------------------------------------------------- */
@@ -264,6 +249,8 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
       sections[Cls.metadata.inventorySection].types.add(type);
     }
 
+    const favorites = this.document.favorites;
+
     const tabs = [];
     for (const [k, v] of Object.entries(sections)) {
       const isActive = this.tabGroups.inventory === k;
@@ -278,7 +265,7 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
         for (const item of types[t]) {
           const data = {
             item: item,
-            favorited: this.document.system.equipped.favorites.has(item),
+            favorited: favorites.has(item),
             hasQty: "quantity" in item.system,
             hasUses: item.hasUses,
             hasFusions: item.hasFusions && !item.isFused,
@@ -332,7 +319,13 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
   /** @override */
   _preSyncPartState(p, ne, pe, s) {
     super._preSyncPartState(p, ne, pe, s);
-    if (p === "attributes") {
+
+    if ((this.document.type === "monster") && (p === "health")) {
+      const o = pe.querySelector(".health-bar");
+      s.healthWidth = Math.max(o.offsetWidth, 0);
+    }
+
+    if ((this.document.type === "hero") && (p === "attributes")) {
       const o = pe.querySelector(".health-bar");
       s.healthHeight = Math.max(o.offsetTop, 0);
     }
@@ -344,6 +337,13 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
   _syncPartState(partId, newElement, priorElement, state) {
     super._syncPartState(partId, newElement, priorElement, state);
 
+    if ((this.document.type === "monster") && (partId === "health")) {
+      const newBar = newElement.querySelector(".health-bar");
+      const frames = [{width: `${state.healthWidth}px`}, {width: `${Math.max(newBar.offsetWidth, 0)}px`}];
+      newBar.animate(frames, {duration: 1000, easing: "ease-in-out"});
+    }
+
+    if (this.document.type !== "hero") return;
     if (partId === "attributes") {
       const newBar = newElement.querySelector(".health-bar");
       const frames = [{top: `${state.healthHeight}px`}, {top: `${Math.max(newBar.offsetTop, 0)}px`}];
@@ -475,7 +475,7 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
     switch (target.dataset.trait) {
       case "pools": Cls = PoolConfig; break;
     }
-    new Cls({document: this.document}).render(true);
+    new Cls({document: this.document}).render({force: true});
   }
 
   /* -------------------------------------------------- */
@@ -526,7 +526,6 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
   static async _onChangeEquipped(event, target) {
     if (!this.isEditable) return;
     const slot = target.closest("[data-equipment-slot]").dataset.equipmentSlot;
-    new EquipDialog({actor: this.document, slot: slot}).render(true);
-    return;
+    new EquipDialog({actor: this.document, slot: slot}).render({force: true});
   }
 }

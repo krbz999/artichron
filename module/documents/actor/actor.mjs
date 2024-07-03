@@ -52,6 +52,16 @@ export default class ActorArtichron extends Actor {
   }
 
   /* -------------------------------------------------- */
+
+  /**
+   * The items that this monster will drop when killed.
+   * @type {Set<ItemArtichron>}
+   */
+  get lootDrops() {
+    return this.system.lootDrops ?? new Set();
+  }
+
+  /* -------------------------------------------------- */
   /*   Preparation                                      */
   /* -------------------------------------------------- */
 
@@ -161,7 +171,7 @@ export default class ActorArtichron extends Actor {
   }
 
   /* -------------------------------------------------- */
-  /*   Methods                                          */
+  /*   Instance methods                                 */
   /* -------------------------------------------------- */
 
   /** @override */
@@ -501,6 +511,82 @@ export default class ActorArtichron extends Actor {
     const id = artichron.utils.staticId(status);
     if (this.effects.has(id)) return this.effects.get(id).system.increase();
     else return this.toggleStatusEffect(status);
+  }
+
+  /* -------------------------------------------------- */
+  /*   Item favoriting                                  */
+  /* -------------------------------------------------- */
+
+  async toggleFavoriteItem(id) {
+    const item = this.items.get(id);
+    if (!item) return null;
+    const favorites = new Set(this.favorites);
+    if (favorites.has(item)) favorites.delete(item);
+    else favorites.add(item);
+    const value = Array.from(favorites).map(k => k.id);
+    return this.update({"system.equipped.favorites": value});
+  }
+
+  /* -------------------------------------------------- */
+
+  async removeFavoriteItem(id) {
+    const item = this.items.get(id);
+    if (!item) return null;
+    const favorites = new Set(this.favorites);
+    if (!favorites.has(item)) return null;
+    favorites.delete(item);
+    const value = Array.from(favorites).map(k => k.id);
+    return this.update({"system.equipped.favorites": value});
+  }
+
+  /* -------------------------------------------------- */
+
+  async addFavoriteItem(id) {
+    const item = this.items.get(id);
+    if (!item) return null;
+    const favorites = new Set(this.favorites);
+    if (favorites.has(item)) return null;
+    favorites.add(item);
+    const value = Array.from(favorites).map(k => k.id);
+    return this.update({"system.equipped.favorites": value});
+  }
+
+  /* -------------------------------------------------- */
+  /*   Item monster loot                                */
+  /* -------------------------------------------------- */
+
+  async toggleLootItem(id) {
+    const item = this.items.get(id);
+    if (!item) return null;
+    const loot = new Set(this.loot);
+    if (loot.has(item)) loot.delete(item);
+    else loot.add(item);
+    const value = Array.from(loot).map(k => k.id);
+    return this.update({"system.loot": value});
+  }
+
+  /* -------------------------------------------------- */
+
+  async removeLootItem(id) {
+    const item = this.items.get(id);
+    if (!item) return null;
+    const loot = new Set(this.lootDrops);
+    if (!loot.has(item)) return null;
+    loot.delete(item);
+    const value = Array.from(loot).map(k => k.id);
+    return this.update({"system.loot": value});
+  }
+
+  /* -------------------------------------------------- */
+
+  async addLootItem(id) {
+    const item = this.items.get(id);
+    if (!item) return null;
+    const loot = new Set(this.lootDrops);
+    if (loot.has(item)) return null;
+    loot.add(item);
+    const value = Array.from(loot).map(k => k.id);
+    return this.update({"system.loot": value});
   }
 
   /* -------------------------------------------------- */

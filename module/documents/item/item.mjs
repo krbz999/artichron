@@ -341,11 +341,7 @@ export default class ItemArtichron extends Item {
    */
   async favorite() {
     if (!this.isEmbedded) return null;
-    const favorites = new Set(this.actor.system.equipped.favorites);
-    if (favorites.has(this)) favorites.delete(this);
-    else favorites.add(this);
-    const value = Array.from(favorites).map(k => k.id);
-    return this.actor.update({"system.equipped.favorites": value});
+    this.actor.toggleFavoriteItem(this.id);
   }
 
   /* -------------------------------------------------- */

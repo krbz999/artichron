@@ -66,9 +66,11 @@
     min-height: 20px;
   }
 
+  &.monster [data-tab=attributes],
   [data-tab=inventory] > .tab.scrollable,
   .tab.scrollable[data-tab=effects],
-  fieldset.stock-area, fieldset.stage-area {
+  fieldset.stock-area, fieldset.stage-area,
+  &.monster [data-tab=items] .tab {
     flex-direction: column;
     gap: 5px;
 
@@ -198,7 +200,9 @@
     }
   }
 
-  [data-tab=inventory] {
+  &.monster [data-tab=attributes],
+  [data-tab=inventory],
+  [data-tab=items] {
     &.active {
       display: flex;
       overflow: hidden;

@@ -85,8 +85,10 @@
 },
 
 "SheetTab": {
+  "About": "About",
   "Arsenal": "Arsenal",
   "Attributes": "Attributes",
+  "Biography": "Biography",
   "Consumables": "Consumables",
   "Defenses": "Defenses",
   "Description": "Description",
@@ -99,10 +101,11 @@
   "Favorites": "Favorites",
   "Gear": "Gear",
   "Inventory": "Inventory",
+  "Items": "Items",
   "Loot": "Loot",
+  "Pools": "Pools",
   "Properties": "Properties",
-  "Skills": "Skills",
-  "Pools": "Pools"
+  "Skills": "Skills"
 },
 
 "SheetActions": {
@@ -476,12 +479,14 @@
     "Duplicate": "Duplicate"
   },
   "ItemOption": {
-    "Show": "Show",
+    "AssignLoot": "Assign Loot",
     "Delete": "Delete",
-    "Unequip": "Unequip",
     "Favorite": "Favorite",
-    "Unfavorite": "Unfavorite",
     "Fuse": "Fuse Item",
+    "Show": "Show",
+    "UnassignLoot": "Unassign Loot",
+    "Unequip": "Unequip",
+    "Unfavorite": "Unfavorite",
     "Unfuse": "Split Fusion",
     "Use": "Use Item"
   }

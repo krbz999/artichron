@@ -131,8 +131,8 @@ export class ActorSystemModel extends foundry.abstract.TypeDataModel {
   prepareDerivedData() {
     const rollData = this.parent.getRollData();
     this._preparePools(rollData);
-    this._prepareEquipped();
-    this._prepareEncumbrance();
+    if (this.parent.type === "hero") this._prepareEquipped();
+    if (this.parent.type === "hero") this._prepareEncumbrance();
     this._prepareArmor(rollData);
     this._prepareResistances(rollData);
     this._prepareEmbeddedData(rollData);
@@ -161,12 +161,6 @@ export class ActorSystemModel extends foundry.abstract.TypeDataModel {
     this.equipped.ammo = this.equipped.ammo.reduce((acc, id) => {
       const item = this.parent.items.get(id);
       if (item && item.isAmmo) acc.add(item);
-      return acc;
-    }, new Set());
-
-    this.equipped.favorites = this.equipped.favorites.reduce((acc, id) => {
-      const item = this.parent.items.get(id);
-      if (item) acc.add(item);
       return acc;
     }, new Set());
   }
@@ -294,6 +288,11 @@ export class ActorSystemModel extends foundry.abstract.TypeDataModel {
    * @type {Set<ItemArtichron>}
    */
   get favorites() {
-    return this.equipped.favorites;
+    const favorites = new Set();
+    for (const id of this.equipped.favorites ?? []) {
+      const item = this.parent.items.get(id);
+      if (item) favorites.add(item);
+    }
+    return favorites;
   }
 }
