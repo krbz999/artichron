@@ -96,6 +96,7 @@ export default class MonsterSheet extends ActorSheetArtichron {
 
     // Prepare items.
     context.items = await this._prepareItems();
+    context.loot = await this._prepareLootItems();
 
     return context;
   }
@@ -135,5 +136,16 @@ export default class MonsterSheet extends ActorSheetArtichron {
     }
 
     return {favorites, items};
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Prepare the array of loot items.
+   * @returns {Promise<object[]>}
+   */
+  async _prepareLootItems() {
+    const items = this.document.system.lootDrops;
+    return items.sort((a, b) => a.item.name.localeCompare(b.item.name));
   }
 }
