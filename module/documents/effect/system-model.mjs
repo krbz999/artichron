@@ -415,6 +415,8 @@ export class EffectConditionData extends ActiveEffectSystemModel {
   }
 
   /* -------------------------------------------------- */
+  /*   Data preparation                                 */
+  /* -------------------------------------------------- */
 
   /** @override */
   prepareDerivedData() {
@@ -425,6 +427,8 @@ export class EffectConditionData extends ActiveEffectSystemModel {
     if (!this.maxLevel || (this.level > this.maxLevel)) this.level = this.maxLevel;
   }
 
+  /* -------------------------------------------------- */
+  /*   Instance methods                                 */
   /* -------------------------------------------------- */
 
   /** @override */
@@ -437,7 +441,7 @@ export class EffectConditionData extends ActiveEffectSystemModel {
   /* -------------------------------------------------- */
 
   /**
-   * Transform this condition into a formgroup.
+   * Transform this condition into a formgroup for the start-of-round prompt.
    * @returns {HTMLElement}
    */
   toFormGroup() {
@@ -479,11 +483,11 @@ export class EffectConditionData extends ActiveEffectSystemModel {
     const max = CONFIG.SYSTEM.STATUS_CONDITIONS[this.primary].levels;
     if (!max || !(max > 1) || (this.level === max)) return;
     const disabled = this.parent.disabled;
+    const diff = Math.min(max, this.level + 1) - this.level;
     await this.parent.update({
       "system.level": Math.min(max, this.level + 1),
       disabled: false
-    });
-    if (!disabled) this.parent._displayScrollingStatus(true);
+    }, {statusLevelDifference: disabled ? undefined : diff});
   }
 
   /* -------------------------------------------------- */
@@ -495,11 +499,11 @@ export class EffectConditionData extends ActiveEffectSystemModel {
    */
   async decrease() {
     const disabled = this.parent.disabled;
+    const diff = (this.level - 1) - this.level;
     await this.parent.update({
       "system.level": this.level - 1,
       disabled: false
-    });
-    if (!disabled) this.parent._displayScrollingStatus(false);
+    }, {statusLevelDifference: disabled ? undefined : diff});
   }
 
   /* -------------------------------------------------- */
