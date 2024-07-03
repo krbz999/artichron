@@ -122,8 +122,8 @@ export default class CombatArtichron extends Combat {
     for (const actor of actors) {
       const health = actor.system.pools.health.max;
       const hindered = actor.appliedConditionLevel("hindered");
-      const value = Math.max(1, health - hindered);
       const bonus = actor.system.pips.turn * this.getCombatantsByActor(actor).length;
+      const value = Math.max(1, health + bonus - hindered);
       actorUpdates.push([actor, {"system.pips.value": value + bonus}]);
     }
 
