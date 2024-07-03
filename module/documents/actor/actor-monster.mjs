@@ -77,16 +77,30 @@ export default class MonsterData extends ActorSystemModel {
 
   /**
    * Remove a loot item.
-   * @param {string} uuid           Uuid of the item.
-   * @param {number} [quantity]     The quantity to remove. Omit to remove the entire stack.
+   * @param {string} uuid     Uuid of the item.
    * @returns {Promise<ActorArtichron>}
    */
-  async removeLootDrop(uuid, quantity) {
+  async removeLootDrop(uuid) {
+    const loot = this.lootDrops.map(({item, quantity}) => ({uuid: item.uuid, quantity}));
+    const item = loot.findSplice(l => l.uuid === uuid);
+    if (item) await this.parent.update({"system.loot": loot});
+    return this.parent;
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Adjust a loot item's quantity.
+   * @param {string} uuid         Uuid of the item.
+   * @param {number} quantity     The quantity to add or remove. Reducing to 0 will remove the stack.
+   * @returns {Promise<ActorArtichron>}
+   */
+  async adjustLootDrop(uuid, quantity) {
     const removeAll = !Number.isInteger(quantity);
     const loot = this.lootDrops.map(({item, quantity}) => ({uuid: item.uuid, quantity}));
     const item = loot.findSplice(l => l.uuid === uuid);
     if (item && !removeAll) {
-      item.quantity -= quantity;
+      item.quantity += quantity;
       if (item.quantity > 0) loot.push({uuid, quantity: item.quantity});
     }
     await this.parent.update({"system.loot": loot});

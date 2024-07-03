@@ -570,12 +570,24 @@ export default class ActorArtichron extends Actor {
 
   /**
    * Remove a loot item.
-   * @param {string} uuid           Uuid of the item.
-   * @param {number} [quantity]     The quantity to remove. Omit to remove the entire stack.
+   * @param {string} uuid     Uuid of the item.
    * @returns {Promise<ActorArtichron>}
    */
-  async removeLootDrop(uuid, quantity) {
-    if (this.system.removeLootDrop) await this.system.removeLootDrop(uuid, quantity);
+  async removeLootDrop(uuid) {
+    if (this.system.removeLootDrop) await this.system.removeLootDrop(uuid);
+    return this;
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Adjust a loot item's quantity.
+   * @param {string} uuid         Uuid of the item.
+   * @param {number} quantity     The quantity to add or remove. Reducing to 0 will remove the stack.
+   * @returns {Promise<ActorArtichron>}
+   */
+  async adjustLootDrop(uuid, quantity) {
+    if (this.system.adjustLootDrop) await this.system.adjustLootDrop(uuid, quantity);
     return this;
   }
 

@@ -7,7 +7,11 @@ export default class MonsterSheet extends ActorSheetArtichron {
     position: {
       width: 400
     },
-    actions: {}
+    actions: {
+      removeLoot: this.#onRemoveLoot,
+      increaseLoot: this.#onIncreaseLoot,
+      decreaseLoot: this.#onDecreaseLoot
+    }
   };
 
   /* -------------------------------------------------- */
@@ -162,5 +166,41 @@ export default class MonsterSheet extends ActorSheetArtichron {
     const item = await fromUuid(uuid);
     if (item.isEmbedded) return;
     return this.document.system.addLootDrop(uuid, 1);
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Remove a loot entry.
+   * @param {Event} event             Initiating click event.
+   * @param {HTMLElement} target      Element with listener attached.
+   */
+  static #onRemoveLoot(event, target) {
+    const uuid = target.closest("[data-uuid]").dataset.uuid;
+    this.document.system.removeLootDrop(uuid);
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Increase the quantity of a loot entry.
+   * @param {Event} event             Initiating click event.
+   * @param {HTMLElement} target      Element with listener attached.
+   */
+  static #onIncreaseLoot(event, target) {
+    const uuid = target.closest("[data-uuid]").dataset.uuid;
+    this.document.system.adjustLootDrop(uuid, 1);
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Decrease the quantity of a loot entry.
+   * @param {Event} event             Initiating click event.
+   * @param {HTMLElement} target      Element with listener attached.
+   */
+  static #onDecreaseLoot(event, target) {
+    const uuid = target.closest("[data-uuid]").dataset.uuid;
+    this.document.system.adjustLootDrop(uuid, -1);
   }
 }
