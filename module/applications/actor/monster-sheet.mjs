@@ -148,4 +148,19 @@ export default class MonsterSheet extends ActorSheetArtichron {
     const items = this.document.system.lootDrops;
     return items.sort((a, b) => a.item.name.localeCompare(b.item.name));
   }
+
+  /* -------------------------------------------------- */
+  /*   Event handlers                                   */
+  /* -------------------------------------------------- */
+
+  /** @override */
+  async _onDrop(event) {
+    if (!event.target.closest("[data-application-part=loot]")) return super._onDrop(event);
+
+    const {type, uuid} = TextEditor.getDragEventData(event);
+    if (type !== "Item") return;
+    const item = await fromUuid(uuid);
+    if (item.isEmbedded) return;
+    return this.document.system.addLootDrop(uuid, 1);
+  }
 }
