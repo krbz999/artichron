@@ -55,10 +55,10 @@ export default class ActorArtichron extends Actor {
 
   /**
    * The items that this monster will drop when killed.
-   * @type {Set<ItemArtichron>}
+   * @type {object[]}     Objects with an index entry and quantity.
    */
   get lootDrops() {
-    return this.system.lootDrops ?? new Set();
+    return this.system.lootDrops ?? [];
   }
 
   /* -------------------------------------------------- */
@@ -555,38 +555,28 @@ export default class ActorArtichron extends Actor {
   /*   Item monster loot                                */
   /* -------------------------------------------------- */
 
-  async toggleLootItem(id) {
-    const item = this.items.get(id);
-    if (!item) return null;
-    const loot = new Set(this.loot);
-    if (loot.has(item)) loot.delete(item);
-    else loot.add(item);
-    const value = Array.from(loot).map(k => k.id);
-    return this.update({"system.loot": value});
+  /**
+   * Add a new loot item.
+   * @param {string} uuid           Uuid of the item.
+   * @param {number} [quantity]     The quantity of the item.
+   * @returns {Promise<ActorArtichron>}
+   */
+  async addLootDrop(uuid, quantity = 1) {
+    if (this.system.addLootDrop) await this.system.addLootDrop(uuid, quantity);
+    return this;
   }
 
   /* -------------------------------------------------- */
 
-  async removeLootItem(id) {
-    const item = this.items.get(id);
-    if (!item) return null;
-    const loot = new Set(this.lootDrops);
-    if (!loot.has(item)) return null;
-    loot.delete(item);
-    const value = Array.from(loot).map(k => k.id);
-    return this.update({"system.loot": value});
-  }
-
-  /* -------------------------------------------------- */
-
-  async addLootItem(id) {
-    const item = this.items.get(id);
-    if (!item) return null;
-    const loot = new Set(this.lootDrops);
-    if (loot.has(item)) return null;
-    loot.add(item);
-    const value = Array.from(loot).map(k => k.id);
-    return this.update({"system.loot": value});
+  /**
+   * Remove a loot item.
+   * @param {string} uuid           Uuid of the item.
+   * @param {number} [quantity]     The quantity to remove. Omit to remove the entire stack.
+   * @returns {Promise<ActorArtichron>}
+   */
+  async removeLootDrop(uuid, quantity) {
+    if (this.system.removeLootDrop) await this.system.removeLootDrop(uuid, quantity);
+    return this;
   }
 
   /* -------------------------------------------------- */

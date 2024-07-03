@@ -342,18 +342,6 @@ export const ArtichronSheetMixin = Base => {
         callback: () => item.favorite(),
         group: "action"
       }, {
-        name: "ARTICHRON.ContextMenu.ItemOption.AssignLoot",
-        icon: "<i class='fa-solid fa-fw fa-coins'></i>",
-        condition: () => isOwner && isMonster && !item.actor.lootDrops.has(item),
-        callback: () => item.actor.addLootItem(item.id),
-        group: "action"
-      }, {
-        name: "ARTICHRON.ContextMenu.ItemOption.UnassignLoot",
-        icon: "<i class='fa-regular fa-fw fa-coins'></i>",
-        condition: () => isOwner && isMonster && item.actor.lootDrops.has(item),
-        callback: () => item.actor.removeLootItem(item.id),
-        group: "action"
-      }, {
         name: "ARTICHRON.ContextMenu.ItemOption.Use",
         icon: `<i class="fa-solid fa-fw fa-${item.isArsenal ? "hand-fist" : "hand-sparkles"}"></i>`,
         condition: () => isOwner && (isEquipped || (!item.isArsenal && !item.isArmor)),
