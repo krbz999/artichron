@@ -1,12 +1,12 @@
 import {ActorSystemModel} from "./system-model.mjs";
 
-const {HTMLField, SetField, SchemaField, StringField} = foundry.data.fields;
+const {ArrayField, DocumentUUIDField, HTMLField, SchemaField} = foundry.data.fields;
 
 export default class MonsterData extends ActorSystemModel {
   /** @override */
   static defineSchema() {
     const schema = super.defineSchema();
-    schema.loot = new SetField(new StringField(), {
+    schema.loot = new ArrayField(new DocumentUUIDField({type: "Item", embedded: false}), {
       label: "ARTICHRON.ActorProperty.Loot",
       hint: "ARTICHRON.ActorProperty.LootHint"
     });
@@ -35,8 +35,8 @@ export default class MonsterData extends ActorSystemModel {
    */
   get lootDrops() {
     const loot = new Set();
-    for (const id of this.loot) {
-      const item = this.parent.items.get(id);
+    for (const uuid of this.loot) {
+      const item = fromUuidSync(uuid);
       if (item) loot.add(item);
     }
     return loot;

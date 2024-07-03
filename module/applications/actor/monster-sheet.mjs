@@ -5,7 +5,7 @@ export default class MonsterSheet extends ActorSheetArtichron {
   static DEFAULT_OPTIONS = {
     classes: ["monster"],
     position: {
-      width: 450
+      width: 400
     },
     actions: {}
   };
@@ -17,11 +17,11 @@ export default class MonsterSheet extends ActorSheetArtichron {
     header: {template: "systems/artichron/templates/shared/sheet-header.hbs"},
     health: {template: "systems/artichron/templates/actor/monster-health.hbs"},
     tabs: {template: "systems/artichron/templates/shared/tabs.hbs"},
-    attributes: {
-      template: "systems/artichron/templates/actor/monster-attributes.hbs",
+    actions: {
+      template: "systems/artichron/templates/actor/monster-actions.hbs",
       templates: ["systems/artichron/templates/actor/monster-defenses.hbs"]
     },
-    items: {template: "systems/artichron/templates/actor/monster-items.hbs"},
+    loot: {template: "systems/artichron/templates/actor/monster-loot.hbs"},
     about: {template: "systems/artichron/templates/actor/monster-about.hbs"},
     effects: {template: "systems/artichron/templates/shared/effects.hbs"}
   };
@@ -30,16 +30,15 @@ export default class MonsterSheet extends ActorSheetArtichron {
 
   /** @override */
   tabGroups = {
-    primary: "attributes",
-    items: "inventory"
+    primary: "actions"
   };
 
   /* -------------------------------------------------- */
 
   /** @override */
   static TABS = {
-    attributes: {id: "attributes", group: "primary", label: "ARTICHRON.SheetTab.Attributes"},
-    items: {id: "items", group: "primary", label: "ARTICHRON.SheetTab.Items"},
+    actions: {id: "actions", group: "primary", label: "ARTICHRON.SheetTab.Actions"},
+    loot: {id: "loot", group: "primary", label: "ARTICHRON.SheetTab.Loot"},
     about: {id: "about", group: "primary", label: "ARTICHRON.SheetTab.About"},
     effects: {id: "effects", group: "primary", label: "ARTICHRON.SheetTab.Effects"}
   };
@@ -61,10 +60,6 @@ export default class MonsterSheet extends ActorSheetArtichron {
       conditions: conditions,
       health: this.document.system.health,
       tabs: this._getTabs(),
-      itemsTab: {
-        inventory: this.tabGroups.items === "inventory",
-        loot: this.tabGroups.items === "loot"
-      },
       isEditMode: this.isEditMode,
       isPlayMode: this.isPlayMode,
       isEditable: this.isEditable
@@ -111,10 +106,8 @@ export default class MonsterSheet extends ActorSheetArtichron {
   async _prepareItems() {
     const favorites = [];
     const items = [];
-    const loot = [];
 
     const favoritedItems = this.document.favorites;
-    const lootDrops = this.document.lootDrops;
 
     const contents = this.document.items.contents.sort((a, b) => {
       const sort = a.sort - b.sort;
@@ -126,7 +119,6 @@ export default class MonsterSheet extends ActorSheetArtichron {
       const data = {
         item: item,
         favorited: favoritedItems.has(item),
-        isLoot: lootDrops.has(item),
         hasQty: "quantity" in item.system,
         hasUses: item.hasUses,
         hasFusions: item.hasFusions && !item.isFused,
@@ -138,11 +130,10 @@ export default class MonsterSheet extends ActorSheetArtichron {
         });
       }
 
-      if (data.isLoot) loot.push(data);
       if (data.favorited) favorites.push(data);
-      if (!data.isLoot && !data.favorited) items.push(data);
+      else items.push(data);
     }
 
-    return {favorites, items, loot};
+    return {favorites, items};
   }
 }

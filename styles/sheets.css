@@ -41,7 +41,8 @@
     }
   }
 
-  [data-tab=description], [data-tab=details] {
+  .tab[data-tab=description],
+  .tab[data-tab=details] {
     .description {
       min-height: 300px;
       height: 300px;
@@ -66,11 +67,10 @@
     min-height: 20px;
   }
 
-  &.monster [data-tab=attributes],
-  [data-tab=inventory] > .tab.scrollable,
+  &.monster .tab[data-tab=actions],
+  .tab[data-tab=inventory] > .tab.scrollable,
   .tab.scrollable[data-tab=effects],
-  fieldset.stock-area, fieldset.stage-area,
-  &.monster [data-tab=items] .tab {
+  fieldset.stock-area, fieldset.stage-area {
     flex-direction: column;
     gap: 5px;
 
@@ -200,10 +200,9 @@
     }
   }
 
-  &.monster [data-tab=attributes],
-  [data-tab=inventory],
-  [data-tab=items] {
-    &.active {
+  &.monster .tab[data-tab=actions],
+  .tab[data-tab=inventory] {
+    &[data-tab=inventory].active {
       display: flex;
       overflow: hidden;
       flex-direction: column;
@@ -217,7 +216,11 @@
     .controls { flex: var(--artichron-inventory-controls-flex); }
   }
 
-  [data-tab=effects] {
+  .tab[data-tab=effects] {
     .controls { flex: var(--artichron-effect-controls-flex); }
+  }
+
+  &.monster .tab.active {
+    padding-bottom: 1rem;
   }
 }

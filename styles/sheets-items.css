@@ -25,7 +25,7 @@
       }
     }
 
-    &[data-tab=effects] {
+    &.tab[data-tab=effects] {
       min-height: 300px;
     }
   }

@@ -86,6 +86,7 @@
 
 "SheetTab": {
   "About": "About",
+  "Actions": "Actions",
   "Arsenal": "Arsenal",
   "Attributes": "Attributes",
   "Biography": "Biography",
@@ -479,12 +480,10 @@
     "Duplicate": "Duplicate"
   },
   "ItemOption": {
-    "AssignLoot": "Assign Loot",
     "Delete": "Delete",
     "Favorite": "Favorite",
     "Fuse": "Fuse Item",
     "Show": "Show",
-    "UnassignLoot": "Unassign Loot",
     "Unequip": "Unequip",
     "Unfavorite": "Unfavorite",
     "Unfuse": "Split Fusion",
