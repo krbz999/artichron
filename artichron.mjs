@@ -73,6 +73,11 @@ Hooks.once("init", function() {
     label: "ARTICHRON.ActorSheet.Base",
     types: ["hero"]
   });
+  Actors.registerSheet("artichron", applications.MonsterSheet, {
+    makeDefault: true,
+    label: "ARTICHRON.ActorSheet.Monster",
+    types: ["monster"]
+  });
   Actors.registerSheet("artichron", applications.MerchantSheet, {
     makeDefault: true,
     label: "ARTICHRON.ActorSheet.Merchant",
