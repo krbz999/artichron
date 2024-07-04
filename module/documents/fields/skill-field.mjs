@@ -8,8 +8,8 @@ export class SkillField extends SchemaField {
         integer: true,
         min: 0,
         initial: 0,
-        label: `ARTICHRON.Skill.${skill.capitalize()}Value`,
-        hint: `ARTICHRON.Skill.${skill.capitalize()}ValueHint`
+        label: `ARTICHRON.Skill.${skill.capitalize()}`,
+        hint: `ARTICHRON.Skill.${skill.capitalize()}Hint`
       })
     };
     super(fields, options);
