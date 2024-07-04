@@ -1,14 +1,14 @@
 <div class="standard-form">
   <fieldset class="health">
-    <input type="text" name="system.health.value" class="delta" value="{{health.value}}" placeholder="0">
+    <input type="text" name="system.health.value" class="delta" value="{{health.doc.value}}" placeholder="0">
     <span class="sep">/</span>
     {{#if isEditMode}}
-    <input type="number" name="system.health.max" value="{{health.max}}" placeholder="0">
+    <input type="number" name="system.health.max" value="{{health.src.max}}" placeholder="0">
     {{else}}
-    <span class="max">{{health.max}}</span>
+    <span class="max">{{health.doc.max}}</span>
     {{/if}}
 
-    <div class="health-bar" style="--health-bar-pct: {{health.pct}}%"></div>
+    <div class="health-bar" style="--health-bar-pct: {{health.doc.pct}}%"></div>
     <a class="control" data-action="recoverHealth" data-tooltip="ARTICHRON.SheetActions.RecoverHealth">
       <i class="fa-solid fa-heart"></i>
     </a>

@@ -60,7 +60,10 @@ export default class MonsterSheet extends ActorSheetArtichron {
       resistances: {},
       effects: buffs,
       conditions: conditions,
-      health: this.document.system.health,
+      health: {
+        src: src.system.health,
+        doc: doc.system.health
+      },
       tabs: this._getTabs(),
       isEditMode: this.isEditMode,
       isPlayMode: this.isPlayMode,
