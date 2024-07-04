@@ -63,7 +63,11 @@
   <header>
     <span class="name">{{localize "ARTICHRON.SheetTab.Inventory"}}</span>
     <span class="properties"></span>
-    <span class="controls"></span>
+    {{#if @root.isEditMode}}
+      <button class="controls" type="button" data-action="createItem" data-tooltip="ARTICHRON.SheetActions.CreateItem">
+        <i class="fa-solid fa-plus"></i>
+      </button>
+      {{/if}}
   </header>
 
   {{#each items.items}}

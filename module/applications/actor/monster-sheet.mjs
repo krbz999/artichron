@@ -4,9 +4,7 @@ export default class MonsterSheet extends ActorSheetArtichron {
   /** @override */
   static DEFAULT_OPTIONS = {
     classes: ["monster"],
-    position: {
-      width: 400
-    },
+    position: {width: 400},
     actions: {
       removeLoot: this.#onRemoveLoot,
       increaseLoot: this.#onIncreaseLoot,
@@ -100,7 +98,7 @@ export default class MonsterSheet extends ActorSheetArtichron {
 
     // Prepare items.
     context.items = await this._prepareItems();
-    context.loot = await this._prepareLootItems();
+    context.loot = await this.#prepareLootItems();
 
     return context;
   }
@@ -148,9 +146,34 @@ export default class MonsterSheet extends ActorSheetArtichron {
    * Prepare the array of loot items.
    * @returns {Promise<object[]>}
    */
-  async _prepareLootItems() {
+  async #prepareLootItems() {
     const items = this.document.system.lootDrops;
     return items.sort((a, b) => a.item.name.localeCompare(b.item.name));
+  }
+
+  /* -------------------------------------------------- */
+
+  /** @override */
+  _preSyncPartState(p, ne, pe, s) {
+    super._preSyncPartState(p, ne, pe, s);
+
+    if (p === "health") {
+      const o = pe.querySelector(".health-bar");
+      s.healthWidth = Math.max(o.offsetWidth, 0);
+    }
+  }
+
+  /* -------------------------------------------------- */
+
+  /** @override */
+  _syncPartState(partId, newElement, priorElement, state) {
+    super._syncPartState(partId, newElement, priorElement, state);
+
+    if (partId === "health") {
+      const newBar = newElement.querySelector(".health-bar");
+      const frames = [{width: `${state.healthWidth}px`}, {width: `${Math.max(newBar.offsetWidth, 0)}px`}];
+      newBar.animate(frames, {duration: 1000, easing: "ease-in-out"});
+    }
   }
 
   /* -------------------------------------------------- */
@@ -172,6 +195,7 @@ export default class MonsterSheet extends ActorSheetArtichron {
 
   /**
    * Remove a loot entry.
+   * @this {MonsterSheet}
    * @param {Event} event             Initiating click event.
    * @param {HTMLElement} target      Element with listener attached.
    */
@@ -184,6 +208,7 @@ export default class MonsterSheet extends ActorSheetArtichron {
 
   /**
    * Increase the quantity of a loot entry.
+   * @this {MonsterSheet}
    * @param {Event} event             Initiating click event.
    * @param {HTMLElement} target      Element with listener attached.
    */
@@ -196,6 +221,7 @@ export default class MonsterSheet extends ActorSheetArtichron {
 
   /**
    * Decrease the quantity of a loot entry.
+   * @this {MonsterSheet}
    * @param {Event} event             Initiating click event.
    * @param {HTMLElement} target      Element with listener attached.
    */

@@ -37,7 +37,10 @@
   "Base": "Artichron Item Sheet"
 },
 "ActorSheet": {
-  "Base": "Artichron Actor Sheet"
+  "Base": "Artichron Actor Sheet",
+  "Hero": "Artichron Hero Sheet",
+  "Monster": "Artichron Monster Sheet",
+  "Merchant": "Artichron Merchant Sheet"
 },
 
 "WeaponType": {

@@ -182,6 +182,8 @@
       .source { flex: var(--artichron-effect-source-flex); text-align: center; }
 
       .properties { flex: var(--artichron-item-properties-flex); text-align: center; }
+
+      .controls { height: 100%; }
     }
 
     .effect label.name.stacked {
