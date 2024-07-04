@@ -1,9 +1,9 @@
-import {ArtichronSheetMixin} from "../base-sheet.mjs";
+import ActorSheetArtichron from "./actor-sheet-base.mjs";
 
-export default class MerchantSheet extends ArtichronSheetMixin(foundry.applications.api.DocumentSheetV2) {
+export default class MerchantSheet extends ActorSheetArtichron {
   /** @override */
   static DEFAULT_OPTIONS = {
-    classes: ["artichron", "merchant"],
+    classes: ["merchant"],
     viewPermission: CONST.DOCUMENT_OWNERSHIP_LEVELS.NONE,
     sheetConfig: false,
     position: {width: 1000},
