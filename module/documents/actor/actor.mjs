@@ -48,7 +48,13 @@ export default class ActorArtichron extends Actor {
    * @type {Set<ItemArtichron>}
    */
   get favorites() {
-    return this.system.favorites ?? new Set();
+    const ids = this.system.favorites ?? [];
+    const items = new Set();
+    for (const id of ids) {
+      const item = this.items.get(id);
+      if (item) items.add(item);
+    }
+    return items;
   }
 
   /* -------------------------------------------------- */
@@ -378,20 +384,11 @@ export default class ActorArtichron extends Actor {
   /* -------------------------------------------------- */
 
   /**
-   * Restore health and pools to maximums.
+   * Fully restore any resources.
    * @returns {Promise<ActorArtichron>}
    */
   async recover() {
-    const {health, pools} = this.system;
-    const updates = {};
-
-    // Restore health.
-    updates["system.health.value"] = health.max;
-
-    // Restore pools.
-    Object.keys(pools).forEach(key => updates[`system.pools.${key}.value`] = Math.max(pools[key].value, pools[key].max));
-
-    await this.update(updates);
+    if (this.system.recover) await this.system.recover();
     return this;
   }
 
@@ -524,7 +521,7 @@ export default class ActorArtichron extends Actor {
     if (favorites.has(item)) favorites.delete(item);
     else favorites.add(item);
     const value = Array.from(favorites).map(k => k.id);
-    return this.update({"system.equipped.favorites": value});
+    return this.update({"system.favorites": value});
   }
 
   /* -------------------------------------------------- */
@@ -536,7 +533,7 @@ export default class ActorArtichron extends Actor {
     if (!favorites.has(item)) return null;
     favorites.delete(item);
     const value = Array.from(favorites).map(k => k.id);
-    return this.update({"system.equipped.favorites": value});
+    return this.update({"system.favorites": value});
   }
 
   /* -------------------------------------------------- */
@@ -548,7 +545,7 @@ export default class ActorArtichron extends Actor {
     if (favorites.has(item)) return null;
     favorites.add(item);
     const value = Array.from(favorites).map(k => k.id);
-    return this.update({"system.equipped.favorites": value});
+    return this.update({"system.favorites": value});
   }
 
   /* -------------------------------------------------- */
