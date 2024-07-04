@@ -121,7 +121,7 @@ export default class SpellData extends ArsenalData {
       configuration.cost--;
     }
 
-    if (configuration.cost) {
+    if (configuration.cost && (actor.type === "hero")) {
       const mana = actor.system.pools.mana.value;
       actorUpdate["system.pools.mana.value"] = mana - configuration.cost;
     }

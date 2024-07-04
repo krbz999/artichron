@@ -279,7 +279,7 @@ export default class SpellUseDialog extends HandlebarsApplicationMixin(Applicati
    * @type {number}
    */
   get maxMana() {
-    const mana = this.item.actor.system.pools.mana.value;
+    const mana = this.item.actor.system.pools?.mana.value ?? 0;
     const boosters = this.element?.elements.boosters;
     if (boosters) return mana + boosters.value.length;
     return mana;
