@@ -1,16 +1,16 @@
 {
-  "name": "Fancy Hat",
+  "name": "Wind Choker",
   "type": "armor",
-  "img": "icons/equipment/head/hat-cocked-feather-green.webp",
+  "img": "icons/equipment/neck/amulet-engraved-wood-red.webp",
   "system": {
     "description": {
-      "value": "<p>Just a hat, really. Not much to it. There are many like it, but this one is yours.</p>"
+      "value": "<p>A gleaming necklace that enables the wearer to resist wind damage.</p>"
     },
     "weight": {
-      "value": 1
+      "value": 0
     },
     "price": {
-      "value": 1
+      "value": 2
     },
     "resistances": {
       "arcane": {
@@ -32,18 +32,23 @@
         "value": ""
       },
       "wind": {
-        "value": ""
+        "value": "3"
       }
     },
     "armor": {
-      "value": "1"
+      "value": ""
     },
     "category": {
-      "subtype": "head"
+      "subtype": "accessory"
+    },
+    "attributes": {
+      "value": [
+        "magical"
+      ]
     }
   },
   "effects": [],
-  "folder": "a3CL70pOglIad3Gc",
+  "folder": "ceptwscaBkDqa2bN",
   "ownership": {
     "default": 0
   },
@@ -58,7 +63,7 @@
     "modifiedTime": null,
     "lastModifiedBy": null
   },
-  "_id": "FL494LScpo4rzkbX",
+  "_id": "jKaWw8Suqp2L3k7B",
   "sort": 0,
-  "_key": "!items!FL494LScpo4rzkbX"
+  "_key": "!items!jKaWw8Suqp2L3k7B"
 }

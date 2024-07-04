@@ -1,0 +1,131 @@
+{
+  "name": "Combat",
+  "_id": "xJAQJs1s2SgG9JS0",
+  "pages": [
+    {
+      "sort": 0,
+      "name": "Damage Types",
+      "type": "text",
+      "_id": "vCN2KaphXU8AJgOU",
+      "system": {},
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "image": {},
+      "text": {
+        "format": 1,
+        "content": "<table><thead><tr><th>Damage Type</th><th>Reduced By</th><th>Damage Group</th></tr></thead><tbody><tr><td>Fire</td><td>Resistance</td><td>Elemental</td></tr><tr><td>Wind</td><td>Resistance</td><td>Elemental</td></tr><tr><td>Lightning</td><td>Resistance</td><td>Elemental</td></tr><tr><td>Ice</td><td>Resistance</td><td>Elemental</td></tr><tr><td>Light</td><td>Resistance</td><td>Planar</td></tr><tr><td>Darkness</td><td>Resistance</td><td>Planar</td></tr><tr><td>Physical</td><td>Armor</td><td>Physical</td></tr><tr><td>Arcane</td><td>Resistance</td><td>Planar</td></tr></tbody></table>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": null,
+      "ownership": {
+        "default": -1
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": null,
+        "systemId": null,
+        "systemVersion": null,
+        "createdTime": null,
+        "modifiedTime": null,
+        "lastModifiedBy": null
+      },
+      "_key": "!journal.pages!xJAQJs1s2SgG9JS0.vCN2KaphXU8AJgOU"
+    },
+    {
+      "sort": 0,
+      "name": "Turn Order",
+      "type": "text",
+      "_id": "4wtQeagRFSqtEwoQ",
+      "system": {},
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "image": {},
+      "text": {
+        "format": 1,
+        "content": "<p>When initiating combat, turn order is declared by rolling <code>1d12x</code> at the start of each round. Each combatant belongs to one side; enemies or allies. The group that has a combatant with the highest roll is first to go. The turn order is then decided thus:</p><p>(1) The combatant in the leading group whose initiative roll is highest goes first.</p><p>(2) The combatant in the opposing group whose initiative roll is highest goes next.</p><p>(3) The combatant in the leading group with the second highest roll goes third…</p><p>Alternating between the leading and opposing group in respective initiative order, if one group has fewer combatants than the other, some of their combatants gain multiple turns.</p><p>For example, if group X and group Y roll the following initiative values:</p><p>X: 20, 15, 10, 3, 1</p><p>Y: 12, 4, 2</p><p>The final turn order becomes:</p><p>20 (X), 12 (Y), 15 (X), 4 (Y), 10 (X), 2 (Y), 3 (X), 12 (Y, second turn), 1 (X).</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": null,
+      "ownership": {
+        "default": -1
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": null,
+        "systemId": null,
+        "systemVersion": null,
+        "createdTime": null,
+        "modifiedTime": null,
+        "lastModifiedBy": null
+      },
+      "_key": "!journal.pages!xJAQJs1s2SgG9JS0.4wtQeagRFSqtEwoQ"
+    },
+    {
+      "sort": 0,
+      "name": "Action Points (Pips)",
+      "type": "text",
+      "_id": "4Rh8vC5LASFMdEM6",
+      "system": {},
+      "title": {
+        "show": true,
+        "level": 2
+      },
+      "image": {},
+      "text": {
+        "format": 1,
+        "content": "<p>Once the turn order has been decided, each combatant receives a number of Action Points (or \"pips\") that they can use during this round on various actions.</p><p>For 'heroes', the amount of action points is equal to the size of their Health dice pool, plus 2 for each turn they take on this round, minus 1 for each level of the @UUID[Compendium.artichron.rules.JournalEntry.JjiZqfbpC2YVXV4R.JournalEntryPage.uVv9k9xheOkxzBhO]{Hindered} condition they are afflicted by, minimum of 1. For example, if a hero is taking 3 turns this round due to their group being vastly outnumbered, and they have a health dice pool size of 3, they start the round with 3 + 6 = 9 pips.</p><p>Monsters that do not have a health dice pool instead receive a static value of 6, plus 2 for each turn they take this round, minus 1 for each level of the Hindered condition.</p><p>A combatant can spend as many action points as they want on one turn, but they do not regain any until the next round.</p><fieldset><legend>Hindered</legend><p>@Embed[Compendium.artichron.rules.JournalEntry.JjiZqfbpC2YVXV4R.JournalEntryPage.uVv9k9xheOkxzBhO inline]</p></fieldset>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": null,
+      "ownership": {
+        "default": -1
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": null,
+        "systemId": null,
+        "systemVersion": null,
+        "createdTime": null,
+        "modifiedTime": null,
+        "lastModifiedBy": null
+      },
+      "_key": "!journal.pages!xJAQJs1s2SgG9JS0.4Rh8vC5LASFMdEM6"
+    }
+  ],
+  "folder": null,
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": null,
+    "systemId": null,
+    "systemVersion": null,
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  },
+  "_key": "!journal!xJAQJs1s2SgG9JS0"
+}

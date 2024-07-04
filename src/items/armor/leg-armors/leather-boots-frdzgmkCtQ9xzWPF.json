@@ -1,16 +1,19 @@
 {
-  "name": "Accessory",
+  "name": "Leather Boots",
   "type": "armor",
-  "img": "icons/equipment/neck/amulet-engraved-wood-red.webp",
+  "img": "icons/equipment/feet/boots-collared-red.webp",
   "system": {
     "description": {
-      "value": ""
+      "value": "<p>A standard and sturdy pair of boots.</p>"
     },
     "weight": {
-      "value": 0
+      "value": 1
     },
     "price": {
-      "value": 2
+      "value": 1
+    },
+    "armor": {
+      "value": "3"
     },
     "resistances": {
       "arcane": {
@@ -35,15 +38,12 @@
         "value": ""
       }
     },
-    "armor": {
-      "value": ""
-    },
     "category": {
-      "subtype": "accessory"
+      "subtype": "legs"
     }
   },
   "effects": [],
-  "folder": "a3CL70pOglIad3Gc",
+  "folder": "7qzyQIknqQLQYlFl",
   "ownership": {
     "default": 0
   },
@@ -58,7 +58,7 @@
     "modifiedTime": null,
     "lastModifiedBy": null
   },
-  "_id": "jKaWw8Suqp2L3k7B",
+  "_id": "frdzgmkCtQ9xzWPF",
   "sort": 0,
-  "_key": "!items!jKaWw8Suqp2L3k7B"
+  "_key": "!items!frdzgmkCtQ9xzWPF"
 }
