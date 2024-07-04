@@ -92,7 +92,7 @@ export default class WeaponUseDialog extends HandlebarsApplicationMixin(Applicat
       hint: "ARTICHRON.WeaponUseDialog.AmmunitionHint"
     });
 
-    const value = this.item.actor.system.pools.stamina.value;
+    const value = this.item.actor.system.pools?.stamina.value;
     const staminaField = new foundry.data.fields.NumberField({
       min: 0,
       initial: 0,
@@ -129,7 +129,7 @@ export default class WeaponUseDialog extends HandlebarsApplicationMixin(Applicat
       stamina: {
         field: staminaField,
         dataset: {change: "stamina"},
-        show: value > 0
+        show: (value > 0) && (this.item.actor.type === "hero")
       },
       booster: booster,
       uses: uses,
@@ -147,15 +147,24 @@ export default class WeaponUseDialog extends HandlebarsApplicationMixin(Applicat
     if (event.target.name === "booster") {
       const booster = event.target;
       const uses = this.element.elements.uses;
-      uses.disabled = !booster.value;
-      if (booster.value) {
-        const item = this.item.actor.items.get(booster.value);
-        const max = item.system.usage.value;
-        for (const k of [uses, ...uses.children]) {
-          k.setAttribute("max", max);
-          k.value = (uses.value > max) ? 0 : uses.value;
-        }
+
+      const item = this.item.actor.items.get(booster.value);
+      if (!item) {
+        uses.disabled = true;
+        return;
       }
+
+      const config = {
+        disabled: !booster.value,
+        min: 0,
+        max: item.system.usage.value,
+        step: 1,
+        value: Math.min(item.system.usage.value, uses.value),
+        localize: true,
+        name: "uses"
+      };
+      const element = foundry.applications.elements.HTMLRangePickerElement.create(config).outerHTML;
+      uses.parentElement.innerHTML = element;
     }
   }
 
