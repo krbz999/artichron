@@ -1,10 +1,10 @@
 {
-  "name": "Chest Piece",
+  "name": "Standard Issue Heavy Armor",
   "type": "armor",
-  "img": "icons/equipment/chest/breastplate-banded-leather-purple.webp",
+  "img": "icons/equipment/chest/breastplate-banded-steel-gold.webp",
   "system": {
     "description": {
-      "value": ""
+      "value": "<p>A heavy set of armor that protects the majority of the body.</p>"
     },
     "resistances": {
       "arcane": {
@@ -30,20 +30,20 @@
       }
     },
     "weight": {
-      "value": 0
+      "value": 4
     },
     "price": {
-      "value": null
+      "value": 2
     },
     "armor": {
-      "value": ""
+      "value": "6"
     },
     "category": {
       "subtype": "chest"
     }
   },
   "effects": [],
-  "folder": "a3CL70pOglIad3Gc",
+  "folder": "el8jZMsQtdJWP18x",
   "ownership": {
     "default": 0
   },

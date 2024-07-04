@@ -1,19 +1,10 @@
 {
-  "name": "Booties",
+  "name": "Flexible Armor",
   "type": "armor",
-  "img": "icons/equipment/feet/boots-collared-red.webp",
+  "img": "icons/equipment/chest/breastplate-layered-leather-studded-black.webp",
   "system": {
     "description": {
-      "value": ""
-    },
-    "weight": {
-      "value": 0
-    },
-    "price": {
-      "value": null
-    },
-    "armor": {
-      "value": ""
+      "value": "<p>A lighter set of armor that offers some protection but leaves some flexibility.</p>"
     },
     "resistances": {
       "arcane": {
@@ -38,12 +29,24 @@
         "value": ""
       }
     },
+    "weight": {
+      "value": 2
+    },
+    "price": {
+      "value": 1
+    },
+    "armor": {
+      "value": "3"
+    },
     "category": {
-      "subtype": "legs"
+      "subtype": "chest"
+    },
+    "attributes": {
+      "value": []
     }
   },
   "effects": [],
-  "folder": "a3CL70pOglIad3Gc",
+  "folder": "el8jZMsQtdJWP18x",
   "ownership": {
     "default": 0
   },
@@ -58,7 +61,7 @@
     "modifiedTime": null,
     "lastModifiedBy": null
   },
-  "_id": "frdzgmkCtQ9xzWPF",
+  "_id": "t2y9Cr4pmwFFD4m5",
   "sort": 0,
-  "_key": "!items!frdzgmkCtQ9xzWPF"
+  "_key": "!items!t2y9Cr4pmwFFD4m5"
 }
