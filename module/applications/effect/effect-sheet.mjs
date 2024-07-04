@@ -100,7 +100,14 @@ export default class EffectSheetArtichron extends ArtichronSheetMixin(foundry.ap
     // Changes options
     const c = CONFIG[(doc.type === "fusion") ? "Item" : "Actor"];
     const choices = c.dataModels[context.fields.subtype?.value]?.BONUS_FIELDS.reduce((acc, k) => {
-      acc[k] = k;
+      const schema = c.dataModels[context.fields.subtype.value].schema;
+      const path = k.replace("system.", "");
+      const field = schema.getField(path);
+      let label = k;
+      if (field) {
+        label = game.i18n.localize(field.label) || k;
+      }
+      acc[k] = label;
       return acc;
     }, {});
     const modeChoices = Object.entries(CONST.ACTIVE_EFFECT_MODES).reduce((obj, e) => {

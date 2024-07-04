@@ -91,8 +91,8 @@ export class ActorSystemModel extends foundry.abstract.TypeDataModel {
     const bonus = new Set(["name", "img"]);
     bonus.add("system.defenses.armor.value");
     bonus.add("system.pips.turn");
-    for (const k of Object.keys(this.resistances)) {
-      bonus.add(`system.resistances.${k}.value`);
+    for (const [k, v] of Object.entries(CONFIG.SYSTEM.DAMAGE_TYPES)) {
+      if (v.resist) bonus.add(`system.resistances.${k}.value`);
     }
     return bonus;
   }

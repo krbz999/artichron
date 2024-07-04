@@ -156,7 +156,7 @@ export default class HeroData extends ActorSystemModel {
     }
 
     // Skills
-    for (const k of Object.keys(this.skills)) {
+    for (const k of Object.keys(CONFIG.SYSTEM.SKILLS)) {
       bonus.add(`system.skills.${k}.value`);
     }
 
