@@ -60,7 +60,7 @@ export default class WeaponData extends ArsenalData {
 
     const configuration = await WeaponUseDialog.create(item);
     if (!configuration) return null;
-    const stamina = configuration.stamina;
+    const stamina = configuration.stamina ?? 0;
     const ammo = actor.items.get(configuration.ammo) ?? null;
     const booster = actor.items.get(configuration.booster);
     const ammoModifiers = ammo ? ammo.system.ammoProperties : new Set();
