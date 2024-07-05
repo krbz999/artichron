@@ -65,6 +65,11 @@ export default class WeaponData extends ArsenalData {
     const booster = actor.items.get(configuration.booster);
     const ammoModifiers = ammo ? ammo.system.ammoProperties : new Set();
 
+    if (item.system.attributes.value.has("ammunition") && !ammo) {
+      ui.notifications.warn("ARTICHRON.Warning.ItemRequiresAmmunition", {localize: true});
+      return null;
+    }
+
     // Ammo modifying range.
     const range = Math.max(1, this.range.value + (ammoModifiers.has("range") ? ammo.system.range.value : 0));
 
