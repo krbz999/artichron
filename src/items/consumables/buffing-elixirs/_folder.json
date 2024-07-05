@@ -1,0 +1,22 @@
+{
+  "name": "Buffing Elixirs",
+  "sorting": "a",
+  "folder": "kfEanDXifA2im2os",
+  "type": "Item",
+  "_id": "thQwNBKICGGfAcw9",
+  "description": "",
+  "sort": 0,
+  "color": null,
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": null,
+    "systemId": null,
+    "systemVersion": null,
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  },
+  "_key": "!folders!thQwNBKICGGfAcw9"
+}

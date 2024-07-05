@@ -1,0 +1,97 @@
+{
+  "name": "Tonic of Fire Resistance",
+  "img": "icons/consumables/potions/potion-flask-pink-red.webp",
+  "type": "elixir",
+  "system": {
+    "description": {
+      "value": "<p>Ingesting a use of this elixir will grant you 6 points of fire resistance until the end of the combat encounter.</p>"
+    },
+    "weight": {
+      "value": 1
+    },
+    "price": {
+      "value": 5
+    },
+    "quantity": {
+      "value": 1
+    },
+    "usage": {
+      "value": 3,
+      "max": "3"
+    },
+    "category": {},
+    "attributes": {
+      "value": []
+    }
+  },
+  "effects": [
+    {
+      "img": "icons/magic/fire/flame-burning-fist-strike.webp",
+      "name": "Fire Resistance",
+      "type": "buff",
+      "_id": "k76bVhYZRs4Yc4bM",
+      "system": {
+        "expiration": {
+          "type": "combat"
+        },
+        "source": null,
+        "granted": false,
+        "subtype": "hero"
+      },
+      "changes": [
+        {
+          "key": "system.resistances.fire.value",
+          "mode": 2,
+          "value": "6",
+          "priority": null
+        }
+      ],
+      "disabled": false,
+      "duration": {
+        "startTime": null,
+        "seconds": null,
+        "combat": null,
+        "rounds": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "description": "<p>You have 6 points of fire resistance until the end of the combat encounter.</p>",
+      "origin": null,
+      "tint": "#ffffff",
+      "transfer": false,
+      "statuses": [],
+      "sort": 0,
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "12.328",
+        "systemId": "artichron",
+        "systemVersion": "1.0.0",
+        "createdTime": 1720173915243,
+        "modifiedTime": 1720174063376,
+        "lastModifiedBy": "3pWaVXzYT6XoJo1Y"
+      },
+      "_key": "!items.effects!KcQcIaDUNM6BakAJ.k76bVhYZRs4Yc4bM"
+    }
+  ],
+  "folder": "thQwNBKICGGfAcw9",
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": null,
+    "systemId": null,
+    "systemVersion": null,
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  },
+  "_id": "KcQcIaDUNM6BakAJ",
+  "sort": 0,
+  "_key": "!items!KcQcIaDUNM6BakAJ"
+}

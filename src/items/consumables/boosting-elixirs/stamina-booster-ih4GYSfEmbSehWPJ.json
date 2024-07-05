@@ -1,0 +1,49 @@
+{
+  "name": "Stamina Booster",
+  "type": "elixir",
+  "img": "icons/consumables/potions/bottle-conical-corked-green.webp",
+  "system": {
+    "description": {
+      "value": "<p>While this booster is in your inventory, you can optionally ingest it when making an attack with a weapon. This will give you free points of stamina to spend on the attack.</p>"
+    },
+    "weight": {
+      "value": 1
+    },
+    "price": {
+      "value": 1
+    },
+    "attributes": {
+      "value": []
+    },
+    "quantity": {
+      "value": 1
+    },
+    "usage": {
+      "value": 5,
+      "max": "5"
+    },
+    "category": {
+      "subtype": "booster",
+      "pool": "stamina"
+    }
+  },
+  "effects": [],
+  "folder": "gdUX3RYnl43nHJW6",
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": null,
+    "systemId": null,
+    "systemVersion": null,
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  },
+  "_id": "ih4GYSfEmbSehWPJ",
+  "sort": 0,
+  "_key": "!items!ih4GYSfEmbSehWPJ"
+}
