@@ -34,6 +34,11 @@
     },
     "category": {
       "subtype": "bow"
+    },
+    "attributes": {
+      "value": [
+        "ammunition"
+      ]
     }
   },
   "effects": [],

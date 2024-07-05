@@ -32,6 +32,11 @@
           "type": "physical"
         }
       ]
+    },
+    "attributes": {
+      "value": [
+        "ammunition"
+      ]
     }
   },
   "effects": [],

@@ -348,6 +348,10 @@ SYSTEM.EFFECT_EXPIRATION_TYPES = {
  * @enum {ItemAttributeConfig}
  */
 SYSTEM.ITEM_ATTRIBUTES = {
+  ammunition: {
+    label: "ARTICHRON.ItemAttribute.Ammunition",
+    types: new Set(["weapon"])
+  },
   blocking: {
     label: "ARTICHRON.ItemAttribute.Blocking",
     types: new Set(["weapon", "shield", "spell"])
