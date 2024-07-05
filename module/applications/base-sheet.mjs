@@ -320,7 +320,7 @@ export const ArtichronSheetMixin = Base => {
       }, {
         name: "ARTICHRON.ContextMenu.ItemOption.Delete",
         icon: "<i class='fa-solid fa-fw fa-trash'></i>",
-        condition: () => isOwner && !isEquipped,
+        condition: () => isOwner && (isMonster || !isEquipped),
         callback: () => item.deleteDialog(),
         group: "manage"
       }, {
@@ -344,7 +344,7 @@ export const ArtichronSheetMixin = Base => {
       }, {
         name: "ARTICHRON.ContextMenu.ItemOption.Use",
         icon: `<i class="fa-solid fa-fw fa-${item.isArsenal ? "hand-fist" : "hand-sparkles"}"></i>`,
-        condition: () => isOwner && (isEquipped || (!item.isArsenal && !item.isArmor)),
+        condition: () => isOwner && ((isEquipped || isMonster) || (!item.isArsenal && !item.isArmor)),
         callback: () => item.use(),
         group: "action"
       }, {
