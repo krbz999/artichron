@@ -434,6 +434,7 @@
 },
 
 "Warning": {
+  "ItemRequiresAmmunition": "This item requires ammunition to use!",
   "ItemHasNoTemplateTypes": "This item has no template types set!",
   "ItemIsNotEquipped": "The item must be equipped to be used!",
   "NotEnoughPips": "You do not have enough pips remaining to make an attack!",
