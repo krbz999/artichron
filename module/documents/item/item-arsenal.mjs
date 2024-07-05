@@ -128,22 +128,18 @@ export default class ArsenalData extends ItemSystemModel.mixin(
     // Set up message data.
     const messageData = {
       type: "usage",
-      rolls: rolls,
       speaker: ChatMessage.implementation.getSpeaker({actor: this.parent.actor}),
       "system.item": this.parent.uuid,
       "system.actor": this.parent.actor.uuid,
       flavor: flavor
     };
-    if (rolls.length) {
-      messageData.sound = CONFIG.sounds.dice;
-      messageData.rollMode = rollMode ? rollMode : game.settings.get("core", "rollMode");
-    }
+    if (rolls.length) messageData.sound = CONFIG.sounds.dice;
     if (targets.length) messageData["system.targets"] = targets;
     if (template) messageData["flags.artichron.use.templateData"] = foundry.utils.deepClone(template);
     if (effectUuid) messageData["system.effect"] = effectUuid;
 
     // Display the message or return the message data.
-    return create ? ChatMessage.implementation.create(messageData) : messageData;
+    return create ? rolls[0].constructor.toMessage(rolls, messageData, {rollMode, create}) : messageData;
   }
 
   /* -------------------------------------------------- */
