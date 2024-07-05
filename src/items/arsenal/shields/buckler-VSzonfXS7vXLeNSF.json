@@ -35,6 +35,11 @@
           "type": "physical"
         }
       ]
+    },
+    "attributes": {
+      "value": [
+        "blocking"
+      ]
     }
   },
   "effects": [],

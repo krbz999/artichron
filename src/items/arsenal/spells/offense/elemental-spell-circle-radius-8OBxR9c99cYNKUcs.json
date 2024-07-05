@@ -53,6 +53,11 @@
           "type": "ice"
         }
       ]
+    },
+    "attributes": {
+      "value": [
+        "magical"
+      ]
     }
   },
   "effects": [],

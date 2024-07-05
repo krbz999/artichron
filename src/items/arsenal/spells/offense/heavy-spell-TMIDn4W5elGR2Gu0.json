@@ -45,6 +45,11 @@
     },
     "category": {
       "subtype": "offense"
+    },
+    "attributes": {
+      "value": [
+        "magical"
+      ]
     }
   },
   "effects": [],
