@@ -1,6 +1,6 @@
 const {StringField, SchemaField, HTMLField, NumberField, SetField} = foundry.data.fields;
 
-export class ItemSystemModel extends foundry.abstract.TypeDataModel {
+export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
   /**
    * An object of metadata.
    * @type {object}

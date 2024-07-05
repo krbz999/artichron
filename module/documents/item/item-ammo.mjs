@@ -1,5 +1,5 @@
 import {IdField} from "../fields/id-field.mjs";
-import {ItemSystemModel} from "./system-model.mjs";
+import ItemSystemModel from "./system-model.mjs";
 import {DamageTemplateMixin} from "./templates/damage-data.mjs";
 
 const {SchemaField, StringField, NumberField, ArrayField} = foundry.data.fields;

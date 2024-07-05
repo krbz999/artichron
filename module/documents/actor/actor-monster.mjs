@@ -1,4 +1,4 @@
-import {ActorSystemModel} from "./system-model.mjs";
+import ActorSystemModel from "./system-model.mjs";
 
 const {ArrayField, DocumentUUIDField, HTMLField, NumberField, SchemaField} = foundry.data.fields;
 

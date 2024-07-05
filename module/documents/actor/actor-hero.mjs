@@ -1,6 +1,6 @@
 import {PoolDiceModel} from "../fields/die.mjs";
 import {SkillField} from "../fields/skill-field.mjs";
-import {ActorSystemModel} from "./system-model.mjs";
+import ActorSystemModel from "./system-model.mjs";
 
 const {EmbeddedDataField, SchemaField, SetField, StringField} = foundry.data.fields;
 
