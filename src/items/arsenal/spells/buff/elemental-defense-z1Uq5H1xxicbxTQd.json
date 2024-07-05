@@ -33,6 +33,11 @@
     },
     "category": {
       "subtype": "buff"
+    },
+    "attributes": {
+      "value": [
+        "magical"
+      ]
     }
   },
   "effects": [

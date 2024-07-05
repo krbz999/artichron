@@ -37,6 +37,11 @@
     },
     "category": {
       "subtype": "kite"
+    },
+    "attributes": {
+      "value": [
+        "blocking"
+      ]
     }
   },
   "effects": [],

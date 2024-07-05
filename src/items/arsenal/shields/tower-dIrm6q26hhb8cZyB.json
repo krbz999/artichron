@@ -37,6 +37,11 @@
     },
     "category": {
       "subtype": "tower"
+    },
+    "attributes": {
+      "value": [
+        "blocking"
+      ]
     }
   },
   "effects": [],
