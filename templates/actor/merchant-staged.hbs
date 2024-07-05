@@ -4,8 +4,10 @@
   </fieldset>
   <fieldset class="stage-area scrollable">
     <legend>Staged</legend>
-    {{#each items.staged}}
-    {{inventoryItem item expanded=isExpanded enriched=enrichedText disabled=true fusion=false uses=false favorite=false price=true actions=false}}
-    {{/each}}
+    <div class="inventory-list">
+      {{#each items.staged}}
+      {{inventoryItem item expanded=isExpanded enriched=enrichedText disabled=true fusion=false uses=false favorite=false price=true actions=false}}
+      {{/each}}
+    </div>
   </fieldset>
 </section>

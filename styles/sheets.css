@@ -41,188 +41,273 @@
     }
   }
 
-  .tab[data-tab=description],
-  .tab[data-tab=details] {
-    .description {
-      min-height: 300px;
-      height: 300px;
-    }
-  }
-
   .tab.standard-form {
     gap: 1rem;
     flex-direction: column;
 
     &.active { display: flex; }
   }
+}
 
-  /* Tab headers */
-  .tab.scrollable header {
+/* Item and effect lists. */
+.tab.scrollable.active:has(.inventory-list, .effects-list) {
+  display: flex;
+  flex-direction: column;
+}
+
+.inventory-list {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: 100%;
+
+  & header {
     display: flex;
-    position: sticky;
-    top: 0;
-    margin: 4px 0;
-    height: 20px;
-    line-height: 20px;
-    min-height: 20px;
+    margin-top: 0.5rem;
+    min-height: 1.25rem;
+    align-items: stretch;
+
+    .label { flex: 1; }
+    .controls {
+      flex: var(--artichron-inventory-controls-flex);
+    }
   }
 
-  &.monster .tab[data-tab=actions],
-  .tab[data-tab=inventory] > .tab.scrollable,
-  .tab.scrollable[data-tab=effects],
-  fieldset.stock-area, fieldset.stage-area {
-    flex-direction: column;
-    gap: 5px;
+  & inventory-item {
+    display: flex;
+    border: 1px solid gray;
+    border-radius: 4px;
+    align-items: center;
+    flex-wrap: wrap;
 
-    &.active { display: flex; }
-
-    .effect, .item, inventory-item {
+    .wrapper {
+      height: calc(3rem - 2px);
+      flex: 1;
       display: flex;
-      border: 1px solid gray;
-      border-radius: 4px;
       align-items: center;
-      flex-wrap: wrap;
 
-      .wrapper {
-        height: calc(3rem - 2px);
-        flex: 1;
+      .image {
+        height: 100%;
+        border: none;
+        margin-right: 5px;
+      }
+
+      .name {
+        pointer-events: none;
+      }
+    }
+
+    .property {
+      flex: var(--artichron-item-property-flex);
+      text-align: center;
+      font-size: 10px;
+
+      &.source {
+        flex: var(--artichron-effect-source-flex);
+        font-size: 13px;
+      }
+
+      &.fusion {
+        font-size: unset;
+      }
+
+      .counter, .origin {
         display: flex;
         align-items: center;
+        gap: 3px;
+        justify-content: center;
 
-        .image {
+        &.origin { font-size: 13px; }
+
+        & input, .max {
+          margin: 0;
+          padding: 0;
+          flex: 1;
+          font-size: 10px;
           height: 100%;
-          border: none;
-          margin-right: 5px;
-        }
-
-        .name {
-          pointer-events: none;
+          background: unset;
         }
       }
 
-      .property {
-        flex: var(--artichron-item-property-flex);
-        text-align: center;
-        font-size: 10px;
+      .label {
+        color: var(--artichron-color-gold);
+      }
+    }
 
-        &.source {
-          flex: var(--artichron-effect-source-flex);
-          font-size: 13px;
-        }
+    .controls {
+      display: flex;
+      flex: var(--artichron-inventory-controls-flex);
+      justify-content: space-around;
+    }
 
-        &.fusion {
-          font-size: unset;
-        }
+    [data-action=undoFusion] {
+      position: relative;
 
-        .counter, .origin {
+      .fa-solid {
+        transition: opacity 500ms ease;
+
+        &.fa-recycle { opacity: 0; }
+        &.fa-volcano { opacity: 1; position: absolute; }
+      }
+      &:hover .fa-solid {
+        &.fa-recycle { opacity: 1; }
+        &.fa-volcano { opacity: 0; }
+      }
+    }
+
+    .description-wrapper {
+      display: grid;
+      grid-template-rows: 0fr;
+      flex: 0 0 100%;
+      overflow: hidden auto;
+      transition: grid-template-rows 300ms ease, margin 300ms ease;
+      padding: 0 5px;
+
+      .description {
+        overflow: hidden auto;
+        font-size: 12px;
+        max-height: 200px;
+      }
+    }
+    &.expanded .description-wrapper {
+      grid-template-rows: 1fr;
+    }
+  }
+}
+
+.effects-list {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: 100%;
+
+  & header {
+    display: flex;
+    margin-top: 0.5rem;
+    min-height: 1.25rem;
+    align-items: stretch;
+
+    .label { flex: 1; }
+    .source { flex: var(--artichron-effect-source-flex); text-align: center; }
+    .properties { flex: var(--artichron-item-properties-flex); text-align: center; }
+    .controls {
+      flex: var(--artichron-effect-controls-flex);
+    }
+  }
+
+  .effect {
+    display: flex;
+    border: 1px solid gray;
+    border-radius: 4px;
+    align-items: center;
+    flex-wrap: wrap;
+
+    .wrapper {
+      height: calc(3rem - 2px);
+      flex: 1;
+      display: flex;
+      align-items: center;
+
+      .image {
+        height: 100%;
+        border: none;
+        margin-right: 5px;
+      }
+
+      .name {
+        pointer-events: none;
+
+        &.stacked {
           display: flex;
-          align-items: center;
-          gap: 3px;
-          justify-content: center;
+          flex-direction: column;
 
-          &.origin { font-size: 13px; }
+          .title {
+            padding-left: 3px;
+          }
 
-          & input, .max {
-            margin: 0;
-            padding: 0;
-            flex: 1;
+          .subtitle {
+            color: var(--artichron-color-gold);
             font-size: 10px;
-            height: 100%;
-            background: unset;
+            padding-left: 6px;
           }
         }
+      }
+    }
 
-        .label {
-          color: var(--artichron-color-gold);
-        }
+    .property {
+      flex: var(--artichron-item-property-flex);
+      text-align: center;
+      font-size: 10px;
+
+      &.source {
+        flex: var(--artichron-effect-source-flex);
+        font-size: 13px;
       }
 
-      .controls {
+      &.fusion {
+        font-size: unset;
+      }
+
+      .counter, .origin {
         display: flex;
-        justify-content: space-around;
-      }
+        align-items: center;
+        gap: 3px;
+        justify-content: center;
 
-      [data-action=undoFusion] {
-        position: relative;
+        &.origin { font-size: 13px; }
 
-        .fa-solid {
-          transition: opacity 500ms ease;
-
-          &.fa-recycle { opacity: 0; }
-          &.fa-volcano { opacity: 1; position: absolute; }
-        }
-        &:hover .fa-solid {
-          &.fa-recycle { opacity: 1; }
-          &.fa-volcano { opacity: 0; }
+        & input, .max {
+          margin: 0;
+          padding: 0;
+          flex: 1;
+          font-size: 10px;
+          height: 100%;
+          background: unset;
         }
       }
 
-      .description-wrapper {
-        display: grid;
-        grid-template-rows: 0fr;
-        flex: 0 0 100%;
-        overflow: hidden auto;
-        transition: grid-template-rows 300ms ease, margin 300ms ease;
-        padding: 0 5px;
-
-        .description {
-          overflow: hidden auto;
-          font-size: 12px;
-          max-height: 200px;
-        }
-      }
-      &.expanded .description-wrapper {
-        grid-template-rows: 1fr;
-      }
-    }
-
-    & header {
-      .name { flex: 1; }
-
-      .source { flex: var(--artichron-effect-source-flex); text-align: center; }
-
-      .properties { flex: var(--artichron-item-properties-flex); text-align: center; }
-
-      .controls { height: 100%; }
-    }
-
-    .effect label.name.stacked {
-      display: flex;
-      flex-direction: column;
-
-      .title {
-        padding-left: 3px;
-      }
-
-      .subtitle {
+      .label {
         color: var(--artichron-color-gold);
-        font-size: 10px;
-        padding-left: 6px;
       }
     }
-  }
 
-  &.monster .tab[data-tab=actions],
-  .tab[data-tab=inventory] {
-    &[data-tab=inventory].active {
+    .controls {
       display: flex;
-      overflow: hidden;
-      flex-direction: column;
+      justify-content: space-around;
+      flex: var(--artichron-effect-controls-flex);
     }
 
-    .tab.scrollable.active header {
-      position: sticky;
-      top: 0;
+    [data-action=undoFusion] {
+      position: relative;
+
+      .fa-solid {
+        transition: opacity 500ms ease;
+
+        &.fa-recycle { opacity: 0; }
+        &.fa-volcano { opacity: 1; position: absolute; }
+      }
+      &:hover .fa-solid {
+        &.fa-recycle { opacity: 1; }
+        &.fa-volcano { opacity: 0; }
+      }
     }
 
-    .controls { flex: var(--artichron-inventory-controls-flex); }
-  }
+    .description-wrapper {
+      display: grid;
+      grid-template-rows: 0fr;
+      flex: 0 0 100%;
+      overflow: hidden auto;
+      transition: grid-template-rows 300ms ease, margin 300ms ease;
+      padding: 0 5px;
 
-  .tab[data-tab=effects] {
-    .controls { flex: var(--artichron-effect-controls-flex); }
-  }
-
-  &.monster .tab.active {
-    padding-bottom: 1rem;
+      .description {
+        overflow: hidden auto;
+        font-size: 12px;
+        max-height: 200px;
+      }
+    }
+    &.expanded .description-wrapper {
+      grid-template-rows: 1fr;
+    }
   }
 }

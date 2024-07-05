@@ -1,27 +1,30 @@
-<div class="{{tabs.actions.tabCssClass}} standard-form" data-group="primary" data-tab="actions">
-  {{> "systems/artichron/templates/actor/monster-defenses.hbs"}}
+<div class="{{tabs.actions.tabCssClass}}" data-group="primary" data-tab="actions">
+  <div class="standard-form">
+    {{> "systems/artichron/templates/actor/monster-defenses.hbs"}}
+  </div>
 
-  <header>
-    <span class="name">{{localize "ARTICHRON.SheetTab.Favorites"}}</span>
-    <span class="properties"></span>
-    <span class="controls"></span>
-  </header>
+  <div class="inventory-list">
+    <header>
+      <span class="label">{{localize "ARTICHRON.SheetTab.Favorites"}}</span>
+    </header>
 
-  {{#each items.favorites}}
-  {{inventoryItem item expanded=isExpanded enriched=enrichedText disabled=@root.isPlayMode}}
-  {{/each}}
+    {{#each items.favorites}}
+    {{inventoryItem item expanded=isExpanded enriched=enrichedText disabled=@root.isPlayMode}}
+    {{/each}}
+  </div>
 
-  <header>
-    <span class="name">{{localize "ARTICHRON.SheetTab.Inventory"}}</span>
-    <span class="properties"></span>
-    {{#if @root.isEditMode}}
+  <div class="inventory-list">
+    <header>
+      <span class="label">{{localize "ARTICHRON.SheetTab.Inventory"}}</span>
+      {{#if @root.isEditMode}}
       <button class="controls" type="button" data-action="createItem" data-tooltip="ARTICHRON.SheetActions.CreateItem">
         <i class="fa-solid fa-plus"></i>
       </button>
       {{/if}}
-  </header>
+    </header>
 
-  {{#each items.items}}
-  {{inventoryItem item expanded=isExpanded enriched=enrichedText disabled=@root.isPlayMode}}
-  {{/each}}
+    {{#each items.items}}
+    {{inventoryItem item expanded=isExpanded enriched=enrichedText disabled=@root.isPlayMode}}
+    {{/each}}
+  </div>
 </div>

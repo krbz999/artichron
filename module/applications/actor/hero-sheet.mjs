@@ -23,12 +23,17 @@ export default class HeroSheet extends ActorSheetArtichron {
       template: "systems/artichron/templates/actor/tab-attributes.hbs",
       scrollable: [".center-pane"]
     },
-    equipment: {template: "systems/artichron/templates/actor/tab-equipment.hbs", scrollable: [""]},
+    equipment: {
+      template: "systems/artichron/templates/actor/tab-equipment.hbs",
+      scrollable: [""]
+    },
     inventory: {
       template: "systems/artichron/templates/actor/tab-inventory.hbs",
-      scrollable: ["[data-group='inventory'].scrollable.active"]
+      scrollable: [".active > .inventory-list"]
     },
-    effects: {template: "systems/artichron/templates/shared/effects.hbs", scrollable: [""]},
+    effects: {template: "systems/artichron/templates/shared/effects.hbs",
+      scrollable: [""]
+    },
     encumbrance: {template: "systems/artichron/templates/actor/tab-encumbrance.hbs"}
   };
 
