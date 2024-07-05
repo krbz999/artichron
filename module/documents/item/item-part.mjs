@@ -1,4 +1,4 @@
-import {ItemSystemModel} from "./system-model.mjs";
+import ItemSystemModel from "./system-model.mjs";
 
 const {SchemaField, StringField, NumberField} = foundry.data.fields;
 

@@ -1,5 +1,5 @@
 import {FormulaField} from "../fields/formula-field.mjs";
-import {ItemSystemModel} from "./system-model.mjs";
+import ItemSystemModel from "./system-model.mjs";
 
 const {SchemaField, NumberField, StringField} = foundry.data.fields;
 

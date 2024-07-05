@@ -1,4 +1,4 @@
-import {ActorSystemModel} from "./system-model.mjs";
+import ActorSystemModel from "./system-model.mjs";
 
 export default class MerchantData extends ActorSystemModel {
   /* -------------------------------------------------- */

@@ -1,6 +1,6 @@
 import {FormulaField} from "../fields/formula-field.mjs";
 import {ResistanceField} from "../fields/resistance-field.mjs";
-import {ItemSystemModel} from "./system-model.mjs";
+import ItemSystemModel from "./system-model.mjs";
 import {FusionTemplateMixin} from "./templates/fusion-data.mjs";
 
 const {SchemaField, StringField} = foundry.data.fields;
