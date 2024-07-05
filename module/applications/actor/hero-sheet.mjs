@@ -232,8 +232,6 @@ export default class HeroSheet extends ActorSheetArtichron {
       sections[Cls.metadata.inventorySection].types.add(type);
     }
 
-    const favorites = this.document.favorites;
-
     const tabs = [];
     for (const [k, v] of Object.entries(sections)) {
       const isActive = this.tabGroups.inventory === k;
@@ -248,10 +246,6 @@ export default class HeroSheet extends ActorSheetArtichron {
         for (const item of types[t]) {
           const data = {
             item: item,
-            favorited: favorites.has(item),
-            hasQty: "quantity" in item.system,
-            hasUses: item.hasUses,
-            hasFusions: item.hasFusions && !item.isFused,
             isExpanded: this._expandedItems.has(item.uuid)
           };
           if (data.isExpanded) {

@@ -124,10 +124,6 @@ export default class MonsterSheet extends ActorSheetArtichron {
     for (const item of contents) {
       const data = {
         item: item,
-        favorited: favoritedItems.has(item),
-        hasQty: "quantity" in item.system,
-        hasUses: item.hasUses,
-        hasFusions: item.hasFusions && !item.isFused,
         isExpanded: this._expandedItems.has(item.uuid)
       };
       if (data.isExpanded) {
@@ -136,7 +132,7 @@ export default class MonsterSheet extends ActorSheetArtichron {
         });
       }
 
-      if (data.favorited) favorites.push(data);
+      if (favoritedItems.has(item)) favorites.push(data);
       else items.push(data);
     }
 

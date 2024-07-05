@@ -76,7 +76,7 @@
 
     &.active { display: flex; }
 
-    .effect, .item {
+    .effect, .item, inventory-item {
       display: flex;
       border: 1px solid gray;
       border-radius: 4px;

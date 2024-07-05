@@ -8,6 +8,12 @@ import {registerSettings} from "./module/helpers/settings.mjs";
 import {registerEnrichers} from "./module/helpers/enrichers.mjs";
 import {registerSockets} from "./module/helpers/sockets.mjs";
 import {BuffTarget, DamageTarget} from "./module/elements/target-element.mjs";
+import InventoryItemElement from "./module/elements/inventory-item-element.mjs";
+
+// Custom elements.
+window.customElements.define("damage-target", DamageTarget);
+window.customElements.define("buff-target", BuffTarget);
+window.customElements.define(InventoryItemElement.tagName, InventoryItemElement);
 
 /* -------------------------------------------------- */
 /*   Define module structure                          */
@@ -98,10 +104,6 @@ Hooks.once("init", function() {
 
   auraInit();
 
-  // Custom elements.
-  window.customElements.define("damage-target", DamageTarget);
-  window.customElements.define("buff-target", BuffTarget);
-
   // Set up conditions.
   CONFIG.statusEffects = [];
   for (const [id, config] of Object.entries(SYSTEM.STATUS_CONDITIONS)) {
@@ -118,7 +120,11 @@ Hooks.once("init", function() {
 /*   Setup hook                                       */
 /* -------------------------------------------------- */
 
-Hooks.once("setup", function() {});
+Hooks.once("setup", function() {
+  Handlebars.registerHelper({
+    inventoryItem: inventoryItem
+  });
+});
 
 /* -------------------------------------------------- */
 /*   i18nInit hook                                    */
@@ -195,4 +201,24 @@ async function createEffectMacro(bar, data, slot) {
     });
   }
   return game.user.assignHotbarMacro(macro, slot);
+}
+
+/* -------------------------------------------------- */
+/*   Handlebars helpers                               */
+/* -------------------------------------------------- */
+
+function inventoryItem(item, options) {
+  const {disabled, enriched, expanded, fusion, favorite, uses, price, actions} = options.hash;
+  const element = InventoryItemElement.create({
+    item,
+    disabled,
+    expanded,
+    enriched,
+    fusion,
+    favorite,
+    uses,
+    price,
+    actions
+  });
+  return new Handlebars.SafeString(element.outerHTML);
 }
