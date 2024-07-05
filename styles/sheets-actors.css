@@ -378,4 +378,8 @@ dialog.skill .form-footer {
       }
     }
   }
+
+  .effects-list {
+    margin-bottom: 0.5rem;
+  }
 }

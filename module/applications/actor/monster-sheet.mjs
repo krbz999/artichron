@@ -21,11 +21,18 @@ export default class MonsterSheet extends ActorSheetArtichron {
     tabs: {template: "systems/artichron/templates/shared/tabs.hbs"},
     actions: {
       template: "systems/artichron/templates/actor/monster-actions.hbs",
-      templates: ["systems/artichron/templates/actor/monster-defenses.hbs"]
+      templates: ["systems/artichron/templates/actor/monster-defenses.hbs"],
+      scrollable: [""]
     },
-    loot: {template: "systems/artichron/templates/actor/monster-loot.hbs"},
+    loot: {
+      template: "systems/artichron/templates/actor/monster-loot.hbs",
+      scrollable: [""]
+    },
     about: {template: "systems/artichron/templates/actor/monster-about.hbs"},
-    effects: {template: "systems/artichron/templates/shared/effects.hbs"}
+    effects: {
+      template: "systems/artichron/templates/shared/effects.hbs",
+      scrollable: [""]
+    }
   };
 
   /* -------------------------------------------------- */

@@ -1,6 +1,8 @@
 <fieldset class="stock-area scrollable">
   <legend>Unstaged</legend>
-  {{#each items.available}}
-  {{inventoryItem item expanded=isExpanded enriched=enrichedText disabled=true fusion=false uses=false favorite=false price=true actions=false}}
-  {{/each}}
+  <div class="inventory-list">
+    {{#each items.available}}
+    {{inventoryItem item expanded=isExpanded enriched=enrichedText disabled=true fusion=false uses=false favorite=false price=true actions=false}}
+    {{/each}}
+  </div>
 </fieldset>

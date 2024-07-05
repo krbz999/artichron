@@ -1,193 +1,197 @@
 <div class="{{tabs.effects.tabCssClass}}" data-group="primary" data-tab="effects">
 
-  {{#if conditions.length}}
-  <header>
-    <span class="name">{{localize "ARTICHRON.Effect.Conditions"}}</span>
-    <span class="controls" style="margin-left: 2px;"></span>
-  </header>
+  <div class="effects-list">
 
-  {{#each conditions}}
-  <div class="effect {{#if isExpanded}}expanded no-transition{{/if}}" data-item-uuid="{{uuid}}">
+    {{#if conditions.length}}
+    <header>
+      <span class="label">{{localize "ARTICHRON.Effect.Conditions"}}</span>
+      <span class="controls" style="margin-left: 2px;"></span>
+    </header>
 
-    <a class="wrapper" data-action="toggleDescription" style="opacity: {{ifThen disabled 0.25 1}}">
-      <img class="image" src="{{img}}" alt="{{name}}" data-action="toggleEffect">
-      <label class="name stacked">
-        <span class="title">{{name}}</span>
-        {{#if level}}<span class="subtitle">{{localize "ARTICHRON.Effect.Level" level=level}}</span>{{/if}}
-      </label>
-    </a>
+    {{#each conditions}}
+    <div class="effect {{#if isExpanded}}expanded no-transition{{/if}}" data-item-uuid="{{uuid}}">
 
-    <div class="controls">
-      <a class="control" data-action="editEffect"><i class="fa-solid fa-edit"></i></a>
-      {{#if @root.isEditMode}}
-      <a class="control" data-action="deleteEffect"><i class="fa-solid fa-trash"></i></a>
-      {{/if}}
+      <a class="wrapper" data-action="toggleDescription" style="opacity: {{ifThen disabled 0.25 1}}">
+        <img class="image" src="{{img}}" alt="{{name}}" data-action="toggleEffect">
+        <label class="name stacked">
+          <span class="title">{{name}}</span>
+          {{#if level}}<span class="subtitle">{{localize "ARTICHRON.Effect.Level" level=level}}</span>{{/if}}
+        </label>
+      </a>
+
+      <div class="controls">
+        <a class="control" data-action="editEffect"><i class="fa-solid fa-edit"></i></a>
+        {{#if @root.isEditMode}}
+        <a class="control" data-action="deleteEffect"><i class="fa-solid fa-trash"></i></a>
+        {{/if}}
+      </div>
+
+      <div class="description-wrapper">
+        {{#if isExpanded}}
+        <div class="description">{{{enrichedText}}}</div>
+        {{/if}}
+      </div>
+
     </div>
+    {{/each}}
+    {{/if}}
 
-    <div class="description-wrapper">
-      {{#if isExpanded}}
-      <div class="description">{{{enrichedText}}}</div>
-      {{/if}}
+    {{#if (and canFuse activeFusions.length)}}
+
+    <header>
+      <span class="label">{{localize "ARTICHRON.Effect.ActiveFusions"}}</span>
+      <span class="source">{{localize "ARTICHRON.Effect.Source"}}</span>
+      <span class="controls" style="margin-left: 2px;"></span>
+    </header>
+
+    {{#each activeFusions}}
+    <div class="effect {{#if isExpanded}}expanded no-transition{{/if}}" data-item-uuid="{{uuid}}">
+
+      <a class="wrapper" data-action="toggleDescription" style="opacity: {{ifThen disabled 0.25 1}}">
+        <img class="image" src="{{img}}" alt="{{name}}" data-action="toggleEffect">
+        <label class="name">{{name}}</label>
+      </a>
+
+      <a data-action="undoFusion" data-tooltip="ARTICHRON.Effect.ActiveFusion">
+        <i class="fa-solid fa-volcano"></i>
+        <i class="fa-solid fa-recycle"></i>
+      </a>
+
+      <div class="property source">
+        <span class="label">{{sourceItem}}</span>
+      </div>
+
+      <div class="controls">
+        <a class="control" data-action="editEffect"><i class="fa-solid fa-edit"></i></a>
+        {{#if @root.isEditMode}}
+        <a class="control" data-action="deleteEffect"><i class="fa-solid fa-trash"></i></a>
+        {{/if}}
+      </div>
+
+      <div class="description-wrapper">
+        {{#if isExpanded}}
+        <div class="description">{{{enrichedText}}}</div>
+        {{/if}}
+      </div>
+
     </div>
+    {{/each}}
+
+    {{/if}}
+
+    {{#if isItem}}
+
+    <header>
+      <span class="label">{{localize "TYPES.ActiveEffect.enhancementPl"}}</span>
+      <button class="controls" type="button" data-action="createEffect" data-tooltip="ARTICHRON.SheetActions.CreateEnhancement" data-type="enhancement">
+        <i class="fa-solid fa-plus"></i>
+      </button>
+    </header>
+
+    {{#each enhancements}}
+    <div class="effect {{#if isExpanded}}expanded no-transition{{/if}}" data-item-uuid="{{uuid}}">
+
+      <a class="wrapper" data-action="toggleDescription" style="opacity: {{ifThen disabled 0.25 1}}">
+        <img class="image" src="{{img}}" alt="{{name}}" data-action="toggleEffect">
+        <label class="name">{{name}}</label>
+      </a>
+
+      <div class="controls">
+        <a class="control" data-action="editEffect"><i class="fa-solid fa-edit"></i></a>
+        {{#if @root.isEditMode}}
+        <a class="control" data-action="deleteEffect"><i class="fa-solid fa-trash"></i></a>
+        {{/if}}
+      </div>
+
+      <div class="description-wrapper">
+        {{#if isExpanded}}
+        <div class="description">{{{enrichedText}}}</div>
+        {{/if}}
+      </div>
+
+    </div>
+    {{/each}}
+
+    {{/if}}
+
+    <header>
+      <span class="label">{{localize "ARTICHRON.Effect.Buffs"}}</span>
+      <span class="source">{{localize "ARTICHRON.Effect.Source"}}</span>
+      <button class="controls" type="button" data-action="createEffect" data-tooltip="ARTICHRON.SheetActions.CreateBuff" data-type="buff">
+        <i class="fa-solid fa-plus"></i>
+      </button>
+    </header>
+
+    {{#each effects}}
+    <div class="effect {{#if isExpanded}}expanded no-transition{{/if}}" data-item-uuid="{{uuid}}">
+
+      <a class="wrapper" data-action="toggleDescription" style="opacity: {{ifThen disabled 0.25 1}}">
+        <img class="image" src="{{img}}" alt="{{name}}" data-action="toggleEffect">
+        <label class="name stacked">
+          <span class="title">{{name}}</span>
+          {{#if parentName}}<span class="subtitle">{{parentName}}</span>{{/if}}
+        </label>
+      </a>
+
+      {{#if transfer}} <i class="fa-solid fa-briefcase" data-tooltip="ARTICHRON.Effect.TransferredBuff"></i> {{/if}}
+
+      <div class="property source">
+        <span class="origin">{{sourceItem}}</span>
+        <span class="label">{{sourceActor}}</span>
+      </div>
+
+      <div class="controls">
+        <a class="control" data-action="editEffect"><i class="fa-solid fa-edit"></i></a>
+        {{#if @root.isEditMode}}
+        <a class="control" data-action="deleteEffect"><i class="fa-solid fa-trash"></i></a>
+        {{/if}}
+      </div>
+
+      <div class="description-wrapper">
+        {{#if isExpanded}}
+        <div class="description">{{{enrichedText}}}</div>
+        {{/if}}
+      </div>
+
+    </div>
+    {{/each}}
+
+    {{#if canFuse}}
+    <header>
+      <span class="label">{{localize "ARTICHRON.Effect.FusionOptions"}}</span>
+      <span class="source"></span>
+      <button class="controls" type="button" data-action="createEffect" data-tooltip="ARTICHRON.SheetActions.CreateFusion" data-type="fusion">
+        <i class="fa-solid fa-plus"></i>
+      </button>
+    </header>
+
+    {{#each fusions}}
+    <div class="effect {{#if isExpanded}}expanded no-transition{{/if}}" data-item-uuid="{{uuid}}">
+
+      <div class="wrapper" data-action="toggleDescription">
+        <img class="image" src="{{img}}" alt="{{name}}">
+        <label class="name">{{name}}</label>
+      </div>
+
+      <div class="property source"></div>
+
+      <div class="controls">
+        <a class="control" data-action="editEffect"><i class="fa-solid fa-edit"></i></a>
+        {{#if @root.isEditMode}}
+        <a class="control" data-action="deleteEffect"><i class="fa-solid fa-trash"></i></a>
+        {{/if}}
+      </div>
+
+      <div class="description-wrapper">
+        {{#if isExpanded}}
+        <div class="description">{{{enrichedText}}}</div>
+        {{/if}}
+      </div>
+
+    </div>
+    {{/each}}
+    {{/if}}
 
   </div>
-  {{/each}}
-  {{/if}}
-
-  {{#if (and canFuse activeFusions.length)}}
-
-  <header>
-    <span class="name">{{localize "ARTICHRON.Effect.ActiveFusions"}}</span>
-    <span class="source">{{localize "ARTICHRON.Effect.Source"}}</span>
-    <span class="controls" style="margin-left: 2px;"></span>
-  </header>
-
-  {{#each activeFusions}}
-  <div class="effect {{#if isExpanded}}expanded no-transition{{/if}}" data-item-uuid="{{uuid}}">
-
-    <a class="wrapper" data-action="toggleDescription" style="opacity: {{ifThen disabled 0.25 1}}">
-      <img class="image" src="{{img}}" alt="{{name}}" data-action="toggleEffect">
-      <label class="name">{{name}}</label>
-    </a>
-
-    <a data-action="undoFusion" data-tooltip="ARTICHRON.Effect.ActiveFusion">
-      <i class="fa-solid fa-volcano"></i>
-      <i class="fa-solid fa-recycle"></i>
-    </a>
-
-    <div class="property source">
-      <span class="label">{{sourceItem}}</span>
-    </div>
-
-    <div class="controls">
-      <a class="control" data-action="editEffect"><i class="fa-solid fa-edit"></i></a>
-      {{#if @root.isEditMode}}
-      <a class="control" data-action="deleteEffect"><i class="fa-solid fa-trash"></i></a>
-      {{/if}}
-    </div>
-
-    <div class="description-wrapper">
-      {{#if isExpanded}}
-      <div class="description">{{{enrichedText}}}</div>
-      {{/if}}
-    </div>
-
-  </div>
-  {{/each}}
-
-  {{/if}}
-
-  {{#if isItem}}
-
-  <header>
-    <span class="name">{{localize "TYPES.ActiveEffect.enhancementPl"}}</span>
-    <button class="controls" type="button" data-action="createEffect" data-tooltip="ARTICHRON.SheetActions.CreateEnhancement" data-type="enhancement">
-      <i class="fa-solid fa-plus"></i>
-    </button>
-  </header>
-
-  {{#each enhancements}}
-  <div class="effect {{#if isExpanded}}expanded no-transition{{/if}}" data-item-uuid="{{uuid}}">
-
-    <a class="wrapper" data-action="toggleDescription" style="opacity: {{ifThen disabled 0.25 1}}">
-      <img class="image" src="{{img}}" alt="{{name}}" data-action="toggleEffect">
-      <label class="name">{{name}}</label>
-    </a>
-
-    <div class="controls">
-      <a class="control" data-action="editEffect"><i class="fa-solid fa-edit"></i></a>
-      {{#if @root.isEditMode}}
-      <a class="control" data-action="deleteEffect"><i class="fa-solid fa-trash"></i></a>
-      {{/if}}
-    </div>
-
-    <div class="description-wrapper">
-      {{#if isExpanded}}
-      <div class="description">{{{enrichedText}}}</div>
-      {{/if}}
-    </div>
-
-  </div>
-  {{/each}}
-
-  {{/if}}
-
-  <header>
-    <span class="name">{{localize "ARTICHRON.Effect.Buffs"}}</span>
-    <span class="source">{{localize "ARTICHRON.Effect.Source"}}</span>
-    <button class="controls" type="button" data-action="createEffect" data-tooltip="ARTICHRON.SheetActions.CreateBuff" data-type="buff">
-      <i class="fa-solid fa-plus"></i>
-    </button>
-  </header>
-
-  {{#each effects}}
-  <div class="effect {{#if isExpanded}}expanded no-transition{{/if}}" data-item-uuid="{{uuid}}">
-
-    <a class="wrapper" data-action="toggleDescription" style="opacity: {{ifThen disabled 0.25 1}}">
-      <img class="image" src="{{img}}" alt="{{name}}" data-action="toggleEffect">
-      <label class="name stacked">
-        <span class="title">{{name}}</span>
-        {{#if parentName}}<span class="subtitle">{{parentName}}</span>{{/if}}
-      </label>
-    </a>
-
-    {{#if transfer}} <i class="fa-solid fa-briefcase" data-tooltip="ARTICHRON.Effect.TransferredBuff"></i> {{/if}}
-
-    <div class="property source">
-      <span class="origin">{{sourceItem}}</span>
-      <span class="label">{{sourceActor}}</span>
-    </div>
-
-    <div class="controls">
-      <a class="control" data-action="editEffect"><i class="fa-solid fa-edit"></i></a>
-      {{#if @root.isEditMode}}
-      <a class="control" data-action="deleteEffect"><i class="fa-solid fa-trash"></i></a>
-      {{/if}}
-    </div>
-
-    <div class="description-wrapper">
-      {{#if isExpanded}}
-      <div class="description">{{{enrichedText}}}</div>
-      {{/if}}
-    </div>
-
-  </div>
-  {{/each}}
-
-  {{#if canFuse}}
-  <header>
-    <span class="name">{{localize "ARTICHRON.Effect.FusionOptions"}}</span>
-    <span class="source"></span>
-    <button class="controls" type="button" data-action="createEffect" data-tooltip="ARTICHRON.SheetActions.CreateFusion" data-type="fusion">
-      <i class="fa-solid fa-plus"></i>
-    </button>
-  </header>
-
-  {{#each fusions}}
-  <div class="effect {{#if isExpanded}}expanded no-transition{{/if}}" data-item-uuid="{{uuid}}">
-
-    <div class="wrapper" data-action="toggleDescription">
-      <img class="image" src="{{img}}" alt="{{name}}">
-      <label class="name">{{name}}</label>
-    </div>
-
-    <div class="property source"></div>
-
-    <div class="controls">
-      <a class="control" data-action="editEffect"><i class="fa-solid fa-edit"></i></a>
-      {{#if @root.isEditMode}}
-      <a class="control" data-action="deleteEffect"><i class="fa-solid fa-trash"></i></a>
-      {{/if}}
-    </div>
-
-    <div class="description-wrapper">
-      {{#if isExpanded}}
-      <div class="description">{{{enrichedText}}}</div>
-      {{/if}}
-    </div>
-
-  </div>
-  {{/each}}
-  {{/if}}
 
 </div>
