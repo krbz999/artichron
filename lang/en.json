@@ -315,6 +315,7 @@
 },
 
 "ItemAttribute": {
+  "Ammunition": "Ammunition",
   "Blocking": "Blocking",
   "Magical": "Magical",
   "Parrying": "Parrying",
