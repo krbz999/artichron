@@ -606,12 +606,15 @@ export const ArtichronSheetMixin = Base => {
      */
     static _onToggleDescription(event, target) {
       const item = target.closest("[data-item-uuid]");
-      const has = item.classList.toggle("expanded");
-      item.classList.remove("no-transition");
+      const expanded = item.classList.contains("expanded");
+      item.classList.toggle("expanded", !expanded);
+      item.classList.add("transitioning");
       const uuid = item.dataset.itemUuid;
-      if (has) this._expandedItems.add(uuid);
-      else this._expandedItems.delete(uuid);
-      this._insertDocumentDescription(item, uuid);
+      if (expanded) this._expandedItems.delete(uuid);
+      else {
+        this._expandedItems.add(uuid);
+        this._insertDocumentDescription(item, uuid);
+      }
     }
   };
 };

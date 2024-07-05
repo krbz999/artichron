@@ -9,7 +9,7 @@ export default class InventoryItemElement extends HTMLElement {
     if (config.expanded && config.enriched) {
       element.dataset.expanded = true;
       element.dataset.enriched = config.enriched;
-      element.classList.add("expanded", "no-transition");
+      element.classList.add("expanded");
     }
     if ((config.uses !== false) && item.hasUses) {
       element.dataset.hasUses = true;

@@ -10,8 +10,8 @@
   &.opacity [data-action=toggleOpacity] .fa-solid::before { content: "\f2a8"; }
 
   /* Transition control */
-  .no-transition, .no-transition * {
-    transition: none !important;
+  .transitioning .description-wrapper .description{
+    overflow: hidden;
   }
 
   /* Slight gap below sheet tabs. */
@@ -53,6 +53,29 @@
 .tab.scrollable.active:has(.inventory-list, .effects-list) {
   display: flex;
   flex-direction: column;
+}
+
+/* Shared styling */
+.inventory-list, .effects-list {
+  .description-wrapper {
+    display: grid;
+    grid-template-rows: 0fr;
+    flex: 0 0 100%;
+    overflow: hidden auto;
+    padding: 0 5px;
+
+    .description {
+      font-size: 12px;
+    }
+  }
+
+  .expanded .description-wrapper {
+    grid-template-rows: 1fr;
+  }
+
+  .transitioning .description-wrapper {
+    transition: grid-template-rows 300ms ease, margin 300ms ease;
+  }
 }
 
 .inventory-list {
@@ -102,16 +125,11 @@
       text-align: center;
       font-size: 10px;
 
-      &.source {
-        flex: var(--artichron-effect-source-flex);
-        font-size: 13px;
-      }
-
       &.fusion {
         font-size: unset;
       }
 
-      .counter, .origin {
+      .counter {
         display: flex;
         align-items: center;
         gap: 3px;
@@ -138,39 +156,6 @@
       display: flex;
       flex: var(--artichron-inventory-controls-flex);
       justify-content: space-around;
-    }
-
-    [data-action=undoFusion] {
-      position: relative;
-
-      .fa-solid {
-        transition: opacity 500ms ease;
-
-        &.fa-recycle { opacity: 0; }
-        &.fa-volcano { opacity: 1; position: absolute; }
-      }
-      &:hover .fa-solid {
-        &.fa-recycle { opacity: 1; }
-        &.fa-volcano { opacity: 0; }
-      }
-    }
-
-    .description-wrapper {
-      display: grid;
-      grid-template-rows: 0fr;
-      flex: 0 0 100%;
-      overflow: hidden auto;
-      transition: grid-template-rows 300ms ease, margin 300ms ease;
-      padding: 0 5px;
-
-      .description {
-        overflow: hidden auto;
-        font-size: 12px;
-        max-height: 200px;
-      }
-    }
-    &.expanded .description-wrapper {
-      grid-template-rows: 1fr;
     }
   }
 }
@@ -235,35 +220,15 @@
     }
 
     .property {
+      display: flex;
+      flex-direction: column;
       flex: var(--artichron-item-property-flex);
       text-align: center;
-      font-size: 10px;
 
       &.source {
         flex: var(--artichron-effect-source-flex);
-        font-size: 13px;
-      }
-
-      &.fusion {
-        font-size: unset;
-      }
-
-      .counter, .origin {
-        display: flex;
-        align-items: center;
-        gap: 3px;
-        justify-content: center;
-
-        &.origin { font-size: 13px; }
-
-        & input, .max {
-          margin: 0;
-          padding: 0;
-          flex: 1;
-          font-size: 10px;
-          height: 100%;
-          background: unset;
-        }
+        .origin { font-size: 11px; }
+        .label { font-size: 10px; }
       }
 
       .label {
@@ -290,24 +255,6 @@
         &.fa-recycle { opacity: 1; }
         &.fa-volcano { opacity: 0; }
       }
-    }
-
-    .description-wrapper {
-      display: grid;
-      grid-template-rows: 0fr;
-      flex: 0 0 100%;
-      overflow: hidden auto;
-      transition: grid-template-rows 300ms ease, margin 300ms ease;
-      padding: 0 5px;
-
-      .description {
-        overflow: hidden auto;
-        font-size: 12px;
-        max-height: 200px;
-      }
-    }
-    &.expanded .description-wrapper {
-      grid-template-rows: 1fr;
     }
   }
 }
