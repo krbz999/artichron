@@ -87,7 +87,7 @@
       "image": {},
       "text": {
         "format": 1,
-        "content": "<p>Once the turn order has been decided, each combatant receives a number of Action Points (or \"pips\") that they can use during this round on various actions.</p><p>For 'heroes', the amount of action points is equal to the size of their Health dice pool, plus 2 for each turn they take on this round, minus 1 for each level of the @UUID[Compendium.artichron.rules.JournalEntry.JjiZqfbpC2YVXV4R.JournalEntryPage.uVv9k9xheOkxzBhO]{Hindered} condition they are afflicted by, minimum of 1. For example, if a hero is taking 3 turns this round due to their group being vastly outnumbered, and they have a health dice pool size of 3, they start the round with 3 + 6 = 9 pips.</p><p>Monsters that do not have a health dice pool instead receive a static value of 6, plus 2 for each turn they take this round, minus 1 for each level of the Hindered condition.</p><p>A combatant can spend as many action points as they want on one turn, but they do not regain any until the next round.</p><fieldset><legend>Hindered</legend><p>@Embed[Compendium.artichron.rules.JournalEntry.JjiZqfbpC2YVXV4R.JournalEntryPage.uVv9k9xheOkxzBhO inline]</p></fieldset>"
+        "content": "<p>Once the turn order has been decided, each combatant receives a number of Action Points (or \"pips\") that they can use during this round on various actions.</p><p>For 'heroes', the amount of action points is equal to the size of their Health dice pool, plus 2 for each turn they take on this round, minus 1 for each level of the @UUID[Compendium.artichron.rules.JournalEntry.JjiZqfbpC2YVXV4R.JournalEntryPage.uVv9k9xheOkxzBhO]{Hindered} condition they are afflicted by, minimum of 1. For example, if a hero is taking 3 turns this round due to their group being vastly outnumbered, and they have a health dice pool size of 3, they start the round with 3 + 6 = 9 pips.</p><p>Monsters that do not have a health dice pool instead receive a static value of 6, plus 2 for each turn they take this round, minus 1 for each level of the Hindered condition.</p><p>A combatant can spend as many action points as they want on one turn, but they do not regain any until the next round.</p>"
       },
       "video": {
         "controls": true,
@@ -145,6 +145,42 @@
         "lastModifiedBy": null
       },
       "_key": "!journal.pages!xJAQJs1s2SgG9JS0.TpFaE3CaBb3jOJZi"
+    },
+    {
+      "sort": 0,
+      "name": "Item Attributes",
+      "type": "text",
+      "_id": "wbKJ6RNfw1cwIGwq",
+      "system": {},
+      "title": {
+        "show": true,
+        "level": 2
+      },
+      "image": {},
+      "text": {
+        "format": 1,
+        "content": "<p>Armor and arsenal items can have several attributes, each describing unique properties.</p><ul><li><p>Ammunition. An item with this property cannot be used as part of an attack without spending ammunition.</p></li><li><p>Blocking. When you are the victim of an attack, you can use an item with this property to reduce the incoming damage. When yo do so, roll the damage dice of the item, and if the item is not a shield, halve the result, then subtract the amount from the damage you would have taken. If this would reduce the damge to zero, you suffer no additional consequences of the attack.</p></li><li><p>Magical. This item is magical.</p></li><li><p>Parrying. When you are the victim of an attack, you can use an item with this property to reduce the incoming damage. When you do so, roll the damage dice of the item, and halve the result, then subtract the amount from the damage you would have taken. If this would reduce the damage to zero, you suffer no additional consequences of the attack.</p></li><li><p>Rending. When you are struck by an attack from an item with this property, you take a number of levels of the @UUID[Compendium.artichron.rules.JournalEntry.JjiZqfbpC2YVXV4R.JournalEntryPage.FRQ8zjWTfTYZWGx3]{Injured} condition. The amount of levels depends on the item.</p></li></ul>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": null,
+      "ownership": {
+        "default": -1
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": null,
+        "systemId": null,
+        "systemVersion": null,
+        "createdTime": null,
+        "modifiedTime": null,
+        "lastModifiedBy": null
+      },
+      "_key": "!journal.pages!xJAQJs1s2SgG9JS0.wbKJ6RNfw1cwIGwq"
     }
   ],
   "folder": null,
