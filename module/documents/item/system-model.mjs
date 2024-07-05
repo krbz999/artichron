@@ -81,18 +81,8 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
   /*   Life-cycle methods                               */
   /* -------------------------------------------------- */
 
+  /** @override */
   async _preCreate(data, options, user) {
-    const update = {};
-
-    // Set default attributes per item type.
-    const attr = new Set(data.system?.attributes?.value ?? []);
-    if (data.type === "spell") attr.add("magical");
-    else if (data.type === "shield") attr.add("blocking");
-    else if (data.type === "weapon") attr.add("parrying");
-    update["system.attributes.value"] = attr;
-
-    this.parent.updateSource(update);
-
     return super._preCreate(data, options, user);
   }
 
