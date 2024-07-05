@@ -8,56 +8,7 @@
   </header>
 
   {{#each items.favorites}}
-  <div class="item {{#if isExpanded}}expanded no-transition{{/if}}" data-item-uuid="{{item.uuid}}">
-
-    <a class="wrapper" data-action="toggleDescription">
-      <img src="{{item.img}}" alt="{{item.name}}" class="image" data-action="useItem">
-      <label class="name">{{item.name}}</label>
-    </a>
-
-    {{#if hasUses}}
-    <div class="property usage">
-      <div class="counter">
-        <input type="text" class="delta" id="usage-{{item.id}}" value="{{item.system.usage.value}}" data-action="updateEmbedded" data-property="system.usage.value" placeholder="0" max="{{item.system.usage.max}}">
-        <span class="sep">/</span>
-        <span class="max">{{item.system.usage.max}}</span>
-      </div>
-      <span class="label">{{localize "ARTICHRON.ItemProperty.Usage.Value"}}</span>
-    </div>
-    {{/if}}
-
-    {{#if hasQty}}
-    <div class="property quantity">
-      <div class="counter">
-        <input type="text" class="delta" id="quantity-{{item.id}}" value="{{item.system.quantity.value}}" data-action="updateEmbedded" data-property="system.quantity.value" placeholder="0">
-      </div>
-      <span class="label">{{localize "ARTICHRON.ItemProperty.Quantity.Value"}}</span>
-    </div>
-    {{/if}}
-
-    {{#if hasFusions}}
-    <div class="property fusion">
-      <a data-action="fuseItem" data-tooltip="ARTICHRON.SheetActions.FuseItem">
-        <i class="fa-solid fa-volcano"></i>
-      </a>
-    </div>
-    {{/if}}
-
-    <div class="controls">
-      <a class="control" data-action="favoriteItem"><i class="fa-{{ifThen favorited 'solid' 'regular'}} fa-star"></i></a>
-      {{#if @root.isEditMode}}
-      <a class="control" data-action="editItem"><i class="fa-solid fa-edit"></i></a>
-      <a class="control" data-action="deleteItem"><i class="fa-solid fa-trash"></i></a>
-      {{/if}}
-    </div>
-
-    <div class="description-wrapper">
-      {{#if isExpanded}}
-      <div class="description">{{{enrichedText}}}</div>
-      {{/if}}
-    </div>
-
-  </div>
+  {{inventoryItem item expanded=isExpanded enriched=enrichedText disabled=@root.isPlayMode}}
   {{/each}}
 
   <header>
@@ -71,55 +22,6 @@
   </header>
 
   {{#each items.items}}
-  <div class="item {{#if isExpanded}}expanded no-transition{{/if}}" data-item-uuid="{{item.uuid}}">
-
-    <a class="wrapper" data-action="toggleDescription">
-      <img src="{{item.img}}" alt="{{item.name}}" class="image" data-action="useItem">
-      <label class="name">{{item.name}}</label>
-    </a>
-
-    {{#if hasUses}}
-    <div class="property usage">
-      <div class="counter">
-        <input type="text" class="delta" id="usage-{{item.id}}" value="{{item.system.usage.value}}" data-action="updateEmbedded" data-property="system.usage.value" placeholder="0" max="{{item.system.usage.max}}">
-        <span class="sep">/</span>
-        <span class="max">{{item.system.usage.max}}</span>
-      </div>
-      <span class="label">{{localize "ARTICHRON.ItemProperty.Usage.Value"}}</span>
-    </div>
-    {{/if}}
-
-    {{#if hasQty}}
-    <div class="property quantity">
-      <div class="counter">
-        <input type="text" class="delta" id="quantity-{{item.id}}" value="{{item.system.quantity.value}}" data-action="updateEmbedded" data-property="system.quantity.value" placeholder="0">
-      </div>
-      <span class="label">{{localize "ARTICHRON.ItemProperty.Quantity.Value"}}</span>
-    </div>
-    {{/if}}
-
-    {{#if hasFusions}}
-    <div class="property fusion">
-      <a data-action="fuseItem" data-tooltip="ARTICHRON.SheetActions.FuseItem">
-        <i class="fa-solid fa-volcano"></i>
-      </a>
-    </div>
-    {{/if}}
-
-    <div class="controls">
-      <a class="control" data-action="favoriteItem"><i class="fa-{{ifThen favorited 'solid' 'regular'}} fa-star"></i></a>
-      {{#if @root.isEditMode}}
-      <a class="control" data-action="editItem"><i class="fa-solid fa-edit"></i></a>
-      <a class="control" data-action="deleteItem"><i class="fa-solid fa-trash"></i></a>
-      {{/if}}
-    </div>
-
-    <div class="description-wrapper">
-      {{#if isExpanded}}
-      <div class="description">{{{enrichedText}}}</div>
-      {{/if}}
-    </div>
-
-  </div>
+  {{inventoryItem item expanded=isExpanded enriched=enrichedText disabled=@root.isPlayMode}}
   {{/each}}
 </div>
