@@ -27,13 +27,4 @@
   </fieldset>
   {{/if}}
 
-  {{#if document.isEmbedded}}
-  <div class="form-group">
-    <label>{{localize "ARTICHRON.ItemProperty.Favorited"}}</label>
-    <a class="action" data-action="favoriteItem">
-      <i class="fa-{{ifThen isFavorited 'solid' 'regular'}} fa-star"></i>
-    </a>
-  </div>
-  {{/if}}
-
 </div>

@@ -12,7 +12,6 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
     actions: {
       addDamage: this._onAddDamage,
       deleteDamage: this._onDeleteDamage,
-      favoriteItem: this._onFavoriteItem,
       undoFusion: this._onUndoFusion
     }
   };
@@ -73,7 +72,6 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
       effects: buffs,
       fusions: fusionOptions,
       enhancements: enhancements,
-      isFavorited: this.actor?.favorites.has(doc) ?? false,
       sections: {
         damage: ("parts" in (src.system.damage ?? {})) && ((doc.type !== "spell") || isOffense),
         resistances: "resistances" in src.system,
@@ -326,18 +324,6 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
     const parts = this.document.system.toObject().damage.parts;
     parts.findSplice(d => d.id === id);
     this.document.update({"system.damage.parts": parts});
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Handle click events to toggle an item's Favorited state.
-   * @param {Event} event             The initiating click event.
-   * @param {HTMLElement} target      The current target of the event listener.
-   */
-  static _onFavoriteItem(event, target) {
-    if (!this.isEditable) return;
-    this.document.favorite().then(() => this.render());
   }
 
   /* -------------------------------------------------- */
