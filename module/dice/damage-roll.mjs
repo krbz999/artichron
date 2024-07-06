@@ -73,9 +73,23 @@ export class DamageRoll extends RollArtichron {
     }
 
     for (const [type, total] of bonuses.entries()) {
-      const roll = new this(String(Math.ceil(total)), {}, {type: type});
-      roll.evaluateSync(); // must evaluate here to avoid a loop.
-      rolls.push(roll);
+      const value = Math.max(1, Math.round(total));
+
+      // If there is an existing roll of this type, add a number term to it.
+      const existing = rolls.find(roll => roll.type === type);
+      if (existing) {
+        const number = new foundry.dice.terms.NumericTerm({number: value});
+        const operator = new foundry.dice.terms.OperatorTerm({operator: "+"});
+        number._evaluated = true;
+        operator._evaluated = true;
+        existing.terms.push(operator, number);
+        existing.resetFormula();
+        existing._total = existing._evaluateTotal();
+      } else {
+        const roll = new this(String(value), {}, {type: type});
+        roll.evaluateSync(); // must evaluate here to avoid a loop.
+        rolls.push(roll);
+      }
     }
 
     return super.toMessage(rolls, ...rest);
