@@ -117,7 +117,7 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
     if (!this.isEditable) return;
     const uuid = target.closest("[data-item-uuid]").dataset.itemUuid;
     const item = await fromUuid(uuid);
-    item.favorite();
+    this.document.toggleFavoriteItem(item.id);
   }
 
   /* -------------------------------------------------- */
