@@ -213,14 +213,15 @@
   "ResistancePl": "Resistances",
 
   "Fieldsets": {
+    "Attributes": "Attributes",
     "BlastZone": "Blast Zone",
+    "Configuration": "Configuration",
+    "DamageBonuses": "Damage Bonuses",
     "DamageOverrides": "Damage Overrides",
     "Damages": "Damages",
     "Defenses": "Defenses",
     "Handling": "Handling",
     "LimitedUses": "Limited Uses",
-    "Attributes": "Attributes",
-    "Configuration": "Configuration",
     "Resistances": "Resistances"
   },
 

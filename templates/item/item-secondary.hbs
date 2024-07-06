@@ -8,6 +8,22 @@
   </fieldset>
   {{/each}}
 
+  {{#if resistances}}
+  <fieldset class="resistances">
+    <legend>{{localize resistances.legend}}</legend>
+    {{#each resistances.values}}
+    <div class="resistance {{#if active}} active {{/if}}" data-tooltip="{{label}}" style="color: #{{color}}">
+      {{#if @root.isEditMode}}
+      <input type="text" name="{{name}}" value="{{value}}">
+      {{else}}
+      <span class="total">{{ifThen value value 0}}</span>
+      {{/if}}
+      <i class="{{icon}}"></i>
+    </div>
+    {{/each}}
+  </fieldset>
+  {{/if}}
+
   {{#if isAmmo}}
   <fieldset>
     <legend>{{localize "ARTICHRON.ItemProperty.Fieldsets.DamageOverrides"}}</legend>
@@ -44,5 +60,22 @@
     </div>
     {{/each}}
   </fieldset>
+
+  {{#unless isAmmo}}
+  <fieldset class="bonuses">
+    <legend>{{localize "ARTICHRON.ItemProperty.Fieldsets.DamageBonuses"}}</legend>
+    {{#each damageBonuses}}
+    <div class="resistance {{#if active}} active {{/if}}" data-tooltip="{{label}}" style="color: #{{color}}">
+      {{#if @root.isEditMode}}
+      <input type="text" name="{{name}}" value="{{value}}">
+      {{else}}
+      <span class="total">{{ifThen value value 0}}</span>
+      {{/if}}
+      <i class="{{icon}}"></i>
+    </div>
+    {{/each}}
+  </fieldset>
+  {{/unless}}
+
   {{/if}}
 </div>

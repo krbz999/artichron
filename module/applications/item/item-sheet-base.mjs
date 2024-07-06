@@ -202,6 +202,13 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
         }),
         groups: CONFIG.SYSTEM.DAMAGE_TYPE_GROUPS
       };
+      if (!this.document.isAmmo) {
+        context.damageBonuses = [];
+        for (const [k, v] of Object.entries(this.document.system.damage.bonuses)) {
+          const data = this._makeField(context, `damage.bonuses.${k}.value`);
+          context.damageBonuses.push(data);
+        }
+      }
 
       for (const [k, v] of Object.entries(CONFIG.SYSTEM.DAMAGE_TYPES)) {
         context.damageTypes.push({
@@ -220,15 +227,41 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
       }
     }
 
+    const makeResistance = (key, path) => {
+      const value = foundry.utils.getProperty(context.isEditMode ? src.system : doc.system, path);
+      return {
+        field: doc.system.schema.getField(path),
+        value: value,
+        label: CONFIG.SYSTEM.DAMAGE_TYPES[key].label,
+        color: CONFIG.SYSTEM.DAMAGE_TYPES[key].color,
+        icon: CONFIG.SYSTEM.DAMAGE_TYPES[key].icon,
+        name: `system.${path}`,
+        active: context.isEditMode || !!value
+      };
+    };
+
+    if (!this.document.isAmmo && context.sections.damage) {
+      context.damageBonuses = [];
+      for (const k of Object.keys(doc.system.damage.bonuses)) {
+        const path = `damage.bonuses.${k}.value`;
+        const value = makeResistance(k, path);
+        context.damageBonuses.push(value);
+      }
+    }
+
     // Resistances.
-    if (doc.isArmor) context.fieldsets.push({
-      legend: "ARTICHRON.ItemProperty.Fieldsets.Resistances",
-      formGroups: Object.keys(doc.system.resistances).reduce((acc, k) => {
-        const data = this._makeField(context, `resistances.${k}.value`);
-        if ((data.value !== "") || context.isEditMode) acc.push(data);
-        return acc;
-      }, [])
-    });
+    if (doc.isArmor) {
+      const fieldset = {
+        legend: "ARTICHRON.ItemProperty.Fieldsets.Resistances",
+        values: []
+      };
+      for (const k of Object.keys(doc.system.resistances)) {
+        const path = `resistances.${k}.value`;
+        fieldset.values.push(makeResistance(k, path));
+      }
+
+      context.resistances = fieldset;
+    }
 
     return context;
   }

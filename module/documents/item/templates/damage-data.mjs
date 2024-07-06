@@ -8,6 +8,19 @@ export const DamageTemplateMixin = Base => {
     static defineSchema() {
       const schema = super.defineSchema();
 
+      const bonuses = Object.keys(CONFIG.SYSTEM.DAMAGE_TYPES).reduce((acc, type) => {
+        if (type === "physical") return acc;
+        acc[type] = new SchemaField({
+          value: new NumberField({
+            min: 0,
+            integer: true,
+            label: "ARTICHRON.ItemProperty.Damage.Bonuses.Value",
+            hint: "ARTICHRON.ItemProperty.Damage.Bonuses.ValueHint"
+          })
+        });
+        return acc;
+      }, {});
+
       schema.damage = new SchemaField({
         parts: new ArrayField(new SchemaField({
           id: new IdField(),
@@ -22,20 +35,7 @@ export const DamageTemplateMixin = Base => {
             hint: "ARTICHRON.ItemProperty.Damage.Parts.TypeHint"
           })
         })),
-        bonuses: new ArrayField(new SchemaField({
-          value: new NumberField({
-            min: 0,
-            integer: true,
-            label: "ARTICHRON.ItemProperty.Damage.Bonuses.Value",
-            hint: "ARTICHRON.ItemProperty.Damage.Bonuses.ValueHint"
-          }),
-          type: new StringField({
-            choices: CONFIG.SYSTEM.DAMAGE_TYPES,
-            initial: () => Object.keys(CONFIG.SYSTEM.DAMAGE_TYPES)[0],
-            label: "ARTICHRON.ItemProperty.Damage.Bonuses.Type",
-            hint: "ARTICHRON.ItemProperty.Damage.Bonuses.TypeHint"
-          })
-        }))
+        bonuses: new SchemaField(bonuses)
       });
 
       return schema;
@@ -96,7 +96,7 @@ export const DamageTemplateMixin = Base => {
 
       // Add any percentage bonuses.
       const pcts = new Map();
-      for (const {value, type} of this.damage.bonuses) {
+      for (const [type, {value}] of Object.entries(this.damage.bonuses)) {
         if (!value) continue;
         const total = pcts.get(type) ?? 0;
         pcts.set(type, total + value);
