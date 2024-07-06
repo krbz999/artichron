@@ -333,13 +333,13 @@ export const ArtichronSheetMixin = Base => {
         name: "ARTICHRON.ContextMenu.ItemOption.Favorite",
         icon: "<i class='fa-solid fa-fw fa-star'></i>",
         condition: () => isOwner && !item.isFavorite,
-        callback: () => item.favorite(),
+        callback: () => item.actor.addFavoriteItem(item.id),
         group: "action"
       }, {
         name: "ARTICHRON.ContextMenu.ItemOption.Unfavorite",
         icon: "<i class='fa-regular fa-fw fa-star'></i>",
         condition: () => isOwner && item.isFavorite,
-        callback: () => item.favorite(),
+        callback: () => item.actor.removeFavoriteItem(item.id),
         group: "action"
       }, {
         name: "ARTICHRON.ContextMenu.ItemOption.Use",
