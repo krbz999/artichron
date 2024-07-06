@@ -9,7 +9,7 @@ export class ResistanceField extends SchemaField {
       if (v.resist) fields[k] = new SchemaField({
         value: new FormulaField({
           required: true,
-          label: v.label
+          label: `ARTICHRON.DamageType.${k.capitalize()}Res`
         })
       });
     }
