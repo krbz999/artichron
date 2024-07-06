@@ -2,6 +2,7 @@ export class FormulaField extends foundry.data.fields.StringField {
   /** @override */
   _applyChangeAdd(value, delta, model, change) {
     delta = delta.trim();
+    if (!delta) return value;
     const d0 = delta[0];
     if (!["-", "+"].includes(d0) && value) delta = ` + ${delta}`;
     else delta = ` ${delta}`;

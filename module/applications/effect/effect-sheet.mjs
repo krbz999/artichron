@@ -103,13 +103,27 @@ export default class EffectSheetArtichron extends ArtichronSheetMixin(foundry.ap
       const schema = c.dataModels[context.fields.subtype.value].schema;
       const path = k.replace("system.", "");
       const field = schema.getField(path);
-      let label = k;
-      if (field) {
-        label = game.i18n.localize(field.label) || k;
-      }
-      acc[k] = label;
+
+      let label;
+      if (field?.label) label = game.i18n.localize(field.label);
+      else if (k === "name") label = game.i18n.localize("Name");
+      else if (k === "img") label = game.i18n.localize("Image");
+      else label = k;
+
+      let group;
+      if (path.startsWith("skills")) group = "Skills";
+      else if (path.startsWith("resistances")) group = "Resistances";
+      else if (path.startsWith("pools")) group = "Pools";
+
+      acc.push({group, value: k, label});
+
       return acc;
-    }, {});
+    }, []);
+    if (choices) choices.sort((a, b) => {
+      if (a.group && b.group) return a.group.localeCompare(b.group);
+      return 0;
+    });
+
     const modeChoices = Object.entries(CONST.ACTIVE_EFFECT_MODES).reduce((obj, e) => {
       obj[e[1]] = game.i18n.localize(`EFFECT.MODE_${e[0]}`);
       return obj;
@@ -127,7 +141,7 @@ export default class EffectSheetArtichron extends ArtichronSheetMixin(foundry.ap
         key: {
           name: `changes.${idx}.key`,
           value: c.key,
-          choices: choices,
+          options: choices,
           disabled: context.isPlayMode,
           field: fields.key
         },
