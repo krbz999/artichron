@@ -1,12 +1,13 @@
 import {IdField} from "../../fields/id-field.mjs";
 
-const {SchemaField, ArrayField, StringField} = foundry.data.fields;
+const {SchemaField, ArrayField, NumberField, StringField} = foundry.data.fields;
 
 export const DamageTemplateMixin = Base => {
   return class DamageTemplate extends Base {
     /** @override */
     static defineSchema() {
       const schema = super.defineSchema();
+
       schema.damage = new SchemaField({
         parts: new ArrayField(new SchemaField({
           id: new IdField(),
@@ -20,8 +21,23 @@ export const DamageTemplateMixin = Base => {
             label: "ARTICHRON.ItemProperty.Damage.Parts.Type",
             hint: "ARTICHRON.ItemProperty.Damage.Parts.TypeHint"
           })
+        })),
+        bonuses: new ArrayField(new SchemaField({
+          value: new NumberField({
+            min: 0,
+            integer: true,
+            label: "ARTICHRON.ItemProperty.Damage.Bonuses.Value",
+            hint: "ARTICHRON.ItemProperty.Damage.Bonuses.ValueHint"
+          }),
+          type: new StringField({
+            choices: CONFIG.SYSTEM.DAMAGE_TYPES,
+            initial: () => Object.keys(CONFIG.SYSTEM.DAMAGE_TYPES)[0],
+            label: "ARTICHRON.ItemProperty.Damage.Bonuses.Type",
+            hint: "ARTICHRON.ItemProperty.Damage.Bonuses.TypeHint"
+          })
         }))
       });
+
       return schema;
     }
 
@@ -76,6 +92,35 @@ export const DamageTemplateMixin = Base => {
       });
 
       for (const roll of rolls) await roll.evaluate();
+      const preTotal = rolls.reduce((acc, roll) => acc + roll.total, 0);
+
+      // Add any percentage bonuses.
+      const pcts = new Map();
+      for (const {value, type} of this.damage.bonuses) {
+        if (!value) continue;
+        const total = pcts.get(type) ?? 0;
+        pcts.set(type, total + value);
+      }
+      for (const [type, value] of pcts.entries()) {
+        const total = Math.max(1, Math.round(preTotal * (value / 100)));
+        const roll = rolls.find(roll => roll.type === type);
+        if (roll) {
+          const terms = [
+            new foundry.dice.terms.OperatorTerm({operator: "+"}),
+            new foundry.dice.terms.NumericTerm({number: total})
+          ];
+          for (const term of terms) {
+            term._evaluated = true;
+            roll.terms.push(term);
+          }
+          roll.resetFormula();
+          roll._total = roll._evaluateTotal();
+        } else {
+          const roll = new CONFIG.Dice.DamageRoll(String(total), {}, {type: type});
+          await roll.evaluate();
+          rolls.push(roll);
+        }
+      }
 
       if (create) {
         const rollMode = game.settings.get("core", "rollMode");
