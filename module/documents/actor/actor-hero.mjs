@@ -65,7 +65,6 @@ export default class HeroData extends ActorSystemModel {
   prepareDerivedData() {
     const rollData = this.parent.getRollData();
     this._preparePools(rollData);
-    this._prepareEquipped();
     this._prepareEncumbrance();
     this._prepareArmor(rollData);
     this._prepareResistances(rollData);
@@ -76,26 +75,6 @@ export default class HeroData extends ActorSystemModel {
   /** Prepare pools. */
   _preparePools(rollData) {
     Object.entries(this.pools).forEach(([k, v]) => v.prepareDerivedData(rollData));
-  }
-
-  /* -------------------------------------------------- */
-
-  /** Prepare equipped items. */
-  _prepareEquipped() {
-    const {arsenal, armor} = this.equipped;
-
-    if (arsenal.primary?.isTwoHanded || arsenal.secondary?.isTwoHanded) arsenal.secondary = null;
-
-    for (const [key, item] of Object.entries(armor)) {
-      if (!item) continue;
-      armor[key] = ((item.type === "armor") && (item.system.category.subtype === key)) ? item : null;
-    }
-
-    this.equipped.ammo = this.equipped.ammo.reduce((acc, id) => {
-      const item = this.parent.items.get(id);
-      if (item && item.isAmmo) acc.add(item);
-      return acc;
-    }, new Set());
   }
 
   /* -------------------------------------------------- */
@@ -170,7 +149,12 @@ export default class HeroData extends ActorSystemModel {
    * @type {Set<ItemArtichron>}
    */
   get ammo() {
-    return this.equipped.ammo;
+    const items = new Set();
+    for (const id of this.equipped.ammo) {
+      const item = this.parent.items.get(id);
+      if (item) items.add(item);
+    }
+    return items;
   }
 
   /* -------------------------------------------------- */
@@ -181,10 +165,10 @@ export default class HeroData extends ActorSystemModel {
    */
   get arsenal() {
     const items = this.equipped.arsenal;
-    return {
-      primary: this.parent.items.get(items.primary) ?? null,
-      secondary: this.parent.items.get(items.secondary) ?? null
-    };
+    const primary = this.parent.items.get(items.primary) ?? null;
+    let secondary = this.parent.items.get(items.secondary) ?? null;
+    secondary = (primary?.isTwoHanded || secondary?.isTwoHanded) ? null : secondary;
+    return {primary, secondary};
   }
 
   /* -------------------------------------------------- */

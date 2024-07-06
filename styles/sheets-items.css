@@ -6,7 +6,7 @@
 
     & fieldset.attributes {
       & label.checkbox:has(input:not(:checked):disabled) {
-        display: none;
+        opacity: 0.25;
       }
     }
 

@@ -101,7 +101,7 @@ export default class EquipDialog extends HandlebarsApplicationMixin(ApplicationV
     context.buttons = items.map(item => {
       return {
         itemId: item.id,
-        unequip: item === currentItem,
+        unequip: item.id === currentItem,
         img: item.img,
         name: item.name
       };
@@ -124,10 +124,10 @@ export default class EquipDialog extends HandlebarsApplicationMixin(ApplicationV
     const id = target.dataset.itemId;
     const item = this.#actor.items.get(id);
     const current = this.#actor.system.equipped[this.type][this.#slot];
-    const value = (id === current?.id) ? null : id;
+    const value = (id === current) ? "" : id;
     const update = {[`system.equipped.${this.type}.${this.#slot}`]: value};
-    if ((this.type === "arsenal") && (this.#slot === "primary") && !(id === current?.id) && item.isTwoHanded) {
-      update["system.equipped.arsenal.secondary"] = null;
+    if ((this.type === "arsenal") && (this.#slot === "primary") && !(id === current) && item.isTwoHanded) {
+      update["system.equipped.arsenal.secondary"] = "";
     }
     this.close();
     this.#actor.update(update);
