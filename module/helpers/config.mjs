@@ -522,10 +522,6 @@ SYSTEM.SKILLS = {
     label: "ARTICHRON.Skill.Movement",
     group: "body"
   },
-  persuade: {
-    label: "ARTICHRON.Skill.Persuade",
-    group: "soul"
-  },
   pickpocket: {
     label: "ARTICHRON.Skill.Pickpocket",
     group: "body"
