@@ -50,103 +50,122 @@
     },
     "equipped": {
       "arsenal": {
-        "primary": null,
-        "secondary": null
+        "primary": "",
+        "secondary": ""
       },
       "armor": {
-        "accessory": null,
-        "arms": null,
-        "chest": null,
-        "head": null,
-        "legs": null,
-        "boots": null
+        "accessory": "",
+        "arms": "",
+        "chest": "",
+        "head": "",
+        "legs": "",
+        "boots": ""
       },
-      "favorites": [
-        "4NtAK6nS63Rbdc4E",
-        "7i5qSdxEdPEgBMSp",
-        "jaZBHm4vUzm9essy",
-        "e7tFyraps0R2tLF6",
-        "7E24dtL5j9wQx47u",
-        "KX3mNE70dTefeyoV"
-      ],
       "ammo": []
     },
     "resistances": {
       "fire": {
-        "value": ""
+        "value": 0
       },
       "wind": {
-        "value": ""
+        "value": 0
       },
       "lightning": {
-        "value": ""
+        "value": 0
       },
       "ice": {
-        "value": ""
+        "value": 0
       },
       "light": {
-        "value": ""
+        "value": 0
       },
       "darkness": {
-        "value": ""
+        "value": 0
       },
       "arcane": {
-        "value": ""
+        "value": 0
       }
     },
     "defenses": {
       "armor": {
-        "value": ""
-      }
-    },
-    "movement": {
-      "running": {
-        "value": ""
-      },
-      "flying": {
-        "value": ""
-      },
-      "swimming": {
-        "value": ""
+        "value": 0
       }
     },
     "traits": {
       "pool": "health"
     },
     "skills": {
-      "head": {
-        "faces": 12,
-        "modifiers": {
-          "r": "",
-          "x": "",
-          "min": "",
-          "max": "",
-          "xo": false,
-          "rr": false
-        }
+      "avoidDetection": {
+        "value": 0
       },
-      "legs": {
-        "faces": 8,
-        "modifiers": {
-          "r": "",
-          "x": "",
-          "min": "",
-          "max": "",
-          "xo": false,
-          "rr": false
-        }
+      "bamboozle": {
+        "value": 0
       },
-      "arms": {
-        "faces": 4,
-        "modifiers": {
-          "r": "",
-          "x": "",
-          "min": "",
-          "max": "",
-          "xo": false,
-          "rr": false
-        }
+      "barter": {
+        "value": 0
+      },
+      "charm": {
+        "value": 0
+      },
+      "examine": {
+        "value": 0
+      },
+      "findPath": {
+        "value": 0
+      },
+      "heartiness": {
+        "value": 0
+      },
+      "knowledgeHistory": {
+        "value": 0
+      },
+      "knowledgeMagic": {
+        "value": 0
+      },
+      "knowledgeReligion": {
+        "value": 0
+      },
+      "knowledgeScience": {
+        "value": 0
+      },
+      "knowledgeTech": {
+        "value": 0
+      },
+      "liftThrow": {
+        "value": 0
+      },
+      "menace": {
+        "value": 0
+      },
+      "movement": {
+        "value": 0
+      },
+      "pickpocket": {
+        "value": 0
+      },
+      "poisonResistance": {
+        "value": 0
+      },
+      "reason": {
+        "value": 0
+      },
+      "research": {
+        "value": 0
+      },
+      "trapAvoidance": {
+        "value": 0
+      },
+      "understanding": {
+        "value": 0
+      },
+      "wardDetection": {
+        "value": 0
       }
+    },
+    "favorites": [],
+    "pips": {
+      "value": null,
+      "turn": 2
     }
   },
   "prototypeToken": {
@@ -245,14 +264,14 @@
   },
   "flags": {},
   "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": null,
     "systemId": null,
     "systemVersion": null,
-    "coreVersion": null,
     "createdTime": null,
     "modifiedTime": null,
-    "lastModifiedBy": null,
-    "compendiumSource": null,
-    "duplicateSource": null
+    "lastModifiedBy": null
   },
   "_id": "k8B1sfM7pj0yBDdT",
   "sort": 0,

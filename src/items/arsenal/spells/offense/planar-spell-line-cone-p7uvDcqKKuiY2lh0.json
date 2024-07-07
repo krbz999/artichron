@@ -47,12 +47,38 @@
           "formula": "4d8",
           "type": "arcane"
         }
-      ]
+      ],
+      "bonuses": {
+        "fire": {
+          "value": null
+        },
+        "wind": {
+          "value": null
+        },
+        "lightning": {
+          "value": null
+        },
+        "ice": {
+          "value": null
+        },
+        "light": {
+          "value": null
+        },
+        "darkness": {
+          "value": null
+        },
+        "arcane": {
+          "value": null
+        }
+      }
     },
     "attributes": {
       "value": [
         "magical"
       ]
+    },
+    "cost": {
+      "value": 2
     }
   },
   "effects": [],

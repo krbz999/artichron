@@ -26,7 +26,30 @@
           "formula": "4d12",
           "type": "lightning"
         }
-      ]
+      ],
+      "bonuses": {
+        "fire": {
+          "value": null
+        },
+        "wind": {
+          "value": null
+        },
+        "lightning": {
+          "value": null
+        },
+        "ice": {
+          "value": null
+        },
+        "light": {
+          "value": null
+        },
+        "darkness": {
+          "value": null
+        },
+        "arcane": {
+          "value": null
+        }
+      }
     },
     "wield": {
       "value": 2
@@ -50,6 +73,9 @@
       "value": [
         "magical"
       ]
+    },
+    "cost": {
+      "value": 2
     }
   },
   "effects": [],

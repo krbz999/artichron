@@ -21,7 +21,30 @@
           "formula": "4d8",
           "type": "physical"
         }
-      ]
+      ],
+      "bonuses": {
+        "fire": {
+          "value": null
+        },
+        "wind": {
+          "value": null
+        },
+        "lightning": {
+          "value": null
+        },
+        "ice": {
+          "value": null
+        },
+        "light": {
+          "value": null
+        },
+        "darkness": {
+          "value": null
+        },
+        "arcane": {
+          "value": null
+        }
+      }
     },
     "wield": {
       "value": 1
@@ -34,6 +57,12 @@
     },
     "category": {
       "subtype": "hammer"
+    },
+    "attributes": {
+      "value": []
+    },
+    "cost": {
+      "value": 1
     }
   },
   "effects": [],

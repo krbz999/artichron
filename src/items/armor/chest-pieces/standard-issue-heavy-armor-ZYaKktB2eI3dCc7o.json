@@ -8,25 +8,25 @@
     },
     "resistances": {
       "arcane": {
-        "value": ""
+        "value": 0
       },
       "darkness": {
-        "value": ""
+        "value": 0
       },
       "fire": {
-        "value": ""
+        "value": 0
       },
       "ice": {
-        "value": ""
+        "value": 0
       },
       "light": {
-        "value": ""
+        "value": 0
       },
       "lightning": {
-        "value": ""
+        "value": 0
       },
       "wind": {
-        "value": ""
+        "value": 0
       }
     },
     "weight": {
@@ -36,10 +36,13 @@
       "value": 2
     },
     "armor": {
-      "value": "6"
+      "value": 6
     },
     "category": {
       "subtype": "chest"
+    },
+    "attributes": {
+      "value": []
     }
   },
   "effects": [],

@@ -14,32 +14,35 @@
     },
     "resistances": {
       "arcane": {
-        "value": ""
+        "value": 0
       },
       "darkness": {
-        "value": ""
+        "value": 0
       },
       "fire": {
-        "value": ""
+        "value": 0
       },
       "ice": {
-        "value": ""
+        "value": 0
       },
       "light": {
-        "value": ""
+        "value": 0
       },
       "lightning": {
-        "value": ""
+        "value": 0
       },
       "wind": {
-        "value": ""
+        "value": 0
       }
     },
     "armor": {
-      "value": "1"
+      "value": 1
     },
     "category": {
       "subtype": "head"
+    },
+    "attributes": {
+      "value": []
     }
   },
   "effects": [],

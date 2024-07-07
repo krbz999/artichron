@@ -15,7 +15,30 @@
       "value": 1
     },
     "damage": {
-      "parts": []
+      "parts": [],
+      "bonuses": {
+        "fire": {
+          "value": null
+        },
+        "wind": {
+          "value": null
+        },
+        "lightning": {
+          "value": null
+        },
+        "ice": {
+          "value": null
+        },
+        "light": {
+          "value": null
+        },
+        "darkness": {
+          "value": null
+        },
+        "arcane": {
+          "value": null
+        }
+      }
     },
     "wield": {
       "value": 1
@@ -38,6 +61,9 @@
       "value": [
         "magical"
       ]
+    },
+    "cost": {
+      "value": 2
     }
   },
   "effects": [
@@ -82,12 +108,12 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "12.327",
+        "coreVersion": "12.328",
         "systemId": "artichron",
         "systemVersion": "1.0.0",
-        "createdTime": 1718403159311,
-        "modifiedTime": 1718403291324,
-        "lastModifiedBy": "3pWaVXzYT6XoJo1Y"
+        "createdTime": null,
+        "modifiedTime": null,
+        "lastModifiedBy": null
       },
       "_key": "!items.effects!z1Uq5H1xxicbxTQd.yhn8C8ghKx502jaT"
     },
@@ -130,12 +156,12 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "12.327",
+        "coreVersion": "12.328",
         "systemId": "artichron",
         "systemVersion": "1.0.0",
-        "createdTime": 1718403265709,
-        "modifiedTime": 1718403391848,
-        "lastModifiedBy": "3pWaVXzYT6XoJo1Y"
+        "createdTime": null,
+        "modifiedTime": null,
+        "lastModifiedBy": null
       },
       "_id": "t9R8zzyMk9w9qWnE",
       "sort": 0,
@@ -180,12 +206,12 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "12.327",
+        "coreVersion": "12.328",
         "systemId": "artichron",
         "systemVersion": "1.0.0",
-        "createdTime": 1718403266461,
-        "modifiedTime": 1718403474988,
-        "lastModifiedBy": "3pWaVXzYT6XoJo1Y"
+        "createdTime": null,
+        "modifiedTime": null,
+        "lastModifiedBy": null
       },
       "_id": "Tvwjv5htKnIENps8",
       "sort": 0,
@@ -230,12 +256,12 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "12.327",
+        "coreVersion": "12.328",
         "systemId": "artichron",
         "systemVersion": "1.0.0",
-        "createdTime": 1718403267159,
-        "modifiedTime": 1718403515200,
-        "lastModifiedBy": "3pWaVXzYT6XoJo1Y"
+        "createdTime": null,
+        "modifiedTime": null,
+        "lastModifiedBy": null
       },
       "_id": "PTVYpFsSdbbQcoko",
       "sort": 0,
