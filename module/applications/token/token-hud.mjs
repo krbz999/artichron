@@ -28,6 +28,7 @@ export default class TokenHUDArtichron extends CONFIG.Token.hudClass {
     if (!target.classList.contains("active")) return;
     const actor = this.object?.actor;
     if (!actor) return;
+    event.preventDefault();
     event.stopImmediatePropagation();
     const curr = actor.effects.get(artichron.utils.staticId(statusId));
     curr.system.increase();
@@ -40,6 +41,7 @@ export default class TokenHUDArtichron extends CONFIG.Token.hudClass {
    * @param {Event} event     Initiating click event.
    */
   _onContextLeveledCondition(event) {
+    event.preventDefault();
     event.stopImmediatePropagation();
     const target = event.currentTarget;
     const statusId = target.dataset.statusId;
