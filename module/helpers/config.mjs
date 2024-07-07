@@ -474,10 +474,6 @@ SYSTEM.SKILLS = {
     label: "ARTICHRON.Skill.Barter",
     group: "soul"
   },
-  drinking: {
-    label: "ARTICHRON.Skill.Drinking",
-    group: "body"
-  },
   examine: {
     label: "ARTICHRON.Skill.Examine",
     group: "mind"
@@ -536,6 +532,10 @@ SYSTEM.SKILLS = {
   },
   pickpocket: {
     label: "ARTICHRON.Skill.Pickpocket",
+    group: "body"
+  },
+  poisonResistance: {
+    label: "ARTICHRON.Skill.PoisonResistance",
     group: "body"
   },
   reason: {
