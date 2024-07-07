@@ -29,7 +29,7 @@ export default class HeroSheet extends ActorSheetArtichron {
     },
     inventory: {
       template: "systems/artichron/templates/actor/tab-inventory.hbs",
-      scrollable: [".active > .inventory-list"]
+      scrollable: [""]
     },
     effects: {template: "systems/artichron/templates/shared/effects.hbs",
       scrollable: [""]
@@ -41,8 +41,7 @@ export default class HeroSheet extends ActorSheetArtichron {
 
   /** @override */
   tabGroups = {
-    primary: "attributes",
-    inventory: "arsenal"
+    primary: "attributes"
   };
 
   /* -------------------------------------------------- */
@@ -239,14 +238,7 @@ export default class HeroSheet extends ActorSheetArtichron {
 
     const tabs = [];
     for (const [k, v] of Object.entries(sections)) {
-      const isActive = this.tabGroups.inventory === k;
-      const section = {
-        label: v.label,
-        cssClass: isActive ? "active" : "",
-        tabCssClass: isActive ? "tab scrollable active" : "tab scrollable",
-        id: k,
-        items: []
-      };
+      const section = {label: v.label, id: k, items: []};
       for (const t of v.types) {
         for (const item of types[t]) {
           const data = {

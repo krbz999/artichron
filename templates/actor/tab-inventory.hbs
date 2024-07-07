@@ -1,29 +1,19 @@
 <div class="{{tabs.inventory.tabCssClass}}" data-group="primary" data-tab="inventory">
 
-  <nav class="inventory tabs" style="margin-bottom: 4px;">
-    {{#each items}}
-    <a class="item {{cssClass}}" data-action="tab" data-tab="{{id}}" data-group="inventory">{{localize label}}</a>
-    {{/each}}
-  </nav>
-
   {{#each items}}
-  <div class="{{tabCssClass}}" data-tab="{{id}}" data-group="inventory">
+  <div class="inventory-list">
+    <header>
+      <span class="label">{{localize label}}</span>
+      {{#if @root.isEditMode}}
+      <button class="controls" type="button" data-action="createItem" data-tooltip="ARTICHRON.SheetActions.CreateItem" data-section="{{id}}">
+        <i class="fa-solid fa-plus"></i>
+      </button>
+      {{/if}}
+    </header>
 
-    <div class="inventory-list scrollable">
-      <header>
-        <span class="label"></span>
-        {{#if @root.isEditMode}}
-        <button class="controls" type="button" data-action="createItem" data-tooltip="ARTICHRON.SheetActions.CreateItem" data-section="{{id}}">
-          <i class="fa-solid fa-plus"></i>
-        </button>
-        {{/if}}
-      </header>
-
-      {{#each items}}
-      {{inventoryItem item expanded=isExpanded enriched=enrichedText disabled=@root.isPlayMode}}
-      {{/each}}
-    </div>
-
+    {{#each items}}
+    {{inventoryItem item expanded=isExpanded enriched=enrichedText disabled=@root.isPlayMode}}
+    {{/each}}
   </div>
   {{/each}}
 
