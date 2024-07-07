@@ -45,28 +45,16 @@ export default class MonsterData extends ActorSystemModel {
 
   /** @override */
   prepareDerivedData() {
-    const rollData = this.parent.getRollData();
-
-    // Set armor value.
     const armor = this.defenses.armor;
-    armor.value = artichron.utils.simplifyBonus(armor.value, rollData);
-
-    // Set resistances.
-    for (const [k, v] of Object.entries(this.resistances)) {
-      v.value = artichron.utils.simplifyBonus(v.value, rollData);
-    }
 
     // Derive additional bonuses from armor and arsenal items.
     for (const item of this.parent.items) {
       const hasArmor = ["armor", "shield"].includes(item.type);
       const hasRes = item.type === "armor";
-      if (hasArmor) {
-        armor.value += artichron.utils.simplifyBonus(item.system.armor.value, rollData);
-      }
-
+      if (hasArmor) armor.value += item.system.armor.value;
       if (hasRes) {
         for (const [k, v] of Object.entries(this.resistances)) {
-          v.value += artichron.utils.simplifyBonus(item.system.resistances[k].value, rollData);
+          v.value += item.system.resistances[k].value;
         }
       }
     }

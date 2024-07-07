@@ -1,5 +1,4 @@
 import ArsenalData from "./item-arsenal.mjs";
-import {FormulaField} from "../fields/formula-field.mjs";
 
 const {NumberField, SchemaField, StringField} = foundry.data.fields;
 
@@ -16,8 +15,9 @@ export default class ShieldData extends ArsenalData {
     return {
       ...super.defineSchema(),
       armor: new SchemaField({
-        value: new FormulaField({
-          required: true,
+        value: new NumberField({
+          min: 0,
+          integer: true,
           label: "ARTICHRON.ItemProperty.Armor.Value",
           hint: "ARTICHRON.ItemProperty.Armor.ValueHint"
         })

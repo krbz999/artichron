@@ -1,9 +1,8 @@
-import {FormulaField} from "../fields/formula-field.mjs";
 import {ResistanceField} from "../fields/resistance-field.mjs";
 import ItemSystemModel from "./system-model.mjs";
 import {FusionTemplateMixin} from "./templates/fusion-data.mjs";
 
-const {SchemaField, StringField} = foundry.data.fields;
+const {NumberField, SchemaField, StringField} = foundry.data.fields;
 
 export default class ArmorData extends FusionTemplateMixin(ItemSystemModel) {
   /** @override */
@@ -20,8 +19,9 @@ export default class ArmorData extends FusionTemplateMixin(ItemSystemModel) {
       ...super.defineSchema(),
       resistances: new ResistanceField(),
       armor: new SchemaField({
-        value: new FormulaField({
-          required: true,
+        value: new NumberField({
+          min: 0,
+          integer: true,
           label: "ARTICHRON.ItemProperty.Armor.Value",
           hint: "ARTICHRON.ItemProperty.Armor.ValueHint"
         })

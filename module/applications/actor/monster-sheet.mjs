@@ -93,7 +93,15 @@ export default class MonsterSheet extends ActorSheetArtichron {
       const field = doc.system.schema.getField(path);
       const name = `system.${path}`;
       const active = context.isEditMode || !!value;
-      context.resistances[key] = {field, value, label, color, icon, name, active};
+      context.resistances[key] = {
+        field,
+        value: context.isPlayMode ? (value ?? 0) : (value ? value : null),
+        label,
+        color,
+        icon,
+        name,
+        active
+      };
     };
     // Armor and resistances.
     makeResistance("physical", "defenses.armor.value");

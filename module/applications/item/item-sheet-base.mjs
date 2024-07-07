@@ -229,7 +229,7 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
       const value = foundry.utils.getProperty(context.isEditMode ? src.system : doc.system, path);
       return {
         field: doc.system.schema.getField(path),
-        value: value,
+        value: context.isPlayMode ? (value ?? 0) : (value ? value : null),
         label: CONFIG.SYSTEM.DAMAGE_TYPES[key].label,
         color: CONFIG.SYSTEM.DAMAGE_TYPES[key].color,
         icon: CONFIG.SYSTEM.DAMAGE_TYPES[key].icon,

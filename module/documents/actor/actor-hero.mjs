@@ -66,8 +66,8 @@ export default class HeroData extends ActorSystemModel {
     const rollData = this.parent.getRollData();
     this._preparePools(rollData);
     this._prepareEncumbrance();
-    this._prepareArmor(rollData);
-    this._prepareResistances(rollData);
+    this._prepareArmor();
+    this._prepareResistances();
   }
 
   /* -------------------------------------------------- */
@@ -92,31 +92,22 @@ export default class HeroData extends ActorSystemModel {
   /* -------------------------------------------------- */
 
   /** Prepare armor value. */
-  _prepareArmor(rollData) {
+  _prepareArmor() {
     const armor = this.defenses.armor;
     armor.value = Object.values({...this.parent.armor, ...this.parent.arsenal}).reduce((acc, item) => {
-      let v = item?.system.armor?.value ?? 0;
-      if (v) v = artichron.utils.simplifyBonus(v, item.getRollData());
-      else v = 0;
-      return acc + v;
-    }, artichron.utils.simplifyBonus(armor.value, rollData));
+      return acc + (["armor", "shield"].includes(item?.type) ? item.system.armor.value : 0);
+    }, armor.value);
   }
 
   /* -------------------------------------------------- */
 
   /** Prepare the value of actor resistances. */
-  _prepareResistances(rollData) {
-    const armors = Object.values(this.parent.armor).reduce((acc, w) => {
-      if (w) acc.push([w, w.getRollData()]);
-      return acc;
-    }, []);
-
-    for (const [k, v] of Object.entries(this.resistances)) {
-      let total = artichron.utils.simplifyBonus(v.value, rollData);
-      for (const [item, rollData] of armors) {
-        total += artichron.utils.simplifyBonus(item.system.resistances[k].value, rollData);
+  _prepareResistances() {
+    for (const item of Object.values(this.parent.armor)) {
+      if (!item) continue;
+      for (const [k, v] of Object.entries(item.system.resistances)) {
+        this.resistances[k].value += v.value;
       }
-      v.value = total;
     }
   }
 

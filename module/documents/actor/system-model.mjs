@@ -1,4 +1,3 @@
-import {FormulaField} from "../fields/formula-field.mjs";
 import {ResistanceField} from "../fields/resistance-field.mjs";
 
 const {SchemaField, NumberField, SetField, StringField} = foundry.data.fields;
@@ -15,7 +14,10 @@ export default class ActorSystemModel extends foundry.abstract.TypeDataModel {
       resistances: new ResistanceField(),
       defenses: new SchemaField({
         armor: new SchemaField({
-          value: new FormulaField({required: true})
+          value: new NumberField({
+            min: 0,
+            integer: true
+          })
         })
       }),
       pips: new SchemaField({
