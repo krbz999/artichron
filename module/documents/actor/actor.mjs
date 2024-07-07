@@ -250,9 +250,8 @@ export default class ActorArtichron extends Actor {
     // If the actor was damaged, apply any relevant status conditions.
     const damaged = hp.value > this.system.health.value;
     if (damaged) {
-      if (attributes.has("rending")) {
-        await this.applyCondition("bleeding");
-      }
+      if (attributes.has("rending")) await this.applyCondition("bleeding");
+      if (attributes.has("bludgeoning")) await this.applyCondition("hindered");
     }
 
     return this;

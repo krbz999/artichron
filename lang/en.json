@@ -323,6 +323,7 @@
 "ItemAttribute": {
   "Ammunition": "Ammunition",
   "Blocking": "Blocking",
+  "Bludgeoning": "Bludgeoning",
   "Magical": "Magical",
   "Parrying": "Parrying",
   "Rending": "Rending"

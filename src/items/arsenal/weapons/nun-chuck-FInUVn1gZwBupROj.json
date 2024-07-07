@@ -24,25 +24,25 @@
       ],
       "bonuses": {
         "fire": {
-          "value": null
+          "value": 0
         },
         "wind": {
-          "value": null
+          "value": 0
         },
         "lightning": {
-          "value": null
+          "value": 0
         },
         "ice": {
-          "value": null
+          "value": 0
         },
         "light": {
-          "value": null
+          "value": 0
         },
         "darkness": {
-          "value": null
+          "value": 0
         },
         "arcane": {
-          "value": null
+          "value": 0
         }
       }
     },
@@ -59,7 +59,9 @@
       "subtype": "nunChuck"
     },
     "attributes": {
-      "value": []
+      "value": [
+        "bludgeoning"
+      ]
     },
     "cost": {
       "value": 1

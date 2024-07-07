@@ -356,6 +356,10 @@ SYSTEM.ITEM_ATTRIBUTES = {
     label: "ARTICHRON.ItemAttribute.Blocking",
     types: new Set(["weapon", "shield", "spell"])
   },
+  bludgeoning: {
+    label: "ARTICHRON.ItemAttribute.Bludgeoning",
+    types: new Set(["weapon"])
+  },
   magical: {
     label: "ARTICHRON.ItemAttribute.Magical"
   },
