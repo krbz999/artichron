@@ -160,7 +160,7 @@
   "KnowledgeReligion": "Religion",
   "KnowledgeScience": "Science Knowledge",
   "KnowledgeTech": "Technology",
-  "Lift": "Lift",
+  "LiftThrow": "Lifting & Throwing",
   "Menace": "Menace",
   "Mettle": "Mettle",
   "Movement": "Movement",
@@ -169,7 +169,6 @@
   "PoisonResistance": "Poison Resistance",
   "Reason": "Reason",
   "Research": "Research",
-  "Throw": "Throw",
   "TrapAvoidance": "Trap Avoidance",
   "Understanding": "Understanding",
   "WardDetection": "Ward Detection"

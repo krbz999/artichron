@@ -510,8 +510,8 @@ SYSTEM.SKILLS = {
     label: "ARTICHRON.Skill.KnowledgeTech",
     group: "mind"
   },
-  lift: {
-    label: "ARTICHRON.Skill.Lift",
+  liftThrow: {
+    label: "ARTICHRON.Skill.LiftThrow",
     group: "body"
   },
   menace: {
@@ -545,10 +545,6 @@ SYSTEM.SKILLS = {
   research: {
     label: "ARTICHRON.Skill.Research",
     group: "mind"
-  },
-  throw: {
-    label: "ARTICHRON.Skill.Throw",
-    group: "body"
   },
   trapAvoidance: {
     label: "ARTICHRON.Skill.TrapAvoidance",
