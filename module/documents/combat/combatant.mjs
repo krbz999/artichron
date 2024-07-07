@@ -2,9 +2,8 @@ export default class CombatantArtichron extends Combatant {
   /** @override */
   _getInitiativeFormula() {
     const pips = this.actor.actionPoints ?? 0;
-    if (!pips) return "1d12x5=12";
-    if (pips < 10) return `1d12x5>=${12 - pips}`;
-    return "1d12x5>=1";
+    if (!pips) return "1d12x";
+    else return "1d12x + (@pips)d6";
   }
 
   /* -------------------------------------------------- */
@@ -12,8 +11,10 @@ export default class CombatantArtichron extends Combatant {
   /** @override */
   getInitiativeRoll(formula) {
     formula = formula || this._getInitiativeFormula();
-    const rollData = this.actor?.getRollData() || {};
-    rollData.pips = this.actor?.actionPoints ?? 0;
+    const actor = this.actor;
+    const rollData = actor?.getRollData() || {};
+    const stamina = actor?.system.pools?.stamina.max ?? 3;
+    rollData.pips = Math.min(actor?.actionPoints ?? 0, stamina);
     return Roll.create(formula, rollData);
   }
 
