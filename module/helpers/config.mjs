@@ -462,10 +462,6 @@ SYSTEM.SKILLS = {
     label: "ARTICHRON.Skill.AvoidDetection",
     group: "soul"
   },
-  avoidEnchantment: {
-    label: "ARTICHRON.Skill.AvoidEnchantment",
-    group: "soul"
-  },
   bamboozle: {
     label: "ARTICHRON.Skill.Bamboozle",
     group: "soul"
