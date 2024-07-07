@@ -2,6 +2,15 @@ import EquipDialog from "../item/equip-dialog.mjs";
 import ActorSheetArtichron from "./actor-sheet-base.mjs";
 
 export default class HeroSheet extends ActorSheetArtichron {
+
+  /**
+   * The current search query on the inventory tab.
+   * @type {string}
+   */
+  #searchQuery = "";
+
+  /* -------------------------------------------------- */
+
   /** @override */
   static DEFAULT_OPTIONS = {
     classes: ["hero"],
@@ -29,7 +38,7 @@ export default class HeroSheet extends ActorSheetArtichron {
     },
     inventory: {
       template: "systems/artichron/templates/actor/tab-inventory.hbs",
-      scrollable: [""]
+      scrollable: [".inventory-list"]
     },
     effects: {template: "systems/artichron/templates/shared/effects.hbs",
       scrollable: [""]
@@ -78,7 +87,8 @@ export default class HeroSheet extends ActorSheetArtichron {
       tabs: this._getTabs(),
       isEditMode: this.isEditMode,
       isPlayMode: this.isPlayMode,
-      isEditable: this.isEditable
+      isEditable: this.isEditable,
+      searchQuery: this.#searchQuery
     };
 
     const makeResistance = (key, path) => {
@@ -305,10 +315,44 @@ export default class HeroSheet extends ActorSheetArtichron {
       const frames = [{width: oldBar.style.width}, {width: newBar.style.width}];
       newBar.animate(frames, {duration: 1000, easing: "ease-in-out"});
     }
+
+    else if (partId === "inventory") {
+      this.#onSearchFilter(this.#searchQuery, newElement);
+    }
+  }
+
+  /* -------------------------------------------------- */
+
+  /** @override */
+  _attachPartListeners(partId, htmlElement, options) {
+    super._attachPartListeners(partId, htmlElement, options);
+    if (partId === "inventory") {
+      const input = htmlElement.querySelector("#inventory-search");
+      const callback = foundry.utils.debounce(this.#onSearchFilter, 200).bind(this);
+      input.addEventListener("input", event => {
+        const query = event.currentTarget.value.toLowerCase().trim();
+        this.#searchQuery = query;
+        callback(query, htmlElement);
+      });
+    }
   }
 
   /* -------------------------------------------------- */
   /*   Event Handlers                                   */
+  /* -------------------------------------------------- */
+
+  /**
+   * Toggle the 'hidden' state of inventory items.
+   * @param {string} query          The input value.
+   * @param {HTMLElement} html      The targeted html container.
+   */
+  #onSearchFilter(query, html) {
+    for (const item of html.querySelectorAll("inventory-item")) {
+      const hidden = !!query && !item.dataset.name.toLowerCase().includes(query);
+      item.classList.toggle("hidden", hidden);
+    }
+  }
+
   /* -------------------------------------------------- */
 
   /**

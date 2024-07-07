@@ -1,7 +1,11 @@
 <div class="{{tabs.inventory.tabCssClass}}" data-group="primary" data-tab="inventory">
+  <search>
+    <input type="search" id="inventory-search" placeholder="{{localize 'SIDEBAR.Search' types=(localize 'DOCUMENT.Items')}}" value="{{searchQuery}}">
+  </search>
+
+  <div class="inventory-list scrollable">
 
   {{#each items}}
-  <div class="inventory-list">
     <header>
       <span class="label">{{localize label}}</span>
       {{#if @root.isEditMode}}
@@ -14,7 +18,8 @@
     {{#each items}}
     {{inventoryItem item expanded=isExpanded enriched=enrichedText disabled=@root.isPlayMode}}
     {{/each}}
-  </div>
   {{/each}}
+
+  </div>
 
 </div>

@@ -3,6 +3,10 @@
     min-height: 400px;
   }
 
+  & search {
+    margin: 0.5rem;
+  }
+
   .tab[data-tab=attributes].active {
     display: flex;
     min-height: 600px;

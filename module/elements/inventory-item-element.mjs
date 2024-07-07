@@ -203,7 +203,7 @@ export default class InventoryItemElement extends HTMLElement {
     // TODO: cleanup if #11407 gets in.
     delete this.dataset.itemId;
     delete this.dataset.img;
-    delete this.dataset.name;
+    // delete this.dataset.name; // intentionally not deleted, needed for search filter
     delete this.dataset.hasUses;
     delete this.dataset.usesValue;
     delete this.dataset.usesMax;
