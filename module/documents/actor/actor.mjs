@@ -367,18 +367,79 @@ export default class ActorArtichron extends Actor {
   async rollSkill({skillId, ...config}, {rollMode, create = true} = {}) {
     const rollData = this.getRollData();
     rollData.value = config.value ?? rollData.skills[skillId].value;
-    const roll = foundry.dice.Roll.create("(@value)d6even", rollData);
+    const roll = foundry.dice.Roll.create("(1 + @value)d6cs>=6", rollData);
     const speaker = ChatMessage.implementation.getSpeaker({actor: this});
     rollMode ??= game.settings.get("core", "rollMode");
     const flavor = game.i18n.format("ARTICHRON.Skills.ChatMessageFlavor", {
       skill: CONFIG.SYSTEM.SKILLS[skillId].label,
       actor: this.name
     });
-    const messageData = {flavor, speaker, rolls: [roll]};
-    ChatMessage.implementation.applyRollMode(messageData, rollMode);
 
+    const addDice = new foundry.data.fields.NumberField({
+      min: 0,
+      integer: true,
+      label: "ARTICHRON.Skills.DialogAdditionalDice",
+      hint: "ARTICHRON.Skills.DialogAdditionalDiceHint"
+    }).toFormGroup({localize: true}, {name: "dice", value: null, placeholder: "0"}).outerHTML;
+    const addHits = new foundry.data.fields.NumberField({
+      min: 0,
+      integer: true,
+      label: "ARTICHRON.Skills.DialogAdditionalHits",
+      hint: "ARTICHRON.Skills.DialogAdditionalHitsHint"
+    }).toFormGroup({localize: true}, {name: "hits", value: null, placeholder: "0"}).outerHTML;
+    const mode = new foundry.data.fields.StringField({
+      label: "CHAT.RollVisibility",
+      choices: () => {
+        const choices = {};
+        for (const [k, v] of Object.entries(CONST.DICE_ROLL_MODES)) {
+          choices[v] = `CHAT.Roll${k.toLowerCase().capitalize()}`;
+        }
+        return choices;
+      }
+    }).toFormGroup({localize: true}, {name: "mode", value: rollMode, sort: true, localize: true, blank: false}).outerHTML;
+    const prompt = await foundry.applications.api.DialogV2.prompt({
+      window: {
+        icon: "fa-solid fa-dice",
+        title: game.i18n.format("ARTICHRON.Skills.DialogTitle", {
+          actor: this.name,
+          skill: CONFIG.SYSTEM.SKILLS[skillId].label
+        })
+      },
+      position: {
+        width: 400,
+        height: "auto"
+      },
+      rejectClose: false,
+      modal: true,
+      content: `
+      <fieldset>
+        <div class="form-group">
+          <div class="form-fields">
+            <input type="text" value="${roll.formula}" disabled>
+          </div>
+        </div>
+        ${addDice}
+        ${addHits}
+        ${mode}
+      </fieldset>`,
+      ok: {
+        callback: (event, button, html) => new FormDataExtended(button.form).object
+      }
+    });
+    if (!prompt) return null;
+    rollMode = prompt.mode;
+    if (prompt.dice) roll.dice[0]._number += prompt.dice;
+    if (prompt.hits) {
+      const op = new foundry.dice.terms.OperatorTerm({operator: "+"});
+      roll.terms.push(op);
+      const nu = new foundry.dice.terms.NumericTerm({number: prompt.hits});
+      roll.terms.push(nu);
+    }
+    roll.resetFormula();
     await roll.evaluate();
-    return create ? ChatMessage.implementation.create(messageData) : roll;
+
+    const messageData = {flavor, speaker, rolls: [roll]};
+    return create ? ChatMessage.implementation.create(messageData, {rollMode}) : roll;
   }
 
   /* -------------------------------------------------- */

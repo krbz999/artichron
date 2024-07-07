@@ -179,7 +179,12 @@
 },
 
 "Skills": {
-  "ChatMessageFlavor": "{actor}: {skill}"
+  "ChatMessageFlavor": "{actor}: {skill}",
+  "DialogTitle": "{actor} Skill Check: {skill}",
+  "DialogAdditionalDice": "Additional Dice",
+  "DialogAdditionalDiceHint": "Additional dice to roll for hits.",
+  "DialogAdditionalHits": "Guaranteed Hits",
+  "DialogAdditionalHitsHint": "A number of hits to add on top of the roll total."
 },
 
 "DamageType": {
