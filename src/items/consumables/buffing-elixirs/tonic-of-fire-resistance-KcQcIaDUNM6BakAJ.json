@@ -17,7 +17,7 @@
     },
     "usage": {
       "max": 3,
-      "spent": 1
+      "spent": 0
     },
     "category": {
       "subtype": "buff",

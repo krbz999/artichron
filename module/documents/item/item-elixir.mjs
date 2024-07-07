@@ -29,7 +29,7 @@ export default class ElixirData extends ItemSystemModel {
         spent: new NumberField({
           integer: true,
           min: 0,
-          initial: 1,
+          initial: 0,
           label: "ARTICHRON.ItemProperty.Usage.Spent",
           hint: "ARTICHRON.ItemProperty.Usage.SpentHint"
         }),
