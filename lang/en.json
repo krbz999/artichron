@@ -313,7 +313,8 @@
   },
   "Usage": {
     "Value": "Uses",
-    "ValueHint": "The number of remaining uses of this item.",
+    "Spent": "Spent",
+    "SpentHint": "The number of uses of this item that have been spent.",
     "Max": "Max Uses",
     "MaxHint": "The total number of uses of this item."
   }

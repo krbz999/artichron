@@ -26,12 +26,12 @@ export default class ElixirData extends ItemSystemModel {
         })
       }),
       usage: new SchemaField({
-        value: new NumberField({
+        spent: new NumberField({
           integer: true,
           min: 0,
           initial: 1,
-          label: "ARTICHRON.ItemProperty.Usage.Value",
-          hint: "ARTICHRON.ItemProperty.Usage.ValueHint"
+          label: "ARTICHRON.ItemProperty.Usage.Spent",
+          hint: "ARTICHRON.ItemProperty.Usage.SpentHint"
         }),
         max: new NumberField({
           min: 1,
@@ -70,6 +70,14 @@ export default class ElixirData extends ItemSystemModel {
     const bonus = super.BONUS_FIELDS;
     bonus.add("system.usage.max");
     return bonus;
+  }
+
+  /* -------------------------------------------------- */
+
+  /** @override */
+  prepareDerivedData() {
+    super.prepareDerivedData();
+    this.usage.value = Math.max(0, this.usage.max - this.usage.spent);
   }
 
   /* -------------------------------------------------- */
@@ -204,12 +212,12 @@ export default class ElixirData extends ItemSystemModel {
   _usageUpdate(uses = 1) {
     if (uses > this.usage.value) throw new Error("Attempting to subtract too many uses.");
     const update = {_id: this.parent.id};
-    const value = this.usage.value - uses;
-    if (value === 0) {
-      update["system.usage.value"] = this.usage.max;
+    const value = this.usage.spent + uses;
+    if (value === this.usage.max) {
+      update["system.usage.spent"] = 0;
       update["system.quantity.value"] = this.quantity.value - 1;
     } else {
-      update["system.usage.value"] = value;
+      update["system.usage.spent"] = value;
     }
     return update;
   }

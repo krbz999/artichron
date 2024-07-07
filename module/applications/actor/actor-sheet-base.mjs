@@ -133,7 +133,12 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
     const uuid = target.closest("[data-item-uuid]").dataset.itemUuid;
     const item = await fromUuid(uuid);
     const result = artichron.utils.parseInputDelta(target, item);
-    if (result !== undefined) item.update({[property]: result});
+    if (result !== undefined) {
+      if (property === "system.usage.value") {
+        const spent = item.system.usage.max - result;
+        item.update({"system.usage.spent": spent});
+      } else item.update({[property]: result});
+    }
   }
 
   /* -------------------------------------------------- */
