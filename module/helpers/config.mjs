@@ -514,10 +514,6 @@ SYSTEM.SKILLS = {
     label: "ARTICHRON.Skill.Menace",
     group: "soul"
   },
-  mettle: {
-    label: "ARTICHRON.Skill.Mettle",
-    group: "soul"
-  },
   movement: {
     label: "ARTICHRON.Skill.Movement",
     group: "body"
