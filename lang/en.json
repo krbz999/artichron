@@ -150,9 +150,9 @@
   "AvoidDetection": "Avoid Detection",
   "Bamboozle": "Bamboozle",
   "Barter": "Barter",
+  "Charm": "Charm",
   "Examine": "Examine",
   "FindPath": "Find Path",
-  "Flirt": "Flirt",
   "Heartiness": "Heartiness",
   "KnowledgeHistory": "History",
   "KnowledgeMagic": "Arcane Knowledge",
@@ -174,7 +174,7 @@
 },
 
 "Skills": {
-  "ChatMessageFlavor": "{actor}: {skill}",
+  "ChatMessageFlavor": "Skill Check: {skill}",
   "DialogTitle": "{actor} Skill Check: {skill}",
   "DialogAdditionalDice": "Additional Dice",
   "DialogAdditionalDiceHint": "Additional dice to roll for hits.",

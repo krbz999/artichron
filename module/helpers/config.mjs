@@ -470,6 +470,10 @@ SYSTEM.SKILLS = {
     label: "ARTICHRON.Skill.Barter",
     group: "soul"
   },
+  charm: {
+    label: "ARTICHRON.Skill.Charm",
+    group: "soul"
+  },
   examine: {
     label: "ARTICHRON.Skill.Examine",
     group: "mind"
@@ -477,10 +481,6 @@ SYSTEM.SKILLS = {
   findPath: {
     label: "ARTICHRON.Skill.FindPath",
     group: "mind"
-  },
-  flirt: {
-    label: "ARTICHRON.Skill.Flirt",
-    group: "soul"
   },
   heartiness: {
     label: "ARTICHRON.Skill.Heartiness",

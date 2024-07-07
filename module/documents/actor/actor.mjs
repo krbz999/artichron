@@ -370,10 +370,7 @@ export default class ActorArtichron extends Actor {
     const roll = foundry.dice.Roll.create("(1 + @value)d6cs>=6", rollData);
     const speaker = ChatMessage.implementation.getSpeaker({actor: this});
     rollMode ??= game.settings.get("core", "rollMode");
-    const flavor = game.i18n.format("ARTICHRON.Skills.ChatMessageFlavor", {
-      skill: CONFIG.SYSTEM.SKILLS[skillId].label,
-      actor: this.name
-    });
+    const flavor = game.i18n.format("ARTICHRON.Skills.ChatMessageFlavor", {skill: CONFIG.SYSTEM.SKILLS[skillId].label});
 
     const addDice = new foundry.data.fields.NumberField({
       min: 0,
