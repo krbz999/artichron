@@ -159,7 +159,7 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
       context.fieldsets.push({
         legend: "ARTICHRON.ItemProperty.Fieldsets.LimitedUses",
         formGroups: [
-          this._makeField(context, "usage.value", {max: doc.system.usage.max || 0}),
+          this._makeField(context, "usage.value", {max: doc.system.usage.max}),
           this._makeField(context, "usage.max")
         ]
       });

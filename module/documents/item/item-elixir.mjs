@@ -1,4 +1,3 @@
-import {FormulaField} from "../fields/formula-field.mjs";
 import ItemSystemModel from "./system-model.mjs";
 
 const {SchemaField, NumberField, StringField} = foundry.data.fields;
@@ -34,9 +33,11 @@ export default class ElixirData extends ItemSystemModel {
           label: "ARTICHRON.ItemProperty.Usage.Value",
           hint: "ARTICHRON.ItemProperty.Usage.ValueHint"
         }),
-        max: new FormulaField({
-          required: true,
-          initial: "1",
+        max: new NumberField({
+          min: 1,
+          integer: true,
+          initial: 1,
+          nullable: false,
           label: "ARTICHRON.ItemProperty.Usage.Max",
           hint: "ARTICHRON.ItemProperty.Usage.MaxHint"
         })
@@ -66,27 +67,9 @@ export default class ElixirData extends ItemSystemModel {
 
   /** @override */
   static get BONUS_FIELDS() {
-    return super.BONUS_FIELDS.union(new Set([
-      "system.usage.max"
-    ]));
-  }
-
-  /* -------------------------------------------------- */
-
-  /** @override */
-  prepareBaseData() {
-    super.prepareBaseData();
-  }
-
-  /* -------------------------------------------------- */
-
-  /** @override */
-  preparePostData() {
-    super.preparePostData();
-    const rollData = this.parent.getRollData();
-
-    // Prepare max usage of the elixir.
-    this.usage.max = artichron.utils.simplifyBonus(this.usage.max, rollData);
+    const bonus = super.BONUS_FIELDS;
+    bonus.add("system.usage.max");
+    return bonus;
   }
 
   /* -------------------------------------------------- */
