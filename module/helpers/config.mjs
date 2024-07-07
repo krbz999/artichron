@@ -474,10 +474,6 @@ SYSTEM.SKILLS = {
     label: "ARTICHRON.Skill.Barter",
     group: "soul"
   },
-  climb: {
-    label: "ARTICHRON.Skill.Climb",
-    group: "body"
-  },
   drinking: {
     label: "ARTICHRON.Skill.Drinking",
     group: "body"
@@ -496,10 +492,6 @@ SYSTEM.SKILLS = {
   },
   heartiness: {
     label: "ARTICHRON.Skill.Heartiness",
-    group: "body"
-  },
-  jump: {
-    label: "ARTICHRON.Skill.Jump",
     group: "body"
   },
   knowledgeHistory: {
@@ -534,6 +526,10 @@ SYSTEM.SKILLS = {
     label: "ARTICHRON.Skill.Mettle",
     group: "soul"
   },
+  movement: {
+    label: "ARTICHRON.Skill.Movement",
+    group: "body"
+  },
   persuade: {
     label: "ARTICHRON.Skill.Persuade",
     group: "soul"
@@ -549,14 +545,6 @@ SYSTEM.SKILLS = {
   research: {
     label: "ARTICHRON.Skill.Research",
     group: "mind"
-  },
-  sprinting: {
-    label: "ARTICHRON.Skill.Sprinting",
-    group: "body"
-  },
-  swim: {
-    label: "ARTICHRON.Skill.Swim",
-    group: "body"
   },
   throw: {
     label: "ARTICHRON.Skill.Throw",
