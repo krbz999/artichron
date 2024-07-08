@@ -224,9 +224,10 @@ export default class HeroData extends ActorSystemModel {
    */
   get arsenal() {
     const items = this.equipped.arsenal;
-    const primary = this.parent.items.get(items.primary) ?? null;
+    let primary = this.parent.items.get(items.primary) ?? null;
+    if (primary?.type !== "weapon") primary = null;
     let secondary = this.parent.items.get(items.secondary) ?? null;
-    secondary = (primary?.isTwoHanded || secondary?.isTwoHanded) ? null : secondary;
+    if ((secondary?.type !== "weapon") || (primary?.isTwoHanded || secondary.isTwoHanded)) secondary = null;
     return {primary, secondary};
   }
 
@@ -239,7 +240,8 @@ export default class HeroData extends ActorSystemModel {
   get armor() {
     const items = this.equipped.armor;
     return Object.keys(CONFIG.SYSTEM.EQUIPMENT_TYPES).reduce((acc, k) => {
-      acc[k] = this.parent.items.get(items[k]) ?? null;
+      const item = this.parent.items.get(items[k]) ?? null;
+      acc[k] = ((item?.type === "armor") && (item.system.category.subtype === k)) ? item : null;
       return acc;
     }, {});
   }
