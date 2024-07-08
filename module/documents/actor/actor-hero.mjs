@@ -1,8 +1,7 @@
-import {PoolDiceModel} from "../fields/die.mjs";
 import {SkillField} from "../fields/skill-field.mjs";
 import ActorSystemModel from "./system-model.mjs";
 
-const {EmbeddedDataField, SchemaField, SetField, StringField} = foundry.data.fields;
+const {NumberField, SchemaField, SetField, StringField} = foundry.data.fields;
 
 export default class HeroData extends ActorSystemModel {
   /** @override */
@@ -10,9 +9,75 @@ export default class HeroData extends ActorSystemModel {
     const schema = super.defineSchema();
 
     schema.pools = new SchemaField({
-      health: new EmbeddedDataField(PoolDiceModel),
-      stamina: new EmbeddedDataField(PoolDiceModel),
-      mana: new EmbeddedDataField(PoolDiceModel)
+      health: new SchemaField({
+        spent: new NumberField({
+          min: 0,
+          integer: true,
+          initial: 0,
+          label: "ARTICHRON.ActorProperty.Pools.Health.Spent",
+          hint: "ARTICHRON.ActorProperty.Pools.Health.SpentHint"
+        }),
+        max: new NumberField({
+          min: 3,
+          integer: true,
+          initial: 3,
+          label: "ARTICHRON.ActorProperty.Pools.Health.Max",
+          hint: "ARTICHRON.ActorProperty.Pools.Health.MaxHint"
+        }),
+        faces: new NumberField({
+          min: 4,
+          integer: true,
+          initial: 4,
+          label: "ARTICHRON.ActorProperty.Pools.Health.Faces",
+          hint: "ARTICHRON.ActorProperty.Pools.Health.FacesHint"
+        })
+      }),
+      stamina: new SchemaField({
+        spent: new NumberField({
+          min: 0,
+          integer: true,
+          initial: 0,
+          label: "ARTICHRON.ActorProperty.Pools.Stamina.Spent",
+          hint: "ARTICHRON.ActorProperty.Pools.Stamina.SpentHint"
+        }),
+        max: new NumberField({
+          min: 3,
+          integer: true,
+          initial: 3,
+          label: "ARTICHRON.ActorProperty.Pools.Stamina.Max",
+          hint: "ARTICHRON.ActorProperty.Pools.Stamina.MaxHint"
+        }),
+        faces: new NumberField({
+          min: 4,
+          integer: true,
+          initial: 4,
+          label: "ARTICHRON.ActorProperty.Pools.Stamina.Faces",
+          hint: "ARTICHRON.ActorProperty.Pools.Stamina.FacesHint"
+        })
+      }),
+      mana: new SchemaField({
+        spent: new NumberField({
+          min: 0,
+          integer: true,
+          initial: 0,
+          label: "ARTICHRON.ActorProperty.Pools.Mana.Spent",
+          hint: "ARTICHRON.ActorProperty.Pools.Mana.SpentHint"
+        }),
+        max: new NumberField({
+          min: 3,
+          integer: true,
+          initial: 3,
+          label: "ARTICHRON.ActorProperty.Pools.Mana.Max",
+          hint: "ARTICHRON.ActorProperty.Pools.Mana.MaxHint"
+        }),
+        faces: new NumberField({
+          min: 4,
+          integer: true,
+          initial: 4,
+          label: "ARTICHRON.ActorProperty.Pools.Mana.Faces",
+          hint: "ARTICHRON.ActorProperty.Pools.Mana.FacesHint"
+        })
+      })
     });
 
     schema.traits = new SchemaField({
@@ -74,7 +139,10 @@ export default class HeroData extends ActorSystemModel {
 
   /** Prepare pools. */
   _preparePools(rollData) {
-    Object.entries(this.pools).forEach(([k, v]) => v.prepareDerivedData(rollData));
+    for (const k of ["health", "stamina", "mana"]) {
+      const value = this.pools[k].max - this.pools[k].spent;
+      this.pools[k].value = Math.max(0, value);
+    }
   }
 
   /* -------------------------------------------------- */
@@ -200,9 +268,7 @@ export default class HeroData extends ActorSystemModel {
     update["system.health.value"] = this.health.max;
 
     // Pools.
-    for (const k of ["health", "stamina", "mana"]) {
-      update[`system.pools.${k}.value`] = Math.max(this.pools[k].value, this.pools[k].max);
-    }
+    for (const k of ["health", "stamina", "mana"]) update[`system.pools.${k}.spent`] = 0;
 
     return this.parent.update(update);
   }

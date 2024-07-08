@@ -127,25 +127,6 @@
   "ToggleOpacity": "Toggle Opacity"
 },
 
-"Pools": {
-  "Section": "Pools",
-  "Config": "Pools: {name}",
-  "Primary": "Primary Pool",
-  "Health": "Health",
-  "HealthDie": "Health Die",
-  "HealthDiePl": "Health Dice",
-  "Mana": "Mana",
-  "ManaDie": "Mana Die",
-  "ManaDiePl": "Mana Dice",
-  "ManaDieCount": "1 Mana Die",
-  "ManaDieCountPl": "{count} Mana Dice",
-  "Stamina": "Stamina",
-  "StaminaDie": "Stamina Die",
-  "StaminaDiePl": "Stamina Dice",
-  "StaminaDieCount": "1 Stamina Die",
-  "StaminaDieCountPl": "{count} Stamina Dice"
-},
-
 "Skill": {
   "AvoidDetection": "Avoid Detection",
   "Bamboozle": "Bamboozle",
@@ -210,6 +191,41 @@
     "ValueHint": "The number of action points this actor has remaining to spend on actions during combat.",
     "Turn": "Turn Bonus",
     "TurnHint": "The number of additional action points this actor receives for each additional turn it may take in a combat round."
+  },
+  "Defenses": {
+    "Armor": {
+      "Value": "Armor",
+      "ValueHint": "Armor value reduces incoming physical damage."
+    }
+  },
+  "Pools": {
+    "Health": {
+      "Label": "Health Pool",
+      "Spent": "Spent",
+      "SpentHint": "The number of health dice that have been expended.",
+      "Faces": "Faces",
+      "FacesHint": "The size of each health die.",
+      "Max": "Max",
+      "MaxHint": "The size of the total health pool."
+    },
+    "Stamina": {
+      "Label": "Stamina Pool",
+      "Spent": "Spent",
+      "SpentHint": "The number of stamina dice that have been expended.",
+      "Faces": "Faces",
+      "FacesHint": "The size of each stamina die.",
+      "Max": "Max",
+      "MaxHint": "The size of the total stamina pool."
+    },
+    "Mana": {
+      "Label": "Mana Pool",
+      "Spent": "Spent",
+      "SpentHint": "The number of mana dice that have been expended.",
+      "Faces": "Faces",
+      "FacesHint": "The size of each mana die.",
+      "Max": "Max",
+      "MaxHint": "The size of the total mana pool."
+    }
   }
 },
 
@@ -340,6 +356,10 @@
   "SubtypeFusionHint": "The properties available to choose from, derived from the chosen item subtype.",
   "FieldsetDetails": "Details",
   "FieldsetDuration": "Duration"
+},
+
+"PoolConfig": {
+  "Title": "Configure Pools: {name}"
 },
 
 "ItemUseDialog": {

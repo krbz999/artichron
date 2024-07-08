@@ -1,19 +1,10 @@
-<fieldset>
-  <div class="form-group">
-    <label>{{localize "ARTICHRON.Pools.Primary"}}</label>
-    <div class="form-fields">
-      {{radioBoxes "system.traits.pool" primaryChoices checked=primary localize=true}}
-    </div>
-  </div>
-
+<div class="standard-form scrollable">
   {{#each pools}}
-  <div class="form-group">
-    <label>{{localize label}}</label>
-    <div class="form-fields">
-      {{formInput valueField value=value}}
-      <span class="sep">/</span>
-      {{formInput maxField value=3 disabled=true}}
-    </div>
-  </div>
+  <fieldset>
+    <legend>{{localize label}}</legend>
+    {{formGroup spent.field value=spent.value localize=true max=spent.max}}
+    {{formGroup faces.field value=faces.value localize=true}}
+    {{formGroup max.field value=max.value localize=true}}
+  </fieldset>
   {{/each}}
-</fielset>
+</div>

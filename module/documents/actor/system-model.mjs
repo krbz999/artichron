@@ -16,7 +16,9 @@ export default class ActorSystemModel extends foundry.abstract.TypeDataModel {
         armor: new SchemaField({
           value: new NumberField({
             min: 0,
-            integer: true
+            integer: true,
+            label: "ARTICHRON.ActorProperty.Defenses.Armor.Value",
+            hint: "ARTICHRON.ActorProperty.Defenses.Armor.ValueHint"
           })
         })
       }),

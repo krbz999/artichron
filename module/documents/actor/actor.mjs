@@ -267,10 +267,10 @@ export default class ActorArtichron extends Actor {
    * @param {PointerEvent} event        An associated click event.
    * @returns {Promise<Roll|null>}      The created Roll instance.
    */
-  async rollPool(type, {amount = null, message = true, event} = {}) {
+  async rollPool(type, {amount = 1, message = true, event} = {}) {
     if (!(type in this.system.pools)) return null;
     const pool = this.system.pools[type];
-    if (!pool.value || (pool.value < amount)) {
+    if (!pool.value) {
       ui.notifications.warn(game.i18n.format("ARTICHRON.NotEnoughPoolDice", {
         name: this.name,
         type: game.i18n.localize(`ARTICHRON.${type.capitalize()}`)
@@ -278,65 +278,40 @@ export default class ActorArtichron extends Actor {
       return null;
     }
 
-    if (type === "health") {
-      const hp = this.system.health;
-      if (hp.value >= hp.max) {
-        ui.notifications.warn(game.i18n.format("ARTICHRON.Warning.AlreadyAtMaxHealth", {name: this.name}));
-        return null;
-      }
-    }
-
     const update = {};
-    const updateOptions = {pool: type};
     const actor = this;
 
-    if (event.shiftKey) amount ??= 1;
-    else amount = await Dialog.wait({
-      content: await renderTemplate("systems/artichron/templates/chat/pool-roll.hbs", {
-        initial: amount,
-        label: `ARTICHRON.${type.capitalize()}DiePl`,
-        max: actor.system.pools[type].max
-      }),
-      title: game.i18n.format("ARTICHRON.PoolRoll", {
-        type: game.i18n.localize(`ARTICHRON.${type.capitalize()}`),
-        name: actor.name
-      }),
-      buttons: {
-        confirm: {
-          label: game.i18n.localize("ARTICHRON.Roll"),
-          callback: (html) => new FormDataExtended(html[0].querySelector("FORM")).object.value || 1,
-          icon: "<i class='fa-solid fa-check'></i>"
-        }
+    if (!event.shiftKey) amount = await foundry.applications.api.DialogV2.prompt({
+      content: new foundry.data.fields.NumberField({
+        label: "Dice",
+        hint: "The number of dice to roll.",
+        min: 1,
+        max: pool.value,
+        step: 1
+      }).toFormGroup({}, {value: amount, name: "amount"}).outerHTML,
+      window: {
+        title: "Roll Pool"
       },
-      render: ([html]) => {
-        html.querySelector("INPUT").addEventListener("focus", event => event.currentTarget.select());
-        html.querySelector("INPUT").addEventListener("change", function(event) {
-          const pool = actor.system.pools[type];
-          const value = event.currentTarget.value;
-          if (Number.isNumeric(value)) event.currentTarget.value = Math.clamp(value, 0, pool.value);
-        });
-      }
-    }, {classes: ["dialog", "artichron"]});
+      ok: {
+        label: "ARTICHRON.Roll",
+        callback: (event, button, html) => button.form.elements.amount.valueAsNumber
+      },
+      modal: true,
+      rejectClose: false
+    });
     if (!amount) return null;
 
-    const roll = await Roll.create(pool.formula).alter(1, amount - 1).evaluate();
-    update[`system.pools.${type}.value`] = pool.value - amount;
+    const roll = await foundry.dice.Roll.create("(@amount)d@faces", {amount, faces: pool.faces}).evaluate();
+    update[`system.pools.${type}.spent`] = pool.spent + amount;
     if (message) {
-      const dice = game.i18n.localize(`ARTICHRON.${type.capitalize()}DiePl`);
-      roll.toMessage({
+      await roll.toMessage({
         speaker: ChatMessage.implementation.getSpeaker({actor: this}),
-        flavor: `${this.name} ${dice}`,
+        flavor: `${type} pool roll`,
         "flags.artichron.roll.type": type
       });
     }
 
-    // Apply healing.
-    if (type === "health") {
-      const hp = this.system.health;
-      update["system.health.value"] = Math.clamp(hp.value + roll.total, 0, hp.max);
-      updateOptions.damages = {healing: Math.abs(update["system.health.value"] - hp.value)};
-    }
-    await this.update(update, updateOptions);
+    await this.update(update);
     return roll;
   }
 

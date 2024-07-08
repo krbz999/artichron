@@ -13,7 +13,8 @@ export default class BaseConfig extends HandlebarsApplicationMixin(DocumentSheet
       contentClasses: ["standard-form"]
     },
     form: {
-      closeOnSubmit: true
+      closeOnSubmit: false,
+      submitOnChange: true
     }
   };
 

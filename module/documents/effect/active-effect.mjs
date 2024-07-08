@@ -1,8 +1,8 @@
 export default class ActiveEffectArtichron extends ActiveEffect {
   /** @override */
   static applyField(model, change, field) {
-    if ((change.key === "name") && (change.value.includes("{{}}"))) {
-      const name = change.value.replaceAll("{{}}", model.name);
+    if ((change.key === "name") && (change.value.includes("{}"))) {
+      const name = change.value.replaceAll("{}", model.name);
       foundry.utils.setProperty(model, "name", name);
       return name;
     } else {
