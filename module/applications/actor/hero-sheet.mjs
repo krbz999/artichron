@@ -148,9 +148,7 @@ export default class HeroSheet extends ActorSheetArtichron {
    * @returns {object[]}
    */
   #preparePools() {
-    const pools = Object.entries(this.document.system.pools).map(([key, pool]) => {
-      return {...pool, key: key, value: pool.value ?? 0, die: pool.die, denom: pool.denom};
-    });
+    const pools = Object.entries(this.document.system.pools).map(([key, pool]) => ({...pool, key: key}));
     return pools;
   }
 

@@ -19,7 +19,7 @@
       </a>
       {{/if}}
       {{#each pools}}
-      <a class="pool die {{denom}} {{key}}" data-action="rollPool" data-pool="{{key}}" data-tooltip="{{value}} / {{max}} ({{die}})">
+      <a class="pool die d{{faces}} {{key}}" data-action="rollPool" data-pool="{{key}}" data-tooltip="{{value}} / {{max}} (d{{faces}})">
         <span class="label">{{value}}</span>
       </a>
       {{/each}}
