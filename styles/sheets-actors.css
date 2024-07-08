@@ -170,9 +170,10 @@
     align-items: center;
     flex: 1;
     padding: 0;
+    overflow: hidden;
 
     & input {
-      width: calc(100% - 2px);
+      width: calc(100% - 8px);
       text-align: center;
     }
 
