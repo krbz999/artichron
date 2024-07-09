@@ -162,14 +162,5 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
   /** @override */
   prepareDerivedData() {
     this.weight.total = this.weight.value * (this.quantity?.value ?? 1);
-    if (!this.parent.isEmbedded) this.preparePostData();
   }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Preparation method for any data that depends on prepared actor data. Called after all data
-   * preparation if the item is owned, otherwise at the end of `prepareDerivedData`.
-   */
-  preparePostData() {}
 }

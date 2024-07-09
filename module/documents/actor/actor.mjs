@@ -82,7 +82,6 @@ export default class ActorArtichron extends Actor {
      * prepareDerivedData
      */
     super.prepareData();
-    this.items.forEach(item => item.system.preparePostData());
   }
 
   /* -------------------------------------------------- */
@@ -97,7 +96,7 @@ export default class ActorArtichron extends Actor {
 
   /** @override */
   prepareEmbeddedDocuments() {
-    this._prepareEmbedded = true;
+    this._prepareEmbedded = true; // avoid applying effects to items twice.
     super.prepareEmbeddedDocuments(); // this calls 'this.applyActiveEffects()'.
     delete this._prepareEmbedded;
   }
