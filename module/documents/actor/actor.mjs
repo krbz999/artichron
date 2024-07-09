@@ -4,16 +4,6 @@ export default class ActorArtichron extends Actor {
   /* -------------------------------------------------- */
 
   /**
-   * The currently equipped ammunition.
-   * @type {Set<ItemArtichron>}
-   */
-  get ammo() {
-    return this.system.ammo ?? new Set();
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
    * The currently equipped arsenal.
    * @type {{primary: ItemArtichron, secondary: ItemArtichron}}
    */
@@ -126,13 +116,14 @@ export default class ActorArtichron extends Actor {
   async _preCreate(data, options, user) {
     if ((await super._preCreate(data, options, user)) === false) return false;
 
-    const isHero = this.type === "hero";
+    const isFriendly = ["hero", "merchant"].includes(this.type);
+    const display = this.type === "hero";
     const tokenData = {
-      sight: {enabled: true},
-      actorLink: isHero,
-      disposition: CONST.TOKEN_DISPOSITIONS[isHero ? "FRIENDLY" : "HOSTILE"],
-      displayName: CONST.TOKEN_DISPLAY_MODES[isHero ? "HOVER" : "OWNER_HOVER"],
-      displayBars: CONST.TOKEN_DISPLAY_MODES[isHero ? "HOVER" : "OWNER_HOVER"]
+      sight: {enabled: this.type === "hero"},
+      actorLink: isFriendly,
+      disposition: CONST.TOKEN_DISPOSITIONS[isFriendly ? "FRIENDLY" : "HOSTILE"],
+      displayName: CONST.TOKEN_DISPLAY_MODES[display ? "HOVER" : "OWNER_HOVER"],
+      displayBars: CONST.TOKEN_DISPLAY_MODES[display ? "HOVER" : "OWNER_HOVER"]
     };
     this.updateSource({prototypeToken: tokenData});
   }

@@ -92,8 +92,7 @@ export default class HeroData extends ActorSystemModel {
       armor: new SchemaField(Object.keys(CONFIG.SYSTEM.EQUIPMENT_TYPES).reduce((acc, key) => {
         acc[key] = new StringField({required: true});
         return acc;
-      }, {})),
-      ammo: new SetField(new StringField({required: true}))
+      }, {}))
     });
 
     schema.skills = new SchemaField(Object.keys(CONFIG.SYSTEM.SKILLS).reduce((acc, skill) => {
@@ -128,8 +127,7 @@ export default class HeroData extends ActorSystemModel {
 
   /** @override */
   prepareDerivedData() {
-    const rollData = this.parent.getRollData();
-    this._preparePools(rollData);
+    this._preparePools();
     this._prepareEncumbrance();
     this._prepareArmor();
     this._prepareResistances();
@@ -138,7 +136,7 @@ export default class HeroData extends ActorSystemModel {
   /* -------------------------------------------------- */
 
   /** Prepare pools. */
-  _preparePools(rollData) {
+  _preparePools() {
     for (const k of ["health", "stamina", "mana"]) {
       const value = this.pools[k].max - this.pools[k].spent;
       this.pools[k].value = Math.max(0, value);
@@ -199,21 +197,6 @@ export default class HeroData extends ActorSystemModel {
     }
 
     return bonus;
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * The currently equipped ammunition.
-   * @type {Set<ItemArtichron>}
-   */
-  get ammo() {
-    const items = new Set();
-    for (const id of this.equipped.ammo) {
-      const item = this.parent.items.get(id);
-      if (item) items.add(item);
-    }
-    return items;
   }
 
   /* -------------------------------------------------- */
