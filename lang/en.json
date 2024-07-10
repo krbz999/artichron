@@ -203,27 +203,27 @@
       "Label": "Health Pool",
       "Spent": "Spent",
       "SpentHint": "The number of health dice that have been expended.",
-      "Faces": "Faces",
+      "Faces": "Health Pool Faces",
       "FacesHint": "The size of each health die.",
-      "Max": "Max",
+      "Max": "Health Pool Maximum",
       "MaxHint": "The size of the total health pool."
     },
     "Stamina": {
       "Label": "Stamina Pool",
       "Spent": "Spent",
       "SpentHint": "The number of stamina dice that have been expended.",
-      "Faces": "Faces",
+      "Faces": "Stamina Pool Faces",
       "FacesHint": "The size of each stamina die.",
-      "Max": "Max",
+      "Max": "Stamina Pool Maximum",
       "MaxHint": "The size of the total stamina pool."
     },
     "Mana": {
       "Label": "Mana Pool",
       "Spent": "Spent",
       "SpentHint": "The number of mana dice that have been expended.",
-      "Faces": "Faces",
+      "Faces": "Mana Pool Faces",
       "FacesHint": "The size of each mana die.",
-      "Max": "Max",
+      "Max": "Mana Pool Maximum",
       "MaxHint": "The size of the total mana pool."
     }
   }
@@ -359,6 +359,7 @@
 },
 
 "PoolConfig": {
+  "Faces": "Faces",
   "Title": "Configure Pools: {name}"
 },
 
