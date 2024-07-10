@@ -115,19 +115,21 @@ export default class HeroSheet extends ActorSheetArtichron {
     // Skills.
     context.skills = Object.entries(doc.system.skills).reduce((acc, [k, v]) => {
       const c = CONFIG.SYSTEM.SKILLS[k];
-      const pips = [];
-      for (let i = 0; i < v.value; i++) {
-        if (i >= 10) continue;
-        pips.push({});
-      }
-      acc[c.group].push({
-        level: v.value ? artichron.utils.romanize(v.value) : "&ndash;",
-        label: c.label,
+      const value = context.isEditMode ? src.system.skills[k].value : v.value;
+      const data = {
+        pips: Array(Math.min(10, value)).fill({}),
         skillId: k,
-        pips: pips,
-        value: v.value,
-        name: `system.skills.${k}.value`
-      });
+        label: c.label
+      };
+
+      if (context.isEditMode) {
+        data.value = value || null;
+        data.field = doc.system.schema.getField(`skills.${k}.value`);
+      } else {
+        data.value = value ? value : "&ndash;";
+      }
+
+      acc[c.group].push(data);
       return acc;
     }, {mind: [], body: [], soul: []});
     Object.values(context.skills).forEach(v => v.sort((a, b) => a.label.localeCompare(b.label)));

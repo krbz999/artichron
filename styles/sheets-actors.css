@@ -134,7 +134,7 @@
               text-align: center;
               flex: 0 0 3rem;
               border-left: var(--border-var);
-              height: 1.5rem;
+              & input { height: 1.5rem; }
             }
           }
         }

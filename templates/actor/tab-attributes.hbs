@@ -63,11 +63,13 @@
             <span class="pip"></span>
             {{/each}}
           </span>
-          {{#if @root.isEditMode}}
-          <input class="level" type="number" name="{{name}}" value="{{value}}">
-          {{else}}
-          <span class="level">{{{level}}}</span>
-          {{/if}}
+          <span class="level">
+            {{#if @root.isEditMode}}
+            {{formInput field value=value placeholder="0" class="level"}}
+            {{else}}
+            {{{value}}}
+            {{/if}}
+          </span>
         </div>
         {{/each}}
       </section>
