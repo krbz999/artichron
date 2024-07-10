@@ -1,31 +1,10 @@
 <div class="{{tabs.equipment.tabCssClass}}" data-group="primary" data-tab="equipment">
-
-  <section class="arsenal">
-  {{#each equipment.arsenal}}
-  <div class="{{cssClass}}" {{#each dataset}} data-{{0}}="{{1}}" {{/each}}>
-    <img src="{{img}}" data-action="useItem" data-tooltip="{{name}}">
-    <div class="controls">
-      {{#if canEdit}}
-      <a class="control" data-action="editItem" data-tooltip="ARTICHRON.SheetActions.EditItem"><i class="fa-solid fa-edit"></i></a>
-      {{/if}}
-      <a class="control" data-action="changeEquipped" data-tooltip="ARTICHRON.SheetActions.ChangeItem"><i class="fa-solid fa-shield"></i></a>
-    </div>
+  <div class="inventory-list">
+    {{#each equipment.arsenal}}
+    {{inventoryItem item expanded=false disabled=true dataset=dataset}}
+    {{/each}}
+    {{#each equipment.armor}}
+    {{inventoryItem item expanded=false disabled=true dataset=dataset}}
+    {{/each}}
   </div>
-  {{/each}}
-  </section>
-
-  <section class="armor">
-  {{#each equipment.armor}}
-  <div class="{{cssClass}}" {{#each dataset}} data-{{0}}="{{1}}" {{/each}} style="order: {{order}}">
-    <img src="{{img}}" data-action="useItem" data-tooltip="{{name}}">
-    <div class="controls">
-      {{#if canEdit}}
-      <a class="control" data-action="editItem" data-tooltip="ARTICHRON.SheetActions.EditItem"><i class="fa-solid fa-edit"></i></a>
-      {{/if}}
-      <a class="control" data-action="changeEquipped" data-tooltip="ARTICHRON.SheetActions.ChangeItem"><i class="fa-solid fa-shield"></i></a>
-    </div>
-  </div>
-  {{/each}}
-  </section>
-
 </div>

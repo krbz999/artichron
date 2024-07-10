@@ -186,18 +186,19 @@ export default class HeroSheet extends ActorSheetArtichron {
     };
 
     const setup = async (key, column, item, order = 0) => {
+      if (!item) {
+        item = {
+          img: emptySlotIcons[key] ?? emptySlotIcons.arsenal,
+          name: "No Item",
+          system: {}
+        };
+      }
       equipped[column][key] = {
-        cssClass: item ? "" : "empty",
-        img: item ? item.img : (emptySlotIcons[key] ?? emptySlotIcons.arsenal),
-        name: item ? item.name : "",
-        canEdit: !!item,
-        order: order,
-        dataset: [
-          ["item-uuid", item?.uuid],
-          //["tooltip", item?.name],
-          ["tooltip-direction", "UP"],
-          ["equipment-slot", key]
-        ].filter(([k, v]) => !!v)
+        item: item,
+        dataset: {
+          equipmentSlot: key,
+          action: "changeEquipped"
+        }
       };
     };
 

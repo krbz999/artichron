@@ -34,6 +34,10 @@ export default class InventoryItemElement extends HTMLElement {
 
     if (config.actions !== false) element.dataset.actions = true;
 
+    for (const [k, v] of Object.entries(config.dataset ?? {})) {
+      element.dataset[k] = v;
+    }
+
     return element;
   }
 

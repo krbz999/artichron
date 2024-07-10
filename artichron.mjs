@@ -208,7 +208,7 @@ async function createEffectMacro(bar, data, slot) {
 /* -------------------------------------------------- */
 
 function inventoryItem(item, options) {
-  const {disabled, enriched, expanded, fusion, favorite, uses, price, actions} = options.hash;
+  const {disabled, enriched, expanded, fusion, favorite, uses, price, actions, dataset} = options.hash;
   const element = InventoryItemElement.create({
     item,
     disabled,
@@ -218,7 +218,8 @@ function inventoryItem(item, options) {
     favorite,
     uses,
     price,
-    actions
+    actions,
+    dataset
   });
   return new Handlebars.SafeString(element.outerHTML);
 }
