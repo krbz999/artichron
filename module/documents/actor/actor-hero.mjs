@@ -1,7 +1,6 @@
-import {SkillField} from "../fields/skill-field.mjs";
 import ActorSystemModel from "./system-model.mjs";
 
-const {NumberField, SchemaField, SetField, StringField} = foundry.data.fields;
+const {NumberField, SchemaField, StringField} = foundry.data.fields;
 
 export default class HeroData extends ActorSystemModel {
   /** @override */
@@ -80,10 +79,6 @@ export default class HeroData extends ActorSystemModel {
       })
     });
 
-    schema.traits = new SchemaField({
-      pool: new StringField({required: true, initial: "health", choices: ["health", "stamina", "mana"]}) // TODO
-    });
-
     schema.equipped = new SchemaField({
       arsenal: new SchemaField({
         primary: new StringField({required: true}),
@@ -95,8 +90,15 @@ export default class HeroData extends ActorSystemModel {
       }, {}))
     });
 
-    schema.skills = new SchemaField(Object.keys(CONFIG.SYSTEM.SKILLS).reduce((acc, skill) => {
-      acc[skill] = new SkillField(skill);
+    schema.skills = new SchemaField(Object.entries(CONFIG.SYSTEM.SKILLS).reduce((acc, [k, v]) => {
+      acc[k] = new SchemaField({
+        value: new NumberField({
+          integer: true,
+          min: 0,
+          initial: 0,
+          label: v.label
+        })
+      });
       return acc;
     }, {}));
 
@@ -111,11 +113,6 @@ export default class HeroData extends ActorSystemModel {
   prepareBaseData() {
     super.prepareBaseData();
 
-    // Set 'faces' of each pool.
-    for (const [k, v] of Object.entries(this.pools)) {
-      v.faces = (k === this.traits.pool) ? 6 : 4;
-    }
-
     // Set health maximum and clamp current health.
     const injury = 1 - this.parent.appliedConditionLevel("injured") / 100;
     this.health.max = Math.ceil(10 * this.pools.health.max * this.pools.health.faces * injury);
@@ -127,16 +124,16 @@ export default class HeroData extends ActorSystemModel {
 
   /** @override */
   prepareDerivedData() {
-    this._preparePools();
-    this._prepareEncumbrance();
-    this._prepareArmor();
-    this._prepareResistances();
+    this.#preparePools();
+    this.#prepareEncumbrance();
+    this.#prepareArmor();
+    this.#prepareResistances();
   }
 
   /* -------------------------------------------------- */
 
   /** Prepare pools. */
-  _preparePools() {
+  #preparePools() {
     for (const k of ["health", "stamina", "mana"]) {
       const value = this.pools[k].max - this.pools[k].spent;
       this.pools[k].value = Math.max(0, value);
@@ -146,7 +143,7 @@ export default class HeroData extends ActorSystemModel {
   /* -------------------------------------------------- */
 
   /** Prepare current and max encumbrance. */
-  _prepareEncumbrance() {
+  #prepareEncumbrance() {
     const dice = this.pools.stamina;
     this.encumbrance = {};
     this.encumbrance.max = dice.max * dice.faces;
@@ -158,7 +155,7 @@ export default class HeroData extends ActorSystemModel {
   /* -------------------------------------------------- */
 
   /** Prepare armor value. */
-  _prepareArmor() {
+  #prepareArmor() {
     const armor = this.defenses.armor;
     armor.value = Object.values({...this.parent.armor, ...this.parent.arsenal}).reduce((acc, item) => {
       return acc + (["armor", "shield"].includes(item?.type) ? item.system.armor.value : 0);
@@ -168,7 +165,7 @@ export default class HeroData extends ActorSystemModel {
   /* -------------------------------------------------- */
 
   /** Prepare the value of actor resistances. */
-  _prepareResistances() {
+  #prepareResistances() {
     for (const item of Object.values(this.parent.armor)) {
       if (!item) continue;
       for (const [k, v] of Object.entries(item.system.resistances)) {
