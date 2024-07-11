@@ -62,6 +62,7 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
     }, [[], [], [], []]);
 
     const isOffense = (doc.type === "spell") && (doc.system.category.subtype === "offense");
+    const damageSchema = doc.system.schema.getField("damage");
 
     const context = {
       document: doc,
@@ -73,13 +74,13 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
       fusions: fusionOptions,
       enhancements: enhancements,
       sections: {
-        damage: ("parts" in (src.system.damage ?? {})) && ((doc.type !== "spell") || isOffense),
-        resistances: "resistances" in src.system,
-        range: ("range" in src.system) && !doc.isAmmo
+        damage: doc.system.schema.has("damage") && damageSchema.has("parts") && ((doc.type !== "spell") || isOffense),
+        resistances: doc.system.schema.has("resistances"),
+        range: doc.system.schema.has("range") && !doc.isAmmo
       },
       description: {
         enriched: await TextEditor.enrichHTML(doc.system.description.value, {
-          rollData: rollData, async: true, relativeTo: doc
+          rollData: rollData, relativeTo: doc
         }),
         field: doc.system.schema.getField("description.value"),
         value: doc.system.description.value,
@@ -117,20 +118,20 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
       pool.hint = `ARTICHRON.ItemProperty.Category.Pool${subtype.capitalize()}Hint`;
       context.details.configuration.push(pool);
     }
-    if ("price" in src.system) {
+    if (doc.system.schema.has("price")) {
       context.details.configuration.push(this._makeField(context, "price.value"));
     }
-    if ("weight" in src.system) {
+    if (doc.system.schema.has("weight")) {
       context.details.configuration.push(this._makeField(context, "weight.value"));
     }
-    if ("quantity" in src.system) {
+    if (doc.system.schema.has("quantity")) {
       context.details.configuration.push(this._makeField(context, "quantity.value"));
     }
 
     // Handling fieldset
     context.details.handling = [];
-    if ("wield" in src.system) context.details.handling.push(this._makeField(context, "wield.value"));
-    if (("range" in src.system) && !doc.isAmmo) {
+    if (doc.system.schema.has("wield")) context.details.handling.push(this._makeField(context, "wield.value"));
+    if (doc.system.schema.has("range") && !doc.isAmmo) {
       context.details.handling.push(this._makeField(context, "range.value"));
     }
     if (doc.type === "spell") context.details.handling.push(this._makeField(context, "template.types"));
@@ -155,7 +156,7 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
     }
 
     // Usage.
-    if (doc.type === "elixir") {
+    if (doc.system.schema.has("usage")) {
       context.fieldsets.push({
         legend: "ARTICHRON.ItemProperty.Fieldsets.LimitedUses",
         formGroups: [
@@ -166,7 +167,7 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
     }
 
     // Defenses.
-    if (doc.isArmor || (doc.type === "shield")) context.fieldsets.push({
+    if (doc.system.schema.has("armor")) context.fieldsets.push({
       legend: "ARTICHRON.ItemProperty.Fieldsets.Defenses",
       formGroups: [this._makeField(context, "armor.value")]
     });
@@ -200,21 +201,20 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
         }),
         groups: CONFIG.SYSTEM.DAMAGE_TYPE_GROUPS
       };
-      if (!this.document.isAmmo) {
-        context.damageBonuses = [];
-        for (const [k, v] of Object.entries(this.document.system.damage.bonuses)) {
-          const data = this._makeField(context, `damage.bonuses.${k}.value`);
-          context.damageBonuses.push(data);
-        }
-      }
 
-      for (const [k, v] of Object.entries(CONFIG.SYSTEM.DAMAGE_TYPES)) {
-        context.damageTypes.push({
-          group: context.damages.groups[v.group].label,
+      const groups = Object.entries(CONFIG.SYSTEM.DAMAGE_TYPES).reduce((acc, [k, v]) => {
+        acc[v.group].push({
           value: k,
-          label: v.label
+          label: v.label,
+          group: CONFIG.SYSTEM.DAMAGE_TYPE_GROUPS[v.group].label
         });
-      }
+        return acc;
+      }, Object.keys(CONFIG.SYSTEM.DAMAGE_TYPE_GROUPS).reduce((acc, k) => {
+        acc[k] = [];
+        return acc;
+      }, {}));
+
+      context.damageTypes.push(...Object.values(groups).flat());
 
       // Damage type override (ammo).
       if (context.isAmmo) {
@@ -225,25 +225,22 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
       }
     }
 
-    const makeResistance = (key, path) => {
-      const value = foundry.utils.getProperty(context.isEditMode ? src.system : doc.system, path);
+    const makeResistance = field => {
+      const value = foundry.utils.getProperty(context.isEditMode ? src : doc, field.fields.value.fieldPath);
       return {
-        field: doc.system.schema.getField(path),
+        field: field.fields.value,
         value: context.isPlayMode ? (value ?? 0) : (value ? value : null),
-        label: CONFIG.SYSTEM.DAMAGE_TYPES[key].label,
-        color: CONFIG.SYSTEM.DAMAGE_TYPES[key].color,
-        icon: CONFIG.SYSTEM.DAMAGE_TYPES[key].icon,
-        name: `system.${path}`,
+        label: CONFIG.SYSTEM.DAMAGE_TYPES[field.name].label,
+        color: CONFIG.SYSTEM.DAMAGE_TYPES[field.name].color,
+        icon: CONFIG.SYSTEM.DAMAGE_TYPES[field.name].icon,
         active: context.isEditMode || !!value
       };
     };
 
     if (!this.document.isAmmo && context.sections.damage) {
       context.damageBonuses = [];
-      for (const k of Object.keys(doc.system.damage.bonuses)) {
-        const path = `damage.bonuses.${k}.value`;
-        const value = makeResistance(k, path);
-        context.damageBonuses.push(value);
+      for (const k of this.document.system.schema.getField("damage.bonuses")) {
+        context.damageBonuses.push(makeResistance(k));
       }
     }
 
@@ -253,9 +250,8 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
         legend: "ARTICHRON.ItemProperty.Fieldsets.Resistances",
         values: []
       };
-      for (const k of Object.keys(doc.system.resistances)) {
-        const path = `resistances.${k}.value`;
-        fieldset.values.push(makeResistance(k, path));
+      for (const k of this.document.system.schema.getField("resistances")) {
+        fieldset.values.push(makeResistance(k));
       }
 
       context.resistances = fieldset;

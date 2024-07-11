@@ -42,7 +42,7 @@
       {{#each resistances}}
       <div class="resistance {{#if active}} active {{/if}}" data-tooltip="{{label}}" style="color: #{{color}}">
         {{#if @root.isEditMode}}
-        <input type="text" name="{{name}}" value="{{value}}">
+        {{formInput field value=value}}
         {{else}}
         <span class="total">{{value}}</span>
         {{/if}}

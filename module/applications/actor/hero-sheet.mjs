@@ -100,7 +100,6 @@ export default class HeroSheet extends ActorSheetArtichron {
         label: CONFIG.SYSTEM.DAMAGE_TYPES[key].label,
         color: CONFIG.SYSTEM.DAMAGE_TYPES[key].color,
         icon: CONFIG.SYSTEM.DAMAGE_TYPES[key].icon,
-        name: `system.${path}`,
         active: context.isEditMode || !!value
       };
     };
