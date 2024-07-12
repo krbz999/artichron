@@ -35,9 +35,9 @@
 .artichron.application.fusion {
   .indicators {
     display: flex;
+    flex-direction: row;
     justify-content: space-around;
     align-items: center;
-    margin-top: 10px;
 
     .arrow {
       width: 70px;

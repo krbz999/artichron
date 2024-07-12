@@ -11,7 +11,7 @@ export default class ItemArtichron extends Item {
       case "armor": img = "icons/svg/chest.svg"; break;
       case "ammo": img = "icons/svg/target.svg"; break;
     }
-    return img ? {img: img} : super.getDefaultArtWork(itemData);
+    return img ? {img: img} : super.getDefaultArtwork(itemData);
   }
 
   /* -------------------------------------------------- */
