@@ -438,10 +438,10 @@ export default class ActorArtichron extends Actor {
       return acc;
     }, {});
 
-    const field = new foundry.data.fields.SetField(new foundry.data.fields.StringField({choices: choices}), {
-      label: "ARTICHRON.DefenseDialog.Items",
+    const label = "ARTICHRON.DefenseDialog.Items";
+    const formGroup = new foundry.data.fields.SetField(new foundry.data.fields.StringField({choices: choices}), {
       hint: "ARTICHRON.DefenseDialog.ItemsHint"
-    });
+    }).toFormGroup({label: "", localize: true, classes: ["stacked"]}, {name: "items", type: "checkboxes"}).outerHTML;
 
     const render = (event, html) => {
       if (!inCombat) return;
@@ -453,18 +453,9 @@ export default class ActorArtichron extends Actor {
       });
     };
 
-    const template = `
+    const content = `
     ${Number.isInteger(damage) ? "<p>You are gonna take " + damage + " damage, oh no.</p>" : ""}
-    <fieldset>
-      <legend>{{localize "ARTICHRON.DefenseDialog.Items"}}</legend>
-      <div class="form-group">
-        <div class="form-fields">
-          {{formInput field name="items" type="checkboxes"}}
-        </div>
-        <p class="hint">{{localize "ARTICHRON.DefenseDialog.ItemsHint"}}</p>
-      </div>
-    </fieldset>`;
-    const content = Handlebars.compile(template)({field});
+    <fieldset><legend>${game.i18n.localize(label)}</legend>${formGroup}</fieldset>`;
     const itemIds = await foundry.applications.api.DialogV2.prompt({
       content: content,
       rejectClose: false,

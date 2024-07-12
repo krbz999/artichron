@@ -2,10 +2,7 @@
   <fieldset class="attributes">
     <legend>{{localize "ARTICHRON.ItemProperty.Fieldsets.Attributes"}}</legend>
     {{#with details.attributes}}
-    <div class="form-group">
-      {{formInput field value=value disabled=disabled localize=true type=type}}
-      <p class="hint">{{localize field.hint}}</p>
-    </div>
+    {{formGroup field value=value disabled=disabled localize=true type=type classes="stacked" label=""}}
     {{/with}}
   </fieldset>
 
