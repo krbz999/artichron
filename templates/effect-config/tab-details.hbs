@@ -1,7 +1,7 @@
 <div class="{{tabs.details.tabCssClass}}" data-group="primary" data-tab="details">
 
   {{#with fields.description}}
-  {{formField field value=value enriched=enriched localize=true height=150 collaborate=true documentUUID=uuid disabled=true toggled=true}}
+  {{formGroup field value=value enriched=enriched localize=true height=150 collaborate=true documentUUID=uuid disabled=true toggled=true}}
   {{/with}}
 
   <fieldset>
@@ -10,17 +10,17 @@
     {{formGroup fields.subtype.field value=fields.subtype.value localize=true disabled=isPlayMode}}
     {{/if}}
 
-    {{formField fields.tint.field value=fields.tint.value localize=true disabled=isPlayMode}}
-    {{formField fields.disabled.field value=fields.disabled.value label="EFFECT.Disabled" localize=true disabled=isPlayMode}}
+    {{formGroup fields.tint.field value=fields.tint.value localize=true disabled=isPlayMode}}
+    {{formGroup fields.disabled.field value=fields.disabled.value label="EFFECT.Disabled" localize=true disabled=isPlayMode}}
 
     {{#if fields.transfer.show}}
-    {{formField fields.transfer.field value=fields.transfer.value label="EFFECT.Transfer" hint="EFFECT.TransferHint" localize=true disabled=root.isPlayMode}}
+    {{formGroup fields.transfer.field value=fields.transfer.value label="EFFECT.Transfer" hint="EFFECT.TransferHint" localize=true disabled=root.isPlayMode}}
     {{/if}}
   </fieldset>
 
   <fieldset>
     <legend>{{localize "ARTICHRON.EffectProperty.FieldsetDuration"}}</legend>
-    {{formField fields.combat.field value=fields.combat.value localize=true disabled=true}}
+    {{formGroup fields.combat.field value=fields.combat.value localize=true disabled=true}}
 
     {{#if fields.expiration}}
     {{formGroup fields.expiration.field value=fields.expiration.value localize=true disabled=isPlayMode}}
