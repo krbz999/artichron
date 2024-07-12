@@ -205,9 +205,9 @@ export default class HeroData extends ActorSystemModel {
   get arsenal() {
     const items = this.equipped.arsenal;
     let primary = this.parent.items.get(items.primary) ?? null;
-    if (primary?.type !== "weapon") primary = null;
+    if (!primary?.isArsenal) primary = null;
     let secondary = this.parent.items.get(items.secondary) ?? null;
-    if ((secondary?.type !== "weapon") || (primary?.isTwoHanded || secondary.isTwoHanded)) secondary = null;
+    if (!secondary?.isArsenal || (primary?.isTwoHanded || secondary.isTwoHanded)) secondary = null;
     return {primary, secondary};
   }
 
