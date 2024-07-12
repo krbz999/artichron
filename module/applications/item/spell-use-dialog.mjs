@@ -34,7 +34,7 @@ export default class SpellUseDialog extends HandlebarsApplicationMixin(Applicati
   static PARTS = {
     form: {template: "systems/artichron/templates/item/spell-use-dialog.hbs"},
     options: {template: "systems/artichron/templates/item/spell-use-dialog-options.hbs"},
-    footer: {template: "systems/artichron/templates/item/arsenal-use-dialog-footer.hbs"}
+    footer: {template: "systems/artichron/templates/shared/footer.hbs"}
   };
 
   /* -------------------------------------------------- */
@@ -60,7 +60,7 @@ export default class SpellUseDialog extends HandlebarsApplicationMixin(Applicati
 
   /** @override */
   get title() {
-    return game.i18n.format("ARTICHRON.SpellUseDialog.Title", {item: this.item.name});
+    return game.i18n.format("ARTICHRON.SpellUseDialog.Title", {item: this.#item.name});
   }
 
   /* -------------------------------------------------- */
@@ -69,9 +69,6 @@ export default class SpellUseDialog extends HandlebarsApplicationMixin(Applicati
    * The spell being used.
    * @type {ItemArtichron}
    */
-  get item() {
-    return this.#item;
-  }
   #item = null;
 
   /* -------------------------------------------------- */
@@ -81,9 +78,6 @@ export default class SpellUseDialog extends HandlebarsApplicationMixin(Applicati
    * @type {string}
    */
   #shape = null;
-  get shape() {
-    return this.#shape;
-  }
 
   /* -------------------------------------------------- */
 
@@ -92,9 +86,6 @@ export default class SpellUseDialog extends HandlebarsApplicationMixin(Applicati
    * @type {string}
    */
   #damage = null;
-  get damage() {
-    return this.#damage;
-  }
 
   /* -------------------------------------------------- */
 
@@ -103,9 +94,6 @@ export default class SpellUseDialog extends HandlebarsApplicationMixin(Applicati
    * @type {string}
    */
   #buff = null;
-  get buff() {
-    return this.#buff;
-  }
 
   /* -------------------------------------------------- */
   /*   Method handling and preparation                  */
@@ -114,6 +102,7 @@ export default class SpellUseDialog extends HandlebarsApplicationMixin(Applicati
   /**
    * Create an async instance of this application.
    * @param {ItemArtichron} item
+   * @returns {Promise<object|null>}
    */
   static async create(item) {
     return new Promise(resolve => {
@@ -128,8 +117,8 @@ export default class SpellUseDialog extends HandlebarsApplicationMixin(Applicati
   /** @override */
   async _prepareContext(options) {
     return {
-      isDamage: this.item.system.category.subtype === "offense",
-      isBuff: this.item.system.category.subtype === "buff"
+      isDamage: this.#item.system.category.subtype === "offense",
+      isBuff: this.#item.system.category.subtype === "buff"
     };
   }
 
@@ -144,7 +133,7 @@ export default class SpellUseDialog extends HandlebarsApplicationMixin(Applicati
 
         // Build damage parts.
         const choices = {};
-        for (const {id, formula, type} of this.item.system._damages) {
+        for (const {id, formula, type} of this.#item.system._damages) {
           choices[id] = `${CONFIG.SYSTEM.DAMAGE_TYPES[type].label} [${formula}]`;
         }
         const field = new foundry.data.fields.StringField({
@@ -152,11 +141,11 @@ export default class SpellUseDialog extends HandlebarsApplicationMixin(Applicati
           label: "ARTICHRON.SpellUseDialog.Damage",
           blank: false
         });
-        context.damage = {field: field, name: "damage", value: this.damage};
+        context.damage = {field: field, name: "damage", value: this.#damage};
       }
 
       // Build shape choices.
-      const types = this.item.system.template.types;
+      const types = this.#item.system.template.types;
       const choices = {};
       for (const [k, v] of Object.entries(CONFIG.SYSTEM.AREA_TARGET_TYPES)) {
         if (types.has(k)) choices[k] = v.label;
@@ -166,13 +155,13 @@ export default class SpellUseDialog extends HandlebarsApplicationMixin(Applicati
         label: "ARTICHRON.SpellUseDialog.Shape",
         blank: true
       });
-      context.shape = {field: field, name: "shape", value: this.shape};
+      context.shape = {field: field, name: "shape", value: this.#shape};
 
       if (context.isBuff) {
 
         // Build buff choices.
         const choices = {};
-        for (const effect of this.item.effects) {
+        for (const effect of this.#item.effects) {
           if ((effect.type === "buff") && !effect.system.isGranted && !effect.transfer) {
             choices[effect.id] = effect.name;
           }
@@ -182,10 +171,10 @@ export default class SpellUseDialog extends HandlebarsApplicationMixin(Applicati
           label: "ARTICHRON.SpellUseDialog.Buff",
           blank: true
         });
-        context.buff = {field: field, name: "buff", value: this.buff};
+        context.buff = {field: field, name: "buff", value: this.#buff};
       }
 
-      const elixirs = this.item.actor.items.reduce((acc, item) => {
+      const elixirs = this.#item.actor.items.reduce((acc, item) => {
         const isBooster = item.isBoostElixir && (item.system.category.pool === "mana");
         if (isBooster && item.hasUses && (item.system.usage.value > 0)) acc[item.id] = item.name;
         return acc;
@@ -218,7 +207,7 @@ export default class SpellUseDialog extends HandlebarsApplicationMixin(Applicati
       context.sliders = [];
       for (const k of ["count", "range", "distance", "width", "radius"]) {
 
-        if (CONFIG.SYSTEM.AREA_TARGET_TYPES[this.shape]?.[k]) {
+        if (CONFIG.SYSTEM.AREA_TARGET_TYPES[this.#shape]?.[k]) {
           context.sliders.push(numField(k, mana));
         }
       }
@@ -226,15 +215,13 @@ export default class SpellUseDialog extends HandlebarsApplicationMixin(Applicati
     }
 
     else if (partId === "footer") {
-      context.submitIcon = this.options.window.icon;
-
       // Disable footer button.
       let state = false;
-      if (!this.shape) state = true;
-      else if (context.isDamage && !this.damage) state = true;
-      else if (context.isBuff && !this.buff) state = true;
+      if (!this.#shape) state = true;
+      else if (context.isDamage && !this.#damage) state = true;
+      else if (context.isBuff && !this.#buff) state = true;
       else if (this.cost > this.maxMana) state = true;
-      context.disabled = state;
+      context.footer = {disabled: state};
     }
 
     return context;
@@ -279,7 +266,7 @@ export default class SpellUseDialog extends HandlebarsApplicationMixin(Applicati
    * @type {number}
    */
   get maxMana() {
-    const mana = this.item.actor.system.pools?.mana.value ?? 0;
+    const mana = this.#item.actor.system.pools?.mana.value ?? 0;
     const boosters = this.element?.elements.boosters;
     if (boosters) return mana + boosters.value.length;
     return mana;

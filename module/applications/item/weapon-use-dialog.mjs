@@ -33,7 +33,7 @@ export default class WeaponUseDialog extends HandlebarsApplicationMixin(Applicat
   /** @override */
   static PARTS = {
     form: {template: "systems/artichron/templates/item/weapon-use-dialog.hbs"},
-    footer: {template: "systems/artichron/templates/item/arsenal-use-dialog-footer.hbs"}
+    footer: {template: "systems/artichron/templates/shared/footer.hbs"}
   };
 
   /* -------------------------------------------------- */
@@ -42,7 +42,7 @@ export default class WeaponUseDialog extends HandlebarsApplicationMixin(Applicat
 
   /** @override */
   get title() {
-    return game.i18n.format("ARTICHRON.WeaponUseDialog.Title", {name: this.item.name});
+    return game.i18n.format("ARTICHRON.WeaponUseDialog.Title", {name: this.#item.name});
   }
 
   /* -------------------------------------------------- */
@@ -51,9 +51,6 @@ export default class WeaponUseDialog extends HandlebarsApplicationMixin(Applicat
    * The weapon being used to attack.
    * @type {ItemArtichron}
    */
-  get item() {
-    return this.#item;
-  }
   #item = null;
 
   /* -------------------------------------------------- */
@@ -77,8 +74,8 @@ export default class WeaponUseDialog extends HandlebarsApplicationMixin(Applicat
 
   /** @override */
   async _prepareContext(options) {
-    const weaponType = this.item.system.category.subtype;
-    const ammos = this.item.actor.items.reduce((acc, item) => {
+    const weaponType = this.#item.system.category.subtype;
+    const ammos = this.#item.actor.items.reduce((acc, item) => {
       const isType = CONFIG.SYSTEM.AMMUNITION_TYPES[item.system.category?.subtype]?.weapons.has(weaponType);
       if (isType && item.isAmmo && (item.system.quantity.value > 0)) {
         acc[item.id] = item.name;
@@ -92,7 +89,7 @@ export default class WeaponUseDialog extends HandlebarsApplicationMixin(Applicat
       hint: "ARTICHRON.WeaponUseDialog.AmmunitionHint"
     });
 
-    const value = this.item.actor.system.pools?.stamina.value;
+    const value = this.#item.actor.system.pools?.stamina.value;
     const staminaField = new foundry.data.fields.NumberField({
       min: 0,
       initial: 0,
@@ -102,7 +99,7 @@ export default class WeaponUseDialog extends HandlebarsApplicationMixin(Applicat
       hint: "ARTICHRON.WeaponUseDialog.StaminaHint"
     });
 
-    const elixirs = this.item.actor.items.reduce((acc, item) => {
+    const elixirs = this.#item.actor.items.reduce((acc, item) => {
       const isBooster = item.isBoostElixir && (item.system.category.pool === "stamina");
       if (isBooster && item.hasUses && (item.system.usage.value > 0)) acc[item.id] = item.name;
       return acc;
@@ -129,11 +126,11 @@ export default class WeaponUseDialog extends HandlebarsApplicationMixin(Applicat
       stamina: {
         field: staminaField,
         dataset: {change: "stamina"},
-        show: (value > 0) && (this.item.actor.type === "hero")
+        show: (value > 0) && (this.#item.actor.type === "hero")
       },
       booster: booster,
       uses: uses,
-      submitIcon: this.options.window.icon
+      footer: {disabled: false}
     };
   }
 
@@ -148,7 +145,7 @@ export default class WeaponUseDialog extends HandlebarsApplicationMixin(Applicat
       const booster = event.target;
       const uses = this.element.elements.uses;
 
-      const item = this.item.actor.items.get(booster.value);
+      const item = this.#item.actor.items.get(booster.value);
       if (!item) {
         uses.disabled = true;
         return;
