@@ -383,11 +383,12 @@
 },
 
 "ItemFusionDialog": {
+  "Changes": "Changes",
+  "Confirm": "Confirm",
+  "FusionLabel": "Fusion",
+  "TargetLabel": "Target",
   "Title": "{source}: Fuse",
   "TitleUnfuse": "{item}: Split",
-  "TargetLabel": "Target",
-  "FusionLabel": "Fusion",
-  "Confirm": "Confirm",
   "UnfuseTitle": "Split '{source}' and '{target}'?"
 },
 

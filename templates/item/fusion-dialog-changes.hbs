@@ -1,9 +1,6 @@
 <fieldset class="changes">
-  {{#if changes}}
+  <legend>{{localize "ARTICHRON.ItemFusionDialog.Changes"}}</legend>
   <ul>
-  {{#each changes}}
-  <li>{{this}}</li>
-  {{/each}}
+  {{#each changes}}<li>{{this}}</li>{{/each}}
   </ul>
-  {{/if}}
 </fieldset>
