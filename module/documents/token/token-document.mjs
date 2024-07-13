@@ -2,6 +2,7 @@ export default class TokenDocumentArtichron extends TokenDocument {
   /** @override */
   _onUpdate(data, options, userId) {
     super._onUpdate(data, options, userId);
+    return;
     const flags = data.flags?.artichron ?? {};
     const isRedraw = ["hidden", "width", "height"].some(k => k in data);
     if (("aura" in flags) || isRedraw) this.object?.drawAura();
@@ -14,6 +15,7 @@ export default class TokenDocumentArtichron extends TokenDocument {
     const allowed = await super._preUpdate(data, options, user);
     if (allowed === false) return false;
 
+    return;
     if ((options.animate === false) || (options.teleport === true)) return;
     const x = Math.round(data.x ?? this.x);
     const y = Math.round(data.y ?? this.y);

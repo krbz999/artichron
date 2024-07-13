@@ -48,7 +48,7 @@ Hooks.once("init", function() {
   CONFIG.Combat.documentClass = documents.documentClasses.combat;
   CONFIG.Combatant.documentClass = documents.documentClasses.combatant;
   CONFIG.Token.documentClass = documents.documentClasses.tokenDocument;
-  CONFIG.Token.objectClass = documents.documentClasses.token;
+  // CONFIG.Token.objectClass = documents.documentClasses.token;
   CONFIG.Token.hudClass = applications.TokenHUDArtichron;
   CONFIG.MeasuredTemplate.objectClass = documents.documentClasses.template;
   CONFIG.MeasuredTemplate.documentClass = documents.documentClasses.templateDocument;

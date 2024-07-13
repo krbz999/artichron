@@ -1,4 +1,5 @@
 export default function auraInit() {
+  return;
   Hooks.on("renderTokenConfig", Auras.onRenderTokenConfig);
   Hooks.on("refreshWall", Auras.onRefreshWall);
   Hooks.on("deleteWall", Auras.onRefreshWall);
