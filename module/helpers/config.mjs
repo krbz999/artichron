@@ -551,3 +551,57 @@ SYSTEM.SKILLS = {
     group: "mind"
   }
 };
+
+/* -------------------------------------------------- */
+
+/**
+ * @typedef {object} PoolSizeSpecializationConfig
+ * @property {string} label       The displayed label of this type of pool size specialization.
+ * @property {number[]} sizes     The distribution of sizes assigned to the pools.
+ */
+
+/**
+ * The options for how to distribute the configuration of pool sizes.
+ * @enum {PoolSizeSpecializationConfig}
+ */
+SYSTEM.POOL_SIZE_SPECIALIZATION_TYPES = {
+  balanced: {
+    label: "ARTICHRON.PoolSpecialization.Balanced",
+    sizes: [4, 4, 4]
+  },
+  specialized: {
+    label: "ARTICHRON.PoolSpecialization.Specialized",
+    sizes: [2, 4, 6]
+  },
+  focused: {
+    label: "ARTICHRON.PoolSpecialization.Focused",
+    sizes: [2, 2, 8]
+  }
+};
+
+/* -------------------------------------------------- */
+
+/**
+ * @typedef {object} PoolFacesSpecializationConfig
+ * @property {string} label       The displayed label of this type of pool size specialization.
+ * @property {number[]} faces     The distribution of faces assigned to the pools.
+ */
+
+/**
+ * The options for how to distribute the configuration of pool faces.
+ * @enum {PoolFacesSpecializationConfig}
+ */
+SYSTEM.POOL_FACES_SPECIALIZATION_TYPES = {
+  balanced: {
+    label: "ARTICHRON.PoolSpecialization.Balanced",
+    faces: [6, 6, 6]
+  },
+  specialized: {
+    label: "ARTICHRON.PoolSpecialization.Specialized",
+    faces: [4, 6, 8]
+  },
+  focused: {
+    label: "ARTICHRON.PoolSpecialization.Focused",
+    faces: [4, 4, 10]
+  }
+};
