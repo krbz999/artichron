@@ -446,7 +446,7 @@ export function addTarget(token) {
  * Handle a delta input for a number value from a form.
  * @param {HTMLInputElement} input  Input that contains the modified value.
  * @param {Document} target         Target document to be updated.
- * @returns {number|void}
+ * @returns {number|void}           The new value, or undefined
  */
 export function parseInputDelta(input, target) {
   let value = input.value;

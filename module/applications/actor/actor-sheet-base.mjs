@@ -135,8 +135,7 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
     const result = artichron.utils.parseInputDelta(target, item);
     if (result !== undefined) {
       if (property === "system.usage.value") {
-        const spent = item.system.usage.max - result;
-        item.update({"system.usage.spent": spent});
+        item.update(item.system._usageUpdate(result, false));
       } else item.update({[property]: result});
     }
   }

@@ -206,18 +206,30 @@ export default class ElixirData extends ItemSystemModel {
 
   /**
    * Utility method for crafting the usage update for an elixir.
-   * @param {number} [uses]     The uses to subtract.
+   * @param {number} [uses]         The uses to subtract, or the value to set to.
+   * @param {boolean} [isDelta]     Whether this modifies the current uses, or overrides the value.
    * @returns {object}
    */
-  _usageUpdate(uses = 1) {
-    if (uses > this.usage.value) throw new Error("Attempting to subtract too many uses.");
+  _usageUpdate(uses = 1, isDelta = true) {
     const update = {_id: this.parent.id};
-    const value = this.usage.spent + uses;
-    if (value === this.usage.max) {
+    let spent;
+
+    if (isDelta) {
+      if (uses === 0) return update;
+      const invalid = !uses.between(-this.usage.spent, this.usage.value);
+      if (invalid) throw new Error(`You cannot subtract ${uses} uses from ${this.parent.name}`);
+      spent = this.usage.spent + uses;
+    } else {
+      const invalid = !uses.between(0, this.usage.max);
+      if (invalid) throw new Error(`You cannot set ${this.parent.name} to have ${uses} uses.`);
+      spent = this.usage.max - uses;
+    }
+
+    if (spent === this.usage.max) {
       update["system.usage.spent"] = 0;
       update["system.quantity.value"] = this.quantity.value - 1;
     } else {
-      update["system.usage.spent"] = value;
+      update["system.usage.spent"] = spent;
     }
     return update;
   }
