@@ -64,10 +64,12 @@ export const DamageTemplateMixin = Base => {
       const rollData = this.parent.getRollData();
       if (ammo) rollData.ammo = ammo.getRollData().item;
 
-      let parts = foundry.utils.deepClone(this._damages);
-      if (ids?.length) parts = parts.filter(p => ids.includes(p.id));
-      const mods = ammo ? ammo.system.ammoProperties : new Set();
+      const parts = this._damages.reduce((acc, {formula, type, id}) => {
+        if (!ids?.length || ids.includes(id)) acc.push({formula, type});
+        return acc;
+      }, []);
 
+      const mods = ammo ? ammo.system.ammoProperties : new Set();
       if (mods.has("damageOverride")) {
         const override = ammo.system.damage.override;
         for (const p of parts) {
