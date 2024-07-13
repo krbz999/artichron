@@ -179,6 +179,12 @@ export default class ElixirData extends ItemSystemModel {
    */
   async #useRestorative() {
     const type = this.category.pool;
+
+    if (type !== "health") {
+      // TODO: stamina and mana?
+      throw new Error("Cannot use non-health restorative elixirs yet.");
+    }
+
     const title = `ARTICHRON.ElixirDialog.TitleRestore${type.capitalize()}`;
     const confirm = await foundry.applications.api.DialogV2.confirm({
       rejectClose: false,
@@ -190,16 +196,26 @@ export default class ElixirData extends ItemSystemModel {
       position: {
         width: 400,
         height: "auto"
-      }
+      },
+      yes: {default: true}
     });
     if (!confirm) return;
 
     const rollData = this.parent.getRollData();
-    const formula = `1@pools.${type}.die`;
+    const formula = `1d@pools.${type}.faces`;
     const roll = await Roll.create(formula, rollData).evaluate();
-    const update = this._usageUpdate();
+    const update = this._usageUpdate(1, true);
 
-    // TODO: What is actually restored here?
+    await roll.toMessage({
+      flavor: game.i18n.format("ARTICHRON.ElixirDialog.ChatFlavor", {type}),
+      speaker: ChatMessage.implementation.getSpeaker({actor: this.parent.actor})
+    });
+    await Promise.all([
+      this.parent.update(update),
+      this.parent.actor.applyDamage(-roll.total)
+    ]);
+
+    return roll;
   }
 
   /* -------------------------------------------------- */
