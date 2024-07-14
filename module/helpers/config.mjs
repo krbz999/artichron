@@ -443,7 +443,7 @@ SYSTEM.STATUS_CONDITIONS = {
   injured: {
     name: "ARTICHRON.StatusConditions.Injured",
     img: "icons/svg/bones.svg",
-    levels: 100,
+    levels: 20,
     hud: true,
     reference: "Compendium.artichron.rules.JournalEntry.JjiZqfbpC2YVXV4R.JournalEntryPage.FRQ8zjWTfTYZWGx3"
   }

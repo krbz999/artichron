@@ -114,8 +114,14 @@ export default class HeroData extends ActorSystemModel {
     super.prepareBaseData();
 
     // Set health maximum and clamp current health.
-    const injury = 1 - this.parent.appliedConditionLevel("injured") / 100;
-    this.health.max = Math.ceil(10 * this.pools.health.max * this.pools.health.faces * injury);
+    const levels = this.parent.appliedConditionLevel("injured");
+    const injury = 1 - levels / CONFIG.SYSTEM.STATUS_CONDITIONS.injured.levels;
+    const total = this.pools.health.max * this.pools.health.faces;
+
+    let max = Math.ceil(total * injury);
+    max = (levels === 1) ? Math.clamp(max, 1, total - 1) : max;
+
+    this.health.max = max;
     this.health.value = Math.clamp(this.health.value, 0, this.health.max);
     this.health.pct = Math.round(this.health.value / this.health.max * 100);
   }

@@ -123,7 +123,7 @@
       "image": {},
       "text": {
         "format": 1,
-        "content": "<p>While injured, a character has their maximum health reduced by 1%. This condition stacks up to a hundred times; if a character has 25 stacks of the Injured condition, their maximum health is reduced by 25%. If this reaches 100%, the character is permanently dead.</p>"
+        "content": "<p>While injured, a character has their maximum health reduced by 5%. This condition stacks up to twenty times; if a character has five stacks of the Injured condition, their maximum health is reduced by 25%. If this reaches 100%, the character is permanently dead.</p>"
       },
       "video": {
         "controls": true,
