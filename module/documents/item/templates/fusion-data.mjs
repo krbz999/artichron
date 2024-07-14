@@ -137,6 +137,15 @@ export const FusionTemplateMixin = Base => {
         changes.push({key: `system.${path}`, mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: String(value)});
       }
 
+      // Half the source item's weight is added.
+      path = "weight.value";
+      ifield = item.system.schema.getField(path);
+      sfield = source.system.schema.getField(path);
+      if (ifield && sfield) {
+        const value = Math.ceil(foundry.utils.getProperty(source.system, path) / 2);
+        changes.push({key: `system.${path}`, mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: String(value)});
+      }
+
       return changes;
     }
 
