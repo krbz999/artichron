@@ -41,6 +41,8 @@ export default class ItemFusionDialog extends HandlebarsApplicationMixin(Applica
   }
 
   /* -------------------------------------------------- */
+  /*   Properties                                       */
+  /* -------------------------------------------------- */
 
   /**
    * The item being fused onto another.
