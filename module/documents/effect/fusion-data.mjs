@@ -29,41 +29,7 @@ export default class EffectFusionData extends ActiveEffectSystemModel {
   }
 
   /* -------------------------------------------------- */
-
-  /** @override */
-  async _preCreate(...T) {
-    const allowed = await super._preCreate(...T);
-    if (allowed === false) return false;
-
-    const isActor = this.parent.parent.documentName === "Actor";
-    const invalidItem = (this.parent.parent.documentName === "Item") && !this.parent.parent.canFuse;
-    if (isActor || invalidItem) {
-      ui.notifications.warn("ARTICHRON.Warning.InvalidActiveEffectType", {localize: true});
-      return false;
-    }
-  }
-
-  /* -------------------------------------------------- */
-
-  /** @override */
-  prepareDerivedData() {
-    super.prepareDerivedData();
-
-    // Fusions never apply to their actor.
-    this.parent.transfer = false;
-  }
-
-  /* -------------------------------------------------- */
-
-  /** @override */
-  getRollData() {
-    const data = {
-      fusion: {...this.itemData?.system ?? {}}
-    };
-    data.fusion.name = this.itemData?.name ?? "";
-    return data;
-  }
-
+  /*   Properties                                       */
   /* -------------------------------------------------- */
 
   /**
@@ -92,6 +58,48 @@ export default class EffectFusionData extends ActiveEffectSystemModel {
    */
   get isActiveFusion() {
     return !this.isTransferrableFusion;
+  }
+
+  /* -------------------------------------------------- */
+  /*   Life-cycle events                                */
+  /* -------------------------------------------------- */
+
+  /** @override */
+  async _preCreate(...T) {
+    const allowed = await super._preCreate(...T);
+    if (allowed === false) return false;
+
+    const isActor = this.parent.parent.documentName === "Actor";
+    const invalidItem = (this.parent.parent.documentName === "Item") && !this.parent.parent.canFuse;
+    if (isActor || invalidItem) {
+      ui.notifications.warn("ARTICHRON.Warning.InvalidActiveEffectType", {localize: true});
+      return false;
+    }
+  }
+
+  /* -------------------------------------------------- */
+  /*   Data preparation                                 */
+  /* -------------------------------------------------- */
+
+  /** @override */
+  prepareDerivedData() {
+    super.prepareDerivedData();
+
+    // Fusions never apply to their actor.
+    this.parent.transfer = false;
+  }
+
+  /* -------------------------------------------------- */
+  /*   Instance methods                                 */
+  /* -------------------------------------------------- */
+
+  /** @override */
+  getRollData() {
+    const data = {
+      fusion: {...this.itemData?.system ?? {}}
+    };
+    data.fusion.name = this.itemData?.name ?? "";
+    return data;
   }
 
   /* -------------------------------------------------- */
@@ -207,6 +215,8 @@ export default class EffectFusionData extends ActiveEffectSystemModel {
         "system.weight.value": "Weight",
         "system.armor.value": "Armor",
         "system.range.value": "Range",
+        "system.range.reach": "Reach",
+        "system.cost.value": "Action Point Cost",
         "system.damage.parts": "Damage"
       }[key];
       locale = `ARTICHRON.ItemFusionChanges.${map}.${mode}`;
