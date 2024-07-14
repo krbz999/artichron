@@ -1,5 +1,26 @@
+const {NumberField, SchemaField} = foundry.data.fields;
+
 export const FusionTemplateMixin = Base => {
   return class FusionTemplate extends Base {
+    /** @override */
+    static defineSchema() {
+      const schema = super.defineSchema();
+      schema.fusion = new SchemaField({
+        max: new NumberField({
+          integer: true,
+          min: 0,
+          initial: 1,
+          label: "ARTICHRON.ItemProperty.Fusion.Max",
+          hint: "ARTICHRON.ItemProperty.Fusion.MaxHint"
+        })
+      });
+      return schema;
+    }
+
+    /* -------------------------------------------------- */
+    /*   Instance methods                                 */
+    /* -------------------------------------------------- */
+
     /**
      * Pick one of the fusion options of this item, grant it to a target item, and destroy this.
      * @param {ItemArtichron} target                      The target item.
@@ -87,6 +108,8 @@ export const FusionTemplateMixin = Base => {
       return effect.system.unfuse();
     }
 
+    /* -------------------------------------------------- */
+    /*   Properties                                       */
     /* -------------------------------------------------- */
 
     /**

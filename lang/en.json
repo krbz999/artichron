@@ -276,6 +276,10 @@
     "PoolElixirChoiceStamina": "Stamina",
     "PoolElixirChoiceMana": "Mana"
   },
+  "Fusion": {
+    "Max": "Maximum Fusions",
+    "MaxHint": "The maximum number of fusions that can target this item at the same time."
+  },
   "Range": {
     "Value": "Range",
     "ValueHint": "The maximum range between you and your target when firing a projectile with this item.",

@@ -127,6 +127,9 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
     if (doc.system.schema.has("quantity")) {
       context.details.configuration.push(this._makeField(context, "quantity.value"));
     }
+    if (doc.system.schema.has("fusion")) {
+      context.details.configuration.push(this._makeField(context, "fusion.max"));
+    }
 
     // Handling fieldset
     context.details.handling = [];
