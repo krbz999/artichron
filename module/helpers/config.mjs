@@ -6,7 +6,6 @@ export const SYSTEM = {};
  * @property {string} color             Associated default color.
  * @property {string} icon              FA icon used for the damage type.
  * @property {string} group             An optgroup key to put this damage type in for rendering.
- * @property {boolean} [elemental]      ...?
  * @property {boolean} [resist]         Whether this damage type can be resisted.
  * @property {boolean} [armor]          Whether this damage type is resisted by armor rating.
  */
@@ -21,7 +20,6 @@ SYSTEM.DAMAGE_TYPES = {
     color: "FF5733",
     icon: "fa-solid fa-fire",
     group: "elemental",
-    elemental: true,
     resist: true
   },
   wind: {
@@ -29,7 +27,6 @@ SYSTEM.DAMAGE_TYPES = {
     color: "8DEEB5",
     icon: "fa-solid fa-wind",
     group: "elemental",
-    elemental: true,
     resist: true
   },
   lightning: {
@@ -37,7 +34,6 @@ SYSTEM.DAMAGE_TYPES = {
     color: "4B70A8",
     icon: "fa-solid fa-bolt",
     group: "elemental",
-    elemental: true,
     resist: true
   },
   ice: {
@@ -45,7 +41,6 @@ SYSTEM.DAMAGE_TYPES = {
     color: "54D7E0",
     icon: "fa-solid fa-snowflake",
     group: "elemental",
-    elemental: true,
     resist: true
   },
   light: {
