@@ -184,7 +184,7 @@ export const FusionTemplateMixin = Base => {
         changes.push({key: `system.${path}`, mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: String(value)});
       }
 
-      // Add half of all damage bonuses from one arsenal item to another.
+      // Half the source item's damage bonuses are added.
       path = "damage.bonuses";
       ifield = item.system.schema.getField(path);
       sfield = source.system.schema.getField(path);
@@ -203,6 +203,18 @@ export const FusionTemplateMixin = Base => {
       if (ifield && sfield && source.hasTemplate) {
         const value = Array.from(foundry.utils.getProperty(source.system, path)).join(", ");
         changes.push({key: `system.${path}`, mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: value});
+      }
+
+      // Half the source item's resistances are added.
+      path = "resistances";
+      ifield = item.system.schema.getField(path);
+      sfield = source.system.schema.getField(path);
+      if (ifield && sfield && item.isArmor && source.isArmor) {
+        for (const field of sfield) {
+          const valueField = field.fields.value;
+          const value = Math.ceil(foundry.utils.getProperty(source, valueField.fieldPath) / 2);
+          changes.push({key: valueField.fieldPath, mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: String(value)});
+        }
       }
 
       return changes;
