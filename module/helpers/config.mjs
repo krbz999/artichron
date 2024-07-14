@@ -566,15 +566,18 @@ SYSTEM.SKILLS = {
  */
 SYSTEM.POOL_SIZE_SPECIALIZATION_TYPES = {
   balanced: {
-    label: "ARTICHRON.PoolSpecialization.Balanced",
+    label: "ARTICHRON.PoolConfig.SpecializationBalanced",
+    hint: "ARTICHRON.PoolConfig.SpecializationBalancedSizeHint",
     sizes: [4, 4, 4]
   },
   specialized: {
-    label: "ARTICHRON.PoolSpecialization.Specialized",
+    label: "ARTICHRON.PoolConfig.SpecializationSpecialized",
+    hint: "ARTICHRON.PoolConfig.SpecializationSpecializedSizeHint",
     sizes: [2, 4, 6]
   },
   focused: {
-    label: "ARTICHRON.PoolSpecialization.Focused",
+    label: "ARTICHRON.PoolConfig.SpecializationFocused",
+    hint: "ARTICHRON.PoolConfig.SpecializationFocusedSizeHint",
     sizes: [2, 2, 8]
   }
 };
@@ -593,15 +596,18 @@ SYSTEM.POOL_SIZE_SPECIALIZATION_TYPES = {
  */
 SYSTEM.POOL_FACES_SPECIALIZATION_TYPES = {
   balanced: {
-    label: "ARTICHRON.PoolSpecialization.Balanced",
+    label: "ARTICHRON.PoolConfig.SpecializationBalanced",
+    hint: "ARTICHRON.PoolConfig.SpecializationBalancedFacesHint",
     faces: [6, 6, 6]
   },
   specialized: {
-    label: "ARTICHRON.PoolSpecialization.Specialized",
+    label: "ARTICHRON.PoolConfig.SpecializationSpecialized",
+    hint: "ARTICHRON.PoolConfig.SpecializationSpecializedFacesHint",
     faces: [4, 6, 8]
   },
   focused: {
-    label: "ARTICHRON.PoolSpecialization.Focused",
+    label: "ARTICHRON.PoolConfig.SpecializationFocused",
+    hint: "ARTICHRON.PoolConfig.SpecializationFocusedFacesHint",
     faces: [4, 4, 10]
   }
 };

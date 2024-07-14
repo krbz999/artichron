@@ -124,7 +124,7 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
 
   /**
    * Handle the change events on input fields that should propagate to the embedded document.
-   * @param {Event} event             The initiating change event.
+   * @param {Event} event     The initiating change event.
    */
   async _onUpdateEmbedded(event) {
     if (!this.isEditable) return;
