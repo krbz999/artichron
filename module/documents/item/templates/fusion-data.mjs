@@ -109,6 +109,31 @@ export const FusionTemplateMixin = Base => {
     }
 
     /* -------------------------------------------------- */
+
+    /**
+     * Create fusion data using a source item with the target being this item.
+     * @param {ItemArtichron} source      The source item that will be fused onto this item.
+     * @returns {object[]}                An array of effect change data.
+     */
+    createFusionData(source) {
+      const item = this.parent;
+      const changes = [];
+
+      // Attributes are merged.
+      let path = "attributes.value";
+      let ifield = item.system.schema.getField(path);
+      let sfield = source.system.schema.getField(path);
+      if (ifield && sfield) {
+        const svalue = foundry.utils.getProperty(source.system, path);
+        const ivalue = foundry.utils.getProperty(item.system, path);
+        const value = Array.from(svalue).join(", ");
+        changes.push({key: `system.${path}`, mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: value});
+      }
+
+      return changes;
+    }
+
+    /* -------------------------------------------------- */
     /*   Properties                                       */
     /* -------------------------------------------------- */
 
