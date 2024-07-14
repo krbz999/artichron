@@ -249,6 +249,27 @@
     "Value": "Attributes",
     "ValueHint": "Unique attributes of this item."
   },
+  "Damage": {
+    "Bonuses": {
+      "Arcane": "Arcane Bonus",
+      "Darkness": "Darkness Bonus",
+      "Fire": "Fire Bonus",
+      "Ice": "Ice Bonus",
+      "Light": "Light Bonus",
+      "Lightning": "Lightning Bonus",
+      "Wind": "Wind Bonus"
+    },
+    "Override": {
+      "Group": "Target Group",
+      "GroupHint": "The group of damage types that this ammunition will override the type of.",
+      "GroupChoiceAll": "All Types",
+      "Value": "Type",
+      "ValueHint": "The new damage type that will be used in place of the overridden group."
+    },
+    "Parts": {
+      "Label": "Damage Parts"
+    }
+  },
   "Description": {
     "Value": "Description",
     "ValueHint": ""
@@ -309,15 +330,6 @@
   "Quantity": {
     "Value": "Quantity",
     "ValueHint": "The size of this stack of items."
-  },
-  "Damage": {
-    "Override": {
-      "Group": "Target Group",
-      "GroupHint": "The group of damage types that this ammunition will override the type of.",
-      "GroupChoiceAll": "All Types",
-      "Value": "Type",
-      "ValueHint": "The new damage type that will be used in place of the overridden group."
-    }
   },
   "Armor": {
     "Value": "Armor",
