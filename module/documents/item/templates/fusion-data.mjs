@@ -184,6 +184,18 @@ export const FusionTemplateMixin = Base => {
         changes.push({key: `system.${path}`, mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: String(value)});
       }
 
+      // Add half of all damage bonuses from one arsenal item to another.
+      path = "damage.bonuses";
+      ifield = item.system.schema.getField(path);
+      sfield = source.system.schema.getField(path);
+      if (ifield && sfield) {
+        for (const field of sfield) {
+          const valueField = field.fields.value;
+          const value = Math.ceil(foundry.utils.getProperty(source, valueField.fieldPath) / 2);
+          changes.push({key: valueField.fieldPath, mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: String(value)});
+        }
+      }
+
       return changes;
     }
 
