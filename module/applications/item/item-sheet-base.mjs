@@ -135,13 +135,7 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
     context.details.handling = [];
     if (doc.system.schema.has("wield")) context.details.handling.push(this._makeField(context, "wield.value"));
     if (doc.system.schema.has("range") && !doc.isAmmo) {
-      let isMelee;
-      switch (this.document.type) {
-        case "shield": isMelee = true; break;
-        case "spell": isMelee = false; break;
-        case "weapon": isMelee = CONFIG.SYSTEM.WEAPON_TYPES[this.document.system.category.subtype].melee; break;
-      }
-      const property = isMelee ? "range.reach" : "range.value";
+      const property = this.document.isMelee ? "range.reach" : "range.value";
       context.details.handling.push(this._makeField(context, property));
     }
     if (doc.type === "spell") context.details.handling.push(this._makeField(context, "template.types"));

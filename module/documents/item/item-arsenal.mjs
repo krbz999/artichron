@@ -41,8 +41,8 @@ export default class ArsenalData extends ItemSystemModel.mixin(
         }),
         reach: new NumberField({
           integer: true,
-          min: 1,
-          initial: 1,
+          min: 0,
+          initial: 0,
           label: "ARTICHRON.ItemProperty.Range.Reach",
           hint: "ARTICHRON.ItemProperty.Range.ReachHint"
         })

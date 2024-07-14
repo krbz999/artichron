@@ -157,6 +157,15 @@ export const FusionTemplateMixin = Base => {
         changes.push({key: `system.${path}`, mode: CONST.ACTIVE_EFFECT_MODES.UPGRADE, value: String(value)});
       }
 
+      // Half the source item's reach is added.
+      path = "range.reach";
+      ifield = item.system.schema.getField(path);
+      sfield = source.system.schema.getField(path);
+      if (ifield && sfield && item.isMelee && source.isMelee) {
+        const value = Math.ceil(foundry.utils.getProperty(source.system, path) / 2);
+        changes.push({key: `system.${path}`, mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: String(value)});
+      }
+
       return changes;
     }
 

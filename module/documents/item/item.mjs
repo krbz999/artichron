@@ -225,6 +225,22 @@ export default class ItemArtichron extends Item {
   }
 
   /* -------------------------------------------------- */
+
+  /**
+   * Is this a melee piece of arsenal that makes use of reach?
+   * @type {boolean}
+   */
+  get isMelee() {
+    if (this.type === "shield") return true;
+    else if (this.type === "weapon") {
+      const subtype = this.system.category.subtype;
+      const melee = CONFIG.SYSTEM.WEAPON_TYPES[subtype].melee;
+      return melee;
+    }
+    return false;
+  }
+
+  /* -------------------------------------------------- */
   /*   Preparation methods                              */
   /* -------------------------------------------------- */
 
