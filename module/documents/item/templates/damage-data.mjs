@@ -14,8 +14,7 @@ export const DamageTemplateMixin = Base => {
           value: new NumberField({
             min: 0,
             integer: true,
-            label: "ARTICHRON.ItemProperty.Damage.Bonuses.Value",
-            hint: "ARTICHRON.ItemProperty.Damage.Bonuses.ValueHint"
+            label: `ARTICHRON.ItemProperty.Damage.Bonuses.${type.capitalize()}`
           })
         });
         return acc;
@@ -34,8 +33,13 @@ export const DamageTemplateMixin = Base => {
             label: "ARTICHRON.ItemProperty.Damage.Parts.Type",
             hint: "ARTICHRON.ItemProperty.Damage.Parts.TypeHint"
           })
-        })),
-        bonuses: new SchemaField(bonuses)
+        }), {
+          label: "ARTICHRON.ItemProperty.Damage.Parts.Label"
+        }),
+        bonuses: new SchemaField(bonuses, {
+          label: "ARTICHRON.ItemProperty.Damage.Bonuses.Value",
+          hint: "ARTICHRON.ItemProperty.Damage.Bonuses.ValueHint"
+        })
       });
 
       return schema;
@@ -143,7 +147,11 @@ export const DamageTemplateMixin = Base => {
 
     /** @override */
     static get BONUS_FIELDS() {
-      return super.BONUS_FIELDS.union(new Set(["system.damage.parts"]));
+      const bonus = super.BONUS_FIELDS.add("system.damage.parts");
+      for (const k of Object.keys(CONFIG.SYSTEM.DAMAGE_TYPES)) {
+        if (k !== "physical") bonus.add(`system.damage.bonuses.${k}.value`);
+      }
+      return bonus;
     }
 
     /* -------------------------------------------------- */
