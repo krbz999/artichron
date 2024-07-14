@@ -146,6 +146,17 @@ export const FusionTemplateMixin = Base => {
         changes.push({key: `system.${path}`, mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: String(value)});
       }
 
+      // Use the highest of the items' wielding (one- or two-handed).
+      path = "wield.value";
+      ifield = item.system.schema.getField(path);
+      sfield = source.system.schema.getField(path);
+      if (ifield && sfield) {
+        const valueA = foundry.utils.getProperty(source.system, path);
+        const valueB = foundry.utils.getProperty(item.system, path);
+        const value = Math.max(valueA, valueB);
+        changes.push({key: `system.${path}`, mode: CONST.ACTIVE_EFFECT_MODES.UPGRADE, value: String(value)});
+      }
+
       return changes;
     }
 
