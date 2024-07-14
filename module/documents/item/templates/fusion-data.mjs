@@ -125,7 +125,7 @@ export const FusionTemplateMixin = Base => {
       let sfield = source.system.schema.getField(path);
       if (ifield && sfield) {
         const value = Array.from(foundry.utils.getProperty(source.system, path)).join(", ");
-        changes.push({key: `system.${path}`, mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: value});
+        if (value) changes.push({key: `system.${path}`, mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: value});
       }
 
       // Half the source item's price is added.
@@ -134,7 +134,7 @@ export const FusionTemplateMixin = Base => {
       sfield = source.system.schema.getField(path);
       if (ifield && sfield) {
         const value = Math.ceil(foundry.utils.getProperty(source.system, path) / 2);
-        changes.push({key: `system.${path}`, mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: String(value)});
+        if (value) changes.push({key: `system.${path}`, mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: String(value)});
       }
 
       // Half the source item's weight is added.
@@ -143,7 +143,7 @@ export const FusionTemplateMixin = Base => {
       sfield = source.system.schema.getField(path);
       if (ifield && sfield) {
         const value = Math.ceil(foundry.utils.getProperty(source.system, path) / 2);
-        changes.push({key: `system.${path}`, mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: String(value)});
+        if (value) changes.push({key: `system.${path}`, mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: String(value)});
       }
 
       // Use the highest of the items' wielding (one- or two-handed).
@@ -154,7 +154,7 @@ export const FusionTemplateMixin = Base => {
         const valueA = foundry.utils.getProperty(source.system, path);
         const valueB = foundry.utils.getProperty(item.system, path);
         const value = Math.max(valueA, valueB);
-        changes.push({key: `system.${path}`, mode: CONST.ACTIVE_EFFECT_MODES.UPGRADE, value: String(value)});
+        if (value > 1) changes.push({key: `system.${path}`, mode: CONST.ACTIVE_EFFECT_MODES.UPGRADE, value: String(value)});
       }
 
       // Half the source item's reach is added.
@@ -163,7 +163,7 @@ export const FusionTemplateMixin = Base => {
       sfield = source.system.schema.getField(path);
       if (ifield && sfield && item.isMelee && source.isMelee) {
         const value = Math.ceil(foundry.utils.getProperty(source.system, path) / 2);
-        changes.push({key: `system.${path}`, mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: String(value)});
+        if (value) changes.push({key: `system.${path}`, mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: String(value)});
       }
 
       // Half the source item's action point cost is added.
@@ -172,7 +172,7 @@ export const FusionTemplateMixin = Base => {
       sfield = source.system.schema.getField(path);
       if (ifield && sfield) {
         const value = Math.ceil(foundry.utils.getProperty(source.system, path) / 2);
-        changes.push({key: `system.${path}`, mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: String(value)});
+        if (value) changes.push({key: `system.${path}`, mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: String(value)});
       }
 
       // Half the source item's armor value is added.
@@ -181,7 +181,7 @@ export const FusionTemplateMixin = Base => {
       sfield = source.system.schema.getField(path);
       if (ifield && sfield) {
         const value = Math.ceil(foundry.utils.getProperty(source.system, path) / 2);
-        changes.push({key: `system.${path}`, mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: String(value)});
+        if (value) changes.push({key: `system.${path}`, mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: String(value)});
       }
 
       // Half the source item's damage bonuses are added.
@@ -192,7 +192,7 @@ export const FusionTemplateMixin = Base => {
         for (const field of sfield) {
           const valueField = field.fields.value;
           const value = Math.ceil(foundry.utils.getProperty(source, valueField.fieldPath) / 2);
-          changes.push({key: valueField.fieldPath, mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: String(value)});
+          if (value) changes.push({key: valueField.fieldPath, mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: String(value)});
         }
       }
 
@@ -202,7 +202,7 @@ export const FusionTemplateMixin = Base => {
       sfield = source.system.schema.getField(path);
       if (ifield && sfield && source.hasTemplate) {
         const value = Array.from(foundry.utils.getProperty(source.system, path)).join(", ");
-        changes.push({key: `system.${path}`, mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: value});
+        if (value) changes.push({key: `system.${path}`, mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: value});
       }
 
       // Half the source item's resistances are added.
@@ -213,7 +213,7 @@ export const FusionTemplateMixin = Base => {
         for (const field of sfield) {
           const valueField = field.fields.value;
           const value = Math.ceil(foundry.utils.getProperty(source, valueField.fieldPath) / 2);
-          changes.push({key: valueField.fieldPath, mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: String(value)});
+          if (value) changes.push({key: valueField.fieldPath, mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: String(value)});
         }
       }
 
