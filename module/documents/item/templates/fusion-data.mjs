@@ -124,10 +124,17 @@ export const FusionTemplateMixin = Base => {
       let ifield = item.system.schema.getField(path);
       let sfield = source.system.schema.getField(path);
       if (ifield && sfield) {
-        const svalue = foundry.utils.getProperty(source.system, path);
-        const ivalue = foundry.utils.getProperty(item.system, path);
-        const value = Array.from(svalue).join(", ");
+        const value = Array.from(foundry.utils.getProperty(source.system, path)).join(", ");
         changes.push({key: `system.${path}`, mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: value});
+      }
+
+      // Half the source item's price is added.
+      path = "price.value";
+      ifield = item.system.schema.getField(path);
+      sfield = source.system.schema.getField(path);
+      if (ifield && sfield) {
+        const value = Math.ceil(foundry.utils.getProperty(source.system, path) / 2);
+        changes.push({key: `system.${path}`, mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: String(value)});
       }
 
       return changes;
