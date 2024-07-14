@@ -52,7 +52,9 @@ export default class SpellData extends ArsenalData {
 
   /** @override */
   static get BONUS_FIELDS() {
-    return super.BONUS_FIELDS;
+    const bonus = super.BONUS_FIELDS;
+    bonus.add("system.template.types");
+    return bonus;
   }
 
   /* -------------------------------------------------- */

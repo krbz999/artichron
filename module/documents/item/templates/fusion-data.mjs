@@ -196,6 +196,15 @@ export const FusionTemplateMixin = Base => {
         }
       }
 
+      // Merge the targeting types of offensive spells.
+      path = "template.types";
+      ifield = item.system.schema.getField(path);
+      sfield = source.system.schema.getField(path);
+      if (ifield && sfield && source.hasTemplate) {
+        const value = Array.from(foundry.utils.getProperty(source.system, path)).join(", ");
+        changes.push({key: `system.${path}`, mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: value});
+      }
+
       return changes;
     }
 
