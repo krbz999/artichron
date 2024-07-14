@@ -34,10 +34,17 @@ export default class ArsenalData extends ItemSystemModel.mixin(
       range: new SchemaField({
         value: new NumberField({
           integer: true,
-          positive: true,
+          min: 1,
           initial: 1,
           label: "ARTICHRON.ItemProperty.Range.Value",
           hint: "ARTICHRON.ItemProperty.Range.ValueHint"
+        }),
+        reach: new NumberField({
+          integer: true,
+          min: 1,
+          initial: 1,
+          label: "ARTICHRON.ItemProperty.Range.Reach",
+          hint: "ARTICHRON.ItemProperty.Range.ReachHint"
         })
       }),
       targets: new SchemaField({
@@ -59,6 +66,7 @@ export default class ArsenalData extends ItemSystemModel.mixin(
     return super.BONUS_FIELDS.union(new Set([
       "system.wield.value",
       "system.range.value",
+      "system.range.reach",
       "system.cost.value"
     ]));
   }

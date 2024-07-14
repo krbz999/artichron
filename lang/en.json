@@ -278,7 +278,9 @@
   },
   "Range": {
     "Value": "Range",
-    "ValueHint": "The maximum range of the item."
+    "ValueHint": "The maximum range between you and your target when firing a projectile with this item.",
+    "Reach": "Reach",
+    "ReachHint": "The maximum distance between you and your target when making an attack with this item."
   },
   "Price": {
     "Value": "Price",

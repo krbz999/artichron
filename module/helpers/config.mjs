@@ -161,7 +161,8 @@ SYSTEM.AREA_TARGET_TYPES = {
 
 /**
  * @typedef {object} WeaponTypeConfig
- * @property {string} label     The human-readable label of this weapon type.
+ * @property {string} label       The human-readable label of this weapon type.
+ * @property {boolean} melee      Whether this weapon type is a melee or ranged weapon.
  */
 
 /**
@@ -169,18 +170,54 @@ SYSTEM.AREA_TARGET_TYPES = {
  * @enum {WeaponTypeConfig}
  */
 SYSTEM.WEAPON_TYPES = {
-  axe: {label: "ARTICHRON.WeaponType.Axe"},
-  bow: {label: "ARTICHRON.WeaponType.Bow"},
-  chakram: {label: "ARTICHRON.WeaponType.Chakram"},
-  dagger: {label: "ARTICHRON.WeaponType.Dagger"},
-  hammer: {label: "ARTICHRON.WeaponType.Hammer"},
-  meteorHammer: {label: "ARTICHRON.WeaponType.MeteorHammer"},
-  nunChuck: {label: "ARTICHRON.WeaponType.NunChuck"},
-  pistol: {label: "ARTICHRON.WeaponType.Pistol"},
-  rifle: {label: "ARTICHRON.WeaponType.Rifle"},
-  shotgun: {label: "ARTICHRON.WeaponType.Shotgun"},
-  spear: {label: "ARTICHRON.WeaponType.Spear"},
-  sword: {label: "ARTICHRON.WeaponType.Sword"}
+  axe: {
+    label: "ARTICHRON.WeaponType.Axe",
+    melee: true
+  },
+  bow: {
+    label: "ARTICHRON.WeaponType.Bow",
+    melee: false
+  },
+  chakram: {
+    label: "ARTICHRON.WeaponType.Chakram",
+    melee: true
+  },
+  dagger: {
+    label: "ARTICHRON.WeaponType.Dagger",
+    melee: true
+  },
+  hammer: {
+    label: "ARTICHRON.WeaponType.Hammer",
+    melee: true
+  },
+  meteorHammer: {
+    label: "ARTICHRON.WeaponType.MeteorHammer",
+    melee: true
+  },
+  nunChuck: {
+    label: "ARTICHRON.WeaponType.NunChuck",
+    melee: true
+  },
+  pistol: {
+    label: "ARTICHRON.WeaponType.Pistol",
+    melee: false
+  },
+  rifle: {
+    label: "ARTICHRON.WeaponType.Rifle",
+    melee: false
+  },
+  shotgun: {
+    label: "ARTICHRON.WeaponType.Shotgun",
+    melee: false
+  },
+  spear: {
+    label: "ARTICHRON.WeaponType.Spear",
+    melee: true
+  },
+  sword: {
+    label: "ARTICHRON.WeaponType.Sword",
+    melee: true
+  }
 };
 
 /* -------------------------------------------------- */
