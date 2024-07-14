@@ -5,6 +5,14 @@ export default class ActiveEffectArtichron extends ActiveEffect {
       const name = change.value.replaceAll("{}", model.name);
       foundry.utils.setProperty(model, "name", name);
       return name;
+    } else if (field instanceof foundry.data.fields.SetField) {
+      const set = foundry.utils.getProperty(model, change.key);
+      const values = change.value.matchAll(/(?<remove>-)?(?<key>[a-zA-Z]+)/g);
+      for (const {groups: {remove, key}} of values) {
+        if (remove) set.delete(key);
+        else set.add(key);
+      }
+      return set;
     } else {
       return super.applyField(model, change, field);
     }

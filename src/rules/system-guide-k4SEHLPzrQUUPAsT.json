@@ -1,0 +1,59 @@
+{
+  "name": "System Guide",
+  "_id": "k4SEHLPzrQUUPAsT",
+  "pages": [
+    {
+      "sort": 0,
+      "name": "Active Effects",
+      "type": "text",
+      "_id": "I0TyxeocjTCZCpLh",
+      "system": {},
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "image": {},
+      "text": {
+        "format": 1,
+        "content": "<p>Active effects function the same way as always. Some quality-of-life changes have been made to enhance the use of them in this system.</p><h3>Name Overrides</h3><p>When using the name attribute key and the Override change mode, any instance of the substring '{}' in the effect value will be replaced with the target's current name. E.g., an item named 'Battleaxe' affected by a change with the value 'Cool {} of Doom' will have its name changed to 'Cool Battleaxe of Doom'.</p><h3>Affecting Sets</h3><p>Normally when targeting a Set of strings, the effect value of the change has to be very particular, e.g., <code>[\"magical\", \"ammunition\", \"rending\"]</code>. In this system, you can instead simply write <code>magical, ammunition, rending</code>. In addition, if you wish to remove a key from the Set, you can prepend the key with '-'. E.g., <code>magical, ammunition, -rending</code> will add the magical and ammunition attributes and remove the rending attribute.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": null,
+      "ownership": {
+        "default": -1
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": null,
+        "systemId": null,
+        "systemVersion": null,
+        "createdTime": null,
+        "modifiedTime": null,
+        "lastModifiedBy": null
+      },
+      "_key": "!journal.pages!k4SEHLPzrQUUPAsT.I0TyxeocjTCZCpLh"
+    }
+  ],
+  "folder": null,
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": null,
+    "systemId": null,
+    "systemVersion": null,
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  },
+  "_key": "!journal!k4SEHLPzrQUUPAsT"
+}
