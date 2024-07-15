@@ -139,18 +139,42 @@
     border-radius: 4px;
     align-items: center;
     flex-wrap: wrap;
+    --height: calc(3rem - 2px);
+
+    .image {
+      border: none;
+      margin-right: 5px;
+      height: var(--height);
+      position: relative;
+      text-shadow: none;
+
+      > * {
+        height: 100%;
+        transition: opacity 200ms ease;
+      }
+
+      .use {
+        position: absolute;
+        top: 0;
+        opacity: 0;
+        width: 100%;
+        font-size: 1.5rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: var(--artichron-color-gold);
+      }
+      &:hover {
+        & img { opacity: 0.25; }
+        .use { opacity: 1; }
+      }
+    }
 
     .wrapper {
-      height: calc(3rem - 2px);
+      height: var(--height);
       flex: 1;
       display: flex;
       align-items: center;
-
-      .image {
-        height: 100%;
-        border: none;
-        margin-right: 5px;
-      }
 
       .name {
         pointer-events: none;

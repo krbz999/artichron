@@ -57,24 +57,32 @@ export default class InventoryItemElement extends HTMLElement {
 
   /** @override */
   connectedCallback() {
-    // Img and name.
+    // Image.
+    const img = document.createElement("A");
+    const image = document.createElement("IMG");
+    image.src = this.dataset.img;
+    image.alt = this.dataset.name;
+    img.classList.add("image");
+    img.insertAdjacentElement("beforeend", image);
+    if (this.dataset.actions) {
+      img.dataset.action = "useItem";
+      const playButton = document.createElement("SPAN");
+      playButton.classList.add("use");
+      playButton.insertAdjacentHTML("beforeend", "<i class='fa-solid fa-circle-play'></i>");
+      img.insertAdjacentElement("beforeend", playButton);
+    }
+    this.insertAdjacentElement("beforeend", img);
+
+    // Name.
     const anchor = document.createElement("A");
     anchor.classList.add("wrapper");
     anchor.setAttribute("draggable", "true");
     anchor.dataset.action = "toggleDescription";
 
-    const img = document.createElement("IMG");
-    img.src = this.dataset.img;
-    if (this.dataset.actions) img.dataset.action = "useItem";
-
-    img.alt = this.dataset.name;
-    img.classList.add("image");
-
     const label = document.createElement("LABEL");
     label.classList.add("name");
     label.textContent = this.dataset.name;
 
-    anchor.insertAdjacentElement("beforeend", img);
     anchor.insertAdjacentElement("beforeend", label);
     this.insertAdjacentElement("beforeend", anchor);
 
