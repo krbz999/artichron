@@ -14,8 +14,6 @@
 
     .left-pane {
       width: 5rem;
-      display: flex;
-      flex-direction: column-reverse;
       overflow: hidden;
 
       .pools {
