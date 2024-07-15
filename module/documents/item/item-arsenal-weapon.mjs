@@ -7,7 +7,8 @@ const {NumberField, SchemaField, StringField} = foundry.data.fields;
 export default class WeaponData extends ArsenalData {
   /** @override */
   static metadata = Object.freeze(foundry.utils.mergeObject(super.metadata, {
-    type: "weapon"
+    type: "weapon",
+    defaultWeight: 2
   }, {inplace: false}));
 
   /* -------------------------------------------------- */
@@ -20,7 +21,9 @@ export default class WeaponData extends ArsenalData {
         subtype: new StringField({
           label: "ARTICHRON.ItemProperty.Category.SubtypeWeapon",
           hint: "ARTICHRON.ItemProperty.Category.SubtypeWeaponHint",
-          choices: CONFIG.SYSTEM.WEAPON_TYPES
+          required: true,
+          choices: CONFIG.SYSTEM.WEAPON_TYPES,
+          initial: () => Object.keys(CONFIG.SYSTEM.WEAPON_TYPES)[0]
         })
       }),
       cost: new SchemaField({

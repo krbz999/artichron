@@ -8,7 +8,8 @@ export default class ArmorData extends FusionTemplateMixin(ItemSystemModel) {
   /** @override */
   static metadata = Object.freeze(foundry.utils.mergeObject(super.metadata, {
     inventorySection: "gear",
-    type: "armor"
+    type: "armor",
+    defaultWeight: 2
   }, {inplace: false}));
 
   /* -------------------------------------------------- */

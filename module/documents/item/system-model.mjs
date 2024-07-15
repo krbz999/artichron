@@ -7,7 +7,8 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
    */
   static metadata = Object.freeze({
     inventorySection: "",
-    fusion: false
+    fusion: false,
+    defaultWeight: 1
   });
 
   /* -------------------------------------------------- */
@@ -36,8 +37,8 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
       weight: new SchemaField({
         value: new NumberField({
           min: 0,
-          nullable: true,
-          step: 0.25,
+          step: 0.1,
+          initial: () => this.metadata.defaultWeight,
           label: "ARTICHRON.ItemProperty.Weight.Value",
           hint: "ARTICHRON.ItemProperty.Weight.ValueHint"
         })

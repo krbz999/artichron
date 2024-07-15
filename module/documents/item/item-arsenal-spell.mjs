@@ -9,7 +9,8 @@ const {NumberField, SchemaField, StringField, SetField} = foundry.data.fields;
 export default class SpellData extends ArsenalData {
   /** @override */
   static metadata = Object.freeze(foundry.utils.mergeObject(super.metadata, {
-    type: "spell"
+    type: "spell",
+    defaultWeight: 1
   }, {inplace: false}));
 
   /* -------------------------------------------------- */
