@@ -9,11 +9,13 @@ import {registerEnrichers} from "./module/helpers/enrichers.mjs";
 import {registerSockets} from "./module/helpers/sockets.mjs";
 import {BuffTarget, DamageTarget} from "./module/elements/target-element.mjs";
 import InventoryItemElement from "./module/elements/inventory-item-element.mjs";
+import ThresholdBarElement from "./module/elements/threshold-bar-element.mjs";
 
 // Custom elements.
 window.customElements.define("damage-target", DamageTarget);
 window.customElements.define("buff-target", BuffTarget);
 window.customElements.define(InventoryItemElement.tagName, InventoryItemElement);
+window.customElements.define(ThresholdBarElement.tagName, ThresholdBarElement);
 
 /* -------------------------------------------------- */
 /*   Define module structure                          */
@@ -122,7 +124,8 @@ Hooks.once("init", function() {
 
 Hooks.once("setup", function() {
   Handlebars.registerHelper({
-    inventoryItem: inventoryItem
+    inventoryItem: inventoryItem,
+    thresholdBar: thresholdBar
   });
 });
 
@@ -221,5 +224,10 @@ function inventoryItem(item, options) {
     actions,
     dataset
   });
+  return new Handlebars.SafeString(element.outerHTML);
+}
+
+function thresholdBar(options) {
+  const element = ThresholdBarElement.create(options.hash);
   return new Handlebars.SafeString(element.outerHTML);
 }

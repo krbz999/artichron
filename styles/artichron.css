@@ -281,3 +281,23 @@ dialog:-internal-dialog-in-top-layer::backdrop {
     }
   }
 }
+
+threshold-bar {
+  display: grid;
+  grid-template-columns: 3rem 1fr;
+
+  > :first-child {
+    text-align: center;
+    border: 1px solid gold;
+  }
+
+  > :nth-child(2) {
+    gap: 2px;
+    height: 100%;
+
+    > span {
+      background-color: blue;
+      transform: matrix(1, 0, 1, -1, 0, 0) translateX(1rem);
+    }
+  }
+}

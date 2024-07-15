@@ -1,6 +1,6 @@
 import ActorSystemModel from "./system-model.mjs";
 
-const {NumberField, SchemaField, StringField} = foundry.data.fields;
+const {HTMLField, NumberField, SchemaField, StringField} = foundry.data.fields;
 
 export default class HeroData extends ActorSystemModel {
   /** @override */
@@ -101,6 +101,13 @@ export default class HeroData extends ActorSystemModel {
       });
       return acc;
     }, {}));
+
+    schema.details = new SchemaField({
+      notes: new HTMLField({
+        required: true,
+        label: "ARTICHRON.ActorProperty.Details.Notes"
+      })
+    });
 
     return schema;
   }

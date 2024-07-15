@@ -40,7 +40,13 @@ export default class HeroSheet extends ActorSheetArtichron {
       template: "systems/artichron/templates/actor/tab-inventory.hbs",
       scrollable: [".inventory-list"]
     },
-    effects: {template: "systems/artichron/templates/shared/effects.hbs",
+    effects: {
+      template: "systems/artichron/templates/shared/effects.hbs",
+      scrollable: [""]
+    },
+    details: {
+      template: "systems/artichron/templates/actor/tab-details.hbs",
+      classes: ["standard-form"],
       scrollable: [""]
     },
     encumbrance: {template: "systems/artichron/templates/actor/tab-encumbrance.hbs"}
@@ -60,7 +66,8 @@ export default class HeroSheet extends ActorSheetArtichron {
     attributes: {id: "attributes", group: "primary", label: "ARTICHRON.SheetTab.Attributes"},
     equipment: {id: "equipment", group: "primary", label: "ARTICHRON.SheetTab.Equipment"},
     inventory: {id: "inventory", group: "primary", label: "ARTICHRON.SheetTab.Inventory"},
-    effects: {id: "effects", group: "primary", label: "ARTICHRON.SheetTab.Effects"}
+    effects: {id: "effects", group: "primary", label: "ARTICHRON.SheetTab.Effects"},
+    details: {id: "details", group: "primary", label: "ARTICHRON.SheetTab.Details"}
   };
 
   /* -------------------------------------------------- */
@@ -137,6 +144,15 @@ export default class HeroSheet extends ActorSheetArtichron {
     context.header = {
       name: context.isPlayMode ? doc.name : src.name,
       img: context.isPlayMode ? doc.img : src.img
+    };
+
+    // Details tab.
+    context.notes = {
+      field: this.document.system.schema.getField("details.notes"),
+      value: foundry.utils.getProperty(this.document._source, "system.details.notes"),
+      enriched: await TextEditor.enrichHTML(this.document.system.details.notes, {
+        relativeTo: this.document, rollData: rollData
+      })
     };
 
     return context;

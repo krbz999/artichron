@@ -1,0 +1,9 @@
+<div class="{{tabs.details.tabCssClass}}" data-group="primary" data-tab="details">
+  <fieldset>
+    {{thresholdBar value=document.flags.world.points limit=5 max=20}}
+  </fieldset>
+  <fieldset>
+    <legend>{{notes.field.label}}</legend>
+    {{formInput notes.field value=notes.value enriched=notes.enriched height=300 toggled=true}}
+  </fieldset>
+</div>
