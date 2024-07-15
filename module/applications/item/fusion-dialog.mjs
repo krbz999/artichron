@@ -138,7 +138,25 @@ export default class ItemFusionDialog extends HandlebarsApplicationMixin(Applica
       context.targetDisabled = !target;
     } else if (partId === "changes") {
       const effect = this.#item.effects.get(this.#selectedFusion);
-      context.changes = effect ? effect.system.translateChanges() : null;
+      const target = this.#item.actor.items.get(this.#selectedTarget);
+      const changes = (target && effect) ? target.system.createFusionTranslation(effect) : [];
+      context.changes = [];
+      for (let {path, label, oldValue, newValue} of changes) {
+        label = game.i18n.localize(label);
+        if (["Set", "Array"].includes(foundry.utils.getType(newValue))) {
+          oldValue = effect.system.constructor.translateChange({
+            key: path,
+            mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+            value: oldValue
+          });
+          newValue = effect.system.constructor.translateChange({
+            key: path,
+            mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+            value: newValue
+          });
+        }
+        context.changes.push({label, oldValue, newValue});
+      }
     } else if (partId === "footer") {
       context.footer = {
         disabled: !this.#item.actor.items.get(this.#selectedTarget) || !this.#item.effects.get(this.#selectedFusion)

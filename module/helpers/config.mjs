@@ -371,8 +371,11 @@ SYSTEM.EFFECT_EXPIRATION_TYPES = {
 
 /**
  * @typedef {object} ItemAttributeConfig
- * @property {string} label             The human-readable label of this item attribute.
- * @property {Set<string>} [types]      A set of item types this can be an option for. If empty or omitted, then all types.
+ * @property {string} label                 The human-readable label of this item attribute.
+ * @property {Set<string>} [types]          A set of item types this can be an option for.
+ *                                          If empty or omitted, then all types.
+ * @property {boolean} [transferrable]      If explicitly false, this attribute will not be
+ *                                          transferred automatically via fusions.
  */
 
 /**
@@ -382,7 +385,8 @@ SYSTEM.EFFECT_EXPIRATION_TYPES = {
 SYSTEM.ITEM_ATTRIBUTES = {
   ammunition: {
     label: "ARTICHRON.ItemAttribute.Ammunition",
-    types: new Set(["weapon"])
+    types: new Set(["weapon"]),
+    transferrable: false
   },
   blocking: {
     label: "ARTICHRON.ItemAttribute.Blocking",

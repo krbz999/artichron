@@ -164,85 +164,32 @@ export default class EffectFusionData extends ActiveEffectSystemModel {
   /* -------------------------------------------------- */
 
   /**
-   * Utility method for translating a change into a human-readable label.
-   * @param {object} change
-   * @param {string} change.key
-   * @param {number} change.mode
-   * @param {string} change.value
-   * @returns {string}
+   * Utility method for translating an edge-case change into a human-readable label.
+   * @param {object} change           Change effect data.
+   * @param {string} change.key       The attribute targeted.
+   * @param {number} change.mode      The active effect mode.
+   * @param {string} change.value     The new value of the property.
+   * @returns {string}                A human-readable label.
    */
   static translateChange({key, mode, value}) {
-    if (mode === CONST.ACTIVE_EFFECT_MODES.ADD) mode = "ADD";
-    else if (mode === CONST.ACTIVE_EFFECT_MODES.OVERRIDE) mode = "OVERRIDE";
-    else if (mode === CONST.ACTIVE_EFFECT_MODES.UPGRADE) mode = "OVERRIDE";
-
-    let locale;
-    let options;
-
-    // Special cases: resistances
-    if (key.startsWith("system.resistances.")) {
-      const [, , type] = key.split(".");
-      locale = `ARTICHRON.ItemFusionChanges.Resistance.${mode}`;
-      options = {change: value, type: type};
+    // Special case: attributes
+    if (key === "system.attributes.value") {
+      return Array.from(value).map(k => {
+        return CONFIG.SYSTEM.ITEM_ATTRIBUTES[k]?.label;
+      }).filterJoin(", ");
     }
 
     // Special case: damage
     else if (key === "system.damage.parts") {
-      value = JSON.parse(`[${value}]`);
       value = Array.isArray(value) ? value : [value];
 
       const formatter = new Intl.ListFormat("en", {style: "long", type: "conjunction"});
       const list = formatter.format(value.map(({formula, type}) => {
         return `${formula} ${CONFIG.SYSTEM.DAMAGE_TYPES[type].label}`;
       }));
-
-      locale = `ARTICHRON.ItemFusionChanges.Damage.${mode}`;
-      options = {change: list};
+      return list;
     }
 
-    // Special case: wielding
-    else if (key.startsWith("system.wield.")) {
-      value = parseInt(value);
-      locale = `ARTICHRON.ItemFusionChanges.${value === 1 ? "Wield" : "WieldPl"}.${mode}`;
-    }
-
-    // Regular cases
-    else {
-      const map = {
-        name: "Name",
-        img: "Image",
-        "system.price.value": "Price",
-        "system.weight.value": "Weight",
-        "system.armor.value": "Armor",
-        "system.range.value": "Range",
-        "system.range.reach": "Reach",
-        "system.cost.value": "Action Point Cost",
-        "system.damage.parts": "Damage"
-      }[key];
-      locale = `ARTICHRON.ItemFusionChanges.${map}.${mode}`;
-      options = {change: value};
-    }
-
-    if (game.i18n.has(locale)) return game.i18n.format(locale, options);
     throw new Error(`The attempted key '${key}' is an invalid key to translate!`);
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Attempt to translate the changes of this fusion into something human-readable.
-   * @returns {string[]}      Readable labels.
-   */
-  translateChanges() {
-    const labels = [];
-    for (const change of this.parent.changes) {
-      try {
-        const label = this.constructor.translateChange(change);
-        labels.push(label);
-      } catch (err) {
-        console.warn(err);
-      }
-    }
-    return labels;
   }
 }

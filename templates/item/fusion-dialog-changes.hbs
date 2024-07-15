@@ -1,6 +1,10 @@
 <fieldset class="changes">
   <legend>{{localize "ARTICHRON.ItemFusionDialog.Changes"}}</legend>
   <ul>
-  {{#each changes}}<li>{{this}}</li>{{/each}}
+    {{#each changes}}
+    <li>
+      <strong>{{localize label}}</strong>: {{oldValue}} <i class="fa-solid fa-arrow-right"></i> {{newValue}}
+    </li>
+    {{/each}}
   </ul>
 </fieldset>

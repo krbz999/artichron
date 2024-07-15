@@ -34,16 +34,7 @@ export const FusionTemplateMixin = Base => {
       })});
 
       const effectData = effect.toObject();
-
-      // Arsenal items always carry over their attributes.
-      if (this.parent.isArsenal) {
-        const value = Array.from(this.parent.system.attributes.value).map(a => `"${a}"`).join(", ");
-        effectData.changes.push({
-          key: "system.attributes.value",
-          mode: CONST.ACTIVE_EFFECT_MODES.ADD,
-          value: `[${value}]`
-        });
-      }
+      effectData.changes = target.system.createFusionData(effect);
 
       await this.parent.delete();
       return getDocumentClass("ActiveEffect").create(effectData, {parent: target});
@@ -111,11 +102,12 @@ export const FusionTemplateMixin = Base => {
     /* -------------------------------------------------- */
 
     /**
-     * Create fusion data using a source item with the target being this item.
-     * @param {ItemArtichron} source      The source item that will be fused onto this item.
-     * @returns {object[]}                An array of effect change data.
+     * Create fusion data using a fusion effect from a source item with the target being this item.
+     * @param {ActiveEffectArtichron} effect      The selected effect.
+     * @returns {object[]}                        An array of effect change data.
      */
-    createFusionData(source) {
+    createFusionData(effect) {
+      const source = effect.parent;
       const item = this.parent;
       const changes = [];
 
@@ -124,7 +116,9 @@ export const FusionTemplateMixin = Base => {
       let ifield = item.system.schema.getField(path);
       let sfield = source.system.schema.getField(path);
       if (ifield && sfield) {
-        const value = Array.from(foundry.utils.getProperty(source.system, path)).join(", ");
+        const value = Array.from(foundry.utils.getProperty(source.system, path)).filter(key => {
+          return CONFIG.SYSTEM.ITEM_ATTRIBUTES[key].transferrable !== false;
+        }).join(", ");
         if (value) changes.push({key: `system.${path}`, mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: value});
       }
 
@@ -217,7 +211,40 @@ export const FusionTemplateMixin = Base => {
         }
       }
 
+      // Any valid changes from the effect are added as well.
+      for (const change of effect.changes) {
+        if (this.constructor.BONUS_FIELDS.has(change.key)) changes.push({...change});
+      }
+
       return changes;
+    }
+
+    /**
+     * Construct an array of changes that will be applying to this item if a given fusion
+     * effect is chosen from its source item.
+     * @param {ActiveEffectArtichron} effect      The selected effect.
+     * @returns {object[]}                        An array of objects, each with path, label, and the old and new values.
+     */
+    createFusionTranslation(effect) {
+      const source = effect.parent;
+      const changes = this.createFusionData(effect);
+
+      const clone = this.parent.clone();
+      const update = [];
+      for (const change of changes) {
+        const path = change.key;
+        const field = path.startsWith("system.") ?
+          source.system.schema.getField(path.slice(7)) :
+          source.schema.getField(path);
+        const newValue = getDocumentClass("ActiveEffect").applyField(clone, change, field);
+        update.push({
+          oldValue: foundry.utils.getProperty(this.parent, change.key) ?? 0,
+          newValue: newValue,
+          label: field.label || change.key,
+          path: change.key
+        });
+      }
+      return update;
     }
 
     /* -------------------------------------------------- */
