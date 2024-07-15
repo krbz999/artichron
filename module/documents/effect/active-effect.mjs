@@ -7,11 +7,15 @@ export default class ActiveEffectArtichron extends ActiveEffect {
         model.schema.getField(change.key);
     }
 
+    // Allow prefixes etc for names.
     if ((change.key === "name") && (change.value.includes("{}"))) {
       const name = change.value.replaceAll("{}", model.name);
       foundry.utils.setProperty(model, "name", name);
       return name;
-    } else if (field instanceof foundry.data.fields.SetField) {
+    }
+
+    // Special consideration for set fields.
+    else if (field instanceof foundry.data.fields.SetField) {
       const set = foundry.utils.getProperty(model, change.key);
       const values = change.value.matchAll(/(?<remove>-)?(?<key>[a-zA-Z]+)/g);
       for (const {groups: {remove, key}} of values) {
@@ -19,7 +23,9 @@ export default class ActiveEffectArtichron extends ActiveEffect {
         else set.add(key);
       }
       return set;
-    } else {
+    }
+
+    else {
       return super.applyField(model, change, field);
     }
   }

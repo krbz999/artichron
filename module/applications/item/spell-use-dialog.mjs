@@ -134,6 +134,7 @@ export default class SpellUseDialog extends HandlebarsApplicationMixin(Applicati
         // Build damage parts.
         const choices = {};
         for (const {id, formula, type} of this.#item.system._damages) {
+          if (!id) continue; // ignore damage parts added via effects.
           choices[id] = `${CONFIG.SYSTEM.DAMAGE_TYPES[type].label} [${formula}]`;
         }
         const field = new foundry.data.fields.StringField({

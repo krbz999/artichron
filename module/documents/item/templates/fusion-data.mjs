@@ -230,6 +230,7 @@ export const FusionTemplateMixin = Base => {
       const changes = this.createFusionData(effect);
 
       const clone = this.parent.clone();
+      clone.applyActiveEffects(); // unsure why this is needed.
       const update = [];
       for (const change of changes) {
         const path = change.key;
@@ -238,10 +239,10 @@ export const FusionTemplateMixin = Base => {
           source.schema.getField(path);
         const newValue = getDocumentClass("ActiveEffect").applyField(clone, change, field);
         update.push({
-          oldValue: foundry.utils.getProperty(this.parent, change.key) ?? 0,
+          oldValue: foundry.utils.getProperty(this.parent, path) ?? 0,
           newValue: newValue,
-          label: field.label || change.key,
-          path: change.key
+          label: field.label || path,
+          path: path
         });
       }
       return update;
