@@ -390,22 +390,27 @@ SYSTEM.ITEM_ATTRIBUTES = {
   },
   blocking: {
     label: "ARTICHRON.ItemAttribute.Blocking",
-    types: new Set(["weapon", "shield", "spell"])
+    types: new Set(["weapon", "shield", "spell"]),
+    transferrable: true
   },
   bludgeoning: {
     label: "ARTICHRON.ItemAttribute.Bludgeoning",
-    types: new Set(["weapon"])
+    types: new Set(["weapon"]),
+    transferrable: true
   },
   magical: {
-    label: "ARTICHRON.ItemAttribute.Magical"
+    label: "ARTICHRON.ItemAttribute.Magical",
+    transferrable: true
   },
   parrying: {
     label: "ARTICHRON.ItemAttribute.Parrying",
-    types: new Set(["weapon", "shield", "spell"])
+    types: new Set(["weapon", "shield", "spell"]),
+    transferrable: true
   },
   rending: {
     label: "ARTICHRON.ItemAttribute.Rending",
-    types: new Set(["weapon", "shield", "spell"])
+    types: new Set(["weapon", "shield", "spell"]),
+    transferrable: true
   }
 };
 
