@@ -22,39 +22,19 @@ export default class ArsenalData extends ItemSystemModel.mixin(
       ...super.defineSchema(),
       wield: new SchemaField({
         value: new NumberField({
+          initial: 1,
           choices: {
             1: "ARTICHRON.ItemProperty.Wield.ValueChoiceOneHanded",
             2: "ARTICHRON.ItemProperty.Wield.ValueChoiceTwoHanded"
-          },
-          initial: 1,
-          label: "ARTICHRON.ItemProperty.Wield.Value",
-          hint: "ARTICHRON.ItemProperty.Wield.ValueHint"
+          }
         })
       }),
       range: new SchemaField({
-        value: new NumberField({
-          integer: true,
-          min: 1,
-          initial: 1,
-          label: "ARTICHRON.ItemProperty.Range.Value",
-          hint: "ARTICHRON.ItemProperty.Range.ValueHint"
-        }),
-        reach: new NumberField({
-          integer: true,
-          min: 0,
-          initial: 0,
-          label: "ARTICHRON.ItemProperty.Range.Reach",
-          hint: "ARTICHRON.ItemProperty.Range.ReachHint"
-        })
+        value: new NumberField({integer: true, min: 1, initial: 1}),
+        reach: new NumberField({integer: true, min: 0, initial: 0})
       }),
       targets: new SchemaField({
-        value: new NumberField({
-          integer: true,
-          positive: true,
-          initial: 1,
-          label: "ARTICHRON.ItemProperty.Targets.Value",
-          hint: "ARTICHRON.ItemProperty.Targets.ValueHint"
-        })
+        value: new NumberField({integer: true, min: 1, initial: 1})
       })
     };
   }

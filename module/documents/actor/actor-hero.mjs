@@ -9,73 +9,19 @@ export default class HeroData extends ActorSystemModel {
 
     schema.pools = new SchemaField({
       health: new SchemaField({
-        spent: new NumberField({
-          min: 0,
-          integer: true,
-          initial: 0,
-          label: "ARTICHRON.ActorProperty.Pools.Health.Spent",
-          hint: "ARTICHRON.ActorProperty.Pools.Health.SpentHint"
-        }),
-        max: new NumberField({
-          min: 3,
-          integer: true,
-          initial: 3,
-          label: "ARTICHRON.ActorProperty.Pools.Health.Max",
-          hint: "ARTICHRON.ActorProperty.Pools.Health.MaxHint"
-        }),
-        faces: new NumberField({
-          min: 4,
-          integer: true,
-          initial: 4,
-          label: "ARTICHRON.ActorProperty.Pools.Health.Faces",
-          hint: "ARTICHRON.ActorProperty.Pools.Health.FacesHint"
-        })
+        spent: new NumberField({min: 0, integer: true, initial: 0}),
+        max: new NumberField({min: 3, integer: true, initial: 3}),
+        faces: new NumberField({min: 4, integer: true, initial: 4})
       }),
       stamina: new SchemaField({
-        spent: new NumberField({
-          min: 0,
-          integer: true,
-          initial: 0,
-          label: "ARTICHRON.ActorProperty.Pools.Stamina.Spent",
-          hint: "ARTICHRON.ActorProperty.Pools.Stamina.SpentHint"
-        }),
-        max: new NumberField({
-          min: 3,
-          integer: true,
-          initial: 3,
-          label: "ARTICHRON.ActorProperty.Pools.Stamina.Max",
-          hint: "ARTICHRON.ActorProperty.Pools.Stamina.MaxHint"
-        }),
-        faces: new NumberField({
-          min: 4,
-          integer: true,
-          initial: 4,
-          label: "ARTICHRON.ActorProperty.Pools.Stamina.Faces",
-          hint: "ARTICHRON.ActorProperty.Pools.Stamina.FacesHint"
-        })
+        spent: new NumberField({min: 0, integer: true, initial: 0}),
+        max: new NumberField({min: 3, integer: true, initial: 3}),
+        faces: new NumberField({min: 4, integer: true, initial: 4})
       }),
       mana: new SchemaField({
-        spent: new NumberField({
-          min: 0,
-          integer: true,
-          initial: 0,
-          label: "ARTICHRON.ActorProperty.Pools.Mana.Spent",
-          hint: "ARTICHRON.ActorProperty.Pools.Mana.SpentHint"
-        }),
-        max: new NumberField({
-          min: 3,
-          integer: true,
-          initial: 3,
-          label: "ARTICHRON.ActorProperty.Pools.Mana.Max",
-          hint: "ARTICHRON.ActorProperty.Pools.Mana.MaxHint"
-        }),
-        faces: new NumberField({
-          min: 4,
-          integer: true,
-          initial: 4,
-          label: "ARTICHRON.ActorProperty.Pools.Mana.Faces",
-          hint: "ARTICHRON.ActorProperty.Pools.Mana.FacesHint"
-        })
+        spent: new NumberField({min: 0, integer: true, initial: 0}),
+        max: new NumberField({min: 3, integer: true, initial: 3}),
+        faces: new NumberField({min: 4, integer: true, initial: 4})
       })
     });
 

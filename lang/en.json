@@ -185,94 +185,284 @@
   "Planar": "Planar"
 },
 
-"ActorProperty": {
-  "ActionPoints": {
-    "Value": "Action Points",
-    "ValueHint": "The number of action points this actor has remaining to spend on actions during combat.",
-    "Turn": "Turn Bonus",
-    "TurnHint": "The number of additional action points this actor receives for each additional turn it may take in a combat round."
-  },
-  "Defenses": {
-    "Armor": {
-      "Value": "Armor",
-      "ValueHint": "Armor value reduces incoming physical damage."
+"SharedProperty": {
+  "FIELDS": {
+    "resistances": {
+      "label": "Resistances",
+      "arcane": {
+        "value": {
+          "label": "Arcane Resistance"
+        }
+      },
+      "darkness": {
+        "value": {
+          "label": "Darkness Resistance"
+        }
+      },
+      "fire": {
+        "value": {
+          "label": "Fire Resistance"
+        }
+      },
+      "ice": {
+        "value": {
+          "label": "Ice Resistance"
+        }
+      },
+      "light": {
+        "value": {
+          "label": "Light Resistance"
+        }
+      },
+      "lightning": {
+        "value": {
+          "label": "Lightning Resistance"
+        }
+      },
+      "wind": {
+        "value": {
+          "label": "Wind Resistance"
+        }
+      }
     }
-  },
-  "Pools": {
-    "Health": {
-      "Label": "Health Pool",
-      "Spent": "Spent",
-      "SpentHint": "The number of health dice that have been expended.",
-      "Faces": "Health Pool Faces",
-      "FacesHint": "The size of each health die.",
-      "Max": "Health Pool Maximum",
-      "MaxHint": "The size of the total health pool."
+  }
+},
+
+"ActorProperty": {
+  "FIELDS": {
+    "defenses": {
+      "armor": {
+        "value": {
+          "label": "Armor",
+          "hint": "Armor value reduces incoming physical damage."
+        }
+      }
     },
-    "Stamina": {
-      "Label": "Stamina Pool",
-      "Spent": "Spent",
-      "SpentHint": "The number of stamina dice that have been expended.",
-      "Faces": "Stamina Pool Faces",
-      "FacesHint": "The size of each stamina die.",
-      "Max": "Stamina Pool Maximum",
-      "MaxHint": "The size of the total stamina pool."
+    "pips": {
+      "value": {
+        "label": "Action Points",
+        "hint": "The number of action points this actor has remaining to spend on actions during combat."
+      },
+      "turn": {
+        "label": "Turn Bonus",
+        "hint": "The number of additional action points this actor receives for each additional turn it may take in a combat round."
+      }
     },
-    "Mana": {
-      "Label": "Mana Pool",
-      "Spent": "Spent",
-      "SpentHint": "The number of mana dice that have been expended.",
-      "Faces": "Mana Pool Faces",
-      "FacesHint": "The size of each mana die.",
-      "Max": "Mana Pool Maximum",
-      "MaxHint": "The size of the total mana pool."
+    "pools": {
+      "health": {
+        "label": "Health Pool",
+        "faces": {
+          "label": "Health Pool Faces",
+          "hint": "The size of each health die."
+        },
+        "max": {
+          "label": "Health Pool Maximum",
+          "hint": "The size of the total health pool."
+        },
+        "spent": {
+          "label": "Spent",
+          "hint": "The number of health dice that have been expended."
+        }
+      },
+      "mana": {
+        "label": "Mana Pool",
+        "faces": {
+          "label": "Mana Pool Faces",
+          "hint": "The size of each mana die."
+        },
+        "max": {
+          "label": "Mana Pool Maximum",
+          "hint": "The size of the total mana pool."
+        },
+        "spent": {
+          "label": "Spent",
+          "hint": "The number of mana dice that have been expended."
+        }
+      },
+      "stamina": {
+        "label": "Stamina Pool",
+        "faces": {
+          "label": "Stamina Pool Faces",
+          "hint": "The size of each stamina die."
+        },
+        "max": {
+          "label": "Stamina Pool Maximum",
+          "hint": "The size of the total stamina pool."
+        },
+        "spent": {
+          "label": "Spent",
+          "hint": "The number of stamina dice that have been expended."
+        }
+      }
     }
   }
 },
 
 "ItemProperty": {
-  "ResistancePl": "Resistances",
-
   "Fieldsets": {
-    "Attributes": "Attributes",
     "BlastZone": "Blast Zone",
     "Configuration": "Configuration",
-    "DamageBonuses": "Damage Bonuses",
     "DamageOverrides": "Damage Overrides",
-    "Damages": "Damages",
     "Defenses": "Defenses",
-    "Handling": "Handling",
-    "LimitedUses": "Limited Uses",
-    "Resistances": "Resistances"
+    "Handling": "Handling"
   },
 
-  "Attributes": {
-    "Value": "Attributes",
-    "ValueHint": "Unique attributes of this item."
-  },
-  "Damage": {
-    "Bonuses": {
-      "Arcane": "Arcane Bonus",
-      "Darkness": "Darkness Bonus",
-      "Fire": "Fire Bonus",
-      "Ice": "Ice Bonus",
-      "Light": "Light Bonus",
-      "Lightning": "Lightning Bonus",
-      "Wind": "Wind Bonus"
+  "FIELDS": {
+    "armor": {
+      "value": {
+        "label": "Armor",
+        "hint": "The armor value of this item, which reduces incoming physical damage."
+      }
     },
-    "Override": {
-      "Group": "Target Group",
-      "GroupHint": "The group of damage types that this ammunition will override the type of.",
-      "GroupChoiceAll": "All Types",
-      "Value": "Type",
-      "ValueHint": "The new damage type that will be used in place of the overridden group."
+    "attributes": {
+      "value": {
+        "label": "Attributes",
+        "hint": "Unique attributes of this item."
+      }
     },
-    "Parts": {
-      "Label": "Damage Parts"
+    "blast": {
+      "size": {
+        "label": "Size",
+        "hint": "The size of the accompanying blast zone when using this ammunition."
+      },
+      "type": {
+        "label": "Shape",
+        "hint": "The shape of the blast zone."
+      }
+    },
+    "cost": {
+      "value": {
+        "label": "Action Cost"
+      }
+    },
+    "damage": {
+      "bonuses": {
+        "label": "Damage Bonuses",
+        "hint": "Bonuses of individual types to damage rolls.",
+        "arcane": {
+          "value": {
+            "label": "Arcane Bonus"
+          }
+        },
+        "darkness": {
+          "value": {
+            "label": "Darkness Bonus"
+          }
+        },
+        "fire": {
+          "value": {
+            "label": "Fire Bonus"
+          }
+        },
+        "ice": {
+          "value": {
+            "label": "Ice Bonus"
+          }
+        },
+        "light": {
+          "value": {
+            "label": "Light Bonus"
+          }
+        },
+        "lightning": {
+          "value": {
+            "label": "Lightning Bonus"
+          }
+        },
+        "wind": {
+          "value": {
+            "label": "Wind Bonus"
+          }
+        }
+      },
+      "override": {
+        "group": {
+          "label": "Target Group",
+          "hint": "The group of damage types that this ammunition will override the type of."
+        },
+        "value": {
+          "label": "Type",
+          "hint": "The new damage type that will be used in place of the overridden group."
+        }
+      },
+      "parts": {
+        "label": "Damage Parts"
+      }
+    },
+    "description": {
+      "value": {
+        "label": "Description"
+      }
+    },
+    "fusion": {
+      "max": {
+        "label": "Maximum Fusions",
+        "hint": "The maximum number of fusions that can target this item at the same time."
+      }
+    },
+    "price": {
+      "value": {
+        "label": "Price",
+        "hint": "The deemed value of the item."
+      }
+    },
+    "quantity": {
+      "value": {
+        "label": "Quantity",
+        "hint": "The size of this stack of items."
+      }
+    },
+    "range": {
+      "value": {
+        "label": "Range",
+        "hint": "The maximum range between you and your target when firing a projectile with this item."
+      },
+      "reach": {
+        "label": "Reach",
+        "hint": "The maximum distance between you and your target when making an attack with this item."
+      }
+    },
+    "targets": {
+      "value": {
+        "label": "Targets",
+        "hint": "The number of targets this item can be used on at the same time."
+      }
+    },
+    "template": {
+      "types": {
+        "label": "Targeting Types",
+        "hint": "The shape or type of targeting of this spell."
+      }
+    },
+    "usage": {
+      "label": "Uses",
+      "max": {
+        "label": "Max Uses",
+        "hint": "The total number of uses of this item."
+      },
+      "spent": {
+        "label": "Spent",
+        "hint": "The number of uses of this item that have been spent."
+      }
+    },
+    "weight": {
+      "value": {
+        "label": "Weight",
+        "hint": "The amount that this item contributes to its owner's encumbrance."
+      }
+    },
+    "wield": {
+      "value": {
+        "label": "Wielding",
+        "hint": "The number of hands required to handle this item."
+      }
     }
   },
-  "Description": {
-    "Value": "Description",
-    "ValueHint": ""
+
+  "Damage": {
+    "Override": {
+      "GroupChoiceAll": "All Types"
+    }
   },
   "Category": {
     "SubtypeAmmo": "Ammunition Type",
@@ -297,60 +487,14 @@
     "PoolElixirChoiceStamina": "Stamina",
     "PoolElixirChoiceMana": "Mana"
   },
-  "Fusion": {
-    "Max": "Maximum Fusions",
-    "MaxHint": "The maximum number of fusions that can target this item at the same time."
-  },
-  "Range": {
-    "Value": "Range",
-    "ValueHint": "The maximum range between you and your target when firing a projectile with this item.",
-    "Reach": "Reach",
-    "ReachHint": "The maximum distance between you and your target when making an attack with this item."
-  },
-  "Price": {
-    "Value": "Price",
-    "ValueHint": "The deemed value of the item."
-  },
-  "Blast": {
-    "Size": "Size",
-    "SizeHint": "The size of the accompanying blast zone when using this ammunition.",
-    "Type": "Shape",
-    "TypeHint": "The shape of the blast zone."
-  },
   "Cost": {
-    "Value": "Action Cost",
     "ValueHintWeapon": "The action point cost to make an attack with this weapon.",
     "ValueHintSpell": "The action point cost to cast a spell using this item.",
     "ValueHintShield": "The action point cost to make an attack with this shield."
   },
-  "Weight": {
-    "Value": "Weight",
-    "ValueHint": "The amount that this item contributes to its owner's encumbrance."
-  },
-  "Quantity": {
-    "Value": "Quantity",
-    "ValueHint": "The size of this stack of items."
-  },
-  "Armor": {
-    "Value": "Armor",
-    "ValueHint": "The armor value of this item, which reduces incoming physical damage."
-  },
   "Wield": {
-    "Value": "Wielding",
-    "ValueHint": "The number of hands required to handle this item.",
     "ValueChoiceOneHanded": "One-Handed",
     "ValueChoiceTwoHanded": "Two-Handed"
-  },
-  "Template": {
-    "Types": "Targeting Types",
-    "TypesHint": "The shape or type of targeting of this spell."
-  },
-  "Usage": {
-    "Value": "Uses",
-    "Spent": "Spent",
-    "SpentHint": "The number of uses of this item that have been spent.",
-    "Max": "Max Uses",
-    "MaxHint": "The total number of uses of this item."
   }
 },
 

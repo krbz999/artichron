@@ -16,12 +16,7 @@ export default class ShieldData extends ArsenalData {
     return {
       ...super.defineSchema(),
       armor: new SchemaField({
-        value: new NumberField({
-          min: 0,
-          integer: true,
-          label: "ARTICHRON.ItemProperty.Armor.Value",
-          hint: "ARTICHRON.ItemProperty.Armor.ValueHint"
-        })
+        value: new NumberField({min: 0, integer: true})
       }),
       category: new SchemaField({
         subtype: new StringField({
@@ -37,7 +32,6 @@ export default class ShieldData extends ArsenalData {
           min: 0,
           initial: 1,
           nullable: false,
-          label: "ARTICHRON.ItemProperty.Cost.Value",
           hint: "ARTICHRON.ItemProperty.Cost.ValueHintShield"
         })
       })

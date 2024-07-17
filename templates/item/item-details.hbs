@@ -1,8 +1,8 @@
 <div class="{{tabs.details.tabCssClass}} standard-form" data-group="primary" data-tab="details">
   <fieldset class="attributes">
-    <legend>{{localize "ARTICHRON.ItemProperty.Fieldsets.Attributes"}}</legend>
     {{#with details.attributes}}
-    {{formGroup field value=value disabled=disabled localize=true type=type classes="stacked" label=""}}
+    <legend>{{field.label}}</legend>
+    {{formGroup field value=value disabled=disabled type=type classes="stacked" label=""}}
     {{/with}}
   </fieldset>
 

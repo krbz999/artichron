@@ -14,28 +14,12 @@ export default class ActorSystemModel extends foundry.abstract.TypeDataModel {
       resistances: new ResistanceField(),
       defenses: new SchemaField({
         armor: new SchemaField({
-          value: new NumberField({
-            min: 0,
-            integer: true,
-            label: "ARTICHRON.ActorProperty.Defenses.Armor.Value",
-            hint: "ARTICHRON.ActorProperty.Defenses.Armor.ValueHint"
-          })
+          value: new NumberField({min: 0, integer: true})
         })
       }),
       pips: new SchemaField({
-        value: new NumberField({
-          min: 0,
-          integer: true,
-          label: "ARTICHRON.ActorProperty.ActionPoints.Value",
-          hint: "ARTICHRON.ActorProperty.ActionPoints.ValueHint"
-        }),
-        turn: new NumberField({
-          min: 0,
-          integer: true,
-          initial: 2,
-          label: "ARTICHRON.ActorProperty.ActionPoints.Turn",
-          hint: "ARTICHRON.ActorProperty.ActionPoints.TurnHint"
-        })
+        value: new NumberField({min: 0, integer: true}),
+        turn: new NumberField({min: 0, integer: true, initial: 2})
       })
     };
   }
@@ -91,6 +75,18 @@ export default class ActorSystemModel extends foundry.abstract.TypeDataModel {
   /*   Properties                                       */
   /* -------------------------------------------------- */
 
+  /** @override */
+  static LOCALIZATION_PREFIXES = [
+    "ARTICHRON.SharedProperty",
+    "ARTICHRON.ActorProperty"
+  ];
+
+  /* -------------------------------------------------- */
+
+  /**
+   * The properties that can target this document when using active effects.
+   * @type {Set<string>}
+   */
   static get BONUS_FIELDS() {
     const bonus = new Set(["name", "img"]);
     bonus.add("system.defenses.armor.value");

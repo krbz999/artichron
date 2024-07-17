@@ -23,10 +23,7 @@ export default class SpellData extends ArsenalData {
         types: new SetField(new StringField({
           required: true,
           choices: CONFIG.SYSTEM.AREA_TARGET_TYPES
-        }), {
-          label: "ARTICHRON.ItemProperty.Template.Types",
-          hint: "ARTICHRON.ItemProperty.Template.TypesHint"
-        })
+        }))
       }),
       category: new SchemaField({
         subtype: new StringField({
@@ -42,7 +39,6 @@ export default class SpellData extends ArsenalData {
           min: 0,
           initial: 2,
           nullable: false,
-          label: "ARTICHRON.ItemProperty.Cost.Value",
           hint: "ARTICHRON.ItemProperty.Cost.ValueHintSpell"
         })
       })

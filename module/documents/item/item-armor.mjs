@@ -20,12 +20,7 @@ export default class ArmorData extends FusionTemplateMixin(ItemSystemModel) {
       ...super.defineSchema(),
       resistances: new ResistanceField(),
       armor: new SchemaField({
-        value: new NumberField({
-          min: 0,
-          integer: true,
-          label: "ARTICHRON.ItemProperty.Armor.Value",
-          hint: "ARTICHRON.ItemProperty.Armor.ValueHint"
-        })
+        value: new NumberField({min: 0, integer: true})
       }),
       category: new SchemaField({
         subtype: new StringField({

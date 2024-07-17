@@ -1,16 +1,16 @@
 <div class="standard-form {{tabs.secondary.tabCssClass}}" data-group="primary" data-tab="secondary">
   {{#each fieldsets}}
   <fieldset>
-    <legend>{{localize legend}}</legend>
+    <legend>{{legend}}</legend>
     {{#each formGroups}}
-    {{formGroup field value=value localize=true disabled=disabled max=max}}
+    {{formGroup field value=value disabled=disabled max=max}}
     {{/each}}
   </fieldset>
   {{/each}}
 
   {{#if resistances}}
   <fieldset class="resistances">
-    <legend>{{localize resistances.legend}}</legend>
+    <legend>{{resistances.legend}}</legend>
     {{#each resistances.values}}
     <div class="resistance {{#if active}} active {{/if}}" data-tooltip="{{label}}" style="color: #{{color}}">
       {{#if @root.isEditMode}}
@@ -28,8 +28,8 @@
   <fieldset>
     <legend>{{localize "ARTICHRON.ItemProperty.Fieldsets.DamageOverrides"}}</legend>
     {{#with damages.override}}
-    {{formGroup group.field value=group.value disabled=group.disabled localize=true}}
-    {{formGroup value.field value=value.value disabled=value.disabled localize=true options=@root.damageTypes}}
+    {{formGroup group.field value=group.value disabled=group.disabled}}
+    {{formGroup value.field value=value.value disabled=value.disabled options=@root.damageTypes}}
     {{/with}}
   </fieldset>
   {{/if}}
@@ -37,7 +37,7 @@
   {{#if sections.damage}}
   <fieldset class="damage">
     <legend>
-      {{localize "ARTICHRON.ItemProperty.Fieldsets.Damages"}}
+      {{damages.label}}
       {{#if isEditMode}}
       <a class="action" data-action="addDamage"><i class="fa-solid fa-plus"></i></a>
       {{/if}}
@@ -63,8 +63,8 @@
 
   {{#unless isAmmo}}
   <fieldset class="bonuses">
-    <legend>{{localize "ARTICHRON.ItemProperty.Fieldsets.DamageBonuses"}}</legend>
-    {{#each damageBonuses}}
+    <legend>{{damageBonuses.label}}</legend>
+    {{#each damageBonuses.bonuses}}
     <div class="resistance {{#if active}} active {{/if}}" data-tooltip="{{label}}" style="color: #{{color}}">
       {{#if @root.isEditMode}}
       {{formInput field value=value}}

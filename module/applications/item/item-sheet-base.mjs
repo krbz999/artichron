@@ -161,8 +161,9 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
 
     // Usage.
     if (doc.system.schema.has("usage")) {
+      const field = this.document.system.schema.getField("usage");
       context.fieldsets.push({
-        legend: "ARTICHRON.ItemProperty.Fieldsets.LimitedUses",
+        legend: field.label,
         formGroups: [
           this._makeField(context, "usage.spent", {max: doc.system.usage.max}),
           this._makeField(context, "usage.max")
@@ -172,7 +173,7 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
 
     // Defenses.
     if (doc.system.schema.has("armor")) context.fieldsets.push({
-      legend: "ARTICHRON.ItemProperty.Fieldsets.Defenses",
+      legend: game.i18n.localize("ARTICHRON.ItemProperty.Fieldsets.Defenses"),
       formGroups: [this._makeField(context, "armor.value")]
     });
 
@@ -180,6 +181,7 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
     if (context.sections.damage) {
       context.damageTypes = [];
       context.damages = {
+        label: this.document.system.schema.getField("damage.parts").label,
         parts: (context.isEditMode ? src.system.damage.parts : doc.system._damages).map((k, idx) => {
           return {
             id: {
@@ -242,19 +244,22 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
     };
 
     if (!this.document.isAmmo && context.sections.damage) {
-      context.damageBonuses = [];
-      for (const k of this.document.system.schema.getField("damage.bonuses")) {
-        context.damageBonuses.push(makeResistance(k));
-      }
+      const field = this.document.system.schema.getField("damage.bonuses");
+      context.damageBonuses = {
+        label: field.label,
+        bonuses: []
+      };
+      for (const k of field) context.damageBonuses.bonuses.push(makeResistance(k));
     }
 
     // Resistances.
     if (doc.isArmor) {
+      const field = this.document.system.schema.getField("resistances");
       const fieldset = {
-        legend: "ARTICHRON.ItemProperty.Fieldsets.Resistances",
+        legend: field.label,
         values: []
       };
-      for (const k of this.document.system.schema.getField("resistances")) {
+      for (const k of field) {
         fieldset.values.push(makeResistance(k));
       }
 

@@ -17,31 +17,11 @@ export default class ElixirData extends ItemSystemModel {
     return {
       ...super.defineSchema(),
       quantity: new SchemaField({
-        value: new NumberField({
-          initial: 1,
-          min: 0,
-          integer: true,
-          nullable: true,
-          label: "ARTICHRON.ItemProperty.Quantity.Value",
-          hint: "ARTICHRON.ItemProperty.Quantity.ValueHint"
-        })
+        value: new NumberField({initial: 1, min: 0, integer: true, nullable: true})
       }),
       usage: new SchemaField({
-        spent: new NumberField({
-          integer: true,
-          min: 0,
-          initial: 0,
-          label: "ARTICHRON.ItemProperty.Usage.Spent",
-          hint: "ARTICHRON.ItemProperty.Usage.SpentHint"
-        }),
-        max: new NumberField({
-          min: 1,
-          integer: true,
-          initial: 1,
-          nullable: false,
-          label: "ARTICHRON.ItemProperty.Usage.Max",
-          hint: "ARTICHRON.ItemProperty.Usage.MaxHint"
-        })
+        spent: new NumberField({integer: true, min: 0, initial: 0}),
+        max: new NumberField({min: 1, integer: true, initial: 1, nullable: false})
       }),
       category: new SchemaField({
         subtype: new StringField({

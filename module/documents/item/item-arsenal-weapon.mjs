@@ -31,7 +31,6 @@ export default class WeaponData extends ArsenalData {
           min: 0,
           initial: 1,
           nullable: false,
-          label: "ARTICHRON.ItemProperty.Cost.Value",
           hint: "ARTICHRON.ItemProperty.Cost.ValueHintWeapon"
         })
       })

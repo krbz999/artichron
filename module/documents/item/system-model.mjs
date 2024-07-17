@@ -28,37 +28,18 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
   static defineSchema() {
     return {
       description: new SchemaField({
-        value: new HTMLField({
-          label: "ARTICHRON.ItemProperty.Description.Value",
-          hint: "ARTICHRON.ItemProperty.Description.ValueHint",
-          required: true
-        })
+        value: new HTMLField({required: true})
       }),
       weight: new SchemaField({
-        value: new NumberField({
-          min: 0,
-          step: 0.1,
-          initial: () => this.metadata.defaultWeight,
-          label: "ARTICHRON.ItemProperty.Weight.Value",
-          hint: "ARTICHRON.ItemProperty.Weight.ValueHint"
-        })
+        value: new NumberField({min: 0, step: 0.1, initial: () => this.metadata.defaultWeight})
       }),
       price: new SchemaField({
-        value: new NumberField({
-          min: 0,
-          initial: null,
-          integer: true,
-          label: "ARTICHRON.ItemProperty.Price.Value",
-          hint: "ARTICHRON.ItemProperty.Price.ValueHint"
-        })
+        value: new NumberField({min: 0, initial: null, integer: true})
       }),
       attributes: new SchemaField({
         value: new SetField(new StringField({
           choices: () => this._attributeChoices()
-        }), {
-          label: "ARTICHRON.ItemProperty.Attributes.Value",
-          hint: "ARTICHRON.ItemProperty.Attributes.ValueHint"
-        })
+        }))
       })
     };
   }
@@ -139,6 +120,14 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
 
   /* -------------------------------------------------- */
   /*   Properties                                       */
+  /* -------------------------------------------------- */
+
+  /** @override */
+  static LOCALIZATION_PREFIXES = [
+    "ARTICHRON.SharedProperty",
+    "ARTICHRON.ItemProperty"
+  ];
+
   /* -------------------------------------------------- */
 
   /**

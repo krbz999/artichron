@@ -19,14 +19,7 @@ export default class AmmunitionData extends ItemSystemModel.mixin(DamageTemplate
     return {
       ...super.defineSchema(),
       quantity: new SchemaField({
-        value: new NumberField({
-          initial: 1,
-          min: 0,
-          integer: true,
-          nullable: true,
-          label: "ARTICHRON.ItemProperty.Quantity.Value",
-          hint: "ARTICHRON.ItemProperty.Quantity.ValueHint"
-        })
+        value: new NumberField({initial: 1, min: 0, integer: true, nullable: true})
       }),
       category: new SchemaField({
         subtype: new StringField({
@@ -36,29 +29,16 @@ export default class AmmunitionData extends ItemSystemModel.mixin(DamageTemplate
         })
       }),
       range: new SchemaField({
-        value: new NumberField({
-          integer: true,
-          initial: null,
-          label: "ARTICHRON.ItemProperty.Range.Value",
-          hint: "ARTICHRON.ItemProperty.Range.ValueHint"
-        })
+        value: new NumberField({integer: true, initial: null})
       }),
       blast: new SchemaField({
-        size: new NumberField({
-          integer: true,
-          min: 1,
-          nullable: true,
-          label: "ARTICHRON.ItemProperty.Blast.Size",
-          hint: "ARTICHRON.ItemProperty.Blast.SizeHint"
-        }),
+        size: new NumberField({integer: true, min: 1, nullable: true}),
         type: new StringField({
           required: true,
           blank: true,
           choices: Object.entries(CONFIG.SYSTEM.AREA_TARGET_TYPES).reduce((acc, [k, v]) => {
             return v.ammo ? Object.assign(acc, {[k]: v}) : acc;
-          }, {}),
-          label: "ARTICHRON.ItemProperty.Blast.Type",
-          hint: "ARTICHRON.ItemProperty.Blast.TypeHint"
+          }, {})
         })
       }),
       damage: new SchemaField({
@@ -69,30 +49,18 @@ export default class AmmunitionData extends ItemSystemModel.mixin(DamageTemplate
             choices: {
               all: "ARTICHRON.ItemProperty.Damage.Override.GroupChoiceAll",
               ...CONFIG.SYSTEM.DAMAGE_TYPE_GROUPS
-            },
-            label: "ARTICHRON.ItemProperty.Damage.Override.Group",
-            hint: "ARTICHRON.ItemProperty.Damage.Override.GroupHint"
+            }
           }),
           value: new StringField({
             required: true,
             blank: true,
-            choices: CONFIG.SYSTEM.DAMAGE_TYPES,
-            label: "ARTICHRON.ItemProperty.Damage.Override.Value",
-            hint: "ARTICHRON.ItemProperty.Damage.Override.ValueHint"
+            choices: CONFIG.SYSTEM.DAMAGE_TYPES
           })
         }),
         parts: new ArrayField(new SchemaField({
           id: new IdField(),
-          formula: new StringField({
-            required: true,
-            label: "ARTICHRON.ItemProperty.Damage.Parts.Formula",
-            hint: "ARTICHRON.ItemProperty.Damage.Parts.FormulaHint"
-          }),
-          type: new StringField({
-            choices: CONFIG.SYSTEM.DAMAGE_TYPES,
-            label: "ARTICHRON.ItemProperty.Damage.Parts.Type",
-            hint: "ARTICHRON.ItemProperty.Damage.parts.TypeHint"
-          })
+          formula: new StringField({required: true}),
+          type: new StringField({choices: CONFIG.SYSTEM.DAMAGE_TYPES})
         }))
       })
     };

@@ -6,13 +6,7 @@ export const FusionTemplateMixin = Base => {
     static defineSchema() {
       const schema = super.defineSchema();
       schema.fusion = new SchemaField({
-        max: new NumberField({
-          integer: true,
-          min: 0,
-          initial: 1,
-          label: "ARTICHRON.ItemProperty.Fusion.Max",
-          hint: "ARTICHRON.ItemProperty.Fusion.MaxHint"
-        })
+        max: new NumberField({integer: true, min: 0, initial: 1})
       });
       return schema;
     }

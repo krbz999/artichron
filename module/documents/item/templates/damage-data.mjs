@@ -11,11 +11,7 @@ export const DamageTemplateMixin = Base => {
       const bonuses = Object.keys(CONFIG.SYSTEM.DAMAGE_TYPES).reduce((acc, type) => {
         if (type === "physical") return acc;
         acc[type] = new SchemaField({
-          value: new NumberField({
-            min: 0,
-            integer: true,
-            label: `ARTICHRON.ItemProperty.Damage.Bonuses.${type.capitalize()}`
-          })
+          value: new NumberField({min: 0, integer: true})
         });
         return acc;
       }, {});
@@ -23,23 +19,10 @@ export const DamageTemplateMixin = Base => {
       schema.damage = new SchemaField({
         parts: new ArrayField(new SchemaField({
           id: new IdField(),
-          formula: new StringField({
-            required: true,
-            label: "ARTICHRON.ItemProperty.Damage.Parts.Formula",
-            hint: "ARTICHRON.ItemProperty.Damage.Parts.FormulaHint"
-          }),
-          type: new StringField({
-            choices: CONFIG.SYSTEM.DAMAGE_TYPES,
-            label: "ARTICHRON.ItemProperty.Damage.Parts.Type",
-            hint: "ARTICHRON.ItemProperty.Damage.Parts.TypeHint"
-          })
-        }), {
-          label: "ARTICHRON.ItemProperty.Damage.Parts.Label"
-        }),
-        bonuses: new SchemaField(bonuses, {
-          label: "ARTICHRON.ItemProperty.Damage.Bonuses.Value",
-          hint: "ARTICHRON.ItemProperty.Damage.Bonuses.ValueHint"
-        })
+          formula: new StringField({required: true}),
+          type: new StringField({choices: CONFIG.SYSTEM.DAMAGE_TYPES})
+        })),
+        bonuses: new SchemaField(bonuses)
       });
 
       return schema;
