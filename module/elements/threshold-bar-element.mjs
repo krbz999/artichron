@@ -37,10 +37,10 @@ export default class ThresholdBarElement extends HTMLElement {
     let leftover = value % limit;
     if (leftover === 0) leftover = (value === 0) ? 0 : limit;
     const bar = document.createElement("DIV");
-    bar.style.gridTemplateColumns = `repeat(${limit}, 1fr)`;
-    bar.style.display = "grid";
-    for (let i = 0; i < leftover; i++) {
+    bar.setAttribute("style", `--limit: ${limit}`);
+    for (let i = 0; i < limit; i++) {
       const pip = document.createElement("SPAN");
+      if (i < leftover) pip.classList.add("filled");
       bar.insertAdjacentElement("beforeend", pip);
     }
     bar.dataset.tooltip = `${leftover} / ${limit}`;

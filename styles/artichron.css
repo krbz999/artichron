@@ -285,6 +285,7 @@ dialog:-internal-dialog-in-top-layer::backdrop {
 threshold-bar {
   display: grid;
   grid-template-columns: 3rem 1fr;
+  gap: 1rem;
 
   > :first-child {
     text-align: center;
@@ -292,12 +293,23 @@ threshold-bar {
   }
 
   > :nth-child(2) {
-    gap: 2px;
+    display: grid;
+    grid-template-columns: repeat(var(--limit), 1fr);
     height: 100%;
+    overflow: hidden;
 
     > span {
-      background-color: blue;
-      transform: matrix(1, 0, 1, -1, 0, 0) translateX(1rem);
+      width: 125%;
+      background-color: var(--artichron-color-blue);
+      border: 2px solid blue;
+      clip-path: polygon(25% 0%, 100% 0%, 75% 100%, 0% 100%);
+      margin-left: -1rem;
+      margin-right: -1rem;
+      opacity: 0;
+
+      &:first-child { clip-path: polygon(0% 0%, 100% 0%, 75% 100%, 0% 100%); }
+      &:last-child { clip-path: polygon(25% 0%, 100% 0%, 100% 100%, 0% 100%); }
+      &.filled { opacity: 1; }
     }
   }
 }
