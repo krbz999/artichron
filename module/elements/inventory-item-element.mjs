@@ -1,3 +1,5 @@
+const enrichedCache = new Map();
+
 export default class InventoryItemElement extends HTMLElement {
   /**
    * Factory method for handlebar helper.
@@ -5,39 +7,16 @@ export default class InventoryItemElement extends HTMLElement {
   static create(config) {
     const element = new this();
     const item = config.item;
-
-    if (config.expanded && config.enriched) {
-      element.dataset.expanded = true;
-      element.dataset.enriched = config.enriched;
-      element.classList.add("expanded");
+    if (item) {
+      element.dataset.itemUuid = item.uuid;
+      element.dataset.itemId = item.id;
+      if (config.enriched) {
+        enrichedCache.set(item.uuid, config.enriched);
+        element.classList.add("expanded");
+      } else {
+        enrichedCache.delete(item.uuid);
+      }
     }
-    if ((config.uses !== false) && item.hasUses) {
-      element.dataset.hasUses = true;
-      element.dataset.usesValue = item.system.usage.value;
-      element.dataset.usesMax = item.system.usage.max;
-    }
-    element.dataset.img = item.img;
-    element.dataset.name = item.name;
-    if (config.favorite !== false) element.dataset.isFavorite = item.isFavorite;
-    element.dataset.itemUuid = item.uuid;
-    element.dataset.itemId = item.id;
-    if ("quantity" in item.system) {
-      element.dataset.hasQuantity = true;
-      element.dataset.quantity = item.system.quantity.value;
-    }
-    if (config.disabled) element.dataset.disabled = true;
-    if ((config.fusion !== false) && item.hasFusions && !item.isFused) element.dataset.fusion = true;
-
-    if (config.price) {
-      element.dataset.price = item.system.price.value;
-    }
-
-    if (config.actions !== false) element.dataset.actions = true;
-
-    for (const [k, v] of Object.entries(config.dataset ?? {})) {
-      element.dataset[k] = v;
-    }
-
     return element;
   }
 
@@ -57,14 +36,22 @@ export default class InventoryItemElement extends HTMLElement {
 
   /** @override */
   connectedCallback() {
+    const application = foundry.applications.instances.get(this.closest(".application").id);
+    const item = application.document.items.get(this.dataset.itemId);
+    const enriched = enrichedCache.get(item?.uuid);
+    const limited = !application.isEditable;
+    const editMode = application.isEditMode;
+
+    if (!item) return;
+
     // Image.
     const img = document.createElement("A");
     const image = document.createElement("IMG");
-    image.src = this.dataset.img;
-    image.alt = this.dataset.name;
+    image.src = item.img;
+    image.alt = item.name;
     img.classList.add("image");
     img.insertAdjacentElement("beforeend", image);
-    if (this.dataset.actions) {
+    if (!limited) {
       img.dataset.action = "useItem";
       const playButton = document.createElement("SPAN");
       playButton.classList.add("use");
@@ -81,13 +68,13 @@ export default class InventoryItemElement extends HTMLElement {
 
     const label = document.createElement("LABEL");
     label.classList.add("name");
-    label.textContent = this.dataset.name;
+    label.textContent = item.name;
 
     anchor.insertAdjacentElement("beforeend", label);
     this.insertAdjacentElement("beforeend", anchor);
 
     // Uses.
-    if (this.dataset.hasUses) {
+    if (item.hasUses) {
       const property = document.createElement("DIV");
       property.classList.add("property", "usage");
 
@@ -98,17 +85,18 @@ export default class InventoryItemElement extends HTMLElement {
       const input = document.createElement("INPUT");
       input.type = "text";
       input.classList.add("delta");
-      input.id = `usage-${this.dataset.itemId}`;
-      input.value = this.dataset.usesValue;
-      if (this.dataset.actions) input.dataset.action = "updateEmbedded";
+      input.id = `usage-${item.id}`;
+      input.value = item.system.usage.value;
+      if (!limited) input.dataset.action = "updateEmbedded";
+      else input.disabled = true;
       input.dataset.property = "system.usage.value";
       input.placeholder = "0";
-      input.setAttribute("max", String(this.dataset.usesMax));
+      input.setAttribute("max", String(item.system.usage.max));
       counter.insertAdjacentElement("beforeend", input);
 
       counter.insertAdjacentHTML("beforeend", `
         <span class="sep">/</span>
-        <span class="max">${this.dataset.usesMax}</span>`
+        <span class="max">${item.system.usage.max}</span>`
       );
 
       const label = document.createElement("SPAN");
@@ -120,7 +108,7 @@ export default class InventoryItemElement extends HTMLElement {
     }
 
     // Quantity.
-    if (this.dataset.hasQuantity) {
+    if (item.system.schema.has("quantity")) {
       const property = document.createElement("DIV");
       property.classList.add("property", "quantity");
 
@@ -131,9 +119,10 @@ export default class InventoryItemElement extends HTMLElement {
       const input = document.createElement("INPUT");
       input.type = "text";
       input.classList.add("delta");
-      input.id = `quantity-${this.dataset.itemId}`;
-      input.value = this.dataset.quantity;
-      if (this.dataset.actions) input.dataset.action = "updateEmbedded";
+      input.id = `quantity-${item.id}`;
+      input.value = item.system.quantity.value;
+      if (!limited) input.dataset.action = "updateEmbedded";
+      else input.disabled = true;
       input.dataset.property = "system.quantity.value";
       input.placeholder = "0";
       counter.insertAdjacentElement("beforeend", input);
@@ -146,29 +135,12 @@ export default class InventoryItemElement extends HTMLElement {
       this.insertAdjacentElement("beforeend", property);
     }
 
-    // Price.
-    if (this.dataset.price) {
-      const property = document.createElement("DIV");
-      property.classList.add("property", "price");
-      const counter = document.createElement("DIV");
-      counter.classList.add("counter");
-      property.insertAdjacentElement("beforeend", counter);
-      const span = document.createElement("SPAN");
-      span.textContent = this.dataset.price;
-      counter.insertAdjacentElement("beforeend", span);
-      const label = document.createElement("SPAN");
-      label.classList.add("label");
-      label.textContent = game.i18n.localize("ARTICHRON.ItemProperty.Price.Value");
-      property.insertAdjacentElement("beforeend", label);
-      this.insertAdjacentElement("beforeend", property);
-    }
-
     // Fusion.
-    if (this.dataset.fusion) {
+    if (!limited && item.hasFusions && !item.isFused) {
       const div = document.createElement("DIV");
       div.classList.add("property", "fusion");
       const a = document.createElement("A");
-      if (this.dataset.actions) a.dataset.action = "fuseItem";
+      a.dataset.action = "fuseItem";
       a.dataset.tooltip = "ARTICHRON.SheetActions.FuseItem";
       const i = document.createElement("I");
       i.classList.add("fa-solid", "fa-volcano");
@@ -181,25 +153,27 @@ export default class InventoryItemElement extends HTMLElement {
     const controls = document.createElement("DIV");
     controls.classList.add("controls");
 
-    if (["true", "false"].includes(this.dataset.isFavorite)) {
+    // Favoriting.
+    if (!limited) {
       const fav = document.createElement("A");
       fav.classList.add("control");
-      fav.innerHTML = `<i class="${(this.dataset.isFavorite === "true") ? "fa-solid" : "fa-regular"} fa-star"></i>`;
-      if (this.dataset.actions) fav.dataset.action = "favoriteItem";
+      fav.innerHTML = `<i class="${item.isFavorite ? "fa-solid" : "fa-regular"} fa-star"></i>`;
+      fav.dataset.action = "favoriteItem";
       controls.insertAdjacentElement("beforeend", fav);
     }
 
-    if (!this.dataset.disabled) {
+    // Editing and deleting.
+    if (!limited && editMode) {
       const edit = document.createElement("A");
       edit.classList.add("control");
       edit.innerHTML = "<i class='fa-solid fa-edit'></i>";
-      if (this.dataset.actions) edit.dataset.action = "editItem";
+      edit.dataset.action = "editItem";
       controls.insertAdjacentElement("beforeend", edit);
 
       const trash = document.createElement("A");
       trash.classList.add("control");
       trash.innerHTML = "<i class='fa-solid fa-trash'></i>";
-      if (this.dataset.actions) trash.dataset.action = "deleteItem";
+      trash.dataset.action = "deleteItem";
       controls.insertAdjacentElement("beforeend", trash);
     }
 
@@ -207,26 +181,12 @@ export default class InventoryItemElement extends HTMLElement {
 
     const wrapper = document.createElement("DIV");
     wrapper.classList.add("description-wrapper");
-    if (this.dataset.expanded && this.dataset.enriched) {
-      wrapper.innerHTML = `<div class="description">${this.dataset.enriched}</div>`;
+    if (this.classList.contains("expanded") && enriched) {
+      wrapper.innerHTML = `<div class="description">${enriched}</div>`;
     }
     this.insertAdjacentElement("beforeend", wrapper);
 
-    // TODO: cleanup if #11407 gets in.
-    delete this.dataset.itemId;
-    delete this.dataset.img;
-    // delete this.dataset.name; // intentionally not deleted, needed for search filter
-    delete this.dataset.hasUses;
-    delete this.dataset.usesValue;
-    delete this.dataset.usesMax;
-    delete this.dataset.hasQuantity;
-    delete this.dataset.quantity;
-    delete this.dataset.isFavorite;
-    delete this.dataset.expanded;
-    delete this.dataset.enriched;
-    delete this.dataset.disabled;
-    delete this.dataset.fusion;
-    delete this.dataset.price;
-    delete this.dataset.actions;
+    // Set name for use in search filter.
+    this.dataset.name = item.name;
   }
 }

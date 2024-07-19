@@ -9,7 +9,7 @@
     </header>
 
     {{#each items.favorites}}
-    {{inventoryItem item expanded=isExpanded enriched=enrichedText disabled=@root.isPlayMode}}
+    {{inventoryItem item enriched=enriched}}
     {{/each}}
   </div>
 
@@ -24,7 +24,7 @@
     </header>
 
     {{#each items.items}}
-    {{inventoryItem item expanded=isExpanded enriched=enrichedText disabled=@root.isPlayMode}}
+    {{inventoryItem item enriched=enriched}}
     {{/each}}
   </div>
 </div>

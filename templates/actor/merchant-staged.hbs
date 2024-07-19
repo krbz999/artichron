@@ -6,7 +6,7 @@
     <legend>Staged</legend>
     <div class="inventory-list">
       {{#each items.staged}}
-      {{inventoryItem item expanded=isExpanded enriched=enrichedText disabled=true fusion=false uses=false favorite=false price=true actions=false}}
+      {{inventoryItem item enriched=enriched}}
       {{/each}}
     </div>
   </fieldset>

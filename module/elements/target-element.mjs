@@ -110,6 +110,18 @@ class TargetElement extends HTMLElement {
 /* -------------------------------------------------- */
 
 export class DamageTarget extends TargetElement {
+  /* -------------------------------------------------- */
+  /*   Properties                                       */
+  /* -------------------------------------------------- */
+
+  /**
+   * The tag name of this element.
+   * @type {string}
+   */
+  static tagName = "damage-target";
+
+  /* -------------------------------------------------- */
+
   /**
    * The damage totals by type.
    * @type {object}
@@ -160,6 +172,18 @@ export class DamageTarget extends TargetElement {
 /* -------------------------------------------------- */
 
 export class BuffTarget extends TargetElement {
+  /* -------------------------------------------------- */
+  /*   Properties                                       */
+  /* -------------------------------------------------- */
+
+  /**
+   * The tag name of this element.
+   * @type {string}
+   */
+  static tagName = "buff-target";
+
+  /* -------------------------------------------------- */
+
   /** @override */
   _applyHooks() {
     super._applyHooks();

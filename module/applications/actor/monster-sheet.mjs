@@ -137,15 +137,13 @@ export default class MonsterSheet extends ActorSheetArtichron {
     });
 
     for (const item of contents) {
+      const expanded = this._expandedItems.has(item.uuid);
       const data = {
         item: item,
-        isExpanded: this._expandedItems.has(item.uuid)
-      };
-      if (data.isExpanded) {
-        data.enrichedText = await TextEditor.enrichHTML(item.system.description.value, {
+        enriched: expanded ? await TextEditor.enrichHTML(item.system.description.value, {
           relativeTo: item, rollData: item.getRollData()
-        });
-      }
+        }) : null
+      };
 
       if (favoritedItems.has(item)) favorites.push(data);
       else items.push(data);

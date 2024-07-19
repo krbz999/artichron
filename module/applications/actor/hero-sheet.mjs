@@ -267,16 +267,13 @@ export default class HeroSheet extends ActorSheetArtichron {
       const section = {label: v.label, id: k, items: []};
       for (const t of v.types) {
         for (const item of types[t]) {
+          const expanded = this._expandedItems.has(item.uuid);
           const data = {
             item: item,
-            isExpanded: this._expandedItems.has(item.uuid)
-          };
-          if (data.isExpanded) {
-            data.enrichedText = await TextEditor.enrichHTML(item.system.description.value, {
+            enriched: expanded ? await TextEditor.enrichHTML(item.system.description.value, {
               relativeTo: item, rollData: item.getRollData()
-            });
-          }
-
+            }) : null
+          };
           section.items.push(data);
         }
         section.items.sort((a, b) => {

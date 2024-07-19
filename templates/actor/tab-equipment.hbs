@@ -1,10 +1,10 @@
 <div class="{{tabs.equipment.tabCssClass}}" data-group="primary" data-tab="equipment">
   <div class="inventory-list">
     {{#each equipment.arsenal}}
-    {{inventoryItem item expanded=false disabled=true dataset=dataset}}
+    {{inventoryItem item}}
     {{/each}}
     {{#each equipment.armor}}
-    {{inventoryItem item expanded=false disabled=true dataset=dataset}}
+    {{inventoryItem item}}
     {{/each}}
   </div>
 </div>

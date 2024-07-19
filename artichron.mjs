@@ -7,15 +7,12 @@ import auraInit from "./module/documents/canvas/canvas.mjs";
 import {registerSettings} from "./module/helpers/settings.mjs";
 import {registerEnrichers} from "./module/helpers/enrichers.mjs";
 import {registerSockets} from "./module/helpers/sockets.mjs";
-import {BuffTarget, DamageTarget} from "./module/elements/target-element.mjs";
-import InventoryItemElement from "./module/elements/inventory-item-element.mjs";
-import ThresholdBarElement from "./module/elements/threshold-bar-element.mjs";
+import * as elements from "./module/elements/_module.mjs";
 
 // Custom elements.
-window.customElements.define("damage-target", DamageTarget);
-window.customElements.define("buff-target", BuffTarget);
-window.customElements.define(InventoryItemElement.tagName, InventoryItemElement);
-window.customElements.define(ThresholdBarElement.tagName, ThresholdBarElement);
+for (const element of Object.values(elements)) {
+  window.customElements.define(element.tagName, element);
+}
 
 /* -------------------------------------------------- */
 /*   Define module structure                          */
@@ -211,23 +208,11 @@ async function createEffectMacro(bar, data, slot) {
 /* -------------------------------------------------- */
 
 function inventoryItem(item, options) {
-  const {disabled, enriched, expanded, fusion, favorite, uses, price, actions, dataset} = options.hash;
-  const element = InventoryItemElement.create({
-    item,
-    disabled,
-    expanded,
-    enriched,
-    fusion,
-    favorite,
-    uses,
-    price,
-    actions,
-    dataset
-  });
+  const element = elements.InventoryItemElement.create({...options.hash, item});
   return new Handlebars.SafeString(element.outerHTML);
 }
 
 function thresholdBar(options) {
-  const element = ThresholdBarElement.create(options.hash);
+  const element = elements.ThresholdBarElement.create(options.hash);
   return new Handlebars.SafeString(element.outerHTML);
 }
