@@ -12,7 +12,10 @@ export default function simplifyRollFormula(formula, {preserveFlavor = false, de
   // Create a new roll and verify that the formula is valid before attempting simplification.
   let roll;
   try { roll = new Roll(formula); }
-  catch (err) { console.warn(`Unable to simplify formula '${formula}': ${err}`); }
+  catch (err) {
+    console.warn(`Unable to simplify formula '${formula}': ${err}`);
+    return "";
+  }
   Roll.validate(roll.formula);
 
   // Optionally strip flavor annotations.
@@ -65,9 +68,8 @@ export default function simplifyRollFormula(formula, {preserveFlavor = false, de
   // If the formula contains multiplication or division we cannot easily simplify
   if (/[*/]/.test(roll.formula)) {
     if (roll.isDeterministic && !/d\(/.test(roll.formula) && (!/\[/.test(roll.formula) || !preserveFlavor)) {
-      return Roll.safeEval(roll.formula).toString();
-    }
-    else return roll.constructor.getFormula(roll.terms);
+      return String(Roll.create(roll.formula).evaluateSync().total);
+    } else return roll.constructor.getFormula(roll.terms);
   }
 
   // Flatten the roll formula and eliminate string terms.
@@ -126,7 +128,7 @@ function _simplifyNumericTerms(terms) {
 
   // Combine the unannotated numerical bonuses into a single new NumericTerm.
   if (unannotated.length) {
-    const staticBonus = Roll.safeEval(Roll.getFormula(unannotated));
+    const staticBonus = Roll.create(Roll.getFormula(unannotated)).evaluateSync().total;
     if (staticBonus === 0) return [...annotated];
 
     // If the staticBonus is greater than 0, add a "+" operator so the formula remains valid.
@@ -179,8 +181,10 @@ function _simplifyDiceTerms(terms) {
 function _expandParentheticalTerms(terms) {
   terms = terms.reduce((acc, term) => {
     if (term instanceof foundry.dice.terms.ParentheticalTerm) {
-      if (term.isDeterministic) term = new NumericTerm({number: Roll.safeEval(term.term)});
-      else {
+      if (term.isDeterministic) {
+        const number = Roll.create(term.term).evaluateSync().total;
+        term = new foundry.dice.terms.NumericTerm({number: number});
+      } else {
         const subterms = new Roll(term.term).terms;
         term = _expandParentheticalTerms(subterms);
       }
@@ -201,13 +205,16 @@ function _expandParentheticalTerms(terms) {
  */
 function _groupTermsByType(terms) {
   // Add an initial operator so that terms can be rearranged arbitrarily.
-  if (!(terms[0] instanceof foundry.dice.terms.OperatorTerm)) terms.unshift(new foundry.dice.terms.OperatorTerm({operator: "+"}));
+  if (!(terms[0] instanceof foundry.dice.terms.OperatorTerm)) {
+    terms.unshift(new foundry.dice.terms.OperatorTerm({operator: "+"}));
+  }
 
   return terms.reduce((obj, term, i) => {
     let type;
     if (term instanceof foundry.dice.terms.DiceTerm) type = foundry.dice.terms.DiceTerm;
-    else if ((term instanceof foundry.dice.terms.FunctionTerm) && (term.isDeterministic)) type = foundry.dice.terms.NumericTerm;
-    else type = term.constructor;
+    else if ((term instanceof foundry.dice.terms.FunctionTerm) && (term.isDeterministic)) {
+      type = foundry.dice.terms.NumericTerm;
+    } else type = term.constructor;
     const key = `${type.name.charAt(0).toLowerCase()}${type.name.substring(1)}s`;
 
     // Push the term and the preceding OperatorTerm.
