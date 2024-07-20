@@ -73,6 +73,7 @@ export default class MonsterData extends ActorSystemModel {
     const bonus = super.BONUS_FIELDS;
 
     bonus.add("system.biography.value");
+    bonus.add("system.danger.value");
 
     return bonus;
   }

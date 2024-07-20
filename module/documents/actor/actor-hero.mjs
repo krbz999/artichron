@@ -152,6 +152,8 @@ export default class HeroData extends ActorSystemModel {
       bonus.add(`system.skills.${k}.value`);
     }
 
+    bonus.add("system.details.notes");
+
     return bonus;
   }
 
