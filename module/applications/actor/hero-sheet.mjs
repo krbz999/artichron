@@ -32,10 +32,6 @@ export default class HeroSheet extends ActorSheetArtichron {
       template: "systems/artichron/templates/actor/tab-attributes.hbs",
       scrollable: [".center-pane"]
     },
-    equipment: {
-      template: "systems/artichron/templates/actor/tab-equipment.hbs",
-      scrollable: [""]
-    },
     inventory: {
       template: "systems/artichron/templates/actor/tab-inventory.hbs",
       scrollable: [".inventory-list"]
@@ -64,7 +60,6 @@ export default class HeroSheet extends ActorSheetArtichron {
   /** @override */
   static TABS = {
     attributes: {id: "attributes", group: "primary", label: "ARTICHRON.SheetTab.Attributes"},
-    equipment: {id: "equipment", group: "primary", label: "ARTICHRON.SheetTab.Equipment"},
     inventory: {id: "inventory", group: "primary", label: "ARTICHRON.SheetTab.Inventory"},
     effects: {id: "effects", group: "primary", label: "ARTICHRON.SheetTab.Effects"},
     details: {id: "details", group: "primary", label: "ARTICHRON.SheetTab.Details"}
@@ -86,7 +81,7 @@ export default class HeroSheet extends ActorSheetArtichron {
       config: CONFIG.SYSTEM,
       health: this.document.system.health,
       pools: this.#preparePools(),
-      equipment: await this.#prepareEquipment(),
+      equipment: this.#prepareEquipment(),
       items: await this._prepareItems(),
       encumbrance: this.#prepareEncumbrance(),
       effects: buffs,
@@ -173,9 +168,9 @@ export default class HeroSheet extends ActorSheetArtichron {
 
   /**
    * Prepare equipped items for rendering.
-   * @returns {Promise<object[]>}
+   * @returns {object[]}
    */
-  async #prepareEquipment() {
+  #prepareEquipment() {
     const [primary, secondary] = Object.values(this.document.arsenal);
 
     const emptySlotIcons = {
@@ -188,50 +183,26 @@ export default class HeroSheet extends ActorSheetArtichron {
       boots: "icons/equipment/feet/boots-leather-engraved-brown.webp"
     };
 
-    const orders = {
-      head: 1,
-      chest: 2,
-      legs: 3,
-      accessory: 4,
-      arms: 5,
-      boots: 6
-    };
+    const equipped = [];
 
-    const equipped = {
-      arsenal: {},
-      armor: {}
-    };
-
-    const setup = async (key, column, item, order = 0) => {
-      if (!item) {
-        item = {
-          img: emptySlotIcons[key] ?? emptySlotIcons.arsenal,
-          name: "No Item",
-          system: {}
-        };
-      }
-      equipped[column][key] = {
-        item: item,
-        dataset: {
-          equipmentSlot: key,
-          action: "changeEquipped"
-        }
+    const setup = (key, item) => {
+      const data = {
+        active: !!item,
+        item: item ? item : {img: emptySlotIcons[key] ?? emptySlotIcons.arsenal},
+        dataset: {equipmentSlot: key, action: "changeEquipped"}
       };
+      if (item) data.dataset.itemUuid = item.uuid;
+      equipped.push(data);
     };
 
     // Arsenal.
-    await setup("primary", "arsenal", primary);
-    if (!primary || !primary.isTwoHanded) await setup("secondary", "arsenal", secondary);
+    setup("primary", primary);
+    if (!primary || !primary.isTwoHanded) setup("secondary", secondary);
 
     // Armor.
-    for (const [key, item] of Object.entries(this.document.armor)) {
-      await setup(key, "armor", item, orders[key]);
-    }
+    for (const [key, item] of Object.entries(this.document.armor)) setup(key, item);
 
-    return {
-      arsenal: Object.values(equipped.arsenal),
-      armor: Object.values(equipped.armor)
-    };
+    return equipped;
   }
 
   /* -------------------------------------------------- */

@@ -214,29 +214,23 @@
     }
   }
 
-  .tab[data-tab=equipment].active {
+  .equipment {
+    display: flex;
+    flex-direction: row;
+    gap: 4px;
 
-    & section.arsenal, section.armor {
-      display: flex;
+    .item {
+      flex: 1;
+      text-align: center;
 
-      [data-equipment-slot] {
+      & img {
+        border: none;
+        border-radius: 4px;
+      }
 
-        .controls {
-          display: flex;
-          height: 0;
-          transition: height 200ms;
-          overflow: hidden;
-
-          .control {
-            padding: 4px;
-            margin: 0;
-            flex: 1;
-            text-align: center;
-            .fa-solid { padding: 0; margin: 0; }
-          }
-        }
-
-        &:hover .controls { height: 20px; }
+      &.empty img {
+        opacity: 0.5;
+        filter: grayscale(1)
       }
     }
   }

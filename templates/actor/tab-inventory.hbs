@@ -1,4 +1,21 @@
-<div class="{{tabs.inventory.tabCssClass}}" data-group="primary" data-tab="inventory">
+<div class="{{tabs.inventory.tabCssClass}} standard-form" data-group="primary" data-tab="inventory">
+
+  <fieldset class="equipment">
+    <legend>{{localize "ARTICHRON.SheetTab.Equipment"}}</legend>
+    {{#each equipment}}
+    <div class="item {{#unless active}} empty {{/unless}}" {{#if dataset.itemUuid}} data-item-uuid="{{dataset.itemUuid}}" {{/if}}>
+      <img src="{{item.img}}" {{#if active}} data-action="useItem" {{/if}}>
+      {{#if @root.isEditMode}}
+      <div class="controls">
+        <a data-action="changeEquipped" data-equipment-slot="{{dataset.equipmentSlot}}">
+          <i class="fa-solid fa-shield-alt"></i>
+        </a>
+      </div>
+      {{/if}}
+    </div>
+    {{/each}}
+  </fieldset>
+
   <search>
     <input type="search" id="inventory-search" placeholder="{{localize 'SIDEBAR.Search' types=(localize 'DOCUMENT.Items')}}" value="{{searchQuery}}">
   </search>
