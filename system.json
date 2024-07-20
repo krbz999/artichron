@@ -86,19 +86,37 @@
   },
   "documentTypes": {
     "Actor": {
-      "hero": {},
-      "monster": {},
+      "hero": {
+        "htmlFields": ["details.notes"]
+      },
+      "monster": {
+        "htmlFields": ["biography.value"]
+      },
       "merchant": {},
       "boss": {}
     },
     "Item": {
-      "ammo": {},
-      "armor": {},
-      "elixir": {},
-      "part": {},
-      "shield": {},
-      "spell": {},
-      "weapon": {}
+      "ammo": {
+        "htmlFields": ["description.value"]
+      },
+      "armor": {
+        "htmlFields": ["description.value"]
+      },
+      "elixir": {
+        "htmlFields": ["description.value"]
+      },
+      "part": {
+        "htmlFields": ["description.value"]
+      },
+      "shield": {
+        "htmlFields": ["description.value"]
+      },
+      "spell": {
+        "htmlFields": ["description.value"]
+      },
+      "weapon": {
+        "htmlFields": ["description.value"]
+      }
     },
     "ChatMessage": {
       "usage": {},
