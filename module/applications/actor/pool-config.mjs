@@ -178,9 +178,9 @@ export default class PoolConfig extends HandlebarsApplicationMixin(DocumentSheet
     const value = this.#maxLargest || "health";
     const largest = new foundry.data.fields.StringField({
       choices: {
-        health: "ARTICHRON.ActorProperty.Pools.Health.Label",
-        stamina: "ARTICHRON.ActorProperty.Pools.Stamina.Label",
-        mana: "ARTICHRON.ActorProperty.Pools.Mana.Label"
+        health: "ARTICHRON.ActorProperty.FIELDS.pools.health.label",
+        stamina: "ARTICHRON.ActorProperty.FIELDS.pools.stamina.label",
+        mana: "ARTICHRON.ActorProperty.FIELDS.pools.mana.label"
       },
       label: "Largest"
     });
