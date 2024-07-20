@@ -7,7 +7,7 @@
       "value": "<p>Standard issue rounds are required for rifles to be able to make an attack.</p>"
     },
     "weight": {
-      "value": 1
+      "value": 0.2
     },
     "price": {
       "value": 1

@@ -7,7 +7,7 @@
       "value": "<p>Standard issue arrows are required for bows to be able to make an attack.</p>"
     },
     "weight": {
-      "value": 1
+      "value": 0.1
     },
     "price": {
       "value": 1

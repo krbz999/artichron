@@ -7,7 +7,7 @@
       "value": "<p>While this booster is in your inventory, you can optionally ingest it when making an attack with a weapon. This will give you free points of stamina to spend on the attack.</p>"
     },
     "weight": {
-      "value": 1
+      "value": 0.5
     },
     "price": {
       "value": 1

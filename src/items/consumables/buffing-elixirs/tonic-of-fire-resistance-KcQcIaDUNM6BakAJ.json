@@ -7,7 +7,7 @@
       "value": "<p>Ingesting a use of this elixir will grant you 6 points of fire resistance until the end of the combat encounter.</p>"
     },
     "weight": {
-      "value": 1
+      "value": 0.5
     },
     "price": {
       "value": 5
