@@ -66,7 +66,7 @@ export default class ElixirData extends ItemSystemModel {
   /** @override */
   async use() {
     if (this.isBoostElixir) {
-      ui.notifications.warn("ARTICHRON.ElixirDialog.Warning.CannotUseBooster", {localize: true});
+      ui.notifications.warn("ARTICHRON.ElixirDialog.WarningCannotUseBooster", {localize: true});
       return null;
     }
 

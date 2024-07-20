@@ -620,7 +620,8 @@
   "EffectHint": "Pick one of the effects from the elixir that will be granted.",
   "Confirm": "Confirm",
   "WarningUsage": "The elixir has no remaining uses left!",
-  "WarningEffects": "The elixir has no effects it can grant!"
+  "WarningEffects": "The elixir has no effects it can grant!",
+  "WarningCannotUseBooster": "A booster elixir can only be used as part of an attack."
 },
 
 "DefenseDialog": {
