@@ -8,6 +8,7 @@ import {registerSettings} from "./module/helpers/settings.mjs";
 import {registerEnrichers} from "./module/helpers/enrichers.mjs";
 import {registerSockets} from "./module/helpers/sockets.mjs";
 import * as elements from "./module/elements/_module.mjs";
+import {default as RulerArtichron} from "./module/documents/canvas/ruler.mjs";
 
 // Custom elements.
 for (const element of Object.values(elements)) {
@@ -53,6 +54,8 @@ Hooks.once("init", function() {
   CONFIG.MeasuredTemplate.documentClass = documents.documentClasses.templateDocument;
   CONFIG.ChatMessage.documentClass = documents.documentClasses.message;
   CONFIG.ActiveEffect.documentClass = documents.documentClasses.effect;
+
+  CONFIG.Canvas.rulerClass = RulerArtichron;
 
   // Hook up system data types
   CONFIG.Actor.dataModels = documents.dataModels.actor;
