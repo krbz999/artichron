@@ -15,7 +15,7 @@
       "image": {},
       "text": {
         "format": 1,
-        "content": "<p>Active effects function the same way as always. Some quality-of-life changes have been made to enhance the use of them in this system.</p><h3>Name Overrides</h3><p>When using the name attribute key and the Override change mode, any instance of the substring '{}' in the effect value will be replaced with the target's current name. E.g., an item named 'Battleaxe' affected by a change with the value 'Cool {} of Doom' will have its name changed to 'Cool Battleaxe of Doom'.</p><h3>Affecting Sets</h3><p>Normally when targeting a Set of strings, the effect value of the change has to be very particular, e.g., <code>[\"magical\", \"ammunition\", \"rending\"]</code>. In this system, you can instead simply write <code>magical, ammunition, rending</code>. In addition, if you wish to remove a key from the Set, you can prepend the key with '-'. E.g., <code>magical, ammunition, -rending</code> will add the magical and ammunition attributes and remove the rending attribute.</p>"
+        "content": "<p>Active effects function the same way as always. Some quality-of-life changes have been made to enhance the use of them in this system.</p><h3>Name Overrides</h3><p>When using the name attribute key and the Override change mode, any instance of the substring '{}' in the effect value will be replaced with the target's current name. E.g., an item named 'Battleaxe' affected by a change with the value 'Cool {} of Doom' will have its name changed to 'Cool Battleaxe of Doom'.</p><h3>Affecting Sets</h3><p>Normally when targeting a Set of strings, the effect value of the change has to be very particular, e.g., <code>[\"magical\", \"ammunition\", \"rending\"]</code>. In this system, you can instead simply write</p><pre style=\"text-align:center\"><code>magical, ammunition, rending</code></pre><p>In addition, if you wish to remove a key from the Set, you can prepend the key with '-'. E.g., <code>magical, ammunition, -rending</code> will add the magical and ammunition attributes and remove the rending attribute.</p>"
       },
       "video": {
         "controls": true,
@@ -37,6 +37,42 @@
         "lastModifiedBy": null
       },
       "_key": "!journal.pages!k4SEHLPzrQUUPAsT.I0TyxeocjTCZCpLh"
+    },
+    {
+      "sort": 0,
+      "name": "Enrichers",
+      "type": "text",
+      "_id": "qpq3W6pi4h6g5gT5",
+      "system": {},
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "image": {},
+      "text": {
+        "format": 1,
+        "content": "<p>Enrichers are inline text that gets formatted automatically. The system has some additional enrichers.</p><h1>Lookup</h1><p>The \"lookup\" enricher will replace a string of roll data with the relevant property inside text. In addition, @name is added to actor and item roll data. For example, on a monster called 'Captain' who has 55 total hit points, the following string,</p><pre style=\"text-align:center\"><code>This monster is called [[lookup @name]]\nand has [[lookup @health.max]] total health.</code></pre><p>will output as \"The monster is called Captain and has 55 total health.\"</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": null,
+      "ownership": {
+        "default": -1
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": null,
+        "systemId": null,
+        "systemVersion": null,
+        "createdTime": null,
+        "modifiedTime": null,
+        "lastModifiedBy": null
+      },
+      "_key": "!journal.pages!k4SEHLPzrQUUPAsT.qpq3W6pi4h6g5gT5"
     }
   ],
   "folder": null,

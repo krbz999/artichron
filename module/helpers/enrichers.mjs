@@ -37,6 +37,7 @@ function parseConfig(match) {
 /* -------------------------------------------------- */
 
 function enrichLookup(config, fallback, options) {
+  if (options.relativeTo instanceof JournalEntryPage) return;
   let keyPath = config.path;
   let style = config.style;
   for (const value of config.values) {
