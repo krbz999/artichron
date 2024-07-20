@@ -244,6 +244,11 @@
         }
       }
     },
+    "details": {
+      "notes": {
+        "label": "Notes"
+      }
+    },
     "pips": {
       "value": {
         "label": "Action Points",

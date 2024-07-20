@@ -49,10 +49,7 @@ export default class HeroData extends ActorSystemModel {
     }, {}));
 
     schema.details = new SchemaField({
-      notes: new HTMLField({
-        required: true,
-        label: "ARTICHRON.ActorProperty.Details.Notes"
-      })
+      notes: new HTMLField({required: true})
     });
 
     return schema;
