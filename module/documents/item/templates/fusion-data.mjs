@@ -184,7 +184,7 @@ export const FusionTemplateMixin = Base => {
         }
       }
 
-      // Merge the targeting types of offensive spells.
+      // Merge the targeting types of spells.
       path = "template.types";
       ifield = item.system.schema.getField(path);
       sfield = source.system.schema.getField(path);

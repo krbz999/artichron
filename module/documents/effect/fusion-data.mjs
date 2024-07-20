@@ -190,6 +190,13 @@ export default class EffectFusionData extends ActiveEffectSystemModel {
       return list;
     }
 
+    // Special case: template.types
+    else if (key === "system.template.types") {
+      return Array.from(value).map(k => {
+        return CONFIG.SYSTEM.AREA_TARGET_TYPES[k]?.label;
+      }).filterJoin(", ");
+    }
+
     throw new Error(`The attempted key '${key}' is an invalid key to translate!`);
   }
 }
