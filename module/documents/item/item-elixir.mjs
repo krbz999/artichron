@@ -194,8 +194,12 @@ export default class ElixirData extends ItemSystemModel {
     });
     await Promise.all([
       this.parent.update(update),
-      this.parent.actor.applyDamage(-roll.total)
+      this.parent.actor.applyHealing(roll.total)
     ]);
+
+    if (this.parent.actor.inCombat) {
+      await this.parent.actor.spendActionPoints(1);
+    }
 
     return roll;
   }

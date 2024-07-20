@@ -250,6 +250,20 @@ export default class ActorArtichron extends Actor {
   /* -------------------------------------------------- */
 
   /**
+   * Apply healing to this actor.
+   * @param {number} value                  The amount to heal.
+   * @returns {Promise<ActorArtichron>}     This actor after having been healed.
+   */
+  async applyHealing(value) {
+    const hp = foundry.utils.deepClone(this.system.health);
+    const v = Math.clamp(hp.value + Math.abs(value), 0, hp.max);
+    await this.update({"system.health.value": v}, {diff: false});
+    return this;
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
    * Roll one or more dice from a pool.
    * @param {string} type               The type of pool dice to roll (health, stamina, mana).
    * @param {number} amount             The amount of dice to roll.
