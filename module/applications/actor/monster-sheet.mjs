@@ -86,6 +86,14 @@ export default class MonsterSheet extends ActorSheetArtichron {
       })
     };
 
+    // Details.
+    context.details = [];
+    const danger = {
+      field: this.document.system.schema.getField("danger.value"),
+      value: (context.isEditMode ? this.document._source : this.document).system.danger.value
+    };
+    context.details.push(danger);
+
     // Prepare a resistance for rendering.
     const makeResistance = (key, path) => {
       const value = foundry.utils.getProperty(context.isEditMode ? src.system : doc.system, path);

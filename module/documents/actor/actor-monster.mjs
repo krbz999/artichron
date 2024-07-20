@@ -15,6 +15,10 @@ export default class MonsterData extends ActorSystemModel {
       hint: "ARTICHRON.ActorProperty.LootHint"
     });
 
+    schema.danger = new SchemaField({
+      value: new NumberField({min: 1, step: 1, initial: 1})
+    });
+
     schema.biography = new SchemaField({
       value: new HTMLField({required: true})
     });

@@ -13,8 +13,15 @@ export default class CombatantArtichron extends Combatant {
     formula = formula || this._getInitiativeFormula();
     const actor = this.actor;
     const rollData = actor?.getRollData() || {};
-    const stamina = actor?.system.pools?.stamina.max ?? 3;
-    rollData.pips = Math.min(actor?.actionPoints ?? 0, stamina);
+
+    let cap;
+    switch (actor?.type) {
+      case "hero": cap = actor.system.pools.stamina.max; break;
+      case "monster": cap = actor.system.danger.value * 3; break;
+      default: cap = 3;
+    }
+
+    rollData.pips = Math.min(actor?.actionPoints ?? 0, cap);
     return Roll.create(formula, rollData);
   }
 

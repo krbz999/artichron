@@ -230,6 +230,12 @@
 
 "ActorProperty": {
   "FIELDS": {
+    "danger": {
+      "value": {
+        "label": "Danger Level",
+        "hint": "The danger level of a monster determines their overall challenge as well as their action points."
+      }
+    },
     "defenses": {
       "armor": {
         "value": {
