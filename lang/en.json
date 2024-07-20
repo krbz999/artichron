@@ -1,7 +1,5 @@
 {
 "TYPES": {
-"Actor.boss": "Boss",
-"Actor.bossPl": "Bosses",
 "Actor.hero": "Hero",
 "Actor.heroPl": "Heroes",
 "Actor.merchant": "Merchant",
