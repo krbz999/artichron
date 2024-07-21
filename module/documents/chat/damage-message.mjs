@@ -39,12 +39,38 @@ export default class DamageMessageData extends ChatMessageSystemModel {
     }, new Set());
 
     if (targets.size) {
+      // outer wrapper
       const targeting = document.createElement("DIV");
+      targeting.classList.add("wrapper", "expanded");
+
+      // Click Me label
+      const header = document.createElement("HEADER");
+      header.classList.add("toggle");
+      header.textContent = "Click Me!";
+      header.addEventListener("click", event => targeting.classList.toggle("expanded"));
+      targeting.insertAdjacentElement("beforeend", header);
+
+      // inner wrapper
+      const collapsible = document.createElement("DIV");
+      collapsible.classList.add("targets");
+      targeting.insertAdjacentElement("beforeend", collapsible);
       for (const target of targets) {
         const element = document.createElement("damage-target");
         element.actor = target;
-        targeting.insertAdjacentElement("beforeend", element);
+        collapsible.insertAdjacentElement("beforeend", element);
       }
+
+      // apply button
+      const button = document.createElement("BUTTON");
+      button.textContent = "Apply Damage";
+      button.addEventListener("click", event => {
+        for (const element of button.closest(".wrapper").querySelectorAll("damage-target")) {
+          element.actor.applyDamage(element.damages);
+        }
+        targeting.classList.toggle("expanded", false);
+      });
+      collapsible.insertAdjacentElement("beforeend", button);
+
       html.querySelector(".message-content").insertAdjacentElement("beforeend", targeting);
     }
   }

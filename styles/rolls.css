@@ -1,24 +1,5 @@
 /* Chat Messages */
-.artichron.item-usage {
-  display: flex;
-  position: relative;
-  flex-direction: column;
-
-  .dice-roll {
-    position: relative;
-
-    .fa-solid {
-      position: absolute;
-      opacity: 0.5;
-      left: 0;
-      padding: 5px;
-    }
-  }
-
-  [data-action="apply-damage"] {
-    width: 100%;
-    margin: 3px 0 7px 0;
-  }
+.chat-message.artichron.damage {
 
   .wrapper {
     display: grid;
@@ -29,7 +10,7 @@
       grid-template-rows: 0fr 1fr;
     }
 
-    &:not(:has(.target)) { display: none; }
+    &:not(:has(damage-target)) { display: none; }
 
     .toggle {
       height: 20px;
@@ -49,38 +30,34 @@
     }
 
     .targets {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-around;
       overflow: hidden;
+      gap: 2px;
+      display: flex;
+      flex-direction: column;
 
-      & damage-target, buff-target {
-        width: calc(100% / 5);
-        transition: opacity 200ms ease;
-
-        &[disabled] { opacity: 0.5; }
-      }
-
-      .target {
-        gap: 5px;
-        text-align: center;
+      & damage-target {
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
         align-items: center;
+        flex: 1;
+        gap: 4px;
+        font-size: 20px;
 
         & img {
-          border: none;
-          width: calc(100% - 10px);
+          width: 40px;
+          height: 40px;
+          object-fit: contain;
         }
         .name {
-          font-size: 12px;
-          border: 1px solid black;
-          border-radius: 3px;
-          width: calc(100% - 4px);
-          background: rgba(0, 0, 0, 0.6);
-          color: rgba(200, 200, 200, 1);
+          flex: 1;
+        }
+        .damage {
+          text-align: center;
+          width: 40px;
           white-space: nowrap;
-          overflow: hidden;
+          color: red;
+
+          &::before { content: var(--damage-total); }
         }
       }
     }
