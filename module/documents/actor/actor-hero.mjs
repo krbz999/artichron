@@ -48,6 +48,12 @@ export default class HeroData extends ActorSystemModel {
       return acc;
     }, {}));
 
+    schema.resources = new SchemaField({
+      currency: new NumberField({min: 0, step: 1}),
+      pools: new NumberField({min: 0, step: 1}),
+      skills: new NumberField({min: 0, step: 1})
+    });
+
     schema.details = new SchemaField({
       notes: new HTMLField({required: true})
     });
