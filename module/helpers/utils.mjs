@@ -331,6 +331,7 @@ export function tokensInTemplate(template) {
  * @returns {Promise<TokenDocumentArtichron[]>}     The token documents of those targeted.
  */
 export async function awaitTargets(count, {origin, range, allowPreTarget = false} = {}) {
+  game.user._targeting = true;
   const useRange = !!origin && Number.isInteger(range) && (range > 0);
 
   // Pad the range due to the token size.
@@ -355,7 +356,10 @@ export async function awaitTargets(count, {origin, range, allowPreTarget = false
     let value = game.user.targets.size;
     let id;
 
-    const finish = () => resolve(Array.from(game.user.targets).map(token => token.document));
+    const finish = () => {
+      delete game.user._targeting;
+      resolve(Array.from(game.user.targets).map(token => token.document));
+    };
 
     if (count === value) {
       finish();

@@ -88,46 +88,13 @@ export default class ArsenalData extends ItemSystemModel.mixin(
    * @param {object} [options]                        Additional options.
    * @returns {Promise<TokenDocumentArtichron[]>}     The token documents of those targeted.
    */
-  async pickTarget({count = 1, ...options} = {}) {
-    options.range ??= this.range.value;
-    options.origin ??= this.parent.token;
-    const targets = await artichron.utils.awaitTargets(count, options);
+  async pickTarget({origin, count, range, allowPreTarget} = {}) {
+    origin ??= this.parent.token;
+    count ??= 1;
+    range ??= this.range.value;
+    allowPreTarget ??= false;
+    const targets = await artichron.utils.awaitTargets(count, {origin, range, allowPreTarget});
     return targets;
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Display the result of this item's usage in the chat log.
-   * @param {object} [config]
-   * @param {DamageRoll[]} [config.rolls]
-   * @param {string[]} [config.targets]
-   * @param {string} [config.effectUuid]
-   * @param {string} [config.flavor]
-   * @param {object} [options]
-   * @param {string} [options.rollMode]
-   * @param {boolean} [options.create]
-   * @returns {Promise<ChatMessage|object>}     A promise that resolves to the created chat message or message data.
-   */
-  async toMessage({rolls = [], targets = [], template, effectUuid, flavor} = {}, {rollMode, create = true} = {}) {
-    // Evaluate unevaluated rolls.
-    for (const roll of rolls) if (!roll._evaluated) await roll.evaluate();
-
-    // Set up message data.
-    const messageData = {
-      type: "usage",
-      speaker: ChatMessage.implementation.getSpeaker({actor: this.parent.actor}),
-      "system.item": this.parent.uuid,
-      "system.actor": this.parent.actor.uuid,
-      flavor: flavor
-    };
-    if (rolls.length) messageData.sound = CONFIG.sounds.dice;
-    if (targets.length) messageData["system.targets"] = targets;
-    if (template) messageData["flags.artichron.use.templateData"] = foundry.utils.deepClone(template);
-    if (effectUuid) messageData["system.effect"] = effectUuid;
-
-    // Display the message or return the message data.
-    return create ? rolls[0].constructor.toMessage(rolls, messageData, {rollMode, create}) : messageData;
   }
 
   /* -------------------------------------------------- */
@@ -144,9 +111,11 @@ export default class ArsenalData extends ItemSystemModel.mixin(
     const formula = this._damages.map(d => d.formula).join("+");
     const roll = Roll.create(formula, this.parent.getRollData());
     if (this.parent.type !== "shield") roll.alter(0.5);
-    const flavor = game.i18n.format("ARTICHRON.ChatMessage.BlockFlavor", {name: this.parent.name});
 
-    return this.toMessage({rolls: [roll], flavor});
+    return roll.toMessage({
+      flavor: game.i18n.format("ARTICHRON.ChatMessage.BlockFlavor", {name: this.parent.name}),
+      speaker: ChatMessage.implementation.getSpeaker({actor: this.parent.actor})
+    });
   }
 
   /* -------------------------------------------------- */
@@ -163,8 +132,10 @@ export default class ArsenalData extends ItemSystemModel.mixin(
     const formula = this._damages.map(d => d.formula).join("+");
     const roll = Roll.create(formula, this.parent.getRollData());
     roll.alter(0.5);
-    const flavor = game.i18n.format("ARTICHRON.ChatMessage.ParryFlavor", {name: this.parent.name});
 
-    return this.toMessage({rolls: [roll], flavor});
+    return roll.toMessage({
+      flavor: game.i18n.format("ARTICHRON.ChatMessage.ParryFlavor", {name: this.parent.name}),
+      speaker: ChatMessage.implementation.getSpeaker({actor: this.parent.actor})
+    });
   }
 }

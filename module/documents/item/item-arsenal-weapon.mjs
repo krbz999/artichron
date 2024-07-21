@@ -46,7 +46,6 @@ export default class WeaponData extends ArsenalData {
       return null;
     }
 
-    if (game.user._targeting) return null; // Prevent initiating targeting twice.
     const item = this.parent;
     const actor = item.actor;
 
@@ -72,16 +71,22 @@ export default class WeaponData extends ArsenalData {
       return null;
     }
 
-    // Ammo modifying range.
-    const range = Math.max(1, this.range.value + (ammoModifiers.has("range") ? ammo.system.range.value : 0));
+    const flags = {artichron: {usage: {}}};
 
-    game.user._targeting = true;
-    const token = this.parent.token;
-    let targets = await this.pickTarget({origin: token, count: 1, allowPreTarget: true, range});
-    delete game.user._targeting;
+    // Set up range properties.
+    flags.artichron.usage.target = {
+      range: this.parent.isMelee ?
+        this.range.reach :
+        Math.max(1, value + (ammoModifiers.has("range") ? ammo.system.range.value : 0)),
+      count: 1,
+      allowPreTarget: true
+    };
 
-    // Create damage rolls.
-    const rolls = await this.rollDamage({ammo: ammo, addition: stamina + (configuration.uses || 0)}, {create: false});
+    // Set up damage properties.
+    flags.artichron.usage.damage = {
+      ammo: ammo ? ammo.id : null,
+      addition: stamina + (configuration.uses || 0)
+    };
 
     const actorUpdate = {};
     const itemUpdates = [];
@@ -94,22 +99,18 @@ export default class WeaponData extends ArsenalData {
       foundry.utils.isEmpty(itemUpdates) ? null : actor.updateEmbeddedDocuments("Item", itemUpdates)
     ]);
 
-    // Create a template for the blast zone and modify targets.
-    targets = targets.map(t => t.actor.uuid);
-    if (ammoModifiers.has("blast")) {
-      const template = await this.constructor.createBlastZone(token, target.object, ammo.system.blast);
-      await template.waitForShape();
-      const additionalTargets = template.object.containedTokens;
-      for (const t of additionalTargets) {
-        if (t.actor) targets.add(t.actor.uuid);
-      }
-    }
-
     if (actor.inCombat) {
       await actor.spendActionPoints(item.system.cost.value);
     }
 
-    return this.toMessage({rolls: rolls, targets: Array.from(targets)});
+    const messageData = {
+      type: "usage",
+      speaker: ChatMessage.implementation.getSpeaker({actor: actor}),
+      "system.item": item.uuid,
+      flags: flags
+    };
+
+    return ChatMessage.implementation.create(messageData);
   }
 
   /* -------------------------------------------------- */

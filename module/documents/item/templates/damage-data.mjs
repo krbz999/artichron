@@ -114,8 +114,12 @@ export const DamageTemplateMixin = Base => {
       if (create) {
         const rollMode = game.settings.get("core", "rollMode");
         const messageData = {
+          type: "damage",
           rolls: rolls,
-          speaker: ChatMessage.implementation.getSpeaker({actor: this.parent.actor})
+          speaker: ChatMessage.implementation.getSpeaker({actor: this.parent.actor}),
+          flavor: game.i18n.format("ARTICHRON.ChatMessage.DamageRoll", {name: this.parent.name}),
+          "system.targets": Array.from(game.user.targets.map(t => t.actor?.uuid)),
+          "system.item": this.parent.uuid
         };
         ChatMessage.implementation.applyRollMode(messageData, rollMode);
         return ChatMessage.implementation.create(messageData);

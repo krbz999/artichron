@@ -322,18 +322,6 @@ export default class ActorArtichron extends Actor {
   /* -------------------------------------------------- */
 
   /**
-   * Roll damage with an equipped arsenal item.
-   * @param {string} [key]          Arsenal to roll with, 'primary' or 'secondary'.
-   * @param {object} [options]      Options to modify the roll.
-   * @returns {Promise}
-   */
-  async rollDamage(key = null, options = {}) {
-    return this.system.rollDamage(key, options);
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
    * Roll a skill.
    * @param {object} config                   Roll configuration object.
    * @param {string} config.skillId           The internal key used for the skill.

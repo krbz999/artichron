@@ -118,8 +118,9 @@
       }
     },
     "ChatMessage": {
-      "usage": {},
-      "trade": {}
+      "damage": {},
+      "trade": {},
+      "usage": {}
     },
     "Combatant": {
       "artichron": {}

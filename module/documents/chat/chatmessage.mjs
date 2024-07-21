@@ -36,8 +36,7 @@ export default class ChatMessageArtichron extends ChatMessage {
   async getHTML(...T) {
     const html = await super.getHTML(...T);
 
-    if (this.type === "usage") await this.system.adjustHTML(html[0]);
-    else if (this.type === "trade") await this.system.adjustHTML(html[0]);
+    if (this.system.adjustHTML) await this.system.adjustHTML(html[0]);
 
     return html;
   }

@@ -56,7 +56,6 @@ export default class ShieldData extends ArsenalData {
       return null;
     }
 
-    if (game.user._targeting) return null; // Prevent initiating targeting twice.
     const item = this.parent;
     const actor = item.actor;
 
@@ -70,16 +69,26 @@ export default class ShieldData extends ArsenalData {
       return null;
     }
 
-    game.user._targeting = true;
-    const targets = await this.pickTarget({count: 1, allowPreTarget: true});
-    delete game.user._targeting;
-
-    const rolls = await this.rollDamage({multiply: 0.5}, {create: false});
-
     if (actor.inCombat) {
       await actor.spendActionPoints(item.system.cost.value);
     }
 
-    return this.toMessage({rolls: rolls, targets: Array.from(targets.map(t => t.actor.uuid))});
+    const flags = {artichron: {usage: {
+      damage: {multiply: 0.5, ids: []},
+      target: {
+        allowPreTarget: true,
+        count: 1,
+        range: this.range.reach
+      }
+    }}};
+
+    const messageData = {
+      type: "usage",
+      speaker: ChatMessage.implementation.getSpeaker({actor: actor}),
+      "system.item": item.uuid,
+      flags: flags
+    };
+
+    return ChatMessage.implementation.create(messageData);
   }
 }

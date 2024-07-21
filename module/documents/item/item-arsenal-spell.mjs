@@ -58,8 +58,6 @@ export default class SpellData extends ArsenalData {
 
   /** @override */
   async use() {
-    if (game.user._targeting) return null; // Prevent initiating targeting twice.
-
     if ((this.category.subtype === "offense") && !this.hasDamage) {
       ui.notifications.warn("ARTICHRON.Warning.ItemHasNoDamageRolls", {localize: true});
       return null;
@@ -85,28 +83,19 @@ export default class SpellData extends ArsenalData {
 
     const data = SpellUseDialog.determineTemplateData(configuration);
 
-    const targets = new Set();
+    const flags = {artichron: {usage: {}}};
 
-    game.user._targeting = true;
     if (data.type !== "single") {
-      // Case 1: Area of effect.
-      const templates = await this.placeTemplates(data);
-      await Promise.all(templates.map(template => template.waitForShape()));
-      for (const template of templates) {
-        for (const token of template.object.containedTokens) {
-          const actor = token.actor;
-          if (actor) targets.add(actor.uuid);
-        }
-      }
+      flags.artichron.usage.templates = {
+        ...data
+      };
     } else {
       // Case 2: Singular targets.
-      const tokens = await this.pickTarget({count: data.count, range: data.range});
-      for (const token of tokens) {
-        const actor = token.actor;
-        if (actor) targets.add(actor.uuid);
-      }
+      flags.artichron.usage.target = {
+        count: data.count,
+        range: data.range
+      };
     }
-    delete game.user._targeting;
 
     // Create and perform updates.
     const actorUpdate = {};
@@ -130,28 +119,29 @@ export default class SpellData extends ArsenalData {
       foundry.utils.isEmpty(itemUpdates) ? null : actor.updateEmbeddedDocuments("Item", itemUpdates)
     ]);
 
-    const messageData = {targets: Array.from(targets)};
-    if (configuration.shape !== "single") messageData.template = data;
+    const messageData = {
+      type: "usage",
+      speaker: ChatMessage.implementation.getSpeaker({actor: actor}),
+      "system.item": this.parent.uuid,
+      flags: flags
+    };
 
     if (this.category.subtype === "offense") {
-      // Offensive magic
-      const rolls = await this.rollDamage({
+      messageData.flags.artichron.usage.damage = {
         ids: [configuration.damage],
         addition: configuration.additional
-      }, {create: false});
-      messageData.rolls = rolls;
+      };
     } else if (this.category.subtype === "buff") {
-      // Buff or Defensive magic
-      const effectId = configuration.buff;
-      const effect = this.parent.effects.get(effectId);
-      messageData.effectUuid = effect.uuid;
+      messageData.flags.artichron.usage.effect = {
+        uuid: this.parent.effects.get(configuration.buff)?.uuid
+      };
     }
 
     if (actor.inCombat) {
       await actor.spendActionPoints(this.parent.system.cost.value);
     }
 
-    return this.toMessage(messageData);
+    return ChatMessage.implementation.create(messageData);
   }
 
   /* -------------------------------------------------- */

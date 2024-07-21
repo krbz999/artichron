@@ -679,7 +679,8 @@
   "ParryFlavor": "{name}: Parrying",
   "ApplyDamage": "Apply Damage",
   "PlaceTemplate": "Place Template",
-  "GrantBuff": "GrantBuff"
+  "GrantBuff": "GrantBuff",
+  "DamageRoll": "{name} - Damage Roll"
 },
 
 "StatusConditions": {

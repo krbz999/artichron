@@ -49,7 +49,7 @@ class TargetElement extends HTMLElement {
     this.chatMessage = game.messages.get(messageId);
     if (!this.chatMessage) return false;
 
-    this.actor = fromUuidSync(this.dataset.actorUuid);
+    this.actor ??= fromUuidSync(this.dataset.actorUuid);
     if (!this.actor) {
       this.remove();
       return false;
