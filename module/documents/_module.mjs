@@ -1,4 +1,5 @@
-import {ChatMessageSystemModel, ItemMessageData, TradeMessageData} from "./chat/system-model.mjs";
+import ChatMessageSystemModel from "./chat/system-model.mjs";
+import TradeMessageData from "./chat/trade-message.mjs";
 import ActiveEffectArtichron from "./effect/active-effect.mjs";
 import ActiveEffectSystemModel from "./effect/system-model.mjs";
 import ActorArtichron from "./actor/actor.mjs";
@@ -44,7 +45,7 @@ export const dataModels = {
     ammo: AmmunitionData
   },
   message: {
-    usage: ItemMessageData,
+    //usage: ItemMessageData,
     trade: TradeMessageData
   },
   combatant: {
