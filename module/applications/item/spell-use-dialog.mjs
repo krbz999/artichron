@@ -177,7 +177,7 @@ export default class SpellUseDialog extends HandlebarsApplicationMixin(Applicati
 
       const elixirs = this.#item.actor.items.reduce((acc, item) => {
         const isBooster = item.isBoostElixir && (item.system.category.pool === "mana");
-        if (isBooster && item.hasUses && (item.system.usage.value > 0)) acc[item.id] = item.name;
+        if (isBooster && item.hasUses) acc[item.id] = item.name;
         return acc;
       }, {});
       const boosters = new foundry.data.fields.SetField(new foundry.data.fields.StringField({

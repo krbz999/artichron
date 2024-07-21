@@ -101,7 +101,7 @@ export default class WeaponUseDialog extends HandlebarsApplicationMixin(Applicat
 
     const elixirs = this.#item.actor.items.reduce((acc, item) => {
       const isBooster = item.isBoostElixir && (item.system.category.pool === "stamina");
-      if (isBooster && item.hasUses && (item.system.usage.value > 0)) acc[item.id] = item.name;
+      if (isBooster && item.hasUses) acc[item.id] = item.name;
       return acc;
     }, {});
     const booster = new foundry.data.fields.StringField({

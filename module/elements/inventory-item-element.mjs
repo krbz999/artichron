@@ -74,7 +74,7 @@ export default class InventoryItemElement extends HTMLElement {
     this.insertAdjacentElement("beforeend", anchor);
 
     // Uses.
-    if (item.hasUses) {
+    if (item.system.schema.has("usage")) {
       const property = document.createElement("DIV");
       property.classList.add("property", "usage");
 

@@ -239,13 +239,13 @@ export default class ElixirData extends ItemSystemModel {
   /* -------------------------------------------------- */
 
   /**
-   * Does this item have a limited number of uses?
+   * Does this item have a limited number of uses remaining?
    * @type {boolean}
    */
   get hasUses() {
     const use = this.usage;
     const qty = this.quantity;
-    return (use.max > 0) && (qty.value > 0);
+    return (use.value > 0) && (use.max > 0) && (qty.value > 0);
   }
 
   /* -------------------------------------------------- */
