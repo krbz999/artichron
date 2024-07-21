@@ -1,7 +1,7 @@
 const cap = PIXI.LINE_CAP.ROUND;
 const join = PIXI.LINE_JOIN.ROUND;
 
-export default class TokenArtichron extends Token {
+/*export default*/ class _TokenArtichron extends Token {
   /**
    * The width of the selection border when circular.
    * @type {number}
@@ -229,4 +229,8 @@ export default class TokenArtichron extends Token {
     style._fontSize = 20;
     return style;
   }
+}
+
+export default class TokenArtichron extends Token {
+
 }

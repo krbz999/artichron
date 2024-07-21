@@ -135,10 +135,12 @@ export class DamageTarget extends TargetElement {
     super.connectedCallback();
 
     this.#damages = this.chatMessage.rolls.reduce((acc, roll) => {
-      acc[roll.type] ??= 0;
-      acc[roll.type] += roll.total;
+      acc[roll.type] ??= {value: 0};
+      acc[roll.type].value += roll.total;
       return acc;
     }, {});
+
+    this.dataset.tooltip = this.actor.calculateDamage(this.#damages);
   }
 
   /* -------------------------------------------------- */
@@ -157,6 +159,7 @@ export class DamageTarget extends TargetElement {
     if ((options.messageId === this.chatMessage.id) && (actor === this.actor)) {
       this.disabled = true;
     }
+    this.dataset.tooltip = this.actor.calculateDamage(this.#damages);
   }
 
   /* -------------------------------------------------- */

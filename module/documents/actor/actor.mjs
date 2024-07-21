@@ -154,8 +154,8 @@ export default class ActorArtichron extends Actor {
     for (const t of tokens) {
       if (!t.visible || t.document.isSecret) continue;
       const c = t.center;
-      damages = damages ? damages : {none: -health.delta};
-      for (const [type, value] of Object.entries(damages)) {
+      damages = damages ? damages : {none: {value: -health.delta}};
+      for (const [type, {value}] of Object.entries(damages)) {
         if (!value) continue;
         const isHeal = value < 0;
         const color = foundry.utils.Color.from(isHeal ? green : CONFIG.SYSTEM.DAMAGE_TYPES[type]?.color ?? red);
@@ -180,18 +180,13 @@ export default class ActorArtichron extends Actor {
   /* -------------------------------------------------- */
 
   /**
-   * Apply damage to this actor.
-   * @param {number|object} values              An object with keys from DAMAGE_TYPES.
-   * @param {object} [options]                  Damage application options.
-   * @param {boolean} [options.defendable]      Whether the actor can parry or block this damage.
-   * @param {boolean} [options.resisted]        Whether resistances and armor can reduce this damage.
-   * @param {Set<string>} [options.attributes]  Item attributes that change the application behavior.
-   * @param {object} [context]                  Update options that are passed along to the final update.
-   * @returns {Promise<ActorArtichron>}
+   * Calculate damage that will be taken, excepting any reductions from parrying and blocking.
+   * @param {number|object} values          An object with keys from DAMAGE_TYPES.
+   * @param {object} [options]              Damage calculation options.
+   * @param {boolean} [options.numeric]     Whether to return the damage descriptions instead of the total damage.
+   * @returns {number|object}               The amount of damage taken, or the modified object.
    */
-  async applyDamage(values, {defendable = true, resisted = true, attributes = new Set()} = {}, context = {}) {
-    if (!this.system.health.value) return this;
-
+  calculateDamage(values, {numeric = true} = {}) {
     if (foundry.utils.getType(values) === "number") {
       values = {none: values};
     }
@@ -203,24 +198,43 @@ export default class ActorArtichron extends Actor {
     const types = CONFIG.SYSTEM.DAMAGE_TYPES;
 
     // Modify values to take resistances into account.
-    for (let [type, value] of Object.entries(values)) {
-      if (!resisted || (type === "none")) continue;
+    for (const [type, {value, resisted}] of Object.entries(values)) {
+      if ((resisted === false) || (type === "none")) continue;
+
+      let v = value;
 
       // Resisted?
-      if (types[type].resist) value -= resistances[type].value;
+      if (types[type].resist) v -= resistances[type].value;
 
       // Reduced by armor?
-      if (types[type].armor) value -= armor.value;
+      if (types[type].armor) v -= armor.value;
 
-      if (value <= 0) delete values[type];
-      else values[type] = value;
+      values[type].value = Math.max(0, v);
     }
 
-    let dmg = Object.entries(values).reduce((acc, [k, v]) => acc + v, 0);
+    return numeric ? Object.values(values).reduce((acc, {value}) => acc + value, 0) : values;
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Apply damage to this actor.
+   * @param {number|object} values              An object with keys from DAMAGE_TYPES.
+   * @param {object} [options]                  Damage application options.
+   * @param {boolean} [options.defendable]      Whether the actor can parry or block this damage.
+   * @param {Set<string>} [options.attributes]  Item attributes that change the application behavior.
+   * @param {object} [context]                  Update options that are passed along to the final update.
+   * @returns {Promise<ActorArtichron>}
+   */
+  async applyDamage(values, {defendable = true, attributes = new Set()} = {}, context = {}) {
+    if (!this.system.health.value) return this;
+
+    values = this.calculateDamage(values, {numeric: false});
+    let dmg = Object.values(values).reduce((acc, {value}) => acc + value, 0);
     let blocking = defendable ? await this.defenseDialog(dmg) : 0;
     if (blocking === false) return this;
 
-    for (const [type, value] of Object.entries(values)) {
+    for (const [type, {value}] of Object.entries(values)) {
       if (!blocking) break;
       const diff = Math.min(value, blocking);
       blocking -= diff;
@@ -228,7 +242,7 @@ export default class ActorArtichron extends Actor {
     }
 
     // Recalculate damage after defensive rolls.
-    dmg = Object.entries(values).reduce((acc, [k, v]) => acc + v, 0);
+    dmg = Object.values(values).reduce((acc, {value}) => acc + value, 0);
     const hp = foundry.utils.deepClone(this.system.health);
     const val = Math.clamp(hp.value - Math.max(0, dmg), 0, hp.max);
     await this.update({"system.health.value": val}, {
