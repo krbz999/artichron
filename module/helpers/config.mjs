@@ -96,7 +96,6 @@ SYSTEM.DAMAGE_TYPE_GROUPS = {
  * @typedef {object} AreaTargetTypes
  * @property {string} label             Displayed label of the targeting type.
  * @property {Set<string>} scale        The properties that can scale with mana.
- * @property {string} modifier          The die modifier to attach to this damage roll.
  * @property {boolean} [ammo]           Whether this is a valid area type for ammo.
  * @property {number[]} [count]         The default count and how much each increase is.
  * @property {number[]} [range]         The default range and how much each increase is.
@@ -114,14 +113,12 @@ SYSTEM.AREA_TARGET_TYPES = {
   single: {
     label: "ARTICHRON.SpellShape.SingleTarget",
     scale: new Set(["count", "range"]),
-    modifier: "x",
     count: [1, 1],
     range: [6, 2]
   },
   ray: {
     label: "ARTICHRON.SpellShape.AreaRay",
     scale: new Set(["count", "distance", "width"]),
-    modifier: "xo",
     ammo: true,
     count: [1, 1],
     distance: [4, 2],
@@ -130,7 +127,6 @@ SYSTEM.AREA_TARGET_TYPES = {
   cone: {
     label: "ARTICHRON.SpellShape.AreaCone",
     scale: new Set(["count", "distance"]),
-    modifier: "min2",
     ammo: true,
     count: [1, 1],
     distance: [3, 2]
@@ -138,7 +134,6 @@ SYSTEM.AREA_TARGET_TYPES = {
   circle: {
     label: "ARTICHRON.SpellShape.AreaCircle",
     scale: new Set(["count", "radius", "range"]),
-    modifier: "",
     ammo: true,
     count: [1, 1],
     radius: [1, 1],
@@ -147,7 +142,6 @@ SYSTEM.AREA_TARGET_TYPES = {
   radius: {
     label: "ARTICHRON.SpellShape.AreaRadius",
     scale: new Set(["radius"]),
-    modifier: "rr",
     radius: [2, 1]
   }
 };
