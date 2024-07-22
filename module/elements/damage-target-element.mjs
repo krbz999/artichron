@@ -17,6 +17,8 @@ export default class DamageTargetElement extends HTMLElement {
    */
   targeted = true;
 
+  /* -------------------------------------------------- */
+
   /**
    * The damage totals by type.
    * @type {object}
