@@ -15,16 +15,8 @@ export default class DamageTargetElement extends HTMLElement {
    * The damage totals by type.
    * @type {object}
    */
-  #damages = null;
-
-  /* -------------------------------------------------- */
-
-  /**
-   * The damage totals by type.
-   * @type {object}
-   */
   get damages() {
-    return this.#damages;
+    return this.chatMessage.system.damages;
   }
 
   /* -------------------------------------------------- */
@@ -72,13 +64,7 @@ export default class DamageTargetElement extends HTMLElement {
     <label class="name">${this.actor.name}</label>
     <div class="damage"></div>`;
 
-    this.#damages = this.chatMessage.rolls.reduce((acc, roll) => {
-      acc[roll.type] ??= {value: 0};
-      acc[roll.type].value += roll.total;
-      return acc;
-    }, {});
-
-    this.setAttribute("style", `--damage-total: "${this.actor.calculateDamage(this.#damages)}"`);
+    this.setAttribute("style", `--damage-total: "${this.actor.calculateDamage(this.damages)}"`);
   }
 
   /* -------------------------------------------------- */
@@ -119,6 +105,6 @@ export default class DamageTargetElement extends HTMLElement {
   /** Hook event for actors being updated. */
   _onActorUpdate(actor, change, options, userId) {
     if (actor !== this.actor) return;
-    this.setAttribute("style", `--damage-total: "${this.actor.calculateDamage(this.#damages)}"`);
+    this.setAttribute("style", `--damage-total: "${this.actor.calculateDamage(this.damages)}"`);
   }
 }

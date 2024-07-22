@@ -10,7 +10,7 @@
       grid-template-rows: 0fr 1fr;
     }
 
-    &:not(:has(damage-target)) { display: none; }
+    &:nth-child(2) { margin-top: 1rem; }
 
     .toggle {
       height: 20px;
@@ -29,13 +29,13 @@
       }
     }
 
-    .targets {
+    .targets, .rolls {
       overflow: hidden;
       gap: 2px;
       display: flex;
       flex-direction: column;
 
-      & damage-target {
+      & damage-target, .roll .top {
         display: flex;
         flex-direction: row;
         align-items: center;
@@ -43,21 +43,82 @@
         gap: 4px;
         font-size: 20px;
 
-        & img {
+        & img, .icon {
           width: 40px;
           height: 40px;
           object-fit: contain;
+          justify-content: center;
+          align-items: center;
+          display: flex;
         }
-        .name {
+        .name, .formula {
           flex: 1;
         }
-        .damage {
+        .damage, .total {
           text-align: center;
           width: 40px;
           white-space: nowrap;
-          color: red;
+          &.damage {
+            color: red;
+            &::before { content: var(--damage-total); }
+          }
+        }
+      }
+    }
 
-          &::before { content: var(--damage-total); }
+    .header {
+      height: 30px;
+      align-items: center;
+      cursor: pointer;
+      text-align: center;
+      line-height: 28px;
+      font-size: 24px;
+      border: 1px solid gray;
+      border-radius: 5px;
+    }
+
+    .rolls {
+
+      .roll {
+        border-bottom: 1px solid rgba(50, 50, 50, 0.5);
+
+        .bottom {
+          align-items: center;
+          display: flex;
+          flex-wrap: wrap;
+          padding: 4px;
+          border-top: 1px dashed rgba(50, 50, 50, 0.25);
+
+          .die {
+            position: relative;
+            width: 24px;
+            height: 24px;
+            float: left;
+            margin-right: 1px;
+            background-image: url(../../../../icons/svg/d6-grey.svg);
+            background-repeat: no-repeat;
+            background-size: 24px 24px;
+            font-size: var(--font-size-16);
+            color: #000;
+            font-weight: bold;
+            text-align: center;
+            line-height: 24px;
+
+            &.min {
+              color: #b12a18;
+              filter: sepia(0.5) hue-rotate(60deg);
+            }
+            &.max {
+              color: #18520b;
+              filter: sepia(0.5) hue-rotate(60deg);
+            }
+
+            &.d4 { background-image: url(../../../../icons/svg/d4-grey.svg); }
+            &.d8 { background-image: url(../../../../icons/svg/d8-grey.svg); }
+            &.d10 { background-image: url(../../../../icons/svg/d10-grey.svg); }
+            &.d12 { background-image: url(../../../../icons/svg/d12-grey.svg); }
+            &.d20 { background-image: url(../../../../icons/svg/d20-grey.svg); }
+          }
         }
       }
     }
