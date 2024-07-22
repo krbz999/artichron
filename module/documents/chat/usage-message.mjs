@@ -58,11 +58,32 @@ export default class UsageMessageData extends ChatMessageSystemModel {
     }
 
     if (usage.effect) {
+      const div = document.createElement("DIV");
+      div.classList.add("flexrow");
+
       const button = document.createElement("BUTTON");
+      div.insertAdjacentElement("beforeend", button);
       button.dataset.action = "effect";
-      button.textContent = "Grant Effect";
-      buttons.push(button);
-      button.addEventListener("click", event => ui.notifications.warn("Buff grant not implemented yet."));
+      button.innerHTML = "<i class='fa-solid fa-expand'></i> Grant Effect";
+      button.addEventListener("click", async (event) => {
+        const effect = await fromUuid(usage.effect.uuid);
+        const actors = new Set();
+        for (const {actor} of canvas.tokens.controlled) if (actor) actors.add(actor);
+        for (const actor of actors) artichron.utils.sockets.grantBuff(effect, actor);
+      });
+
+      const targetButton = document.createElement("BUTTON");
+      div.insertAdjacentElement("beforeend", targetButton);
+      targetButton.dataset.action = "effect";
+      targetButton.innerHTML = "<i class='fa-solid fa-bullseye'></i> Grant Effect";
+      targetButton.addEventListener("click", async (event) => {
+        const effect = await fromUuid(usage.effect.uuid);
+        const actors = new Set();
+        for (const {actor} of game.user.targets) if (actor) actors.add(actor);
+        for (const actor of actors) artichron.utils.sockets.grantBuff(effect, actor);
+      });
+
+      buttons.push(div);
     }
 
     if (usage.damage) {

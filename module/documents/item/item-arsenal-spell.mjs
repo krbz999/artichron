@@ -114,11 +114,6 @@ export default class SpellData extends ArsenalData {
       actorUpdate["system.pools.mana.value"] = mana - configuration.cost;
     }
 
-    await Promise.all([
-      foundry.utils.isEmpty(actorUpdate) ? null : actor.update(actorUpdate),
-      foundry.utils.isEmpty(itemUpdates) ? null : actor.updateEmbeddedDocuments("Item", itemUpdates)
-    ]);
-
     const messageData = {
       type: "usage",
       speaker: ChatMessage.implementation.getSpeaker({actor: actor}),
@@ -133,9 +128,14 @@ export default class SpellData extends ArsenalData {
       };
     } else if (this.category.subtype === "buff") {
       messageData.flags.artichron.usage.effect = {
-        uuid: this.parent.effects.get(configuration.buff)?.uuid
+        uuid: this.parent.effects.get(configuration.buff).uuid
       };
     }
+
+    await Promise.all([
+      foundry.utils.isEmpty(actorUpdate) ? null : actor.update(actorUpdate),
+      foundry.utils.isEmpty(itemUpdates) ? null : actor.updateEmbeddedDocuments("Item", itemUpdates)
+    ]);
 
     if (actor.inCombat) {
       await actor.spendActionPoints(this.parent.system.cost.value);
