@@ -1,5 +1,5 @@
 /* Chat Messages */
-.chat-message.artichron.damage {
+.chat-message.artichron.damage, .chat-message.artichron.healing {
 
   .wrapper {
     display: grid;
@@ -147,7 +147,7 @@
         flex-direction: column;
         &.expanded { display: flex; }
 
-        & damage-target {
+        & damage-target, healing-target {
           display: flex;
           flex-direction: row;
           align-items: center;
@@ -164,7 +164,7 @@
             display: flex;
           }
           .name { flex: 1; }
-          .damage {
+          .damage, .healing {
             text-align: center;
             width: 40px;
             white-space: nowrap;
@@ -174,7 +174,8 @@
         }
       }
 
-      &:not(:has(.expanded)) [data-action=applyDamage] {
+      &:not(:has(.expanded)) [data-action=applyDamage],
+      &:not(:has(.expanded)) [data-action=applyHealing] {
         display: none;
       }
     }

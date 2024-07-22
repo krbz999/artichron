@@ -316,6 +316,23 @@
     "Handling": "Handling"
   },
 
+  "ElixirProperty": {
+    "FIELDS": {
+      "category": {
+        "subtype": {
+          "label": "Elixir Type",
+          "hint": "The type of elixir this is."
+        }
+      },
+      "healing": {
+        "formula": {
+          "label": "Healing Formula",
+          "hint": "The formula that is rolled to calculate the amount of healing performed by this elixir."
+        }
+      }
+    }
+  },
+
   "FIELDS": {
     "armor": {
       "value": {
@@ -478,8 +495,6 @@
     "SubtypeAmmoHint": "The ammunition type determines which weapons can make use of it.",
     "SubtypeArmor": "Armor Type",
     "SubtypeArmorHint": "The type of armor this is, which decides how it is equipped.",
-    "SubtypeElixir": "Elixir Type",
-    "SubtypeElixirHint": "The type of elixir this is.",
     "SubtypePart": "Subtype",
     "SubtypePartHint": "TODO",
     "SubtypeShield": "Shield Type",

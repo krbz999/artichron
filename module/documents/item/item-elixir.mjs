@@ -24,13 +24,7 @@ export default class ElixirData extends ItemSystemModel {
         max: new NumberField({min: 1, integer: true, initial: 1, nullable: false})
       }),
       category: new SchemaField({
-        subtype: new StringField({
-          required: true,
-          label: "ARTICHRON.ItemProperty.Category.SubtypeElixir",
-          hint: "ARTICHRON.ItemProperty.Category.SubtypeElixirHint",
-          initial: "buff",
-          choices: CONFIG.SYSTEM.ELIXIR_TYPES
-        }),
+        subtype: new StringField({required: true, initial: "buff", choices: CONFIG.SYSTEM.ELIXIR_TYPES}),
         pool: new StringField({
           required: true,
           initial: "health",
@@ -40,6 +34,9 @@ export default class ElixirData extends ItemSystemModel {
             mana: "ARTICHRON.ItemProperty.Category.PoolElixirChoiceMana"
           }
         })
+      }),
+      healing: new SchemaField({
+        formula: new StringField({required: true})
       })
     };
   }
@@ -52,6 +49,12 @@ export default class ElixirData extends ItemSystemModel {
     bonus.add("system.usage.max");
     return bonus;
   }
+
+  /** @override */
+  static LOCALIZATION_PREFIXES = [
+    ...super.LOCALIZATION_PREFIXES,
+    "ARTICHRON.ItemProperty.ElixirProperty"
+  ];
 
   /* -------------------------------------------------- */
 
@@ -173,25 +176,20 @@ export default class ElixirData extends ItemSystemModel {
     });
     if (!confirm) return;
 
-    const rollData = this.parent.getRollData();
-    const formula = `1d@pools.${type}.faces`;
-    const roll = await Roll.create(formula, rollData).evaluate();
-    const update = this._usageUpdate(1, true);
-
-    await roll.toMessage({
-      flavor: game.i18n.format("ARTICHRON.ElixirDialog.ChatFlavor", {type}),
-      speaker: ChatMessage.implementation.getSpeaker({actor: this.parent.actor})
-    });
     await Promise.all([
-      this.parent.update(update),
-      this.parent.actor.applyHealing(roll.total)
+      this.parent.update(this._usageUpdate(1, true)),
+      this.parent.actor.inCombat ? this.parent.actor.spendActionPoints(1) : null
     ]);
 
-    if (this.parent.actor.inCombat) {
-      await this.parent.actor.spendActionPoints(1);
-    }
-
-    return roll;
+    const rollData = this.parent.getRollData();
+    const roll = await Roll.create(this.healing.formula, rollData).evaluate();
+    const messageData = {
+      type: "healing",
+      rolls: [roll],
+      speaker: ChatMessage.implementation.getSpeaker({actor: this.parent.actor}),
+      flavor: game.i18n.format("ARTICHRON.ElixirDialog.ChatFlavor", {type})
+    };
+    return ChatMessage.implementation.create(messageData);
   }
 
   /* -------------------------------------------------- */

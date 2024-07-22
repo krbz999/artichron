@@ -2,7 +2,7 @@ import ChatMessageSystemModel from "./system-model.mjs";
 
 const {ArrayField, DocumentUUIDField, StringField} = foundry.data.fields;
 
-export default class DamageMessageData extends ChatMessageSystemModel {
+export default class HealingMessageData extends ChatMessageSystemModel {
   /** @override */
   static defineSchema() {
     return {
@@ -23,21 +23,6 @@ export default class DamageMessageData extends ChatMessageSystemModel {
     } catch (err) {
       this.item = null;
     }
-
-    this.#prepareDamages();
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Prepare the object of damage types descriptions.
-   */
-  #prepareDamages() {
-    this.#damages = this.parent.rolls.reduce((acc, roll) => {
-      acc[roll.options.type] ??= {value: 0};
-      acc[roll.options.type].value += roll.total;
-      return acc;
-    }, {});
   }
 
   /* -------------------------------------------------- */
@@ -63,12 +48,11 @@ export default class DamageMessageData extends ChatMessageSystemModel {
   /* -------------------------------------------------- */
 
   /**
-   * The damage totals by type.
-   * @type {object}
+   * The total amount of healing.
+   * @type {number}
    */
-  get damages() {
-    if (!this.#damages) this.#prepareDamages();
-    return this.#damages;
+  get healing() {
+    return this.parent.rolls.reduce((acc, roll) => acc + roll.total, 0);
   }
 
   /* -------------------------------------------------- */
@@ -92,7 +76,7 @@ export default class DamageMessageData extends ChatMessageSystemModel {
 
     this.#insertRolls(content);
 
-    if (!this.item) return;
+    // if (!this.item) return;
 
     await this.#insertDamageApplication(content);
   }
@@ -104,16 +88,13 @@ export default class DamageMessageData extends ChatMessageSystemModel {
    * @param {HTMLElement} content     The dialog content element.
    */
   #insertRolls(content) {
-    const dtypes = CONFIG.SYSTEM.DAMAGE_TYPES;
-
     const wrapper = document.createElement("DIV");
     wrapper.classList.add("wrapper");
     content.insertAdjacentElement("beforeend", wrapper);
 
     const label = document.createElement("HEADER");
     label.classList.add("header");
-    const total = Object.values(this.#damages).reduce((acc, k) => acc + k.value, 0);
-    label.textContent = String(total);
+    label.textContent = String(this.healing);
     label.addEventListener("click", event => wrapper.classList.toggle("expanded"));
     wrapper.insertAdjacentElement("beforeend", label);
 
@@ -121,7 +102,9 @@ export default class DamageMessageData extends ChatMessageSystemModel {
     innerWrapper.classList.add("rolls");
 
     for (const roll of this.parent.rolls) {
-      const {label, color, icon} = dtypes[roll.type];
+      const icon = "fa-solid fa-staff-snake";
+      const label = "ARTICHRON.Healing";
+      const color = "438364";
       const {formula, total, dice} = roll;
       const element = document.createElement("DIV");
       element.classList.add("roll");
@@ -183,7 +166,7 @@ export default class DamageMessageData extends ChatMessageSystemModel {
     }, new Set());
 
     const template = "systems/artichron/templates/chat/damage-application.hbs";
-    const context = {targets: targets, label: "Apply Damage"};
+    const context = {targets: targets, label: "Apply Healing"};
     content.insertAdjacentHTML("beforeend", await renderTemplate(template, context));
 
     // Selected
@@ -191,8 +174,8 @@ export default class DamageMessageData extends ChatMessageSystemModel {
       const actor = token.actor;
       if (!actor) return;
       const wrapper = content.querySelector(".targets[data-tab=selected]");
-      if (Array.from(wrapper.querySelectorAll("damage-target")).some(element => element.actor === actor)) return;
-      const element = document.createElement("damage-target");
+      if (Array.from(wrapper.querySelectorAll("healing-target")).some(element => element.actor === actor)) return;
+      const element = document.createElement("healing-target");
       element.targeted = false;
       element.actor = actor;
       wrapper.insertAdjacentElement("beforeend", element);
@@ -208,7 +191,7 @@ export default class DamageMessageData extends ChatMessageSystemModel {
 
       // inner wrapper
       for (const target of targets) {
-        const element = document.createElement("damage-target");
+        const element = document.createElement("healing-target");
         element.actor = target;
         wrapper.insertAdjacentElement("beforeend", element);
       }
@@ -236,8 +219,8 @@ export default class DamageMessageData extends ChatMessageSystemModel {
       const wrapper = event.currentTarget.closest(".targets-wrapper");
       const nav = wrapper.querySelector(".header .expanded");
       const tab = wrapper.querySelector(`.targets[data-tab="${nav.dataset.tab}"]`);
-      const elements = tab.querySelectorAll("damage-target");
-      for (const element of elements) element.actor.applyDamage(element.damages);
+      const elements = tab.querySelectorAll("healing-target");
+      for (const element of elements) element.actor.applyHealing(element.healing);
       nav.classList.toggle("expanded", false);
       tab.classList.toggle("expanded", false);
     });

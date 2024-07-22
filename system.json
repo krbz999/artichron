@@ -119,6 +119,7 @@
     },
     "ChatMessage": {
       "damage": {},
+      "healing": {},
       "trade": {},
       "usage": {}
     },

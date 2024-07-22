@@ -266,6 +266,17 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
       context.resistances = fieldset;
     }
 
+    // Healing elixir.
+    if (this.document.type === "elixir") {
+      const c = this.document.system.category;
+      if ((c.subtype === "restorative") && (c.pool === "health")) {
+        context.healing = {
+          field: this.document.system.schema.getField("healing.formula"),
+          value: this.document.system.healing.formula
+        };
+      }
+    }
+
     return context;
   }
 
