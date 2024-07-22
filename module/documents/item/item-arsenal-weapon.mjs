@@ -14,25 +14,26 @@ export default class WeaponData extends ArsenalData {
   /* -------------------------------------------------- */
 
   /** @override */
+  static LOCALIZATION_PREFIXES = [
+    ...super.LOCALIZATION_PREFIXES,
+    "ARTICHRON.ItemProperty.WeaponProperty"
+  ];
+
+  /* -------------------------------------------------- */
+
+  /** @override */
   static defineSchema() {
     return {
       ...super.defineSchema(),
       category: new SchemaField({
         subtype: new StringField({
-          label: "ARTICHRON.ItemProperty.Category.SubtypeWeapon",
-          hint: "ARTICHRON.ItemProperty.Category.SubtypeWeaponHint",
           required: true,
           choices: CONFIG.SYSTEM.WEAPON_TYPES,
           initial: () => Object.keys(CONFIG.SYSTEM.WEAPON_TYPES)[0]
         })
       }),
       cost: new SchemaField({
-        value: new NumberField({
-          min: 0,
-          initial: 1,
-          nullable: false,
-          hint: "ARTICHRON.ItemProperty.Cost.ValueHintWeapon"
-        })
+        value: new NumberField({min: 0, initial: 1, nullable: false})
       })
     };
   }

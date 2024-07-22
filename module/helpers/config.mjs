@@ -260,6 +260,26 @@ SYSTEM.SPELL_TYPES = {
 /* -------------------------------------------------- */
 
 /**
+ * @typedef {object} ArsenalWieldingConfig
+ * @property {string} label     The human-readable label of this type of wielding.
+ */
+
+/**
+ * Ways in which to wield an arsenal item.
+ * @enum {ArsenalWieldingConfig}
+ */
+SYSTEM.WIELDING_TYPES = {
+  1: {
+    label: "ARTICHRON.Wielding.OneHanded"
+  },
+  2: {
+    label: "ARTICHRON.Wielding.TwoHanded"
+  }
+};
+
+/* -------------------------------------------------- */
+
+/**
  * @typedef {object} EquipmentTypeConfig
  * @property {string} label     The human-readable label of this equipment type.
  */
@@ -297,6 +317,26 @@ SYSTEM.ELIXIR_TYPES = {
   },
   restorative: {
     label: "ARTICHRON.ElixirType.Restorative"
+  }
+};
+
+/* -------------------------------------------------- */
+
+/**
+ * @typedef {object} ElixirBoostConfig
+ * @property {string} label     The human-readable label of this boost type.
+ */
+
+/**
+ * Elixir boost types.
+ * @enum {ElixirBoostConfig}
+ */
+SYSTEM.ELIXIR_BOOST_TYPES = {
+  stamina: {
+    label: "ARTICHRON.ElixirBoostType.Stamina"
+  },
+  mana: {
+    label: "ARTICHRON.ElixirBoostType.Mana"
   }
 };
 
@@ -342,7 +382,11 @@ SYSTEM.AMMUNITION_TYPES = {
  * Monster part subtypes.
  * @enum {PartTypeConfig}
  */
-SYSTEM.PART_TYPES = {};
+SYSTEM.PART_TYPES = {
+  horn: {
+    label: "placeholder"
+  }
+};
 
 /* -------------------------------------------------- */
 

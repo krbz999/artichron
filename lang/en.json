@@ -316,9 +316,35 @@
     "Handling": "Handling"
   },
 
+  "AmmoProperty": {
+    "FIELDS": {
+      "category": {
+        "subtype": {
+          "label": "Ammunition Type",
+          "hint": "The ammunition type determines which weapons can make use of it."
+        }
+      }
+    }
+  },
+
+  "ArmorProperty": {
+    "FIELDS": {
+      "category": {
+        "subtype": {
+          "label": "Armor Type",
+          "hint": "The type of armor this is, which decides how it is equipped."
+        }
+      }
+    }
+  },
+
   "ElixirProperty": {
     "FIELDS": {
       "category": {
+        "pool": {
+          "label": "Boost",
+          "hint": "The pool that this elixir can grant a boost of during an attack."
+        },
         "subtype": {
           "label": "Elixir Type",
           "hint": "The type of elixir this is."
@@ -328,6 +354,57 @@
         "formula": {
           "label": "Healing Formula",
           "hint": "The formula that is rolled to calculate the amount of healing performed by this elixir."
+        }
+      }
+    }
+  },
+
+  "ShieldProperty": {
+    "FIELDS": {
+      "category": {
+        "subtype": {
+          "label": "Shield Type",
+          "hint": "The shield type determines how much it protects the wielder."
+        }
+      },
+      "cost": {
+        "value": {
+          "label": "Action Cost",
+          "hint": "The action point cost to make an attack with this shield."
+        }
+      }
+    }
+  },
+
+  "SpellProperty": {
+    "FIELDS": {
+      "category": {
+        "subtype": {
+          "label": "Spell Type",
+          "hint": "The spell type determines how it affects enemies and allies."
+        }
+      },
+      "cost": {
+        "value": {
+          "label": "Action Cost",
+          "hint": "The action point cost to cast a spell using this item."
+        }
+      }
+    }
+  },
+
+  "WeaponProperty": {
+    "FIELDS": {
+      "category": {
+        "subtype": {
+          "label": "Weapon Type",
+          "hint": "The weapon type determines whether it is melee or ranged, and what type of ammunition it can use."
+        }
+      },
+      "cost": {
+        "value": {
+          "label": "Action Cost",
+          "hint": "The action point cost to make an attack with this weapon."
         }
       }
     }
@@ -354,11 +431,6 @@
       "type": {
         "label": "Shape",
         "hint": "The shape of the blast zone."
-      }
-    },
-    "cost": {
-      "value": {
-        "label": "Action Cost"
       }
     },
     "damage": {
@@ -489,37 +561,12 @@
     "Override": {
       "GroupChoiceAll": "All Types"
     }
-  },
-  "Category": {
-    "SubtypeAmmo": "Ammunition Type",
-    "SubtypeAmmoHint": "The ammunition type determines which weapons can make use of it.",
-    "SubtypeArmor": "Armor Type",
-    "SubtypeArmorHint": "The type of armor this is, which decides how it is equipped.",
-    "SubtypePart": "Subtype",
-    "SubtypePartHint": "TODO",
-    "SubtypeShield": "Shield Type",
-    "SubtypeShieldHint": "The shield type determines how much it protects the wielder.",
-    "SubtypeSpell": "Spell Type",
-    "SubtypeSpellHint": "The spell type determines how it affects enemies and allies.",
-    "SubtypeWeapon": "Weapon Type",
-    "SubtypeWeaponHint": "The weapon type determines the ammunition it can use.",
-    "PoolBooster": "Boost",
-    "PoolBoosterHint": "The pool that this elixir can grant a boost of during an attack.",
-    "PoolRestorative": "Pool",
-    "PoolRestorativeHint": "The pool that this elixir can restore when consumed.",
-    "PoolElixirChoiceHealth": "Health",
-    "PoolElixirChoiceStamina": "Stamina",
-    "PoolElixirChoiceMana": "Mana"
-  },
-  "Cost": {
-    "ValueHintWeapon": "The action point cost to make an attack with this weapon.",
-    "ValueHintSpell": "The action point cost to cast a spell using this item.",
-    "ValueHintShield": "The action point cost to make an attack with this shield."
-  },
-  "Wield": {
-    "ValueChoiceOneHanded": "One-Handed",
-    "ValueChoiceTwoHanded": "Two-Handed"
   }
+},
+
+"Wielding": {
+  "OneHanded": "One-Handed",
+  "TwoHanded": "Two-Handed"
 },
 
 "ItemAttribute": {
@@ -646,6 +693,11 @@
   "WarningUsage": "The elixir has no remaining uses left!",
   "WarningEffects": "The elixir has no effects it can grant!",
   "WarningCannotUseBooster": "A booster elixir can only be used as part of an attack."
+},
+
+"ElixirBoostType": {
+  "Stamina": "Stamina",
+  "Mana": "Mana"
 },
 
 "DefenseDialog": {

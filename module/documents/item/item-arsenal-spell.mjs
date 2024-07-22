@@ -26,21 +26,10 @@ export default class SpellData extends ArsenalData {
         }))
       }),
       category: new SchemaField({
-        subtype: new StringField({
-          required: true,
-          initial: "offense",
-          label: "ARTICHRON.ItemProperty.Category.SubtypeSpell",
-          hint: "ARTICHRON.ItemProperty.Category.SubtypeSpellHint",
-          choices: CONFIG.SYSTEM.SPELL_TYPES
-        })
+        subtype: new StringField({required: true, initial: "offense", choices: CONFIG.SYSTEM.SPELL_TYPES})
       }),
       cost: new SchemaField({
-        value: new NumberField({
-          min: 0,
-          initial: 2,
-          nullable: false,
-          hint: "ARTICHRON.ItemProperty.Cost.ValueHintSpell"
-        })
+        value: new NumberField({min: 0, initial: 2, nullable: false})
       })
     };
   }
@@ -53,6 +42,14 @@ export default class SpellData extends ArsenalData {
     bonus.add("system.template.types");
     return bonus;
   }
+
+  /* -------------------------------------------------- */
+
+  /** @override */
+  static LOCALIZATION_PREFIXES = [
+    ...super.LOCALIZATION_PREFIXES,
+    "ARTICHRON.ItemProperty.SpellProperty"
+  ];
 
   /* -------------------------------------------------- */
 

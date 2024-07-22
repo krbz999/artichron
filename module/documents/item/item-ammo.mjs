@@ -23,8 +23,8 @@ export default class AmmunitionData extends ItemSystemModel.mixin(DamageTemplate
       }),
       category: new SchemaField({
         subtype: new StringField({
-          label: "ARTICHRON.ItemProperty.Category.SubtypeAmmo",
-          hint: "ARTICHRON.ItemProperty.Category.SubtypeAmmoHint",
+          required: true,
+          initial: () => Object.keys(CONFIG.SYSTEM.AMMUNITION_TYPES)[0],
           choices: CONFIG.SYSTEM.AMMUNITION_TYPES
         })
       }),
@@ -74,6 +74,14 @@ export default class AmmunitionData extends ItemSystemModel.mixin(DamageTemplate
     fields.add("system.range.value").add("system.damage.parts");
     return fields;
   }
+
+  /* -------------------------------------------------- */
+
+  /** @override */
+  static LOCALIZATION_PREFIXES = [
+    ...super.LOCALIZATION_PREFIXES,
+    "ARTICHRON.ItemProperty.AmmoProperty"
+  ];
 
   /* -------------------------------------------------- */
 

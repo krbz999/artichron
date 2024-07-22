@@ -24,8 +24,8 @@ export default class ArmorData extends FusionTemplateMixin(ItemSystemModel) {
       }),
       category: new SchemaField({
         subtype: new StringField({
-          label: "ARTICHRON.ItemProperty.Category.SubtypeArmor",
-          hint: "ARTICHRON.ItemProperty.Category.SubtypeArmorHint",
+          required: true,
+          initial: () => Object.keys(CONFIG.SYSTEM.EQUIPMENT_TYPES)[0],
           choices: CONFIG.SYSTEM.EQUIPMENT_TYPES
         })
       })
@@ -44,4 +44,12 @@ export default class ArmorData extends FusionTemplateMixin(ItemSystemModel) {
       }, [])
     ]));
   }
+
+  /* -------------------------------------------------- */
+
+  /** @override */
+  static LOCALIZATION_PREFIXES = [
+    ...super.LOCALIZATION_PREFIXES,
+    "ARTICHRON.ItemProperty.ArmorProperty"
+  ];
 }

@@ -21,13 +21,7 @@ export default class ArsenalData extends ItemSystemModel.mixin(
     return {
       ...super.defineSchema(),
       wield: new SchemaField({
-        value: new NumberField({
-          initial: 1,
-          choices: {
-            1: "ARTICHRON.ItemProperty.Wield.ValueChoiceOneHanded",
-            2: "ARTICHRON.ItemProperty.Wield.ValueChoiceTwoHanded"
-          }
-        })
+        value: new NumberField({initial: 1, choices: CONFIG.SYSTEM.WIELDING_TYPES})
       }),
       range: new SchemaField({
         value: new NumberField({integer: true, min: 1, initial: 1}),

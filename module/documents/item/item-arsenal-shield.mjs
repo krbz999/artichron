@@ -22,18 +22,11 @@ export default class ShieldData extends ArsenalData {
         subtype: new StringField({
           required: true,
           initial: "buckler",
-          label: "ARTICHRON.ItemProperty.Category.SubtypeShield",
-          hint: "ARTICHRON.ItemProperty.Category.SubtypeShieldHint",
           choices: CONFIG.SYSTEM.SHIELD_TYPES
         })
       }),
       cost: new SchemaField({
-        value: new NumberField({
-          min: 0,
-          initial: 1,
-          nullable: false,
-          hint: "ARTICHRON.ItemProperty.Cost.ValueHintShield"
-        })
+        value: new NumberField({min: 0, initial: 1, nullable: false})
       })
     };
   }
@@ -46,6 +39,14 @@ export default class ShieldData extends ArsenalData {
       "system.armor.value"
     ]));
   }
+
+  /* -------------------------------------------------- */
+
+  /** @override */
+  static LOCALIZATION_PREFIXES = [
+    ...super.LOCALIZATION_PREFIXES,
+    "ARTICHRON.ItemProperty.ShieldProperty"
+  ];
 
   /* -------------------------------------------------- */
 

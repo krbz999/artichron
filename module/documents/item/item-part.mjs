@@ -21,8 +21,8 @@ export default class PartData extends ItemSystemModel {
       }),
       category: new SchemaField({
         subtype: new StringField({
-          label: "ARTICHRON.ItemProperty.Category.SubtypePart",
-          hint: "ARTICHRON.ItemProperty.Category.SubtypePartHint",
+          required: true,
+          initial: () => Object.keys(CONFIG.SYSTEM.PART_TYPES)[0],
           choices: CONFIG.SYSTEM.PART_TYPES
         })
       })

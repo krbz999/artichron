@@ -25,15 +25,7 @@ export default class ElixirData extends ItemSystemModel {
       }),
       category: new SchemaField({
         subtype: new StringField({required: true, initial: "buff", choices: CONFIG.SYSTEM.ELIXIR_TYPES}),
-        pool: new StringField({
-          required: true,
-          initial: "health",
-          choices: {
-            health: "ARTICHRON.ItemProperty.Category.PoolElixirChoiceHealth",
-            stamina: "ARTICHRON.ItemProperty.Category.PoolElixirChoiceStamina",
-            mana: "ARTICHRON.ItemProperty.Category.PoolElixirChoiceMana"
-          }
-        })
+        pool: new StringField({required: true, initial: "stamina", choices: CONFIG.SYSTEM.ELIXIR_BOOST_TYPES})
       }),
       healing: new SchemaField({
         formula: new StringField({required: true})
@@ -153,25 +145,14 @@ export default class ElixirData extends ItemSystemModel {
    * @returns {Promise}
    */
   async #useRestorative() {
-    const type = this.category.pool;
-
-    if (type !== "health") {
-      // TODO: stamina and mana?
-      throw new Error("Cannot use non-health restorative elixirs yet.");
-    }
-
-    const title = `ARTICHRON.ElixirDialog.TitleRestore${type.capitalize()}`;
     const confirm = await foundry.applications.api.DialogV2.confirm({
       rejectClose: false,
       modal: true,
       window: {
-        title: title,
+        title: "ARTICHRON.ElixirDialog.TitleRestore",
         icon: "fa-solid fa-flask"
       },
-      position: {
-        width: 400,
-        height: "auto"
-      },
+      position: {width: 400},
       yes: {default: true}
     });
     if (!confirm) return;
@@ -187,7 +168,7 @@ export default class ElixirData extends ItemSystemModel {
       type: "healing",
       rolls: [roll],
       speaker: ChatMessage.implementation.getSpeaker({actor: this.parent.actor}),
-      flavor: game.i18n.format("ARTICHRON.ElixirDialog.ChatFlavor", {type})
+      flavor: game.i18n.localize("ARTICHRON.ElixirDialog.ChatFlavor")
     };
     return ChatMessage.implementation.create(messageData);
   }

@@ -10,7 +10,7 @@
   <fieldset>
     <legend>{{localize "ARTICHRON.ItemProperty.Fieldsets.Configuration"}}</legend>
     {{#each details.configuration}}
-    {{formGroup field value=value disabled=disabled localize=true blank=blank label=label hint=hint}}
+    {{formGroup field value=value disabled=disabled}}
     {{/each}}
   </fieldset>
   {{/if}}
@@ -19,7 +19,7 @@
   <fieldset>
     <legend>{{localize "ARTICHRON.ItemProperty.Fieldsets.Handling"}}</legend>
     {{#each details.handling}}
-    {{formGroup field value=value disabled=disabled localize=true}}
+    {{formGroup field value=value disabled=disabled}}
     {{/each}}
   </fieldset>
   {{/if}}
