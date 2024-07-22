@@ -1,0 +1,14 @@
+<div class="targets-wrapper">
+  <header class="header">
+    <div data-tab="selected" {{#unless targets.size}}class="expanded"{{/unless}}>Selected</div>
+    {{#if targets.size}} <div data-tab="targeted" class="expanded">Targeted</div> {{/if}}
+  </header>
+
+  <div class="targets-inner-wrapper">
+    <div class="targets {{#unless targets.size}}expanded{{/unless}}" data-tab="selected"></div>
+    {{#if targets.size}}
+    <div class="targets expanded" data-tab="targeted"></div>
+    {{/if}}
+    <button type="button" data-action="applyDamage">Apply Damage</button>
+  </div>
+</div>

@@ -29,13 +29,13 @@
       }
     }
 
-    .targets, .rolls {
+    .rolls {
       overflow: hidden;
       gap: 2px;
       display: flex;
       flex-direction: column;
 
-      & damage-target, .roll .top {
+      .roll .top {
         display: flex;
         flex-direction: row;
         align-items: center;
@@ -43,7 +43,7 @@
         gap: 4px;
         font-size: 20px;
 
-        & img, .icon {
+        .icon {
           width: 40px;
           height: 40px;
           object-fit: contain;
@@ -51,17 +51,11 @@
           align-items: center;
           display: flex;
         }
-        .name, .formula {
-          flex: 1;
-        }
-        .damage, .total {
+        .formula { flex: 1; }
+        .total {
           text-align: center;
           width: 40px;
           white-space: nowrap;
-          &.damage {
-            color: red;
-            &::before { content: var(--damage-total); }
-          }
         }
       }
     }
@@ -120,6 +114,68 @@
             &.d20 { background-image: url(../../../../icons/svg/d20-grey.svg); }
           }
         }
+      }
+    }
+  }
+
+  .targets-wrapper {
+    display: grid;
+    grid-template-rows: 0fr 0fr;
+    transition: grid-template-rows 200ms ease;
+
+    .header {
+      height: 30px;
+      align-items: center;
+      cursor: pointer;
+      text-align: center;
+      line-height: 28px;
+      font-size: 24px;
+      border: 1px solid gray;
+      border-radius: 5px;
+      display: flex;
+      justify-content: space-around;
+
+      > * { opacity: 0.5; }
+      > .expanded { opacity: 1; }
+    }
+
+    .targets-inner-wrapper {
+      .targets {
+        overflow: hidden;
+        gap: 2px;
+        display: none;
+        flex-direction: column;
+        &.expanded { display: flex; }
+
+        & damage-target {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          flex: 1;
+          gap: 4px;
+          font-size: 20px;
+
+          & img {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+            justify-content: center;
+            align-items: center;
+            display: flex;
+          }
+          .name { flex: 1; }
+          .damage {
+            text-align: center;
+            width: 40px;
+            white-space: nowrap;
+            color: red;
+            &::before { content: var(--damage-total); }
+          }
+        }
+      }
+
+      &:not(:has(.expanded)) [data-action=applyDamage] {
+        display: none;
       }
     }
   }

@@ -41,6 +41,16 @@ export default class DamageMessageData extends ChatMessageSystemModel {
   }
 
   /* -------------------------------------------------- */
+  /*   Life-cycle events                                */
+  /* -------------------------------------------------- */
+
+  /** @override */
+  _onDelete(options, userId) {
+    super._onDelete(options, userId);
+    if (this.#hookId) Hooks.off("controlToken", this.#hookId);
+  }
+
+  /* -------------------------------------------------- */
   /*   Properties                                       */
   /* -------------------------------------------------- */
 
@@ -60,6 +70,14 @@ export default class DamageMessageData extends ChatMessageSystemModel {
     if (!this.#damages) this.#prepareDamages();
     return this.#damages;
   }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Reference to the hook id for injecting selected tokens.
+   * @type {number}
+   */
+  #hookId = null;
 
   /* -------------------------------------------------- */
   /*   Rendering                                        */
@@ -164,40 +182,64 @@ export default class DamageMessageData extends ChatMessageSystemModel {
       return acc;
     }, new Set());
 
-    if (targets.size) {
-      // outer wrapper
-      const targeting = document.createElement("DIV");
-      targeting.classList.add("wrapper", "expanded");
+    const template = "systems/artichron/templates/chat/damage-application.hbs";
+    const context = {targets: targets};
+    content.insertAdjacentHTML("beforeend", await renderTemplate(template, context));
 
-      // Click Me label
-      const header = document.createElement("HEADER");
-      header.classList.add("toggle");
-      header.textContent = "Targets";
-      header.addEventListener("click", event => targeting.classList.toggle("expanded"));
-      targeting.insertAdjacentElement("beforeend", header);
+    // Selected
+    const makeSelectedTarget = token => {
+      const actor = token.actor;
+      if (!actor) return;
+      const wrapper = content.querySelector(".targets[data-tab=selected]");
+      if (Array.from(wrapper.querySelectorAll("damage-target")).some(element => element.actor === actor)) return;
+      const element = document.createElement("damage-target");
+      element.targeted = false;
+      element.actor = actor;
+      wrapper.insertAdjacentElement("beforeend", element);
+    };
+    for (const token of canvas.tokens?.controlled ?? []) makeSelectedTarget(token);
+    this.#hookId = Hooks.on("controlToken", (token, selected) => {
+      if (selected) makeSelectedTarget(token);
+    });
+
+    // Targeted
+    if (targets.size) {
+      const wrapper = content.querySelector(".targets[data-tab=targeted]");
 
       // inner wrapper
-      const collapsible = document.createElement("DIV");
-      collapsible.classList.add("targets");
-      targeting.insertAdjacentElement("beforeend", collapsible);
       for (const target of targets) {
         const element = document.createElement("damage-target");
         element.actor = target;
-        collapsible.insertAdjacentElement("beforeend", element);
+        wrapper.insertAdjacentElement("beforeend", element);
       }
-
-      // apply button
-      const button = document.createElement("BUTTON");
-      button.textContent = "Apply Damage";
-      button.addEventListener("click", event => {
-        for (const element of button.closest(".wrapper").querySelectorAll("damage-target")) {
-          element.actor.applyDamage(element.damages);
-        }
-        targeting.classList.toggle("expanded", false);
-      });
-      collapsible.insertAdjacentElement("beforeend", button);
-
-      content.insertAdjacentElement("beforeend", targeting);
     }
+
+    // Tab click listeners.
+    content.querySelectorAll(".header [data-tab]").forEach(tab => tab.addEventListener("click", event => {
+      const nav = event.currentTarget;
+      const tab = nav.closest(".targets-wrapper").querySelector(`.targets[data-tab="${nav.dataset.tab}"]`);
+      if (nav.classList.contains("expanded")) {
+        nav.classList.toggle("expanded", false);
+        tab.classList.toggle("expanded", false);
+        return;
+      }
+      for (const child of nav.parentElement.children) {
+        child.classList.toggle("expanded", child === nav);
+      }
+      for (const child of tab.parentElement.children) {
+        child.classList.toggle("expanded", child.dataset.tab === nav.dataset.tab);
+      }
+    }));
+
+    // Button click listener.
+    content.querySelector("[data-action=applyDamage]").addEventListener("click", event => {
+      const wrapper = event.currentTarget.closest(".targets-wrapper");
+      const nav = wrapper.querySelector(".header .expanded");
+      const tab = wrapper.querySelector(`.targets[data-tab="${nav.dataset.tab}"]`);
+      const elements = tab.querySelectorAll("damage-target");
+      for (const element of elements) element.actor.applyDamage(element.damages);
+      nav.classList.toggle("expanded", false);
+      tab.classList.toggle("expanded", false);
+    });
   }
 }

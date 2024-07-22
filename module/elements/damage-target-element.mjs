@@ -12,6 +12,12 @@ export default class DamageTargetElement extends HTMLElement {
   /* -------------------------------------------------- */
 
   /**
+   * Is this a targeted or controlled actor's element?
+   * @type {boolean}
+   */
+  targeted = true;
+
+  /**
    * The damage totals by type.
    * @type {object}
    */
@@ -84,6 +90,10 @@ export default class DamageTargetElement extends HTMLElement {
     this.hookIds.set(id, "deleteToken");
     id = Hooks.on("updateActor", this._onActorUpdate.bind(this));
     this.hookIds.set(id, "updateActor");
+    if (!this.targeted) {
+      id = Hooks.on("controlToken", this._onControlToken.bind(this));
+      this.hookIds.set(id, "controlToken");
+    }
   }
 
   /* -------------------------------------------------- */
@@ -106,5 +116,12 @@ export default class DamageTargetElement extends HTMLElement {
   _onActorUpdate(actor, change, options, userId) {
     if (actor !== this.actor) return;
     this.setAttribute("style", `--damage-total: "${this.actor.calculateDamage(this.damages)}"`);
+  }
+
+  /* -------------------------------------------------- */
+
+  /** Hook event for token being selected or unselected. */
+  _onControlToken(token, selected) {
+    if ((token.actor === this.actor) && !selected) this.remove();
   }
 }
