@@ -80,7 +80,7 @@ export default class ElixirData extends ItemSystemModel {
       return null;
     }
 
-    if (this.isBuffElixir) return this.#useBuff();
+    if (this.category.subtype === "buff") return this.#useBuff();
     else if (this.category.subtype === "restorative") return this.#useRestorative();
   }
 
@@ -266,15 +266,5 @@ export default class ElixirData extends ItemSystemModel {
    */
   get isBoostElixir() {
     return this.category.subtype === "booster";
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Is this a buff elixir?
-   * @type {boolean}
-   */
-  get isBuffElixir() {
-    return this.category.subtype === "buff";
   }
 }

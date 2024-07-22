@@ -207,16 +207,6 @@ export default class ItemArtichron extends Item {
   /* -------------------------------------------------- */
 
   /**
-   * Is this a buff elixir?
-   * @type {boolean}
-   */
-  get isBuffElixir() {
-    return this.system.isBuffElixir ?? false;
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
    * The properties of a weapon this ammunition modifies.
    * @type {Set<string>}
    */
