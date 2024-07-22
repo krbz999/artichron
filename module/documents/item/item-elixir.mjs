@@ -101,24 +101,16 @@ export default class ElixirData extends ItemSystemModel {
         label: "ARTICHRON.ElixirDialog.Effect",
         hint: "ARTICHRON.ElixirDialog.EffectHint",
         choices: this.transferrableEffects.reduce((acc, e) => {
-          acc[e.id] = e.name;
+          acc[e.uuid] = e.name;
           return acc;
         }, {})
       })
     };
 
-    const render = (event, html) => {
-      const button = html.querySelector("button[type=submit]");
-      html.querySelector("SELECT").addEventListener("change", (event) => {
-        button.disabled = !event.currentTarget.value;
-      });
-    };
-
-    const effectId = await foundry.applications.api.DialogV2.prompt({
+    const effectUuid = await foundry.applications.api.DialogV2.prompt({
       content: await renderTemplate("systems/artichron/templates/item/elixir-dialog.hbs", context),
       rejectClose: false,
       modal: true,
-      render: render,
       position: {
         width: 400,
         height: "auto"
@@ -133,24 +125,22 @@ export default class ElixirData extends ItemSystemModel {
         icon: "fa-solid fa-flask"
       }
     });
-    if (!effectId) return null;
+    if (!effectUuid) return null;
 
-    const effect = this.parent.effects.get(effectId);
-    const effectData = foundry.utils.mergeObject(effect.toObject(), {
-      transfer: false,
-      "-=duration": null,
-      disabled: false,
-      "system.source": this.parent.uuid,
-      "system.granted": true
-    }, {performDeletions: true});
-
-    const update = this._usageUpdate();
-
-    return Promise.all([
-      this.parent.update(update),
-      getDocumentClass("ActiveEffect").create(effectData, {parent: this.parent.actor}),
+    await Promise.all([
+      this.parent.update(this._usageUpdate()),
       this.parent.actor.inCombat ? this.parent.actor.spendActionPoints(1) : null
     ]);
+
+    const flags = {artichron: {usage: {effect: {uuid: effectUuid}}}};
+    const messageData = {
+      type: "usage",
+      speaker: ChatMessage.implementation.getSpeaker({actor: this.parent.actor}),
+      "system.item": this.parent.uuid,
+      flags: flags
+    };
+
+    return ChatMessage.implementation.create(messageData);
   }
 
   /* -------------------------------------------------- */
