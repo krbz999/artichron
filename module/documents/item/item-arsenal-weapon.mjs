@@ -77,7 +77,7 @@ export default class WeaponData extends ArsenalData {
     flags.artichron.usage.target = {
       range: this.parent.isMelee ?
         this.range.reach :
-        Math.max(1, value + (ammoModifiers.has("range") ? ammo.system.range.value : 0)),
+        Math.max(1, this.range.value + (ammoModifiers.has("range") ? ammo.system.range.value : 0)),
       count: 1,
       allowPreTarget: true
     };
