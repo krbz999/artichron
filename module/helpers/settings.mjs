@@ -51,4 +51,9 @@ export function registerSettings() {
     type: new foundry.data.fields.BooleanField({initial: false}),
     config: false
   });
+
+  /* -------------------------------------------------- */
+
+  // Color scheme has to always be dark mode for now.
+  Hooks.once("setup", () => game.settings.set("core", "colorScheme", "dark"));
 }

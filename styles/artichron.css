@@ -78,7 +78,7 @@ dialog:-internal-dialog-in-top-layer::backdrop {
       left: 0;
       width: 100%;
       height: 100%;
-      opacity: 0.35;
+      opacity: 0.3;
       z-index: -2;
     }
 
