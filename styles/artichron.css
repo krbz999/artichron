@@ -60,6 +60,48 @@ dialog:-internal-dialog-in-top-layer::backdrop {
   }
 }
 
+.application.artichron {
+  .window-content {
+    position: relative;
+
+    /* Application backdrops */
+    &::before, &::after {
+      background-repeat: no-repeat;
+      background-blend-mode: unset;
+      background-size: 100%;
+      content: "";
+      position: absolute;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0.3;
+      z-index: -1;
+    }
+
+    &::before {
+      background-image: url(../assets/layout/backdrop-1-top.webp);
+      background-position: center top;
+      top: 0;
+    }
+
+    &::after {
+      background-image: url(../assets/layout/backdrop-1-bottom.webp);
+      background-position: center bottom;
+      bottom: 0;
+    }
+
+    & input, select {
+      &:disabled {
+        background: none;
+        border: none;
+      }
+      &:not(:disabled) {
+        background: rgba(48, 40, 49, 0.75);
+      }
+    }
+  }
+}
+
 /* ---------------------------------------- */
 
 #interface #ui-top #navigation.collapsed + #combat-carousel [data-application-part=tracker] {
