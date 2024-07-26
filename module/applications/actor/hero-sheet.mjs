@@ -36,13 +36,13 @@ export default class HeroSheet extends ActorSheetArtichron {
       template: "systems/artichron/templates/actor/tab-inventory.hbs",
       scrollable: [".inventory-list"]
     },
-    effects: {
-      template: "systems/artichron/templates/shared/effects.hbs",
-      scrollable: [""]
-    },
     details: {
       template: "systems/artichron/templates/actor/tab-details.hbs",
       classes: ["standard-form"],
+      scrollable: [""]
+    },
+    effects: {
+      template: "systems/artichron/templates/shared/effects.hbs",
       scrollable: [""]
     },
     encumbrance: {template: "systems/artichron/templates/actor/tab-encumbrance.hbs"}
@@ -61,8 +61,8 @@ export default class HeroSheet extends ActorSheetArtichron {
   static TABS = {
     attributes: {id: "attributes", group: "primary", label: "ARTICHRON.SheetTab.Attributes"},
     inventory: {id: "inventory", group: "primary", label: "ARTICHRON.SheetTab.Inventory"},
-    effects: {id: "effects", group: "primary", label: "ARTICHRON.SheetTab.Effects"},
-    details: {id: "details", group: "primary", label: "ARTICHRON.SheetTab.Details"}
+    details: {id: "details", group: "primary", label: "ARTICHRON.SheetTab.Details"},
+    effects: {id: "effects", group: "primary", label: "ARTICHRON.SheetTab.Effects"}
   };
 
   /* -------------------------------------------------- */
