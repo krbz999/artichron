@@ -142,22 +142,21 @@
       }
 
       .favorites {
-        flex-direction: row;
-        flex-wrap: wrap;
-        --gap: 4px;
-        gap: var(--gap);
+        gap: 4px;
         display: grid;
         grid-template-columns: repeat(6, 1fr);
 
         .favorite {
           border: 1px solid var(--artichron-color-gold);
           border-radius: 3px;
-          overflow: hidden;
-          aspect-ratio: 1/1;
+          height: 100%;
+          padding: 0;
 
           & img {
             border: none;
             border-radius: inherit;
+            aspect-ratio: 1;
+            object-fit: cover;
           }
         }
       }
@@ -226,6 +225,8 @@
       & img {
         border: none;
         border-radius: 4px;
+        object-fit: cover;
+        aspect-ratio: 1;
       }
 
       &.empty img {

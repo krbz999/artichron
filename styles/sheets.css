@@ -29,7 +29,8 @@
     .avatar {
       flex: 0 0 64px;
       height: 100%;
-      object-fit: contain;
+      object-fit: cover;
+      object-position: center top;
     }
 
     .controls {
@@ -155,6 +156,11 @@
       position: relative;
       text-shadow: none;
 
+      & img {
+        aspect-ratio: 1;
+        object-fit: cover;
+      }
+
       > * {
         height: 100%;
         transition: opacity 200ms ease;
@@ -265,6 +271,8 @@
         height: 100%;
         border: none;
         margin-right: 5px;
+        aspect-ratio: 1;
+        object-fit: cover;
       }
 
       .name {

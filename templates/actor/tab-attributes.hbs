@@ -31,9 +31,9 @@
     <fieldset class="favorites">
       <legend>{{localize "ARTICHRON.SheetTab.Favorites"}}</legend>
       {{#each document.favorites}}
-      <a class="favorite" data-item-uuid="{{uuid}}" data-action="useItem">
+      <button type="button" class="favorite" data-item-uuid="{{uuid}}" data-action="useItem">
         <img src="{{img}}" data-tooltip="{{name}}" data-tooltip-direction="UP">
-      </a>
+      </button>
       {{/each}}
     </fieldset>
 
