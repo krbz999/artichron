@@ -25,6 +25,17 @@ export default class ActorSystemModel extends foundry.abstract.TypeDataModel {
   }
 
   /* -------------------------------------------------- */
+
+  /**
+   * Create an instance of this data model extended by several mixins.
+   * @param {...function} templateMethods     The mixin methods.
+   * @returns {Class}                         A subclass of this data model.
+   */
+  static mixin(...templateMethods) {
+    return templateMethods.reduce((acc, fn) => fn(acc), this);
+  }
+
+  /* -------------------------------------------------- */
   /*   Instance methods                                 */
   /* -------------------------------------------------- */
 

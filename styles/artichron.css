@@ -10,7 +10,7 @@
   --artichron-font-primary: "Bruno Ace";
   --artichron-font-labels: "Amiri";
 
-  --artichron-color-light-blue: rgba(196, 196, 255, 0.9);
+  --artichron-color-border-blue: 79, 79, 206;
   --artichron-color-blue: rgba(0, 0, 255, 0.6);
   --artichron-color-blue-dark: rgba(0, 0, 255, 0.2);
   --artichron-color-white: rgba(204, 204, 204, 0.9);
@@ -33,6 +33,10 @@
 
 #context-menu.artichron {
   width: 200px;
+
+  .context-group:not(:last-child) {
+    border-bottom: 1px dotted gray;
+  }
 }
 
 dialog:-internal-dialog-in-top-layer::backdrop {
@@ -74,7 +78,7 @@ dialog:-internal-dialog-in-top-layer::backdrop {
       left: 0;
       width: 100%;
       height: 100%;
-      opacity: 0.3;
+      opacity: 0.35;
       z-index: -2;
     }
 
@@ -99,6 +103,11 @@ dialog:-internal-dialog-in-top-layer::backdrop {
         background: rgba(48, 40, 49, 0.75);
       }
     }
+
+    & fieldset {
+      border-width: 1px;
+      border-color: rgba(var(--artichron-color-border-blue), 0.5);
+    }
   }
 }
 
@@ -107,6 +116,8 @@ dialog:-internal-dialog-in-top-layer::backdrop {
 #interface #ui-top #navigation.collapsed + #combat-carousel [data-application-part=tracker] {
   top: -44px;
 }
+
+/* ---------------------------------------- */
 
 #combat-carousel {
   position: static;
@@ -323,6 +334,8 @@ dialog:-internal-dialog-in-top-layer::backdrop {
     }
   }
 }
+
+/* ---------------------------------------- */
 
 threshold-bar {
   display: grid;

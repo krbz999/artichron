@@ -1,8 +1,9 @@
 import ActorSystemModel from "./system-model.mjs";
+import EquipmentTemplateMixin from "./templates/equipment-data.mjs";
 
 const {ArrayField, DocumentUUIDField, HTMLField, NumberField, SchemaField} = foundry.data.fields;
 
-export default class MonsterData extends ActorSystemModel {
+export default class MonsterData extends ActorSystemModel.mixin(EquipmentTemplateMixin) {
   /** @override */
   static defineSchema() {
     const schema = super.defineSchema();
@@ -43,25 +44,6 @@ export default class MonsterData extends ActorSystemModel {
     this.health.max = Math.ceil(this.health.max * injury);
     this.health.value = Math.clamp(this.health.value, 0, this.health.max);
     this.health.pct = Math.round(this.health.value / this.health.max * 100);
-  }
-
-  /* -------------------------------------------------- */
-
-  /** @override */
-  prepareDerivedData() {
-    const armor = this.defenses.armor;
-
-    // Derive additional bonuses from armor and arsenal items.
-    for (const item of this.parent.items) {
-      const hasArmor = ["armor", "shield"].includes(item.type);
-      const hasRes = item.type === "armor";
-      if (hasArmor) armor.value += item.system.armor.value;
-      if (hasRes) {
-        for (const [k, v] of Object.entries(this.resistances)) {
-          v.value += item.system.resistances[k].value;
-        }
-      }
-    }
   }
 
   /* -------------------------------------------------- */
