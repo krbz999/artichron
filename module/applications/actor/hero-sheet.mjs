@@ -277,7 +277,7 @@ export default class HeroSheet extends ActorSheetArtichron {
 
     if (p === "attributes") {
       const o = pe.querySelector(".health-bar");
-      s.healthHeight = Math.max(o.offsetTop, 0);
+      s.healthHeight = Math.max(o.offsetTop + 2, 0);
     }
   }
 
