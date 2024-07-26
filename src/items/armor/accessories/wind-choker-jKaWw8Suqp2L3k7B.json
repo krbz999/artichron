@@ -45,6 +45,9 @@
       "value": [
         "magical"
       ]
+    },
+    "fusion": {
+      "max": 1
     }
   },
   "effects": [],

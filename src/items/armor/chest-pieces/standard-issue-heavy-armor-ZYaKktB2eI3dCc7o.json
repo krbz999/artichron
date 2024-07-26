@@ -43,6 +43,9 @@
     },
     "attributes": {
       "value": []
+    },
+    "fusion": {
+      "max": 1
     }
   },
   "effects": [],

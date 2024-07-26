@@ -9,43 +9,19 @@
     },
     "pools": {
       "health": {
-        "value": 3,
         "max": 3,
         "faces": 8,
-        "modifiers": {
-          "min": "",
-          "r": "",
-          "x": "",
-          "max": "",
-          "xo": false,
-          "rr": false
-        }
+        "spent": 0
       },
       "stamina": {
-        "value": 3,
         "max": 3,
         "faces": 12,
-        "modifiers": {
-          "min": "",
-          "r": "",
-          "x": "",
-          "max": "",
-          "xo": false,
-          "rr": false
-        }
+        "spent": 0
       },
       "mana": {
-        "value": 3,
         "max": 3,
         "faces": 4,
-        "modifiers": {
-          "r": "",
-          "x": "",
-          "min": "",
-          "max": "",
-          "xo": false,
-          "rr": false
-        }
+        "spent": 0
       }
     },
     "equipped": {
@@ -60,8 +36,7 @@
         "head": "",
         "legs": "",
         "boots": ""
-      },
-      "ammo": []
+      }
     },
     "resistances": {
       "fire": {
@@ -90,9 +65,6 @@
       "armor": {
         "value": 0
       }
-    },
-    "traits": {
-      "pool": "health"
     },
     "skills": {
       "avoidDetection": {
@@ -166,6 +138,14 @@
     "pips": {
       "value": null,
       "turn": 2
+    },
+    "resources": {
+      "currency": null,
+      "pools": null,
+      "skills": null
+    },
+    "details": {
+      "notes": ""
     }
   },
   "prototypeToken": {

@@ -25,7 +25,8 @@
       "subtype": "offense"
     },
     "range": {
-      "value": 15
+      "value": 15,
+      "reach": 0
     },
     "targets": {
       "value": 1
@@ -79,6 +80,9 @@
     },
     "cost": {
       "value": 2
+    },
+    "fusion": {
+      "max": 1
     }
   },
   "effects": [],

@@ -21,10 +21,13 @@
     },
     "category": {
       "subtype": "buff",
-      "pool": "health"
+      "pool": "stamina"
     },
     "attributes": {
       "value": []
+    },
+    "healing": {
+      "formula": ""
     }
   },
   "effects": [
@@ -69,7 +72,7 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "12.328",
+        "coreVersion": "12.330",
         "systemId": "artichron",
         "systemVersion": "1.0.0",
         "createdTime": null,

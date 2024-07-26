@@ -2,6 +2,7 @@ import {SYSTEM} from "./module/helpers/config.mjs";
 import * as applications from "./module/applications/_module.mjs";
 import {dice} from "./module/dice/_module.mjs";
 import * as documents from "./module/documents/_module.mjs";
+import * as migrations from "./module/helpers/migrations.mjs";
 import * as utils from "./module/helpers/utils.mjs";
 import auraInit from "./module/documents/canvas/canvas.mjs";
 import {registerSettings} from "./module/helpers/settings.mjs";
@@ -25,7 +26,7 @@ globalThis.artichron = {
   dataModels: documents.dataModels,
   dice: dice,
   documents: documents.documentClasses,
-  migrations: {},
+  migrations: migrations,
   utils: utils,
   templates: documents.templates
 };

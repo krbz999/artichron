@@ -24,7 +24,8 @@
       "subtype": "buff"
     },
     "range": {
-      "value": 1
+      "value": 1,
+      "reach": 0
     },
     "targets": {
       "value": 1
@@ -62,6 +63,9 @@
     },
     "cost": {
       "value": 2
+    },
+    "fusion": {
+      "max": 1
     }
   },
   "effects": [
@@ -106,7 +110,7 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "12.328",
+        "coreVersion": "12.330",
         "systemId": "artichron",
         "systemVersion": "1.0.0",
         "createdTime": null,

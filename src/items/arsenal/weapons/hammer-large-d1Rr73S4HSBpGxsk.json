@@ -19,7 +19,8 @@
       "subtype": "hammer"
     },
     "range": {
-      "value": 1
+      "value": 1,
+      "reach": 0
     },
     "targets": {
       "value": 1
@@ -63,6 +64,9 @@
     },
     "cost": {
       "value": 1
+    },
+    "fusion": {
+      "max": 1
     }
   },
   "effects": [],

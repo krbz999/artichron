@@ -25,6 +25,9 @@
     "category": {
       "subtype": "booster",
       "pool": "stamina"
+    },
+    "healing": {
+      "formula": ""
     }
   },
   "effects": [],
