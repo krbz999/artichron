@@ -75,7 +75,7 @@ dialog:-internal-dialog-in-top-layer::backdrop {
       width: 100%;
       height: 100%;
       opacity: 0.3;
-      z-index: -1;
+      z-index: -2;
     }
 
     &::before {
@@ -95,7 +95,7 @@ dialog:-internal-dialog-in-top-layer::backdrop {
         background: none;
         border: none;
       }
-      &:not(:disabled) {
+      &:not(:disabled, [type=range]) {
         background: rgba(48, 40, 49, 0.75);
       }
     }

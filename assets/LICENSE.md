@@ -4,3 +4,5 @@ assets/layout/backdrop-1-bottom.webp
 assets/layout/backdrop-1-top.webp
 https://www.freepik.com/free-vector/futuristic-technology-background_7594479.htm
 
+assets/layout/banner.webp
+https://www.freepik.com/free-vector/futuristic-design-background_7434515.htm

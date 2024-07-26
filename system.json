@@ -65,6 +65,18 @@
       "path": "lang/en.json"
     }
   ],
+  "media": [
+    {
+      "type": "cover",
+      "loop": false,
+      "flags": {}
+    },
+    {
+      "type": "setup",
+      "url": "systems/artichron/assets/layout/banner.webp",
+      "thumbnail": "systems/artichron/assets/layout/banner.webp"
+    }
+  ],
   "grid": {
     "distance": 1,
     "units": "m"
