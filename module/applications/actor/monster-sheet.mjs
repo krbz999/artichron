@@ -1,3 +1,4 @@
+import EquipDialog from "../item/equip-dialog.mjs";
 import ActorSheetArtichron from "./actor-sheet-base.mjs";
 
 export default class MonsterSheet extends ActorSheetArtichron {
@@ -8,7 +9,8 @@ export default class MonsterSheet extends ActorSheetArtichron {
     actions: {
       removeLoot: this.#onRemoveLoot,
       increaseLoot: this.#onIncreaseLoot,
-      decreaseLoot: this.#onDecreaseLoot
+      decreaseLoot: this.#onDecreaseLoot,
+      changeEquipped: this.#onChangeEquipped
     }
   };
 
@@ -74,7 +76,8 @@ export default class MonsterSheet extends ActorSheetArtichron {
       tabs: this._getTabs(),
       isEditMode: this.isEditMode,
       isPlayMode: this.isPlayMode,
-      isEditable: this.isEditable
+      isEditable: this.isEditable,
+      equipment: this.#prepareEquipment()
     };
 
     // Biography.
@@ -173,6 +176,48 @@ export default class MonsterSheet extends ActorSheetArtichron {
 
   /* -------------------------------------------------- */
 
+  /**
+   * Prepare equipped items for rendering.
+   * @returns {object[]}
+   */
+  #prepareEquipment() {
+    // TODO: this method is a complete copy of the hero sheet's identical method.
+    const [primary, secondary] = Object.values(this.document.arsenal);
+
+    const emptySlotIcons = {
+      arsenal: "icons/weapons/axes/axe-broad-brown.webp",
+      head: "icons/equipment/head/helm-barbute-brown-tan.webp",
+      chest: "icons/equipment/chest/breastplate-leather-brown-belted.webp",
+      arms: "icons/equipment/hand/glove-ringed-cloth-brown.webp",
+      legs: "icons/equipment/leg/pants-breeches-leather-brown.webp",
+      accessory: "icons/equipment/neck/choker-simple-bone-fangs.webp",
+      boots: "icons/equipment/feet/boots-leather-engraved-brown.webp"
+    };
+
+    const equipped = [];
+
+    const setup = (key, item) => {
+      const data = {
+        active: !!item,
+        item: item ? item : {img: emptySlotIcons[key] ?? emptySlotIcons.arsenal},
+        dataset: {equipmentSlot: key, action: "changeEquipped"}
+      };
+      if (item) data.dataset.itemUuid = item.uuid;
+      equipped.push(data);
+    };
+
+    // Arsenal.
+    setup("primary", primary);
+    if (!primary || !primary.isTwoHanded) setup("secondary", secondary);
+
+    // Armor.
+    for (const [key, item] of Object.entries(this.document.armor)) setup(key, item);
+
+    return equipped;
+  }
+
+  /* -------------------------------------------------- */
+
   /** @override */
   _preSyncPartState(p, ne, pe, s) {
     super._preSyncPartState(p, ne, pe, s);
@@ -248,5 +293,20 @@ export default class MonsterSheet extends ActorSheetArtichron {
   static #onDecreaseLoot(event, target) {
     const uuid = target.closest("[data-uuid]").dataset.uuid;
     this.document.system.adjustLootDrop(uuid, -1);
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Handle click events to change an equipped item in a particular slot.
+   * @this {HeroSheet}
+   * @param {Event} event             The initiating click event.
+   * @param {HTMLElement} target      The current target of the event listener.
+   */
+  static #onChangeEquipped(event, target) {
+    // TODO: this is copied from the hero sheet.
+    if (!this.isEditable) return;
+    const slot = target.closest("[data-equipment-slot]").dataset.equipmentSlot;
+    new EquipDialog({actor: this.document, slot: slot}).render({force: true});
   }
 }

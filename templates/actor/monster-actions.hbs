@@ -1,7 +1,21 @@
-<div class="{{tabs.actions.tabCssClass}}" data-group="primary" data-tab="actions">
-  <div class="standard-form">
-    {{> "systems/artichron/templates/actor/monster-defenses.hbs"}}
-  </div>
+<div class="{{tabs.actions.tabCssClass}} standard-form" data-group="primary" data-tab="actions">
+  {{> "systems/artichron/templates/actor/monster-defenses.hbs"}}
+
+  <fieldset class="equipment">
+    <legend>{{localize "ARTICHRON.SheetTab.Equipment"}}</legend>
+    {{#each equipment}}
+    <div class="item {{#unless active}} empty {{/unless}}" {{#if dataset.itemUuid}} data-item-uuid="{{dataset.itemUuid}}" {{/if}}>
+      <img src="{{item.img}}" {{#if active}} data-action="useItem" {{/if}}>
+      {{#if @root.isEditMode}}
+      <div class="controls">
+        <a data-action="changeEquipped" data-equipment-slot="{{dataset.equipmentSlot}}">
+          <i class="fa-solid fa-shield-alt"></i>
+        </a>
+      </div>
+      {{/if}}
+    </div>
+    {{/each}}
+  </fieldset>
 
   <div class="inventory-list">
     <header>

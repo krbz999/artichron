@@ -95,6 +95,8 @@
 
 /* Shared styling */
 .inventory-list, .effects-list {
+  padding-bottom: 0.5rem;
+
   .description-wrapper {
     display: grid;
     grid-template-rows: 0fr;
