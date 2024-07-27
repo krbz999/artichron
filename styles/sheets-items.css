@@ -24,10 +24,6 @@
         flex: 0;
       }
     }
-
-    &.tab[data-tab=effects] {
-      min-height: 300px;
-    }
   }
 }
 
