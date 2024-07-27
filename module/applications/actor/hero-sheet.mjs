@@ -14,7 +14,7 @@ export default class HeroSheet extends ActorSheetArtichron {
   /** @override */
   static DEFAULT_OPTIONS = {
     classes: ["hero"],
-    position: {width: 550, top: 100, left: 200},
+    position: {width: 550},
     actions: {
       rollSkill: this.#onRollSkill,
       rollPool: this.#onRollPool,
@@ -90,7 +90,9 @@ export default class HeroSheet extends ActorSheetArtichron {
       isEditMode: this.isEditMode,
       isPlayMode: this.isPlayMode,
       isEditable: this.isEditable,
-      searchQuery: this.#searchQuery
+      searchQuery: this.#searchQuery,
+      pointsField1: new foundry.data.fields.NumberField({min: 0, step: 1, max: 20, initial: 0}),
+      pointsField2: new foundry.data.fields.NumberField({min: 0, step: 1, max: 20, initial: 0})
     };
 
     const makeResistance = (key, path) => {

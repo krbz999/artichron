@@ -1,4 +1,13 @@
-export {default as ThresholdBarElement} from "./threshold-bar-element.mjs";
-export {default as InventoryItemElement} from "./inventory-item-element.mjs";
-export {default as DamageTargetElement} from "./damage-target-element.mjs";
-export {default as HealTargetElement} from "./heal-target-element.mjs";
+import BatteryProgressElement from "./battery-progress-element.mjs";
+import DamageTargetElement from "./damage-target-element.mjs";
+import HealTargetElement from "./heal-target-element.mjs";
+import InventoryItemElement from "./inventory-item-element.mjs";
+import ThresholdBarElement from "./threshold-bar-element.mjs";
+
+export default {
+  BatteryProgressElement,
+  DamageTargetElement,
+  HealTargetElement,
+  InventoryItemElement,
+  ThresholdBarElement
+};

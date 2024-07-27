@@ -8,7 +8,7 @@ import auraInit from "./module/documents/canvas/canvas.mjs";
 import {registerSettings} from "./module/helpers/settings.mjs";
 import {registerEnrichers} from "./module/helpers/enrichers.mjs";
 import {registerSockets} from "./module/helpers/sockets.mjs";
-import * as elements from "./module/elements/_module.mjs";
+import elements from "./module/elements/_module.mjs";
 import {default as RulerArtichron} from "./module/documents/canvas/ruler.mjs";
 
 // Custom elements.
@@ -28,7 +28,8 @@ globalThis.artichron = {
   documents: documents.documentClasses,
   migrations: migrations,
   utils: utils,
-  templates: documents.templates
+  templates: documents.templates,
+  elements: elements
 };
 
 /* -------------------------------------------------- */
@@ -125,6 +126,7 @@ Hooks.once("init", function() {
 
 Hooks.once("setup", function() {
   Handlebars.registerHelper({
+    batteryProgress: batteryProgress,
     inventoryItem: inventoryItem,
     thresholdBar: thresholdBar
   });
@@ -218,5 +220,16 @@ function inventoryItem(item, options) {
 
 function thresholdBar(options) {
   const element = elements.ThresholdBarElement.create(options.hash);
+  return new Handlebars.SafeString(element.outerHTML);
+}
+
+function batteryProgress(field, options) {
+  let {min, max, name, value, step, ...inputConfig} = options.hash;
+  min ??= field.min;
+  max ??= field.max;
+  name ??= field.fieldPath;
+  value ??= field.initial;
+  step ??= 1;
+  const element = elements.BatteryProgressElement.create({...inputConfig, min, max, value, step, name});
   return new Handlebars.SafeString(element.outerHTML);
 }
