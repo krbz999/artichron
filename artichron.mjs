@@ -127,6 +127,7 @@ Hooks.once("init", function() {
 Hooks.once("setup", function() {
   Handlebars.registerHelper({
     batteryProgress: batteryProgress,
+    effectEntry: effectEntry,
     inventoryItem: inventoryItem,
     thresholdBar: thresholdBar
   });
@@ -215,6 +216,11 @@ async function createEffectMacro(bar, data, slot) {
 
 function inventoryItem(item, options) {
   const element = elements.InventoryItemElement.create({...options.hash, item});
+  return new Handlebars.SafeString(element.outerHTML);
+}
+
+function effectEntry(effect, options) {
+  const element = elements.EffectEntryElement.create({...options.hash, effect});
   return new Handlebars.SafeString(element.outerHTML);
 }
 

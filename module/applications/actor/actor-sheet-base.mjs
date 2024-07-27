@@ -38,7 +38,7 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
 
     if (!this.isEditable) return;
 
-    this.element.querySelectorAll("[data-action=updateEmbedded").forEach(n => {
+    this.element.querySelectorAll("[data-action=updateEmbedded]").forEach(n => {
       n.addEventListener("change", this._onUpdateEmbedded.bind(this));
     });
   }

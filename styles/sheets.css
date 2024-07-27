@@ -97,6 +97,10 @@
 /* Shared styling */
 .inventory-list, .effects-list {
   padding-bottom: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: 100%;
 
   .description-wrapper {
     display: grid;
@@ -120,11 +124,6 @@
 }
 
 .inventory-list {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  width: 100%;
-
   & header {
     display: flex;
     margin-top: 0.5rem;
@@ -235,11 +234,6 @@
 }
 
 .effects-list {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  width: 100%;
-
   & header {
     display: flex;
     margin-top: 0.5rem;
@@ -254,26 +248,37 @@
     }
   }
 
-  .effect {
+  & effect-entry {
     display: flex;
     border: 1px solid gray;
     border-radius: 4px;
     align-items: center;
     flex-wrap: wrap;
+    --height: calc(3rem - 2px);
 
-    .wrapper {
-      height: calc(3rem - 2px);
-      flex: 1;
-      display: flex;
-      align-items: center;
+    .image {
+      border: none;
+      margin-right: 5px;
+      height: var(--height);
+      position: relative;
+      text-shadow: none;
 
-      .image {
-        height: 100%;
-        border: none;
-        margin-right: 5px;
+      & img {
         aspect-ratio: 1;
         object-fit: cover;
       }
+
+      > * {
+        height: 100%;
+        transition: opacity 200ms ease;
+      }
+    }
+
+    .wrapper {
+      height: var(--height);
+      flex: 1;
+      display: flex;
+      align-items: center;
 
       .name {
         pointer-events: none;
@@ -281,35 +286,20 @@
         &.stacked {
           display: flex;
           flex-direction: column;
+        }
 
-          .title {
-            padding-left: 3px;
-          }
-
-          .subtitle {
-            color: var(--artichron-color-gold);
-            font-size: 10px;
-            padding-left: 6px;
-          }
+        .title {}
+        .subtitle {
+          font-size: 80%;
+          color: var(--artichron-color-gold);
         }
       }
     }
 
     .property {
-      display: flex;
-      flex-direction: column;
-      flex: var(--artichron-item-property-flex);
+      flex: var(--artichron-effect-source-flex);
       text-align: center;
-
-      &.source {
-        flex: var(--artichron-effect-source-flex);
-        .origin { font-size: 11px; }
-        .label { font-size: 10px; }
-      }
-
-      .label {
-        color: var(--artichron-color-gold);
-      }
+      font-size: 10px;
     }
 
     .controls {

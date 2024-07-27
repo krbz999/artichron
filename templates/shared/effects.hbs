@@ -9,30 +9,7 @@
     </header>
 
     {{#each conditions}}
-    <div class="effect {{#if isExpanded}}expanded{{/if}}" data-item-uuid="{{uuid}}">
-
-      <a class="wrapper" data-action="toggleDescription" style="opacity: {{ifThen disabled 0.25 1}}">
-        <img class="image" src="{{img}}" alt="{{name}}" data-action="toggleEffect">
-        <label class="name stacked">
-          <span class="title">{{name}}</span>
-          {{#if level}}<span class="subtitle">{{localize "ARTICHRON.Effect.Level" level=level}}</span>{{/if}}
-        </label>
-      </a>
-
-      <div class="controls">
-        <a class="control" data-action="editEffect"><i class="fa-solid fa-edit"></i></a>
-        {{#if @root.isEditMode}}
-        <a class="control" data-action="deleteEffect"><i class="fa-solid fa-trash"></i></a>
-        {{/if}}
-      </div>
-
-      <div class="description-wrapper">
-        {{#if isExpanded}}
-        <div class="description">{{{enrichedText}}}</div>
-        {{/if}}
-      </div>
-
-    </div>
+    {{effectEntry effect enriched=enrichedText}}
     {{/each}}
     {{/if}}
 
@@ -45,36 +22,7 @@
     </header>
 
     {{#each activeFusions}}
-    <div class="effect {{#if isExpanded}}expanded{{/if}}" data-item-uuid="{{uuid}}">
-
-      <a class="wrapper" data-action="toggleDescription" style="opacity: {{ifThen disabled 0.25 1}}">
-        <img class="image" src="{{img}}" alt="{{name}}" data-action="toggleEffect">
-        <label class="name">{{name}}</label>
-      </a>
-
-      <a data-action="undoFusion" data-tooltip="ARTICHRON.Effect.ActiveFusion">
-        <i class="fa-solid fa-volcano"></i>
-        <i class="fa-solid fa-recycle"></i>
-      </a>
-
-      <div class="property source">
-        <span class="label">{{sourceItem}}</span>
-      </div>
-
-      <div class="controls">
-        <a class="control" data-action="editEffect"><i class="fa-solid fa-edit"></i></a>
-        {{#if @root.isEditMode}}
-        <a class="control" data-action="deleteEffect"><i class="fa-solid fa-trash"></i></a>
-        {{/if}}
-      </div>
-
-      <div class="description-wrapper">
-        {{#if isExpanded}}
-        <div class="description">{{{enrichedText}}}</div>
-        {{/if}}
-      </div>
-
-    </div>
+    {{effectEntry effect enriched=enrichedText}}
     {{/each}}
 
     {{/if}}
@@ -89,27 +37,7 @@
     </header>
 
     {{#each enhancements}}
-    <div class="effect {{#if isExpanded}}expanded{{/if}}" data-item-uuid="{{uuid}}">
-
-      <a class="wrapper" data-action="toggleDescription" style="opacity: {{ifThen disabled 0.25 1}}">
-        <img class="image" src="{{img}}" alt="{{name}}" data-action="toggleEffect">
-        <label class="name">{{name}}</label>
-      </a>
-
-      <div class="controls">
-        <a class="control" data-action="editEffect"><i class="fa-solid fa-edit"></i></a>
-        {{#if @root.isEditMode}}
-        <a class="control" data-action="deleteEffect"><i class="fa-solid fa-trash"></i></a>
-        {{/if}}
-      </div>
-
-      <div class="description-wrapper">
-        {{#if isExpanded}}
-        <div class="description">{{{enrichedText}}}</div>
-        {{/if}}
-      </div>
-
-    </div>
+    {{effectEntry effect enriched=enrichedText}}
     {{/each}}
 
     {{/if}}
@@ -123,37 +51,7 @@
     </header>
 
     {{#each effects}}
-    <div class="effect {{#if isExpanded}}expanded{{/if}}" data-item-uuid="{{uuid}}">
-
-      <a class="wrapper" data-action="toggleDescription" style="opacity: {{ifThen disabled 0.25 1}}">
-        <img class="image" src="{{img}}" alt="{{name}}" data-action="toggleEffect">
-        <label class="name stacked">
-          <span class="title">{{name}}</span>
-          {{#if parentName}}<span class="subtitle">{{parentName}}</span>{{/if}}
-        </label>
-      </a>
-
-      {{#if transfer}} <i class="fa-solid fa-briefcase" data-tooltip="ARTICHRON.Effect.TransferredBuff"></i> {{/if}}
-
-      <div class="property source">
-        <span class="origin">{{sourceItem}}</span>
-        <span class="label">{{sourceActor}}</span>
-      </div>
-
-      <div class="controls">
-        <a class="control" data-action="editEffect"><i class="fa-solid fa-edit"></i></a>
-        {{#if @root.isEditMode}}
-        <a class="control" data-action="deleteEffect"><i class="fa-solid fa-trash"></i></a>
-        {{/if}}
-      </div>
-
-      <div class="description-wrapper">
-        {{#if isExpanded}}
-        <div class="description">{{{enrichedText}}}</div>
-        {{/if}}
-      </div>
-
-    </div>
+    {{effectEntry effect enriched=enrichedText}}
     {{/each}}
 
     {{#if canFuse}}
@@ -166,29 +64,7 @@
     </header>
 
     {{#each fusions}}
-    <div class="effect {{#if isExpanded}}expanded{{/if}}" data-item-uuid="{{uuid}}">
-
-      <div class="wrapper" data-action="toggleDescription">
-        <img class="image" src="{{img}}" alt="{{name}}">
-        <label class="name">{{name}}</label>
-      </div>
-
-      <div class="property source"></div>
-
-      <div class="controls">
-        <a class="control" data-action="editEffect"><i class="fa-solid fa-edit"></i></a>
-        {{#if @root.isEditMode}}
-        <a class="control" data-action="deleteEffect"><i class="fa-solid fa-trash"></i></a>
-        {{/if}}
-      </div>
-
-      <div class="description-wrapper">
-        {{#if isExpanded}}
-        <div class="description">{{{enrichedText}}}</div>
-        {{/if}}
-      </div>
-
-    </div>
+    {{effectEntry effect enriched=enrichedText}}
     {{/each}}
     {{/if}}
 

@@ -154,21 +154,12 @@ export const ArtichronSheetMixin = Base => {
 
         const data = {
           effect: effect,
-          uuid: effect.uuid,
-          img: effect.img,
-          name: effect.name,
-          sourceItem: sourceItem,
-          sourceActor: sourceActor,
-          disabled: effect.disabled,
-          transfer: transfer,
-          parentName: transfer && (this.document instanceof Actor) ? effect.parent.name : null,
           isExpanded: this._expandedItems.has(effect.uuid),
 
           isActiveFusion: effect.isActiveFusion,
           isFusionOption: effect.isTransferrableFusion,
           isCondition: effect.type === "condition"
         };
-        if (data.isCondition) data.level = effect.system.level || null;
         if (data.isExpanded) {
           data.enrichedText = await TextEditor.enrichHTML(effect.description, {
             relativeTo: effect, rollData: effect.getRollData()
@@ -180,7 +171,7 @@ export const ArtichronSheetMixin = Base => {
       if (this.document instanceof Item) for (const e of this.document.effects) await entry(e);
       else for (const e of this.document.allApplicableEffects()) await entry(e);
 
-      effects.sort((a, b) => a.name.localeCompare(b.name));
+      effects.sort((a, b) => a.effect.name.localeCompare(b.effect.name));
       return effects;
     }
 
