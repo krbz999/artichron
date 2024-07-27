@@ -1,6 +1,4 @@
 .artichron.application.sheet {
-  max-height: 900px;
-
   /* Opacity control */
   &.opacity:not(.maximizing, .minimized, .minimizing) {
     transition: opacity 250ms;

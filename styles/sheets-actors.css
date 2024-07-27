@@ -1,6 +1,15 @@
 .artichron.application.sheet.actor {
-  .tab[data-tab] {
-    min-height: 400px;
+  min-height: 670px;
+  min-width: 400px;
+
+  /* Core fix */
+  &.minimizing, &.minimized, &.maximizing {
+    min-height: unset;
+    min-width: unset;
+  }
+
+  .tab.active {
+    flex: 1;
   }
 
   & search {
@@ -9,7 +18,6 @@
 
   .tab[data-tab=attributes].active {
     flex-direction: row;
-    min-height: 600px;
     gap: 1rem;
 
     .left-pane {
