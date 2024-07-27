@@ -38,7 +38,6 @@ export default class HeroSheet extends ActorSheetArtichron {
     },
     details: {
       template: "systems/artichron/templates/actor/tab-details.hbs",
-      classes: ["standard-form"],
       scrollable: [""]
     },
     effects: {

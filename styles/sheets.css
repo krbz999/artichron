@@ -50,13 +50,6 @@
     }
   }
 
-  .tab.standard-form {
-    gap: 1rem;
-    flex-direction: column;
-
-    &.active { display: flex; }
-  }
-
   .resistances, .bonuses {
     flex-direction: row;
     gap: 1px;
