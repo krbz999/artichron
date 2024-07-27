@@ -8,7 +8,7 @@
   }
 
   .tab[data-tab=attributes].active {
-    display: flex;
+    flex-direction: row;
     min-height: 600px;
     gap: 1rem;
 

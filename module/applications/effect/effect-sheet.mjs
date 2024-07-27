@@ -4,14 +4,11 @@ export default class EffectSheetArtichron extends ArtichronSheetMixin(foundry.ap
   /** @override */
   static DEFAULT_OPTIONS = {
     form: {submitOnChange: true, closeOnSubmit: false},
-    classes: ["artichron", "effect"],
+    classes: ["effect"],
     position: {width: 500, height: "auto"},
     actions: {
       addChange: this.#onAddChange,
       deleteChange: this.#onDeleteChange
-    },
-    window: {
-      contentClasses: ["standard-form"]
     }
   };
 

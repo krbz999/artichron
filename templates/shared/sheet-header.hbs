@@ -1,7 +1,10 @@
-{{!-- Sheet Header --}}
 <header class="header">
   <img class="avatar" src="{{header.img}}" {{#if isEditMode}}data-action="editImage" style="cursor: pointer"{{/if}}>
-  <input name="name" type="text" value="{{header.name}}" placeholder="{{localize 'Name'}}" {{disabled isPlayMode}}>
+  {{#if isPlayMode}}
+  <h1 class="name">{{header.name}}</h1>
+  {{else}}
+  <input class="name" name="name" type="text" value="{{header.name}}" placeholder="{{localize 'Name'}}" {{disabled isPlayMode}}>
+  {{/if}}
   <div class="controls">
     <a class="control" data-action="toggleSheet" data-tooltip="ARTICHRON.SheetActions.ToggleSheet">
       <i class="fa-solid fa-user-{{ifThen isPlayMode 'lock' 'pen'}}"></i>

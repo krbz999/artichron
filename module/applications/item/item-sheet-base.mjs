@@ -4,7 +4,7 @@ import {ArtichronSheetMixin} from "../base-sheet.mjs";
 export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.applications.sheets.ItemSheetV2) {
   /** @override */
   static DEFAULT_OPTIONS = {
-    classes: ["artichron", "item"],
+    classes: ["item"],
     position: {
       width: 500,
       height: "auto"

@@ -23,9 +23,9 @@ export const ArtichronSheetMixin = Base => {
 
     /** @override */
     static DEFAULT_OPTIONS = {
-      form: {
-        submitOnChange: true
-      },
+      classes: ["artichron"],
+      window: {contentClasses: ["standard-form"]},
+      form: {submitOnChange: true},
       actions: {
         editImage: this._onEditImage,
         toggleSheet: this._onToggleSheet,
@@ -286,6 +286,27 @@ export const ArtichronSheetMixin = Base => {
         icon: "<i class='fa-solid fa-fw fa-copy'></i>",
         condition: () => isOwner && (item.type !== "condition"),
         callback: () => item.clone({}, {save: true}),
+        group: "action"
+      }, {
+        name: "ARTICHRON.ContextMenu.EffectOption.IncreaseLevel",
+        icon: "<i class='fa-solid fa-fw fa-circle-arrow-up'></i>",
+        condition: () => {
+          return isOwner &&
+            (item.type === "condition") &&
+            Number.isInteger(item.system.level) &&
+            (CONFIG.SYSTEM.STATUS_CONDITIONS[item.system.primary].levels > item.system.level);
+        },
+        callback: () => item.system.increase(),
+        group: "action"
+      }, {
+        name: "ARTICHRON.ContextMenu.EffectOption.DecreaseLevel",
+        icon: "<i class='fa-solid fa-fw fa-circle-arrow-down'></i>",
+        condition: () => {
+          return isOwner &&
+            (item.type === "condition") &&
+            Number.isInteger(item.system.level) && (item.system.level > 0);
+        },
+        callback: () => item.system.decrease(),
         group: "action"
       }];
     }

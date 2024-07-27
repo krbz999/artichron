@@ -1,5 +1,5 @@
 .artichron.application.sheet {
-  max-height: 90%;
+  max-height: 900px;
 
   /* Opacity control */
   &.opacity:not(.maximizing, .minimized, .minimizing) {
@@ -31,6 +31,13 @@
       height: 100%;
       object-fit: cover;
       object-position: center top;
+    }
+
+    .name {
+      flex: 1;
+      border: none;
+      margin: 0;
+      &h1 { font-size: 35px; }
     }
 
     .controls {
@@ -245,6 +252,7 @@
     .properties { flex: var(--artichron-item-properties-flex); text-align: center; }
     .controls {
       flex: var(--artichron-effect-controls-flex);
+      height: unset;
     }
   }
 

@@ -708,7 +708,7 @@
   "ActiveFusion": "Fusion",
   "TransferredBuff": "Transferred Buff",
   "Conditions": "Conditions",
-  "Level":"Level: {level}"
+  "Level": "Level: {level}"
 },
 
 "ContextMenu": {
@@ -717,7 +717,9 @@
     "Delete": "Delete",
     "Enable": "Enable",
     "Disable": "Disable",
-    "Duplicate": "Duplicate"
+    "Duplicate": "Duplicate",
+    "IncreaseLevel": "Increase Level",
+    "DecreaseLevel": "Decrease Level"
   },
   "ItemOption": {
     "Delete": "Delete",

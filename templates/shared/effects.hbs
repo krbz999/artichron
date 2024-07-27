@@ -31,9 +31,13 @@
 
     <header>
       <span class="label">{{localize "TYPES.ActiveEffect.enhancementPl"}}</span>
+      {{#if @root.isEditMode}}
       <button class="controls" type="button" data-action="createEffect" data-tooltip="ARTICHRON.SheetActions.CreateEnhancement" data-type="enhancement">
         <i class="fa-solid fa-plus"></i>
       </button>
+      {{else}}
+      <span class="controls" style="margin-left: 2px;"></span>
+      {{/if}}
     </header>
 
     {{#each enhancements}}
@@ -45,9 +49,13 @@
     <header>
       <span class="label">{{localize "ARTICHRON.Effect.Buffs"}}</span>
       <span class="source">{{localize "ARTICHRON.Effect.Source"}}</span>
+      {{#if @root.isEditMode}}
       <button class="controls" type="button" data-action="createEffect" data-tooltip="ARTICHRON.SheetActions.CreateBuff" data-type="buff">
         <i class="fa-solid fa-plus"></i>
       </button>
+      {{else}}
+      <span class="controls" style="margin-left: 2px;"></span>
+      {{/if}}
     </header>
 
     {{#each effects}}
@@ -58,9 +66,13 @@
     <header>
       <span class="label">{{localize "ARTICHRON.Effect.FusionOptions"}}</span>
       <span class="source"></span>
+      {{#if @root.isEditMode}}
       <button class="controls" type="button" data-action="createEffect" data-tooltip="ARTICHRON.SheetActions.CreateFusion" data-type="fusion">
         <i class="fa-solid fa-plus"></i>
       </button>
+      {{else}}
+      <span class="controls" style="margin-left: 2px;"></span>
+      {{/if}}
     </header>
 
     {{#each fusions}}

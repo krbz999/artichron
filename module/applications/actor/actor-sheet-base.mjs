@@ -4,7 +4,7 @@ import PoolConfig from "./pool-config.mjs";
 export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.applications.sheets.ActorSheetV2) {
   /** @override */
   static DEFAULT_OPTIONS = {
-    classes: ["artichron", "actor"],
+    classes: ["actor"],
     position: {height: "auto"},
     actions: {
       createItem: this._onCreateItem,
