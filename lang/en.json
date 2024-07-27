@@ -161,20 +161,13 @@
 
 "DamageType": {
   "Arcane": "Arcane",
-  "ArcaneRes": "Arcane Resistance",
   "Darkness": "Darkness",
-  "DarknessRes": "Darkness Resistance",
   "Fire": "Fire",
-  "FireRes": "Fire Resistance",
   "Ice": "Ice",
-  "IceRes": "Ice Resistance",
   "Light": "Light",
-  "LightRes": "Light Resistance",
   "Lightning": "Lightning",
-  "LightningRes": "Lightning Resistance",
   "Physical": "Physical",
-  "Wind": "Wind",
-  "WindRes": "Wind Resistance"
+  "Wind": "Wind"
 },
 
 "DamageTypeGroup": {
