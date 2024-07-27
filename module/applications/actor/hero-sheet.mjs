@@ -278,7 +278,7 @@ export default class HeroSheet extends ActorSheetArtichron {
 
     if (p === "attributes") {
       const o = pe.querySelector(".health-bar");
-      s.healthHeight = Math.max(o.offsetTop + 2, 0);
+      s.healthHeight = Math.max(o.offsetTop, 0);
     }
   }
 
@@ -289,8 +289,11 @@ export default class HeroSheet extends ActorSheetArtichron {
     super._syncPartState(partId, newElement, priorElement, state);
 
     if (partId === "attributes") {
+      if (!("healthHeight" in state)) return;
       const newBar = newElement.querySelector(".health-bar");
-      const frames = [{top: `${state.healthHeight}px`}, {top: `${Math.max(newBar.offsetTop, 0)}px`}];
+      const n = Math.max(newBar.offsetTop, 0);
+      if (state.healthHeight === n) return;
+      const frames = [{top: `${state.healthHeight}px`}, {top: `${n}px`}];
       newBar.animate(frames, {duration: 1000, easing: "ease-in-out"});
     }
 
