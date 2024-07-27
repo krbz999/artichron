@@ -581,10 +581,6 @@ SYSTEM.SKILLS = {
     label: "ARTICHRON.Skill.KnowledgeReligion",
     group: "mind"
   },
-  knowledgeScience: {
-    label: "ARTICHRON.Skill.KnowledgeScience",
-    group: "mind"
-  },
   knowledgeTech: {
     label: "ARTICHRON.Skill.KnowledgeTech",
     group: "mind"

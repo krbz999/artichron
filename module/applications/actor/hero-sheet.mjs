@@ -14,7 +14,7 @@ export default class HeroSheet extends ActorSheetArtichron {
   /** @override */
   static DEFAULT_OPTIONS = {
     classes: ["hero"],
-    position: {width: 550},
+    position: {width: 550, height: 800},
     actions: {
       rollSkill: this.#onRollSkill,
       rollPool: this.#onRollPool,
