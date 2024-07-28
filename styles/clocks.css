@@ -1,0 +1,59 @@
+@keyframes progress-clock-pulse {
+  0% {
+    box-shadow: 0 0 10px 0 rgb(48, 86, 255);
+  }
+  50% {
+    box-shadow: 0 0 10px 10px rgb(48, 86, 255);
+  }
+  100% {
+    box-shadow: 0 0 10px 0 rgb(48, 86, 255);
+  }
+}
+
+progress-clock {
+  height: 250px;
+  min-height: 250px;
+  position: relative;
+  border-radius: 50%;
+  width: 250px;
+  margin: 1rem auto;
+  box-shadow: 0 0 5px 5px rgb(48, 86, 255);
+  justify-content: center;
+  display: flex;
+  align-items: center;
+
+  &.filled {
+    box-shadow: 0 0 10px 10px rgb(48, 86, 255);
+    animation: progress-clock-pulse 2s;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-in-out;
+  }
+
+  .slice {
+    position: absolute;
+    inset: 0;
+    aspect-ratio: 1;
+    display: inline-grid;
+    place-content: center;
+    font-size: 25px;
+    font-weight: bold;
+    font-family: sans-serif;
+
+    &::before {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      inset: 0;
+      background: conic-gradient(rgb(72, 145, 255) calc((var(--p)) * 1%), #0000 0);
+      mask: radial-gradient(farthest-side,
+        #0000 calc(95% - 75px),
+        #000 calc(100% - 75px)
+      );
+      transform: rotate(var(--iter));
+    }
+  }
+
+  .counter {
+    font-size: 20px;
+  }
+}

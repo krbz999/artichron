@@ -129,6 +129,7 @@ Hooks.once("setup", function() {
     batteryProgress: batteryProgress,
     effectEntry: effectEntry,
     inventoryItem: inventoryItem,
+    progressClock: progressClock,
     thresholdBar: thresholdBar
   });
 });
@@ -237,5 +238,10 @@ function batteryProgress(field, options) {
   value ??= field.initial;
   step ??= 1;
   const element = elements.BatteryProgressElement.create({...inputConfig, min, max, value, step, name});
+  return new Handlebars.SafeString(element.outerHTML);
+}
+
+function progressClock(options) {
+  const element = elements.ProgressClockElement.create(options.hash);
   return new Handlebars.SafeString(element.outerHTML);
 }

@@ -20,6 +20,7 @@
   "esmodules": ["artichron.mjs"],
   "styles": [
     "styles/artichron.css",
+    "styles/clocks.css",
     "styles/rolls.css",
     "styles/sheets-actors.css",
     "styles/sheets-effects.css",
