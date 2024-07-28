@@ -137,21 +137,6 @@ export const ArtichronSheetMixin = Base => {
       const effects = [];
 
       const entry = async (effect) => {
-        let sourceItem = null;
-        let sourceActor = null;
-
-        // Create label for transferred effects.
-        if ((effect.type === "buff") && effect.system.source) {
-          sourceItem = await fromUuid(effect.system.source);
-          sourceActor = sourceItem?.parent?.name ?? "";
-          sourceItem = sourceItem?.name ?? "";
-        } else if (effect.type === "fusion") {
-          sourceItem = effect.system.itemData?.name ?? "";
-        }
-
-        const isItem = effect.parent instanceof Item;
-        const transfer = isItem && effect.transfer;
-
         const data = {
           effect: effect,
           isExpanded: this._expandedItems.has(effect.uuid),
