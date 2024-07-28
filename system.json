@@ -144,6 +144,9 @@
       "condition": {},
       "enhancement": {},
       "fusion": {}
+    },
+    "JournalEntryPage": {
+      "progress": {}
     }
   }
 }

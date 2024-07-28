@@ -31,6 +31,7 @@ import SpellData from "./item/item-arsenal-spell.mjs";
 import TokenArtichron from "./token/token-placeable.mjs";
 import TokenDocumentArtichron from "./token/token-document.mjs";
 import WeaponData from "./item/item-arsenal-weapon.mjs";
+import JournalPages from "./journal/_module.mjs";
 
 export const dataModels = {
   actor: {
@@ -61,6 +62,9 @@ export const dataModels = {
     condition: EffectConditionData,
     enhancement: EffectEnhancementData,
     fusion: EffectFusionData
+  },
+  page: {
+    progress: JournalPages.ProgressPageData
   }
 };
 
