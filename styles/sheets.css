@@ -122,11 +122,17 @@
 }
 
 .inventory-list {
+  &.compact {
+    flex-wrap: wrap;
+    flex-direction: row;
+  }
+
   & header {
     display: flex;
     margin-top: 0.5rem;
     min-height: 1.25rem;
     align-items: stretch;
+    width: 100%;
 
     .label { flex: 1; }
     .controls {
@@ -148,7 +154,6 @@
 
     .image {
       border: none;
-      margin-right: 5px;
       height: var(--height);
       position: relative;
       text-shadow: none;
@@ -185,6 +190,7 @@
       flex: 1;
       display: flex;
       align-items: center;
+      margin-left: 5px;
 
       .name {
         pointer-events: none;
@@ -321,5 +327,12 @@
         &.fa-volcano { opacity: 0; }
       }
     }
+  }
+}
+
+/* Enriched item tooltips */
+.item-tooltip {
+  .description {
+    text-align: left;
   }
 }

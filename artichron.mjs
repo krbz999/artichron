@@ -29,7 +29,8 @@ globalThis.artichron = {
   migrations: migrations,
   utils: utils,
   templates: documents.templates,
-  elements: elements
+  elements: elements,
+  tooltips: new applications.TooltipsArtichron()
 };
 
 /* -------------------------------------------------- */
@@ -132,6 +133,8 @@ Hooks.once("setup", function() {
     progressClock: progressClock,
     thresholdBar: thresholdBar
   });
+  artichron.tooltips.observe();
+  applications.TooltipsArtichron.activateListeners();
 });
 
 /* -------------------------------------------------- */

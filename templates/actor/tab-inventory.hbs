@@ -20,22 +20,25 @@
     <input type="search" id="inventory-search" placeholder="{{localize 'SIDEBAR.Search' types=(localize 'DOCUMENT.Items')}}" value="{{searchQuery}}">
   </search>
 
-  <div class="inventory-list scrollable">
-
-  {{#each items}}
-    <header>
-      <span class="label">{{localize label}}</span>
-      {{#if @root.isEditMode}}
-      <button class="controls" type="button" data-action="createItem" data-tooltip="ARTICHRON.SheetActions.CreateItem" data-section="{{id}}">
-        <i class="fa-solid fa-plus"></i>
-      </button>
-      {{/if}}
-    </header>
+  <div class="scrollable">
 
     {{#each items}}
-    {{inventoryItem item enriched=enriched}}
+    <div class="inventory-list">
+      <header>
+        <span class="label">{{localize label}}</span>
+        {{#if @root.isEditMode}}
+        <button class="controls" type="button" data-action="createItem" data-tooltip="ARTICHRON.SheetActions.CreateItem" data-section="{{id}}">
+          <i class="fa-solid fa-plus"></i>
+        </button>
+        {{/if}}
+      </header>
+
+      {{#each items}}
+      {{inventoryItem item enriched=enriched}}
+      {{/each}}
+
+      </div>
     {{/each}}
-  {{/each}}
 
   </div>
 
