@@ -23,11 +23,11 @@
   <div class="scrollable">
 
     {{#each items}}
-    <div class="inventory-list">
+    <div class="inventory-list {{#each classes}}{{this}}{{/each}}">
       <header>
         <span class="label">{{localize label}}</span>
         {{#if @root.isEditMode}}
-        <button class="controls" type="button" data-action="createItem" data-tooltip="ARTICHRON.SheetActions.CreateItem" data-section="{{id}}">
+        <button class="controls" type="button" data-action="createItem" data-tooltip="ARTICHRON.SheetActions.CreateItem" {{#if id}}data-section="{{id}}"{{/if}}>
           <i class="fa-solid fa-plus"></i>
         </button>
         {{/if}}

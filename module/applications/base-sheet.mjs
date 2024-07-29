@@ -368,7 +368,7 @@ export const ArtichronSheetMixin = Base => {
      */
     _setupDragAndDrop() {
       const dd = new DragDrop({
-        dragSelector: "inventory-item[compact], [data-item-uuid] .wrapper",
+        dragSelector: ".compact inventory-item, [data-item-uuid] .wrapper",
         dropSelector: ".application",
         permissions: {
           dragstart: this._canDragStart.bind(this),
