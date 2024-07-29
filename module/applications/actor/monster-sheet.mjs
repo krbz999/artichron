@@ -77,8 +77,25 @@ export default class MonsterSheet extends ActorSheetArtichron {
       isEditMode: this.isEditMode,
       isPlayMode: this.isPlayMode,
       isEditable: this.isEditable,
-      equipment: this.#prepareEquipment()
+      equipment: this.#prepareEquipment(),
+      compactItems: {
+        compact: this.document.flags.artichron?.compactItems ?? game.settings.get("artichron", "compactItems")
+      }
     };
+
+    if (context.isEditMode) {
+      const field = new foundry.data.fields.NumberField({
+        label: "Compact Items",
+        hint: "Toggle whether items are shown in a list or a grid.",
+        choices: {
+          0: "Expanded",
+          1: "Compact"
+        }
+      });
+      const value = this.document.flags.artichron?.compactItems ?? null;
+      context.compactItems.field = field;
+      context.compactItems.value = value;
+    }
 
     // Biography.
     context.biography = {

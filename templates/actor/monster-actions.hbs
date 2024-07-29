@@ -17,7 +17,7 @@
     {{/each}}
   </fieldset>
 
-  <div class="inventory-list">
+  <div class="inventory-list {{#if compactItems.compact}}compact{{/if}}">
     <header>
       <span class="label">{{localize "ARTICHRON.SheetTab.Favorites"}}</span>
     </header>
@@ -27,7 +27,7 @@
     {{/each}}
   </div>
 
-  <div class="inventory-list">
+  <div class="inventory-list {{#if compactItems.compact}}compact{{/if}}">
     <header>
       <span class="label">{{localize "ARTICHRON.SheetTab.Inventory"}}</span>
       {{#if @root.isEditMode}}

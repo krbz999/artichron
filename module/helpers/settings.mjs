@@ -54,6 +54,23 @@ export function registerSettings() {
 
   /* -------------------------------------------------- */
 
+  // Client setting for whether actors have compact or wide inventory view.
+  game.settings.register(id, "compactItems", {
+    scope: "client",
+    requiresReload: false,
+    type: new foundry.data.fields.BooleanField({initial: true}),
+    config: true,
+    name: "ARTICHRON.Setting.CompactItems",
+    hint: "ARTICHRON.Setting.CompactItemsHint",
+    onChange: (compact) => {
+      for (const [k, v] of foundry.applications.instances.entries()) {
+        if (v.document instanceof Actor) v.render();
+      }
+    }
+  });
+
+  /* -------------------------------------------------- */
+
   // Color scheme has to always be dark mode for now.
   Hooks.once("setup", () => game.settings.set("core", "colorScheme", "dark"));
 }

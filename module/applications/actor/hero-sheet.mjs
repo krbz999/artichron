@@ -94,6 +94,22 @@ export default class HeroSheet extends ActorSheetArtichron {
       pointsField2: new foundry.data.fields.NumberField({min: 0, step: 1, max: 20, initial: 0})
     };
 
+    if (context.isEditMode) {
+      const field = new foundry.data.fields.NumberField({
+        label: "Compact Items",
+        hint: "Toggle whether items are shown in a list or a grid.",
+        choices: {
+          0: "Expanded",
+          1: "Compact"
+        }
+      });
+      const value = this.document.flags.artichron?.compactItems ?? null;
+      context.compactItems = {
+        field: field,
+        value: value
+      };
+    }
+
     const makeResistance = (key, path) => {
       context.resistances ??= {};
       const value = foundry.utils.getProperty(context.isEditMode ? src.system : doc.system, path);
@@ -210,6 +226,15 @@ export default class HeroSheet extends ActorSheetArtichron {
 
   /** @override */
   async _prepareItems() {
+    const compact = this.document.getFlag("artichron", "compactItems") ?? game.settings.get("artichron", "compactItems");
+    if (compact) {
+      return [{
+        label: "DOCUMENT.Items",
+        classes: ["compact"],
+        items: this.document.items.contents.sort((a, b) => a.sort - b.sort).map(item => ({item}))
+      }];
+    }
+
     const types = this.document.itemTypes;
     const sections = {
       arsenal: {
