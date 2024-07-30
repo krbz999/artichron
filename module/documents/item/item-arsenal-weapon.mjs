@@ -142,4 +142,25 @@ export default class WeaponData extends ArsenalData {
     const origin = this.parent.token;
     return this.constructor.createBlastZone(origin, target, {type, size});
   }
+
+  /* -------------------------------------------------- */
+
+  /** @override */
+  async richTooltip() {
+    const template = "systems/artichron/templates/item/tooltip-weapon.hbs";
+    const context = {
+      item: this.parent,
+      enriched: await TextEditor.enrichHTML(this.description.value, {
+        rollData: this.parent.getRollData(), relativeTo: this.parent
+      })
+    };
+
+    const div = document.createElement("DIV");
+    div.innerHTML = await renderTemplate(template, context);
+
+    return {
+      content: div,
+      classes: ["item-tooltip", "weapon"]
+    };
+  }
 }

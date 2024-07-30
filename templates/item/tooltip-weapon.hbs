@@ -1,0 +1,66 @@
+<section class="item-banner">
+
+  <img class="image" src="{{item.img}}" alt="{{item.name}}">
+
+  <div class="name">
+    <span class="title">{{item.name}}</span>
+    <span class="subtitle">{{item.system.category.subtype}}</span>
+  </div>
+
+  <div class="description">{{{enriched}}}</div>
+
+</section>
+
+<section class="item-details">
+
+  <div class="properties">
+    <div class="property range reach">
+      <div class="title">Reach</div>
+      <div class="subtitle">{{item.system.range.reach}}m</div>
+    </div>
+    <div class="property wielding">
+      <div class="title">Wielding</div>
+      <div class="subtitle">{{item.system.wield.value}}-Handed</div>
+    </div>
+  </div>
+
+  <div class="damages">
+    <div class="formulas">
+      <div class="title">Damage</div>
+      <div class="subtitle">
+        {{#each item.system.damage.parts}}
+        <div class="tag">{{formula}} {{type}}</div>
+        {{/each}}
+      </div>
+    </div>
+    <div class="bonuses">
+      {{#each item.system.damage.bonuses}}
+      {{#if value}}
+      <div class="tag">+{{value}}% {{@key}}</div>
+      {{/if}}
+      {{/each}}
+    </div>
+  </div>
+
+  <div class="attributes">
+    <div class="title">Attributes</div>
+    <div class="subtitle">
+      {{#each item.system.attributes.value}}
+      <div class="tag">{{this}}</div>
+      {{/each}}
+    </div>
+  </div>
+
+  <div class="stats">
+    <div class="stat price">
+      <div class="title">Price</div>
+      <div class="subtitle">{{item.system.price.value}}</div>
+    </div>
+
+    <div class="stat weight">
+      <div class="title">Weight</div>
+      <div class="subtitle">{{item.system.weight.value}}</div>
+    </div>
+  </div>
+
+</section>

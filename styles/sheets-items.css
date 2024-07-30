@@ -1,6 +1,5 @@
 .artichron.application.sheet.item {
 
-
   .tab.scrollable {
     padding-bottom: 3px;
 
@@ -81,6 +80,163 @@
 
       & img {
         border: none;
+      }
+    }
+  }
+}
+
+/* Item Tooltips */
+#tooltip.item-tooltip, .locked-tooltip.item-tooltip {
+  padding: 0;
+  box-shadow: 0 0 2px 2px black;
+
+  &.weapon > * {
+    display: grid;
+    grid-template-rows: 3fr 4fr;
+    width: 300px;
+
+    .item-banner {
+      position: relative;
+      height: 250px;
+      display: flex;
+      flex-direction: column;
+      background-color:  rgba(248, 151, 248, 0.63);
+      color: black;
+
+      .image {
+        position: absolute;
+        inset: 2px;
+        height: 60px;
+        border: none;
+        opacity: 0.75;
+      }
+
+      .name {
+        width: 100%;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        flex: 0 0 100px;
+        justify-content: center;
+        border-bottom: 2px dotted violet;
+
+        .title {
+          font-size: 24px;
+          line-height: 24px;
+        }
+
+        .subtitle {
+          font-size: 20px;
+          line-height: 24px;
+          opacity: 0.5;
+          font-style: italic;
+        }
+      }
+
+      .description {
+        flex: 1;
+        margin: 1rem 1rem 0 1rem;
+        font-style: italic;
+        font-family: "Amiri";
+      }
+    }
+
+    .item-details {
+      display: flex;
+      flex-direction: column;
+      background-color: rgba(0, 80, 172, 0.712);
+
+      .properties {
+        display: flex;
+        text-align: left;
+
+        .property {
+          flex: 1;
+          margin: 1rem;
+
+          .title {
+            text-transform: uppercase;
+            opacity: 0.8;
+            font-size: 14px;
+          }
+        }
+      }
+
+      .damages {
+        text-align: left;
+        margin: 1rem;
+
+        .formulas {
+          .title {
+            text-transform: uppercase;
+            opacity: 0.8;
+            font-size: 14px;
+          }
+
+          .subtitle {
+            display: flex;
+            gap: 0.5rem;
+
+            .tag {
+              border: 1px solid gray;
+              border-radius: 3px;
+              padding: 4px;
+              margin: 4px 0;
+              background-color: rgba(0, 0, 0, 0.3);
+            }
+          }
+        }
+
+        .bonuses {
+          display: flex;
+          gap: 0.5rem;
+
+          .tag {
+            border: 1px solid gray;
+            border-radius: 3px;
+            padding: 4px;
+            margin: 4px 0;
+            background-color: rgba(0, 0, 0, 0.3);
+          }
+        }
+      }
+
+      .attributes {
+        text-align: left;
+        margin: 1rem;
+
+        .title {
+          text-transform: uppercase;
+          opacity: 0.8;
+          font-size: 14px;
+        }
+
+        .subtitle {
+          display: flex;
+
+          .tag {
+            border: 1px solid gray;
+            border-radius: 3px;
+            padding: 4px;
+            margin: 4px 0;
+            background-color: rgba(0, 0, 0, 0.3);
+          }
+        }
+      }
+
+      .stats {
+        display: grid;
+        margin: 1rem;
+        grid-template-columns: repeat(2, 1fr);
+        text-align: left;
+
+        .stat {
+          .title {
+            text-transform: uppercase;
+            opacity: 0.8;
+            font-size: 14px;
+          }
+        }
       }
     }
   }
