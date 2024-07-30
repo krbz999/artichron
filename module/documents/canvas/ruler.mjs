@@ -41,9 +41,9 @@ export default class RulerArtichron extends CONFIG.Canvas.rulerClass {
       label += ` [${Math.round(this.totalDistance * 10) / 10}`;
       if (units) label += ` ${units}`;
       label += "]";
-      label += ` (${Math.ceil(this.totalCost * 10) / 10} AP)`;
+      if (this.token?.actor?.inCombat) label += ` (${Math.ceil(this.totalCost * 10) / 10} AP)`;
     } else {
-      label += ` (${Math.ceil(segment.cumulativeCost * 10) / 10} AP)`;
+      if (this.token?.actor?.inCombat) label += ` (${Math.ceil(segment.cumulativeCost * 10) / 10} AP)`;
     }
     return label;
   }
