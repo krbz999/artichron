@@ -4,7 +4,7 @@
 
   <div class="name">
     <span class="title">{{item.name}}</span>
-    <span class="subtitle">{{item.system.category.subtype}}</span>
+    <span class="subtitle">{{subtitle}}</span>
   </div>
 
   <div class="description">{{{enriched}}}</div>
@@ -15,8 +15,8 @@
 
   <div class="properties">
     <div class="property range reach">
-      <div class="title">Reach</div>
-      <div class="subtitle">{{item.system.range.reach}}m</div>
+      <div class="title">{{distance.title}}</div>
+      <div class="subtitle">{{distance.subtitle}}m</div>
     </div>
     <div class="property wielding">
       <div class="title">Wielding</div>
@@ -28,16 +28,14 @@
     <div class="formulas">
       <div class="title">Damage</div>
       <div class="subtitle">
-        {{#each item.system.damage.parts}}
-        <div class="tag">{{formula}} {{type}}</div>
+        {{#each damages}}
+        <div class="tag" style="color: #{{config.color}}">{{formula}} <i class="fa-fw {{config.icon}}"></i></div>
         {{/each}}
       </div>
     </div>
     <div class="bonuses">
-      {{#each item.system.damage.bonuses}}
-      {{#if value}}
-      <div class="tag">+{{value}}% {{@key}}</div>
-      {{/if}}
+      {{#each bonuses}}
+      <div class="tag" style="color: #{{config.color}}">+{{value}}% <i class="fa-fw {{config.icon}}"></i></div>
       {{/each}}
     </div>
   </div>
@@ -45,7 +43,7 @@
   <div class="attributes">
     <div class="title">Attributes</div>
     <div class="subtitle">
-      {{#each item.system.attributes.value}}
+      {{#each attributes}}
       <div class="tag">{{this}}</div>
       {{/each}}
     </div>

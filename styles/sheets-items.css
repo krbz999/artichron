@@ -88,20 +88,30 @@
 /* Item Tooltips */
 #tooltip.item-tooltip, .locked-tooltip.item-tooltip {
   padding: 0;
-  box-shadow: 0 0 2px 2px black;
+  box-shadow: 0 0 5px 2px rgb(53, 66, 110);
+  background-color: rgb(18, 10, 61);
+  --tooltip-gray: rgb(177, 177, 177);
 
   &.weapon > * {
-    display: grid;
-    grid-template-rows: 3fr 4fr;
+    display: flex;
+    flex-direction: column;
     width: 300px;
+
+    /* Minor override on regular backdrops */
+    &::before, &::after {
+      filter: brightness(2);
+      opacity: 0.75;
+    }
 
     .item-banner {
       position: relative;
-      height: 250px;
+      height: auto;
       display: flex;
       flex-direction: column;
-      background-color:  rgba(248, 151, 248, 0.63);
-      color: black;
+      color: var(--tooltip-gray);
+      border-bottom: 2px dotted rgb(53, 66, 110);
+      margin: 0 1rem;
+      flex: none;
 
       .image {
         position: absolute;
@@ -109,42 +119,53 @@
         height: 60px;
         border: none;
         opacity: 0.75;
+        display: none;
       }
 
       .name {
         width: 100%;
-        text-align: center;
+        text-align: left;
         display: flex;
         flex-direction: column;
-        flex: 0 0 100px;
-        justify-content: center;
-        border-bottom: 2px dotted violet;
+        height: calc(150px - 1rem);
+        justify-content: start;
+        padding-top: 1rem;
 
         .title {
-          font-size: 24px;
-          line-height: 24px;
+          font-size: 30px;
+          line-height: 30px;
+          color: rgb(162, 201, 230);
         }
 
         .subtitle {
-          font-size: 20px;
+          font-size: 18px;
           line-height: 24px;
-          opacity: 0.5;
+          color: rgba(177, 177, 177, 0.75);
           font-style: italic;
         }
       }
 
       .description {
-        flex: 1;
-        margin: 1rem 1rem 0 1rem;
+        flex: none;
+        margin: 0;
+        padding: 1rem 0;
         font-style: italic;
         font-family: "Amiri";
+        font-size: 14px;
+        -webkit-text-stroke-color: black;
+        -webkit-text-stroke-width: thin;
+        overflow: hidden auto;
+        min-height: 100px;
+        max-height: 200px;
       }
     }
 
     .item-details {
       display: flex;
       flex-direction: column;
-      background-color: rgba(0, 80, 172, 0.712);
+      justify-content: space-around;
+      margin: 1rem;
+      gap: 1rem;
 
       .properties {
         display: flex;
@@ -152,88 +173,94 @@
 
         .property {
           flex: 1;
-          margin: 1rem;
 
           .title {
             text-transform: uppercase;
-            opacity: 0.8;
             font-size: 14px;
+            color: var(--tooltip-gray);
           }
         }
       }
 
       .damages {
         text-align: left;
-        margin: 1rem;
 
         .formulas {
+          margin-bottom: 6px;
+
           .title {
             text-transform: uppercase;
-            opacity: 0.8;
+            color: var(--tooltip-gray);
             font-size: 14px;
+            margin-bottom: 4px;
           }
 
           .subtitle {
             display: flex;
-            gap: 0.5rem;
+            flex-wrap: wrap;
+            gap: 4px;
 
             .tag {
-              border: 1px solid gray;
+              border: 1px solid var(--tooltip-gray);
               border-radius: 3px;
-              padding: 4px;
-              margin: 4px 0;
+              padding: 2px 4px;
               background-color: rgba(0, 0, 0, 0.3);
+              white-space: nowrap;
+              font-size: 11px;
             }
           }
         }
 
         .bonuses {
           display: flex;
-          gap: 0.5rem;
+          flex-wrap: wrap;
+          gap: 4px;
 
           .tag {
-            border: 1px solid gray;
+            border: 1px solid var(--tooltip-gray);
             border-radius: 3px;
-            padding: 4px;
-            margin: 4px 0;
+            padding: 2px 4px;
             background-color: rgba(0, 0, 0, 0.3);
+            white-space: nowrap;
+            font-size: 10px;
           }
         }
       }
 
       .attributes {
         text-align: left;
-        margin: 1rem;
 
         .title {
           text-transform: uppercase;
-          opacity: 0.8;
+          color: var(--tooltip-gray);
           font-size: 14px;
         }
 
         .subtitle {
           display: flex;
+          flex-wrap: wrap;
+          gap: 4px;
 
           .tag {
-            border: 1px solid gray;
+            border: 1px solid var(--tooltip-gray);
             border-radius: 3px;
-            padding: 4px;
-            margin: 4px 0;
+            padding: 2px 4px;
             background-color: rgba(0, 0, 0, 0.3);
+            white-space: nowrap;
+            font-size: 12px;
           }
         }
       }
 
       .stats {
         display: grid;
-        margin: 1rem;
         grid-template-columns: repeat(2, 1fr);
         text-align: left;
 
         .stat {
           .title {
             text-transform: uppercase;
-            opacity: 0.8;
+            color: var(--tooltip-gray);
             font-size: 14px;
           }
         }

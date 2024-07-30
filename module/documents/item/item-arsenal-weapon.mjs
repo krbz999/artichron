@@ -148,11 +148,34 @@ export default class WeaponData extends ArsenalData {
   /** @override */
   async richTooltip() {
     const template = "systems/artichron/templates/item/tooltip-weapon.hbs";
+
+    const item = this.parent;
+    const rollData = this.parent.getRollData();
+
     const context = {
       item: this.parent,
       enriched: await TextEditor.enrichHTML(this.description.value, {
-        rollData: this.parent.getRollData(), relativeTo: this.parent
-      })
+        rollData: rollData, relativeTo: item
+      }),
+      subtitle: CONFIG.SYSTEM.WEAPON_TYPES[this.category.subtype].label,
+      distance: {
+        title: this.parent.isMelee ? "Reach" : "Range",
+        subtitle: this.parent.isMelee ? this.range.reach : this.range.value
+      },
+      damages: this._damages.map(k => {
+        return {
+          formula: Roll.replaceFormulaData(k.formula, rollData),
+          config: CONFIG.SYSTEM.DAMAGE_TYPES[k.type]
+        };
+      }),
+      bonuses: Object.entries(this.damage.bonuses).reduce((acc, [type, {value}]) => {
+        if (value) acc.push({
+          value: value,
+          config: CONFIG.SYSTEM.DAMAGE_TYPES[type]
+        });
+        return acc;
+      }, []),
+      attributes: this.attributes.value.map(k => CONFIG.SYSTEM.ITEM_ATTRIBUTES[k].label)
     };
 
     const div = document.createElement("DIV");
