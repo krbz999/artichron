@@ -25,7 +25,7 @@ export default class ArsenalData extends ItemSystemModel.mixin(
       }),
       range: new SchemaField({
         value: new NumberField({integer: true, min: 1, initial: 1}),
-        reach: new NumberField({integer: true, min: 0, initial: 0})
+        reach: new NumberField({integer: true, min: 1, initial: 1})
       }),
       targets: new SchemaField({
         value: new NumberField({integer: true, min: 1, initial: 1})

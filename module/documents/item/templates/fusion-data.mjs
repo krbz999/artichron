@@ -145,12 +145,12 @@ export const FusionTemplateMixin = Base => {
         if (value > 1) changes.push({key: `system.${path}`, mode: CONST.ACTIVE_EFFECT_MODES.UPGRADE, value: String(value)});
       }
 
-      // Half the source item's reach is added.
+      // Half the source item's reach is added. Since the minimum is 1, only anything beyond that value is added.
       path = "range.reach";
       ifield = item.system.schema.getField(path);
       sfield = source.system.schema.getField(path);
       if (ifield && sfield && item.isMelee && source.isMelee) {
-        const value = Math.ceil(foundry.utils.getProperty(source.system, path) / 2);
+        const value = Math.ceil((foundry.utils.getProperty(source.system, path) - 1) / 2);
         if (value) changes.push({key: `system.${path}`, mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: String(value)});
       }
 
