@@ -51,7 +51,7 @@
     },
     "range": {
       "value": 1,
-      "reach": 0
+      "reach": 1
     },
     "targets": {
       "value": 1

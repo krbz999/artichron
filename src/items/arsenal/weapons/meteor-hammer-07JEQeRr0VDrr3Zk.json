@@ -24,25 +24,25 @@
       ],
       "bonuses": {
         "fire": {
-          "value": 0
+          "value": null
         },
         "wind": {
-          "value": 0
+          "value": null
         },
         "lightning": {
-          "value": 0
+          "value": null
         },
         "ice": {
-          "value": 0
+          "value": null
         },
         "light": {
-          "value": 0
+          "value": null
         },
         "darkness": {
-          "value": 0
+          "value": null
         },
         "arcane": {
-          "value": 0
+          "value": null
         }
       }
     },
@@ -51,7 +51,7 @@
     },
     "range": {
       "value": 3,
-      "reach": 0
+      "reach": 2
     },
     "targets": {
       "value": 1
@@ -65,7 +65,7 @@
       ]
     },
     "cost": {
-      "value": 1
+      "value": 2
     },
     "fusion": {
       "max": 1

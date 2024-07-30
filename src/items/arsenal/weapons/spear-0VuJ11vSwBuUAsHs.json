@@ -51,7 +51,7 @@
     },
     "range": {
       "value": 2,
-      "reach": 0
+      "reach": 2
     },
     "targets": {
       "value": 1
@@ -63,7 +63,7 @@
       "value": []
     },
     "cost": {
-      "value": 1
+      "value": 2
     },
     "fusion": {
       "max": 1
