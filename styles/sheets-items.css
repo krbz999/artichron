@@ -92,7 +92,7 @@
   background-color: rgb(18, 10, 61);
   --tooltip-gray: rgb(177, 177, 177);
 
-  .weapon, .shield, .armor, .elixir, .part {
+  .weapon, .shield, .armor, .elixir, .part, .spell {
     display: flex;
     flex-direction: column;
     width: 300px;

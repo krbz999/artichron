@@ -63,6 +63,17 @@
   </div>
   {{/if}}
 
+  {{#if targets.length}}
+  <div class="targets">
+    <div class="title">Targets</div>
+    <div class="tags-wrapper">
+      {{#each targets}}
+      <div class="tag">{{label}}</div>
+      {{/each}}
+    </div>
+  </div>
+  {{/if}}
+
   {{#if properties.length}}
   <div class="properties" style="--length: {{properties.length}};">
     {{#each properties}}
