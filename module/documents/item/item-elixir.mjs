@@ -34,6 +34,8 @@ export default class ElixirData extends ItemSystemModel {
   }
 
   /* -------------------------------------------------- */
+  /*   Properties                                       */
+  /* -------------------------------------------------- */
 
   /** @override */
   static get BONUS_FIELDS() {
@@ -41,6 +43,8 @@ export default class ElixirData extends ItemSystemModel {
     bonus.add("system.usage.max");
     return bonus;
   }
+
+  /* -------------------------------------------------- */
 
   /** @override */
   static LOCALIZATION_PREFIXES = [
@@ -50,12 +54,75 @@ export default class ElixirData extends ItemSystemModel {
 
   /* -------------------------------------------------- */
 
+  /**
+   * Does this item have a limited number of uses remaining?
+   * @type {boolean}
+   */
+  get hasUses() {
+    const use = this.usage;
+    const qty = this.quantity;
+    return (use.value > 0) && (use.max > 0) && (qty.value > 0);
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * The effects that can be transferred to the actor when this item is used.
+   * @type {ActiveEffectArtichron[]}
+   */
+  get transferrableEffects() {
+    return this.parent.effects.filter(e => !e.transfer);
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Does this item have any effects that can be transferred to the actor when this item is used?
+   * @type {boolean}
+   */
+  get hasTransferrableEffects() {
+    return this.hasUses && (this.transferrableEffects.length > 0);
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Is this a boosting elixir?
+   * @type {boolean}
+   */
+  get isBoostElixir() {
+    return this.category.subtype === "booster";
+  }
+
+  /* -------------------------------------------------- */
+  /*   Life-cycle methods                               */
+  /* -------------------------------------------------- */
+
+  /** @override */
+  async _preUpdate(change, options, user) {
+    const allowed = await super._preUpdate(change, options, user);
+    if (allowed === false) return false;
+
+    // Allow for updating usage.value directly.
+    const usage = change.system?.usage ?? {};
+    if (("value" in usage) && !("spent" in usage)) {
+      const max = usage.max ?? this.usage.max;
+      usage.spent = Math.clamp(max - usage.value, 0, max);
+    }
+  }
+
+  /* -------------------------------------------------- */
+  /*   Data preparation                                 */
+  /* -------------------------------------------------- */
+
   /** @override */
   prepareDerivedData() {
     super.prepareDerivedData();
     this.usage.value = Math.max(0, this.usage.max - this.usage.spent);
   }
 
+  /* -------------------------------------------------- */
+  /*   Instance methods                                 */
   /* -------------------------------------------------- */
 
   /** @override */
@@ -203,48 +270,6 @@ export default class ElixirData extends ItemSystemModel {
       update["system.usage.spent"] = spent;
     }
     return update;
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Does this item have a limited number of uses remaining?
-   * @type {boolean}
-   */
-  get hasUses() {
-    const use = this.usage;
-    const qty = this.quantity;
-    return (use.value > 0) && (use.max > 0) && (qty.value > 0);
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * The effects that can be transferred to the actor when this item is used.
-   * @type {ActiveEffectArtichron[]}
-   */
-  get transferrableEffects() {
-    return this.parent.effects.filter(e => !e.transfer);
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Does this item have any effects that can be transferred to the actor when this item is used?
-   * @type {boolean}
-   */
-  get hasTransferrableEffects() {
-    return this.hasUses && (this.transferrableEffects.length > 0);
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Is this a boosting elixir?
-   * @type {boolean}
-   */
-  get isBoostElixir() {
-    return this.category.subtype === "booster";
   }
 
   /* -------------------------------------------------- */
