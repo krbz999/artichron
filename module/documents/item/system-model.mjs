@@ -119,21 +119,93 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
   }
 
   /* -------------------------------------------------- */
+  /*   Tooltips                                         */
+  /* -------------------------------------------------- */
 
   /**
    * Create data for an enriched tooltip.
-   * @returns {Promise<{content: HTMLElement, classes: string[]}>}
+   * @returns {Promise<HTMLElement>}
    */
   async richTooltip() {
-    const rollData = this.parent.getRollData();
-
+    const template = "systems/artichron/templates/item/tooltip.hbs";
+    const context = await this._prepareTooltipContext();
     const div = document.createElement("DIV");
-    const enriched = await TextEditor.enrichHTML(this.description.value, {
+    div.innerHTML = await renderTemplate(template, context);
+    div.classList.add(this.parent.type);
+    return div;
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Prepare context object for this item's tooltip.
+   * @returns {Promise<object>}
+   */
+  async _prepareTooltipContext() {
+    const item = this.parent;
+    const rollData = this.parent.getRollData();
+    const description = await TextEditor.enrichHTML(this.description.value, {rollData: rollData, relativeTo: item});
+    const subtype = this.schema.getField("category.subtype").choices[this.category.subtype].label;
+
+    const context = {
+      item: item,
       rollData: rollData,
-      relativeTo: this.parent
-    });
-    div.insertAdjacentHTML("beforeend", `<div class="description">${enriched}</div>`);
-    return {content: div, classes: ["item-tooltip"]};
+      description: description,
+      subtitle: `${game.i18n.localize(`TYPES.Item.${this.parent.type}`)}, ${subtype}`,
+      tags: this._prepareTooltipTags(),
+      properties: this._prepareTooltipProperties()
+    };
+
+    return context;
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Prepare tags for item tooltips.
+   * @returns {object[]}
+   */
+  _prepareTooltipTags() {
+    const tags = [];
+
+    if (this.parent.isArsenal) {
+      if (this.parent.isMelee) tags.push({label: "Melee"});
+      else tags.push({label: "Ranged"});
+
+      if (this.wield.value === 1) tags.push({label: "One-Handed"});
+      else tags.push({label: "Two-Handed"});
+    }
+
+    for (const attribute of this.attributes.value) {
+      const label = CONFIG.SYSTEM.ITEM_ATTRIBUTES[attribute]?.label;
+      if (label) tags.push({label: label});
+    }
+
+    return tags;
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Prepare properties for item tooltips.
+   * @returns {object[]}
+   */
+  _prepareTooltipProperties() {
+    const props = [];
+
+    props.push({title: "Price", label: this.price.value ?? 0, icon: "fa-solid fa-sack-dollar"});
+    props.push({title: "Weight", label: this.weight.total, icon: "fa-solid fa-weight-hanging"});
+
+    if (this.schema.has("quantity")) {
+      props.push({title: "Quantity", label: this.quantity.value ?? 0, icon: "fa-solid fa-cubes-stacked"});
+    }
+
+    if (this.parent.isArsenal) {
+      if (this.parent.isMelee) props.push({title: "Reach", label: `${this.range.reach}m`, icon: "fa-solid fa-bullseye"});
+      else props.push({title: "Range", label: `${this.range.value}m`, icon: "fa-solid fa-bullseye"});
+    }
+
+    return props;
   }
 
   /* -------------------------------------------------- */

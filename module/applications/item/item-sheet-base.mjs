@@ -264,7 +264,7 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
     // Healing elixir.
     if (this.document.type === "elixir") {
       const c = this.document.system.category;
-      if ((c.subtype === "restorative") && (c.pool === "health")) {
+      if (c.subtype === "restorative") {
         context.healing = {
           field: this.document.system.schema.getField("healing.formula"),
           value: this.document.system.healing.formula

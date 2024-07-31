@@ -142,4 +142,30 @@ export default class WeaponData extends ArsenalData {
     const origin = this.parent.token;
     return this.constructor.createBlastZone(origin, target, {type, size});
   }
+
+  /* -------------------------------------------------- */
+  /*   Tooltips                                         */
+  /* -------------------------------------------------- */
+
+  /** @override */
+  async _prepareTooltipContext() {
+    const context = await super._prepareTooltipContext();
+
+    context.damages = this._damages.map(k => {
+      return {
+        formula: Roll.create(k.formula, context.rollData).formula,
+        config: CONFIG.SYSTEM.DAMAGE_TYPES[k.type]
+      };
+    });
+
+    context.bonuses = Object.entries(this.damage.bonuses).reduce((acc, [type, {value}]) => {
+      if (value) acc.push({
+        value: value,
+        config: CONFIG.SYSTEM.DAMAGE_TYPES[type]
+      });
+      return acc;
+    }, []);
+
+    return context;
+  }
 }

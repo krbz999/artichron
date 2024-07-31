@@ -92,4 +92,38 @@ export default class ShieldData extends ArsenalData {
 
     return ChatMessage.implementation.create(messageData);
   }
+
+  /* -------------------------------------------------- */
+  /*   Tooltips                                         */
+  /* -------------------------------------------------- */
+
+  /** @override */
+  async _prepareTooltipContext() {
+    const context = await super._prepareTooltipContext();
+
+    context.damages = this._damages.map(k => {
+      return {
+        formula: Roll.create(k.formula, context.rollData).formula,
+        config: CONFIG.SYSTEM.DAMAGE_TYPES[k.type]
+      };
+    });
+    context.bonuses = Object.entries(this.damage.bonuses).reduce((acc, [type, {value}]) => {
+      if (value) acc.push({
+        value: value,
+        config: CONFIG.SYSTEM.DAMAGE_TYPES[type]
+      });
+      return acc;
+    }, []);
+
+    return context;
+  }
+
+  /* -------------------------------------------------- */
+
+  /** @override */
+  _prepareTooltipProperties() {
+    const props = [];
+    props.push({title: "Armor", label: this.armor.value ?? 0, icon: "fa-solid fa-shield"});
+    return props;
+  }
 }

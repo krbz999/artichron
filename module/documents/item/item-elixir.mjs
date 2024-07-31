@@ -246,4 +246,32 @@ export default class ElixirData extends ItemSystemModel {
   get isBoostElixir() {
     return this.category.subtype === "booster";
   }
+
+  /* -------------------------------------------------- */
+  /*   Tooltips                                         */
+  /* -------------------------------------------------- */
+
+  /** @override */
+  async _prepareTooltipContext() {
+    const context = await super._prepareTooltipContext();
+
+    if (this.category.subtype === "restorative") {
+      context.healing = {
+        formula: this.healing.formula,
+        icon: "fa-solid fa-staff-snake",
+        color: "438364"
+      };
+    }
+
+    return context;
+  }
+
+  /* -------------------------------------------------- */
+
+  /** @override */
+  _prepareTooltipProperties() {
+    const props = super._prepareTooltipProperties();
+    props.push({title: "Uses", label: `${this.usage.value}/${this.usage.max}`, icon: "fa-solid fa-flask"});
+    return props;
+  }
 }

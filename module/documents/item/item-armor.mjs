@@ -52,4 +52,32 @@ export default class ArmorData extends FusionTemplateMixin(ItemSystemModel) {
     ...super.LOCALIZATION_PREFIXES,
     "ARTICHRON.ItemProperty.ArmorProperty"
   ];
+
+  /* -------------------------------------------------- */
+  /*   Tooltips                                         */
+  /* -------------------------------------------------- */
+
+  /** @override */
+  async _prepareTooltipContext() {
+    const context = await super._prepareTooltipContext();
+
+    context.resistances = Object.entries(this.resistances).reduce((acc, [type, {value}]) => {
+      if (value) acc.push({
+        value: value,
+        config: CONFIG.SYSTEM.DAMAGE_TYPES[type]
+      });
+      return acc;
+    }, []);
+
+    return context;
+  }
+
+  /* -------------------------------------------------- */
+
+  /** @override */
+  _prepareTooltipProperties() {
+    const props = super._prepareTooltipProperties();
+    props.push({title: "Armor", label: this.armor.value ?? 0, icon: "fa-solid fa-shield"});
+    return props;
+  }
 }

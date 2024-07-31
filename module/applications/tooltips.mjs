@@ -78,10 +78,10 @@ export default class TooltipsArtichron {
    * @param {ItemArtichron} item      The item.
    */
   async _onHoverItem(item) {
-    const {content, classes} = await (item.system.richTooltip?.() ?? {});
+    const content = await (item.system.richTooltip?.() ?? {});
     if (!content) return;
-    this.tooltip.innerHTML = content.outerHTML;
-    classes?.forEach(c => this.tooltip.classList.add(c));
+    this.tooltip.replaceChildren(content);
+    this.tooltip.classList.add("item-tooltip");
     requestAnimationFrame(() => this._positionItemTooltip("RIGHT"));
   }
 

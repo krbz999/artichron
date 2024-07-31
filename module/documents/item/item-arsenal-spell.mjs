@@ -199,4 +199,46 @@ export default class SpellData extends ArsenalData {
   get hasTemplate() {
     return this.template.types.size > 0;
   }
+
+  /* -------------------------------------------------- */
+
+  /** @override */
+  get _damages() {
+    if (this.category.subtype !== "offense") return [];
+    return super._damages;
+  }
+
+  /* -------------------------------------------------- */
+  /*   Tooltips                                         */
+  /* -------------------------------------------------- */
+
+  /** @override */
+  async _prepareTooltipContext() {
+    const context = await super._prepareTooltipContext();
+
+    if (this.category.subtype === "offense") {
+      context.damages = this._damages.map(k => {
+        return {
+          formula: Roll.create(k.formula, context.rollData).formula,
+          config: CONFIG.SYSTEM.DAMAGE_TYPES[k.type]
+        };
+      });
+
+      context.bonuses = Object.entries(this.damage.bonuses).reduce((acc, [type, {value}]) => {
+        if (value) acc.push({
+          value: value,
+          config: CONFIG.SYSTEM.DAMAGE_TYPES[type]
+        });
+        return acc;
+      }, []);
+    }
+
+    context.targets = this.template.types.reduce((acc, type) => {
+      const label = CONFIG.SYSTEM.AREA_TARGET_TYPES[type]?.label;
+      if (label) acc.push({label: label});
+      return acc;
+    }, []);
+
+    return context;
+  }
 }
