@@ -203,73 +203,44 @@ export default class SpellData extends ArsenalData {
   /* -------------------------------------------------- */
 
   /** @override */
-  async richTooltip() {
-    const template = "systems/artichron/templates/item/tooltip.hbs";
+  get _damages() {
+    if (this.category.subtype !== "offense") return [];
+    return super._damages;
+  }
 
-    const item = this.parent;
-    const rollData = this.parent.getRollData();
+  /* -------------------------------------------------- */
+  /*   Tooltips                                         */
+  /* -------------------------------------------------- */
 
-    const context = {
-      item: this.parent,
-      enriched: await TextEditor.enrichHTML(this.description.value, {
-        rollData: rollData, relativeTo: item
-      }),
-      subtitle: `${game.i18n.localize("TYPES.Item.spell")}, ${CONFIG.SYSTEM.SPELL_TYPES[this.category.subtype].label}`,
-      damages: (this.category.subtype === "offense") ? this._damages.map(k => {
+  /** @override */
+  async _prepareTooltipContext() {
+    const context = await super._prepareTooltipContext();
+
+    context.subtitle = `${game.i18n.localize("TYPES.Item.spell")}, ${CONFIG.SYSTEM.SPELL_TYPES[this.category.subtype].label}`;
+
+    if (this.category.subtype === "offense") {
+      context.damages = this._damages.map(k => {
         return {
-          formula: Roll.create(k.formula, rollData).formula,
+          formula: Roll.create(k.formula, context.rollData).formula,
           config: CONFIG.SYSTEM.DAMAGE_TYPES[k.type]
         };
-      }) : null,
-      bonuses: (this.category.subtype === "offense") ? Object.entries(this.damage.bonuses).reduce((acc, [type, {value}]) => {
+      });
+
+      context.bonuses = Object.entries(this.damage.bonuses).reduce((acc, [type, {value}]) => {
         if (value) acc.push({
           value: value,
           config: CONFIG.SYSTEM.DAMAGE_TYPES[type]
         });
         return acc;
-      }, []) : null,
-      targets: this.template.types.reduce((acc, type) => {
-        const label = CONFIG.SYSTEM.AREA_TARGET_TYPES[type]?.label;
-        if (label) acc.push({label: label});
-        return acc;
-      }, []),
-      tags: this.#tooltipTags(),
-      properties: this.#tooltipProps()
-    };
-
-    const div = document.createElement("DIV");
-    div.innerHTML = await renderTemplate(template, context);
-    div.classList.add("spell");
-
-    return div;
-  }
-
-  #tooltipTags() {
-    const tags = [];
-
-    if (this.parent.isMelee) tags.push({label: "Melee"});
-    else tags.push({label: "Ranged"});
-
-    if (this.wield.value === 1) tags.push({label: "One-Handed"});
-    else tags.push({label: "Two-Handed"});
-
-    for (const attribute of this.attributes.value) {
-      const label = CONFIG.SYSTEM.ITEM_ATTRIBUTES[attribute]?.label;
-      if (label) tags.push({label: label});
+      }, []);
     }
 
-    return tags;
-  }
+    context.targets = this.template.types.reduce((acc, type) => {
+      const label = CONFIG.SYSTEM.AREA_TARGET_TYPES[type]?.label;
+      if (label) acc.push({label: label});
+      return acc;
+    }, []);
 
-  #tooltipProps() {
-    const props = [];
-
-    props.push({title: "Price", label: this.price.value ?? 0, icon: "fa-solid fa-sack-dollar"});
-    props.push({title: "Weight", label: this.weight.total, icon: "fa-solid fa-weight-hanging"});
-
-    if (this.parent.isMelee) props.push({title: "Reach", label: `${this.range.reach}m`, icon: "fa-solid fa-bullseye"});
-    else props.push({title: "Range", label: `${this.range.value}m`, icon: "fa-solid fa-bullseye"});
-
-    return props;
+    return context;
   }
 }

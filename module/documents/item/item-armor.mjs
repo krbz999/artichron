@@ -54,56 +54,32 @@ export default class ArmorData extends FusionTemplateMixin(ItemSystemModel) {
   ];
 
   /* -------------------------------------------------- */
+  /*   Tooltips                                         */
+  /* -------------------------------------------------- */
 
   /** @override */
-  async richTooltip() {
-    const template = "systems/artichron/templates/item/tooltip.hbs";
+  async _prepareTooltipContext() {
+    const context = await super._prepareTooltipContext();
 
-    const item = this.parent;
-    const rollData = this.parent.getRollData();
+    context.subtitle = `${game.i18n.localize("TYPES.Item.armor")}, ${CONFIG.SYSTEM.EQUIPMENT_TYPES[this.category.subtype].label}`;
 
-    const context = {
-      item: this.parent,
-      enriched: await TextEditor.enrichHTML(this.description.value, {
-        rollData: rollData, relativeTo: item
-      }),
-      subtitle: `${game.i18n.localize("TYPES.Item.armor")}, ${CONFIG.SYSTEM.EQUIPMENT_TYPES[this.category.subtype].label}`,
-      resistances: Object.entries(this.resistances).reduce((acc, [type, {value}]) => {
-        if (value) acc.push({
-          value: value,
-          config: CONFIG.SYSTEM.DAMAGE_TYPES[type]
-        });
-        return acc;
-      }, []),
-      tags: this.#tooltipTags(),
-      properties: this.#tooltipProps()
-    };
+    context.resistances = Object.entries(this.resistances).reduce((acc, [type, {value}]) => {
+      if (value) acc.push({
+        value: value,
+        config: CONFIG.SYSTEM.DAMAGE_TYPES[type]
+      });
+      return acc;
+    }, []);
 
-    const div = document.createElement("DIV");
-    div.innerHTML = await renderTemplate(template, context);
-    div.classList.add("armor");
-
-    return div;
+    return context;
   }
 
-  #tooltipTags() {
-    const tags = [];
+  /* -------------------------------------------------- */
 
-    for (const attribute of this.attributes.value) {
-      const label = CONFIG.SYSTEM.ITEM_ATTRIBUTES[attribute]?.label;
-      if (label) tags.push({label: label});
-    }
-
-    return tags;
-  }
-
-  #tooltipProps() {
-    const props = [];
-
-    props.push({title: "Price", label: this.price.value ?? 0, icon: "fa-solid fa-sack-dollar"});
-    props.push({title: "Weight", label: this.weight.total, icon: "fa-solid fa-weight-hanging"});
+  /** @override */
+  _prepareTooltipProperties() {
+    const props = super._prepareTooltipProperties();
     props.push({title: "Armor", label: this.armor.value ?? 0, icon: "fa-solid fa-shield"});
-
     return props;
   }
 }
