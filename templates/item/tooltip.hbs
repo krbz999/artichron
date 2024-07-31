@@ -13,30 +13,48 @@
 
 <section class="item-details">
 
+  {{#if tags.length}}
   <div class="tags">
-    <div class="subtitle">
+    <div class="tags-wrapper">
       {{#each tags}}
       <div class="tag">{{label}}</div>
       {{/each}}
     </div>
   </div>
+  {{/if}}
 
+  {{#if damages}}
   <div class="damages">
     <div class="formulas">
       <div class="title">Damage</div>
-      <div class="subtitle">
+      <div class="tags-wrapper">
         {{#each damages}}
         <div class="tag" style="color: #{{config.color}}">{{formula}} <i class="fa-fw {{config.icon}}"></i></div>
         {{/each}}
       </div>
     </div>
-    <div class="bonuses">
+    {{#if bonuses.length}}
+    <div class="tags-wrapper">
       {{#each bonuses}}
       <div class="tag" style="color: #{{config.color}}">+{{value}}% <i class="fa-fw {{config.icon}}"></i></div>
       {{/each}}
     </div>
+    {{/if}}
   </div>
+  {{/if}}
 
+  {{#if resistances.length}}
+  <div class="resistances">
+    <div class="title">Resistances</div>
+    <div class="tags-wrapper">
+      {{#each resistances}}
+      <div class="tag" style="color: #{{config.color}}">{{value}} <i class="fa-fw {{config.icon}}"></i></div>
+      {{/each}}
+    </div>
+  </div>
+  {{/if}}
+
+  {{#if properties.length}}
   <div class="properties" style="--length: {{properties.length}};">
     {{#each properties}}
     <div class="property">
@@ -45,5 +63,6 @@
     </div>
     {{/each}}
   </div>
+  {{/if}}
 
 </section>

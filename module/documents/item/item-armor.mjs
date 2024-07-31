@@ -52,4 +52,58 @@ export default class ArmorData extends FusionTemplateMixin(ItemSystemModel) {
     ...super.LOCALIZATION_PREFIXES,
     "ARTICHRON.ItemProperty.ArmorProperty"
   ];
+
+  /* -------------------------------------------------- */
+
+  /** @override */
+  async richTooltip() {
+    const template = "systems/artichron/templates/item/tooltip.hbs";
+
+    const item = this.parent;
+    const rollData = this.parent.getRollData();
+
+    const context = {
+      item: this.parent,
+      enriched: await TextEditor.enrichHTML(this.description.value, {
+        rollData: rollData, relativeTo: item
+      }),
+      subtitle: `${game.i18n.localize("TYPES.Item.armor")}, ${CONFIG.SYSTEM.EQUIPMENT_TYPES[this.category.subtype].label}`,
+      resistances: Object.entries(this.resistances).reduce((acc, [type, {value}]) => {
+        if (value) acc.push({
+          value: value,
+          config: CONFIG.SYSTEM.DAMAGE_TYPES[type]
+        });
+        return acc;
+      }, []),
+      tags: this.#tooltipTags(),
+      properties: this.#tooltipProps()
+    };
+
+    const div = document.createElement("DIV");
+    div.innerHTML = await renderTemplate(template, context);
+    div.classList.add("armor");
+
+    return div;
+  }
+
+  #tooltipTags() {
+    const tags = [];
+
+    for (const attribute of this.attributes.value) {
+      const label = CONFIG.SYSTEM.ITEM_ATTRIBUTES[attribute]?.label;
+      if (label) tags.push({label: label});
+    }
+
+    return tags;
+  }
+
+  #tooltipProps() {
+    const props = [];
+
+    props.push({title: "Price", label: this.price.value, icon: "fa-solid fa-sack-dollar"});
+    props.push({title: "Weight", label: this.weight.value, icon: "fa-solid fa-weight-hanging"});
+    props.push({title: "Armor", label: this.armor.value, icon: "fa-solid fa-shield"});
+
+    return props;
+  }
 }
