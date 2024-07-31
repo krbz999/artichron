@@ -163,10 +163,11 @@
     .item-details {
       display: flex;
       flex-direction: column;
-      justify-content: space-around;
+      justify-content: end;
       margin: 1rem;
       gap: 1rem;
       text-align: left;
+      min-height: 125px;
 
       .title {
         text-transform: uppercase;
