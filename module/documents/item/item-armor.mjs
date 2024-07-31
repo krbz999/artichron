@@ -100,9 +100,9 @@ export default class ArmorData extends FusionTemplateMixin(ItemSystemModel) {
   #tooltipProps() {
     const props = [];
 
-    props.push({title: "Price", label: this.price.value, icon: "fa-solid fa-sack-dollar"});
+    props.push({title: "Price", label: this.price.value ?? 0, icon: "fa-solid fa-sack-dollar"});
     props.push({title: "Weight", label: this.weight.total, icon: "fa-solid fa-weight-hanging"});
-    props.push({title: "Armor", label: this.armor.value, icon: "fa-solid fa-shield"});
+    props.push({title: "Armor", label: this.armor.value ?? 0, icon: "fa-solid fa-shield"});
 
     return props;
   }

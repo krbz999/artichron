@@ -202,7 +202,7 @@ export default class WeaponData extends ArsenalData {
   #tooltipProps() {
     const props = [];
 
-    props.push({title: "Price", label: this.price.value, icon: "fa-solid fa-sack-dollar"});
+    props.push({title: "Price", label: this.price.value ?? 0, icon: "fa-solid fa-sack-dollar"});
     props.push({title: "Weight", label: this.weight.total, icon: "fa-solid fa-weight-hanging"});
 
     if (this.parent.isMelee) props.push({title: "Reach", label: `${this.range.reach}m`, icon: "fa-solid fa-bullseye"});
