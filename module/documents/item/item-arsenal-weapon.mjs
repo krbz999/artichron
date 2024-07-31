@@ -147,7 +147,7 @@ export default class WeaponData extends ArsenalData {
 
   /** @override */
   async richTooltip() {
-    const template = "systems/artichron/templates/item/tooltip-weapon.hbs";
+    const template = "systems/artichron/templates/item/tooltip.hbs";
 
     const item = this.parent;
     const rollData = this.parent.getRollData();

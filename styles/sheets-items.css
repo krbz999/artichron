@@ -92,7 +92,7 @@
   background-color: rgb(18, 10, 61);
   --tooltip-gray: rgb(177, 177, 177);
 
-  .weapon {
+  .weapon, .shield {
     display: flex;
     flex-direction: column;
     width: 300px;
