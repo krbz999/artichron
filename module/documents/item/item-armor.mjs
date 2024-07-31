@@ -101,7 +101,7 @@ export default class ArmorData extends FusionTemplateMixin(ItemSystemModel) {
     const props = [];
 
     props.push({title: "Price", label: this.price.value, icon: "fa-solid fa-sack-dollar"});
-    props.push({title: "Weight", label: this.weight.value, icon: "fa-solid fa-weight-hanging"});
+    props.push({title: "Weight", label: this.weight.total, icon: "fa-solid fa-weight-hanging"});
     props.push({title: "Armor", label: this.armor.value, icon: "fa-solid fa-shield"});
 
     return props;

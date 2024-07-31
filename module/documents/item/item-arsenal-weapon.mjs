@@ -203,7 +203,7 @@ export default class WeaponData extends ArsenalData {
     const props = [];
 
     props.push({title: "Price", label: this.price.value, icon: "fa-solid fa-sack-dollar"});
-    props.push({title: "Weight", label: this.weight.value, icon: "fa-solid fa-weight-hanging"});
+    props.push({title: "Weight", label: this.weight.total, icon: "fa-solid fa-weight-hanging"});
 
     if (this.parent.isMelee) props.push({title: "Reach", label: `${this.range.reach}m`, icon: "fa-solid fa-bullseye"});
     else props.push({title: "Range", label: `${this.range.value}m`, icon: "fa-solid fa-bullseye"});
