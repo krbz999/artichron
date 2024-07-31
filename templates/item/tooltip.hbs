@@ -23,6 +23,15 @@
   </div>
   {{/if}}
 
+  {{#if healing}}
+  <div class="healing">
+    <div class="title">Healing</div>
+    <div class="tags-wrapper">
+      <div class="tag" style="color: #{{healing.color}};">{{healing.formula}} <i class="fa-fw {{healing.icon}}"></i></div>
+    </div>
+  </div>
+  {{/if}}
+
   {{#if damages}}
   <div class="damages">
     <div class="formulas">

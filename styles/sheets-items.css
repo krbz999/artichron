@@ -92,7 +92,7 @@
   background-color: rgb(18, 10, 61);
   --tooltip-gray: rgb(177, 177, 177);
 
-  .weapon, .shield, .armor {
+  .weapon, .shield, .armor, .elixir {
     display: flex;
     flex-direction: column;
     width: 300px;
@@ -163,7 +163,7 @@
     .item-details {
       display: flex;
       flex-direction: column;
-      justify-content: end;
+      justify-content: space-between;
       margin: 1rem;
       gap: 1rem;
       text-align: left;
@@ -194,6 +194,7 @@
       .properties {
         display: grid;
         grid-template-columns: repeat(var(--length), 1fr);
+        margin-top: auto;
 
         .property {
           .subtitle {
