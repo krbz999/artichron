@@ -13,14 +13,11 @@
 
 <section class="item-details">
 
-  <div class="properties">
-    <div class="property range reach">
-      <div class="title">{{distance.title}}</div>
-      <div class="subtitle">{{distance.subtitle}}m</div>
-    </div>
-    <div class="property wielding">
-      <div class="title">Wielding</div>
-      <div class="subtitle">{{item.system.wield.value}}-Handed</div>
+  <div class="tags">
+    <div class="subtitle">
+      {{#each tags}}
+      <div class="tag">{{label}}</div>
+      {{/each}}
     </div>
   </div>
 
@@ -40,25 +37,13 @@
     </div>
   </div>
 
-  <div class="attributes">
-    <div class="title">Attributes</div>
-    <div class="subtitle">
-      {{#each attributes}}
-      <div class="tag">{{this}}</div>
-      {{/each}}
+  <div class="properties" style="--length: {{properties.length}};">
+    {{#each properties}}
+    <div class="property">
+      <div class="title">{{title}}</div>
+      <div class="subtitle">{{label}} <i class="fa-fw {{icon}}"></i></div>
     </div>
-  </div>
-
-  <div class="stats">
-    <div class="stat price">
-      <div class="title">Price</div>
-      <div class="subtitle">{{item.system.price.value}}</div>
-    </div>
-
-    <div class="stat weight">
-      <div class="title">Weight</div>
-      <div class="subtitle">{{item.system.weight.value}}</div>
-    </div>
+    {{/each}}
   </div>
 
 </section>

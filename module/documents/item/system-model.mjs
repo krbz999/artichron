@@ -122,7 +122,7 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
 
   /**
    * Create data for an enriched tooltip.
-   * @returns {Promise<{content: HTMLElement, classes: string[]}>}
+   * @returns {Promise<HTMLElement>}
    */
   async richTooltip() {
     const rollData = this.parent.getRollData();
@@ -133,7 +133,7 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
       relativeTo: this.parent
     });
     div.insertAdjacentHTML("beforeend", `<div class="description">${enriched}</div>`);
-    return {content: div, classes: ["item-tooltip"]};
+    return div;
   }
 
   /* -------------------------------------------------- */

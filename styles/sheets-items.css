@@ -92,7 +92,7 @@
   background-color: rgb(18, 10, 61);
   --tooltip-gray: rgb(177, 177, 177);
 
-  &.weapon > * {
+  .weapon {
     display: flex;
     flex-direction: column;
     width: 300px;
@@ -167,21 +167,6 @@
       margin: 1rem;
       gap: 1rem;
 
-      .properties {
-        display: flex;
-        text-align: left;
-
-        .property {
-          flex: 1;
-
-          .title {
-            text-transform: uppercase;
-            font-size: 14px;
-            color: var(--tooltip-gray);
-          }
-        }
-      }
-
       .damages {
         text-align: left;
 
@@ -227,7 +212,7 @@
         }
       }
 
-      .attributes {
+      .tags {
         text-align: left;
 
         .title {
@@ -252,16 +237,22 @@
         }
       }
 
-      .stats {
+      .properties {
         display: grid;
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(var(--length), 1fr);
         text-align: left;
 
-        .stat {
+        .property {
           .title {
             text-transform: uppercase;
             color: var(--tooltip-gray);
             font-size: 14px;
+          }
+
+          .subtitle {
+            font-size: 14px;
+            margin-left: 4px;
+            margin-top: 4px;
           }
         }
       }
