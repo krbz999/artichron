@@ -81,7 +81,7 @@ export default class TooltipsArtichron {
     const content = await (item.system.richTooltip?.() ?? {});
     if (!content) return;
     this.tooltip.replaceChildren(content);
-    this.tooltip.classList.add("item-tooltip");
+    this.tooltip.classList.add("artichron", "item-tooltip");
     requestAnimationFrame(() => this._positionItemTooltip("RIGHT"));
   }
 

@@ -64,6 +64,8 @@ dialog:-internal-dialog-in-top-layer::backdrop {
   }
 }
 
+/* ---------------------------------------- */
+
 /* System application backdrops */
 .application.artichron .window-content,
 #tooltip.item-tooltip > *,
@@ -97,6 +99,9 @@ dialog:-internal-dialog-in-top-layer::backdrop {
   }
 }
 
+/* ---------------------------------------- */
+
+/* General sheet styling */
 .application.artichron {
   .window-content {
     & input, select {
@@ -114,6 +119,21 @@ dialog:-internal-dialog-in-top-layer::backdrop {
       border-color: rgba(var(--artichron-color-border-blue), 0.5);
     }
   }
+}
+
+/* ---------------------------------------- */
+
+/* Content links */
+.artichron .content-link {
+  padding: unset;
+  margin: unset;
+  white-space: unset;
+  word-break: unset;
+  background: unset;
+  border: none;
+  text-decoration-line: underline;
+  text-decoration-style: solid;
+  text-decoration-color: var(--artichron-color-gold);
 }
 
 /* ---------------------------------------- */
