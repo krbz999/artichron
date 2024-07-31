@@ -216,8 +216,6 @@ export default class SpellData extends ArsenalData {
   async _prepareTooltipContext() {
     const context = await super._prepareTooltipContext();
 
-    context.subtitle = `${game.i18n.localize("TYPES.Item.spell")}, ${CONFIG.SYSTEM.SPELL_TYPES[this.category.subtype].label}`;
-
     if (this.category.subtype === "offense") {
       context.damages = this._damages.map(k => {
         return {

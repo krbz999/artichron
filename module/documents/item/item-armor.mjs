@@ -61,8 +61,6 @@ export default class ArmorData extends FusionTemplateMixin(ItemSystemModel) {
   async _prepareTooltipContext() {
     const context = await super._prepareTooltipContext();
 
-    context.subtitle = `${game.i18n.localize("TYPES.Item.armor")}, ${CONFIG.SYSTEM.EQUIPMENT_TYPES[this.category.subtype].label}`;
-
     context.resistances = Object.entries(this.resistances).reduce((acc, [type, {value}]) => {
       if (value) acc.push({
         value: value,

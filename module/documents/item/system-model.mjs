@@ -145,12 +145,13 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
     const item = this.parent;
     const rollData = this.parent.getRollData();
     const description = await TextEditor.enrichHTML(this.description.value, {rollData: rollData, relativeTo: item});
+    const subtype = this.schema.getField("category.subtype").choices[this.category.subtype].label;
 
     const context = {
       item: item,
       rollData: rollData,
       description: description,
-      subtitle: game.i18n.localize(`TYPES.Item.${this.parent.type}`),
+      subtitle: `${game.i18n.localize(`TYPES.Item.${this.parent.type}`)}, ${subtype}`,
       tags: this._prepareTooltipTags(),
       properties: this._prepareTooltipProperties()
     };

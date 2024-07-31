@@ -101,8 +101,6 @@ export default class ShieldData extends ArsenalData {
   async _prepareTooltipContext() {
     const context = await super._prepareTooltipContext();
 
-    context.subtitle = `${game.i18n.localize("TYPES.Item.shield")}, ${CONFIG.SYSTEM.SHIELD_TYPES[this.category.subtype].label}`;
-
     context.damages = this._damages.map(k => {
       return {
         formula: Roll.create(k.formula, context.rollData).formula,

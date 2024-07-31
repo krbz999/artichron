@@ -255,8 +255,6 @@ export default class ElixirData extends ItemSystemModel {
   async _prepareTooltipContext() {
     const context = await super._prepareTooltipContext();
 
-    context.subtitle = `${game.i18n.localize("TYPES.Item.elixir")}, ${CONFIG.SYSTEM.ELIXIR_TYPES[this.category.subtype].label}`;
-
     if (this.category.subtype === "restorative") {
       context.healing = {
         formula: this.healing.formula,

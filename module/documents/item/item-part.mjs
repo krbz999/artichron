@@ -28,15 +28,4 @@ export default class PartData extends ItemSystemModel {
       })
     };
   }
-
-  /* -------------------------------------------------- */
-  /*   Tooltips                                         */
-  /* -------------------------------------------------- */
-
-  /** @override */
-  async _prepareTooltipContext() {
-    const context = await super._prepareTooltipContext();
-    context.subtitle = `${game.i18n.localize("TYPES.Item.part")}, ${CONFIG.SYSTEM.PART_TYPES[this.category.subtype].label}`;
-    return context;
-  }
 }
