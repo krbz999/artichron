@@ -87,13 +87,13 @@ dialog:-internal-dialog-in-top-layer::backdrop {
   }
 
   &::before {
-    background-image: url(../assets/layout/backdrop-1-top.webp);
+    background-image:url(/systems/artichron/assets/layout/backdrop-1-top.webp);
     background-position: center top;
     top: 0;
   }
 
   &::after {
-    background-image: url(../assets/layout/backdrop-1-bottom.webp);
+    background-image:url(/systems/artichron/assets/layout/backdrop-1-bottom.webp);
     background-position: center bottom;
     bottom: 0;
   }
