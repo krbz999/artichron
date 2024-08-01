@@ -89,7 +89,7 @@
             height: 24px;
             float: left;
             margin-right: 1px;
-            background-image: url(../../../../icons/svg/d6-grey.svg);
+            background-image: url(/icons/svg/d6-grey.svg);
             background-repeat: no-repeat;
             background-size: 24px 24px;
             font-size: var(--font-size-16);
@@ -107,11 +107,11 @@
               filter: sepia(0.5) hue-rotate(60deg);
             }
 
-            &.d4 { background-image: url(../../../../icons/svg/d4-grey.svg); }
-            &.d8 { background-image: url(../../../../icons/svg/d8-grey.svg); }
-            &.d10 { background-image: url(../../../../icons/svg/d10-grey.svg); }
-            &.d12 { background-image: url(../../../../icons/svg/d12-grey.svg); }
-            &.d20 { background-image: url(../../../../icons/svg/d20-grey.svg); }
+            &.d4 { background-image: url(/icons/svg/d4-grey.svg); }
+            &.d8 { background-image: url(/icons/svg/d8-grey.svg); }
+            &.d10 { background-image: url(/icons/svg/d10-grey.svg); }
+            &.d12 { background-image: url(/icons/svg/d12-grey.svg); }
+            &.d20 { background-image: url(/icons/svg/d20-grey.svg); }
           }
         }
       }
