@@ -36,6 +36,19 @@ export default class ActorSystemModel extends foundry.abstract.TypeDataModel {
   }
 
   /* -------------------------------------------------- */
+  /*   Data preparation                                 */
+  /* -------------------------------------------------- */
+
+  /** @override */
+  prepareBaseData() {
+    super.prepareBaseData();
+    this.bonuses = {damage: {}};
+    for (const k of Object.keys(CONFIG.SYSTEM.DAMAGE_TYPE_GROUPS)) {
+      this.bonuses.damage[k] = 0;
+    }
+  }
+
+  /* -------------------------------------------------- */
   /*   Instance methods                                 */
   /* -------------------------------------------------- */
 

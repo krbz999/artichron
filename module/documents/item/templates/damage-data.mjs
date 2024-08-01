@@ -83,7 +83,7 @@ export const DamageTemplateMixin = Base => {
       for (const roll of rolls) await roll.evaluate();
       const preTotal = rolls.reduce((acc, roll) => acc + roll.total, 0);
 
-      // Add any percentage bonuses.
+      // Add any damage bonuses (which copies and converts a percentage of the damage dealt as additional damage).
       const pcts = new Map();
       for (const [type, {value}] of Object.entries(this.damage.bonuses)) {
         if (!value) continue;
@@ -109,6 +109,23 @@ export const DamageTemplateMixin = Base => {
           await roll.evaluate();
           rolls.push(roll);
         }
+      }
+
+      // Add any amplifying bonuses (increasing the amount of damage dealt of a given type).
+      for (const roll of rolls) {
+        const group = CONFIG.SYSTEM.DAMAGE_TYPES[roll.type].group;
+        const bonus = this.parent.actor.system.bonuses.damage[group];
+        if (!bonus) continue;
+        const terms = [
+          new foundry.dice.terms.OperatorTerm({operator: "+"}),
+          new foundry.dice.terms.NumericTerm({number: Math.ceil(roll.total * bonus / 100)})
+        ];
+        for (const term of terms) {
+          term._evaluated = true;
+          roll.terms.push(term);
+        }
+        roll.resetFormula();
+        roll._total = roll._evaluateTotal();
       }
 
       if (create) {
