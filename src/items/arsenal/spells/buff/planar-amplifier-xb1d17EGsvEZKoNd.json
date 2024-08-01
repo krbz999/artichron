@@ -1,0 +1,140 @@
+{
+  "folder": "QL0FWiBXFgKzFslL",
+  "name": "Planar Amplifier",
+  "type": "spell",
+  "_id": "xb1d17EGsvEZKoNd",
+  "img": "icons/tools/scribal/lens-blue.webp",
+  "system": {
+    "description": {
+      "value": "<p>A magical piece of equipment that can be used to grant allies within 3m of the caster a +10% bonus to any planar damage they deal until the end of a combat encounter.</p>"
+    },
+    "weight": {
+      "value": 1
+    },
+    "price": {
+      "value": 3
+    },
+    "attributes": {
+      "value": [
+        "magical"
+      ]
+    },
+    "damage": {
+      "parts": [],
+      "bonuses": {
+        "fire": {
+          "value": null
+        },
+        "wind": {
+          "value": null
+        },
+        "lightning": {
+          "value": null
+        },
+        "ice": {
+          "value": null
+        },
+        "light": {
+          "value": null
+        },
+        "darkness": {
+          "value": null
+        },
+        "arcane": {
+          "value": null
+        }
+      }
+    },
+    "fusion": {
+      "max": 1
+    },
+    "wield": {
+      "value": 1
+    },
+    "range": {
+      "value": 3,
+      "reach": 1
+    },
+    "targets": {
+      "value": 1
+    },
+    "template": {
+      "types": [
+        "radius"
+      ]
+    },
+    "category": {
+      "subtype": "buff"
+    },
+    "cost": {
+      "value": 2
+    }
+  },
+  "effects": [
+    {
+      "img": "icons/tools/scribal/lens-blue.webp",
+      "name": "Planar Amplification",
+      "type": "buff",
+      "_id": "T30146BgtpmnbiRe",
+      "system": {
+        "expiration": {
+          "type": "combat"
+        },
+        "source": null,
+        "granted": false
+      },
+      "changes": [
+        {
+          "key": "system.bonuses.damage.planar",
+          "mode": 2,
+          "value": "10",
+          "priority": null
+        }
+      ],
+      "disabled": false,
+      "duration": {
+        "startTime": null,
+        "seconds": null,
+        "combat": null,
+        "rounds": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "description": "<p>You have a +10% bonus to any planar damage you deal until the end of the combat encounter.</p>",
+      "origin": null,
+      "tint": "#ffffff",
+      "transfer": false,
+      "statuses": [],
+      "sort": 0,
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "12.330",
+        "systemId": "artichron",
+        "systemVersion": "1.0.0",
+        "createdTime": null,
+        "modifiedTime": null,
+        "lastModifiedBy": null
+      },
+      "_key": "!items.effects!xb1d17EGsvEZKoNd.T30146BgtpmnbiRe"
+    }
+  ],
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": null,
+    "systemId": null,
+    "systemVersion": null,
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  },
+  "_key": "!items!xb1d17EGsvEZKoNd"
+}

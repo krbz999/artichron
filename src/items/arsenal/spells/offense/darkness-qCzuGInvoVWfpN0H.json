@@ -1,0 +1,97 @@
+{
+  "folder": "vdB5ExhILgSwkTRd",
+  "name": "Darkness",
+  "type": "spell",
+  "img": "icons/sundries/books/book-eye-purple.webp",
+  "system": {
+    "description": {
+      "value": "<p>A tome of a simple invocation that causes moderate darkness damage.</p>"
+    },
+    "weight": {
+      "value": 1
+    },
+    "price": {
+      "value": 1
+    },
+    "attributes": {
+      "value": [
+        "magical"
+      ]
+    },
+    "damage": {
+      "parts": [
+        {
+          "id": "xzLecSjuG9wUrQih",
+          "formula": "4d6",
+          "type": "darkness"
+        }
+      ],
+      "bonuses": {
+        "fire": {
+          "value": null
+        },
+        "wind": {
+          "value": null
+        },
+        "lightning": {
+          "value": null
+        },
+        "ice": {
+          "value": null
+        },
+        "light": {
+          "value": null
+        },
+        "darkness": {
+          "value": null
+        },
+        "arcane": {
+          "value": null
+        }
+      }
+    },
+    "fusion": {
+      "max": 1
+    },
+    "wield": {
+      "value": 1
+    },
+    "range": {
+      "value": 5,
+      "reach": 1
+    },
+    "targets": {
+      "value": 1
+    },
+    "template": {
+      "types": [
+        "circle",
+        "radius"
+      ]
+    },
+    "category": {
+      "subtype": "offense"
+    },
+    "cost": {
+      "value": 2
+    }
+  },
+  "effects": [],
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": null,
+    "systemId": null,
+    "systemVersion": null,
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  },
+  "_id": "qCzuGInvoVWfpN0H",
+  "sort": 0,
+  "_key": "!items!qCzuGInvoVWfpN0H"
+}
