@@ -234,7 +234,7 @@ export default class ActorArtichron extends Actor {
       if (!blocking) break;
       const diff = Math.min(value, blocking);
       blocking -= diff;
-      values[type] -= diff;
+      values[type].value -= diff;
     }
 
     // Recalculate damage after defensive rolls.
