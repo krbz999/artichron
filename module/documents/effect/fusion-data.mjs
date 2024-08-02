@@ -172,29 +172,26 @@ export default class EffectFusionData extends ActiveEffectSystemModel {
    * @returns {string}                A human-readable label.
    */
   static translateChange({key, mode, value}) {
+    const formatter = game.i18n.getListFormatter({style: "long", type: "conjunction"});
+
     // Special case: attributes
     if (key === "system.attributes.value") {
-      return Array.from(value).map(k => {
-        return CONFIG.SYSTEM.ITEM_ATTRIBUTES[k]?.label;
-      }).filterJoin(", ");
+      const values = Array.from(value).map(k => CONFIG.SYSTEM.ITEM_ATTRIBUTES[k]?.label).filter(u => u);
+      return formatter.format(values);
     }
 
     // Special case: damage
     else if (key === "system.damage.parts") {
       value = Array.isArray(value) ? value : [value];
 
-      const formatter = new Intl.ListFormat("en", {style: "long", type: "conjunction"});
-      const list = formatter.format(value.map(({formula, type}) => {
-        return `${formula} ${CONFIG.SYSTEM.DAMAGE_TYPES[type].label}`;
-      }));
-      return list;
+      const values = value.map(({formula, type}) => `${formula} ${CONFIG.SYSTEM.DAMAGE_TYPES[type].label}`);
+      return formatter.format(values);
     }
 
     // Special case: template.types
     else if (key === "system.template.types") {
-      return Array.from(value).map(k => {
-        return CONFIG.SYSTEM.AREA_TARGET_TYPES[k]?.label;
-      }).filterJoin(", ");
+      const values = Array.from(value).map(k => CONFIG.SYSTEM.AREA_TARGET_TYPES[k]?.label).filter(u => u);
+      return formatter.format(values);
     }
 
     throw new Error(`The attempted key '${key}' is an invalid key to translate!`);
