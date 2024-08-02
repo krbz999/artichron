@@ -202,10 +202,8 @@
     },
     "defenses": {
       "armor": {
-        "value": {
-          "label": "Armor",
-          "hint": "Armor value reduces incoming physical damage."
-        }
+        "label": "Armor",
+        "hint": "Armor value reduces incoming physical damage."
       }
     },
     "details": {

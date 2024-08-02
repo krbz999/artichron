@@ -35,6 +35,7 @@ const EquipmentTemplateMixin = Base => {
       for (const [k, v] of Object.entries(CONFIG.SYSTEM.DAMAGE_TYPES)) {
         if (v.resist) this.resistances[k] = 0;
       }
+      this.defenses = {armor: 0};
     }
 
     /* -------------------------------------------------- */
@@ -50,10 +51,9 @@ const EquipmentTemplateMixin = Base => {
 
     /** Prepare armor value. */
     #prepareArmor() {
-      const armor = this.defenses.armor;
-      armor.value = Object.values({...this.parent.armor, ...this.parent.arsenal}).reduce((acc, item) => {
-        return acc + (["armor", "shield"].includes(item?.type) ? item.system.armor.value : 0);
-      }, armor.value);
+      for (const item of Object.values({...this.parent.armor, ...this.parent.arsenal})) {
+        if (["armor", "shield"].includes(item?.type)) this.defenses.armor += item.system.armor.value;
+      }
     }
 
     /* -------------------------------------------------- */

@@ -38,11 +38,6 @@
         "boots": ""
       }
     },
-    "defenses": {
-      "armor": {
-        "value": 0
-      }
-    },
     "skills": {
       "avoidDetection": {
         "value": 0

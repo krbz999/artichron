@@ -193,10 +193,6 @@ export default class ActorArtichron extends Actor {
 
     values = foundry.utils.deepClone(values);
 
-    const resistances = this.system.resistances;
-    const armor = this.system.defenses.armor;
-    const types = CONFIG.SYSTEM.DAMAGE_TYPES;
-
     // Modify values to take resistances into account.
     for (const [type, {value, resisted}] of Object.entries(values)) {
       if ((resisted === false) || (type === "none")) continue;
@@ -204,10 +200,10 @@ export default class ActorArtichron extends Actor {
       let v = value;
 
       // Resisted?
-      if (types[type].resist) v -= resistances[type];
+      if (CONFIG.SYSTEM.DAMAGE_TYPES[type].resist) v -= this.system.resistances[type];
 
       // Reduced by armor?
-      if (types[type].armor) v -= armor.value;
+      if (CONFIG.SYSTEM.DAMAGE_TYPES[type].armor) v -= this.system.defenses.armor;
 
       values[type].value = Math.max(0, v);
     }

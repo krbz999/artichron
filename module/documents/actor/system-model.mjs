@@ -11,11 +11,6 @@ export default class ActorSystemModel extends foundry.abstract.TypeDataModel {
         max: new NumberField({initial: null})
       }),
       favorites: new SetField(new StringField({required: true})),
-      defenses: new SchemaField({
-        armor: new SchemaField({
-          value: new NumberField({min: 0, integer: true})
-        })
-      }),
       pips: new SchemaField({
         value: new NumberField({min: 0, integer: true}),
         turn: new NumberField({min: 0, integer: true, initial: 2})
@@ -103,7 +98,7 @@ export default class ActorSystemModel extends foundry.abstract.TypeDataModel {
    */
   static get BONUS_FIELDS() {
     const bonus = new Set(["name", "img"]);
-    bonus.add("system.defenses.armor.value");
+    bonus.add("system.defenses.armor");
     bonus.add("system.pips.turn");
     for (const k of Object.keys(CONFIG.SYSTEM.DAMAGE_TYPE_GROUPS)) {
       bonus.add(`system.bonuses.damage.${k}`);

@@ -123,7 +123,7 @@ export default class MonsterSheet extends ActorSheetArtichron {
       };
     };
     // Armor and resistances.
-    makeResistance("physical", "defenses.armor.value");
+    makeResistance("physical", "defenses.armor");
     for (const k of Object.keys(doc.system.resistances)) {
       makeResistance(k, `resistances.${k}`);
     }

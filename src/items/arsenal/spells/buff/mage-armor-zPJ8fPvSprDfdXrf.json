@@ -84,7 +84,7 @@
       },
       "changes": [
         {
-          "key": "system.defenses.armor.value",
+          "key": "system.defenses.armor",
           "mode": 2,
           "value": "5",
           "priority": null
