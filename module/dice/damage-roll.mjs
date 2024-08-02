@@ -1,6 +1,6 @@
-import {RollArtichron} from "./roll.mjs";
+import RollArtichron from "./roll.mjs";
 
-export class DamageRoll extends RollArtichron {
+export default class DamageRoll extends RollArtichron {
   constructor(formula, data = {}, options = {}) {
     if (!options.type || !(options.type in CONFIG.SYSTEM.DAMAGE_TYPES)) {
       throw new Error("A damage roll was constructed without a type.");

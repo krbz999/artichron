@@ -1,4 +1,4 @@
-export class RollArtichron extends Roll {
+export default class RollArtichron extends Roll {
   constructor(formula, data = {}, options = {}) {
     super(formula, data, options);
     this.configure();

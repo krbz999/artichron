@@ -1,6 +1,6 @@
 import {SYSTEM} from "./module/helpers/config.mjs";
 import * as applications from "./module/applications/_module.mjs";
-import {dice} from "./module/dice/_module.mjs";
+import dice from "./module/dice/_module.mjs";
 import * as documents from "./module/documents/_module.mjs";
 import * as migrations from "./module/helpers/migrations.mjs";
 import * as utils from "./module/helpers/utils.mjs";

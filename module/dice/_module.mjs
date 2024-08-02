@@ -1,7 +1,7 @@
-import {RollArtichron} from "./roll.mjs";
-import {DamageRoll} from "./damage-roll.mjs";
+import RollArtichron from "./roll.mjs";
+import DamageRoll from "./damage-roll.mjs";
 
-export const dice = {
+export default {
   RollArtichron,
   DamageRoll
 };
