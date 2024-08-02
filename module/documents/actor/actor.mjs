@@ -193,7 +193,7 @@ export default class ActorArtichron extends Actor {
 
     values = foundry.utils.deepClone(values);
 
-    const resistances = this.system.bonuses.resistances;
+    const resistances = this.system.resistances;
     const armor = this.system.defenses.armor;
     const types = CONFIG.SYSTEM.DAMAGE_TYPES;
 

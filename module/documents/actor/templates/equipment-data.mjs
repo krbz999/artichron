@@ -27,12 +27,13 @@ const EquipmentTemplateMixin = Base => {
     /** @override */
     prepareBaseData() {
       super.prepareBaseData();
-      this.bonuses = {damage: {}, resistances: {}};
+      this.bonuses = {damage: {}};
+      this.resistances = {};
       for (const k of Object.keys(CONFIG.SYSTEM.DAMAGE_TYPE_GROUPS)) {
         this.bonuses.damage[k] = 0;
       }
       for (const [k, v] of Object.entries(CONFIG.SYSTEM.DAMAGE_TYPES)) {
-        if (v.resist) this.bonuses.resistances[k] = 0;
+        if (v.resist) this.resistances[k] = 0;
       }
     }
 
@@ -62,7 +63,7 @@ const EquipmentTemplateMixin = Base => {
       for (const item of Object.values(this.parent.armor)) {
         if (!item) continue;
         for (const [k, v] of Object.entries(item.system.resistances)) {
-          this.bonuses.resistances[k] += v.value;
+          this.resistances[k] += v.value;
         }
       }
     }

@@ -107,14 +107,14 @@ export default class EffectSheetArtichron extends ArtichronSheetMixin(foundry.ap
       else if (k === "img") label = game.i18n.localize("Image");
       else if (path.startsWith("bonuses.damage")) {
         label = game.i18n.localize(`ARTICHRON.ActorProperty.FIELDS.${path}.label`);
-      } else if (path.startsWith("bonuses.resistances")) {
+      } else if (path.startsWith("resistances")) {
         label = game.i18n.localize(`ARTICHRON.ItemProperty.FIELDS.${path.slice(8)}.value.label`);
       }
       else label = k;
 
       let group;
       if (path.startsWith("skills")) group = "Skills";
-      else if (path.startsWith("bonuses.resistances") || path.startsWith("resistances")) group = "Resistances";
+      else if (path.startsWith("resistances")) group = "Resistances";
       else if (path.startsWith("pools")) group = "Pools";
       else if (path.startsWith("damage.bonuses")) group = "Damage Bonus";
       else if (path.startsWith("bonuses.damage")) group = "Damage Amplification";

@@ -109,7 +109,7 @@ export default class ActorSystemModel extends foundry.abstract.TypeDataModel {
       bonus.add(`system.bonuses.damage.${k}`);
     }
     for (const [k, v] of Object.entries(CONFIG.SYSTEM.DAMAGE_TYPES)) {
-      if (v.resist) bonus.add(`system.bonuses.resistances.${k}`);
+      if (v.resist) bonus.add(`system.resistances.${k}`);
     }
     return bonus;
   }
