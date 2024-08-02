@@ -176,50 +176,24 @@
 },
 
 "SharedProperty": {
-  "FIELDS": {
-    "resistances": {
-      "label": "Resistances",
-      "arcane": {
-        "value": {
-          "label": "Arcane Resistance"
-        }
-      },
-      "darkness": {
-        "value": {
-          "label": "Darkness Resistance"
-        }
-      },
-      "fire": {
-        "value": {
-          "label": "Fire Resistance"
-        }
-      },
-      "ice": {
-        "value": {
-          "label": "Ice Resistance"
-        }
-      },
-      "light": {
-        "value": {
-          "label": "Light Resistance"
-        }
-      },
-      "lightning": {
-        "value": {
-          "label": "Lightning Resistance"
-        }
-      },
-      "wind": {
-        "value": {
-          "label": "Wind Resistance"
-        }
-      }
-    }
-  }
+  "FIELDS": {}
 },
 
 "ActorProperty": {
   "FIELDS": {
+    "bonuses": {
+      "damage": {
+        "elemental": {
+          "label": "Elemental Damage Amplification"
+        },
+        "physical": {
+          "label": "Physical Damage Amplification"
+        },
+        "planar": {
+          "label": "Planar Damage Amplification"
+        }
+      }
+    },
     "danger": {
       "value": {
         "label": "Danger Level",
@@ -510,6 +484,44 @@
       "reach": {
         "label": "Reach",
         "hint": "The maximum distance between you and your target when making an attack with this item."
+      }
+    },
+    "resistances": {
+      "label": "Resistances",
+      "arcane": {
+        "value": {
+          "label": "Arcane Resistance"
+        }
+      },
+      "darkness": {
+        "value": {
+          "label": "Darkness Resistance"
+        }
+      },
+      "fire": {
+        "value": {
+          "label": "Fire Resistance"
+        }
+      },
+      "ice": {
+        "value": {
+          "label": "Ice Resistance"
+        }
+      },
+      "light": {
+        "value": {
+          "label": "Light Resistance"
+        }
+      },
+      "lightning": {
+        "value": {
+          "label": "Lightning Resistance"
+        }
+      },
+      "wind": {
+        "value": {
+          "label": "Wind Resistance"
+        }
       }
     },
     "targets": {

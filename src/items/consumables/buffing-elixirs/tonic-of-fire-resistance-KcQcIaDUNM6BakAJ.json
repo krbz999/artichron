@@ -46,7 +46,7 @@
       },
       "changes": [
         {
-          "key": "system.resistances.fire.value",
+          "key": "system.bonuses.resistances.fire",
           "mode": 2,
           "value": "6",
           "priority": null

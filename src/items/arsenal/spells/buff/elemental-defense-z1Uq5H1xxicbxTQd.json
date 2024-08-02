@@ -86,7 +86,7 @@
       },
       "changes": [
         {
-          "key": "system.resistances.fire.value",
+          "key": "system.bonuses.resistances.fire",
           "mode": 2,
           "value": "10",
           "priority": null
@@ -135,7 +135,7 @@
       },
       "changes": [
         {
-          "key": "system.resistances.wind.value",
+          "key": "system.bonuses.resistances.wind",
           "mode": 2,
           "value": "10",
           "priority": null
@@ -185,7 +185,7 @@
       },
       "changes": [
         {
-          "key": "system.resistances.lightning.value",
+          "key": "system.bonuses.resistances.lightning",
           "mode": 2,
           "value": "10",
           "priority": null
@@ -235,7 +235,7 @@
       },
       "changes": [
         {
-          "key": "system.resistances.ice.value",
+          "key": "system.bonuses.resistances.ice",
           "mode": 2,
           "value": "10",
           "priority": null

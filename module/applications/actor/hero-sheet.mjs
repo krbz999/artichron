@@ -112,21 +112,20 @@ export default class HeroSheet extends ActorSheetArtichron {
 
     const makeResistance = (key, path) => {
       context.resistances ??= {};
-      const value = foundry.utils.getProperty(context.isEditMode ? src.system : doc.system, path);
+      const value = foundry.utils.getProperty(doc.system, path);
       context.resistances[key] = {
-        field: doc.system.schema.getField(path),
-        value: context.isPlayMode ? (value ?? 0) : (value ? value : null),
+        value: value,
         label: CONFIG.SYSTEM.DAMAGE_TYPES[key].label,
         color: CONFIG.SYSTEM.DAMAGE_TYPES[key].color,
         icon: CONFIG.SYSTEM.DAMAGE_TYPES[key].icon,
-        active: context.isEditMode || !!value
+        active: value > 0
       };
     };
 
     // Armor and resistances.
     makeResistance("physical", "defenses.armor.value");
-    for (const k of Object.keys(doc.system.resistances)) {
-      makeResistance(k, `resistances.${k}.value`);
+    for (const k of Object.keys(doc.system.bonuses.resistances)) {
+      makeResistance(k, `bonuses.resistances.${k}`);
     }
     context.resistances = Object.values(context.resistances);
 

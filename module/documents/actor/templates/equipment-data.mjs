@@ -48,7 +48,7 @@ const EquipmentTemplateMixin = Base => {
       for (const item of Object.values(this.parent.armor)) {
         if (!item) continue;
         for (const [k, v] of Object.entries(item.system.resistances)) {
-          this.resistances[k].value += v.value;
+          this.bonuses.resistances[k] += v.value;
         }
       }
     }

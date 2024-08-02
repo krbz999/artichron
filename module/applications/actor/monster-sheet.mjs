@@ -116,25 +116,16 @@ export default class MonsterSheet extends ActorSheetArtichron {
 
     // Prepare a resistance for rendering.
     const makeResistance = (key, path) => {
-      const value = foundry.utils.getProperty(context.isEditMode ? src.system : doc.system, path);
+      const value = foundry.utils.getProperty(doc.system, path);
       const {label, color, icon} = CONFIG.SYSTEM.DAMAGE_TYPES[key];
-      const field = doc.system.schema.getField(path);
-      const name = `system.${path}`;
-      const active = context.isEditMode || !!value;
       context.resistances[key] = {
-        field,
-        value: context.isPlayMode ? (value ?? 0) : (value ? value : null),
-        label,
-        color,
-        icon,
-        name,
-        active
+        value: value, label: label, color: color, icon: icon, active: value > 0
       };
     };
     // Armor and resistances.
     makeResistance("physical", "defenses.armor.value");
-    for (const k of Object.keys(doc.system.resistances)) {
-      makeResistance(k, `resistances.${k}.value`);
+    for (const k of Object.keys(doc.system.bonuses.resistances)) {
+      makeResistance(k, `bonuses.resistances.${k}`);
     }
     context.resistances = Object.values(context.resistances);
 

@@ -11,7 +11,6 @@ export default class ActorSystemModel extends foundry.abstract.TypeDataModel {
         max: new NumberField({initial: null})
       }),
       favorites: new SetField(new StringField({required: true})),
-      resistances: new ResistanceField(),
       defenses: new SchemaField({
         armor: new SchemaField({
           value: new NumberField({min: 0, integer: true})
@@ -42,9 +41,12 @@ export default class ActorSystemModel extends foundry.abstract.TypeDataModel {
   /** @override */
   prepareBaseData() {
     super.prepareBaseData();
-    this.bonuses = {damage: {}};
+    this.bonuses = {damage: {}, resistances: {}};
     for (const k of Object.keys(CONFIG.SYSTEM.DAMAGE_TYPE_GROUPS)) {
       this.bonuses.damage[k] = 0;
+    }
+    for (const [k, v] of Object.entries(CONFIG.SYSTEM.DAMAGE_TYPES)) {
+      if (v.resist) this.bonuses.resistances[k] = 0;
     }
   }
 
@@ -115,8 +117,11 @@ export default class ActorSystemModel extends foundry.abstract.TypeDataModel {
     const bonus = new Set(["name", "img"]);
     bonus.add("system.defenses.armor.value");
     bonus.add("system.pips.turn");
+    for (const k of Object.keys(CONFIG.SYSTEM.DAMAGE_TYPE_GROUPS)) {
+      bonus.add(`system.bonuses.damage.${k}`);
+    }
     for (const [k, v] of Object.entries(CONFIG.SYSTEM.DAMAGE_TYPES)) {
-      if (v.resist) bonus.add(`system.resistances.${k}.value`);
+      if (v.resist) bonus.add(`system.bonuses.resistances.${k}`);
     }
     return bonus;
   }

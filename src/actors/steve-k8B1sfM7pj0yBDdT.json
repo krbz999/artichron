@@ -38,29 +38,6 @@
         "boots": ""
       }
     },
-    "resistances": {
-      "fire": {
-        "value": 0
-      },
-      "wind": {
-        "value": 0
-      },
-      "lightning": {
-        "value": 0
-      },
-      "ice": {
-        "value": 0
-      },
-      "light": {
-        "value": 0
-      },
-      "darkness": {
-        "value": 0
-      },
-      "arcane": {
-        "value": 0
-      }
-    },
     "defenses": {
       "armor": {
         "value": 0
