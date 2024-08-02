@@ -232,14 +232,14 @@ export default class DamageMessageData extends ChatMessageSystemModel {
     }));
 
     // Button click listener.
-    content.querySelector("[data-action=applyDamage]").addEventListener("click", event => {
+    content.querySelector("[data-action=applyDamage]").addEventListener("click", async (event) => {
       const wrapper = event.currentTarget.closest(".targets-wrapper");
       const nav = wrapper.querySelector(".header .expanded");
       const tab = wrapper.querySelector(`.targets[data-tab="${nav.dataset.tab}"]`);
       const elements = tab.querySelectorAll("damage-target");
-      for (const element of elements) element.actor.applyDamage(element.damages);
       nav.classList.toggle("expanded", false);
       tab.classList.toggle("expanded", false);
+      for (const element of elements) await element.actor.applyDamage(element.damages);
     });
   }
 }

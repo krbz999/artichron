@@ -151,19 +151,20 @@ export default class ActorArtichron extends Actor {
     const green = 0x00FF00;
     const blue = 0x0000FF;
 
-    for (const t of tokens) {
-      if (!t.visible || t.document.isSecret) continue;
-      const c = t.center;
+    const displayNumbers = async (token) => {
+      const c = token.center;
       damages = damages ? damages : {none: {value: -health.delta}};
       for (const [type, {value}] of Object.entries(damages)) {
         if (!value) continue;
         const isHeal = value < 0;
         const color = foundry.utils.Color.from(isHeal ? green : CONFIG.SYSTEM.DAMAGE_TYPES[type]?.color ?? red);
         canvas.interface.createScrollingText(c, (-value).signedString(), {...options, fill: color});
-        t.ring?.flashColor(color);
-        await new Promise(r => setTimeout(r, 500));
+        token.ring?.flashColor(color);
+        await new Promise(r => setTimeout(r, 350));
       }
-    }
+    };
+
+    for (const t of tokens) if (t.visible && !t.document.isSecret) displayNumbers(t);
   }
 
   /* -------------------------------------------------- */
@@ -465,6 +466,12 @@ export default class ActorArtichron extends Actor {
       });
     };
 
+    // Center onto token.
+    const [token] = this.isToken ? [this.token?.object] : this.getActiveTokens();
+    if (token) canvas.animatePan({
+      ...token.center, duration: 500, easing: CanvasAnimation.easeOutCircle
+    });
+
     const content = `
     ${Number.isInteger(damage) ? "<p>You are gonna take " + damage + " damage, oh no.</p>" : ""}
     <fieldset><legend>${game.i18n.localize(label)}</legend>${formGroup}</fieldset>`;
@@ -475,7 +482,7 @@ export default class ActorArtichron extends Actor {
       render: render,
       window: {
         icon: "fa-solid fa-shield",
-        title: "ARTICHRON.DefenseDialog.Title"
+        title: game.i18n.format("ARTICHRON.DefenseDialog.Title", {name: this.name})
       },
       position: {
         width: 400,
