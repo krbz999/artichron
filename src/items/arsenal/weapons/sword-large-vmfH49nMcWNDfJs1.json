@@ -60,9 +60,7 @@
       "subtype": "sword"
     },
     "attributes": {
-      "value": [
-        "parrying"
-      ]
+      "value": []
     },
     "cost": {
       "value": 1

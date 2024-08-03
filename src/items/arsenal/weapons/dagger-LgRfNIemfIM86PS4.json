@@ -60,9 +60,7 @@
       "subtype": "dagger"
     },
     "attributes": {
-      "value": [
-        "parrying"
-      ]
+      "value": []
     },
     "cost": {
       "value": 1
