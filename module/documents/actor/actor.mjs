@@ -529,8 +529,8 @@ export default class ActorArtichron extends Actor {
 
   /**
    * Retrieve the level of a condition effect.
-   * @param {string} status
-   * @returns {number}
+   * @param {string} status     The id of a condition as found in `CONFIG.statusEffects`.
+   * @returns {number}          The level of the condition.
    */
   appliedConditionLevel(status) {
     const effect = this.effects.get(artichron.utils.staticId(status));
@@ -542,7 +542,7 @@ export default class ActorArtichron extends Actor {
   /**
    * Utility method to either apply or increase the level of a status condition.
    * This method can safely be used on statuses that do not have levels.
-   * @param {string} status
+   * @param {string} status     The id of a condition as found in `CONFIG.statusEffects`.
    * @returns {Promise}
    */
   async applyCondition(status) {
@@ -555,6 +555,11 @@ export default class ActorArtichron extends Actor {
   /*   Item favoriting                                  */
   /* -------------------------------------------------- */
 
+  /**
+   * Toggle whether an item is favorited.
+   * @param {string} id                           The id of the item to toggle.
+   * @returns {Promise<ActorArtichron|null>}      A promise that resolves to updated actor.
+   */
   async toggleFavoriteItem(id) {
     const item = this.items.get(id);
     if (!item) return null;
@@ -567,6 +572,11 @@ export default class ActorArtichron extends Actor {
 
   /* -------------------------------------------------- */
 
+  /**
+   * Remove an item as favorite.
+   * @param {string} id                           The id of the item to unfavorite.
+   * @returns {Promise<ActorArtichron|null>}      A promise that resolves to updated actor.
+   */
   async removeFavoriteItem(id) {
     const item = this.items.get(id);
     if (!item) return null;
@@ -579,6 +589,11 @@ export default class ActorArtichron extends Actor {
 
   /* -------------------------------------------------- */
 
+  /**
+   * Add a favorited item.
+   * @param {string} id                           The id of the item to favorite.
+   * @returns {Promise<ActorArtichron|null>}      A promise that resolves to updated actor.
+   */
   async addFavoriteItem(id) {
     const item = this.items.get(id);
     if (!item) return null;
