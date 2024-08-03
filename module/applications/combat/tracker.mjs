@@ -210,7 +210,7 @@ export class CombatCarousel extends HandlebarsApplicationMixin(ApplicationV2) {
       if (state.scrollLeft) newElement.scrollLeft = state.scrollLeft;
 
       const current = newElement.querySelector(".combatant.current");
-      this.transitionCombatantsAndScrollIntoView(current, transitions);
+      this.#transitionCombatantsAndScrollIntoView(current, transitions);
     }
   }
 
@@ -223,6 +223,16 @@ export class CombatCarousel extends HandlebarsApplicationMixin(ApplicationV2) {
       const combatant = this.combat.combatants.get(element.dataset.id);
       ui.context.menuItems = this._getCombatantContextOptions(combatant);
     }});
+  }
+
+  /* -------------------------------------------------- */
+
+  /** @override */
+  _onRender(...args) {
+    super._onRender(...args);
+    for (const combatant of this.element.querySelectorAll(".combatant .avatar")) {
+      combatant.addEventListener("dblclick", CombatCarousel.#renderActor.bind(this));
+    }
   }
 
   /* -------------------------------------------------- */
@@ -264,11 +274,27 @@ export class CombatCarousel extends HandlebarsApplicationMixin(ApplicationV2) {
    * @param {HTMLElement} [current]     The combatant marked as 'current'.
    * @param {object[]} transitions      The configuration of animations.
    */
-  transitionCombatantsAndScrollIntoView(current, transitions) {
+  #transitionCombatantsAndScrollIntoView(current, transitions) {
     current?.scrollIntoView({behavior: "smooth", inline: "center"});
     for (const {element, params, options} of transitions) {
       element.animate(params, options);
     }
+  }
+
+  /* -------------------------------------------------- */
+  /*   Event handlers                                   */
+  /* -------------------------------------------------- */
+
+  /**
+   * Handle double-clicks on a combatant to render its actor's sheet.
+   * @this {CombatCarousel}
+   * @param {Event} event     The initiating event.
+   */
+  static #renderActor(event) {
+    const id = event.currentTarget.closest("[data-id]").dataset.id;
+    const combatant = this.combat.combatants.get(id);
+    const actor = combatant.actor;
+    if (actor?.testUserPermission(game.user, "OBSERVER")) actor.sheet.render({force: true});
   }
 
   /* -------------------------------------------------- */
