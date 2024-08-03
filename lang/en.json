@@ -706,7 +706,8 @@
   "Title": "Defense Roll: {name}",
   "Items": "Arsenal",
   "ItemsHint": "Choose any of your equipped arsenal to defend against the attack and reduce incoming damage. Each item used will require 1 pip.",
-  "Confirm": "Roll"
+  "Confirm": "Roll",
+  "Content": "{name} is about to take {damage} damage. You can attempt to parry or block to reduce the damage by an amount equal to the rolled totals."
 },
 
 "Effect": {

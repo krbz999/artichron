@@ -431,13 +431,15 @@ export default class ActorArtichron extends Actor {
 
   /**
    * Prompt the user to roll block and parry to reduce incoming damage using any of their equipped arsenal.
+   * @param {number} damage               The damage to attempt to reduce.
    * @returns {Promise<number|false>}     A promise that resolves to the total of all defensive rolls, or false
    *                                      if the dialog was cancelled, which will be taken to mean the damage
    *                                      application should also be cancelled.
    */
-  async defenseDialog(damage = null) {
+  async defenseDialog(damage) {
     const items = Object.values(this.arsenal).filter(item => {
-      return (item?.system.attributes.value.has("blocking") || item?.system.attributes.value.has("parrying"));
+      const attr = item?.system.attributes?.value ?? new Set();
+      return attr.has("blocking") || attr.has("parrying");
     });
     if (!items.length) return 0;
 
@@ -452,9 +454,9 @@ export default class ActorArtichron extends Actor {
     }, {});
 
     const label = "ARTICHRON.DefenseDialog.Items";
-    const formGroup = new foundry.data.fields.SetField(new foundry.data.fields.StringField({choices: choices}), {
-      hint: "ARTICHRON.DefenseDialog.ItemsHint"
-    }).toFormGroup({label: "", localize: true, classes: ["stacked"]}, {name: "items", type: "checkboxes"}).outerHTML;
+    const input = new foundry.data.fields.SetField(new foundry.data.fields.StringField({choices: choices})).toInput({
+      name: "items", type: "checkboxes"
+    }).outerHTML;
 
     const render = (event, html) => {
       if (!inCombat) return;
@@ -473,8 +475,15 @@ export default class ActorArtichron extends Actor {
     });
 
     const content = `
-    ${Number.isInteger(damage) ? "<p>You are gonna take " + damage + " damage, oh no.</p>" : ""}
-    <fieldset><legend>${game.i18n.localize(label)}</legend>${formGroup}</fieldset>`;
+    <p>${game.i18n.format("ARTICHRON.DefenseDialog.Content", {name: this.name, damage: damage})}</p>
+    <fieldset>
+      <legend>${game.i18n.localize(label)}</legend>
+      <div class="form-group stacked">
+        <div class="form-fields">${input}</div>
+      </div>
+      <p class="hint">${game.i18n.localize("ARTICHRON.DefenseDialog.ItemsHint")}</p>
+    </fieldset>`;
+
     const itemIds = await foundry.applications.api.DialogV2.prompt({
       content: content,
       rejectClose: false,
