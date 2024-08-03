@@ -72,6 +72,102 @@ const EquipmentTemplateMixin = Base => {
     /*   Instance methods                                 */
     /* -------------------------------------------------- */
 
+    /**
+     * Call a dialog to change the item equipped in a particular slot.
+     * @param {string} slot     The slot to change.
+     * @returns {Promise}
+     */
+    async changeEquippedDialog(slot) {
+      const type = ["primary", "secondary"].includes(slot) ? "arsenal" : "armor";
+      const current = this.parent.items.get(this.equipped[type][slot]);
+      const choices = this.parent.items.reduce((acc, item) => {
+        if (item === current) return acc;
+
+        if (type === "armor") {
+          if ((item.type !== "armor") && (item.system.category.subtype !== slot)) return acc;
+        } else if (type === "arsenal") {
+          if (!item.isArsenal) return acc;
+          const {primary, secondary} = this.parent.arsenal;
+          if ([primary, secondary].includes(item)) return acc;
+          if (slot === "secondary") {
+            if (item.isTwoHanded) return acc;
+            if (primary?.isTwoHanded) return acc;
+          }
+        }
+
+        acc[item.id] = item.name;
+        return acc;
+      }, {});
+
+      const content = !foundry.utils.isEmpty(choices) ? new foundry.data.fields.StringField({
+        choices: choices,
+        required: true,
+        label: "ARTICHRON.EquipDialog.Label",
+        hint: "ARTICHRON.EquipDialog.Hint"
+      }).toFormGroup({}, {name: "itemId"}).outerHTML : null;
+
+      const buttons = [];
+      if (!foundry.utils.isEmpty(choices)) {
+        buttons.push({
+          action: "equip",
+          label: "Confirm",
+          icon: "fa-solid fa-check",
+          callback: (event, button, html) => button.form.elements.itemId.value
+        });
+      }
+
+      if (current) {
+        buttons.push({
+          action: "unequip",
+          label: "Unequip",
+          icon: "fa-solid"
+        });
+      }
+
+      if (!buttons.length) {
+        ui.notifications.error("ARTICHRON.EquipDialog.Warning", {localize: true});
+        return null;
+      }
+
+      const value = await foundry.applications.api.DialogV2.wait({
+        buttons: buttons,
+        rejectClose: false,
+        content: content,
+        classes: ["artichron", "equip"],
+        modal: true,
+        window: {title: "ARTICHRON.EquipDialog.Title", icon: "fa-solid fa-hand-fist"},
+        position: {width: 350}
+      });
+
+      if (value === "unequip") {
+        return this.changeEquipped(slot);
+      }
+
+      const item = this.parent.items.get(value);
+      return this.changeEquipped(slot, item);
+    }
+
+    /* -------------------------------------------------- */
+
+    /**
+     * Change the item equipped in a particular slot.
+     * @param {string} slot                   The slot to change equipment in.
+     * @param {ItemArtichron} [item=null]     An optional item to equip in the given slot.
+     * @returns {Promise<ActorArtichron>}     A promise that resolves to the updated actor.
+     */
+    async changeEquipped(slot, item = null) {
+      const type = ["primary", "secondary"].includes(slot) ? "arsenal" : "armor";
+      const path = `system.equipped.${type}.${slot}`;
+      const current = foundry.utils.getProperty(this.parent, path);
+      const update = {[path]: item ? item.id : ""};
+      if ((type === "arsenal") && (slot === "primary") && (item !== current) && item?.isTwoHanded) {
+        update[path.replace(slot, "secondary")] = "";
+      }
+
+      await this.parent.update(update);
+      return this.parent;
+    }
+
     /* -------------------------------------------------- */
     /*   Properties                                       */
     /* -------------------------------------------------- */

@@ -54,34 +54,9 @@
 }
 
 /* Equip Dialog */
-.artichron.application.equipped {
-  margin: 0;
-  padding: 0;
-
-  .equip-buttons {
-    display: flex;
+.artichron.application.equip {
+  .form-footer {
     flex-direction: column;
-    gap: 5px;
-    padding: 5px;
-    margin: 0;
-
-    & button {
-      display: grid;
-      grid-template-columns: 50px 1fr;
-      padding: 0;
-      text-align: left;
-      gap: 1em;
-      overflow: hidden;
-
-      &.unequip {
-        text-decoration: line-through;
-        border-width: medium;
-      }
-
-      & img {
-        border: none;
-      }
-    }
   }
 }
 

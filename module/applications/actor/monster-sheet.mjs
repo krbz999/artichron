@@ -1,4 +1,3 @@
-import EquipDialog from "../item/equip-dialog.mjs";
 import ActorSheetArtichron from "./actor-sheet-base.mjs";
 
 export default class MonsterSheet extends ActorSheetArtichron {
@@ -315,6 +314,6 @@ export default class MonsterSheet extends ActorSheetArtichron {
     // TODO: this is copied from the hero sheet.
     if (!this.isEditable) return;
     const slot = target.closest("[data-equipment-slot]").dataset.equipmentSlot;
-    new EquipDialog({actor: this.document, slot: slot}).render({force: true});
+    this.document.system.changeEquippedDialog(slot);
   }
 }
