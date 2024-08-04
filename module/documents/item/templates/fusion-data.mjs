@@ -17,12 +17,17 @@ export const FusionTemplateMixin = Base => {
 
     /**
      * Pick one of the fusion options of this item, grant it to a target item, and destroy this.
-     * @param {ItemArtichron} target                      The target item.
-     * @param {ActiveEffectArtichron} fusion              The fusion template effect.
-     * @returns {Promise<ActiveEffectArtichron|null>}     The created fusion effect.
+     * @param {ItemArtichron} target                  The target item.
+     * @param {ActiveEffectArtichron} [fusion]        The fusion template effect. If omitted, use defaults.
+     * @returns {Promise<ActiveEffectArtichron>}      The created fusion effect.
      */
     async fuse(target, fusion) {
-      const effect = fusion.clone();
+      const effect = fusion ? fusion.clone() : new ActiveEffect.implementation({
+        type: "fusion",
+        name: game.i18n.format("ARTICHRON.ItemFusionDialog.DefaultFusion", {name: this.parent.name}),
+        img: this.parent.img
+      }, {parent: this.parent});
+
       effect.updateSource({"system.itemData": game.items.fromCompendium(this.parent, {
         clearFolder: true, keepId: true
       })});
@@ -30,8 +35,9 @@ export const FusionTemplateMixin = Base => {
       const effectData = effect.toObject();
       effectData.changes = target.system.createFusionData(effect);
 
+      const created = await getDocumentClass("ActiveEffect").create(effectData, {parent: target});
       await this.parent.delete();
-      return getDocumentClass("ActiveEffect").create(effectData, {parent: target});
+      return created;
     }
 
     /* -------------------------------------------------- */
@@ -49,7 +55,7 @@ export const FusionTemplateMixin = Base => {
       const prompt = await artichron.applications.ItemFusionDialog.create(this.parent);
       if (!prompt) return null;
       const target = this.parent.actor.items.get(prompt.itemId);
-      const effect = this.parent.effects.get(prompt.effectId);
+      const effect = prompt.effectId === "default" ? null : this.parent.effects.get(prompt.effectId);
 
       if (this.parent.actor.inCombat) await this.parent.actor.spendActionPoints(1);
 
@@ -249,11 +255,11 @@ export const FusionTemplateMixin = Base => {
     /* -------------------------------------------------- */
 
     /**
-     * Does this item have any valid fusions it can apply?
+     * Can this item be fused onto another?
      * @type {boolean}
      */
     get hasFusions() {
-      return this.parent.effects.some(effect => effect.isTransferrableFusion);
+      return this.attributes.value.has("fusion");
     }
 
     /* -------------------------------------------------- */

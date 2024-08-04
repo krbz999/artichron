@@ -13,20 +13,6 @@
     {{/each}}
     {{/if}}
 
-    {{#if (and canFuse activeFusions.length)}}
-
-    <header>
-      <span class="label">{{localize "ARTICHRON.Effect.ActiveFusions"}}</span>
-      <span class="source">{{localize "ARTICHRON.Effect.Source"}}</span>
-      <span class="controls" style="margin-left: 2px;"></span>
-    </header>
-
-    {{#each activeFusions}}
-    {{effectEntry effect enriched=enrichedText}}
-    {{/each}}
-
-    {{/if}}
-
     {{#if isItem}}
 
     <header>
@@ -61,25 +47,6 @@
     {{#each effects}}
     {{effectEntry effect enriched=enrichedText}}
     {{/each}}
-
-    {{#if canFuse}}
-    <header>
-      <span class="label">{{localize "ARTICHRON.Effect.FusionOptions"}}</span>
-      <span class="source"></span>
-      {{#if @root.isEditMode}}
-      <button class="controls" type="button" data-action="createEffect" data-tooltip="ARTICHRON.SheetActions.CreateFusion" data-type="fusion">
-        <i class="fa-solid fa-plus"></i>
-      </button>
-      {{else}}
-      <span class="controls" style="margin-left: 2px;"></span>
-      {{/if}}
-    </header>
-
-    {{#each fusions}}
-    {{effectEntry effect enriched=enrichedText}}
-    {{/each}}
-    {{/if}}
-
   </div>
 
 </div>

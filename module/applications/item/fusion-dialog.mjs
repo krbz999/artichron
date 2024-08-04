@@ -64,7 +64,7 @@ export default class ItemFusionDialog extends HandlebarsApplicationMixin(Applica
    * Track the selected fusion.
    * @type {string}
    */
-  #selectedFusion = null;
+  #selectedFusion = "default";
 
   /* -------------------------------------------------- */
 
@@ -120,14 +120,17 @@ export default class ItemFusionDialog extends HandlebarsApplicationMixin(Applica
       };
 
       // Fusion.
-      const eChoices = {};
+      const eChoices = {
+        default: "ARTICHRON.ItemFusionDialog.Default"
+      };
       for (const effect of this.#item.effects) {
         if (effect.isTransferrableFusion) eChoices[effect.id] = effect.name;
       }
       context.fusion = {
         field: new StringField({
           choices: eChoices,
-          label: "ARTICHRON.ItemFusionDialog.FusionLabel"
+          label: "ARTICHRON.ItemFusionDialog.FusionLabel",
+          required: true
         }),
         dataset: {change: "fusion"}
       };
@@ -137,7 +140,11 @@ export default class ItemFusionDialog extends HandlebarsApplicationMixin(Applica
       context.sourceImage = this.#item.img;
       context.targetDisabled = !target;
     } else if (partId === "changes") {
-      const effect = this.#item.effects.get(this.#selectedFusion);
+      const effect = this.#item.effects.get(this.#selectedFusion) ?? new ActiveEffect.implementation({
+        type: "fusion",
+        name: game.i18n.format("ARTICHRON.ItemFusionDialog.DefaultFusion", {name: this.#item.name}),
+        img: this.#item.img
+      }, {parent: this.#item});
       const target = this.#item.actor.items.get(this.#selectedTarget);
       const changes = (target && effect) ? target.system.createFusionTranslation(effect) : [];
       context.changes = [];
@@ -159,7 +166,8 @@ export default class ItemFusionDialog extends HandlebarsApplicationMixin(Applica
       }
     } else if (partId === "footer") {
       context.footer = {
-        disabled: !this.#item.actor.items.get(this.#selectedTarget) || !this.#item.effects.get(this.#selectedFusion),
+        disabled: !this.#item.actor.items.get(this.#selectedTarget)
+        || ((this.#selectedFusion !== "default") && !this.#item.effects.get(this.#selectedFusion)),
         label: "ARTICHRON.ItemFusionDialog.Fuse"
       };
     }

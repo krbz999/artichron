@@ -101,6 +101,7 @@
   "Effects": "Effects",
   "Equipment": "Equipment",
   "Favorites": "Favorites",
+  "Fusion": "Fusion",
   "Gear": "Gear",
   "Inventory": "Inventory",
   "Items": "Items",
@@ -575,6 +576,7 @@
   "Ammunition": "Ammunition",
   "Blocking": "Blocking",
   "Bludgeoning": "Bludgeoning",
+  "Fusion": "Fusion",
   "Magical": "Magical",
   "Parrying": "Parrying",
   "Rending": "Rending"
@@ -629,6 +631,8 @@
 
 "ItemFusionDialog": {
   "Changes": "Changes",
+  "Default": "Default",
+  "DefaultFusion": "Fusion: {name}",
   "Fuse": "Fuse",
   "FusionLabel": "Fusion",
   "Split": "Split",

@@ -436,6 +436,11 @@ SYSTEM.ITEM_ATTRIBUTES = {
     types: new Set(["weapon"]),
     transferrable: true
   },
+  fusion: {
+    label: "ARTICHRON.ItemAttribute.Fusion",
+    types: new Set(["weapon", "shield", "spell", "armor"]),
+    transferrable: false
+  },
   magical: {
     label: "ARTICHRON.ItemAttribute.Magical",
     transferrable: true
