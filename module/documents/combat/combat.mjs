@@ -2,7 +2,10 @@ export default class CombatArtichron extends Combat {
   /** @override */
   _onDelete(options, userId) {
     super._onDelete(options, userId);
-    if (game.user.id === userId) this.expireCombatEffects();
+    if (game.user.id === userId) {
+      this.expireCombatEffects();
+      this.expireMeasuredTemplates("combat");
+    }
   }
 
   /* -------------------------------------------------- */
@@ -46,9 +49,43 @@ export default class CombatArtichron extends Combat {
 
   /* -------------------------------------------------- */
 
+  /**
+   * Delete any measured templates tied to this combat document.
+   * @param {string} duration                             When the template should expire (turn, round, combat).
+   * @returns {Promise<MeasuredTemplateArtichron[]>}      All the deleted templates.
+   */
+  async expireMeasuredTemplates(duration) {
+    const scene = this.scene;
+    if (!scene) return [];
+
+    const ids = [];
+    for (const template of scene.templates) {
+      const {id, end} = template.flags.artichron?.combat ?? {};
+      if (id !== this.id) continue;
+
+      switch (duration) {
+        case "combat":
+          ids.push(template.id);
+          break;
+        case "round":
+          if (["round", "turn"].includes(end)) ids.push(template.id);
+          break;
+        case "turn":
+          if (end === "turn") ids.push(template.id);
+          break;
+      }
+    }
+    return scene.deleteEmbeddedDocuments("MeasuredTemplate", ids);
+  }
+
+  /* -------------------------------------------------- */
+
   /** @override */
   async _onStartRound() {
     await super._onStartRound();
+
+    // Delete templates that should be removed when a turn or round ends.
+    await this.expireMeasuredTemplates("round");
 
     const {originals, duplicates, defeated} = this.combatants.reduce((acc, c) => {
       if (c.isDefeated || !c.actor) acc.defeated.push(c);
@@ -136,6 +173,17 @@ export default class CombatArtichron extends Combat {
     await Promise.all(actorUpdates.map(([actor, update]) => actor.update(update)));
 
     await this.update({turn: 0});
+  }
+
+  /* -------------------------------------------------- */
+
+  /** @override */
+  async _onEndTurn(combatant) {
+    const result = await super._onEndTurn(combatant);
+
+    await this.expireMeasuredTemplates("turn");
+
+    return result;
   }
 
   /* -------------------------------------------------- */
