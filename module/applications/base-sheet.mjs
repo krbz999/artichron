@@ -181,11 +181,6 @@ export const ArtichronSheetMixin = Base => {
             artichron.utils.parseInputDelta(event.currentTarget, this.document);
           });
         });
-      } else {
-        // Disable all fields.
-        this.element.querySelectorAll("input, select, textarea, multi-select").forEach(n => {
-          n.disabled = true;
-        });
       }
 
       this._setupDragAndDrop();
