@@ -93,6 +93,15 @@ export default class HeroSheet extends ActorSheetArtichron {
       pointsField2: new foundry.data.fields.NumberField({min: 0, step: 1, max: 20, initial: 0})
     };
 
+    const makeField = path => {
+      const schema = path.startsWith("system") ? this.document.system.schema : this.document.schema;
+      const field = path.startsWith("system") ? schema.getField(path.slice(7)) : schema.getField(path);
+      const value = foundry.utils.getProperty(context.isEditMode ? this.document._source : this.document, path);
+      return {field, value};
+    };
+
+    context.pips = makeField("system.pips.turn");
+
     if (context.isEditMode) {
       const field = new foundry.data.fields.NumberField({
         label: "Compact Items",

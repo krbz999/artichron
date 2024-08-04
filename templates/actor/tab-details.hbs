@@ -4,6 +4,8 @@
   {{formGroup compactItems.field value=compactItems.value blank="Default" name="flags.artichron.compactItems"}}
   {{/if}}
 
+  {{formGroup pips.field value=pips.value disabled=@root.isPlayMode}}
+
   {{progressClock value=document.flags.world.points max=10}}
 
   <!--<fieldset>

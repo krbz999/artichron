@@ -218,7 +218,7 @@
       },
       "turn": {
         "label": "Turn Bonus",
-        "hint": "The number of additional action points this actor receives for each additional turn it may take in a combat round."
+        "hint": "The number of additional action points this actor receives for each turn it takes in a combat round."
       }
     },
     "pools": {
