@@ -113,11 +113,17 @@ export const FusionTemplateMixin = Base => {
       const item = this.parent;
       const changes = [];
 
+      const ignoredChanges = effect.changes.reduce((acc, change) => {
+        if (change.key.startsWith("system")) acc.add(change.key.slice(7));
+        else acc.add(change.key);
+        return acc;
+      }, new Set());
+
       // Attributes are merged.
       let path = "attributes.value";
       let ifield = item.system.schema.getField(path);
       let sfield = source.system.schema.getField(path);
-      if (ifield && sfield) {
+      if (!ignoredChanges.has(path) && ifield && sfield) {
         const value = Array.from(foundry.utils.getProperty(source.system, path)).filter(key => {
           return CONFIG.SYSTEM.ITEM_ATTRIBUTES[key].transferrable !== false;
         }).join(", ");
@@ -128,7 +134,7 @@ export const FusionTemplateMixin = Base => {
       path = "price.value";
       ifield = item.system.schema.getField(path);
       sfield = source.system.schema.getField(path);
-      if (ifield && sfield) {
+      if (!ignoredChanges.has(path) && ifield && sfield) {
         const value = Math.ceil(foundry.utils.getProperty(source.system, path) / 2);
         if (value) changes.push({key: `system.${path}`, mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: String(value)});
       }
@@ -137,7 +143,7 @@ export const FusionTemplateMixin = Base => {
       path = "weight.value";
       ifield = item.system.schema.getField(path);
       sfield = source.system.schema.getField(path);
-      if (ifield && sfield) {
+      if (!ignoredChanges.has(path) && ifield && sfield) {
         const value = Math.ceil(foundry.utils.getProperty(source.system, path) / 2);
         if (value) changes.push({key: `system.${path}`, mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: String(value)});
       }
@@ -146,7 +152,7 @@ export const FusionTemplateMixin = Base => {
       path = "wield.value";
       ifield = item.system.schema.getField(path);
       sfield = source.system.schema.getField(path);
-      if (ifield && sfield) {
+      if (!ignoredChanges.has(path) && ifield && sfield) {
         const valueA = foundry.utils.getProperty(source.system, path);
         const valueB = foundry.utils.getProperty(item.system, path);
         const value = Math.max(valueA, valueB);
@@ -157,7 +163,7 @@ export const FusionTemplateMixin = Base => {
       path = "range.reach";
       ifield = item.system.schema.getField(path);
       sfield = source.system.schema.getField(path);
-      if (ifield && sfield && item.isMelee && source.isMelee) {
+      if (!ignoredChanges.has(path) && ifield && sfield && item.isMelee && source.isMelee) {
         const value = Math.ceil((foundry.utils.getProperty(source.system, path) - 1) / 2);
         if (value) changes.push({key: `system.${path}`, mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: String(value)});
       }
@@ -166,7 +172,7 @@ export const FusionTemplateMixin = Base => {
       path = "cost.value";
       ifield = item.system.schema.getField(path);
       sfield = source.system.schema.getField(path);
-      if (ifield && sfield) {
+      if (!ignoredChanges.has(path) && ifield && sfield) {
         const value = Math.ceil(foundry.utils.getProperty(source.system, path) / 2);
         if (value) changes.push({key: `system.${path}`, mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: String(value)});
       }
@@ -175,7 +181,7 @@ export const FusionTemplateMixin = Base => {
       path = "armor.value";
       ifield = item.system.schema.getField(path);
       sfield = source.system.schema.getField(path);
-      if (ifield && sfield) {
+      if (!ignoredChanges.has(path) && ifield && sfield) {
         const value = Math.ceil(foundry.utils.getProperty(source.system, path) / 2);
         if (value) changes.push({key: `system.${path}`, mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: String(value)});
       }
@@ -184,7 +190,7 @@ export const FusionTemplateMixin = Base => {
       path = "damage.bonuses";
       ifield = item.system.schema.getField(path);
       sfield = source.system.schema.getField(path);
-      if (ifield && sfield) {
+      if (!ignoredChanges.has(path) && ifield && sfield) {
         for (const field of sfield) {
           const valueField = field.fields.value;
           const value = Math.ceil(foundry.utils.getProperty(source, valueField.fieldPath) / 2);
@@ -196,7 +202,7 @@ export const FusionTemplateMixin = Base => {
       path = "template.types";
       ifield = item.system.schema.getField(path);
       sfield = source.system.schema.getField(path);
-      if (ifield && sfield && source.hasTemplate) {
+      if (!ignoredChanges.has(path) && ifield && sfield && source.hasTemplate) {
         const value = Array.from(foundry.utils.getProperty(source.system, path)).join(", ");
         if (value) changes.push({key: `system.${path}`, mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: value});
       }
@@ -205,7 +211,7 @@ export const FusionTemplateMixin = Base => {
       path = "resistances";
       ifield = item.system.schema.getField(path);
       sfield = source.system.schema.getField(path);
-      if (ifield && sfield && item.isArmor && source.isArmor) {
+      if (!ignoredChanges.has(path) && ifield && sfield && item.isArmor && source.isArmor) {
         for (const field of sfield) {
           const valueField = field.fields.value;
           const value = Math.ceil(foundry.utils.getProperty(source, valueField.fieldPath) / 2);
