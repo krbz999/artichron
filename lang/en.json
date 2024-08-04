@@ -630,6 +630,8 @@
 
 "ItemFusionDialog": {
   "Changes": "Changes",
+  "Default": "Default",
+  "DefaultFusion": "Fusion: {name}",
   "Fuse": "Fuse",
   "FusionLabel": "Fusion",
   "Split": "Split",

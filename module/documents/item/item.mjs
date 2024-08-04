@@ -86,7 +86,7 @@ export default class ItemArtichron extends Item {
   /* -------------------------------------------------- */
 
   /**
-   * Does this item have any valid fusions it can apply?
+   * Can this item be fused onto another?
    * @type {boolean}
    */
   get hasFusions() {
