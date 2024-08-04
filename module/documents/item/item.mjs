@@ -106,6 +106,16 @@ export default class ItemArtichron extends Item {
   /* -------------------------------------------------- */
 
   /**
+   * The set of item properties that this item will modify on the target by default.
+   * @type {Set<string>}
+   */
+  get defaultFusionProperties() {
+    return this.system.defaultFusionProperties ?? new Set();
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
    * Is this a valid item type for fusing onto another?
    * @type {boolean}
    */

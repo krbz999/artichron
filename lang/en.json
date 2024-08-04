@@ -458,6 +458,10 @@
       }
     },
     "fusion": {
+      "ignore": {
+        "label": "Ignored Properties",
+        "hint": "If checked, an item property will not be added via fusions by default when this item is fused onto another."
+      },
       "max": {
         "label": "Maximum Fusions",
         "hint": "The maximum number of fusions that can target this item at the same time."

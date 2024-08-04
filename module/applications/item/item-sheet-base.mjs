@@ -126,6 +126,12 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
     }
     if (doc.system.schema.has("fusion")) {
       context.details.configuration.push(this._makeField(context, "fusion.max"));
+
+      context.fusion = this._makeField(context, "fusion.ignore");
+      context.fusion.choices = this.document.defaultFusionProperties.reduce((acc, path) => {
+        acc.push({value: path, label: this.document.system.schema.getField(path).label});
+        return acc;
+      }, []);
     }
 
     // Handling fieldset

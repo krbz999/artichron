@@ -1,4 +1,4 @@
-const {NumberField, SchemaField} = foundry.data.fields;
+const {NumberField, SchemaField, SetField, StringField} = foundry.data.fields;
 
 export const FusionTemplateMixin = Base => {
   return class FusionTemplate extends Base {
@@ -6,6 +6,7 @@ export const FusionTemplateMixin = Base => {
     static defineSchema() {
       const schema = super.defineSchema();
       schema.fusion = new SchemaField({
+        ignore: new SetField(new StringField()),
         max: new NumberField({integer: true, min: 0, initial: 1})
       });
       return schema;
@@ -117,7 +118,7 @@ export const FusionTemplateMixin = Base => {
         if (change.key.startsWith("system")) acc.add(change.key.slice(7));
         else acc.add(change.key);
         return acc;
-      }, new Set());
+      }, new Set(effect.parent.system.fusion.ignore));
 
       // Attributes are merged.
       let path = "attributes.value";
@@ -276,6 +277,34 @@ export const FusionTemplateMixin = Base => {
      */
     get isFused() {
       return this.parent.effects.some(effect => effect.isActiveFusion);
+    }
+
+    /* -------------------------------------------------- */
+
+    /**
+     * The set of item properties that this item will modify on the target by default.
+     * @type {Set<string>}
+     */
+    get defaultFusionProperties() {
+      const paths = [
+        "attributes.value",
+        "price.value",
+        "weight.value",
+        "wield.value",
+        "range.reach",
+        "cost.value",
+        "armor.value",
+        "damage.bonuses",
+        "template.types",
+        "resistances"
+      ];
+
+      const set = new Set();
+      for (const path of paths) {
+        const field = this.schema.getField(path);
+        if (field) set.add(path);
+      }
+      return set;
     }
   };
 };

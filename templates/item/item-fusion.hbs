@@ -5,6 +5,11 @@
     <p class="hint" style="font-style: italic;">This item type is not valid for fusions.</p>
   </fieldset>
   {{else}}
+
+  <fieldset>
+    {{formGroup fusion.field value=fusion.value options=fusion.choices type="checkboxes" classes="stacked" disabled=@root.isPlayMode sort=true}}
+  </fieldset>
+
   <div class="effects-list">
     {{#if activeFusions.length}}
     <header>
