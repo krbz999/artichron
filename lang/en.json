@@ -629,8 +629,11 @@
 
 "ItemFusionDialog": {
   "Changes": "Changes",
-  "Confirm": "Confirm",
+  "Fuse": "Fuse",
   "FusionLabel": "Fusion",
+  "Split": "Split",
+  "SplitLabel": "Fusion",
+  "SplitHint": "Select the active fusion to split off this item. The source item will be restored.",
   "TargetLabel": "Target",
   "Title": "{source}: Fuse",
   "TitleUnfuse": "{item}: Split",

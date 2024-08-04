@@ -70,14 +70,16 @@ export const FusionTemplateMixin = Base => {
       }, {});
       const field = new foundry.data.fields.StringField({
         choices: choices,
-        blank: true
-      });
+        required: true,
+        label: "ARTICHRON.ItemFusionDialog.SplitLabel",
+        hint: "ARTICHRON.ItemFusionDialog.SplitHint"
+      }).toFormGroup({localize: true}, {name: "effectId"}).outerHTML;
       const id = await foundry.applications.api.DialogV2.prompt({
         rejectClose: false,
         modal: true,
-        content: field.toInput({name: "effectId"}).outerHTML,
+        content: `<fieldset>${field}</fieldset>`,
         ok: {
-          label: "ARTICHRON.ItemFusionDialog.Confirm",
+          label: "ARTICHRON.ItemFusionDialog.Split",
           callback: (event, button, html) => button.form.elements.effectId.value
         },
         window: {
@@ -85,7 +87,7 @@ export const FusionTemplateMixin = Base => {
           icon: "fa-solid fa-recycle"
         },
         position: {
-          width: 300
+          width: 400
         }
       });
       if (!id) return null;

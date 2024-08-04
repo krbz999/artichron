@@ -1,6 +1,10 @@
 <footer class="form-footer">
   <button type="submit" {{disabled footer.disabled}}>
     <i class="fa-solid fa-save"></i>
+    {{#if footer.label}}
+    <label>{{localize footer.label}}</label>
+    {{else}}
     <label>{{localize "Save"}}</label>
+    {{/if}}
   </button>
 </footer>

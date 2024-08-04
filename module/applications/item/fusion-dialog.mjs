@@ -159,7 +159,8 @@ export default class ItemFusionDialog extends HandlebarsApplicationMixin(Applica
       }
     } else if (partId === "footer") {
       context.footer = {
-        disabled: !this.#item.actor.items.get(this.#selectedTarget) || !this.#item.effects.get(this.#selectedFusion)
+        disabled: !this.#item.actor.items.get(this.#selectedTarget) || !this.#item.effects.get(this.#selectedFusion),
+        label: "ARTICHRON.ItemFusionDialog.Fuse"
       };
     }
     return context;
