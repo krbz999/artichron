@@ -297,6 +297,7 @@ export default class ElixirData extends ItemSystemModel {
   _prepareTooltipProperties() {
     const props = super._prepareTooltipProperties();
     props.push({title: "Uses", label: `${this.usage.value}/${this.usage.max}`, icon: "fa-solid fa-flask"});
+    props.push({title: "AP", label: String(1), icon: "fa-solid fa-circle"});
     return props;
   }
 }

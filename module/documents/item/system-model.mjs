@@ -155,6 +155,7 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
       tags: this._prepareTooltipTags(),
       properties: this._prepareTooltipProperties()
     };
+    context.propsCol = Math.min(4, context.properties.length);
 
     return context;
   }
@@ -197,12 +198,14 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
     props.push({title: "Weight", label: this.weight.total, icon: "fa-solid fa-weight-hanging"});
 
     if (this.schema.has("quantity")) {
-      props.push({title: "Quantity", label: this.quantity.value ?? 0, icon: "fa-solid fa-cubes-stacked"});
+      props.push({title: "Qty", label: this.quantity.value ?? 0, icon: "fa-solid fa-cubes-stacked"});
     }
 
     if (this.parent.isArsenal) {
       if (this.parent.isMelee) props.push({title: "Reach", label: `${this.range.reach}m`, icon: "fa-solid fa-bullseye"});
       else props.push({title: "Range", label: `${this.range.value}m`, icon: "fa-solid fa-bullseye"});
+
+      props.push({title: "AP", label: this.cost.value, icon: "fa-solid fa-circle"});
     }
 
     return props;

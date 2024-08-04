@@ -67,7 +67,7 @@
   background-color: rgb(18, 10, 61);
   --tooltip-gray: rgb(177, 177, 177);
 
-  .weapon, .shield, .armor, .elixir, .part, .spell {
+  .weapon, .shield, .armor, .elixir, .part, .spell, .ammo {
     display: flex;
     flex-direction: column;
     width: 300px;
@@ -132,6 +132,7 @@
         overflow: hidden auto;
         min-height: 100px;
         max-height: 200px;
+        color: white;
       }
     }
 
