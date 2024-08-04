@@ -195,21 +195,6 @@ export const ArtichronSheetMixin = Base => {
       // Refocus on a delta.
       const focus = newElement.querySelector(":focus");
       if (focus && focus.classList.contains("delta")) focus.select();
-
-      // Fade in or out a toggled effect.
-      if (partId === "effects") {
-        newElement.querySelectorAll("[data-item-uuid].effect").forEach(n => {
-          const uuid = n.dataset.itemUuid;
-          const newWrapper = n.querySelector(".wrapper");
-          const oldWrapper = priorElement.querySelector(`[data-item-uuid="${uuid}"].effect .wrapper`);
-          if (oldWrapper) {
-            newWrapper.animate([
-              {opacity: oldWrapper.style.opacity},
-              {opacity: newWrapper.style.opacity}
-            ], {duration: 200, easing: "ease-in-out"});
-          }
-        });
-      }
     }
 
     /* -------------------------------------------------- */
