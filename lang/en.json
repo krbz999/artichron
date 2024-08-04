@@ -32,7 +32,8 @@
 "ARTICHRON": {
 
 "ItemSheet": {
-  "Base": "Artichron Item Sheet"
+  "Base": "Artichron Item Sheet",
+  "Elixir": "Artichron Elixir Sheet"
 },
 "ActorSheet": {
   "Base": "Artichron Actor Sheet",
@@ -306,6 +307,7 @@
   "ElixirProperty": {
     "FIELDS": {
       "category": {
+        "label": "Type",
         "pool": {
           "label": "Boost",
           "hint": "The pool that this elixir can grant a boost of during an attack."
@@ -316,6 +318,7 @@
         }
       },
       "healing": {
+        "label": "Healing",
         "formula": {
           "label": "Healing Formula",
           "hint": "The formula that is rolled to calculate the amount of healing performed by this elixir."

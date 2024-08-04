@@ -2,7 +2,8 @@
   <fieldset class="attributes">
     {{#with details.attributes}}
     <legend>{{field.label}}</legend>
-    {{formGroup field value=value disabled=disabled type=type classes="stacked" label=""}}
+    {{formInput field value=value disabled=disabled type=type}}
+    <p class="hint">{{field.hint}}</p>
     {{/with}}
   </fieldset>
 

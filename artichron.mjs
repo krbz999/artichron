@@ -1,5 +1,5 @@
 import {SYSTEM} from "./module/helpers/config.mjs";
-import * as applications from "./module/applications/_module.mjs";
+import applications from "./module/applications/_module.mjs";
 import dice from "./module/dice/_module.mjs";
 import * as documents from "./module/documents/_module.mjs";
 import * as migrations from "./module/helpers/migrations.mjs";
@@ -98,7 +98,13 @@ Hooks.once("init", function() {
   Items.unregisterSheet("core", ItemSheet);
   Items.registerSheet("artichron", applications.ItemSheetArtichron, {
     makeDefault: true,
-    label: "ARTICHRON.ItemSheet.Base"
+    label: "ARTICHRON.ItemSheet.Base",
+    types: ["weapon", "shield", "spell", "armor", "part", "ammo"]
+  });
+  Items.registerSheet("artichron", applications.ItemSheetElixir, {
+    makeDefault: true,
+    label: "ARTICHRON.ItemSheet.Elixir",
+    types: ["elixir"]
   });
 
   DocumentSheetConfig.unregisterSheet(ActiveEffect, "core", ActiveEffectConfig);

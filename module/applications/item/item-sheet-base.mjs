@@ -112,9 +112,6 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
     // Configuration fieldset
     context.details.configuration = [];
     context.details.configuration.push(this._makeField(context, "category.subtype"));
-    if ((doc.type === "elixir") && (doc.system.category.subtype === "booster")) {
-      context.details.configuration.push(this._makeField(context, "category.pool"));
-    }
     if (doc.system.schema.has("price")) {
       context.details.configuration.push(this._makeField(context, "price.value"));
     }
@@ -158,18 +155,6 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
         formGroups: [
           this._makeField(context, "blast.size"),
           this._makeField(context, "blast.type")
-        ]
-      });
-    }
-
-    // Usage.
-    if (doc.system.schema.has("usage")) {
-      const field = this.document.system.schema.getField("usage");
-      context.fieldsets.push({
-        legend: field.label,
-        formGroups: [
-          this._makeField(context, "usage.spent", {max: doc.system.usage.max}),
-          this._makeField(context, "usage.max")
         ]
       });
     }
@@ -267,17 +252,6 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
       }
 
       context.resistances = fieldset;
-    }
-
-    // Healing elixir.
-    if (this.document.type === "elixir") {
-      const c = this.document.system.category;
-      if (c.subtype === "restorative") {
-        context.healing = {
-          field: this.document.system.schema.getField("healing.formula"),
-          value: this.document.system.healing.formula
-        };
-      }
     }
 
     return context;
