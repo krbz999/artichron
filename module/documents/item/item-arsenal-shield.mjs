@@ -122,7 +122,7 @@ export default class ShieldData extends ArsenalData {
 
   /** @override */
   _prepareTooltipProperties() {
-    const props = [];
+    const props = super._prepareTooltipProperties();
     props.push({title: "Armor", label: this.armor.value ?? 0, icon: "fa-solid fa-shield"});
     return props;
   }
