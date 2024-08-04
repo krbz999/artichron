@@ -120,8 +120,8 @@ export const ArtichronSheetMixin = Base => {
         acc[v.id] = {
           ...v,
           active: isActive,
-          cssClass: isActive ? "active" : "",
-          tabCssClass: isActive ? "tab scrollable active" : "tab scrollable"
+          cssClass: [isActive ? "active" : null].filterJoin(" "),
+          tabCssClass: ["tab", "scrollable", isActive ? "active" : null].filterJoin(" ")
         };
         return acc;
       }, {});

@@ -25,6 +25,7 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
     description: {template: "systems/artichron/templates/item/item-description.hbs", scrollable: [""]},
     details: {template: "systems/artichron/templates/item/item-details.hbs", scrollable: [""]},
     secondary: {template: "systems/artichron/templates/item/item-secondary.hbs", scrollable: [""]},
+    fusion: {template: "systems/artichron/templates/item/item-fusion.hbs", scrollable: [""]},
     effects: {template: "systems/artichron/templates/shared/effects.hbs", scrollable: [""]}
   };
 
@@ -35,6 +36,7 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
     description: {id: "description", group: "primary", label: "ARTICHRON.SheetTab.Description"},
     details: {id: "details", group: "primary", label: "ARTICHRON.SheetTab.Details"},
     secondary: {id: "secondary", group: "primary", label: "ARTICHRON.SheetTab.Properties"},
+    fusion: {id: "fusion", group: "primary", label: "ARTICHRON.SheetTab.Fusion"},
     effects: {id: "effects", group: "primary", label: "ARTICHRON.SheetTab.Effects"}
   };
 
