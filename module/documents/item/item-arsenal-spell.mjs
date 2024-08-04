@@ -83,7 +83,10 @@ export default class SpellData extends ArsenalData {
     const flags = {artichron: {usage: {}}};
 
     if (data.type !== "single") {
+      // Offensive spells placing templates can remove those at the end of the turn.
+      // Otherwise, they should probably linger until combat ends.
       flags.artichron.usage.templates = {
+        duration: this.category.subtype === "offense" ? "turn" : "combat",
         ...data
       };
     } else {
@@ -148,7 +151,7 @@ export default class SpellData extends ArsenalData {
    * @param {object} config     Template configuration and placement data.
    * @returns {Promise<MeasuredTemplateDocumentArtichron[]>}
    */
-  async placeTemplates(config) {
+  async placeTemplates({duration, ...config}) {
     if (!this.hasTemplate) {
       throw new Error("This item cannot create measured templates!");
     }
@@ -165,6 +168,17 @@ export default class SpellData extends ArsenalData {
       else break;
     }
     canvas.templates.clearPreviewContainer();
+
+    // If in combat, flag these templates.
+    if (this.parent.actor.inCombat) {
+      for (const data of templateDatas) {
+        foundry.utils.mergeObject(data, {
+          "flags.artichron.combat.id": game.combat.id,
+          "flags.artichron.combat.end": duration ?? "combat" // turn, round, or combat
+        });
+      }
+    }
+
     const templates = await canvas.scene.createEmbeddedDocuments("MeasuredTemplate", templateDatas);
     initialLayer.activate();
     return templates;
