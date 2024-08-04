@@ -2,7 +2,7 @@
   {{#if active}}
   {{#each turns}}
   {{#unless hide}}
-  <div class="{{cssClasses}}" data-idx="{{idx}}" style="--combatant-left-idx: {{left}};" data-id="{{combatant.id}}">
+  <div class="{{cssClasses}}" data-action="selectCombatant" data-idx="{{idx}}" style="--combatant-left-idx: {{left}};" data-id="{{combatant.id}}">
     <img class="avatar" src="{{token.texture.src}}" alt="">
     <div class="actions">
       {{#if canPing}}
@@ -15,7 +15,7 @@
       <a class="{{#if defeated}}active{{/if}}" data-action="toggleDefeated" data-tooltip="ARTICHRON.Combat.ToggleDefeated"><i class="fa-solid fa-skull"></i></a>
       {{/if}}
     </div>
-    <span class="name" data-tooltip="{{combatant.name}}">{{combatant.name}}</span>
+    <a class="name" data-tooltip="{{combatant.name}}">{{combatant.name}}</a>
     {{#if isObserver}}
     <span class="health" style="--health-width: {{health.pct}}%;" data-tooltip="{{localize 'ARTICHRON.Combat.HealthBar' value=health.value max=health.max}}">
       <span class="bar"></span>
