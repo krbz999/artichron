@@ -687,6 +687,8 @@
 },
 
 "EquipDialog": {
+  "Label": "Item",
+  "Hint": "Select the item to equip in this slot.",
   "Title": "Change Equipped Item"
 },
 

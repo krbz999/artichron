@@ -104,7 +104,7 @@ const EquipmentTemplateMixin = Base => {
         required: true,
         label: "ARTICHRON.EquipDialog.Label",
         hint: "ARTICHRON.EquipDialog.Hint"
-      }).toFormGroup({}, {name: "itemId"}).outerHTML : null;
+      }).toFormGroup({localize: true}, {name: "itemId"}).outerHTML : null;
 
       const buttons = [];
       if (!foundry.utils.isEmpty(choices)) {
@@ -120,7 +120,7 @@ const EquipmentTemplateMixin = Base => {
         buttons.push({
           action: "unequip",
           label: "Unequip",
-          icon: "fa-solid"
+          icon: "fa-solid fa-times"
         });
       }
 
@@ -132,12 +132,14 @@ const EquipmentTemplateMixin = Base => {
       const value = await foundry.applications.api.DialogV2.wait({
         buttons: buttons,
         rejectClose: false,
-        content: content,
+        content: `<fieldset>${content}</fieldset>`,
         classes: ["artichron", "equip"],
         modal: true,
         window: {title: "ARTICHRON.EquipDialog.Title", icon: "fa-solid fa-hand-fist"},
         position: {width: 350}
       });
+
+      if (!value) return null;
 
       if (value === "unequip") {
         return this.changeEquipped(slot);
