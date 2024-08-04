@@ -5,7 +5,7 @@
     <legend>{{localize "ARTICHRON.SheetTab.Equipment"}}</legend>
     {{#each equipment}}
     <div class="item {{#unless active}} empty {{/unless}}" {{#if dataset.itemUuid}} data-item-uuid="{{dataset.itemUuid}}" {{/if}}>
-      <img src="{{item.img}}" {{#if active}} data-action="useItem" {{/if}}>
+      <img src="{{item.img}}" {{#if active}} data-action="useItem" {{/if}} data-tooltip="<section class='loading' data-uuid='{{dataset.itemUuid}}'><i class='fas fa-spinner fa-spin-pulse'></i></section>">
       {{#if @root.isEditMode}}
       <div class="controls">
         <a data-action="changeEquipped" data-equipment-slot="{{dataset.equipmentSlot}}">

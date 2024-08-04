@@ -32,7 +32,7 @@
       <legend>{{localize "ARTICHRON.SheetTab.Favorites"}}</legend>
       {{#each document.favorites}}
       <button type="button" class="favorite" data-item-uuid="{{uuid}}" data-action="useItem">
-        <img src="{{img}}" data-tooltip="{{name}}" data-tooltip-direction="UP">
+        <img src="{{img}}" data-tooltip="<section class='loading' data-uuid='{{uuid}}'><i class='fas fa-spinner fa-spin-pulse'></i></section>">
       </button>
       {{/each}}
     </fieldset>
