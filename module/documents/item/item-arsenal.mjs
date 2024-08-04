@@ -94,41 +94,29 @@ export default class ArsenalData extends ItemSystemModel.mixin(
   /* -------------------------------------------------- */
 
   /**
-   * Roll damage dice to block and reduce the incoming damage.
+   * Roll damage dice to block or parry and reduce the incoming damage.
+   * @param {string} [type]                       The type of defense roll ('block' or 'parry').
    * @returns {Promise<ChatMessageArtichron>}     A promise that resolves to the created chat message.
    */
-  async rollBlock() {
-    if (!this.attributes.value.has("blocking")) {
+  async rollDefense(type) {
+    if (!["block", "parry"].includes(type)) {
+      type = this.attributes.value.has("blocking") ? "block" : "parry";
+    }
+
+    if ((type === "block") && !this.attributes.value.has("blocking")) {
       throw new Error("This item cannot block incoming damage!");
     }
 
-    const formula = this._damages.map(d => d.formula).join("+");
-    const roll = Roll.create(formula, this.parent.getRollData());
-    if (this.parent.type !== "shield") roll.alter(0.5);
-
-    return roll.toMessage({
-      flavor: game.i18n.format("ARTICHRON.ChatMessage.BlockFlavor", {name: this.parent.name}),
-      speaker: ChatMessage.implementation.getSpeaker({actor: this.parent.actor})
-    });
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Roll damage dice to parry and reduce the incoming damage.
-   * @returns {Promise<ChatMessageArtichron>}     A promise that resolves to the created chat message.
-   */
-  async rollParry() {
-    if (!this.attributes.value.has("parrying")) {
+    if ((type === "parry") && !this.attributes.value.has("parrying")) {
       throw new Error("This item cannot parry incoming damage!");
     }
 
     const formula = this._damages.map(d => d.formula).join("+");
     const roll = Roll.create(formula, this.parent.getRollData());
-    roll.alter(0.5);
+    if (type === "parry") roll.alter(0.5);
 
     return roll.toMessage({
-      flavor: game.i18n.format("ARTICHRON.ChatMessage.ParryFlavor", {name: this.parent.name}),
+      flavor: game.i18n.format(`ARTICHRON.ChatMessage.${type.capitalize()}Flavor`, {name: this.parent.name}),
       speaker: ChatMessage.implementation.getSpeaker({actor: this.parent.actor})
     });
   }

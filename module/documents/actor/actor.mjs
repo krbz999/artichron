@@ -511,15 +511,7 @@ export default class ActorArtichron extends Actor {
     if (!itemIds) return false;
     for (const id of itemIds) {
       const item = this.items.get(id);
-      let message;
-      if ((item.type === "weapon") && item.system.attributes.value.has("parrying")) {
-        message = await item.system.rollParry();
-      } else if (item.system.attributes.value.has("blocking")) {
-        message = await item.system.rollBlock();
-      } else {
-        message = await item.system.rollParry();
-      }
-
+      const message = await item.system.rollDefense();
       value += message.rolls.reduce((acc, roll) => acc + roll.total, 0);
     }
 
