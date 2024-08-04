@@ -84,7 +84,7 @@ const EquipmentTemplateMixin = Base => {
         if (item === current) return acc;
 
         if (type === "armor") {
-          if ((item.type !== "armor") && (item.system.category.subtype !== slot)) return acc;
+          if ((item.type !== "armor") || (item.system.category.subtype !== slot)) return acc;
         } else if (type === "arsenal") {
           if (!item.isArsenal) return acc;
           const {primary, secondary} = this.parent.arsenal;
@@ -125,14 +125,14 @@ const EquipmentTemplateMixin = Base => {
       }
 
       if (!buttons.length) {
-        ui.notifications.error("ARTICHRON.EquipDialog.Warning", {localize: true});
+        ui.notifications.warn("ARTICHRON.EquipDialog.Warning", {localize: true});
         return null;
       }
 
       const value = await foundry.applications.api.DialogV2.wait({
         buttons: buttons,
         rejectClose: false,
-        content: `<fieldset>${content}</fieldset>`,
+        content: content ? `<fieldset>${content}</fieldset>` : undefined,
         classes: ["artichron", "equip"],
         modal: true,
         window: {title: "ARTICHRON.EquipDialog.Title", icon: "fa-solid fa-hand-fist"},

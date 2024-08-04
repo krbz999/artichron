@@ -689,7 +689,8 @@
 "EquipDialog": {
   "Label": "Item",
   "Hint": "Select the item to equip in this slot.",
-  "Title": "Change Equipped Item"
+  "Title": "Change Equipped Item",
+  "Warning": "You have no items that can be equipped in that slot."
 },
 
 "ElixirDialog": {
