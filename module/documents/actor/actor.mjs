@@ -727,4 +727,18 @@ export default class ActorArtichron extends Actor {
       }
     });
   }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Determine this actor's action points at the start of the round.
+   * @returns {number}
+   */
+  determineStartingActionPoints() {
+    const hindered = this.appliedConditionLevel("hindered");
+    const bonus = this.system.pips.turn * game.combat.getCombatantsByActor(this).length;
+    const base = (this.type === "hero") ? this.system.pools.stamina.max : this.system.danger.value * 2;
+    const value = Math.max(1, base + bonus - hindered);
+    return value;
+  }
 }

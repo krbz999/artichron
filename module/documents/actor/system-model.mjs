@@ -13,7 +13,7 @@ export default class ActorSystemModel extends foundry.abstract.TypeDataModel {
       favorites: new SetField(new StringField({required: true})),
       pips: new SchemaField({
         value: new NumberField({min: 0, integer: true}),
-        turn: new NumberField({min: 0, integer: true, initial: 2})
+        turn: new NumberField({min: 0, integer: true, initial: 1})
       })
     };
   }
