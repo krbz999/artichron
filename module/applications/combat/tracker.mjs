@@ -43,7 +43,8 @@ export class CombatCarousel extends HandlebarsApplicationMixin(ApplicationV2) {
       pingCombatant: this.#pingCombatant,
       toggleDefeated: this.#toggleDefeated,
       toggleHidden: this.#toggleHidden,
-      toggleCollapsed: this.#toggleCollapsed
+      toggleCollapsed: this.#toggleCollapsed,
+      selectCombatant: this.#onSelectCombatant
     }
   };
 
@@ -230,8 +231,11 @@ export class CombatCarousel extends HandlebarsApplicationMixin(ApplicationV2) {
   /** @override */
   _onRender(...args) {
     super._onRender(...args);
-    for (const combatant of this.element.querySelectorAll(".combatant .avatar")) {
-      combatant.addEventListener("dblclick", CombatCarousel.#renderActor.bind(this));
+    for (const combatant of this.element.querySelectorAll(".combatant")) {
+      const name = combatant.querySelector(".name");
+      name.addEventListener("dblclick", CombatCarousel.#renderActor.bind(this));
+      combatant.addEventListener("pointerover", CombatCarousel.#onCombatantHoverIn.bind(this));
+      combatant.addEventListener("pointerout", CombatCarousel.#onCombatantHoverOut.bind(this));
     }
   }
 
@@ -300,6 +304,55 @@ export class CombatCarousel extends HandlebarsApplicationMixin(ApplicationV2) {
   /* -------------------------------------------------- */
 
   /**
+   * Handle selecting combatant.
+   * @param {Event} event             Initiating click event.
+   * @param {HTMLElement} target      The clicked element.
+   */
+  static #onSelectCombatant(event, target) {
+    if (event.target.classList.contains("name")) return;
+    if (event.detail > 1) return; // Ignore repeated clicks
+    const id = target.dataset.id;
+    const combatant = this.combat.combatants.get(id);
+    const token = combatant.token?.object;
+    if (!token?.actor?.testUserPermission(game.user, "OBSERVER")) return;
+    const releaseOthers = !event.shiftKey;
+    if (token.controlled) token.release();
+    else {
+      token.control({releaseOthers});
+      canvas.animatePan(token.center);
+    }
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Handle hover-in events on a combatant.
+   * @param {Event} event     The pointer event.
+   */
+  static #onCombatantHoverIn(event) {
+    const id = event.currentTarget.dataset.id;
+    const combatant = this.combat.combatants.get(id);
+    const token = combatant.token?.object;
+    if (token && token.isVisible) {
+      if (!token.controlled) token._onHoverIn(event, {hoverOutOthers: true});
+      this._highlighted = token;
+    }
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Handle hover-out events on a combatant.
+   * @param {Event} event     The pointer event.
+   */
+  static #onCombatantHoverOut(event) {
+    if (this._highlighted) this._highlighted._onHoverOut(event);
+    this._highlighted = null;
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
    * Handle initiating combat.
    * @param {Event} event             Initiating click event.
    * @param {HTMLElement} target      The clicked element.
@@ -349,6 +402,7 @@ export class CombatCarousel extends HandlebarsApplicationMixin(ApplicationV2) {
    * @param {HTMLElement} target      The clicked element.
    */
   static #pingCombatant(event, target) {
+    event.stopPropagation(); // Don't trigger other events
     const id = target.closest("[data-id]").dataset.id;
     const combatant = this.combat.combatants.get(id);
     if (!canvas.ready || (combatant.sceneId !== canvas.scene.id)) return;
@@ -365,6 +419,7 @@ export class CombatCarousel extends HandlebarsApplicationMixin(ApplicationV2) {
    * @param {HTMLElement} target      The clicked element.
    */
   static #toggleDefeated(event, target) {
+    event.stopPropagation(); // Don't trigger other events
     const id = target.closest("[data-id]").dataset.id;
     const combatant = this.combat.combatants.get(id);
     const actor = combatant.actor;
@@ -379,6 +434,7 @@ export class CombatCarousel extends HandlebarsApplicationMixin(ApplicationV2) {
    * @param {HTMLElement} target      The clicked element.
    */
   static #toggleHidden(event, target) {
+    event.stopPropagation(); // Don't trigger other events
     const id = target.closest("[data-id]").dataset.id;
     const combatant = this.combat.combatants.get(id);
     const combatants = this.combat.getCombatantsByToken(combatant.token);
