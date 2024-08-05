@@ -24,16 +24,6 @@
   </fieldset>
   {{/if}}
 
-  {{#if isAmmo}}
-  <fieldset>
-    <legend>{{localize "ARTICHRON.ItemProperty.Fieldsets.DamageOverrides"}}</legend>
-    {{#with damages.override}}
-    {{formGroup group.field value=group.value disabled=group.disabled}}
-    {{formGroup value.field value=value.value disabled=value.disabled options=@root.damageTypes}}
-    {{/with}}
-  </fieldset>
-  {{/if}}
-
   {{#if sections.damage}}
   <fieldset class="damage">
     <legend>
@@ -60,22 +50,6 @@
     </div>
     {{/each}}
   </fieldset>
-
-  {{#unless isAmmo}}
-  <fieldset class="bonuses">
-    <legend>{{damageBonuses.label}}</legend>
-    {{#each damageBonuses.bonuses}}
-    <div class="resistance {{#if active}} active {{/if}}" data-tooltip="{{label}}" style="color: #{{color}}">
-      {{#if @root.isEditMode}}
-      {{formInput field value=value}}
-      {{else}}
-      <span class="total">{{value}}</span>
-      {{/if}}
-      <i class="{{icon}}"></i>
-    </div>
-    {{/each}}
-  </fieldset>
-  {{/unless}}
 
   {{/if}}
 </div>

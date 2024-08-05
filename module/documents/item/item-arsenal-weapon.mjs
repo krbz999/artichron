@@ -1,5 +1,4 @@
 import ArsenalData from "./item-arsenal.mjs";
-import WeaponUseDialog from "../../applications/item/weapon-use-dialog.mjs";
 import MeasuredTemplateArtichron from "../template/template.mjs";
 
 const {NumberField, SchemaField, StringField} = foundry.data.fields;
@@ -60,7 +59,7 @@ export default class WeaponData extends ArsenalData {
       return null;
     }
 
-    const configuration = await WeaponUseDialog.create(item);
+    const configuration = await artichron.applications.WeaponUseDialog.create(item);
     if (!configuration) return null;
     const stamina = configuration.stamina ?? 0;
     const ammo = actor.items.get(configuration.ammo) ?? null;
@@ -157,14 +156,6 @@ export default class WeaponData extends ArsenalData {
         config: CONFIG.SYSTEM.DAMAGE_TYPES[k.type]
       };
     });
-
-    context.bonuses = Object.entries(this.damage.bonuses).reduce((acc, [type, {value}]) => {
-      if (value) acc.push({
-        value: value,
-        config: CONFIG.SYSTEM.DAMAGE_TYPES[type]
-      });
-      return acc;
-    }, []);
 
     return context;
   }

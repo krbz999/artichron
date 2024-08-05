@@ -187,18 +187,6 @@ export const FusionTemplateMixin = Base => {
         if (value) changes.push({key: `system.${path}`, mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: String(value)});
       }
 
-      // Half the source item's damage bonuses are added.
-      path = "damage.bonuses";
-      ifield = item.system.schema.getField(path);
-      sfield = source.system.schema.getField(path);
-      if (!ignoredChanges.has(path) && ifield && sfield) {
-        for (const field of sfield) {
-          const valueField = field.fields.value;
-          const value = Math.ceil(foundry.utils.getProperty(source, valueField.fieldPath) / 2);
-          if (value) changes.push({key: valueField.fieldPath, mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: String(value)});
-        }
-      }
-
       // Merge the targeting types of spells.
       path = "template.types";
       ifield = item.system.schema.getField(path);
@@ -294,7 +282,6 @@ export const FusionTemplateMixin = Base => {
         "range.reach",
         "cost.value",
         "armor.value",
-        "damage.bonuses",
         "template.types",
         "resistances"
       ];

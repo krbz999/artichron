@@ -99,7 +99,12 @@ Hooks.once("init", function() {
   Items.registerSheet("artichron", applications.ItemSheetArtichron, {
     makeDefault: true,
     label: "ARTICHRON.ItemSheet.Base",
-    types: ["weapon", "shield", "spell", "armor", "ammo"]
+    types: ["weapon", "shield", "spell", "armor"]
+  });
+  Items.registerSheet("artichron", applications.ItemSheetAmmunition, {
+    makeDefault: true,
+    label: "ARTICHRON.ItemSheet.Ammunition",
+    types: ["ammo"]
   });
   Items.registerSheet("artichron", applications.ItemSheetElixir, {
     makeDefault: true,

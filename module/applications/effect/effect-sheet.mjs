@@ -116,7 +116,6 @@ export default class EffectSheetArtichron extends ArtichronSheetMixin(foundry.ap
       if (path.startsWith("skills")) group = "Skills";
       else if (path.startsWith("resistances")) group = "Resistances";
       else if (path.startsWith("pools")) group = "Pools";
-      else if (path.startsWith("damage.bonuses")) group = "Damage Bonus";
       else if (path.startsWith("bonuses.damage")) group = "Damage Amplification";
 
       acc.push({group, value: k, label});

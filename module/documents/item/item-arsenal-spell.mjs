@@ -237,14 +237,6 @@ export default class SpellData extends ArsenalData {
           config: CONFIG.SYSTEM.DAMAGE_TYPES[k.type]
         };
       });
-
-      context.bonuses = Object.entries(this.damage.bonuses).reduce((acc, [type, {value}]) => {
-        if (value) acc.push({
-          value: value,
-          config: CONFIG.SYSTEM.DAMAGE_TYPES[type]
-        });
-        return acc;
-      }, []);
     }
 
     context.targets = this.template.types.reduce((acc, type) => {

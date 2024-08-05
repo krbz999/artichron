@@ -51,7 +51,7 @@
     }
   }
 
-  .resistances, .bonuses {
+  .resistances {
     flex-direction: row;
     gap: 1px;
 
@@ -84,8 +84,6 @@
         &:focus { width: 10rem; }
       }
     }
-
-    &.bonuses span.total::after { content: "%"; }
   }
 }
 

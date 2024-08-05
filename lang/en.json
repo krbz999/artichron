@@ -32,6 +32,7 @@
 "ARTICHRON": {
 
 "ItemSheet": {
+  "Ammunition": "Artichron Ammunition Sheet",
   "Base": "Artichron Item Sheet",
   "Elixir": "Artichron Elixir Sheet",
   "Part": "Artichron Monster Part Sheet"
@@ -276,9 +277,7 @@
 
 "ItemProperty": {
   "Fieldsets": {
-    "BlastZone": "Blast Zone",
     "Configuration": "Configuration",
-    "DamageOverrides": "Damage Overrides",
     "Defenses": "Defenses",
     "Handling": "Handling"
   },
@@ -286,6 +285,7 @@
   "AmmoProperty": {
     "FIELDS": {
       "category": {
+        "label": "Type",
         "subtype": {
           "label": "Ammunition Type",
           "hint": "The ammunition type determines which weapons can make use of it."
@@ -323,6 +323,18 @@
         "formula": {
           "label": "Healing Formula",
           "hint": "The formula that is rolled to calculate the amount of healing performed by this elixir."
+        }
+      }
+    }
+  },
+
+  "PartProperty": {
+    "FIELDS": {
+      "category": {
+        "label": "Type",
+        "subtype": {
+          "label": "Monster Part Subtype",
+          "hint": "TODO"
         }
       }
     }
@@ -403,45 +415,6 @@
       }
     },
     "damage": {
-      "bonuses": {
-        "label": "Damage Bonuses",
-        "hint": "Bonuses of individual types to damage rolls.",
-        "arcane": {
-          "value": {
-            "label": "Arcane Bonus"
-          }
-        },
-        "darkness": {
-          "value": {
-            "label": "Darkness Bonus"
-          }
-        },
-        "fire": {
-          "value": {
-            "label": "Fire Bonus"
-          }
-        },
-        "ice": {
-          "value": {
-            "label": "Ice Bonus"
-          }
-        },
-        "light": {
-          "value": {
-            "label": "Light Bonus"
-          }
-        },
-        "lightning": {
-          "value": {
-            "label": "Lightning Bonus"
-          }
-        },
-        "wind": {
-          "value": {
-            "label": "Wind Bonus"
-          }
-        }
-      },
       "override": {
         "group": {
           "label": "Target Group",

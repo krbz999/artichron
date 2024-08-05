@@ -143,21 +143,6 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
 
     // Range.
     if (context.sections.range) context.range = this._makeField(context, "range.value");
-    else if (doc.isAmmo) context.fieldsets.push({
-      legend: "ARTICHRON.ItemProperty.Fieldsets.Handling",
-      formGroups: [this._makeField(context, "range.value")]
-    });
-
-    // Blast zone.
-    if (doc.isAmmo) {
-      context.fieldsets.push({
-        legend: "ARTICHRON.ItemProperty.Fieldsets.BlastZone",
-        formGroups: [
-          this._makeField(context, "blast.size"),
-          this._makeField(context, "blast.type")
-        ]
-      });
-    }
 
     // Defenses.
     if (doc.system.schema.has("armor")) context.fieldsets.push({
@@ -209,14 +194,6 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
       }, {}));
 
       context.damageTypes.push(...Object.values(groups).flat());
-
-      // Damage type override (ammo).
-      if (context.isAmmo) {
-        context.damages.override = {
-          group: this._makeField(context, "damage.override.group"),
-          value: this._makeField(context, "damage.override.value")
-        };
-      }
     }
 
     const makeResistance = field => {
@@ -230,15 +207,6 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
         active: context.isEditMode || !!value
       };
     };
-
-    if (!this.document.isAmmo && context.sections.damage) {
-      const field = this.document.system.schema.getField("damage.bonuses");
-      context.damageBonuses = {
-        label: field.label,
-        bonuses: []
-      };
-      for (const k of field) context.damageBonuses.bonuses.push(makeResistance(k));
-    }
 
     // Resistances.
     if (doc.isArmor) {
