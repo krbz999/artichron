@@ -75,11 +75,6 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
       effects: buffs,
       fusions: fusionOptions,
       enhancements: enhancements,
-      sections: {
-        damage: doc.system.schema.has("damage") && damageSchema.has("parts") && ((doc.type !== "spell") || isOffense),
-        resistances: doc.system.schema.has("resistances"),
-        range: doc.system.schema.has("range") && !doc.isAmmo
-      },
       description: {
         enriched: await TextEditor.enrichHTML(doc.system.description.value, {
           rollData: rollData, relativeTo: doc
@@ -92,6 +87,7 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
       isEditMode: this.isEditMode,
       isPlayMode: this.isPlayMode,
       isEditable: this.isEditable,
+      hasDamage: doc.system.schema.has("damage") && damageSchema.has("parts") && ((doc.type !== "spell") || isOffense),
       canFuse: doc.canFuse,
       isAmmo: doc.isAmmo,
       isItem: true,
@@ -143,9 +139,6 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
     if (doc.type === "spell") context.details.handling.push(this._makeField(context, "template.types"));
     if (doc.isArsenal) context.details.handling.push(this._makeField(context, "cost.value"));
 
-    // Range.
-    if (context.sections.range) context.range = this._makeField(context, "range.value");
-
     // Defenses.
     if (doc.system.schema.has("armor")) context.fieldsets.push({
       legend: game.i18n.localize("ARTICHRON.ItemProperty.Fieldsets.Defenses"),
@@ -153,7 +146,7 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
     });
 
     // Damage parts.
-    if (context.sections.damage) {
+    if (context.hasDamage) {
       context.damageTypes = [];
       context.damages = {
         label: this.document.system.schema.getField("damage.parts").label,
