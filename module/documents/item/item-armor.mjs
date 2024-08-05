@@ -1,4 +1,3 @@
-import {ResistanceField} from "../fields/resistance-field.mjs";
 import ItemSystemModel from "./system-model.mjs";
 import {FusionTemplateMixin} from "./templates/fusion-data.mjs";
 
@@ -18,7 +17,10 @@ export default class ArmorData extends FusionTemplateMixin(ItemSystemModel) {
   static defineSchema() {
     return {
       ...super.defineSchema(),
-      resistances: new ResistanceField(),
+      resistances: new SchemaField(Object.entries(CONFIG.SYSTEM.DAMAGE_TYPES).reduce((acc, [k, v]) => {
+        if (v.resist) acc[k] = new SchemaField({value: new NumberField({integer: true, min: 0})});
+        return acc;
+      }, {})),
       armor: new SchemaField({
         value: new NumberField({min: 0, integer: true})
       }),

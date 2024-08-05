@@ -1,5 +1,3 @@
-import {ResistanceField} from "../fields/resistance-field.mjs";
-
 const {SchemaField, NumberField, SetField, StringField} = foundry.data.fields;
 
 export default class ActorSystemModel extends foundry.abstract.TypeDataModel {
