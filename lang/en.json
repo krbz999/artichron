@@ -33,7 +33,8 @@
 
 "ItemSheet": {
   "Base": "Artichron Item Sheet",
-  "Elixir": "Artichron Elixir Sheet"
+  "Elixir": "Artichron Elixir Sheet",
+  "Part": "Artichron Monster Part Sheet"
 },
 "ActorSheet": {
   "Base": "Artichron Actor Sheet",

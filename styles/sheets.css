@@ -15,7 +15,10 @@
   /* Slight gap below sheet tabs. */
   .sheet-tabs.tabs {
     margin-bottom: 1rem;
-    & a { flex: 1; }
+    & a {
+      flex: 1;
+      font-size: 12px;
+    }
   }
 
   .header {

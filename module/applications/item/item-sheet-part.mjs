@@ -1,9 +1,9 @@
 import ItemSheetArtichron from "./item-sheet-base.mjs";
 
-export default class ItemSheetElixir extends ItemSheetArtichron {
+export default class ItemSheetPart extends ItemSheetArtichron {
   /** @override */
   static DEFAULT_OPTIONS = {
-    classes: ["elixir"],
+    classes: ["part"],
     position: {width: 450}
   };
 
@@ -15,8 +15,7 @@ export default class ItemSheetElixir extends ItemSheetArtichron {
     tabs: {template: "systems/artichron/templates/shared/tabs.hbs"},
     description: {template: "systems/artichron/templates/item/item-description.hbs", scrollable: [""]},
     details: {template: "systems/artichron/templates/item/item-details.hbs", scrollable: [""]},
-    secondary: {template: "systems/artichron/templates/item/item-secondary.hbs", scrollable: [""]},
-    effects: {template: "systems/artichron/templates/shared/effects.hbs", scrollable: [""]}
+    secondary: {template: "systems/artichron/templates/item/item-secondary.hbs", scrollable: [""]}
   };
 
   /* -------------------------------------------------- */
@@ -25,8 +24,7 @@ export default class ItemSheetElixir extends ItemSheetArtichron {
   static TABS = {
     description: {id: "description", group: "primary", label: "ARTICHRON.SheetTab.Description"},
     details: {id: "details", group: "primary", label: "ARTICHRON.SheetTab.Details"},
-    secondary: {id: "secondary", group: "primary", label: "ARTICHRON.SheetTab.Properties"},
-    effects: {id: "effects", group: "primary", label: "ARTICHRON.SheetTab.Effects"}
+    secondary: {id: "secondary", group: "primary", label: "ARTICHRON.SheetTab.Properties"}
   };
 
   /* -------------------------------------------------- */
@@ -46,28 +44,8 @@ export default class ItemSheetElixir extends ItemSheetArtichron {
 
     context.fieldsets.push({
       legend: this.document.system.schema.getField("category").label,
-      formGroups: [
-        this._makeField(context, "category.subtype"),
-        (this.document.system.category.subtype === "booster") ? this._makeField(context, "category.pool") : null
-      ].filter(u => u)
+      formGroups: [this._makeField(context, "category.subtype")]
     });
-
-    context.fieldsets.push({
-      legend: this.document.system.schema.getField("usage").label,
-      formGroups: [
-        this._makeField(context, "usage.spent", {max: context.document.system.usage.max}),
-        this._makeField(context, "usage.max")
-      ]
-    });
-
-    if (this.document.system.category.subtype === "restorative") {
-      context.fieldsets.push({
-        legend: this.document.system.schema.getField("healing").label,
-        formGroups: [
-          this._makeField(context, "healing.formula")
-        ]
-      });
-    }
 
     return context;
   }

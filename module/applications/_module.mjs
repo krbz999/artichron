@@ -7,6 +7,7 @@ import HeroSheet from "./actor/hero-sheet.mjs";
 import ItemFusionDialog from "./item/fusion-dialog.mjs";
 import ItemSheetArtichron from "./item/item-sheet-base.mjs";
 import ItemSheetElixir from "./item/item-sheet-elixir.mjs";
+import ItemSheetPart from "./item/item-sheet-part.mjs";
 import MerchantSheet from "./actor/merchant-sheet.mjs";
 import MonsterSheet from "./actor/monster-sheet.mjs";
 import TokenHUDArtichron from "./token/token-hud.mjs";
@@ -22,6 +23,7 @@ export default {
   ItemFusionDialog,
   ItemSheetArtichron,
   ItemSheetElixir,
+  ItemSheetPart,
   MerchantSheet,
   MonsterSheet,
   TokenHUDArtichron,

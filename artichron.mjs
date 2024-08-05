@@ -99,12 +99,17 @@ Hooks.once("init", function() {
   Items.registerSheet("artichron", applications.ItemSheetArtichron, {
     makeDefault: true,
     label: "ARTICHRON.ItemSheet.Base",
-    types: ["weapon", "shield", "spell", "armor", "part", "ammo"]
+    types: ["weapon", "shield", "spell", "armor", "ammo"]
   });
   Items.registerSheet("artichron", applications.ItemSheetElixir, {
     makeDefault: true,
     label: "ARTICHRON.ItemSheet.Elixir",
     types: ["elixir"]
+  });
+  Items.registerSheet("artichron", applications.ItemSheetPart, {
+    makeDefault: true,
+    label: "ARTICHRON.ItemSheet.Part",
+    types: ["part"]
   });
 
   DocumentSheetConfig.unregisterSheet(ActiveEffect, "core", ActiveEffectConfig);
