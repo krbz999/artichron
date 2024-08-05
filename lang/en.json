@@ -297,6 +297,7 @@
   "ArmorProperty": {
     "FIELDS": {
       "category": {
+        "label": "Type",
         "subtype": {
           "label": "Armor Type",
           "hint": "The type of armor this is, which decides how it is equipped."
@@ -343,6 +344,7 @@
   "ShieldProperty": {
     "FIELDS": {
       "category": {
+        "label": "Type",
         "subtype": {
           "label": "Shield Type",
           "hint": "The shield type determines how much it protects the wielder."
@@ -360,6 +362,7 @@
   "SpellProperty": {
     "FIELDS": {
       "category": {
+        "label": "Type",
         "subtype": {
           "label": "Spell Type",
           "hint": "The spell type determines how it affects enemies and allies."
@@ -377,6 +380,7 @@
   "WeaponProperty": {
     "FIELDS": {
       "category": {
+        "label": "Type",
         "subtype": {
           "label": "Weapon Type",
           "hint": "The weapon type determines whether it is melee or ranged, and what type of ammunition it can use."
@@ -435,6 +439,7 @@
       }
     },
     "fusion": {
+      "label": "Fusion",
       "ignore": {
         "label": "Ignored Properties",
         "hint": "If checked, an item property will not be added via fusions by default when this item is fused onto another."

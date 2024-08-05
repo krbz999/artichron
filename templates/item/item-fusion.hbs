@@ -1,13 +1,12 @@
 <div class="{{tabs.fusion.tabCssClass}}" data-group="primary" data-tab="fusion">
-  {{#unless canFuse}}
   <fieldset>
-    <legend>Fusion</legend>
-    <p class="hint" style="font-style: italic;">This item type is not valid for fusions.</p>
-  </fieldset>
-  {{else}}
-
-  <fieldset>
-    {{formGroup fusion.field value=fusion.value options=fusion.choices type="checkboxes" classes="stacked" disabled=@root.isPlayMode sort=true}}
+    <legend>{{fusionFields.label}}</legend>
+    {{#with fusionFields.ignore}}
+    {{formGroup field value=value options=choices type="checkboxes" classes="stacked" disabled=@root.isPlayMode sort=true}}
+    {{/with}}
+    {{#with fusionFields.max}}
+    {{formGroup field value=value disabled=@root.isPlayMode}}
+    {{/with}}
   </fieldset>
 
   <div class="effects-list">
@@ -43,5 +42,4 @@
     {{/if}}
 
   </div>
-  {{/unless}}
 </div>
