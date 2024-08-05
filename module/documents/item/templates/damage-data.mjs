@@ -1,5 +1,3 @@
-import {IdField} from "../../fields/id-field.mjs";
-
 const {SchemaField, ArrayField, StringField} = foundry.data.fields;
 
 export const DamageTemplateMixin = Base => {
@@ -10,7 +8,12 @@ export const DamageTemplateMixin = Base => {
 
       schema.damage = new SchemaField({
         parts: new ArrayField(new SchemaField({
-          id: new IdField(),
+          id: new StringField({
+            initial: () => foundry.utils.randomID(),
+            validate: value => foundry.data.validators.isValidId(value),
+            readonly: true,
+            required: true
+          }),
           formula: new StringField({required: true}),
           type: new StringField({choices: CONFIG.SYSTEM.DAMAGE_TYPES})
         }))

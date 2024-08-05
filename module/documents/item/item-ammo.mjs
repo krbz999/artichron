@@ -1,4 +1,3 @@
-import {IdField} from "../fields/id-field.mjs";
 import ItemSystemModel from "./system-model.mjs";
 import {DamageTemplateMixin} from "./templates/damage-data.mjs";
 
@@ -58,7 +57,12 @@ export default class AmmunitionData extends ItemSystemModel.mixin(DamageTemplate
           })
         }),
         parts: new ArrayField(new SchemaField({
-          id: new IdField(),
+          id: new StringField({
+            initial: () => foundry.utils.randomID(),
+            validate: value => foundry.data.validators.isValidId(value),
+            readonly: true,
+            required: true
+          }),
           formula: new StringField({required: true}),
           type: new StringField({choices: CONFIG.SYSTEM.DAMAGE_TYPES})
         }))
