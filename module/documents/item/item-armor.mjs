@@ -1,7 +1,8 @@
+import ArmorRequirementData from "../fields/armor-requirements.mjs";
 import ItemSystemModel from "./system-model.mjs";
-import {FusionTemplateMixin} from "./templates/fusion-data.mjs";
+import FusionTemplateMixin from "./templates/fusion-data.mjs";
 
-const {NumberField, SchemaField, StringField} = foundry.data.fields;
+const {ArrayField, NumberField, SchemaField, StringField, TypedSchemaField} = foundry.data.fields;
 
 export default class ArmorData extends FusionTemplateMixin(ItemSystemModel) {
   /** @override */
@@ -29,7 +30,8 @@ export default class ArmorData extends FusionTemplateMixin(ItemSystemModel) {
           required: true,
           initial: () => Object.keys(CONFIG.SYSTEM.EQUIPMENT_TYPES)[0],
           choices: CONFIG.SYSTEM.EQUIPMENT_TYPES
-        })
+        }),
+        requirements: new ArrayField(new TypedSchemaField(ArmorRequirementData.TYPES))
       })
     };
   }
@@ -54,6 +56,19 @@ export default class ArmorData extends FusionTemplateMixin(ItemSystemModel) {
     ...super.LOCALIZATION_PREFIXES,
     "ARTICHRON.ItemProperty.ArmorProperty"
   ];
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Does the owner of this item fulfill all the requirements to gain its benefits?
+   * @type {boolean}
+   */
+  get fulfilledRequirements() {
+    for (const r of this.category.requirements) {
+      if (!r.fulfilledRequirements) return false;
+    }
+    return true;
+  }
 
   /* -------------------------------------------------- */
   /*   Tooltips                                         */

@@ -76,6 +76,16 @@ export default class ItemArtichron extends Item {
   /* -------------------------------------------------- */
 
   /**
+   * Does the owner of this item fulfill all the requirements to gain its benefits?
+   * @type {boolean}
+   */
+  get fulfilledRequirements() {
+    return this.system.fulfilledRequirements ?? true;
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
    * Does this item have any valid template or targeting types?
    * @type {boolean}
    */

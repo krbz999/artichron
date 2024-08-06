@@ -277,6 +277,7 @@
 
 "ItemProperty": {
   "Fieldsets": {
+    "ArmorRequirements": "Requirements",
     "Configuration": "Configuration",
     "Defenses": "Defenses",
     "Handling": "Handling"
@@ -544,6 +545,15 @@
         "hint": "The number of hands required to handle this item."
       }
     }
+  },
+
+  "ArmorRequirement": {
+    "Health": "Health",
+    "HealthHint": "The character must have this amount of health remaining to gain the benefits of wearing this armor.",
+    "HealthValuePlaceholder": "Health",
+    "Pool": "Pool",
+    "PoolHint": "The character must have a pool of the given type and size to gain the benefits of wearing this armor.",
+    "PoolValuePlaceholder": "Size"
   },
 
   "Damage": {

@@ -1,6 +1,6 @@
 import ItemSystemModel from "./system-model.mjs";
-import {DamageTemplateMixin} from "./templates/damage-data.mjs";
-import {FusionTemplateMixin} from "./templates/fusion-data.mjs";
+import DamageTemplateMixin from "./templates/damage-data.mjs";
+import FusionTemplateMixin from "./templates/fusion-data.mjs";
 
 const {NumberField, SchemaField} = foundry.data.fields;
 

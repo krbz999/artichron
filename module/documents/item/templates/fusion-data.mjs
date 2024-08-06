@@ -1,6 +1,6 @@
 const {NumberField, SchemaField, SetField, StringField} = foundry.data.fields;
 
-export const FusionTemplateMixin = Base => {
+const FusionTemplateMixin = Base => {
   return class FusionTemplate extends Base {
     /** @override */
     static defineSchema() {
@@ -295,3 +295,5 @@ export const FusionTemplateMixin = Base => {
     }
   };
 };
+
+export default FusionTemplateMixin;

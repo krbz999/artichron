@@ -1,6 +1,6 @@
 const {SchemaField, ArrayField, StringField} = foundry.data.fields;
 
-export const DamageTemplateMixin = Base => {
+const DamageTemplateMixin = Base => {
   return class DamageTemplate extends Base {
     /** @override */
     static defineSchema() {
@@ -149,3 +149,5 @@ export const DamageTemplateMixin = Base => {
     }
   };
 };
+
+export default DamageTemplateMixin;

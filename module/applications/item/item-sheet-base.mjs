@@ -1,4 +1,4 @@
-import {FormulaField} from "../../documents/fields/formula-field.mjs";
+import FormulaField from "../../documents/fields/formula-field.mjs";
 import {ArtichronSheetMixin} from "../base-sheet.mjs";
 
 export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.applications.sheets.ItemSheetV2) {
@@ -12,7 +12,9 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
     actions: {
       addDamage: this._onAddDamage,
       deleteDamage: this._onDeleteDamage,
-      undoFusion: this._onUndoFusion
+      undoFusion: this._onUndoFusion,
+      addRequirement: ItemSheetArtichron.#addRequirement,
+      deleteRequirement: ItemSheetArtichron.#deleteRequirement
     }
   };
 
@@ -90,6 +92,7 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
       hasDamage: doc.system.schema.has("damage") && damageSchema.has("parts") && ((doc.type !== "spell") || isOffense),
       canFuse: doc.canFuse,
       isAmmo: doc.isAmmo,
+      isArmor: doc.isArmor,
       isItem: true,
       fieldsets: []
     };
@@ -217,6 +220,26 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
       context.resistances = fieldset;
     }
 
+    // Armor requirements.
+    if (doc.isArmor) {
+      const requirements = [];
+      for (const [i, r] of this.document.system.category.requirements.entries()) {
+        const _path = `system.category.requirements.${i}`;
+        const fields = [];
+        for (const field of r.schema) {
+          const name = `${_path}.${field.fieldPath}`;
+          const value = r[field.fieldPath];
+          fields.push({field, name, value});
+        }
+        requirements.push({
+          idx: i,
+          fields: fields,
+          hint: r.schema.model.metadata.hint
+        });
+      }
+      context.armorRequirements = requirements;
+    }
+
     return context;
   }
 
@@ -293,5 +316,36 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
     if (!this.isEditable) return;
     const effect = await fromUuid(target.closest("[data-item-uuid]").dataset.itemUuid);
     effect.unfuseDialog();
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Handle click events to add an armor requirement.
+   * @param {Event} event             The initiating click event.
+   * @param {HTMLElement} target      The current target of the event listener.
+   */
+  static #addRequirement(event, target) {
+    if (!this.isEditable) return;
+    const types = new Set(Object.keys(artichron.fields.ArmorRequirementData.TYPES));
+    // for (const {type} of this.document.system.category.requirements) types.delete(type);
+    const requirements = this.document.system.toObject().category.requirements;
+    requirements.push({type: types.first()});
+    this.document.update({"system.category.requirements": requirements});
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Handle click events to remove an armor requirement.
+   * @param {Event} event             The initiating click event.
+   * @param {HTMLElement} target      The current target of the event listener.
+   */
+  static #deleteRequirement(event, target) {
+    if (!this.isEditable) return;
+    const idx = parseInt(target.closest("[data-idx]").dataset.idx);
+    const requirements = this.document.system.toObject().category.requirements;
+    requirements.splice(idx, 1);
+    this.document.update({"system.category.requirements": requirements});
   }
 }

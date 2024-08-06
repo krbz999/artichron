@@ -10,6 +10,7 @@ import {registerEnrichers} from "./module/helpers/enrichers.mjs";
 import {registerSockets} from "./module/helpers/sockets.mjs";
 import elements from "./module/elements/_module.mjs";
 import {default as RulerArtichron} from "./module/documents/canvas/ruler.mjs";
+import fields from "./module/documents/fields/_module.mjs";
 
 // Custom elements.
 for (const element of Object.values(elements)) {
@@ -30,6 +31,7 @@ globalThis.artichron = {
   utils: utils,
   templates: documents.templates,
   elements: elements,
+  fields: fields,
   tooltips: new applications.TooltipsArtichron()
 };
 

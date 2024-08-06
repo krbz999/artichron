@@ -23,6 +23,10 @@
         flex: 0;
       }
     }
+
+    & fieldset.armor-requirements {
+      .form-fields select:first-child { flex: 0 0 100px; }
+    }
   }
 }
 

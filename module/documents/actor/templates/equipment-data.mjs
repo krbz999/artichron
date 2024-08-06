@@ -52,7 +52,9 @@ const EquipmentTemplateMixin = Base => {
     /** Prepare armor value. */
     #prepareArmor() {
       for (const item of Object.values({...this.parent.armor, ...this.parent.arsenal})) {
-        if (["armor", "shield"].includes(item?.type)) this.defenses.armor += item.system.armor.value;
+        if (!["armor", "shield"].includes(item?.type)) continue;
+        if ((item.type === "armor") && !item.fulfilledRequirements) continue;
+        this.defenses.armor += item.system.armor.value;
       }
     }
 
@@ -61,7 +63,7 @@ const EquipmentTemplateMixin = Base => {
     /** Prepare the value of actor resistances. */
     #prepareResistances() {
       for (const item of Object.values(this.parent.armor)) {
-        if (!item) continue;
+        if (!item || !item.fulfilledRequirements) continue;
         for (const [k, v] of Object.entries(item.system.resistances)) {
           this.resistances[k] += v.value;
         }
