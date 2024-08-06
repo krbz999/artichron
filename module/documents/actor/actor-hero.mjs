@@ -28,12 +28,7 @@ export default class HeroData extends ActorSystemModel.mixin(EquipmentTemplateMi
 
     schema.skills = new SchemaField(Object.entries(CONFIG.SYSTEM.SKILLS).reduce((acc, [k, v]) => {
       acc[k] = new SchemaField({
-        value: new NumberField({
-          integer: true,
-          min: 0,
-          initial: 0,
-          label: v.label
-        })
+        value: new NumberField({integer: true, min: 0, initial: 0, label: v.label})
       });
       return acc;
     }, {}));

@@ -62,6 +62,7 @@
 
 /* Item Tooltips */
 #tooltip.item-tooltip, .locked-tooltip.item-tooltip {
+  margin-left: 1rem;
   padding: 0;
   box-shadow: 0 0 5px 2px rgb(53, 66, 110);
   background-color: rgb(18, 10, 61);
@@ -110,6 +111,7 @@
           font-size: 30px;
           line-height: 30px;
           color: rgb(162, 201, 230);
+          filter: brightness(1.5);
         }
 
         .subtitle {
@@ -117,6 +119,7 @@
           line-height: 24px;
           color: rgba(177, 177, 177, 0.75);
           font-style: italic;
+          filter: brightness(2);
         }
       }
 
