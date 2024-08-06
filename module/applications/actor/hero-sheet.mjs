@@ -89,8 +89,8 @@ export default class HeroSheet extends ActorSheetArtichron {
       isPlayMode: this.isPlayMode,
       isEditable: this.isEditable,
       searchQuery: this.#searchQuery,
-      pointsField1: new foundry.data.fields.NumberField({min: 0, step: 1, max: 20, initial: 0}),
-      pointsField2: new foundry.data.fields.NumberField({min: 0, step: 1, max: 20, initial: 0})
+      pointsField1: new foundry.data.fields.NumberField({min: 0, step: 1, max: 20, initial: 0, nullable: false}),
+      pointsField2: new foundry.data.fields.NumberField({min: 0, step: 1, max: 20, initial: 0, nullable: false})
     };
 
     const makeField = path => {

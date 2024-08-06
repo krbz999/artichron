@@ -21,7 +21,7 @@ export function registerSettings() {
     scope: "world",
     requiresReload: true,
     type: new foundry.data.fields.NumberField({
-      initial: 0.4, min: 0.1, max: 1, step: 0.1
+      initial: 0.4, min: 0.1, max: 1, step: 0.1, nullable: false
     }),
     config: true,
     name: "ARTICHRON.Setting.TemplateAreaThreshold",
@@ -35,7 +35,7 @@ export function registerSettings() {
     scope: "world",
     requiresReload: false,
     type: new foundry.data.fields.NumberField({
-      initial: 120, min: 45, max: 180, step: 5
+      initial: 120, min: 45, max: 180, step: 5, nullable: false
     }),
     config: true,
     name: "ARTICHRON.Setting.TokenBarLength",

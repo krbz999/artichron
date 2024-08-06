@@ -94,6 +94,7 @@ export default class WeaponUseDialog extends HandlebarsApplicationMixin(Applicat
       min: 0,
       initial: 0,
       max: value,
+      nullable: false,
       step: 1,
       label: "ARTICHRON.WeaponUseDialog.Stamina",
       hint: "ARTICHRON.WeaponUseDialog.StaminaHint"
@@ -114,6 +115,7 @@ export default class WeaponUseDialog extends HandlebarsApplicationMixin(Applicat
       max: 0,
       step: 1,
       initial: 0,
+      nullable: false,
       label: "ARTICHRON.WeaponUseDialog.BoosterUses"
     });
 

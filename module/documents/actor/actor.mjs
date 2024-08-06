@@ -306,7 +306,8 @@ export default class ActorArtichron extends Actor {
         hint: "The number of dice to roll.",
         min: 1,
         max: pool.value,
-        step: 1
+        step: 1,
+        nullable: false
       }).toFormGroup({}, {value: amount, name: "amount"}).outerHTML,
       window: {
         title: "Roll Pool"

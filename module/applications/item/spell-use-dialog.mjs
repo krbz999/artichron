@@ -195,7 +195,7 @@ export default class SpellUseDialog extends HandlebarsApplicationMixin(Applicati
         const field = new foundry.data.fields.NumberField({
           min: 0,
           max: max,
-          nullable: true,
+          nullable: false,
           step: 1,
           initial: 0,
           label: "ARTICHRON.SpellUseDialog." + name.capitalize()
