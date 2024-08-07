@@ -15,9 +15,6 @@ export default class ShieldData extends ArsenalData {
   static defineSchema() {
     return {
       ...super.defineSchema(),
-      armor: new SchemaField({
-        value: new NumberField({min: 0, integer: true})
-      }),
       category: new SchemaField({
         subtype: new StringField({
           required: true,
@@ -109,14 +106,5 @@ export default class ShieldData extends ArsenalData {
     });
 
     return context;
-  }
-
-  /* -------------------------------------------------- */
-
-  /** @override */
-  _prepareTooltipProperties() {
-    const props = super._prepareTooltipProperties();
-    props.push({title: "Armor", label: this.armor.value ?? 0, icon: "fa-solid fa-shield"});
-    return props;
   }
 }

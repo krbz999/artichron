@@ -71,6 +71,18 @@ export default class ArmorRequirementData extends foundry.abstract.DataModel {
   get fulfilledRequirements() {
     return false;
   }
+
+  /* -------------------------------------------------- */
+  /*   Instance methods                                 */
+  /* -------------------------------------------------- */
+
+  /**
+   * Convert this requirement to a human-readable string.
+   * @returns {string}      The content.
+   */
+  toRequirement() {
+    return "";
+  }
 }
 
 class PoolRequirementData extends ArmorRequirementData {
@@ -115,6 +127,18 @@ class PoolRequirementData extends ArmorRequirementData {
   get fulfilledRequirements() {
     return !!(this.item.actor?.system.pools?.[this.pool].max >= this.value);
   }
+
+  /* -------------------------------------------------- */
+  /*   Instance methods                                 */
+  /* -------------------------------------------------- */
+
+  /** @override */
+  toRequirement() {
+    return game.i18n.format("ARTICHRON.ItemProperty.ArmorRequirement.PoolContent", {
+      value: this.value,
+      pool: game.i18n.localize(`ARTICHRON.ActorProperty.FIELDS.pools.${this.pool}.max.label`)
+    });
+  }
 }
 
 class HealthRequirementData extends ArmorRequirementData {
@@ -149,5 +173,16 @@ class HealthRequirementData extends ArmorRequirementData {
   /** @override */
   get fulfilledRequirements() {
     return !!(this.item.actor?.system.health?.value >= this.value);
+  }
+
+  /* -------------------------------------------------- */
+  /*   Instance methods                                 */
+  /* -------------------------------------------------- */
+
+  /** @override */
+  toRequirement() {
+    return game.i18n.format("ARTICHRON.ItemProperty.ArmorRequirement.HealthContent", {
+      value: this.value
+    });
   }
 }

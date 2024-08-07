@@ -23,6 +23,17 @@
   </div>
   {{/if}}
 
+  {{#if requirements.length}}
+  <div class="requirements">
+    <div class="title">Requirements</div>
+    <ul>
+      {{#each requirements}}
+      <li class="{{ifThen fulfilled 'green' 'red'}}">{{content}}</li>
+      {{/each}}
+    </ul>
+  </div>
+  {{/if}}
+
   {{#if healing}}
   <div class="healing">
     <div class="title">Healing</div>

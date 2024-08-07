@@ -78,6 +78,10 @@ export default class ArmorData extends FusionTemplateMixin(ItemSystemModel) {
   async _prepareTooltipContext() {
     const context = await super._prepareTooltipContext();
 
+    context.requirements = this.category.requirements.map(r => {
+      return {content: r.toRequirement(), fulfilled: r.fulfilledRequirements};
+    });
+
     context.resistances = Object.entries(this.resistances).reduce((acc, [type, {value}]) => {
       if (value) acc.push({
         value: value,

@@ -549,9 +549,11 @@
 
   "ArmorRequirement": {
     "Health": "Health",
+    "HealthContent": "At least {value} remaining health.",
     "HealthHint": "The character must have this amount of health remaining to gain the benefits of wearing this armor.",
     "HealthValuePlaceholder": "Health",
     "Pool": "Pool",
+    "PoolContent": "{pool} size of at least {value}.",
     "PoolHint": "The character must have a pool of the given type and size to gain the benefits of wearing this armor.",
     "PoolValuePlaceholder": "Size"
   },
