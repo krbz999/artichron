@@ -92,16 +92,12 @@ class PoolRequirementData extends ArmorRequirementData {
       pool: new StringField({
         required: true,
         initial: "stamina",
-        choices: {
-          health: "Health",
-          stamina: "Stamina",
-          mana: "Mana"
-        }
+        choices: CONFIG.SYSTEM.POOL_TYPES
       }),
       value: new NumberField({
         min: 0,
         integer: true,
-        placeholder: "ARTICHRON.ItemProperty.ArmorRequirement.PoolValuePlaceholder"
+        placeholder: "ARTICHRON.ItemProperty.ArmorRequirement.Pool.FIELDS.value.placeholder"
       })
     });
   }
@@ -112,8 +108,8 @@ class PoolRequirementData extends ArmorRequirementData {
 
   /** @override */
   static metadata = Object.freeze({
-    label: "ARTICHRON.ItemProperty.ArmorRequirement.Pool",
-    hint: "ARTICHRON.ItemProperty.ArmorRequirement.PoolHint"
+    label: "ARTICHRON.ItemProperty.ArmorRequirement.Pool.label",
+    hint: "ARTICHRON.ItemProperty.ArmorRequirement.Pool.hint"
   });
 
   /* -------------------------------------------------- */
@@ -124,8 +120,16 @@ class PoolRequirementData extends ArmorRequirementData {
   /* -------------------------------------------------- */
 
   /** @override */
+  static LOCALIZATION_PREFIXES = [
+    "ARTICHRON.ItemProperty.ArmorRequirement",
+    "ARTICHRON.ItemProperty.ArmorRequirement.Pool"
+  ];
+
+  /* -------------------------------------------------- */
+
+  /** @override */
   get fulfilledRequirements() {
-    return !!(this.item.actor?.system.pools?.[this.pool].max >= this.value);
+    return !!(this.item.actor?.system.pools?.[this.pool].faces >= this.value);
   }
 
   /* -------------------------------------------------- */
@@ -134,9 +138,9 @@ class PoolRequirementData extends ArmorRequirementData {
 
   /** @override */
   toRequirement() {
-    return game.i18n.format("ARTICHRON.ItemProperty.ArmorRequirement.PoolContent", {
+    return game.i18n.format("ARTICHRON.ItemProperty.ArmorRequirement.Pool.content", {
       value: this.value,
-      pool: game.i18n.localize(`ARTICHRON.ActorProperty.FIELDS.pools.${this.pool}.max.label`)
+      pool: CONFIG.SYSTEM.POOL_TYPES[this.pool].label
     });
   }
 }
@@ -148,7 +152,7 @@ class HealthRequirementData extends ArmorRequirementData {
       value: new NumberField({
         min: 0,
         integer: true,
-        placeholder: "ARTICHRON.ItemProperty.ArmorRequirement.HealthValuePlaceholder"
+        placeholder: "ARTICHRON.ItemProperty.ArmorRequirement.Health.FIELDS.value.placeholder"
       })
     });
   }
@@ -159,14 +163,22 @@ class HealthRequirementData extends ArmorRequirementData {
 
   /** @override */
   static metadata = Object.freeze({
-    label: "ARTICHRON.ItemProperty.ArmorRequirement.Health",
-    hint: "ARTICHRON.ItemProperty.ArmorRequirement.HealthHint"
+    label: "ARTICHRON.ItemProperty.ArmorRequirement.Health.label",
+    hint: "ARTICHRON.ItemProperty.ArmorRequirement.Health.hint"
   });
 
   /* -------------------------------------------------- */
 
   /** @override */
   static TYPE = "health";
+
+  /* -------------------------------------------------- */
+
+  /** @override */
+  static LOCALIZATION_PREFIXES = [
+    "ARTICHRON.ItemProperty.ArmorRequirement",
+    "ARTICHRON.ItemProperty.ArmorRequirement.Health"
+  ];
 
   /* -------------------------------------------------- */
 
@@ -181,7 +193,7 @@ class HealthRequirementData extends ArmorRequirementData {
 
   /** @override */
   toRequirement() {
-    return game.i18n.format("ARTICHRON.ItemProperty.ArmorRequirement.HealthContent", {
+    return game.i18n.format("ARTICHRON.ItemProperty.ArmorRequirement.Health.content", {
       value: this.value
     });
   }

@@ -162,6 +162,12 @@
   "DialogAdditionalHitsHint": "A number of hits to add on top of the roll total."
 },
 
+"Pools": {
+  "Health": "Health",
+  "Stamina": "Stamina",
+  "Mana": "Mana"
+},
+
 "DamageType": {
   "Arcane": "Arcane",
   "Darkness": "Darkness",
@@ -548,14 +554,40 @@
   },
 
   "ArmorRequirement": {
-    "Health": "Health",
-    "HealthContent": "At least {value} remaining health.",
-    "HealthHint": "The character must have this amount of health remaining to gain the benefits of wearing this armor.",
-    "HealthValuePlaceholder": "Health",
-    "Pool": "Pool",
-    "PoolContent": "{pool} size of at least {value}.",
-    "PoolHint": "The character must have a pool of the given type and size to gain the benefits of wearing this armor.",
-    "PoolValuePlaceholder": "Size"
+    "FIELDS": {
+      "type": {
+        "label": "Type",
+        "hint": "The type of armor requirement."
+      }
+    },
+    "Pool": {
+      "label": "Pool",
+      "hint": "The character's pool of the given type must have dice of at least this specific size to gain the benefits of wearing this armor.",
+      "content": "{pool} die size of at least {value}.",
+      "FIELDS": {
+        "pool": {
+          "label": "Pool",
+          "hint": "The pool for which the dice must be at least a given size."
+        },
+        "value": {
+          "label": "Value",
+          "hint": "The die size that must be met or exceeded.",
+          "placeholder": "Size"
+        }
+      }
+    },
+    "Health": {
+      "label": "Health",
+      "hint": "The character must have this amount of health remaining to gain the benefits of wearing this armor.",
+      "content": "At least {value} remaining health.",
+      "FIELDS": {
+        "value": {
+          "label": "Health",
+          "hint": "The amount of health this character must have remaining.",
+          "placeholder": "Health"
+        }
+      }
+    }
   },
 
   "Damage": {

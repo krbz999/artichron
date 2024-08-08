@@ -635,6 +635,29 @@ SYSTEM.SKILLS = {
 /* -------------------------------------------------- */
 
 /**
+ * @typedef {object} PoolConfig
+ * @property {string} label     The displayed label of the pool.
+ */
+
+/**
+ * The pools used by a character.
+ * @enum {PoolConfig}
+ */
+SYSTEM.POOL_TYPES = {
+  health: {
+    label: "ARTICHRON.Pools.Health"
+  },
+  stamina: {
+    label: "ARTICHRON.Pools.Stamina"
+  },
+  mana: {
+    label: "ARTICHRON.Pools.Mana"
+  }
+};
+
+/* -------------------------------------------------- */
+
+/**
  * @typedef {object} PoolSizeSpecializationConfig
  * @property {string} label       The displayed label of this type of pool size specialization.
  * @property {number[]} sizes     The distribution of sizes assigned to the pools.

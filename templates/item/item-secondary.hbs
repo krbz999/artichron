@@ -63,7 +63,7 @@
     {{#each armorRequirements}}
     <div class="form-fields" data-idx="{{idx}}">
       {{#each fields}}
-      {{formInput field value=value name=name localize=true disabled=@root.isPlayMode placeholder=(localize field.options.placeholder)}}
+      {{formInput field value=value name=name disabled=@root.isPlayMode placeholder=(localize field.options.placeholder)}}
       {{/each}}
       {{#if @root.isEditMode}}
       <div class="controls">
@@ -73,7 +73,7 @@
       </div>
       {{/if}}
     </div>
-    <p class="hint">{{localize hint}}</p>
+    <p class="hint">{{hint}}</p>
     {{/each}}
   </fieldset>
   {{/if}}

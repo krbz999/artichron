@@ -176,6 +176,16 @@ Hooks.once("i18nInit", function() {
   for (const [k, v] of Object.entries(CONFIG.SYSTEM)) {
     localize(CONFIG.SYSTEM, k, v);
   }
+
+  // Localize data models.
+  for (const model of Object.values(artichron.fields.ArmorRequirementData.TYPES)) {
+    Localization.localizeDataModel(model);
+    const meta = model.metadata;
+    model.metadata = foundry.utils.mergeObject(meta, {
+      label: game.i18n.localize(meta.label),
+      hint: game.i18n.localize(meta.hint)
+    }, {inplace: false});
+  }
 });
 
 /* -------------------------------------------------- */
