@@ -281,7 +281,7 @@
 .artichron.application.skills {
   .form-fields {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(4, 1fr);
 
     .checkbox {
       flex-direction: column;

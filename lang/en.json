@@ -135,10 +135,9 @@
 },
 
 "Skills": {
-  "Stamina": "Stamina",
-  "Mana": "Mana",
-  "Mind": "Mind",
+  "Agility": "Agility",
   "Brawn": "Brawn",
+  "Mind": "Mind",
   "Spirit": "Spirit"
 },
 
@@ -253,23 +252,18 @@
       }
     },
     "skills": {
-      "stamina": {
-        "label": "Stamina",
-        "bonus": { "label": "Bonus" },
-        "number": { "label": "Dice Amount" }
-      },
-      "mana": {
-        "label": "Mana",
-        "bonus": { "label": "Bonus" },
-        "number": { "label": "Dice Amount" }
-      },
-      "mind": {
-        "label": "Mind",
+      "agility": {
+        "label": "Agility",
         "bonus": { "label": "Bonus" },
         "number": { "label": "Dice Amount" }
       },
       "brawn": {
         "label": "Brawn",
+        "bonus": { "label": "Bonus" },
+        "number": { "label": "Dice Amount" }
+      },
+      "mind": {
+        "label": "Mind",
         "bonus": { "label": "Bonus" },
         "number": { "label": "Dice Amount" }
       },

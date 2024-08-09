@@ -546,20 +546,16 @@ SYSTEM.STATUS_CONDITIONS = {
  * @enum {SkillConfig}
  */
 SYSTEM.SKILLS = {
-  stamina: {
-    label: "ARTICHRON.Skills.Stamina",
-    img: "icons/equipment/shield/buckler-wooden-boss-glowing-blue.webp"
-  },
-  mana: {
-    label: "ARTICHRON.Skills.Mana",
-    img: "icons/equipment/shield/buckler-wooden-boss-glowing-blue.webp"
-  },
-  mind: {
-    label: "ARTICHRON.Skills.Mind",
+  agility: {
+    label: "ARTICHRON.Skills.Agility",
     img: "icons/equipment/shield/buckler-wooden-boss-glowing-blue.webp"
   },
   brawn: {
     label: "ARTICHRON.Skills.Brawn",
+    img: "icons/equipment/shield/buckler-wooden-boss-glowing-blue.webp"
+  },
+  mind: {
+    label: "ARTICHRON.Skills.Mind",
     img: "icons/equipment/shield/buckler-wooden-boss-glowing-blue.webp"
   },
   spirit: {
