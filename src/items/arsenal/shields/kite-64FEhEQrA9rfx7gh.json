@@ -21,30 +21,7 @@
           "formula": "4d8",
           "type": "physical"
         }
-      ],
-      "bonuses": {
-        "fire": {
-          "value": null
-        },
-        "wind": {
-          "value": null
-        },
-        "lightning": {
-          "value": null
-        },
-        "ice": {
-          "value": null
-        },
-        "light": {
-          "value": null
-        },
-        "darkness": {
-          "value": null
-        },
-        "arcane": {
-          "value": null
-        }
-      }
+      ]
     },
     "wield": {
       "value": 1
@@ -55,9 +32,6 @@
     },
     "targets": {
       "value": 1
-    },
-    "armor": {
-      "value": 14
     },
     "category": {
       "subtype": "kite"
@@ -71,7 +45,8 @@
       "value": 1
     },
     "fusion": {
-      "max": 1
+      "max": 1,
+      "ignore": []
     }
   },
   "effects": [],

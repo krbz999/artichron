@@ -21,30 +21,7 @@
           "formula": "4d12",
           "type": "physical"
         }
-      ],
-      "bonuses": {
-        "fire": {
-          "value": null
-        },
-        "wind": {
-          "value": null
-        },
-        "lightning": {
-          "value": null
-        },
-        "ice": {
-          "value": null
-        },
-        "light": {
-          "value": null
-        },
-        "darkness": {
-          "value": null
-        },
-        "arcane": {
-          "value": null
-        }
-      }
+      ]
     },
     "wield": {
       "value": 2
@@ -55,9 +32,6 @@
     },
     "targets": {
       "value": 1
-    },
-    "armor": {
-      "value": 16
     },
     "category": {
       "subtype": "tower"
@@ -71,7 +45,8 @@
       "value": 2
     },
     "fusion": {
-      "max": 1
+      "max": 1,
+      "ignore": []
     }
   },
   "effects": [],

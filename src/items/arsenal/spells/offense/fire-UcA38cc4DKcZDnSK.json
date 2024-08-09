@@ -25,33 +25,11 @@
           "formula": "4d6",
           "type": "fire"
         }
-      ],
-      "bonuses": {
-        "fire": {
-          "value": null
-        },
-        "wind": {
-          "value": null
-        },
-        "lightning": {
-          "value": null
-        },
-        "ice": {
-          "value": null
-        },
-        "light": {
-          "value": null
-        },
-        "darkness": {
-          "value": null
-        },
-        "arcane": {
-          "value": null
-        }
-      }
+      ]
     },
     "fusion": {
-      "max": 1
+      "max": 1,
+      "ignore": []
     },
     "wield": {
       "value": 1

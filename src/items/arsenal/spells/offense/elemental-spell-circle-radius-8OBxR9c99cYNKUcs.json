@@ -53,30 +53,7 @@
           "formula": "4d8",
           "type": "ice"
         }
-      ],
-      "bonuses": {
-        "fire": {
-          "value": null
-        },
-        "wind": {
-          "value": null
-        },
-        "lightning": {
-          "value": null
-        },
-        "ice": {
-          "value": null
-        },
-        "light": {
-          "value": null
-        },
-        "darkness": {
-          "value": null
-        },
-        "arcane": {
-          "value": null
-        }
-      }
+      ]
     },
     "attributes": {
       "value": [
@@ -87,7 +64,8 @@
       "value": 2
     },
     "fusion": {
-      "max": 1
+      "max": 1,
+      "ignore": []
     }
   },
   "effects": [],
