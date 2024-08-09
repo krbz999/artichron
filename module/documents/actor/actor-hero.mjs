@@ -28,16 +28,11 @@ export default class HeroData extends ActorSystemModel.mixin(EquipmentTemplateMi
 
     schema.skills = new SchemaField(Object.entries(CONFIG.SYSTEM.SKILLS).reduce((acc, [k, v]) => {
       acc[k] = new SchemaField({
-        value: new NumberField({integer: true, min: 0, initial: 0, label: v.label})
+        number: new NumberField({integer: true, min: 2, initial: 2}),
+        bonus: new NumberField({integer: true, min: 0, initial: 0})
       });
       return acc;
     }, {}));
-
-    schema.resources = new SchemaField({
-      currency: new NumberField({min: 0, step: 1}),
-      pools: new NumberField({min: 0, step: 1}),
-      skills: new NumberField({min: 0, step: 1})
-    });
 
     schema.details = new SchemaField({
       notes: new HTMLField({required: true})
@@ -114,7 +109,8 @@ export default class HeroData extends ActorSystemModel.mixin(EquipmentTemplateMi
 
     // Skills
     for (const k of Object.keys(CONFIG.SYSTEM.SKILLS)) {
-      bonus.add(`system.skills.${k}.value`);
+      bonus.add(`system.skills.${k}.number`);
+      bonus.add(`system.skills.${k}.bonus`);
     }
 
     bonus.add("system.details.notes");
@@ -138,5 +134,61 @@ export default class HeroData extends ActorSystemModel.mixin(EquipmentTemplateMi
     for (const k of ["health", "stamina", "mana"]) update[`system.pools.${k}.spent`] = 0;
 
     return this.parent.update(update);
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Roll two skills together.
+   * @param {object} [config]               Configuration object.
+   * @param {string} [config.base]          The first of the skills used.
+   * @param {string} [config.second]        The second of the skills used.
+   * @returns {Promise<RollArtichron>}      A promise that resolves to the created roll.
+   */
+  async rollSkill({base, second} = {}) {
+    const skills = Object.entries(this.skills).map(([k, v], i) => {
+      return {
+        value: k,
+        checked: (k === base) || (!i && !base),
+        checked2: (k === second) || (!i && !second),
+        img: CONFIG.SYSTEM.SKILLS[k].img,
+        label: CONFIG.SYSTEM.SKILLS[k].label
+      };
+    });
+
+    if (!base || !second || !(new Set([base, second]).isSubset(new Set(Object.keys(CONFIG.SYSTEM.SKILLS))))) {
+      const prompt = await foundry.applications.api.DialogV2.prompt({
+        content: await renderTemplate("systems/artichron/templates/actor/skill-dialog.hbs", {skills: skills}),
+        rejectClose: false,
+        modal: true,
+        window: {
+          title: game.i18n.format("ARTICHRON.SkillsDialog.Title", {name: this.parent.name}),
+          icon: "fa-solid fa-hand-fist"
+        },
+        position: {width: 400, height: "auto"},
+        ok: {callback: (event, button) => new FormDataExtended(button.form).object},
+        classes: ["artichron", "skills"]
+      });
+      if (!prompt) return null;
+      base = prompt.base;
+      second = prompt.second;
+    }
+
+    const formula = [
+      `(@skills.${base}.number + @skills.${second}.number)d6cs=6`,
+      "+",
+      `(@skills.${base}.bonus + @skills.${second}.bonus)`
+    ].join(" ");
+    const rollData = this.parent.getRollData();
+    const roll = await Roll.create(formula, rollData, {skills: [base, second]}).evaluate();
+    await roll.toMessage({
+      flavor: game.i18n.format("ARTICHRON.SkillsDialog.Flavor", {
+        skills: Array.from(new Set([base, second]).map(skl => {
+          return CONFIG.SYSTEM.SKILLS[skl].label;
+        })).sort((a, b) => a.localeCompare(b)).join(", ")
+      }),
+      speaker: ChatMessage.implementation.getSpeaker({actor: this.parent})
+    });
+    return roll;
   }
 }

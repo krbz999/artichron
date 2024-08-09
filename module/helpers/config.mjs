@@ -537,8 +537,8 @@ SYSTEM.STATUS_CONDITIONS = {
 
 /**
  * @typedef {object} SkillConfig
- * @property {string} label     The displayed label of the skill.
- * @property {string} group     The skill group this belongs to (mind, body, soul).
+ * @property {string} label     The displayed label of the skill group.
+ * @property {string} img       Displayed image for this skill.
  */
 
 /**
@@ -546,89 +546,21 @@ SYSTEM.STATUS_CONDITIONS = {
  * @enum {SkillConfig}
  */
 SYSTEM.SKILLS = {
-  avoidDetection: {
-    label: "ARTICHRON.Skill.AvoidDetection",
-    group: "soul"
+  agility: {
+    label: "ARTICHRON.Skills.Agility",
+    img: "icons/equipment/shield/buckler-wooden-boss-glowing-blue.webp"
   },
-  bamboozle: {
-    label: "ARTICHRON.Skill.Bamboozle",
-    group: "soul"
+  brawn: {
+    label: "ARTICHRON.Skills.Brawn",
+    img: "icons/equipment/shield/buckler-wooden-boss-glowing-blue.webp"
   },
-  barter: {
-    label: "ARTICHRON.Skill.Barter",
-    group: "soul"
+  mind: {
+    label: "ARTICHRON.Skills.Mind",
+    img: "icons/equipment/shield/buckler-wooden-boss-glowing-blue.webp"
   },
-  charm: {
-    label: "ARTICHRON.Skill.Charm",
-    group: "soul"
-  },
-  examine: {
-    label: "ARTICHRON.Skill.Examine",
-    group: "mind"
-  },
-  findPath: {
-    label: "ARTICHRON.Skill.FindPath",
-    group: "mind"
-  },
-  heartiness: {
-    label: "ARTICHRON.Skill.Heartiness",
-    group: "body"
-  },
-  knowledgeHistory: {
-    label: "ARTICHRON.Skill.KnowledgeHistory",
-    group: "mind"
-  },
-  knowledgeMagic: {
-    label: "ARTICHRON.Skill.KnowledgeMagic",
-    group: "mind"
-  },
-  knowledgeReligion: {
-    label: "ARTICHRON.Skill.KnowledgeReligion",
-    group: "mind"
-  },
-  knowledgeTech: {
-    label: "ARTICHRON.Skill.KnowledgeTech",
-    group: "mind"
-  },
-  liftThrow: {
-    label: "ARTICHRON.Skill.LiftThrow",
-    group: "body"
-  },
-  menace: {
-    label: "ARTICHRON.Skill.Menace",
-    group: "soul"
-  },
-  movement: {
-    label: "ARTICHRON.Skill.Movement",
-    group: "body"
-  },
-  pickpocket: {
-    label: "ARTICHRON.Skill.Pickpocket",
-    group: "body"
-  },
-  poisonResistance: {
-    label: "ARTICHRON.Skill.PoisonResistance",
-    group: "body"
-  },
-  reason: {
-    label: "ARTICHRON.Skill.Reason",
-    group: "mind"
-  },
-  research: {
-    label: "ARTICHRON.Skill.Research",
-    group: "mind"
-  },
-  trapAvoidance: {
-    label: "ARTICHRON.Skill.TrapAvoidance",
-    group: "body"
-  },
-  understanding: {
-    label: "ARTICHRON.Skill.Understanding",
-    group: "soul"
-  },
-  wardDetection: {
-    label: "ARTICHRON.Skill.WardDetection",
-    group: "mind"
+  spirit: {
+    label: "ARTICHRON.Skills.Spirit",
+    img: "icons/equipment/shield/buckler-wooden-boss-glowing-blue.webp"
   }
 };
 

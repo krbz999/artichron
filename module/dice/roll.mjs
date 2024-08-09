@@ -16,6 +16,13 @@ export default class RollArtichron extends Roll {
       const f = die._faces;
       if ((f instanceof RollArtichron) && f.isDeterministic) die._faces = f.evaluateSync().total;
     }
+
+    for (const [i, term] of this.terms.entries()) {
+      if ((term.roll instanceof RollArtichron) && term.isDeterministic) {
+        this.terms[i] = new foundry.dice.terms.NumericTerm({number: term.roll.evaluateSync().total});
+      }
+    }
+
     this.resetFormula();
   }
 

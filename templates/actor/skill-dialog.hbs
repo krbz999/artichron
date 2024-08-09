@@ -1,0 +1,21 @@
+<fieldset>
+  <div class="form-fields">
+    {{#each skills}}
+    <label class="checkbox">
+      <input type="radio" name="base" value="{{value}}" {{checked checked}}>
+      <img src="{{img}}">
+      {{label}}
+    </label>
+    {{/each}}
+  </div>
+  <div class="form-fields">
+    {{#each skills}}
+    <label class="checkbox">
+      <input type="radio" name="second" value="{{value}}" {{checked checked2}}>
+      <img src="{{img}}">
+      {{label}}
+    </label>
+    {{/each}}
+  </div>
+  <p class="hint">{{localize "ARTICHRON.SkillsDialog.Hint"}}</p>
+</fieldset>
