@@ -254,23 +254,23 @@
     "skills": {
       "agility": {
         "label": "Agility",
-        "bonus": { "label": "Bonus" },
-        "number": { "label": "Dice Amount" }
+        "bonus": { "label": "Agility Bonus" },
+        "number": { "label": "Agility Dice" }
       },
       "brawn": {
         "label": "Brawn",
-        "bonus": { "label": "Bonus" },
-        "number": { "label": "Dice Amount" }
+        "bonus": { "label": "Brawn Bonus" },
+        "number": { "label": "Brawn Dice" }
       },
       "mind": {
         "label": "Mind",
-        "bonus": { "label": "Bonus" },
-        "number": { "label": "Dice Amount" }
+        "bonus": { "label": "Mind Bonus" },
+        "number": { "label": "Mind Dice" }
       },
       "spirit": {
         "label": "Spirit",
-        "bonus": { "label": "Bonus" },
-        "number": { "label": "Dice Amount" }
+        "bonus": { "label": "Spirit Bonus" },
+        "number": { "label": "Spirit Dice" }
       }
     }
   }
