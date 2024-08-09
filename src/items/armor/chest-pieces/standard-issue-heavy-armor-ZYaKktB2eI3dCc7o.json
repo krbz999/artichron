@@ -8,25 +8,25 @@
     },
     "resistances": {
       "arcane": {
-        "value": 0
+        "value": null
       },
       "darkness": {
-        "value": 0
+        "value": null
       },
       "fire": {
-        "value": 0
+        "value": null
       },
       "ice": {
-        "value": 0
+        "value": null
       },
       "light": {
-        "value": 0
+        "value": null
       },
       "lightning": {
-        "value": 0
+        "value": null
       },
       "wind": {
-        "value": 0
+        "value": null
       }
     },
     "weight": {
@@ -40,7 +40,13 @@
     },
     "category": {
       "subtype": "chest",
-      "requirements": []
+      "requirements": [
+        {
+          "type": "pool",
+          "pool": "stamina",
+          "value": 8
+        }
+      ]
     },
     "attributes": {
       "value": []

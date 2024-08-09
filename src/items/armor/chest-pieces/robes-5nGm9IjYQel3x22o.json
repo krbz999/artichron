@@ -1,63 +1,65 @@
 {
-  "name": "Flexible Armor",
+  "folder": "el8jZMsQtdJWP18x",
+  "name": "Robes",
   "type": "armor",
-  "img": "icons/equipment/chest/breastplate-layered-leather-studded-black.webp",
+  "_id": "5nGm9IjYQel3x22o",
+  "img": "icons/equipment/chest/robe-layered-purple.webp",
   "system": {
     "description": {
-      "value": "<p>A lighter set of armor that offers some protection but leaves some flexibility.</p>"
+      "value": "<p>A standard set of robes provides little protection but some minor resistances.</p>"
+    },
+    "weight": {
+      "value": 1
+    },
+    "price": {
+      "value": 1
+    },
+    "attributes": {
+      "value": []
+    },
+    "fusion": {
+      "ignore": [],
+      "max": 1
     },
     "resistances": {
-      "arcane": {
+      "fire": {
+        "value": 3
+      },
+      "wind": {
+        "value": 3
+      },
+      "lightning": {
+        "value": 3
+      },
+      "ice": {
+        "value": 3
+      },
+      "light": {
         "value": null
       },
       "darkness": {
         "value": null
       },
-      "fire": {
-        "value": null
-      },
-      "ice": {
-        "value": null
-      },
-      "light": {
-        "value": null
-      },
-      "lightning": {
-        "value": null
-      },
-      "wind": {
+      "arcane": {
         "value": null
       }
     },
-    "weight": {
-      "value": 2
-    },
-    "price": {
-      "value": 1
-    },
     "armor": {
-      "value": 3
+      "value": 0
     },
     "category": {
       "subtype": "chest",
       "requirements": [
         {
           "type": "pool",
-          "pool": "stamina",
+          "pool": "mana",
           "value": 6
         }
       ]
-    },
-    "attributes": {
-      "value": []
-    },
-    "fusion": {
-      "max": 1,
-      "ignore": []
     }
   },
   "effects": [],
-  "folder": "el8jZMsQtdJWP18x",
+  "sort": 0,
   "ownership": {
     "default": 0
   },
@@ -72,7 +74,5 @@
     "modifiedTime": null,
     "lastModifiedBy": null
   },
-  "_id": "t2y9Cr4pmwFFD4m5",
-  "sort": 0,
-  "_key": "!items!t2y9Cr4pmwFFD4m5"
+  "_key": "!items!5nGm9IjYQel3x22o"
 }

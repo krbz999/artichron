@@ -1,0 +1,22 @@
+{
+  "name": "Ammunition",
+  "sorting": "a",
+  "folder": null,
+  "type": "Item",
+  "_id": "RolaJHphF0RArLNp",
+  "description": "",
+  "sort": 0,
+  "color": "#00800f",
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": null,
+    "systemId": null,
+    "systemVersion": null,
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  },
+  "_key": "!folders!RolaJHphF0RArLNp"
+}

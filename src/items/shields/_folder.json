@@ -1,11 +1,11 @@
 {
   "name": "Shields",
   "sorting": "a",
-  "folder": "BvmYOTG5ITHEWvdl",
+  "folder": null,
   "type": "Item",
   "_id": "LnoybnjbBjUtYqBI",
   "sort": 0,
-  "color": null,
+  "color": "#d10000",
   "flags": {},
   "_stats": {
     "systemId": null,
@@ -13,7 +13,10 @@
     "coreVersion": null,
     "createdTime": null,
     "modifiedTime": null,
-    "lastModifiedBy": null
+    "lastModifiedBy": null,
+    "compendiumSource": null,
+    "duplicateSource": null
   },
+  "description": "",
   "_key": "!folders!LnoybnjbBjUtYqBI"
 }

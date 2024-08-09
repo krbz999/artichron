@@ -1,9 +1,9 @@
 {
-  "name": "Ammunition",
+  "name": "Restorative Elixirs",
   "sorting": "a",
   "folder": "kfEanDXifA2im2os",
   "type": "Item",
-  "_id": "RolaJHphF0RArLNp",
+  "_id": "vMFWzX9UkYZb3Gk9",
   "description": "",
   "sort": 0,
   "color": null,
@@ -18,5 +18,5 @@
     "modifiedTime": null,
     "lastModifiedBy": null
   },
-  "_key": "!folders!RolaJHphF0RArLNp"
+  "_key": "!folders!vMFWzX9UkYZb3Gk9"
 }
