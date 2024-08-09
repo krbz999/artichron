@@ -138,26 +138,13 @@ export default class HeroSheet extends ActorSheetArtichron {
     context.resistances = Object.values(context.resistances);
 
     // Skills.
-    context.skills = Object.entries(doc.system.skills).reduce((acc, [k, v]) => {
-      const c = CONFIG.SYSTEM.SKILLS[k];
-      const value = context.isEditMode ? src.system.skills[k].value : v.value;
-      const data = {
-        pips: Array(Math.min(10, value)).fill({}),
-        skillId: k,
-        label: c.label
-      };
-
-      if (context.isEditMode) {
-        data.value = value || null;
-        data.field = doc.system.schema.getField(`skills.${k}.value`);
-      } else {
-        data.value = value ? value : "&ndash;";
-      }
-
-      acc[c.group].push(data);
-      return acc;
-    }, {mind: [], body: [], soul: []});
-    Object.values(context.skills).forEach(v => v.sort((a, b) => a.label.localeCompare(b.label)));
+    context.skills = Object.entries(this.document.system.skills).map(([k, v]) => {
+      const schema = this.document.system.schema.getField(`skills.${k}`);
+      const fields = [...schema].map(field => {
+        return {field: field, value: foundry.utils.getProperty(context.isEditMode ? this.document._source : this.document, field.fieldPath)};
+      });
+      return {label: schema.label, fields, skillId: k};
+    });
 
     // Name and img.
     context.header = {
@@ -383,7 +370,7 @@ export default class HeroSheet extends ActorSheetArtichron {
    */
   static #onRollSkill(event, target) {
     if (!this.isEditable) return;
-    this.document.rollSkill({skillId: target.dataset.skillId});
+    this.document.rollSkill({base: target.dataset.skillId});
   }
 
   /* -------------------------------------------------- */

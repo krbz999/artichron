@@ -17,6 +17,7 @@
       "patreon": "https://patreon.com/zhell"
     }
   ],
+  "scripts": ["greensock/dist/gsap.min.js"],
   "esmodules": ["artichron.mjs"],
   "styles": [
     "styles/artichron.css",

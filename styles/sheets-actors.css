@@ -91,69 +91,6 @@
           z-index: 1;
         }
       }
-
-      .skills {
-        --border-var: 1px solid rgba(128, 128, 128, 0.5);
-        --color-mind: rgba(100, 200, 150, 0.15);
-        --color-body: rgba(255, 255, 100, 0.15);
-        --color-soul: rgba(255, 100, 255, 0.15);
-
-        [data-group] {
-          display: flex;
-          flex-direction: column;
-          border: var(--border-var);
-          border-radius: inherit;
-
-          &[data-group=mind] { background-color: var(--color-mind); }
-          &[data-group=body] { background-color: var(--color-body); }
-          &[data-group=soul] { background-color: var(--color-soul); }
-
-          .skill {
-            font-size: 0.85rem;
-            font-family: "Amiri";
-            padding: 0;
-            line-height: 1.5rem;
-            display: flex;
-            border-bottom: var(--border-var);
-            align-items: center;
-            &:last-child { border: none; }
-
-            .label {
-              padding-left: 0.5rem;
-              border-right: var(--border-var);
-              flex: 0 0 35%;
-            }
-
-            .pips {
-              display: grid;
-              grid-template-columns: repeat(10, 1fr);
-              flex: 1;
-              margin: 0 4px;
-              align-items: center;
-              gap: 3px;
-              overflow: hidden;
-
-              .pip {
-                width: 1rem;
-                height: 1rem;
-                border-radius: 0%;
-                background-color: rgba(62, 197, 190, 0.336);
-                border-style: outset;
-                border-width: 1px;
-                border-color: rgb(54, 106, 204);
-                transform: matrix(1, 0, 1, -1, 0, 0) translateX(-0.5rem);
-              }
-            }
-
-            .level {
-              text-align: center;
-              flex: 0 0 3rem;
-              border-left: var(--border-var);
-              & input { height: 1.5rem; }
-            }
-          }
-        }
-      }
     }
   }
 
@@ -260,10 +197,6 @@
   }
 }
 
-dialog.skill .form-footer {
-  flex-direction: column;
-}
-
 .artichron.application.sheet.merchant {
   height: 90%;
 
@@ -342,5 +275,33 @@ dialog.skill .form-footer {
 
   .effects-list {
     margin-bottom: 0.5rem;
+  }
+}
+
+.artichron.application.skills {
+  .form-fields {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+
+    .checkbox {
+      flex-direction: column;
+      height: 100%;
+      cursor: pointer;
+      &:has(:checked) img {
+        opacity: 1;
+        outline: 1px solid var(--artichron-color-gold);
+      }
+
+      & input[type=radio] {
+        display: none;
+      }
+
+      & img {
+        border: none;
+        border-radius: 1rem;
+        opacity: 0.5;
+        transition: opacity 150ms ease;
+      }
+    }
   }
 }

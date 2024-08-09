@@ -116,7 +116,6 @@
 
 "SheetActions": {
   "RecoverHealth": "Recover Health",
-  "EditSkills": "Edit Skills",
   "EditPools": "Edit Pools",
   "CreateItem": "Create New Item",
   "CreateBuff": "Create New Buff",
@@ -129,43 +128,18 @@
   "ToggleOpacity": "Toggle Opacity"
 },
 
-"Skill": {
-  "AvoidDetection": "Avoid Detection",
-  "Bamboozle": "Bamboozle",
-  "Barter": "Barter",
-  "Charm": "Charm",
-  "Examine": "Examine",
-  "FindPath": "Find Path",
-  "Heartiness": "Heartiness",
-  "KnowledgeHistory": "History",
-  "KnowledgeMagic": "Arcane Knowledge",
-  "KnowledgeReligion": "Religion",
-  "KnowledgeTech": "Technology",
-  "LiftThrow": "Lifting & Throwing",
-  "Menace": "Menace",
-  "Movement": "Movement",
-  "Pickpocket": "Pickpocket",
-  "PoisonResistance": "Poison Resistance",
-  "Reason": "Reason",
-  "Research": "Research",
-  "TrapAvoidance": "Trap Avoidance",
-  "Understanding": "Understanding",
-  "WardDetection": "Ward Detection"
-},
-
-"Skills": {
-  "ChatMessageFlavor": "Skill Check: {skill}",
-  "DialogTitle": "{actor} Skill Check: {skill}",
-  "DialogAdditionalDice": "Additional Dice",
-  "DialogAdditionalDiceHint": "Additional dice to roll for hits.",
-  "DialogAdditionalHits": "Guaranteed Hits",
-  "DialogAdditionalHitsHint": "A number of hits to add on top of the roll total."
-},
-
 "Pools": {
   "Health": "Health",
   "Stamina": "Stamina",
   "Mana": "Mana"
+},
+
+"Skills": {
+  "Stamina": "Stamina",
+  "Mana": "Mana",
+  "Mind": "Mind",
+  "Brawn": "Brawn",
+  "Spirit": "Spirit"
 },
 
 "DamageType": {
@@ -276,6 +250,33 @@
           "label": "Spent",
           "hint": "The number of stamina dice that have been expended."
         }
+      }
+    },
+    "skills": {
+      "stamina": {
+        "label": "Stamina",
+        "bonus": { "label": "Bonus" },
+        "number": { "label": "Dice Amount" }
+      },
+      "mana": {
+        "label": "Mana",
+        "bonus": { "label": "Bonus" },
+        "number": { "label": "Dice Amount" }
+      },
+      "mind": {
+        "label": "Mind",
+        "bonus": { "label": "Bonus" },
+        "number": { "label": "Dice Amount" }
+      },
+      "brawn": {
+        "label": "Brawn",
+        "bonus": { "label": "Bonus" },
+        "number": { "label": "Dice Amount" }
+      },
+      "spirit": {
+        "label": "Spirit",
+        "bonus": { "label": "Bonus" },
+        "number": { "label": "Dice Amount" }
       }
     }
   }
@@ -748,6 +749,12 @@
   "ItemsHint": "Choose any of your equipped arsenal to defend against the attack and reduce incoming damage. Each item used will require 1 pip.",
   "Confirm": "Roll",
   "Content": "{name} is about to take {damage} damage. You can attempt to parry or block to reduce the damage by an amount equal to the rolled totals."
+},
+
+"SkillsDialog": {
+  "Title": "{name}: Roll Skill",
+  "Hint": "Select two skills to combine for the roll, adding together their dice and bonuses.",
+  "Flavor": "Skill Roll ({skills})"
 },
 
 "Effect": {
