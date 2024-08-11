@@ -177,17 +177,13 @@ export default class PoolConfig extends HandlebarsApplicationMixin(DocumentSheet
 
     const value = this.#maxLargest || "health";
     const largest = new foundry.data.fields.StringField({
-      choices: {
-        health: "ARTICHRON.ActorProperty.FIELDS.pools.health.label",
-        stamina: "ARTICHRON.ActorProperty.FIELDS.pools.stamina.label",
-        mana: "ARTICHRON.ActorProperty.FIELDS.pools.mana.label"
-      },
+      choices: CONFIG.SYSTEM.POOL_TYPES,
       label: "Largest"
     });
     context.max.selects.push({name: "max.maxPool", field: largest, value: value});
 
     if (min < mid) {
-      const choices = foundry.utils.deepClone(largest.choices);
+      const choices = foundry.utils.deepClone(CONFIG.SYSTEM.POOL_TYPES);
       delete choices[value];
       const smallest = new foundry.data.fields.StringField({
         choices: choices,

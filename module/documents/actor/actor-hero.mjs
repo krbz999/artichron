@@ -11,17 +11,17 @@ export default class HeroData extends ActorSystemModel.mixin(EquipmentTemplateMi
     schema.pools = new SchemaField({
       health: new SchemaField({
         spent: new NumberField({min: 0, integer: true, initial: 0}),
-        max: new NumberField({min: 3, integer: true, initial: 3}),
+        max: new NumberField({min: 2, integer: true, initial: 2}),
         faces: new NumberField({min: 4, integer: true, initial: 4})
       }),
       stamina: new SchemaField({
         spent: new NumberField({min: 0, integer: true, initial: 0}),
-        max: new NumberField({min: 3, integer: true, initial: 3}),
+        max: new NumberField({min: 2, integer: true, initial: 2}),
         faces: new NumberField({min: 4, integer: true, initial: 4})
       }),
       mana: new SchemaField({
         spent: new NumberField({min: 0, integer: true, initial: 0}),
-        max: new NumberField({min: 3, integer: true, initial: 3}),
+        max: new NumberField({min: 2, integer: true, initial: 2}),
         faces: new NumberField({min: 4, integer: true, initial: 4})
       })
     });
