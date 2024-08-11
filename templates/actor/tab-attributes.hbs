@@ -47,13 +47,11 @@
     <fieldset class="skills">
       <legend>{{localize "ARTICHRON.SheetTab.Skills"}}</legend>
       {{#each skills}}
-      <div class="form-group">
-        <label data-action="rollSkill" data-skill-id="{{skillId}}">{{label}}</label>
-        <div class="form-fields">
-          {{#each fields}}
-          {{formInput field value=value disabled=@root.isPlayMode}}
-          {{/each}}
-        </div>
+      <div class="form-fields">
+        <a data-action="rollSkill" data-skill-id="{{skillId}}">{{label}}</a>
+        {{#each fields}}
+        {{formGroup field value=value disabled=@root.isPlayMode classes="label-top"}}
+        {{/each}}
       </div>
       {{/each}}
     </fieldset>
