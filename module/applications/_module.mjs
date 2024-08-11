@@ -14,6 +14,7 @@ import MonsterSheet from "./actor/monster-sheet.mjs";
 import TokenHUDArtichron from "./token/token-hud.mjs";
 import TooltipsArtichron from "./tooltips.mjs";
 import WeaponUseDialog from "./item/weapon-use-dialog.mjs";
+import ProgressPageSheet from "./journal/progress-sheet.mjs";
 
 export default {
   ActiveEffectSheetArtichron,
@@ -29,6 +30,7 @@ export default {
   ItemSheetPart,
   MerchantSheet,
   MonsterSheet,
+  ProgressPageSheet,
   TokenHUDArtichron,
   TooltipsArtichron,
   WeaponUseDialog

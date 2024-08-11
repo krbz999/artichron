@@ -68,6 +68,7 @@ Hooks.once("init", function() {
   CONFIG.ChatMessage.dataModels = documents.dataModels.message;
   CONFIG.Combatant.dataModels = documents.dataModels.combatant;
   CONFIG.ActiveEffect.dataModels = documents.dataModels.effect;
+  CONFIG.JournalEntryPage.dataModels = documents.dataModels.page;
 
   // Hook up dice types.
   CONFIG.Dice.rolls[0] = dice.RollArtichron;
@@ -123,6 +124,12 @@ Hooks.once("init", function() {
   DocumentSheetConfig.registerSheet(ActiveEffect, "artichron", applications.ActiveEffectSheetArtichron, {
     makeDefault: true,
     label: "ARTICHRON.ActiveEffectSheet.Base"
+  });
+
+  DocumentSheetConfig.registerSheet(JournalEntryPage, "artichron", applications.ProgressPageSheet, {
+    makeDefault: false,
+    types: ["progress"],
+    label: "ARTICHRON.JournalEntryPageSheet.Progress"
   });
 
   auraInit();
