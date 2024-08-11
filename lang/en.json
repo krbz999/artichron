@@ -273,6 +273,34 @@
         "number": { "label": "Spirit Dice" }
       }
     }
+  },
+  "Progression": {
+    "FIELDS": {
+      "type": {
+        "label": "Type",
+        "hint": "The type of progression."
+      },
+      "value": {
+        "label": "Points",
+        "hint": "The amount of points to spend."
+      }
+    },
+    "Pool": {
+      "FIELDS": {
+        "pool": {
+          "label": "Pool",
+          "hint": "Choose the pool to increase. You will gain one additional die for every two points spent."
+        }
+      }
+    },
+    "Skill": {
+      "FIELDS": {
+        "skill": {
+          "label": "Skill",
+          "hint": "Choose the skill to enhance. You will gain one additional die for every point spent."
+        }
+      }
+    }
   }
 },
 
@@ -557,16 +585,16 @@
     },
     "Pool": {
       "label": "Pool",
-      "hint": "The character's pool of the given type must have dice of at least this specific size to gain the benefits of wearing this armor.",
-      "content": "{pool} die size of at least {value}.",
+      "hint": "The character's pool of the given type must be at least this large to gain the benefits of wearing this armor.",
+      "content": "{pool} pool size of at least {value}.",
       "FIELDS": {
         "pool": {
           "label": "Pool",
-          "hint": "The pool for which the dice must be at least a given size."
+          "hint": "The pool that must be at least the given size."
         },
         "value": {
           "label": "Value",
-          "hint": "The die size that must be met or exceeded.",
+          "hint": "The pool size that must be met or exceeded.",
           "placeholder": "Size"
         }
       }
@@ -678,6 +706,11 @@
   "BoosterItem": "Booster",
   "BoosterItemHint": "Consume the uses of a boosting elixir, each consumed use acting as 1 additional point of stamina.",
   "BoosterUses": "Boost Uses"
+},
+
+"ProgressionDialog": {
+  "PoolTitle": "{name}: Create Pool Progression",
+  "SkillTitle": "{name}: Create Skill Progression"
 },
 
 "SpellType": {

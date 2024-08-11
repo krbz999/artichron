@@ -186,6 +186,10 @@ Hooks.once("i18nInit", function() {
       hint: game.i18n.localize(meta.hint)
     }, {inplace: false});
   }
+
+  for (const model of Object.values(artichron.fields.ProgressionData.TYPES)) {
+    Localization.localizeDataModel(model);
+  }
 });
 
 /* -------------------------------------------------- */

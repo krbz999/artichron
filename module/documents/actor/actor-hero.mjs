@@ -1,7 +1,8 @@
 import ActorSystemModel from "./system-model.mjs";
 import EquipmentTemplateMixin from "./templates/equipment-data.mjs";
+import ProgressionData from "../fields/hero-progression.mjs";
 
-const {HTMLField, NumberField, SchemaField} = foundry.data.fields;
+const {ArrayField, HTMLField, NumberField, SchemaField, TypedSchemaField} = foundry.data.fields;
 
 export default class HeroData extends ActorSystemModel.mixin(EquipmentTemplateMixin) {
   /** @override */
@@ -38,6 +39,13 @@ export default class HeroData extends ActorSystemModel.mixin(EquipmentTemplateMi
       notes: new HTMLField({required: true})
     });
 
+    schema.progression = new SchemaField({
+      points: new SchemaField({
+        total: new NumberField({min: 0, integer: true, initial: 0}),
+        spent: new ArrayField(new TypedSchemaField(ProgressionData.TYPES))
+      })
+    });
+
     return schema;
   }
 
@@ -49,17 +57,14 @@ export default class HeroData extends ActorSystemModel.mixin(EquipmentTemplateMi
   prepareBaseData() {
     super.prepareBaseData();
 
-    // Set health maximum and clamp current health.
-    const levels = this.parent.appliedConditionLevel("injured");
-    const injury = 1 - levels / CONFIG.SYSTEM.STATUS_CONDITIONS.injured.levels;
-    const total = this.pools.health.max * this.pools.health.faces;
-
-    let max = Math.ceil(total * injury);
-    max = (levels === 1) ? Math.clamp(max, 1, total - 1) : max;
-
-    this.health.max = max;
-    this.health.value = Math.clamp(this.health.value, 0, this.health.max);
-    this.health.pct = Math.round(this.health.value / this.health.max * 100);
+    // Set the available number of progression points.
+    let spent = 0;
+    for (const model of this.progression.points.spent) {
+      // Apply modifications from progressions.
+      model.applyProgression();
+      spent = spent + model.value;
+    }
+    this.progression.points.available = this.progression.points.total - spent;
   }
 
   /* -------------------------------------------------- */
@@ -67,8 +72,11 @@ export default class HeroData extends ActorSystemModel.mixin(EquipmentTemplateMi
   /** @override */
   prepareDerivedData() {
     super.prepareDerivedData();
+
+    // All other preparation comes after progression.
     this.#preparePools();
-    this.#prepareEncumbrance();
+    this.#prepareEncumbrance(); // Preparing this after pools as it relies on stamina pool.
+    this.#prepareHealth(); // Preparing this after pools as it relies on health pool.
   }
 
   /* -------------------------------------------------- */
@@ -91,6 +99,23 @@ export default class HeroData extends ActorSystemModel.mixin(EquipmentTemplateMi
     this.encumbrance.value = this.parent.items.reduce((acc, item) => {
       return acc + item.system.weight.total;
     }, 0);
+  }
+
+  /* -------------------------------------------------- */
+
+  /** Prepare health values. */
+  #prepareHealth() {
+    // Set health maximum and clamp current health.
+    const levels = this.parent.appliedConditionLevel("injured");
+    const injury = 1 - levels / CONFIG.SYSTEM.STATUS_CONDITIONS.injured.levels;
+    const total = this.pools.health.max * this.pools.health.faces;
+
+    let max = Math.ceil(total * injury);
+    max = (levels === 1) ? Math.clamp(max, 1, total - 1) : max;
+
+    this.health.max = max;
+    this.health.value = Math.clamp(this.health.value, 0, this.health.max);
+    this.health.pct = Math.round(this.health.value / this.health.max * 100);
   }
 
   /* -------------------------------------------------- */
@@ -120,6 +145,38 @@ export default class HeroData extends ActorSystemModel.mixin(EquipmentTemplateMi
 
   /* -------------------------------------------------- */
   /*   Instance methods                                 */
+  /* -------------------------------------------------- */
+
+  /**
+   * Prompt for the creation of a progression of a given type.
+   * @param {string} type     The type of progression.
+   * @returns {Promise}
+   */
+  async createProgression(type) {
+    return ProgressionData.TYPES[type].toPrompt(this.parent);
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Update a progression on this actor.
+   * @param {string} id                     The id of the progression to update.
+   * @param {object} [changes]              The change to apply to the progression.
+   * @returns {Promise<ActorArtichron>}     A promise that resolves to the updated actor.
+   */
+  async updateProgression(id, changes = {}) {
+    changes = foundry.utils.deepClone(changes);
+    delete changes._id;
+    delete changes.type;
+
+    const progressions = [...this.progression.points.spent];
+    const progression = progressions.find(e => e.id === id);
+    const clone = progression.clone(changes);
+    progressions.findSplice(p => p === progression, clone);
+    const update = progressions.map(k => k.toObject());
+    return this.parent.update({"system.progression.points.spent": update});
+  }
+
   /* -------------------------------------------------- */
 
   /**

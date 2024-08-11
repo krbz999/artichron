@@ -129,7 +129,7 @@ class PoolRequirementData extends ArmorRequirementData {
 
   /** @override */
   get fulfilledRequirements() {
-    return !!(this.item.actor?.system.pools?.[this.pool].faces >= this.value);
+    return !!(this.item.actor?.system.pools?.[this.pool].max >= this.value);
   }
 
   /* -------------------------------------------------- */
