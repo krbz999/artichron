@@ -31,10 +31,10 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
         value: new HTMLField({required: true})
       }),
       weight: new SchemaField({
-        value: new NumberField({min: 0, step: 0.1, initial: () => this.metadata.defaultWeight})
+        value: new NumberField({min: 0, step: 0.1, initial: () => this.metadata.defaultWeight, nullable: false})
       }),
       price: new SchemaField({
-        value: new NumberField({min: 0, initial: null, integer: true})
+        value: new NumberField({min: 0, initial: 0, integer: true, nullable: false})
       }),
       attributes: new SchemaField({
         value: new SetField(new StringField({

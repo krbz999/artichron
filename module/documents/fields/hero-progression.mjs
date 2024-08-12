@@ -98,7 +98,7 @@ class ProgressionPoolData extends ProgressionData {
         initial: "stamina",
         choices: CONFIG.SYSTEM.POOL_TYPES
       }),
-      value: new NumberField({min: 2, step: 2, initial: 2})
+      value: new NumberField({min: 2, step: 2, initial: 2, nullable: false})
     });
   }
 
@@ -160,7 +160,7 @@ class ProgressionSkillData extends ProgressionData {
         initial: "agility",
         choices: CONFIG.SYSTEM.SKILLS
       }),
-      value: new NumberField({min: 1, step: 1, initial: 1})
+      value: new NumberField({min: 1, step: 1, initial: 1, nullable: false})
     });
   }
 

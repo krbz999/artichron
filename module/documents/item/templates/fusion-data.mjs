@@ -7,7 +7,7 @@ const FusionTemplateMixin = Base => {
       const schema = super.defineSchema();
       schema.fusion = new SchemaField({
         ignore: new SetField(new StringField()),
-        max: new NumberField({integer: true, min: 0, initial: 1})
+        max: new NumberField({integer: true, min: 0, initial: 1, nullable: false})
       });
       return schema;
     }

@@ -24,11 +24,11 @@ export default class ArsenalData extends ItemSystemModel.mixin(
         value: new NumberField({initial: 1, choices: CONFIG.SYSTEM.WIELDING_TYPES})
       }),
       range: new SchemaField({
-        value: new NumberField({integer: true, min: 1, initial: 1}),
-        reach: new NumberField({integer: true, min: 1, initial: 1})
+        value: new NumberField({integer: true, min: 1, initial: 1, nullable: false}),
+        reach: new NumberField({integer: true, min: 1, initial: 1, nullable: false})
       }),
       targets: new SchemaField({
-        value: new NumberField({integer: true, min: 1, initial: 1})
+        value: new NumberField({integer: true, min: 1, initial: 1, nullable: false})
       })
     };
   }

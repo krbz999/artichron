@@ -17,7 +17,7 @@ export default class PartData extends ItemSystemModel {
     return {
       ...super.defineSchema(),
       quantity: new SchemaField({
-        value: new NumberField({initial: 1, min: 0, integer: true, nullable: true})
+        value: new NumberField({initial: 1, min: 0, integer: true, nullable: false})
       }),
       category: new SchemaField({
         subtype: new StringField({

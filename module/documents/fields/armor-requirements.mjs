@@ -98,6 +98,7 @@ class PoolRequirementData extends ArmorRequirementData {
       value: new NumberField({
         min: 2,
         integer: true,
+        nullable: false,
         placeholder: "ARTICHRON.ItemProperty.ArmorRequirement.Pool.FIELDS.value.placeholder"
       })
     });
@@ -130,7 +131,7 @@ class PoolRequirementData extends ArmorRequirementData {
 
   /** @override */
   get fulfilledRequirements() {
-    return !!(this.item.actor?.system.pools?.[this.pool].max >= (this.value ?? 2));
+    return !!(this.item.actor?.system.pools?.[this.pool].max >= this.value);
   }
 
   /* -------------------------------------------------- */
@@ -140,7 +141,7 @@ class PoolRequirementData extends ArmorRequirementData {
   /** @override */
   toRequirement() {
     return game.i18n.format("ARTICHRON.ItemProperty.ArmorRequirement.Pool.content", {
-      value: this.value ?? 2,
+      value: this.value,
       pool: CONFIG.SYSTEM.POOL_TYPES[this.pool].label
     });
   }
@@ -153,6 +154,7 @@ class HealthRequirementData extends ArmorRequirementData {
       value: new NumberField({
         min: 0,
         integer: true,
+        nullable: false,
         placeholder: "ARTICHRON.ItemProperty.ArmorRequirement.Health.FIELDS.value.placeholder"
       })
     });
@@ -212,6 +214,7 @@ class SkillRequirementData extends ArmorRequirementData {
       value: new NumberField({
         min: 2,
         integer: true,
+        nullable: false,
         placeholder: "ARTICHRON.ItemProperty.ArmorRequirement.Skill.FIELDS.value.placeholder"
       })
     });
@@ -244,7 +247,7 @@ class SkillRequirementData extends ArmorRequirementData {
 
   /** @override */
   get fulfilledRequirements() {
-    return !!(this.item.actor?.system.skills?.[this.skill].number >= (this.value ?? 2));
+    return !!(this.item.actor?.system.skills?.[this.skill].number >= this.value);
   }
 
   /* -------------------------------------------------- */
@@ -255,7 +258,7 @@ class SkillRequirementData extends ArmorRequirementData {
   toRequirement() {
     return game.i18n.format("ARTICHRON.ItemProperty.ArmorRequirement.Skill.content", {
       skill: CONFIG.SYSTEM.SKILLS[this.skill].label,
-      value: this.value ?? 2
+      value: this.value
     });
   }
 }

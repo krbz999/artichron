@@ -10,14 +10,14 @@ export default class MonsterData extends ActorSystemModel.mixin(EquipmentTemplat
 
     schema.loot = new ArrayField(new SchemaField({
       uuid: new DocumentUUIDField({type: "Item", embedded: false}),
-      quantity: new NumberField({min: 1, integer: true, initial: 1})
+      quantity: new NumberField({min: 1, integer: true, initial: 1, nullable: false})
     }), {
       label: "ARTICHRON.ActorProperty.Loot",
       hint: "ARTICHRON.ActorProperty.LootHint"
     });
 
     schema.danger = new SchemaField({
-      value: new NumberField({min: 1, step: 1, initial: 1})
+      value: new NumberField({min: 1, step: 1, initial: 1, nullable: false})
     });
 
     schema.biography = new SchemaField({

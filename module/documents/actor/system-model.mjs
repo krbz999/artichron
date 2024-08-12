@@ -5,13 +5,13 @@ export default class ActorSystemModel extends foundry.abstract.TypeDataModel {
   static defineSchema() {
     return {
       health: new SchemaField({
-        value: new NumberField({min: 0, integer: true}),
+        value: new NumberField({min: 0, integer: true, nullable: false}),
         max: new NumberField({initial: null})
       }),
       favorites: new SetField(new StringField({required: true})),
       pips: new SchemaField({
-        value: new NumberField({min: 0, integer: true}),
-        turn: new NumberField({min: 0, integer: true, initial: 1})
+        value: new NumberField({min: 0, integer: true, nullable: false}),
+        turn: new NumberField({min: 0, integer: true, initial: 1, nullable: false})
       })
     };
   }

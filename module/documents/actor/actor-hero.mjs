@@ -12,24 +12,24 @@ export default class HeroData extends ActorSystemModel.mixin(EquipmentTemplateMi
     schema.pools = new SchemaField({
       health: new SchemaField({
         spent: new NumberField({min: 0, integer: true, initial: 0}),
-        max: new NumberField({min: 2, integer: true, initial: 2}),
-        faces: new NumberField({min: 4, integer: true, initial: 4})
+        max: new NumberField({min: 2, integer: true, initial: 2, nullable: false}),
+        faces: new NumberField({min: 4, integer: true, initial: 4, nullable: false})
       }),
       stamina: new SchemaField({
         spent: new NumberField({min: 0, integer: true, initial: 0}),
-        max: new NumberField({min: 2, integer: true, initial: 2}),
-        faces: new NumberField({min: 4, integer: true, initial: 4})
+        max: new NumberField({min: 2, integer: true, initial: 2, nullable: false}),
+        faces: new NumberField({min: 4, integer: true, initial: 4, nullable: false})
       }),
       mana: new SchemaField({
         spent: new NumberField({min: 0, integer: true, initial: 0}),
-        max: new NumberField({min: 2, integer: true, initial: 2}),
-        faces: new NumberField({min: 4, integer: true, initial: 4})
+        max: new NumberField({min: 2, integer: true, initial: 2, nullable: false}),
+        faces: new NumberField({min: 4, integer: true, initial: 4, nullable: false})
       })
     });
 
     schema.skills = new SchemaField(Object.entries(CONFIG.SYSTEM.SKILLS).reduce((acc, [k, v]) => {
       acc[k] = new SchemaField({
-        number: new NumberField({integer: true, min: 2, initial: 2}),
+        number: new NumberField({integer: true, min: 2, initial: 2, nullable: false}),
         bonus: new NumberField({integer: true, min: 0, initial: 0})
       });
       return acc;
@@ -41,7 +41,7 @@ export default class HeroData extends ActorSystemModel.mixin(EquipmentTemplateMi
 
     schema.progression = new SchemaField({
       points: new SchemaField({
-        total: new NumberField({min: 0, integer: true, initial: 0}),
+        total: new NumberField({min: 0, integer: true, initial: 0, nullable: false}),
         spent: new ArrayField(new TypedSchemaField(ProgressionData.TYPES))
       })
     });

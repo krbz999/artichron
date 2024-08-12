@@ -17,10 +17,10 @@ export default class ElixirData extends ItemSystemModel {
     return {
       ...super.defineSchema(),
       quantity: new SchemaField({
-        value: new NumberField({initial: 1, min: 0, integer: true, nullable: true})
+        value: new NumberField({initial: 1, min: 0, integer: true, nullable: false})
       }),
       usage: new SchemaField({
-        spent: new NumberField({integer: true, min: 0, initial: 0}),
+        spent: new NumberField({integer: true, min: 0, initial: 0, nullable: false}),
         max: new NumberField({min: 1, integer: true, initial: 1, nullable: false})
       }),
       category: new SchemaField({
