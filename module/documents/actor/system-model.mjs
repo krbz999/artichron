@@ -3,14 +3,15 @@ const {SchemaField, NumberField, SetField, StringField} = foundry.data.fields;
 export default class ActorSystemModel extends foundry.abstract.TypeDataModel {
   /** @override */
   static defineSchema() {
+    // TODO: move these into a mixin; merchants and the party actor do not make use of health, favorites, or pips.
     return {
       health: new SchemaField({
-        value: new NumberField({min: 0, integer: true, nullable: false}),
+        value: new NumberField({min: 0, initial: 0, integer: true, nullable: false}),
         max: new NumberField({initial: null})
       }),
       favorites: new SetField(new StringField({required: true})),
       pips: new SchemaField({
-        value: new NumberField({min: 0, integer: true, nullable: false}),
+        value: new NumberField({min: 0, initial: 0, integer: true, nullable: false}),
         turn: new NumberField({min: 0, integer: true, initial: 1, nullable: false})
       })
     };

@@ -116,7 +116,7 @@ export default class ActorArtichron extends Actor {
   async _preCreate(data, options, user) {
     if ((await super._preCreate(data, options, user)) === false) return false;
 
-    const isFriendly = ["hero", "merchant"].includes(this.type);
+    const isFriendly = ["hero", "merchant", "party"].includes(this.type);
     const display = this.type === "hero";
     const tokenData = {
       sight: {enabled: this.type === "hero"},

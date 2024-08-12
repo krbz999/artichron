@@ -1,0 +1,25 @@
+<div class="{{tabs.members.tabCssClass}}" data-group="primary" data-tab="members">
+  <ul class="members">
+    {{#each actors}}
+    <li class="member" data-id="{{actor.id}}" style="--hp: {{actor.system.health.pct}}%; --health: {{actor.system.pools.health.pct}}%; --stamina: {{actor.system.pools.stamina.pct}}%; --mana: {{actor.system.pools.mana.pct}}%;">
+      <img src="{{actor.img}}" alt="{{actor.name}}" class="avatar">
+      <span class="name">
+        {{actor.name}}
+        <div class="bar"></div>
+      </span>
+      <div class="controls">
+        {{#if (and @root.isEditable @root.isEditMode)}}
+        <button type="button" data-action="removeMember">
+          <i class="fa-solid fa-trash"></i>
+        </button>
+        {{/if}}
+      </div>
+      <div class="pools">
+        <div class="health"></div>
+        <div class="stamina"></div>
+        <div class="mana"></div>
+      </div>
+    </li>
+    {{/each}}
+  </ul>
+</div>

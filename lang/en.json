@@ -6,6 +6,8 @@
 "Actor.merchantPl": "Merchants",
 "Actor.monster": "Monster",
 "Actor.monsterPl": "Monsters",
+"Actor.party": "Party",
+"Actor.partyPl": "Parties",
 "Item.ammo": "Ammunition",
 "Item.ammoPl": "Ammunition",
 "Item.armor": "Armor Piece",
@@ -41,7 +43,8 @@
   "Base": "Artichron Actor Sheet",
   "Hero": "Artichron Hero Sheet",
   "Monster": "Artichron Monster Sheet",
-  "Merchant": "Artichron Merchant Sheet"
+  "Merchant": "Artichron Merchant Sheet",
+  "Party": "Artichron Party Sheet"
 },
 
 "WeaponType": {
@@ -109,6 +112,7 @@
   "Inventory": "Inventory",
   "Items": "Items",
   "Loot": "Loot",
+  "Members": "Members",
   "Pools": "Pools",
   "Properties": "Properties",
   "Skills": "Skills"
@@ -753,15 +757,16 @@
 },
 
 "Warning": {
-  "ItemRequiresAmmunition": "This item requires ammunition to use!",
-  "ItemHasNoTemplateTypes": "This item has no template types set!",
-  "ItemIsNotEquipped": "The item must be equipped to be used!",
-  "NotEnoughPips": "You do not have enough pips remaining to make an attack!",
   "AlreadyAtMaxHealth": "{name} is already at their maximum health.",
   "FieldOverridden": "This field has been disabled as it is being modified by an effect.",
   "InvalidActiveEffectType": "The chosen effect type is not valid for this parent.",
+  "ItemHasNoDamageRolls": "The item has no damage rolls defined!",
+  "ItemHasNoTemplateTypes": "This item has no template types set!",
+  "ItemIsNotEquipped": "The item must be equipped to be used!",
+  "ItemRequiresAmmunition": "This item requires ammunition to use!",
+  "MissingActionPoints": "You do not have enough Action Points to perform that action.",
   "NoAvailableEquipment": "You have no available equipment of that type.",
-  "MissingActionPoints": "You do not have enough Action Points to perform that action."
+  "NotEnoughPips": "You do not have enough pips remaining to make an attack!"
 },
 
 "EquipDialog": {

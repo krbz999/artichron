@@ -49,6 +49,17 @@ export default class ActiveEffectArtichron extends ActiveEffect {
   /* -------------------------------------------------- */
 
   /** @override */
+  async _preCreate(data, options, user) {
+    if ((this.parent.documentName === "Actor") && ["merchant", "party"].includes(this.parent.type)) {
+      return false;
+    }
+
+    return super._preCreate(data, options, user);
+  }
+
+  /* -------------------------------------------------- */
+
+  /** @override */
   _onUpdate(changed, options, userId) {
     super._onUpdate(changed, options, userId);
     if (options.statusLevelDifference) {

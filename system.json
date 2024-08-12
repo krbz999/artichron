@@ -106,7 +106,8 @@
       "monster": {
         "htmlFields": ["biography.value"]
       },
-      "merchant": {}
+      "merchant": {},
+      "party": {}
     },
     "Item": {
       "ammo": {

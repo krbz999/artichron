@@ -10,6 +10,7 @@ export default class InventoryItemElement extends HTMLElement {
     if (item) {
       element.dataset.itemUuid = item.uuid;
       element.dataset.itemId = item.id;
+      if (config.disabled) element.setAttribute("disabled", "");
       if (config.enriched) {
         enrichedCache.set(item.uuid, config.enriched);
         element.classList.add("expanded");
@@ -41,6 +42,7 @@ export default class InventoryItemElement extends HTMLElement {
     const enriched = enrichedCache.get(item?.uuid);
     const limited = !application.isEditable;
     const editMode = application.isEditMode;
+    const disabled = this.hasAttribute("disabled");
 
     if (!item) return;
 
@@ -51,7 +53,7 @@ export default class InventoryItemElement extends HTMLElement {
     image.alt = item.name;
     img.classList.add("image");
     img.insertAdjacentElement("beforeend", image);
-    if (!limited) {
+    if (!limited && !disabled) {
       img.dataset.action = "useItem";
       const playButton = document.createElement("SPAN");
       playButton.classList.add("use");
@@ -195,7 +197,6 @@ export default class InventoryItemElement extends HTMLElement {
       <section class="loading" data-uuid="${item.uuid}">
         <i class="fas fa-spinner fa-spin-pulse"></i>
       </section>`;
-      this.setAttribute("draggable", "true");
     }
 
     // Set name for use in search filter.

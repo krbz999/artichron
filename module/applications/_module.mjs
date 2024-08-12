@@ -11,6 +11,7 @@ import ItemSheetElixir from "./item/item-sheet-elixir.mjs";
 import ItemSheetPart from "./item/item-sheet-part.mjs";
 import MerchantSheet from "./actor/merchant-sheet.mjs";
 import MonsterSheet from "./actor/monster-sheet.mjs";
+import PartySheet from "./actor/party-sheet.mjs";
 import TokenHUDArtichron from "./token/token-hud.mjs";
 import TooltipsArtichron from "./tooltips.mjs";
 import WeaponUseDialog from "./item/weapon-use-dialog.mjs";
@@ -29,6 +30,7 @@ export default {
   ItemSheetPart,
   MerchantSheet,
   MonsterSheet,
+  PartySheet,
   TokenHUDArtichron,
   TooltipsArtichron,
   WeaponUseDialog

@@ -196,6 +196,9 @@
       }
     }
 
+    /* Disables hover effects */
+    &[disabled] .image { pointer-events: none; }
+
     .wrapper {
       height: var(--height);
       flex: 1;

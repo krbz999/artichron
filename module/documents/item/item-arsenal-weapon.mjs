@@ -7,7 +7,8 @@ export default class WeaponData extends ArsenalData {
   /** @override */
   static metadata = Object.freeze(foundry.utils.mergeObject(super.metadata, {
     type: "weapon",
-    defaultWeight: 2
+    defaultWeight: 2,
+    order: 10
   }, {inplace: false}));
 
   /* -------------------------------------------------- */

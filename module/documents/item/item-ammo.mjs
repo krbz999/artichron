@@ -8,7 +8,8 @@ export default class AmmunitionData extends ItemSystemModel.mixin(DamageTemplate
   static metadata = Object.freeze(foundry.utils.mergeObject(super.metadata, {
     inventorySection: "consumables",
     type: "ammo",
-    defaultWeight: 0.1
+    defaultWeight: 0.1,
+    order: 60
   }, {inplace: false}));
 
   /* -------------------------------------------------- */

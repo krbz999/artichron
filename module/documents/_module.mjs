@@ -26,6 +26,7 @@ import MeasuredTemplateDocumentArtichron from "./template/template-document.mjs"
 import MerchantData from "./actor/actor-merchant.mjs";
 import MonsterData from "./actor/actor-monster.mjs";
 import PartData from "./item/item-part.mjs";
+import PartyData from "./actor/actor-party.mjs";
 import ShieldData from "./item/item-arsenal-shield.mjs";
 import SpellData from "./item/item-arsenal-spell.mjs";
 import TokenArtichron from "./token/token-placeable.mjs";
@@ -36,7 +37,8 @@ export const dataModels = {
   actor: {
     hero: HeroData,
     monster: MonsterData,
-    merchant: MerchantData
+    merchant: MerchantData,
+    party: PartyData
   },
   item: {
     armor: ArmorData,

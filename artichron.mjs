@@ -96,6 +96,11 @@ Hooks.once("init", function() {
     label: "ARTICHRON.ActorSheet.Merchant",
     types: ["merchant"]
   });
+  Actors.registerSheet("artichron", applications.PartySheet, {
+    makeDefault: true,
+    label: "ARTICHRON.ActorSheet.Party",
+    types: ["party"]
+  });
 
   Items.unregisterSheet("core", ItemSheet);
   Items.registerSheet("artichron", applications.ItemSheetArtichron, {

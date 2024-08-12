@@ -86,6 +86,7 @@ export default class HeroData extends ActorSystemModel.mixin(EquipmentTemplateMi
     for (const k of ["health", "stamina", "mana"]) {
       const value = this.pools[k].max - this.pools[k].spent;
       this.pools[k].value = Math.max(0, value);
+      this.pools[k].pct = Math.round(this.pools[k].value / this.pools[k].max * 100);
     }
   }
 

@@ -285,8 +285,7 @@ export const ArtichronSheetMixin = Base => {
      */
     _getItemContextOptions(item) {
       const isOwner = item.isOwner;
-      const isHero = item.actor.type === "hero";
-      const isMonster = item.actor.type === "monster";
+      const canEquip = ["hero", "monster"].includes(item.actor.type);
       const isEquipped = item.isEquipped;
       return [{
         name: "ARTICHRON.ContextMenu.ItemOption.Show",
@@ -297,43 +296,43 @@ export const ArtichronSheetMixin = Base => {
       }, {
         name: "ARTICHRON.ContextMenu.ItemOption.Delete",
         icon: "<i class='fa-solid fa-fw fa-trash'></i>",
-        condition: () => isOwner && (isMonster || !isEquipped),
+        condition: () => isOwner && !isEquipped,
         callback: () => item.deleteDialog(),
         group: "manage"
       }, {
         name: "ARTICHRON.ContextMenu.ItemOption.Unequip",
         icon: "<i class='fa-solid fa-fw fa-shield-halved'></i>",
-        condition: () => isHero && isOwner && isEquipped,
+        condition: () => canEquip && isOwner && isEquipped,
         callback: () => item.system.unequip(),
         group: "action"
       }, {
         name: "ARTICHRON.ContextMenu.ItemOption.Favorite",
         icon: "<i class='fa-solid fa-fw fa-star'></i>",
-        condition: () => isOwner && !item.isFavorite,
+        condition: () => canEquip && isOwner && !item.isFavorite,
         callback: () => item.actor.addFavoriteItem(item.id),
         group: "action"
       }, {
         name: "ARTICHRON.ContextMenu.ItemOption.Unfavorite",
         icon: "<i class='fa-regular fa-fw fa-star'></i>",
-        condition: () => isOwner && item.isFavorite,
+        condition: () => canEquip && isOwner && item.isFavorite,
         callback: () => item.actor.removeFavoriteItem(item.id),
         group: "action"
       }, {
         name: "ARTICHRON.ContextMenu.ItemOption.Use",
         icon: `<i class="fa-solid fa-fw fa-${item.isArsenal ? "hand-fist" : "hand-sparkles"}"></i>`,
-        condition: () => isOwner && ((isEquipped || isMonster) || (!item.isArsenal && !item.isArmor)),
+        condition: () => canEquip && isOwner && (isEquipped || (!item.isArsenal && !item.isArmor)),
         callback: () => item.use(),
         group: "action"
       }, {
         name: "ARTICHRON.ContextMenu.ItemOption.Fuse",
         icon: "<i class='fa-solid fa-fw fa-volcano'></i>",
-        condition: () => isOwner && item.hasFusions && !item.isFused,
+        condition: () => canEquip && isOwner && item.hasFusions && !item.isFused,
         callback: () => item.fuseDialog(),
         group: "action"
       }, {
         name: "ARTICHRON.ContextMenu.ItemOption.Unfuse",
         icon: "<i class='fa-solid fa-fw fa-recycle'></i>",
-        condition: () => isOwner && item.isFused,
+        condition: () => canEquip && isOwner && item.isFused,
         callback: () => item.system.unfuseDialog(),
         group: "action"
       }];
@@ -348,7 +347,7 @@ export const ArtichronSheetMixin = Base => {
      */
     _setupDragAndDrop() {
       const dd = new DragDrop({
-        dragSelector: ".compact inventory-item, [data-item-uuid] .wrapper",
+        dragSelector: ".compact inventory-item:not([disabled]), [data-item-uuid]:not([disabled]) .wrapper",
         dropSelector: ".application",
         permissions: {
           dragstart: this._canDragStart.bind(this),
