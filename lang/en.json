@@ -610,6 +610,22 @@
           "placeholder": "Health"
         }
       }
+    },
+    "Skill": {
+      "label": "Skill",
+      "hint": "The character must have this many dice in the given skill to gain the benefits of wearing this armor.",
+      "content": "At least {value} dice in the {skill} skill.",
+      "FIELDS": {
+        "skill": {
+          "label": "Skill",
+          "hint": "The skill that must have the given number of dice."
+        },
+        "value": {
+          "label": "Value",
+          "hint": "The skill dice amount that must be met.",
+          "placeholder": "Dice"
+        }
+      }
     }
   },
 

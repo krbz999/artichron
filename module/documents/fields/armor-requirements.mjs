@@ -48,7 +48,8 @@ export default class ArmorRequirementData extends foundry.abstract.DataModel {
   static get TYPES() {
     return {
       [HealthRequirementData.TYPE]: HealthRequirementData,
-      [PoolRequirementData.TYPE]: PoolRequirementData
+      [PoolRequirementData.TYPE]: PoolRequirementData,
+      [SkillRequirementData.TYPE]: SkillRequirementData
     };
   }
 
@@ -95,7 +96,7 @@ class PoolRequirementData extends ArmorRequirementData {
         choices: CONFIG.SYSTEM.POOL_TYPES
       }),
       value: new NumberField({
-        min: 0,
+        min: 2,
         integer: true,
         placeholder: "ARTICHRON.ItemProperty.ArmorRequirement.Pool.FIELDS.value.placeholder"
       })
@@ -129,7 +130,7 @@ class PoolRequirementData extends ArmorRequirementData {
 
   /** @override */
   get fulfilledRequirements() {
-    return !!(this.item.actor?.system.pools?.[this.pool].max >= this.value);
+    return !!(this.item.actor?.system.pools?.[this.pool].max >= (this.value ?? 2));
   }
 
   /* -------------------------------------------------- */
@@ -139,7 +140,7 @@ class PoolRequirementData extends ArmorRequirementData {
   /** @override */
   toRequirement() {
     return game.i18n.format("ARTICHRON.ItemProperty.ArmorRequirement.Pool.content", {
-      value: this.value,
+      value: this.value ?? 2,
       pool: CONFIG.SYSTEM.POOL_TYPES[this.pool].label
     });
   }
@@ -195,6 +196,66 @@ class HealthRequirementData extends ArmorRequirementData {
   toRequirement() {
     return game.i18n.format("ARTICHRON.ItemProperty.ArmorRequirement.Health.content", {
       value: this.value
+    });
+  }
+}
+
+class SkillRequirementData extends ArmorRequirementData {
+  /** @override */
+  static defineSchema() {
+    return Object.assign(super.defineSchema(), {
+      skill: new StringField({
+        required: true,
+        choices: CONFIG.SYSTEM.SKILLS,
+        initial: "agility"
+      }),
+      value: new NumberField({
+        min: 2,
+        integer: true,
+        placeholder: "ARTICHRON.ItemProperty.ArmorRequirement.Skill.FIELDS.value.placeholder"
+      })
+    });
+  }
+
+  /* -------------------------------------------------- */
+  /*   Properties                                       */
+  /* -------------------------------------------------- */
+
+  /** @override */
+  static metadata = Object.freeze({
+    label: "ARTICHRON.ItemProperty.ArmorRequirement.Skill.label",
+    hint: "ARTICHRON.ItemProperty.ArmorRequirement.Skill.hint"
+  });
+
+  /* -------------------------------------------------- */
+
+  /** @override */
+  static TYPE = "Skill";
+
+  /* -------------------------------------------------- */
+
+  /** @override */
+  static LOCALIZATION_PREFIXES = [
+    "ARTICHRON.ItemProperty.ArmorRequirement",
+    "ARTICHRON.ItemProperty.ArmorRequirement.Skill"
+  ];
+
+  /* -------------------------------------------------- */
+
+  /** @override */
+  get fulfilledRequirements() {
+    return !!(this.item.actor?.system.skills?.[this.skill].number >= (this.value ?? 2));
+  }
+
+  /* -------------------------------------------------- */
+  /*   Instance methods                                 */
+  /* -------------------------------------------------- */
+
+  /** @override */
+  toRequirement() {
+    return game.i18n.format("ARTICHRON.ItemProperty.ArmorRequirement.Skill.content", {
+      skill: CONFIG.SYSTEM.SKILLS[this.skill].label,
+      value: this.value ?? 2
     });
   }
 }
