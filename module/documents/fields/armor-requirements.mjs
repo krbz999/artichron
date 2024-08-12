@@ -97,6 +97,7 @@ class PoolRequirementData extends ArmorRequirementData {
       }),
       value: new NumberField({
         min: 2,
+        initial: 2,
         integer: true,
         nullable: false,
         placeholder: "ARTICHRON.ItemProperty.ArmorRequirement.Pool.FIELDS.value.placeholder"
@@ -153,6 +154,7 @@ class HealthRequirementData extends ArmorRequirementData {
     return Object.assign(super.defineSchema(), {
       value: new NumberField({
         min: 0,
+        initial: 0,
         integer: true,
         nullable: false,
         placeholder: "ARTICHRON.ItemProperty.ArmorRequirement.Health.FIELDS.value.placeholder"
@@ -213,6 +215,7 @@ class SkillRequirementData extends ArmorRequirementData {
       }),
       value: new NumberField({
         min: 2,
+        initial: 2,
         integer: true,
         nullable: false,
         placeholder: "ARTICHRON.ItemProperty.ArmorRequirement.Skill.FIELDS.value.placeholder"
