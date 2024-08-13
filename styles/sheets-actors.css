@@ -289,43 +289,111 @@
       gap: 1rem;
       flex-wrap: wrap;
 
-      &:not(:last-child) { margin-bottom: 1rem; }
+      &:not(:last-child) { margin-bottom: 2rem; }
 
       .avatar {
-        flex: 0 0 50px;
-        height: 50px;
+        flex: 0 0 4rem;
+        height: 4rem;
         object-fit: cover;
         object-position: center top;
         border-radius: 50%;
         border: 2px inset rgba(var(--artichron-color-border-blue), 0.85);
+        &[data-action] { cursor: pointer; }
       }
 
-      .name {
+      .center {
         flex: 1;
-        margin: auto 0;
-        line-height: 50px;
-        font-size: 20px;
+        display: grid;
+        grid-template-rows: 3fr 1fr;
         position: relative;
 
-        .bar {
-          position: absolute;
-          box-shadow: 0 0 2px white;
-          height: 8px;
-          bottom: 0;
-          left: 0;
-          right: 0;
-          border-radius: 3px;
+        .name {
+          font-size: 24px;
+          align-self: end;
+          padding-bottom: 0.2rem;
+        }
 
-          &::before {
-            z-index: -1;
-            position: absolute;
-            content: "";
+        .points {
+          position: absolute;
+          bottom: 25%;
+          right: 0.5rem;
+          font-size: 10px;
+          width: 2.5rem;
+          height: 1rem;
+          align-content: space-evenly;
+          align-items: center;
+          padding: 0;
+          margin: 0 0 0.2rem 0;
+          > * {
+            flex: 1;
+            margin: 0;
+          }
+        }
+
+        .bars {
+          gap: 0.3rem;
+          display: flex;
+          flex-direction: column;
+
+          .hp {
+            position: relative;
+            box-shadow: 0 0 2px white;
+            height: 0.5rem;
             bottom: 0;
             left: 0;
-            right: calc(100% - var(--hp));
-            height: 100%;
-            background: linear-gradient(to right, rgba(255, 0, 0, 0.25) 0%, rgba(255, 0, 0, 0.5) 50%, rgba(255, 0, 0, 0.75) 100%);
-            border-radius: inherit;
+            right: 0;
+            border-radius: 3px;
+
+            &::before {
+              z-index: -1;
+              position: absolute;
+              content: "";
+              bottom: 0;
+              left: 0;
+              right: calc(100% - var(--hp));
+              height: 100%;
+              background: linear-gradient(to right, rgba(255, 0, 0, 0.25) 0%, rgba(255, 0, 0, 0.5) 50%, rgba(255, 0, 0, 0.75) 100%);
+              border-radius: inherit;
+            }
+          }
+
+          .pools {
+            width: 100%;
+            display: flex;
+            gap: 0.2rem;
+            left: 0;
+            right: 0;
+            height: 0.2rem;
+
+            .health, .stamina, .mana {
+              position: relative;
+              flex: 1;
+              height: 100%;
+              box-shadow: 0 0 1px white;
+
+              &::before {
+                z-index: -1;
+                position: absolute;
+                content: "";
+                bottom: 0;
+                left: 0;
+                border-radius: 3px;
+                height: 100%;
+              }
+            }
+
+            .health::before {
+              right: calc(100% - var(--health));
+              background: rgb(200, 75, 75);
+            }
+            .stamina::before {
+              right: calc(100% - var(--stamina));
+              background: rgb(75, 150, 75);
+            }
+            .mana::before {
+              right: calc(100% - var(--mana));
+              background: rgb(75, 75, 250);
+            }
           }
         }
       }
@@ -340,42 +408,6 @@
 
         .fa-solid {
           margin: 0;
-        }
-      }
-
-      .pools {
-        width: 100%;
-        display: flex;
-        gap: 0.4rem;
-
-        .health, .stamina, .mana {
-          position: relative;
-          flex: 1;
-          height: 2px;
-          box-shadow: 0 0 1px white;
-        }
-
-        .health::before, .stamina::before, .mana::before {
-          z-index: -1;
-          position: absolute;
-          content: "";
-          bottom: 0;
-          left: 0;
-          border-radius: 3px;
-          height: 100%;
-        }
-
-        .health::before {
-          right: calc(100% - var(--health));
-          background: rgb(200, 75, 75);
-        }
-        .stamina::before {
-          right: calc(100% - var(--stamina));
-          background: rgb(75, 150, 75);
-        }
-        .mana::before {
-          right: calc(100% - var(--mana));
-          background: rgb(75, 75, 250);
         }
       }
     }

@@ -150,11 +150,40 @@ export default class HeroData extends ActorSystemModel.mixin(EquipmentTemplateMi
 
   /**
    * Prompt for the creation of a progression of a given type.
-   * @param {string} type     The type of progression.
+   * @param {string} [type]     The type of progression.
    * @returns {Promise}
    */
   async createProgression(type) {
-    return ProgressionData.TYPES[type].toPrompt(this.parent);
+    if (this.progression.points.available < 1) {
+      ui.notifications.warn("ARTICHRON.ProgressionDialog.WarningNoPoints", {localize: true});
+      return null;
+    }
+
+    const types = ProgressionData.TYPES;
+    if (!types[type]) {
+      type = await foundry.applications.api.DialogV2.prompt({
+        content: new foundry.data.fields.StringField({
+          choices: Object.entries(types).reduce((acc, [k, v]) => {
+            acc[k] = k;
+            return acc;
+          }, {}),
+          required: true,
+          label: "ARTICHRON.ProgressionDialog.TypeLabel",
+          hint: "ARTICHRON.ProgressionDialog.TypeHint"
+        }).toFormGroup({localize: true}, {name: "type"}).outerHTML,
+        ok: {callback: (event, button) => button.form.elements.type.value},
+        rejectClose: false,
+        window: {
+          title: game.i18n.format("ARTICHRON.ProgressionDialog.Title", {name: this.parent.name}),
+          icon: "fa-solid fa-arrow-trend-up"
+        },
+        position: {width: 400},
+        modal: true
+      });
+      if (!type) return null;
+    }
+
+    return types[type].toPrompt(this.parent);
   }
 
   /* -------------------------------------------------- */

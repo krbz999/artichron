@@ -10,6 +10,8 @@ export default class PartySheet extends ActorSheetArtichron {
     classes: ["party"],
     position: {width: 650},
     actions: {
+      createProgression: PartySheet.#createProgression,
+      displayActor: PartySheet.#displayActor,
       removeMember: PartySheet.#removeMember
     }
   };
@@ -20,8 +22,14 @@ export default class PartySheet extends ActorSheetArtichron {
   static PARTS = {
     header: {template: "systems/artichron/templates/shared/sheet-header.hbs"},
     tabs: {template: "systems/artichron/templates/shared/tabs.hbs"},
-    members: {template: "systems/artichron/templates/actor/party-members.hbs"},
-    inventory: {template: "systems/artichron/templates/actor/party-inventory.hbs"}
+    members: {
+      template: "systems/artichron/templates/actor/party-members.hbs",
+      scrollable: [""]
+    },
+    inventory: {
+      template: "systems/artichron/templates/actor/party-inventory.hbs",
+      scrollable: [""]
+    }
   };
 
   /* -------------------------------------------------- */
@@ -53,10 +61,7 @@ export default class PartySheet extends ActorSheetArtichron {
       document: this.document,
       source: this.document.toObject(),
       items: await this._prepareItems(),
-      actors: Array.from(this.document.system.members).reduce((acc, m) => {
-        if (m.actor) acc.push({actor: m.actor, isOwner: m.actor.isOwner});
-        return acc;
-      }, [])
+      actors: await this.#prepareMembers()
     };
 
     const prop = path => {
@@ -74,6 +79,43 @@ export default class PartySheet extends ActorSheetArtichron {
 
   /* -------------------------------------------------- */
 
+  /**
+   * Prepare the array of members for display.
+   * @returns {Promise<object[]>}
+   */
+  async #prepareMembers() {
+    const members = [];
+
+    for (const {actor} of this.document.system.members) {
+      if (!actor) continue;
+      const context = {
+        actor: actor,
+        isOwner: actor.isOwner,
+        isHero: actor.type === "hero",
+        pct: {hp: actor.system.health.pct},
+        canView: actor.testUserPermission(game.user, "LIMITED")
+      };
+
+      if (context.isHero) {
+        context.pct.health = actor.system.pools.health.pct;
+        context.pct.stamina = actor.system.pools.stamina.pct;
+        context.pct.mana = actor.system.pools.mana.pct;
+
+        context.pts = {
+          available: actor.system.progression.points.available,
+          total: actor.system.progression.points.total,
+          spent: actor.system.progression.points.total - actor.system.progression.points.available
+        };
+      }
+
+      members.push(context);
+    }
+
+    return members;
+  }
+
+  /* -------------------------------------------------- */
+
   /** @override */
   async _prepareItems() {
     const items = {};
@@ -87,11 +129,19 @@ export default class PartySheet extends ActorSheetArtichron {
       items[item.type].items.push(item);
     }
 
-    return Object.fromEntries(Object.entries(items).sort((a, b) => a[1].order - b[1].order));
+    for (const {items: itemArray} of Object.values(items)) {
+      itemArray.sort((a, b) => {
+        const sort = a.sort - b.sort;
+        if (sort) return sort;
+        return a.name.localeCompare(b.name);
+      });
+    }
+
+    return Object.fromEntries(Object.entries(items).sort((a, b) => {
+      return a[1].order - b[1].order;
+    }));
   }
 
-  /* -------------------------------------------------- */
-  /*   Drag and drop handlers                           */
   /* -------------------------------------------------- */
 
   /** @override */
@@ -139,6 +189,35 @@ export default class PartySheet extends ActorSheetArtichron {
   /* -------------------------------------------------- */
 
   /**
+   * Prompt to create a progression on a hero actor who is a member of this party.
+   * @this {PartySheet}
+   * @param {Event} event             Initiating click event.
+   * @param {HTMLElement} target      The current target of the event listener.
+   */
+  static #createProgression(event, target) {
+    const id = target.closest(".member").dataset.id;
+    const actor = game.actors.get(id);
+    actor.system.createProgression();
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Display an actor when the avatar is clicked.
+   * @this {PartySheet}
+   * @param {Event} event             Initiating click event.
+   * @param {HTMLElement} target      The current target of the event listener.
+   */
+  static #displayActor(event, target) {
+    const id = target.closest(".member").dataset.id;
+    const actor = game.actors.get(id);
+    actor.sheet.render({force: true});
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Remove this member from this party.
    * @this {PartySheet}
    * @param {Event} event             Initiating click event.
    * @param {HTMLElement} target      The current target of the event listener.

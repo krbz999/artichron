@@ -127,11 +127,16 @@ class ProgressionPoolData extends ProgressionData {
 
   /** @override */
   static async toPrompt(actor) {
-    const fields = Object.values(ProgressionPoolData.schema.fields).map(field => {
-      if (["_id", "type"].includes(field.name)) return null;
-      return field.toFormGroup({localize: true}, {}).outerHTML;
-    });
-    const content = `<fieldset>${fields.filterJoin("")}</fieldset>`;
+    const fields = Object.values(ProgressionPoolData.schema.fields).reduce((acc, field) => {
+      if (["_id", "type"].includes(field.name)) return acc;
+      const options = (field.name === "value") ? {
+        max: actor.system.progression.points.available.toNearest(2, "floor")
+      } : {};
+      acc.push(field.toFormGroup({localize: true}, options).outerHTML);
+      return acc;
+    }, []);
+
+    const content = `<fieldset>${fields.join("")}</fieldset>`;
     return foundry.applications.api.DialogV2.prompt({
       content: content,
       modal: true,
@@ -190,11 +195,16 @@ class ProgressionSkillData extends ProgressionData {
 
   /** @override */
   static async toPrompt(actor) {
-    const fields = Object.values(ProgressionSkillData.schema.fields).map(field => {
-      if (["_id", "type"].includes(field.name)) return null;
-      return field.toFormGroup({localize: true}, {}).outerHTML;
-    });
-    const content = `<fieldset>${fields.filterJoin("")}</fieldset>`;
+    const fields = Object.values(ProgressionSkillData.schema.fields).reduce((acc, field) => {
+      if (["_id", "type"].includes(field.name)) return acc;
+      const options = (field.name === "value") ? {
+        max: actor.system.progression.points.available
+      } : {};
+      acc.push(field.toFormGroup({localize: true}, options).outerHTML);
+      return acc;
+    }, []);
+
+    const content = `<fieldset>${fields.join("")}</fieldset>`;
     return foundry.applications.api.DialogV2.prompt({
       content: content,
       modal: true,

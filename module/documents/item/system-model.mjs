@@ -1,14 +1,26 @@
+/**
+ * @typedef {object} ItemMetadata
+ * @property {string} inventorySection      The inventory section an item type gets
+ *                                          placed in on an actor's inventory tab.
+ * @property {string} type                  The internal name of this item type.
+ * @property {boolean} fusion               Whether this item type allows being fused or fused onto.
+ * @property {number} defaultWeight         The initial weight of a new item of this type.
+ * @property {number} order                 The order this inventory section is in relative to other sections.
+ */
+
 const {StringField, SchemaField, HTMLField, NumberField, SetField} = foundry.data.fields;
 
 export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
   /**
    * An object of metadata.
-   * @type {object}
+   * @type {ItemMetadata}
    */
   static metadata = Object.freeze({
     inventorySection: "",
+    type: "",
     fusion: false,
-    defaultWeight: 1
+    defaultWeight: 1,
+    order: 10
   });
 
   /* -------------------------------------------------- */
