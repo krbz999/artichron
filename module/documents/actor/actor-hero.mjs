@@ -65,6 +65,11 @@ export default class HeroData extends ActorSystemModel.mixin(EquipmentTemplateMi
       spent = spent + model.value;
     }
     this.progression.points.available = this.progression.points.total - spent;
+
+    const progression = CONFIG.SYSTEM.PROGRESSION_THRESHOLDS.toReversed().find(p => {
+      return this.progression.points.total >= p.threshold;
+    });
+    this.progression.level = progression.level;
   }
 
   /* -------------------------------------------------- */

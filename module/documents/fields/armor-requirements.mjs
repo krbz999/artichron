@@ -48,6 +48,7 @@ export default class ArmorRequirementData extends foundry.abstract.DataModel {
   static get TYPES() {
     return {
       [HealthRequirementData.TYPE]: HealthRequirementData,
+      [LevelRequirementData.TYPE]: LevelRequirementData,
       [PoolRequirementData.TYPE]: PoolRequirementData,
       [SkillRequirementData.TYPE]: SkillRequirementData
     };
@@ -236,7 +237,7 @@ class SkillRequirementData extends ArmorRequirementData {
   /* -------------------------------------------------- */
 
   /** @override */
-  static TYPE = "Skill";
+  static TYPE = "skill";
 
   /* -------------------------------------------------- */
 
@@ -262,6 +263,68 @@ class SkillRequirementData extends ArmorRequirementData {
     return game.i18n.format("ARTICHRON.ItemProperty.ArmorRequirement.Skill.content", {
       skill: CONFIG.SYSTEM.SKILLS[this.skill].label,
       value: this.value
+    });
+  }
+}
+
+class LevelRequirementData extends ArmorRequirementData {
+  /** @override */
+  static defineSchema() {
+    return Object.assign(super.defineSchema(), {
+      level: new NumberField({
+        initial: () => CONFIG.SYSTEM.PROGRESSION_THRESHOLDS[0].level,
+        nullable: false,
+        choices: () => CONFIG.SYSTEM.PROGRESSION_THRESHOLDS.reduce((acc, v) => {
+          acc[v.level] = v.label;
+          return acc;
+        }, {})
+      })
+    });
+  }
+
+  /* -------------------------------------------------- */
+  /*   Properties                                       */
+  /* -------------------------------------------------- */
+
+  /** @override */
+  static metadata = Object.freeze({
+    label: "ARTICHRON.ItemProperty.ArmorRequirement.Level.label",
+    hint: "ARTICHRON.ItemProperty.ArmorRequirement.Level.hint"
+  });
+
+  /* -------------------------------------------------- */
+
+  /** @override */
+  static TYPE = "level";
+
+  /* -------------------------------------------------- */
+
+  /** @override */
+  static LOCALIZATION_PREFIXES = [
+    "ARTICHRON.ItemProperty.ArmorRequirement",
+    "ARTICHRON.ItemProperty.ArmorRequirement.Level"
+  ];
+
+  /* -------------------------------------------------- */
+
+  /** @override */
+  get fulfilledRequirements() {
+    const level = this.item.actor?.system.progression?.level ?? 0;
+    return level >= this.level;
+  }
+
+  /* -------------------------------------------------- */
+  /*   Instance methods                                 */
+  /* -------------------------------------------------- */
+
+  /** @override */
+  toRequirement() {
+    const progression = CONFIG.SYSTEM.PROGRESSION_THRESHOLDS.toReversed().find(p => {
+      return p.level <= this.level;
+    });
+
+    return game.i18n.format("ARTICHRON.ItemProperty.ArmorRequirement.Level.content", {
+      value: progression.label
     });
   }
 }

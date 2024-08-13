@@ -175,6 +175,12 @@ Hooks.once("i18nInit", function() {
       for (const [x, y] of Object.entries(v)) {
         localize(v, x, y);
       }
+    } else if (type === "Array") {
+      for (const k of v) if (foundry.utils.getType(k) === "Object") {
+        for (const [u, w] of Object.entries(k)) {
+          localize(k, u, w);
+        }
+      }
     }
   };
 

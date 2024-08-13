@@ -616,6 +616,17 @@
         }
       }
     },
+    "Level": {
+      "label": "Level",
+      "hint": "The character must have attained at least this level of experience to gain the benefits of wearing this armor.",
+      "content": "Attained at least {value} level.",
+      "FIELDS": {
+        "value": {
+          "label": "Experience",
+          "hint": "The level of experience the character must have attained."
+        }
+      }
+    },
     "Skill": {
       "label": "Skill",
       "hint": "The character must have this many dice in the given skill to gain the benefits of wearing this armor.",
@@ -639,6 +650,12 @@
       "GroupChoiceAll": "All Types"
     }
   }
+},
+
+"ProgressionThresholds": {
+  "Novice": "Novice",
+  "Experienced": "Experienced",
+  "Veteran": "Veteran"
 },
 
 "Wielding": {

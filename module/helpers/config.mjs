@@ -646,3 +646,30 @@ SYSTEM.POOL_FACES_SPECIALIZATION_TYPES = {
     faces: [4, 4, 10]
   }
 };
+
+/* -------------------------------------------------- */
+
+/**
+ * @typedef {object} ProgressionThresholdConfig
+ * @property {string} label         The human-readable label of this threshold.
+ * @property {number} level         The numeric value of the given rank.
+ * @property {number} threshold     The threshold that must be met to attain this rank.
+ */
+
+/**
+ * The thresholds that can be met to achieve a 'level'.
+ * @type {ProgressionThresholdConfig[]}
+ */
+SYSTEM.PROGRESSION_THRESHOLDS = [{
+  label: "ARTICHRON.ProgressionThresholds.Novice",
+  level: 1,
+  threshold: 0
+}, {
+  label: "ARTICHRON.ProgressionThresholds.Experienced",
+  level: 2,
+  threshold: 20
+}, {
+  label: "ARTICHRON.ProgressionThresholds.Veteran",
+  level: 3,
+  threshold: 50
+}];
