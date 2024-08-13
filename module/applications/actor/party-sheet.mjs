@@ -29,6 +29,10 @@ export default class PartySheet extends ActorSheetArtichron {
     inventory: {
       template: "systems/artichron/templates/actor/party-inventory.hbs",
       scrollable: [""]
+    },
+    progress: {
+      template: "systems/artichron/templates/actor/party-progress.hbs",
+      scrollable: [""]
     }
   };
 
@@ -37,7 +41,8 @@ export default class PartySheet extends ActorSheetArtichron {
   /** @override */
   static TABS = {
     members: {id: "members", group: "primary", label: "ARTICHRON.SheetTab.Members"},
-    inventory: {id: "inventory", group: "primary", label: "ARTICHRON.SheetTab.Inventory"}
+    inventory: {id: "inventory", group: "primary", label: "ARTICHRON.SheetTab.Inventory"},
+    progress: {id: "progress", group: "primary", label: "ARTICHRON.SheetTab.Progress"}
   };
 
   /* -------------------------------------------------- */
@@ -56,34 +61,77 @@ export default class PartySheet extends ActorSheetArtichron {
     const context = {
       isEditable: this.isEditable,
       isEditMode: this.isEditMode,
-      isPlayMode: this.isPlayMode,
-      tabs: this._getTabs(),
-      document: this.document,
-      source: this.document.toObject(),
-      items: await this._prepareItems(),
-      actors: await this.#prepareMembers()
+      isPlayMode: this.isPlayMode
     };
+    return context;
+  }
 
+  /* -------------------------------------------------- */
+
+  /** @override */
+  async _preparePartContext(partId, context, options) {
+    context = await super._preparePartContext(partId, context, options);
+
+    switch (partId) {
+      case "header":
+        return this.#preparePartContextHeader(context, options);
+      case "tabs":
+        return this.#preparePartContextTabs(context, options);
+      case "members":
+        return this.#preparePartContextMembers(context, options);
+      case "inventory":
+        return this.#preparePartContextInventory(context, options);
+      case "progress":
+        return this.#preparePartContextProgress(context, options);
+      default:
+        throw new Error(`'${partId}' is not a valid part for the Party Sheet!`);
+    }
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Prepare the context for a specific part.
+   * @param {object} context        Rendering context.
+   * @param {object} options        Rendering options.
+   * @returns {Promise<object>}     Mutated rendering context.
+   */
+  async #preparePartContextHeader(context, options) {
     const prop = path => {
-      if (context.isEditMode) return foundry.utils.getProperty(context.source, path);
-      return foundry.utils.getProperty(context.document, path);
+      if (context.isEditMode) return foundry.utils.getProperty(this.document._source, path);
+      return foundry.utils.getProperty(this.document, path);
     };
 
     context.header = {
       img: prop("img"),
       name: prop("name")
     };
-
     return context;
   }
 
   /* -------------------------------------------------- */
 
   /**
-   * Prepare the array of members for display.
-   * @returns {Promise<object[]>}
+   * Prepare the context for a specific part.
+   * @param {object} context        Rendering context.
+   * @param {object} options        Rendering options.
+   * @returns {Promise<object>}     Mutated rendering context.
    */
-  async #prepareMembers() {
+  async #preparePartContextTabs(context, options) {
+    context.tabs = this._getTabs();
+    if (!game.user.isGM) delete context.tabs.progress;
+    return context;
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Prepare the context for a specific part.
+   * @param {object} context        Rendering context.
+   * @param {object} options        Rendering options.
+   * @returns {Promise<object>}     Mutated rendering context.
+   */
+  async #preparePartContextMembers(context, options) {
     const members = [];
 
     for (const {actor} of this.document.system.members) {
@@ -111,13 +159,19 @@ export default class PartySheet extends ActorSheetArtichron {
       members.push(context);
     }
 
-    return members;
+    context.actors = members;
+    return context;
   }
 
   /* -------------------------------------------------- */
 
-  /** @override */
-  async _prepareItems() {
+  /**
+   * Prepare the context for a specific part.
+   * @param {object} context        Rendering context.
+   * @param {object} options        Rendering options.
+   * @returns {Promise<object>}     Mutated rendering context.
+   */
+  async #preparePartContextInventory(context, options) {
     const items = {};
 
     for (const item of this.document.items) {
@@ -137,9 +191,24 @@ export default class PartySheet extends ActorSheetArtichron {
       });
     }
 
-    return Object.fromEntries(Object.entries(items).sort((a, b) => {
+    context.items = Object.fromEntries(Object.entries(items).sort((a, b) => {
       return a[1].order - b[1].order;
     }));
+
+    return context;
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Prepare the context for a specific part.
+   * @param {object} context        Rendering context.
+   * @param {object} options        Rendering options.
+   * @returns {Promise<object>}     Mutated rendering context.
+   */
+  async #preparePartContextProgress(context, options) {
+    if (!game.user.isGM) return context;
+    return context;
   }
 
   /* -------------------------------------------------- */
