@@ -1,2 +1,37 @@
 <div class="{{tabs.progress.tabCssClass}}" data-group="primary" data-tab="progress">
+  {{#if @root.isEditMode}}
+  <fieldset class="clocks edit">
+    <legend>
+      <span>{{localize "ARTICHRON.SheetTab.Clocks"}}</span>
+      <a data-action="addClock"><i class="fa-solid fa-plus"></i></a>
+    </legend>
+    {{#each clocks}}
+    <div class="form-group" data-idx="{{idx}}">
+      {{formGroup nameField value=name name=(concat "system.clocks." idx ".name") classes="name label-top" localize=true}}
+      {{formGroup valueField value=value name=(concat "system.clocks." idx ".value") classes="value label-top" localize=true}}
+      {{formGroup maxField value=max name=(concat "system.clocks." idx ".max") classes="max label-top" localize=true}}
+      {{formGroup colorField value=color name=(concat "system.clocks." idx ".color") classes="color label-top" localize=true}}
+      <div class="controls">
+        <button type="button" class="control" data-action="removeClock"><i class="fa-solid fa-trash"></i></button>
+      </div>
+    </div>
+    {{/each}}
+  </fieldset>
+  {{else}}
+  <fieldset class="clocks play">
+    <legend>{{localize "ARTICHRON.SheetTab.Clocks"}}</legend>
+    {{#each clocks}}
+    <div class="clock">
+      <button type="button" data-delta="up" data-idx="{{idx}}" data-action="clockDelta" {{disabled disableUp}}>
+        <i class="fa-solid fa-chevron-up"></i>
+      </button>
+      {{progressClock value=value max=max color=color}}
+      <button type="button" data-delta="down" data-idx="{{idx}}" data-action="clockDelta" {{disabled disableDown}}>
+        <i class="fa-solid fa-chevron-down"></i>
+      </button>
+      <label class="name">{{name}}</label>
+    </div>
+    {{/each}}
+  </fieldset>
+  {{/if}}
 </div>

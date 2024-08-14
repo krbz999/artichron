@@ -97,6 +97,7 @@
   "Arsenal": "Arsenal",
   "Attributes": "Attributes",
   "Biography": "Biography",
+  "Clocks": "Clocks",
   "Consumables": "Consumables",
   "Defenses": "Defenses",
   "Description": "Description",
@@ -169,6 +170,21 @@
 
 "ActorProperty": {
   "FIELDS": {
+    "clocks": {
+      "name": {
+        "label": "Name",
+        "initial": "New Clock"
+      },
+      "value": {
+        "label": "Value"
+      },
+      "max": {
+        "label": "Max"
+      },
+      "color": {
+        "label": "Color"
+      }
+    },
     "bonuses": {
       "damage": {
         "elemental": {

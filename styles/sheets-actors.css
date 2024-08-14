@@ -279,6 +279,9 @@
 }
 
 .artichron.application.sheet.party {
+  container-type: inline-size;
+  container-name: clock-width;
+
   .members {
     padding: 0 1rem;
     gap: 1rem;
@@ -412,6 +415,49 @@
       }
     }
   }
+
+  .clocks.play {
+    display: grid;
+
+    .clock {
+      display: grid;
+
+      & progress-clock {
+        width: 100%;
+        max-height: unset;
+      }
+
+      .name {
+        text-align: center;
+        display: block;
+        padding: 0.5rem 0;
+        font-size: 14px;
+        color: var(--artichron-color-gold);
+        font-style: italic;
+        overflow: hidden;
+        white-space: nowrap;
+      }
+    }
+  }
+
+  .clocks.edit {
+    .name { flex: 2; }
+    .value { flex: 1; text-align: center; }
+    .max { flex: 1; text-align: center; }
+    .color input[type=color] { max-width: var(--input-height); height: var(--input-height); }
+    .controls { place-self: end; }
+  }
+}
+
+/* Variable columns for clocks */
+@container clock-width (min-width: 200px) {
+  .clocks { grid-template-columns: repeat(2, 1fr); }
+}
+@container clock-width (min-width: 550px) {
+  .clocks { grid-template-columns: repeat(4, 1fr); }
+}
+@container clock-width (min-width: 1200px) {
+  .clocks { grid-template-columns: repeat(6, 1fr); }
 }
 
 .artichron.application.skills {

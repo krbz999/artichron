@@ -10,6 +10,7 @@ export default class ProgressClockElement extends HTMLElement {
     const element = document.createElement(ProgressClockElement.tagName);
     element.setAttribute("max", config.max ?? 8);
     element.setAttribute("value", config.value ?? 0);
+    element.setAttribute("color", config.color ? config.color.rgb.map(k => k * 255).join(",") : "0,0,255");
     return element;
   }
 
@@ -28,30 +29,30 @@ export default class ProgressClockElement extends HTMLElement {
   connectedCallback() {
     const max = parseInt(this.getAttribute("max"));
     const value = parseInt(this.getAttribute("value"));
+    const color = this.getAttribute("color");
 
-    const isFilled = value >= max;
-
-    const pct = (100 / max);
-    const delta = 360 / max;
-
-    const opacityMin = 0.3;
+    const opacityMin = 0.2;
     const opacityDelta = (1 - opacityMin) / max;
 
-    for (let i = 1; i <= max; i++) {
-      const slice = document.createElement("DIV");
-      slice.classList.add("slice");
-      if (i <= value) slice.classList.add("active");
-      const styles = [
-        `--p: ${isFilled ? 100 : pct};`,
-        `--iter: ${(i - 1) * delta}deg;`,
-        `opacity: ${isFilled ? 1 : slice.classList.contains("active") ? (opacityMin + i * opacityDelta) : 0};`
-      ];
-      slice.setAttribute("style", styles.join(" "));
-      this.insertAdjacentElement("beforeend", slice);
-      if (isFilled) break;
+    const slices = document.createElement("DIV");
+    slices.classList.add("slices");
+
+    const clr = (alpha, pct, active = true) => {
+      if (active) return `rgba(${color}, ${alpha}) 0 ${pct}%`;
+      return "rgba(0, 0, 0, 0) 0";
+    };
+
+    const gradients = [];
+    for (let i = 0; i <= value; i++) {
+      const active = i < value;
+      const alpha = opacityMin + (i + 1) * opacityDelta;
+      const p = Math.round((i + 1) / max * 100);
+      if (i < max) gradients.push(clr(alpha, p, active));
+      if (!active) break;
     }
 
-    if (isFilled) this.classList.add("filled");
+    slices.style.background = `conic-gradient(${gradients.join(", ")}`;
+    this.insertAdjacentElement("beforeend", slices);
 
     const text = document.createElement("SPAN");
     text.classList.add("counter");
