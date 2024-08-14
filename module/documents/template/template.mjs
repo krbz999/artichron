@@ -1,5 +1,3 @@
-import * as utils from "../../helpers/utils.mjs";
-
 export default class MeasuredTemplateArtichron extends MeasuredTemplate {
   /**
    * Reference to a token to which this template is oriented.
@@ -255,7 +253,7 @@ export default class MeasuredTemplateArtichron extends MeasuredTemplate {
    * @returns {TokenDocumentArtichron[]}
    */
   get containedTokens() {
-    const tokens = utils.tokensInTemplate(this);
-    return utils.getTokenTargets(tokens);
+    const tokens = artichron.utils.tokensInTemplate(this);
+    return artichron.utils.getTokenTargets(tokens);
   }
 }
