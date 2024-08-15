@@ -442,8 +442,6 @@
 
   .clocks.edit {
     .name { flex: 2; }
-    .value { flex: 1; text-align: center; }
-    .max { flex: 1; text-align: center; }
     .color input[type=color] { max-width: var(--input-height); height: var(--input-height); }
     .controls { place-self: end; }
   }
@@ -454,10 +452,13 @@
   .clocks { grid-template-columns: repeat(2, 1fr); }
 }
 @container clock-width (min-width: 550px) {
-  .clocks { grid-template-columns: repeat(4, 1fr); }
+  .clocks { grid-template-columns: repeat(3, 1fr); }
 }
-@container clock-width (min-width: 1200px) {
-  .clocks { grid-template-columns: repeat(6, 1fr); }
+@container clock-width (min-width: 900px) {
+  .clocks { grid-template-columns: repeat(5, 1fr); }
+}
+@container clock-width (min-width: 1700px) {
+  .clocks { grid-template-columns: repeat(7, 1fr); }
 }
 
 .artichron.application.skills {

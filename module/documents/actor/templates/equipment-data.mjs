@@ -42,6 +42,7 @@ const EquipmentTemplateMixin = Base => {
 
     /** @override */
     prepareDerivedData() {
+      // Calling super first to prepare actor level.
       super.prepareDerivedData();
       this.#prepareArmor();
       this.#prepareResistances();

@@ -134,6 +134,8 @@ dialog:-internal-dialog-in-top-layer::backdrop {
       text-align: center;
       margin-bottom: 0.1rem;
     }
+
+    & input[type=number] { text-align: center; }
   }
 }
 

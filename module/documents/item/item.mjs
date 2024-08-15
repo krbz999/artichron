@@ -54,7 +54,6 @@ export default class ItemArtichron extends Item {
    */
   get isEquipped() {
     if (!this.isEmbedded) return false;
-    if (this.actor.type === "monster") return true;
     if (this.isArsenal) return Object.values(this.actor.arsenal).includes(this);
     else if (this.type === "armor") return Object.values(this.actor.armor).includes(this);
     return false;

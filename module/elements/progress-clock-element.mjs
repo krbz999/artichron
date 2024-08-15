@@ -10,7 +10,7 @@ export default class ProgressClockElement extends HTMLElement {
     const element = document.createElement(ProgressClockElement.tagName);
     element.setAttribute("max", config.max ?? 8);
     element.setAttribute("value", config.value ?? 0);
-    element.setAttribute("color", config.color ? config.color.rgb.map(k => k * 255).join(",") : "0,0,255");
+    element.setAttribute("style", `--color: ${config.color ? config.color.rgb.map(k => k * 255).join(",") : "0,0,255"}`);
     return element;
   }
 
@@ -29,7 +29,6 @@ export default class ProgressClockElement extends HTMLElement {
   connectedCallback() {
     const max = parseInt(this.getAttribute("max"));
     const value = parseInt(this.getAttribute("value"));
-    const color = this.getAttribute("color");
 
     const opacityMin = 0.2;
     const opacityDelta = (1 - opacityMin) / max;
@@ -37,8 +36,8 @@ export default class ProgressClockElement extends HTMLElement {
     const slices = document.createElement("DIV");
     slices.classList.add("slices");
 
-    const clr = (alpha, pct, active = true) => {
-      if (active) return `rgba(${color}, ${alpha}) 0 ${pct}%`;
+    const clr = (alpha, pct, active) => {
+      if (active) return `rgba(var(--color), ${alpha}) 0 ${pct}%`;
       return "rgba(0, 0, 0, 0) 0";
     };
 

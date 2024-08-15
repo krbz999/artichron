@@ -73,10 +73,10 @@ export default class HeroData extends ActorSystemModel.mixin(EquipmentTemplateMi
   prepareDerivedData() {
     super.prepareDerivedData();
 
-    // All other preparation comes after progression.
+    // Pools are prepared first as most other properties rely on these.
     this.#preparePools();
-    this.#prepareEncumbrance(); // Preparing this after pools as it relies on stamina pool.
-    this.#prepareHealth(); // Preparing this after pools as it relies on health pool.
+    this.#prepareEncumbrance();
+    this.#prepareHealth();
   }
 
   /* -------------------------------------------------- */

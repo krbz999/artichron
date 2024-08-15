@@ -2,7 +2,7 @@ progress-clock {
   position: relative;
   border-radius: 50%;
   margin: 1rem auto;
-  box-shadow: 0 0 5px 5px rgb(48, 86, 255);
+  box-shadow: 0 0 5px 5px rgba(var(--color), 0.75);
   justify-content: center;
   display: flex;
   align-items: center;
