@@ -67,26 +67,28 @@ export default class ProgressionData extends foundry.abstract.DataModel {
   }
 
   /* -------------------------------------------------- */
-  /*   Data preparation                                 */
-  /* -------------------------------------------------- */
 
   /**
-   * Apply this progression to its parent actor.
+   * Remove this progression from the actor and undo the changes it has made.
+   * @returns {Promise<ActorArtichron>}     A promise that resolves to the updated actor.
    */
-  applyProgression() {}
+  async removeProgression() {
+    throw new Error("removeProgression in ProgressionData must be subclassed!");
+  }
 
   /* -------------------------------------------------- */
   /*   Static methods                                   */
   /* -------------------------------------------------- */
 
   /**
-   * Create a prompt to configure a new instance of this data model.
+   * Create a prompt to configure a new instance of this data model and apply its changes to the actor.
    * @param {ActorArtichron} actor          The actor on which to create this progression.
    * @returns {Promise<ActorArtichron>}     A promise that resolves to the updated actor.
    */
   static async toPrompt(actor) {
     throw new Error("The 'toPrompt' method of ProgressionData must be subclassed.");
   }
+
 }
 
 class ProgressionPoolData extends ProgressionData {
@@ -118,14 +120,6 @@ class ProgressionPoolData extends ProgressionData {
   /* -------------------------------------------------- */
 
   /** @override */
-  applyProgression() {
-    // The pool size increases by 1 for every 2 points invested.
-    this.actor.system.pools[this.pool].max += (this.value / 2);
-  }
-
-  /* -------------------------------------------------- */
-
-  /** @override */
   static async toPrompt(actor) {
     const fields = Object.values(ProgressionPoolData.schema.fields).reduce((acc, field) => {
       if (["_id", "type"].includes(field.name)) return acc;
@@ -149,10 +143,48 @@ class ProgressionPoolData extends ProgressionData {
       ok: {callback: (event, button, html) => {
         const {pool, value} = new FormDataExtended(button.form).object;
         const modelData = {pool: pool, value: value, type: this.TYPE};
-        const progs = actor.system.toObject().progression.points.spent;
-        return actor.update({"system.progression.points.spent": progs.concat([modelData])});
+        return ProgressionPoolData.#applyProgression(actor, modelData);
       }}
     });
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Create and apply this progression to the actor.
+   * @param {ActorArtichron} actor          The actor to modify.
+   * @param {object} data                   The source data used for the progression.
+   * @returns {Promise<ActorArtichron>}     A promise that resolves to the updated actor.
+   */
+  static async #applyProgression(actor, data) {
+    const source = actor.toObject();
+    const update = {};
+    const path = `system.pools.${data.pool}.max`;
+    const value = foundry.utils.getProperty(source, path);
+    update[path] = value + data.value / 2;
+
+    const progs = source.system.progression.points.spent;
+    progs.push(data);
+    update["system.progression.points.spent"] = progs;
+
+    return actor.update(update);
+  }
+
+  /* -------------------------------------------------- */
+
+  /** @override */
+  async removeProgression() {
+    const update = {};
+    const source = this.actor.toObject();
+    const path = `system.pools.${this.pool}.max`;
+    const value = foundry.utils.getProperty(source, path);
+    update[path] = value - this.value / 2;
+
+    const progs = source.system.progression.points.spent;
+    progs.findSplice(p => p._id === this.id);
+    update["system.progression.points.spent"] = progs;
+
+    return this.actor.update(update);
   }
 }
 
@@ -185,15 +217,6 @@ class ProgressionSkillData extends ProgressionData {
   /* -------------------------------------------------- */
 
   /** @override */
-  applyProgression() {
-    // The quantity of dice increases by 1 for each point invested.
-    const skill = this.actor.system.skills[this.skill];
-    skill.number += this.value;
-  }
-
-  /* -------------------------------------------------- */
-
-  /** @override */
   static async toPrompt(actor) {
     const fields = Object.values(ProgressionSkillData.schema.fields).reduce((acc, field) => {
       if (["_id", "type"].includes(field.name)) return acc;
@@ -217,9 +240,47 @@ class ProgressionSkillData extends ProgressionData {
       ok: {callback: (event, button, html) => {
         const {skill, value} = new FormDataExtended(button.form).object;
         const modelData = {skill: skill, value: value, type: this.TYPE};
-        const progs = actor.system.toObject().progression.points.spent;
-        return actor.update({"system.progression.points.spent": progs.concat([modelData])});
+        return ProgressionSkillData.#applyProgression(actor, modelData);
       }}
     });
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Create and apply this progression to the actor.
+   * @param {ActorArtichron} actor          The actor to modify.
+   * @param {object} data                   The source data used for the progression.
+   * @returns {Promise<ActorArtichron>}     A promise that resolves to the updated actor.
+   */
+  static #applyProgression(actor, data) {
+    const source = actor.toObject();
+    const update = {};
+    const path = `system.skills.${data.skill}.number`;
+    const value = foundry.utils.getProperty(source, path);
+    update[path] = value + data.value;
+
+    const progs = source.system.progression.points.spent;
+    progs.push(data);
+    update["system.progression.points.spent"] = progs;
+
+    return actor.update(update);
+  }
+
+  /* -------------------------------------------------- */
+
+  /** @override */
+  async removeProgression() {
+    const update = {};
+    const source = this.actor.toObject();
+    const path = `system.skills.${this.skill}.number`;
+    const value = foundry.utils.getProperty(source, path);
+    update[path] = value - this.value;
+
+    const progs = source.system.progression.points.spent;
+    progs.findSplice(p => p._id === this.id);
+    update["system.progression.points.spent"] = progs;
+
+    return this.actor.update(update);
   }
 }

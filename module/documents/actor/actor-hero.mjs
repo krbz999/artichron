@@ -58,12 +58,7 @@ export default class HeroData extends ActorSystemModel.mixin(EquipmentTemplateMi
     super.prepareBaseData();
 
     // Set the available number of progression points.
-    let spent = 0;
-    for (const model of this.progression.points.spent) {
-      // Apply modifications from progressions.
-      model.applyProgression();
-      spent = spent + model.value;
-    }
+    const spent = this.progression.points.spent.reduce((acc, p) => acc + p.value, 0);
     this.progression.points.available = this.progression.points.total - spent;
 
     const progression = CONFIG.SYSTEM.PROGRESSION_THRESHOLDS.toReversed().find(p => {
@@ -154,9 +149,10 @@ export default class HeroData extends ActorSystemModel.mixin(EquipmentTemplateMi
   /* -------------------------------------------------- */
 
   /**
-   * Prompt for the creation of a progression of a given type.
-   * @param {string} [type]     The type of progression.
-   * @returns {Promise}
+   * Prompt for the creation of a progression of a given type. The chosen and configured
+   * progression type will be applied to the actor.
+   * @param {string} [type]                 The type of progression.
+   * @returns {Promise<ActorArtichron>}     A promise that resolves to the updated actor.
    */
   async createProgression(type) {
     if (this.progression.points.available < 1) {
@@ -200,16 +196,7 @@ export default class HeroData extends ActorSystemModel.mixin(EquipmentTemplateMi
    * @returns {Promise<ActorArtichron>}     A promise that resolves to the updated actor.
    */
   async updateProgression(id, changes = {}) {
-    changes = foundry.utils.deepClone(changes);
-    delete changes._id;
-    delete changes.type;
-
-    const progressions = [...this.progression.points.spent];
-    const progression = progressions.find(e => e.id === id);
-    const clone = progression.clone(changes);
-    progressions.findSplice(p => p === progression, clone);
-    const update = progressions.map(k => k.toObject());
-    return this.parent.update({"system.progression.points.spent": update});
+    throw new Error("Updating a progression is not currently supported!");
   }
 
   /* -------------------------------------------------- */
