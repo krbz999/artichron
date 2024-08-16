@@ -1,10 +1,10 @@
-import ActorSystemModel from "./system-model.mjs";
+import CreatureData from "./creature-data.mjs";
 import EquipmentTemplateMixin from "./templates/equipment-data.mjs";
 import ProgressionData from "../fields/hero-progression.mjs";
 
 const {ArrayField, HTMLField, NumberField, SchemaField, TypedSchemaField} = foundry.data.fields;
 
-export default class HeroData extends ActorSystemModel.mixin(EquipmentTemplateMixin) {
+export default class HeroData extends CreatureData.mixin(EquipmentTemplateMixin) {
   /** @override */
   static defineSchema() {
     const schema = super.defineSchema();
@@ -213,6 +213,65 @@ export default class HeroData extends ActorSystemModel.mixin(EquipmentTemplateMi
     for (const k of ["health", "stamina", "mana"]) update[`system.pools.${k}.spent`] = 0;
 
     return this.parent.update(update);
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Roll one or more dice from a pool.
+   * @param {string} type               The type of pool dice to roll (health, stamina, mana).
+   * @param {number} amount             The amount of dice to roll.
+   * @param {boolean} message           Whether to create a chat message.
+   * @param {PointerEvent} event        An associated click event.
+   * @returns {Promise<Roll|null>}      The created Roll instance.
+   */
+  async rollPool(type, {amount = 1, message = true, event} = {}) {
+    if (!(type in this.pools)) return null;
+    const pool = this.pools[type];
+    if (!pool.value) {
+      ui.notifications.warn(game.i18n.format("ARTICHRON.NotEnoughPoolDice", {
+        name: this.name,
+        type: game.i18n.localize(`ARTICHRON.${type.capitalize()}`)
+      }));
+      return null;
+    }
+
+    const update = {};
+    const actor = this.parent;
+
+    if (!event.shiftKey) amount = await foundry.applications.api.DialogV2.prompt({
+      content: new foundry.data.fields.NumberField({
+        label: "Dice",
+        hint: "The number of dice to roll.",
+        min: 1,
+        max: pool.value,
+        step: 1,
+        nullable: false
+      }).toFormGroup({}, {value: amount, name: "amount"}).outerHTML,
+      window: {
+        title: "Roll Pool"
+      },
+      ok: {
+        label: "ARTICHRON.Roll",
+        callback: (event, button, html) => button.form.elements.amount.valueAsNumber
+      },
+      modal: true,
+      rejectClose: false
+    });
+    if (!amount) return null;
+
+    const roll = await foundry.dice.Roll.create("(@amount)d@faces", {amount, faces: pool.faces}).evaluate();
+    update[`system.pools.${type}.spent`] = pool.spent + amount;
+    if (message) {
+      await roll.toMessage({
+        speaker: ChatMessage.implementation.getSpeaker({actor: actor}),
+        flavor: `${type} pool roll`,
+        "flags.artichron.roll.type": type
+      });
+    }
+
+    await actor.update(update);
+    return roll;
   }
 
   /* -------------------------------------------------- */

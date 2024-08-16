@@ -287,52 +287,8 @@ export default class ActorArtichron extends Actor {
    * @returns {Promise<Roll|null>}      The created Roll instance.
    */
   async rollPool(type, {amount = 1, message = true, event} = {}) {
-    if (!(type in this.system.pools)) return null;
-    const pool = this.system.pools[type];
-    if (!pool.value) {
-      ui.notifications.warn(game.i18n.format("ARTICHRON.NotEnoughPoolDice", {
-        name: this.name,
-        type: game.i18n.localize(`ARTICHRON.${type.capitalize()}`)
-      }));
-      return null;
-    }
-
-    const update = {};
-    const actor = this;
-
-    if (!event.shiftKey) amount = await foundry.applications.api.DialogV2.prompt({
-      content: new foundry.data.fields.NumberField({
-        label: "Dice",
-        hint: "The number of dice to roll.",
-        min: 1,
-        max: pool.value,
-        step: 1,
-        nullable: false
-      }).toFormGroup({}, {value: amount, name: "amount"}).outerHTML,
-      window: {
-        title: "Roll Pool"
-      },
-      ok: {
-        label: "ARTICHRON.Roll",
-        callback: (event, button, html) => button.form.elements.amount.valueAsNumber
-      },
-      modal: true,
-      rejectClose: false
-    });
-    if (!amount) return null;
-
-    const roll = await foundry.dice.Roll.create("(@amount)d@faces", {amount, faces: pool.faces}).evaluate();
-    update[`system.pools.${type}.spent`] = pool.spent + amount;
-    if (message) {
-      await roll.toMessage({
-        speaker: ChatMessage.implementation.getSpeaker({actor: this}),
-        flavor: `${type} pool roll`,
-        "flags.artichron.roll.type": type
-      });
-    }
-
-    await this.update(update);
-    return roll;
+    if (this.system.rollPool) return this.system.rollPool(type, {amount, message, event});
+    return null;
   }
 
   /* -------------------------------------------------- */

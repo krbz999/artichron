@@ -1,9 +1,9 @@
-import ActorSystemModel from "./system-model.mjs";
+import CreatureData from "./creature-data.mjs";
 import EquipmentTemplateMixin from "./templates/equipment-data.mjs";
 
 const {ArrayField, DocumentUUIDField, HTMLField, NumberField, SchemaField} = foundry.data.fields;
 
-export default class MonsterData extends ActorSystemModel.mixin(EquipmentTemplateMixin) {
+export default class MonsterData extends CreatureData.mixin(EquipmentTemplateMixin) {
   /** @override */
   static defineSchema() {
     const schema = super.defineSchema();
@@ -36,8 +36,8 @@ export default class MonsterData extends ActorSystemModel.mixin(EquipmentTemplat
   /* -------------------------------------------------- */
 
   /** @override */
-  prepareBaseData() {
-    super.prepareBaseData();
+  prepareDerivedData() {
+    super.prepareDerivedData();
 
     // Set health maximum and clamp current health.
     const injury = 1 - this.parent.appliedConditionLevel("injured") / 100;
