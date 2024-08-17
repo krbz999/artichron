@@ -12,6 +12,7 @@ export default class PartySheet extends ActorSheetArtichron {
     actions: {
       addClock: PartySheet.#addClock,
       awardCurrency: PartySheet.#awardCurrency,
+      awardPoints: PartySheet.#awardPoints,
       clockDelta: PartySheet.#clockDelta,
       createProgression: PartySheet.#createProgression,
       displayActor: PartySheet.#displayActor,
@@ -66,7 +67,8 @@ export default class PartySheet extends ActorSheetArtichron {
       isEditable: this.isEditable,
       isEditMode: this.isEditMode,
       isPlayMode: this.isPlayMode,
-      document: this.document
+      document: this.document,
+      isGM: game.user.isGM
     };
     return context;
   }
@@ -323,6 +325,18 @@ export default class PartySheet extends ActorSheetArtichron {
    */
   static #awardCurrency(event, target) {
     this.document.system.constructor.awardCurrencyDialog();
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Prompt to award the party with an amount of progression points.
+   * @this {PartySheet}
+   * @param {Event} event             Initiating click event.
+   * @param {HTMLElement} target      The current target of the event listener.
+   */
+  static #awardPoints(event, target) {
+    this.document.system.constructor.awardPointsDialog();
   }
 
   /* -------------------------------------------------- */

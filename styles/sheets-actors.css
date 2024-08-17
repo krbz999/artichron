@@ -281,9 +281,23 @@
 }
 
 .artichron.application.sheet.party {
+  .currencies .form-group {
+    .icon {
+      height: var(--input-height);
+      border: none;
+      filter: drop-shadow(0 0 1px rgba(0, 153, 255, 0.664));
+    }
+
+    & button {
+      flex: 0;
+    }
+  }
+
   .members {
     padding: 0 1rem;
     gap: 1rem;
+
+
 
     .member {
       display: flex;
@@ -441,20 +455,6 @@
         .fa-solid {
           margin: 0;
         }
-      }
-    }
-  }
-
-  & [data-tab=inventory] {
-    .currencies .form-group {
-      .icon {
-        height: var(--input-height);
-        border: none;
-        filter: drop-shadow(0 0 1px rgba(0, 153, 255, 0.664));
-      }
-
-      & button {
-        flex: 0;
       }
     }
   }

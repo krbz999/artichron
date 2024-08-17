@@ -1,4 +1,25 @@
 <div class="{{tabs.members.tabCssClass}}" data-group="primary" data-tab="members">
+  <fieldset class="currencies">
+    <legend>Currencies</legend>
+    <div class="form-group">
+      <img class="icon" src="systems/artichron/assets/icons/chron.svg">
+      <input type="text" class="delta" name="system.currency.chron" value="{{document.system.currency.chron}}" {{disabled (not isEditable)}}>
+    </div>
+  </fieldset>
+
+  {{#if isGM}}
+  <div class="form-group">
+    <button type="button" data-action="awardPoints">
+      <i class="fa-solid fa-fw fa-cube"></i>
+      <span>Award Progression Points</span>
+    </button>
+    <button type="button" data-action="awardCurrency">
+      <i class="fa-solid fa-fw fa-medal"></i>
+      <span>Award Chron</span>
+    </button>
+  </div>
+  {{/if}}
+
   <ul class="members">
     {{#each actors}}
     <li class="member" data-id="{{actor.id}}" style="--hp: {{pct.hp}}%; --health: {{pct.health}}%; --stamina: {{pct.stamina}}%; --mana: {{pct.mana}}%;">
