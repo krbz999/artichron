@@ -15,6 +15,10 @@ export default class TokenDocumentArtichron extends TokenDocument {
     const allowed = await super._preUpdate(data, options, user);
     if (allowed === false) return false;
 
+    if (data.texture?.src && !options.animation?.transition) {
+      foundry.utils.setProperty(options, "animation.transition", TextureTransitionFilter.TYPES.HOLOGRAM);
+    }
+
     return;
     if ((options.animate === false) || (options.teleport === true)) return;
     const x = Math.round(data.x ?? this.x);
