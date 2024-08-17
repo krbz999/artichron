@@ -165,10 +165,6 @@
   "Planar": "Planar"
 },
 
-"SharedProperty": {
-  "FIELDS": {}
-},
-
 "ActorProperty": {
   "FIELDS": {
     "clocks": {

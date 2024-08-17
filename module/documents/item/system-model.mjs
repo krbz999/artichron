@@ -228,10 +228,7 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
   /* -------------------------------------------------- */
 
   /** @override */
-  static LOCALIZATION_PREFIXES = [
-    "ARTICHRON.SharedProperty",
-    "ARTICHRON.ItemProperty"
-  ];
+  static LOCALIZATION_PREFIXES = ["ARTICHRON.ItemProperty"];
 
   /* -------------------------------------------------- */
 
