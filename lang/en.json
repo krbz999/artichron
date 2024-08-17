@@ -740,11 +740,14 @@
 },
 
 "AwardDialog": {
-  "Title": "Award Chron",
-  "Content": "{name} has been awarded {amount} <span class='chron'></span>.",
+  "TitleCurrency": "Award Chron",
+  "TitlePoints": "Award Points",
+  "ContentCurrency": "{name} has been awarded {amount} <span class='chron'></span>.",
+  "ContentPoints": "{name} has been awarded {amount} points.",
   "amount": {
     "label": "Amount",
-    "hint": "The amount of chrons to award. Each recipient will receive this amount."
+    "hintCurrency": "The amount of chrons to award. Each recipient will receive this amount.",
+    "hintPoints": "The amount of points to award. Each recipient will receive this amount."
   },
   "targets": {
     "label": "Recipients",
