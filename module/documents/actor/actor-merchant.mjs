@@ -5,17 +5,6 @@ export default class MerchantData extends ActorSystemModel {
   /*   Preparation methods                              */
   /* -------------------------------------------------- */
 
-  /** @override */
-  prepareBaseData() {
-    super.prepareBaseData();
-
-    // Set health maximum and clamp current health.
-    const injury = 1 - this.parent.appliedConditionLevel("injured") / 100;
-    this.health.max = Math.ceil(this.health.max * injury);
-    this.health.value = Math.clamp(this.health.value, 0, this.health.max);
-    this.health.pct = Math.round(this.health.value / this.health.max * 100);
-  }
-
   /* -------------------------------------------------- */
   /*   Instance methods                                 */
   /* -------------------------------------------------- */

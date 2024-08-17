@@ -92,7 +92,8 @@ export default class InventoryItemElement extends HTMLElement {
         input.classList.add("delta");
         input.id = `usage-${item.id}`;
         input.value = item.system.usage.value;
-        if (!limited) input.dataset.action = "updateEmbedded";
+        if (disabled) input.disabled = true;
+        else if (!limited) input.dataset.action = "updateEmbedded";
         else input.disabled = true;
         input.dataset.property = "system.usage.value";
         input.placeholder = "0";
@@ -126,7 +127,8 @@ export default class InventoryItemElement extends HTMLElement {
         input.classList.add("delta");
         input.id = `quantity-${item.id}`;
         input.value = item.system.quantity.value;
-        if (!limited) input.dataset.action = "updateEmbedded";
+        if (disabled) input.disabled = true;
+        else if (!limited) input.dataset.action = "updateEmbedded";
         else input.disabled = true;
         input.dataset.property = "system.quantity.value";
         input.placeholder = "0";
@@ -141,7 +143,7 @@ export default class InventoryItemElement extends HTMLElement {
       }
 
       // Fusion.
-      if (!limited && item.hasFusions && !item.isFused) {
+      if (!limited && !disabled && item.hasFusions && !item.isFused) {
         const div = document.createElement("DIV");
         div.classList.add("property", "fusion");
         const a = document.createElement("A");
@@ -159,7 +161,7 @@ export default class InventoryItemElement extends HTMLElement {
       controls.classList.add("controls");
 
       // Favoriting.
-      if (!limited) {
+      if (!limited && !disabled) {
         const fav = document.createElement("A");
         fav.classList.add("control");
         fav.innerHTML = `<i class="${item.isFavorite ? "fa-solid" : "fa-regular"} fa-star"></i>`;
@@ -168,7 +170,7 @@ export default class InventoryItemElement extends HTMLElement {
       }
 
       // Editing and deleting.
-      if (!limited && editMode) {
+      if (!limited && !disabled && editMode) {
         const edit = document.createElement("A");
         edit.classList.add("control");
         edit.innerHTML = "<i class='fa-solid fa-edit'></i>";

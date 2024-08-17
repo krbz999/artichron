@@ -60,7 +60,7 @@ export default class MerchantSheet extends ActorSheetArtichron {
       };
 
       if (expanded) {
-        data.enrichedText = await TextEditor.enrichHTML(item.system.description.value, {
+        data.enriched = await TextEditor.enrichHTML(item.system.description.value, {
           relativeTo: item, rollData: item.getRollData()
         });
       }
@@ -80,7 +80,7 @@ export default class MerchantSheet extends ActorSheetArtichron {
   /** @override */
   _setupDragAndDrop() {
     let dd = new DragDrop({
-      dragSelector: "[data-item-uuid] .wrapper",
+      dragSelector: "inventory-item",
       dropSelector: ".stage-area",
       permissions: {
         dragstart: this._canDragStart.bind(this),
@@ -126,6 +126,8 @@ export default class MerchantSheet extends ActorSheetArtichron {
     const isStock = !!target.closest(".stock-area");
     const {type, uuid} = TextEditor.getDragEventData(event);
     const item = await fromUuid(uuid);
+
+    this._expandedItems.delete(item.uuid);
 
     // Dropping merchant's own item
     if ((item.parent === this.document) && (type === "Item")) {

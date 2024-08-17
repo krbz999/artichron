@@ -199,15 +199,17 @@
 
 .artichron.application.sheet.merchant {
   height: 90%;
+  min-width: 800px;
 
   .window-content {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 1rem;
+    gap: 2rem;
 
     [data-application-part=staged] {
       display: grid;
       grid-template-rows: 1fr 2fr;
+      gap: 1rem;
 
       .avatar {
         flex: 0 0 300px;
