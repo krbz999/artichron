@@ -16,6 +16,10 @@
           </div>
           {{/if}}
         </div>
+        <span class="currency">
+          <img class="icon" src="systems/artichron/assets/icons/chron.svg">
+          <input type="text" id="currency-{{@root.document.id}}-{{actor.id}}" class="delta" value="{{actor.system.currency.chron}}" {{#if isOwner}} data-change="changeCurrency" data-property="system.currency.chron" {{else}} disabled {{/if}}>
+        </span>
         {{#if isHero}}
         <button type="button" data-action="createProgression" class="points" {{disabled (not isOwner)}}>
           <span>{{pts.available}}</span>

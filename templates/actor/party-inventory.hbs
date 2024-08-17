@@ -1,16 +1,13 @@
 <div class="{{tabs.inventory.tabCssClass}}" data-group="primary" data-tab="inventory">
   <fieldset class="currencies">
     <legend>Currencies</legend>
-    <div class="form-group wrapper">
+    <div class="form-group">
       <img class="icon" src="systems/artichron/assets/icons/chron.svg">
-      {{#each currencies}}
-      <div class="form-group label-top">
-        <label>{{name}}</label>
-        <div class="form-fields">
-          <input type="text" class="delta" value="{{chron}}" {{disabled disabled}} data-change="changeCurrency" data-property="system.currency.chron" data-actor-id="{{id}}" id="currency-{{@root.document.id}}-{{id}}">
-        </div>
-      </div>
-      {{/each}}
+      <input type="text" class="delta" name="system.currency.chron" value="{{document.system.currency.chron}}" {{disabled (not isEditable)}}>
+      <button type="button" data-action="manageCurrency">
+        <i class="fa-solid fa-fw fa-arrow-right-arrow-left"></i>
+        <span>Exchange</span>
+      </button>
     </div>
   </fieldset>
 
