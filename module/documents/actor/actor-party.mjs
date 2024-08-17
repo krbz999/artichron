@@ -107,4 +107,76 @@ export default class PartyData extends ActorSystemModel {
     }
     return this.parent.update({"system.members": members});
   }
+
+  /* -------------------------------------------------- */
+  /*   Static methods                                   */
+  /* -------------------------------------------------- */
+
+  /**
+   * Prompt a dialog for a GM user to award the members of the primary party with currency.
+   * @returns {Promise}
+   */
+  static async awardCurrencyDialog() {
+    if (!game.user.isGM) throw new Error("Only a GM can grant progression points!");
+
+    const party = game.settings.get("artichron", "primaryParty").actor;
+    if (!party) throw new Error("No primary party has been assigned!");
+
+    const amount = new foundry.data.fields.NumberField({
+      nullable: false,
+      min: 1,
+      step: 1,
+      label: "ARTICHRON.AwardDialog.amount.label",
+      hint: "ARTICHRON.AwardDialog.amount.hint"
+    }).toFormGroup({localize: true}, {name: "amount", value: 1}).outerHTML;
+
+    const choices = party.system.members.reduce((acc, m) => {
+      const a = m.actor;
+      acc[a.id] = a.name;
+      return acc;
+    }, {});
+    const targets = new foundry.data.fields.SetField(new foundry.data.fields.StringField({
+      choices: choices
+    }), {
+      label: "ARTICHRON.AwardDialog.targets.label",
+      hint: "ARTICHRON.AwardDialog.targets.hint"
+    }).toFormGroup({localize: true}, {name: "targets", value: Object.keys(choices), type: "checkboxes"}).outerHTML;
+
+    return foundry.applications.api.DialogV2.prompt({
+      content: `<fieldset>${amount}${targets}</fieldset>`,
+      rejectClose: false,
+      window: {
+        title: "ARTICHRON.AwardDialog.Title",
+        icon: "fa-solid fa-medal"
+      },
+      position: {width: 400},
+      ok: {
+        callback: (event, button, html) => {
+          const {amount, targets} = new FormDataExtended(button.form).object;
+          const actors = Array.from(targets).map(id => game.actors.get(id));
+
+          if (!actors.length) {
+            throw new Error("You must select at least one actor!");
+          }
+
+          if (amount <= 0) {
+            throw new Error("You can only award a positive amount!");
+          }
+
+          const updates = [];
+          for (const actor of actors) {
+            updates.push({_id: actor.id, "system.currency.chron": actor.system.currency.chron + amount});
+          }
+
+          for (const actor of actors) {
+            const whisper = game.users.filter(u => actor.testUserPermission(u, "OWNER")).map(u => u.id);
+            const content = game.i18n.format("ARTICHRON.AwardDialog.Content", {name: actor.name, amount: amount});
+            ChatMessage.implementation.create({whisper, content: `<p>${content}</p>`});
+          }
+
+          Actor.updateDocuments(updates);
+        }
+      }
+    });
+  }
 }

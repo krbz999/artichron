@@ -71,6 +71,30 @@ export function registerSettings() {
 
   /* -------------------------------------------------- */
 
+  class PrimaryPartyModel extends foundry.abstract.DataModel {
+    /** @override */
+    static defineSchema() {
+      return {actor: new foundry.data.fields.ForeignDocumentField(foundry.documents.BaseActor, {
+        blank: true,
+        validate: id => !game.actors || (game.actors.get(id)?.type === "party"),
+        validationError: "This is not a valid id for a Party-type actor."
+      })};
+    }
+  }
+
+  // Storing the primary party's id.
+  game.settings.register(id, "primaryParty", {
+    name: "Primary Party",
+    scope: "world",
+    requiresReload: false,
+    type: PrimaryPartyModel,
+    default: null,
+    config: false,
+    onChange: () => ui.actors.render()
+  });
+
+  /* -------------------------------------------------- */
+
   // Color scheme has to always be dark mode for now.
   Hooks.once("setup", () => game.settings.set("core", "colorScheme", "dark"));
 }

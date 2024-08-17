@@ -31,6 +31,18 @@
 /*            System-wide styling           */
 /* ---------------------------------------- */
 
+span.chron {
+  width: 1rem;
+  aspect-ratio: 1;
+  display: inline-block;
+  background: url("/systems/artichron/assets/icons/chron.svg") transparent no-repeat center / contain;
+  vertical-align: text-bottom;
+}
+
+.directory-list .primary-party {
+  box-shadow: 0 0 1rem 0.2rem var(--artichron-color-gold) inset;
+}
+
 #context-menu.artichron {
   width: 200px;
 

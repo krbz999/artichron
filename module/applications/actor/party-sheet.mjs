@@ -11,6 +11,7 @@ export default class PartySheet extends ActorSheetArtichron {
     position: {width: 650},
     actions: {
       addClock: PartySheet.#addClock,
+      awardCurrency: PartySheet.#awardCurrency,
       clockDelta: PartySheet.#clockDelta,
       createProgression: PartySheet.#createProgression,
       displayActor: PartySheet.#displayActor,
@@ -310,6 +311,18 @@ export default class PartySheet extends ActorSheetArtichron {
     const actor = this.document.system.members.find(m => m.actor.id === id).actor;
     const result = artichron.utils.parseInputDelta(event.currentTarget, actor);
     if (result !== undefined) actor.update({"system.currency.chron": result});
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Prompt to award the party with an amount of currency.
+   * @this {PartySheet}
+   * @param {Event} event             Initiating click event.
+   * @param {HTMLElement} target      The current target of the event listener.
+   */
+  static #awardCurrency(event, target) {
+    this.document.system.constructor.awardCurrencyDialog();
   }
 
   /* -------------------------------------------------- */

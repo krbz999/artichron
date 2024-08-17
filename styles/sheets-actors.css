@@ -281,9 +281,6 @@
 }
 
 .artichron.application.sheet.party {
-  container-type: inline-size;
-  container-name: clock-width;
-
   .members {
     padding: 0 1rem;
     gap: 1rem;
@@ -453,6 +450,7 @@
       .icon {
         height: var(--input-height);
         border: none;
+        filter: drop-shadow(0 0 1px rgba(0, 153, 255, 0.664));
       }
 
       & button {

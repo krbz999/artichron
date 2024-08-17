@@ -739,6 +739,19 @@
   "Confirm": "Confirm"
 },
 
+"AwardDialog": {
+  "Title": "Award Chron",
+  "Content": "{name} has been awarded {amount} <span class='chron'></span>.",
+  "amount": {
+    "label": "Amount",
+    "hint": "The amount of chrons to award. Each recipient will receive this amount."
+  },
+  "targets": {
+    "label": "Recipients",
+    "hint": "The members of this party that will be awarded."
+  }
+},
+
 "SpellUseDialog": {
   "Buff": "Buff",
   "Count": "Count",
@@ -873,6 +886,10 @@
 },
 
 "ContextMenu": {
+  "Directory": {
+    "AssignPrimaryParty": "Assign Primary Party",
+    "RemovePrimaryParty": "Unassign Primary Party"
+  },
   "EffectOption": {
     "Show": "Show",
     "Delete": "Delete",
