@@ -418,8 +418,22 @@
     }
   }
 
+  .currencies {
+    .wrapper {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(5rem, 1fr))
+    }
+
+    .icon {
+      height: calc(var(--input-height));
+      border: none;
+      margin: 0 auto;
+    }
+  }
+
   .clocks.play {
     display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
 
     .clock {
       display: grid;
@@ -447,20 +461,6 @@
     .color input[type=color] { max-width: var(--input-height); height: var(--input-height); }
     .controls { place-self: end; }
   }
-}
-
-/* Variable columns for clocks */
-@container clock-width (min-width: 200px) {
-  .clocks { grid-template-columns: repeat(2, 1fr); }
-}
-@container clock-width (min-width: 550px) {
-  .clocks { grid-template-columns: repeat(3, 1fr); }
-}
-@container clock-width (min-width: 900px) {
-  .clocks { grid-template-columns: repeat(5, 1fr); }
-}
-@container clock-width (min-width: 1700px) {
-  .clocks { grid-template-columns: repeat(7, 1fr); }
 }
 
 .artichron.application.skills {

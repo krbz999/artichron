@@ -7,17 +7,21 @@ const {SchemaField, NumberField, SetField, StringField} = foundry.data.fields;
  */
 export default class CreatureData extends ActorSystemModel {
   static defineSchema() {
-    return {
-      health: new SchemaField({
-        value: new NumberField({min: 0, initial: 0, integer: true, nullable: false}),
-        max: new NumberField({initial: null})
-      }),
-      favorites: new SetField(new StringField({required: true})),
-      pips: new SchemaField({
-        value: new NumberField({min: 0, initial: 0, step: 1}),
-        turn: new NumberField({min: 0, initial: 1, step: 1, nullable: false})
-      })
-    };
+    const schema = super.defineSchema();
+
+    schema.health = new SchemaField({
+      value: new NumberField({min: 0, initial: 0, integer: true, nullable: false}),
+      max: new NumberField({initial: null})
+    });
+
+    schema.favorites = new SetField(new StringField({required: true}));
+
+    schema.pips = new SchemaField({
+      value: new NumberField({min: 0, initial: 0, step: 1}),
+      turn: new NumberField({min: 0, initial: 1, step: 1, nullable: false})
+    });
+
+    return schema;
   }
 
   /* -------------------------------------------------- */

@@ -64,7 +64,8 @@ export default class PartySheet extends ActorSheetArtichron {
     const context = {
       isEditable: this.isEditable,
       isEditMode: this.isEditMode,
-      isPlayMode: this.isPlayMode
+      isPlayMode: this.isPlayMode,
+      document: this.document
     };
     return context;
   }
@@ -198,6 +199,16 @@ export default class PartySheet extends ActorSheetArtichron {
       return a[1].order - b[1].order;
     }));
 
+    // Currencies
+    context.currencies = [];
+    for (const {actor} of this.document.system.members) {
+      const chron = actor.system.currency.chron;
+      const disabled = !actor.testUserPermission(game.user, "OWNER");
+      context.currencies.push({
+        chron: chron, disabled: disabled, name: actor.name, id: actor.id
+      });
+    }
+
     return context;
   }
 
@@ -284,7 +295,33 @@ export default class PartySheet extends ActorSheetArtichron {
   }
 
   /* -------------------------------------------------- */
+
+  /** @override */
+  _attachPartListeners(partId, htmlElement, options) {
+    super._attachPartListeners(partId, htmlElement, options);
+
+    if (partId === "inventory") {
+      htmlElement.querySelectorAll("[data-change=changeCurrency]").forEach(input => {
+        input.addEventListener("change", this.changeCurrency.bind(this));
+      });
+    }
+  }
+
+  /* -------------------------------------------------- */
   /*   Event handlers                                   */
+  /* -------------------------------------------------- */
+
+  /**
+   * Change the currency of a party member.
+   * @param {Event} event     Initiating change event.
+   */
+  changeCurrency(event) {
+    const id = event.currentTarget.dataset.actorId;
+    const actor = this.document.system.members.find(m => m.actor.id === id).actor;
+    const result = artichron.utils.parseInputDelta(event.currentTarget, actor);
+    if (result !== undefined) actor.update({"system.currency.chron": result});
+  }
+
   /* -------------------------------------------------- */
 
   /**

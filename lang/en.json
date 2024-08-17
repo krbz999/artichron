@@ -167,6 +167,19 @@
 
 "ActorProperty": {
   "FIELDS": {
+    "bonuses": {
+      "damage": {
+        "elemental": {
+          "label": "Elemental Damage Amplification"
+        },
+        "physical": {
+          "label": "Physical Damage Amplification"
+        },
+        "planar": {
+          "label": "Planar Damage Amplification"
+        }
+      }
+    },
     "clocks": {
       "name": {
         "label": "Name",
@@ -182,17 +195,10 @@
         "label": "Color"
       }
     },
-    "bonuses": {
-      "damage": {
-        "elemental": {
-          "label": "Elemental Damage Amplification"
-        },
-        "physical": {
-          "label": "Physical Damage Amplification"
-        },
-        "planar": {
-          "label": "Planar Damage Amplification"
-        }
+    "currency": {
+      "label": "Currencies",
+      "chron": {
+        "label": "Chron"
       }
     },
     "danger": {

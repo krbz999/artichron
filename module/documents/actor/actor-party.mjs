@@ -12,30 +12,33 @@ const {
 export default class PartyData extends ActorSystemModel {
   /** @override */
   static defineSchema() {
-    return {
-      members: new SetField(new SchemaField({
-        actor: new ForeignDocumentField(foundry.documents.BaseActor)
-      })),
-      clocks: new ArrayField(new SchemaField({
-        name: new StringField({
-          required: true,
-          initial: () => game.i18n.localize("ARTICHRON.ActorProperty.FIELDS.clocks.name.initial"),
-          label: "ARTICHRON.ActorProperty.FIELDS.clocks.name.label"
-        }),
-        value: new NumberField({
-          min: 0, step: 1, initial: 0,
-          label: "ARTICHRON.ActorProperty.FIELDS.clocks.value.label"
-        }),
-        max: new NumberField({
-          min: 1, step: 1, initial: 8, nullable: false,
-          label: "ARTICHRON.ActorProperty.FIELDS.clocks.max.label"
-        }),
-        color: new ColorField({
-          required: true, nullable: false, initial: "#0000ff",
-          label: "ARTICHRON.ActorProperty.FIELDS.clocks.color.label"
-        })
-      }))
-    };
+    const schema = super.defineSchema();
+
+    schema.members = new SetField(new SchemaField({
+      actor: new ForeignDocumentField(foundry.documents.BaseActor)
+    }));
+
+    schema.clocks = new ArrayField(new SchemaField({
+      name: new StringField({
+        required: true,
+        initial: () => game.i18n.localize("ARTICHRON.ActorProperty.FIELDS.clocks.name.initial"),
+        label: "ARTICHRON.ActorProperty.FIELDS.clocks.name.label"
+      }),
+      value: new NumberField({
+        min: 0, step: 1, initial: 0,
+        label: "ARTICHRON.ActorProperty.FIELDS.clocks.value.label"
+      }),
+      max: new NumberField({
+        min: 1, step: 1, initial: 8, nullable: false,
+        label: "ARTICHRON.ActorProperty.FIELDS.clocks.max.label"
+      }),
+      color: new ColorField({
+        required: true, nullable: false, initial: "#0000ff",
+        label: "ARTICHRON.ActorProperty.FIELDS.clocks.color.label"
+      })
+    }));
+
+    return schema;
   }
 
   /* -------------------------------------------------- */

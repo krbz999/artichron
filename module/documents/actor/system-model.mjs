@@ -1,7 +1,13 @@
+const {NumberField, SchemaField} = foundry.data.fields;
+
 export default class ActorSystemModel extends foundry.abstract.TypeDataModel {
   /** @override */
   static defineSchema() {
-    return {};
+    return {
+      currency: new SchemaField({
+        chron: new NumberField({nullable: false, initial: 0, step: 1, min: 0})
+      })
+    };
   }
 
   /* -------------------------------------------------- */
