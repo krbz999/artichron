@@ -146,6 +146,9 @@
       "condition": {},
       "enhancement": {},
       "fusion": {}
+    },
+    "RegionBehavior": {
+      "toggleCondition": {}
     }
   }
 }

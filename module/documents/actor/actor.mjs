@@ -428,8 +428,30 @@ export default class ActorArtichron extends Actor {
    */
   async applyCondition(status) {
     const id = artichron.utils.staticId(status);
-    if (this.effects.has(id)) return this.effects.get(id).system.increase();
-    else return this.toggleStatusEffect(status);
+    const hasLevels = !!CONFIG.SYSTEM.STATUS_CONDITIONS[status].levels;
+    const effect = this.effects.get(id);
+    const increase = effect && hasLevels;
+
+    if (increase) return effect.system.increase();
+    return this.toggleStatusEffect(status, {active: true});
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Utility method to either remove or decrease the level of a status condition.
+   * This method can safely be used on statuses that do not have levels.
+   * @param {string} status     The id of a condition as found in `CONFIG.statusEffects`.
+   * @returns {Promise}
+   */
+  async unapplyCondition(status) {
+    const id = artichron.utils.staticId(status);
+    const hasLevels = !!CONFIG.SYSTEM.STATUS_CONDITIONS[status].levels;
+    const effect = this.effects.get(id);
+    const decrease = effect && hasLevels && (effect.system.level > 1);
+
+    if (decrease) return effect.system.decrease();
+    return this.toggleStatusEffect(status, {active: false});
   }
 
   /* -------------------------------------------------- */

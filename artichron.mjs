@@ -68,6 +68,11 @@ Hooks.once("init", function() {
   CONFIG.ChatMessage.dataModels = documents.dataModels.message;
   CONFIG.Combatant.dataModels = documents.dataModels.combatant;
   CONFIG.ActiveEffect.dataModels = documents.dataModels.effect;
+  CONFIG.RegionBehavior.dataModels = documents.dataModels.regionBehavior;
+
+  for (const [k, v] of Object.entries(documents.dataModels.regionBehavior)) {
+    CONFIG.RegionBehavior.typeIcons[k] = v.metadata.icon;
+  }
 
   // Hook up dice types.
   CONFIG.Dice.rolls[0] = dice.RollArtichron;

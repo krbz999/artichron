@@ -29,7 +29,8 @@
 "ActiveEffect.condition": "Condition",
 "ActiveEffect.conditionPl": "Conditions",
 "ActiveEffect.enhancement": "Enhancement",
-"ActiveEffect.enhancementPl": "Enhancements"
+"ActiveEffect.enhancementPl": "Enhancements",
+"RegionBehavior.toggleCondition": "Condition"
 },
 "ARTICHRON": {
 
@@ -664,6 +665,21 @@
   "Damage": {
     "Override": {
       "GroupChoiceAll": "All Types"
+    }
+  }
+},
+
+"RegionProperty": {
+  "TOGGLECONDITION": {
+    "FIELDS": {
+      "status": {
+        "label": "Status",
+        "hint": "The condition that will be applied or increased within this region."
+      },
+      "autoremove": {
+        "label": "Auto Remove",
+        "hint": "In addition to applying the condition when entering the region, remove or decrease the condition when leaving."
+      }
     }
   }
 },
