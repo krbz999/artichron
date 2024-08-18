@@ -1,0 +1,22 @@
+{
+  "name": "Boons and Detriments",
+  "sorting": "a",
+  "folder": null,
+  "type": "RollTable",
+  "_id": "fdfi1ScO6FNpRwj0",
+  "description": "",
+  "sort": 0,
+  "color": "#9200d6",
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": null,
+    "systemId": null,
+    "systemVersion": null,
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  },
+  "_key": "!folders!fdfi1ScO6FNpRwj0"
+}

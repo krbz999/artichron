@@ -1,0 +1,95 @@
+{
+  "name": "Challenges",
+  "_id": "M2zig7h0tyZDHMxA",
+  "pages": [
+    {
+      "sort": 0,
+      "name": "Skill Checks",
+      "type": "text",
+      "_id": "nOeGQIlBHI9gz2EB",
+      "system": {},
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "image": {},
+      "text": {
+        "format": 1,
+        "content": "<p>When a player sets out to perform a task, the GM may decide that a roll should be involved. If so, the GM decides whether the player rolls Agility, Brawn, Mind, or Spirit, combined with another skill from the same set (possibly the same skill twice).</p><p>Each skill has a number of dice; when performing the roll, the character adds the amount of dice together from each skill, rolls that many d6, and counts the number of sixes.</p><p>The GM decides how many sixes (\"hits\") are needed to obtain an improved result on the challenge or to negate a bad result. Regardless of the roll, the attempt succeeds in some fashion determined by the GM. Whether the threshold was met determines whether the GM ups the counter of either the positive or negative clocks.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": null,
+      "ownership": {
+        "default": -1
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": null,
+        "systemId": null,
+        "systemVersion": null,
+        "createdTime": null,
+        "modifiedTime": null,
+        "lastModifiedBy": null
+      },
+      "_key": "!journal.pages!M2zig7h0tyZDHMxA.nOeGQIlBHI9gz2EB"
+    },
+    {
+      "sort": 0,
+      "name": "Clocks",
+      "type": "text",
+      "_id": "eX3fBqWmNpSv1Rqk",
+      "system": {},
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "image": {},
+      "text": {
+        "format": 1,
+        "content": "<p>A 'clock' is used to measure the degree of success of the party's current efforts during a session. A single session will usually start with two empty clocks, one positive and one negative.</p><p>When a player performs a skill check, whether the roll meets a threshold determines if the GM ups the positive or negative counter. Once such a counter reaches its maximum, a good or bad result will occur that either affects how the story progresses, or if no such consequences currently apply, the GM can use the boons and detriments tables to determine the effect of the clock for the next session.</p><p>Players should make efforts to perform as many skill checks as possible to fill out the better clock, as this is the tool for the GM to determine their overall success as the story progresses.</p><p>@Embed[Compendium.artichron.tables.RollTable.wC0qMfzV4qDaupGu rollable]</p><p>@Embed[Compendium.artichron.tables.RollTable.fkbZs2crsZTksphg rollable]</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": null,
+      "ownership": {
+        "default": -1
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": null,
+        "systemId": null,
+        "systemVersion": null,
+        "createdTime": null,
+        "modifiedTime": null,
+        "lastModifiedBy": null
+      },
+      "_key": "!journal.pages!M2zig7h0tyZDHMxA.eX3fBqWmNpSv1Rqk"
+    }
+  ],
+  "folder": null,
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": null,
+    "systemId": null,
+    "systemVersion": null,
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  },
+  "_key": "!journal!M2zig7h0tyZDHMxA"
+}

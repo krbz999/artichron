@@ -46,6 +46,12 @@
       "label": "Rules",
       "path": "packs/rules",
       "type": "JournalEntry"
+    },
+    {
+      "name": "tables",
+      "label": "Tables",
+      "path": "packs/tables",
+      "type": "RollTable"
     }
   ],
   "packFolders": [
@@ -56,7 +62,8 @@
       "packs": [
         "actors",
         "items",
-        "rules"
+        "rules",
+        "tables"
       ]
     }
   ],
@@ -83,7 +90,6 @@
     "distance": 1,
     "units": "m"
   },
-  "initiative": "1d20",
   "primaryTokenAttribute": "health",
   "secondaryTokenAttribute": "pools.health",
   "socket": true,

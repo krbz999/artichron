@@ -1,0 +1,118 @@
+{
+  "folder": "fdfi1ScO6FNpRwj0",
+  "name": "Random Detriment",
+  "_id": "fkbZs2crsZTksphg",
+  "img": "icons/svg/d20-grey.svg",
+  "description": "<p>A randomly determined detriment that affects the party for the next session.</p>",
+  "results": [
+    {
+      "type": "text",
+      "weight": 1,
+      "range": [
+        1,
+        1
+      ],
+      "drawn": false,
+      "_id": "glc1e4eyLjdVMnKe",
+      "text": "Your core is shaken due to your injuries today. You have 1 fewer health dice next session.",
+      "img": "icons/svg/d20-black.svg",
+      "documentId": null,
+      "flags": {},
+      "_key": "!tables.results!fkbZs2crsZTksphg.glc1e4eyLjdVMnKe"
+    },
+    {
+      "type": "text",
+      "weight": 1,
+      "range": [
+        2,
+        2
+      ],
+      "drawn": false,
+      "_id": "tZKd7u0RpOY61bm4",
+      "text": "Injuries from your adventures today have made it hard for you to rest properly. You have 1 fewer Action Point during the first round of each combat next session.",
+      "img": "icons/svg/d20-black.svg",
+      "documentId": null,
+      "flags": {},
+      "_key": "!tables.results!fkbZs2crsZTksphg.tZKd7u0RpOY61bm4"
+    },
+    {
+      "type": "text",
+      "weight": 1,
+      "range": [
+        3,
+        3
+      ],
+      "drawn": false,
+      "_id": "aRAwqJCNliDT4b8E",
+      "text": "ou can't help but feel that some greater being is disappointed in your success and failures after today. You roll 1 fewer dice any time you roll Spirit during the next session.",
+      "img": "icons/svg/d20-black.svg",
+      "documentId": null,
+      "flags": {},
+      "_key": "!tables.results!fkbZs2crsZTksphg.aRAwqJCNliDT4b8E"
+    },
+    {
+      "type": "text",
+      "weight": 1,
+      "range": [
+        4,
+        4
+      ],
+      "drawn": false,
+      "_id": "kZuUtRc9iYwkntzh",
+      "text": "Ambient magic has seeped into your weary body. You take 1d6 additional damage when subjected to lightning, fire, ice, or wind magic.",
+      "img": "icons/svg/d20-black.svg",
+      "documentId": null,
+      "flags": {},
+      "_key": "!tables.results!fkbZs2crsZTksphg.kZuUtRc9iYwkntzh"
+    },
+    {
+      "type": "text",
+      "weight": 1,
+      "range": [
+        5,
+        5
+      ],
+      "drawn": false,
+      "_id": "hIO4lRKP7IdUxQMF",
+      "text": "Your body is weak and tired after the strain you've put on it today. Whenever you roll for Agility or Brawn during next session you roll 1 fewer dice.",
+      "img": "icons/svg/d20-black.svg",
+      "documentId": null,
+      "flags": {},
+      "_key": "!tables.results!fkbZs2crsZTksphg.hIO4lRKP7IdUxQMF"
+    },
+    {
+      "type": "text",
+      "weight": 1,
+      "range": [
+        6,
+        6
+      ],
+      "drawn": false,
+      "_id": "YIrs0rKbIPW0i5vH",
+      "text": "You have pushed your body to its limits today and have severely overexerted yourself. You have 1 fewer mand and 1 fewer stamina dice next session.",
+      "img": "icons/svg/d20-black.svg",
+      "documentId": null,
+      "flags": {},
+      "_key": "!tables.results!fkbZs2crsZTksphg.YIrs0rKbIPW0i5vH"
+    }
+  ],
+  "replacement": true,
+  "displayRoll": true,
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": null,
+    "systemId": null,
+    "systemVersion": null,
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  },
+  "formula": "1d6",
+  "_key": "!tables!fkbZs2crsZTksphg"
+}
