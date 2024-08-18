@@ -475,24 +475,24 @@ SYSTEM.ITEM_ATTRIBUTES = {
 SYSTEM.STATUS_CONDITIONS = {
   defeated: {
     name: "ARTICHRON.StatusConditions.Defeated",
-    img: "icons/svg/skull.svg",
+    img: "systems/artichron/assets/icons/defeated.svg",
     hud: true
   },
   blind: {
     name: "ARTICHRON.StatusConditions.Blind",
-    img: "icons/svg/blind.svg",
+    img: "systems/artichron/assets/icons/blind.svg",
     hud: true
   },
   hindered: {
     name: "ARTICHRON.StatusConditions.Hindered",
-    img: "icons/svg/stoned.svg",
+    img: "systems/artichron/assets/icons/hindered.svg",
     levels: 10,
     hud: true,
     reference: "Compendium.artichron.rules.JournalEntry.JjiZqfbpC2YVXV4R.JournalEntryPage.uVv9k9xheOkxzBhO"
   },
   invisible: {
     name: "ARTICHRON.StatusConditions.Invisible",
-    img: "icons/svg/invisible.svg",
+    img: "systems/artichron/assets/icons/invisible.svg",
     hud: true
   },
   underground: {
@@ -502,7 +502,7 @@ SYSTEM.STATUS_CONDITIONS = {
   },
   flying: {
     name: "ARTICHRON.StatusConditions.Flying",
-    img: "icons/svg/wing.svg",
+    img: "systems/artichron/assets/icons/flying.svg",
     hud: true
   },
   levitating: {
@@ -512,21 +512,21 @@ SYSTEM.STATUS_CONDITIONS = {
   },
   bleeding: {
     name: "ARTICHRON.StatusConditions.Bleeding",
-    img: "icons/svg/blood.svg",
+    img: "systems/artichron/assets/icons/bleeding.svg",
     levels: 10,
     hud: true,
     reference: "Compendium.artichron.rules.JournalEntry.JjiZqfbpC2YVXV4R.JournalEntryPage.nIvx3xXwYP9iGSeh"
   },
   burning: {
     name: "ARTICHRON.StatusConditions.Burning",
-    img: "icons/svg/fire.svg",
+    img: "systems/artichron/assets/icons/burning.svg",
     levels: 10,
     hud: true,
     reference: "Compendium.artichron.rules.JournalEntry.JjiZqfbpC2YVXV4R.JournalEntryPage.3VoSsDfCrBGG8Bzy"
   },
   injured: {
     name: "ARTICHRON.StatusConditions.Injured",
-    img: "icons/svg/bones.svg",
+    img: "systems/artichron/assets/icons/injured.svg",
     levels: 20,
     hud: true,
     reference: "Compendium.artichron.rules.JournalEntry.JjiZqfbpC2YVXV4R.JournalEntryPage.FRQ8zjWTfTYZWGx3"
