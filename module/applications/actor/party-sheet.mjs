@@ -295,7 +295,7 @@ export default class PartySheet extends ActorSheetArtichron {
 
     if (partId === "members") {
       htmlElement.querySelectorAll("[data-change=changeCurrency]").forEach(input => {
-        input.addEventListener("change", this.changeCurrency.bind(this));
+        input.addEventListener("change", this.#changeCurrency.bind(this));
       });
     }
   }
@@ -308,7 +308,7 @@ export default class PartySheet extends ActorSheetArtichron {
    * Change the currency of a party member.
    * @param {Event} event     Initiating change event.
    */
-  changeCurrency(event) {
+  #changeCurrency(event) {
     const id = event.currentTarget.closest("[data-id]").dataset.id;
     const actor = this.document.system.members.find(m => m.actor.id === id).actor;
     const result = artichron.utils.parseInputDelta(event.currentTarget, actor);
