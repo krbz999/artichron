@@ -6,6 +6,7 @@ const {SchemaField, NumberField, SetField, StringField} = foundry.data.fields;
  * Extended data model for actor types that participate in combat.
  */
 export default class CreatureData extends ActorSystemModel {
+  /** @override */
   static defineSchema() {
     const schema = super.defineSchema();
 
@@ -53,9 +54,17 @@ export default class CreatureData extends ActorSystemModel {
   /** @override */
   _onUpdate(changed, options, userId) {
     super._onUpdate(changed, options, userId);
+
     if (options.health) {
       options.health.n = this.health.value;
       options.health.delta = options.health.n - options.health.o;
+    }
+
+    if (game.user.id === userId) {
+      const pct = this.parent.system.health.pct;
+      this.parent.toggleStatusEffect("bloodied", {active: (pct > 20) && (pct <= 50)});
+      this.parent.toggleStatusEffect("critical", {active: (pct > 0) && (pct <= 20)});
+      this.parent.toggleStatusEffect(CONFIG.specialStatusEffects.DEFEATED, {active: !pct, overlay: true});
     }
   }
 

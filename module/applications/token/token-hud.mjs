@@ -4,8 +4,8 @@ export default class TokenHUDArtichron extends CONFIG.Token.hudClass {
     super.activateListeners(html);
     html = html[0];
 
-    for (const [statusId, {levels}] of Object.entries(CONFIG.SYSTEM.STATUS_CONDITIONS)) {
-      if (!levels || !(levels > 1)) continue;
+    for (const [statusId, v] of Object.entries(CONFIG.SYSTEM.STATUS_CONDITIONS)) {
+      if (!v.levels || !(v.levels > 1) || !v.hud) continue;
       const img = html.querySelector(`[data-status-id="${statusId}"]`);
       img.addEventListener("click", this._onClickLeveledCondition.bind(this));
       img.addEventListener("contextmenu", this._onContextLeveledCondition.bind(this));

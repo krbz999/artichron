@@ -483,6 +483,16 @@ SYSTEM.STATUS_CONDITIONS = {
     img: "systems/artichron/assets/icons/blind.svg",
     hud: true
   },
+  bloodied: {
+    name: "ARTICHRON.StatusConditions.Bloodied",
+    img: "systems/artichron/assets/icons/bloodied.svg",
+    hud: false
+  },
+  critical: {
+    name: "ARTICHRON.StatusConditions.Critical",
+    img: "systems/artichron/assets/icons/critical.svg",
+    hud: false
+  },
   hindered: {
     name: "ARTICHRON.StatusConditions.Hindered",
     img: "systems/artichron/assets/icons/hindered.svg",

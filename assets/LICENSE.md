@@ -14,7 +14,9 @@ This system includes icon artwork licensed from Game-icons.net under the Creativ
 
 assets/icons/bleeding.svg - "Bloody Stash" by Lorc under CC BY 3.0
 assets/icons/blind.svg - "Sight Disabled" by Skoll under CC BY 3.0
+assets/icons/bloodied.svg - "Bleeing Heart" by Lorc under CC BY 3.0
 assets/icons/burning.svg - "Small Fire" by Lorc under CC BY 3.0
+assets/icons/critical.svg - "Barbed Sun" by Lorc under CC BY 3.0
 assets/icons/defeated.svg - "Desert Skull" by Lorc under CC BY 3.0
 assets/icons/flying.svg - "Fluffy Wing" by Lorc under CC BY 3.0
 assets/icons/hindred.svg - "Foot Trip" by Lorc under CC BY 3.0
