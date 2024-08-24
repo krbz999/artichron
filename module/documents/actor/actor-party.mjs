@@ -109,6 +109,39 @@ export default class PartyData extends ActorSystemModel {
   }
 
   /* -------------------------------------------------- */
+
+  /**
+   * Place the members of this party on the map.
+   * @returns {TokenDocumentArtichron[]}
+   */
+  async placeMembers() {
+    const tokens = Array.from(this.members).map(m => m.actor.prototypeToken);
+    const placements = await artichron.helpers.TokenPlacement.place({tokens: tokens});
+
+    const origin = this.parent.isToken ? this.parent.token?.object : this.parent.getActiveTokens()[0];
+
+    const tokenData = [];
+    const movements = [];
+    for (const p of placements) {
+      const {x, y, rotation} = p;
+      const id = foundry.utils.randomID();
+      movements.push({x, y, rotation, alpha: 1, _id: id});
+      const token = await p.prototypeToken.parent.getTokenDocument(origin ? {
+        x: origin.document.x, y: origin.document.y, alpha: 0
+      } : {x, y, rotation});
+      tokenData.push(foundry.utils.mergeObject(token.toObject(), {_id: id}));
+    }
+    const created = await canvas.scene.createEmbeddedDocuments("Token", tokenData, {keepId: true});
+
+    if (origin) {
+      await new Promise(r => setTimeout(r, 100));
+      await canvas.scene.updateEmbeddedDocuments("Token", movements);
+    }
+
+    return created;
+  }
+
+  /* -------------------------------------------------- */
   /*   Static methods                                   */
   /* -------------------------------------------------- */
 

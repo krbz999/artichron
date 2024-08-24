@@ -16,6 +16,7 @@ export default class PartySheet extends ActorSheetArtichron {
       clockDelta: PartySheet.#clockDelta,
       createProgression: PartySheet.#createProgression,
       displayActor: PartySheet.#displayActor,
+      placeMembers: PartySheet.#placeMembers,
       removeClock: PartySheet.#removeClock,
       removeMember: PartySheet.#removeMember
     }
@@ -365,6 +366,20 @@ export default class PartySheet extends ActorSheetArtichron {
     const id = target.closest(".member").dataset.id;
     const actor = game.actors.get(id);
     actor.sheet.render({force: true});
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Place the members of this party.
+   * @this {PartySheet}
+   * @param {Event} event             Initiating click event.
+   * @param {HTMLElement} target      The current target of the event listener.
+   */
+  static async #placeMembers(event, target) {
+    await this.minimize();
+    await this.document.system.placeMembers();
+    this.maximize();
   }
 
   /* -------------------------------------------------- */

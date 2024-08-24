@@ -27,12 +27,13 @@ globalThis.artichron = {
   dataModels: documents.dataModels,
   dice: dice,
   documents: documents.documentClasses,
-  migrations: migrations,
-  utils: utils,
-  templates: documents.templates,
   elements: elements,
   fields: fields,
-  tooltips: new applications.TooltipsArtichron()
+  helpers: documents.helpers,
+  migrations: migrations,
+  templates: documents.templates,
+  tooltips: new applications.TooltipsArtichron(),
+  utils: utils
 };
 
 /* -------------------------------------------------- */

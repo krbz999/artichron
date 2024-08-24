@@ -27,4 +27,31 @@ export default class TokenDocumentArtichron extends TokenDocument {
     const ray = new Ray(this, {x, y});
     data.rotation = Math.toDegrees(ray.angle) - 90;
   }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Recall members of a party.
+   */
+  async recallMembers() {
+    const object = this.object;
+    if (!object) throw new Error("This token is not visible on the canvas!");
+
+    if (this.actor?.type !== "party") {
+      throw new Error("This token document does not belong to a Party actor!");
+    }
+
+    const tokens = [];
+    for (const {actor} of this.actor.system.members) {
+      for (const token of actor.getActiveTokens()) tokens.push(token);
+    }
+    const updates = tokens.map(token => {
+      return {_id: token.id, x: this.x, y: this.y, alpha: 0};
+    });
+    await this.parent.updateEmbeddedDocuments("Token", updates);
+    const ids = tokens.map(token => token.id);
+
+    for (const token of tokens) await CanvasAnimation.getAnimation(token.animationName)?.promise;
+    this.parent.deleteEmbeddedDocuments("Token", ids);
+  }
 }
