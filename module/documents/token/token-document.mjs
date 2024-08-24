@@ -46,9 +46,11 @@ export default class TokenDocumentArtichron extends TokenDocument {
       for (const token of actor.getActiveTokens()) tokens.push(token);
     }
     const updates = tokens.map(token => {
-      return {_id: token.id, x: this.x, y: this.y, alpha: 0};
+      return {_id: token.id, x: this.x, y: this.y};
     });
-    await this.parent.updateEmbeddedDocuments("Token", updates);
+    await this.parent.updateEmbeddedDocuments("Token", updates, {
+      animation: {duration: 1000, easing: "easeInOutCosine"}
+    });
     const ids = tokens.map(token => token.id);
 
     for (const token of tokens) await CanvasAnimation.getAnimation(token.animationName)?.promise;

@@ -135,7 +135,9 @@ export default class PartyData extends ActorSystemModel {
 
     if (origin) {
       await new Promise(r => setTimeout(r, 100));
-      await canvas.scene.updateEmbeddedDocuments("Token", movements);
+      await canvas.scene.updateEmbeddedDocuments("Token", movements, {
+        animation: {duration: 1000, easing: "easeInOutCosine"}
+      });
     }
 
     return created;
