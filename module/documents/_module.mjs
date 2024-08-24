@@ -28,6 +28,7 @@ import PartyData from "./actor/actor-party.mjs";
 import ShieldData from "./item/item-arsenal-shield.mjs";
 import SpellData from "./item/item-arsenal-spell.mjs";
 import ToggleConditionBehaviorData from "./region/toggle-condition-behavior.mjs";
+import ToggleDoorBehaviorData from "./region/toggle-door-behavior.mjs";
 import TokenArtichron from "./token/token-placeable.mjs";
 import TokenDocumentArtichron from "./token/token-document.mjs";
 import TokenPlacement from "./canvas/token-placement.mjs";
@@ -67,7 +68,8 @@ export const dataModels = {
     fusion: EffectFusionData
   },
   regionBehavior: {
-    toggleCondition: ToggleConditionBehaviorData
+    toggleCondition: ToggleConditionBehaviorData,
+    toggleDoor: ToggleDoorBehaviorData
   }
 };
 

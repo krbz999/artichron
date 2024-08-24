@@ -154,7 +154,8 @@
       "fusion": {}
     },
     "RegionBehavior": {
-      "toggleCondition": {}
+      "toggleCondition": {},
+      "toggleDoor": {}
     }
   }
 }

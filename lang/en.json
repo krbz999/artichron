@@ -30,7 +30,8 @@
 "ActiveEffect.conditionPl": "Conditions",
 "ActiveEffect.enhancement": "Enhancement",
 "ActiveEffect.enhancementPl": "Enhancements",
-"RegionBehavior.toggleCondition": "Condition"
+"RegionBehavior.toggleCondition": "Condition",
+"RegionBehavior.toggleDoor": "Door"
 },
 "ARTICHRON": {
 
@@ -681,6 +682,18 @@
       "autoremove": {
         "label": "Auto Remove",
         "hint": "In addition to applying the condition when entering the region, remove or decrease the condition when leaving."
+      }
+    }
+  },
+  "TOGGLEDOOR": {
+    "FIELDS": {
+      "door": {
+        "label": "Door",
+        "hint": "Enter the uuid of the door whose state is changed by this behavior."
+      },
+      "state": {
+        "label": "State",
+        "hint": "The new state the door will be set to."
       }
     }
   }
