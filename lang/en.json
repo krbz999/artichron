@@ -855,6 +855,11 @@
   "Content": "{name} is about to take {damage} damage. You can attempt to parry or block to reduce the damage by an amount equal to the rolled totals."
 },
 
+"LootDialog": {
+  "Title": "{name}: Grant Loot",
+  "Content": "Grant the loot from this monster ({name}) to the primary party? The loot will be removed from the monster."
+},
+
 "SkillsDialog": {
   "Title": "{name}: Roll Skill",
   "Hint": "Select two skills to combine for the roll, adding together their dice and bonuses.",

@@ -311,7 +311,24 @@ export default class MonsterSheet extends ActorSheetArtichron {
    * @param {Event} event             Initiating click event.
    * @param {HTMLElement} target      Element with listener attached.
    */
-  static #grantLoot(event, target) {
+  static async #grantLoot(event, target) {
+    target.disabled = true;
+
+    const confirm = await foundry.applications.api.DialogV2.confirm({
+      modal: true,
+      rejectClose: false,
+      content: game.i18n.format("ARTICHRON.LootDialog.Content", {name: this.document.name}),
+      window: {
+        title: game.i18n.format("ARTICHRON.LootDialog.Title", {name: this.document.name}),
+        icon: "fa-solid fa-box-open"
+      },
+      position: {width: 400}
+    });
+    if (!confirm) {
+      target.disabled = false;
+      return;
+    }
+
     this.document.system.grantLootDrops();
   }
 
