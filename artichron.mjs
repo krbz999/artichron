@@ -31,7 +31,6 @@ globalThis.artichron = {
   fields: fields,
   helpers: documents.helpers,
   migrations: migrations,
-  templates: documents.templates,
   tooltips: new applications.TooltipsArtichron(),
   utils: utils
 };
