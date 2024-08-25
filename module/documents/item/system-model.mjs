@@ -1,4 +1,3 @@
-
 const {StringField, SchemaField, HTMLField, NumberField, SetField} = foundry.data.fields;
 
 export default class ItemSystemModel extends foundry.abstract.TypeDataModel {

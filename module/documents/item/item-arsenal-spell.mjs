@@ -1,7 +1,6 @@
 import SpellUseDialog from "../../applications/item/spell-use-dialog.mjs";
-import ActiveEffectArtichron from "../effect/active-effect.mjs";
 import EffectBuffData from "../effect/system-model.mjs";
-import MeasuredTemplateArtichron from "../template/template.mjs";
+import MeasuredTemplateArtichron from "../object-classes/measured-template.mjs";
 import ArsenalData from "./item-arsenal.mjs";
 
 const {NumberField, SchemaField, StringField, SetField} = foundry.data.fields;

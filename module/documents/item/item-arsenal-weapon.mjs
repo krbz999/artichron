@@ -1,5 +1,5 @@
 import ArsenalData from "./item-arsenal.mjs";
-import MeasuredTemplateArtichron from "../template/template.mjs";
+import MeasuredTemplateArtichron from "../object-classes/measured-template.mjs";
 
 const {NumberField, SchemaField, StringField} = foundry.data.fields;
 

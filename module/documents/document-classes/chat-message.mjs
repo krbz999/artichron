@@ -1,4 +1,4 @@
-import MeasuredTemplateArtichron from "../template/template.mjs";
+import MeasuredTemplateArtichron from "../object-classes/measured-template.mjs";
 
 export default class ChatMessageArtichron extends ChatMessage {
   async createMeasuredTemplate(count = 1) {

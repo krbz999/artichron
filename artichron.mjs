@@ -49,21 +49,20 @@ Hooks.once("init", function() {
 
   // Record Configuration Values
   CONFIG.SYSTEM = SYSTEM;
-  CONFIG.Actor.documentClass = documents.documentClasses.actor;
-  CONFIG.Item.documentClass = documents.documentClasses.item;
-  CONFIG.Combat.documentClass = documents.documentClasses.combat;
-  CONFIG.Combatant.documentClass = documents.documentClasses.combatant;
-  CONFIG.Token.documentClass = documents.documentClasses.tokenDocument;
-  CONFIG.Token.objectClass = documents.documentClasses.token;
   CONFIG.Token.hudClass = applications.TokenHUDArtichron;
-  CONFIG.MeasuredTemplate.objectClass = documents.documentClasses.template;
-  CONFIG.MeasuredTemplate.documentClass = documents.documentClasses.templateDocument;
-  CONFIG.ChatMessage.documentClass = documents.documentClasses.message;
-  CONFIG.ActiveEffect.documentClass = documents.documentClasses.effect;
-
   CONFIG.Canvas.rulerClass = RulerArtichron;
 
-  // Hook up system data types
+  // Hook up document classes.
+  for (const [k, v] of Object.entries(documents.documentClasses)) {
+    CONFIG[k].documentClass = v;
+  }
+
+  // Hook up object classes.
+  for (const [k, v] of Object.entries(documents.objectClasses)) {
+    CONFIG[k].objectClass = v;
+  }
+
+  // Hook up system data types.
   for (const [key, dm] of Object.entries(documents.dataModels)) {
     Object.assign(CONFIG[key].dataModels, dm);
 

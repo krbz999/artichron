@@ -1,4 +1,4 @@
-import MeasuredTemplateArtichron from "../documents/template/template.mjs";
+import MeasuredTemplateArtichron from "../documents/object-classes/measured-template.mjs";
 export {default as simplifyRollFormula} from "./simplify-formula.mjs";
 export {default as sockets} from "./sockets.mjs";
 
