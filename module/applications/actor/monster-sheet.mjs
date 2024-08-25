@@ -6,10 +6,11 @@ export default class MonsterSheet extends ActorSheetArtichron {
     classes: ["monster"],
     position: {width: 400},
     actions: {
-      removeLoot: this.#onRemoveLoot,
-      increaseLoot: this.#onIncreaseLoot,
+      changeEquipped: this.#onChangeEquipped,
       decreaseLoot: this.#onDecreaseLoot,
-      changeEquipped: this.#onChangeEquipped
+      grantLoot: this.#grantLoot,
+      increaseLoot: this.#onIncreaseLoot,
+      removeLoot: this.#onRemoveLoot
     }
   };
 
@@ -300,6 +301,18 @@ export default class MonsterSheet extends ActorSheetArtichron {
   static #onDecreaseLoot(event, target) {
     const uuid = target.closest("[data-uuid]").dataset.uuid;
     this.document.system.adjustLootDrop(uuid, -1);
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Grant the loot of this monster to the primary party.
+   * @this {MonsterSheet}
+   * @param {Event} event             Initiating click event.
+   * @param {HTMLElement} target      Element with listener attached.
+   */
+  static #grantLoot(event, target) {
+    this.document.system.grantLootDrops();
   }
 
   /* -------------------------------------------------- */

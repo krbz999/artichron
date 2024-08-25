@@ -1,25 +1,31 @@
 <div class="{{tabs.loot.tabCssClass}}" data-group="primary" data-tab="loot">
-  <fieldset>
-    <legend>{{localize "ARTICHRON.SheetTab.Loot"}}</legend>
-    <ul class="scrollable">
-      {{#each loot}}
-      <li class="loot" data-uuid="{{item.uuid}}" data-tooltip="<section class='loading' data-uuid='{{item.uuid}}'><i class='fas fa-spinner fa-spin-pulse'></i></section>">
-        <img class="img" src="{{item.img}}" alt="{{item.name}}">
-        <span class="name">{{item.name}}</span>
-        <span class="quantity">
-          <a class="quantity-control" data-action="decreaseLoot">
-            <i class="fa-fw fa-solid fa-minus"></i>
-          </a>
-          <span class="quantity-value">{{quantity}}</span>
-          <a class="quantity-control" data-action="increaseLoot">
-            <i class="fa-fw fa-solid fa-plus"></i>
-          </a>
-        </span>
-        <button class="control" type="button" data-action="removeLoot">
-          <i class="fa-solid fa-trash"></i>
-        </button>
-      </li>
-      {{/each}}
-    </ul>
-  </fieldset>
+  <div class="wrapper scrollable">
+    <fieldset>
+      <legend>{{localize "ARTICHRON.SheetTab.Loot"}}</legend>
+      <ul class="scrollable">
+        {{#each loot}}
+        <li class="loot" data-uuid="{{item.uuid}}">
+          <img class="img" src="{{item.img}}" alt="{{item.name}}">
+          <span class="name" data-tooltip="<section class='loading' data-uuid='{{item.uuid}}'><i class='fas fa-spinner fa-spin-pulse'></i></section>">{{item.name}}</span>
+          <span class="quantity">
+            <a class="quantity-control" data-action="decreaseLoot">
+              <i class="fa-fw fa-solid fa-minus"></i>
+            </a>
+            <span class="quantity-value">{{quantity}}</span>
+            <a class="quantity-control" data-action="increaseLoot">
+              <i class="fa-fw fa-solid fa-plus"></i>
+            </a>
+          </span>
+          <button class="control" type="button" data-action="removeLoot">
+            <i class="fa-solid fa-trash"></i>
+          </button>
+        </li>
+        {{/each}}
+      </ul>
+    </fieldset>
+  </div>
+  <button type="button" data-action="grantLoot" {{disabled (not loot.length)}}>
+    <i class="fa-solid fa-fw fa-box-open"></i>
+    <span>{{localize "ARTICHRON.SheetActions.GrantLoot"}}</span>
+  </button>
 </div>

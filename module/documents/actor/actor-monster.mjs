@@ -148,6 +148,39 @@ export default class MonsterData extends CreatureData.mixin(EquipmentTemplateMix
   /* -------------------------------------------------- */
 
   /**
+   * Grant the loot of this monster to the party.
+   * @param {ActorArtichron} [party]          The party to grant the items to.
+   * @returns {Promise<ItemArtichron[]>}      A promise that resolves to the created items.
+   */
+  async grantLootDrops(party = null) {
+    party ??= game.settings.get("artichron", "primaryParty").actor;
+    if (party?.type !== "party") throw new Error("No primary party has been assigned!");
+
+    const promises = this.lootDrops.map(async ({item, quantity}) => {
+      item = await fromUuid(item.uuid);
+      if (!item) return null;
+      item = game.items.fromCompendium(item);
+      foundry.utils.setProperty(item, "system.quantity.value", quantity);
+      return item;
+    });
+    const itemData = (await Promise.all(promises)).filter(_ => _);
+    const created = await party.createEmbeddedDocuments("Item", itemData);
+
+    ChatMessage.implementation.create({
+      content: await renderTemplate("systems/artichron/templates/chat/loot-grant.hbs", {
+        actor: this.parent,
+        items: created.map(item => ({link: item.link, qty: item.system.quantity?.value ?? 1}))
+      })
+    });
+
+    await this.parent.update({"system.loot": []});
+
+    return created;
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
    * Fully restore any resources.
    * @returns {Promise<ActorArtichron>}
    */
