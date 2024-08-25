@@ -3,6 +3,16 @@ import ChatMessageSystemModel from "./system-model.mjs";
 const {ArrayField, DocumentUUIDField, StringField} = foundry.data.fields;
 
 export default class HealingMessageData extends ChatMessageSystemModel {
+  /**
+   * Metadata for this data model.
+   * @type {import("../../helpers/types.mjs").ChatMessageSystemModelMetadata}
+   */
+  static metadata = Object.freeze({
+    type: "healing"
+  });
+
+  /* -------------------------------------------------- */
+
   /** @override */
   static defineSchema() {
     return {

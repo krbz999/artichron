@@ -5,12 +5,15 @@ import FusionTemplateMixin from "./templates/fusion-data.mjs";
 const {ArrayField, NumberField, SchemaField, StringField, TypedSchemaField} = foundry.data.fields;
 
 export default class ArmorData extends FusionTemplateMixin(ItemSystemModel) {
-  /** @override */
+  /**
+   * Metadata for this datamodel.
+   * @type {import("../../helpers/types.mjs").ItemSystemModelMetadata}
+   */
   static metadata = Object.freeze(foundry.utils.mergeObject(super.metadata, {
-    inventorySection: "gear",
-    type: "armor",
     defaultWeight: 2,
-    order: 40
+    inventorySection: "gear",
+    order: 40,
+    type: "armor"
   }, {inplace: false}));
 
   /* -------------------------------------------------- */

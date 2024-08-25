@@ -1,17 +1,12 @@
 const {NumberField, SetField, StringField} = foundry.data.fields;
 
 /**
- * @typedef {object} RegionBehaviorMetadata
- * @property {string} icon      Type icon for this region behavior.
- */
-
-/**
  * Behavior type that toggles a door state.
  */
 export default class ToggleDoorBehaviorData extends foundry.data.regionBehaviors.RegionBehaviorType {
   /**
-   * Metadata for this behavior type.
-   * @type {RegionBehaviorMetadata}
+   * Metadata for this datamodel.
+   * @type {import("../../helpers/types.mjs").SystemModelMetadata}
    */
   static metadata = Object.freeze({
     icon: "fa-solid fa-door-open",

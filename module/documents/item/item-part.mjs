@@ -3,12 +3,15 @@ import ItemSystemModel from "./system-model.mjs";
 const {SchemaField, StringField, NumberField} = foundry.data.fields;
 
 export default class PartData extends ItemSystemModel {
-  /** @override */
+  /**
+   * Metadata for this datamodel.
+   * @type {import("../../helpers/types.mjs").ItemSystemModelMetadata}
+   */
   static metadata = Object.freeze(foundry.utils.mergeObject(super.metadata, {
-    inventorySection: "loot",
-    type: "part",
     defaultWeight: 1,
-    order: 70
+    inventorySection: "loot",
+    order: 70,
+    type: "part"
   }, {inplace: false}));
 
   /* -------------------------------------------------- */

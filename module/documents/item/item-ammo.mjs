@@ -4,12 +4,15 @@ import DamageTemplateMixin from "./templates/damage-data.mjs";
 const {SchemaField, StringField, NumberField, ArrayField} = foundry.data.fields;
 
 export default class AmmunitionData extends ItemSystemModel.mixin(DamageTemplateMixin) {
-  /** @override */
+  /**
+   * Metadata for this datamodel.
+   * @type {import("../../helpers/types.mjs").ItemSystemModelMetadata}
+   */
   static metadata = Object.freeze(foundry.utils.mergeObject(super.metadata, {
-    inventorySection: "consumables",
-    type: "ammo",
     defaultWeight: 0.1,
-    order: 60
+    inventorySection: "consumables",
+    order: 60,
+    type: "ammo"
   }, {inplace: false}));
 
   /* -------------------------------------------------- */

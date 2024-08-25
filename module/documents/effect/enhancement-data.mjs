@@ -5,6 +5,16 @@ import ActiveEffectSystemModel from "./system-model.mjs";
  * Enhancements are effects that apply to an item. They can live only on an item.
  */
 export default class EffectEnhancementData extends ActiveEffectSystemModel {
+  /**
+   * Metadata for this data model.
+   * @type {import("../../helpers/types.mjs").ActiveEffectSystemModelMetadata}
+   */
+  static metadata = Object.freeze({
+    type: "enhancement"
+  });
+
+  /* -------------------------------------------------- */
+
   /** @override */
   async _preCreate(...T) {
     const allowed = await super._preCreate(...T);

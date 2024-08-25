@@ -8,10 +8,13 @@ export default class ArsenalData extends ItemSystemModel.mixin(
   DamageTemplateMixin,
   FusionTemplateMixin
 ) {
-  /** @override */
+  /**
+   * Metadata for this datamodel.
+   * @type {import("../../helpers/types.mjs").ItemSystemModelMetadata}
+   */
   static metadata = Object.freeze(foundry.utils.mergeObject(super.metadata, {
-    inventorySection: "arsenal",
-    fusion: true
+    fusion: true,
+    inventorySection: "arsenal"
   }, {inplace: false}));
 
   /* -------------------------------------------------- */

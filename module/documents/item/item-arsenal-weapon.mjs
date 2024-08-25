@@ -4,11 +4,14 @@ import MeasuredTemplateArtichron from "../template/template.mjs";
 const {NumberField, SchemaField, StringField} = foundry.data.fields;
 
 export default class WeaponData extends ArsenalData {
-  /** @override */
+  /**
+   * Metadata for this datamodel.
+   * @type {import("../../helpers/types.mjs").ItemSystemModelMetadata}
+   */
   static metadata = Object.freeze(foundry.utils.mergeObject(super.metadata, {
-    type: "weapon",
     defaultWeight: 2,
-    order: 10
+    order: 10,
+    type: "weapon"
   }, {inplace: false}));
 
   /* -------------------------------------------------- */

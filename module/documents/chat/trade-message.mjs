@@ -3,6 +3,16 @@ import ChatMessageSystemModel from "./system-model.mjs";
 const {BooleanField, DocumentUUIDField, JSONField} = foundry.data.fields;
 
 export default class TradeMessageData extends ChatMessageSystemModel {
+  /**
+   * Metadata for this data model.
+   * @type {import("../../helpers/types.mjs").ChatMessageSystemModelMetadata}
+   */
+  static metadata = Object.freeze({
+    type: "trade"
+  });
+
+  /* -------------------------------------------------- */
+
   /** @override */
   static defineSchema() {
     return {

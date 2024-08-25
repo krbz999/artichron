@@ -1,75 +1,39 @@
 import ActiveEffectArtichron from "./effect/active-effect.mjs";
+import ActiveEffectDataModels from "./effect/_module.mjs";
 import ActiveEffectSystemModel from "./effect/system-model.mjs";
 import ActorArtichron from "./actor/actor.mjs";
+import ActorDataModels from "./actor/_module.mjs";
 import ActorSystemModel from "./actor/system-model.mjs";
-import AmmunitionData from "./item/item-ammo.mjs";
-import ArmorData from "./item/item-armor.mjs";
 import ChatMessageArtichron from "./chat/chatmessage.mjs";
+import ChatMessageDataModels from "./chat/_module.mjs";
 import ChatMessageSystemModel from "./chat/system-model.mjs";
 import CombatantArtichron from "./combat/combatant.mjs";
-import CombatantSystemModel from "./combat/system-model.mjs";
+import CombatantDataModels from "./combat/_module.mjs";
 import CombatArtichron from "./combat/combat.mjs";
-import DamageMessageData from "./chat/damage-message.mjs";
-import EffectBuffData from "./effect/buff-data.mjs";
-import EffectConditionData from "./effect/condition-data.mjs";
-import EffectEnhancementData from "./effect/enhancement-data.mjs";
-import EffectFusionData from "./effect/fusion-data.mjs";
-import ElixirData from "./item/item-elixir.mjs";
-import HealingMessageData from "./chat/healing-message.mjs";
-import HeroData from "./actor/actor-hero.mjs";
 import ItemArtichron from "./item/item.mjs";
+import ItemDataModels from "./item/_module.mjs";
 import ItemSystemModel from "./item/system-model.mjs";
 import MeasuredTemplateArtichron from "./template/template.mjs";
 import MeasuredTemplateDocumentArtichron from "./template/template-document.mjs";
-import MerchantData from "./actor/actor-merchant.mjs";
-import MonsterData from "./actor/actor-monster.mjs";
-import PartData from "./item/item-part.mjs";
-import PartyData from "./actor/actor-party.mjs";
-import RegionBehaviors from "./region/_module.mjs";
-import ShieldData from "./item/item-arsenal-shield.mjs";
-import SpellData from "./item/item-arsenal-spell.mjs";
+import RegionBehaviorDataModels from "./region/_module.mjs";
 import TokenArtichron from "./token/token-placeable.mjs";
 import TokenDocumentArtichron from "./token/token-document.mjs";
 import TokenPlacement from "./canvas/token-placement.mjs";
-import TradeMessageData from "./chat/trade-message.mjs";
-import UsageMessageData from "./chat/usage-message.mjs";
-import WeaponData from "./item/item-arsenal-weapon.mjs";
 
-export const dataModels = {
-  actor: {
-    hero: HeroData,
-    monster: MonsterData,
-    merchant: MerchantData,
-    party: PartyData
-  },
-  item: {
-    armor: ArmorData,
-    shield: ShieldData,
-    spell: SpellData,
-    weapon: WeaponData,
-    elixir: ElixirData,
-    part: PartData,
-    ammo: AmmunitionData
-  },
-  message: {
-    damage: DamageMessageData,
-    healing: HealingMessageData,
-    trade: TradeMessageData,
-    usage: UsageMessageData
-  },
-  combatant: {
-    artichron: CombatantSystemModel
-  },
-  effect: {
-    buff: EffectBuffData,
-    condition: EffectConditionData,
-    enhancement: EffectEnhancementData,
-    fusion: EffectFusionData
-  },
-  RegionBehavior: Object.values(RegionBehaviors).reduce((acc, cls) => {
+const assign = models => {
+  return Object.values(models).reduce((acc, cls) => {
     acc[cls.metadata.type] = cls;
     return acc;
-  }, {})
+  }, {});
+};
+
+export const dataModels = {
+  ActiveEffect: assign(ActiveEffectDataModels),
+  Actor: assign(ActorDataModels),
+  ChatMessage: assign(ChatMessageDataModels),
+  Combatant: assign(CombatantDataModels),
+  Item: assign(ItemDataModels),
+  RegionBehavior: assign(RegionBehaviorDataModels)
 };
 
 /* -------------------------------------------------- */

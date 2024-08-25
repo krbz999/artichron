@@ -4,6 +4,16 @@ import EquipmentTemplateMixin from "./templates/equipment-data.mjs";
 const {ArrayField, DocumentUUIDField, HTMLField, NumberField, SchemaField} = foundry.data.fields;
 
 export default class MonsterData extends CreatureData.mixin(EquipmentTemplateMixin) {
+  /**
+   * Metadata for this data model.
+   * @type {import("../../helpers/types.mjs").ActorSystemModelMetadata}
+   */
+  static metadata = Object.freeze({
+    type: "monster"
+  });
+
+  /* -------------------------------------------------- */
+
   /** @override */
   static defineSchema() {
     const schema = super.defineSchema();

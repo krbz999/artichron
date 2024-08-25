@@ -9,6 +9,17 @@ const {DocumentUUIDField, BooleanField, StringField} = foundry.data.fields;
  * @property {boolean} granted      Has this been granted?
  */
 export default class EffectBuffData extends ActiveEffectSystemModel {
+  /**
+   * Metadata for this data model.
+   * @type {import("../../helpers/types.mjs").ActiveEffectSystemModelMetadata}
+   */
+  static metadata = Object.freeze({
+    type: "buff"
+  });
+
+  /* -------------------------------------------------- */
+
+  /** @override */
   static defineSchema() {
     return {
       ...super.defineSchema(),

@@ -9,6 +9,17 @@ const {JSONField, StringField} = foundry.data.fields;
  * @property {string} subtype       An item subtype this fusion can apply to.
  */
 export default class EffectFusionData extends ActiveEffectSystemModel {
+  /**
+   * Metadata for this data model.
+   * @type {import("../../helpers/types.mjs").ActiveEffectSystemModelMetadata}
+   */
+  static metadata = Object.freeze({
+    type: "fusion"
+  });
+
+  /* -------------------------------------------------- */
+
+  /** @override */
   static defineSchema() {
     return {
       ...super.defineSchema(),

@@ -3,6 +3,16 @@ import ChatMessageSystemModel from "./system-model.mjs";
 const {DocumentUUIDField} = foundry.data.fields;
 
 export default class UsageMessageData extends ChatMessageSystemModel {
+  /**
+   * Metadata for this data model.
+   * @type {import("../../helpers/types.mjs").ChatMessageSystemModelMetadata}
+   */
+  static metadata = Object.freeze({
+    type: "usage"
+  });
+
+  /* -------------------------------------------------- */
+
   /** @override */
   static defineSchema() {
     return {

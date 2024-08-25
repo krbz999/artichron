@@ -1,6 +1,16 @@
 import ActorSystemModel from "./system-model.mjs";
 
 export default class MerchantData extends ActorSystemModel {
+  /**
+   * Metadata for this data model.
+   * @type {import("../../helpers/types.mjs").ActorSystemModelMetadata}
+   */
+  static metadata = Object.freeze({
+    type: "merchant"
+  });
+
+  /* -------------------------------------------------- */
+
   /* -------------------------------------------------- */
   /*   Preparation methods                              */
   /* -------------------------------------------------- */

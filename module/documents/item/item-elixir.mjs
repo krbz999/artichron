@@ -3,12 +3,15 @@ import ItemSystemModel from "./system-model.mjs";
 const {SchemaField, NumberField, StringField} = foundry.data.fields;
 
 export default class ElixirData extends ItemSystemModel {
-  /** @override */
+  /**
+   * Metadata for this datamodel.
+   * @type {import("../../helpers/types.mjs").ItemSystemModelMetadata}
+   */
   static metadata = Object.freeze(foundry.utils.mergeObject(super.metadata, {
-    inventorySection: "consumables",
-    type: "elixir",
     defaultWeight: 0.5,
-    order: 50
+    inventorySection: "consumables",
+    order: 50,
+    type: "elixir"
   }, {inplace: false}));
 
   /* -------------------------------------------------- */

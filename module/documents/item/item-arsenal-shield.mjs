@@ -3,11 +3,14 @@ import ArsenalData from "./item-arsenal.mjs";
 const {NumberField, SchemaField, StringField} = foundry.data.fields;
 
 export default class ShieldData extends ArsenalData {
-  /** @override */
+  /**
+   * Metadata for this datamodel.
+   * @type {import("../../helpers/types.mjs").ItemSystemModelMetadata}
+   */
   static metadata = Object.freeze(foundry.utils.mergeObject(super.metadata, {
-    type: "shield",
     defaultWeight: 2,
-    order: 20
+    order: 20,
+    type: "shield"
   }, {inplace: false}));
 
   /* -------------------------------------------------- */

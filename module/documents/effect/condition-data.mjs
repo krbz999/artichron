@@ -10,6 +10,16 @@ const {StringField, NumberField} = foundry.data.fields;
  */
 export default class EffectConditionData extends ActiveEffectSystemModel {
   /**
+   * Metadata for this data model.
+   * @type {import("../../helpers/types.mjs").ActiveEffectSystemModelMetadata}
+   */
+  static metadata = Object.freeze({
+    type: "condition"
+  });
+
+  /* -------------------------------------------------- */
+
+  /**
    * The status ids that have a 'start of round' event.
    * @type {Set<string>}
    */

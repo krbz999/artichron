@@ -7,11 +7,14 @@ import ArsenalData from "./item-arsenal.mjs";
 const {NumberField, SchemaField, StringField, SetField} = foundry.data.fields;
 
 export default class SpellData extends ArsenalData {
-  /** @override */
+  /**
+   * Metadata for this datamodel.
+   * @type {import("../../helpers/types.mjs").ItemSystemModelMetadata}
+   */
   static metadata = Object.freeze(foundry.utils.mergeObject(super.metadata, {
-    type: "spell",
     defaultWeight: 1,
-    order: 30
+    order: 30,
+    type: "spell"
   }, {inplace: false}));
 
   /* -------------------------------------------------- */

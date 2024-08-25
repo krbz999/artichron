@@ -64,15 +64,12 @@ Hooks.once("init", function() {
   CONFIG.Canvas.rulerClass = RulerArtichron;
 
   // Hook up system data types
-  CONFIG.Actor.dataModels = documents.dataModels.actor;
-  CONFIG.Item.dataModels = documents.dataModels.item;
-  CONFIG.ChatMessage.dataModels = documents.dataModels.message;
-  CONFIG.Combatant.dataModels = documents.dataModels.combatant;
-  CONFIG.ActiveEffect.dataModels = documents.dataModels.effect;
-  Object.assign(CONFIG.RegionBehavior.dataModels, documents.dataModels.RegionBehavior);
+  for (const [key, dm] of Object.entries(documents.dataModels)) {
+    Object.assign(CONFIG[key].dataModels, dm);
 
-  for (const [k, v] of Object.entries(documents.dataModels.RegionBehavior)) {
-    CONFIG.RegionBehavior.typeIcons[k] = v.metadata.icon;
+    for (const [k, v] of Object.entries(dm)) {
+      CONFIG[key].typeIcons[k] = v.metadata.icon;
+    }
   }
 
   // Hook up dice types.

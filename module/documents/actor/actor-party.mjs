@@ -1,15 +1,21 @@
 import ActorSystemModel from "./system-model.mjs";
 
-/**
- * @typedef {object} PartyMetadata
- * @property {Set<string>} allowedActorTypes      The actor types allowed to be added to a party actor.
- */
-
 const {
   ArrayField, ColorField, ForeignDocumentField, NumberField, SchemaField, SetField, StringField
 } = foundry.data.fields;
 
 export default class PartyData extends ActorSystemModel {
+  /**
+   * Metadata for this data model.
+   * @type {import("../../helpers/types.mjs").ActorSystemModelMetadata}
+   */
+  static metadata = Object.freeze({
+    type: "party",
+    allowedActorTypes: new Set(["hero", "monster"])
+  });
+
+  /* -------------------------------------------------- */
+
   /** @override */
   static defineSchema() {
     const schema = super.defineSchema();
@@ -44,14 +50,6 @@ export default class PartyData extends ActorSystemModel {
   /* -------------------------------------------------- */
   /*   Properties                                       */
   /* -------------------------------------------------- */
-
-  /**
-   * Party actor metadata.
-   * @type {PartyMetadata}
-   */
-  static metadata = Object.freeze({
-    allowedActorTypes: new Set(["hero", "monster"])
-  });
 
   /* -------------------------------------------------- */
   /*   Preparation methods                              */
