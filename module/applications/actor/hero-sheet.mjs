@@ -100,23 +100,21 @@ export default class HeroSheet extends ActorSheetArtichron {
       return {field, value};
     };
 
+    // Details tab.
     context.pips = makeField("system.pips.turn");
-
-    if (context.isEditMode) {
-      const field = new foundry.data.fields.NumberField({
-        label: "Compact Items",
-        hint: "Toggle whether items are shown in a list or a grid.",
-        choices: {
-          0: "Expanded",
-          1: "Compact"
-        }
-      });
-      const value = this.document.flags.artichron?.compactItems ?? null;
-      context.compactItems = {
-        field: field,
-        value: value
-      };
-    }
+    const field = new foundry.data.fields.NumberField({
+      label: "Compact Items",
+      hint: "Toggle whether items are shown in a list or a grid.",
+      choices: {
+        0: "Expanded",
+        1: "Compact"
+      }
+    });
+    const value = this.document.flags.artichron?.compactItems ?? null;
+    context.compactItems = {
+      field: field,
+      value: value
+    };
 
     const makeResistance = (key, path) => {
       context.resistances ??= {};
