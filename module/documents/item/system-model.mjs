@@ -179,8 +179,9 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
       else tags.push({label: "Two-Handed"});
     }
 
+    const valid = this.constructor._attributeChoices();
     for (const attribute of this.attributes.value) {
-      const label = CONFIG.SYSTEM.ITEM_ATTRIBUTES[attribute]?.label;
+      const label = valid[attribute]?.label;
       if (label) tags.push({label: label});
     }
 
