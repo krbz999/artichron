@@ -33,7 +33,7 @@ export default class ToggleConditionBehaviorData extends foundry.data.regionBeha
     return {
       status: new StringField({
         choices: () => CONFIG.statusEffects.reduce((acc, k) => {
-          acc[k.id] = k.name;
+          if (k.hud !== false) acc[k.id] = k.name;
           return acc;
         }, {})
       }),
