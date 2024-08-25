@@ -1,4 +1,4 @@
-const {NumberField, SetField, StringField} = foundry.data.fields;
+const {BooleanField, NumberField, SetField, StringField} = foundry.data.fields;
 
 /**
  * Behavior type that toggles a door state.
@@ -28,6 +28,7 @@ export default class ToggleDoorBehaviorData extends foundry.data.regionBehaviors
         CONST.REGION_EVENTS.TOKEN_EXIT
       ]}),
       doors: new SetField(new StringField()),
+      once: new BooleanField(),
       state: new NumberField({
         initial: CONST.WALL_DOOR_STATES.OPEN,
         choices: () => {
@@ -46,6 +47,7 @@ export default class ToggleDoorBehaviorData extends foundry.data.regionBehaviors
   /** @override */
   async _handleRegionEvent(event) {
     if (!game.users.activeGM?.isSelf) return;
+    if (this.once) this.parent.update({disabled: true});
     const updates = [];
     for (const uuid of this.doors) {
       const wall = fromUuidSync(uuid);

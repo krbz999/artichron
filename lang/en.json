@@ -691,6 +691,10 @@
         "label": "Doors",
         "hint": "Enter the uuid of the doors whose state is changed by this behavior."
       },
+      "once": {
+        "label": "Once",
+        "hint": "Disable this behavior once it has been triggered."
+      },
       "state": {
         "label": "State",
         "hint": "The new state the doors will be set to."
