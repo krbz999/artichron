@@ -17,6 +17,7 @@ export default class PartySheet extends ActorSheetArtichron {
       createProgression: PartySheet.#createProgression,
       displayActor: PartySheet.#displayActor,
       placeMembers: PartySheet.#placeMembers,
+      recallMembers: PartySheet.#recallMembers,
       removeClock: PartySheet.#removeClock,
       removeMember: PartySheet.#removeMember
     }
@@ -392,6 +393,19 @@ export default class PartySheet extends ActorSheetArtichron {
     await this.minimize();
     await this.document.system.placeMembers();
     this.maximize();
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Recall the members of this party.
+   * @this {PartySheet}
+   * @param {Event} event             Initiating click event.
+   * @param {HTMLElement} target      The current target of the event listener.
+   */
+  static async #recallMembers(event, target) {
+    const token = this.document.isToken ? this.document.token?.object : this.document.getActiveTokens()[0];
+    if (token) token.document.recallMembers();
   }
 
   /* -------------------------------------------------- */

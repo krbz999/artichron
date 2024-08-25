@@ -23,8 +23,12 @@
   {{#if isGM}}
   <div class="form-group">
     <button type="button" data-action="placeMembers">
-      <i class="fa-solid fa-street-view"></i>
+      <i class="fa-solid fa-fw fa-street-view"></i>
       <span>{{localize "ARTICHRON.SheetActions.PlaceMembers"}}</span>
+    </button>
+    <button type="button" data-action="recallMembers">
+      <i class="fa-solid fa-fw fa-rotate-right"></i>
+      <span>{{localize "ARTICHRON.SheetActions.RecallMembers"}}</span>
     </button>
   </div>
   {{/if}}
