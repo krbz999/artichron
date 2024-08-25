@@ -30,8 +30,8 @@
 "ActiveEffect.conditionPl": "Conditions",
 "ActiveEffect.enhancement": "Enhancement",
 "ActiveEffect.enhancementPl": "Enhancements",
-"RegionBehavior.toggleCondition": "Condition",
-"RegionBehavior.toggleDoor": "Door"
+"RegionBehavior.doorState": "Toggle Door State",
+"RegionBehavior.statusCondition": "Toggle Status Condition"
 },
 "ARTICHRON": {
 
@@ -687,13 +687,13 @@
   },
   "TOGGLEDOOR": {
     "FIELDS": {
-      "door": {
-        "label": "Door",
-        "hint": "Enter the uuid of the door whose state is changed by this behavior."
+      "doors": {
+        "label": "Doors",
+        "hint": "Enter the uuid of the doors whose state is changed by this behavior."
       },
       "state": {
         "label": "State",
-        "hint": "The new state the door will be set to."
+        "hint": "The new state the doors will be set to."
       }
     }
   }

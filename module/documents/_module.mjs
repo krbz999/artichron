@@ -25,10 +25,9 @@ import MerchantData from "./actor/actor-merchant.mjs";
 import MonsterData from "./actor/actor-monster.mjs";
 import PartData from "./item/item-part.mjs";
 import PartyData from "./actor/actor-party.mjs";
+import RegionBehaviors from "./region/_module.mjs";
 import ShieldData from "./item/item-arsenal-shield.mjs";
 import SpellData from "./item/item-arsenal-spell.mjs";
-import ToggleConditionBehaviorData from "./region/toggle-condition-behavior.mjs";
-import ToggleDoorBehaviorData from "./region/toggle-door-behavior.mjs";
 import TokenArtichron from "./token/token-placeable.mjs";
 import TokenDocumentArtichron from "./token/token-document.mjs";
 import TokenPlacement from "./canvas/token-placement.mjs";
@@ -67,10 +66,10 @@ export const dataModels = {
     enhancement: EffectEnhancementData,
     fusion: EffectFusionData
   },
-  regionBehavior: {
-    toggleCondition: ToggleConditionBehaviorData,
-    toggleDoor: ToggleDoorBehaviorData
-  }
+  RegionBehavior: Object.values(RegionBehaviors).reduce((acc, cls) => {
+    acc[cls.metadata.type] = cls;
+    return acc;
+  }, {})
 };
 
 /* -------------------------------------------------- */

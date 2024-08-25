@@ -6,7 +6,7 @@ const {BooleanField, StringField} = foundry.data.fields;
  */
 
 /**
- * Behavior type that configures a trap that prompts a saving throw and deals damage.
+ * Behavior type that toggles a status condition.
  */
 export default class ToggleConditionBehaviorData extends foundry.data.regionBehaviors.RegionBehaviorType {
   /**
@@ -14,7 +14,8 @@ export default class ToggleConditionBehaviorData extends foundry.data.regionBeha
    * @type {RegionBehaviorMetadata}
    */
   static metadata = Object.freeze({
-    icon: "fa-solid fa-stroopwafel"
+    icon: "fa-solid fa-stroopwafel",
+    type: "statusCondition"
   });
 
   /* -------------------------------------------------- */

@@ -1,4 +1,4 @@
-const {NumberField, StringField} = foundry.data.fields;
+const {NumberField, SetField, StringField} = foundry.data.fields;
 
 /**
  * @typedef {object} RegionBehaviorMetadata
@@ -6,7 +6,7 @@ const {NumberField, StringField} = foundry.data.fields;
  */
 
 /**
- * Behavior type that configures a trap that prompts a saving throw and deals damage.
+ * Behavior type that toggles a door state.
  */
 export default class ToggleDoorBehaviorData extends foundry.data.regionBehaviors.RegionBehaviorType {
   /**
@@ -14,7 +14,8 @@ export default class ToggleDoorBehaviorData extends foundry.data.regionBehaviors
    * @type {RegionBehaviorMetadata}
    */
   static metadata = Object.freeze({
-    icon: "fa-solid fa-door-open"
+    icon: "fa-solid fa-door-open",
+    type: "doorState"
   });
 
   /* -------------------------------------------------- */
@@ -31,7 +32,7 @@ export default class ToggleDoorBehaviorData extends foundry.data.regionBehaviors
         CONST.REGION_EVENTS.TOKEN_ENTER,
         CONST.REGION_EVENTS.TOKEN_EXIT
       ]}),
-      door: new StringField({type: "Wall", embedded: true}),
+      doors: new SetField(new StringField()),
       state: new NumberField({
         initial: CONST.WALL_DOOR_STATES.OPEN,
         choices: () => {
@@ -50,8 +51,12 @@ export default class ToggleDoorBehaviorData extends foundry.data.regionBehaviors
   /** @override */
   async _handleRegionEvent(event) {
     if (!game.users.activeGM?.isSelf) return;
-    const door = fromUuidSync(this.door);
-    if (!door || (door.door === CONST.WALL_DOOR_TYPES.NONE)) return;
-    door.update({ds: this.state});
+    const updates = [];
+    for (const uuid of this.doors) {
+      const wall = fromUuidSync(uuid);
+      if (!wall || (wall.door === CONST.WALL_DOOR_TYPES.NONE)) continue;
+      updates.push({_id: wall.id, ds: this.state});
+    }
+    this.scene.updateEmbeddedDocuments("Wall", updates);
   }
 }

@@ -69,9 +69,9 @@ Hooks.once("init", function() {
   CONFIG.ChatMessage.dataModels = documents.dataModels.message;
   CONFIG.Combatant.dataModels = documents.dataModels.combatant;
   CONFIG.ActiveEffect.dataModels = documents.dataModels.effect;
-  Object.assign(CONFIG.RegionBehavior.dataModels, documents.dataModels.regionBehavior);
+  Object.assign(CONFIG.RegionBehavior.dataModels, documents.dataModels.RegionBehavior);
 
-  for (const [k, v] of Object.entries(documents.dataModels.regionBehavior)) {
+  for (const [k, v] of Object.entries(documents.dataModels.RegionBehavior)) {
     CONFIG.RegionBehavior.typeIcons[k] = v.metadata.icon;
   }
 
