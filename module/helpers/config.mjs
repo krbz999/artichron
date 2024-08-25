@@ -558,19 +558,19 @@ SYSTEM.STATUS_CONDITIONS = {
 SYSTEM.SKILLS = {
   agility: {
     label: "ARTICHRON.Skills.Agility",
-    img: "icons/equipment/shield/buckler-wooden-boss-glowing-blue.webp"
+    img: "icons/skills/movement/feet-winged-boots-blue.webp"
   },
   brawn: {
     label: "ARTICHRON.Skills.Brawn",
-    img: "icons/equipment/shield/buckler-wooden-boss-glowing-blue.webp"
+    img: "icons/skills/melee/unarmed-punch-fist-white.webp"
   },
   mind: {
     label: "ARTICHRON.Skills.Mind",
-    img: "icons/equipment/shield/buckler-wooden-boss-glowing-blue.webp"
+    img: "icons/magic/symbols/star-solid-gold.webp"
   },
   spirit: {
     label: "ARTICHRON.Skills.Spirit",
-    img: "icons/equipment/shield/buckler-wooden-boss-glowing-blue.webp"
+    img: "icons/magic/symbols/star-rising-purple.webp"
   }
 };
 

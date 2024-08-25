@@ -137,14 +137,8 @@ export default class HeroSheet extends ActorSheetArtichron {
 
     // Skills.
     context.skills = Object.entries(this.document.system.skills).map(([k, v]) => {
-      const schema = this.document.system.schema.getField(`skills.${k}`);
-      const fields = [...schema].map(field => {
-        return {
-          field: field,
-          value: foundry.utils.getProperty(context.isEditMode ? src : doc, field.fieldPath)
-        };
-      });
-      return {label: schema.label, fields, skillId: k};
+      const {label, img} = CONFIG.SYSTEM.SKILLS[k];
+      return {label, img, value: v.number, skillId: k};
     });
 
     // Name and img.

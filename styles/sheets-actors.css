@@ -197,6 +197,31 @@
   }
 }
 
+.artichron.application.sheet.actor.hero {
+  & fieldset.skills {
+    display: flex;
+    flex-direction: row;
+
+    .skill {
+      flex: 1;
+      text-align: center;
+      max-width: 4rem;
+
+      & label, .value {
+        font-size: 12px;
+      }
+
+      & img {
+        border: none;
+        border-radius: 1rem;
+        filter: sepia(1) hue-rotate(180deg);
+        padding: 0.15rem;
+        outline: 1px solid var(--artichron-color-gold);
+      }
+    }
+  }
+}
+
 .artichron.application.sheet.merchant {
   height: 90%;
   min-width: 800px;
@@ -521,6 +546,7 @@
         border: none;
         border-radius: 1rem;
         opacity: 0.5;
+        filter: sepia(1) hue-rotate(180deg);
         transition: opacity 150ms ease;
       }
     }
