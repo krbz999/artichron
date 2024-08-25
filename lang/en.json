@@ -98,9 +98,11 @@
   "Actions": "Actions",
   "Arsenal": "Arsenal",
   "Attributes": "Attributes",
+  "Awards": "Awards",
   "Biography": "Biography",
   "Clocks": "Clocks",
   "Consumables": "Consumables",
+  "Currency": "Currency",
   "Defenses": "Defenses",
   "Description": "Description",
   "Details": "Details",
@@ -118,22 +120,25 @@
   "Members": "Members",
   "Pools": "Pools",
   "Progress": "Progress",
+  "Progression": "Progression",
   "Properties": "Properties",
   "Skills": "Skills"
 },
 
 "SheetActions": {
-  "RecoverHealth": "Recover Health",
-  "EditPools": "Edit Pools",
-  "CreateItem": "Create New Item",
-  "CreateBuff": "Create New Buff",
-  "CreateFusion": "Create New Fusion",
-  "CreateEnhancement": "Create Enhancement",
-  "EditItem": "Edit Item",
+  "Award": "Award",
   "ChangeItem": "Change Item",
+  "CreateBuff": "Create New Buff",
+  "CreateEnhancement": "Create Enhancement",
+  "CreateFusion": "Create New Fusion",
+  "CreateItem": "Create New Item",
+  "EditItem": "Edit Item",
+  "EditPools": "Edit Pools",
   "FuseItem": "Fuse Item",
-  "ToggleSheet": "Toggle Sheet",
-  "ToggleOpacity": "Toggle Opacity"
+  "PlaceMembers": "Place Members",
+  "RecoverHealth": "Recover Health",
+  "ToggleOpacity": "Toggle Opacity",
+  "ToggleSheet": "Toggle Sheet"
 },
 
 "Pools": {
@@ -757,8 +762,8 @@
 },
 
 "AwardDialog": {
-  "TitleCurrency": "Award Chron",
-  "TitlePoints": "Award Points",
+  "TitleCurrency": "{name}: Award Chron",
+  "TitlePoints": "{name}: Award Points",
   "ContentCurrency": "{name} has been awarded {amount} <span class='chron'></span>.",
   "ContentPoints": "{name} has been awarded {amount} points.",
   "amount": {

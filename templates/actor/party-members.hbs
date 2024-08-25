@@ -1,25 +1,30 @@
 <div class="{{tabs.members.tabCssClass}}" data-group="primary" data-tab="members">
-  <fieldset class="currencies">
-    <legend>Currencies</legend>
+  <fieldset class="awards">
+    <legend>{{localize "ARTICHRON.SheetTab.Awards"}}</legend>
     <div class="form-group">
-      <img class="icon" src="systems/artichron/assets/icons/chron.svg">
-      <input type="text" class="delta" name="system.currency.chron" value="{{document.system.currency.chron}}" {{disabled (not isEditable)}}>
+      <label>
+        <span>{{localize "ARTICHRON.SheetTab.Currency"}}</span>
+        <img class="icon" src="systems/artichron/assets/icons/chron.svg">
+      </label>
+      <input type="text" name="system.currency.chron" class="delta" value="{{awards.currency.value}}" {{disabled (not isEditable)}}>
+      <button type="button" data-action="awardCurrency" {{disabled awards.currency.disabled}}>
+        <i class="fa-solid fa-fw fa-medal"></i> <span>{{localize "ARTICHRON.SheetActions.Award"}}</span>
+      </button>
+    </div>
+    <div class="form-group">
+      <label>{{localize "ARTICHRON.SheetTab.Progression"}}</label>
+      <input type="text" name="system.points.value" class="delta" value="{{awards.points.value}}" {{disabled (not isEditable)}}>
+      <button type="button" data-action="awardPoints" {{disabled awards.points.disabled}}>
+        <i class="fa-solid fa-fw fa-cube"></i> <span>{{localize "ARTICHRON.SheetActions.Award"}}</span>
+      </button>
     </div>
   </fieldset>
 
   {{#if isGM}}
   <div class="form-group">
-    <button type="button" data-action="awardPoints">
-      <i class="fa-solid fa-fw fa-cube"></i>
-      <span>Award Progression Points</span>
-    </button>
-    <button type="button" data-action="awardCurrency">
-      <i class="fa-solid fa-fw fa-medal"></i>
-      <span>Award Chron</span>
-    </button>
     <button type="button" data-action="placeMembers">
       <i class="fa-solid fa-street-view"></i>
-      <span>Place Members</span>
+      <span>{{localize "ARTICHRON.SheetActions.PlaceMembers"}}</span>
     </button>
   </div>
   {{/if}}

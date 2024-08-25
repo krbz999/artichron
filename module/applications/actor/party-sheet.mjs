@@ -167,7 +167,19 @@ export default class PartySheet extends ActorSheetArtichron {
       members.push(context);
     }
 
+    const awards = {
+      currency: {
+        value: this.document.system.currency.chron,
+        disabled: !game.user.isGM || !this.document.system.currency.chron || !this.isEditable
+      },
+      points: {
+        value: this.document.system.points.value,
+        disabled: !game.user.isGM || !this.document.system.points.value || !this.isEditable
+      }
+    };
+
     context.actors = members;
+    context.awards = awards;
     return context;
   }
 
@@ -325,7 +337,7 @@ export default class PartySheet extends ActorSheetArtichron {
    * @param {HTMLElement} target      The current target of the event listener.
    */
   static #awardCurrency(event, target) {
-    this.document.system.constructor.awardCurrencyDialog();
+    this.document.system.awardCurrencyDialog();
   }
 
   /* -------------------------------------------------- */
@@ -337,7 +349,7 @@ export default class PartySheet extends ActorSheetArtichron {
    * @param {HTMLElement} target      The current target of the event listener.
    */
   static #awardPoints(event, target) {
-    this.document.system.constructor.awardPointsDialog();
+    this.document.system.awardPointsDialog();
   }
 
   /* -------------------------------------------------- */

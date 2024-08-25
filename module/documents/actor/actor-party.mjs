@@ -1,4 +1,5 @@
 import ActorSystemModel from "./system-model.mjs";
+import AwardDialog from "../../applications/actor/award-dialog.mjs";
 
 const {
   ArrayField, ColorField, ForeignDocumentField, NumberField, SchemaField, SetField, StringField
@@ -43,6 +44,10 @@ export default class PartyData extends ActorSystemModel {
         label: "ARTICHRON.ActorProperty.FIELDS.clocks.color.label"
       })
     }));
+
+    schema.points = new SchemaField({
+      value: new NumberField({min: 0, integer: true})
+    });
 
     return schema;
   }
@@ -142,147 +147,107 @@ export default class PartyData extends ActorSystemModel {
   }
 
   /* -------------------------------------------------- */
-  /*   Static methods                                   */
-  /* -------------------------------------------------- */
 
   /**
-   * Prompt a dialog for a GM user to award the members of the primary party with currency.
+   * Prompt a dialog for a GM user to award the members of this party with currency.
    * @returns {Promise}
    */
-  static async awardCurrencyDialog() {
-    if (!game.user.isGM) throw new Error("Only a GM can grant the party awards!");
-
-    const party = game.settings.get("artichron", "primaryParty").actor;
-    if (!party) throw new Error("No primary party has been assigned!");
-
-    const amount = new foundry.data.fields.NumberField({
-      nullable: false,
-      min: 1,
-      step: 1,
-      label: "ARTICHRON.AwardDialog.amount.label",
-      hint: "ARTICHRON.AwardDialog.amount.hintCurrency"
-    }).toFormGroup({localize: true}, {name: "amount", value: 1}).outerHTML;
-
-    const choices = party.system.members.reduce((acc, m) => {
-      const a = m.actor;
-      acc[a.id] = a.name;
-      return acc;
-    }, {});
-    const targets = new foundry.data.fields.SetField(new foundry.data.fields.StringField({
-      choices: choices
-    }), {
-      label: "ARTICHRON.AwardDialog.targets.label",
-      hint: "ARTICHRON.AwardDialog.targets.hint"
-    }).toFormGroup({localize: true}, {name: "targets", value: Object.keys(choices), type: "checkboxes"}).outerHTML;
-
-    return foundry.applications.api.DialogV2.prompt({
-      content: `<fieldset>${amount}${targets}</fieldset>`,
-      rejectClose: false,
-      window: {
-        title: "ARTICHRON.AwardDialog.TitleCurrency",
-        icon: "fa-solid fa-medal"
-      },
-      position: {width: 400},
-      ok: {
-        callback: (event, button, html) => {
-          const {amount, targets} = new FormDataExtended(button.form).object;
-          const actors = Array.from(targets).map(id => game.actors.get(id));
-
-          if (!actors.length) {
-            throw new Error("You must select at least one actor!");
-          }
-
-          if (amount <= 0) {
-            throw new Error("You can only award a positive amount!");
-          }
-
-          const updates = [];
-          for (const actor of actors) {
-            updates.push({_id: actor.id, "system.currency.chron": actor.system.currency.chron + amount});
-          }
-
-          for (const actor of actors) {
-            const whisper = game.users.filter(u => actor.testUserPermission(u, "OWNER")).map(u => u.id);
-            const content = game.i18n.format("ARTICHRON.AwardDialog.ContentCurrency", {name: actor.name, amount: amount});
-            ChatMessage.implementation.create({whisper, content: `<p>${content}</p>`});
-          }
-
-          Actor.updateDocuments(updates);
-        }
-      }
-    });
+  async awardCurrencyDialog() {
+    return this.constructor.awardCurrencyDialog(this.parent);
   }
 
   /* -------------------------------------------------- */
 
   /**
-   * Prompt a dialog for a GM user to award the members of the primary party with skill points.
+   * Prompt a dialog for a GM user to award the members of this party with progression points.
    * @returns {Promise}
    */
-  static async awardPointsDialog() {
+  async awardPointsDialog() {
+    return this.constructor.awardPointsDialog(this.parent);
+  }
+
+  /* -------------------------------------------------- */
+  /*   Static methods                                   */
+  /* -------------------------------------------------- */
+
+  /**
+   * Prompt a dialog for a GM user to award the members of a party with currency.
+   * @param {ActorArtichron} [party]      The party whose members to award.
+   * @returns {Promise}
+   */
+  static async awardCurrencyDialog(party) {
     if (!game.user.isGM) throw new Error("Only a GM can grant the party awards!");
 
-    const party = game.settings.get("artichron", "primaryParty").actor;
+    party ??= game.settings.get("artichron", "primaryParty").actor;
     if (!party) throw new Error("No primary party has been assigned!");
 
-    const amount = new foundry.data.fields.NumberField({
-      nullable: false,
-      min: 1,
-      step: 1,
-      label: "ARTICHRON.AwardDialog.amount.label",
-      hint: "ARTICHRON.AwardDialog.amount.hintPoints"
-    }).toFormGroup({localize: true}, {name: "amount", value: 1}).outerHTML;
+    const configuration = await AwardDialog.create(party, "currency");
+    if (!configuration) return;
+    const {amount, targets} = configuration.object;
+    const actors = Array.from(targets).map(id => game.actors.get(id));
 
-    const choices = party.system.members.reduce((acc, m) => {
-      const a = m.actor;
-      if (a.type === "hero") acc[a.id] = a.name;
-      return acc;
-    }, {});
-    const targets = new foundry.data.fields.SetField(new foundry.data.fields.StringField({
-      choices: choices
-    }), {
-      label: "ARTICHRON.AwardDialog.targets.label",
-      hint: "ARTICHRON.AwardDialog.targets.hint"
-    }).toFormGroup({localize: true}, {name: "targets", value: Object.keys(choices), type: "checkboxes"}).outerHTML;
+    if (!actors.length) {
+      throw new Error("You must select at least one actor!");
+    }
 
-    return foundry.applications.api.DialogV2.prompt({
-      content: `<fieldset>${amount}${targets}</fieldset>`,
-      rejectClose: false,
-      window: {
-        title: "ARTICHRON.AwardDialog.TitlePoints",
-        icon: "fa-solid fa-medal"
-      },
-      position: {width: 400},
-      ok: {
-        callback: (event, button, html) => {
-          const {amount, targets} = new FormDataExtended(button.form).object;
-          const actors = Array.from(targets).map(id => game.actors.get(id));
+    if (amount <= 0) {
+      throw new Error("You can only award a positive amount!");
+    }
 
-          if (!actors.length) {
-            throw new Error("You must select at least one actor!");
-          }
+    const updates = [];
+    for (const actor of actors) {
+      updates.push({_id: actor.id, "system.currency.chron": actor.system.currency.chron + amount});
+    }
+    updates.push({_id: party.id, "system.currency.chron": party.system.currency.chron - amount * actors.length});
 
-          if (amount <= 0) {
-            throw new Error("You can only award a positive amount!");
-          }
+    for (const actor of actors) {
+      const whisper = game.users.filter(u => actor.testUserPermission(u, "OWNER")).map(u => u.id);
+      const content = game.i18n.format("ARTICHRON.AwardDialog.ContentCurrency", {name: actor.name, amount: amount});
+      ChatMessage.implementation.create({whisper, content: `<p>${content}</p>`});
+    }
 
-          const updates = [];
-          for (const actor of actors) {
-            updates.push({
-              _id: actor.id,
-              "system.progression.points.total": actor.system.progression.points.total + amount
-            });
-          }
+    Actor.updateDocuments(updates);
+  }
 
-          for (const actor of actors) {
-            const whisper = game.users.filter(u => actor.testUserPermission(u, "OWNER")).map(u => u.id);
-            const content = game.i18n.format("ARTICHRON.AwardDialog.ContentPoints", {name: actor.name, amount: amount});
-            ChatMessage.implementation.create({whisper, content: `<p>${content}</p>`});
-          }
+  /* -------------------------------------------------- */
 
-          Actor.updateDocuments(updates);
-        }
-      }
-    });
+  /**
+   * Prompt a dialog for a GM user to award the members of a party with progression points.
+   * @param {ActorArtichron} [party]      The party whose members to award.
+   * @returns {Promise}
+   */
+  static async awardPointsDialog(party) {
+    if (!game.user.isGM) throw new Error("Only a GM can grant the party awards!");
+
+    party ??= game.settings.get("artichron", "primaryParty").actor;
+    if (!party) throw new Error("No primary party has been assigned!");
+
+    const configuration = await AwardDialog.create(party, "points");
+    if (!configuration) return;
+    const {amount, targets} = configuration.object;
+    const actors = Array.from(targets).map(id => game.actors.get(id));
+
+    if (!actors.length) {
+      throw new Error("You must select at least one actor!");
+    }
+
+    if (amount <= 0) {
+      throw new Error("You can only award a positive amount!");
+    }
+
+    const updates = [];
+    for (const actor of actors) {
+      const value = actor.system.progression.points.total + amount;
+      updates.push({_id: actor.id, "system.progression.points.total": value});
+    }
+    updates.push({_id: party.id, "system.points.value": party.system.points.value - amount * actors.length});
+
+    for (const actor of actors) {
+      const whisper = game.users.filter(u => actor.testUserPermission(u, "OWNER")).map(u => u.id);
+      const content = game.i18n.format("ARTICHRON.AwardDialog.ContentPoints", {name: actor.name, amount: amount});
+      ChatMessage.implementation.create({whisper, content: `<p>${content}</p>`});
+    }
+
+    Actor.updateDocuments(updates);
   }
 }

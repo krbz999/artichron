@@ -281,11 +281,21 @@
 }
 
 .artichron.application.sheet.party {
-  .currencies .form-group {
+  .awards .form-group {
+    & label {
+      display: flex;
+      align-items: center;
+    }
+
     .icon {
-      height: var(--input-height);
+      height: calc(var(--input-height) * 0.7);
       border: none;
       filter: drop-shadow(0 0 1px rgba(0, 153, 255, 0.664));
+      margin-left: 0.5rem;
+    }
+
+    & input {
+      flex: 1;
     }
 
     & button {
@@ -296,8 +306,6 @@
   .members {
     padding: 0 1rem;
     gap: 1rem;
-
-
 
     .member {
       display: flex;
