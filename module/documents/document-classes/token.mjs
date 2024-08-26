@@ -43,7 +43,9 @@ export default class TokenDocumentArtichron extends TokenDocument {
 
     const tokens = [];
     for (const {actor} of this.actor.system.members) {
-      for (const token of actor.getActiveTokens()) tokens.push(token);
+      for (const token of actor.getActiveTokens()) {
+        if (!token.actor.isToken) tokens.push(token);
+      }
     }
     const updates = tokens.map(token => {
       return {_id: token.id, x: this.x, y: this.y};
