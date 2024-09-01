@@ -246,7 +246,8 @@ export default class BaseActivity extends foundry.abstract.DataModel {
    */
   async placeTemplate() {
     if (!this.hasTemplate) {
-      throw new Error("This item cannot create measured templates!");
+      ui.notifications.error("ARTICHRON.ACTIVITY.Warning.NoTemplates", {localize: true});
+      return;
     }
 
     const initialLayer = canvas.activeLayer;
@@ -290,8 +291,14 @@ export default class BaseActivity extends foundry.abstract.DataModel {
    */
   get chatButtons() {
     return [
-      this.cost.value ? {action: "cost", label: `Consume ${this.cost.value} AP`} : null,
-      this.hasTemplate ? {action: "template", label: "Template"} : null
+      this.cost.value ? {
+        action: "cost",
+        label: game.i18n.format("ARTICHRON.ACTIVITY.Buttons.Consume", {number: this.cost.value})
+      } : null,
+      this.hasTemplate ? {
+        action: "template",
+        label: game.i18n.localize("ARTICHRON.ACTIVITY.Buttons.Template")
+      } : null
     ].filter(u => u);
   }
 }
@@ -334,7 +341,7 @@ class DamageActivity extends BaseActivity {
    */
   async rollDamage({ammo, multiply, addition} = {}, {create = true} = {}) {
     if (!this.hasDamage) {
-      ui.notifications.warn("ARTICHRON.Warning.ItemHasNoDamageRolls", {localize: true});
+      ui.notifications.warn("ARTICHRON.ACTIVITY.Warning.NoDamage", {localize: true});
       return null;
     }
 
@@ -392,7 +399,7 @@ class DamageActivity extends BaseActivity {
         type: "damage",
         rolls: rolls,
         speaker: ChatMessage.implementation.getSpeaker({actor: this.item.actor}),
-        flavor: game.i18n.format("ARTICHRON.ChatMessage.DamageRoll", {name: this.item.name}),
+        flavor: game.i18n.format("ARTICHRON.ROLL.Damage.Flavor", {name: this.item.name}),
         "system.activity": this.id,
         "system.item": this.item.uuid,
         "system.targets": Array.from(game.user.targets.map(t => t.actor?.uuid))
@@ -435,7 +442,10 @@ class DamageActivity extends BaseActivity {
   /** @inheritdoc */
   get chatButtons() {
     const buttons = super.chatButtons;
-    if (this.hasDamage) buttons.unshift({action: "damage", label: "Damage"});
+    if (this.hasDamage) buttons.unshift({
+      action: "damage",
+      label: game.i18n.localize("ARTICHRON.ACTIVITY.Buttons.Damage")
+    });
     return buttons;
   }
 }
@@ -472,7 +482,7 @@ class HealingActivity extends BaseActivity {
    */
   async rollHealing({multiply, addition} = {}, {create = true} = {}) {
     if (!this.healing.formula || !foundry.dice.Roll.validate(this.healing.formula)) {
-      ui.notifications.warn("ARTICHRON.ACTIVITY.WARNING.MissingHealingFormula", {localize: true});
+      ui.notifications.warn("ARTICHRON.ACTIVITY.WARNING.NoHealing", {localize: true});
       return null;
     }
 
@@ -487,7 +497,7 @@ class HealingActivity extends BaseActivity {
         type: "healing",
         rolls: [roll],
         speaker: ChatMessage.implementation.getSpeaker({actor: this.item.actor}),
-        flavor: game.i18n.format("ARTICHRON.ChatMessage.HealingRoll", {name: this.item.name}),
+        flavor: game.i18n.format("ARTICHRON.ROLL.Healing.Flavor", {name: this.item.name}),
         "system.activity": this.id,
         "system.item": this.item.uuid,
         "system.targets": Array.from(game.user.targets.map(t => t.actor?.uuid))
@@ -506,7 +516,10 @@ class HealingActivity extends BaseActivity {
   /** @inheritdoc */
   get chatButtons() {
     const buttons = super.chatButtons;
-    buttons.unshift({action: "healing", label: "Healing"});
+    buttons.unshift({
+      action: "healing",
+      label: game.i18n.localize("ARTICHRON.ACTIVITY.Buttons.Healing")
+    });
     return buttons;
   }
 }
@@ -539,7 +552,10 @@ class TeleportActivity extends BaseActivity {
    */
   async teleportToken() {
     const token = this.item.token.document;
-    if (!token) throw new Error("A token must be present on the scene!");
+    if (!token) {
+      ui.notifications.warn("ARTICHRON.ACTIVITY.Warning.NoToken", {localize: true});
+      return;
+    }
     const config = {tokens: [token]};
     const place = await artichron.helpers.TokenPlacement.place(config);
     if (!place.length) return;
@@ -554,7 +570,10 @@ class TeleportActivity extends BaseActivity {
   /** @inheritdoc */
   get chatButtons() {
     const buttons = super.chatButtons;
-    buttons.unshift({action: "teleport", label: "Teleport"});
+    buttons.unshift({
+      action: "teleport",
+      label: "ARTICHRON.ACTIVITY.Buttons.Teleport"
+    });
     return buttons;
   }
 }
@@ -601,7 +620,10 @@ class EffectActivity extends BaseActivity {
   /** @inheritdoc */
   get chatButtons() {
     const buttons = super.chatButtons;
-    buttons.unshift({action: "effect", label: "Grant Buff"});
+    buttons.unshift({
+      action: "effect",
+      label: game.i18n.localize("ARTICHRON.ACTIVITY.Buttons.Effect")
+    });
     return buttons;
   }
 }
@@ -633,7 +655,8 @@ class DefendActivity extends BaseActivity {
    */
   async rollDefense() {
     if (!this.defend.formula) {
-      throw new Error("DefendActivity must have a formula defined.");
+      ui.notifications.error("ARTICHRON.ACTIVITY.Warning.NoDefense", {localize: true});
+      return;
     }
 
     const attr = this.item.system.attributes.value;

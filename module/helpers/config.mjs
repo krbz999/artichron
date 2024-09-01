@@ -306,9 +306,9 @@ SYSTEM.PART_TYPES = {
  * @enum {EffectDurationConfig}
  */
 SYSTEM.EFFECT_EXPIRATION_TYPES = {
-  none: {label: "ARTICHRON.EffectProperty.ExpirationNone"},
-  combat: {label: "ARTICHRON.EffectProperty.ExpirationCombat"},
-  day: {label: "ARTICHRON.EffectProperty.ExpirationDay"}
+  none: {label: "ARTICHRON.EffectDurations.None"},
+  combat: {label: "ARTICHRON.EffectDurations.Combat"},
+  day: {label: "ARTICHRON.EffectDurations.Day"}
 };
 
 /* -------------------------------------------------- */

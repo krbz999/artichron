@@ -21,7 +21,7 @@ export default class CombatArtichron extends Combat {
     const loop = doc => {
       const ids = [];
       for (const effect of doc.appliedEffects) {
-        if (effect.system.expiration.type === "combat") ids.push(effect.id);
+        if (effect.system.expiration === "combat") ids.push(effect.id);
       }
       return ids;
     };

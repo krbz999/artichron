@@ -137,7 +137,7 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
 
     // Defenses.
     if (doc.system.schema.has("armor")) context.fieldsets.push({
-      legend: game.i18n.localize("ARTICHRON.ItemProperty.Fieldsets.Defenses"),
+      legend: game.i18n.localize("ARTICHRON.SheetTab.Defenses"),
       formGroups: [this._makeField(context, "armor.value")]
     });
 

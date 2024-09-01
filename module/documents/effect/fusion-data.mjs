@@ -25,11 +25,7 @@ export default class EffectFusionData extends ActiveEffectSystemModel {
       ...super.defineSchema(),
       itemData: new JSONField(),
       subtype: new StringField({
-        required: true,
-        blank: false,
-        initial: "weapon",
-        label: "ARTICHRON.EffectProperty.SubtypeFusion",
-        hint: "ARTICHRON.EffectProperty.SubtypeFusionHint",
+        required: false,
         choices: () => {
           const choices = foundry.utils.deepClone(CONFIG.Item.typeLabels);
           delete choices.base;

@@ -83,7 +83,10 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
    */
   async use() {
     const activities = this.activities;
-    if (!activities.size) throw new Error("This item has no activities!");
+    if (!activities.size) {
+      ui.notifications.warn("ARTICHRON.ACTIVITY.Warning.NoActivities", {localize: true});
+      return;
+    }
     if (activities.size === 1) return activities.contents[0].use();
     const options = activities.map(a => ({value: a.id, label: a.name, group: a.constructor.metadata.label}));
     const field = new foundry.data.fields.StringField({required: true, label: "Activity"});

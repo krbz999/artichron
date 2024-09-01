@@ -91,7 +91,7 @@ export default class EffectSheetArtichron extends ArtichronSheetMixin(foundry.ap
     // Subtype field.
     if (this.document.system?.schema) {
       context.fields.subtype = makeField("system.subtype");
-      context.fields.expiration = makeField("system.expiration.type");
+      context.fields.expiration = makeField("system.expiration");
     }
 
     // Changes options

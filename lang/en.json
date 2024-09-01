@@ -49,21 +49,6 @@
   "Party": "Artichron Party Sheet"
 },
 
-"WeaponType": {
-  "Axe": "Axe",
-  "Bow": "Bow",
-  "Chakram": "Chakram",
-  "Dagger": "Dagger",
-  "Hammer": "Hammer",
-  "MeteorHammer": "Meteor Hammer",
-  "NunChuck": "Nun-Chuck",
-  "Pistol": "Pistol",
-  "Rifle": "Rifle",
-  "Shotgun": "Shotgun",
-  "Spear": "Spear",
-  "Sword": "Sword"
-},
-
 "ArmorType": {
   "Accessory": "Accessory",
   "Arms": "Arm Piece",
@@ -87,12 +72,6 @@
   "Shell": "Shotgun Shell"
 },
 
-"ElixirType": {
-  "Booster": "Booster",
-  "Buff": "Buff",
-  "Restorative": "Restorative"
-},
-
 "SheetTab": {
   "About": "About",
   "Actions": "Actions",
@@ -108,6 +87,7 @@
   "Defenses": "Defenses",
   "Description": "Description",
   "Details": "Details",
+  "Duration": "Duration",
   "EffectChanges": "Changes",
   "EffectDetails": "Details",
   "EffectDuration": "Duration",
@@ -125,6 +105,7 @@
   "Progress": "Progress",
   "Progression": "Progression",
   "Properties": "Properties",
+  "Requirements": "Requirements",
   "Skills": "Skills"
 },
 
@@ -339,14 +320,40 @@
   }
 },
 
-"ItemProperty": {
-  "Fieldsets": {
-    "ArmorRequirements": "Requirements",
-    "Configuration": "Configuration",
-    "Defenses": "Defenses",
-    "Handling": "Handling"
-  },
+"EFFECT": {
+  "FIELDS": {
+    "expiration": {
+      "label": "Expiration",
+      "hint": "Select when this effect automatically expires."
+    },
+    "granted": {
+      "label": "Granted",
+      "hint": "Whether this buff is currently granted."
+    },
+    "itemData": {
+      "label": "Item Data",
+      "hint": "Stored item data for the item that was destroyed when fusing onto this."
+    },
+    "level": {
+      "label": "Level",
+      "hint": "The current level of this status condition."
+    },
+    "primary": {
+      "label": "Primary Status",
+      "hint": "The primary status condition of this effect."
+    },
+    "source": {
+      "label": "Source",
+      "hint": "The uuid of the item that granted this buff."
+    },
+    "subtype": {
+      "label": "Subtype",
+      "hint": "An actor or item type used to determine the available options on the sheet of this effect."
+    }
+  }
+},
 
+"ItemProperty": {
   "ArmorProperty": {
     "FIELDS": {
       "category": {
@@ -675,7 +682,14 @@
   "Warning": {
     "ConsumeCostUnavailable": "{name} does not have {number} action points available.",
     "ConsumedCost": "{name} consumed {number} action points.",
-    "ConsumeOutOfCombat": "{name} cannot consume action points when out of combat."
+    "ConsumeOutOfCombat": "{name} cannot consume action points when out of combat.",
+    "NoActivities": "This item has no activities configured.",
+    "NoDamage": "This activity has no damage rolls configured.",
+    "NoDefense": "This activity has no defense formula configured.",
+    "NoHealing": "This activity has no healing formula configured.",
+    "NoRemainingUses": "This item has no remaining uses.",
+    "NoTemplates": "This item cannot create measured templates!",
+    "NoToken": "A token must be present on the scene."
   },
   "Types": {
     "Damage": "Damage Activity",
@@ -683,12 +697,26 @@
     "Effect": "Effect Activity",
     "Healing": "Healing Activity",
     "Teleport": "Teleport Activity"
+  },
+  "Buttons": {
+    "Consume": "Consume {number} AP",
+    "Damage": "Roll Damage",
+    "Effect": "Transfer Effects",
+    "Healing": "Roll Healing",
+    "Teleport": "Teleport Token",
+    "Template": "Place Template"
   }
 },
 
 "ROLL": {
+  "Damage": {
+    "Flavor": "{name} - Damage Roll"
+  },
   "Defend": {
     "Flavor": "{name} - Defensive Roll"
+  },
+  "Healing": {
+    "Flavor": "{name} - Healing"
   }
 },
 
@@ -709,6 +737,12 @@
   "Turn": "End of Turn"
 },
 
+"EffectDurations": {
+  "Combat": "End of Combat",
+  "Day": "End of Day",
+  "None": "None"
+},
+
 "ItemAttribute": {
   "Ammunition": "Ammunition",
   "Blocking": "Blocking",
@@ -717,19 +751,6 @@
   "Magical": "Magical",
   "Parrying": "Parrying",
   "Rending": "Rending"
-},
-
-"EffectProperty": {
-  "Expiration": "Expiration",
-  "ExpirationHint": "The trigger for when this effect will expire.",
-  "ExpirationNone": "None",
-  "ExpirationCombat": "Combat",
-  "ExpirationDay": "Day",
-  "SubtypeBuff": "Subtype",
-  "SubtypeFusion": "Fusion Subtype",
-  "SubtypeFusionHint": "The properties available to choose from, derived from the chosen item subtype.",
-  "FieldsetDetails": "Details",
-  "FieldsetDuration": "Duration"
 },
 
 "PoolConfig": {
@@ -763,21 +784,6 @@
   }
 },
 
-"SpellUseDialog": {
-  "Buff": "Buff",
-  "Count": "Count",
-  "Damage": "Damage",
-  "Distance": "Distance",
-  "Additional": "Additional",
-  "Radius": "Radius",
-  "Range": "Range",
-  "Shape": "Shape",
-  "Title": "{item}: Spellcasting",
-  "Width": "Width",
-  "Boosters": "Boosters",
-  "BoostersHint": "Boosting elixirs to consume which each act as consuming 1 additional point of mana."
-},
-
 "ItemFusionDialog": {
   "Changes": "Changes",
   "Default": "Default",
@@ -791,17 +797,6 @@
   "Title": "{source}: Fuse",
   "TitleUnfuse": "{item}: Split",
   "UnfuseTitle": "Split '{source}' and '{target}'?"
-},
-
-"WeaponUseDialog": {
-  "Title": "{name}: Attack",
-  "Ammunition": "Ammunition",
-  "AmmunitionHint": "An optional ammunition to use for this attack, which will alter the damage roll.",
-  "Stamina": "Stamina",
-  "StaminaHint": "Each point of stamina expended will increase the dice roll quantity by one.",
-  "BoosterItem": "Booster",
-  "BoosterItemHint": "Consume the uses of a boosting elixir, each consumed use acting as 1 additional point of stamina.",
-  "BoosterUses": "Boost Uses"
 },
 
 "ProgressionDialog": {
@@ -818,16 +813,6 @@
   "Hint": "Select the item to equip in this slot.",
   "Title": "Change Equipped Item",
   "Warning": "You have no items that can be equipped in that slot."
-},
-
-"ElixirDialog": {
-  "Title": "Use Elixir: {name}",
-  "Effect": "Effect",
-  "EffectHint": "Pick one of the effects from the elixir that will be granted.",
-  "Confirm": "Confirm",
-  "WarningUsage": "The elixir has no remaining uses left!",
-  "WarningEffects": "The elixir has no effects it can grant!",
-  "WarningCannotUseBooster": "A booster elixir can only be used as part of an attack."
 },
 
 "DefenseDialog": {
@@ -849,12 +834,6 @@
   "Flavor": "Skill Roll ({skills})"
 },
 
-"SpellType": {
-  "Buff": "Buff Magic",
-  "Defense": "Defensive Magic",
-  "Offense": "Offensive Magic"
-},
-
 "TargetTypes": {
   "AreaOfEffect": "Area of Effect",
   "SingleTarget": "Single Target",
@@ -874,16 +853,8 @@
 },
 
 "Warning": {
-  "AlreadyAtMaxHealth": "{name} is already at their maximum health.",
-  "FieldOverridden": "This field has been disabled as it is being modified by an effect.",
   "InvalidActiveEffectType": "The chosen effect type is not valid for this parent.",
-  "ItemHasNoDamageRolls": "The item has no damage rolls defined!",
-  "ItemHasNoTemplateTypes": "This item has no template types set!",
-  "ItemIsNotEquipped": "The item must be equipped to be used!",
-  "ItemRequiresAmmunition": "This item requires ammunition to use!",
-  "MissingActionPoints": "You do not have enough Action Points to perform that action.",
-  "NoAvailableEquipment": "You have no available equipment of that type.",
-  "NotEnoughPips": "You do not have enough pips remaining to make an attack!"
+  "MissingActionPoints": "You do not have enough Action Points to perform that action."
 },
 
 "Effect": {
@@ -926,13 +897,7 @@
 "ChatMessage": {
   "TradeComplete": "Trade Complete!",
   "TradeInfo": "{actor} wants to trade {item} to {target}.",
-  "AcceptTrade": "Accept Trade",
-  "BlockFlavor": "{name}: Blocking",
-  "ParryFlavor": "{name}: Parrying",
-  "ApplyDamage": "Apply Damage",
-  "PlaceTemplate": "Place Template",
-  "GrantBuff": "GrantBuff",
-  "DamageRoll": "{name} - Damage Roll"
+  "AcceptTrade": "Accept Trade"
 },
 
 "StatusConditions": {
