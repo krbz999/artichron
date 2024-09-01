@@ -160,24 +160,6 @@ const FusionTemplateMixin = Base => {
         if (value > 1) changes.push({key: `system.${path}`, mode: CONST.ACTIVE_EFFECT_MODES.UPGRADE, value: String(value)});
       }
 
-      // Half the source item's reach is added. Since the minimum is 1, only anything beyond that value is added.
-      path = "range.reach";
-      ifield = item.system.schema.getField(path);
-      sfield = source.system.schema.getField(path);
-      if (!ignoredChanges.has(path) && ifield && sfield && item.isMelee && source.isMelee) {
-        const value = Math.ceil((foundry.utils.getProperty(source.system, path) - 1) / 2);
-        if (value) changes.push({key: `system.${path}`, mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: String(value)});
-      }
-
-      // Half the source item's action point cost is added.
-      path = "cost.value";
-      ifield = item.system.schema.getField(path);
-      sfield = source.system.schema.getField(path);
-      if (!ignoredChanges.has(path) && ifield && sfield) {
-        const value = Math.ceil(foundry.utils.getProperty(source.system, path) / 2);
-        if (value) changes.push({key: `system.${path}`, mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: String(value)});
-      }
-
       // Half the source item's armor value is added.
       path = "armor.value";
       ifield = item.system.schema.getField(path);
@@ -185,15 +167,6 @@ const FusionTemplateMixin = Base => {
       if (!ignoredChanges.has(path) && ifield && sfield) {
         const value = Math.ceil(foundry.utils.getProperty(source.system, path) / 2);
         if (value) changes.push({key: `system.${path}`, mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: String(value)});
-      }
-
-      // Merge the targeting types of spells.
-      path = "template.types";
-      ifield = item.system.schema.getField(path);
-      sfield = source.system.schema.getField(path);
-      if (!ignoredChanges.has(path) && ifield && sfield && source.hasTemplate) {
-        const value = Array.from(foundry.utils.getProperty(source.system, path)).join(", ");
-        if (value) changes.push({key: `system.${path}`, mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: value});
       }
 
       // Half the source item's resistances are added.
@@ -206,6 +179,11 @@ const FusionTemplateMixin = Base => {
           const value = Math.ceil(foundry.utils.getProperty(source, valueField.fieldPath) / 2);
           if (value) changes.push({key: valueField.fieldPath, mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: String(value)});
         }
+      }
+
+      // All activities are added.
+      for (const activity of source.system.activities) {
+        // TODO
       }
 
       // Any valid changes from the effect are added as well.
@@ -279,10 +257,7 @@ const FusionTemplateMixin = Base => {
         "price.value",
         "weight.value",
         "wield.value",
-        "range.reach",
-        "cost.value",
         "armor.value",
-        "template.types",
         "resistances"
       ];
 

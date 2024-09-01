@@ -17,27 +17,9 @@ export default class WeaponData extends ArsenalData {
   /* -------------------------------------------------- */
 
   /** @override */
-  static LOCALIZATION_PREFIXES = [
-    ...super.LOCALIZATION_PREFIXES,
-    "ARTICHRON.ItemProperty.WeaponProperty"
-  ];
-
-  /* -------------------------------------------------- */
-
-  /** @override */
   static defineSchema() {
     return {
-      ...super.defineSchema(),
-      category: new SchemaField({
-        subtype: new StringField({
-          required: true,
-          choices: CONFIG.SYSTEM.WEAPON_TYPES,
-          initial: () => Object.keys(CONFIG.SYSTEM.WEAPON_TYPES)[0]
-        })
-      }),
-      cost: new SchemaField({
-        value: new NumberField({min: 0, initial: 1, nullable: false})
-      })
+      ...super.defineSchema()
     };
   }
 
@@ -144,23 +126,5 @@ export default class WeaponData extends ArsenalData {
   async createBlastZone(target, {type = "ray", size = 1} = {}) {
     const origin = this.parent.token;
     return this.constructor.createBlastZone(origin, target, {type, size});
-  }
-
-  /* -------------------------------------------------- */
-  /*   Tooltips                                         */
-  /* -------------------------------------------------- */
-
-  /** @override */
-  async _prepareTooltipContext() {
-    const context = await super._prepareTooltipContext();
-
-    context.damages = this._damages.map(k => {
-      return {
-        formula: Roll.create(k.formula, context.rollData).formula,
-        config: CONFIG.SYSTEM.DAMAGE_TYPES[k.type]
-      };
-    });
-
-    return context;
   }
 }

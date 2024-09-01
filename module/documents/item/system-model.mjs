@@ -163,13 +163,12 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
     const item = this.parent;
     const rollData = this.parent.getRollData();
     const description = await TextEditor.enrichHTML(this.description.value, {rollData: rollData, relativeTo: item});
-    const subtype = this.schema.getField("category.subtype").choices[this.category.subtype].label;
 
     const context = {
       item: item,
       rollData: rollData,
       description: description,
-      subtitle: `${game.i18n.localize(`TYPES.Item.${this.parent.type}`)}, ${subtype}`,
+      subtitle: game.i18n.localize(`TYPES.Item.${this.parent.type}`),
       tags: this._prepareTooltipTags(),
       properties: this._prepareTooltipProperties()
     };
@@ -188,9 +187,6 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
     const tags = [];
 
     if (this.parent.isArsenal) {
-      if (this.parent.isMelee) tags.push({label: "Melee"});
-      else tags.push({label: "Ranged"});
-
       if (this.wield.value === 1) tags.push({label: "One-Handed"});
       else tags.push({label: "Two-Handed"});
     }
@@ -218,13 +214,6 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
 
     if (this.schema.has("quantity")) {
       props.push({title: "Qty", label: this.quantity.value ?? 0, icon: "fa-solid fa-cubes-stacked"});
-    }
-
-    if (this.parent.isArsenal) {
-      if (this.parent.isMelee) props.push({title: "Reach", label: `${this.range.reach}m`, icon: "fa-solid fa-bullseye"});
-      else props.push({title: "Range", label: `${this.range.value}m`, icon: "fa-solid fa-bullseye"});
-
-      props.push({title: "AP", label: this.cost.value, icon: "fa-solid fa-circle"});
     }
 
     return props;

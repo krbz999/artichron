@@ -354,18 +354,6 @@
     "Handling": "Handling"
   },
 
-  "AmmoProperty": {
-    "FIELDS": {
-      "category": {
-        "label": "Type",
-        "subtype": {
-          "label": "Ammunition Type",
-          "hint": "The ammunition type determines which weapons can make use of it."
-        }
-      }
-    }
-  },
-
   "ArmorProperty": {
     "FIELDS": {
       "category": {
@@ -373,29 +361,6 @@
         "subtype": {
           "label": "Armor Type",
           "hint": "The type of armor this is, which decides how it is equipped."
-        }
-      }
-    }
-  },
-
-  "ElixirProperty": {
-    "FIELDS": {
-      "category": {
-        "label": "Type",
-        "pool": {
-          "label": "Boost",
-          "hint": "The pool that this elixir can grant a boost of during an attack."
-        },
-        "subtype": {
-          "label": "Elixir Type",
-          "hint": "The type of elixir this is."
-        }
-      },
-      "healing": {
-        "label": "Healing",
-        "formula": {
-          "label": "Healing Formula",
-          "hint": "The formula that is rolled to calculate the amount of healing performed by this elixir."
         }
       }
     }
@@ -421,48 +386,6 @@
           "label": "Shield Type",
           "hint": "The shield type determines how much it protects the wielder."
         }
-      },
-      "cost": {
-        "value": {
-          "label": "Action Cost",
-          "hint": "The action point cost to make an attack with this shield."
-        }
-      }
-    }
-  },
-
-  "SpellProperty": {
-    "FIELDS": {
-      "category": {
-        "label": "Type",
-        "subtype": {
-          "label": "Spell Type",
-          "hint": "The spell type determines how it affects enemies and allies."
-        }
-      },
-      "cost": {
-        "value": {
-          "label": "Action Cost",
-          "hint": "The action point cost to cast a spell using this item."
-        }
-      }
-    }
-  },
-
-  "WeaponProperty": {
-    "FIELDS": {
-      "category": {
-        "label": "Type",
-        "subtype": {
-          "label": "Weapon Type",
-          "hint": "The weapon type determines whether it is melee or ranged, and what type of ammunition it can use."
-        }
-      },
-      "cost": {
-        "value": {
-          "label": "Action Cost",
-          "hint": "The action point cost to make an attack with this weapon."
-        }
       }
     }
   },
@@ -478,31 +401,6 @@
       "value": {
         "label": "Attributes",
         "hint": "Unique attributes of this item."
-      }
-    },
-    "blast": {
-      "size": {
-        "label": "Size",
-        "hint": "The size of the accompanying blast zone when using this ammunition."
-      },
-      "type": {
-        "label": "Shape",
-        "hint": "The shape of the blast zone."
-      }
-    },
-    "damage": {
-      "override": {
-        "group": {
-          "label": "Target Group",
-          "hint": "The group of damage types that this ammunition will override the type of."
-        },
-        "value": {
-          "label": "Type",
-          "hint": "The new damage type that will be used in place of the overridden group."
-        }
-      },
-      "parts": {
-        "label": "Damage Parts"
       }
     },
     "description": {
@@ -531,16 +429,6 @@
       "value": {
         "label": "Quantity",
         "hint": "The size of this stack of items."
-      }
-    },
-    "range": {
-      "value": {
-        "label": "Range",
-        "hint": "The maximum range between you and your target when firing a projectile with this item."
-      },
-      "reach": {
-        "label": "Reach",
-        "hint": "The maximum distance between you and your target when making an attack with this item."
       }
     },
     "resistances": {
@@ -579,18 +467,6 @@
         "value": {
           "label": "Wind Resistance"
         }
-      }
-    },
-    "targets": {
-      "value": {
-        "label": "Targets",
-        "hint": "The number of targets this item can be used on at the same time."
-      }
-    },
-    "template": {
-      "types": {
-        "label": "Targeting Types",
-        "hint": "The shape or type of targeting of this spell."
       }
     },
     "usage": {
@@ -679,12 +555,6 @@
           "placeholder": "Dice"
         }
       }
-    }
-  },
-
-  "Damage": {
-    "Override": {
-      "GroupChoiceAll": "All Types"
     }
   }
 },
@@ -859,10 +729,6 @@
   "Title": "Configure Pools: {name}"
 },
 
-"ItemUseDialog": {
-  "Confirm": "Confirm"
-},
-
 "AwardDialog": {
   "TitleCurrency": "{name}: Award Chron",
   "TitlePoints": "{name}: Award Points",
@@ -1000,11 +866,6 @@
   "MissingActionPoints": "You do not have enough Action Points to perform that action.",
   "NoAvailableEquipment": "You have no available equipment of that type.",
   "NotEnoughPips": "You do not have enough pips remaining to make an attack!"
-},
-
-"ElixirBoostType": {
-  "Stamina": "Stamina",
-  "Mana": "Mana"
 },
 
 "Effect": {

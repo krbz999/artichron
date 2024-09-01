@@ -25,9 +25,6 @@ export default class ShieldData extends ArsenalData {
           initial: "buckler",
           choices: CONFIG.SYSTEM.SHIELD_TYPES
         })
-      }),
-      cost: new SchemaField({
-        value: new NumberField({min: 0, initial: 1, nullable: false})
       })
     };
   }
@@ -93,22 +90,4 @@ export default class ShieldData extends ArsenalData {
 
   //   return ChatMessage.implementation.create(messageData);
   // }
-
-  /* -------------------------------------------------- */
-  /*   Tooltips                                         */
-  /* -------------------------------------------------- */
-
-  /** @override */
-  async _prepareTooltipContext() {
-    const context = await super._prepareTooltipContext();
-
-    context.damages = this._damages.map(k => {
-      return {
-        formula: Roll.create(k.formula, context.rollData).formula,
-        config: CONFIG.SYSTEM.DAMAGE_TYPES[k.type]
-      };
-    });
-
-    return context;
-  }
 }

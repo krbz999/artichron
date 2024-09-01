@@ -1,11 +1,9 @@
-import ItemSystemModel from "./system-model.mjs";
-import DamageTemplateMixin from "./templates/damage-data.mjs";
 import FusionTemplateMixin from "./templates/fusion-data.mjs";
+import ItemSystemModel from "./system-model.mjs";
 
 const {NumberField, SchemaField} = foundry.data.fields;
 
 export default class ArsenalData extends ItemSystemModel.mixin(
-  DamageTemplateMixin,
   FusionTemplateMixin
 ) {
   /**
@@ -25,13 +23,6 @@ export default class ArsenalData extends ItemSystemModel.mixin(
       ...super.defineSchema(),
       wield: new SchemaField({
         value: new NumberField({initial: 1, choices: CONFIG.SYSTEM.WIELDING_TYPES})
-      }),
-      range: new SchemaField({
-        value: new NumberField({integer: true, min: 1, initial: 1, nullable: false}),
-        reach: new NumberField({integer: true, min: 1, initial: 1, nullable: false})
-      }),
-      targets: new SchemaField({
-        value: new NumberField({integer: true, min: 1, initial: 1, nullable: false})
       })
     };
   }
@@ -40,12 +31,9 @@ export default class ArsenalData extends ItemSystemModel.mixin(
 
   /** @override */
   static get BONUS_FIELDS() {
-    return super.BONUS_FIELDS.union(new Set([
-      "system.wield.value",
-      "system.range.value",
-      "system.range.reach",
-      "system.cost.value"
-    ]));
+    const bonus = super.BONUS_FIELDS;
+    bonus.add("system.wield.value");
+    return bonus;
   }
 
   /* -------------------------------------------------- */

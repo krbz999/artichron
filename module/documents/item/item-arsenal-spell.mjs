@@ -21,38 +21,9 @@ export default class SpellData extends ArsenalData {
   /** @override */
   static defineSchema() {
     return {
-      ...super.defineSchema(),
-      template: new SchemaField({
-        types: new SetField(new StringField({
-          required: true,
-          choices: CONFIG.SYSTEM.TARGET_TYPES
-        }))
-      }),
-      category: new SchemaField({
-        subtype: new StringField({required: true, initial: "offense", choices: CONFIG.SYSTEM.SPELL_TYPES})
-      }),
-      cost: new SchemaField({
-        value: new NumberField({min: 0, initial: 2, nullable: false})
-      })
+      ...super.defineSchema()
     };
   }
-
-  /* -------------------------------------------------- */
-
-  /** @override */
-  static get BONUS_FIELDS() {
-    const bonus = super.BONUS_FIELDS;
-    bonus.add("system.template.types");
-    return bonus;
-  }
-
-  /* -------------------------------------------------- */
-
-  /** @override */
-  static LOCALIZATION_PREFIXES = [
-    ...super.LOCALIZATION_PREFIXES,
-    "ARTICHRON.ItemProperty.SpellProperty"
-  ];
 
   /* -------------------------------------------------- */
 
@@ -148,46 +119,6 @@ export default class SpellData extends ArsenalData {
   // }
 
   /* -------------------------------------------------- */
-
-  /**
-   * Prompt for placing templates using this item.
-   * @param {object} config     Template configuration and placement data.
-   * @returns {Promise<MeasuredTemplateDocumentArtichron[]>}
-   */
-  async placeTemplates({duration, ...config}) {
-    if (!this.hasTemplate) {
-      throw new Error("This item cannot create measured templates!");
-    }
-
-    const initialLayer = canvas.activeLayer;
-    const templateDatas = [];
-    const token = this.parent.token;
-    for (let i = 0; i < config.count; i++) {
-      const templateData = await MeasuredTemplateArtichron.fromToken(token, config, {
-        lock: true,
-        templateData: templateDatas.at(-1)
-      }).drawPreview();
-      if (templateData) templateDatas.push(templateData);
-      else break;
-    }
-    canvas.templates.clearPreviewContainer();
-
-    // If in combat, flag these templates.
-    if (this.parent.actor.inCombat) {
-      for (const data of templateDatas) {
-        foundry.utils.mergeObject(data, {
-          "flags.artichron.combat.id": game.combat.id,
-          "flags.artichron.combat.end": duration ?? "combat" // turn, round, or combat
-        });
-      }
-    }
-
-    const templates = await canvas.scene.createEmbeddedDocuments("MeasuredTemplate", templateDatas);
-    initialLayer.activate();
-    return templates;
-  }
-
-  /* -------------------------------------------------- */
   /*   Buff magic                                       */
   /* -------------------------------------------------- */
 
@@ -203,51 +134,5 @@ export default class SpellData extends ArsenalData {
       if (buff) acc.add(buff);
       return acc;
     }, new Set());
-  }
-
-  /* -------------------------------------------------- */
-  /*   Properties                                       */
-  /* -------------------------------------------------- */
-
-  /**
-   * Does this item have any valid template or targeting types?
-   * @type {boolean}
-   */
-  get hasTemplate() {
-    return this.template.types.size > 0;
-  }
-
-  /* -------------------------------------------------- */
-
-  /** @override */
-  get _damages() {
-    if (this.category.subtype !== "offense") return [];
-    return super._damages;
-  }
-
-  /* -------------------------------------------------- */
-  /*   Tooltips                                         */
-  /* -------------------------------------------------- */
-
-  /** @override */
-  async _prepareTooltipContext() {
-    const context = await super._prepareTooltipContext();
-
-    if (this.category.subtype === "offense") {
-      context.damages = this._damages.map(k => {
-        return {
-          formula: Roll.create(k.formula, context.rollData).formula,
-          config: CONFIG.SYSTEM.DAMAGE_TYPES[k.type]
-        };
-      });
-    }
-
-    context.targets = this.template.types.reduce((acc, type) => {
-      const label = CONFIG.SYSTEM.TARGET_TYPES[type]?.label;
-      if (label) acc.push({label: label});
-      return acc;
-    }, []);
-
-    return context;
   }
 }

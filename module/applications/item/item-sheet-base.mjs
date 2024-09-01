@@ -113,7 +113,12 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
 
     // Configuration fieldset
     context.details.configuration = [];
-    context.details.configuration.push(this._makeField(context, "category.subtype"));
+    if (doc.system.schema.has("wield")) {
+      context.details.configuration.push(this._makeField(context, "wield.value"));
+    }
+    if (doc.system.schema.has("category")) {
+      context.details.configuration.push(this._makeField(context, "category.subtype"));
+    }
     if (doc.system.schema.has("price")) {
       context.details.configuration.push(this._makeField(context, "price.value"));
     }
@@ -134,10 +139,6 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
         return acc;
       }, []);
     }
-
-    // Handling fieldset
-    context.details.handling = [];
-    if (doc.system.schema.has("wield")) context.details.handling.push(this._makeField(context, "wield.value"));
 
     // Defenses.
     if (doc.system.schema.has("armor")) context.fieldsets.push({

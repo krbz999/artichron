@@ -178,69 +178,6 @@ Object.defineProperty(SYSTEM.TARGET_TYPES, "optgroups", {
 /* -------------------------------------------------- */
 
 /**
- * @typedef {object} WeaponTypeConfig
- * @property {string} label       The human-readable label of this weapon type.
- * @property {boolean} melee      Whether this weapon type is a melee or ranged weapon.
- */
-
-/**
- * Weapon subtypes.
- * @enum {WeaponTypeConfig}
- */
-SYSTEM.WEAPON_TYPES = {
-  axe: {
-    label: "ARTICHRON.WeaponType.Axe",
-    melee: true
-  },
-  bow: {
-    label: "ARTICHRON.WeaponType.Bow",
-    melee: false
-  },
-  chakram: {
-    label: "ARTICHRON.WeaponType.Chakram",
-    melee: true
-  },
-  dagger: {
-    label: "ARTICHRON.WeaponType.Dagger",
-    melee: true
-  },
-  hammer: {
-    label: "ARTICHRON.WeaponType.Hammer",
-    melee: true
-  },
-  meteorHammer: {
-    label: "ARTICHRON.WeaponType.MeteorHammer",
-    melee: true
-  },
-  nunChuck: {
-    label: "ARTICHRON.WeaponType.NunChuck",
-    melee: true
-  },
-  pistol: {
-    label: "ARTICHRON.WeaponType.Pistol",
-    melee: false
-  },
-  rifle: {
-    label: "ARTICHRON.WeaponType.Rifle",
-    melee: false
-  },
-  shotgun: {
-    label: "ARTICHRON.WeaponType.Shotgun",
-    melee: false
-  },
-  spear: {
-    label: "ARTICHRON.WeaponType.Spear",
-    melee: true
-  },
-  sword: {
-    label: "ARTICHRON.WeaponType.Sword",
-    melee: true
-  }
-};
-
-/* -------------------------------------------------- */
-
-/**
  * @typedef {object} ShieldTypeConfig
  * @property {string} label     The human-readable label of this shield type.
  * @property {number} width     The relative size of a shield of this type.
@@ -267,23 +204,6 @@ SYSTEM.SHIELD_TYPES = {
     label: "ARTICHRON.ShieldType.Tower",
     width: 4
   }
-};
-
-/* -------------------------------------------------- */
-
-/**
- * @typedef {object} SpellTypeConfig
- * @property {string} label     The human-readable label of this spell type.
- */
-
-/**
- * Spell subtypes.
- * @enum {SpellTypeConfig}
- */
-SYSTEM.SPELL_TYPES = {
-  offense: {label: "ARTICHRON.SpellType.Offense"},
-  defense: {label: "ARTICHRON.SpellType.Defense"},
-  buff: {label: "ARTICHRON.SpellType.Buff"}
 };
 
 /* -------------------------------------------------- */
@@ -324,49 +244,6 @@ SYSTEM.EQUIPMENT_TYPES = {
   head: {label: "ARTICHRON.ArmorType.Head"},
   legs: {label: "ARTICHRON.ArmorType.Legs"},
   boots: {label: "ARTICHRON.ArmorType.Boots"}
-};
-
-/* -------------------------------------------------- */
-
-/**
- * @typedef {object} ElixirTypeConfig
- * @property {string} label     The human-readable label of this elixir type.
- */
-
-/**
- * Elixir subtypes.
- * @enum {ElixirTypeConfig}
- */
-SYSTEM.ELIXIR_TYPES = {
-  booster: {
-    label: "ARTICHRON.ElixirType.Booster"
-  },
-  buff: {
-    label: "ARTICHRON.ElixirType.Buff"
-  },
-  restorative: {
-    label: "ARTICHRON.ElixirType.Restorative"
-  }
-};
-
-/* -------------------------------------------------- */
-
-/**
- * @typedef {object} ElixirBoostConfig
- * @property {string} label     The human-readable label of this boost type.
- */
-
-/**
- * Elixir boost types.
- * @enum {ElixirBoostConfig}
- */
-SYSTEM.ELIXIR_BOOST_TYPES = {
-  stamina: {
-    label: "ARTICHRON.ElixirBoostType.Stamina"
-  },
-  mana: {
-    label: "ARTICHRON.ElixirBoostType.Mana"
-  }
 };
 
 /* -------------------------------------------------- */

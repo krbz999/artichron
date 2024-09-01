@@ -17,15 +17,6 @@
   </fieldset>
   {{/if}}
 
-  {{#if details.handling.length}}
-  <fieldset>
-    <legend>{{localize "ARTICHRON.ItemProperty.Fieldsets.Handling"}}</legend>
-    {{#each details.handling}}
-    {{formGroup field value=value disabled=disabled}}
-    {{/each}}
-  </fieldset>
-  {{/if}}
-
   {{#each fieldsets}}
   <fieldset>
     <legend>{{legend}}</legend>
