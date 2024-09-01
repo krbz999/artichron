@@ -43,79 +43,79 @@ export default class WeaponData extends ArsenalData {
 
   /* -------------------------------------------------- */
 
-  /** @override */
-  async use() {
-    if (!this.hasDamage) {
-      ui.notifications.warn("ARTICHRON.Warning.ItemHasNoDamageRolls", {localize: true});
-      return null;
-    }
+  // /** @override */
+  // async use() {
+  //   if (!this.hasDamage) {
+  //     ui.notifications.warn("ARTICHRON.Warning.ItemHasNoDamageRolls", {localize: true});
+  //     return null;
+  //   }
 
-    const item = this.parent;
-    const actor = item.actor;
+  //   const item = this.parent;
+  //   const actor = item.actor;
 
-    if (!item.isEquipped) {
-      ui.notifications.warn("ARTICHRON.Warning.ItemIsNotEquipped", {localize: true});
-      return null;
-    }
+  //   if (!item.isEquipped) {
+  //     ui.notifications.warn("ARTICHRON.Warning.ItemIsNotEquipped", {localize: true});
+  //     return null;
+  //   }
 
-    if (!this.canUsePips) {
-      ui.notifications.warn("ARTICHRON.Warning.MissingActionPoints", {localize: true});
-      return null;
-    }
+  //   if (!this.canUsePips) {
+  //     ui.notifications.warn("ARTICHRON.Warning.MissingActionPoints", {localize: true});
+  //     return null;
+  //   }
 
-    const configuration = await artichron.applications.WeaponUseDialog.create(item);
-    if (!configuration) return null;
-    const stamina = configuration.stamina ?? 0;
-    const ammo = actor.items.get(configuration.ammo) ?? null;
-    const booster = actor.items.get(configuration.booster);
-    const ammoModifiers = ammo ? ammo.system.ammoProperties : new Set();
+  //   const configuration = await artichron.applications.WeaponUseDialog.create(item);
+  //   if (!configuration) return null;
+  //   const stamina = configuration.stamina ?? 0;
+  //   const ammo = actor.items.get(configuration.ammo) ?? null;
+  //   const booster = actor.items.get(configuration.booster);
+  //   const ammoModifiers = ammo ? ammo.system.ammoProperties : new Set();
 
-    if (item.system.attributes.value.has("ammunition") && !ammo) {
-      ui.notifications.warn("ARTICHRON.Warning.ItemRequiresAmmunition", {localize: true});
-      return null;
-    }
+  //   if (item.system.attributes.value.has("ammunition") && !ammo) {
+  //     ui.notifications.warn("ARTICHRON.Warning.ItemRequiresAmmunition", {localize: true});
+  //     return null;
+  //   }
 
-    const flags = {artichron: {usage: {}}};
+  //   const flags = {artichron: {usage: {}}};
 
-    // Set up range properties.
-    flags.artichron.usage.target = {
-      range: this.parent.isMelee ?
-        this.range.reach :
-        Math.max(1, this.range.value + (ammoModifiers.has("range") ? ammo.system.range.value : 0)),
-      count: 1,
-      allowPreTarget: true
-    };
+  //   // Set up range properties.
+  //   flags.artichron.usage.target = {
+  //     range: this.parent.isMelee ?
+  //       this.range.reach :
+  //       Math.max(1, this.range.value + (ammoModifiers.has("range") ? ammo.system.range.value : 0)),
+  //     count: 1,
+  //     allowPreTarget: true
+  //   };
 
-    // Set up damage properties.
-    flags.artichron.usage.damage = {
-      ammo: ammo ? ammo.id : null,
-      addition: stamina + (configuration.uses || 0)
-    };
+  //   // Set up damage properties.
+  //   flags.artichron.usage.damage = {
+  //     ammo: ammo ? ammo.id : null,
+  //     addition: stamina + (configuration.uses || 0)
+  //   };
 
-    const actorUpdate = {};
-    const itemUpdates = [];
-    if (stamina) actorUpdate["system.pools.stamina.value"] = actor.system.pools.stamina.value - stamina;
-    if (ammo) itemUpdates.push({_id: ammo.id, "system.quantity.value": ammo.system.quantity.value - 1});
-    if (booster) itemUpdates.push(booster.system._usageUpdate(configuration.uses || 0));
+  //   const actorUpdate = {};
+  //   const itemUpdates = [];
+  //   if (stamina) actorUpdate["system.pools.stamina.value"] = actor.system.pools.stamina.value - stamina;
+  //   if (ammo) itemUpdates.push({_id: ammo.id, "system.quantity.value": ammo.system.quantity.value - 1});
+  //   if (booster) itemUpdates.push(booster.system._usageUpdate(configuration.uses || 0));
 
-    await Promise.all([
-      foundry.utils.isEmpty(actorUpdate) ? null : actor.update(actorUpdate),
-      foundry.utils.isEmpty(itemUpdates) ? null : actor.updateEmbeddedDocuments("Item", itemUpdates)
-    ]);
+  //   await Promise.all([
+  //     foundry.utils.isEmpty(actorUpdate) ? null : actor.update(actorUpdate),
+  //     foundry.utils.isEmpty(itemUpdates) ? null : actor.updateEmbeddedDocuments("Item", itemUpdates)
+  //   ]);
 
-    if (actor.inCombat) {
-      await actor.spendActionPoints(item.system.cost.value);
-    }
+  //   if (actor.inCombat) {
+  //     await actor.spendActionPoints(item.system.cost.value);
+  //   }
 
-    const messageData = {
-      type: "usage",
-      speaker: ChatMessage.implementation.getSpeaker({actor: actor}),
-      "system.item": item.uuid,
-      flags: flags
-    };
+  //   const messageData = {
+  //     type: "usage",
+  //     speaker: ChatMessage.implementation.getSpeaker({actor: actor}),
+  //     "system.item": item.uuid,
+  //     flags: flags
+  //   };
 
-    return ChatMessage.implementation.create(messageData);
-  }
+  //   return ChatMessage.implementation.create(messageData);
+  // }
 
   /* -------------------------------------------------- */
 

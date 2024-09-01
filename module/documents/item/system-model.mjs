@@ -78,11 +78,24 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
   /* -------------------------------------------------- */
 
   /**
-   * Perform the item's type-specific main function.
+   * Perform the function of an activity of this item.
    * @returns {Promise}
    */
   async use() {
-    throw new Error("Subclasses of the Item System Data Model must override the #use method.");
+    const activities = this.activities;
+    if (!activities.size) throw new Error("This item has no activities!");
+    if (activities.size === 1) return activities.contents[0].use();
+    const options = activities.map(a => ({value: a.id, label: a.name, group: a.constructor.metadata.label}));
+    const field = new foundry.data.fields.StringField({required: true, label: "Activity"});
+    const select = field.toFormGroup({}, {localize: true, options: options, name: "activityId"}).outerHTML;
+    const content = `<fieldset>${select}</fieldset>`;
+    return foundry.applications.api.DialogV2.prompt({
+      rejectClose: false,
+      content: content,
+      window: {},
+      position: {width: 350},
+      ok: {callback: (event, button) => activities.get(button.form.elements.activityId.value).use()}
+    });
   }
 
   /* -------------------------------------------------- */

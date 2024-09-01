@@ -56,96 +56,96 @@ export default class SpellData extends ArsenalData {
 
   /* -------------------------------------------------- */
 
-  /** @override */
-  async use() {
-    if ((this.category.subtype === "offense") && !this.hasDamage) {
-      ui.notifications.warn("ARTICHRON.Warning.ItemHasNoDamageRolls", {localize: true});
-      return null;
-    }
+  // /** @override */
+  // async use() {
+  //   if ((this.category.subtype === "offense") && !this.hasDamage) {
+  //     ui.notifications.warn("ARTICHRON.Warning.ItemHasNoDamageRolls", {localize: true});
+  //     return null;
+  //   }
 
-    if (!this.parent.isEquipped) {
-      ui.notifications.warn("ARTICHRON.Warning.ItemIsNotEquipped", {localize: true});
-      return null;
-    }
+  //   if (!this.parent.isEquipped) {
+  //     ui.notifications.warn("ARTICHRON.Warning.ItemIsNotEquipped", {localize: true});
+  //     return null;
+  //   }
 
-    if (!this.hasTemplate) {
-      ui.notifications.warn("ARTICHRON.Warning.ItemHasNoTemplateTypes", {localize: true});
-      return null;
-    }
+  //   if (!this.hasTemplate) {
+  //     ui.notifications.warn("ARTICHRON.Warning.ItemHasNoTemplateTypes", {localize: true});
+  //     return null;
+  //   }
 
-    if (!this.canUsePips) {
-      ui.notifications.warn("ARTICHRON.Warning.MissingActionPoints", {localize: true});
-      return null;
-    }
+  //   if (!this.canUsePips) {
+  //     ui.notifications.warn("ARTICHRON.Warning.MissingActionPoints", {localize: true});
+  //     return null;
+  //   }
 
-    const configuration = await SpellUseDialog.create(this.parent);
-    if (!configuration) return null;
+  //   const configuration = await SpellUseDialog.create(this.parent);
+  //   if (!configuration) return null;
 
-    const data = SpellUseDialog.determineTemplateData(configuration);
+  //   const data = SpellUseDialog.determineTemplateData(configuration);
 
-    const flags = {artichron: {usage: {}}};
+  //   const flags = {artichron: {usage: {}}};
 
-    if (data.type !== "single") {
-      // Offensive spells placing templates can remove those at the end of the turn.
-      // Otherwise, they should probably linger until combat ends.
-      flags.artichron.usage.templates = {
-        duration: this.category.subtype === "offense" ? "turn" : "combat",
-        ...data
-      };
-    } else {
-      // Case 2: Singular targets.
-      flags.artichron.usage.target = {
-        count: data.count,
-        range: data.range
-      };
-    }
+  //   if (data.type !== "single") {
+  //     // Offensive spells placing templates can remove those at the end of the turn.
+  //     // Otherwise, they should probably linger until combat ends.
+  //     flags.artichron.usage.templates = {
+  //       duration: this.category.subtype === "offense" ? "turn" : "combat",
+  //       ...data
+  //     };
+  //   } else {
+  //     // Case 2: Singular targets.
+  //     flags.artichron.usage.target = {
+  //       count: data.count,
+  //       range: data.range
+  //     };
+  //   }
 
-    // Create and perform updates.
-    const actorUpdate = {};
-    const itemUpdates = [];
-    const actor = this.parent.actor;
+  //   // Create and perform updates.
+  //   const actorUpdate = {};
+  //   const itemUpdates = [];
+  //   const actor = this.parent.actor;
 
-    for (const id of configuration.boosters) {
-      const elixir = actor.items.get(id);
-      const update = elixir.system._usageUpdate();
-      itemUpdates.push(update);
-      configuration.cost--;
-    }
+  //   for (const id of configuration.boosters) {
+  //     const elixir = actor.items.get(id);
+  //     const update = elixir.system._usageUpdate();
+  //     itemUpdates.push(update);
+  //     configuration.cost--;
+  //   }
 
-    if (configuration.cost && (actor.type === "hero")) {
-      const mana = actor.system.pools.mana.value;
-      actorUpdate["system.pools.mana.value"] = mana - configuration.cost;
-    }
+  //   if (configuration.cost && (actor.type === "hero")) {
+  //     const mana = actor.system.pools.mana.value;
+  //     actorUpdate["system.pools.mana.value"] = mana - configuration.cost;
+  //   }
 
-    const messageData = {
-      type: "usage",
-      speaker: ChatMessage.implementation.getSpeaker({actor: actor}),
-      "system.item": this.parent.uuid,
-      flags: flags
-    };
+  //   const messageData = {
+  //     type: "usage",
+  //     speaker: ChatMessage.implementation.getSpeaker({actor: actor}),
+  //     "system.item": this.parent.uuid,
+  //     flags: flags
+  //   };
 
-    if (this.category.subtype === "offense") {
-      messageData.flags.artichron.usage.damage = {
-        ids: [configuration.damage],
-        addition: configuration.additional
-      };
-    } else if (this.category.subtype === "buff") {
-      messageData.flags.artichron.usage.effect = {
-        uuid: this.parent.effects.get(configuration.buff).uuid
-      };
-    }
+  //   if (this.category.subtype === "offense") {
+  //     messageData.flags.artichron.usage.damage = {
+  //       ids: [configuration.damage],
+  //       addition: configuration.additional
+  //     };
+  //   } else if (this.category.subtype === "buff") {
+  //     messageData.flags.artichron.usage.effect = {
+  //       uuid: this.parent.effects.get(configuration.buff).uuid
+  //     };
+  //   }
 
-    await Promise.all([
-      foundry.utils.isEmpty(actorUpdate) ? null : actor.update(actorUpdate),
-      foundry.utils.isEmpty(itemUpdates) ? null : actor.updateEmbeddedDocuments("Item", itemUpdates)
-    ]);
+  //   await Promise.all([
+  //     foundry.utils.isEmpty(actorUpdate) ? null : actor.update(actorUpdate),
+  //     foundry.utils.isEmpty(itemUpdates) ? null : actor.updateEmbeddedDocuments("Item", itemUpdates)
+  //   ]);
 
-    if (actor.inCombat) {
-      await actor.spendActionPoints(this.parent.system.cost.value);
-    }
+  //   if (actor.inCombat) {
+  //     await actor.spendActionPoints(this.parent.system.cost.value);
+  //   }
 
-    return ChatMessage.implementation.create(messageData);
-  }
+  //   return ChatMessage.implementation.create(messageData);
+  // }
 
   /* -------------------------------------------------- */
 

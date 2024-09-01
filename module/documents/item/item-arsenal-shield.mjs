@@ -51,48 +51,48 @@ export default class ShieldData extends ArsenalData {
 
   /* -------------------------------------------------- */
 
-  /** @override */
-  async use() {
-    if (!this.hasDamage) {
-      ui.notifications.warn("ARTICHRON.Warning.ItemHasNoDamageRolls", {localize: true});
-      return null;
-    }
+  // /** @override */
+  // async use() {
+  //   if (!this.hasDamage) {
+  //     ui.notifications.warn("ARTICHRON.Warning.ItemHasNoDamageRolls", {localize: true});
+  //     return null;
+  //   }
 
-    const item = this.parent;
-    const actor = item.actor;
+  //   const item = this.parent;
+  //   const actor = item.actor;
 
-    if (!item.isEquipped) {
-      ui.notifications.warn("ARTICHRON.Warning.ItemIsNotEquipped", {localize: true});
-      return null;
-    }
+  //   if (!item.isEquipped) {
+  //     ui.notifications.warn("ARTICHRON.Warning.ItemIsNotEquipped", {localize: true});
+  //     return null;
+  //   }
 
-    if (!this.canUsePips) {
-      ui.notifications.warn("ARTICHRON.Warning.MissingActionPoints", {localize: true});
-      return null;
-    }
+  //   if (!this.canUsePips) {
+  //     ui.notifications.warn("ARTICHRON.Warning.MissingActionPoints", {localize: true});
+  //     return null;
+  //   }
 
-    if (actor.inCombat) {
-      await actor.spendActionPoints(item.system.cost.value);
-    }
+  //   if (actor.inCombat) {
+  //     await actor.spendActionPoints(item.system.cost.value);
+  //   }
 
-    const flags = {artichron: {usage: {
-      damage: {multiply: 0.5, ids: []},
-      target: {
-        allowPreTarget: true,
-        count: 1,
-        range: this.range.reach
-      }
-    }}};
+  //   const flags = {artichron: {usage: {
+  //     damage: {multiply: 0.5, ids: []},
+  //     target: {
+  //       allowPreTarget: true,
+  //       count: 1,
+  //       range: this.range.reach
+  //     }
+  //   }}};
 
-    const messageData = {
-      type: "usage",
-      speaker: ChatMessage.implementation.getSpeaker({actor: actor}),
-      "system.item": item.uuid,
-      flags: flags
-    };
+  //   const messageData = {
+  //     type: "usage",
+  //     speaker: ChatMessage.implementation.getSpeaker({actor: actor}),
+  //     "system.item": item.uuid,
+  //     flags: flags
+  //   };
 
-    return ChatMessage.implementation.create(messageData);
-  }
+  //   return ChatMessage.implementation.create(messageData);
+  // }
 
   /* -------------------------------------------------- */
   /*   Tooltips                                         */

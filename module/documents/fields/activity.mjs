@@ -173,7 +173,14 @@ export default class BaseActivity extends foundry.abstract.DataModel {
    * @returns {Promise}
    */
   async use() {
-    throw new Error("use method has not been implemented.");
+    const messageData = {
+      type: "usage",
+      speaker: ChatMessage.implementation.getSpeaker({actor: this.item.actor}),
+      "system.activity": this.id,
+      "system.item": this.item.uuid
+    };
+
+    return ChatMessage.implementation.create(messageData);
   }
 
   /* -------------------------------------------------- */
@@ -246,27 +253,6 @@ class DamageActivity extends BaseActivity {
         })
       }))
     });
-  }
-
-  /* -------------------------------------------------- */
-
-  async use() {
-    const flags = {artichron: {usage: {}}};
-
-    flags.artichron.usage.damage = {
-      ammo: null,
-      addition: 0
-    };
-
-    const messageData = {
-      type: "usage",
-      speaker: ChatMessage.implementation.getSpeaker({actor: this.item.actor}),
-      "system.activity": this.id,
-      "system.item": this.item.uuid,
-      flags: flags
-    };
-
-    return ChatMessage.implementation.create(messageData);
   }
 
   /* -------------------------------------------------- */

@@ -119,26 +119,26 @@ export default class ElixirData extends ItemSystemModel {
   /*   Instance methods                                 */
   /* -------------------------------------------------- */
 
-  /** @override */
-  async use() {
-    if (this.isBoostElixir) {
-      ui.notifications.warn("ARTICHRON.ElixirDialog.WarningCannotUseBooster", {localize: true});
-      return null;
-    }
+  // /** @override */
+  // async use() {
+  //   if (this.isBoostElixir) {
+  //     ui.notifications.warn("ARTICHRON.ElixirDialog.WarningCannotUseBooster", {localize: true});
+  //     return null;
+  //   }
 
-    if (!this.hasUses) {
-      ui.notifications.warn("ARTICHRON.ElixirDialog.WarningUsage", {localize: true});
-      return null;
-    }
+  //   if (!this.hasUses) {
+  //     ui.notifications.warn("ARTICHRON.ElixirDialog.WarningUsage", {localize: true});
+  //     return null;
+  //   }
 
-    if (!this.parent.actor.canPerformActionPoints(1)) {
-      ui.notifications.warn("ARTICHRON.Warning.MissingActionPoints", {localize: true});
-      return null;
-    }
+  //   if (!this.parent.actor.canPerformActionPoints(1)) {
+  //     ui.notifications.warn("ARTICHRON.Warning.MissingActionPoints", {localize: true});
+  //     return null;
+  //   }
 
-    if (this.category.subtype === "buff") return this.#useBuff();
-    else if (this.category.subtype === "restorative") return this.#useRestorative();
-  }
+  //   if (this.category.subtype === "buff") return this.#useBuff();
+  //   else if (this.category.subtype === "restorative") return this.#useRestorative();
+  // }
 
   /* -------------------------------------------------- */
 
