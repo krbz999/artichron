@@ -490,8 +490,18 @@ class TeleportActivity extends BaseActivity {
 
   /* -------------------------------------------------- */
 
+  /**
+   * Teleport a token targeted by this activity.
+   * @returns {Promise<TokenDocumentArtichron>}     A promise that resolves to the updated token document.
+   */
   async teleportToken() {
-    // TODO
+    const token = this.item.token.document;
+    if (!token) throw new Error("A token must be present on the scene!");
+    const config = {tokens: [token]};
+    const place = await artichron.helpers.TokenPlacement.place(config);
+    if (!place.length) return;
+    const {x, y, rotation} = place[0];
+    return token.update({x, y, rotation}, {animate: false, teleport: true, forced: true});
   }
 
   /* -------------------------------------------------- */
