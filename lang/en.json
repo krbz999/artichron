@@ -674,7 +674,8 @@
   },
   "Warning": {
     "ConsumeCostUnavailable": "{name} does not have {number} action points available.",
-    "ConsumedCost": "{name} consumed {number} action points."
+    "ConsumedCost": "{name} consumed {number} action points.",
+    "ConsumeOutOfCombat": "{name} cannot consume action points when out of combat."
   },
   "Types": {
     "Damage": "Damage Activity",

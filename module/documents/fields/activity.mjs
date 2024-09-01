@@ -200,6 +200,13 @@ export default class BaseActivity extends foundry.abstract.DataModel {
 
     const actor = this.item.actor;
 
+    if (!actor.inCombat) {
+      ui.notifications.warn(game.i18n.format("ARTICHRON.ACTIVITY.Warning.ConsumeOutOfCombat", {
+        name: actor.name
+      }));
+      return null;
+    }
+
     if (!actor.canPerformActionPoints(this.cost.value)) {
       ui.notifications.warn(game.i18n.format("ARTICHRON.ACTIVITY.Warning.ConsumeCostUnavailable", {
         name: actor.name, number: this.cost.value
