@@ -25,7 +25,7 @@ export default class SpellData extends ArsenalData {
       template: new SchemaField({
         types: new SetField(new StringField({
           required: true,
-          choices: CONFIG.SYSTEM.AREA_TARGET_TYPES
+          choices: CONFIG.SYSTEM.TARGET_TYPES
         }))
       }),
       category: new SchemaField({
@@ -243,7 +243,7 @@ export default class SpellData extends ArsenalData {
     }
 
     context.targets = this.template.types.reduce((acc, type) => {
-      const label = CONFIG.SYSTEM.AREA_TARGET_TYPES[type]?.label;
+      const label = CONFIG.SYSTEM.TARGET_TYPES[type]?.label;
       if (label) acc.push({label: label});
       return acc;
     }, []);

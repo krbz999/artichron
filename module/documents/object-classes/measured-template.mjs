@@ -69,10 +69,11 @@ export default class MeasuredTemplateArtichron extends MeasuredTemplate {
 
   /* -------------------------------------------------- */
 
-  static fromToken(token, {type, distance, width, attach, angle, range} = {}, options = {}) {
+  static fromToken(token, {type, size, width, attach, angle = 45, range}, options = {}) {
     if (!token) throw new Error("No token available for placing template!");
 
     let t = type;
+    let distance = size;
 
     // Increase size of attached circles.
     if (type === "radius") {

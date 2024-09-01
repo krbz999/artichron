@@ -201,7 +201,7 @@ export default class EffectFusionData extends ActiveEffectSystemModel {
 
     // Special case: template.types
     else if (key === "system.template.types") {
-      const values = Array.from(value).map(k => CONFIG.SYSTEM.AREA_TARGET_TYPES[k]?.label).filter(u => u);
+      const values = Array.from(value).map(k => CONFIG.SYSTEM.TARGET_TYPES[k]?.label).filter(u => u);
       return formatter.format(values);
     }
 

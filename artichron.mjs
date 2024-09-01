@@ -202,6 +202,12 @@ Hooks.once("i18nInit", function() {
   for (const model of Object.values(artichron.fields.ProgressionData.TYPES)) {
     Localization.localizeDataModel(model);
   }
+
+  for (const model of Object.values(artichron.fields.BaseActivity.TYPES)) {
+    Localization.localizeDataModel(model);
+    const dmg = model.schema.getField("damage.element");
+    if (dmg) Localization.localizeDataModel({schema: dmg}, {prefixes: ["ARTICHRON.ACTIVITY.FIELDS.damage"]});
+  }
 });
 
 /* -------------------------------------------------- */

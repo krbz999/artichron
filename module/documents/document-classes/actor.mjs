@@ -253,9 +253,6 @@ export default class ActorArtichron extends Actor {
     if (damaged) {
       if (attributes.has("rending")) await this.applyCondition("bleeding");
       if (attributes.has("bludgeoning")) await this.applyCondition("hindered");
-      if (!this.system.health.value) await this.toggleStatusEffect(CONFIG.specialStatusEffects.DEFEATED, {
-        active: true, overlay: true
-      });
     }
 
     return this;
@@ -272,7 +269,6 @@ export default class ActorArtichron extends Actor {
     const hp = foundry.utils.deepClone(this.system.health);
     const v = Math.clamp(hp.value + Math.abs(value), 0, hp.max);
     await this.update({"system.health.value": v}, {diff: false});
-    if (this.system.health.value) await this.toggleStatusEffect(CONFIG.specialStatusEffects.DEFEATED, {active: false});
     return this;
   }
 

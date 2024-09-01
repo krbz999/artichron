@@ -1,0 +1,64 @@
+<div class="tab details {{tabs.details.cssClass}}" data-group="primary" data-tab="details">
+  <fieldset>
+    <legend>{{cost.legend}}</legend>
+    {{formGroup cost.field value=cost.value}}
+  </fieldset>
+
+  <fieldset>
+    <legend>{{target.legend}}</legend>
+    {{formGroup target.type.field value=target.type.value options=target.type.options}}
+
+    {{#if target.count.show}}
+    {{formGroup target.count.field value=target.count.value}}
+    {{/if}}
+
+    {{#if target.fields.length}}
+    {{#each target.fields}}
+    {{formGroup field value=value}}
+    {{/each}}
+    {{/if}}
+  </fieldset>
+
+  {{#if damage.show}}
+  <fieldset>
+    <legend>
+      {{damage.legend}}
+      <button class="control" type="button" data-action="addDamage">
+        <i class="fa-solid fa-plus"></i>
+      </button>
+    </legend>
+    {{#each damage.values}}
+    <div class="form-group" data-idx="{{idx}}">
+      {{formGroup @root.damage.formula value=formula classes="label-top" name=nameF}}
+      {{formGroup @root.damage.type options=@root.damage.options value=type classes="label-top" name=nameT}}
+      <button type="button" class="control" data-action="deleteDamage">
+        <i class="fa-solid fa-minus"></i>
+      </button>
+    </div>
+    {{/each}}
+  </fieldset>
+  {{/if}}
+
+  {{#if healing.show}}
+  <fieldset>
+    <legend>{{healing.legend}}</legend>
+    {{formGroup healing.formula.field value=healing.formula.value}}
+  </fieldset>
+  {{/if}}
+
+  {{#if effects.show}}
+  <fieldset>
+    <legend>{{effects.legend}}</legend>
+    {{formGroup effects.ids.field value=effects.ids.value options=effects.ids.choices classes="stacked"}}
+  </fieldset>
+  {{/if}}
+
+  {{#if teleport.show}}
+  <fieldset>
+    <legend>{{teleport.legend}}</legend>
+    {{#each teleport.fields}}
+    {{formGroup field value=value}}
+    {{/each}}
+  </fieldset>
+  {{/if}}
+</div>

@@ -355,3 +355,33 @@
     text-align: left;
   }
 }
+
+/* Fieldset stylings */
+.artichron.application fieldset {
+  & legend:has(button) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.25rem;
+
+    & button {
+      height: unset;
+      padding: 0;
+
+      & i {
+        margin: 0;
+        padding: 0.25rem;
+      }
+    }
+  }
+
+  .form-group .control {
+    aspect-ratio: 1;
+    flex: 0;
+    place-self: end;
+
+    & i {
+      margin: 0;
+    }
+  }
+}

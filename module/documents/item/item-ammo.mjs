@@ -39,7 +39,7 @@ export default class AmmunitionData extends ItemSystemModel.mixin(DamageTemplate
         type: new StringField({
           required: true,
           blank: true,
-          choices: Object.entries(CONFIG.SYSTEM.AREA_TARGET_TYPES).reduce((acc, [k, v]) => {
+          choices: Object.entries(CONFIG.SYSTEM.TARGET_TYPES).reduce((acc, [k, v]) => {
             return v.ammo ? Object.assign(acc, {[k]: v}) : acc;
           }, {})
         })

@@ -1,3 +1,5 @@
+import {ActivitiesField} from "../fields/activity-field.mjs";
+
 const {StringField, SchemaField, HTMLField, NumberField, SetField} = foundry.data.fields;
 
 export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
@@ -38,6 +40,7 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
       price: new SchemaField({
         value: new NumberField({min: 0, initial: 0, integer: true, nullable: false})
       }),
+      activities: new ActivitiesField(),
       attributes: new SchemaField({
         value: new SetField(new StringField({
           choices: () => this._attributeChoices()
@@ -220,6 +223,26 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
 
   /** @override */
   static LOCALIZATION_PREFIXES = ["ARTICHRON.ItemProperty"];
+
+  /* -------------------------------------------------- */
+
+  /**
+   * The effects that can be transferred to the actor when this item is used.
+   * @type {ActiveEffectArtichron[]}
+   */
+  get transferrableEffects() {
+    return this.parent.effects.filter(e => !e.transfer && ["condition", "buff"].includes(e.type));
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Does this item have any effects that can be transferred to the actor when this item is used?
+   * @type {boolean}
+   */
+  get hasTransferrableEffects() {
+    return this.transferrableEffects.length > 0;
+  }
 
   /* -------------------------------------------------- */
 

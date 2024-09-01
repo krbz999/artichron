@@ -115,6 +115,7 @@
   "Favorites": "Favorites",
   "Fusion": "Fusion",
   "Gear": "Gear",
+  "Identity": "Identity",
   "Inventory": "Inventory",
   "Items": "Items",
   "Loot": "Loot",
@@ -711,6 +712,90 @@
   }
 },
 
+"ACTIVITY": {
+  "FIELDS": {
+    "cost": {
+      "label": "Action Cost",
+      "value": {
+        "label": "Action Cost",
+        "hint": "The action point cost to make use of this activity."
+      }
+    },
+    "damage": {
+      "label": "Damage",
+      "FIELDS": {
+        "formula": {
+          "label": "Formula"
+        },
+        "type": {
+          "label": "Type"
+        }
+      }
+    },
+    "description": {
+      "label": "Description"
+    },
+    "effects": {
+      "label": "Effects",
+      "ids": {
+        "hint": "The transferrable effects this activity will be able to transfer to a target."
+      }
+    },
+    "healing": {
+      "label": "Healing",
+      "formula": {
+        "label": "Formula",
+        "hint": "The formula that will be rolled to perform the healing."
+      }
+    },
+    "name": {
+      "label": "Name"
+    },
+    "target": {
+      "label": "Targeting",
+      "count": {
+        "label": "Count",
+        "hint": "How many targets this activity can have, or areas of effect this activity creates."
+      },
+      "duration": {
+        "label": "Duration",
+        "hint": "When measured templates created by this activity are automatically removed."
+      },
+      "range": {
+        "label": "Range",
+        "hint": "The maximum range between the character and the template."
+      },
+      "size": {
+        "label": "Size",
+        "hint": "The length or radius of the created template."
+      },
+      "type": {
+        "label": "Type",
+        "hint": "The type of targeting this activity requires, either individual targets or areas of effect."
+      },
+      "width": {
+        "label": "Width",
+        "hint": "The width of the created templates."
+      }
+    },
+    "teleport": {
+      "label": "Teleport",
+      "count": {
+        "label": "Count",
+        "hint": "How many targets can be teleported at the same time."
+      },
+      "distance": {
+        "label": "Distance",
+        "hint": "The distance the target is teleported."
+      },
+      "self": {
+        "label": "Self",
+        "hint": "Whether this activity is allowed only to teleports the caster instead of a target."
+      }
+    }
+  }
+},
+
 "ProgressionThresholds": {
   "Novice": "Novice",
   "Experienced": "Experienced",
@@ -720,6 +805,12 @@
 "Wielding": {
   "OneHanded": "One-Handed",
   "TwoHanded": "Two-Handed"
+},
+
+"TemplateDurations": {
+  "Combat": "End of Combat",
+  "Round": "End of Round",
+  "Turn": "End of Turn"
 },
 
 "ItemAttribute": {
@@ -872,7 +963,8 @@
   "Offense": "Offensive Magic"
 },
 
-"SpellShape": {
+"TargetTypes": {
+  "AreaOfEffect": "Area of Effect",
   "SingleTarget": "Single Target",
   "AreaRay": "Line",
   "AreaCone": "Cone",

@@ -71,21 +71,11 @@ export default class ElixirData extends ItemSystemModel {
   /* -------------------------------------------------- */
 
   /**
-   * The effects that can be transferred to the actor when this item is used.
-   * @type {ActiveEffectArtichron[]}
-   */
-  get transferrableEffects() {
-    return this.parent.effects.filter(e => !e.transfer);
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
    * Does this item have any effects that can be transferred to the actor when this item is used?
    * @type {boolean}
    */
   get hasTransferrableEffects() {
-    return this.hasUses && (this.transferrableEffects.length > 0);
+    return super.hasTransferrableEffects && this.hasUses;
   }
 
   /* -------------------------------------------------- */

@@ -1,6 +1,6 @@
 import ChatMessageSystemModel from "./system-model.mjs";
 
-const {DocumentUUIDField} = foundry.data.fields;
+const {DocumentUUIDField, StringField} = foundry.data.fields;
 
 export default class UsageMessageData extends ChatMessageSystemModel {
   /**
@@ -16,6 +16,7 @@ export default class UsageMessageData extends ChatMessageSystemModel {
   /** @override */
   static defineSchema() {
     return {
+      activity: new StringField(),
       item: new DocumentUUIDField({type: "Item", embedded: true})
     };
   }
@@ -39,16 +40,56 @@ export default class UsageMessageData extends ChatMessageSystemModel {
     await super.adjustHTML(html);
 
     if (!this.item) return;
-    const usage = foundry.utils.deepClone(this.parent.getFlag("artichron", "usage") ?? {});
+    const activity = this.item.system.activities.get(this.activity);
+    const usage = {};//foundry.utils.deepClone(this.parent.getFlag("artichron", "usage") ?? {});
+
+    const content = html.querySelector(".message-content");
+    content.innerHTML = "";
+
+    if (this.parent.canUserModify(game.user, "update")) {
+      const select = new foundry.data.fields.StringField({
+        required: true,
+        label: "Activity",
+        choices: this.item.system.activities.reduce((acc, a) => {
+          acc[a.id] = a.name;
+          return acc;
+        }, {})
+      });
+      const element = select.toFormGroup({localize: true}, {value: this.activity});
+      element.classList.add("flexrow");
+      element.querySelector("select").addEventListener("change", (event) => {
+        const value = event.currentTarget.value;
+        this.parent.update({"system.activity": value});
+      });
+      const fieldset = document.createElement("FIELDSET");
+      fieldset.insertAdjacentHTML("beforeend", "<legend>Activity</legend");
+      fieldset.insertAdjacentElement("beforeend", element);
+      content.insertAdjacentElement("beforeend", fieldset);
+    }
 
     const buttons = [];
 
-    if (usage.target) {
+    for (const {action, label} of activity?.chatButtons ?? []) {
       const button = document.createElement("BUTTON");
-      button.dataset.action = "target";
-      button.textContent = "Pick Targets";
+      button.dataset.action = action;
+      button.textContent = label;
       buttons.push(button);
-      button.addEventListener("click", event => this.item.pickTarget(usage.target));
+      // usage.damage.ammo = this.item.actor.items.get(usage.ammo) ?? null;
+      button.addEventListener("click", event => {
+        const activity = this.item.system.activities.get(this.activity);
+        switch (event.currentTarget.dataset.action) {
+          case "template":
+            return activity.placeTemplate();
+          case "damage":
+            return activity.rollDamage();
+          case "healing":
+            return activity.rollHealing();
+          case "teleport":
+            return activity.teleportToken();
+          case "effect":
+            return activity.grantEffects();
+        }
+      });
     }
 
     if (usage.templates) {
@@ -102,12 +143,13 @@ export default class UsageMessageData extends ChatMessageSystemModel {
       button.textContent = "Roll Damage";
       buttons.push(button);
       usage.damage.ammo = this.item.actor.items.get(usage.ammo) ?? null;
-      button.addEventListener("click", event => this.item.rollDamage(usage.damage));
+      button.addEventListener("click", event => {
+        const activity = this.item.system.activities.get(this.activity);
+        activity.rollDamage(usage.damage);
+      });
     }
 
     // Append buttons.
-    const content = html.querySelector(".message-content");
-    content.innerHTML = "";
     if (buttons.length) {
       const fieldset = document.createElement("FIELDSET");
       fieldset.insertAdjacentHTML("beforeend", "<legend>Buttons</legend>");

@@ -73,6 +73,20 @@ SYSTEM.DAMAGE_TYPES = {
   }
 };
 
+Object.defineProperty(SYSTEM.DAMAGE_TYPES, "optgroups", {
+  get: function() {
+    const groups = Object.entries(CONFIG.SYSTEM.DAMAGE_TYPE_GROUPS).map(([k, {label}]) => {
+      const arr = [];
+      for (const [u, v] of Object.entries(this)) {
+        if (v.group === k) arr.push({value: u, label: v.label, group: label});
+      }
+      return arr;
+    });
+
+    return groups.flat();
+  }
+});
+
 /* -------------------------------------------------- */
 
 /**
@@ -93,7 +107,7 @@ SYSTEM.DAMAGE_TYPE_GROUPS = {
 /* -------------------------------------------------- */
 
 /**
- * @typedef {object} AreaTargetTypes
+ * @typedef {object} TargetTypeConfig
  * @property {string} label             Displayed label of the targeting type.
  * @property {Set<string>} scale        The properties that can scale with mana.
  * @property {boolean} [ammo]           Whether this is a valid area type for ammo.
@@ -102,49 +116,64 @@ SYSTEM.DAMAGE_TYPE_GROUPS = {
  * @property {number[]} [distance]      The default distance and how much each increase is.
  * @property {number[]} [width]         The default width and how much each increase is.
  * @property {number[]} [radius]        The default radius and how much each increase is.
+ * @property {boolean} [attached]       Is this template type locked to a token during preview?
  */
 
 /**
  * The types of area targeting, enumerating both configurations for spell areas and upscaling
  * with mana, as well as what blast zones a piece of ammo can create.
- * @enum {AreaTargetTypes}
+ * @enum {TargetTypeConfig}
  */
-SYSTEM.AREA_TARGET_TYPES = {
+SYSTEM.TARGET_TYPES = {
   single: {
-    label: "ARTICHRON.SpellShape.SingleTarget",
+    label: "ARTICHRON.TargetTypes.SingleTarget",
     scale: new Set(["count", "range"]),
     count: [1, 1],
     range: [6, 2]
   },
   ray: {
-    label: "ARTICHRON.SpellShape.AreaRay",
-    scale: new Set(["count", "distance", "width"]),
+    label: "ARTICHRON.TargetTypes.AreaRay",
+    scale: new Set(["count", "size", "width"]),
     ammo: true,
     count: [1, 1],
-    distance: [4, 2],
-    width: [1, 1]
+    size: [4, 2],
+    width: [1, 1],
+    attached: true
   },
   cone: {
-    label: "ARTICHRON.SpellShape.AreaCone",
-    scale: new Set(["count", "distance"]),
+    label: "ARTICHRON.TargetTypes.AreaCone",
+    scale: new Set(["count", "size"]),
     ammo: true,
     count: [1, 1],
-    distance: [3, 2]
+    size: [3, 2],
+    attached: true
   },
   circle: {
-    label: "ARTICHRON.SpellShape.AreaCircle",
-    scale: new Set(["count", "radius", "range"]),
+    label: "ARTICHRON.TargetTypes.AreaCircle",
+    scale: new Set(["count", "size", "range"]),
     ammo: true,
     count: [1, 1],
-    radius: [1, 1],
+    size: [1, 1],
     range: [5, 2]
   },
   radius: {
-    label: "ARTICHRON.SpellShape.AreaRadius",
-    scale: new Set(["radius"]),
-    radius: [2, 1]
+    label: "ARTICHRON.TargetTypes.AreaRadius",
+    scale: new Set(["size"]),
+    size: [2, 1],
+    attached: true
   }
 };
+
+Object.defineProperty(SYSTEM.TARGET_TYPES, "optgroups", {
+  get: function() {
+    const {single, ...rest} = this;
+    const options = [];
+    options.push({value: "single", label: single.label});
+    const grp = game.i18n.localize("ARTICHRON.TargetTypes.AreaOfEffect");
+    options.push(...Object.entries(rest).map(([k, v]) => ({value: k, label: v.label, group: grp})));
+    return options;
+  }
+});
 
 /* -------------------------------------------------- */
 
@@ -403,6 +432,29 @@ SYSTEM.EFFECT_EXPIRATION_TYPES = {
   none: {label: "ARTICHRON.EffectProperty.ExpirationNone"},
   combat: {label: "ARTICHRON.EffectProperty.ExpirationCombat"},
   day: {label: "ARTICHRON.EffectProperty.ExpirationDay"}
+};
+
+/* -------------------------------------------------- */
+
+/**
+ * @typedef {object} TemplateDurationConfig
+ * @property {string} label     The human-readable label of this template duration type.
+ */
+
+/**
+ * Template duration types.
+ * @enum {TemplateDurationConfig}
+ */
+SYSTEM.TEMPLATE_DURATIONS = {
+  combat: {
+    label: "ARTICHRON.TemplateDurations.Combat"
+  },
+  round: {
+    label: "ARTICHRON.TemplateDurations.Round"
+  },
+  turn: {
+    label: "ARTICHRON.TemplateDurations.Turn"
+  }
 };
 
 /* -------------------------------------------------- */
