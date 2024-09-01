@@ -14,7 +14,10 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
       deleteDamage: this._onDeleteDamage,
       undoFusion: this._onUndoFusion,
       addRequirement: ItemSheetArtichron.#addRequirement,
-      deleteRequirement: ItemSheetArtichron.#deleteRequirement
+      deleteRequirement: ItemSheetArtichron.#deleteRequirement,
+      createActivity: ItemSheetArtichron.#createActivity,
+      deleteActivity: ItemSheetArtichron.#deleteActivity,
+      renderActivity: ItemSheetArtichron.#renderActivity
     }
   };
 
@@ -26,7 +29,7 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
     tabs: {template: "systems/artichron/templates/shared/tabs.hbs"},
     description: {template: "systems/artichron/templates/item/item-description.hbs", scrollable: [""]},
     details: {template: "systems/artichron/templates/item/item-details.hbs", scrollable: [""]},
-    secondary: {template: "systems/artichron/templates/item/item-secondary.hbs", scrollable: [""]},
+    activities: {template: "systems/artichron/templates/item/item-activities.hbs", scrollable: [""]},
     fusion: {template: "systems/artichron/templates/item/item-fusion.hbs", scrollable: [""]},
     effects: {template: "systems/artichron/templates/shared/effects.hbs", scrollable: [""]}
   };
@@ -37,7 +40,7 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
   static TABS = {
     description: {id: "description", group: "primary", label: "ARTICHRON.SheetTab.Description"},
     details: {id: "details", group: "primary", label: "ARTICHRON.SheetTab.Details"},
-    secondary: {id: "secondary", group: "primary", label: "ARTICHRON.SheetTab.Properties"},
+    activities: {id: "activities", group: "primary", label: "ARTICHRON.SheetTab.Activities"},
     fusion: {id: "fusion", group: "primary", label: "ARTICHRON.SheetTab.Fusion"},
     effects: {id: "effects", group: "primary", label: "ARTICHRON.SheetTab.Effects"}
   };
@@ -135,64 +138,12 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
     // Handling fieldset
     context.details.handling = [];
     if (doc.system.schema.has("wield")) context.details.handling.push(this._makeField(context, "wield.value"));
-    if (doc.system.schema.has("range") && !doc.isAmmo) {
-      const property = this.document.isMelee ? "range.reach" : "range.value";
-      context.details.handling.push(this._makeField(context, property));
-    }
-    if (doc.type === "spell") context.details.handling.push(this._makeField(context, "template.types"));
-    if (doc.isArsenal) context.details.handling.push(this._makeField(context, "cost.value"));
 
     // Defenses.
     if (doc.system.schema.has("armor")) context.fieldsets.push({
       legend: game.i18n.localize("ARTICHRON.ItemProperty.Fieldsets.Defenses"),
       formGroups: [this._makeField(context, "armor.value")]
     });
-
-    // Damage parts.
-    if (context.hasDamage) {
-      context.damageTypes = [];
-      context.damages = {
-        label: this.document.system.schema.getField("damage.parts").label,
-        parts: (context.isEditMode ? src.system.damage.parts : doc.system._damages).map((k, idx) => {
-          return {
-            id: {
-              field: doc.system.schema.getField("damage.parts.element.id"),
-              value: k.id,
-              name: `system.damage.parts.${idx}.id`,
-              disabled: !context.isEditMode
-            },
-            formula: {
-              field: doc.system.schema.getField("damage.parts.element.formula"),
-              value: k.formula,
-              name: `system.damage.parts.${idx}.formula`,
-              disabled: !context.isEditMode
-            },
-            type: {
-              field: doc.system.schema.getField("damage.parts.element.type"),
-              value: k.type,
-              name: `system.damage.parts.${idx}.type`,
-              disabled: !context.isEditMode,
-              options: context.damageTypes
-            }
-          };
-        }),
-        groups: CONFIG.SYSTEM.DAMAGE_TYPE_GROUPS
-      };
-
-      const groups = Object.entries(CONFIG.SYSTEM.DAMAGE_TYPES).reduce((acc, [k, v]) => {
-        acc[v.group].push({
-          value: k,
-          label: v.label,
-          group: CONFIG.SYSTEM.DAMAGE_TYPE_GROUPS[v.group].label
-        });
-        return acc;
-      }, Object.keys(CONFIG.SYSTEM.DAMAGE_TYPE_GROUPS).reduce((acc, k) => {
-        acc[k] = [];
-        return acc;
-      }, {}));
-
-      context.damageTypes.push(...Object.values(groups).flat());
-    }
 
     const makeResistance = field => {
       const value = foundry.utils.getProperty(context.isEditMode ? src : doc, field.fields.value.fieldPath);
@@ -240,6 +191,15 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
       context.armorRequirements = requirements;
     }
 
+    // Activities.
+    context.activities = this.document.system.activities.map(activity => {
+      return {
+        id: activity.id,
+        name: activity.name,
+        subtitle: game.i18n.localize(activity.constructor.metadata.label)
+      };
+    });
+
     return context;
   }
 
@@ -277,7 +237,7 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
   /**
    * Handle click events to add a new damage formula.
    * @param {Event} event             The initiating click event.
-   * @param {HTMLElement} target      The current target of the event listener.
+   * @param {HTMLElement} target      The element with the data-action property.
    */
   static _onAddDamage(event, target) {
     if (!this.isEditable) return;
@@ -295,7 +255,7 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
   /**
    * Handle click events to remove a particular damage formula.
    * @param {Event} event             The initiating click event.
-   * @param {HTMLElement} target      The current target of the event listener.
+   * @param {HTMLElement} target      The element with the data-action property.
    */
   static _onDeleteDamage(event, target) {
     if (!this.isEditable) return;
@@ -310,7 +270,7 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
   /**
    * Handle click events to unfuse this item.
    * @param {Event} event             The initiating click event.
-   * @param {HTMLElement} target      The current target of the event listener.
+   * @param {HTMLElement} target      The element with the data-action property.
    */
   static async _onUndoFusion(event, target) {
     if (!this.isEditable) return;
@@ -323,7 +283,7 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
   /**
    * Handle click events to add an armor requirement.
    * @param {Event} event             The initiating click event.
-   * @param {HTMLElement} target      The current target of the event listener.
+   * @param {HTMLElement} target      The element with the data-action property.
    */
   static #addRequirement(event, target) {
     if (!this.isEditable) return;
@@ -339,7 +299,7 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
   /**
    * Handle click events to remove an armor requirement.
    * @param {Event} event             The initiating click event.
-   * @param {HTMLElement} target      The current target of the event listener.
+   * @param {HTMLElement} target      The element with the data-action property.
    */
   static #deleteRequirement(event, target) {
     if (!this.isEditable) return;
@@ -347,5 +307,63 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
     const requirements = this.document.system.toObject().category.requirements;
     requirements.splice(idx, 1);
     this.document.update({"system.category.requirements": requirements});
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Create an activity.
+   * @this {ItemSheetArtichron}
+   * @param {Event} event             Triggering click event.
+   * @param {HTMLElement} target      The element with the data-action property.
+   */
+  static #createActivity(event, target) {
+    const types = Object.entries(artichron.fields.BaseActivity.TYPES).reduce((acc, [k, v]) => {
+      acc[k] = game.i18n.localize(v.metadata.label);
+      return acc;
+    }, {});
+    const select = new foundry.data.fields.StringField({
+      required: true,
+      choices: types,
+      label: "Type"
+    }).toFormGroup({}, {name: "type"}).outerHTML;
+    foundry.applications.api.DialogV2.prompt({
+      content: `<fieldset>${select}</fieldset>`,
+      ok: {callback: (event, button) => {
+        const type = button.form.elements.type.value;
+        artichron.fields.BaseActivity.create(this.document, {
+          type: type,
+          name: game.i18n.localize(artichron.fields.BaseActivity.TYPES[type].metadata.label)
+        });
+      }}
+    });
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Delete an activity.
+   * @this {ItemSheetArtichron}
+   * @param {Event} event             Triggering click event.
+   * @param {HTMLElement} target      The element with the data-action property.
+   */
+  static #deleteActivity(event, target) {
+    const id = target.closest("[data-activity-id]").dataset.activityId;
+    const activity = this.document.system.activities.get(id);
+    activity.delete();
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Render an activity's sheet.
+   * @this {ItemSheetArtichron}
+   * @param {Event} event             Triggering click event.
+   * @param {HTMLElement} target      The element with the data-action property.
+   */
+  static #renderActivity(event, target) {
+    const id = target.closest("[data-activity-id]").dataset.activityId;
+    const activity = this.document.system.activities.get(id);
+    activity.sheet.render({force: true});
   }
 }

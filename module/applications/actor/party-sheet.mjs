@@ -335,7 +335,7 @@ export default class PartySheet extends ActorSheetArtichron {
    * Prompt to award the party with an amount of currency.
    * @this {PartySheet}
    * @param {Event} event             Initiating click event.
-   * @param {HTMLElement} target      The current target of the event listener.
+   * @param {HTMLElement} target      The element with the data-action property.
    */
   static #awardCurrency(event, target) {
     this.document.system.awardCurrencyDialog();
@@ -347,7 +347,7 @@ export default class PartySheet extends ActorSheetArtichron {
    * Prompt to award the party with an amount of progression points.
    * @this {PartySheet}
    * @param {Event} event             Initiating click event.
-   * @param {HTMLElement} target      The current target of the event listener.
+   * @param {HTMLElement} target      The element with the data-action property.
    */
   static #awardPoints(event, target) {
     this.document.system.awardPointsDialog();
@@ -359,7 +359,7 @@ export default class PartySheet extends ActorSheetArtichron {
    * Prompt to create a progression on a hero actor who is a member of this party.
    * @this {PartySheet}
    * @param {Event} event             Initiating click event.
-   * @param {HTMLElement} target      The current target of the event listener.
+   * @param {HTMLElement} target      The element with the data-action property.
    */
   static #createProgression(event, target) {
     const id = target.closest(".member").dataset.id;
@@ -373,7 +373,7 @@ export default class PartySheet extends ActorSheetArtichron {
    * Display an actor when the avatar is clicked.
    * @this {PartySheet}
    * @param {Event} event             Initiating click event.
-   * @param {HTMLElement} target      The current target of the event listener.
+   * @param {HTMLElement} target      The element with the data-action property.
    */
   static #displayActor(event, target) {
     const id = target.closest(".member").dataset.id;
@@ -387,7 +387,7 @@ export default class PartySheet extends ActorSheetArtichron {
    * Place the members of this party.
    * @this {PartySheet}
    * @param {Event} event             Initiating click event.
-   * @param {HTMLElement} target      The current target of the event listener.
+   * @param {HTMLElement} target      The element with the data-action property.
    */
   static async #placeMembers(event, target) {
     await this.minimize();
@@ -401,7 +401,7 @@ export default class PartySheet extends ActorSheetArtichron {
    * Recall the members of this party.
    * @this {PartySheet}
    * @param {Event} event             Initiating click event.
-   * @param {HTMLElement} target      The current target of the event listener.
+   * @param {HTMLElement} target      The element with the data-action property.
    */
   static async #recallMembers(event, target) {
     const token = this.document.isToken ? this.document.token?.object : this.document.getActiveTokens()[0];
@@ -414,7 +414,7 @@ export default class PartySheet extends ActorSheetArtichron {
    * Remove this member from this party.
    * @this {PartySheet}
    * @param {Event} event             Initiating click event.
-   * @param {HTMLElement} target      The current target of the event listener.
+   * @param {HTMLElement} target      The element with the data-action property.
    */
   static #removeMember(event, target) {
     const id = target.closest(".member").dataset.id;
@@ -422,6 +422,14 @@ export default class PartySheet extends ActorSheetArtichron {
     this.document.system.removeMember(actor);
   }
 
+  /* -------------------------------------------------- */
+
+  /**
+   * Adjust the value of a clock.
+   * @this {PartySheet}
+   * @param {Event} event             Initiating click event.
+   * @param {HTMLElement} target      The element with the data-action property.
+   */
   static #clockDelta(event, target) {
     const delta = target.dataset.delta === "up" ? 1 : -1;
     const idx = Number(target.dataset.idx);
@@ -430,12 +438,28 @@ export default class PartySheet extends ActorSheetArtichron {
     this.document.update({"system.clocks": clocks});
   }
 
+  /* -------------------------------------------------- */
+
+  /**
+   * Create a new clock.
+   * @this {PartySheet}
+   * @param {Event} event             Initiating click event.
+   * @param {HTMLElement} target      The element with the data-action property.
+   */
   static #addClock(event, target) {
     const clocks = this.document.system.toObject().clocks;
     clocks.push(this.document.system.schema.getField("clocks.element").initial());
     this.document.update({"system.clocks": clocks});
   }
 
+  /* -------------------------------------------------- */
+
+  /**
+   * Remove a clock.
+   * @this {PartySheet}
+   * @param {Event} event             Initiating click event.
+   * @param {HTMLElement} target      The element with the data-action property.
+   */
   static #removeClock(event, target) {
     const clocks = this.document.system.toObject().clocks;
     const idx = Number(target.closest("[data-idx]").dataset.idx);

@@ -7,6 +7,9 @@ export default class ActivitySheet extends foundry.applications.api.HandlebarsAp
     this.#activityId = options.document.id;
   }
 
+  /* -------------------------------------------------- */
+
+  /** @override */
   static DEFAULT_OPTIONS = {
     actions: {
       addDamage: ActivitySheet.#addDamage,
@@ -29,6 +32,9 @@ export default class ActivitySheet extends foundry.applications.api.HandlebarsAp
     }
   };
 
+  /* -------------------------------------------------- */
+
+  /** @override */
   static PARTS = {
     tabs: {
       template: "templates/generic/tab-navigation.hbs"
@@ -41,27 +47,61 @@ export default class ActivitySheet extends foundry.applications.api.HandlebarsAp
     }
   };
 
+  /* -------------------------------------------------- */
+
   /** @override */
   tabGroups = {
     primary: "identity"
   };
 
+  /* -------------------------------------------------- */
+  /*   Properties                                       */
+  /* -------------------------------------------------- */
+
+  /**
+   * The item that has this activity.
+   * @type {ItemArtichron}
+   */
   #item = null;
 
+  /* -------------------------------------------------- */
+
+  /**
+   * The id of the activity.
+   * @type {string}
+   */
   #activityId = null;
 
+  /* -------------------------------------------------- */
+
+  /**
+   * The activity.
+   * @type {BaseActivity}
+   */
   get activity() {
     return this.#item.system.activities.get(this.#activityId);
   }
 
+  /* -------------------------------------------------- */
+
+  /**
+   * The item that has this activity.
+   * @type {ItemArtichron}
+   */
   get item() {
     return this.#item;
   }
 
+  /* -------------------------------------------------- */
+
+  /** @override */
   get title() {
     return this.activity.name;
   }
 
+  /* -------------------------------------------------- */
+
+  /** @override */
   async _prepareContext(options) {
     const context = {
       activity: this.activity,
@@ -71,20 +111,30 @@ export default class ActivitySheet extends foundry.applications.api.HandlebarsAp
     return context;
   }
 
+  /* -------------------------------------------------- */
+
+  /** @override */
   async _preparePartContext(partId, context, options) {
     context = await super._preparePartContext(partId, context, options);
 
     switch (partId) {
       case "tabs":
-        return this.#prepareTabsContext(context, options);
+        return this.#prepareTabsContext(context);
       case "identity":
-        return this.#prepareIdentityContext(context, options);
+        return this.#prepareIdentityContext(context);
       case "details":
-        return this.#prepareDetailsContext(context, options);
+        return this.#prepareDetailsContext(context);
     }
   }
 
-  async #prepareTabsContext(context, options) {
+  /* -------------------------------------------------- */
+
+  /**
+   * Prepare context for the navigation.
+   * @param {object} context        Rendering context.
+   * @returns {Promise<object>}     Mutated rendering context.
+   */
+  async #prepareTabsContext(context) {
     const tabs = {
       identity: {id: "identity", group: "primary", icon: "fa-solid fa-tag", label: "ARTICHRON.SheetTab.Identity"},
       details: {id: "details", group: "primary", icon: "fa-solid fa-pen-fancy", label: "ARTICHRON.SheetTab.Details"}
@@ -97,7 +147,14 @@ export default class ActivitySheet extends foundry.applications.api.HandlebarsAp
     return context;
   }
 
-  async #prepareIdentityContext(context, options) {
+  /* -------------------------------------------------- */
+
+  /**
+   * Prepare context for the identity tab.
+   * @param {object} context        Rendering context.
+   * @returns {Promise<object>}     Mutated rendering context.
+   */
+  async #prepareIdentityContext(context) {
     context.name = {
       field: context.activity.schema.getField("name"),
       value: context.activity.name
@@ -114,7 +171,14 @@ export default class ActivitySheet extends foundry.applications.api.HandlebarsAp
     return context;
   }
 
-  async #prepareDetailsContext(context, options) {
+  /* -------------------------------------------------- */
+
+  /**
+   * Prepare context for the details tab.
+   * @param {object} context        Rendering context.
+   * @returns {Promise<object>}     Mutated rendering context.
+   */
+  async #prepareDetailsContext(context) {
     const makeField = path => {
       return {
         field: context.activity.schema.getField(path),
@@ -206,19 +270,29 @@ export default class ActivitySheet extends foundry.applications.api.HandlebarsAp
     return context;
   }
 
+  /* -------------------------------------------------- */
+
   /** @inheritdoc */
   _onFirstRender(context, options) {
     super._onFirstRender(context, options);
     this.item.apps[this.id] = this;
   }
 
+  /* -------------------------------------------------- */
+
   /** @override */
   _onClose(_options) {
     delete this.item.apps[this.id];
   }
 
+  /* -------------------------------------------------- */
+
   /**
+   * Handle form submission.
    * @this {ActivitySheet}
+   * @param {Event} event                   Triggering event.
+   * @param {HTMLElement} form              The form element.
+   * @param {FormDataExtended} formData     The form data.
    */
   static #onSubmitForm(event, form, formData) {
     const submitData = foundry.utils.expandObject(formData.object);
@@ -227,12 +301,28 @@ export default class ActivitySheet extends foundry.applications.api.HandlebarsAp
     this.activity.update(submitData);
   }
 
+  /* -------------------------------------------------- */
+
+  /**
+   * Add a damage part.
+   * @this {ActivitySheet}
+   * @param {Event} event             Triggering click event.
+   * @param {HTMLElement} target      The element with the data-action property.
+   */
   static #addDamage(event, target) {
     const damage = this.activity.toObject().damage;
     damage.push({});
     this.activity.update({damage: damage});
   }
 
+  /* -------------------------------------------------- */
+
+  /**
+   * Delete a damage part.
+   * @this {ActivitySheet}
+   * @param {Event} event             Triggering click event.
+   * @param {HTMLElement} target      The element with the data-action property.
+   */
   static #deleteDamage(event, target) {
     const idx = Number(target.closest("[data-idx]").dataset.idx);
     const damage = this.activity.toObject().damage;

@@ -294,8 +294,9 @@ export default class CombatCarousel extends HandlebarsApplicationMixin(Applicati
 
   /**
    * Handle selecting combatant.
+   * @this {CombatCarousel}
    * @param {Event} event             Initiating click event.
-   * @param {HTMLElement} target      The clicked element.
+   * @param {HTMLElement} target      The element with the data-action property.
    */
   static #onSelectCombatant(event, target) {
     if (event.target.classList.contains("name")) return;
@@ -344,7 +345,7 @@ export default class CombatCarousel extends HandlebarsApplicationMixin(Applicati
   /**
    * Handle initiating combat.
    * @param {Event} event             Initiating click event.
-   * @param {HTMLElement} target      The clicked element.
+   * @param {HTMLElement} target      The element with the data-action property.
    */
   static #beginCombat(event, target) {
     this.combat.startCombat();
@@ -355,7 +356,7 @@ export default class CombatCarousel extends HandlebarsApplicationMixin(Applicati
   /**
    * Handle ending combat.
    * @param {Event} event             Initiating click event.
-   * @param {HTMLElement} target      The clicked element.
+   * @param {HTMLElement} target      The element with the data-action property.
    */
   static #endCombat(event, target) {
     this.combat.endCombat();
@@ -366,7 +367,7 @@ export default class CombatCarousel extends HandlebarsApplicationMixin(Applicati
   /**
    * Handle moving to the previous turn.
    * @param {Event} event             Initiating click event.
-   * @param {HTMLElement} target      The clicked element.
+   * @param {HTMLElement} target      The element with the data-action property.
    */
   static #previousTurn(event, target) {
     this.combat.previousTurn();
@@ -377,7 +378,7 @@ export default class CombatCarousel extends HandlebarsApplicationMixin(Applicati
   /**
    * Handle moving to the next turn.
    * @param {Event} event             Initiating click event.
-   * @param {HTMLElement} target      The clicked element.
+   * @param {HTMLElement} target      The element with the data-action property.
    */
   static #nextTurn(event, target) {
     this.combat.nextTurn();
@@ -388,7 +389,7 @@ export default class CombatCarousel extends HandlebarsApplicationMixin(Applicati
   /**
    * Handle pinging a combatant.
    * @param {Event} event             Initiating click event.
-   * @param {HTMLElement} target      The clicked element.
+   * @param {HTMLElement} target      The element with the data-action property.
    */
   static #pingCombatant(event, target) {
     event.stopPropagation(); // Don't trigger other events
@@ -405,7 +406,7 @@ export default class CombatCarousel extends HandlebarsApplicationMixin(Applicati
   /**
    * Handle toggling the defeated status.
    * @param {Event} event             Initiating click event.
-   * @param {HTMLElement} target      The clicked element.
+   * @param {HTMLElement} target      The element with the data-action property.
    */
   static #toggleDefeated(event, target) {
     event.stopPropagation(); // Don't trigger other events
@@ -420,7 +421,7 @@ export default class CombatCarousel extends HandlebarsApplicationMixin(Applicati
   /**
    * Handle toggling the 'hidden' property.
    * @param {Event} event             Initiating click event.
-   * @param {HTMLElement} target      The clicked element.
+   * @param {HTMLElement} target      The element with the data-action property.
    */
   static #toggleHidden(event, target) {
     event.stopPropagation(); // Don't trigger other events
@@ -435,7 +436,7 @@ export default class CombatCarousel extends HandlebarsApplicationMixin(Applicati
   /**
    * Toggle the collapsed state of the combat tracker.
    * @param {Event} event             Initiating click event.
-   * @param {HTMLElement} target      The clicked element.
+   * @param {HTMLElement} target      The element with the data-action property.
    */
   static #toggleCollapsed(event, target) {
     const collapsed = target.closest(".controls").classList.toggle("collapsed");

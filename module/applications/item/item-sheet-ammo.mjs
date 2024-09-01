@@ -15,7 +15,7 @@ export default class ItemSheetAmmunition extends ItemSheetArtichron {
     tabs: {template: "systems/artichron/templates/shared/tabs.hbs"},
     description: {template: "systems/artichron/templates/item/item-description.hbs", scrollable: [""]},
     details: {template: "systems/artichron/templates/item/item-details.hbs", scrollable: [""]},
-    secondary: {template: "systems/artichron/templates/item/item-secondary.hbs", scrollable: [""]}
+    activities: {template: "systems/artichron/templates/item/item-activities.hbs", scrollable: [""]}
   };
 
   /* -------------------------------------------------- */
@@ -24,7 +24,7 @@ export default class ItemSheetAmmunition extends ItemSheetArtichron {
   static TABS = {
     description: {id: "description", group: "primary", label: "ARTICHRON.SheetTab.Description"},
     details: {id: "details", group: "primary", label: "ARTICHRON.SheetTab.Details"},
-    secondary: {id: "secondary", group: "primary", label: "ARTICHRON.SheetTab.Properties"}
+    activities: {id: "activities", group: "primary", label: "ARTICHRON.SheetTab.Activities"}
   };
 
   /* -------------------------------------------------- */

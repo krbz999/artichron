@@ -3,6 +3,7 @@ import ActivitySheet from "../../applications/activity-sheet.mjs";
 /**
  * @typedef {object} ActivityMetadata     Activity metadata.
  * @property {string} type                The activity type.
+ * @property {string} label               Name of this activity type.
  */
 
 const {ArrayField, BooleanField, HTMLField, NumberField, SchemaField, SetField, StringField} = foundry.data.fields;
@@ -13,7 +14,8 @@ export default class BaseActivity extends foundry.abstract.DataModel {
    * @type {ActivityMetadata}
    */
   static metadata = Object.freeze({
-    type: "base"
+    type: "",
+    label: ""
   });
 
   /* -------------------------------------------------- */
@@ -226,7 +228,8 @@ export default class BaseActivity extends foundry.abstract.DataModel {
 class DamageActivity extends BaseActivity {
   /** @inheritdoc */
   static metadata = Object.freeze({
-    type: "damage"
+    type: "damage",
+    label: "ARTICHRON.ActivityTypes.Damage"
   });
 
   /* -------------------------------------------------- */
@@ -378,7 +381,8 @@ class DamageActivity extends BaseActivity {
 class HealingActivity extends BaseActivity {
   /** @inheritdoc */
   static metadata = Object.freeze({
-    type: "healing"
+    type: "healing",
+    label: "ARTICHRON.ActivityTypes.Healing"
   });
 
   /* -------------------------------------------------- */
@@ -437,7 +441,8 @@ class HealingActivity extends BaseActivity {
 class TeleportActivity extends BaseActivity {
   /** @inheritdoc */
   static metadata = Object.freeze({
-    type: "teleport"
+    type: "teleport",
+    label: "ARTICHRON.ActivityTypes.Teleport"
   });
 
   /* -------------------------------------------------- */
@@ -473,7 +478,8 @@ class TeleportActivity extends BaseActivity {
 class EffectActivity extends BaseActivity {
   /** @inheritdoc */
   static metadata = Object.freeze({
-    type: "effect"
+    type: "effect",
+    label: "ARTICHRON.ActivityTypes.Effect"
   });
 
   /* -------------------------------------------------- */

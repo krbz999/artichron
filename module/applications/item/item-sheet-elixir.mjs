@@ -15,7 +15,7 @@ export default class ItemSheetElixir extends ItemSheetArtichron {
     tabs: {template: "systems/artichron/templates/shared/tabs.hbs"},
     description: {template: "systems/artichron/templates/item/item-description.hbs", scrollable: [""]},
     details: {template: "systems/artichron/templates/item/item-details.hbs", scrollable: [""]},
-    secondary: {template: "systems/artichron/templates/item/item-secondary.hbs", scrollable: [""]},
+    activities: {template: "systems/artichron/templates/item/item-activities.hbs", scrollable: [""]},
     effects: {template: "systems/artichron/templates/shared/effects.hbs", scrollable: [""]}
   };
 
@@ -25,7 +25,7 @@ export default class ItemSheetElixir extends ItemSheetArtichron {
   static TABS = {
     description: {id: "description", group: "primary", label: "ARTICHRON.SheetTab.Description"},
     details: {id: "details", group: "primary", label: "ARTICHRON.SheetTab.Details"},
-    secondary: {id: "secondary", group: "primary", label: "ARTICHRON.SheetTab.Properties"},
+    activities: {id: "activities", group: "primary", label: "ARTICHRON.SheetTab.Activities"},
     effects: {id: "effects", group: "primary", label: "ARTICHRON.SheetTab.Effects"}
   };
 
@@ -45,29 +45,12 @@ export default class ItemSheetElixir extends ItemSheetArtichron {
     }, []);
 
     context.fieldsets.push({
-      legend: this.document.system.schema.getField("category").label,
-      formGroups: [
-        this._makeField(context, "category.subtype"),
-        (this.document.system.category.subtype === "booster") ? this._makeField(context, "category.pool") : null
-      ].filter(u => u)
-    });
-
-    context.fieldsets.push({
       legend: this.document.system.schema.getField("usage").label,
       formGroups: [
         this._makeField(context, "usage.spent", {max: context.document.system.usage.max}),
         this._makeField(context, "usage.max")
       ]
     });
-
-    if (this.document.system.category.subtype === "restorative") {
-      context.fieldsets.push({
-        legend: this.document.system.schema.getField("healing").label,
-        formGroups: [
-          this._makeField(context, "healing.formula")
-        ]
-      });
-    }
 
     return context;
   }

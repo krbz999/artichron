@@ -93,9 +93,17 @@
   "Restorative": "Restorative"
 },
 
+"ActivityTypes": {
+  "Damage": "Damage Activity",
+  "Effect": "Effect Activity",
+  "Healing": "Healing Activity",
+  "Teleport": "Teleport Activity"
+},
+
 "SheetTab": {
   "About": "About",
   "Actions": "Actions",
+  "Activities": "Activities",
   "Arsenal": "Arsenal",
   "Attributes": "Attributes",
   "Awards": "Awards",
