@@ -182,10 +182,25 @@ const FusionTemplateMixin = Base => {
       }
 
       // All activities are added.
+      const ignoredActivity = activity => {
+        switch (activity.type) {
+          case "damage":
+            if (item.type !== "spell") return true;
+            break;
+          case "effect":
+            return true;
+          case "healing":
+            return true;
+          case "teleport":
+            if (item.type !== "spell") return true;
+            break;
+        }
+        return false;
+      };
       for (const activity of source.system.activities) {
+        if (ignoredActivity(activity)) continue;
         const data = activity.toObject();
-        const id = foundry.utils.randomID();
-        data._id = id;
+        data._id = foundry.utils.randomID();
         changes.push({key: "activity", mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: JSON.stringify(data)});
       }
 
