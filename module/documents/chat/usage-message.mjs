@@ -78,6 +78,8 @@ export default class UsageMessageData extends ChatMessageSystemModel {
       button.addEventListener("click", event => {
         const activity = this.item.system.activities.get(this.activity);
         switch (event.currentTarget.dataset.action) {
+          case "cost":
+            return activity.consumeCost();
           case "template":
             return activity.placeTemplate();
           case "damage":

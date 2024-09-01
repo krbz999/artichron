@@ -68,7 +68,7 @@ export default class BaseActivity extends foundry.abstract.DataModel {
       name: new StringField({required: true}),
       description: new HTMLField({required: true}),
       cost: new SchemaField({
-        value: new NumberField({min: 0, integer: true, nullable: false, initial: 0})
+        value: new NumberField({min: 0, integer: true, nullable: false, initial: 1})
       }),
       target: new SchemaField({
         type: new StringField({
@@ -187,6 +187,37 @@ export default class BaseActivity extends foundry.abstract.DataModel {
 
   /* -------------------------------------------------- */
 
+  /**
+   * Consume the AP cost of this activity.
+   * @returns {Promise<ActorArtichron|null>}
+   */
+  async consumeCost() {
+    if (!this.cost.value) return null;
+
+    const actor = this.item.actor;
+
+    if (!actor.canPerformActionPoints(this.cost.value)) {
+      ui.notifications.warn(game.i18n.format("ARTICHRON.ACTIVITY.Warning.ConsumeCostUnavailable", {
+        name: actor.name, number: this.cost.value
+      }));
+      return null;
+    }
+
+    const result = await this.item.actor.spendActionPoints(this.cost.value);
+    if (result) {
+      ui.notifications.info(game.i18n.format("ARTICHRON.ACTIVITY.Warning.ConsumedCost", {
+        name: actor.name, number: this.cost.value
+      }));
+    }
+    return result;
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Place measured templates.
+   * @returns {Promise<MeasuredTemplateArtichron[]>}
+   */
   async placeTemplate() {
     if (!this.hasTemplate) {
       throw new Error("This item cannot create measured templates!");
@@ -227,8 +258,13 @@ export default class BaseActivity extends foundry.abstract.DataModel {
 
   /* -------------------------------------------------- */
 
+  /**
+   * Data for buttons that will be created in the chat message when using this activity.
+   * @type {object[]}
+   */
   get chatButtons() {
     return [
+      this.cost.value ? {action: "cost", label: `Consume ${this.cost.value} AP`} : null,
       this.hasTemplate ? {action: "template", label: "Template"} : null
     ].filter(u => u);
   }

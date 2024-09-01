@@ -671,6 +671,10 @@
         "hint": "Whether this activity is allowed only to teleports the caster instead of a target."
       }
     }
+  },
+  "Warning": {
+    "ConsumeCostUnavailable": "{name} does not have {number} action points available.",
+    "ConsumedCost": "{name} consumed {number} action points."
   }
 },
 
