@@ -69,6 +69,18 @@ export default class ArsenalData extends ItemSystemModel.mixin(
   /* -------------------------------------------------- */
 
   /**
+   * Can this item be used to defend?
+   * @type {boolean}
+   */
+  get canDefend() {
+    const attr = this.attributes.value;
+    if (!attr.has("parrying") && !attr.has("blocking")) return false;
+    return this.activities.getByType("defend").length > 0;
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
    * Pick targets within range of this item.
    * @param {object} [options]                        Additional options.
    * @returns {Promise<TokenDocumentArtichron[]>}     The token documents of those targeted.
@@ -80,35 +92,5 @@ export default class ArsenalData extends ItemSystemModel.mixin(
     allowPreTarget ??= false;
     const targets = await artichron.utils.awaitTargets(count, {origin, range, allowPreTarget});
     return targets;
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Roll damage dice to block or parry and reduce the incoming damage.
-   * @param {string} [type]                       The type of defense roll ('block' or 'parry').
-   * @returns {Promise<ChatMessageArtichron>}     A promise that resolves to the created chat message.
-   */
-  async rollDefense(type) {
-    if (!["block", "parry"].includes(type)) {
-      type = this.attributes.value.has("blocking") ? "block" : "parry";
-    }
-
-    if ((type === "block") && !this.attributes.value.has("blocking")) {
-      throw new Error("This item cannot block incoming damage!");
-    }
-
-    if ((type === "parry") && !this.attributes.value.has("parrying")) {
-      throw new Error("This item cannot parry incoming damage!");
-    }
-
-    const formula = this._damages.map(d => d.formula).join("+");
-    const roll = Roll.create(formula, this.parent.getRollData());
-    if (type === "parry") roll.alter(0.5);
-
-    return roll.toMessage({
-      flavor: game.i18n.format(`ARTICHRON.ChatMessage.${type.capitalize()}Flavor`, {name: this.parent.name}),
-      speaker: ChatMessage.implementation.getSpeaker({actor: this.parent.actor})
-    });
   }
 }

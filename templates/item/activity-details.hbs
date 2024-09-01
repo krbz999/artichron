@@ -39,6 +39,13 @@
   </fieldset>
   {{/if}}
 
+  {{#if defend.show}}
+  <fieldset>
+    <legend>{{defend.legend}}</legend>
+    {{formGroup defend.formula.field value=defend.formula.value}}
+  </fieldset>
+  {{/if}}
+
   {{#if healing.show}}
   <fieldset>
     <legend>{{healing.legend}}</legend>

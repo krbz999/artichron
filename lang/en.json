@@ -93,13 +93,6 @@
   "Restorative": "Restorative"
 },
 
-"ActivityTypes": {
-  "Damage": "Damage Activity",
-  "Effect": "Effect Activity",
-  "Healing": "Healing Activity",
-  "Teleport": "Teleport Activity"
-},
-
 "SheetTab": {
   "About": "About",
   "Actions": "Actions",
@@ -610,6 +603,13 @@
         }
       }
     },
+    "defend": {
+      "label": "Defend",
+      "formula": {
+        "label": "Formula",
+        "hint": "The formula used for a defensive roll. If parrying rather than blocking, the amount of dice will be halved."
+      }
+    },
     "description": {
       "label": "Description"
     },
@@ -675,6 +675,19 @@
   "Warning": {
     "ConsumeCostUnavailable": "{name} does not have {number} action points available.",
     "ConsumedCost": "{name} consumed {number} action points."
+  },
+  "Types": {
+    "Damage": "Damage Activity",
+    "Defend": "Defend Activity",
+    "Effect": "Effect Activity",
+    "Healing": "Healing Activity",
+    "Teleport": "Teleport Activity"
+  }
+},
+
+"ROLL": {
+  "Defend": {
+    "Flavor": "{name} - Defensive Roll"
   }
 },
 
@@ -819,7 +832,7 @@
 "DefenseDialog": {
   "Title": "Defense Roll: {name}",
   "Items": "Arsenal",
-  "ItemsHint": "Choose any of your equipped arsenal to defend against the attack and reduce incoming damage. Each item used will require 1 pip.",
+  "ItemsHint": "Choose any of your equipped arsenal to defend against the attack and reduce incoming damage.",
   "Confirm": "Roll",
   "Content": "{name} is about to take {damage} damage. You can attempt to parry or block to reduce the damage by an amount equal to the rolled totals."
 },

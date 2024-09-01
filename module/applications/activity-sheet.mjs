@@ -227,6 +227,15 @@ export default class ActivitySheet extends foundry.applications.api.HandlebarsAp
       }
     }
 
+    const defend = context.activity.schema.has("defend");
+    if (defend) {
+      context.defend = {
+        show: true,
+        legend: makeLegend("defend"),
+        formula: makeField("defend.formula")
+      };
+    }
+
     // Healing
     const healing = context.activity.schema.has("healing");
     if (healing) {

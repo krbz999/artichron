@@ -27,6 +27,7 @@ export default class BaseActivity extends foundry.abstract.DataModel {
   static get TYPES() {
     return {
       [DamageActivity.metadata.type]: DamageActivity,
+      [DefendActivity.metadata.type]: DefendActivity,
       [EffectActivity.metadata.type]: EffectActivity,
       [HealingActivity.metadata.type]: HealingActivity,
       [TeleportActivity.metadata.type]: TeleportActivity
@@ -274,7 +275,7 @@ class DamageActivity extends BaseActivity {
   /** @inheritdoc */
   static metadata = Object.freeze({
     type: "damage",
-    label: "ARTICHRON.ActivityTypes.Damage"
+    label: "ARTICHRON.ACTIVITY.Types.Damage"
   });
 
   /* -------------------------------------------------- */
@@ -406,7 +407,7 @@ class HealingActivity extends BaseActivity {
   /** @inheritdoc */
   static metadata = Object.freeze({
     type: "healing",
-    label: "ARTICHRON.ActivityTypes.Healing"
+    label: "ARTICHRON.ACTIVITY.Types.Healing"
   });
 
   /* -------------------------------------------------- */
@@ -466,7 +467,7 @@ class TeleportActivity extends BaseActivity {
   /** @inheritdoc */
   static metadata = Object.freeze({
     type: "teleport",
-    label: "ARTICHRON.ActivityTypes.Teleport"
+    label: "ARTICHRON.ACTIVITY.Types.Teleport"
   });
 
   /* -------------------------------------------------- */
@@ -503,7 +504,7 @@ class EffectActivity extends BaseActivity {
   /** @inheritdoc */
   static metadata = Object.freeze({
     type: "effect",
-    label: "ARTICHRON.ActivityTypes.Effect"
+    label: "ARTICHRON.ACTIVITY.Types.Effect"
   });
 
   /* -------------------------------------------------- */
@@ -537,4 +538,57 @@ class EffectActivity extends BaseActivity {
     buttons.unshift({action: "effect", label: "Grant Buff"});
     return buttons;
   }
+}
+
+class DefendActivity extends BaseActivity {
+  /** @inheritdoc */
+  static metadata = Object.freeze({
+    type: "defend",
+    label: "ARTICHRON.ACTIVITY.Types.Defend",
+    types: new Set(["weapon", "shield", "spell"])
+  });
+
+  /* -------------------------------------------------- */
+
+  /** @inheritdoc */
+  static defineSchema() {
+    return Object.assign(super.defineSchema(), {
+      defend: new SchemaField({
+        formula: new StringField({required: true})
+      })
+    });
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Perform a defensive roll.
+   * @returns {Promise<ChatMessageArtichron>}
+   */
+  async rollDefense() {
+    if (!this.defend.formula) {
+      throw new Error("DefendActivity must have a formula defined.");
+    }
+
+    const attr = this.item.system.attributes.value;
+    if (!attr.has("blocking") && !attr.has("parrying")) {
+      throw new Error("This item cannot be used to defend.");
+    }
+
+    const roll = Roll.create(this.defend.formula, this.item.getRollData());
+    if (!attr.has("blocking")) roll.alter(0.5);
+
+    if (this.item.actor.canPerformActionPoints(this.cost.value)) {
+      await this.item.actor.spendActionPoints(this.cost.value);
+    }
+
+    return roll.toMessage({
+      flavor: game.i18n.format("ARTICHRON.ROLL.Defend.Flavor", {name: this.item.name}),
+      speaker: ChatMessage.implementation.getSpeaker({actor: this.item.actor})
+    });
+  }
+
+  /* -------------------------------------------------- */
+  /*   Properties                                       */
+  /* -------------------------------------------------- */
 }

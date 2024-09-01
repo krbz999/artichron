@@ -193,7 +193,7 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
         id: activity.id,
         name: activity.name,
         subtitle: game.i18n.localize(activity.constructor.metadata.label),
-        disabled: !(activity.id in src.system.activities)
+        disabled: context.isPlayMode || !(activity.id in src.system.activities)
       };
     });
 
