@@ -149,6 +149,11 @@ export default class BaseActivity extends foundry.abstract.DataModel {
   /*   Instance methods                                 */
   /* -------------------------------------------------- */
 
+  /**
+   * Update this activity.
+   * @param {object} data                       Update data.
+   * @returns {Promise<ItemArtichron|null>}     A promise that resolves to the updated item.
+   */
   async update(data = {}) {
     const path = `system.activities.${this.id}`;
     if (!(this.id in this.item._source.system.activities)) return null;
@@ -157,6 +162,10 @@ export default class BaseActivity extends foundry.abstract.DataModel {
 
   /* -------------------------------------------------- */
 
+  /**
+   * Delete this activity.
+   * @returns {Promise<ItemArtichron|null>}     A promise that resolves to the updated item.
+   */
   async delete() {
     if (!(this.id in this.item._source.system.activities)) return null;
     const path = `system.activities.-=${this.id}`;
@@ -166,6 +175,12 @@ export default class BaseActivity extends foundry.abstract.DataModel {
 
   /* -------------------------------------------------- */
 
+  /**
+   * Create a new activity.
+   * @param {ItemArtichron} item                The item to create the activity on.
+   * @param {object} data                       Creation data.
+   * @returns {Promise<ItemArtichron|null>}     A promise that resolves to the updated item.
+   */
   static async create(item, data) {
     const id = foundry.utils.randomID();
     const path = `system.activities.${id}`;
@@ -307,6 +322,16 @@ class DamageActivity extends BaseActivity {
 
   /* -------------------------------------------------- */
 
+  /**
+   * Perform a damage roll.
+   * @param {object} [config]                 Damage roll config.
+   * @param {ItemArtichron} [config.ammo]     An ammo item for additional properties.
+   * @param {number} [config.multiply]        A multiplier on the number of dice rolled.
+   * @param {number} [config.addition]        An addition to the number of dice rolled.
+   * @param {object} [options]                Chat message options.
+   * @param {boolean} [options.create]        If false, returns the rolls instead of a chat message.
+   * @returns {Promise<ChatMessageArtichron|RollArtichron[]|null>}
+   */
   async rollDamage({ammo, multiply, addition} = {}, {create = true} = {}) {
     if (!this.hasDamage) {
       ui.notifications.warn("ARTICHRON.Warning.ItemHasNoDamageRolls", {localize: true});
@@ -407,6 +432,7 @@ class DamageActivity extends BaseActivity {
 
   /* -------------------------------------------------- */
 
+  /** @inheritdoc */
   get chatButtons() {
     const buttons = super.chatButtons;
     if (this.hasDamage) buttons.unshift({action: "damage", label: "Damage"});
@@ -435,6 +461,15 @@ class HealingActivity extends BaseActivity {
 
   /* -------------------------------------------------- */
 
+  /**
+   * Perform a healing roll.
+   * @param {object} [config]               Roll config.
+   * @param {number} [config.multiply]      A multiplier on the number of dice rolled.
+   * @param {number} [config.addition]      An addition to the number of dice rolled.
+   * @param {object} [options]              Chat message options.
+   * @param {boolean} [options.create]      If false, returns the rolls instead of a chat message.
+   * @returns {Promise<ChatMessageArtichron|RollArtichron[]|null>}
+   */
   async rollHealing({multiply, addition} = {}, {create = true} = {}) {
     if (!this.healing.formula || !foundry.dice.Roll.validate(this.healing.formula)) {
       ui.notifications.warn("ARTICHRON.ACTIVITY.WARNING.MissingHealingFormula", {localize: true});
@@ -468,6 +503,7 @@ class HealingActivity extends BaseActivity {
   /*   Properties                                       */
   /* -------------------------------------------------- */
 
+  /** @inheritdoc */
   get chatButtons() {
     const buttons = super.chatButtons;
     buttons.unshift({action: "healing", label: "Healing"});
@@ -515,6 +551,7 @@ class TeleportActivity extends BaseActivity {
   /*   Properties                                       */
   /* -------------------------------------------------- */
 
+  /** @inheritdoc */
   get chatButtons() {
     const buttons = super.chatButtons;
     buttons.unshift({action: "teleport", label: "Teleport"});
@@ -543,6 +580,11 @@ class EffectActivity extends BaseActivity {
 
   /* -------------------------------------------------- */
 
+  /**
+   * Transfer a copy of the effects to actors.
+   * @param {ActorArtichron[]} [targets]      The actor targets.
+   * @returns {Promise<void>}                 A promise that resolves once all socket events have been emitted.
+   */
   async grantEffects(targets = []) {
     const effects = this.effects.ids.map(id => this.item.effects.get(id));
     for (const actor of targets) {
@@ -556,6 +598,7 @@ class EffectActivity extends BaseActivity {
   /*   Properties                                       */
   /* -------------------------------------------------- */
 
+  /** @inheritdoc */
   get chatButtons() {
     const buttons = super.chatButtons;
     buttons.unshift({action: "effect", label: "Grant Buff"});
