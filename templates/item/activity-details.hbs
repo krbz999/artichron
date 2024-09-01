@@ -4,6 +4,7 @@
     {{formGroup cost.field value=cost.value}}
   </fieldset>
 
+  {{#if target.show}}
   <fieldset>
     <legend>{{target.legend}}</legend>
     {{formGroup target.type.field value=target.type.value options=target.type.options}}
@@ -18,6 +19,7 @@
     {{/each}}
     {{/if}}
   </fieldset>
+  {{/if}}
 
   {{#if damage.show}}
   <fieldset>

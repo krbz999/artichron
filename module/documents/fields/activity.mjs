@@ -8,6 +8,25 @@ import ActivitySheet from "../../applications/activity-sheet.mjs";
 
 const {ArrayField, BooleanField, HTMLField, NumberField, SchemaField, SetField, StringField} = foundry.data.fields;
 
+const targetField = () => {
+  return new SchemaField({
+    type: new StringField({
+      choices: CONFIG.SYSTEM.TARGET_TYPES,
+      initial: "single",
+      required: true
+    }),
+    count: new NumberField({min: 1, integer: true, nullable: false, initial: 1}),
+    duration: new StringField({
+      choices: CONFIG.SYSTEM.TEMPLATE_DURATIONS,
+      initial: "combat",
+      required: true
+    }),
+    range: new NumberField({min: 1, integer: true, nullable: false, initial: 1}),
+    size: new NumberField({min: 1, integer: true, nullable: false, initial: 1}),
+    width: new NumberField({min: 1, integer: true, nullable: false, initial: 1})
+  });
+};
+
 export default class BaseActivity extends foundry.abstract.DataModel {
   /**
    * Activity metadata.
@@ -70,22 +89,6 @@ export default class BaseActivity extends foundry.abstract.DataModel {
       description: new HTMLField({required: true}),
       cost: new SchemaField({
         value: new NumberField({min: 0, integer: true, nullable: false, initial: 1})
-      }),
-      target: new SchemaField({
-        type: new StringField({
-          choices: CONFIG.SYSTEM.TARGET_TYPES,
-          initial: "single",
-          required: true
-        }),
-        count: new NumberField({min: 1, integer: true, nullable: false, initial: 1}),
-        duration: new StringField({
-          choices: CONFIG.SYSTEM.TEMPLATE_DURATIONS,
-          initial: "combat",
-          required: true
-        }),
-        range: new NumberField({min: 1, integer: true, nullable: false, initial: 1}),
-        size: new NumberField({min: 1, integer: true, nullable: false, initial: 1}),
-        width: new NumberField({min: 1, integer: true, nullable: false, initial: 1})
       })
     };
   }
@@ -139,7 +142,7 @@ export default class BaseActivity extends foundry.abstract.DataModel {
    * @type {boolean}
    */
   get hasTemplate() {
-    return this.target.type !== "single";
+    return this.target?.type && (this.target.type !== "single");
   }
 
   /* -------------------------------------------------- */
@@ -290,7 +293,8 @@ class DamageActivity extends BaseActivity {
           choices: CONFIG.SYSTEM.DAMAGE_TYPES,
           initial: "physical"
         })
-      }))
+      })),
+      target: targetField()
     });
   }
 
@@ -417,7 +421,8 @@ class HealingActivity extends BaseActivity {
     return Object.assign(super.defineSchema(), {
       healing: new SchemaField({
         formula: new StringField({required: true})
-      })
+      }),
+      target: targetField()
     });
   }
 
@@ -514,7 +519,8 @@ class EffectActivity extends BaseActivity {
     return Object.assign(super.defineSchema(), {
       effects: new SchemaField({
         ids: new SetField(new StringField())
-      })
+      }),
+      target: targetField()
     });
   }
 

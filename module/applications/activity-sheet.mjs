@@ -192,19 +192,23 @@ export default class ActivitySheet extends foundry.applications.api.HandlebarsAp
     context.cost.legend = makeLegend("cost");
 
     // Target
-    context.target = {
-      type: makeField("target.type"),
-      legend: makeLegend("target")
-    };
-    context.target.type.options = CONFIG.SYSTEM.TARGET_TYPES.optgroups;
-    const configuration = CONFIG.SYSTEM.TARGET_TYPES[context.activity.target.type];
-    if (configuration.scale.has("count")) {
-      context.target.count = {show: true, ...makeField("target.count")};
-    }
-    context.target.fields = [];
-    for (const s of configuration.scale) {
-      if (s === "count") continue;
-      context.target.fields.push(makeField(`target.${s}`));
+    const target = context.activity.schema.has("target");
+    if (target) {
+      context.target = {
+        show: true,
+        type: makeField("target.type"),
+        legend: makeLegend("target")
+      };
+      context.target.type.options = CONFIG.SYSTEM.TARGET_TYPES.optgroups;
+      const configuration = CONFIG.SYSTEM.TARGET_TYPES[context.activity.target.type];
+      if (configuration.scale.has("count")) {
+        context.target.count = {show: true, ...makeField("target.count")};
+      }
+      context.target.fields = [];
+      for (const s of configuration.scale) {
+        if (s === "count") continue;
+        context.target.fields.push(makeField(`target.${s}`));
+      }
     }
 
     // Damage
