@@ -147,12 +147,14 @@ export default class BaseActivity extends foundry.abstract.DataModel {
 
   async update(data = {}) {
     const path = `system.activities.${this.id}`;
+    if (!(this.id in this.item._source.system.activities)) return null;
     return this.item.update({[path]: data});
   }
 
   /* -------------------------------------------------- */
 
   async delete() {
+    if (!(this.id in this.item._source.system.activities)) return null;
     const path = `system.activities.-=${this.id}`;
     await this.sheet?.close();
     return this.item.update({[path]: null});

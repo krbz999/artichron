@@ -386,4 +386,8 @@
       margin: 0;
     }
   }
+
+  & multi-checkbox:disabled label.checkbox:has(input:not(:checked)) {
+    opacity: 0.25;
+  }
 }

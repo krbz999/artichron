@@ -32,6 +32,37 @@ export default class ActiveEffectArtichron extends ActiveEffect {
 
   /* -------------------------------------------------- */
 
+  /** @inheritdoc */
+  _applyLegacy(actor, change, changes) {
+    const allowed = this.#applySpecial(actor, change, changes);
+    if (allowed !== false) return super._applyLegacy(actor, change, changes);
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Apply special properties via fusions for those paths that cannot be applied normally.
+   * @param {Document} document     Actor or item document.
+   * @param {object} change         The active effect change.
+   * @param {object} changes        Applied changes.
+   * @returns {boolean|void}        Return `false` to prevent regular application.
+   */
+  #applySpecial(document, change, changes) {
+    if (!(document instanceof Item)) return;
+    if (change.key !== "activity") return;
+
+    try {
+      const parsed = JSON.parse(change.value);
+      const cls = new artichron.fields.BaseActivity.TYPES[parsed.type](parsed, {parent: document.system});
+      document.system.activities.set(cls.id, cls);
+    } catch (err) {
+      console.warn(err);
+    }
+    return false;
+  }
+
+  /* -------------------------------------------------- */
+
   /** @override */
   static async _fromStatusEffect(statusId, effectData, options) {
     foundry.utils.mergeObject(effectData, {

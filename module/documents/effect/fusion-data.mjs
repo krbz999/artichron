@@ -191,20 +191,6 @@ export default class EffectFusionData extends ActiveEffectSystemModel {
       return formatter.format(values);
     }
 
-    // Special case: damage
-    else if (key === "system.damage.parts") {
-      value = Array.isArray(value) ? value : [value];
-
-      const values = value.map(({formula, type}) => `${formula} ${CONFIG.SYSTEM.DAMAGE_TYPES[type].label}`);
-      return formatter.format(values);
-    }
-
-    // Special case: template.types
-    else if (key === "system.template.types") {
-      const values = Array.from(value).map(k => CONFIG.SYSTEM.TARGET_TYPES[k]?.label).filter(u => u);
-      return formatter.format(values);
-    }
-
     throw new Error(`The attempted key '${key}' is an invalid key to translate!`);
   }
 }

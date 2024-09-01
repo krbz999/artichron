@@ -256,6 +256,7 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
     return new Set([
       "name",
       "img",
+      "activity",
       "system.description.value",
       "system.price.value",
       "system.weight.value",

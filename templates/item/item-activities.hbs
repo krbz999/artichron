@@ -10,11 +10,11 @@
     </legend>
     {{#each activities}}
     <div class="form-group activity" data-activity-id="{{id}}">
-      <button type="button" data-action="renderActivity">
+      <button type="button" data-action="renderActivity" {{disabled disabled}}>
         <span class="name">{{name}}</span>
         <span class="subtitle">{{subtitle}}</span>
       </button>
-      <button type="button" class="control" data-action="deleteActivity">
+      <button type="button" class="control" data-action="deleteActivity" {{disabled disabled}}>
         <i class="fa-solid fa-trash"></i>
       </button>
     </div>

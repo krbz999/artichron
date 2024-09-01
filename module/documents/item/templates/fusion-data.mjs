@@ -183,7 +183,10 @@ const FusionTemplateMixin = Base => {
 
       // All activities are added.
       for (const activity of source.system.activities) {
-        // TODO
+        const data = activity.toObject();
+        const id = foundry.utils.randomID();
+        data._id = id;
+        changes.push({key: "activity", mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: JSON.stringify(data)});
       }
 
       // Any valid changes from the effect are added as well.
@@ -212,6 +215,7 @@ const FusionTemplateMixin = Base => {
         const field = path.startsWith("system.") ?
           source.system.schema.getField(path.slice(7)) :
           source.schema.getField(path);
+        if (!field) continue;
         const newValue = getDocumentClass("ActiveEffect").applyField(clone, change, field);
         update.push({
           oldValue: foundry.utils.getProperty(this.parent, path) ?? 0,

@@ -68,9 +68,6 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
       return acc;
     }, [[], [], [], []]);
 
-    const isOffense = (doc.type === "spell") && (doc.system.category.subtype === "offense");
-    const damageSchema = doc.system.schema.getField("damage");
-
     const context = {
       document: doc,
       source: src.system,
@@ -92,9 +89,7 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
       isEditMode: this.isEditMode,
       isPlayMode: this.isPlayMode,
       isEditable: this.isEditable,
-      hasDamage: doc.system.schema.has("damage") && damageSchema.has("parts") && ((doc.type !== "spell") || isOffense),
       canFuse: doc.canFuse,
-      isAmmo: doc.isAmmo,
       isArmor: doc.isArmor,
       isItem: true,
       fieldsets: []
@@ -197,7 +192,8 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
       return {
         id: activity.id,
         name: activity.name,
-        subtitle: game.i18n.localize(activity.constructor.metadata.label)
+        subtitle: game.i18n.localize(activity.constructor.metadata.label),
+        disabled: !(activity.id in src.system.activities)
       };
     });
 
