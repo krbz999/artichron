@@ -224,14 +224,12 @@ export default class TokenPlacement {
     this.#throttle = true;
     const idx = this.#currentPlacement;
     const preview = this.#previews[idx];
-    const adjustment = this.#getSnapAdjustment(preview);
-    const point = event.data.getLocalPosition(canvas.tokens);
-    const center = canvas.grid.getTopLeftPoint(point);
-    if (canvas.grid.isGridless) {
-      center.x -= Math.round((this.config.tokens[idx].width * canvas.dimensions.size) / 2);
-      center.y -= Math.round((this.config.tokens[idx].height * canvas.dimensions.size) / 2);
-    }
-    preview.updateSource(center);
+    const clone = preview.object;
+    const local = event.data.getLocalPosition(canvas.tokens);
+    local.x -= clone.w / 2;
+    local.y -= clone.h / 2;
+    const dest = !event.shiftKey ? clone.getSnappedPosition(local) : local;
+    preview.updateSource({x: dest.x, y: dest.y});
     this.#placements[idx].x = preview.x;
     this.#placements[idx].y = preview.y;
     canvas.tokens.preview.children[this.#currentPlacement]?.refresh();
