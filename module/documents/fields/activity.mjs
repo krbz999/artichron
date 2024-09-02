@@ -570,7 +570,7 @@ class TeleportActivity extends BaseActivity {
     const buttons = super.chatButtons;
     buttons.unshift({
       action: "teleport",
-      label: "ARTICHRON.ACTIVITY.Buttons.Teleport"
+      label: game.i18n.localize("ARTICHRON.ACTIVITY.Buttons.Teleport")
     });
     return buttons;
   }
