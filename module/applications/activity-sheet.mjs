@@ -265,14 +265,8 @@ export default class ActivitySheet extends foundry.applications.api.HandlebarsAp
       context.teleport = {
         show: true,
         legend: makeLegend("teleport"),
-        fields: []
+        distance: makeField("teleport.distance")
       };
-
-      context.teleport.fields.push(makeField("teleport.self"));
-      context.teleport.fields.push(makeField("teleport.distance"));
-      if (!context.activity.teleport.self) {
-        context.teleport.fields.push(makeField("teleport.count"));
-      }
     }
 
     return context;

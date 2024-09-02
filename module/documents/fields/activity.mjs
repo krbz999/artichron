@@ -537,9 +537,7 @@ class TeleportActivity extends BaseActivity {
   static defineSchema() {
     return Object.assign(super.defineSchema(), {
       teleport: new SchemaField({
-        count: new NumberField({min: 1, integer: true, nullable: false, initial: 1}),
-        distance: new NumberField({min: 1, integer: true, nullable: false, initial: 1}),
-        self: new BooleanField({initial: true})
+        distance: new NumberField({min: 1, integer: true, nullable: false, initial: 1})
       })
     });
   }

@@ -60,9 +60,7 @@
   {{#if teleport.show}}
   <fieldset>
     <legend>{{teleport.legend}}</legend>
-    {{#each teleport.fields}}
-    {{formGroup field value=value}}
-    {{/each}}
+    {{formGroup teleport.distance.field value=teleport.distance.value}}
   </fieldset>
   {{/if}}
 </div>

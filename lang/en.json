@@ -665,17 +665,9 @@
     },
     "teleport": {
       "label": "Teleport",
-      "count": {
-        "label": "Count",
-        "hint": "How many targets can be teleported at the same time."
-      },
       "distance": {
         "label": "Distance",
         "hint": "The distance the target is teleported."
-      },
-      "self": {
-        "label": "Self",
-        "hint": "Whether this activity is allowed only to teleports the caster instead of a target."
       }
     }
   },
