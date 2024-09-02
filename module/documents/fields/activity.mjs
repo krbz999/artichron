@@ -142,7 +142,7 @@ export default class BaseActivity extends foundry.abstract.DataModel {
    * @type {boolean}
    */
   get hasTemplate() {
-    return this.target?.type && (this.target.type !== "single");
+    return CONFIG.SYSTEM.TARGET_TYPES[this.target?.type]?.isArea ?? false;
   }
 
   /* -------------------------------------------------- */

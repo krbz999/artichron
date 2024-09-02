@@ -8,11 +8,6 @@
   <fieldset>
     <legend>{{target.legend}}</legend>
     {{formGroup target.type.field value=target.type.value options=target.type.options}}
-
-    {{#if target.count.show}}
-    {{formGroup target.count.field value=target.count.value}}
-    {{/if}}
-
     {{#if target.fields.length}}
     {{#each target.fields}}
     {{formGroup field value=value}}

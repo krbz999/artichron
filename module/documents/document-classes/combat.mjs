@@ -73,6 +73,8 @@ export default class CombatArtichron extends Combat {
         case "turn":
           if (end === "turn") ids.push(template.id);
           break;
+        default:
+          break;
       }
     }
     return scene.deleteEmbeddedDocuments("MeasuredTemplate", ids);

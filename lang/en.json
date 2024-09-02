@@ -648,7 +648,7 @@
       },
       "range": {
         "label": "Range",
-        "hint": "The maximum range between the character and the template."
+        "hint": "The maximum range between the character and the target."
       },
       "size": {
         "label": "Size",
@@ -733,6 +733,7 @@
 
 "TemplateDurations": {
   "Combat": "End of Combat",
+  "None": "None",
   "Round": "End of Round",
   "Turn": "End of Turn"
 },
@@ -836,6 +837,7 @@
 
 "TargetTypes": {
   "AreaOfEffect": "Area of Effect",
+  "Self": "Self",
   "SingleTarget": "Single Target",
   "AreaRay": "Line",
   "AreaCone": "Cone",

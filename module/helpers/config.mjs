@@ -117,6 +117,7 @@ SYSTEM.DAMAGE_TYPE_GROUPS = {
  * @property {number[]} [width]         The default width and how much each increase is.
  * @property {number[]} [radius]        The default radius and how much each increase is.
  * @property {boolean} [attached]       Is this template type locked to a token during preview?
+ * @property {boolean} isArea           Whether this is a target type for individual targets or an area.
  */
 
 /**
@@ -125,11 +126,17 @@ SYSTEM.DAMAGE_TYPE_GROUPS = {
  * @enum {TargetTypeConfig}
  */
 SYSTEM.TARGET_TYPES = {
+  self: {
+    label: "ARTICHRON.TargetTypes.Self",
+    scale: new Set(),
+    isArea: false
+  },
   single: {
     label: "ARTICHRON.TargetTypes.SingleTarget",
     scale: new Set(["count", "range"]),
     count: [1, 1],
-    range: [6, 2]
+    range: [6, 2],
+    isArea: false
   },
   ray: {
     label: "ARTICHRON.TargetTypes.AreaRay",
@@ -138,7 +145,8 @@ SYSTEM.TARGET_TYPES = {
     count: [1, 1],
     size: [4, 2],
     width: [1, 1],
-    attached: true
+    attached: true,
+    isArea: true
   },
   cone: {
     label: "ARTICHRON.TargetTypes.AreaCone",
@@ -146,7 +154,8 @@ SYSTEM.TARGET_TYPES = {
     ammo: true,
     count: [1, 1],
     size: [3, 2],
-    attached: true
+    attached: true,
+    isArea: true
   },
   circle: {
     label: "ARTICHRON.TargetTypes.AreaCircle",
@@ -154,21 +163,26 @@ SYSTEM.TARGET_TYPES = {
     ammo: true,
     count: [1, 1],
     size: [1, 1],
-    range: [5, 2]
+    range: [5, 2],
+    isArea: true
   },
   radius: {
     label: "ARTICHRON.TargetTypes.AreaRadius",
     scale: new Set(["size"]),
     size: [2, 1],
-    attached: true
+    attached: true,
+    isArea: true
   }
 };
 
 Object.defineProperty(SYSTEM.TARGET_TYPES, "optgroups", {
   get: function() {
-    const {single, ...rest} = this;
+    const {self, single, ...rest} = this;
     const options = [];
-    options.push({value: "single", label: single.label});
+    options.push(
+      {value: "self", label: self.label},
+      {value: "single", label: single.label}
+    );
     const grp = game.i18n.localize("ARTICHRON.TargetTypes.AreaOfEffect");
     options.push(...Object.entries(rest).map(([k, v]) => ({value: k, label: v.label, group: grp})));
     return options;
@@ -323,6 +337,9 @@ SYSTEM.EFFECT_EXPIRATION_TYPES = {
  * @enum {TemplateDurationConfig}
  */
 SYSTEM.TEMPLATE_DURATIONS = {
+  none: {
+    label: "ARTICHRON.TemplateDurations.None"
+  },
   combat: {
     label: "ARTICHRON.TemplateDurations.Combat"
   },
