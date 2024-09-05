@@ -117,7 +117,7 @@ export default class MeasuredTemplateArtichron extends MeasuredTemplate {
     this.layer.preview.addChild(this);
 
     // Hide the sheet that originated the preview
-    this.actorSheet?.minimize();
+    if (this.token?.actor?.sheet?.rendered) this.token.actor.sheet.minimize();
 
     // Activate interactivity
     return this.activatePreviewListeners();
@@ -136,15 +136,13 @@ export default class MeasuredTemplateArtichron extends MeasuredTemplate {
         confirm: this._onConfirmPlacement.bind(this),
         move: this._onMovePlacement.bind(this),
         resolve,
-        reject,
-        rotate: this._onRotatePlacement.bind(this)
+        reject
       };
 
       // Activate listeners
-      canvas.stage.on("mousemove", this.#events.move);
-      canvas.stage.on("mousedown", this.#events.confirm);
-      canvas.app.view.oncontextmenu = this.#events.cancel;
-      canvas.app.view.onwheel = this.#events.rotate;
+      canvas.stage.addEventListener("pointermove", this.#events.move);
+      canvas.stage.addEventListener("pointerdown", this.#events.confirm);
+      canvas.stage.addEventListener("pointerdown", this.#events.cancel);
     });
   }
 
@@ -156,10 +154,9 @@ export default class MeasuredTemplateArtichron extends MeasuredTemplate {
    */
   async _finishPlacement(event) {
     if (!this.#locked) this.layer._onDragLeftCancel(event);
-    canvas.stage.off("mousemove", this.#events.move);
-    canvas.stage.off("mousedown", this.#events.confirm);
-    canvas.app.view.oncontextmenu = null;
-    canvas.app.view.onwheel = null;
+    canvas.stage.removeEventListener("pointermove", this.#events.move);
+    canvas.stage.removeEventListener("pointerdown", this.#events.confirm);
+    canvas.stage.removeEventListener("pointerdown", this.#events.cancel);
   }
 
   /* -------------------------------------------------- */
@@ -211,24 +208,16 @@ export default class MeasuredTemplateArtichron extends MeasuredTemplate {
   /* -------------------------------------------------- */
 
   /**
-   * Rotate the template preview by 3˚ increments when the mouse wheel is rotated.
-   * @param {PointerEvent} event  The originating click event.
-   */
-  _onRotatePlacement(event) {
-    return;
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
    * Confirm placement when the left mouse button is clicked.
    * @param {PointerEvent} event  The originating click event.
    */
   async _onConfirmPlacement(event) {
+    if (event.button !== 0) return;
     if (this.options.lock) this.#locked = true;
     await this._finishPlacement(event);
     const templateData = this.document.toObject();
     const Cls = CONFIG.MeasuredTemplate.documentClass;
+    if (this.token?.actor?.sheet?.rendered) this.token.actor.sheet.maximize();
     if (this.#locked) this.#events.resolve(templateData);
     else this.#events.resolve(Cls.create(templateData, {parent: this.document.parent}));
   }
@@ -240,6 +229,7 @@ export default class MeasuredTemplateArtichron extends MeasuredTemplate {
    * @param {PointerEvent} event  The originating click event.
    */
   async _onCancelPlacement(event) {
+    if (event.button !== 2) return;
     if (!event.shiftKey) return;
     await this._finishPlacement(event);
     this.#events.resolve(null);
