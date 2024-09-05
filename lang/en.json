@@ -49,21 +49,6 @@
   "Party": "Artichron Party Sheet"
 },
 
-"WeaponType": {
-  "Axe": "Axe",
-  "Bow": "Bow",
-  "Chakram": "Chakram",
-  "Dagger": "Dagger",
-  "Hammer": "Hammer",
-  "MeteorHammer": "Meteor Hammer",
-  "NunChuck": "Nun-Chuck",
-  "Pistol": "Pistol",
-  "Rifle": "Rifle",
-  "Shotgun": "Shotgun",
-  "Spear": "Spear",
-  "Sword": "Sword"
-},
-
 "ArmorType": {
   "Accessory": "Accessory",
   "Arms": "Arm Piece",
@@ -87,15 +72,10 @@
   "Shell": "Shotgun Shell"
 },
 
-"ElixirType": {
-  "Booster": "Booster",
-  "Buff": "Buff",
-  "Restorative": "Restorative"
-},
-
 "SheetTab": {
   "About": "About",
   "Actions": "Actions",
+  "Activities": "Activities",
   "Arsenal": "Arsenal",
   "Attributes": "Attributes",
   "Awards": "Awards",
@@ -107,6 +87,7 @@
   "Defenses": "Defenses",
   "Description": "Description",
   "Details": "Details",
+  "Duration": "Duration",
   "EffectChanges": "Changes",
   "EffectDetails": "Details",
   "EffectDuration": "Duration",
@@ -115,6 +96,7 @@
   "Favorites": "Favorites",
   "Fusion": "Fusion",
   "Gear": "Gear",
+  "Identity": "Identity",
   "Inventory": "Inventory",
   "Items": "Items",
   "Loot": "Loot",
@@ -123,6 +105,7 @@
   "Progress": "Progress",
   "Progression": "Progression",
   "Properties": "Properties",
+  "Requirements": "Requirements",
   "Skills": "Skills"
 },
 
@@ -337,26 +320,40 @@
   }
 },
 
-"ItemProperty": {
-  "Fieldsets": {
-    "ArmorRequirements": "Requirements",
-    "Configuration": "Configuration",
-    "Defenses": "Defenses",
-    "Handling": "Handling"
-  },
-
-  "AmmoProperty": {
-    "FIELDS": {
-      "category": {
-        "label": "Type",
-        "subtype": {
-          "label": "Ammunition Type",
-          "hint": "The ammunition type determines which weapons can make use of it."
-        }
-      }
+"EFFECT": {
+  "FIELDS": {
+    "expiration": {
+      "label": "Expiration",
+      "hint": "Select when this effect automatically expires."
+    },
+    "granted": {
+      "label": "Granted",
+      "hint": "Whether this buff is currently granted."
+    },
+    "itemData": {
+      "label": "Item Data",
+      "hint": "Stored item data for the item that was destroyed when fusing onto this."
+    },
+    "level": {
+      "label": "Level",
+      "hint": "The current level of this status condition."
+    },
+    "primary": {
+      "label": "Primary Status",
+      "hint": "The primary status condition of this effect."
+    },
+    "source": {
+      "label": "Source",
+      "hint": "The uuid of the item that granted this buff."
+    },
+    "subtype": {
+      "label": "Subtype",
+      "hint": "An actor or item type used to determine the available options on the sheet of this effect."
     }
-  },
+  }
+},
 
+"ItemProperty": {
   "ArmorProperty": {
     "FIELDS": {
       "category": {
@@ -364,29 +361,6 @@
         "subtype": {
           "label": "Armor Type",
           "hint": "The type of armor this is, which decides how it is equipped."
-        }
-      }
-    }
-  },
-
-  "ElixirProperty": {
-    "FIELDS": {
-      "category": {
-        "label": "Type",
-        "pool": {
-          "label": "Boost",
-          "hint": "The pool that this elixir can grant a boost of during an attack."
-        },
-        "subtype": {
-          "label": "Elixir Type",
-          "hint": "The type of elixir this is."
-        }
-      },
-      "healing": {
-        "label": "Healing",
-        "formula": {
-          "label": "Healing Formula",
-          "hint": "The formula that is rolled to calculate the amount of healing performed by this elixir."
         }
       }
     }
@@ -412,48 +386,6 @@
           "label": "Shield Type",
           "hint": "The shield type determines how much it protects the wielder."
         }
-      },
-      "cost": {
-        "value": {
-          "label": "Action Cost",
-          "hint": "The action point cost to make an attack with this shield."
-        }
-      }
-    }
-  },
-
-  "SpellProperty": {
-    "FIELDS": {
-      "category": {
-        "label": "Type",
-        "subtype": {
-          "label": "Spell Type",
-          "hint": "The spell type determines how it affects enemies and allies."
-        }
-      },
-      "cost": {
-        "value": {
-          "label": "Action Cost",
-          "hint": "The action point cost to cast a spell using this item."
-        }
-      }
-    }
-  },
-
-  "WeaponProperty": {
-    "FIELDS": {
-      "category": {
-        "label": "Type",
-        "subtype": {
-          "label": "Weapon Type",
-          "hint": "The weapon type determines whether it is melee or ranged, and what type of ammunition it can use."
-        }
-      },
-      "cost": {
-        "value": {
-          "label": "Action Cost",
-          "hint": "The action point cost to make an attack with this weapon."
-        }
       }
     }
   },
@@ -469,31 +401,6 @@
       "value": {
         "label": "Attributes",
         "hint": "Unique attributes of this item."
-      }
-    },
-    "blast": {
-      "size": {
-        "label": "Size",
-        "hint": "The size of the accompanying blast zone when using this ammunition."
-      },
-      "type": {
-        "label": "Shape",
-        "hint": "The shape of the blast zone."
-      }
-    },
-    "damage": {
-      "override": {
-        "group": {
-          "label": "Target Group",
-          "hint": "The group of damage types that this ammunition will override the type of."
-        },
-        "value": {
-          "label": "Type",
-          "hint": "The new damage type that will be used in place of the overridden group."
-        }
-      },
-      "parts": {
-        "label": "Damage Parts"
       }
     },
     "description": {
@@ -522,16 +429,6 @@
       "value": {
         "label": "Quantity",
         "hint": "The size of this stack of items."
-      }
-    },
-    "range": {
-      "value": {
-        "label": "Range",
-        "hint": "The maximum range between you and your target when firing a projectile with this item."
-      },
-      "reach": {
-        "label": "Reach",
-        "hint": "The maximum distance between you and your target when making an attack with this item."
       }
     },
     "resistances": {
@@ -570,18 +467,6 @@
         "value": {
           "label": "Wind Resistance"
         }
-      }
-    },
-    "targets": {
-      "value": {
-        "label": "Targets",
-        "hint": "The number of targets this item can be used on at the same time."
-      }
-    },
-    "template": {
-      "types": {
-        "label": "Targeting Types",
-        "hint": "The shape or type of targeting of this spell."
       }
     },
     "usage": {
@@ -671,12 +556,6 @@
         }
       }
     }
-  },
-
-  "Damage": {
-    "Override": {
-      "GroupChoiceAll": "All Types"
-    }
   }
 },
 
@@ -711,6 +590,128 @@
   }
 },
 
+"ACTIVITY": {
+  "FIELDS": {
+    "cost": {
+      "label": "Action Cost",
+      "value": {
+        "label": "Action Cost",
+        "hint": "The action point cost to make use of this activity."
+      }
+    },
+    "damage": {
+      "label": "Damage",
+      "FIELDS": {
+        "formula": {
+          "label": "Formula"
+        },
+        "type": {
+          "label": "Type"
+        }
+      }
+    },
+    "defend": {
+      "label": "Defend",
+      "formula": {
+        "label": "Formula",
+        "hint": "The formula used for a defensive roll. If parrying rather than blocking, the amount of dice will be halved."
+      }
+    },
+    "description": {
+      "label": "Description"
+    },
+    "effects": {
+      "label": "Effects",
+      "ids": {
+        "hint": "The transferrable effects this activity will be able to transfer to a target."
+      }
+    },
+    "healing": {
+      "label": "Healing",
+      "formula": {
+        "label": "Formula",
+        "hint": "The formula that will be rolled to perform the healing."
+      }
+    },
+    "name": {
+      "label": "Name"
+    },
+    "target": {
+      "label": "Targeting",
+      "count": {
+        "label": "Count",
+        "hint": "How many targets this activity can have, or areas of effect this activity creates."
+      },
+      "duration": {
+        "label": "Duration",
+        "hint": "When measured templates created by this activity are automatically removed."
+      },
+      "range": {
+        "label": "Range",
+        "hint": "The maximum range between the character and the target."
+      },
+      "size": {
+        "label": "Size",
+        "hint": "The length or radius of the created template."
+      },
+      "type": {
+        "label": "Type",
+        "hint": "The type of targeting this activity requires, either individual targets or areas of effect."
+      },
+      "width": {
+        "label": "Width",
+        "hint": "The width of the created templates."
+      }
+    },
+    "teleport": {
+      "label": "Teleport",
+      "distance": {
+        "label": "Distance",
+        "hint": "The distance the target is teleported."
+      }
+    }
+  },
+  "Warning": {
+    "ConsumeCostUnavailable": "{name} does not have {number} action points available.",
+    "ConsumedCost": "{name} consumed {number} action points.",
+    "ConsumeOutOfCombat": "{name} cannot consume action points when out of combat.",
+    "NoActivities": "This item has no activities configured.",
+    "NoDamage": "This activity has no damage rolls configured.",
+    "NoDefense": "This activity has no defense formula configured.",
+    "NoHealing": "This activity has no healing formula configured.",
+    "NoRemainingUses": "This item has no remaining uses.",
+    "NoTemplates": "This item cannot create measured templates!",
+    "NoToken": "A token must be present on the scene."
+  },
+  "Types": {
+    "Damage": "Damage Activity",
+    "Defend": "Defend Activity",
+    "Effect": "Effect Activity",
+    "Healing": "Healing Activity",
+    "Teleport": "Teleport Activity"
+  },
+  "Buttons": {
+    "Consume": "Consume {number} AP",
+    "Damage": "Roll Damage",
+    "Effect": "Transfer Effects",
+    "Healing": "Roll Healing",
+    "Teleport": "Teleport Token",
+    "Template": "Place Template"
+  }
+},
+
+"ROLL": {
+  "Damage": {
+    "Flavor": "{name} - Damage Roll"
+  },
+  "Defend": {
+    "Flavor": "{name} - Defensive Roll"
+  },
+  "Healing": {
+    "Flavor": "{name} - Healing"
+  }
+},
+
 "ProgressionThresholds": {
   "Novice": "Novice",
   "Experienced": "Experienced",
@@ -722,6 +723,19 @@
   "TwoHanded": "Two-Handed"
 },
 
+"TemplateDurations": {
+  "Combat": "End of Combat",
+  "None": "None",
+  "Round": "End of Round",
+  "Turn": "End of Turn"
+},
+
+"EffectDurations": {
+  "Combat": "End of Combat",
+  "Day": "End of Day",
+  "None": "None"
+},
+
 "ItemAttribute": {
   "Ammunition": "Ammunition",
   "Blocking": "Blocking",
@@ -730,19 +744,6 @@
   "Magical": "Magical",
   "Parrying": "Parrying",
   "Rending": "Rending"
-},
-
-"EffectProperty": {
-  "Expiration": "Expiration",
-  "ExpirationHint": "The trigger for when this effect will expire.",
-  "ExpirationNone": "None",
-  "ExpirationCombat": "Combat",
-  "ExpirationDay": "Day",
-  "SubtypeBuff": "Subtype",
-  "SubtypeFusion": "Fusion Subtype",
-  "SubtypeFusionHint": "The properties available to choose from, derived from the chosen item subtype.",
-  "FieldsetDetails": "Details",
-  "FieldsetDuration": "Duration"
 },
 
 "PoolConfig": {
@@ -758,10 +759,6 @@
   "SpecializationSpecializedFacesHint": "A specialized configuration. The pools have a small, medium, and large number of faces.",
   "SpecializationSpecializedSizeHint": "A specialized configuration. The pools have a small, medium, and large amount of dice.",
   "Title": "Configure Pools: {name}"
-},
-
-"ItemUseDialog": {
-  "Confirm": "Confirm"
 },
 
 "AwardDialog": {
@@ -780,21 +777,6 @@
   }
 },
 
-"SpellUseDialog": {
-  "Buff": "Buff",
-  "Count": "Count",
-  "Damage": "Damage",
-  "Distance": "Distance",
-  "Additional": "Additional",
-  "Radius": "Radius",
-  "Range": "Range",
-  "Shape": "Shape",
-  "Title": "{item}: Spellcasting",
-  "Width": "Width",
-  "Boosters": "Boosters",
-  "BoostersHint": "Boosting elixirs to consume which each act as consuming 1 additional point of mana."
-},
-
 "ItemFusionDialog": {
   "Changes": "Changes",
   "Default": "Default",
@@ -808,17 +790,6 @@
   "Title": "{source}: Fuse",
   "TitleUnfuse": "{item}: Split",
   "UnfuseTitle": "Split '{source}' and '{target}'?"
-},
-
-"WeaponUseDialog": {
-  "Title": "{name}: Attack",
-  "Ammunition": "Ammunition",
-  "AmmunitionHint": "An optional ammunition to use for this attack, which will alter the damage roll.",
-  "Stamina": "Stamina",
-  "StaminaHint": "Each point of stamina expended will increase the dice roll quantity by one.",
-  "BoosterItem": "Booster",
-  "BoosterItemHint": "Consume the uses of a boosting elixir, each consumed use acting as 1 additional point of stamina.",
-  "BoosterUses": "Boost Uses"
 },
 
 "ProgressionDialog": {
@@ -837,20 +808,10 @@
   "Warning": "You have no items that can be equipped in that slot."
 },
 
-"ElixirDialog": {
-  "Title": "Use Elixir: {name}",
-  "Effect": "Effect",
-  "EffectHint": "Pick one of the effects from the elixir that will be granted.",
-  "Confirm": "Confirm",
-  "WarningUsage": "The elixir has no remaining uses left!",
-  "WarningEffects": "The elixir has no effects it can grant!",
-  "WarningCannotUseBooster": "A booster elixir can only be used as part of an attack."
-},
-
 "DefenseDialog": {
   "Title": "Defense Roll: {name}",
   "Items": "Arsenal",
-  "ItemsHint": "Choose any of your equipped arsenal to defend against the attack and reduce incoming damage. Each item used will require 1 pip.",
+  "ItemsHint": "Choose any of your equipped arsenal to defend against the attack and reduce incoming damage.",
   "Confirm": "Roll",
   "Content": "{name} is about to take {damage} damage. You can attempt to parry or block to reduce the damage by an amount equal to the rolled totals."
 },
@@ -866,13 +827,9 @@
   "Flavor": "Skill Roll ({skills})"
 },
 
-"SpellType": {
-  "Buff": "Buff Magic",
-  "Defense": "Defensive Magic",
-  "Offense": "Offensive Magic"
-},
-
-"SpellShape": {
+"TargetTypes": {
+  "AreaOfEffect": "Area of Effect",
+  "Self": "Self",
   "SingleTarget": "Single Target",
   "AreaRay": "Line",
   "AreaCone": "Cone",
@@ -890,21 +847,8 @@
 },
 
 "Warning": {
-  "AlreadyAtMaxHealth": "{name} is already at their maximum health.",
-  "FieldOverridden": "This field has been disabled as it is being modified by an effect.",
   "InvalidActiveEffectType": "The chosen effect type is not valid for this parent.",
-  "ItemHasNoDamageRolls": "The item has no damage rolls defined!",
-  "ItemHasNoTemplateTypes": "This item has no template types set!",
-  "ItemIsNotEquipped": "The item must be equipped to be used!",
-  "ItemRequiresAmmunition": "This item requires ammunition to use!",
-  "MissingActionPoints": "You do not have enough Action Points to perform that action.",
-  "NoAvailableEquipment": "You have no available equipment of that type.",
-  "NotEnoughPips": "You do not have enough pips remaining to make an attack!"
-},
-
-"ElixirBoostType": {
-  "Stamina": "Stamina",
-  "Mana": "Mana"
+  "MissingActionPoints": "You do not have enough Action Points to perform that action."
 },
 
 "Effect": {
@@ -947,13 +891,7 @@
 "ChatMessage": {
   "TradeComplete": "Trade Complete!",
   "TradeInfo": "{actor} wants to trade {item} to {target}.",
-  "AcceptTrade": "Accept Trade",
-  "BlockFlavor": "{name}: Blocking",
-  "ParryFlavor": "{name}: Parrying",
-  "ApplyDamage": "Apply Damage",
-  "PlaceTemplate": "Place Template",
-  "GrantBuff": "GrantBuff",
-  "DamageRoll": "{name} - Damage Roll"
+  "AcceptTrade": "Accept Trade"
 },
 
 "StatusConditions": {

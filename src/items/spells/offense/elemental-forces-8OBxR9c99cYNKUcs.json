@@ -1,0 +1,90 @@
+{
+  "name": "Elemental Forces",
+  "img": "icons/sundries/books/book-embossed-gold-red.webp",
+  "type": "spell",
+  "system": {
+    "description": {
+      "value": "<p>A simple spell that the caster can use to cause some havoc in an area of effect in a circle either around themselves or at a target point. This spell can deal fire, wind, lightning, or ice damage.</p>"
+    },
+    "weight": {
+      "value": 1
+    },
+    "price": {
+      "value": 1
+    },
+    "wield": {
+      "value": 1
+    },
+    "attributes": {
+      "value": [
+        "magical"
+      ]
+    },
+    "fusion": {
+      "max": 1,
+      "ignore": []
+    },
+    "activities": {
+      "ZAYch1zoHqhvisot": {
+        "type": "damage",
+        "name": "Fireball",
+        "_id": "ZAYch1zoHqhvisot",
+        "cost": {
+          "value": 3
+        },
+        "target": {
+          "type": "circle",
+          "duration": "turn",
+          "size": 3,
+          "range": 10
+        },
+        "damage": [
+          {
+            "formula": "4d10",
+            "type": "fire"
+          }
+        ],
+        "description": "<p>Deal 4d10 fire damage to everyone in a 3m radius area at a point up to 10m from you.</p>"
+      },
+      "bzJqZ5T7iVnVpCU5": {
+        "type": "damage",
+        "name": "Hurricane",
+        "_id": "bzJqZ5T7iVnVpCU5",
+        "cost": {
+          "value": 3
+        },
+        "target": {
+          "type": "radius",
+          "duration": "turn",
+          "size": 4
+        },
+        "damage": [
+          {
+            "formula": "4d8",
+            "type": "wind"
+          }
+        ],
+        "description": "<p>Deal 4d8 wind damage to every target within 4m of you.</p>"
+      }
+    }
+  },
+  "effects": [],
+  "folder": "vdB5ExhILgSwkTRd",
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": null,
+    "systemId": null,
+    "systemVersion": null,
+    "createdTime": null,
+    "modifiedTime": null,
+    "lastModifiedBy": null
+  },
+  "_id": "8OBxR9c99cYNKUcs",
+  "sort": 0,
+  "_key": "!items!8OBxR9c99cYNKUcs"
+}

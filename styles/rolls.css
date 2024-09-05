@@ -169,8 +169,12 @@
             width: 40px;
             white-space: nowrap;
             color: red;
-            &::before { content: var(--damage-total); }
           }
+
+          .healing { color: green; }
+
+          .damage::before { content: var(--damage-total); }
+          .healing::before { content: var(--healing-total); }
         }
       }
 

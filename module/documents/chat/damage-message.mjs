@@ -16,6 +16,7 @@ export default class DamageMessageData extends ChatMessageSystemModel {
   /** @override */
   static defineSchema() {
     return {
+      activity: new StringField(),
       item: new DocumentUUIDField({type: "Item", embedded: true}),
       targets: new ArrayField(new StringField())
     };

@@ -14,37 +14,40 @@
     "price": {
       "value": 1
     },
-    "damage": {
-      "parts": [
-        {
-          "id": "Lwv7BG7IKKQMKvHk",
-          "formula": "4d12",
-          "type": "physical"
-        }
-      ]
-    },
     "wield": {
       "value": 2
-    },
-    "range": {
-      "value": 1,
-      "reach": 1
-    },
-    "targets": {
-      "value": 1
-    },
-    "category": {
-      "subtype": "sword"
     },
     "attributes": {
       "value": []
     },
-    "cost": {
-      "value": 1
-    },
     "fusion": {
       "max": 1,
       "ignore": []
+    },
+    "activities": {
+      "lIK9sRZBWWZur9Jg": {
+        "type": "damage",
+        "name": "Damage Activity",
+        "_id": "lIK9sRZBWWZur9Jg",
+        "description": "",
+        "cost": {
+          "value": 2
+        },
+        "damage": [
+          {
+            "formula": "4d12",
+            "type": "physical"
+          }
+        ],
+        "target": {
+          "type": "single",
+          "count": 1,
+          "duration": "combat",
+          "range": 1,
+          "size": 1,
+          "width": 1
+        }
+      }
     }
   },
   "effects": [],

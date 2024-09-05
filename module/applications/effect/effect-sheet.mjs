@@ -91,7 +91,7 @@ export default class EffectSheetArtichron extends ArtichronSheetMixin(foundry.ap
     // Subtype field.
     if (this.document.system?.schema) {
       context.fields.subtype = makeField("system.subtype");
-      context.fields.expiration = makeField("system.expiration.type");
+      context.fields.expiration = makeField("system.expiration");
     }
 
     // Changes options
@@ -175,7 +175,7 @@ export default class EffectSheetArtichron extends ArtichronSheetMixin(foundry.ap
    * Handle click events to add a new Change to this effect.
    * @this {EffectSheetArtichron}
    * @param {Event} event             The initiating click event.
-   * @param {HTMLElement} target      The current target of the event listener.
+   * @param {HTMLElement} target      The element with the data-action property.
    */
   static #onAddChange(event, target) {
     if (!this.isEditable) return;
@@ -190,7 +190,7 @@ export default class EffectSheetArtichron extends ArtichronSheetMixin(foundry.ap
    * Handle click events to remove a Change from this effect.
    * @this {EffectSheetArtichron}
    * @param {Event} event             The initiating click event.
-   * @param {HTMLElement} target      The current target of the event listener.
+   * @param {HTMLElement} target      The element with the data-action property.
    */
   static #onDeleteChange(event, target) {
     if (!this.isEditable) return;

@@ -14,24 +14,8 @@
     "price": {
       "value": 2
     },
-    "damage": {
-      "parts": [
-        {
-          "id": "kCLCDc5kYRYBPiyM",
-          "formula": "4d12",
-          "type": "physical"
-        }
-      ]
-    },
     "wield": {
       "value": 2
-    },
-    "range": {
-      "value": 1,
-      "reach": 1
-    },
-    "targets": {
-      "value": 1
     },
     "category": {
       "subtype": "tower"
@@ -41,12 +25,46 @@
         "blocking"
       ]
     },
-    "cost": {
-      "value": 2
-    },
     "fusion": {
       "max": 1,
       "ignore": []
+    },
+    "activities": {
+      "xOBVFzJjAy6mpx3Y": {
+        "type": "damage",
+        "name": "Damage Activity",
+        "_id": "xOBVFzJjAy6mpx3Y",
+        "damage": [
+          {
+            "formula": "4d12",
+            "type": "physical"
+          }
+        ],
+        "cost": {
+          "value": 2
+        },
+        "description": "",
+        "target": {
+          "type": "single",
+          "count": 1,
+          "duration": "combat",
+          "range": 1,
+          "size": 1,
+          "width": 1
+        }
+      },
+      "HfS8UUeMQ4i9QWIn": {
+        "type": "defend",
+        "name": "Defend Activity",
+        "_id": "HfS8UUeMQ4i9QWIn",
+        "defend": {
+          "formula": "4d12"
+        },
+        "cost": {
+          "value": 2
+        },
+        "description": ""
+      }
     }
   },
   "effects": [],

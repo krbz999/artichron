@@ -14,39 +14,42 @@
     "price": {
       "value": 1
     },
-    "damage": {
-      "parts": [
-        {
-          "id": "L2XPOHf6tjDDQtMn",
-          "formula": "4d6",
-          "type": "physical"
-        }
-      ]
-    },
     "wield": {
       "value": 1
-    },
-    "range": {
-      "value": 1,
-      "reach": 1
-    },
-    "targets": {
-      "value": 1
-    },
-    "category": {
-      "subtype": "chakram"
     },
     "attributes": {
       "value": [
         "rending"
       ]
     },
-    "cost": {
-      "value": 1
-    },
     "fusion": {
       "max": 1,
       "ignore": []
+    },
+    "activities": {
+      "EfvfPeIS3bbPPVlX": {
+        "type": "damage",
+        "name": "Damage Activity",
+        "_id": "EfvfPeIS3bbPPVlX",
+        "description": "",
+        "cost": {
+          "value": 1
+        },
+        "damage": [
+          {
+            "formula": "4d6",
+            "type": "physical"
+          }
+        ],
+        "target": {
+          "type": "single",
+          "count": 1,
+          "duration": "combat",
+          "range": 1,
+          "size": 1,
+          "width": 1
+        }
+      }
     }
   },
   "effects": [],

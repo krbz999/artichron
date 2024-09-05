@@ -1,24 +1,26 @@
-const {StringField, SchemaField} = foundry.data.fields;
+const {StringField} = foundry.data.fields;
 
 /**
  * System data for ActiveEffects.
- * @property {object} expiration
- * @property {string} expiration.type     When does this effect automatically expire?
+ * @property {string} expiration      When does this effect automatically expire?
  */
 export default class ActiveEffectSystemModel extends foundry.abstract.TypeDataModel {
   static defineSchema() {
     return {
-      expiration: new SchemaField({
-        type: new StringField({
-          required: true,
-          initial: "none",
-          choices: CONFIG.SYSTEM.EFFECT_EXPIRATION_TYPES,
-          label: "ARTICHRON.EffectProperty.Expiration",
-          hint: "ARTICHRON.EffectProperty.ExpirationHint"
-        })
+      expiration: new StringField({
+        required: true,
+        initial: "none",
+        choices: CONFIG.SYSTEM.EFFECT_EXPIRATION_TYPES
       })
     };
   }
+
+  /* -------------------------------------------------- */
+
+  /** @inheritdoc */
+  static LOCALIZATION_PREFIXES = [
+    "ARTICHRON.EFFECT"
+  ];
 
   /* -------------------------------------------------- */
 
@@ -37,6 +39,6 @@ export default class ActiveEffectSystemModel extends foundry.abstract.TypeDataMo
    * @type {boolean}
    */
   get isTemporary() {
-    return this.expiration.type !== "none";
+    return this.expiration !== "none";
   }
 }

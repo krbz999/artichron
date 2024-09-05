@@ -14,27 +14,8 @@
     "price": {
       "value": 1
     },
-    "damage": {
-      "parts": [
-        {
-          "id": "sFZIY5obcwh7WL68",
-          "formula": "4d6",
-          "type": "physical"
-        }
-      ]
-    },
     "wield": {
       "value": 1
-    },
-    "range": {
-      "value": 1,
-      "reach": 1
-    },
-    "targets": {
-      "value": 1
-    },
-    "category": {
-      "subtype": "axe"
     },
     "attributes": {
       "value": [
@@ -42,12 +23,57 @@
         "rending"
       ]
     },
-    "cost": {
-      "value": 1
-    },
     "fusion": {
       "max": 1,
       "ignore": []
+    },
+    "activities": {
+      "OJKtcmPHiN9pG67F": {
+        "type": "damage",
+        "name": "Damage Activity",
+        "_id": "OJKtcmPHiN9pG67F",
+        "damage": [
+          {
+            "formula": "4d6",
+            "type": "physical"
+          }
+        ],
+        "description": "",
+        "cost": {
+          "value": 1
+        },
+        "target": {
+          "type": "single",
+          "count": 1,
+          "duration": "combat",
+          "range": 1,
+          "size": 1,
+          "width": 1
+        }
+      },
+      "FfRzrepd5l8Mgn7E": {
+        "type": "damage",
+        "name": "Throw",
+        "_id": "FfRzrepd5l8Mgn7E",
+        "target": {
+          "range": 3,
+          "type": "single",
+          "count": 1,
+          "duration": "combat",
+          "size": 1,
+          "width": 1
+        },
+        "damage": [
+          {
+            "formula": "4d6",
+            "type": "physical"
+          }
+        ],
+        "description": "",
+        "cost": {
+          "value": 1
+        }
+      }
     }
   },
   "effects": [],

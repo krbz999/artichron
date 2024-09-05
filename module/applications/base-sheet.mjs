@@ -478,7 +478,7 @@ export const ArtichronSheetMixin = Base => {
     /**
      * Handle editing the document's image.
      * @param {Event} event             The initiating click event.
-     * @param {HTMLElement} target      The current target of the event listener.
+     * @param {HTMLElement} target      The element with the data-action property.
      */
     static _onEditImage(event, target) {
       if (!this.isEditable) return;
@@ -498,7 +498,7 @@ export const ArtichronSheetMixin = Base => {
     /**
      * Handle toggling the Opacity lock of the sheet.
      * @param {Event} event             The initiating click event.
-     * @param {HTMLElement} target      The current target of the event listener.
+     * @param {HTMLElement} target      The element with the data-action property.
      */
     static _ontoggleOpacity(event, target) {
       target.closest(".application").classList.toggle("opacity");
@@ -509,7 +509,7 @@ export const ArtichronSheetMixin = Base => {
     /**
      * Handle toggling between Edit and Play mode.
      * @param {Event} event             The initiating click event.
-     * @param {HTMLElement} target      The current target of the event listener.
+     * @param {HTMLElement} target      The element with the data-action property.
      */
     static _onToggleSheet(event, target) {
       const modes = this.constructor.SHEET_MODES;
@@ -522,7 +522,7 @@ export const ArtichronSheetMixin = Base => {
     /**
      * Handle toggling an active effect on or off.
      * @param {Event} event             The initiating click event.
-     * @param {HTMLElement} target      The current target of the event listener.
+     * @param {HTMLElement} target      The element with the data-action property.
      */
     static async _onToggleEffect(event, target) {
       if (!this.isEditable) return;
@@ -536,7 +536,7 @@ export const ArtichronSheetMixin = Base => {
     /**
      * Handle click events to render an effect's sheet.
      * @param {Event} event             The initiating click event.
-     * @param {HTMLElement} target      The current target of the event listener.
+     * @param {HTMLElement} target      The element with the data-action property.
      */
     static async _onEditEffect(event, target) {
       const uuid = target.closest("[data-item-uuid]").dataset.itemUuid;
@@ -549,7 +549,7 @@ export const ArtichronSheetMixin = Base => {
     /**
      * Handle click events to delete an effect.
      * @param {Event} event             The initiating click event.
-     * @param {HTMLElement} target      The current target of the event listener.
+     * @param {HTMLElement} target      The element with the data-action property.
      */
     static async _onDeleteEffect(event, target) {
       if (!this.isEditable) return;
@@ -563,7 +563,7 @@ export const ArtichronSheetMixin = Base => {
     /**
      * Handle click events to create an effect.
      * @param {Event} event             The initiating click event.
-     * @param {HTMLElement} target      The current target of the event listener.
+     * @param {HTMLElement} target      The element with the data-action property.
      */
     static _onCreateEffect(event, target) {
       if (!this.isEditable) return;
@@ -578,7 +578,7 @@ export const ArtichronSheetMixin = Base => {
     /**
      * Handle click events to toggle a document's description.
      * @param {Event} event             The initiating click event.
-     * @param {HTMLElement} target      The current target of the event listener.
+     * @param {HTMLElement} target      The element with the data-action property.
      */
     static _onToggleDescription(event, target) {
       const item = target.closest("[data-item-uuid]");

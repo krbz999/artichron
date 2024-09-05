@@ -253,9 +253,6 @@ export default class ActorArtichron extends Actor {
     if (damaged) {
       if (attributes.has("rending")) await this.applyCondition("bleeding");
       if (attributes.has("bludgeoning")) await this.applyCondition("hindered");
-      if (!this.system.health.value) await this.toggleStatusEffect(CONFIG.specialStatusEffects.DEFEATED, {
-        active: true, overlay: true
-      });
     }
 
     return this;
@@ -272,7 +269,6 @@ export default class ActorArtichron extends Actor {
     const hp = foundry.utils.deepClone(this.system.health);
     const v = Math.clamp(hp.value + Math.abs(value), 0, hp.max);
     await this.update({"system.health.value": v}, {diff: false});
-    if (this.system.health.value) await this.toggleStatusEffect(CONFIG.specialStatusEffects.DEFEATED, {active: false});
     return this;
   }
 
@@ -326,10 +322,7 @@ export default class ActorArtichron extends Actor {
    *                                      application should also be cancelled.
    */
   async defenseDialog(damage) {
-    const items = Object.values(this.arsenal).filter(item => {
-      const attr = item?.system.attributes?.value ?? new Set();
-      return attr.has("blocking") || attr.has("parrying");
-    });
+    const items = Object.values(this.arsenal).filter(item => item?.system.canDefend);
     if (!items.length) return 0;
 
     // An actor requires at least 1 pip to defend.
@@ -347,13 +340,25 @@ export default class ActorArtichron extends Actor {
       name: "items", type: "checkboxes"
     }).outerHTML;
 
+    const accumulateCost = ids => {
+      let cost = 0;
+      for (const id of ids) {
+        const item = this.items.get(id);
+        const activity = item.system.activities.getByType("defend")[0];
+        cost += activity.cost.value;
+      }
+      return cost;
+    };
+
     const render = (event, html) => {
       if (!inCombat) return;
       const items = html.querySelector("[name=items]");
       const button = html.querySelector("[data-action=ok]");
       items.addEventListener("change", event => {
-        const length = event.currentTarget.value.length;
-        button.disabled = length > pips;
+        const ids = event.currentTarget.value;
+        const cost = accumulateCost(ids);
+        button.disabled = cost > pips;
+        button.querySelector("span").textContent = `${game.i18n.localize("ARTICHRON.DefenseDialog.Confirm")} (${cost})`;
       });
     };
 
@@ -394,14 +399,13 @@ export default class ActorArtichron extends Actor {
     });
     let value = 0;
     if (!itemIds) return false;
+
     for (const id of itemIds) {
       const item = this.items.get(id);
-      const message = await item.system.rollDefense();
+      const activity = item.system.activities.getByType("defend")[0];
+      const message = await activity.rollDefense();
       value += message.rolls.reduce((acc, roll) => acc + roll.total, 0);
     }
-
-    // If in combat, remove spent pips.
-    if (inCombat) await this.spendActionPoints(itemIds.length);
 
     return value;
   }

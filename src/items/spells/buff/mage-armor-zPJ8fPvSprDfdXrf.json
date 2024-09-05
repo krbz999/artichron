@@ -15,35 +15,34 @@
     "price": {
       "value": 1
     },
-    "template": {
-      "types": [
-        "radius"
-      ]
-    },
-    "category": {
-      "subtype": "buff"
-    },
-    "range": {
-      "value": 1,
-      "reach": 1
-    },
-    "targets": {
-      "value": 1
-    },
-    "damage": {
-      "parts": []
-    },
     "attributes": {
       "value": [
         "magical"
       ]
     },
-    "cost": {
-      "value": 2
-    },
     "fusion": {
       "max": 1,
       "ignore": []
+    },
+    "activities": {
+      "c09aVnq9IgIkJ603": {
+        "type": "effect",
+        "name": "Mage Armor",
+        "_id": "c09aVnq9IgIkJ603",
+        "cost": {
+          "value": 2
+        },
+        "target": {
+          "count": 4,
+          "range": 3
+        },
+        "effects": {
+          "ids": [
+            "JVcgElSH1pxCc6t8"
+          ]
+        },
+        "description": "<p>Up to 4 targets of your choice within 3 meters gain +5 armor until the end of combat.</p>"
+      }
     }
   },
   "effects": [
@@ -53,9 +52,7 @@
       "type": "buff",
       "_id": "JVcgElSH1pxCc6t8",
       "system": {
-        "expiration": {
-          "type": "combat"
-        },
+        "expiration": "combat",
         "source": null,
         "granted": false,
         "subtype": "hero"
@@ -78,7 +75,7 @@
         "startRound": null,
         "startTurn": null
       },
-      "description": "",
+      "description": "<p>You have +5 armor until the end of the current combat scenario.</p>",
       "origin": null,
       "tint": "#ffffff",
       "transfer": false,
@@ -88,12 +85,12 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "12.330",
+        "coreVersion": "12.331",
         "systemId": "artichron",
         "systemVersion": "1.0.0",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
+        "modifiedTime": 1725536918806,
+        "lastModifiedBy": "3pWaVXzYT6XoJo1Y"
       },
       "_key": "!items.effects!zPJ8fPvSprDfdXrf.JVcgElSH1pxCc6t8"
     }

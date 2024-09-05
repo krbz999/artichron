@@ -147,7 +147,7 @@ dialog:-internal-dialog-in-top-layer::backdrop {
       margin-bottom: 0.1rem;
     }
 
-    & input[type=number], input[type=text] { text-align: center; }
+    & input[type=number] { text-align: center; }
   }
 }
 

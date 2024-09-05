@@ -10,18 +10,60 @@
 
   {{#if details.configuration.length}}
   <fieldset>
-    <legend>{{localize "ARTICHRON.ItemProperty.Fieldsets.Configuration"}}</legend>
+    <legend>{{localize "ARTICHRON.SheetTab.Configuration"}}</legend>
     {{#each details.configuration}}
     {{formGroup field value=value disabled=disabled}}
     {{/each}}
   </fieldset>
   {{/if}}
 
-  {{#if details.handling.length}}
+  {{#each fieldsets}}
   <fieldset>
-    <legend>{{localize "ARTICHRON.ItemProperty.Fieldsets.Handling"}}</legend>
-    {{#each details.handling}}
-    {{formGroup field value=value disabled=disabled}}
+    <legend>{{legend}}</legend>
+    {{#each formGroups}}
+    {{formGroup field value=value disabled=disabled max=max}}
+    {{/each}}
+  </fieldset>
+  {{/each}}
+
+  {{#if resistances}}
+  <fieldset class="resistances">
+    <legend>{{resistances.legend}}</legend>
+    {{#each resistances.values}}
+    <div class="resistance {{#if active}} active {{/if}}" data-tooltip="{{label}}" style="color: #{{color}}">
+      {{#if @root.isEditMode}}
+      {{formInput field value=value}}
+      {{else}}
+      <span class="total">{{ifThen value value 0}}</span>
+      {{/if}}
+      <i class="{{icon}}"></i>
+    </div>
+    {{/each}}
+  </fieldset>
+  {{/if}}
+
+  {{#if isArmor}}
+  <fieldset class="armor-requirements">
+    <legend>
+      {{localize "ARTICHRON.SheetTab.Requirements"}}
+      {{#if isEditMode}}
+      <a class="action" data-action="addRequirement"><i class="fa-solid fa-plus"></i></a>
+      {{/if}}
+    </legend>
+    {{#each armorRequirements}}
+    <div class="form-fields" data-idx="{{idx}}">
+      {{#each fields}}
+      {{formInput field value=value name=name disabled=@root.isPlayMode placeholder=(localize field.options.placeholder)}}
+      {{/each}}
+      {{#if @root.isEditMode}}
+      <div class="controls">
+        <button type="button" class="control" data-action="deleteRequirement">
+          <i class="fa-solid fa-minus"></i>
+        </button>
+      </div>
+      {{/if}}
+    </div>
+    <p class="hint">{{hint}}</p>
     {{/each}}
   </fieldset>
   {{/if}}

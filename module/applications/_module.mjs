@@ -14,7 +14,6 @@ import MonsterSheet from "./actor/monster-sheet.mjs";
 import PartySheet from "./actor/party-sheet.mjs";
 import TokenHUDArtichron from "./token/token-hud.mjs";
 import TooltipsArtichron from "./tooltips.mjs";
-import WeaponUseDialog from "./item/weapon-use-dialog.mjs";
 
 export default {
   ActiveEffectSheetArtichron,
@@ -32,6 +31,5 @@ export default {
   MonsterSheet,
   PartySheet,
   TokenHUDArtichron,
-  TooltipsArtichron,
-  WeaponUseDialog
+  TooltipsArtichron
 };

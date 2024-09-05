@@ -19,15 +19,20 @@
       "max": 1,
       "spent": 0
     },
-    "category": {
-      "subtype": "buff",
-      "pool": "stamina"
-    },
     "attributes": {
       "value": []
     },
-    "healing": {
-      "formula": ""
+    "activities": {
+      "ZMTkxi3vXgMBUJkY": {
+        "type": "effect",
+        "name": "Effect Activity",
+        "_id": "ZMTkxi3vXgMBUJkY",
+        "effects": {
+          "ids": [
+            "k76bVhYZRs4Yc4bM"
+          ]
+        }
+      }
     }
   },
   "effects": [
@@ -37,9 +42,7 @@
       "type": "buff",
       "_id": "k76bVhYZRs4Yc4bM",
       "system": {
-        "expiration": {
-          "type": "combat"
-        },
+        "expiration": "none",
         "source": null,
         "granted": false,
         "subtype": "hero"
@@ -72,7 +75,7 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "12.330",
+        "coreVersion": "12.331",
         "systemId": "artichron",
         "systemVersion": "1.0.0",
         "createdTime": null,

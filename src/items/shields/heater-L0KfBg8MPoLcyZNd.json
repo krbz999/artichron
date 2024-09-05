@@ -18,33 +18,51 @@
     "category": {
       "subtype": "heater"
     },
-    "range": {
-      "value": 1,
-      "reach": 1
-    },
-    "targets": {
-      "value": 1
-    },
-    "damage": {
-      "parts": [
-        {
-          "id": "XaFiXYQb0u6JRZ6U",
-          "formula": "4d8",
-          "type": "physical"
-        }
-      ]
-    },
     "attributes": {
       "value": [
         "blocking"
       ]
     },
-    "cost": {
-      "value": 1
-    },
     "fusion": {
       "max": 1,
       "ignore": []
+    },
+    "activities": {
+      "vWuvn4TAK88YOWBP": {
+        "type": "damage",
+        "name": "Damage Activity",
+        "_id": "vWuvn4TAK88YOWBP",
+        "damage": [
+          {
+            "formula": "4d8",
+            "type": "physical"
+          }
+        ],
+        "description": "",
+        "cost": {
+          "value": 1
+        },
+        "target": {
+          "type": "single",
+          "count": 1,
+          "duration": "combat",
+          "range": 1,
+          "size": 1,
+          "width": 1
+        }
+      },
+      "W8AXn7iK3MjQi2Km": {
+        "type": "defend",
+        "name": "Defend Activity",
+        "_id": "W8AXn7iK3MjQi2Km",
+        "defend": {
+          "formula": "4d8"
+        },
+        "description": "",
+        "cost": {
+          "value": 1
+        }
+      }
     }
   },
   "effects": [],

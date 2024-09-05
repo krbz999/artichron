@@ -1,31 +1,27 @@
 .artichron.application.sheet.item {
-
   .tab.scrollable {
     padding-bottom: 3px;
 
-    & fieldset.attributes {
-      & label.checkbox:has(input:not(:checked):disabled) {
-        opacity: 0.25;
-      }
-    }
-
-    & fieldset.damage {
-      .form-fields select {
-        flex: 0;
-        width: fit-content;
-      }
-
-      .controls {
-        height: 100%;
-        display: flex;
-        justify-content: space-around;
-        align-items: center;
-        flex: 0;
-      }
-    }
-
     & fieldset.armor-requirements {
       .form-fields select:first-child { flex: 0 0 100px; }
+    }
+
+    & fieldset.activities {
+      & button[data-action=renderActivity] {
+        display: flex;
+        flex-direction: column;
+        height: fit-content;
+        align-items: flex-start;
+
+        .name {
+          font-size: 14px;
+        }
+
+        .subtitle {
+          font-size: 11px;
+          opacity: 0.75;
+        }
+      }
     }
   }
 }

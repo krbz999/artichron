@@ -85,16 +85,6 @@ export default class ItemArtichron extends Item {
   /* -------------------------------------------------- */
 
   /**
-   * Does this item have any valid template or targeting types?
-   * @type {boolean}
-   */
-  get hasTemplate() {
-    return this.system.hasTemplate ?? false;
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
    * Can this item be fused onto another?
    * @type {boolean}
    */
@@ -145,16 +135,6 @@ export default class ItemArtichron extends Item {
   /* -------------------------------------------------- */
 
   /**
-   * Does this item have any valid damage formulas?
-   * @type {boolean}
-   */
-  get hasDamage() {
-    return this.system.hasDamage ?? false;
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
    * Is this item ammo?
    * @type {boolean}
    */
@@ -186,16 +166,6 @@ export default class ItemArtichron extends Item {
   /* -------------------------------------------------- */
 
   /**
-   * Is this a boosting elixir?
-   * @type {boolean}
-   */
-  get isBoostElixir() {
-    return this.system.isBoostElixir ?? false;
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
    * Can this item be used to make an attack due to action point cost?
    * @type {boolean}
    */
@@ -221,32 +191,6 @@ export default class ItemArtichron extends Item {
    */
   get transferrableEffects() {
     return this.system.transferrableEffects ?? [];
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * The properties of a weapon this ammunition modifies.
-   * @type {Set<string>}
-   */
-  get ammoProperties() {
-    return this.system.ammoProperties ?? new Set();
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Is this a melee piece of arsenal that makes use of reach?
-   * @type {boolean}
-   */
-  get isMelee() {
-    if (this.type === "shield") return true;
-    else if (this.type === "weapon") {
-      const subtype = this.system.category.subtype;
-      const melee = CONFIG.SYSTEM.WEAPON_TYPES[subtype].melee;
-      return melee;
-    }
-    return false;
   }
 
   /* -------------------------------------------------- */

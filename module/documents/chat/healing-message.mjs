@@ -16,6 +16,7 @@ export default class HealingMessageData extends ChatMessageSystemModel {
   /** @override */
   static defineSchema() {
     return {
+      activity: new StringField(),
       item: new DocumentUUIDField({type: "Item", embedded: true}),
       targets: new ArrayField(new StringField())
     };
@@ -47,14 +48,6 @@ export default class HealingMessageData extends ChatMessageSystemModel {
 
   /* -------------------------------------------------- */
   /*   Properties                                       */
-  /* -------------------------------------------------- */
-
-  /**
-   * The damage totals by type.
-   * @type {object}
-   */
-  #damages = null;
-
   /* -------------------------------------------------- */
 
   /**

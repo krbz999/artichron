@@ -8,16 +8,16 @@
     <fieldset data-idx="{{idx}}">
       <legend>
         {{#if @root.isEditMode}}
-        <div class="controls">
-          <button type="button" class="control" data-action="deleteChange" {{disabled @root.isPlayMode}}>
-            <i class="fa-solid fa-trash"></i>
-          </button>
-        </div>
+        <button type="button" class="control" data-action="deleteChange" {{disabled @root.isPlayMode}}>
+          <i class="fa-solid fa-trash"></i>
+        </button>
         {{/if}}
         Change {{idx}}
       </legend>
-      {{formGroup key.field value=key.value options=key.options name=key.name disabled=key.disabled localize=true}}
-      {{formGroup mode.field value=mode.value choices=mode.choices name=mode.name disabled=mode.disabled localize=true}}
+      <div class="form-group">
+        {{formGroup key.field value=key.value options=key.options name=key.name disabled=key.disabled localize=true classes="label-top"}}
+        {{formGroup mode.field value=mode.value choices=mode.choices name=mode.name disabled=mode.disabled localize=true classes="label-top"}}
+      </div>
       {{formGroup value.field value=value.value name=value.name disabled=value.disabled localize=true}}
     </fieldset>
     {{/each}}

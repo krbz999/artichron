@@ -23,11 +23,10 @@ export default class EffectBuffData extends ActiveEffectSystemModel {
   static defineSchema() {
     return {
       ...super.defineSchema(),
-      source: new DocumentUUIDField({type: "Item", embedded: true, label: "ARTICHRON.EffectProperty.Source"}),
-      granted: new BooleanField({label: "ARTICHRON.EffectProperty.Granted"}),
+      source: new DocumentUUIDField({type: "Item", embedded: true}),
+      granted: new BooleanField(),
       subtype: new StringField({
-        label: "ARTICHRON.EffectProperty.SubtypeBuff",
-        hint: "ARTICHRON.EffectProperty.SubtypeBuffHint",
+        required: false,
         choices: () => {
           const choices = foundry.utils.deepClone(CONFIG.Actor.typeLabels);
           delete choices.base;

@@ -14,39 +14,65 @@
     "price": {
       "value": 1
     },
-    "damage": {
-      "parts": [
-        {
-          "id": "QzPxnEjXiOsrkIlo",
-          "formula": "4d8",
-          "type": "physical"
-        }
-      ]
-    },
     "wield": {
       "value": 1
-    },
-    "range": {
-      "value": 1,
-      "reach": 1
-    },
-    "targets": {
-      "value": 1
-    },
-    "category": {
-      "subtype": "hammer"
     },
     "attributes": {
       "value": [
         "bludgeoning"
       ]
     },
-    "cost": {
-      "value": 1
-    },
     "fusion": {
       "max": 1,
       "ignore": []
+    },
+    "activities": {
+      "IGTTjKwFlH4fKWH3": {
+        "type": "damage",
+        "name": "Damage Activity",
+        "_id": "IGTTjKwFlH4fKWH3",
+        "description": "",
+        "cost": {
+          "value": 1
+        },
+        "damage": [
+          {
+            "formula": "4d8",
+            "type": "physical"
+          }
+        ],
+        "target": {
+          "type": "single",
+          "count": 1,
+          "duration": "combat",
+          "range": 1,
+          "size": 1,
+          "width": 1
+        }
+      },
+      "OTbcytQ4ArWADcfA": {
+        "type": "damage",
+        "name": "Throw",
+        "_id": "OTbcytQ4ArWADcfA",
+        "target": {
+          "range": 3,
+          "type": "single",
+          "count": 1,
+          "duration": "combat",
+          "size": 1,
+          "width": 1
+        },
+        "damage": [
+          {
+            "formula": "4d8",
+            "type": "physical"
+          }
+        ],
+        "description": "",
+        "cost": {
+          "value": 1
+        }
+      }
     }
   },
   "effects": [],

@@ -73,6 +73,20 @@ SYSTEM.DAMAGE_TYPES = {
   }
 };
 
+Object.defineProperty(SYSTEM.DAMAGE_TYPES, "optgroups", {
+  get: function() {
+    const groups = Object.entries(CONFIG.SYSTEM.DAMAGE_TYPE_GROUPS).map(([k, {label}]) => {
+      const arr = [];
+      for (const [u, v] of Object.entries(this)) {
+        if (v.group === k) arr.push({value: u, label: v.label, group: label});
+      }
+      return arr;
+    });
+
+    return groups.flat();
+  }
+});
+
 /* -------------------------------------------------- */
 
 /**
@@ -93,7 +107,7 @@ SYSTEM.DAMAGE_TYPE_GROUPS = {
 /* -------------------------------------------------- */
 
 /**
- * @typedef {object} AreaTargetTypes
+ * @typedef {object} TargetTypeConfig
  * @property {string} label             Displayed label of the targeting type.
  * @property {Set<string>} scale        The properties that can scale with mana.
  * @property {boolean} [ammo]           Whether this is a valid area type for ammo.
@@ -102,112 +116,78 @@ SYSTEM.DAMAGE_TYPE_GROUPS = {
  * @property {number[]} [distance]      The default distance and how much each increase is.
  * @property {number[]} [width]         The default width and how much each increase is.
  * @property {number[]} [radius]        The default radius and how much each increase is.
+ * @property {boolean} [attached]       Is this template type locked to a token during preview?
+ * @property {boolean} isArea           Whether this is a target type for individual targets or an area.
  */
 
 /**
  * The types of area targeting, enumerating both configurations for spell areas and upscaling
  * with mana, as well as what blast zones a piece of ammo can create.
- * @enum {AreaTargetTypes}
+ * @enum {TargetTypeConfig}
  */
-SYSTEM.AREA_TARGET_TYPES = {
+SYSTEM.TARGET_TYPES = {
+  self: {
+    label: "ARTICHRON.TargetTypes.Self",
+    scale: new Set(),
+    isArea: false
+  },
   single: {
-    label: "ARTICHRON.SpellShape.SingleTarget",
+    label: "ARTICHRON.TargetTypes.SingleTarget",
     scale: new Set(["count", "range"]),
     count: [1, 1],
-    range: [6, 2]
+    range: [6, 2],
+    isArea: false
   },
   ray: {
-    label: "ARTICHRON.SpellShape.AreaRay",
-    scale: new Set(["count", "distance", "width"]),
+    label: "ARTICHRON.TargetTypes.AreaRay",
+    scale: new Set(["count", "size", "width"]),
     ammo: true,
     count: [1, 1],
-    distance: [4, 2],
-    width: [1, 1]
+    size: [4, 2],
+    width: [1, 1],
+    attached: true,
+    isArea: true
   },
   cone: {
-    label: "ARTICHRON.SpellShape.AreaCone",
-    scale: new Set(["count", "distance"]),
+    label: "ARTICHRON.TargetTypes.AreaCone",
+    scale: new Set(["count", "size"]),
     ammo: true,
     count: [1, 1],
-    distance: [3, 2]
+    size: [3, 2],
+    attached: true,
+    isArea: true
   },
   circle: {
-    label: "ARTICHRON.SpellShape.AreaCircle",
-    scale: new Set(["count", "radius", "range"]),
+    label: "ARTICHRON.TargetTypes.AreaCircle",
+    scale: new Set(["count", "size", "range"]),
     ammo: true,
     count: [1, 1],
-    radius: [1, 1],
-    range: [5, 2]
+    size: [1, 1],
+    range: [5, 2],
+    isArea: true
   },
   radius: {
-    label: "ARTICHRON.SpellShape.AreaRadius",
-    scale: new Set(["radius"]),
-    radius: [2, 1]
+    label: "ARTICHRON.TargetTypes.AreaRadius",
+    scale: new Set(["size"]),
+    size: [2, 1],
+    attached: true,
+    isArea: true
   }
 };
 
-/* -------------------------------------------------- */
-
-/**
- * @typedef {object} WeaponTypeConfig
- * @property {string} label       The human-readable label of this weapon type.
- * @property {boolean} melee      Whether this weapon type is a melee or ranged weapon.
- */
-
-/**
- * Weapon subtypes.
- * @enum {WeaponTypeConfig}
- */
-SYSTEM.WEAPON_TYPES = {
-  axe: {
-    label: "ARTICHRON.WeaponType.Axe",
-    melee: true
-  },
-  bow: {
-    label: "ARTICHRON.WeaponType.Bow",
-    melee: false
-  },
-  chakram: {
-    label: "ARTICHRON.WeaponType.Chakram",
-    melee: true
-  },
-  dagger: {
-    label: "ARTICHRON.WeaponType.Dagger",
-    melee: true
-  },
-  hammer: {
-    label: "ARTICHRON.WeaponType.Hammer",
-    melee: true
-  },
-  meteorHammer: {
-    label: "ARTICHRON.WeaponType.MeteorHammer",
-    melee: true
-  },
-  nunChuck: {
-    label: "ARTICHRON.WeaponType.NunChuck",
-    melee: true
-  },
-  pistol: {
-    label: "ARTICHRON.WeaponType.Pistol",
-    melee: false
-  },
-  rifle: {
-    label: "ARTICHRON.WeaponType.Rifle",
-    melee: false
-  },
-  shotgun: {
-    label: "ARTICHRON.WeaponType.Shotgun",
-    melee: false
-  },
-  spear: {
-    label: "ARTICHRON.WeaponType.Spear",
-    melee: true
-  },
-  sword: {
-    label: "ARTICHRON.WeaponType.Sword",
-    melee: true
+Object.defineProperty(SYSTEM.TARGET_TYPES, "optgroups", {
+  get: function() {
+    const {self, single, ...rest} = this;
+    const options = [];
+    options.push(
+      {value: "self", label: self.label},
+      {value: "single", label: single.label}
+    );
+    const grp = game.i18n.localize("ARTICHRON.TargetTypes.AreaOfEffect");
+    options.push(...Object.entries(rest).map(([k, v]) => ({value: k, label: v.label, group: grp})));
+    return options;
   }
-};
+});
 
 /* -------------------------------------------------- */
 
@@ -238,23 +218,6 @@ SYSTEM.SHIELD_TYPES = {
     label: "ARTICHRON.ShieldType.Tower",
     width: 4
   }
-};
-
-/* -------------------------------------------------- */
-
-/**
- * @typedef {object} SpellTypeConfig
- * @property {string} label     The human-readable label of this spell type.
- */
-
-/**
- * Spell subtypes.
- * @enum {SpellTypeConfig}
- */
-SYSTEM.SPELL_TYPES = {
-  offense: {label: "ARTICHRON.SpellType.Offense"},
-  defense: {label: "ARTICHRON.SpellType.Defense"},
-  buff: {label: "ARTICHRON.SpellType.Buff"}
 };
 
 /* -------------------------------------------------- */
@@ -295,49 +258,6 @@ SYSTEM.EQUIPMENT_TYPES = {
   head: {label: "ARTICHRON.ArmorType.Head"},
   legs: {label: "ARTICHRON.ArmorType.Legs"},
   boots: {label: "ARTICHRON.ArmorType.Boots"}
-};
-
-/* -------------------------------------------------- */
-
-/**
- * @typedef {object} ElixirTypeConfig
- * @property {string} label     The human-readable label of this elixir type.
- */
-
-/**
- * Elixir subtypes.
- * @enum {ElixirTypeConfig}
- */
-SYSTEM.ELIXIR_TYPES = {
-  booster: {
-    label: "ARTICHRON.ElixirType.Booster"
-  },
-  buff: {
-    label: "ARTICHRON.ElixirType.Buff"
-  },
-  restorative: {
-    label: "ARTICHRON.ElixirType.Restorative"
-  }
-};
-
-/* -------------------------------------------------- */
-
-/**
- * @typedef {object} ElixirBoostConfig
- * @property {string} label     The human-readable label of this boost type.
- */
-
-/**
- * Elixir boost types.
- * @enum {ElixirBoostConfig}
- */
-SYSTEM.ELIXIR_BOOST_TYPES = {
-  stamina: {
-    label: "ARTICHRON.ElixirBoostType.Stamina"
-  },
-  mana: {
-    label: "ARTICHRON.ElixirBoostType.Mana"
-  }
 };
 
 /* -------------------------------------------------- */
@@ -400,9 +320,35 @@ SYSTEM.PART_TYPES = {
  * @enum {EffectDurationConfig}
  */
 SYSTEM.EFFECT_EXPIRATION_TYPES = {
-  none: {label: "ARTICHRON.EffectProperty.ExpirationNone"},
-  combat: {label: "ARTICHRON.EffectProperty.ExpirationCombat"},
-  day: {label: "ARTICHRON.EffectProperty.ExpirationDay"}
+  none: {label: "ARTICHRON.EffectDurations.None"},
+  combat: {label: "ARTICHRON.EffectDurations.Combat"},
+  day: {label: "ARTICHRON.EffectDurations.Day"}
+};
+
+/* -------------------------------------------------- */
+
+/**
+ * @typedef {object} TemplateDurationConfig
+ * @property {string} label     The human-readable label of this template duration type.
+ */
+
+/**
+ * Template duration types.
+ * @enum {TemplateDurationConfig}
+ */
+SYSTEM.TEMPLATE_DURATIONS = {
+  none: {
+    label: "ARTICHRON.TemplateDurations.None"
+  },
+  combat: {
+    label: "ARTICHRON.TemplateDurations.Combat"
+  },
+  round: {
+    label: "ARTICHRON.TemplateDurations.Round"
+  },
+  turn: {
+    label: "ARTICHRON.TemplateDurations.Turn"
+  }
 };
 
 /* -------------------------------------------------- */

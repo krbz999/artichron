@@ -355,3 +355,39 @@
     text-align: left;
   }
 }
+
+/* Fieldset stylings */
+.artichron.application fieldset {
+  & legend:has(button) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.25rem;
+
+    & button {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      width: 24px;
+
+      & i {
+        margin: 0;
+        padding: 0.25rem;
+      }
+    }
+  }
+
+  .form-group .control {
+    aspect-ratio: 1;
+    flex: 0;
+    place-self: end;
+
+    & i {
+      margin: 0;
+    }
+  }
+
+  & multi-checkbox:disabled label.checkbox:has(input:not(:checked)) {
+    opacity: 0.25;
+  }
+}

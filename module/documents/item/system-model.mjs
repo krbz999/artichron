@@ -1,3 +1,5 @@
+import {ActivitiesField} from "../fields/activity-field.mjs";
+
 const {StringField, SchemaField, HTMLField, NumberField, SetField} = foundry.data.fields;
 
 export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
@@ -38,6 +40,7 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
       price: new SchemaField({
         value: new NumberField({min: 0, initial: 0, integer: true, nullable: false})
       }),
+      activities: new ActivitiesField(),
       attributes: new SchemaField({
         value: new SetField(new StringField({
           choices: () => this._attributeChoices()
@@ -75,11 +78,27 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
   /* -------------------------------------------------- */
 
   /**
-   * Perform the item's type-specific main function.
+   * Perform the function of an activity of this item.
    * @returns {Promise}
    */
   async use() {
-    throw new Error("Subclasses of the Item System Data Model must override the #use method.");
+    const activities = this.activities;
+    if (!activities.size) {
+      ui.notifications.warn("ARTICHRON.ACTIVITY.Warning.NoActivities", {localize: true});
+      return;
+    }
+    if (activities.size === 1) return activities.contents[0].use();
+    const options = activities.map(a => ({value: a.id, label: a.name, group: a.constructor.metadata.label}));
+    const field = new foundry.data.fields.StringField({required: true, label: "Activity"});
+    const select = field.toFormGroup({}, {localize: true, options: options, name: "activityId"}).outerHTML;
+    const content = `<fieldset>${select}</fieldset>`;
+    return foundry.applications.api.DialogV2.prompt({
+      rejectClose: false,
+      content: content,
+      window: {},
+      position: {width: 350},
+      ok: {callback: (event, button) => activities.get(button.form.elements.activityId.value).use()}
+    });
   }
 
   /* -------------------------------------------------- */
@@ -147,13 +166,12 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
     const item = this.parent;
     const rollData = this.parent.getRollData();
     const description = await TextEditor.enrichHTML(this.description.value, {rollData: rollData, relativeTo: item});
-    const subtype = this.schema.getField("category.subtype").choices[this.category.subtype].label;
 
     const context = {
       item: item,
       rollData: rollData,
       description: description,
-      subtitle: `${game.i18n.localize(`TYPES.Item.${this.parent.type}`)}, ${subtype}`,
+      subtitle: game.i18n.localize(`TYPES.Item.${this.parent.type}`),
       tags: this._prepareTooltipTags(),
       properties: this._prepareTooltipProperties()
     };
@@ -172,9 +190,6 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
     const tags = [];
 
     if (this.parent.isArsenal) {
-      if (this.parent.isMelee) tags.push({label: "Melee"});
-      else tags.push({label: "Ranged"});
-
       if (this.wield.value === 1) tags.push({label: "One-Handed"});
       else tags.push({label: "Two-Handed"});
     }
@@ -204,13 +219,6 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
       props.push({title: "Qty", label: this.quantity.value ?? 0, icon: "fa-solid fa-cubes-stacked"});
     }
 
-    if (this.parent.isArsenal) {
-      if (this.parent.isMelee) props.push({title: "Reach", label: `${this.range.reach}m`, icon: "fa-solid fa-bullseye"});
-      else props.push({title: "Range", label: `${this.range.value}m`, icon: "fa-solid fa-bullseye"});
-
-      props.push({title: "AP", label: this.cost.value, icon: "fa-solid fa-circle"});
-    }
-
     return props;
   }
 
@@ -224,6 +232,26 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
   /* -------------------------------------------------- */
 
   /**
+   * The effects that can be transferred to the actor when this item is used.
+   * @type {ActiveEffectArtichron[]}
+   */
+  get transferrableEffects() {
+    return this.parent.effects.filter(e => !e.transfer && ["condition", "buff"].includes(e.type));
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Does this item have any effects that can be transferred to the actor when this item is used?
+   * @type {boolean}
+   */
+  get hasTransferrableEffects() {
+    return this.transferrableEffects.length > 0;
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
    * Properties that can be amplified by a fused item.
    * @type {Set<string>}
    */
@@ -231,6 +259,7 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
     return new Set([
       "name",
       "img",
+      "activity",
       "system.description.value",
       "system.price.value",
       "system.weight.value",

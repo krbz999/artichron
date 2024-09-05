@@ -361,7 +361,7 @@ export default class HeroSheet extends ActorSheetArtichron {
    * Handle click events to roll a skill.
    * @this {HeroSheet}
    * @param {Event} event             The initiating click event.
-   * @param {HTMLElement} target      The current target of the event listener.
+   * @param {HTMLElement} target      The element with the data-action property.
    */
   static #onRollSkill(event, target) {
     if (!this.isEditable) return;
@@ -374,7 +374,7 @@ export default class HeroSheet extends ActorSheetArtichron {
    * Handle click events to roll one of the pools.
    * @this {HeroSheet}
    * @param {Event} event             The initiating click event.
-   * @param {HTMLElement} target      The current target of the event listener.
+   * @param {HTMLElement} target      The element with the data-action property.
    */
   static #onRollPool(event, target) {
     if (!this.isEditable) return;
@@ -387,7 +387,7 @@ export default class HeroSheet extends ActorSheetArtichron {
    * Handle click events to change an equipped item in a particular slot.
    * @this {HeroSheet}
    * @param {Event} event             The initiating click event.
-   * @param {HTMLElement} target      The current target of the event listener.
+   * @param {HTMLElement} target      The element with the data-action property.
    */
   static #onChangeEquipped(event, target) {
     if (!this.isEditable) return;
