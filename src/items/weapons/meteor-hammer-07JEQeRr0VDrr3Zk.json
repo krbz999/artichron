@@ -14,39 +14,42 @@
     "price": {
       "value": 1
     },
-    "damage": {
-      "parts": [
-        {
-          "id": "IRSohxYux3W7vVjN",
-          "formula": "4d12",
-          "type": "physical"
-        }
-      ]
-    },
     "wield": {
       "value": 2
-    },
-    "range": {
-      "value": 3,
-      "reach": 2
-    },
-    "targets": {
-      "value": 1
-    },
-    "category": {
-      "subtype": "meteorHammer"
     },
     "attributes": {
       "value": [
         "bludgeoning"
       ]
     },
-    "cost": {
-      "value": 2
-    },
     "fusion": {
       "max": 1,
       "ignore": []
+    },
+    "activities": {
+      "6XYFfk3mAYGXZX6s": {
+        "type": "damage",
+        "name": "Damage Activity",
+        "_id": "6XYFfk3mAYGXZX6s",
+        "description": "",
+        "cost": {
+          "value": 2
+        },
+        "damage": [
+          {
+            "formula": "4d12",
+            "type": "physical"
+          }
+        ],
+        "target": {
+          "type": "single",
+          "count": 1,
+          "duration": "combat",
+          "range": 2,
+          "size": 1,
+          "width": 1
+        }
+      }
     }
   },
   "effects": [],

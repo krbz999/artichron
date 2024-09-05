@@ -15,26 +15,13 @@
     "attributes": {
       "value": []
     },
-    "damage": {
-      "override": {
-        "group": "",
-        "value": "fire"
-      },
-      "parts": []
-    },
     "quantity": {
       "value": 20
     },
     "category": {
       "subtype": "bullet"
     },
-    "range": {
-      "value": null
-    },
-    "blast": {
-      "size": null,
-      "type": ""
-    }
+    "activities": {}
   },
   "effects": [],
   "folder": "RolaJHphF0RArLNp",

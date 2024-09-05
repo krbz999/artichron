@@ -14,37 +14,63 @@
     "price": {
       "value": 1
     },
-    "damage": {
-      "parts": [
-        {
-          "id": "QIgnmOPrpMUBbp0x",
-          "formula": "4d6",
-          "type": "physical"
-        }
-      ]
-    },
     "wield": {
       "value": 1
-    },
-    "range": {
-      "value": 1,
-      "reach": 1
-    },
-    "targets": {
-      "value": 1
-    },
-    "category": {
-      "subtype": "dagger"
     },
     "attributes": {
       "value": []
     },
-    "cost": {
-      "value": 1
-    },
     "fusion": {
       "max": 1,
       "ignore": []
+    },
+    "activities": {
+      "0HOb7PbbgbkqztSD": {
+        "type": "damage",
+        "name": "Damage Activity",
+        "_id": "0HOb7PbbgbkqztSD",
+        "description": "",
+        "cost": {
+          "value": 1
+        },
+        "damage": [
+          {
+            "formula": "4d6",
+            "type": "physical"
+          }
+        ],
+        "target": {
+          "type": "single",
+          "count": 1,
+          "duration": "combat",
+          "range": 1,
+          "size": 1,
+          "width": 1
+        }
+      },
+      "oBwE1xOMYM27w4FJ": {
+        "type": "damage",
+        "name": "Throw",
+        "_id": "oBwE1xOMYM27w4FJ",
+        "target": {
+          "range": 3,
+          "type": "single",
+          "count": 1,
+          "duration": "combat",
+          "size": 1,
+          "width": 1
+        },
+        "damage": [
+          {
+            "formula": "4d6",
+            "type": "physical"
+          }
+        ],
+        "description": "",
+        "cost": {
+          "value": 1
+        }
+      }
     }
   },
   "effects": [],

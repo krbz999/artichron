@@ -15,36 +15,39 @@
     "wield": {
       "value": 2
     },
-    "category": {
-      "subtype": "rifle"
-    },
-    "range": {
-      "value": 30,
-      "reach": 1
-    },
-    "targets": {
-      "value": 1
-    },
-    "damage": {
-      "parts": [
-        {
-          "id": "DA5RlixaxY6wtlDZ",
-          "formula": "4d12",
-          "type": "physical"
-        }
-      ]
-    },
     "attributes": {
       "value": [
         "ammunition"
       ]
     },
-    "cost": {
-      "value": 1
-    },
     "fusion": {
       "max": 1,
       "ignore": []
+    },
+    "activities": {
+      "ExYrrATIJtNHjLIV": {
+        "type": "damage",
+        "name": "Damage Activity",
+        "_id": "ExYrrATIJtNHjLIV",
+        "description": "",
+        "cost": {
+          "value": 2
+        },
+        "damage": [
+          {
+            "formula": "4d12",
+            "type": "physical"
+          }
+        ],
+        "target": {
+          "type": "single",
+          "count": 1,
+          "duration": "combat",
+          "range": 10,
+          "size": 1,
+          "width": 1
+        }
+      }
     }
   },
   "effects": [],

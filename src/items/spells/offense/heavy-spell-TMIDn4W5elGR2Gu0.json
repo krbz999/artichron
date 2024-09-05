@@ -14,50 +14,58 @@
     "price": {
       "value": 1
     },
-    "damage": {
-      "parts": [
-        {
-          "id": "iHoOyqNoiNQ7eLRG",
-          "formula": "4d12",
-          "type": "wind"
-        },
-        {
-          "id": "3UaFKXFgAndFMmOL",
-          "formula": "4d12",
-          "type": "lightning"
-        }
-      ]
-    },
     "wield": {
       "value": 2
-    },
-    "range": {
-      "value": 10,
-      "reach": 1
-    },
-    "targets": {
-      "value": 1
-    },
-    "template": {
-      "types": [
-        "single",
-        "ray"
-      ]
-    },
-    "category": {
-      "subtype": "offense"
     },
     "attributes": {
       "value": [
         "magical"
       ]
     },
-    "cost": {
-      "value": 2
-    },
     "fusion": {
       "max": 1,
       "ignore": []
+    },
+    "activities": {
+      "6MjfleBZvv1axbpX": {
+        "type": "damage",
+        "name": "Lightning Bolt",
+        "_id": "6MjfleBZvv1axbpX",
+        "damage": [
+          {
+            "formula": "4d10",
+            "type": "lightning"
+          }
+        ],
+        "cost": {
+          "value": 3
+        },
+        "target": {
+          "type": "ray",
+          "duration": "turn",
+          "size": 10,
+          "width": 1
+        },
+        "description": "<p>Deal 4d10 lightning damage to every target in a line 10m from you.</p>"
+      },
+      "YjLsPrOhN89lnTKd": {
+        "type": "damage",
+        "name": "Icicle Spear",
+        "_id": "YjLsPrOhN89lnTKd",
+        "damage": [
+          {
+            "formula": "4d12",
+            "type": "ice"
+          }
+        ],
+        "cost": {
+          "value": 3
+        },
+        "target": {
+          "range": 10
+        },
+        "description": "<p>Deal 4d12 ice damage to a target within 10m.</p>"
+      }
     }
   },
   "effects": [],

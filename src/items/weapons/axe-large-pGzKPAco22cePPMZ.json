@@ -14,39 +14,42 @@
     "price": {
       "value": 1
     },
-    "damage": {
-      "parts": [
-        {
-          "id": "PGQg9nJ3Syyyn2bg",
-          "formula": "4d12",
-          "type": "physical"
-        }
-      ]
-    },
     "wield": {
       "value": 2
-    },
-    "range": {
-      "value": 1,
-      "reach": 1
-    },
-    "targets": {
-      "value": 1
-    },
-    "category": {
-      "subtype": "axe"
     },
     "attributes": {
       "value": [
         "rending"
       ]
     },
-    "cost": {
-      "value": 2
-    },
     "fusion": {
       "max": 1,
       "ignore": []
+    },
+    "activities": {
+      "RnqnaQZIvTpnZAXi": {
+        "type": "damage",
+        "name": "Damage Activity",
+        "_id": "RnqnaQZIvTpnZAXi",
+        "cost": {
+          "value": 2
+        },
+        "damage": [
+          {
+            "formula": "4d12",
+            "type": "physical"
+          }
+        ],
+        "description": "",
+        "target": {
+          "type": "single",
+          "count": 1,
+          "duration": "combat",
+          "range": 1,
+          "size": 1,
+          "width": 1
+        }
+      }
     }
   },
   "effects": [],

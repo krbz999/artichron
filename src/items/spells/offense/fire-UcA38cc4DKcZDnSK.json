@@ -18,15 +18,6 @@
         "magical"
       ]
     },
-    "damage": {
-      "parts": [
-        {
-          "id": "xzLecSjuG9wUrQih",
-          "formula": "4d6",
-          "type": "fire"
-        }
-      ]
-    },
     "fusion": {
       "max": 1,
       "ignore": []
@@ -34,23 +25,24 @@
     "wield": {
       "value": 1
     },
-    "range": {
-      "value": 5,
-      "reach": 1
-    },
-    "targets": {
-      "value": 1
-    },
-    "template": {
-      "types": [
-        "single"
-      ]
-    },
-    "category": {
-      "subtype": "offense"
-    },
-    "cost": {
-      "value": 1
+    "activities": {
+      "NzIrH7L6egjZn40H": {
+        "type": "damage",
+        "name": "Damage Activity",
+        "_id": "NzIrH7L6egjZn40H",
+        "cost": {
+          "value": 2
+        },
+        "target": {
+          "range": 5
+        },
+        "damage": [
+          {
+            "formula": "4d6",
+            "type": "fire"
+          }
+        ]
+      }
     }
   },
   "effects": [],

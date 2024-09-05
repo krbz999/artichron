@@ -14,38 +14,83 @@
     "price": {
       "value": 1
     },
-    "damage": {
-      "parts": []
-    },
     "wield": {
       "value": 1
-    },
-    "range": {
-      "value": 1,
-      "reach": 1
-    },
-    "targets": {
-      "value": 1
-    },
-    "template": {
-      "types": [
-        "single"
-      ]
-    },
-    "category": {
-      "subtype": "buff"
     },
     "attributes": {
       "value": [
         "magical"
       ]
     },
-    "cost": {
-      "value": 2
-    },
     "fusion": {
       "max": 1,
       "ignore": []
+    },
+    "activities": {
+      "z7mgxsfy7FUJL5XX": {
+        "type": "effect",
+        "name": "Fire Resistance",
+        "_id": "z7mgxsfy7FUJL5XX",
+        "cost": {
+          "value": 2
+        },
+        "effects": {
+          "ids": [
+            "yhn8C8ghKx502jaT"
+          ]
+        },
+        "target": {
+          "range": 3
+        }
+      },
+      "N1JVyiqhppvEDmPk": {
+        "type": "effect",
+        "name": "Ice Resistance",
+        "_id": "N1JVyiqhppvEDmPk",
+        "cost": {
+          "value": 2
+        },
+        "effects": {
+          "ids": [
+            "PTVYpFsSdbbQcoko"
+          ]
+        },
+        "target": {
+          "range": 3
+        }
+      },
+      "IO20yRR6IDF2uMt0": {
+        "type": "effect",
+        "name": "Lightning Resistance",
+        "_id": "IO20yRR6IDF2uMt0",
+        "cost": {
+          "value": 2
+        },
+        "effects": {
+          "ids": [
+            "Tvwjv5htKnIENps8"
+          ]
+        },
+        "target": {
+          "range": 3
+        }
+      },
+      "uZ58lm6RU0Ho5PRH": {
+        "type": "effect",
+        "name": "Wind Resistance",
+        "_id": "uZ58lm6RU0Ho5PRH",
+        "cost": {
+          "value": 2
+        },
+        "target": {
+          "range": 3
+        },
+        "effects": {
+          "ids": [
+            "t9R8zzyMk9w9qWnE"
+          ]
+        }
+      }
     }
   },
   "effects": [
@@ -55,9 +100,7 @@
       "type": "buff",
       "_id": "yhn8C8ghKx502jaT",
       "system": {
-        "expiration": {
-          "type": "day"
-        },
+        "expiration": "day",
         "source": null,
         "granted": false,
         "subtype": "hero"
@@ -90,12 +133,12 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "12.330",
+        "coreVersion": "12.331",
         "systemId": "artichron",
         "systemVersion": "1.0.0",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
+        "modifiedTime": 1725536875690,
+        "lastModifiedBy": "3pWaVXzYT6XoJo1Y"
       },
       "_key": "!items.effects!z1Uq5H1xxicbxTQd.yhn8C8ghKx502jaT"
     },
@@ -104,9 +147,7 @@
       "name": "Wind Resistance",
       "type": "buff",
       "system": {
-        "expiration": {
-          "type": "day"
-        },
+        "expiration": "day",
         "source": null,
         "granted": false,
         "subtype": "hero"
@@ -138,12 +179,12 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "12.330",
+        "coreVersion": "12.331",
         "systemId": "artichron",
         "systemVersion": "1.0.0",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
+        "modifiedTime": 1725536885304,
+        "lastModifiedBy": "3pWaVXzYT6XoJo1Y"
       },
       "_id": "t9R8zzyMk9w9qWnE",
       "sort": 0,
@@ -154,9 +195,7 @@
       "name": "Lightning Resistance",
       "type": "buff",
       "system": {
-        "expiration": {
-          "type": "day"
-        },
+        "expiration": "day",
         "source": null,
         "granted": false,
         "subtype": "hero"
@@ -188,12 +227,12 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "12.330",
+        "coreVersion": "12.331",
         "systemId": "artichron",
         "systemVersion": "1.0.0",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
+        "modifiedTime": 1725536883099,
+        "lastModifiedBy": "3pWaVXzYT6XoJo1Y"
       },
       "_id": "Tvwjv5htKnIENps8",
       "sort": 0,
@@ -204,9 +243,7 @@
       "name": "Ice Resistance",
       "type": "buff",
       "system": {
-        "expiration": {
-          "type": "day"
-        },
+        "expiration": "day",
         "source": null,
         "granted": false,
         "subtype": "hero"
@@ -238,12 +275,12 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "12.330",
+        "coreVersion": "12.331",
         "systemId": "artichron",
         "systemVersion": "1.0.0",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
+        "modifiedTime": 1725536881217,
+        "lastModifiedBy": "3pWaVXzYT6XoJo1Y"
       },
       "_id": "PTVYpFsSdbbQcoko",
       "sort": 0,

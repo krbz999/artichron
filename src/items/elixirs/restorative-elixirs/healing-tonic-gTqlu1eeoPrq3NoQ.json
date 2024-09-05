@@ -6,7 +6,7 @@
   "img": "icons/consumables/potions/bottle-round-label-cork-red.webp",
   "system": {
     "description": {
-      "value": "<p>A standard elixir can be used to restore [[lookup @item.healing.formula]] health.</p>"
+      "value": "<p>A standard elixir can be used to restore 3d6 health.</p>"
     },
     "weight": {
       "value": 0.5
@@ -26,12 +26,15 @@
       "spent": 0,
       "max": 1
     },
-    "category": {
-      "subtype": "restorative",
-      "pool": "stamina"
-    },
-    "healing": {
-      "formula": "3d6"
+    "activities": {
+      "Xz1sXDFTs0mkE3xt": {
+        "type": "healing",
+        "name": "Healing Activity",
+        "_id": "Xz1sXDFTs0mkE3xt",
+        "healing": {
+          "formula": "3d6"
+        }
+      }
     }
   },
   "effects": [],

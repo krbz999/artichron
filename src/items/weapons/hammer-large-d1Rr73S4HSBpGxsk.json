@@ -15,36 +15,39 @@
     "wield": {
       "value": 2
     },
-    "category": {
-      "subtype": "hammer"
-    },
-    "range": {
-      "value": 1,
-      "reach": 1
-    },
-    "targets": {
-      "value": 1
-    },
-    "damage": {
-      "parts": [
-        {
-          "id": "UuP3jEn5dm1Pgc0i",
-          "formula": "4d12",
-          "type": "physical"
-        }
-      ]
-    },
     "attributes": {
       "value": [
         "bludgeoning"
       ]
     },
-    "cost": {
-      "value": 2
-    },
     "fusion": {
       "max": 1,
       "ignore": []
+    },
+    "activities": {
+      "AIt9NOOse5OZ9nlS": {
+        "type": "damage",
+        "name": "Damage Activity",
+        "_id": "AIt9NOOse5OZ9nlS",
+        "description": "",
+        "cost": {
+          "value": 2
+        },
+        "damage": [
+          {
+            "formula": "4d12",
+            "type": "physical"
+          }
+        ],
+        "target": {
+          "type": "single",
+          "count": 1,
+          "duration": "combat",
+          "range": 1,
+          "size": 1,
+          "width": 1
+        }
+      }
     }
   },
   "effects": [],

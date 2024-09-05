@@ -19,9 +19,6 @@
         "magical"
       ]
     },
-    "damage": {
-      "parts": []
-    },
     "fusion": {
       "max": 1,
       "ignore": []
@@ -29,23 +26,25 @@
     "wield": {
       "value": 1
     },
-    "range": {
-      "value": 3,
-      "reach": 1
-    },
-    "targets": {
-      "value": 1
-    },
-    "template": {
-      "types": [
-        "radius"
-      ]
-    },
-    "category": {
-      "subtype": "buff"
-    },
-    "cost": {
-      "value": 2
+    "activities": {
+      "5c4bwMqAH6gor80O": {
+        "type": "effect",
+        "name": "Planar Amplifier",
+        "_id": "5c4bwMqAH6gor80O",
+        "target": {
+          "type": "radius",
+          "duration": "turn",
+          "size": 3
+        },
+        "effects": {
+          "ids": [
+            "T30146BgtpmnbiRe"
+          ]
+        },
+        "cost": {
+          "value": 2
+        }
+      }
     }
   },
   "effects": [
@@ -55,9 +54,7 @@
       "type": "buff",
       "_id": "T30146BgtpmnbiRe",
       "system": {
-        "expiration": {
-          "type": "combat"
-        },
+        "expiration": "combat",
         "source": null,
         "granted": false
       },
@@ -89,12 +86,12 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "12.330",
+        "coreVersion": "12.331",
         "systemId": "artichron",
         "systemVersion": "1.0.0",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
+        "modifiedTime": 1725537029690,
+        "lastModifiedBy": "3pWaVXzYT6XoJo1Y"
       },
       "_key": "!items.effects!xb1d17EGsvEZKoNd.T30146BgtpmnbiRe"
     }

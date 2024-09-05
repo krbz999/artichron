@@ -14,39 +14,42 @@
     "price": {
       "value": 1
     },
-    "damage": {
-      "parts": [
-        {
-          "id": "CjzVXrCIivOcnoad",
-          "formula": "4d8",
-          "type": "physical"
-        }
-      ]
-    },
     "wield": {
       "value": 2
-    },
-    "range": {
-      "value": 20,
-      "reach": 1
-    },
-    "targets": {
-      "value": 1
-    },
-    "category": {
-      "subtype": "bow"
     },
     "attributes": {
       "value": [
         "ammunition"
       ]
     },
-    "cost": {
-      "value": 1
-    },
     "fusion": {
       "max": 1,
       "ignore": []
+    },
+    "activities": {
+      "biSM81Ux6wPoIvTi": {
+        "type": "damage",
+        "name": "Damage Activity",
+        "_id": "biSM81Ux6wPoIvTi",
+        "description": "",
+        "cost": {
+          "value": 2
+        },
+        "damage": [
+          {
+            "formula": "4d8",
+            "type": "physical"
+          }
+        ],
+        "target": {
+          "type": "single",
+          "count": 1,
+          "duration": "combat",
+          "range": 10,
+          "size": 1,
+          "width": 1
+        }
+      }
     }
   },
   "effects": [],

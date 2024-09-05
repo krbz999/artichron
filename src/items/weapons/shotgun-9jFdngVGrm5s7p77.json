@@ -14,39 +14,42 @@
     "price": {
       "value": 1
     },
-    "damage": {
-      "parts": [
-        {
-          "id": "B8SfxbxJGq4q7yYs",
-          "formula": "4d8",
-          "type": "physical"
-        }
-      ]
-    },
     "wield": {
       "value": 2
-    },
-    "range": {
-      "value": 5,
-      "reach": 1
-    },
-    "targets": {
-      "value": 1
-    },
-    "category": {
-      "subtype": "shotgun"
     },
     "attributes": {
       "value": [
         "ammunition"
       ]
     },
-    "cost": {
-      "value": 1
-    },
     "fusion": {
       "max": 1,
       "ignore": []
+    },
+    "activities": {
+      "DJF9D9tKC0YAlkcW": {
+        "type": "damage",
+        "name": "Damage Activity",
+        "_id": "DJF9D9tKC0YAlkcW",
+        "description": "",
+        "cost": {
+          "value": 2
+        },
+        "damage": [
+          {
+            "formula": "4d8",
+            "type": "physical"
+          }
+        ],
+        "target": {
+          "type": "single",
+          "count": 1,
+          "duration": "combat",
+          "range": 10,
+          "size": 1,
+          "width": 1
+        }
+      }
     }
   },
   "effects": [],

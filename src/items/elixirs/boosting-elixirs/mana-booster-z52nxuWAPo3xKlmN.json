@@ -22,13 +22,7 @@
       "max": 2,
       "spent": 0
     },
-    "category": {
-      "subtype": "booster",
-      "pool": "mana"
-    },
-    "healing": {
-      "formula": ""
-    }
+    "activities": {}
   },
   "effects": [],
   "folder": "gdUX3RYnl43nHJW6",
