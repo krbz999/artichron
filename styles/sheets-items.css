@@ -60,6 +60,11 @@
   }
 }
 
+/* Activity Use Dialog */
+.artichron.application.activity-use-dialog {
+  & fieldset:empty { display: none; }
+}
+
 /* Item Tooltips */
 #tooltip.item-tooltip, .locked-tooltip.item-tooltip {
   margin-left: 1rem;

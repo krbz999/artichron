@@ -38,7 +38,8 @@ export default class ItemSheetElixir extends ItemSheetArtichron {
     context.details.configuration = [
       "price.value",
       "weight.value",
-      "quantity.value"
+      "quantity.value",
+      "boost"
     ].reduce((acc, k) => {
       if (k) acc.push(this._makeField(context, k));
       return acc;

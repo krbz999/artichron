@@ -1,0 +1,13 @@
+<fieldset>
+  {{~#if damage.show}}
+  <legend>{{damage.legend}}</legend>
+  {{#each damage.damages}}
+  <p class="damage">
+    <span class="formula">{{formula}}</span>
+    <span class="type">{{type}}</span>
+  </p>
+  {{/each}}
+
+  {{formGroup damage.field name="damage" localize=true}}
+  {{/if~}}
+</fieldset>

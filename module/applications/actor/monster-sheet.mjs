@@ -30,7 +30,10 @@ export default class MonsterSheet extends ActorSheetArtichron {
       template: "systems/artichron/templates/actor/monster-loot.hbs",
       scrollable: [""]
     },
-    about: {template: "systems/artichron/templates/actor/monster-about.hbs"},
+    about: {
+      template: "systems/artichron/templates/actor/monster-about.hbs",
+      scrollable: [""]
+    },
     effects: {
       template: "systems/artichron/templates/shared/effects.hbs",
       scrollable: [""]
@@ -107,12 +110,17 @@ export default class MonsterSheet extends ActorSheetArtichron {
     };
 
     // Details.
-    context.details = [];
-    const danger = {
+    context.details = [{
       field: this.document.system.schema.getField("danger.value"),
       value: (context.isEditMode ? this.document._source : this.document).system.danger.value
-    };
-    context.details.push(danger);
+    }, {
+      field: this.document.system.schema.getField("danger.pool.spent"),
+      value: (context.isEditMode ? this.document._source : this.document).system.danger.pool.spent,
+      max: this.document.system.danger.pool.max
+    }, {
+      field: this.document.system.schema.getField("danger.pool.max"),
+      value: (context.isEditMode ? this.document._source : this.document).system.danger.pool.max
+    }];
 
     // Prepare a resistance for rendering.
     const makeResistance = (key, path) => {

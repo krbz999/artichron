@@ -92,13 +92,15 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
     const field = new foundry.data.fields.StringField({required: true, label: "Activity"});
     const select = field.toFormGroup({}, {localize: true, options: options, name: "activityId"}).outerHTML;
     const content = `<fieldset>${select}</fieldset>`;
-    return foundry.applications.api.DialogV2.prompt({
+    const id = await foundry.applications.api.DialogV2.prompt({
       rejectClose: false,
       content: content,
       window: {},
       position: {width: 350},
-      ok: {callback: (event, button) => activities.get(button.form.elements.activityId.value).use()}
+      ok: {callback: (event, button) => button.form.elements.activityId.value}
     });
+    if (!id) return null;
+    return activities.get(id).use();
   }
 
   /* -------------------------------------------------- */

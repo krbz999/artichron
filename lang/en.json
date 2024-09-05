@@ -194,6 +194,16 @@
       }
     },
     "danger": {
+      "pool": {
+        "max": {
+          "label": "Pool Maximum",
+          "hint": "The size of this monster's danger pool."
+        },
+        "spent": {
+          "label": "Spent",
+          "hint": "How much of the danger pool has been spent."
+        }
+      },
       "value": {
         "label": "Danger Level",
         "hint": "The danger level of a monster determines their overall challenge as well as their action points."
@@ -402,6 +412,10 @@
         "label": "Attributes",
         "hint": "Unique attributes of this item."
       }
+    },
+    "boost": {
+      "label": "Boost",
+      "hint": "If this elixir can be used to boost an activity, select the type of the pool."
     },
     "description": {
       "value": {
@@ -759,6 +773,21 @@
   "SpecializationSpecializedFacesHint": "A specialized configuration. The pools have a small, medium, and large number of faces.",
   "SpecializationSpecializedSizeHint": "A specialized configuration. The pools have a small, medium, and large amount of dice.",
   "Title": "Configure Pools: {name}"
+},
+
+"ActivityUseDialog": {
+  "AreaHint": "The amount of the pool to spend to increase the size of the area of effect.",
+  "AreaLabel": "Amount",
+  "AreaLegend": "Area",
+  "DamageHint": "The amount of the pool to spend to increase the damage dealt.",
+  "DamageLabel": "Amount",
+  "DamageLegend": "Damage",
+  "ElixirsHint": "Elixirs can be consumed for additional stamina or mana.",
+  "ElixirsLegend": "Elixirs",
+  "Title": "Use Activity: {name}",
+  "Warning": {
+    "Overspending": "You do not have enough available resources to enhance the activity in this way."
+  }
 },
 
 "AwardDialog": {

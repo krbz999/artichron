@@ -27,7 +27,11 @@ export default class MonsterData extends CreatureData.mixin(EquipmentTemplateMix
     });
 
     schema.danger = new SchemaField({
-      value: new NumberField({min: 1, step: 1, initial: 1, nullable: false})
+      pool: new SchemaField({
+        spent: new NumberField({min: 0, integer: true, nullable: false, initial: 0}),
+        max: new NumberField({min: 0, integer: true, nullable: false, initial: 1})
+      }),
+      value: new NumberField({min: 1, integer: true, initial: 1, nullable: false})
     });
 
     schema.biography = new SchemaField({
@@ -54,6 +58,10 @@ export default class MonsterData extends CreatureData.mixin(EquipmentTemplateMix
     this.health.max = Math.ceil(this.health.max * injury);
     this.health.value = Math.clamp(this.health.value, 0, this.health.max);
     this.health.pct = Math.round(this.health.value / this.health.max * 100);
+
+    const d = this.danger.pool;
+    d.value = Math.max(d.max - d.spent);
+    d.pct = Math.round(d.value / d.max * 100);
   }
 
   /* -------------------------------------------------- */
@@ -187,6 +195,7 @@ export default class MonsterData extends CreatureData.mixin(EquipmentTemplateMix
   async recover() {
     const update = {};
     update["system.health.value"] = this.health.max;
+    update["system.danger.pool.spent"] = 0;
     return this.parent.update(update);
   }
 }

@@ -1,4 +1,5 @@
 import ActivitySheet from "../../applications/activity-sheet.mjs";
+import ActivityUseDialog from "../../applications/item/activity-use-dialog.mjs";
 
 /**
  * @typedef {object} ActivityMetadata     Activity metadata.
@@ -146,6 +147,16 @@ export default class BaseActivity extends foundry.abstract.DataModel {
   }
 
   /* -------------------------------------------------- */
+
+  /**
+   * The type of pool used to enhance the activity.
+   * @type {string}
+   */
+  get poolType() {
+    return (this.item.type === "spell") ? "mana" : "stamina";
+  }
+
+  /* -------------------------------------------------- */
   /*   Instance methods                                 */
   /* -------------------------------------------------- */
 
@@ -194,12 +205,45 @@ export default class BaseActivity extends foundry.abstract.DataModel {
    * @returns {Promise}
    */
   async use() {
+    const configuration = await ActivityUseDialog.create(this);
+    if (!configuration) return null;
+
+    const {elixirs, ...inputs} = configuration;
+    const actor = this.item.actor;
+    const item = this.item;
+
     const messageData = {
       type: "usage",
-      speaker: ChatMessage.implementation.getSpeaker({actor: this.item.actor}),
+      speaker: ChatMessage.implementation.getSpeaker({actor: actor}),
       "system.activity": this.id,
-      "system.item": this.item.uuid
+      "system.item": item.uuid
     };
+
+    for (const [k, v] of Object.entries(inputs)) {
+      if (v) foundry.utils.setProperty(messageData, `flags.artichron.usage.${k}.increase`, v);
+    }
+
+    // Construct and perform updates.
+    let total = Object.values(inputs).reduce((acc, v) => acc + (v ?? 0), 0);
+    const itemUpdates = [];
+    for (const id of elixirs ?? []) {
+      const elixir = actor.items.get(id);
+      if (!elixir || !total) continue;
+      itemUpdates.push(elixir.system._usageUpdate());
+      total = total - 1;
+    }
+
+    // Perform updates.
+    let path;
+    if (actor.type === "monster") path = "system.danger.pool.spent";
+    else path = `system.pools.${this.poolType}.spent`;
+    const value = foundry.utils.getProperty(actor, path);
+    const actorUpdate = total ? {[path]: value + total} : {};
+
+    await Promise.all([
+      foundry.utils.isEmpty(actorUpdate) ? null : actor.update(actorUpdate),
+      foundry.utils.isEmpty(itemUpdates) ? null : actor.updateEmbeddedDocuments("Item", itemUpdates)
+    ]);
 
     return ChatMessage.implementation.create(messageData);
   }
@@ -242,9 +286,11 @@ export default class BaseActivity extends foundry.abstract.DataModel {
 
   /**
    * Place measured templates.
+   * @param {object} [config]               Configuration object.
+   * @param {number} [config.increase]      The increase in size of the template.
    * @returns {Promise<MeasuredTemplateArtichron[]>}
    */
-  async placeTemplate() {
+  async placeTemplate({increase = 0} = {}) {
     if (!this.hasTemplate) {
       ui.notifications.error("ARTICHRON.ACTIVITY.Warning.NoTemplates", {localize: true});
       return;
@@ -256,6 +302,7 @@ export default class BaseActivity extends foundry.abstract.DataModel {
 
     const target = {...this.target};
     if (target.type === "radius") target.count = 1;
+    if (increase) target.size = target.size + increase;
     target.attach = CONFIG.SYSTEM.TARGET_TYPES[target.type].attached ?? false;
 
     for (let i = 0; i < target.count; i++) {
@@ -334,12 +381,12 @@ class DamageActivity extends BaseActivity {
    * @param {object} [config]                 Damage roll config.
    * @param {ItemArtichron} [config.ammo]     An ammo item for additional properties.
    * @param {number} [config.multiply]        A multiplier on the number of dice rolled.
-   * @param {number} [config.addition]        An addition to the number of dice rolled.
+   * @param {number} [config.increase]        An addition to the number of dice rolled.
    * @param {object} [options]                Chat message options.
    * @param {boolean} [options.create]        If false, returns the rolls instead of a chat message.
    * @returns {Promise<ChatMessageArtichron|RollArtichron[]|null>}
    */
-  async rollDamage({ammo, multiply, addition} = {}, {create = true} = {}) {
+  async rollDamage({ammo, multiply, increase} = {}, {create = true} = {}) {
     if (!this.hasDamage) {
       ui.notifications.warn("ARTICHRON.ACTIVITY.Warning.NoDamage", {localize: true});
       return null;
@@ -349,8 +396,9 @@ class DamageActivity extends BaseActivity {
     if (ammo) rollData.ammo = ammo.getRollData().item;
 
     const parts = foundry.utils.deepClone(this._damages);
-
     const mods = ammo ? ammo.system.ammoProperties : new Set();
+
+    // Override the damage type.
     if (mods.has("damageOverride")) {
       const override = ammo.system.damage.override;
       for (const p of parts) {
@@ -360,17 +408,13 @@ class DamageActivity extends BaseActivity {
       }
     }
 
-    if (mods.has("damageParts")) {
-      parts.push(...ammo.system._damages);
-    }
-
     const rolls = Object.entries(parts.reduce((acc, d) => {
       acc[d.type] ??= [];
       acc[d.type].push(d.formula);
       return acc;
     }, {})).map(([type, formulas]) => {
       const roll = new CONFIG.Dice.DamageRoll(formulas.join("+"), rollData, {type: type});
-      roll.alter(multiply ?? 1, addition ?? 0);
+      roll.alter(multiply ?? 1, increase ?? 0);
       return roll;
     });
 

@@ -26,6 +26,12 @@ export default class ElixirData extends ItemSystemModel {
       usage: new SchemaField({
         spent: new NumberField({integer: true, min: 0, initial: 0, nullable: false}),
         max: new NumberField({min: 1, integer: true, initial: 1, nullable: false})
+      }),
+      boost: new StringField({
+        required: false,
+        blank: true,
+        initial: "",
+        choices: CONFIG.SYSTEM.POOL_TYPES
       })
     };
   }

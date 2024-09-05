@@ -77,13 +77,14 @@ export default class UsageMessageData extends ChatMessageSystemModel {
       // usage.damage.ammo = this.item.actor.items.get(usage.ammo) ?? null;
       button.addEventListener("click", event => {
         const activity = this.item.system.activities.get(this.activity);
+        const config = this.parent.getFlag("artichron", "usage") ?? {};
         switch (event.currentTarget.dataset.action) {
           case "cost":
             return activity.consumeCost();
           case "template":
-            return activity.placeTemplate();
+            return activity.placeTemplate(config.area);
           case "damage":
-            return activity.rollDamage();
+            return activity.rollDamage(config.damage);
           case "healing":
             return activity.rollHealing();
           case "teleport":
