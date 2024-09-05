@@ -152,7 +152,7 @@ export default class MeasuredTemplateArtichron extends MeasuredTemplate {
 
   /**
    * Shared code for when template placement ends by being confirmed or canceled.
-   * @param {Event} event  Triggering event that ended the placement.
+   * @param {PointerEvent} event  The originating click event.that ended the placement.
    */
   async _finishPlacement(event) {
     if (!this.#locked) this.layer._onDragLeftCancel(event);
@@ -166,7 +166,7 @@ export default class MeasuredTemplateArtichron extends MeasuredTemplate {
 
   /**
    * Move the template preview when the mouse moves.
-   * @param {Event} event  Triggering mouse event.
+   * @param {PointerEvent} event  The originating click event.
    */
   _onMovePlacement(event) {
     if (this.#locked) return;
@@ -214,7 +214,7 @@ export default class MeasuredTemplateArtichron extends MeasuredTemplate {
 
   /**
    * Rotate the template preview by 3˚ increments when the mouse wheel is rotated.
-   * @param {Event} event  Triggering mouse event.
+   * @param {PointerEvent} event  The originating click event.
    */
   _onRotatePlacement(event) {
     return;
@@ -224,7 +224,7 @@ export default class MeasuredTemplateArtichron extends MeasuredTemplate {
 
   /**
    * Confirm placement when the left mouse button is clicked.
-   * @param {Event} event  Triggering mouse event.
+   * @param {PointerEvent} event  The originating click event.
    */
   async _onConfirmPlacement(event) {
     if (this.options.lock) this.#locked = true;
@@ -239,7 +239,7 @@ export default class MeasuredTemplateArtichron extends MeasuredTemplate {
 
   /**
    * Cancel placement when the right mouse button is clicked.
-   * @param {Event} event  Triggering mouse event.
+   * @param {PointerEvent} event  The originating click event.
    */
   async _onCancelPlacement(event) {
     if (!event.shiftKey) return;

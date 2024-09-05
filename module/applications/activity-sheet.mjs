@@ -292,7 +292,7 @@ export default class ActivitySheet extends foundry.applications.api.HandlebarsAp
   /**
    * Handle form submission.
    * @this {ActivitySheet}
-   * @param {Event} event                   Triggering event.
+   * @param {PointerEvent} event            The originating click event.
    * @param {HTMLElement} form              The form element.
    * @param {FormDataExtended} formData     The form data.
    */
@@ -308,8 +308,8 @@ export default class ActivitySheet extends foundry.applications.api.HandlebarsAp
   /**
    * Add a damage part.
    * @this {ActivitySheet}
-   * @param {Event} event             Triggering click event.
-   * @param {HTMLElement} target      The element with the data-action property.
+   * @param {PointerEvent} event      The originating click event.
+   * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
    */
   static #addDamage(event, target) {
     const damage = this.activity.toObject().damage;
@@ -322,8 +322,8 @@ export default class ActivitySheet extends foundry.applications.api.HandlebarsAp
   /**
    * Delete a damage part.
    * @this {ActivitySheet}
-   * @param {Event} event             Triggering click event.
-   * @param {HTMLElement} target      The element with the data-action property.
+   * @param {PointerEvent} event      The originating click event.
+   * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
    */
   static #deleteDamage(event, target) {
     const idx = Number(target.closest("[data-idx]").dataset.idx);

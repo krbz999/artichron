@@ -149,7 +149,7 @@ export default class BatteryProgressElement extends foundry.applications.element
 
   /**
    * Handle input events to the numeric input field.
-   * @param {Event} event     Initiating input event.
+   * @param {InputEvent} event      Initiating input event.
    */
   #onInput(event) {
     event.preventDefault();
@@ -175,7 +175,7 @@ export default class BatteryProgressElement extends foundry.applications.element
 
   /**
    * Handle click events on the bars element.
-   * @param {Event} event     Initiating click event.
+   * @param {PointerEvent} event     The originating click event.
    */
   #onClickBars(event) {
     const target = event.target;

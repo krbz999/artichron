@@ -73,7 +73,7 @@ export default class TradeMessageData extends ChatMessageSystemModel {
 
   /**
    * Handle click events on the Accept Trade button.
-   * @param {Event} event     Initiating click event.
+   * @param {PointerEvent} event     The originating click event.
    */
   async _onAcceptTrade(event) {
     const canAccept = !this.traded && !!this.target?.isOwner;

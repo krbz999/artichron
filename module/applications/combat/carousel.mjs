@@ -281,7 +281,7 @@ export default class CombatCarousel extends HandlebarsApplicationMixin(Applicati
   /**
    * Handle double-clicks on a combatant to render its actor's sheet.
    * @this {CombatCarousel}
-   * @param {Event} event     The initiating event.
+   * @param {PointerEvent} event     The originating click event.
    */
   static #renderActor(event) {
     const id = event.currentTarget.closest("[data-id]").dataset.id;
@@ -295,8 +295,8 @@ export default class CombatCarousel extends HandlebarsApplicationMixin(Applicati
   /**
    * Handle selecting combatant.
    * @this {CombatCarousel}
-   * @param {Event} event             Initiating click event.
-   * @param {HTMLElement} target      The element with the data-action property.
+   * @param {PointerEvent} event      The originating click event.
+   * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
    */
   static #onSelectCombatant(event, target) {
     if (event.target.classList.contains("name")) return;
@@ -317,7 +317,7 @@ export default class CombatCarousel extends HandlebarsApplicationMixin(Applicati
 
   /**
    * Handle hover-in events on a combatant.
-   * @param {Event} event     The pointer event.
+   * @param {PointerEvent} event     The originating click event.
    */
   static #onCombatantHoverIn(event) {
     const id = event.currentTarget.dataset.id;
@@ -333,7 +333,7 @@ export default class CombatCarousel extends HandlebarsApplicationMixin(Applicati
 
   /**
    * Handle hover-out events on a combatant.
-   * @param {Event} event     The pointer event.
+   * @param {PointerEvent} event     The originating click event.
    */
   static #onCombatantHoverOut(event) {
     if (this._highlighted) this._highlighted._onHoverOut(event);
@@ -344,8 +344,8 @@ export default class CombatCarousel extends HandlebarsApplicationMixin(Applicati
 
   /**
    * Handle initiating combat.
-   * @param {Event} event             Initiating click event.
-   * @param {HTMLElement} target      The element with the data-action property.
+   * @param {PointerEvent} event      The originating click event.
+   * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
    */
   static #beginCombat(event, target) {
     this.combat.startCombat();
@@ -355,8 +355,8 @@ export default class CombatCarousel extends HandlebarsApplicationMixin(Applicati
 
   /**
    * Handle ending combat.
-   * @param {Event} event             Initiating click event.
-   * @param {HTMLElement} target      The element with the data-action property.
+   * @param {PointerEvent} event      The originating click event.
+   * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
    */
   static #endCombat(event, target) {
     this.combat.endCombat();
@@ -366,8 +366,8 @@ export default class CombatCarousel extends HandlebarsApplicationMixin(Applicati
 
   /**
    * Handle moving to the previous turn.
-   * @param {Event} event             Initiating click event.
-   * @param {HTMLElement} target      The element with the data-action property.
+   * @param {PointerEvent} event      The originating click event.
+   * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
    */
   static #previousTurn(event, target) {
     this.combat.previousTurn();
@@ -377,8 +377,8 @@ export default class CombatCarousel extends HandlebarsApplicationMixin(Applicati
 
   /**
    * Handle moving to the next turn.
-   * @param {Event} event             Initiating click event.
-   * @param {HTMLElement} target      The element with the data-action property.
+   * @param {PointerEvent} event      The originating click event.
+   * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
    */
   static #nextTurn(event, target) {
     this.combat.nextTurn();
@@ -388,8 +388,8 @@ export default class CombatCarousel extends HandlebarsApplicationMixin(Applicati
 
   /**
    * Handle pinging a combatant.
-   * @param {Event} event             Initiating click event.
-   * @param {HTMLElement} target      The element with the data-action property.
+   * @param {PointerEvent} event      The originating click event.
+   * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
    */
   static #pingCombatant(event, target) {
     event.stopPropagation(); // Don't trigger other events
@@ -405,8 +405,8 @@ export default class CombatCarousel extends HandlebarsApplicationMixin(Applicati
 
   /**
    * Handle toggling the defeated status.
-   * @param {Event} event             Initiating click event.
-   * @param {HTMLElement} target      The element with the data-action property.
+   * @param {PointerEvent} event      The originating click event.
+   * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
    */
   static #toggleDefeated(event, target) {
     event.stopPropagation(); // Don't trigger other events
@@ -420,8 +420,8 @@ export default class CombatCarousel extends HandlebarsApplicationMixin(Applicati
 
   /**
    * Handle toggling the 'hidden' property.
-   * @param {Event} event             Initiating click event.
-   * @param {HTMLElement} target      The element with the data-action property.
+   * @param {PointerEvent} event      The originating click event.
+   * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
    */
   static #toggleHidden(event, target) {
     event.stopPropagation(); // Don't trigger other events
@@ -435,8 +435,8 @@ export default class CombatCarousel extends HandlebarsApplicationMixin(Applicati
 
   /**
    * Toggle the collapsed state of the combat tracker.
-   * @param {Event} event             Initiating click event.
-   * @param {HTMLElement} target      The element with the data-action property.
+   * @param {PointerEvent} event      The originating click event.
+   * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
    */
   static #toggleCollapsed(event, target) {
     const collapsed = target.closest(".controls").classList.toggle("collapsed");

@@ -203,7 +203,7 @@ export default class TokenPlacement {
 
   /**
    * Shared code for when token placement ends by being confirmed or canceled.
-   * @param {Event} event  Triggering event that ended the placement.
+   * @param {PointerEvent} event  The originating click event.that ended the placement.
    */
   async #finishPlacement(event) {
     canvas.stage.off("mousemove", this.#events.move);
@@ -216,7 +216,7 @@ export default class TokenPlacement {
 
   /**
    * Move the token preview when the mouse moves.
-   * @param {Event} event  Triggering mouse event.
+   * @param {PointerEvent} event  The originating click event.
    */
   #onMovePlacement(event) {
     event.stopPropagation();
@@ -240,7 +240,7 @@ export default class TokenPlacement {
 
   /**
    * Rotate the token preview by 3˚ increments when the mouse wheel is rotated.
-   * @param {Event} event  Triggering mouse event.
+   * @param {PointerEvent} event  The originating click event.
    */
   #onRotatePlacement(event) {
     if (event.ctrlKey) event.preventDefault(); // Avoid zooming the browser window
@@ -257,7 +257,7 @@ export default class TokenPlacement {
 
   /**
    * Confirm placement when the left mouse button is clicked.
-   * @param {Event} event  Triggering mouse event.
+   * @param {PointerEvent} event  The originating click event.
    */
   async #onConfirmPlacement(event) {
     await this.#finishPlacement(event);
@@ -268,7 +268,7 @@ export default class TokenPlacement {
 
   /**
    * Skip placement when the right mouse button is clicked.
-   * @param {Event} event  Triggering mouse event.
+   * @param {PointerEvent} event  The originating click event.
    */
   async #onSkipPlacement(event) {
     await this.#finishPlacement(event);

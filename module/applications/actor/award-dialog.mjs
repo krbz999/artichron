@@ -172,7 +172,7 @@ export default class AwardDialog extends foundry.applications.api.HandlebarsAppl
 
   /**
    * Handle submission of the form.
-   * @param {Event} event                   Initiating click event.
+   * @param {PointerEvent} event            The originating click event.
    * @param {HTMLElement} target            The submit element.
    * @param {FormDataExtended} formData     The form data.
    */

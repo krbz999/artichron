@@ -20,7 +20,7 @@ export default class TokenHUDArtichron extends CONFIG.Token.hudClass {
 
   /**
    * Override the click events of the token hud for conditions with levels.
-   * @param {Event} event     Initiating click event.
+   * @param {PointerEvent} event     The originating click event.
    */
   _onClickLeveledCondition(event) {
     const target = event.currentTarget;
@@ -38,7 +38,7 @@ export default class TokenHUDArtichron extends CONFIG.Token.hudClass {
 
   /**
    * Override the right-click events of the token hud for conditions with levels.
-   * @param {Event} event     Initiating click event.
+   * @param {PointerEvent} event     The originating click event.
    */
   _onContextLeveledCondition(event) {
     event.preventDefault();

@@ -233,8 +233,8 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
 
   /**
    * Handle click events to add a new damage formula.
-   * @param {Event} event             The initiating click event.
-   * @param {HTMLElement} target      The element with the data-action property.
+   * @param {PointerEvent} event      The originating click event.
+   * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
    */
   static _onAddDamage(event, target) {
     if (!this.isEditable) return;
@@ -251,8 +251,8 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
 
   /**
    * Handle click events to remove a particular damage formula.
-   * @param {Event} event             The initiating click event.
-   * @param {HTMLElement} target      The element with the data-action property.
+   * @param {PointerEvent} event      The originating click event.
+   * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
    */
   static _onDeleteDamage(event, target) {
     if (!this.isEditable) return;
@@ -266,8 +266,8 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
 
   /**
    * Handle click events to unfuse this item.
-   * @param {Event} event             The initiating click event.
-   * @param {HTMLElement} target      The element with the data-action property.
+   * @param {PointerEvent} event      The originating click event.
+   * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
    */
   static async _onUndoFusion(event, target) {
     if (!this.isEditable) return;
@@ -279,8 +279,8 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
 
   /**
    * Handle click events to add an armor requirement.
-   * @param {Event} event             The initiating click event.
-   * @param {HTMLElement} target      The element with the data-action property.
+   * @param {PointerEvent} event      The originating click event.
+   * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
    */
   static #addRequirement(event, target) {
     if (!this.isEditable) return;
@@ -295,8 +295,8 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
 
   /**
    * Handle click events to remove an armor requirement.
-   * @param {Event} event             The initiating click event.
-   * @param {HTMLElement} target      The element with the data-action property.
+   * @param {PointerEvent} event      The originating click event.
+   * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
    */
   static #deleteRequirement(event, target) {
     if (!this.isEditable) return;
@@ -311,8 +311,8 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
   /**
    * Create an activity.
    * @this {ItemSheetArtichron}
-   * @param {Event} event             Triggering click event.
-   * @param {HTMLElement} target      The element with the data-action property.
+   * @param {PointerEvent} event      The originating click event.
+   * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
    */
   static #createActivity(event, target) {
     const types = Object.entries(artichron.fields.BaseActivity.TYPES).reduce((acc, [k, v]) => {
@@ -341,8 +341,8 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
   /**
    * Delete an activity.
    * @this {ItemSheetArtichron}
-   * @param {Event} event             Triggering click event.
-   * @param {HTMLElement} target      The element with the data-action property.
+   * @param {PointerEvent} event      The originating click event.
+   * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
    */
   static #deleteActivity(event, target) {
     const id = target.closest("[data-activity-id]").dataset.activityId;
@@ -355,8 +355,8 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
   /**
    * Render an activity's sheet.
    * @this {ItemSheetArtichron}
-   * @param {Event} event             Triggering click event.
-   * @param {HTMLElement} target      The element with the data-action property.
+   * @param {PointerEvent} event      The originating click event.
+   * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
    */
   static #renderActivity(event, target) {
     const id = target.closest("[data-activity-id]").dataset.activityId;
