@@ -173,34 +173,32 @@ export default class MeasuredTemplateArtichron extends MeasuredTemplate {
     event.stopPropagation();
     const now = Date.now();
     if (now - this.#moveTime <= 20) return;
-
-    const {VERTEX, EDGE_MIDPOINT, CENTER} = CONST.GRID_SNAPPING_MODES;
-    const freeForm = (canvas.grid.type === CONST.GRID_TYPES.GRIDLESS) || event.shiftKey;
+    const freeForm = canvas.grid.isGridless || event.shiftKey;
     const cursor = event.data.getLocalPosition(this.layer);
-    const target = freeForm ? cursor : canvas.grid.getCenterPoint(cursor);
 
-    const ray = new Ray({...this.origin}, target);
+    const ray = new Ray({...this.origin}, freeForm ? cursor : canvas.grid.getCenterPoint(cursor));
     const pos = this.config.attach ? ray.A : ray.B;
     pos.direction = Math.toDegrees(ray.angle);
 
     let pos2;
     if (this.config.attach && (this.document.t !== "circle")) {
-      let point = ray.A;
-      const direction = Math.toDegrees(Ray.towardsPoint(ray.A, cursor, this.token.w / 2).angle);
-      const distance = canvas.dimensions.distance * this.token.document.width / 2;
-      point = canvas.grid.getTranslatedPoint(point, direction, distance);
-      point = freeForm ? point : canvas.grid.getSnappedPoint(point, {mode: VERTEX | EDGE_MIDPOINT});
-      pos2 = {...point, direction: direction};
+      // Offset origin in the cursor direction.
+      const offsetDistance = canvas.dimensions.distance * this.token.document.width / 2;
+      const offsetDirection = Math.toDegrees(Ray.towardsPoint(ray.A, cursor, this.token.w / 2).angle);
+      let origin = canvas.grid.getTranslatedPoint(ray.A, offsetDirection, offsetDistance);
+      if (!freeForm) origin = canvas.templates.getSnappedPoint(origin);
+      // Point in direction from origin and get snapped point.
+      let endPoint = canvas.grid.getTranslatedPoint(origin, offsetDirection, this.config.distance);
+      if (!freeForm) endPoint = canvas.templates.getSnappedPoint(endPoint);
+      // Get direction.
+      const direction = Math.toDegrees(new Ray(origin, endPoint).angle);
+      // Update coordinates and direction.
+      pos2 = {...origin, direction: direction};
     } else if (!this.config.attach && (this.config.range > 0)) {
-      const point = canvas.grid.getCenterPoint(pos);
-      const r = canvas.grid.measurePath([ray.A, point]).distance;
+      const r = canvas.grid.measurePath([ray.A, ray.B]).distance;
       const tooFar = r >= this.config.range;
-      if (tooFar) {
-        pos2 = canvas.grid.getTranslatedPoint(ray.A, pos.direction, this.config.range);
-        if (!freeForm) pos2 = canvas.grid.getSnappedPoint(pos2, {mode: CENTER | VERTEX});
-      } else if (!freeForm) {
-        pos2 = canvas.grid.getSnappedPoint(cursor, {mode: CENTER | VERTEX});
-      }
+      pos2 = tooFar ? canvas.grid.getTranslatedPoint(ray.A, pos.direction, this.config.range) : cursor;
+      if (!freeForm) pos2 = canvas.templates.getSnappedPoint(pos2);
     }
 
     if (pos2) Object.assign(pos, pos2);
