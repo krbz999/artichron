@@ -386,7 +386,7 @@ export async function awaitTargets(count, {origin, range, allowPreTarget = false
       c = new PIXI.Graphics();
       c.lineStyle({width: 4, color: 0x000000, alpha: 1});
       c.drawShape(new PIXI.Polygon(points));
-      c.pivot.set(-origin.w / 2, -origin.h / 2);
+      c.pivot.set(-(origin.center.x - origin.document.x), -(origin.center.y - origin.document.y));
       origin.addChild(c);
     }
 

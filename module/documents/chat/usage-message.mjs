@@ -88,7 +88,7 @@ export default class UsageMessageData extends ChatMessageSystemModel {
           case "healing":
             return activity.rollHealing();
           case "teleport":
-            return activity.teleportToken();
+            return activity.teleportToken(config.distance);
           case "effect":
             return activity.grantEffects();
         }

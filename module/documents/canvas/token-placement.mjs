@@ -152,26 +152,6 @@ export default class TokenPlacement {
   }
 
   /* -------------------------------------------------- */
-
-  /**
-   * Pixel offset to ensure snapping occurs in middle of grid space.
-   * @param {PrototypeToken} token  Token for which to calculate the adjustment.
-   * @returns {{x: number, y: number}}
-   */
-  #getSnapAdjustment(token) {
-    const size = canvas.dimensions.size;
-    switch (canvas.grid.type) {
-      case CONST.GRID_TYPES.SQUARE:
-        return {
-          x: token.width % 2 === 0 ? Math.round(size * 0.5) : 0,
-          y: token.height % 2 === 0 ? Math.round(size * 0.5) : 0
-        };
-      default:
-        return {x: 0, y: 0};
-    }
-  }
-
-  /* -------------------------------------------------- */
   /*   Event handlers                                   */
   /* -------------------------------------------------- */
 
@@ -203,7 +183,7 @@ export default class TokenPlacement {
 
   /**
    * Shared code for when token placement ends by being confirmed or canceled.
-   * @param {PointerEvent} event  The originating click event.that ended the placement.
+   * @param {PointerEvent} event  The originating click event that ended the placement.
    */
   async #finishPlacement(event) {
     canvas.stage.off("mousemove", this.#events.move);

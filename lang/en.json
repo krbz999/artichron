@@ -776,13 +776,16 @@
 },
 
 "ActivityUseDialog": {
-  "AreaHint": "The amount of the pool to spend to increase the size of the area of effect.",
+  "AreaHint": "Each point spent from the pool will increase the distance or radius of the area of effect by 1m.",
   "AreaLabel": "Amount",
   "AreaLegend": "Area",
-  "DamageHint": "The amount of the pool to spend to increase the damage dealt.",
+  "DamageHint": "Each point spent from the pool will add one additional die to the damage dealt.",
   "DamageLabel": "Amount",
   "DamageLegend": "Damage",
-  "ElixirsHint": "Elixirs can be consumed for additional stamina or mana.",
+  "DistanceHint": "Each point spent from the pool will increase the range of the teleportation by 1m.",
+  "DistanceLabel": "Distance",
+  "DistanceLegend": "Distance",
+  "ElixirsHint": "Elixirs can be consumed for additional points to spend.",
   "ElixirsLegend": "Elixirs",
   "Title": "Use Activity: {name}",
   "Warning": {

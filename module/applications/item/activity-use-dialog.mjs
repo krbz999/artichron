@@ -34,6 +34,9 @@ export default class ActivityUseDialog extends foundry.applications.api.Handleba
     area: {
       template: "systems/artichron/templates/item/activity-use-dialog-area.hbs"
     },
+    distance: {
+      template: "systems/artichron/templates/item/activity-use-dialog-distance.hbs"
+    },
     elixirs: {
       template: "systems/artichron/templates/item/activity-use-dialog-elixirs.hbs"
     },
@@ -142,6 +145,25 @@ export default class ActivityUseDialog extends foundry.applications.api.Handleba
         });
         Object.assign(context.area, {
           legend: game.i18n.localize("ARTICHRON.ActivityUseDialog.AreaLegend"),
+          field: field
+        });
+        break;
+      }
+      case "distance": {
+        context.distance = {
+          show: this.activity.type === "teleport"
+        };
+        if (!context.distance.show) break;
+        const field = new foundry.data.fields.NumberField({
+          integer: true,
+          initial: 0,
+          nullable: true,
+          min: 0,
+          label: "ARTICHRON.ActivityUseDialog.DistanceLabel",
+          hint: "ARTICHRON.ActivityUseDialog.DistanceHint"
+        });
+        Object.assign(context.distance, {
+          legend: game.i18n.localize("ARTICHRON.ActivityUseDialog.DistanceLegend"),
           field: field
         });
         break;
