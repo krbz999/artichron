@@ -265,7 +265,7 @@ export default class CombatArtichron extends Combat {
     const equalize = (a, b) => {
       let i = 0;
       const d = [...a];
-      while (a.length < b.length) {
+      while (a.length && b.length && (a.length < b.length)) {
         let e = d[i];
         if (!e) i = 0;
         e = d[i];
