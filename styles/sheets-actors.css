@@ -444,7 +444,7 @@
             right: 0;
             height: 0.2rem;
 
-            .health, .stamina, .mana {
+            .health, .stamina, .mana, .danger {
               position: relative;
               flex: 1;
               height: 100%;
@@ -472,6 +472,10 @@
             .mana::before {
               right: calc(100% - var(--mana));
               background: rgb(75, 75, 250);
+            }
+            .danger::before {
+              right: calc(100% - var(--danger));
+              background: rgb(129, 32, 255);
             }
           }
         }

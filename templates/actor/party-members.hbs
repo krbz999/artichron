@@ -4,18 +4,20 @@
     <div class="form-group">
       <label>
         <span>{{localize "ARTICHRON.SheetTab.Currency"}}</span>
-        <img class="icon" src="systems/artichron/assets/icons/chron.svg">
+        <img class="icon" src="systems/artichron/assets/icons/chron.svg" alt="">
       </label>
       <input type="text" name="system.currency.chron" class="delta" value="{{awards.currency.value}}" {{disabled (not isEditable)}}>
       <button type="button" data-action="awardCurrency" {{disabled awards.currency.disabled}}>
-        <i class="fa-solid fa-fw fa-medal"></i> <span>{{localize "ARTICHRON.SheetActions.Award"}}</span>
+        <i class="fa-solid fa-fw fa-medal"></i>
+        <span>{{localize "ARTICHRON.SheetActions.Award"}}</span>
       </button>
     </div>
     <div class="form-group">
       <label>{{localize "ARTICHRON.SheetTab.Progression"}}</label>
       <input type="text" name="system.points.value" class="delta" value="{{awards.points.value}}" {{disabled (not isEditable)}}>
       <button type="button" data-action="awardPoints" {{disabled awards.points.disabled}}>
-        <i class="fa-solid fa-fw fa-cube"></i> <span>{{localize "ARTICHRON.SheetActions.Award"}}</span>
+        <i class="fa-solid fa-fw fa-cube"></i>
+        <span>{{localize "ARTICHRON.SheetActions.Award"}}</span>
       </button>
     </div>
   </fieldset>
@@ -35,23 +37,27 @@
 
   <ul class="members">
     {{#each actors}}
-    <li class="member" data-id="{{actor.id}}" style="--hp: {{pct.hp}}%; --health: {{pct.health}}%; --stamina: {{pct.stamina}}%; --mana: {{pct.mana}}%;">
+    <li class="member" data-id="{{actor.id}}">
       <img src="{{actor.img}}" alt="{{actor.name}}" class="avatar" {{#if canView}}data-action="displayActor"{{/if}}>
 
       <div class="center">
         <span class="name">{{actor.name}}</span>
         <div class="bars">
-          <div class="hp"></div>
-          {{#if isHero}}
+          <div class="hp" style="--hp: {{pct.hp}}%;"></div>
+          {{#if (or isHero isMonster)}}
           <div class="pools">
-            <div class="health"></div>
-            <div class="stamina"></div>
-            <div class="mana"></div>
+            {{#if isHero}}
+            <div class="health" style="--health: {{pct.health}}%;"></div>
+            <div class="stamina" style="--stamina: {{pct.stamina}}%;"></div>
+            <div class="mana" style="--mana: {{pct.mana}}%;"></div>
+            {{else}}
+            <div class="danger" style="--danger: {{pct.danger}}%;"></div>
+            {{/if}}
           </div>
           {{/if}}
         </div>
         <span class="currency">
-          <img class="icon" src="systems/artichron/assets/icons/chron.svg">
+          <img class="icon" src="systems/artichron/assets/icons/chron.svg" alt="">
           <input type="text" id="currency-{{@root.document.id}}-{{actor.id}}" class="delta" value="{{actor.system.currency.chron}}" {{#if isOwner}} data-change="changeCurrency" data-property="system.currency.chron" {{else}} disabled {{/if}}>
         </span>
         {{#if isHero}}

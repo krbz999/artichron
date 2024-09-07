@@ -37,6 +37,7 @@ export default class AwardDialog extends foundry.applications.api.HandlebarsAppl
 
   /** @override */
   static DEFAULT_OPTIONS = {
+    classes: ["artichron"],
     window: {
       icon: "fa-solid fa-medal",
       contentClasses: ["standard-form"]

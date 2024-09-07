@@ -149,6 +149,7 @@ export default class PartySheet extends ActorSheetArtichron {
         actor: actor,
         isOwner: actor.isOwner,
         isHero: actor.type === "hero",
+        isMonster: actor.type === "monster",
         pct: {hp: actor.system.health.pct},
         canView: actor.testUserPermission(game.user, "LIMITED")
       };
@@ -163,6 +164,8 @@ export default class PartySheet extends ActorSheetArtichron {
           total: actor.system.progression.points.total,
           spent: actor.system.progression.points.total - actor.system.progression.points.available
         };
+      } else if (context.isMonster) {
+        context.pct.danger = actor.system.danger.pool.pct;
       }
 
       members.push(context);

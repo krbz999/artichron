@@ -56,7 +56,7 @@
     }],
     "@html-eslint/attrs-newline": ["off", {
       "closeStyle": "sameline",
-      "ifAttrsMoreThan": 9
+      "ifAttrsMoreThan": 20
     }],
     "@html-eslint/indent": ["error", 2]
   }
