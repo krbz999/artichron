@@ -34,7 +34,11 @@
         },
         "target": {
           "count": 4,
-          "range": 3
+          "range": 3,
+          "type": "single",
+          "duration": "combat",
+          "size": 1,
+          "width": 1
         },
         "effects": {
           "ids": [
@@ -89,8 +93,8 @@
         "systemId": "artichron",
         "systemVersion": "1.0.0",
         "createdTime": null,
-        "modifiedTime": 1725536918806,
-        "lastModifiedBy": "3pWaVXzYT6XoJo1Y"
+        "modifiedTime": null,
+        "lastModifiedBy": null
       },
       "_key": "!items.effects!zPJ8fPvSprDfdXrf.JVcgElSH1pxCc6t8"
     }

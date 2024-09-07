@@ -34,7 +34,12 @@
           "value": 2
         },
         "target": {
-          "range": 5
+          "range": 5,
+          "type": "single",
+          "count": 1,
+          "duration": "combat",
+          "size": 1,
+          "width": 1
         },
         "damage": [
           {

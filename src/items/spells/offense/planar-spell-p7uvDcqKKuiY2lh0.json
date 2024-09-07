@@ -35,7 +35,10 @@
         "target": {
           "type": "ray",
           "duration": "turn",
-          "size": 5
+          "size": 5,
+          "count": 1,
+          "range": 1,
+          "width": 1
         },
         "damage": [
           {
@@ -57,7 +60,9 @@
           "type": "circle",
           "duration": "turn",
           "size": 2,
-          "range": 6
+          "range": 6,
+          "count": 1,
+          "width": 1
         },
         "damage": [
           {

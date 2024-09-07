@@ -366,13 +366,25 @@
 },
 
 "ItemProperty": {
+  "AmmoProperty": {
+    "FIELDS": {
+      "category": {
+        "label": "Category",
+        "subtype": {
+          "label": "Ammo Type",
+          "hint": "The type of ammunition this is will determine what weapons can use it."
+        }
+      }
+    }
+  },
+
   "ArmorProperty": {
     "FIELDS": {
       "category": {
         "label": "Type",
         "subtype": {
           "label": "Armor Type",
-          "hint": "The type of armor this is, which decides how it is equipped."
+          "hint": "The type of armor this is will determine how it is equipped."
         }
       }
     }

@@ -34,7 +34,10 @@
         "target": {
           "type": "radius",
           "duration": "turn",
-          "size": 3
+          "size": 3,
+          "count": 1,
+          "range": 1,
+          "width": 1
         },
         "effects": {
           "ids": [
@@ -91,8 +94,8 @@
         "systemId": "artichron",
         "systemVersion": "1.0.0",
         "createdTime": null,
-        "modifiedTime": 1725537029690,
-        "lastModifiedBy": "3pWaVXzYT6XoJo1Y"
+        "modifiedTime": null,
+        "lastModifiedBy": null
       },
       "_key": "!items.effects!xb1d17EGsvEZKoNd.T30146BgtpmnbiRe"
     }

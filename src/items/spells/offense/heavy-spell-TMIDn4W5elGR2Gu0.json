@@ -44,7 +44,9 @@
           "type": "ray",
           "duration": "turn",
           "size": 10,
-          "width": 1
+          "width": 1,
+          "count": 1,
+          "range": 1
         },
         "description": "<p>Deal 4d10 lightning damage to every target in a line 10m from you.</p>"
       },
@@ -62,7 +64,12 @@
           "value": 3
         },
         "target": {
-          "range": 10
+          "range": 10,
+          "type": "single",
+          "count": 1,
+          "duration": "combat",
+          "size": 1,
+          "width": 1
         },
         "description": "<p>Deal 4d12 ice damage to a target within 10m.</p>"
       }

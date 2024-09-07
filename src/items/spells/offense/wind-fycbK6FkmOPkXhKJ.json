@@ -41,7 +41,12 @@
           }
         ],
         "target": {
-          "range": 5
+          "range": 5,
+          "type": "single",
+          "count": 1,
+          "duration": "combat",
+          "size": 1,
+          "width": 1
         },
         "description": "<p>Deal moderate wind damage to a target within 5m.</p>"
       }

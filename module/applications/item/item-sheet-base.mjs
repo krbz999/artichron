@@ -47,6 +47,11 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
   /* -------------------------------------------------- */
 
   /** @override */
+  _sheetMode = this.constructor.SHEET_MODES.EDIT;
+
+  /* -------------------------------------------------- */
+
+  /** @override */
   tabGroups = {
     primary: "description"
   };

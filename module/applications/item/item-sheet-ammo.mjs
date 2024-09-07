@@ -47,17 +47,6 @@ export default class ItemSheetAmmunition extends ItemSheetArtichron {
       formGroups: [this._makeField(context, "category.subtype")]
     });
 
-    context.fieldsets.push({
-      legend: "TODO",
-      formGroups: [
-        this._makeField(context, "range.value"),
-        this._makeField(context, "blast.size"),
-        this._makeField(context, "blast.type"),
-        this._makeField(context, "damage.override.group"),
-        this._makeField(context, "damage.override.value")
-      ]
-    });
-
     return context;
   }
 }

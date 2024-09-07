@@ -34,9 +34,21 @@
         "healing": {
           "formula": "3d6"
         },
-        "description": "<p>Heal a single target that drinks this tonic.</p>"
+        "description": "<p>Heal a single target that drinks this tonic.</p>",
+        "cost": {
+          "value": 1
+        },
+        "target": {
+          "type": "single",
+          "count": 1,
+          "duration": "combat",
+          "range": 1,
+          "size": 1,
+          "width": 1
+        }
       }
-    }
+    },
+    "boost": ""
   },
   "effects": [],
   "sort": 0,
