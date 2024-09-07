@@ -151,6 +151,7 @@ async function _stageMerchantItem({userId, itemUuid}) {
  * @returns {Promise}
  */
 async function stageMerchantItemEmit(item) {
+  if (!item?.isEmbedded) return;
   const userId = item.actor.isOwner ? game.user.id : game.users.find(u => {
     return u.active && item.actor.testUserPermission(u, "OWNER");
   })?.id;
@@ -195,6 +196,7 @@ async function _unstageMerchantItem({userId, itemUuid}) {
  * @returns {Promise}
  */
 async function unstageMerchantItemEmit(item) {
+  if (!item?.isEmbedded) return;
   const userId = item.actor.isOwner ? game.user.id : game.users.find(u => {
     return u.active && item.actor.testUserPermission(u, "OWNER");
   })?.id;

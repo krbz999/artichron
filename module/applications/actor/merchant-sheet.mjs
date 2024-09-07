@@ -79,64 +79,54 @@ export default class MerchantSheet extends ActorSheetArtichron {
 
   /** @override */
   _setupDragAndDrop() {
-    let dd = new DragDrop({
-      dragSelector: "inventory-item",
+    super._setupDragAndDrop();
+
+    const isLocked = () => {
+      if (this.document.pack) {
+        const pack = game.packs.get(this.document.pack);
+        if (pack.locked) return true;
+      }
+      return false;
+    };
+
+    // Staging an item.
+    const stageDrop = new DragDrop({
+      dragSelector: ".stock-area inventory-item",
       dropSelector: ".stage-area",
       permissions: {
-        dragstart: this._canDragStart.bind(this),
-        drop: this._canDragDrop.bind(this)
+        dragstart: () => true,
+        drop: () => !isLocked()
       },
       callbacks: {
         dragstart: this._onDragStart.bind(this),
-        drop: this._onDrop.bind(this)
+        drop: async (event) => {
+          event.preventDefault();
+          const item = await fromUuid(TextEditor.getDragEventData(event).uuid);
+          this._expandedItems.delete(item.uuid);
+          artichron.utils.sockets.stageMerchantItem(item);
+        }
       }
     });
-    dd.bind(this.element);
+    stageDrop.bind(this.element);
 
-    dd = new DragDrop({
+    // Unstaging an item.
+    const unstageDrop = new DragDrop({
+      dragSelector: ".stage-area inventory-item",
       dropSelector: ".stock-area",
-      permissions: {drop: this._canDragDrop.bind(this)},
-      callbacks: {drop: this._onDrop.bind(this)}
+      permissions: {
+        dragstart: () => true,
+        drop: () => !isLocked()
+      },
+      callbacks: {
+        dragstart: this._onDragStart.bind(this),
+        drop: async (event) => {
+          event.preventDefault();
+          const item = await fromUuid(TextEditor.getDragEventData(event).uuid);
+          this._expandedItems.delete(item.uuid);
+          artichron.utils.sockets.unstageMerchantItem(item);
+        }
+      }
     });
-    dd.bind(this.element);
-  }
-
-  /* -------------------------------------------------- */
-
-  /** @override */
-  _canDragStart(selector) {
-    return true;
-  }
-
-  /* -------------------------------------------------- */
-
-  /** @override */
-  _canDragDrop(selector) {
-    if (!this.isEditable) return false;
-    return this.document.isOwner || (selector === ".stage-area");
-  }
-
-  /* -------------------------------------------------- */
-
-  /** @override */
-  async _onDrop(event) {
-    event.preventDefault();
-    const target = event.target;
-    const isStage = !!target.closest(".stage-area");
-    const isStock = !!target.closest(".stock-area");
-    const {type, uuid} = TextEditor.getDragEventData(event);
-    const item = await fromUuid(uuid);
-
-    this._expandedItems.delete(item.uuid);
-
-    // Dropping merchant's own item
-    if ((item.parent === this.document) && (type === "Item")) {
-      // Sort or stage/unstage item.
-      if (isStage) return artichron.utils.sockets.stageMerchantItem(item);
-      else if (isStock) return artichron.utils.sockets.unstageMerchantItem(item);
-      else if (this.document.isOwner) return this._onSortItem(item, target);
-    } else if (this.document.isOwner) {
-      return super._onDrop(event);
-    }
+    unstageDrop.bind(this.element);
   }
 }
