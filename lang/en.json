@@ -902,6 +902,10 @@
 },
 
 "ContextMenu": {
+  "Activity": {
+    "Render": "Render Activity Sheet",
+    "Delete": "Delete Activity"
+  },
   "Directory": {
     "AssignPrimaryParty": "Assign Primary Party",
     "RemovePrimaryParty": "Unassign Primary Party"

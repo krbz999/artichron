@@ -16,7 +16,6 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
       addRequirement: ItemSheetArtichron.#addRequirement,
       deleteRequirement: ItemSheetArtichron.#deleteRequirement,
       createActivity: ItemSheetArtichron.#createActivity,
-      deleteActivity: ItemSheetArtichron.#deleteActivity,
       renderActivity: ItemSheetArtichron.#renderActivity
     }
   };
@@ -193,7 +192,7 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
         id: activity.id,
         name: activity.name,
         subtitle: game.i18n.localize(activity.constructor.metadata.label),
-        disabled: context.isPlayMode || !(activity.id in src.system.activities)
+        disabled: !context.isEditable || !(activity.id in src.system.activities)
       };
     });
 
@@ -225,6 +224,33 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
     }
 
     return {field: field, value: value, disabled: context.isPlayMode, ...options};
+  }
+
+  /* -------------------------------------------------- */
+  /*   Context menu handlers                            */
+  /* -------------------------------------------------- */
+
+  _setupContextMenu() {
+    super._setupContextMenu();
+
+    new artichron.applications.ContextMenuArtichron(this.element, "[data-activity-id]", [], {onOpen: element => {
+      const activity = this.document.system.activities.get(element.dataset.activityId);
+      ui.context.menuItems = this.#getActivityContextOptions(activity);
+    }});
+  }
+
+  #getActivityContextOptions(activity) {
+    if (!(activity.id in this.document._source.system.activities)) return [];
+
+    return [{
+      name: "ARTICHRON.ContextMenu.Activity.Render",
+      icon: "<i class='fa-solid fa-fw fa-edit'></i>",
+      callback: () => activity.sheet.render({force: true})
+    }, {
+      name: "ARTICHRON.ContextMenu.Activity.Delete",
+      icon: "<i class='fa-solid fa-fw fa-trash'></i>",
+      callback: () => activity.delete()
+    }];
   }
 
   /* -------------------------------------------------- */
@@ -334,20 +360,6 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
         });
       }}
     });
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Delete an activity.
-   * @this {ItemSheetArtichron}
-   * @param {PointerEvent} event      The originating click event.
-   * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
-   */
-  static #deleteActivity(event, target) {
-    const id = target.closest("[data-activity-id]").dataset.activityId;
-    const activity = this.document.system.activities.get(id);
-    activity.delete();
   }
 
   /* -------------------------------------------------- */
