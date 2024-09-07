@@ -230,6 +230,7 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
   /*   Context menu handlers                            */
   /* -------------------------------------------------- */
 
+  /** @override */
   _setupContextMenu() {
     super._setupContextMenu();
 
@@ -239,6 +240,13 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
     }});
   }
 
+  /* -------------------------------------------------- */
+
+  /**
+   * Set up context menu options for activities.
+   * @param {BaseActivity} activity     The current activity.
+   * @returns {object[]}
+   */
   #getActivityContextOptions(activity) {
     if (!(activity.id in this.document._source.system.activities)) return [];
 
@@ -250,6 +258,10 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
       name: "ARTICHRON.ContextMenu.Activity.Delete",
       icon: "<i class='fa-solid fa-fw fa-trash'></i>",
       callback: () => activity.delete()
+    }, {
+      name: "ARTICHRON.ContextMenu.Activity.Duplicate",
+      icon: "<i class='fa-solid fa-fw fa-copy'></i>",
+      callback: () => activity.constructor.create(activity.item, activity.toObject())
     }];
   }
 
