@@ -28,7 +28,7 @@
     "activities": {
       "NzIrH7L6egjZn40H": {
         "type": "damage",
-        "name": "Damage Activity",
+        "name": "Fire Damage",
         "_id": "NzIrH7L6egjZn40H",
         "cost": {
           "value": 2
@@ -41,7 +41,8 @@
             "formula": "4d6",
             "type": "fire"
           }
-        ]
+        ],
+        "description": "<p>Deal moderate fire damage to a target within 5m.</p>"
       }
     }
   },

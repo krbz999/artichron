@@ -30,7 +30,7 @@
     "activities": {
       "vWuvn4TAK88YOWBP": {
         "type": "damage",
-        "name": "Damage Activity",
+        "name": "Shield Bash",
         "_id": "vWuvn4TAK88YOWBP",
         "damage": [
           {
@@ -38,7 +38,7 @@
             "type": "physical"
           }
         ],
-        "description": "",
+        "description": "<p>Bash a target with this shield for moderate damage.</p>",
         "cost": {
           "value": 1
         },
@@ -53,12 +53,12 @@
       },
       "W8AXn7iK3MjQi2Km": {
         "type": "defend",
-        "name": "Defend Activity",
+        "name": "Heater Block",
         "_id": "W8AXn7iK3MjQi2Km",
         "defend": {
           "formula": "4d8"
         },
-        "description": "",
+        "description": "<p>Reduce incoming damage using this shield.</p>",
         "cost": {
           "value": 1
         }

@@ -32,7 +32,7 @@
     "activities": {
       "xOBVFzJjAy6mpx3Y": {
         "type": "damage",
-        "name": "Damage Activity",
+        "name": "Shield Bash",
         "_id": "xOBVFzJjAy6mpx3Y",
         "damage": [
           {
@@ -43,7 +43,7 @@
         "cost": {
           "value": 2
         },
-        "description": "",
+        "description": "<p>Bash a target with this shield for moderate damage.</p>",
         "target": {
           "type": "single",
           "count": 1,
@@ -55,7 +55,7 @@
       },
       "HfS8UUeMQ4i9QWIn": {
         "type": "defend",
-        "name": "Defend Activity",
+        "name": "Tower Block",
         "_id": "HfS8UUeMQ4i9QWIn",
         "defend": {
           "formula": "4d12"
@@ -63,7 +63,7 @@
         "cost": {
           "value": 2
         },
-        "description": ""
+        "description": "<p>Reduce incoming damage using this shield.</p>"
       }
     }
   },

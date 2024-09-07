@@ -32,7 +32,7 @@
     "activities": {
       "M2PhRkfNteqyizTu": {
         "type": "damage",
-        "name": "Damage Activity",
+        "name": "Shield Bash",
         "_id": "M2PhRkfNteqyizTu",
         "damage": [
           {
@@ -40,7 +40,7 @@
             "type": "physical"
           }
         ],
-        "description": "",
+        "description": "<p>Bash a target with this shield for moderate damage.</p>",
         "cost": {
           "value": 1
         },
@@ -55,12 +55,12 @@
       },
       "OEzgtdriTUvnZuPV": {
         "type": "defend",
-        "name": "Defend Activity",
+        "name": "Kite Block",
         "_id": "OEzgtdriTUvnZuPV",
         "defend": {
           "formula": "4d8"
         },
-        "description": "",
+        "description": "<p>Reduce incoming damage using this shield.</p>",
         "cost": {
           "value": 1
         }

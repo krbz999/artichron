@@ -256,7 +256,6 @@ export default class ActivitySheet extends foundry.applications.api.HandlebarsAp
       context.effects.ids.choices = this.item.transferrableEffects.map(effect => {
         return {value: effect.id, label: effect.name};
       });
-      console.warn(context.effects.ids.choices);
     }
 
     // Teleport

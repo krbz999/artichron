@@ -29,11 +29,12 @@
     "activities": {
       "Xz1sXDFTs0mkE3xt": {
         "type": "healing",
-        "name": "Healing Activity",
+        "name": "Drink Tonic",
         "_id": "Xz1sXDFTs0mkE3xt",
         "healing": {
           "formula": "3d6"
-        }
+        },
+        "description": "<p>Heal a single target that drinks this tonic.</p>"
       }
     }
   },

@@ -30,7 +30,7 @@
     "activities": {
       "uLOZsxCksVacl4rl": {
         "type": "damage",
-        "name": "Damage Activity",
+        "name": "Shield Bash",
         "_id": "uLOZsxCksVacl4rl",
         "damage": [
           {
@@ -38,7 +38,7 @@
             "type": "physical"
           }
         ],
-        "description": "",
+        "description": "<p>Bash a target with this shield for moderate damage.</p>",
         "cost": {
           "value": 1
         },
@@ -53,12 +53,12 @@
       },
       "rR1A8oANIu0Wzx7U": {
         "type": "defend",
-        "name": "Defend Activity",
+        "name": "Buckler Block",
         "_id": "rR1A8oANIu0Wzx7U",
         "defend": {
           "formula": "4d6"
         },
-        "description": "",
+        "description": "<p>Reduce incoming damage using this shield.</p>",
         "cost": {
           "value": 1
         }

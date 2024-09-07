@@ -28,7 +28,7 @@
     "activities": {
       "JiCzMdqSgSSQ68yH": {
         "type": "damage",
-        "name": "Damage Activity",
+        "name": "Darkness Damage",
         "_id": "JiCzMdqSgSSQ68yH",
         "cost": {
           "value": 2
@@ -41,7 +41,8 @@
             "formula": "4d6",
             "type": "darkness"
           }
-        ]
+        ],
+        "description": "<p>Deal moderate darkness damage to a target within 5m.</p>"
       }
     }
   },

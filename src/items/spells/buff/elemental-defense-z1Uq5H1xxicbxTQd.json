@@ -41,7 +41,8 @@
         },
         "target": {
           "range": 3
-        }
+        },
+        "description": "<p>Grant +10 fire resistance to a target within 3m of you.</p>"
       },
       "N1JVyiqhppvEDmPk": {
         "type": "effect",
@@ -57,7 +58,8 @@
         },
         "target": {
           "range": 3
-        }
+        },
+        "description": "<p>Grant +10 ice resistance to a target within 3m of you.</p>"
       },
       "IO20yRR6IDF2uMt0": {
         "type": "effect",
@@ -73,7 +75,8 @@
         },
         "target": {
           "range": 3
-        }
+        },
+        "description": "<p>Grant +10 lightning resistance to a target within 3m of you.</p>"
       },
       "uZ58lm6RU0Ho5PRH": {
         "type": "effect",
@@ -89,7 +92,8 @@
           "ids": [
             "t9R8zzyMk9w9qWnE"
           ]
-        }
+        },
+        "description": "<p>Grant +10 wind resistance to a target within 3m of you.</p>"
       }
     }
   },

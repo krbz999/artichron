@@ -29,7 +29,7 @@
     "activities": {
       "GdeyPliNasppY1Wd": {
         "type": "damage",
-        "name": "Damage Activity",
+        "name": "Wind Damage",
         "_id": "GdeyPliNasppY1Wd",
         "cost": {
           "value": 2
@@ -42,7 +42,8 @@
         ],
         "target": {
           "range": 5
-        }
+        },
+        "description": "<p>Deal moderate wind damage to a target within 5m.</p>"
       }
     }
   },

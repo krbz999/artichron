@@ -25,13 +25,14 @@
     "activities": {
       "ZMTkxi3vXgMBUJkY": {
         "type": "effect",
-        "name": "Effect Activity",
+        "name": "Drink Tonic",
         "_id": "ZMTkxi3vXgMBUJkY",
         "effects": {
           "ids": [
             "k76bVhYZRs4Yc4bM"
           ]
-        }
+        },
+        "description": "<p>Gain fire resistance until the end of the combat scenario when drinking this tonic.</p>"
       }
     }
   },
@@ -42,7 +43,7 @@
       "type": "buff",
       "_id": "k76bVhYZRs4Yc4bM",
       "system": {
-        "expiration": "none",
+        "expiration": "combat",
         "source": null,
         "granted": false,
         "subtype": "hero"
@@ -79,8 +80,8 @@
         "systemId": "artichron",
         "systemVersion": "1.0.0",
         "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": null
+        "modifiedTime": 1725718657280,
+        "lastModifiedBy": "3pWaVXzYT6XoJo1Y"
       },
       "_key": "!items.effects!KcQcIaDUNM6BakAJ.k76bVhYZRs4Yc4bM"
     }

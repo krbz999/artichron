@@ -6,7 +6,7 @@
   "img": "icons/tools/scribal/lens-blue.webp",
   "system": {
     "description": {
-      "value": "<p>A magical piece of equipment that can be used to grant allies within 3m of the caster a +10% bonus to any planar damage they deal until the end of a combat encounter.</p>"
+      "value": "<p>A magical piece of equipment that can be used to grant allies within 3m of the caster a +10% bonus to any planar damage they deal until the end of a combat scenario.</p>"
     },
     "weight": {
       "value": 1
@@ -43,7 +43,8 @@
         },
         "cost": {
           "value": 2
-        }
+        },
+        "description": "<p>Grant targets within 3m of you a +10% bonus to planar damage for the rest of the combat scenario.</p>"
       }
     }
   },
