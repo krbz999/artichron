@@ -10,7 +10,7 @@
  * @param {*} Base                        The base class.
  * @returns {DocumentSheetArtichron}      Extended class.
  */
-export const ArtichronSheetMixin = Base => {
+const ArtichronSheetMixin = Base => {
   const mixin = foundry.applications.api.HandlebarsApplicationMixin;
   return class DocumentSheetArtichron extends mixin(Base) {
     /**
@@ -600,3 +600,5 @@ export const ArtichronSheetMixin = Base => {
     }
   };
 };
+
+export default ArtichronSheetMixin;

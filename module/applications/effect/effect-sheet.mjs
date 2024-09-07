@@ -1,4 +1,4 @@
-import {ArtichronSheetMixin} from "../base-sheet.mjs";
+import ArtichronSheetMixin from "../base-sheet.mjs";
 
 export default class EffectSheetArtichron extends ArtichronSheetMixin(foundry.applications.api.DocumentSheetV2) {
   /** @override */

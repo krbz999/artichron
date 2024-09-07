@@ -1,5 +1,5 @@
 import FormulaField from "../../documents/fields/formula-field.mjs";
-import {ArtichronSheetMixin} from "../base-sheet.mjs";
+import ArtichronSheetMixin from "../base-sheet.mjs";
 
 export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.applications.sheets.ItemSheetV2) {
   /** @override */

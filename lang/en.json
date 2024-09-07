@@ -620,6 +620,13 @@
 
 "ACTIVITY": {
   "FIELDS": {
+    "ammunition": {
+      "label": "Ammunition",
+      "type": {
+        "label": "Type",
+        "hint": "The type of ammunition used by this activity. If left blank, this activity will not be able to consume ammunition."
+      }
+    },
     "cost": {
       "label": "Action Cost",
       "value": {
@@ -735,7 +742,11 @@
 
 "ROLL": {
   "Damage": {
-    "Flavor": "{name} - Damage Roll"
+    "AmmoItem": "Ammunition",
+    "AmmoItemHint": "An ammunition item to modify the damage roll.",
+    "Ammunition": "Ammunition",
+    "Flavor": "{name} - Damage Roll",
+    "Title": "{name}: Roll Damage"
   },
   "Defend": {
     "Flavor": "{name} - Defensive Roll"

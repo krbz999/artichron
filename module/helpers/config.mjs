@@ -264,8 +264,7 @@ SYSTEM.EQUIPMENT_TYPES = {
 
 /**
  * @typedef {object} AmmunitionTypeConfig
- * @property {string} label             The human-readable label of this ammunition type.
- * @property {Set<string>} weapons      The weapon subtypes that can use this ammo.
+ * @property {string} label     The human-readable label of this ammunition type.
  */
 
 /**
@@ -274,20 +273,16 @@ SYSTEM.EQUIPMENT_TYPES = {
  */
 SYSTEM.AMMUNITION_TYPES = {
   arrow: {
-    label: "ARTICHRON.AmmunitionType.Arrow",
-    weapons: new Set(["bow"])
+    label: "ARTICHRON.AmmunitionType.Arrow"
   },
   bullet: {
-    label: "ARTICHRON.AmmunitionType.Bullet",
-    weapons: new Set(["pistol"])
+    label: "ARTICHRON.AmmunitionType.Bullet"
   },
   round: {
-    label: "ARTICHRON.AmmunitionType.Round",
-    weapons: new Set(["rifle"])
+    label: "ARTICHRON.AmmunitionType.Round"
   },
   shell: {
-    label: "ARTICHRON.AmmunitionType.Shell",
-    weapons: new Set(["shotgun"])
+    label: "ARTICHRON.AmmunitionType.Shell"
   }
 };
 

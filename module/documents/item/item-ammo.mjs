@@ -29,6 +29,18 @@ export default class AmmunitionData extends ItemSystemModel {
           initial: () => Object.keys(CONFIG.SYSTEM.AMMUNITION_TYPES)[0],
           choices: CONFIG.SYSTEM.AMMUNITION_TYPES
         })
+      }),
+      override: new SchemaField({ // TODO: add this to ammo sheet and fix it up
+        group: new StringField({
+          required: true,
+          blank: true,
+          choices: {all: {label: "All"}, ...CONFIG.SYSTEM.DAMAGE_TYPE_GROUPS}
+        }),
+        value: new StringField({
+          required: true,
+          choices: CONFIG.SYSTEM.DAMAGE_TYPES,
+          initial: "fire"
+        })
       })
     };
   }
@@ -49,6 +61,7 @@ export default class AmmunitionData extends ItemSystemModel {
    */
   get ammoProperties() {
     const props = new Set();
+    if (this.override.group) props.add("override");
     return props;
   }
 }

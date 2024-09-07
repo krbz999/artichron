@@ -1,0 +1,10 @@
+<div class="standard-form">
+  {{#each fieldsets}}
+  <fieldset>
+    {{#if legend}} <legend>{{legend}}</legend> {{/if}}
+    {{#each fields}}
+    {{{this}}}
+    {{/each}}
+  </fieldset>
+  {{/each}}
+</div>

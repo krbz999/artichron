@@ -1,5 +1,6 @@
 import ActivitySheet from "../../applications/activity-sheet.mjs";
 import ActivityUseDialog from "../../applications/item/activity-use-dialog.mjs";
+import RollConfigurationDialog from "../../applications/item/roll-configuration-dialog.mjs";
 
 /**
  * @typedef {object} ActivityMetadata     Activity metadata.
@@ -364,6 +365,13 @@ class DamageActivity extends BaseActivity {
   /** @inheritdoc */
   static defineSchema() {
     return Object.assign(super.defineSchema(), {
+      ammunition: new SchemaField({
+        type: new StringField({
+          required: false,
+          blank: true,
+          choices: CONFIG.SYSTEM.AMMUNITION_TYPES
+        })
+      }),
       damage: new ArrayField(new SchemaField({
         formula: new StringField({required: true}),
         type: new StringField({
@@ -375,6 +383,14 @@ class DamageActivity extends BaseActivity {
       target: targetField()
     });
   }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Stored references of what ammunition is default set for damage rolls.
+   * @type {Map<string, string>}
+   */
+  static ammunitionRegistry = new Map();
 
   /* -------------------------------------------------- */
 
@@ -394,6 +410,37 @@ class DamageActivity extends BaseActivity {
       return null;
     }
 
+    if (!ammo) ammo = this.item.actor.items.get(DamageActivity.ammunitionRegistry.get(this.uuid));
+
+    // Prepare roll configuration dialog.
+    const fieldsets = !this.usesAmmo ? [] : [{
+      legend: "ARTICHRON.ROLL.Damage.Ammunition",
+      fields: [{
+        field: new foundry.data.fields.StringField({
+          required: false,
+          blank: true,
+          label: "ARTICHRON.ROLL.Damage.AmmoItem",
+          hint: "ARTICHRON.ROLL.Damage.AmmoItemHint",
+          choices: this.item.actor.items.reduce((acc, item) => {
+            if (item.type !== "ammo") return acc;
+            if (item.system.category.subtype === this.ammunition.type) {
+              acc[item.id] = item.name;
+            }
+            return acc;
+          }, {})
+        }),
+        options: {name: "ammo", value: ammo?.id}
+      }]
+    }];
+
+    const configuration = await RollConfigurationDialog.create({
+      fieldsets: fieldsets,
+      document: this,
+      window: {title: game.i18n.format("ARTICHRON.ROLL.Damage.Title", {name: this.item.name})}
+    });
+    if (!configuration) return null;
+    if (configuration.ammo) ammo = this.item.actor.items.get(configuration.ammo);
+
     const rollData = this.item.getRollData();
     if (ammo) rollData.ammo = ammo.getRollData().item;
 
@@ -401,8 +448,8 @@ class DamageActivity extends BaseActivity {
     const mods = ammo ? ammo.system.ammoProperties : new Set();
 
     // Override the damage type.
-    if (mods.has("damageOverride")) {
-      const override = ammo.system.damage.override;
+    if (mods.has("override")) {
+      const override = ammo.system.override;
       for (const p of parts) {
         if ((override.group === "all") || (CONFIG.SYSTEM.DAMAGE_TYPES[p.type].group === override.group)) {
           p.type = override.value;
@@ -439,8 +486,10 @@ class DamageActivity extends BaseActivity {
       roll._total = roll._evaluateTotal();
     }
 
+    // TODO: consume ammo
+
     if (create) {
-      const rollMode = game.settings.get("core", "rollMode");
+      const rollMode = configuration.rollmode ?? game.settings.get("core", "rollMode");
       const messageData = {
         type: "damage",
         rolls: rolls,
@@ -481,6 +530,16 @@ class DamageActivity extends BaseActivity {
     return this.damage.filter(({formula, type}) => {
       return formula && (type in CONFIG.SYSTEM.DAMAGE_TYPES) && Roll.validate(formula);
     });
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Does this activity make use of ammo?
+   * @type {boolean}
+   */
+  get usesAmmo() {
+    return !!this.ammunition.type;
   }
 
   /* -------------------------------------------------- */
