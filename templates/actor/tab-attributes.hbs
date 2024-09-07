@@ -39,7 +39,8 @@
       <legend>{{localize "ARTICHRON.SheetTab.Defenses"}}</legend>
       {{#each resistances}}
       <div class="resistance {{#if active}} active {{/if}}" data-tooltip="{{label}}" style="color: #{{color}}">
-        <span class="total">{{value}}</span> <i class="{{icon}}"></i>
+        <span class="total">{{value}}</span>
+        <i class="{{icon}}"></i>
       </div>
       {{/each}}
     </fieldset>

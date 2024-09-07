@@ -197,7 +197,12 @@ export default class HeroSheet extends ActorSheetArtichron {
         item: item ? item : {img: emptySlotIcons[key] ?? emptySlotIcons.arsenal},
         dataset: {equipmentSlot: key, action: "changeEquipped"}
       };
-      if (item) data.dataset.itemUuid = item.uuid;
+      if (item) {
+        data.dataset.itemUuid = item.uuid;
+        data.tooltip = `<section class="loading" data-uuid="${item.uuid}">
+          <i class="fas fa-spinner fa-spin-pulse"></i>
+        </section>`;
+      }
       equipped.push(data);
     };
 

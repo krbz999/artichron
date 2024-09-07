@@ -1,7 +1,9 @@
 <div class="{{tabs.inventory.tabCssClass}}" data-group="primary" data-tab="inventory">
   {{#each items}}
   <div class="inventory-list compact">
-    <header><span class="label">{{label}}</span></header>
+    <header>
+      <span class="label">{{label}}</span>
+    </header>
     {{#each items}}
     {{inventoryItem this disabled=true}}
     {{/each}}

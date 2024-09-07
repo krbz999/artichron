@@ -80,6 +80,7 @@
   "Attributes": "Attributes",
   "Awards": "Awards",
   "Biography": "Biography",
+  "Cart": "Cart",
   "Clocks": "Clocks",
   "Configuration": "Configuration",
   "Consumables": "Consumables",
@@ -106,7 +107,8 @@
   "Progression": "Progression",
   "Properties": "Properties",
   "Requirements": "Requirements",
-  "Skills": "Skills"
+  "Skills": "Skills",
+  "Stock": "Stock"
 },
 
 "SheetActions": {

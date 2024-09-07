@@ -38,7 +38,9 @@
   <div class="healing">
     <div class="title">Healing</div>
     <div class="tags-wrapper">
-      <div class="tag" style="color: #{{healing.color}};">{{healing.formula}} <i class="fa-fw {{healing.icon}}"></i></div>
+      <div class="tag" style="color: #{{healing.color}};">
+        {{healing.formula}} <i class="fa-fw {{healing.icon}}"></i>
+      </div>
     </div>
   </div>
   {{/if}}
@@ -49,7 +51,9 @@
       <div class="title">Damage</div>
       <div class="tags-wrapper">
         {{#each damages}}
-        <div class="tag" style="color: #{{config.color}}">{{formula}} <i class="fa-fw {{config.icon}}"></i></div>
+        <div class="tag" style="color: #{{config.color}}">
+          {{formula}} <i class="fa-fw {{config.icon}}"></i>
+        </div>
         {{/each}}
       </div>
     </div>
@@ -61,7 +65,9 @@
     <div class="title">Resistances</div>
     <div class="tags-wrapper">
       {{#each resistances}}
-      <div class="tag" style="color: #{{config.color}}">{{value}} <i class="fa-fw {{config.icon}}"></i></div>
+      <div class="tag" style="color: #{{config.color}}">
+        {{value}} <i class="fa-fw {{config.icon}}"></i>
+      </div>
       {{/each}}
     </div>
   </div>
@@ -83,7 +89,9 @@
     {{#each properties}}
     <div class="property">
       <div class="title">{{title}}</div>
-      <div class="subtitle">{{label}} <i class="fa-fw {{icon}}"></i></div>
+      <div class="subtitle">
+        {{label}} <i class="fa-fw {{icon}}"></i>
+      </div>
     </div>
     {{/each}}
   </div>

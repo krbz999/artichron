@@ -3,7 +3,9 @@
   <fieldset class="clocks edit">
     <legend>
       <span>{{localize "ARTICHRON.SheetTab.Clocks"}}</span>
-      <a data-action="addClock"><i class="fa-solid fa-plus"></i></a>
+      <a data-action="addClock">
+        <i class="fa-solid fa-plus"></i>
+      </a>
     </legend>
     {{#each clocks}}
     <div class="form-group" data-idx="{{idx}}">
@@ -12,7 +14,9 @@
       {{formGroup maxField value=max name=(concat "system.clocks." idx ".max") classes="max label-top" localize=true}}
       {{formGroup colorField value=color name=(concat "system.clocks." idx ".color") classes="color label-top" localize=true}}
       <div class="controls">
-        <button type="button" class="control" data-action="removeClock"><i class="fa-solid fa-trash"></i></button>
+        <button type="button" class="control" data-action="removeClock">
+          <i class="fa-solid fa-trash"></i>
+        </button>
       </div>
     </div>
     {{/each}}

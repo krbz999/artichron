@@ -6,13 +6,19 @@
     <img class="avatar" src="{{token.texture.src}}" alt="">
     <div class="actions">
       {{#if canPing}}
-      <a data-action="pingCombatant" data-tooltip="ARTICHRON.Combat.PingCombatant"><i class="fa-solid fa-bullseye-arrow"></i></a>
+      <a data-action="pingCombatant" data-tooltip="ARTICHRON.Combat.PingCombatant">
+        <i class="fa-solid fa-bullseye-arrow"></i>
+      </a>
       {{/if}}
       {{#if @root.isGM}}
-      <a class="{{#if combatant.hidden}}active{{/if}}" data-action="toggleHidden" data-tooltip="ARTICHRON.Combat.ToggleHidden"><i class="fa-solid fa-eye-slash"></i></a>
+      <a class="{{#if combatant.hidden}}active{{/if}}" data-action="toggleHidden" data-tooltip="ARTICHRON.Combat.ToggleHidden">
+        <i class="fa-solid fa-eye-slash"></i>
+      </a>
       {{/if}}
       {{#if isOwner}}
-      <a class="{{#if defeated}}active{{/if}}" data-action="toggleDefeated" data-tooltip="ARTICHRON.Combat.ToggleDefeated"><i class="fa-solid fa-skull"></i></a>
+      <a class="{{#if defeated}}active{{/if}}" data-action="toggleDefeated" data-tooltip="ARTICHRON.Combat.ToggleDefeated">
+        <i class="fa-solid fa-skull"></i>
+      </a>
       {{/if}}
     </div>
     <a class="name" data-tooltip="{{combatant.name}}">{{combatant.name}}</a>
