@@ -223,7 +223,7 @@ export const ArtichronSheetMixin = Base => {
     _getEffectContextOptions(item) {
       const isOwner = item.isOwner;
       return [{
-        name: "ARTICHRON.ContextMenu.EffectOption.Show",
+        name: "ARTICHRON.ContextMenu.EffectOption.Render",
         icon: "<i class='fa-solid fa-fw fa-edit'></i>",
         condition: () => isOwner,
         callback: () => item.sheet.render(true),
@@ -231,7 +231,7 @@ export const ArtichronSheetMixin = Base => {
       }, {
         name: "ARTICHRON.ContextMenu.EffectOption.Delete",
         icon: "<i class='fa-solid fa-fw fa-trash'></i>",
-        condition: () => isOwner,
+        condition: () => isOwner && !item.isActiveFusion,
         callback: () => item.deleteDialog(),
         group: "manage"
       }, {
@@ -243,14 +243,20 @@ export const ArtichronSheetMixin = Base => {
       }, {
         name: "ARTICHRON.ContextMenu.EffectOption.Disable",
         icon: "<i class='fa-solid fa-fw fa-toggle-off'></i>",
-        condition: () => isOwner && !item.disabled && !item.isTransferrableFusion,
+        condition: () => isOwner && !item.disabled && (item.type !== "fusion"),
         callback: () => item.update({disabled: true}),
         group: "action"
       }, {
         name: "ARTICHRON.ContextMenu.EffectOption.Duplicate",
         icon: "<i class='fa-solid fa-fw fa-copy'></i>",
-        condition: () => isOwner && (item.type !== "condition"),
+        condition: () => isOwner && (item.type !== "condition") && !item.isActiveFusion,
         callback: () => item.clone({}, {save: true}),
+        group: "action"
+      }, {
+        name: "ARTICHRON.ContextMenu.EffectOption.Unfuse",
+        icon: "<i class='fa-solid fa-fw fa-volcano'></i>",
+        condition: () => isOwner && item.isActiveFusion,
+        callback: () => item.unfuseDialog(),
         group: "action"
       }, {
         name: "ARTICHRON.ContextMenu.EffectOption.IncreaseLevel",
@@ -288,7 +294,7 @@ export const ArtichronSheetMixin = Base => {
       const canEquip = ["hero", "monster"].includes(item.actor.type);
       const isEquipped = item.isEquipped;
       return [{
-        name: "ARTICHRON.ContextMenu.ItemOption.Show",
+        name: "ARTICHRON.ContextMenu.ItemOption.Render",
         icon: "<i class='fa-solid fa-fw fa-edit'></i>",
         condition: () => isOwner,
         callback: () => item.sheet.render(true),

@@ -904,26 +904,28 @@
 "ContextMenu": {
   "Activity": {
     "Render": "Render Activity Sheet",
-    "Delete": "Delete Activity"
+    "Delete": "Delete Activity",
+    "Duplicate": "Duplicate Activity"
   },
   "Directory": {
     "AssignPrimaryParty": "Assign Primary Party",
     "RemovePrimaryParty": "Unassign Primary Party"
   },
   "EffectOption": {
-    "Show": "Show",
+    "DecreaseLevel": "Decrease Level",
     "Delete": "Delete",
-    "Enable": "Enable",
     "Disable": "Disable",
     "Duplicate": "Duplicate",
+    "Enable": "Enable",
     "IncreaseLevel": "Increase Level",
-    "DecreaseLevel": "Decrease Level"
+    "Render": "Render Sheet",
+    "Unfuse":"Split Fusion"
   },
   "ItemOption": {
     "Delete": "Delete",
     "Favorite": "Favorite",
     "Fuse": "Fuse Item",
-    "Show": "Show",
+    "Render": "Render Sheet",
     "Unequip": "Unequip",
     "Unfavorite": "Unfavorite",
     "Unfuse": "Split Fusion",
