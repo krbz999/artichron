@@ -223,43 +223,43 @@ export const ArtichronSheetMixin = Base => {
     _getEffectContextOptions(item) {
       const isOwner = item.isOwner;
       return [{
-        name: "ARTICHRON.ContextMenu.EffectOption.Render",
+        name: "ARTICHRON.ContextMenu.ActiveEffect.Render",
         icon: "<i class='fa-solid fa-fw fa-edit'></i>",
         condition: () => isOwner,
         callback: () => item.sheet.render(true),
         group: "manage"
       }, {
-        name: "ARTICHRON.ContextMenu.EffectOption.Delete",
+        name: "ARTICHRON.ContextMenu.ActiveEffect.Delete",
         icon: "<i class='fa-solid fa-fw fa-trash'></i>",
         condition: () => isOwner && !item.isActiveFusion,
         callback: () => item.deleteDialog(),
         group: "manage"
       }, {
-        name: "ARTICHRON.ContextMenu.EffectOption.Enable",
+        name: "ARTICHRON.ContextMenu.ActiveEffect.Enable",
         icon: "<i class='fa-solid fa-fw fa-toggle-on'></i>",
         condition: () => isOwner && item.disabled,
         callback: () => item.update({disabled: false}),
         group: "action"
       }, {
-        name: "ARTICHRON.ContextMenu.EffectOption.Disable",
+        name: "ARTICHRON.ContextMenu.ActiveEffect.Disable",
         icon: "<i class='fa-solid fa-fw fa-toggle-off'></i>",
         condition: () => isOwner && !item.disabled && (item.type !== "fusion"),
         callback: () => item.update({disabled: true}),
         group: "action"
       }, {
-        name: "ARTICHRON.ContextMenu.EffectOption.Duplicate",
+        name: "ARTICHRON.ContextMenu.ActiveEffect.Duplicate",
         icon: "<i class='fa-solid fa-fw fa-copy'></i>",
         condition: () => isOwner && (item.type !== "condition") && !item.isActiveFusion,
         callback: () => item.clone({}, {save: true}),
         group: "action"
       }, {
-        name: "ARTICHRON.ContextMenu.EffectOption.Unfuse",
+        name: "ARTICHRON.ContextMenu.ActiveEffect.Unfuse",
         icon: "<i class='fa-solid fa-fw fa-volcano'></i>",
         condition: () => isOwner && item.isActiveFusion,
         callback: () => item.unfuseDialog(),
         group: "action"
       }, {
-        name: "ARTICHRON.ContextMenu.EffectOption.IncreaseLevel",
+        name: "ARTICHRON.ContextMenu.ActiveEffect.IncreaseLevel",
         icon: "<i class='fa-solid fa-fw fa-circle-arrow-up'></i>",
         condition: () => {
           return isOwner &&
@@ -270,7 +270,7 @@ export const ArtichronSheetMixin = Base => {
         callback: () => item.system.increase(),
         group: "action"
       }, {
-        name: "ARTICHRON.ContextMenu.EffectOption.DecreaseLevel",
+        name: "ARTICHRON.ContextMenu.ActiveEffect.DecreaseLevel",
         icon: "<i class='fa-solid fa-fw fa-circle-arrow-down'></i>",
         condition: () => {
           return isOwner &&
@@ -294,49 +294,49 @@ export const ArtichronSheetMixin = Base => {
       const canEquip = ["hero", "monster"].includes(item.actor.type);
       const isEquipped = item.isEquipped;
       return [{
-        name: "ARTICHRON.ContextMenu.ItemOption.Render",
+        name: "ARTICHRON.ContextMenu.Item.Render",
         icon: "<i class='fa-solid fa-fw fa-edit'></i>",
         condition: () => isOwner,
         callback: () => item.sheet.render(true),
         group: "manage"
       }, {
-        name: "ARTICHRON.ContextMenu.ItemOption.Delete",
+        name: "ARTICHRON.ContextMenu.Item.Delete",
         icon: "<i class='fa-solid fa-fw fa-trash'></i>",
         condition: () => isOwner && !isEquipped,
         callback: () => item.deleteDialog(),
         group: "manage"
       }, {
-        name: "ARTICHRON.ContextMenu.ItemOption.Unequip",
+        name: "ARTICHRON.ContextMenu.Item.Unequip",
         icon: "<i class='fa-solid fa-fw fa-shield-halved'></i>",
         condition: () => canEquip && isOwner && isEquipped,
         callback: () => item.system.unequip(),
         group: "action"
       }, {
-        name: "ARTICHRON.ContextMenu.ItemOption.Favorite",
+        name: "ARTICHRON.ContextMenu.Item.Favorite",
         icon: "<i class='fa-solid fa-fw fa-star'></i>",
         condition: () => canEquip && isOwner && !item.isFavorite,
         callback: () => item.actor.addFavoriteItem(item.id),
         group: "action"
       }, {
-        name: "ARTICHRON.ContextMenu.ItemOption.Unfavorite",
+        name: "ARTICHRON.ContextMenu.Item.Unfavorite",
         icon: "<i class='fa-regular fa-fw fa-star'></i>",
         condition: () => canEquip && isOwner && item.isFavorite,
         callback: () => item.actor.removeFavoriteItem(item.id),
         group: "action"
       }, {
-        name: "ARTICHRON.ContextMenu.ItemOption.Use",
+        name: "ARTICHRON.ContextMenu.Item.Use",
         icon: `<i class="fa-solid fa-fw fa-${item.isArsenal ? "hand-fist" : "hand-sparkles"}"></i>`,
         condition: () => canEquip && isOwner && (isEquipped || (!item.isArsenal && !item.isArmor)),
         callback: () => item.use(),
         group: "action"
       }, {
-        name: "ARTICHRON.ContextMenu.ItemOption.Fuse",
+        name: "ARTICHRON.ContextMenu.Item.Fuse",
         icon: "<i class='fa-solid fa-fw fa-volcano'></i>",
         condition: () => canEquip && isOwner && item.hasFusions && !item.isFused,
         callback: () => item.fuseDialog(),
         group: "action"
       }, {
-        name: "ARTICHRON.ContextMenu.ItemOption.Unfuse",
+        name: "ARTICHRON.ContextMenu.Item.Unfuse",
         icon: "<i class='fa-solid fa-fw fa-recycle'></i>",
         condition: () => canEquip && isOwner && item.isFused,
         callback: () => item.system.unfuseDialog(),

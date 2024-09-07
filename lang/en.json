@@ -902,8 +902,18 @@
 },
 
 "ContextMenu": {
+  "ActiveEffect": {
+    "DecreaseLevel": "Decrease Level",
+    "Delete": "Delete Effect",
+    "Disable": "Disable Effect",
+    "Duplicate": "Duplicate Effect",
+    "Enable": "Enable Effect",
+    "IncreaseLevel": "Increase Level",
+    "Render": "Render Sheet",
+    "Unfuse":"Split Fusion"
+  },
   "Activity": {
-    "Render": "Render Activity Sheet",
+    "Render": "Render Sheet",
     "Delete": "Delete Activity",
     "Duplicate": "Duplicate Activity"
   },
@@ -911,23 +921,13 @@
     "AssignPrimaryParty": "Assign Primary Party",
     "RemovePrimaryParty": "Unassign Primary Party"
   },
-  "EffectOption": {
-    "DecreaseLevel": "Decrease Level",
-    "Delete": "Delete",
-    "Disable": "Disable",
-    "Duplicate": "Duplicate",
-    "Enable": "Enable",
-    "IncreaseLevel": "Increase Level",
-    "Render": "Render Sheet",
-    "Unfuse":"Split Fusion"
-  },
-  "ItemOption": {
-    "Delete": "Delete",
-    "Favorite": "Favorite",
+  "Item": {
+    "Delete": "Delete Item",
+    "Favorite": "Add to Favorites",
     "Fuse": "Fuse Item",
     "Render": "Render Sheet",
-    "Unequip": "Unequip",
-    "Unfavorite": "Unfavorite",
+    "Unequip": "Unequip Item",
+    "Unfavorite": "Remove from Favorites",
     "Unfuse": "Split Fusion",
     "Use": "Use Item"
   }
