@@ -217,7 +217,12 @@ Hooks.once("i18nInit", function() {
 Hooks.once("ready", function() {
   Hooks.on("hotbarDrop", function(bar, data, slot) {
     if (data.type === "ActiveEffect") {
-      createEffectMacro(bar, data, slot);
+      createEffectMacro(data, slot);
+      return false;
+    }
+
+    if (data.type === "Item") {
+      createItemMacro(data, slot);
       return false;
     }
   });
@@ -278,15 +283,13 @@ async function setupCarousel() {
 /**
  * Create a Macro from an ActiveEffect drop.
  * Get an existing macro if one exists, otherwise create a new one.
- * @param {*} bar
- * @param {object} data         The dropped data.
- * @param {number} slot         The hotbar slot to use.
- * @returns {Promise<User>}     A Promise which resolves once the User update is complete.
+ * @param {object} data     The dropped data.
+ * @param {number} slot     The hotbar slot to use.
  */
-async function createEffectMacro(bar, data, slot) {
+async function createEffectMacro(data, slot) {
   const effect = await ActiveEffect.implementation.fromDropData(data);
-  const command = `artichron.utils.toggleEffect("${effect.name}");`;
-  const name = game.i18n.format("ARTICHRON.EffectToggleMacro", {name: effect.name});
+  const command = `artichron.utils.macro.toggleEffect("${effect.name}");`;
+  const name = game.i18n.format("ARTICHRON.MACRO.ToggleEffect", {name: effect.name});
   let macro = game.macros.find(m => (m.name === name) && (m.command === command));
   if (!macro) {
     macro = await Macro.implementation.create({
@@ -296,7 +299,31 @@ async function createEffectMacro(bar, data, slot) {
       command: command
     });
   }
-  return game.user.assignHotbarMacro(macro, slot);
+  game.user.assignHotbarMacro(macro, slot);
+}
+
+/* -------------------------------------------------- */
+
+/**
+ * Create a Macro from an Item drop.
+ * Get an existing macro if one exists, otherwise create a new one.
+ * @param {object} data     The dropped data.
+ * @param {number} slot     The hotbar slot to use.
+ */
+async function createItemMacro(data, slot) {
+  const item = await Item.implementation.fromDropData(data);
+  const command = `artichron.utils.macro.useItem("${item.name}");`;
+  const name = game.i18n.format("ARTICHRON.MACRO.UseItem", {name: item.name});
+  let macro = game.macros.find(m => (m.name === name) && (m.command === command));
+  if (!macro) {
+    macro = await Macro.implementation.create({
+      name: name,
+      type: "script",
+      img: item.img,
+      command: command
+    });
+  }
+  game.user.assignHotbarMacro(macro, slot);
 }
 
 /* -------------------------------------------------- */

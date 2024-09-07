@@ -714,6 +714,11 @@
   }
 },
 
+"MACRO": {
+  "ToggleEffect": "Toggle Effect: {name}",
+  "UseItem": "Use Item: {name}"
+},
+
 "ROLL": {
   "Damage": {
     "Flavor": "{name} - Damage Roll"

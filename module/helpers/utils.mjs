@@ -77,11 +77,10 @@ function _getActor() {
 /**
  * Toggle an effect on an actor by name. It may be on an item.
  * @param {string} name     Name of the effect.
- * @returns {Promise<ActiveEffectArtichron|null>}
  */
-export async function toggleEffect(name) {
+async function toggleEffect(name) {
   const actor = _getActor();
-  if (!actor) return null;
+  if (!actor) return;
 
   const loop = parent => {
     for (const e of parent.allApplicableEffects()) {
@@ -95,9 +94,28 @@ export async function toggleEffect(name) {
     if (effect) break;
   }
 
-  if (!effect) return null;
-  return effect.update({disabled: !effect.disabled});
+  if (!effect) return;
+  effect.update({disabled: !effect.disabled});
 }
+
+/* -------------------------------------------------- */
+
+/**
+ * Use an item on an actor.
+ * @param {string} name     Name of the effect.
+ */
+async function useItem(name) {
+  const actor = _getActor();
+  if (!actor) return;
+  const item = actor.items.find(item => item._source.name === name);
+  if (!item) return;
+  item.use();
+}
+
+export const macro = {
+  toggleEffect,
+  useItem
+};
 
 /* -------------------------------------------------- */
 /*   Canvas helpers                                   */
