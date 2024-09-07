@@ -1,37 +1,4 @@
-import MeasuredTemplateArtichron from "../object-classes/measured-template.mjs";
-
 export default class ChatMessageArtichron extends ChatMessage {
-  async createMeasuredTemplate(count = 1) {
-    const templateData = this.flags.artichron?.use?.templateData;
-    const {item, actor} = this;
-    const token = item?.token;
-    if (!token || !item?.isOwner || !actor?.isOwner || !templateData) return null;
-
-    const templates = [];
-    const initialLayer = canvas.activeLayer;
-    for (let i = 0; i < count; i++) {
-      const template = await MeasuredTemplateArtichron.fromToken(token, templateData).drawPreview();
-      if (template) templates.push(template);
-      else break;
-    }
-    initialLayer.activate();
-    return templates;
-  }
-
-  /* -------------------------------------------------- */
-
-  get item() {
-    return this.system.item;
-  }
-
-  /* -------------------------------------------------- */
-
-  get actor() {
-    return this.system.actor;
-  }
-
-  /* -------------------------------------------------- */
-
   /**
    * Reference to any currently highlighted token.
    * @type {TokenArtichron|null}
@@ -49,7 +16,7 @@ export default class ChatMessageArtichron extends ChatMessage {
     const token = game.scenes.get(this.speaker.scene)?.tokens.get(this.speaker.token);
     const template = document.createElement("DIV");
     template.innerHTML = await renderTemplate("systems/artichron/templates/chat/message-header.hbs", {
-      img: token?.texture.src ?? actor?.img,
+      img: token?.texture.src ?? actor?.img ?? this.author?.avatar,
       name: actor?.name || this.speaker.alias
     });
     html[0].querySelector(".message-sender").replaceWith(template.firstElementChild);
@@ -91,7 +58,7 @@ export default class ChatMessageArtichron extends ChatMessage {
    */
   #onTargetHoverIn(event) {
     const actor = this.constructor.getSpeakerActor(this.speaker);
-    const token = actor.isToken ? actor.token?.object : actor.getActiveTokens()[0];
+    const token = actor?.isToken ? actor.token?.object : actor?.getActiveTokens()[0];
     if (token && token.isVisible && !token.isSecret) {
       if (!token.controlled) token._onHoverIn(event, {hoverOutOthers: true});
       this.#highlighted = token;

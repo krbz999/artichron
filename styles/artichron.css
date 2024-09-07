@@ -178,10 +178,15 @@ dialog:-internal-dialog-in-top-layer::backdrop {
 .chat-message {
   position: relative;
 
+  .message-header {
+    border-bottom: 1px dashed rgba(128, 128, 128, 0.459);
+  }
+
   .message-sender {
     display: flex;
     gap: 1em;
     margin: 4px;
+    margin-bottom: 0;
 
     .avatar {
       flex: 0 0 50px;
@@ -204,6 +209,52 @@ dialog:-internal-dialog-in-top-layer::backdrop {
     position: absolute;
     top: 2px;
     right: 4px;
+  }
+
+  .message-content {
+    padding: 0.5em;
+  }
+
+  .item-details {
+    gap: 1em;
+    display: flex;
+    flex-direction: column;
+
+    .item-header {
+      display: flex;
+      flex-wrap: wrap;
+
+      .icon {
+        width: 40px;
+        margin-right: 1em;
+        border-radius: 50%;
+        object-fit: cover;
+        object-position: top;
+        aspect-ratio: 1;
+      }
+
+      .details {
+        margin: auto 0;
+        display: flex;
+        flex-direction: column;
+
+        .title {}
+
+        .subtitle {
+          font-size: 10px;
+        }
+      }
+
+      .description {
+        margin: 0.5em 0;
+      }
+    }
+
+    .item-actions {
+      gap: 4px;
+      display: flex;
+      flex-direction: column;
+    }
   }
 }
 

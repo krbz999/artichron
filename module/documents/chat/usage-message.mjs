@@ -42,7 +42,7 @@ export default class UsageMessageData extends ChatMessageSystemModel {
     const content = html.querySelector(".message-content");
     content.innerHTML = "";
 
-    const fieldset = this.#createActivityButtons();
+    const fieldset = await this.#createActivityButtons();
     if (fieldset) content.insertAdjacentElement("beforeend", fieldset);
   }
 
@@ -50,9 +50,9 @@ export default class UsageMessageData extends ChatMessageSystemModel {
 
   /**
    * Create the buttons for the activity's actions.
-   * @returns {HTMLElement|void}
+   * @returns {Promise<HTMLElement|void>}
    */
-  #createActivityButtons() {
+  async #createActivityButtons() {
     if (!this.item?.isOwner) return;
     const activity = this.item.system.activities.get(this.activity);
     const buttons = [];
@@ -84,9 +84,29 @@ export default class UsageMessageData extends ChatMessageSystemModel {
 
     // Append buttons.
     if (buttons.length) {
-      const fieldset = document.createElement("FIELDSET");
-      for (const button of buttons) fieldset.insertAdjacentElement("beforeend", button);
-      return fieldset;
+      const container = document.createElement("DIV");
+      container.classList.add("item-details");
+
+      const itemHeader = document.createElement("DIV");
+      itemHeader.classList.add("item-header");
+      const enriched = await TextEditor.enrichHTML(activity.description, {
+        rollData: this.item.getRollData(), relativeTo: this.item
+      });
+      itemHeader.innerHTML = `
+      <img class="icon" src="${this.item.img}" alt="${this.item.name}">
+      <div class="details">
+        <span class="title">${this.item.name}</span>
+        <span class="subtitle">${activity.name}</span>
+      </div>
+      ${enriched ? `<div class="description">${enriched}</div>` : ""}`;
+      container.insertAdjacentElement("beforeend", itemHeader);
+
+      const buttonContainer = document.createElement("DIV");
+      buttonContainer.classList.add("item-actions");
+      for (const button of buttons) buttonContainer.insertAdjacentElement("beforeend", button);
+      container.insertAdjacentElement("beforeend", buttonContainer);
+
+      return container;
     }
   }
 }
