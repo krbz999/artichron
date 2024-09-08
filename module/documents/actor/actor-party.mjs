@@ -1,4 +1,5 @@
 import ActorSystemModel from "./system-model.mjs";
+import ChatMessageArtichron from "../chat-message.mjs";
 import PartyDistributionDialog from "../../applications/actor/party-distribution-dialog.mjs";
 
 const {
@@ -183,7 +184,7 @@ export default class PartyData extends ActorSystemModel {
 
     const configuration = await PartyDistributionDialog.create(party, "currency");
     if (!configuration) return;
-    const {amount, targets} = configuration.object;
+    const {amount, targets} = configuration;
     const actors = Array.from(targets).map(id => game.actors.get(id));
 
     if (!actors.length) {
@@ -201,9 +202,14 @@ export default class PartyData extends ActorSystemModel {
     updates.push({_id: party.id, "system.currency.chron": party.system.currency.chron - amount * actors.length});
 
     for (const actor of actors) {
-      const whisper = game.users.filter(u => actor.testUserPermission(u, "OWNER")).map(u => u.id);
-      const content = game.i18n.format("ARTICHRON.PartyDistributionDialog.ContentCurrency", {name: actor.name, amount: amount});
-      ChatMessage.implementation.create({whisper, content: `<p>${content}</p>`});
+      const content = game.i18n.format("ARTICHRON.PartyDistributionDialog.ContentCurrency", {
+        name: actor.name, amount: amount
+      });
+      ChatMessage.implementation.create({
+        whisper: game.users.filter(u => actor.testUserPermission(u, "OWNER")).map(u => u.id),
+        content: `<p>${content}</p>`,
+        speaker: ChatMessageArtichron.getSpeaker({actor: party})
+      });
     }
 
     Actor.updateDocuments(updates);
@@ -243,11 +249,14 @@ export default class PartyData extends ActorSystemModel {
     updates.push({_id: party.id, "system.points.value": party.system.points.value - amount * actors.length});
 
     for (const actor of actors) {
-      const whisper = game.users.filter(u => actor.testUserPermission(u, "OWNER")).map(u => u.id);
       const content = game.i18n.format("ARTICHRON.PartyDistributionDialog.ContentPoints", {
         name: actor.name, amount: amount
       });
-      ChatMessage.implementation.create({whisper, content: `<p>${content}</p>`});
+      ChatMessage.implementation.create({
+        whisper: game.users.filter(u => actor.testUserPermission(u, "OWNER")).map(u => u.id),
+        content: `<p>${content}</p>`,
+        speaker: ChatMessageArtichron.getSpeaker({actor: party})
+      });
     }
 
     Actor.updateDocuments(updates);
