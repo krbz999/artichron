@@ -36,11 +36,8 @@
 },
 "ARTICHRON": {
 
-"ItemSheet": {
-  "Ammunition": "Artichron Ammunition Sheet",
-  "Base": "Artichron Item Sheet",
-  "Elixir": "Artichron Elixir Sheet",
-  "Part": "Artichron Monster Part Sheet"
+"ActiveEffectSheet": {
+  "Base": "Artichron ActiveEffect Sheet"
 },
 "ActorSheet": {
   "Base": "Artichron Actor Sheet",
@@ -48,6 +45,12 @@
   "Monster": "Artichron Monster Sheet",
   "Merchant": "Artichron Merchant Sheet",
   "Party": "Artichron Party Sheet"
+},
+"ItemSheet": {
+  "Ammunition": "Artichron Ammunition Sheet",
+  "Base": "Artichron Item Sheet",
+  "Elixir": "Artichron Elixir Sheet",
+  "Part": "Artichron Monster Part Sheet"
 },
 
 "ArmorType": {
