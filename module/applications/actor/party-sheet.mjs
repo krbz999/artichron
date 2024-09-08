@@ -11,8 +11,8 @@ export default class PartySheet extends ActorSheetArtichron {
     position: {width: 650},
     actions: {
       addClock: PartySheet.#addClock,
-      awardCurrency: PartySheet.#awardCurrency,
-      awardPoints: PartySheet.#awardPoints,
+      distributeCurrency: PartySheet.#distributeCurrency,
+      distributePoints: PartySheet.#distributePoints,
       clockDelta: PartySheet.#clockDelta,
       createProgression: PartySheet.#createProgression,
       displayActor: PartySheet.#displayActor,
@@ -171,7 +171,7 @@ export default class PartySheet extends ActorSheetArtichron {
       members.push(context);
     }
 
-    const awards = {
+    const distributions = {
       currency: {
         value: this.document.system.currency.chron,
         disabled: !game.user.isGM || !this.document.system.currency.chron || !this.isEditable
@@ -183,7 +183,7 @@ export default class PartySheet extends ActorSheetArtichron {
     };
 
     context.actors = members;
-    context.awards = awards;
+    context.distributions = distributions;
     return context;
   }
 
@@ -335,25 +335,25 @@ export default class PartySheet extends ActorSheetArtichron {
   /* -------------------------------------------------- */
 
   /**
-   * Prompt to award the party with an amount of currency.
+   * Prompt to distribute to the party an amount of currency.
    * @this {PartySheet}
    * @param {PointerEvent} event      The originating click event.
    * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
    */
-  static #awardCurrency(event, target) {
-    this.document.system.awardCurrencyDialog();
+  static #distributeCurrency(event, target) {
+    this.document.system.distributeCurrencyDialog();
   }
 
   /* -------------------------------------------------- */
 
   /**
-   * Prompt to award the party with an amount of progression points.
+   * Prompt to distribute to the party an amount of progression points.
    * @this {PartySheet}
    * @param {PointerEvent} event      The originating click event.
    * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
    */
-  static #awardPoints(event, target) {
-    this.document.system.awardPointsDialog();
+  static #distributePoints(event, target) {
+    this.document.system.distributePointsDialog();
   }
 
   /* -------------------------------------------------- */

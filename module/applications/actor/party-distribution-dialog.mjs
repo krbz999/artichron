@@ -1,9 +1,9 @@
 /**
- * Application for awarding currency and progression points.
- * @param {ActorArtichron} party      The party actor dispensing awards.
+ * Application for distributing currency and progression points.
+ * @param {ActorArtichron} party      The party actor dispensing currency and points.
  * @param {object} [options]          Application rendering options.
  */
-export default class AwardDialog extends foundry.applications.api.HandlebarsApplicationMixin(
+export default class PartyDistributionDialog extends foundry.applications.api.HandlebarsApplicationMixin(
   foundry.applications.api.ApplicationV2
 ) {
   constructor(party, options = {}) {
@@ -16,17 +16,16 @@ export default class AwardDialog extends foundry.applications.api.HandlebarsAppl
 
   /**
    * Factory method for asynchronous behavior.
-   * @param {ActorArtichron} party      The party actor dispensing awards.
-   * @param {string} type               The type of award (currency or points).
+   * @param {ActorArtichron} party      The party actor dispensing currency and points.
+   * @param {string} type               The type of distribution (currency or points).
    * @param {object} [options]          Application rendering options.
    * @returns {Promise}
    */
   static async create(party, type, options = {}) {
     return new Promise(resolve => {
       options.type = type;
-      options.resolve = resolve;
       const application = new this(party, options);
-      application.addEventListener("close", () => resolve(null), {once: true});
+      application.addEventListener("close", () => resolve(application.config), {once: true});
       application.render({force: true});
     });
   }
@@ -49,7 +48,7 @@ export default class AwardDialog extends foundry.applications.api.HandlebarsAppl
     tag: "form",
     type: null,
     form: {
-      handler: AwardDialog.#onSubmit,
+      handler: PartyDistributionDialog.#onSubmit,
       closeOnSubmit: true
     }
   };
@@ -59,7 +58,7 @@ export default class AwardDialog extends foundry.applications.api.HandlebarsAppl
   /** @override */
   static PARTS = {
     inputs: {
-      template: "systems/artichron/templates/actor/award-dialog.hbs"
+      template: "systems/artichron/templates/actor/party-distribution-dialog.hbs"
     },
     footer: {
       template: "systems/artichron/templates/shared/footer.hbs"
@@ -70,7 +69,7 @@ export default class AwardDialog extends foundry.applications.api.HandlebarsAppl
 
   /** @override */
   get title() {
-    return game.i18n.format(`ARTICHRON.AwardDialog.Title${this.options.type.capitalize()}`, {
+    return game.i18n.format(`ARTICHRON.PartyDistributionDialog.Title${this.options.type.capitalize()}`, {
       name: this.#party.name
     });
   }
@@ -78,10 +77,28 @@ export default class AwardDialog extends foundry.applications.api.HandlebarsAppl
   /* -------------------------------------------------- */
 
   /**
-   * A reference to the party actor dispensing awards.
+   * A reference to the party actor dispensing currency or points.
    * @type {ActorArtichron}
    */
   #party = null;
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Stored form data.
+   * @type {object|null}
+   */
+  #config = null;
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Stored form data.
+   * @type {object|null}
+   */
+  get config() {
+    return this.#config;
+  }
 
   /* -------------------------------------------------- */
 
@@ -94,7 +111,7 @@ export default class AwardDialog extends foundry.applications.api.HandlebarsAppl
   /* -------------------------------------------------- */
 
   /**
-   * Saved reference to the targets being awarded.
+   * Saved reference to the targets being granted currency or points.
    * @type {Set<string>}
    */
   #targets = null;
@@ -126,15 +143,15 @@ export default class AwardDialog extends foundry.applications.api.HandlebarsAppl
         min: 1,
         step: 1,
         max: Math.max(1, Math.floor(chron / divisor)),
-        label: "ARTICHRON.AwardDialog.amount.label",
-        hint: `ARTICHRON.AwardDialog.amount.hint${this.options.type.capitalize()}`
+        label: "ARTICHRON.PartyDistributionDialog.amount.label",
+        hint: `ARTICHRON.PartyDistributionDialog.amount.hint${this.options.type.capitalize()}`
       }),
       value: this.#amount ?? 1,
       name: "amount"
     }, {
       field: new foundry.data.fields.SetField(new foundry.data.fields.StringField({choices: choices}), {
-        label: "ARTICHRON.AwardDialog.targets.label",
-        hint: "ARTICHRON.AwardDialog.targets.hint"
+        label: "ARTICHRON.PartyDistributionDialog.targets.label",
+        hint: "ARTICHRON.PartyDistributionDialog.targets.hint"
       }),
       value: this.#targets,
       name: "targets",
@@ -173,11 +190,12 @@ export default class AwardDialog extends foundry.applications.api.HandlebarsAppl
 
   /**
    * Handle submission of the form.
+   * @this {PartyDistributionDialog}
    * @param {PointerEvent} event            The originating click event.
    * @param {HTMLElement} target            The submit element.
    * @param {FormDataExtended} formData     The form data.
    */
   static #onSubmit(event, target, formData) {
-    this.options.resolve?.(formData);
+    this.#config = foundry.utils.expandObject(formData.object);
   }
 }

@@ -116,12 +116,12 @@
 },
 
 "SheetActions": {
-  "Award": "Award",
   "ChangeItem": "Change Item",
   "CreateBuff": "Create New Buff",
   "CreateEnhancement": "Create Enhancement",
   "CreateFusion": "Create New Fusion",
   "CreateItem": "Create New Item",
+  "Distribute": "Distribute",
   "EditItem": "Edit Item",
   "EditPools": "Edit Pools",
   "FuseItem": "Fuse Item",
@@ -839,19 +839,19 @@
   }
 },
 
-"AwardDialog": {
-  "TitleCurrency": "{name}: Award Chron",
-  "TitlePoints": "{name}: Award Points",
-  "ContentCurrency": "{name} has been awarded {amount} <span class='chron'></span>.",
-  "ContentPoints": "{name} has been awarded {amount} points.",
+"PartyDistributionDialog": {
+  "TitleCurrency": "{name}: Distribute Chron",
+  "TitlePoints": "{name}: Distribute Points",
+  "ContentCurrency": "{name} has been distributed {amount} <span class='chron'></span>.",
+  "ContentPoints": "{name} has been distributed {amount} points.",
   "amount": {
     "label": "Amount",
-    "hintCurrency": "The amount of chrons to award. Each recipient will receive this amount.",
-    "hintPoints": "The amount of points to award. Each recipient will receive this amount."
+    "hintCurrency": "The amount of chrons to distribute. Each recipient will receive this amount.",
+    "hintPoints": "The amount of points to distribute. Each recipient will receive this amount."
   },
   "targets": {
     "label": "Recipients",
-    "hint": "The members of this party that will be awarded."
+    "hint": "The members of this party that will receive part of the distribution."
   }
 },
 

@@ -6,18 +6,18 @@
         <span>{{localize "ARTICHRON.SheetTab.Currency"}}</span>
         <img class="icon" src="systems/artichron/assets/icons/chron.svg" alt="">
       </label>
-      <input type="text" name="system.currency.chron" class="delta" value="{{awards.currency.value}}" {{disabled (not isEditable)}}>
-      <button type="button" data-action="awardCurrency" {{disabled awards.currency.disabled}}>
+      <input type="text" name="system.currency.chron" class="delta" value="{{distributions.currency.value}}" {{disabled (not isEditable)}}>
+      <button type="button" data-action="distributeCurrency" {{disabled distributions.currency.disabled}}>
         <i class="fa-solid fa-fw fa-medal"></i>
-        <span>{{localize "ARTICHRON.SheetActions.Award"}}</span>
+        <span>{{localize "ARTICHRON.SheetActions.Distribute"}}</span>
       </button>
     </div>
     <div class="form-group">
       <label>{{localize "ARTICHRON.SheetTab.Progression"}}</label>
-      <input type="text" name="system.points.value" class="delta" value="{{awards.points.value}}" {{disabled (not isEditable)}}>
-      <button type="button" data-action="awardPoints" {{disabled awards.points.disabled}}>
+      <input type="text" name="system.points.value" class="delta" value="{{distributions.points.value}}" {{disabled (not isEditable)}}>
+      <button type="button" data-action="distributePoints" {{disabled distributions.points.disabled}}>
         <i class="fa-solid fa-fw fa-cube"></i>
-        <span>{{localize "ARTICHRON.SheetActions.Award"}}</span>
+        <span>{{localize "ARTICHRON.SheetActions.Distribute"}}</span>
       </button>
     </div>
   </fieldset>

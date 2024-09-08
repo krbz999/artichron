@@ -1,5 +1,5 @@
 import ActorSystemModel from "./system-model.mjs";
-import AwardDialog from "../../applications/actor/award-dialog.mjs";
+import PartyDistributionDialog from "../../applications/actor/party-distribution-dialog.mjs";
 
 const {
   ArrayField, ColorField, ForeignDocumentField, NumberField, SchemaField, SetField, StringField
@@ -149,21 +149,21 @@ export default class PartyData extends ActorSystemModel {
   /* -------------------------------------------------- */
 
   /**
-   * Prompt a dialog for a GM user to award the members of this party with currency.
+   * Prompt a dialog for a GM user to distribute currency to the members of this party.
    * @returns {Promise}
    */
-  async awardCurrencyDialog() {
-    return this.constructor.awardCurrencyDialog(this.parent);
+  async distributeCurrencyDialog() {
+    return this.constructor.distributeCurrencyDialog(this.parent);
   }
 
   /* -------------------------------------------------- */
 
   /**
-   * Prompt a dialog for a GM user to award the members of this party with progression points.
+   * Prompt a dialog for a GM user to distribute progression points to the members of this party.
    * @returns {Promise}
    */
-  async awardPointsDialog() {
-    return this.constructor.awardPointsDialog(this.parent);
+  async distributePointsDialog() {
+    return this.constructor.distributePointsDialog(this.parent);
   }
 
   /* -------------------------------------------------- */
@@ -171,17 +171,17 @@ export default class PartyData extends ActorSystemModel {
   /* -------------------------------------------------- */
 
   /**
-   * Prompt a dialog for a GM user to award the members of a party with currency.
-   * @param {ActorArtichron} [party]      The party whose members to award.
+   * Prompt a dialog for a GM user to distribute currency to the members of a party.
+   * @param {ActorArtichron} [party]      The party whose members to distribute to.
    * @returns {Promise}
    */
-  static async awardCurrencyDialog(party) {
-    if (!game.user.isGM) throw new Error("Only a GM can grant the party awards!");
+  static async distributeCurrencyDialog(party) {
+    if (!game.user.isGM) throw new Error("Only a GM can distribute to the party!");
 
     party ??= game.settings.get("artichron", "primaryParty").actor;
     if (!party) throw new Error("No primary party has been assigned!");
 
-    const configuration = await AwardDialog.create(party, "currency");
+    const configuration = await PartyDistributionDialog.create(party, "currency");
     if (!configuration) return;
     const {amount, targets} = configuration.object;
     const actors = Array.from(targets).map(id => game.actors.get(id));
@@ -191,7 +191,7 @@ export default class PartyData extends ActorSystemModel {
     }
 
     if (amount <= 0) {
-      throw new Error("You can only award a positive amount!");
+      throw new Error("You can only distribute a positive amount!");
     }
 
     const updates = [];
@@ -202,7 +202,7 @@ export default class PartyData extends ActorSystemModel {
 
     for (const actor of actors) {
       const whisper = game.users.filter(u => actor.testUserPermission(u, "OWNER")).map(u => u.id);
-      const content = game.i18n.format("ARTICHRON.AwardDialog.ContentCurrency", {name: actor.name, amount: amount});
+      const content = game.i18n.format("ARTICHRON.PartyDistributionDialog.ContentCurrency", {name: actor.name, amount: amount});
       ChatMessage.implementation.create({whisper, content: `<p>${content}</p>`});
     }
 
@@ -212,17 +212,17 @@ export default class PartyData extends ActorSystemModel {
   /* -------------------------------------------------- */
 
   /**
-   * Prompt a dialog for a GM user to award the members of a party with progression points.
-   * @param {ActorArtichron} [party]      The party whose members to award.
+   * Prompt a dialog for a GM user to distribute progression points to the members of a party.
+   * @param {ActorArtichron} [party]      The party whose members to distribute to.
    * @returns {Promise}
    */
-  static async awardPointsDialog(party) {
-    if (!game.user.isGM) throw new Error("Only a GM can grant the party awards!");
+  static async distributePointsDialog(party) {
+    if (!game.user.isGM) throw new Error("Only a GM can distribute to the party!");
 
     party ??= game.settings.get("artichron", "primaryParty").actor;
     if (!party) throw new Error("No primary party has been assigned!");
 
-    const configuration = await AwardDialog.create(party, "points");
+    const configuration = await PartyDistributionDialog.create(party, "points");
     if (!configuration) return;
     const {amount, targets} = configuration.object;
     const actors = Array.from(targets).map(id => game.actors.get(id));
@@ -232,7 +232,7 @@ export default class PartyData extends ActorSystemModel {
     }
 
     if (amount <= 0) {
-      throw new Error("You can only award a positive amount!");
+      throw new Error("You can only distribute a positive amount!");
     }
 
     const updates = [];
@@ -244,7 +244,9 @@ export default class PartyData extends ActorSystemModel {
 
     for (const actor of actors) {
       const whisper = game.users.filter(u => actor.testUserPermission(u, "OWNER")).map(u => u.id);
-      const content = game.i18n.format("ARTICHRON.AwardDialog.ContentPoints", {name: actor.name, amount: amount});
+      const content = game.i18n.format("ARTICHRON.PartyDistributionDialog.ContentPoints", {
+        name: actor.name, amount: amount
+      });
       ChatMessage.implementation.create({whisper, content: `<p>${content}</p>`});
     }
 

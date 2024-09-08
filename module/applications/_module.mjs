@@ -3,7 +3,6 @@ import ActivitySheet from "./activity-sheet.mjs";
 import ActivityUseDialog from "./item/activity-use-dialog.mjs";
 import ActorSheetArtichron from "./actor/actor-sheet-base.mjs";
 import ArtichronSheetMixin from "./base-sheet.mjs";
-import AwardDialog from "./actor/award-dialog.mjs";
 import CombatCarousel from "./combat/carousel.mjs";
 import CombatTrackerArtichron from "./combat/tracker.mjs";
 import ContextMenuArtichron from "./context-menu.mjs";
@@ -15,6 +14,7 @@ import ItemSheetElixir from "./item/item-sheet-elixir.mjs";
 import ItemSheetPart from "./item/item-sheet-part.mjs";
 import MerchantSheet from "./actor/merchant-sheet.mjs";
 import MonsterSheet from "./actor/monster-sheet.mjs";
+import PartyDistributionDialog from "./actor/party-distribution-dialog.mjs";
 import PartySheet from "./actor/party-sheet.mjs";
 import PoolConfig from "./actor/pool-config.mjs";
 import RollConfigurationDialog from "./item/roll-configuration-dialog.mjs";
@@ -27,7 +27,6 @@ export default {
   ActivityUseDialog,
   ActorSheetArtichron,
   ArtichronSheetMixin,
-  AwardDialog,
   CombatCarousel,
   CombatTrackerArtichron,
   ContextMenuArtichron,
@@ -39,6 +38,7 @@ export default {
   ItemSheetPart,
   MerchantSheet,
   MonsterSheet,
+  PartyDistributionDialog,
   PartySheet,
   PoolConfig,
   RollConfigurationDialog,
