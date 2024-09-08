@@ -1,3 +1,5 @@
+import ChatMessageArtichron from "../documents/chat-message.mjs";
+
 export default class DamageTargetElement extends HTMLElement {
   /* -------------------------------------------------- */
   /*   Properties                                       */
@@ -67,10 +69,15 @@ export default class DamageTargetElement extends HTMLElement {
 
     this._applyHooks();
 
+    const token = this.actor.isToken ? this.actor.token : this.actor.getActiveTokens(false, true)[0];
+    const img = token ? token.texture.src : this.actor.img;
+
     this.innerHTML = `
-    <img src="${this.actor.img}" alt="">
-    <label class="name">${this.actor.name}</label>
+    <img class="avatar" src="${img}" alt="" data-actor-uuid="${this.actor.uuid}">
+    <label class="name">${token ? token.name : this.actor.name}</label>
     <div class="damage"></div>`;
+
+    ChatMessageArtichron.attachTokenListeners(this.querySelector(".avatar"));
 
     this.setAttribute("style", `--damage-total: "${this.actor.calculateDamage(this.damages)}"`);
   }

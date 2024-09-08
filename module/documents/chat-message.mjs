@@ -1,9 +1,9 @@
 export default class ChatMessageArtichron extends ChatMessage {
   /**
-   * Reference to any currently highlighted token.
-   * @type {TokenArtichron|null}
+   * Static register of token hover events for elements that emulate these.
+   * @type {Map<string, Token>}
    */
-  #highlighted = null;
+  static #pointerRegistry = new Map();
 
   /* -------------------------------------------------- */
 
@@ -17,13 +17,12 @@ export default class ChatMessageArtichron extends ChatMessage {
     const template = document.createElement("DIV");
     template.innerHTML = await renderTemplate("systems/artichron/templates/chat/message-header.hbs", {
       img: token?.texture.src ?? actor?.img ?? this.author?.avatar,
+      actorUuid: actor?.uuid,
       name: actor?.name || this.speaker.alias
     });
     html[0].querySelector(".message-sender").replaceWith(template.firstElementChild);
     const avatar = html[0].querySelector(".avatar");
-    avatar.addEventListener("click", this.#onTargetMouseDown.bind(this));
-    avatar.addEventListener("pointerover", this.#onTargetHoverIn.bind(this));
-    avatar.addEventListener("pointerout", this.#onTargetHoverOut.bind(this));
+    ChatMessageArtichron.attachTokenListeners(avatar);
 
     // Inject template from message type.
     if (this.system.adjustHTML) await this.system.adjustHTML(html[0]);
@@ -34,13 +33,27 @@ export default class ChatMessageArtichron extends ChatMessage {
   /* -------------------------------------------------- */
 
   /**
+   * Utility method to attach token pointer and hover events to an element.
+   * The element must have the `data-actor-uuid` attribute.
+   * @param {HTMLElement} element     The element with the pointer events.
+   */
+  static attachTokenListeners(element) {
+    element.addEventListener("click", this.#onTargetMouseDown.bind(element));
+    element.addEventListener("pointerover", this.#onTargetHoverIn.bind(element));
+    element.addEventListener("pointerout", this.#onTargetHoverOut.bind(element));
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
    * Handle click events on chat message avatar.
+   * @this {HTMLElement}
    * @param {PointerEvent} event      The originating click event.
    */
-  #onTargetMouseDown(event) {
+  static #onTargetMouseDown(event) {
     event.stopPropagation();
 
-    const actor = this.constructor.getSpeakerActor(this.speaker);
+    const actor = fromUuidSync(event.currentTarget.dataset.actorUuid);
     if (!actor?.testUserPermission(game.user, "OBSERVER")) return;
 
     const token = actor.isToken ? actor.token?.object : actor.getActiveTokens()[0];
@@ -54,14 +67,15 @@ export default class ChatMessageArtichron extends ChatMessage {
 
   /**
    * Handle hover-in events on chat message avatar.
+   * @this {HTMLElement}
    * @param {PointerEvent} event      The originating hover event.
    */
-  #onTargetHoverIn(event) {
-    const actor = this.constructor.getSpeakerActor(this.speaker);
+  static #onTargetHoverIn(event) {
+    const actor = fromUuidSync(event.currentTarget.dataset.actorUuid);
     const token = actor?.isToken ? actor.token?.object : actor?.getActiveTokens()[0];
     if (token && token.isVisible && !token.isSecret) {
       if (!token.controlled) token._onHoverIn(event, {hoverOutOthers: true});
-      this.#highlighted = token;
+      ChatMessageArtichron.#pointerRegistry.set(event.currentTarget.dataset.actorUuid, token);
     }
   }
 
@@ -69,10 +83,14 @@ export default class ChatMessageArtichron extends ChatMessage {
 
   /**
    * Handle hover-out events on chat message avatar.
+   * @this {HTMLElement}
    * @param {PointerEvent} event      The originating hover event.
    */
-  #onTargetHoverOut(event) {
-    if (this.#highlighted) this.#highlighted._onHoverOut(event);
-    this.#highlighted = null;
+  static #onTargetHoverOut(event) {
+    const uuid = event.currentTarget.dataset.actorUuid;
+    if (ChatMessageArtichron.#pointerRegistry.get(uuid)) {
+      ChatMessageArtichron.#pointerRegistry.get(uuid)._onHoverOut(event);
+    }
+    ChatMessageArtichron.#pointerRegistry.delete(uuid);
   }
 }

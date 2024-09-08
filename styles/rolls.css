@@ -155,13 +155,14 @@
           gap: 4px;
           font-size: 20px;
 
-          & img {
+          .avatar {
             width: 40px;
             height: 40px;
             object-fit: contain;
             justify-content: center;
             align-items: center;
             display: flex;
+            cursor: pointer;
           }
           .name { flex: 1; }
           .damage, .healing {
