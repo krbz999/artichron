@@ -8,7 +8,7 @@ import RollConfigurationDialog from "../../applications/item/roll-configuration-
  * @property {string} label               Name of this activity type.
  */
 
-const {ArrayField, BooleanField, HTMLField, NumberField, SchemaField, SetField, StringField} = foundry.data.fields;
+const {ArrayField, HTMLField, NumberField, SchemaField, SetField, StringField} = foundry.data.fields;
 
 const targetField = () => {
   return new SchemaField({
@@ -291,7 +291,7 @@ export default class BaseActivity extends foundry.abstract.DataModel {
    * Place measured templates.
    * @param {object} [config]               Configuration object.
    * @param {number} [config.increase]      The increase in size of the template.
-   * @returns {Promise<MeasuredTemplateArtichron[]>}
+   * @returns {Promise<MeasuredTemplate[]>}
    */
   async placeTemplate({increase = 0} = {}) {
     if (!this.hasTemplate) {
@@ -678,7 +678,7 @@ class TeleportActivity extends BaseActivity {
 
     const circle = drawCircle();
     const config = {tokens: [token.document]};
-    const place = await artichron.helpers.TokenPlacement.place(config);
+    const place = await artichron.canvas.TokenPlacement.place(config);
     token.removeChild(circle);
     if (!place.length) return;
     const {x, y, rotation} = place[0];

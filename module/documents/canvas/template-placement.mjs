@@ -1,4 +1,4 @@
-export default class MeasuredTemplateArtichron extends MeasuredTemplate {
+export default class TemplatePlacement extends MeasuredTemplate {
   /**
    * Reference to a token to which this template is oriented.
    * @type {TokenArtichron}

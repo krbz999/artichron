@@ -51,8 +51,8 @@ export default class CombatArtichron extends Combat {
 
   /**
    * Delete any measured templates tied to this combat document.
-   * @param {string} duration                             When the template should expire (turn, round, combat).
-   * @returns {Promise<MeasuredTemplateArtichron[]>}      All the deleted templates.
+   * @param {string} duration                    When the template should expire (turn, round, combat).
+   * @returns {Promise<MeasuredTemplate[]>}      All the deleted templates.
    */
   async expireMeasuredTemplates(duration) {
     const scene = this.scene;

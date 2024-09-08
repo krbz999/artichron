@@ -4,13 +4,12 @@ import * as documents from "./module/documents/_module.mjs";
 import * as migrations from "./module/helpers/migrations.mjs";
 import * as utils from "./module/helpers/utils.mjs";
 import applications from "./module/applications/_module.mjs";
-import auraInit from "./module/documents/canvas/canvas.mjs";
+import canvas from "./module/documents/canvas/_module.mjs";
 import dice from "./module/dice/_module.mjs";
 import elements from "./module/elements/_module.mjs";
 import fields from "./module/documents/fields/_module.mjs";
 import registerEnrichers from "./module/helpers/enrichers.mjs";
 import registerSettings from "./module/helpers/settings.mjs";
-import RulerArtichron from "./module/documents/canvas/ruler.mjs";
 
 // Custom elements.
 for (const element of Object.values(elements)) {
@@ -23,13 +22,13 @@ for (const element of Object.values(elements)) {
 
 globalThis.artichron = {
   applications: applications,
+  canvas: canvas,
   config: SYSTEM,
   dataModels: documents.dataModels,
   dice: dice,
   documents: documents.documentClasses,
   elements: elements,
   fields: fields,
-  helpers: documents.helpers,
   migrations: migrations,
   tooltips: new applications.TooltipsArtichron(),
   utils: utils
@@ -49,16 +48,11 @@ Hooks.once("init", function() {
   // Record Configuration Values
   CONFIG.SYSTEM = SYSTEM;
   CONFIG.Token.hudClass = applications.TokenHUDArtichron;
-  CONFIG.Canvas.rulerClass = RulerArtichron;
+  CONFIG.Canvas.rulerClass = canvas.RulerArtichron;
 
   // Hook up document classes.
   for (const [k, v] of Object.entries(documents.documentClasses)) {
     CONFIG[k].documentClass = v;
-  }
-
-  // Hook up object classes.
-  for (const [k, v] of Object.entries(documents.objectClasses)) {
-    CONFIG[k].objectClass = v;
   }
 
   // Hook up system data types.
@@ -130,8 +124,6 @@ Hooks.once("init", function() {
     makeDefault: true,
     label: "ARTICHRON.ActiveEffectSheet.Base"
   });
-
-  auraInit();
 
   // Set up conditions.
   CONFIG.statusEffects = [];

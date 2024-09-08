@@ -330,7 +330,7 @@ export default class ItemArtichron extends Item {
   /**
    * Prompt for placing templates using this item.
    * @param {object} config     Template configuration and placement data.
-   * @returns {Promise<MeasuredTemplateArtichron[]>}
+   * @returns {Promise<MeasuredTemplate[]>}
    */
   async placeTemplates(config) {
     if (this.system.placeTemplates) return this.system.placeTemplates(config);

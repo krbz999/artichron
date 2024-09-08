@@ -1,4 +1,3 @@
-import MeasuredTemplateArtichron from "../documents/object-classes/measured-template.mjs";
 export {default as simplifyRollFormula} from "./simplify-formula.mjs";
 export {default as sockets} from "./sockets.mjs";
 
@@ -313,7 +312,7 @@ export function createRect(token, size) {
 
 /**
  * Find all token placeables that are at least 50% within a template.
- * @param {MeasuredTemplateArtichron} template
+ * @param {MeasuredTemplate} template
  * @returns {Set<TokenArtichron>}
  */
 export function tokensInTemplate(template) {
