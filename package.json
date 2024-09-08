@@ -6,22 +6,14 @@
   "scripts": {
     "db:unpack": "node tools/pack-level-db.mjs package unpack",
     "db:pack": "node tools/pack-level-db.mjs package pack",
-    "build": "rollup -c"
+    "build": "rollup -c",
+    "createSymlinks": "node ./tools/create-symlinks.mjs",
+    "postinstall": "npm run createSymlinks"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/krbz999/artichron.git"
-  },
-  "keywords": [
-    "fvtt",
-    "system"
-  ],
   "author": "Zhell",
-  "license": "MIT",
   "bugs": {
     "url": "https://github.com/krbz999/artichron/issues"
   },
-  "homepage": "https://github.com/krbz999/artichron#readme",
   "devDependencies": {
     "@foundryvtt/foundryvtt-cli": "^1.0.2",
     "@html-eslint/eslint-plugin": "^0.26.0",

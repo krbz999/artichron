@@ -43,5 +43,7 @@
     "source.fixAll.eslint": "always"
   },
   "eslint.enable": true,
-  "eslint.validate": ["javascript", "handlebars", "html"]
+  "eslint.validate": ["javascript", "handlebars", "html"],
+  "i18n-ally.localesPaths": ["lang", "foundry/lang"],
+  "i18n-ally.keystyle": "nested"
 }
