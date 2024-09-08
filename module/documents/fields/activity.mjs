@@ -310,7 +310,7 @@ export default class BaseActivity extends foundry.abstract.DataModel {
     target.attach = CONFIG.SYSTEM.TARGET_TYPES[target.type].attached ?? false;
 
     for (let i = 0; i < target.count; i++) {
-      const templateData = await CONFIG.MeasuredTemplate.objectClass.fromToken(token, target, {
+      const templateData = await artichron.canvas.TemplatePlacement.fromToken(token, target, {
         lock: true,
         templateData: templateDatas.at(-1)
       }).drawPreview();
