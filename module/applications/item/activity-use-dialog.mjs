@@ -132,7 +132,7 @@ export default class ActivityUseDialog extends foundry.applications.api.Handleba
       }
       case "area": {
         context.area = {
-          show: this.activity.hasTemplate
+          show: this.activity.hasTemplate && (this.activity.item.type === "spell")
         };
         if (!context.area.show) break;
         const field = new foundry.data.fields.NumberField({
