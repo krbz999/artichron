@@ -27,14 +27,14 @@ const ArtichronSheetMixin = Base => {
       window: {contentClasses: ["standard-form"]},
       form: {submitOnChange: true},
       actions: {
-        editImage: this._onEditImage,
-        toggleSheet: this._onToggleSheet,
-        toggleOpacity: this._ontoggleOpacity,
-        toggleEffect: this._onToggleEffect,
-        editEffect: this._onEditEffect,
-        deleteEffect: this._onDeleteEffect,
-        createEffect: this._onCreateEffect,
-        toggleDescription: this._onToggleDescription
+        editImage: DocumentSheetArtichron.#onEditImage,
+        toggleSheet: DocumentSheetArtichron.#onToggleSheet,
+        toggleOpacity: DocumentSheetArtichron.#ontoggleOpacity,
+        toggleEffect: DocumentSheetArtichron.#onToggleEffect,
+        editEffect: DocumentSheetArtichron.#onEditEffect,
+        deleteEffect: DocumentSheetArtichron.#onDeleteEffect,
+        createEffect: DocumentSheetArtichron.#onCreateEffect,
+        toggleDescription: DocumentSheetArtichron.#onToggleDescription
       }
     };
 
@@ -81,7 +81,7 @@ const ArtichronSheetMixin = Base => {
      * @param {HTMLElement} target      The containing element.
      * @param {string} uuid             The uuid of the document.
      */
-    async _insertDocumentDescription(target, uuid) {
+    async #insertDocumentDescription(target, uuid) {
       const wrapper = target.querySelector(".description-wrapper");
       if (wrapper.querySelector(".description")) return;
       const item = await fromUuid(uuid);
@@ -483,10 +483,11 @@ const ArtichronSheetMixin = Base => {
 
     /**
      * Handle editing the document's image.
+     * @this {DocumentSheetArtichron}
      * @param {PointerEvent} event      The originating click event.
      * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
      */
-    static _onEditImage(event, target) {
+    static #onEditImage(event, target) {
       if (!this.isEditable) return;
       const current = this.document.img;
       const fp = new FilePicker({
@@ -503,10 +504,11 @@ const ArtichronSheetMixin = Base => {
 
     /**
      * Handle toggling the Opacity lock of the sheet.
+     * @this {DocumentSheetArtichron}
      * @param {PointerEvent} event      The originating click event.
      * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
      */
-    static _ontoggleOpacity(event, target) {
+    static #ontoggleOpacity(event, target) {
       target.closest(".application").classList.toggle("opacity");
     }
 
@@ -514,10 +516,11 @@ const ArtichronSheetMixin = Base => {
 
     /**
      * Handle toggling between Edit and Play mode.
+     * @this {DocumentSheetArtichron}
      * @param {PointerEvent} event      The originating click event.
      * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
      */
-    static _onToggleSheet(event, target) {
+    static #onToggleSheet(event, target) {
       const modes = this.constructor.SHEET_MODES;
       this._sheetMode = this.isEditMode ? modes.PLAY : modes.EDIT;
       this.render();
@@ -527,10 +530,11 @@ const ArtichronSheetMixin = Base => {
 
     /**
      * Handle toggling an active effect on or off.
+     * @this {DocumentSheetArtichron}
      * @param {PointerEvent} event      The originating click event.
      * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
      */
-    static async _onToggleEffect(event, target) {
+    static async #onToggleEffect(event, target) {
       if (!this.isEditable) return;
       const uuid = target.closest("[data-item-uuid]").dataset.itemUuid;
       const effect = await fromUuid(uuid);
@@ -541,10 +545,11 @@ const ArtichronSheetMixin = Base => {
 
     /**
      * Handle click events to render an effect's sheet.
+     * @this {DocumentSheetArtichron}
      * @param {PointerEvent} event      The originating click event.
      * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
      */
-    static async _onEditEffect(event, target) {
+    static async #onEditEffect(event, target) {
       const uuid = target.closest("[data-item-uuid]").dataset.itemUuid;
       const effect = await fromUuid(uuid);
       effect.sheet.render(true);
@@ -554,10 +559,11 @@ const ArtichronSheetMixin = Base => {
 
     /**
      * Handle click events to delete an effect.
+     * @this {DocumentSheetArtichron}
      * @param {PointerEvent} event      The originating click event.
      * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
      */
-    static async _onDeleteEffect(event, target) {
+    static async #onDeleteEffect(event, target) {
       if (!this.isEditable) return;
       const uuid = target.closest("[data-item-uuid]").dataset.itemUuid;
       const effect = await fromUuid(uuid);
@@ -568,10 +574,11 @@ const ArtichronSheetMixin = Base => {
 
     /**
      * Handle click events to create an effect.
+     * @this {DocumentSheetArtichron}
      * @param {PointerEvent} event      The originating click event.
      * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
      */
-    static _onCreateEffect(event, target) {
+    static #onCreateEffect(event, target) {
       if (!this.isEditable) return;
       const type = target.dataset.type;
       getDocumentClass("ActiveEffect").createDialog({
@@ -583,10 +590,11 @@ const ArtichronSheetMixin = Base => {
 
     /**
      * Handle click events to toggle a document's description.
+     * @this {DocumentSheetArtichron}
      * @param {PointerEvent} event      The originating click event.
      * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
      */
-    static _onToggleDescription(event, target) {
+    static #onToggleDescription(event, target) {
       const item = target.closest("[data-item-uuid]");
       const expanded = item.classList.contains("expanded");
       item.classList.toggle("expanded", !expanded);
@@ -595,7 +603,7 @@ const ArtichronSheetMixin = Base => {
       if (expanded) this._expandedItems.delete(uuid);
       else {
         this._expandedItems.add(uuid);
-        this._insertDocumentDescription(item, uuid);
+        this.#insertDocumentDescription(item, uuid);
       }
     }
   };
