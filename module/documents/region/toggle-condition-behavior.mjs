@@ -17,8 +17,10 @@ export default class ToggleConditionBehaviorData extends foundry.data.regionBeha
 
   /** @override */
   static events = {
-    [CONST.REGION_EVENTS.TOKEN_ENTER]: ToggleConditionBehaviorData.#onTokenEnter,
-    [CONST.REGION_EVENTS.TOKEN_EXIT]: ToggleConditionBehaviorData.#onTokenExit
+    [CONST.REGION_EVENTS.TOKEN_ENTER]: ToggleConditionBehaviorData.#addCondition,
+    [CONST.REGION_EVENTS.TOKEN_EXIT]: ToggleConditionBehaviorData.#removeCondition,
+    [CONST.REGION_EVENTS.TOKEN_ROUND_START]: ToggleConditionBehaviorData.#addCondition,
+    [CONST.REGION_EVENTS.TOKEN_TURN_START]: ToggleConditionBehaviorData.#addCondition
   };
 
   /* -------------------------------------------------- */
@@ -44,11 +46,11 @@ export default class ToggleConditionBehaviorData extends foundry.data.regionBeha
   /* -------------------------------------------------- */
 
   /**
-   * The script that is executed when a token enters the region.
+   * The script that is executed when a token enters the region or starts a turn or round in it.
    * @this {ToggleConditionBehaviorData}
    * @param {RegionEvent} event     The region event data from triggering this behavior.
    */
-  static async #onTokenEnter(event) {
+  static async #addCondition(event) {
     if (event.user !== game.user) return;
     await CanvasAnimation.getAnimation(`Token.${event.data.token.id}.animate`)?.promise;
     event.data.token.actor?.applyCondition(this.status);
@@ -61,7 +63,7 @@ export default class ToggleConditionBehaviorData extends foundry.data.regionBeha
    * @this {ToggleConditionBehaviorData}
    * @param {RegionEvent} event     The region event data from triggering this behavior.
    */
-  static async #onTokenExit(event) {
+  static async #removeCondition(event) {
     if (!this.autoremove || (event.user !== game.user)) return;
     await CanvasAnimation.getAnimation(`Token.${event.data.token.id}.animate`)?.promise;
     event.data.token.actor?.unapplyCondition(this.status);
