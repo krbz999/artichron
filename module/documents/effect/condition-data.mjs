@@ -159,7 +159,7 @@ export default class EffectConditionData extends ActiveEffectSystemModel {
       flavor: game.i18n.format("ARTICHRON.StatusConditions.BurningFlavor", {actor: actor.name}),
       sound: null
     });
-    return actor.applyDamage({[type]: roll.total}, {defendable: false});
+    return actor.applyDamage({[type]: {value: roll.total}}, {defendable: false});
   }
 
   /* -------------------------------------------------- */
@@ -177,6 +177,6 @@ export default class EffectConditionData extends ActiveEffectSystemModel {
       flavor: game.i18n.format("ARTICHRON.StatusConditions.BleedingFlavor", {actor: actor.name}),
       sound: null
     });
-    return actor.applyDamage({[type]: roll.total, resisted: false}, {defendable: false});
+    return actor.applyDamage({[type]: {value: roll.total}, resisted: false}, {defendable: false});
   }
 }
