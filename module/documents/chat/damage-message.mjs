@@ -101,11 +101,9 @@ export default class DamageMessageData extends ChatMessageSystemModel {
     const content = html.querySelector(".message-content");
     content.innerHTML = "";
 
+    await this._insertItemHeader(html);
     this.#insertRolls(content);
-
-    if (!this.item) return;
-
-    await this.#insertDamageApplication(content);
+    if (this.item) await this.#insertDamageApplication(content);
   }
 
   /* -------------------------------------------------- */
