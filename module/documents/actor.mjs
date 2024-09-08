@@ -224,7 +224,7 @@ export default class ActorArtichron extends Actor {
    * @returns {Promise<ActorArtichron>}
    */
   async applyDamage(values, {defendable = true, attributes = new Set()} = {}, context = {}) {
-    if (!this.system.health.value) return this;
+    if (!this.system.health?.value) return this;
 
     values = this.calculateDamage(values, {numeric: false});
     let dmg = Object.values(values).reduce((acc, {value}) => acc + value, 0);
