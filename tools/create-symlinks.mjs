@@ -4,7 +4,7 @@ import path from "path";
 
 console.log("Reforging Symlinks");
 
-if (fs.existsSync("foundry-config.yaml")) {
+if (await fs.exists("foundry-config.yaml")) {
   const fc = await fs.readFile("foundry-config.yaml");
 
   const foundryConfig = yaml.load(fc);
