@@ -40,6 +40,9 @@ export default class ActivityUseDialog extends foundry.applications.api.Handleba
     elixirs: {
       template: "systems/artichron/templates/item/activity-use-dialog-elixirs.hbs"
     },
+    rollMode: {
+      template: "systems/artichron/templates/item/activity-use-dialog-rollmode.hbs"
+    },
     footer: {
       template: "systems/artichron/templates/shared/footer.hbs"
     }
@@ -128,6 +131,23 @@ export default class ActivityUseDialog extends foundry.applications.api.Handleba
           damages: damages,
           field: field
         });
+
+        if (this.activity.usesAmmo) {
+          context.damage.ammunition = new foundry.data.fields.StringField({
+            required: false,
+            blank: true,
+            label: "ARTICHRON.ROLL.Damage.AmmoItem",
+            hint: "ARTICHRON.ROLL.Damage.AmmoItemHint",
+            choices: this.activity.item.actor.items.reduce((acc, item) => {
+              if (item.type !== "ammo") return acc;
+              if (item.system.category.subtype === this.activity.ammunition.type) {
+                acc[item.id] = item.name;
+              }
+              return acc;
+            }, {})
+          });
+        }
+
         break;
       }
       case "area": {
@@ -185,6 +205,26 @@ export default class ActivityUseDialog extends foundry.applications.api.Handleba
         });
         break;
       }
+      case "rollMode": {
+        context.rollMode = {show: ["damage", "defend", "healing"].includes(this.activity.type)};
+        if (!context.rollMode.show) break;
+
+        const field = new foundry.data.fields.StringField({
+          label: "CHAT.RollVisibility",
+          required: true,
+          choices: Object.entries(CONST.DICE_ROLL_MODES).reduce((acc, [k, v]) => {
+            acc[v] = game.i18n.localize(`CHAT.Roll${k.toLowerCase().capitalize()}`);
+            return acc;
+          }, {})
+        });
+
+        Object.assign(context.rollMode, {
+          field: field,
+          value: game.settings.get("core", "rollMode")
+        });
+
+        break;
+      }
       default: break;
     }
 
@@ -208,7 +248,8 @@ export default class ActivityUseDialog extends foundry.applications.api.Handleba
     if (this.#item.actor.type === "monster") max = this.#item.actor.system.danger.pool.value;
     else max = this.#item.actor.system.pools[this.activity.poolType].value;
 
-    const {elixirs, ...rest} = config;
+    const {ammunition, elixirs, rollMode, ...rest} = config;
+
     let count = Object.values(rest).reduce((acc, r) => acc + r, 0);
     for (const elixir of elixirs ?? []) {
       const item = this.#item.actor.items.get(elixir);

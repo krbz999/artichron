@@ -8,6 +8,10 @@
   </p>
   {{/each}}
 
+  {{#if damage.ammunition}}
+  {{formGroup damage.ammunition name="ammunition" localize=true}}
+  {{/if}}
+
   {{formGroup damage.field name="damage" localize=true}}
   {{/if~}}
 </fieldset>

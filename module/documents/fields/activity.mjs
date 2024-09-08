@@ -212,6 +212,9 @@ export default class BaseActivity extends foundry.abstract.DataModel {
     const configuration = await ActivityUseDialog.create(this);
     if (!configuration) return null;
 
+    console.warn(configuration);
+    return; // TODO: propagate the choices made to the "main" method of each activity type.
+
     const {elixirs, ...inputs} = configuration;
     const actor = this.item.actor;
     const item = this.item;
@@ -395,54 +398,29 @@ class DamageActivity extends BaseActivity {
 
   /* -------------------------------------------------- */
 
-  /**
-   * Perform a damage roll.
-   * @param {object} [config]                 Damage roll config.
-   * @param {ItemArtichron} [config.ammo]     An ammo item for additional properties.
-   * @param {number} [config.multiply]        A multiplier on the number of dice rolled.
-   * @param {number} [config.increase]        An addition to the number of dice rolled.
-   * @param {object} [options]                Chat message options.
-   * @param {boolean} [options.create]        If false, returns the rolls instead of a chat message.
-   * @returns {Promise<ChatMessageArtichron|RollArtichron[]|null>}
-   */
-  async rollDamage({ammo, multiply, increase} = {}, {create = true} = {}) {
+  /** @override */
+  async use() {
     if (!this.hasDamage) {
       ui.notifications.warn("ARTICHRON.ACTIVITY.Warning.NoDamage", {localize: true});
       return null;
     }
 
-    if (!ammo) ammo = this.item.actor.items.get(DamageActivity.ammunitionRegistry.get(this.uuid));
-
-    // Prepare roll configuration dialog.
-    const fieldsets = !this.usesAmmo ? [] : [{
-      legend: "ARTICHRON.ROLL.Damage.Ammunition",
-      fields: [{
-        field: new foundry.data.fields.StringField({
-          required: false,
-          blank: true,
-          label: "ARTICHRON.ROLL.Damage.AmmoItem",
-          hint: "ARTICHRON.ROLL.Damage.AmmoItemHint",
-          choices: this.item.actor.items.reduce((acc, item) => {
-            if (item.type !== "ammo") return acc;
-            if (item.system.category.subtype === this.ammunition.type) {
-              acc[item.id] = item.name;
-            }
-            return acc;
-          }, {})
-        }),
-        options: {name: "ammo", value: ammo?.id}
-      }]
-    }];
-
-    const configuration = await RollConfigurationDialog.create({
-      fieldsets: fieldsets,
-      document: this,
-      window: {title: game.i18n.format("ARTICHRON.ROLL.Damage.Title", {name: this.item.name})}
-    });
+    const configuration = await ActivityUseDialog.create(this);
     if (!configuration) return null;
-    if (configuration.ammo) ammo = this.item.actor.items.get(configuration.ammo);
 
-    const rollData = this.item.getRollData();
+    const config = foundry.utils.mergeObject({
+      ammunition: null,
+      area: 0,
+      damage: 0,
+      elixirs: [],
+      rollMode: game.settings.get("core", "rollMode")
+    }, configuration);
+
+    const actor = this.item.actor;
+    const item = this.item;
+    const ammo = item.actor.items.get(config.ammunition) ?? null;
+
+    const rollData = item.getRollData();
     if (ammo) rollData.ammo = ammo.getRollData().item;
 
     const parts = foundry.utils.deepClone(this._damages);
@@ -464,7 +442,7 @@ class DamageActivity extends BaseActivity {
       return acc;
     }, {})).map(([type, formulas]) => {
       const roll = new CONFIG.Dice.DamageRoll(formulas.join("+"), rollData, {type: type});
-      roll.alter(multiply ?? 1, increase ?? 0);
+      roll.alter(1, config.damage);
       return roll;
     });
 
@@ -473,7 +451,7 @@ class DamageActivity extends BaseActivity {
     // Add any amplifying bonuses (increasing the amount of damage dealt of a given type).
     for (const roll of rolls) {
       const group = CONFIG.SYSTEM.DAMAGE_TYPES[roll.type].group;
-      const bonus = this.item.actor.system.bonuses.damage[group];
+      const bonus = actor.system.bonuses.damage[group];
       if (!bonus) continue;
       const terms = [
         new foundry.dice.terms.OperatorTerm({operator: "+"}),
@@ -487,24 +465,40 @@ class DamageActivity extends BaseActivity {
       roll._total = roll._evaluateTotal();
     }
 
-    // TODO: consume ammo
-
-    if (create) {
-      const rollMode = configuration.rollMode ?? game.settings.get("core", "rollMode");
-      const messageData = {
-        type: "damage",
-        rolls: rolls,
-        speaker: ChatMessageArtichron.getSpeaker({actor: this.item.actor}),
-        flavor: game.i18n.format("ARTICHRON.ROLL.Damage.Flavor", {name: this.item.name}),
-        "system.activity": this.id,
-        "system.item": this.item.uuid,
-        "system.targets": Array.from(game.user.targets.map(t => t.actor?.uuid))
-      };
-      ChatMessageArtichron.applyRollMode(messageData, rollMode);
-      return ChatMessageArtichron.create(messageData);
-    } else {
-      return rolls;
+    // Consume AP.
+    if (actor.inCombat) {
+      const consume = await this.consumeCost();
+      if (consume === null) return null;
     }
+
+    // Consume ammo.
+    if (ammo) await ammo.update({"system.quantity.value": ammo.system.quantity.value - 1});
+
+    // Update elixirs.
+    if (config.elixirs.length) {
+      const updates = [];
+      for (const id of config.elixirs) {
+        const elixir = actor.items.get(id);
+        updates.push(elixir.system._usageUpdate());
+      }
+      await actor.updateEmbeddedDocuments("Item", updates);
+    }
+
+    // Place templates.
+    if (this.hasTemplate) await this.placeTemplate({increase: config.area});
+
+    const messageData = {
+      type: "damage",
+      rolls: rolls,
+      speaker: ChatMessageArtichron.getSpeaker({actor: actor}),
+      flavor: game.i18n.format("ARTICHRON.ROLL.Damage.Flavor", {name: item.name}),
+      "system.activity": this.id,
+      "system.item": this.item.uuid,
+      "system.targets": Array.from(game.user.targets.map(t => t.actor?.uuid)),
+      "flags.artichron.usage": config
+    };
+    ChatMessageArtichron.applyRollMode(messageData, config.rollMode);
+    return ChatMessageArtichron.create(messageData);
   }
 
   /* -------------------------------------------------- */
@@ -541,18 +535,6 @@ class DamageActivity extends BaseActivity {
    */
   get usesAmmo() {
     return !!this.ammunition.type;
-  }
-
-  /* -------------------------------------------------- */
-
-  /** @inheritdoc */
-  get chatButtons() {
-    const buttons = super.chatButtons;
-    if (this.hasDamage) buttons.unshift({
-      action: "damage",
-      label: game.i18n.localize("ARTICHRON.ACTIVITY.Buttons.Damage")
-    });
-    return buttons;
   }
 }
 
