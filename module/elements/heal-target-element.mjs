@@ -62,7 +62,7 @@ export default class HealTargetElement extends HTMLElement {
     if (!this.chatMessage) return false;
 
     this.actor ??= fromUuidSync(this.dataset.actorUuid);
-    if (!this.actor?.isOwner) {
+    if (!this.actor?.isOwner || !this.actor.system.health) {
       this.remove();
       return;
     }
