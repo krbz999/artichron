@@ -28,6 +28,8 @@ export default class ArsenalData extends ItemSystemModel.mixin(
   }
 
   /* -------------------------------------------------- */
+  /*   Properties                                       */
+  /* -------------------------------------------------- */
 
   /** @override */
   static get BONUS_FIELDS() {
@@ -76,21 +78,5 @@ export default class ArsenalData extends ItemSystemModel.mixin(
     const attr = this.attributes.value;
     if (!attr.has("parrying") && !attr.has("blocking")) return false;
     return this.activities.getByType("defend").length > 0;
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Pick targets within range of this item.
-   * @param {object} [options]                        Additional options.
-   * @returns {Promise<TokenDocumentArtichron[]>}     The token documents of those targeted.
-   */
-  async pickTarget({origin, count, range, allowPreTarget} = {}) {
-    origin ??= this.parent.token;
-    count ??= 1;
-    range ??= this.range.value;
-    allowPreTarget ??= false;
-    const targets = await artichron.utils.awaitTargets(count, {origin, range, allowPreTarget});
-    return targets;
   }
 }

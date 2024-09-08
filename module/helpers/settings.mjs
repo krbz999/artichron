@@ -1,4 +1,4 @@
-export function registerSettings() {
+export default function registerSettings() {
   const id = "artichron";
 
   /* -------------------------------------------------- */

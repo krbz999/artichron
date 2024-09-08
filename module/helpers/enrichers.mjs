@@ -1,4 +1,4 @@
-export function registerEnrichers() {
+export default function registerEnrichers() {
   CONFIG.TextEditor.enrichers.push({
     // Lookup.
     pattern: /\[\[(?<type>lookup) (?<config>[^\]]+)]](?:{(?<label>[^}]+)})?/gi,

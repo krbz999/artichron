@@ -1,16 +1,16 @@
+import {registerSockets} from "./module/helpers/sockets.mjs";
 import {SYSTEM} from "./module/helpers/config.mjs";
-import applications from "./module/applications/_module.mjs";
-import dice from "./module/dice/_module.mjs";
 import * as documents from "./module/documents/_module.mjs";
 import * as migrations from "./module/helpers/migrations.mjs";
 import * as utils from "./module/helpers/utils.mjs";
+import applications from "./module/applications/_module.mjs";
 import auraInit from "./module/documents/canvas/canvas.mjs";
-import {registerSettings} from "./module/helpers/settings.mjs";
-import {registerEnrichers} from "./module/helpers/enrichers.mjs";
-import {registerSockets} from "./module/helpers/sockets.mjs";
+import dice from "./module/dice/_module.mjs";
 import elements from "./module/elements/_module.mjs";
-import {default as RulerArtichron} from "./module/documents/canvas/ruler.mjs";
 import fields from "./module/documents/fields/_module.mjs";
+import registerEnrichers from "./module/helpers/enrichers.mjs";
+import registerSettings from "./module/helpers/settings.mjs";
+import RulerArtichron from "./module/documents/canvas/ruler.mjs";
 
 // Custom elements.
 for (const element of Object.values(elements)) {

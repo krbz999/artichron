@@ -234,15 +234,4 @@ export default class MeasuredTemplateArtichron extends MeasuredTemplate {
     await this._finishPlacement(event);
     this.#events.resolve(null);
   }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Get targets contained within this template.
-   * @returns {TokenDocumentArtichron[]}
-   */
-  get containedTokens() {
-    const tokens = artichron.utils.tokensInTemplate(this);
-    return artichron.utils.getTokenTargets(tokens);
-  }
 }

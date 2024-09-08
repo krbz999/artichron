@@ -328,18 +328,6 @@ export default class ItemArtichron extends Item {
   /* -------------------------------------------------- */
 
   /**
-   * Pick targets within range of this item.
-   * @param {object} [options]                        Additional options.
-   * @returns {Promise<TokenDocumentArtichron[]>}     The token documents of those targeted.
-   */
-  async pickTarget(options = {}) {
-    if (this.system.pickTarget) return this.system.pickTarget(options);
-    return null;
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
    * Prompt for placing templates using this item.
    * @param {object} config     Template configuration and placement data.
    * @returns {Promise<MeasuredTemplateArtichron[]>}

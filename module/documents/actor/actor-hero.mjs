@@ -1,10 +1,9 @@
 import CreatureData from "./creature-data.mjs";
-import EquipmentTemplateMixin from "./templates/equipment-data.mjs";
 import ProgressionData from "../fields/hero-progression.mjs";
 
 const {ArrayField, HTMLField, NumberField, SchemaField, TypedSchemaField} = foundry.data.fields;
 
-export default class HeroData extends CreatureData.mixin(EquipmentTemplateMixin) {
+export default class HeroData extends CreatureData {
   /**
    * Metadata for this data model.
    * @type {import("../../helpers/types.mjs").ActorSystemModelMetadata}
