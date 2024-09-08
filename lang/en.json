@@ -622,9 +622,9 @@
         "label": "Status",
         "hint": "The condition that will be applied or increased within this region."
       },
-      "autoremove": {
-        "label": "Auto Remove",
-        "hint": "In addition to applying the condition when entering the region, remove or decrease the condition when leaving."
+      "decrease": {
+        "label": "Remove",
+        "hint": "Rather than granting or increasing the level of a condition, this behavior will remove or decrease the level."
       }
     }
   }

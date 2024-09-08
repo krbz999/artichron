@@ -16,16 +16,6 @@ export default class ToggleConditionBehaviorData extends foundry.data.regionBeha
   /* -------------------------------------------------- */
 
   /** @override */
-  static events = {
-    [CONST.REGION_EVENTS.TOKEN_ENTER]: ToggleConditionBehaviorData.#addCondition,
-    [CONST.REGION_EVENTS.TOKEN_EXIT]: ToggleConditionBehaviorData.#removeCondition,
-    [CONST.REGION_EVENTS.TOKEN_ROUND_START]: ToggleConditionBehaviorData.#addCondition,
-    [CONST.REGION_EVENTS.TOKEN_TURN_START]: ToggleConditionBehaviorData.#addCondition
-  };
-
-  /* -------------------------------------------------- */
-
-  /** @override */
   static LOCALIZATION_PREFIXES = ["ARTICHRON.RegionProperty.TOGGLECONDITION"];
 
   /* -------------------------------------------------- */
@@ -33,39 +23,31 @@ export default class ToggleConditionBehaviorData extends foundry.data.regionBeha
   /** @override */
   static defineSchema() {
     return {
+      events: this._createEventsField({events: [
+        CONST.REGION_EVENTS.TOKEN_ENTER,
+        CONST.REGION_EVENTS.TOKEN_EXIT,
+        CONST.REGION_EVENTS.TOKEN_ROUND_END,
+        CONST.REGION_EVENTS.TOKEN_ROUND_START,
+        CONST.REGION_EVENTS.TOKEN_TURN_END,
+        CONST.REGION_EVENTS.TOKEN_TURN_START
+      ]}),
       status: new StringField({
         choices: () => CONFIG.statusEffects.reduce((acc, k) => {
           if (k.hud !== false) acc[k.id] = k.name;
           return acc;
         }, {})
       }),
-      autoremove: new BooleanField({initial: true})
+      decrease: new BooleanField()
     };
   }
 
   /* -------------------------------------------------- */
 
-  /**
-   * The script that is executed when a token enters the region or starts a turn or round in it.
-   * @this {ToggleConditionBehaviorData}
-   * @param {RegionEvent} event     The region event data from triggering this behavior.
-   */
-  static async #addCondition(event) {
-    if (event.user !== game.user) return;
+  /** @inheritdoc */
+  async _handleRegionEvent(event) {
+    if ((event.user !== game.user) || !this.status) return;
     await CanvasAnimation.getAnimation(`Token.${event.data.token.id}.animate`)?.promise;
-    event.data.token.actor?.applyCondition(this.status);
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * The script that is executed when a token leaves the region.
-   * @this {ToggleConditionBehaviorData}
-   * @param {RegionEvent} event     The region event data from triggering this behavior.
-   */
-  static async #removeCondition(event) {
-    if (!this.autoremove || (event.user !== game.user)) return;
-    await CanvasAnimation.getAnimation(`Token.${event.data.token.id}.animate`)?.promise;
-    event.data.token.actor?.unapplyCondition(this.status);
+    if (!this.decrease) event.data.token.actor?.applyCondition(this.status);
+    else event.data.token.actor?.unapplyCondition(this.status);
   }
 }

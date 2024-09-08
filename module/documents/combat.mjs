@@ -243,7 +243,7 @@ export default class CombatArtichron extends Combat {
       }
     });
 
-    for (const [uuid, active] of Object.entries(uuids)) {
+    for (const [uuid, active] of Object.entries(uuids ?? {})) {
       if (!active) continue;
       const effect = await fromUuid(uuid);
       await effect.system.execute();
