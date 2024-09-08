@@ -89,7 +89,7 @@ export default class RollConfigurationDialog extends foundry.applications.api.Ha
             return acc;
           }, {})
         }).toFormGroup({localize: true}, {
-          name: "rollmode",
+          name: "rollMode",
           value: game.settings.get("core", "rollMode")
         }).outerHTML
       ]

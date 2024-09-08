@@ -758,7 +758,11 @@
     "Title": "{name}: Roll Damage"
   },
   "Defend": {
-    "Flavor": "{name} - Defensive Roll"
+    "Flavor": "{name} - Defensive Roll",
+    "Pool": "Pool",
+    "PoolHint": "Expend points from the relevant pool to increase the number of dice rolled.",
+    "PoolLabel": "Points",
+    "Title": "{name}: Defensive Roll"
   },
   "Healing": {
     "Flavor": "{name} - Healing"

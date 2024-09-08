@@ -1,5 +1,6 @@
 import ActivitySheet from "../../applications/activity-sheet.mjs";
 import ActivityUseDialog from "../../applications/item/activity-use-dialog.mjs";
+import ChatMessageArtichron from "../chat-message.mjs";
 import RollConfigurationDialog from "../../applications/item/roll-configuration-dialog.mjs";
 
 /**
@@ -217,7 +218,7 @@ export default class BaseActivity extends foundry.abstract.DataModel {
 
     const messageData = {
       type: "usage",
-      speaker: ChatMessage.implementation.getSpeaker({actor: actor}),
+      speaker: ChatMessageArtichron.getSpeaker({actor: actor}),
       "system.activity": this.id,
       "system.item": item.uuid
     };
@@ -248,7 +249,7 @@ export default class BaseActivity extends foundry.abstract.DataModel {
       foundry.utils.isEmpty(itemUpdates) ? null : actor.updateEmbeddedDocuments("Item", itemUpdates)
     ]);
 
-    return ChatMessage.implementation.create(messageData);
+    return ChatMessageArtichron.create(messageData);
   }
 
   /* -------------------------------------------------- */
@@ -489,18 +490,18 @@ class DamageActivity extends BaseActivity {
     // TODO: consume ammo
 
     if (create) {
-      const rollMode = configuration.rollmode ?? game.settings.get("core", "rollMode");
+      const rollMode = configuration.rollMode ?? game.settings.get("core", "rollMode");
       const messageData = {
         type: "damage",
         rolls: rolls,
-        speaker: ChatMessage.implementation.getSpeaker({actor: this.item.actor}),
+        speaker: ChatMessageArtichron.getSpeaker({actor: this.item.actor}),
         flavor: game.i18n.format("ARTICHRON.ROLL.Damage.Flavor", {name: this.item.name}),
         "system.activity": this.id,
         "system.item": this.item.uuid,
         "system.targets": Array.from(game.user.targets.map(t => t.actor?.uuid))
       };
-      ChatMessage.implementation.applyRollMode(messageData, rollMode);
-      return ChatMessage.implementation.create(messageData);
+      ChatMessageArtichron.applyRollMode(messageData, rollMode);
+      return ChatMessageArtichron.create(messageData);
     } else {
       return rolls;
     }
@@ -601,14 +602,14 @@ class HealingActivity extends BaseActivity {
       const messageData = {
         type: "healing",
         rolls: [roll],
-        speaker: ChatMessage.implementation.getSpeaker({actor: this.item.actor}),
+        speaker: ChatMessageArtichron.getSpeaker({actor: this.item.actor}),
         flavor: game.i18n.format("ARTICHRON.ROLL.Healing.Flavor", {name: this.item.name}),
         "system.activity": this.id,
         "system.item": this.item.uuid,
         "system.targets": Array.from(game.user.targets.map(t => t.actor?.uuid))
       };
-      ChatMessage.implementation.applyRollMode(messageData, rollMode);
-      return ChatMessage.implementation.create(messageData);
+      ChatMessageArtichron.applyRollMode(messageData, rollMode);
+      return ChatMessageArtichron.create(messageData);
     } else {
       return [roll];
     }
@@ -773,7 +774,7 @@ class DefendActivity extends BaseActivity {
 
   /**
    * Perform a defensive roll.
-   * @returns {Promise<ChatMessageArtichron>}
+   * @returns {Promise<ChatMessageArtichron|null>}
    */
   async rollDefense() {
     if (!this.defend.formula) {
@@ -786,17 +787,61 @@ class DefendActivity extends BaseActivity {
       throw new Error("This item cannot be used to defend.");
     }
 
+    const actor = this.item.actor;
+
+    // Prepare roll configuration dialog.
+    const fieldsets = [{
+      legend: game.i18n.format("ARTICHRON.ROLL.Defend.Pool"),
+      fields: [{
+        field: new foundry.data.fields.NumberField({
+          integer: true,
+          min: 0,
+          max: actor.type === "monster" ? actor.system.danger.pool.value : actor.system.pools.stamina.value,
+          nullable: false,
+          label: "ARTICHRON.ROLL.Defend.PoolLabel",
+          hint: "ARTICHRON.ROLL.Defend.PoolHint"
+        }),
+        options: {value: 0, name: "pool"}
+      }]
+    }];
+
+    // TODO: allow consuming elixirs as part of defensive rolls?
+
+    const config = {
+      pool: 0,
+      rollMode: game.settings.get("core", "rollMode")
+    };
+
+    const configuration = await RollConfigurationDialog.create({
+      window: {title: game.i18n.format("ARTICHRON.ROLL.Defend.Title", {name: this.item.name})},
+      fieldsets: fieldsets,
+      document: this
+    });
+    if (!configuration) return null;
+    foundry.utils.mergeObject(config, configuration);
+
     const roll = Roll.create(this.defend.formula, this.item.getRollData());
+    if (config.pool) roll.alter(1, config.pool);
     if (!attr.has("blocking")) roll.alter(0.5);
 
-    if (this.item.actor.canPerformActionPoints(this.cost.value)) {
+    // Perform updates.
+    if (this.item.actor.inCombat && this.item.actor.canPerformActionPoints(this.cost.value)) {
       await this.item.actor.spendActionPoints(this.cost.value);
     }
+    const update = {};
+    if (actor.type === "monster") update["system.danger.pool.spent"] = actor.system.danger.pool.spent + config.pool;
+    else update["system.pools.stamina.spent"] = actor.system.pools.stamina.spent + config.pool;
+    await actor.update(update);
 
-    return roll.toMessage({
+    await roll.evaluate();
+
+    const messageData = {
       flavor: game.i18n.format("ARTICHRON.ROLL.Defend.Flavor", {name: this.item.name}),
-      speaker: ChatMessage.implementation.getSpeaker({actor: this.item.actor})
-    });
+      speaker: ChatMessageArtichron.getSpeaker({actor: this.item.actor}),
+      rolls: [roll]
+    };
+    ChatMessageArtichron.applyRollMode(messageData, config.rollMode);
+    return ChatMessageArtichron.create(messageData);
   }
 
   /* -------------------------------------------------- */
