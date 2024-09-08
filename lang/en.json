@@ -31,6 +31,7 @@
 "ActiveEffect.enhancement": "Enhancement",
 "ActiveEffect.enhancementPl": "Enhancements",
 "RegionBehavior.doorState": "Toggle Door State",
+"RegionBehavior.enterStore": "Enter Store",
 "RegionBehavior.statusCondition": "Toggle Status Condition"
 },
 "ARTICHRON": {
@@ -588,19 +589,7 @@
 },
 
 "RegionProperty": {
-  "TOGGLECONDITION": {
-    "FIELDS": {
-      "status": {
-        "label": "Status",
-        "hint": "The condition that will be applied or increased within this region."
-      },
-      "autoremove": {
-        "label": "Auto Remove",
-        "hint": "In addition to applying the condition when entering the region, remove or decrease the condition when leaving."
-      }
-    }
-  },
-  "TOGGLEDOOR": {
+  "DOORSTATE": {
     "FIELDS": {
       "doors": {
         "label": "Doors",
@@ -613,6 +602,26 @@
       "state": {
         "label": "State",
         "hint": "The new state the doors will be set to."
+      }
+    }
+  },
+  "ENTERSTORE": {
+    "FIELDS": {
+      "merchant": {
+        "label": "Merchant",
+        "hint": "When a token moves into this region, all non-GM users who are owners of the token will render this merchant's sheet."
+      }
+    }
+  },
+  "TOGGLECONDITION": {
+    "FIELDS": {
+      "status": {
+        "label": "Status",
+        "hint": "The condition that will be applied or increased within this region."
+      },
+      "autoremove": {
+        "label": "Auto Remove",
+        "hint": "In addition to applying the condition when entering the region, remove or decrease the condition when leaving."
       }
     }
   }

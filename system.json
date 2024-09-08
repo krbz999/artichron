@@ -154,6 +154,7 @@
       "fusion": {}
     },
     "RegionBehavior": {
+      "enterStore": {},
       "doorState": {},
       "statusCondition": {}
     }

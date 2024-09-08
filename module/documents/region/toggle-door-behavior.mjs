@@ -3,7 +3,7 @@ const {BooleanField, NumberField, SetField, StringField} = foundry.data.fields;
 /**
  * Behavior type that toggles a door state.
  */
-export default class ToggleDoorBehaviorData extends foundry.data.regionBehaviors.RegionBehaviorType {
+export default class DoorStateBehaviorData extends foundry.data.regionBehaviors.RegionBehaviorType {
   /**
    * Metadata for this datamodel.
    * @type {import("../../helpers/types.mjs").SystemModelMetadata}
@@ -16,7 +16,7 @@ export default class ToggleDoorBehaviorData extends foundry.data.regionBehaviors
   /* -------------------------------------------------- */
 
   /** @override */
-  static LOCALIZATION_PREFIXES = ["ARTICHRON.RegionProperty.TOGGLEDOOR"];
+  static LOCALIZATION_PREFIXES = ["ARTICHRON.RegionProperty.DOORSTATE"];
 
   /* -------------------------------------------------- */
 

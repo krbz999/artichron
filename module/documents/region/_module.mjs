@@ -1,7 +1,9 @@
+import DoorStateConditionBehaviorData from "./toggle-door-behavior.mjs";
+import EnterStoreBehaviorData from "./enter-store-behavior.mjs";
 import ToggleConditionBehaviorData from "./toggle-condition-behavior.mjs";
-import ToggleDoorConditionBehaviorData from "./toggle-door-behavior.mjs";
 
 export default {
-  ToggleConditionBehaviorData,
-  ToggleDoorConditionBehaviorData
+  DoorStateConditionBehaviorData,
+  EnterStoreBehaviorData,
+  ToggleConditionBehaviorData
 };

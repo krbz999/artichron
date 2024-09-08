@@ -57,7 +57,7 @@ export default class ToggleConditionBehaviorData extends foundry.data.regionBeha
   /* -------------------------------------------------- */
 
   /**
-   * The screipt that is executed when a token leaves the region.
+   * The script that is executed when a token leaves the region.
    * @this {ToggleConditionBehaviorData}
    * @param {RegionEvent} event     The region event data from triggering this behavior.
    */
