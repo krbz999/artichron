@@ -7,6 +7,30 @@ export default class ChatMessageArtichron extends ChatMessage {
 
   /* -------------------------------------------------- */
 
+  get isDamage() {
+    return this.flags.artichron?.type === "damage";
+  }
+
+  get isHealing() {
+    return this.flags.artichron?.type === "healing";
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * The damage totals by type.
+   * @type {object|null}
+   */
+  get damages() {
+    return this.rolls.reduce((acc, roll) => {
+      acc[roll.type] ??= {value: 0};
+      acc[roll.type].value += roll.total;
+      return acc;
+    }, {});
+  }
+
+  /* -------------------------------------------------- */
+
   /** @override */
   async getHTML(...T) {
     const html = await super.getHTML(...T);

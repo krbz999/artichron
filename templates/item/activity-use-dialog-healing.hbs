@@ -1,0 +1,10 @@
+<fieldset>
+  {{~#if healing.show}}
+  <legend>{{healing.legend}}</legend>
+  <p class="healing">
+    <span class="formula">{{healing.formula}}</span>
+  </p>
+
+  {{formGroup healing.field name="healing" localize=true}}
+  {{/if~}}
+</fieldset>

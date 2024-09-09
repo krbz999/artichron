@@ -1,0 +1,21 @@
+<div class="wrapper">
+  <header class="header">{{total}}</header>
+  <div class="rolls">
+    {{#each rolls}}
+    <div class="roll">
+      <div class="top">
+        <span class="icon" data-tooltip="{{label}}">
+          <i class="fa-fw fa-solid {{icon}}" style="color: #{{color}}"></i>
+        </span>
+        <span class="formula">{{formula}}</span>
+        <span class="total">{{total}}</span>
+      </div>
+      <div class="bottom">
+        {{#each dice}}
+        <div class="die {{cssClasses}}">{{total}}</div>
+        {{/each}}
+      </div>
+    </div>
+    {{/each}}
+  </div>
+</div>

@@ -31,6 +31,9 @@ export default class ActivityUseDialog extends foundry.applications.api.Handleba
     damage: {
       template: "systems/artichron/templates/item/activity-use-dialog-damage.hbs"
     },
+    healing: {
+      template: "systems/artichron/templates/item/activity-use-dialog-healing.hbs"
+    },
     area: {
       template: "systems/artichron/templates/item/activity-use-dialog-area.hbs"
     },
@@ -111,9 +114,7 @@ export default class ActivityUseDialog extends foundry.applications.api.Handleba
 
     switch (partId) {
       case "damage": {
-        context.damage = {
-          show: this.activity.hasDamage
-        };
+        context.damage = {show: this.activity.hasDamage};
         if (!context.damage.show) break;
         const damages = this.activity._damages.map(({formula, type}) => {
           return {formula, type: CONFIG.SYSTEM.DAMAGE_TYPES[type].label};
@@ -148,6 +149,24 @@ export default class ActivityUseDialog extends foundry.applications.api.Handleba
           });
         }
 
+        break;
+      }
+      case "healing": {
+        context.healing = {show: this.activity.type === "healing"};
+        if (!context.healing.show) break;
+        const field = new foundry.data.fields.NumberField({
+          integer: true,
+          initial: 0,
+          nullable: true,
+          min: 0,
+          label: "ARTICHRON.ActivityUseDialog.HealingLabel",
+          hint: "ARTICHRON.ActivityUseDialog.HealingHint"
+        });
+        Object.assign(context.healing, {
+          field: field,
+          legend: game.i18n.localize("ARTICHRON.ActivityUseDialog.HealingLegend"),
+          formula: this.activity.healing.formula
+        });
         break;
       }
       case "area": {

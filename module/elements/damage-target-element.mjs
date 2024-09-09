@@ -26,7 +26,7 @@ export default class DamageTargetElement extends HTMLElement {
    * @type {object}
    */
   get damages() {
-    return this.chatMessage.system.damages;
+    return this.chatMessage.damages;
   }
 
   /* -------------------------------------------------- */

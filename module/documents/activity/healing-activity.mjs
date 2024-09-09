@@ -1,5 +1,6 @@
 import BaseActivity from "./base-activity.mjs";
 import ChatMessageArtichron from "../chat-message.mjs";
+import ActivityUseDialog from "../../applications/item/activity-use-dialog.mjs";
 
 const {NumberField, SchemaField, StringField} = foundry.data.fields;
 
@@ -43,55 +44,62 @@ export default class HealingActivity extends BaseActivity {
 
   /* -------------------------------------------------- */
 
-  /**
-   * Perform a healing roll.
-   * @param {object} [config]               Roll config.
-   * @param {number} [config.multiply]      A multiplier on the number of dice rolled.
-   * @param {number} [config.addition]      An addition to the number of dice rolled.
-   * @param {object} [options]              Chat message options.
-   * @param {boolean} [options.create]      If false, returns the rolls instead of a chat message.
-   * @returns {Promise<ChatMessageArtichron|RollArtichron[]|null>}
-   */
-  async rollHealing({multiply, addition} = {}, {create = true} = {}) {
+  /** @override */
+  async use({multiply, addition} = {}, {create = true} = {}) {
     if (!this.healing.formula || !foundry.dice.Roll.validate(this.healing.formula)) {
       ui.notifications.warn("ARTICHRON.ACTIVITY.WARNING.NoHealing", {localize: true});
       return null;
     }
 
-    const rollData = this.item.getRollData();
+    const configuration = await ActivityUseDialog.create(this);
+    if (!configuration) return null;
+
+    const config = foundry.utils.mergeObject({
+      area: 0,
+      elixirs: [],
+      healing: 0,
+      rollMode: game.settings.get("core", "rollMode")
+    }, configuration);
+
+    const actor = this.item.actor;
+    const item = this.item;
+    const rollData = item.getRollData();
+
     const roll = foundry.dice.Roll.create(this.healing.formula, rollData);
-    roll.alter(multiply ?? 1, addition ?? 0);
+    if (config.healing) roll.alter(1, config.healing);
     await roll.evaluate();
 
-    if (create) {
-      const rollMode = game.settings.get("core", "rollMode");
-      const messageData = {
-        type: "healing",
-        rolls: [roll],
-        speaker: ChatMessageArtichron.getSpeaker({actor: this.item.actor}),
-        flavor: game.i18n.format("ARTICHRON.ROLL.Healing.Flavor", {name: this.item.name}),
-        "system.activity": this.id,
-        "system.item": this.item.uuid,
-        "system.targets": Array.from(game.user.targets.map(t => t.actor?.uuid))
-      };
-      ChatMessageArtichron.applyRollMode(messageData, rollMode);
-      return ChatMessageArtichron.create(messageData);
-    } else {
-      return [roll];
+    // Consume AP.
+    if (actor.inCombat) {
+      const consume = await this.consumeCost();
+      if (consume === null) return null;
     }
-  }
 
-  /* -------------------------------------------------- */
-  /*   Properties                                       */
-  /* -------------------------------------------------- */
+    // Update elixirs.
+    if (config.elixirs.length) {
+      const updates = [];
+      for (const id of config.elixirs) {
+        const elixir = actor.items.get(id);
+        updates.push(elixir.system._usageUpdate());
+      }
+      await actor.updateEmbeddedDocuments("Item", updates);
+    }
 
-  /** @inheritdoc */
-  get chatButtons() {
-    const buttons = super.chatButtons;
-    buttons.unshift({
-      action: "healing",
-      label: game.i18n.localize("ARTICHRON.ACTIVITY.Buttons.Healing")
-    });
-    return buttons;
+    // Place templates.
+    if (this.hasTemplate) await this.placeTemplate({increase: config.area});
+
+    const messageData = {
+      type: "usage",
+      rolls: [roll],
+      speaker: ChatMessageArtichron.getSpeaker({actor: actor}),
+      flavor: game.i18n.format("ARTICHRON.ROLL.Healing.Flavor", {name: item.name}),
+      "system.activity": this.id,
+      "system.item": item.uuid,
+      "system.targets": Array.from(game.user.targets.map(t => t.actor?.uuid)),
+      "flags.artichron.usage": config,
+      "flags.artichron.type": "healing"
+    };
+    ChatMessageArtichron.applyRollMode(messageData, config.rollMode);
+    return ChatMessageArtichron.create(messageData);
   }
 }

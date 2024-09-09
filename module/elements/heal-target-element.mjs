@@ -26,7 +26,7 @@ export default class HealTargetElement extends HTMLElement {
    * @type {number}
    */
   get healing() {
-    return this.chatMessage.system.healing;
+    return this.chatMessage.rolls.reduce((acc, roll) => acc + roll.total, 0);
   }
 
   /* -------------------------------------------------- */

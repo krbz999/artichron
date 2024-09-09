@@ -1,5 +1,5 @@
 /* Chat Messages */
-.chat-message.artichron.damage, .chat-message.artichron.healing {
+.chat-message.artichron.usage {
 
   .wrapper {
     display: grid;
@@ -146,6 +146,8 @@
         display: none;
         flex-direction: column;
         &.expanded { display: flex; }
+
+        &:has(damage-target, healing-target) p.hint { display: none; }
 
         & damage-target, healing-target {
           display: flex;

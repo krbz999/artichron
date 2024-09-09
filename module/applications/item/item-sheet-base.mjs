@@ -1,5 +1,5 @@
-import FormulaField from "../../documents/fields/formula-field.mjs";
 import ArtichronSheetMixin from "../base-sheet.mjs";
+import FormulaField from "../../documents/fields/formula-field.mjs";
 
 export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.applications.sheets.ItemSheetV2) {
   /** @override */
@@ -371,9 +371,10 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
       content: `<fieldset>${select}</fieldset>`,
       ok: {callback: (event, button) => {
         const type = button.form.elements.type.value;
-        artichron.fields.BaseActivity.create(this.document, {
+        const cls = Object.values(artichron.activities).find(a => a.metadata.type === type);
+        cls.create(this.document, {
           type: type,
-          name: game.i18n.localize(artichron.fields.BaseActivity.TYPES[type].metadata.label)
+          name: game.i18n.localize(cls.metadata.label)
         });
       }}
     });

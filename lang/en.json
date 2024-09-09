@@ -753,6 +753,8 @@
 },
 
 "ROLL": {
+  "ApplyDamage": "Apply Damage",
+  "ApplyHealing": "Apply Healing",
   "Damage": {
     "AmmoItem": "Ammunition",
     "AmmoItemHint": "An ammunition item to modify the damage roll.",
@@ -769,7 +771,10 @@
   },
   "Healing": {
     "Flavor": "{name} - Healing"
-  }
+  },
+  "Selected": "Selected",
+  "SelectedNone": "No tokens selected.",
+  "Targeted": "Targeted"
 },
 
 "ProgressionThresholds": {
@@ -833,6 +838,9 @@
   "DistanceLegend": "Distance",
   "ElixirsHint": "Elixirs can be consumed for additional points to spend.",
   "ElixirsLegend": "Elixirs",
+  "HealingHint": "Each point spent from the pool will add one additional die to the healing.",
+  "HealingLabel": "Amount",
+  "HealingLegend": "Healing",
   "Title": "Use Activity: {name}",
   "Warning": {
     "Overspending": "You do not have enough available resources to enhance the activity in this way."

@@ -154,14 +154,15 @@ export default class DamageActivity extends BaseActivity {
     if (this.hasTemplate) await this.placeTemplate({increase: config.area});
 
     const messageData = {
-      type: "damage",
+      type: "usage",
       rolls: rolls,
       speaker: ChatMessageArtichron.getSpeaker({actor: actor}),
       flavor: game.i18n.format("ARTICHRON.ROLL.Damage.Flavor", {name: item.name}),
       "system.activity": this.id,
-      "system.item": this.item.uuid,
+      "system.item": item.uuid,
       "system.targets": Array.from(game.user.targets.map(t => t.actor?.uuid)),
-      "flags.artichron.usage": config
+      "flags.artichron.usage": config,
+      "flags.artichron.type": "damage"
     };
     ChatMessageArtichron.applyRollMode(messageData, config.rollMode);
     return ChatMessageArtichron.create(messageData);
