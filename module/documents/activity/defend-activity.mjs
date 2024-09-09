@@ -96,8 +96,4 @@ export default class DefendActivity extends BaseActivity {
     ChatMessageArtichron.applyRollMode(messageData, config.rollMode);
     return ChatMessageArtichron.create(messageData);
   }
-
-  /* -------------------------------------------------- */
-  /*   Properties                                       */
-  /* -------------------------------------------------- */
 }

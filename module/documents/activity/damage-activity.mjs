@@ -140,6 +140,11 @@ export default class DamageActivity extends BaseActivity {
     // Consume ammo.
     if (ammo) await ammo.update({"system.quantity.value": ammo.system.quantity.value - 1});
 
+    // Consume pool.
+    const path = (actor.type === "monster") ? "system.danger.pool.spent" : `system.pools.${this.poolType}.spent`;
+    const spent = foundry.utils.getProperty(actor, path);
+    await actor.update({[path]: spent + Math.max(0, config.area + config.damage - config.elixirs.length)});
+
     // Update elixirs.
     if (config.elixirs.length) {
       const updates = [];

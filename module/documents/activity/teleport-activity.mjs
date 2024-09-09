@@ -1,4 +1,6 @@
+import ActivityUseDialog from "../../applications/item/activity-use-dialog.mjs";
 import BaseActivity from "./base-activity.mjs";
+import ChatMessageArtichron from "../chat-message.mjs";
 
 const {NumberField, SchemaField} = foundry.data.fields;
 
@@ -22,21 +24,28 @@ export default class TeleportActivity extends BaseActivity {
 
   /* -------------------------------------------------- */
 
-  /**
-   * Teleport a token targeted by this activity.
-   * @param {object} [config]                       Configuration object.
-   * @param {number} [config.increase]              The increase in distance of the teleport.
-   * @returns {Promise<TokenDocumentArtichron>}     A promise that resolves to the updated token document.
-   */
-  async teleportToken({increase = 0} = {}) {
+  /** @override */
+  async use() {
     const token = this.item.token;
     if (!token) {
       ui.notifications.warn("ARTICHRON.ACTIVITY.Warning.NoToken", {localize: true});
       return;
     }
 
+    const configuration = await ActivityUseDialog.create(this);
+    if (!configuration) return null;
+
+    const config = foundry.utils.mergeObject({
+      distance: 0,
+      elixirs: [],
+      rollMode: game.settings.get("core", "rollMode")
+    }, configuration);
+
+    const item = this.item;
+    const actor = this.item.actor;
+
     const drawCircle = () => {
-      const range = this.teleport.distance + increase
+      const range = this.teleport.distance + config.distance
       + (canvas.grid.distance * Math.max(token.document.width, token.document.height, 1) / 2);
       const points = canvas.grid.getCircle({x: 0, y: 0}, range).reduce((acc, p) => {
         return acc.concat([p.x, p.y]);
@@ -50,25 +59,44 @@ export default class TeleportActivity extends BaseActivity {
     };
 
     const circle = drawCircle();
-    const config = {tokens: [token.document]};
-    const place = await artichron.canvas.TokenPlacement.place(config);
+    const place = await artichron.canvas.TokenPlacement.place({tokens: [token.document]});
     token.removeChild(circle);
-    if (!place.length) return;
+    if (!place.length) return null;
     const {x, y, rotation} = place[0];
-    return token.document.update({x, y, rotation}, {animate: false, teleport: true, forced: true});
-  }
 
-  /* -------------------------------------------------- */
-  /*   Properties                                       */
-  /* -------------------------------------------------- */
+    // Consume AP.
+    if (actor.inCombat) {
+      const consume = await this.consumeCost();
+      if (consume === null) return null;
+    }
 
-  /** @inheritdoc */
-  get chatButtons() {
-    const buttons = super.chatButtons;
-    buttons.unshift({
-      action: "teleport",
-      label: game.i18n.localize("ARTICHRON.ACTIVITY.Buttons.Teleport")
-    });
-    return buttons;
+    // Consume pool.
+    const path = (actor.type === "monster") ? "system.danger.pool.spent" : `system.pools.${this.poolType}.spent`;
+    const spent = foundry.utils.getProperty(actor, path);
+    await actor.update({[path]: spent + Math.max(0, config.distance - config.elixirs.length)});
+
+    // Update elixirs.
+    if (config.elixirs.length) {
+      const updates = [];
+      for (const id of config.elixirs) {
+        const elixir = actor.items.get(id);
+        updates.push(elixir.system._usageUpdate());
+      }
+      await actor.updateEmbeddedDocuments("Item", updates);
+    }
+
+    token.document.update({x, y, rotation}, {animate: false, teleport: true, forced: true});
+
+    const messageData = {
+      type: "usage",
+      speaker: ChatMessageArtichron.getSpeaker({actor: actor}),
+      "system.activity": this.id,
+      "system.item": item.uuid,
+      "system.targets": [],
+      "flags.artichron.usage": config,
+      "flags.artichron.type": this.constructor.metadata.type
+    };
+    ChatMessageArtichron.applyRollMode(messageData, config.rollMode);
+    return ChatMessageArtichron.create(messageData);
   }
 }
