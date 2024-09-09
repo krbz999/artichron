@@ -1,11 +1,24 @@
 import ActivitySheet from "../../applications/activity-sheet.mjs";
-import ActivityUseDialog from "../../applications/item/activity-use-dialog.mjs";
-import ChatMessageArtichron from "../chat-message.mjs";
 
 /**
  * @typedef {object} ActivityMetadata     Activity metadata.
  * @property {string} type                The activity type.
  * @property {string} label               Name of this activity type.
+ */
+
+/**
+ * @typedef {object} ActivityConsumptionConfiguration     Activity consumption configuration.
+ *
+ * NOTE: Elixir consumption takes priority over pool consumption, meaning the `pool` property
+ * should be equal to the full amount of points allocated; elixirs will subtract from this
+ * amount as they are consumed. E.g., if enhancing an activity by 5 points but consuming 2
+ * elixirs, then set `pool: 5`, the elixirs will be consumed, and only 3 points will be
+ * subtracted.
+ *
+ * @property {boolean} [actionPoints]     Whether to consume action points.
+ * @property {string} [ammunition]        The id of an ammunition item to reduce in quantity.
+ * @property {string[]} [elixirs]         The ids of elixirs to reduce in usage.
+ * @property {number} [pool]              The amount to subtract from a relevant pool.
  */
 
 const {HTMLField, NumberField, SchemaField, StringField} = foundry.data.fields;
@@ -84,6 +97,10 @@ export default class BaseActivity extends foundry.abstract.DataModel {
 
   /* -------------------------------------------------- */
 
+  /**
+   * Reference to the sheet for this activity, registered in a static map.
+   * @type {ActivitySheet}
+   */
   get sheet() {
     if (!BaseActivity.#sheets.has(this.uuid)) {
       const cls = new ActivitySheet({document: this});
@@ -173,84 +190,102 @@ export default class BaseActivity extends foundry.abstract.DataModel {
    * @returns {Promise}
    */
   async use() {
-    const configuration = await ActivityUseDialog.create(this);
-    if (!configuration) return null;
-
-    console.warn(configuration);
-    return; // TODO: propagate the choices made to the "main" method of each activity type.
-
-    const {elixirs, ...inputs} = configuration;
-    const actor = this.item.actor;
-    const item = this.item;
-
-    const messageData = {
-      type: "usage",
-      speaker: ChatMessageArtichron.getSpeaker({actor: actor}),
-      "system.activity": this.id,
-      "system.item": item.uuid
-    };
-
-    for (const [k, v] of Object.entries(inputs)) {
-      if (v) foundry.utils.setProperty(messageData, `flags.artichron.usage.${k}.increase`, v);
-    }
-
-    // Construct and perform updates.
-    let total = Object.values(inputs).reduce((acc, v) => acc + (v ?? 0), 0);
-    const itemUpdates = [];
-    for (const id of elixirs ?? []) {
-      const elixir = actor.items.get(id);
-      if (!elixir || !total) continue;
-      itemUpdates.push(elixir.system._usageUpdate());
-      total = total - 1;
-    }
-
-    // Perform updates.
-    let path;
-    if (actor.type === "monster") path = "system.danger.pool.spent";
-    else path = `system.pools.${this.poolType}.spent`;
-    const value = foundry.utils.getProperty(actor, path);
-    const actorUpdate = total ? {[path]: value + total} : {};
-
-    await Promise.all([
-      foundry.utils.isEmpty(actorUpdate) ? null : actor.update(actorUpdate),
-      foundry.utils.isEmpty(itemUpdates) ? null : actor.updateEmbeddedDocuments("Item", itemUpdates)
-    ]);
-
-    return ChatMessageArtichron.create(messageData);
+    throw new Error("The 'Activity#use' method must be subclassed.");
   }
 
   /* -------------------------------------------------- */
 
   /**
-   * Consume the AP cost of this activity.
-   * @returns {Promise<ActorArtichron|null>}
+   * Consume the various properties when using this activity.
+   * @param {ActivityConsumptionConfiguration} config     Consumption configuration.
+   * @returns {Promise<boolean>}                          Whether the consumption was successful.
    */
-  async consumeCost() {
-    if (!this.cost.value) return null;
-
+  async consume(config = {}) {
     const actor = this.item.actor;
+    const item = this.item;
 
-    if (!actor.inCombat) {
-      ui.notifications.warn(game.i18n.format("ARTICHRON.ACTIVITY.Warning.ConsumeOutOfCombat", {
-        name: actor.name
-      }));
-      return null;
+    config = foundry.utils.mergeObject({
+      actionPoints: actor.inCombat,
+      ammunition: null,
+      elixirs: [],
+      pool: null
+    }, config);
+
+    const actorUpdate = {};
+    const itemUpdates = [];
+
+    // Consume action points.
+    if (config.actionPoints) {
+      const value = this.cost.value;
+      if (!actor.inCombat) {
+        ui.notifications.warn(game.i18n.format("ARTICHRON.ACTIVITY.Warning.ConsumeOutOfCombat", {
+          name: actor.name
+        }));
+        return false;
+      }
+
+      if (!actor.canPerformActionPoints(value)) {
+        ui.notifications.warn(game.i18n.format("ARTICHRON.ACTIVITY.Warning.ConsumeCostUnavailable", {
+          name: actor.name, number: value
+        }));
+        return false;
+      }
+
+      actorUpdate["system.pips.value"] = actor.system.pips.value - value;
     }
 
-    if (!actor.canPerformActionPoints(this.cost.value)) {
-      ui.notifications.warn(game.i18n.format("ARTICHRON.ACTIVITY.Warning.ConsumeCostUnavailable", {
-        name: actor.name, number: this.cost.value
-      }));
-      return null;
+    // Reduce quantity of ammo by 1.
+    if (config.ammunition) {
+      const ammo = actor.items.get(config.ammunition);
+      const qty = ammo.system.quantity.value;
+      if (!qty) {
+        ui.notifications.warn("ARTICHRON.ACTIVITY.Warning.NoAmmo", {localize: true});
+        return false;
+      }
+      itemUpdates.push({_id: ammo.id, "system.quantity.value": qty - 1});
     }
 
-    const result = await this.item.actor.spendActionPoints(this.cost.value);
-    if (result) {
-      ui.notifications.info(game.i18n.format("ARTICHRON.ACTIVITY.Warning.ConsumedCost", {
-        name: actor.name, number: this.cost.value
-      }));
+    // Consume elixirs.
+    if (config.elixirs.length) {
+      for (const id of config.elixirs) {
+        const elixir = actor.items.get(id);
+        if (!elixir) {
+          ui.notifications.warn(game.i18n.format("ARTICHRON.ACTIVITY.Warning.NoElixir", {id: id}));
+          return false;
+        }
+
+        if (!elixir.hasUses) {
+          ui.notifications.warn(game.i18n.format("ARTICHRON.ACTIVITY.Warning.NoElixirUses", {name: elixir.name}));
+          return false;
+        }
+
+        // Elixirs take precedence over pool points and substract from what is consumed there.
+        if (config.pool > 0) {
+          itemUpdates.push(elixir.system._usageUpdate());
+          config.pool = config.pool - 1;
+        }
+      }
     }
-    return result;
+
+    // Consume pools.
+    if (config.pool > 0) {
+      const isMonster = actor.type === "monster";
+      const path = `${isMonster ? "danger.pool" : `pools.${this.poolType}`}.value`;
+      const value = foundry.utils.getProperty(actor.system, path);
+      if (value < config.pool) {
+        ui.notifications.warn(game.i18n.format("ARTICHRON.ACTIVITY.Warning.NoPool", {
+          pool: game.i18n.localize(`ARTICHRON.Pools.${isMonster ? "Danger" : this.poolType.capitalize()}`)
+        }));
+        return false;
+      }
+
+      actorUpdate[`system.${path}`] = value - config.pool;
+    }
+
+    return Promise.all([
+      foundry.utils.isEmpty(actorUpdate) ? null : actor.update(actorUpdate),
+      foundry.utils.isEmpty(itemUpdates) ? null : actor.updateEmbeddedDocuments("Item", itemUpdates)
+    ]);
   }
 
   /* -------------------------------------------------- */

@@ -134,9 +134,10 @@
 },
 
 "Pools": {
+  "Danger": "Danger",
   "Health": "Health",
-  "Stamina": "Stamina",
-  "Mana": "Mana"
+  "Mana": "Mana",
+  "Stamina": "Stamina"
 },
 
 "Skills": {
@@ -720,13 +721,16 @@
   },
   "Warning": {
     "ConsumeCostUnavailable": "{name} does not have {number} action points available.",
-    "ConsumedCost": "{name} consumed {number} action points.",
     "ConsumeOutOfCombat": "{name} cannot consume action points when out of combat.",
     "NoActivities": "This item has no activities configured.",
+    "NoAmmo": "You have none remaining of the selected ammunition.",
     "NoDamage": "This activity has no damage rolls configured.",
     "NoDefense": "This activity has no defense formula configured.",
     "NoEffects": "This activity has no effects configured.",
+    "NoElixir": "The elixir with id '{id}' did not exist!",
+    "NoElixirUses": "The {name} elixir has no uses left.",
     "NoHealing": "This activity has no healing formula configured.",
+    "NoPool": "The actor does not have enough points remaining in their {pool} pool.",
     "NoRemainingUses": "This item has no remaining uses.",
     "NoTemplates": "This item cannot create measured templates!",
     "NoToken": "A token must be present on the scene."

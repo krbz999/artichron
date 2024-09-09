@@ -63,26 +63,11 @@ export default class EffectActivity extends BaseActivity {
       rollMode: game.settings.get("core", "rollMode")
     }, configuration);
 
-    // Consume AP.
-    if (actor.inCombat) {
-      const consume = await this.consumeCost();
-      if (consume === null) return null;
-    }
-
-    // Consume pool.
-    const path = (actor.type === "monster") ? "system.danger.pool.spent" : `system.pools.${this.poolType}.spent`;
-    const spent = foundry.utils.getProperty(actor, path);
-    await actor.update({[path]: spent + Math.max(0, config.area - config.elixirs.length)});
-
-    // Update elixirs.
-    if (config.elixirs.length) {
-      const updates = [];
-      for (const id of config.elixirs) {
-        const elixir = actor.items.get(id);
-        updates.push(elixir.system._usageUpdate());
-      }
-      await actor.updateEmbeddedDocuments("Item", updates);
-    }
+    const consumed = await this.consume({
+      pool: config.area,
+      elixirs: config.elixirs
+    });
+    if (!consumed) return null;
 
     // Place templates.
     if (this.hasTemplate) await this.placeTemplate({increase: config.area});

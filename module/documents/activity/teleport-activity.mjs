@@ -64,26 +64,11 @@ export default class TeleportActivity extends BaseActivity {
     if (!place.length) return null;
     const {x, y, rotation} = place[0];
 
-    // Consume AP.
-    if (actor.inCombat) {
-      const consume = await this.consumeCost();
-      if (consume === null) return null;
-    }
-
-    // Consume pool.
-    const path = (actor.type === "monster") ? "system.danger.pool.spent" : `system.pools.${this.poolType}.spent`;
-    const spent = foundry.utils.getProperty(actor, path);
-    await actor.update({[path]: spent + Math.max(0, config.distance - config.elixirs.length)});
-
-    // Update elixirs.
-    if (config.elixirs.length) {
-      const updates = [];
-      for (const id of config.elixirs) {
-        const elixir = actor.items.get(id);
-        updates.push(elixir.system._usageUpdate());
-      }
-      await actor.updateEmbeddedDocuments("Item", updates);
-    }
+    const consumed = await this.consume({
+      pool: config.distance,
+      elixirs: config.elixirs
+    });
+    if (!consumed) return null;
 
     token.document.update({x, y, rotation}, {animate: false, teleport: true, forced: true});
 
