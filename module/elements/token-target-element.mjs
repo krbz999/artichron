@@ -1,6 +1,6 @@
 import ChatMessageArtichron from "../documents/chat-message.mjs";
 
-export default class DamageTargetElement extends HTMLElement {
+export default class TokenTargetElement extends HTMLElement {
   /* -------------------------------------------------- */
   /*   Properties                                       */
   /* -------------------------------------------------- */
@@ -9,7 +9,7 @@ export default class DamageTargetElement extends HTMLElement {
    * The tag name of this element.
    * @type {string}
    */
-  static tagName = "damage-target";
+  static tagName = "token-target";
 
   /* -------------------------------------------------- */
 
@@ -27,6 +27,30 @@ export default class DamageTargetElement extends HTMLElement {
    */
   get damages() {
     return this.chatMessage.damages;
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * The total amount of healing.
+   * @type {number}
+   */
+  get healing() {
+    return this.chatMessage.rolls.reduce((acc, roll) => acc + roll.total, 0);
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * The effects to transfer.
+   * @type {ActiveEffect[]}
+   */
+  get effects() {
+    const item = this.chatMessage.system.item;
+    const activity = item?.system.activities.get(this.chatMessage.system.activity);
+    const ids = activity?.effects?.ids ?? [];
+    const actor = item?.actor;
+    return ids.map(id => actor.effects.get(id));
   }
 
   /* -------------------------------------------------- */
@@ -69,17 +93,18 @@ export default class DamageTargetElement extends HTMLElement {
 
     this._applyHooks();
 
+    const isRoll = this.chatMessage.isRoll;
     const token = this.actor.isToken ? this.actor.token : this.actor.getActiveTokens(false, true)[0];
     const img = token ? token.texture.src : this.actor.img;
 
     this.innerHTML = `
     <img class="avatar" src="${img}" alt="" data-actor-uuid="${this.actor.uuid}">
     <label class="name">${token ? token.name : this.actor.name}</label>
-    <div class="damage"></div>`;
+    ${isRoll ? "<div class='damage'></div>" : ""}`;
 
     ChatMessageArtichron.attachTokenListeners(this.querySelector(".avatar"));
 
-    this.setAttribute("style", `--damage-total: "${this.actor.calculateDamage(this.damages)}"`);
+    if (isRoll) this._onActorUpdate(this.actor);
   }
 
   /* -------------------------------------------------- */
@@ -97,8 +122,12 @@ export default class DamageTargetElement extends HTMLElement {
     this.hookIds.set(id, "deleteActor");
     id = Hooks.on("deleteToken", this._onTokenDeleted.bind(this));
     this.hookIds.set(id, "deleteToken");
-    id = Hooks.on("updateActor", this._onActorUpdate.bind(this));
-    this.hookIds.set(id, "updateActor");
+
+    if (this.chatMessage.isRoll) {
+      id = Hooks.on("updateActor", this._onActorUpdate.bind(this));
+      this.hookIds.set(id, "updateActor");
+    }
+
     if (!this.targeted) {
       id = Hooks.on("controlToken", this._onControlToken.bind(this));
       this.hookIds.set(id, "controlToken");
@@ -122,9 +151,13 @@ export default class DamageTargetElement extends HTMLElement {
   /* -------------------------------------------------- */
 
   /** Hook event for actors being updated. */
-  _onActorUpdate(actor, change, options, userId) {
+  _onActorUpdate(actor) {
     if (actor !== this.actor) return;
-    this.setAttribute("style", `--damage-total: "${this.actor.calculateDamage(this.damages)}"`);
+    const type = this.dataset.type;
+    console.warn(type);
+    const total = (type === "damage") ? this.actor.calculateDamage(this.damages) : this.healing;
+    const color = (type === "damage") ? "red" : "green";
+    this.setAttribute("style", `--damage-total: "${total}"; --color: ${color}`);
   }
 
   /* -------------------------------------------------- */
@@ -132,5 +165,24 @@ export default class DamageTargetElement extends HTMLElement {
   /** Hook event for token being selected or unselected. */
   _onControlToken(token, selected) {
     if ((token.actor === this.actor) && !selected) this.remove();
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Execute the application of this element.
+   */
+  async apply() {
+    const {item, activity} = this.chatMessage.system;
+
+    switch (this.dataset.type) {
+      case "damage":
+        return this.actor.applyDamage(this.damages);
+      case "healing":
+        return this.actor.applyHealing(this.healing);
+      case "effect":
+        return item.system.activities.get(activity).grantEffects([this.actor]);
+      default: break;
+    }
   }
 }

@@ -725,6 +725,7 @@
     "NoActivities": "This item has no activities configured.",
     "NoDamage": "This activity has no damage rolls configured.",
     "NoDefense": "This activity has no defense formula configured.",
+    "NoEffects": "This activity has no effects configured.",
     "NoHealing": "This activity has no healing formula configured.",
     "NoRemainingUses": "This item has no remaining uses.",
     "NoTemplates": "This item cannot create measured templates!",
@@ -739,27 +740,18 @@
   },
   "Buttons": {
     "Consume": "Consume {number} AP",
-    "Damage": "Roll Damage",
-    "Effect": "Transfer Effects",
-    "Healing": "Roll Healing",
     "Teleport": "Teleport Token",
-    "Template": "Place Template"
+    "ApplyDamage": "Apply Damage",
+    "ApplyEffects": "Apply Effects",
+    "ApplyHealing":"Apply Healing"
   }
 },
 
-"MACRO": {
-  "ToggleEffect": "Toggle Effect: {name}",
-  "UseItem": "Use Item: {name}"
-},
-
 "ROLL": {
-  "ApplyDamage": "Apply Damage",
-  "ApplyHealing": "Apply Healing",
   "Damage": {
     "AmmoItem": "Ammunition",
     "AmmoItemHint": "An ammunition item to modify the damage roll.",
     "Ammunition": "Ammunition",
-    "Flavor": "{name} - Damage Roll",
     "Title": "{name}: Roll Damage"
   },
   "Defend": {
@@ -769,12 +761,14 @@
     "PoolLabel": "Points",
     "Title": "{name}: Defensive Roll"
   },
-  "Healing": {
-    "Flavor": "{name} - Healing"
-  },
   "Selected": "Selected",
   "SelectedNone": "No tokens selected.",
   "Targeted": "Targeted"
+},
+
+"MACRO": {
+  "ToggleEffect": "Toggle Effect: {name}",
+  "UseItem": "Use Item: {name}"
 },
 
 "ProgressionThresholds": {

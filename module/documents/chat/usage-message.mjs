@@ -64,16 +64,52 @@ export default class UsageMessageData extends ChatMessageSystemModel {
 
     const content = html.querySelector(".message-content");
     content.innerHTML = "";
-    await this._insertItemHeader(html);
+    await this.#insertItemHeader(html);
 
-    if (this.parent.isDamage) {
-      this.#insertDamageHealingRolls(content);
-      await this.#insertDamageApplication(content);
-    } else if (this.parent.isHealing) {
-      this.#insertDamageHealingRolls(content);
+    const message = this.parent;
+
+    if (this.parent.rolls.length) await this.#insertDamageHealingRolls(content);
+    if (message.isDamage || message.isHealing || message.isEffect) {
       await this.#insertDamageApplication(content);
     }
   }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Insert an item detail element if this message has an item.
+   * @param {HTMLElement} html      The html being modified.
+   */
+  async #insertItemHeader(html) {
+    const item = this.item;
+    const activity = item?.system.activities?.get(this.activity);
+
+    if (!item) return;
+
+    const container = document.createElement("DIV");
+    container.classList.add("item-details");
+
+    const itemHeader = document.createElement("DIV");
+    itemHeader.classList.add("item-header");
+
+    const text = activity?.description ? activity.description : item.system.description.value;
+
+    const enriched = await TextEditor.enrichHTML(text, {
+      rollData: this.item.getRollData(), relativeTo: this.item
+    });
+    itemHeader.innerHTML = `
+    <img class="icon" src="${item.img}" alt="${item.name}">
+    <div class="details">
+      <span class="title">${item.name}</span>
+      ${activity ? `<span class="subtitle">${activity.name}</span>` : ""}
+    </div>
+    ${enriched ? `<div class="description">${enriched}</div>` : ""}`;
+    container.insertAdjacentElement("beforeend", itemHeader);
+
+    html.querySelector(".message-content")?.insertAdjacentElement("beforeend", container);
+  }
+
+  /* -------------------------------------------------- */
 
   /**
    * Inject the array of roll parts to the html.
@@ -138,11 +174,16 @@ export default class UsageMessageData extends ChatMessageSystemModel {
     const template = "systems/artichron/templates/chat/damage-application.hbs";
     const context = {
       targets: targets,
-      label: this.parent.isDamage ? "ARTICHRON.ROLL.ApplyDamage" : "ARTICHRON.ROLL.ApplyHealing"
+      label: this.parent.isDamage ?
+        "ARTICHRON.ACTIVITY.Buttons.ApplyDamage" :
+        this.parent.isHealing ?
+          "ARTICHRON.ACTIVITY.Buttons.ApplyHealing" :
+          "ARTICHRON.ACTIVITY.Buttons.ApplyEffects"
     };
     content.insertAdjacentHTML("beforeend", await renderTemplate(template, context));
 
-    const tag = this.parent.isDamage ? "damage-target" : "healing-target";
+    const type = this.parent.flags.artichron.type;
+    const tag = "token-target";
 
     // Selected
     const makeSelectedTarget = token => {
@@ -151,6 +192,7 @@ export default class UsageMessageData extends ChatMessageSystemModel {
       const wrapper = content.querySelector(".targets[data-tab=selected]");
       if (Array.from(wrapper.querySelectorAll(tag)).some(element => element.actor === actor)) return;
       const element = document.createElement(tag);
+      element.dataset.type = type;
       element.targeted = false;
       element.actor = actor;
       wrapper.insertAdjacentElement("beforeend", element);
@@ -167,6 +209,7 @@ export default class UsageMessageData extends ChatMessageSystemModel {
       // inner wrapper
       for (const target of targets) {
         const element = document.createElement(tag);
+        element.dataset.type = type;
         element.actor = target;
         wrapper.insertAdjacentElement("beforeend", element);
       }
@@ -190,17 +233,14 @@ export default class UsageMessageData extends ChatMessageSystemModel {
     }));
 
     // Button click listener.
-    content.querySelector("[data-action=applyDamage]").addEventListener("click", async (event) => {
+    content.querySelector("[data-action=apply]").addEventListener("click", async (event) => {
       const wrapper = event.currentTarget.closest(".targets-wrapper");
       const nav = wrapper.querySelector(".header .expanded");
       const tab = wrapper.querySelector(`.targets[data-tab="${nav.dataset.tab}"]`);
       const elements = tab.querySelectorAll(tag);
       nav.classList.toggle("expanded", false);
       tab.classList.toggle("expanded", false);
-      for (const element of elements) {
-        if (this.parent.isDamage) await element.actor.applyDamage(element.damages);
-        else await element.actor.applyHealing(element.healing);
-      }
+      for (const element of elements) await element.apply();
     });
   }
 }

@@ -157,7 +157,6 @@ export default class DamageActivity extends BaseActivity {
       type: "usage",
       rolls: rolls,
       speaker: ChatMessageArtichron.getSpeaker({actor: actor}),
-      flavor: game.i18n.format("ARTICHRON.ROLL.Damage.Flavor", {name: item.name}),
       "system.activity": this.id,
       "system.item": item.uuid,
       "system.targets": Array.from(game.user.targets.map(t => t.actor?.uuid)),

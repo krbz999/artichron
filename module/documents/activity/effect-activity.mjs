@@ -1,4 +1,6 @@
+import ActivityUseDialog from "../../applications/item/activity-use-dialog.mjs";
 import BaseActivity from "./base-activity.mjs";
+import ChatMessageArtichron from "../chat-message.mjs";
 
 const {NumberField, SchemaField, SetField, StringField} = foundry.data.fields;
 
@@ -42,6 +44,59 @@ export default class EffectActivity extends BaseActivity {
 
   /* -------------------------------------------------- */
 
+  /** @override */
+  async use() {
+    if (!this.effects.ids.size) {
+      ui.notifications.warn("ARTICHRON.ACTIVITY.Warning.NoEffects", {localize: true});
+      return null;
+    }
+
+    const configuration = await ActivityUseDialog.create(this);
+    if (!configuration) return null;
+
+    const actor = this.item.actor;
+    const item = this.item;
+
+    const config = foundry.utils.mergeObject({
+      area: 0,
+      elixirs: [],
+      rollMode: game.settings.get("core", "rollMode")
+    }, configuration);
+
+    // Consume AP.
+    if (actor.inCombat) {
+      const consume = await this.consumeCost();
+      if (consume === null) return null;
+    }
+
+    // Update elixirs.
+    if (config.elixirs.length) {
+      const updates = [];
+      for (const id of config.elixirs) {
+        const elixir = actor.items.get(id);
+        updates.push(elixir.system._usageUpdate());
+      }
+      await actor.updateEmbeddedDocuments("Item", updates);
+    }
+
+    // Place templates.
+    if (this.hasTemplate) await this.placeTemplate({increase: config.area});
+
+    const messageData = {
+      type: "usage",
+      speaker: ChatMessageArtichron.getSpeaker({actor: actor}),
+      "system.activity": this.id,
+      "system.item": item.uuid,
+      "system.targets": Array.from(game.user.targets.map(t => t.actor?.uuid)),
+      "flags.artichron.usage": config,
+      "flags.artichron.type": this.constructor.metadata.type
+    };
+    ChatMessageArtichron.applyRollMode(messageData, config.rollMode);
+    return ChatMessageArtichron.create(messageData);
+  }
+
+  /* -------------------------------------------------- */
+
   /**
    * Transfer a copy of the effects to actors.
    * @param {ActorArtichron[]} [targets]      The actor targets.
@@ -54,19 +109,5 @@ export default class EffectActivity extends BaseActivity {
         if (effect) artichron.utils.sockets.grantBuff(effect, actor);
       }
     }
-  }
-
-  /* -------------------------------------------------- */
-  /*   Properties                                       */
-  /* -------------------------------------------------- */
-
-  /** @inheritdoc */
-  get chatButtons() {
-    const buttons = super.chatButtons;
-    buttons.unshift({
-      action: "effect",
-      label: game.i18n.localize("ARTICHRON.ACTIVITY.Buttons.Effect")
-    });
-    return buttons;
   }
 }

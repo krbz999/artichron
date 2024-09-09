@@ -147,9 +147,9 @@
         flex-direction: column;
         &.expanded { display: flex; }
 
-        &:has(damage-target, healing-target) p.hint { display: none; }
+        &:has(token-target) p.hint { display: none; }
 
-        & damage-target, healing-target {
+        & token-target {
           display: flex;
           flex-direction: row;
           align-items: center;
@@ -167,24 +167,18 @@
             cursor: pointer;
           }
           .name { flex: 1; }
-          .damage, .healing {
+          .damage {
             text-align: center;
             width: 40px;
             white-space: nowrap;
-            color: red;
+            color: var(--color);
+
+            &::before { content: var(--damage-total); }
           }
-
-          .healing { color: green; }
-
-          .damage::before { content: var(--damage-total); }
-          .healing::before { content: var(--healing-total); }
         }
       }
 
-      &:not(:has(.expanded)) [data-action=applyDamage],
-      &:not(:has(.expanded)) [data-action=applyHealing] {
-        display: none;
-      }
+      &:not(:has(.expanded)) [data-action=apply] { display: none; }
     }
   }
 }

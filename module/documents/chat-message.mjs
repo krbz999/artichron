@@ -15,6 +15,10 @@ export default class ChatMessageArtichron extends ChatMessage {
     return this.flags.artichron?.type === "healing";
   }
 
+  get isEffect() {
+    return this.flags.artichron?.type === "effect";
+  }
+
   /* -------------------------------------------------- */
 
   /**

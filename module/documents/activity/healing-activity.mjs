@@ -92,7 +92,6 @@ export default class HealingActivity extends BaseActivity {
       type: "usage",
       rolls: [roll],
       speaker: ChatMessageArtichron.getSpeaker({actor: actor}),
-      flavor: game.i18n.format("ARTICHRON.ROLL.Healing.Flavor", {name: item.name}),
       "system.activity": this.id,
       "system.item": item.uuid,
       "system.targets": Array.from(game.user.targets.map(t => t.actor?.uuid)),
