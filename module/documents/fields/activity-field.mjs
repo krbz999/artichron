@@ -1,4 +1,4 @@
-import BaseActivity from "./activity.mjs";
+import BaseActivity from "../activity/base-activity.mjs";
 import MappingField from "./mapping-field.mjs";
 
 export class ActivitiesField extends MappingField {
@@ -31,7 +31,7 @@ export class ActivityField extends foundry.data.fields.ObjectField {
    * @returns {typeof Activity|null}  Activity document type.
    */
   getModel(value) {
-    return BaseActivity.TYPES[value.type] ?? null;
+    return Object.values(artichron.activities).find(a => a.metadata.type === value.type) ?? null;
   }
 
   /* -------------------------------------------------- */

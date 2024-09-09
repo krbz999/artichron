@@ -53,8 +53,9 @@ export default class ActiveEffectArtichron extends ActiveEffect {
 
     try {
       const parsed = JSON.parse(change.value);
-      const cls = new artichron.fields.BaseActivity.TYPES[parsed.type](parsed, {parent: document.system});
-      document.system.activities.set(cls.id, cls);
+      const cls = Object.values(artichron.activities).find(a => a.metadata.type === parsed.type);
+      const inst = new cls(parsed, {parent: document.system});
+      document.system.activities.set(inst.id, inst);
     } catch (err) {
       console.warn(err);
     }

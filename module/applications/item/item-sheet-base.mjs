@@ -358,8 +358,8 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
    * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
    */
   static #createActivity(event, target) {
-    const types = Object.entries(artichron.fields.BaseActivity.TYPES).reduce((acc, [k, v]) => {
-      acc[k] = game.i18n.localize(v.metadata.label);
+    const types = Object.values(artichron.activities).reduce((acc, v) => {
+      acc[v.metadata.type] = game.i18n.localize(v.metadata.label);
       return acc;
     }, {});
     const select = new foundry.data.fields.StringField({

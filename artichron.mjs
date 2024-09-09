@@ -3,6 +3,7 @@ import {SYSTEM} from "./module/helpers/config.mjs";
 import * as documents from "./module/documents/_module.mjs";
 import * as migrations from "./module/helpers/migrations.mjs";
 import * as utils from "./module/helpers/utils.mjs";
+import activities from "./module/documents/activity/_module.mjs";
 import applications from "./module/applications/_module.mjs";
 import canvas from "./module/documents/canvas/_module.mjs";
 import dice from "./module/dice/_module.mjs";
@@ -21,6 +22,7 @@ for (const element of Object.values(elements)) {
 /* -------------------------------------------------- */
 
 globalThis.artichron = {
+  activities: activities,
   applications: applications,
   canvas: canvas,
   config: SYSTEM,
@@ -195,7 +197,7 @@ Hooks.once("i18nInit", function() {
     Localization.localizeDataModel(model);
   }
 
-  for (const model of Object.values(artichron.fields.BaseActivity.TYPES)) {
+  for (const model of Object.values(artichron.activities)) {
     Localization.localizeDataModel(model);
     const dmg = model.schema.getField("damage.element");
     if (dmg) Localization.localizeDataModel({schema: dmg}, {prefixes: ["ARTICHRON.ACTIVITY.FIELDS.damage"]});
