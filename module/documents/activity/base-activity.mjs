@@ -276,8 +276,8 @@ export default class BaseActivity extends foundry.abstract.DataModel {
     // Consume pools.
     if (config.pool > 0) {
       const isMonster = actor.type === "monster";
-      const path = `${isMonster ? "danger.pool" : `pools.${this.poolType}`}.value`;
-      const value = foundry.utils.getProperty(actor.system, path);
+      const path = isMonster ? "danger.pool" : `pools.${this.poolType}`;
+      const value = foundry.utils.getProperty(actor.system, `${path}.value`);
       if (value < config.pool) {
         ui.notifications.warn(game.i18n.format("ARTICHRON.ACTIVITY.Warning.NoPool", {
           pool: game.i18n.localize(`ARTICHRON.Pools.${isMonster ? "Danger" : this.poolType.capitalize()}`)
@@ -285,7 +285,7 @@ export default class BaseActivity extends foundry.abstract.DataModel {
         return false;
       }
 
-      actorUpdate[`system.${path}`] = value - config.pool;
+      actorUpdate[`system.${path}.spent`] = foundry.utils.getProperty(actor.system, `${path}.spent`) + config.pool;
     }
 
     return Promise.all([

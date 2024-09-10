@@ -218,18 +218,21 @@ dialog:-internal-dialog-in-top-layer::backdrop {
     right: 4px;
   }
 
-  .message-content {
-    padding: 0.5em;
-  }
-
   .item-details {
-    gap: 1em;
-    display: flex;
+    display: grid;
+    grid-template-rows: 0fr 0fr;
+    transition: grid-template-rows 200ms ease;
     flex-direction: column;
+
+    &.expanded {
+      grid-template-rows: 0fr 1fr;
+    }
 
     .item-header {
       display: flex;
       flex-wrap: wrap;
+      margin: 1rem 0.5rem;
+      cursor: pointer;
 
       .icon {
         width: 40px;
@@ -251,19 +254,13 @@ dialog:-internal-dialog-in-top-layer::backdrop {
           font-size: 10px;
         }
       }
-
-      .description {
-        width: 100%;
-        margin-top: 1em;
-        border-top: 1px dashed rgba(128, 128, 128, 0.459);
-        border-bottom: 1px dashed rgba(128, 128, 128, 0.459);
-      }
     }
 
-    .item-actions {
-      gap: 4px;
-      display: flex;
-      flex-direction: column;
+    .description {
+      overflow: hidden;
+      margin: 0 0.5rem;
+      border-top: 1px dashed rgba(128, 128, 128, 0.459);
+      border-bottom: 1px dashed rgba(128, 128, 128, 0.459);
     }
   }
 }

@@ -154,7 +154,6 @@ export default class TokenTargetElement extends HTMLElement {
   _onActorUpdate(actor) {
     if (actor !== this.actor) return;
     const type = this.dataset.type;
-    console.warn(type);
     const total = (type === "damage") ? this.actor.calculateDamage(this.damages) : this.healing;
     const color = (type === "damage") ? "red" : "green";
     this.setAttribute("style", `--damage-total: "${total}"; --color: ${color}`);

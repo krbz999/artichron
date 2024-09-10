@@ -79,7 +79,7 @@ export default class TeleportActivity extends BaseActivity {
       "system.item": item.uuid,
       "system.targets": [],
       "flags.artichron.usage": config,
-      "flags.artichron.type": this.constructor.metadata.type
+      "flags.artichron.type": TeleportActivity.metadata.type
     };
     ChatMessageArtichron.applyRollMode(messageData, config.rollMode);
     return ChatMessageArtichron.create(messageData);

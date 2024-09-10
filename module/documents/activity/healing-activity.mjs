@@ -86,7 +86,7 @@ export default class HealingActivity extends BaseActivity {
       "system.item": item.uuid,
       "system.targets": Array.from(game.user.targets.map(t => t.actor?.uuid)),
       "flags.artichron.usage": config,
-      "flags.artichron.type": "healing"
+      "flags.artichron.type": HealingActivity.metadata.type
     };
     ChatMessageArtichron.applyRollMode(messageData, config.rollMode);
     return ChatMessageArtichron.create(messageData);

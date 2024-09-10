@@ -403,7 +403,7 @@ export default class ActorArtichron extends Actor {
     for (const id of itemIds) {
       const item = this.items.get(id);
       const activity = item.system.activities.getByType("defend")[0];
-      const message = await activity.rollDefense();
+      const message = await activity.use();
       if (!message) continue;
       value += message.rolls.reduce((acc, roll) => acc + roll.total, 0);
     }

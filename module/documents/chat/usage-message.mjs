@@ -91,6 +91,7 @@ export default class UsageMessageData extends ChatMessageSystemModel {
 
     const itemHeader = document.createElement("DIV");
     itemHeader.classList.add("item-header");
+    itemHeader.addEventListener("click", () => container.classList.toggle("expanded"));
 
     const text = activity?.description ? activity.description : item.system.description.value;
 
@@ -102,9 +103,9 @@ export default class UsageMessageData extends ChatMessageSystemModel {
     <div class="details">
       <span class="title">${item.name}</span>
       ${activity ? `<span class="subtitle">${activity.name}</span>` : ""}
-    </div>
-    ${enriched ? `<div class="description">${enriched}</div>` : ""}`;
+    </div>`;
     container.insertAdjacentElement("beforeend", itemHeader);
+    if (enriched) container.insertAdjacentHTML("beforeend", `<div class="description">${enriched}</div>`);
 
     html.querySelector(".message-content")?.insertAdjacentElement("beforeend", container);
   }
@@ -128,11 +129,12 @@ export default class UsageMessageData extends ChatMessageSystemModel {
 
       if (this.parent.isDamage) {
         ({label, color, icon} = CONFIG.SYSTEM.DAMAGE_TYPES[roll.type]);
-      } else {
-        // healing
+      } else if (this.parent.isHealing) {
         icon = "fa-solid fa-staff-snake";
         label = "ARTICHRON.Healing";
         color = "438364";
+      } else {
+        icon = "fa-solid fa-shield-alt";
       }
 
       const {formula, total, dice} = roll;

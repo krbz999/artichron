@@ -34,6 +34,9 @@ export default class ActivityUseDialog extends foundry.applications.api.Handleba
     healing: {
       template: "systems/artichron/templates/item/activity-use-dialog-healing.hbs"
     },
+    defend: {
+      template: "systems/artichron/templates/item/activity-use-dialog-defend.hbs"
+    },
     area: {
       template: "systems/artichron/templates/item/activity-use-dialog-area.hbs"
     },
@@ -166,6 +169,24 @@ export default class ActivityUseDialog extends foundry.applications.api.Handleba
           field: field,
           legend: game.i18n.localize("ARTICHRON.ActivityUseDialog.HealingLegend"),
           formula: this.activity.healing.formula
+        });
+        break;
+      }
+      case "defend": {
+        context.defend = {show: this.activity.type === "defend"};
+        if (!context.defend.show) break;
+        const field = new foundry.data.fields.NumberField({
+          integer: true,
+          initial: 0,
+          nullable: true,
+          min: 0,
+          label: "ARTICHRON.ActivityUseDialog.DefendLabel",
+          hint: "ARTICHRON.ActivityUseDialog.DefendHint"
+        });
+        Object.assign(context.defend, {
+          legend: game.i18n.localize("ARTICHRON.ActivityUseDialog.DefendLegend"),
+          field: field,
+          formula: this.activity.defend.formula
         });
         break;
       }
