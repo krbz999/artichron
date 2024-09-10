@@ -223,15 +223,17 @@ dialog:-internal-dialog-in-top-layer::backdrop {
     grid-template-rows: 0fr 0fr;
     transition: grid-template-rows 200ms ease;
     flex-direction: column;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
 
-    &.expanded {
+    &.expanded:has(.description) {
       grid-template-rows: 0fr 1fr;
     }
 
     .item-header {
       display: flex;
       flex-wrap: wrap;
-      margin: 1rem 0.5rem;
+      margin: 0 0.5rem;
       cursor: pointer;
 
       .icon {
