@@ -108,16 +108,10 @@ SYSTEM.DAMAGE_TYPE_GROUPS = {
 
 /**
  * @typedef {object} TargetTypeConfig
- * @property {string} label             Displayed label of the targeting type.
- * @property {Set<string>} scale        The properties that can scale with mana.
- * @property {boolean} [ammo]           Whether this is a valid area type for ammo.
- * @property {number[]} [count]         The default count and how much each increase is.
- * @property {number[]} [range]         The default range and how much each increase is.
- * @property {number[]} [distance]      The default distance and how much each increase is.
- * @property {number[]} [width]         The default width and how much each increase is.
- * @property {number[]} [radius]        The default radius and how much each increase is.
- * @property {boolean} [attached]       Is this template type locked to a token during preview?
- * @property {boolean} isArea           Whether this is a target type for individual targets or an area.
+ * @property {string} label           Displayed label of the targeting type.
+ * @property {Set<string>} scale      The properties that can scale with mana.
+ * @property {boolean} isAttached     Is this template type locked to a token during preview?
+ * @property {boolean} isArea         Whether this is a target type for individual targets or an area.
  */
 
 /**
@@ -129,48 +123,37 @@ SYSTEM.TARGET_TYPES = {
   self: {
     label: "ARTICHRON.TargetTypes.Self",
     scale: new Set(),
+    isAttached: false,
     isArea: false
   },
   single: {
     label: "ARTICHRON.TargetTypes.SingleTarget",
     scale: new Set(["count", "range"]),
-    count: [1, 1],
-    range: [6, 2],
+    isAttached: false,
     isArea: false
   },
   ray: {
     label: "ARTICHRON.TargetTypes.AreaRay",
     scale: new Set(["count", "size", "width"]),
-    ammo: true,
-    count: [1, 1],
-    size: [4, 2],
-    width: [1, 1],
-    attached: true,
+    isAttached: true,
     isArea: true
   },
   cone: {
     label: "ARTICHRON.TargetTypes.AreaCone",
     scale: new Set(["count", "size"]),
-    ammo: true,
-    count: [1, 1],
-    size: [3, 2],
-    attached: true,
+    isAttached: true,
     isArea: true
   },
   circle: {
     label: "ARTICHRON.TargetTypes.AreaCircle",
     scale: new Set(["count", "size", "range"]),
-    ammo: true,
-    count: [1, 1],
-    size: [1, 1],
-    range: [5, 2],
+    isAttached: false,
     isArea: true
   },
   radius: {
     label: "ARTICHRON.TargetTypes.AreaRadius",
     scale: new Set(["size"]),
-    size: [2, 1],
-    attached: true,
+    isAttached: true,
     isArea: true
   }
 };

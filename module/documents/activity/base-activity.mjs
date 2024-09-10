@@ -309,7 +309,7 @@ export default class BaseActivity extends foundry.abstract.DataModel {
     const target = {...this.target};
     if (target.type === "radius") target.count = 1;
     if (increase) target.size = target.size + increase;
-    target.attach = CONFIG.SYSTEM.TARGET_TYPES[target.type].attached ?? false;
+    target.attach = CONFIG.SYSTEM.TARGET_TYPES[target.type].isAttached;
 
     for (let i = 0; i < target.count; i++) {
       const templateData = await artichron.canvas.TemplatePlacement.fromToken(token, target, {
@@ -334,24 +334,5 @@ export default class BaseActivity extends foundry.abstract.DataModel {
     const templates = await canvas.scene.createEmbeddedDocuments("MeasuredTemplate", templateDatas);
     initialLayer.activate();
     return templates;
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Data for buttons that will be created in the chat message when using this activity.
-   * @type {object[]}
-   */
-  get chatButtons() {
-    return [
-      this.cost.value ? {
-        action: "cost",
-        label: game.i18n.format("ARTICHRON.ACTIVITY.Buttons.Consume", {number: this.cost.value})
-      } : null,
-      this.hasTemplate ? {
-        action: "template",
-        label: game.i18n.localize("ARTICHRON.ACTIVITY.Buttons.Template")
-      } : null
-    ].filter(u => u);
   }
 }

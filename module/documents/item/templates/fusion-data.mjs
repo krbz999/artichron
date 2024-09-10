@@ -187,6 +187,9 @@ const FusionTemplateMixin = Base => {
           case "damage":
             if (item.type !== "spell") return true;
             break;
+          case "defend":
+            if (!["weapon", "shield"].includes(item.type)) return true;
+            break;
           case "effect":
             return true;
           case "healing":
