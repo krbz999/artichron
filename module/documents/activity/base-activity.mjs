@@ -4,6 +4,7 @@ import ActivitySheet from "../../applications/activity-sheet.mjs";
  * @typedef {object} ActivityMetadata     Activity metadata.
  * @property {string} type                The activity type.
  * @property {string} label               Name of this activity type.
+ * @property {string} icon                Default icon of this activity type.
  */
 
 /**
@@ -21,7 +22,7 @@ import ActivitySheet from "../../applications/activity-sheet.mjs";
  * @property {number} [pool]              The amount to subtract from a relevant pool.
  */
 
-const {HTMLField, NumberField, SchemaField, StringField} = foundry.data.fields;
+const {FilePathField, HTMLField, NumberField, SchemaField, StringField} = foundry.data.fields;
 
 export default class BaseActivity extends foundry.abstract.DataModel {
   /**
@@ -30,7 +31,8 @@ export default class BaseActivity extends foundry.abstract.DataModel {
    */
   static metadata = Object.freeze({
     type: "",
-    label: ""
+    label: "",
+    icon: "systems/artichron/assets/icons/activity.svg"
   });
 
   /* -------------------------------------------------- */
@@ -66,6 +68,10 @@ export default class BaseActivity extends foundry.abstract.DataModel {
         validationError: `Type can only be '${this.metadata.type}'!`
       }),
       name: new StringField({required: true}),
+      img: new FilePathField({
+        categories: ["IMAGE"],
+        initial: () => this.metadata.icon
+      }),
       description: new HTMLField({required: true}),
       cost: new SchemaField({
         value: new NumberField({min: 0, integer: true, nullable: false, initial: 1})

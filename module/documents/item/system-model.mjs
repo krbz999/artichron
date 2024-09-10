@@ -1,3 +1,4 @@
+import ActivitySelectDialog from "../../applications/item/activity-select-dialog.mjs";
 import {ActivitiesField} from "../fields/activity-field.mjs";
 
 const {StringField, SchemaField, HTMLField, NumberField, SetField} = foundry.data.fields;
@@ -87,20 +88,16 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
       ui.notifications.warn("ARTICHRON.ACTIVITY.Warning.NoActivities", {localize: true});
       return;
     }
-    if (activities.size === 1) return activities.contents[0].use();
-    const options = activities.map(a => ({value: a.id, label: a.name, group: a.constructor.metadata.label}));
-    const field = new foundry.data.fields.StringField({required: true, label: "Activity"});
-    const select = field.toFormGroup({}, {localize: true, options: options, name: "activityId"}).outerHTML;
-    const content = `<fieldset>${select}</fieldset>`;
-    const id = await foundry.applications.api.DialogV2.prompt({
-      rejectClose: false,
-      content: content,
-      window: {},
-      position: {width: 350},
-      ok: {callback: (event, button) => button.form.elements.activityId.value}
-    });
-    if (!id) return null;
-    return activities.get(id).use();
+
+    let activity;
+    if (activities.size === 1) activity = activities.contents[0];
+    else {
+      const configuration = await ActivitySelectDialog.create(this.parent);
+      if (configuration) activity = activities.get(configuration.activity);
+    }
+
+    if (activity) return activity.use();
+    return null;
   }
 
   /* -------------------------------------------------- */

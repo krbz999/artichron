@@ -12,6 +12,7 @@ assets/icons/chron.svg
 
 This system includes icon artwork licensed from Game-icons.net under the Creative Commons license. These icons are packaged with and provided for use in this system under their respective licenses, as noted below.
 
+assets/icons/activity.svg - "Divided Spiral" by Lorc under CC BY 3.0
 assets/icons/bleeding.svg - "Bloody Stash" by Lorc under CC BY 3.0
 assets/icons/blind.svg - "Sight Disabled" by Skoll under CC BY 3.0
 assets/icons/bloodied.svg - "Bleeing Heart" by Lorc under CC BY 3.0

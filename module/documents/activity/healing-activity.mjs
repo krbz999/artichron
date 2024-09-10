@@ -25,10 +25,10 @@ const targetField = () => {
 
 export default class HealingActivity extends BaseActivity {
   /** @inheritdoc */
-  static metadata = Object.freeze({
+  static metadata = Object.freeze(foundry.utils.mergeObject(super.metadata, {
     type: "healing",
     label: "ARTICHRON.ACTIVITY.Types.Healing"
-  });
+  }, {inplace: false}));
 
   /* -------------------------------------------------- */
 

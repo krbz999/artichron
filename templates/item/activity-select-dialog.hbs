@@ -1,0 +1,24 @@
+<fieldset>
+  <legend>{{localize "ARTICHRON.ActivitySelectDialog.Legend"}}</legend>
+  <div class="form-fields">
+    {{#each activities}}
+    <label class="checkbox">
+      <input type="radio" name="activity" value="{{id}}" {{checked active}}>
+      <img src="{{img}}" alt="{{name}}">
+      {{name}}
+    </label>
+    {{/each}}
+  </div>
+
+  <hr>
+
+  {{#each activities}}
+  <div class="description {{textCssClass}}" data-id="{{id}}">
+    {{#if enriched}}
+    {{{enriched}}}
+    {{else}}
+    <p>{{localize "ARTICHRON.ActivitySelectDialog.NoDescription"}}</p>
+    {{/if}}
+  </div>
+  {{/each}}
+</fieldset>

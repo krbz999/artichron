@@ -160,6 +160,11 @@ export default class ActivitySheet extends foundry.applications.api.HandlebarsAp
       value: context.activity.name
     };
 
+    context.img = {
+      field: context.activity.schema.getField("img"),
+      value: context.activity.img
+    };
+
     context.description = {
       field: context.activity.schema.getField("description"),
       value: context.activity.description,

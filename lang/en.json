@@ -681,6 +681,9 @@
         "hint": "The formula that will be rolled to perform the healing."
       }
     },
+    "img": {
+      "label": "Image"
+    },
     "name": {
       "label": "Name"
     },
@@ -743,7 +746,6 @@
     "Teleport": "Teleport Activity"
   },
   "Buttons": {
-    "Consume": "Consume {number} AP",
     "Teleport": "Teleport Token",
     "ApplyDamage": "Apply Damage",
     "ApplyEffects": "Apply Effects",
@@ -822,6 +824,12 @@
   "SpecializationSpecializedFacesHint": "A specialized configuration. The pools have a small, medium, and large number of faces.",
   "SpecializationSpecializedSizeHint": "A specialized configuration. The pools have a small, medium, and large amount of dice.",
   "Title": "Configure Pools: {name}"
+},
+
+"ActivitySelectDialog": {
+  "Legend": "Activities",
+  "NoDescription": "No details provided.",
+  "Title": "Select Activity: {name}"
 },
 
 "ActivityUseDialog": {

@@ -1,4 +1,5 @@
 import ActiveEffectSheetArtichron from "./effect/effect-sheet.mjs";
+import ActivitySelectDialog from "./item/activity-select-dialog.mjs";
 import ActivitySheet from "./activity-sheet.mjs";
 import ActivityUseDialog from "./item/activity-use-dialog.mjs";
 import ActorSheetArtichron from "./actor/actor-sheet-base.mjs";
@@ -23,6 +24,7 @@ import TooltipsArtichron from "./tooltips.mjs";
 
 export default {
   ActiveEffectSheetArtichron,
+  ActivitySelectDialog,
   ActivitySheet,
   ActivityUseDialog,
   ActorSheetArtichron,

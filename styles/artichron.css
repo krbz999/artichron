@@ -17,6 +17,7 @@
   --artichron-color-black: rgb(0, 0, 0);
   --artichron-color-black-45: rgba(0, 0, 0, 0.45);
   --artichron-color-gold: #9f9275;
+  --artichron-color-purple: #bb52f5;
 
   --artichron-color-enemy: rgba(255, 97, 144, 0.699);
   --artichron-color-ally: rgba(98, 98, 255, 0.788);
@@ -148,6 +149,12 @@ dialog:-internal-dialog-in-top-layer::backdrop {
     }
 
     & input[type=number] { text-align: center; }
+  }
+
+  /* Fixes to prosemirror */
+  .editor.prosemirror.inactive .editor-content,
+  .editor.prosemirror.active .editor-container {
+    overflow: hidden auto;
   }
 }
 

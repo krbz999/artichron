@@ -527,32 +527,3 @@
     .controls { place-self: end; }
   }
 }
-
-.artichron.application.skills {
-  .form-fields {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-
-    .checkbox {
-      flex-direction: column;
-      height: 100%;
-      cursor: pointer;
-      &:has(:checked) img {
-        opacity: 1;
-        outline: 1px solid var(--artichron-color-gold);
-      }
-
-      & input[type=radio] {
-        display: none;
-      }
-
-      & img {
-        border: none;
-        border-radius: 1rem;
-        opacity: 0.35;
-        filter: sepia(1) hue-rotate(180deg);
-        transition: opacity 150ms ease;
-      }
-    }
-  }
-}

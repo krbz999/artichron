@@ -6,11 +6,10 @@ const {SchemaField, StringField} = foundry.data.fields;
 
 export default class DefendActivity extends BaseActivity {
   /** @inheritdoc */
-  static metadata = Object.freeze({
+  static metadata = Object.freeze(foundry.utils.mergeObject(super.metadata, {
     type: "defend",
-    label: "ARTICHRON.ACTIVITY.Types.Defend",
-    types: new Set(["weapon", "shield", "spell"])
-  });
+    label: "ARTICHRON.ACTIVITY.Types.Defend"
+  }, {inplace: false}));
 
   /* -------------------------------------------------- */
 
