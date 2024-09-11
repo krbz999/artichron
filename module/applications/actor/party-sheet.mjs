@@ -11,11 +11,11 @@ export default class PartySheet extends ActorSheetArtichron {
     position: {width: 650},
     actions: {
       addClock: PartySheet.#addClock,
-      distributeCurrency: PartySheet.#distributeCurrency,
-      distributePoints: PartySheet.#distributePoints,
       clockDelta: PartySheet.#clockDelta,
       createProgression: PartySheet.#createProgression,
       displayActor: PartySheet.#displayActor,
+      distributeCurrency: PartySheet.#distributeCurrency,
+      distributePoints: PartySheet.#distributePoints,
       placeMembers: PartySheet.#placeMembers,
       recallMembers: PartySheet.#recallMembers,
       removeClock: PartySheet.#removeClock,
@@ -323,7 +323,7 @@ export default class PartySheet extends ActorSheetArtichron {
 
   /**
    * Change the currency of a party member.
-   * @param {PointerEvent} event     The originating click event.
+   * @param {PointerEvent} event     The originating change event.
    */
   #changeCurrency(event) {
     const id = event.currentTarget.closest("[data-id]").dataset.id;

@@ -6,11 +6,11 @@ export default class MonsterSheet extends ActorSheetArtichron {
     classes: ["monster"],
     position: {width: 400},
     actions: {
-      changeEquipped: this.#onChangeEquipped,
-      decreaseLoot: this.#onDecreaseLoot,
-      grantLoot: this.#grantLoot,
-      increaseLoot: this.#onIncreaseLoot,
-      removeLoot: this.#onRemoveLoot
+      changeEquipped: MonsterSheet.#onChangeEquipped,
+      decreaseLoot: MonsterSheet.#onDecreaseLoot,
+      grantLoot: MonsterSheet.#grantLoot,
+      increaseLoot: MonsterSheet.#onIncreaseLoot,
+      removeLoot: MonsterSheet.#onRemoveLoot
     }
   };
 
@@ -350,7 +350,7 @@ export default class MonsterSheet extends ActorSheetArtichron {
 
   /**
    * Handle click events to change an equipped item in a particular slot.
-   * @this {HeroSheet}
+   * @this {MonsterSheet}
    * @param {PointerEvent} event      The originating click event.
    * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
    */

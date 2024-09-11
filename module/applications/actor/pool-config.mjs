@@ -1,6 +1,6 @@
-const {HandlebarsApplicationMixin, DocumentSheetV2} = foundry.applications.api;
-
-export default class PoolConfig extends HandlebarsApplicationMixin(DocumentSheetV2) {
+export default class PoolConfig extends foundry.applications.api.HandlebarsApplicationMixin(
+  foundry.applications.api.DocumentSheetV2
+) {
   /** @override */
   static DEFAULT_OPTIONS = {
     classes: ["artichron"],
@@ -84,7 +84,7 @@ export default class PoolConfig extends HandlebarsApplicationMixin(DocumentSheet
     const isConfigured = (faces.size > 1) || (faces.first() !== 4);
 
     if (isConfigured) {
-      // throw new Error("Dice pools have already been configured on this actor.");
+      throw new Error("Dice pools have already been configured on this actor.");
     }
 
     return context;

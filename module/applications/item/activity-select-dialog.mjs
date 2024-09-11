@@ -12,7 +12,8 @@ export default class ActivitySelectDialog extends foundry.applications.api.Handl
   static DEFAULT_OPTIONS = {
     classes: ["artichron", "activity-select-dialog"],
     form: {
-      handler: ActivitySelectDialog.#submit
+      handler: ActivitySelectDialog.#submit,
+      closeOnSubmit: true
     },
     position: {
       width: 400
@@ -120,6 +121,7 @@ export default class ActivitySelectDialog extends foundry.applications.api.Handl
   /* -------------------------------------------------- */
 
   /**
+   * Handle form submission.
    * @this {ActivitySelectDialog}
    * @param {SubmitEvent} event             The originating submit event.
    * @param {HTMLElement} html              The form element.
@@ -128,7 +130,6 @@ export default class ActivitySelectDialog extends foundry.applications.api.Handl
   static #submit(event, html, formData) {
     const config = foundry.utils.expandObject(formData.object);
     this.#config = config;
-    this.close();
   }
 
   /* -------------------------------------------------- */

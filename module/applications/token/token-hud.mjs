@@ -7,8 +7,8 @@ export default class TokenHUDArtichron extends CONFIG.Token.hudClass {
     for (const [statusId, v] of Object.entries(CONFIG.SYSTEM.STATUS_CONDITIONS)) {
       if (!v.levels || !(v.levels > 1) || !v.hud) continue;
       const img = html.querySelector(`[data-status-id="${statusId}"]`);
-      img.addEventListener("click", this._onClickLeveledCondition.bind(this));
-      img.addEventListener("contextmenu", this._onContextLeveledCondition.bind(this));
+      img.addEventListener("click", this.#onClickLeveledCondition.bind(this));
+      img.addEventListener("contextmenu", this.#onContextLeveledCondition.bind(this));
 
       const id = artichron.utils.staticId(statusId);
       const effect = this.object?.actor?.effects.get(id);
@@ -22,7 +22,7 @@ export default class TokenHUDArtichron extends CONFIG.Token.hudClass {
    * Override the click events of the token hud for conditions with levels.
    * @param {PointerEvent} event     The originating click event.
    */
-  _onClickLeveledCondition(event) {
+  #onClickLeveledCondition(event) {
     const target = event.currentTarget;
     const statusId = target.dataset.statusId;
     if (!target.classList.contains("active")) return;
@@ -40,7 +40,7 @@ export default class TokenHUDArtichron extends CONFIG.Token.hudClass {
    * Override the right-click events of the token hud for conditions with levels.
    * @param {PointerEvent} event     The originating click event.
    */
-  _onContextLeveledCondition(event) {
+  #onContextLeveledCondition(event) {
     event.preventDefault();
     event.stopImmediatePropagation();
     const target = event.currentTarget;

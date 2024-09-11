@@ -10,13 +10,11 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
       height: "auto"
     },
     actions: {
-      addDamage: this._onAddDamage,
-      deleteDamage: this._onDeleteDamage,
-      undoFusion: this._onUndoFusion,
       addRequirement: ItemSheetArtichron.#addRequirement,
-      deleteRequirement: ItemSheetArtichron.#deleteRequirement,
       createActivity: ItemSheetArtichron.#createActivity,
-      renderActivity: ItemSheetArtichron.#renderActivity
+      deleteRequirement: ItemSheetArtichron.#deleteRequirement,
+      renderActivity: ItemSheetArtichron.#renderActivity,
+      undoFusion: ItemSheetArtichron.#onUndoFusion
     }
   };
 
@@ -275,44 +273,12 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
   /* -------------------------------------------------- */
 
   /**
-   * Handle click events to add a new damage formula.
-   * @param {PointerEvent} event      The originating click event.
-   * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
-   */
-  static _onAddDamage(event, target) {
-    if (!this.isEditable) return;
-    const type = (this.document.type === "spell") ? "fire" : "physical";
-    const parts = this.document.system.toObject().damage.parts.concat([{
-      type: type,
-      formula: "",
-      id: foundry.utils.randomID()
-    }]);
-    this.document.update({"system.damage.parts": parts});
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Handle click events to remove a particular damage formula.
-   * @param {PointerEvent} event      The originating click event.
-   * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
-   */
-  static _onDeleteDamage(event, target) {
-    if (!this.isEditable) return;
-    const id = target.closest("[data-id]").dataset.id;
-    const parts = this.document.system.toObject().damage.parts;
-    parts.findSplice(d => d.id === id);
-    this.document.update({"system.damage.parts": parts});
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
    * Handle click events to unfuse this item.
+   * @this {ItemSheetArtichron}
    * @param {PointerEvent} event      The originating click event.
    * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
    */
-  static async _onUndoFusion(event, target) {
+  static async #onUndoFusion(event, target) {
     if (!this.isEditable) return;
     const effect = await fromUuid(target.closest("[data-item-uuid]").dataset.itemUuid);
     effect.unfuseDialog();
@@ -322,6 +288,7 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
 
   /**
    * Handle click events to add an armor requirement.
+   * @this {ItemSheetArtichron}
    * @param {PointerEvent} event      The originating click event.
    * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
    */
@@ -338,6 +305,7 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
 
   /**
    * Handle click events to remove an armor requirement.
+   * @this {ItemSheetArtichron}
    * @param {PointerEvent} event      The originating click event.
    * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
    */

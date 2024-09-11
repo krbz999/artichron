@@ -15,9 +15,9 @@ export default class HeroSheet extends ActorSheetArtichron {
     classes: ["hero"],
     position: {width: 510, height: 800},
     actions: {
-      rollSkill: this.#onRollSkill,
-      rollPool: this.#onRollPool,
-      changeEquipped: this.#onChangeEquipped
+      changeEquipped: HeroSheet.#onChangeEquipped,
+      rollPool: HeroSheet.#onRollPool,
+      rollSkill: HeroSheet.#onRollSkill
     }
   };
 

@@ -27,14 +27,14 @@ const ArtichronSheetMixin = Base => {
       window: {contentClasses: ["standard-form"]},
       form: {submitOnChange: true},
       actions: {
-        editImage: DocumentSheetArtichron.#onEditImage,
-        toggleSheet: DocumentSheetArtichron.#onToggleSheet,
-        toggleOpacity: DocumentSheetArtichron.#ontoggleOpacity,
-        toggleEffect: DocumentSheetArtichron.#onToggleEffect,
-        editEffect: DocumentSheetArtichron.#onEditEffect,
-        deleteEffect: DocumentSheetArtichron.#onDeleteEffect,
         createEffect: DocumentSheetArtichron.#onCreateEffect,
-        toggleDescription: DocumentSheetArtichron.#onToggleDescription
+        deleteEffect: DocumentSheetArtichron.#onDeleteEffect,
+        editEffect: DocumentSheetArtichron.#onEditEffect,
+        editImage: DocumentSheetArtichron.#onEditImage,
+        toggleDescription: DocumentSheetArtichron.#onToggleDescription,
+        toggleEffect: DocumentSheetArtichron.#onToggleEffect,
+        toggleOpacity: DocumentSheetArtichron.#ontoggleOpacity,
+        toggleSheet: DocumentSheetArtichron.#onToggleSheet
       }
     };
 

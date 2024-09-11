@@ -7,8 +7,8 @@ export default class EffectSheetArtichron extends ArtichronSheetMixin(foundry.ap
     classes: ["effect"],
     position: {width: 500, height: "auto"},
     actions: {
-      addChange: this.#onAddChange,
-      deleteChange: this.#onDeleteChange
+      addChange: EffectSheetArtichron.#onAddChange,
+      deleteChange: EffectSheetArtichron.#onDeleteChange
     }
   };
 

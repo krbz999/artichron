@@ -8,7 +8,8 @@ export default class RollConfigurationDialog extends foundry.applications.api.Ha
   static DEFAULT_OPTIONS = {
     classes: ["artichron", "roll-configuration-dialog"],
     form: {
-      handler: RollConfigurationDialog.#submit
+      handler: RollConfigurationDialog.#submit,
+      closeOnSubmit: true
     },
     position: {
       width: 400,
@@ -103,6 +104,7 @@ export default class RollConfigurationDialog extends foundry.applications.api.Ha
   /* -------------------------------------------------- */
 
   /**
+   * Handle form submission.
    * @this {RollConfigurationDialog}
    * @param {SubmitEvent} event             The originating submit event.
    * @param {HTMLElement} html              The form element.
@@ -110,7 +112,6 @@ export default class RollConfigurationDialog extends foundry.applications.api.Ha
    */
   static #submit(event, html, formData) {
     this.#config = foundry.utils.expandObject(formData.object);
-    this.close();
   }
 
   /* -------------------------------------------------- */

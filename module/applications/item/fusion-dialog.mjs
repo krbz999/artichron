@@ -12,8 +12,7 @@ export default class ItemFusionDialog extends HandlebarsApplicationMixin(Applica
     },
     position: {width: 400},
     form: {
-      handler: this.#onSubmitForm,
-      submitOnChange: false,
+      handler: ItemFusionDialog.#onSubmitForm,
       closeOnSubmit: true
     }
   };
@@ -49,6 +48,24 @@ export default class ItemFusionDialog extends HandlebarsApplicationMixin(Applica
    * @type {ItemArtichron}
    */
   #item = null;
+
+  /* -------------------------------------------------- */
+
+  /**
+   * The resolved configuration.
+   * @type {object|null}
+   */
+  #config = null;
+
+  /* -------------------------------------------------- */
+
+  /**
+   * The resolved configuration.
+   * @type {object|null}
+   */
+  get config() {
+    return this.#config ?? null;
+  }
 
   /* -------------------------------------------------- */
 
@@ -185,8 +202,7 @@ export default class ItemFusionDialog extends HandlebarsApplicationMixin(Applica
    */
   static #onSubmitForm() {
     const data = {itemId: this.#selectedTarget, effectId: this.#selectedFusion};
-    if (this.options.resolve) this.options.resolve(data);
-    else return data;
+    this.#config = data;
   }
 
   /* -------------------------------------------------- */
@@ -196,13 +212,13 @@ export default class ItemFusionDialog extends HandlebarsApplicationMixin(Applica
   /**
    * Create an asynchronous instance of this application.
    * @param {ItemArtichron} item      The item being fused onto another.
-   * @returns {Promise<any>}          The relevant ids, or null if the application is closed.
+   * @returns {Promise}               The relevant ids, or null if the application is closed.
    */
   static async create(item) {
     return new Promise(resolve => {
-      const dialog = new this({item, resolve});
-      dialog.addEventListener("close", () => resolve(null), {once: true});
-      dialog.render({force: true});
+      const application = new this({item});
+      application.addEventListener("close", () => resolve(application.config), {once: true});
+      application.render({force: true});
     });
   }
 }

@@ -13,7 +13,8 @@ export default class ActivityUseDialog extends foundry.applications.api.Handleba
   static DEFAULT_OPTIONS = {
     classes: ["artichron", "activity-use-dialog"],
     form: {
-      handler: ActivityUseDialog.#submit
+      handler: ActivityUseDialog.#submit,
+      closeOnSubmit: true
     },
     position: {
       width: 400
@@ -303,7 +304,6 @@ export default class ActivityUseDialog extends foundry.applications.api.Handleba
     }
 
     this.#config = config;
-    this.close();
   }
 
   /* -------------------------------------------------- */

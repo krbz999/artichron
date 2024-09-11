@@ -8,14 +8,14 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
     position: {height: 700},
     window: {resizable: true},
     actions: {
-      createItem: this._onCreateItem,
-      useItem: this._onUseItem,
-      editItem: this._onEditItem,
-      favoriteItem: this._onFavoriteItem,
-      deleteItem: this._onDeleteItem,
-      recoverHealth: this._onRecoverHealth,
-      toggleConfig: this._onToggleConfig,
-      fuseItem: this._onFuseItem
+      createItem: ActorSheetArtichron.#onCreateItem,
+      useItem: ActorSheetArtichron.#onUseItem,
+      editItem: ActorSheetArtichron.#onEditItem,
+      favoriteItem: ActorSheetArtichron.#onFavoriteItem,
+      deleteItem: ActorSheetArtichron.#onDeleteItem,
+      recoverHealth: ActorSheetArtichron.#onRecoverHealth,
+      toggleConfig: ActorSheetArtichron.#onToggleConfig,
+      fuseItem: ActorSheetArtichron.#onFuseItem
     }
   };
 
@@ -40,7 +40,7 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
     if (!this.isEditable) return;
 
     this.element.querySelectorAll("[data-action=updateEmbedded]").forEach(n => {
-      n.addEventListener("change", this._onUpdateEmbedded.bind(this));
+      n.addEventListener("change", this.#onUpdateEmbedded.bind(this));
     });
   }
 
@@ -50,10 +50,11 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
 
   /**
    * Handle click events to create an item.
+   * @this {ActorSheetArtichron}
    * @param {PointerEvent} event      The originating click event.
    * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
    */
-  static _onCreateItem(event, target) {
+  static #onCreateItem(event, target) {
     if (!this.isEditable) return;
     const section = target.dataset.section;
     const types = section ? Object.entries(CONFIG.Item.dataModels).reduce((acc, [type, cls]) => {
@@ -69,10 +70,11 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
 
   /**
    * Handle click events to use an item.
+   * @this {ActorSheetArtichron}
    * @param {PointerEvent} event      The originating click event.
    * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
    */
-  static async _onUseItem(event, target) {
+  static async #onUseItem(event, target) {
     if (!this.isEditable) return;
     event.stopPropagation();
     const uuid = target.closest("[data-item-uuid]").dataset.itemUuid;
@@ -84,10 +86,11 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
 
   /**
    * Handle click events to render an item's sheet.
+   * @this {ActorSheetArtichron}
    * @param {PointerEvent} event      The originating click event.
    * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
    */
-  static async _onEditItem(event, target) {
+  static async #onEditItem(event, target) {
     const uuid = target.closest("[data-item-uuid]").dataset.itemUuid;
     const item = await fromUuid(uuid);
     item.sheet.render(true);
@@ -97,10 +100,11 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
 
   /**
    * Handle click events to delete an item.
+   * @this {ActorSheetArtichron}
    * @param {PointerEvent} event      The originating click event.
    * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
    */
-  static async _onDeleteItem(event, target) {
+  static async #onDeleteItem(event, target) {
     if (!this.isEditable) return;
     const uuid = target.closest("[data-item-uuid]").dataset.itemUuid;
     const item = await fromUuid(uuid);
@@ -111,10 +115,11 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
 
   /**
    * Handle click events to toggle an item's Favorited state.
+   * @this {ActorSheetArtichron}
    * @param {PointerEvent} event      The originating click event.
    * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
    */
-  static async _onFavoriteItem(event, target) {
+  static async #onFavoriteItem(event, target) {
     if (!this.isEditable) return;
     const uuid = target.closest("[data-item-uuid]").dataset.itemUuid;
     const item = await fromUuid(uuid);
@@ -127,7 +132,7 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
    * Handle the change events on input fields that should propagate to the embedded document.
    * @param {PointerEvent} event      The originating click event..
    */
-  async _onUpdateEmbedded(event) {
+  async #onUpdateEmbedded(event) {
     if (!this.isEditable) return;
     const target = event.currentTarget;
     const property = target.dataset.property;
@@ -145,10 +150,11 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
 
   /**
    * Handle click events to render a configuration menu.
+   * @this {ActorSheetArtichron}
    * @param {PointerEvent} event      The originating click event.
    * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
    */
-  static _onToggleConfig(event, target) {
+  static #onToggleConfig(event, target) {
     if (!this.isEditable) return;
     let Cls;
     switch (target.dataset.trait) {
@@ -161,10 +167,11 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
 
   /**
    * Handle click events to restore the actor's hit points and other resources.
+   * @this {ActorSheetArtichron}
    * @param {PointerEvent} event      The originating click event.
    * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
    */
-  static _onRecoverHealth(event, target) {
+  static #onRecoverHealth(event, target) {
     if (!this.isEditable) return;
     this.document.recover();
   }
@@ -173,10 +180,11 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
 
   /**
    * Handle click events to fuse one item onto another.
+   * @this {ActorSheetArtichron}
    * @param {PointerEvent} event      The originating click event.
    * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
    */
-  static async _onFuseItem(event, target) {
+  static async #onFuseItem(event, target) {
     if (!this.isEditable) return;
     const uuid = target.closest("[data-item-uuid]").dataset.itemUuid;
     const item = await fromUuid(uuid);
