@@ -111,8 +111,7 @@
   "Progression": "Progression",
   "Properties": "Properties",
   "Requirements": "Requirements",
-  "Skills": "Skills",
-  "Stock": "Stock"
+  "Skills": "Skills"
 },
 
 "SheetActions": {
@@ -305,6 +304,9 @@
         "bonus": { "label": "Spirit Bonus" },
         "number": { "label": "Spirit Dice" }
       }
+    },
+    "shop": {
+      "label": "Shop"
     }
   },
   "Progression": {

@@ -1,5 +1,7 @@
 import ActorSystemModel from "./system-model.mjs";
 
+const {HTMLField, SchemaField, StringField} = foundry.data.fields;
+
 export default class MerchantData extends ActorSystemModel {
   /**
    * Metadata for this data model.
@@ -8,6 +10,18 @@ export default class MerchantData extends ActorSystemModel {
   static metadata = Object.freeze({
     type: "merchant"
   });
+
+  /* -------------------------------------------------- */
+
+  /** @override */
+  static defineSchema() {
+    return Object.assign(super.defineSchema(), {
+      shop: new StringField({required: true}),
+      biography: new SchemaField({
+        value: new HTMLField({required: true})
+      })
+    });
+  }
 
   /* -------------------------------------------------- */
   /*   Preparation methods                              */

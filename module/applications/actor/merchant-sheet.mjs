@@ -6,18 +6,22 @@ export default class MerchantSheet extends ActorSheetArtichron {
     classes: ["merchant"],
     viewPermission: CONST.DOCUMENT_OWNERSHIP_LEVELS.NONE,
     sheetConfig: false,
-    position: {width: 1000}
+    position: {
+      width: 1000,
+      height: 1000
+    }
   };
 
   /* -------------------------------------------------- */
 
   /** @override */
   static PARTS = {
-    unstaged: {
-      template: "systems/artichron/templates/actor/merchant-unstaged.hbs"
+    header: {
+      template: "systems/artichron/templates/actor/merchant-header.hbs"
     },
-    staged: {
-      template: "systems/artichron/templates/actor/merchant-staged.hbs"
+    trading: {
+      template: "systems/artichron/templates/actor/merchant-trading.hbs",
+      scrollable: [".stock", ".cart", ".config"]
     }
   };
 
@@ -35,6 +39,29 @@ export default class MerchantSheet extends ActorSheetArtichron {
 
     context.actor = this.document;
     context.items = await this._prepareItems();
+    context.isOwner = this.document.isOwner;
+    context.name = {
+      field: this.document.schema.getField("name"),
+      value: this.document.name,
+      label: game.i18n.localize("Name")
+    };
+    context.img = {
+      field: this.document.schema.getField("img"),
+      value: this.document.img,
+      label: game.i18n.localize("Image")
+    };
+    context.bio = {
+      field: this.document.system.schema.getField("biography.value"),
+      value: this.document.system.biography.value,
+      enriched: await TextEditor.enrichHTML(this.document.system.biography.value, {
+        rollData: this.document.getRollData(), relativeTo: this.document
+      })
+    };
+    context.shop = {
+      field: this.document.system.schema.getField("shop"),
+      value: this.document.system.shop
+    };
+    context.label = context.shop.value || this.document.name;
 
     return context;
   }
@@ -91,8 +118,8 @@ export default class MerchantSheet extends ActorSheetArtichron {
 
     // Staging an item.
     const stageDrop = new DragDrop({
-      dragSelector: ".stock-area inventory-item",
-      dropSelector: ".stage-area",
+      dragSelector: ".stock inventory-item",
+      dropSelector: ".cart",
       permissions: {
         dragstart: () => true,
         drop: () => !isLocked()
@@ -111,8 +138,8 @@ export default class MerchantSheet extends ActorSheetArtichron {
 
     // Unstaging an item.
     const unstageDrop = new DragDrop({
-      dragSelector: ".stage-area inventory-item",
-      dropSelector: ".stock-area",
+      dragSelector: ".cart inventory-item",
+      dropSelector: ".stock",
       permissions: {
         dragstart: () => true,
         drop: () => !isLocked()
