@@ -1,5 +1,4 @@
 import ActorSystemModel from "./system-model.mjs";
-import ChatMessageArtichron from "../chat-message.mjs";
 import PartyDistributionDialog from "../../applications/actor/party-distribution-dialog.mjs";
 
 const {
@@ -49,6 +48,8 @@ export default class PartyData extends ActorSystemModel {
     schema.points = new SchemaField({
       value: new NumberField({min: 0, integer: true})
     });
+
+    schema.currency.fields.award = new NumberField({integer: true, min: 0, initial: 0, nullable: false});
 
     return schema;
   }
@@ -197,9 +198,15 @@ export default class PartyData extends ActorSystemModel {
 
     const updates = [];
     for (const actor of actors) {
-      updates.push({_id: actor.id, "system.currency.chron": actor.system.currency.chron + amount});
+      if (actor.id === party.id) continue;
+      const path = "system.currency.funds";
+      const value = foundry.utils.getProperty(actor, path);
+      updates.push({_id: actor.id, [path]: value + amount});
     }
-    updates.push({_id: party.id, "system.currency.chron": party.system.currency.chron - amount * actors.length});
+
+    const partyUpdate = {_id: party.id, "system.currency.award": party.system.currency.award - amount * actors.length};
+    if (actors.includes(party)) partyUpdate["system.currency.funds"] = party.system.currency.funds + amount;
+    updates.push(partyUpdate);
 
     for (const actor of actors) {
       const content = game.i18n.format("ARTICHRON.PartyDistributionDialog.ContentCurrency", {
@@ -208,11 +215,11 @@ export default class PartyData extends ActorSystemModel {
       ChatMessage.implementation.create({
         whisper: game.users.filter(u => actor.testUserPermission(u, "OWNER")).map(u => u.id),
         content: `<p>${content}</p>`,
-        speaker: ChatMessageArtichron.getSpeaker({actor: party})
+        speaker: ChatMessage.implementation.getSpeaker({actor: party})
       });
     }
 
-    Actor.updateDocuments(updates);
+    Actor.implementation.updateDocuments(updates);
   }
 
   /* -------------------------------------------------- */
@@ -255,10 +262,10 @@ export default class PartyData extends ActorSystemModel {
       ChatMessage.implementation.create({
         whisper: game.users.filter(u => actor.testUserPermission(u, "OWNER")).map(u => u.id),
         content: `<p>${content}</p>`,
-        speaker: ChatMessageArtichron.getSpeaker({actor: party})
+        speaker: ChatMessage.implementation.getSpeaker({actor: party})
       });
     }
 
-    Actor.updateDocuments(updates);
+    Actor.implementation.updateDocuments(updates);
   }
 }

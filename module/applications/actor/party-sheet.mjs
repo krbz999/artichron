@@ -173,13 +173,17 @@ export default class PartySheet extends ActorSheetArtichron {
 
     const distributions = {
       currency: {
-        value: this.document.system.currency.chron,
-        disabled: !game.user.isGM || !this.document.system.currency.chron || !this.isEditable
+        value: this.document.system.currency.award,
+        disabled: !game.user.isGM || !this.document.system.currency.award || !this.isEditable
       },
       points: {
         value: this.document.system.points.value,
         disabled: !game.user.isGM || !this.document.system.points.value || !this.isEditable
       }
+    };
+
+    context.funds = {
+      value: this.document.system.currency.funds
     };
 
     context.actors = members;
@@ -329,7 +333,7 @@ export default class PartySheet extends ActorSheetArtichron {
     const id = event.currentTarget.closest("[data-id]").dataset.id;
     const actor = this.document.system.members.find(m => m.actor.id === id).actor;
     const result = artichron.utils.parseInputDelta(event.currentTarget, actor);
-    if (result !== undefined) actor.update({"system.currency.chron": result});
+    if (result !== undefined) actor.update({"system.currency.funds": result});
   }
 
   /* -------------------------------------------------- */

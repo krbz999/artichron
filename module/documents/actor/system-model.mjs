@@ -5,7 +5,7 @@ export default class ActorSystemModel extends foundry.abstract.TypeDataModel {
   static defineSchema() {
     return {
       currency: new SchemaField({
-        chron: new NumberField({nullable: false, initial: 0, step: 1, min: 0})
+        funds: new NumberField({integer: true, min: 0, initial: 0, nullable: false})
       })
     };
   }

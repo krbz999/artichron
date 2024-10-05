@@ -1,12 +1,13 @@
 <div class="{{tabs.members.tabCssClass}}" data-group="primary" data-tab="members">
+  {{#if isGM}}
   <fieldset class="awards">
     <legend>{{localize "ARTICHRON.SheetTab.Awards"}}</legend>
     <div class="form-group">
       <label>
         <span>{{localize "ARTICHRON.SheetTab.Currency"}}</span>
-        <img class="icon" src="systems/artichron/assets/icons/chron.svg" alt="">
+        <img class="icon" src="systems/artichron/assets/icons/chron.svg" alt="Chron">
       </label>
-      <input type="text" name="system.currency.chron" class="delta" value="{{distributions.currency.value}}" {{disabled (not isEditable)}}>
+      <input type="text" name="system.currency.award" class="delta" value="{{distributions.currency.value}}" {{disabled (not isEditable)}}>
       <button type="button" data-action="distributeCurrency" {{disabled distributions.currency.disabled}}>
         <i class="fa-solid fa-fw fa-medal"></i>
         <span>{{localize "ARTICHRON.SheetActions.Distribute"}}</span>
@@ -19,6 +20,18 @@
         <i class="fa-solid fa-fw fa-cube"></i>
         <span>{{localize "ARTICHRON.SheetActions.Distribute"}}</span>
       </button>
+    </div>
+  </fieldset>
+  {{/if}}
+
+  <fieldset class="funds">
+    <legend>{{localize "ARTICHRON.SheetTab.Funds"}}</legend>
+    <div class="form-group">
+      <label>
+        <span>{{localize "ARTICHRON.SheetTab.Currency"}}</span>
+        <img src="systems/artichron/assets/icons/chron.svg" alt="Chron" class="icon">
+      </label>
+      <input type="text" name="system.currency.funds" class="delta" value="{{funds.value}}" {{disabled (not isEditable)}}>
     </div>
   </fieldset>
 
@@ -58,7 +71,7 @@
         </div>
         <span class="currency">
           <img class="icon" src="systems/artichron/assets/icons/chron.svg" alt="">
-          <input type="text" id="currency-{{@root.document.id}}-{{actor.id}}" class="delta" value="{{actor.system.currency.chron}}" {{#if isOwner}} data-change="changeCurrency" data-property="system.currency.chron" {{else}} disabled {{/if}}>
+          <input type="text" id="currency-{{@root.document.id}}-{{actor.id}}" class="delta" value="{{actor.system.currency.funds}}" {{#if isOwner}} data-change="changeCurrency" data-property="system.currency.funds" {{else}} disabled {{/if}}>
         </span>
         {{#if isHero}}
         <button type="button" data-action="createProgression" class="points" {{disabled (not isOwner)}}>

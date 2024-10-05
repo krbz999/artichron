@@ -76,6 +76,12 @@
   "Shell": "Shotgun Shell"
 },
 
+"Purchase": {
+  "Checkout": "Checkout",
+  "Receipt": "Receipt",
+  "Summary": "The members of {name} spent {total} at {shop} on the following items:"
+},
+
 "SheetTab": {
   "About": "About",
   "Actions": "Actions",
@@ -99,6 +105,7 @@
   "Effects": "Effects",
   "Equipment": "Equipment",
   "Favorites": "Favorites",
+  "Funds": "Funds",
   "Fusion": "Fusion",
   "Gear": "Gear",
   "Identity": "Identity",
@@ -196,8 +203,8 @@
     },
     "currency": {
       "label": "Currencies",
-      "chron": {
-        "label": "Chron"
+      "funds": {
+        "label": "Funds"
       }
     },
     "danger": {
@@ -866,7 +873,7 @@
   "ContentPoints": "{name} has been distributed {amount} points.",
   "amount": {
     "label": "Amount",
-    "hintCurrency": "The amount of chrons to distribute. Each recipient will receive this amount.",
+    "hintCurrency": "The amount of funds to distribute. Each recipient will receive this amount.",
     "hintPoints": "The amount of points to distribute. Each recipient will receive this amount."
   },
   "targets": {

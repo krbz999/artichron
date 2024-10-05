@@ -3,7 +3,7 @@
   <fieldset class="stock">
     <legend>{{localize "ARTICHRON.SheetTab.Stock"}}</legend>
     {{#each stock}}
-    <div class="inventory-list">
+    <div class="inventory-list compact">
       <header>
         <span class="label">{{label}}</span>
       </header>
@@ -14,11 +14,19 @@
 
   <fieldset class="cart">
     <legend>{{localize "ARTICHRON.SheetTab.Cart"}}</legend>
-    <div class="inventory-list">
-      {{#each cart}}
-      {{inventoryItem item enriched=enriched disabled=true}}
-      {{/each}}
+    <div class="contents">
+      <div class="inventory-list compact">
+        {{#each cart}}
+        {{inventoryItem item enriched=enriched disabled=true}}
+        {{/each}}
+      </div>
     </div>
+    {{#if isGM}}
+    <button type="button" data-action="checkout">
+      <i class="fa-solid fa-cart-shopping"></i>
+      {{localize "ARTICHRON.Purchase.Checkout"}}
+    </button>
+    {{/if}}
   </fieldset>
 
 </div>

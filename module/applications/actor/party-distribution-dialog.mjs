@@ -131,10 +131,11 @@ export default class PartyDistributionDialog extends foundry.applications.api.Ha
       if ((this.options.type === "currency") || (a.type === "hero")) acc[a.id] = a.name;
       return acc;
     }, {});
+    if (this.options.type === "currency") choices[this.#party.id] = this.#party.name;
 
     if (!this.#targets) this.#targets = new Set(Object.keys(choices));
 
-    const chron = (this.options.type === "currency") ? this.#party.system.currency.chron : this.#party.system.points.value;
+    const funds = (this.options.type === "currency") ? this.#party.system.currency.award : this.#party.system.points.value;
     const divisor = Math.max(1, this.#targets.size);
 
     context.formGroups.push({
@@ -142,7 +143,7 @@ export default class PartyDistributionDialog extends foundry.applications.api.Ha
         nullable: false,
         min: 1,
         step: 1,
-        max: Math.max(1, Math.floor(chron / divisor)),
+        max: Math.max(1, Math.floor(funds / divisor)),
         label: "ARTICHRON.PartyDistributionDialog.amount.label",
         hint: `ARTICHRON.PartyDistributionDialog.amount.hint${this.options.type.capitalize()}`
       }),
@@ -160,7 +161,7 @@ export default class PartyDistributionDialog extends foundry.applications.api.Ha
     });
 
     context.footer = {
-      disabled: !this.#targets.size || (chron / divisor < 1),
+      disabled: !this.#targets.size || (funds / divisor < 1),
       icon: "fa-solid fa-check",
       label: "Confirm"
     };

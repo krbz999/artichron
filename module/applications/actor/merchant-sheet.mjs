@@ -12,7 +12,8 @@ export default class MerchantSheet extends ActorSheetArtichron {
       height: 1000
     },
     actions: {
-      configure: MerchantSheet.#configure
+      configure: MerchantSheet.#configure,
+      checkout: MerchantSheet.#checkout
     }
   };
 
@@ -25,7 +26,7 @@ export default class MerchantSheet extends ActorSheetArtichron {
     },
     trading: {
       template: "systems/artichron/templates/actor/merchant-trading.hbs",
-      scrollable: [".stock", ".cart"]
+      scrollable: [".stock", ".cart .contents"]
     }
   };
 
@@ -48,6 +49,7 @@ export default class MerchantSheet extends ActorSheetArtichron {
     context.actor = this.document;
     context.isOwner = this.document.isOwner;
     context.label = this.document.system.shop || this.document.name;
+    context.isGM = game.user.isGM;
     return context;
   }
 
@@ -164,4 +166,17 @@ export default class MerchantSheet extends ActorSheetArtichron {
     if (!this.document.isOwner) return;
     new MerchantConfigurationDialog({document: this.document}).render({force: true});
   }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Finalize the purchase.
+   * @this {MerchantSheet}
+   * @param {PointerEvent} event      The originating click event.
+   * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
+   */
+  static #checkout(event, target) {
+    this.document.system.finalizePurchase();
+  }
+
 }

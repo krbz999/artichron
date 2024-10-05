@@ -1,3 +1,5 @@
+import ActorArtichron from "../actor.mjs";
+import ItemArtichron from "../item.mjs";
 import ActorSystemModel from "./system-model.mjs";
 
 const {HTMLField, SchemaField, StringField} = foundry.data.fields;
@@ -61,6 +63,59 @@ export default class MerchantData extends ActorSystemModel {
       await this.parent.setFlag("artichron", "stagedItems", Array.from(items).map(k => k.id));
     }
     return bool;
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Complete the purchase of any items in the cart.
+   * @returns {Promise<ItemArtichron[]>}      A promise that resolves to the purchased, created items.
+   */
+  async finalizePurchase() {
+    const items = this.stagedItems;
+    if (!items.size) return;
+
+    const party = game.settings.get("artichron", "primaryParty").actor;
+    if (!this.parent.isOwner || !party?.isOwner) {
+      throw new Error("You must be owner of both the primary party and the merchant to finalize a purchase!");
+    }
+
+    const total = items.reduce((acc, item) => acc + item.system.price.value, 0);
+    const funds = party.system.currency.funds;
+    if (total > funds) throw new Error("You do not have sufficient funds.");
+
+    const itemData = Array.from(items).map(item => game.items.fromCompendium(item));
+    const created = await party.createEmbeddedDocuments("Item", itemData);
+    await party.update({"system.currency.funds": funds - total});
+    await this.parent.deleteEmbeddedDocuments("Item", Array.from(items).map(item => item.id));
+    await this.parent.setFlag("artichron", "stagedItems", []);
+
+    this.#createReceipt(party, created, total);
+
+    return created;
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Create a chat message showing what was purchased.
+   * @param {ActorArtichron} party      The party actor.
+   * @param {ItemArtichron[]} items     The purchased items.
+   * @param {number} total              The amount spent.
+   */
+  async #createReceipt(party, items, total) {
+    const template = "systems/artichron/templates/chat/receipt.hbs";
+    const context = {
+      name: party.name,
+      total: total,
+      items: items,
+      shop: this.parent.system.shop || this.parent.name
+    };
+    const content = await renderTemplate(template, context);
+    ChatMessage.implementation.create({
+      content: content,
+      speaker: ChatMessage.implementation.getSpeaker({actor: this.parent})
+    });
   }
 
   /* -------------------------------------------------- */
