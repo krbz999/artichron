@@ -102,15 +102,16 @@ export default class EffectConditionData extends ActiveEffectSystemModel {
 
   /**
    * Increase the level of a condition that has multiple stages.
+   * @param {number} [levels]     Amount of levels to increase by.
    * @returns {Promise}
    */
-  async increase() {
+  async increase(levels = 1) {
     const max = CONFIG.SYSTEM.STATUS_CONDITIONS[this.primary].levels;
     if (!max || !(max > 1) || (this.level === max)) return;
     const disabled = this.parent.disabled;
-    const diff = Math.min(max, this.level + 1) - this.level;
+    const diff = Math.min(max, this.level + levels) - this.level;
     await this.parent.update({
-      "system.level": Math.min(max, this.level + 1),
+      "system.level": Math.min(max, this.level + levels),
       disabled: false
     }, {statusLevelDifference: disabled ? undefined : diff});
   }

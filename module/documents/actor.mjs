@@ -219,11 +219,11 @@ export default class ActorArtichron extends Actor {
    * @param {number|object} values              An object with keys from DAMAGE_TYPES.
    * @param {object} [options]                  Damage application options.
    * @param {boolean} [options.defendable]      Whether the actor can parry or block this damage.
-   * @param {Set<string>} [options.attributes]  Item attributes that change the application behavior.
+   * @param {object} [options.attributes]       Object of item attributes to the level to apply.
    * @param {object} [context]                  Update options that are passed along to the final update.
    * @returns {Promise<ActorArtichron>}
    */
-  async applyDamage(values, {defendable = true, attributes = new Set()} = {}, context = {}) {
+  async applyDamage(values, {defendable = true, attributes} = {}, context = {}) {
     if (!this.system.health?.value) return this;
 
     values = this.calculateDamage(values, {numeric: false});
@@ -251,8 +251,8 @@ export default class ActorArtichron extends Actor {
     // If the actor was damaged, apply any relevant status conditions.
     const damaged = hp.value > this.system.health.value;
     if (damaged) {
-      if (attributes.has("rending")) await this.applyCondition("bleeding");
-      if (attributes.has("bludgeoning")) await this.applyCondition("hindered");
+      if (attributes.has("rending")) await this.applyCondition("bleeding", attributes.get("rending"));
+      if (attributes.has("bludgeoning")) await this.applyCondition("hindered", attributes.get("bludgeoning"));
     }
 
     return this;
@@ -428,16 +428,23 @@ export default class ActorArtichron extends Actor {
   /**
    * Utility method to either apply or increase the level of a status condition.
    * This method can safely be used on statuses that do not have levels.
-   * @param {string} status     The id of a condition as found in `CONFIG.statusEffects`.
+   * @param {string} status       The id of a condition as found in `CONFIG.statusEffects`.
+   * @param {number} [levels]     How many levels to increase by.
    * @returns {Promise}
    */
-  async applyCondition(status) {
+  async applyCondition(status, levels = 1) {
     const id = artichron.utils.staticId(status);
     const hasLevels = !!CONFIG.SYSTEM.STATUS_CONDITIONS[status].levels;
     const effect = this.effects.get(id);
-    const increase = effect && hasLevels;
 
-    if (increase) return effect.system.increase();
+    if (effect && hasLevels) return effect.system.increase(levels);
+    else if (hasLevels && (levels > 1)) {
+      const effect = await ActiveEffect.fromStatusEffect(status);
+      const data = foundry.utils.mergeObject(effect.toObject(), {
+        _id: id, "system.level": levels
+      });
+      return this.createEmbeddedDocuments("ActiveEffect", [data], {keepId: true});
+    }
     return this.toggleStatusEffect(status, {active: true});
   }
 
