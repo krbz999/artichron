@@ -919,6 +919,10 @@
   "Content": "Grant the loot from this monster ({name}) to the primary party? The loot will be removed from the monster."
 },
 
+"MerchantConfigurationDialog": {
+  "Title": "Configure Merchant: {name}"
+},
+
 "SkillsDialog": {
   "Title": "{name}: Roll Skill",
   "Hint": "Select two skills to combine for the roll, adding together their dice and bonuses.",

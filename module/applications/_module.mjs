@@ -13,6 +13,7 @@ import ItemSheetAmmunition from "./item/item-sheet-ammo.mjs";
 import ItemSheetArtichron from "./item/item-sheet-base.mjs";
 import ItemSheetElixir from "./item/item-sheet-elixir.mjs";
 import ItemSheetPart from "./item/item-sheet-part.mjs";
+import MerchantConfigurationDialog from "./actor/merchant-configuration-dialog.mjs";
 import MerchantSheet from "./actor/merchant-sheet.mjs";
 import MonsterSheet from "./actor/monster-sheet.mjs";
 import PartyDistributionDialog from "./actor/party-distribution-dialog.mjs";
@@ -38,6 +39,7 @@ export default {
   ItemSheetArtichron,
   ItemSheetElixir,
   ItemSheetPart,
+  MerchantConfigurationDialog,
   MerchantSheet,
   MonsterSheet,
   PartyDistributionDialog,

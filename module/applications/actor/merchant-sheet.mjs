@@ -1,4 +1,5 @@
 import ActorSheetArtichron from "./actor-sheet-base.mjs";
+import MerchantConfigurationDialog from "./merchant-configuration-dialog.mjs";
 
 export default class MerchantSheet extends ActorSheetArtichron {
   /** @override */
@@ -9,6 +10,9 @@ export default class MerchantSheet extends ActorSheetArtichron {
     position: {
       width: 1000,
       height: 1000
+    },
+    actions: {
+      configure: MerchantSheet.#configure
     }
   };
 
@@ -21,7 +25,7 @@ export default class MerchantSheet extends ActorSheetArtichron {
     },
     trading: {
       template: "systems/artichron/templates/actor/merchant-trading.hbs",
-      scrollable: [".stock", ".cart", ".config"]
+      scrollable: [".stock", ".cart"]
     }
   };
 
@@ -38,34 +42,12 @@ export default class MerchantSheet extends ActorSheetArtichron {
     const context = {};
 
     const {stock, cart} = await this._prepareItems();
+
     context.stock = stock;
     context.cart = cart;
-
     context.actor = this.document;
     context.isOwner = this.document.isOwner;
-    context.name = {
-      field: this.document.schema.getField("name"),
-      value: this.document.name,
-      label: game.i18n.localize("Name")
-    };
-    context.img = {
-      field: this.document.schema.getField("img"),
-      value: this.document.img,
-      label: game.i18n.localize("Image")
-    };
-    context.bio = {
-      field: this.document.system.schema.getField("biography.value"),
-      value: this.document.system.biography.value,
-      enriched: await TextEditor.enrichHTML(this.document.system.biography.value, {
-        rollData: this.document.getRollData(), relativeTo: this.document
-      })
-    };
-    context.shop = {
-      field: this.document.system.schema.getField("shop"),
-      value: this.document.system.shop
-    };
-    context.label = context.shop.value || this.document.name;
-
+    context.label = this.document.system.shop || this.document.name;
     return context;
   }
 
@@ -166,5 +148,20 @@ export default class MerchantSheet extends ActorSheetArtichron {
       }
     });
     unstageDrop.bind(this.element);
+  }
+
+  /* -------------------------------------------------- */
+  /*   Event handlers                                   */
+  /* -------------------------------------------------- */
+
+  /**
+   * Open the merchant actor configuration dialog.
+   * @this {MerchantSheet}
+   * @param {PointerEvent} event      The originating click event.
+   * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
+   */
+  static #configure(event, target) {
+    if (!this.document.isOwner) return;
+    new MerchantConfigurationDialog({document: this.document}).render({force: true});
   }
 }
