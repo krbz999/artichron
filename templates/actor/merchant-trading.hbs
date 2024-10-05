@@ -1,39 +1,37 @@
 <div class="trading scrollable">
-  <div class="wares scrollable">
-    <fieldset class="stock scrollable">
-      <div class="inventory-list compact">
-        {{#each items.available}}
-        {{inventoryItem item disabled=true}}
-        {{/each}}
-      </div>
-    </fieldset>
 
-    <fieldset class="cart scrollable">
-      <legend>{{localize "ARTICHRON.SheetTab.Cart"}}</legend>
-      <div class="inventory-list">
-        {{#each items.staged}}
-        {{inventoryItem item enriched=enriched disabled=true}}
-        {{/each}}
-      </div>
-    </fieldset>
-  </div>
+  <fieldset class="stock">
+    <legend>{{localize "ARTICHRON.SheetTab.Stock"}}</legend>
+    {{#each stock}}
+    <div class="inventory-list">
+      <header>
+        <span class="label">{{label}}</span>
+      </header>
+      {{#each items}} {{inventoryItem item disabled=true}} {{/each}}
+    </div>
+    {{/each}}
+  </fieldset>
 
-  <div class="merchant">
-    <fieldset class="avatar">
-      <img src="{{actor.img}}" alt="{{actor.name}}">
-    </fieldset>
+  <fieldset class="cart">
+    <legend>{{localize "ARTICHRON.SheetTab.Cart"}}</legend>
+    <div class="inventory-list">
+      {{#each cart}}
+      {{inventoryItem item enriched=enriched disabled=true}}
+      {{/each}}
+    </div>
+  </fieldset>
 
-    <fieldset class="config">
-      <legend>{{actor.name}}</legend>
-      {{#if isOwner}}
-      {{formGroup name.field value=name.value label=name.label}}
-      {{formGroup shop.field value=shop.value}}
-      {{formGroup img.field value=img.value label=img.label}}
-      {{formGroup bio.field value=bio.value enriched=bio.enriched height=200 toggled=true}}
-      {{else}}
-      {{{bio.enriched}}}
-      {{/if}}
-    </fieldset>
-
-  </div>
+  {{#if false}}
+  <fieldset class="config">
+    <legend>{{actor.name}}</legend>
+    {{#if isOwner}}
+    {{formGroup name.field value=name.value label=name.label classes="stacked"}}
+    {{formGroup shop.field value=shop.value classes="stacked"}}
+    {{formGroup img.field value=img.value label=img.label classes="stacked"}}
+    {{formGroup bio.field value=bio.value enriched=bio.enriched height=200 toggled=true}}
+    {{else}}
+    {{{bio.enriched}}}
+    {{/if}}
+  </fieldset>
+  {{/if}}
 </div>

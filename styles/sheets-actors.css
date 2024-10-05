@@ -224,7 +224,8 @@
 
 .artichron.application.sheet.merchant {
   height: 90%;
-  min-width: 400px;
+  min-width: 580px;
+  min-height: 750px;
 
   .window-content {
     .header {
@@ -233,56 +234,29 @@
       border: none;
       font-size: 60px;
       margin: 0 auto;
+      display: flex;
+      width: 100%;
+      height: unset;
+      flex-direction: column-reverse;
+
+      .avatar {
+        width: calc(100% / 4);
+        height: unset;
+        aspect-ratio: 1;
+        max-height: 200px;
+        max-width: 200px;
+      }
     }
 
     .trading {
-      display: flex;
-      flex-direction: row;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+      height: 100%;
       gap: 1em;
-      flex: 1;
 
-      .wares {
-        flex: 1;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        gap: inherit;
-
-        .stock {
-          flex: 1;
-        }
-
-        .cart {
-          flex: 2;
-        }
-      }
-
-      .merchant {
-        height: 100%;
-        margin-left: 1em;
-        width: 400px;
-        display: flex;
-        flex-direction: column;
-        gap: inherit;
-
-        .avatar {
-          flex: none;
-          padding: 0;
-          overflow: hidden;
-          border: 0.25rem inset var(--artichron-color-gold);
-
-          & img {
-            object-fit: cover;
-            min-height: 250px;
-            max-height: 350px;
-            border: none;
-          }
-        }
-
-        .config {
-          flex: 1;
-          overflow: hidden auto;
-        }
+      .stock, .cart {
+        overflow: hidden auto;
+        min-height: 200px;
       }
     }
   }

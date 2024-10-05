@@ -37,8 +37,11 @@ export default class MerchantSheet extends ActorSheetArtichron {
   async _prepareContext(options) {
     const context = {};
 
+    const {stock, cart} = await this._prepareItems();
+    context.stock = stock;
+    context.cart = cart;
+
     context.actor = this.document;
-    context.items = await this._prepareItems();
     context.isOwner = this.document.isOwner;
     context.name = {
       field: this.document.schema.getField("name"),
@@ -70,11 +73,9 @@ export default class MerchantSheet extends ActorSheetArtichron {
 
   /** @override */
   async _prepareItems() {
-    const items = {
-      available: [],
-      staged: []
-    };
+    const items = {stock: {}, cart: []};
     const staged = this.document.system.stagedItems;
+
     for (const item of this.document.items) {
       const isStaged = staged.has(item);
 
@@ -92,10 +93,20 @@ export default class MerchantSheet extends ActorSheetArtichron {
         });
       }
 
-      if (isStaged) items.staged.push(data);
-      else items.available.push(data);
+      if (isStaged) items.cart.push(data);
+      else {
+        items.stock[item.type] ??= {
+          label: game.i18n.localize(CONFIG.Item.typeLabels[item.type]),
+          items: []
+        };
+        items.stock[item.type].items.push(data);
+      }
     }
-    items.available.sort((a, b) => a.item.name.localeCompare(b.item.name));
+
+    const sort = (a, b) => a.item.name.localeCompare(b.item.name);
+
+    for (const s of Object.values(items.stock)) s.items.sort(sort);
+    items.cart.sort(sort);
 
     return items;
   }

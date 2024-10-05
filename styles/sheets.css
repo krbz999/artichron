@@ -125,7 +125,7 @@
   }
 
   .transitioning .description-wrapper {
-    transition: grid-template-rows 300ms ease, margin 300ms ease;
+    transition: grid-template-rows 150ms ease, margin 150ms ease;
   }
 }
 
