@@ -70,7 +70,13 @@
           {{/if}}
         </div>
         <span class="currency">
+          {{#if canManage}}
+          <a data-action="manageFunds" data-tooltip="ARTICHRON.SheetLabels.ManageFunds">
+            <img class="icon" src="systems/artichron/assets/icons/chron.svg" alt="">
+          </a>
+          {{else}}
           <img class="icon" src="systems/artichron/assets/icons/chron.svg" alt="">
+          {{/if}}
           <input type="text" id="currency-{{@root.document.id}}-{{actor.id}}" class="delta" value="{{actor.system.currency.funds}}" {{#if isOwner}} data-change="changeCurrency" data-property="system.currency.funds" {{else}} disabled {{/if}}>
         </span>
         {{#if isHero}}

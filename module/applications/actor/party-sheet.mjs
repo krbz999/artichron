@@ -1,4 +1,6 @@
+import ChatMessageArtichron from "../../documents/chat-message.mjs";
 import ActorSheetArtichron from "./actor-sheet-base.mjs";
+import PartyFundsDialog from "./party-funds-dialog.mjs";
 
 export default class PartySheet extends ActorSheetArtichron {
   /* -------------------------------------------------- */
@@ -16,6 +18,7 @@ export default class PartySheet extends ActorSheetArtichron {
       displayActor: PartySheet.#displayActor,
       distributeCurrency: PartySheet.#distributeCurrency,
       distributePoints: PartySheet.#distributePoints,
+      manageFunds: PartySheet.#manageFunds,
       placeMembers: PartySheet.#placeMembers,
       recallMembers: PartySheet.#recallMembers,
       removeClock: PartySheet.#removeClock,
@@ -151,7 +154,8 @@ export default class PartySheet extends ActorSheetArtichron {
         isHero: actor.type === "hero",
         isMonster: actor.type === "monster",
         pct: {hp: actor.system.health.pct},
-        canView: actor.testUserPermission(game.user, "LIMITED")
+        canView: actor.testUserPermission(game.user, "LIMITED"),
+        canManage: actor.isOwner && this.document.isOwner
       };
 
       if (context.isHero) {
@@ -380,6 +384,56 @@ export default class PartySheet extends ActorSheetArtichron {
     const id = target.closest(".member").dataset.id;
     const actor = game.actors.get(id);
     actor.sheet.render({force: true});
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Render a party funds dialog to deposit or withdraw funds for one member.
+   * @this {PartySheet}
+   * @param {PointerEvent} event      The originating click event.
+   * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
+   */
+  static async #manageFunds(event, target) {
+    target.disabled = true;
+    const id = target.closest(".member").dataset.id;
+    const actor = game.actors.get(id);
+    const config = await PartyFundsDialog.create({party: this.document, member: actor});
+    if (config.amount > 0) {
+      const path = "system.currency.funds";
+
+      // Current values
+      const af = foundry.utils.getProperty(actor, path);
+      const pf = foundry.utils.getProperty(this.document, path);
+
+      // New values
+      const av = config.deposit ? af - config.amount : af + config.amount;
+      const pv = config.deposit ? pf + config.amount : pf - config.amount;
+
+      if (av < 0) {
+        ui.notifications.warn("ARTICHRON.PartyFundsDialog.InsufficientMemberFunds", {localize: true});
+        return;
+      }
+
+      if (pv < 0) {
+        ui.notifications.warn("ARTICHRON.PartyFundsDialog.InsufficientPartyFunds", {localize: true});
+        return;
+      }
+
+      Promise.all([
+        actor.update({[path]: av}),
+        this.document.update({[path]: pv}),
+        ChatMessageArtichron.create({
+          speaker: ChatMessageArtichron.getSpeaker({actor: this.document}),
+          content: game.i18n.format(`ARTICHRON.PartyFundsDialog.Receipt${config.deposit ? "Deposit" : "Withdraw"}`, {
+            name: actor.name, amount: config.amount
+          })
+        })
+      ]);
+      return;
+    }
+
+    target.disabled = false;
   }
 
   /* -------------------------------------------------- */

@@ -554,3 +554,9 @@
     .controls { place-self: end; }
   }
 }
+
+.artichron.application.party-funds-dialog {
+  .form-footer {
+    flex-wrap: nowrap;
+  }
+}

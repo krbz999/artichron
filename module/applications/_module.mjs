@@ -17,6 +17,7 @@ import MerchantConfigurationDialog from "./actor/merchant-configuration-dialog.m
 import MerchantSheet from "./actor/merchant-sheet.mjs";
 import MonsterSheet from "./actor/monster-sheet.mjs";
 import PartyDistributionDialog from "./actor/party-distribution-dialog.mjs";
+import PartyFundsDialog from "./actor/party-funds-dialog.mjs";
 import PartySheet from "./actor/party-sheet.mjs";
 import PoolConfig from "./actor/pool-config.mjs";
 import RollConfigurationDialog from "./item/roll-configuration-dialog.mjs";
@@ -43,6 +44,7 @@ export default {
   MerchantSheet,
   MonsterSheet,
   PartyDistributionDialog,
+  PartyFundsDialog,
   PartySheet,
   PoolConfig,
   RollConfigurationDialog,

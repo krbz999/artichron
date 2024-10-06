@@ -822,6 +822,18 @@
   "TitlePoints": "{name}: Distribute Points"
 },
 
+"PartyFundsDialog": {
+  "Deposit": "Deposit",
+  "hint": "The amount to deposit or subtract from the party funds.",
+  "InsufficientMemberFunds": "The member does not have enough funds available to deposit.",
+  "InsufficientPartyFunds": "The party does not have enough funds available to withdraw.",
+  "label": "Amount",
+  "ReceiptDeposit": "{name} deposited {amount} into the group fund.",
+  "ReceiptWithdraw": "{name} withdrew {amount} from the group fund.",
+  "Title": "Manage Funds: {name}",
+  "Withdraw": "Withdraw"
+},
+
 "PoolConfig": {
   "FacesLabel": "Die Faces",
   "MaxLabel": "Pool Size",
@@ -1005,6 +1017,7 @@
   "Items": "Items",
   "Level": "Level: {level}",
   "Loot": "Loot",
+  "ManageFunds": "Manage Funds",
   "Members": "Members",
   "Pools": "Pools",
   "Progress": "Progress",
