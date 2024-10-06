@@ -268,14 +268,22 @@ export default class MonsterSheet extends ActorSheetArtichron {
   /* -------------------------------------------------- */
 
   /** @override */
-  async _onDrop(event) {
-    if (this.tabGroups.primary !== "loot") return super._onDrop(event);
+  async _onDropItem(document, target, changes) {
+    if (this.tabGroups.primary !== "loot") return super._onDropItem(document, target, changes);
 
-    const {type, uuid} = TextEditor.getDragEventData(event);
-    if (type !== "Item") return;
-    const item = await fromUuid(uuid);
-    if (item.isEmbedded) return;
-    return this.document.system.addLootDrop(uuid, 1);
+    if (document.isEmbedded) return;
+
+    let loot;
+    if (foundry.utils.hasProperty(changes.actorUpdates, "system.loot")) {
+      loot = foundry.utils.getProperty(changes.actorUpdates, "system.loot");
+    } else {
+      loot = this.document.system.lootDrops.map(({item, quantity}) => ({uuid: item.uuid, quantity}));
+    }
+
+    const item = loot.find(l => l.uuid === document.uuid);
+    if (item) item.quantity += document.system.quantity?.value ?? 1;
+    else loot.push({uuid: document.uuid, quantity: document.system.quantity?.value ?? 1});
+    foundry.utils.setProperty(changes.actorUpdates, "system.loot", loot);
   }
 
   /* -------------------------------------------------- */

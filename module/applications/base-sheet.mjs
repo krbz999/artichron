@@ -5,6 +5,9 @@
  * @property {string} label     The displayed label for this tab.
  */
 
+import ActiveEffectArtichron from "../documents/active-effect.mjs";
+import ItemArtichron from "../documents/item.mjs";
+
 /**
  * Sheet class mixin to add common functions shared by all types of sheets.
  * @param {*} Base                        The base class.
@@ -156,7 +159,11 @@ const ArtichronSheetMixin = Base => {
       if (this.document instanceof Item) for (const e of this.document.effects) await entry(e);
       else for (const e of this.document.allApplicableEffects()) await entry(e);
 
-      effects.sort((a, b) => a.effect.name.localeCompare(b.effect.name));
+      effects.sort((a, b) => {
+        const sort = a.effect.sort - b.effect.sort;
+        if (sort) return sort;
+        return a.effect.name.localeCompare(b.effect.name);
+      });
       return effects;
     }
 
@@ -393,7 +400,7 @@ const ArtichronSheetMixin = Base => {
 
     /**
      * Handle a drag event being initiated.
-     * @param {Event} event
+     * @param {DragEvent} event     The initiating drag event.
      */
     async _onDragStart(event) {
       const uuid = event.currentTarget.closest("[data-item-uuid]").dataset.itemUuid;
@@ -406,60 +413,143 @@ const ArtichronSheetMixin = Base => {
 
     /**
      * Handle a drop event.
-     * @param {Event} event
+     * @param {Event} event     The initiating drop event.
      */
     async _onDrop(event) {
       event.preventDefault();
       const target = event.target;
-      const {type, uuid} = TextEditor.getDragEventData(event);
-      const item = await fromUuid(uuid);
-      const itemData = (type === "Item") ? game.items.fromCompendium(item) : item.toObject();
+      const item = await fromUuid(TextEditor.getDragEventData(event).uuid);
+      const actor = this.document;
 
-      // Disallow dropping invalid document types.
-      if (!Object.keys(this.document.constructor.metadata.embedded).includes(type)) return;
+      const changes = {items: [], itemUpdates: [], effects: [], effectUpdates: [], actorUpdates: {}};
 
-      // Disallow dropping effects from items onto the item's parent.
-      if (item.parent?.parent === this.document) return;
-
-      // If dropped onto self, perform sorting.
-      if (item.parent === this.document) return this._onSortItem(item, target);
-
-      const modification = {
-        "-=_id": null,
-        "-=ownership": null,
-        "-=folder": null,
-        "-=sort": null
-      };
-
-      switch (type) {
-        case "ActiveEffect": {
-          foundry.utils.mergeObject(modification, {
-            "duration.-=combat": null,
-            "duration.-=startRound": null,
-            "duration.-=startTime": null,
-            "duration.-=startTurn": null,
-            "system.source": null
-          });
+      switch (item.documentName) {
+        case "ActiveEffect":
+          await this._onDropActiveEffect(item, target, changes);
           break;
-        }
-        case "Item": {
+        case "Actor":
+          await this._onDropActor(item, target, changes);
           break;
-        }
-        default: return;
+        case "Folder":
+          await this._onDropFolder(item, target, changes);
+          break;
+        case "Item":
+          await this._onDropItem(item, target, changes);
+          break;
+        default:
+          return;
       }
 
-      foundry.utils.mergeObject(itemData, modification, {performDeletions: true});
-      getDocumentClass(type).create(itemData, {parent: this.document});
+      const {items, itemUpdates, effects, effectUpdates, actorUpdates} = changes;
+
+      Promise.all([
+        foundry.utils.isEmpty(actorUpdates) ? null : actor.update(actorUpdates),
+        foundry.utils.isEmpty(items) ? null : actor.createEmbeddedDocuments("Item", items),
+        foundry.utils.isEmpty(itemUpdates) ? null : actor.updateEmbeddedDocuments("Item", itemUpdates),
+        foundry.utils.isEmpty(effects) ? null : actor.createEmbeddedDocuments("ActiveEffect", effects),
+        foundry.utils.isEmpty(effectUpdates) ? null : actor.updateEmbeddedDocuments("ActiveEffect", effectUpdates)
+      ]);
+    }
+
+    /* -------------------------------------------------- */
+
+    /**
+     * Handle dropping an effect onto the sheet.
+     * @param {Folder} document         The effect being dropped.
+     * @param {HTMLElement} target      The direct target dropped onto.
+     * @param {object} changes          Object of changes to be made to this document.
+     */
+    async _onDropActiveEffect(document, target, changes) {
+      if (document.parent?.parent === this.document) return;
+      if (document.parent === this.document) {
+        await this._onSortActiveEffect(document, target, changes);
+        return;
+      }
+
+      const effectData = foundry.utils.mergeObject(document.toObject(), {
+        "duration.-=combat": null,
+        "duration.-=startRound": null,
+        "duration.-=startTime": null,
+        "duration.-=startTurn": null,
+        "system.source": null,
+        "-=ownership": null,
+        "-=sort": null
+      }, {performDeletions: true});
+
+      changes.effects.push(effectData);
+    }
+
+    /* -------------------------------------------------- */
+
+    /**
+     * Handle dropping an actor onto the sheet.
+     * @param {Folder} document         The actor being dropped.
+     * @param {HTMLElement} target      The direct target dropped onto.
+     * @param {object} changes          Object of changes to be made to this document.
+     */
+    async _onDropActor(document, target, changes) {}
+
+    /* -------------------------------------------------- */
+
+    /**
+     * Handle dropping a folder of items onto the sheet.
+     * @param {Folder} document         The folder being dropped.
+     * @param {HTMLElement} target      The direct target dropped onto.
+     * @param {object} changes          Object of changes to be made to this document.
+     */
+    async _onDropFolder(document, target, changes) {
+      if (document.type !== "Item") return;
+
+      for (let item of document.contents) {
+        if (!(item instanceof Item)) item = await fromUuid(item.uuid);
+        await this._onDropItem(item, target, changes);
+      }
+
+      for (const folder of document.getSubfolders()) {
+        await this._onDropFolder(folder, target, changes);
+      }
+    }
+
+    /* -------------------------------------------------- */
+
+    /**
+     * Handle dropping a single item onto the sheet.
+     * @param {ItemArtichron} document      The item being dropped.
+     * @param {HTMLElement} target          The direct target dropped onto.
+     * @param {object} changes              Object of changes to be made to this document.
+     */
+    async _onDropItem(document, target, changes) {
+      if (document.parent === this.document) {
+        await this._onSortItem(document, target, changes);
+        return;
+      }
+
+      if (document.system.identifier && document.system.schema.has("quantity")) {
+        const existing = this.document.itemTypes[document.type].find(item => {
+          return item.system.identifier === document.system.identifier;
+        });
+        if (existing) {
+          changes.itemUpdates.push({
+            _id: existing.id,
+            "system.quantity.value": existing.system.quantity.value + document.system.quantity.value
+          });
+          return;
+        }
+      }
+
+      const itemData = game.items.fromCompendium(document);
+      changes.items.push(itemData);
     }
 
     /* -------------------------------------------------- */
 
     /**
      * Perform sorting of items.
-     * @param {ItemArtichron} item      The document being dropped.
-     * @param {HTMLElement} target      The direct target dropped onto.
+     * @param {ItemArtichron} document      The item being dropped.
+     * @param {HTMLElement} target          The direct target dropped onto.
+     * @param {object} changes              Object of changes to be made to this document.
      */
-    async _onSortItem(item, target) {
+    async _onSortItem(item, target, changes) {
       if (item.documentName !== "Item") return;
       const self = target.closest("[data-tab]")?.querySelector(`[data-item-uuid="${item.uuid}"]`);
       if (!self || !target.closest("[data-item-uuid]")) return;
@@ -474,7 +564,32 @@ const ArtichronSheetMixin = Base => {
 
       let updates = SortingHelpers.performIntegerSort(item, {target: sibling, siblings: siblings, sortKey: "sort"});
       updates = updates.map(({target, update}) => ({_id: target.id, sort: update.sort}));
-      this.document.updateEmbeddedDocuments("Item", updates);
+      changes.itemUpdates.push(...updates);
+    }
+
+    /* -------------------------------------------------- */
+
+    /**
+     * Perform sorting of active effects.
+     * @param {ActiveEffectArtichron} document      The document being sorted.
+     * @param {HTMLElement} target                  The direct target dropped onto.
+     * @param {object} changes                      Object of changes to be made to this document.
+     */
+    async _onSortActiveEffect(document, target, changes) {
+      if (document.documentName !== "ActiveEffect") return;
+
+      let sibling = target.closest("[data-item-uuid]");
+      if (!sibling) return;
+      if (sibling.dataset.itemUuid === document.uuid) return;
+      sibling = await fromUuid(sibling.dataset.itemUuid);
+
+      let siblings = target.closest(".effects-list").querySelectorAll("[data-item-uuid]");
+      siblings = await Promise.all(Array.from(siblings).map(s => fromUuid(s.dataset.itemUuid)));
+      siblings.findSplice(s => s === document);
+
+      let updates = SortingHelpers.performIntegerSort(document, {target: sibling, siblings: siblings, sortKey: "sort"});
+      updates = updates.map(({target, update}) => ({_id: target.id, sort: update.sort}));
+      changes.effectUpdates.push(...updates);
     }
 
     /* -------------------------------------------------- */

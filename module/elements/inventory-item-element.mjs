@@ -199,6 +199,14 @@ export default class InventoryItemElement extends HTMLElement {
       <section class="loading" data-uuid="${item.uuid}">
         <i class="fas fa-spinner fa-spin-pulse"></i>
       </section>`;
+
+      // Inject small quantity counter.
+      if (item.system.quantity?.value > 1) {
+        const quantityElement = document.createElement("SPAN");
+        quantityElement.classList.add("quantity");
+        quantityElement.insertAdjacentHTML("beforeend", `<span class="value">${item.system.quantity.value}</span>`);
+        img.insertAdjacentElement("beforeend", quantityElement);
+      }
     }
 
     // Set name for use in search filter.

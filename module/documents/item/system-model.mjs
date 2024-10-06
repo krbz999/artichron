@@ -1,5 +1,6 @@
 import ActivitySelectDialog from "../../applications/item/activity-select-dialog.mjs";
 import {ActivitiesField} from "../fields/activity-field.mjs";
+import IdentifierField from "../fields/identifier-field.mjs";
 
 const {StringField, SchemaField, HTMLField, NumberField, SetField} = foundry.data.fields;
 
@@ -35,6 +36,7 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
       description: new SchemaField({
         value: new HTMLField({required: true})
       }),
+      identifier: new IdentifierField(),
       weight: new SchemaField({
         value: new NumberField({min: 0, step: 0.1, initial: () => this.metadata.defaultWeight, nullable: false})
       }),
@@ -273,5 +275,6 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
   /** @override */
   prepareDerivedData() {
     this.weight.total = this.weight.value * (this.quantity?.value ?? 1);
+    if (!this.identifier) this.identifier = this.parent.name.slugify({strict: true});
   }
 }

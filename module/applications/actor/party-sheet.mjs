@@ -276,16 +276,10 @@ export default class PartySheet extends ActorSheetArtichron {
   /* -------------------------------------------------- */
 
   /** @override */
-  async _onDrop(event) {
-    event.preventDefault();
-    const {type, uuid} = TextEditor.getDragEventData(event);
-    if (type !== "Actor") return super._onDrop(event);
-
+  async _onDropActor(document, target, changes) {
     const isMembers = this.tabGroups.primary === "members";
     if (!isMembers) return;
-
-    const actor = await fromUuid(uuid);
-    if (actor) this.document.system.addMember(actor);
+    this.document.system.addMember(document);
   }
 
   /* -------------------------------------------------- */
