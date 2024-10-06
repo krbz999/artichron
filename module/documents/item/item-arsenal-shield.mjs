@@ -43,6 +43,6 @@ export default class ShieldData extends ArsenalData {
   /** @override */
   static LOCALIZATION_PREFIXES = [
     ...super.LOCALIZATION_PREFIXES,
-    "ARTICHRON.ItemProperty.ShieldProperty"
+    "ARTICHRON.ITEM.SHIELD"
   ];
 }

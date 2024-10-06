@@ -58,7 +58,7 @@ export default class ArmorData extends FusionTemplateMixin(ItemSystemModel) {
   /** @override */
   static LOCALIZATION_PREFIXES = [
     ...super.LOCALIZATION_PREFIXES,
-    "ARTICHRON.ItemProperty.ArmorProperty"
+    "ARTICHRON.ITEM.ARMOR"
   ];
 
   /* -------------------------------------------------- */

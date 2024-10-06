@@ -35,11 +35,11 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
 
   /** @override */
   static TABS = {
-    description: {id: "description", group: "primary", label: "ARTICHRON.SheetTab.Description"},
-    details: {id: "details", group: "primary", label: "ARTICHRON.SheetTab.Details"},
-    activities: {id: "activities", group: "primary", label: "ARTICHRON.SheetTab.Activities"},
-    fusion: {id: "fusion", group: "primary", label: "ARTICHRON.SheetTab.Fusion"},
-    effects: {id: "effects", group: "primary", label: "ARTICHRON.SheetTab.Effects"}
+    description: {id: "description", group: "primary", label: "ARTICHRON.SheetLabels.Description"},
+    details: {id: "details", group: "primary", label: "ARTICHRON.SheetLabels.Details"},
+    activities: {id: "activities", group: "primary", label: "ARTICHRON.SheetLabels.Activities"},
+    fusion: {id: "fusion", group: "primary", label: "ARTICHRON.SheetLabels.Fusion"},
+    effects: {id: "effects", group: "primary", label: "ARTICHRON.SheetLabels.Effects"}
   };
 
   /* -------------------------------------------------- */
@@ -139,7 +139,7 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
 
     // Defenses.
     if (doc.system.schema.has("armor")) context.fieldsets.push({
-      legend: game.i18n.localize("ARTICHRON.SheetTab.Defenses"),
+      legend: game.i18n.localize("ARTICHRON.SheetLabels.Defenses"),
       formGroups: [this._makeField(context, "armor.value")]
     });
 

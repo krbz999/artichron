@@ -26,8 +26,8 @@ export default class EffectSheetArtichron extends ArtichronSheetMixin(foundry.ap
 
   /** @override */
   static TABS = {
-    details: {id: "details", group: "primary", label: "ARTICHRON.SheetTab.EffectDetails"},
-    changes: {id: "changes", group: "primary", label: "ARTICHRON.SheetTab.EffectChanges"}
+    details: {id: "details", group: "primary", label: "ARTICHRON.SheetLabels.EffectDetails"},
+    changes: {id: "changes", group: "primary", label: "ARTICHRON.SheetLabels.EffectChanges"}
   };
 
   /* -------------------------------------------------- */
@@ -108,7 +108,7 @@ export default class EffectSheetArtichron extends ArtichronSheetMixin(foundry.ap
       else if (path.startsWith("bonuses.damage") || path.startsWith("defenses.armor")) {
         label = game.i18n.localize(`ARTICHRON.ActorProperty.FIELDS.${path}.label`);
       } else if (path.startsWith("resistances")) {
-        label = game.i18n.localize(`ARTICHRON.ItemProperty.FIELDS.${path}.value.label`);
+        label = game.i18n.localize(`ARTICHRON.ITEM.FIELDS.${path}.value.label`);
       }
       else label = k;
 

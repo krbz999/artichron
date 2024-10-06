@@ -57,10 +57,10 @@ export default class HeroSheet extends ActorSheetArtichron {
 
   /** @override */
   static TABS = {
-    attributes: {id: "attributes", group: "primary", label: "ARTICHRON.SheetTab.Attributes"},
-    inventory: {id: "inventory", group: "primary", label: "ARTICHRON.SheetTab.Inventory"},
-    details: {id: "details", group: "primary", label: "ARTICHRON.SheetTab.Details"},
-    effects: {id: "effects", group: "primary", label: "ARTICHRON.SheetTab.Effects"}
+    attributes: {id: "attributes", group: "primary", label: "ARTICHRON.SheetLabels.Attributes"},
+    inventory: {id: "inventory", group: "primary", label: "ARTICHRON.SheetLabels.Inventory"},
+    details: {id: "details", group: "primary", label: "ARTICHRON.SheetLabels.Details"},
+    effects: {id: "effects", group: "primary", label: "ARTICHRON.SheetLabels.Effects"}
   };
 
   /* -------------------------------------------------- */
@@ -232,19 +232,19 @@ export default class HeroSheet extends ActorSheetArtichron {
     const types = this.document.itemTypes;
     const sections = {
       arsenal: {
-        label: "ARTICHRON.SheetTab.Arsenal",
+        label: "ARTICHRON.SheetLabels.Arsenal",
         types: new Set()
       },
       gear: {
-        label: "ARTICHRON.SheetTab.Gear",
+        label: "ARTICHRON.SheetLabels.Gear",
         types: new Set()
       },
       consumables: {
-        label: "ARTICHRON.SheetTab.Consumables",
+        label: "ARTICHRON.SheetLabels.Consumables",
         types: new Set()
       },
       loot: {
-        label: "ARTICHRON.SheetTab.Loot",
+        label: "ARTICHRON.SheetLabels.Loot",
         types: new Set()
       }
     };

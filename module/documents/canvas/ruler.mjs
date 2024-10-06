@@ -1,11 +1,16 @@
-export default class RulerArtichron extends CONFIG.Canvas.rulerClass {
+export default class RulerArtichron extends Ruler {
   /** @override */
   _canMove(token) {
     super._canMove(token);
     if (!token.actor) return true;
+
+    if (token.actor.inCombat && (token.document.combatant !== game.combat.combatant)) {
+      throw new Error(game.i18n.localize("ARTICHRON.RULER.ERROR.NotYourTurn"));
+    }
+
     const cost = Math.ceil(this.totalCost);
     if (!token.actor.canPerformActionPoints(cost)) {
-      throw new Error(`This movement would require at least ${cost} Action Points.`);
+      throw new Error(game.i18n.format("ARTICHRON.RULER.ERROR.NotEnoughAP", {cost: cost}));
     }
     return true;
   }

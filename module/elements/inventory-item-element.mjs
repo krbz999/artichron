@@ -107,7 +107,7 @@ export default class InventoryItemElement extends HTMLElement {
 
         const label = document.createElement("SPAN");
         label.classList.add("label");
-        label.textContent = game.i18n.localize("ARTICHRON.ItemProperty.FIELDS.usage.label");
+        label.textContent = game.i18n.localize("ARTICHRON.ITEM.FIELDS.usage.label");
         property.insertAdjacentElement("beforeend", label);
 
         this.insertAdjacentElement("beforeend", property);
@@ -136,7 +136,7 @@ export default class InventoryItemElement extends HTMLElement {
 
         const label = document.createElement("SPAN");
         label.classList.add("label");
-        label.textContent = game.i18n.localize("ARTICHRON.ItemProperty.FIELDS.quantity.value.label");
+        label.textContent = game.i18n.localize("ARTICHRON.ITEM.FIELDS.quantity.value.label");
         property.insertAdjacentElement("beforeend", label);
 
         this.insertAdjacentElement("beforeend", property);

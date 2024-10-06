@@ -23,7 +23,7 @@ export default class EnterStoreBehaviorData extends foundry.data.regionBehaviors
   /* -------------------------------------------------- */
 
   /** @override */
-  static LOCALIZATION_PREFIXES = ["ARTICHRON.RegionProperty.ENTERSTORE"];
+  static LOCALIZATION_PREFIXES = ["ARTICHRON.REGION.ENTERSTORE"];
 
   /* -------------------------------------------------- */
 

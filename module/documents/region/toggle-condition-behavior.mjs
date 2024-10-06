@@ -16,7 +16,7 @@ export default class ToggleConditionBehaviorData extends foundry.data.regionBeha
   /* -------------------------------------------------- */
 
   /** @override */
-  static LOCALIZATION_PREFIXES = ["ARTICHRON.RegionProperty.TOGGLECONDITION"];
+  static LOCALIZATION_PREFIXES = ["ARTICHRON.REGION.TOGGLECONDITION"];
 
   /* -------------------------------------------------- */
 

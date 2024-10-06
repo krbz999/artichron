@@ -1,7 +1,7 @@
 <div class="{{tabs.inventory.tabCssClass}}" data-group="primary" data-tab="inventory">
 
   <fieldset class="equipment">
-    <legend>{{localize "ARTICHRON.SheetTab.Equipment"}}</legend>
+    <legend>{{localize "ARTICHRON.SheetLabels.Equipment"}}</legend>
     {{#each equipment}}
     <div class="item {{#unless active}} empty {{/unless}}" {{#if dataset.itemUuid}} data-item-uuid="{{dataset.itemUuid}}" {{/if}}>
       <img src="{{item.img}}" alt="" {{#if active}} data-action="useItem" {{/if}} {{#if tooltip}} data-tooltip="{{tooltip}}" {{/if}}>

@@ -80,51 +80,51 @@ Hooks.once("init", function() {
   Actors.unregisterSheet("core", ActorSheet);
   Actors.registerSheet("artichron", applications.HeroSheet, {
     makeDefault: true,
-    label: "ARTICHRON.ActorSheet.Hero",
+    label: "ARTICHRON.SHEET.ACTOR.Hero",
     types: ["hero"]
   });
   Actors.registerSheet("artichron", applications.MonsterSheet, {
     makeDefault: true,
-    label: "ARTICHRON.ActorSheet.Monster",
+    label: "ARTICHRON.SHEET.ACTOR.Monster",
     types: ["monster"]
   });
   Actors.registerSheet("artichron", applications.MerchantSheet, {
     makeDefault: true,
-    label: "ARTICHRON.ActorSheet.Merchant",
+    label: "ARTICHRON.SHEET.ACTOR.Merchant",
     types: ["merchant"]
   });
   Actors.registerSheet("artichron", applications.PartySheet, {
     makeDefault: true,
-    label: "ARTICHRON.ActorSheet.Party",
+    label: "ARTICHRON.SHEET.ACTOR.Party",
     types: ["party"]
   });
 
   Items.unregisterSheet("core", ItemSheet);
   Items.registerSheet("artichron", applications.ItemSheetArtichron, {
     makeDefault: true,
-    label: "ARTICHRON.ItemSheet.Base",
+    label: "ARTICHRON.SHEET.ITEM.Base",
     types: ["weapon", "shield", "spell", "armor"]
   });
   Items.registerSheet("artichron", applications.ItemSheetAmmunition, {
     makeDefault: true,
-    label: "ARTICHRON.ItemSheet.Ammunition",
+    label: "ARTICHRON.SHEET.ITEM.Ammunition",
     types: ["ammo"]
   });
   Items.registerSheet("artichron", applications.ItemSheetElixir, {
     makeDefault: true,
-    label: "ARTICHRON.ItemSheet.Elixir",
+    label: "ARTICHRON.SHEET.ITEM.Elixir",
     types: ["elixir"]
   });
   Items.registerSheet("artichron", applications.ItemSheetPart, {
     makeDefault: true,
-    label: "ARTICHRON.ItemSheet.Part",
+    label: "ARTICHRON.SHEET.ITEM.Part",
     types: ["part"]
   });
 
   DocumentSheetConfig.unregisterSheet(ActiveEffect, "core", ActiveEffectConfig);
   DocumentSheetConfig.registerSheet(ActiveEffect, "artichron", applications.ActiveEffectSheetArtichron, {
     makeDefault: true,
-    label: "ARTICHRON.ActiveEffectSheet.Base"
+    label: "ARTICHRON.SHEET.EFFECT.Base"
   });
 
   // Set up conditions.

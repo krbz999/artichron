@@ -136,8 +136,8 @@ export default class ActivitySheet extends foundry.applications.api.HandlebarsAp
    */
   async #prepareTabsContext(context) {
     const tabs = {
-      identity: {id: "identity", group: "primary", icon: "fa-solid fa-tag", label: "ARTICHRON.SheetTab.Identity"},
-      details: {id: "details", group: "primary", icon: "fa-solid fa-pen-fancy", label: "ARTICHRON.SheetTab.Details"}
+      identity: {id: "identity", group: "primary", icon: "fa-solid fa-tag", label: "ARTICHRON.SheetLabels.Identity"},
+      details: {id: "details", group: "primary", icon: "fa-solid fa-pen-fancy", label: "ARTICHRON.SheetLabels.Details"}
     };
     for (const v of Object.values(tabs)) {
       v.active = this.tabGroups[v.group] === v.id;

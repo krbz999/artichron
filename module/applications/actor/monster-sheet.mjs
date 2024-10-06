@@ -51,10 +51,10 @@ export default class MonsterSheet extends ActorSheetArtichron {
 
   /** @override */
   static TABS = {
-    actions: {id: "actions", group: "primary", label: "ARTICHRON.SheetTab.Actions"},
-    loot: {id: "loot", group: "primary", label: "ARTICHRON.SheetTab.Loot"},
-    about: {id: "about", group: "primary", label: "ARTICHRON.SheetTab.About"},
-    effects: {id: "effects", group: "primary", label: "ARTICHRON.SheetTab.Effects"}
+    actions: {id: "actions", group: "primary", label: "ARTICHRON.SheetLabels.Actions"},
+    loot: {id: "loot", group: "primary", label: "ARTICHRON.SheetLabels.Loot"},
+    about: {id: "about", group: "primary", label: "ARTICHRON.SheetLabels.About"},
+    effects: {id: "effects", group: "primary", label: "ARTICHRON.SheetLabels.Effects"}
   };
 
   /* -------------------------------------------------- */

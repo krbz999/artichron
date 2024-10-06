@@ -1,10 +1,10 @@
 <div class="{{tabs.members.tabCssClass}}" data-group="primary" data-tab="members">
   {{#if isGM}}
   <fieldset class="awards">
-    <legend>{{localize "ARTICHRON.SheetTab.Awards"}}</legend>
+    <legend>{{localize "ARTICHRON.SheetLabels.Awards"}}</legend>
     <div class="form-group">
       <label>
-        <span>{{localize "ARTICHRON.SheetTab.Currency"}}</span>
+        <span>{{localize "ARTICHRON.SheetLabels.Currency"}}</span>
         <img class="icon" src="systems/artichron/assets/icons/chron.svg" alt="Chron">
       </label>
       <input type="text" name="system.currency.award" class="delta" value="{{distributions.currency.value}}" {{disabled (not isEditable)}}>
@@ -14,7 +14,7 @@
       </button>
     </div>
     <div class="form-group">
-      <label>{{localize "ARTICHRON.SheetTab.Progression"}}</label>
+      <label>{{localize "ARTICHRON.SheetLabels.Progression"}}</label>
       <input type="text" name="system.points.value" class="delta" value="{{distributions.points.value}}" {{disabled (not isEditable)}}>
       <button type="button" data-action="distributePoints" {{disabled distributions.points.disabled}}>
         <i class="fa-solid fa-fw fa-cube"></i>
@@ -25,10 +25,10 @@
   {{/if}}
 
   <fieldset class="funds">
-    <legend>{{localize "ARTICHRON.SheetTab.Funds"}}</legend>
+    <legend>{{localize "ARTICHRON.SheetLabels.Funds"}}</legend>
     <div class="form-group">
       <label>
-        <span>{{localize "ARTICHRON.SheetTab.Currency"}}</span>
+        <span>{{localize "ARTICHRON.SheetLabels.Currency"}}</span>
         <img src="systems/artichron/assets/icons/chron.svg" alt="Chron" class="icon">
       </label>
       <input type="text" name="system.currency.funds" class="delta" value="{{funds.value}}" {{disabled (not isEditable)}}>

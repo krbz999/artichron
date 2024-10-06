@@ -1,664 +1,90 @@
 {
 "TYPES": {
-"Actor.hero": "Hero",
-"Actor.heroPl": "Heroes",
-"Actor.merchant": "Merchant",
-"Actor.merchantPl": "Merchants",
-"Actor.monster": "Monster",
-"Actor.monsterPl": "Monsters",
-"Actor.party": "Party",
-"Actor.partyPl": "Parties",
-"Item.ammo": "Ammunition",
-"Item.ammoPl": "Ammunition",
-"Item.armor": "Armor Piece",
-"Item.armorPl": "Armor Pieces",
-"Item.elixir": "Elixir",
-"Item.elixirPl": "Elixirs",
-"Item.part": "Monster Part",
-"Item.partPl": "Monster Parts",
-"Item.shield": "Shield",
-"Item.shieldPl": "Shields",
-"Item.spell": "Spell",
-"Item.spellPl": "Spells",
-"Item.weapon": "Weapon",
-"Item.weaponPl": "Weapons",
-"ActiveEffect.fusion": "Fusion",
-"ActiveEffect.fusionPl": "Fusions",
-"ActiveEffect.buff": "Buff",
-"ActiveEffect.buffPl": "Buffs",
-"ActiveEffect.condition": "Condition",
-"ActiveEffect.conditionPl": "Conditions",
-"ActiveEffect.enhancement": "Enhancement",
-"ActiveEffect.enhancementPl": "Enhancements",
-"RegionBehavior.doorState": "Toggle Door State",
-"RegionBehavior.enterStore": "Enter Store",
-"RegionBehavior.statusCondition": "Toggle Status Condition"
+"ActiveEffect": {
+  "buff": "Buff",
+  "buffPl": "Buffs",
+  "condition": "Condition",
+  "conditionPl": "Conditions",
+  "enhancement": "Enhancement",
+  "enhancementPl": "Enhancements",
+  "fusion": "Fusion",
+  "fusionPl": "Fusions"
+},
+"Actor": {
+  "hero": "Hero",
+  "heroPl": "Heroes",
+  "merchant": "Merchant",
+  "merchantPl": "Merchants",
+  "monster": "Monster",
+  "monsterPl": "Monsters",
+  "party": "Party",
+  "partyPl": "Parties"
+},
+"Item": {
+  "ammo": "Ammunition",
+  "ammoPl": "Ammunition",
+  "armor": "Armor Piece",
+  "armorPl": "Armor Pieces",
+  "elixir": "Elixir",
+  "elixirPl": "Elixirs",
+  "part": "Monster Part",
+  "partPl": "Monster Parts",
+  "shield": "Shield",
+  "shieldPl": "Shields",
+  "spell": "Spell",
+  "spellPl": "Spells",
+  "weapon": "Weapon",
+  "weaponPl": "Weapons"
+},
+"RegionBehavior": {
+  "doorState": "Toggle Door State",
+  "enterStore": "Enter Store",
+  "statusCondition": "Toggle Status Condition"
+}
 },
 "ARTICHRON": {
-
-"ActiveEffectSheet": {
-  "Base": "Artichron ActiveEffect Sheet"
-},
-"ActorSheet": {
-  "Base": "Artichron Actor Sheet",
-  "Hero": "Artichron Hero Sheet",
-  "Monster": "Artichron Monster Sheet",
-  "Merchant": "Artichron Merchant Sheet",
-  "Party": "Artichron Party Sheet"
-},
-"ItemSheet": {
-  "Ammunition": "Artichron Ammunition Sheet",
-  "Base": "Artichron Item Sheet",
-  "Elixir": "Artichron Elixir Sheet",
-  "Part": "Artichron Monster Part Sheet"
-},
-
-"ArmorType": {
-  "Accessory": "Accessory",
-  "Arms": "Arm Piece",
-  "Boots": "Boots",
-  "Chest": "Chest Piece",
-  "Head": "Head Piece",
-  "Legs": "Leg Piece"
-},
-
-"ShieldType": {
-  "Buckler": "Buckler",
-  "Heater": "Heater",
-  "Kite": "Kite",
-  "Tower": "Tower"
-},
-
-"AmmunitionType": {
-  "Arrow": "Arrow",
-  "Bullet": "Bullet",
-  "Round": "Round",
-  "Shell": "Shotgun Shell"
-},
-
-"Purchase": {
-  "Checkout": "Checkout",
-  "Receipt": "Receipt",
-  "Summary": "The members of {name} spent {total} at {shop} on the following items:"
-},
-
-"SheetTab": {
-  "About": "About",
-  "Actions": "Actions",
-  "Activities": "Activities",
-  "Arsenal": "Arsenal",
-  "Attributes": "Attributes",
-  "Awards": "Awards",
-  "Biography": "Biography",
-  "Cart": "Cart",
-  "Clocks": "Clocks",
-  "Configuration": "Configuration",
-  "Consumables": "Consumables",
-  "Currency": "Currency",
-  "Defenses": "Defenses",
-  "Description": "Description",
-  "Details": "Details",
-  "Duration": "Duration",
-  "EffectChanges": "Changes",
-  "EffectDetails": "Details",
-  "EffectDuration": "Duration",
-  "Effects": "Effects",
-  "Equipment": "Equipment",
-  "Favorites": "Favorites",
-  "Funds": "Funds",
-  "Fusion": "Fusion",
-  "Gear": "Gear",
-  "Identity": "Identity",
-  "Inventory": "Inventory",
-  "Items": "Items",
-  "Loot": "Loot",
-  "Members": "Members",
-  "Pools": "Pools",
-  "Progress": "Progress",
-  "Progression": "Progression",
-  "Properties": "Properties",
-  "Requirements": "Requirements",
-  "Skills": "Skills",
-  "Stock": "Stock"
-},
-
-"SheetActions": {
-  "ChangeItem": "Change Item",
-  "CreateBuff": "Create New Buff",
-  "CreateEnhancement": "Create Enhancement",
-  "CreateFusion": "Create New Fusion",
-  "CreateItem": "Create New Item",
-  "Distribute": "Distribute",
-  "EditItem": "Edit Item",
-  "EditPools": "Edit Pools",
-  "FuseItem": "Fuse Item",
-  "GrantLoot": "Grant Loot",
-  "PlaceMembers": "Place Members",
-  "RecallMembers": "Recall Members",
-  "RecoverHealth": "Recover Health",
-  "ToggleOpacity": "Toggle Opacity",
-  "ToggleSheet": "Toggle Sheet"
-},
-
-"Pools": {
-  "Danger": "Danger",
-  "Health": "Health",
-  "Mana": "Mana",
-  "Stamina": "Stamina"
-},
-
-"Skills": {
-  "Agility": "Agility",
-  "Brawn": "Brawn",
-  "Mind": "Mind",
-  "Spirit": "Spirit"
-},
-
-"DamageType": {
-  "Arcane": "Arcane",
-  "Darkness": "Darkness",
-  "Fire": "Fire",
-  "Ice": "Ice",
-  "Light": "Light",
-  "Lightning": "Lightning",
-  "Physical": "Physical",
-  "Wind": "Wind"
-},
-
-"DamageTypeGroup": {
-  "Physical": "Physical",
-  "Elemental": "Elemental",
-  "Planar": "Planar"
-},
-
-"ActorProperty": {
-  "FIELDS": {
-    "bonuses": {
-      "damage": {
-        "elemental": {
-          "label": "Elemental Damage Amplification"
-        },
-        "physical": {
-          "label": "Physical Damage Amplification"
-        },
-        "planar": {
-          "label": "Planar Damage Amplification"
-        }
-      }
-    },
-    "clocks": {
-      "name": {
-        "label": "Name",
-        "initial": "New Clock"
-      },
-      "value": {
-        "label": "Value"
-      },
-      "max": {
-        "label": "Max"
-      },
-      "color": {
-        "label": "Color"
-      }
-    },
-    "currency": {
-      "label": "Currencies",
-      "funds": {
-        "label": "Funds"
-      }
-    },
-    "danger": {
-      "pool": {
-        "max": {
-          "label": "Pool Maximum",
-          "hint": "The size of this monster's danger pool."
-        },
-        "spent": {
-          "label": "Spent",
-          "hint": "How much of the danger pool has been spent."
-        }
-      },
-      "value": {
-        "label": "Danger Level",
-        "hint": "The danger level of a monster determines their overall challenge as well as their action points."
-      }
-    },
-    "defenses": {
-      "armor": {
-        "label": "Armor",
-        "hint": "Armor value reduces incoming physical damage."
-      }
-    },
-    "details": {
-      "notes": {
-        "label": "Notes"
-      }
-    },
-    "pips": {
-      "value": {
-        "label": "Action Points",
-        "hint": "The number of action points this actor has remaining to spend on actions during combat."
-      },
-      "turn": {
-        "label": "Turn Bonus",
-        "hint": "The number of additional action points this actor receives for each turn it takes in a combat round."
-      }
-    },
-    "pools": {
-      "health": {
-        "label": "Health Pool",
-        "faces": {
-          "label": "Health Pool Faces",
-          "hint": "The size of each health die."
-        },
-        "max": {
-          "label": "Health Pool Maximum",
-          "hint": "The size of the total health pool."
-        },
-        "spent": {
-          "label": "Spent",
-          "hint": "The number of health dice that have been expended."
-        }
-      },
-      "mana": {
-        "label": "Mana Pool",
-        "faces": {
-          "label": "Mana Pool Faces",
-          "hint": "The size of each mana die."
-        },
-        "max": {
-          "label": "Mana Pool Maximum",
-          "hint": "The size of the total mana pool."
-        },
-        "spent": {
-          "label": "Spent",
-          "hint": "The number of mana dice that have been expended."
-        }
-      },
-      "stamina": {
-        "label": "Stamina Pool",
-        "faces": {
-          "label": "Stamina Pool Faces",
-          "hint": "The size of each stamina die."
-        },
-        "max": {
-          "label": "Stamina Pool Maximum",
-          "hint": "The size of the total stamina pool."
-        },
-        "spent": {
-          "label": "Spent",
-          "hint": "The number of stamina dice that have been expended."
-        }
-      }
-    },
-    "skills": {
-      "agility": {
-        "label": "Agility",
-        "bonus": { "label": "Agility Bonus" },
-        "number": { "label": "Agility Dice" }
-      },
-      "brawn": {
-        "label": "Brawn",
-        "bonus": { "label": "Brawn Bonus" },
-        "number": { "label": "Brawn Dice" }
-      },
-      "mind": {
-        "label": "Mind",
-        "bonus": { "label": "Mind Bonus" },
-        "number": { "label": "Mind Dice" }
-      },
-      "spirit": {
-        "label": "Spirit",
-        "bonus": { "label": "Spirit Bonus" },
-        "number": { "label": "Spirit Dice" }
-      }
-    },
-    "shop": {
-      "label": "Shop"
-    }
+"SHEET": {
+  "ACTOR": {
+    "Base": "Artichron Actor Sheet",
+    "Hero": "Artichron Hero Sheet",
+    "Merchant": "Artichron Merchant Sheet",
+    "Monster": "Artichron Monster Sheet",
+    "Party": "Artichron Party Sheet"
   },
-  "Progression": {
-    "FIELDS": {
-      "type": {
-        "label": "Type",
-        "hint": "The type of progression."
-      },
-      "value": {
-        "label": "Points",
-        "hint": "The amount of points to spend."
-      }
-    },
-    "Pool": {
-      "FIELDS": {
-        "pool": {
-          "label": "Pool",
-          "hint": "Choose the pool to increase. You will gain one additional die for every two points spent."
-        }
-      }
-    },
-    "Skill": {
-      "FIELDS": {
-        "skill": {
-          "label": "Skill",
-          "hint": "Choose the skill to enhance. You will gain one additional die for every point spent."
-        }
-      }
-    }
-  }
-},
-
-"EFFECT": {
-  "FIELDS": {
-    "expiration": {
-      "label": "Expiration",
-      "hint": "Select when this effect automatically expires."
-    },
-    "granted": {
-      "label": "Granted",
-      "hint": "Whether this buff is currently granted."
-    },
-    "itemData": {
-      "label": "Item Data",
-      "hint": "Stored item data for the item that was destroyed when fusing onto this."
-    },
-    "level": {
-      "label": "Level",
-      "hint": "The current level of this status condition."
-    },
-    "primary": {
-      "label": "Primary Status",
-      "hint": "The primary status condition of this effect."
-    },
-    "source": {
-      "label": "Source",
-      "hint": "The uuid of the item that granted this buff."
-    },
-    "subtype": {
-      "label": "Subtype",
-      "hint": "An actor or item type used to determine the available options on the sheet of this effect."
-    }
-  }
-},
-
-"ItemProperty": {
-  "AmmoProperty": {
-    "FIELDS": {
-      "category": {
-        "label": "Category",
-        "subtype": {
-          "label": "Ammo Type",
-          "hint": "The type of ammunition this is will determine what weapons can use it."
-        }
-      }
-    }
+  "EFFECT": {
+    "Base": "Artichron ActiveEffect Sheet"
   },
-
-  "ArmorProperty": {
-    "FIELDS": {
-      "category": {
-        "label": "Type",
-        "subtype": {
-          "label": "Armor Type",
-          "hint": "The type of armor this is will determine how it is equipped."
-        }
-      }
-    }
-  },
-
-  "PartProperty": {
-    "FIELDS": {
-      "category": {
-        "label": "Type",
-        "subtype": {
-          "label": "Monster Part Subtype",
-          "hint": "TODO"
-        }
-      }
-    }
-  },
-
-  "ShieldProperty": {
-    "FIELDS": {
-      "category": {
-        "label": "Type",
-        "subtype": {
-          "label": "Shield Type",
-          "hint": "The shield type determines how much it protects the wielder."
-        }
-      }
-    }
-  },
-
-  "FIELDS": {
-    "armor": {
-      "value": {
-        "label": "Armor",
-        "hint": "The armor value of this item, which reduces incoming physical damage."
-      }
-    },
-    "attributes": {
-      "value": {
-        "label": "Attributes",
-        "hint": "Unique attributes of this item."
-      }
-    },
-    "boost": {
-      "label": "Boost",
-      "hint": "If this elixir can be used to boost an activity, select the type of the pool."
-    },
-    "description": {
-      "value": {
-        "label": "Description"
-      }
-    },
-    "fusion": {
-      "label": "Fusion",
-      "ignore": {
-        "label": "Ignored Properties",
-        "hint": "If checked, an item property will not be added via fusions by default when this item is fused onto another."
-      },
-      "max": {
-        "label": "Maximum Fusions",
-        "hint": "The maximum number of fusions that can target this item at the same time."
-      }
-    },
-    "price": {
-      "value": {
-        "label": "Price",
-        "hint": "The deemed value of the item."
-      }
-    },
-    "quantity": {
-      "value": {
-        "label": "Quantity",
-        "hint": "The size of this stack of items."
-      }
-    },
-    "resistances": {
-      "label": "Resistances",
-      "arcane": {
-        "value": {
-          "label": "Arcane Resistance"
-        }
-      },
-      "darkness": {
-        "value": {
-          "label": "Darkness Resistance"
-        }
-      },
-      "fire": {
-        "value": {
-          "label": "Fire Resistance"
-        }
-      },
-      "ice": {
-        "value": {
-          "label": "Ice Resistance"
-        }
-      },
-      "light": {
-        "value": {
-          "label": "Light Resistance"
-        }
-      },
-      "lightning": {
-        "value": {
-          "label": "Lightning Resistance"
-        }
-      },
-      "wind": {
-        "value": {
-          "label": "Wind Resistance"
-        }
-      }
-    },
-    "usage": {
-      "label": "Uses",
-      "max": {
-        "label": "Max Uses",
-        "hint": "The total number of uses of this item."
-      },
-      "spent": {
-        "label": "Spent",
-        "hint": "The number of uses of this item that have been spent."
-      }
-    },
-    "weight": {
-      "value": {
-        "label": "Weight",
-        "hint": "The amount that this item contributes to its owner's encumbrance."
-      }
-    },
-    "wield": {
-      "value": {
-        "label": "Wielding",
-        "hint": "The number of hands required to handle this item."
-      }
-    }
-  },
-
-  "ArmorRequirement": {
-    "FIELDS": {
-      "type": {
-        "label": "Type",
-        "hint": "The type of armor requirement."
-      }
-    },
-    "Pool": {
-      "label": "Pool",
-      "hint": "The character's pool of the given type must be at least this large to gain the benefits of wearing this armor.",
-      "content": "{pool} pool size of at least {value}.",
-      "FIELDS": {
-        "pool": {
-          "label": "Pool",
-          "hint": "The pool that must be at least the given size."
-        },
-        "value": {
-          "label": "Value",
-          "hint": "The pool size that must be met or exceeded.",
-          "placeholder": "Size"
-        }
-      }
-    },
-    "Health": {
-      "label": "Health",
-      "hint": "The character must have this amount of health remaining to gain the benefits of wearing this armor.",
-      "content": "At least {value} remaining health.",
-      "FIELDS": {
-        "value": {
-          "label": "Health",
-          "hint": "The amount of health this character must have remaining.",
-          "placeholder": "Health"
-        }
-      }
-    },
-    "Level": {
-      "label": "Level",
-      "hint": "The character must have attained at least this level of experience to gain the benefits of wearing this armor.",
-      "content": "Attained at least {value} level.",
-      "FIELDS": {
-        "value": {
-          "label": "Experience",
-          "hint": "The level of experience the character must have attained."
-        }
-      }
-    },
-    "Skill": {
-      "label": "Skill",
-      "hint": "The character must have this many dice in the given skill to gain the benefits of wearing this armor.",
-      "content": "At least {value} dice in the {skill} skill.",
-      "FIELDS": {
-        "skill": {
-          "label": "Skill",
-          "hint": "The skill that must have the given number of dice."
-        },
-        "value": {
-          "label": "Value",
-          "hint": "The skill dice amount that must be met.",
-          "placeholder": "Dice"
-        }
-      }
-    }
-  }
-},
-
-"RegionProperty": {
-  "DOORSTATE": {
-    "FIELDS": {
-      "doors": {
-        "label": "Doors",
-        "hint": "Enter the uuid of the doors whose state is changed by this behavior."
-      },
-      "once": {
-        "label": "Once",
-        "hint": "Disable this behavior once it has been triggered."
-      },
-      "state": {
-        "label": "State",
-        "hint": "The new state the doors will be set to."
-      }
-    }
-  },
-  "ENTERSTORE": {
-    "FIELDS": {
-      "merchant": {
-        "label": "Merchant",
-        "hint": "When a token moves into this region, all non-GM users who are owners of the token will render this merchant's sheet."
-      }
-    }
-  },
-  "TOGGLECONDITION": {
-    "FIELDS": {
-      "status": {
-        "label": "Status",
-        "hint": "The condition that will be applied or increased within this region."
-      },
-      "decrease": {
-        "label": "Remove",
-        "hint": "Rather than granting or increasing the level of a condition, this behavior will remove or decrease the level."
-      }
-    }
+  "ITEM": {
+    "Ammunition": "Artichron Ammunition Sheet",
+    "Base": "Artichron Item Sheet",
+    "Elixir": "Artichron Elixir Sheet",
+    "Part": "Artichron Monster Part Sheet"
   }
 },
 
 "ACTIVITY": {
+  "Buttons": {
+    "ApplyDamage": "Apply Damage",
+    "ApplyEffects": "Apply Effects",
+    "ApplyHealing": "Apply Healing",
+    "Teleport": "Teleport Token"
+  },
   "FIELDS": {
     "ammunition": {
       "label": "Ammunition",
       "type": {
-        "label": "Type",
-        "hint": "The type of ammunition used by this activity. If left blank, this activity will not be able to consume ammunition."
+        "hint": "The type of ammunition used by this activity. If left blank, this activity will not be able to consume ammunition.",
+        "label": "Type"
       }
     },
     "cost": {
       "label": "Action Cost",
       "value": {
-        "label": "Action Cost",
-        "hint": "The action point cost to make use of this activity."
+        "hint": "The action point cost to make use of this activity.",
+        "label": "Action Cost"
       }
     },
     "damage": {
-      "label": "Damage",
       "FIELDS": {
         "formula": {
           "label": "Formula"
@@ -666,30 +92,31 @@
         "type": {
           "label": "Type"
         }
-      }
+      },
+      "label": "Damage"
     },
     "defend": {
-      "label": "Defend",
       "formula": {
-        "label": "Formula",
-        "hint": "The formula used for a defensive roll. If parrying rather than blocking, the amount of dice will be halved."
-      }
+        "hint": "The formula used for a defensive roll. If parrying rather than blocking, the amount of dice will be halved.",
+        "label": "Formula"
+      },
+      "label": "Defend"
     },
     "description": {
       "label": "Description"
     },
     "effects": {
-      "label": "Effects",
       "ids": {
         "hint": "The transferrable effects this activity will be able to transfer to a target."
-      }
+      },
+      "label": "Effects"
     },
     "healing": {
-      "label": "Healing",
       "formula": {
-        "label": "Formula",
-        "hint": "The formula that will be rolled to perform the healing."
-      }
+        "hint": "The formula that will be rolled to perform the healing.",
+        "label": "Formula"
+      },
+      "label": "Healing"
     },
     "img": {
       "label": "Image"
@@ -698,39 +125,46 @@
       "label": "Name"
     },
     "target": {
-      "label": "Targeting",
       "count": {
-        "label": "Count",
-        "hint": "How many targets this activity can have, or areas of effect this activity creates."
+        "hint": "How many targets this activity can have, or areas of effect this activity creates.",
+        "label": "Count"
       },
       "duration": {
-        "label": "Duration",
-        "hint": "When measured templates created by this activity are automatically removed."
+        "hint": "When measured templates created by this activity are automatically removed.",
+        "label": "Duration"
       },
+      "label": "Targeting",
       "range": {
-        "label": "Range",
-        "hint": "The maximum range between the character and the target."
+        "hint": "The maximum range between the character and the target.",
+        "label": "Range"
       },
       "size": {
-        "label": "Size",
-        "hint": "The length or radius of the created template."
+        "hint": "The length or radius of the created template.",
+        "label": "Size"
       },
       "type": {
-        "label": "Type",
-        "hint": "The type of targeting this activity requires, either individual targets or areas of effect."
+        "hint": "The type of targeting this activity requires, either individual targets or areas of effect.",
+        "label": "Type"
       },
       "width": {
-        "label": "Width",
-        "hint": "The width of the created templates."
+        "hint": "The width of the created templates.",
+        "label": "Width"
       }
     },
     "teleport": {
-      "label": "Teleport",
       "distance": {
-        "label": "Distance",
-        "hint": "The distance the target is teleported."
-      }
+        "hint": "The distance the target is teleported.",
+        "label": "Distance"
+      },
+      "label": "Teleport"
     }
+  },
+  "Types": {
+    "Damage": "Damage Activity",
+    "Defend": "Defend Activity",
+    "Effect": "Effect Activity",
+    "Healing": "Healing Activity",
+    "Teleport": "Teleport Activity"
   },
   "Warning": {
     "ConsumeCostUnavailable": "{name} does not have {number} action points available.",
@@ -747,93 +181,7 @@
     "NoRemainingUses": "This item has no remaining uses.",
     "NoTemplates": "This item cannot create measured templates!",
     "NoToken": "A token must be present on the scene."
-  },
-  "Types": {
-    "Damage": "Damage Activity",
-    "Defend": "Defend Activity",
-    "Effect": "Effect Activity",
-    "Healing": "Healing Activity",
-    "Teleport": "Teleport Activity"
-  },
-  "Buttons": {
-    "Teleport": "Teleport Token",
-    "ApplyDamage": "Apply Damage",
-    "ApplyEffects": "Apply Effects",
-    "ApplyHealing":"Apply Healing"
   }
-},
-
-"ROLL": {
-  "Damage": {
-    "AmmoItem": "Ammunition",
-    "AmmoItemHint": "An ammunition item to modify the damage roll.",
-    "Ammunition": "Ammunition",
-    "Title": "{name}: Roll Damage"
-  },
-  "Defend": {
-    "Flavor": "{name} - Defensive Roll",
-    "Pool": "Pool",
-    "PoolHint": "Expend points from the relevant pool to increase the number of dice rolled.",
-    "PoolLabel": "Points",
-    "Title": "{name}: Defensive Roll"
-  },
-  "Selected": "Selected",
-  "SelectedNone": "No tokens selected.",
-  "Targeted": "Targeted"
-},
-
-"MACRO": {
-  "ToggleEffect": "Toggle Effect: {name}",
-  "UseItem": "Use Item: {name}"
-},
-
-"ProgressionThresholds": {
-  "Novice": "Novice",
-  "Experienced": "Experienced",
-  "Veteran": "Veteran"
-},
-
-"Wielding": {
-  "OneHanded": "One-Handed",
-  "TwoHanded": "Two-Handed"
-},
-
-"TemplateDurations": {
-  "Combat": "End of Combat",
-  "None": "None",
-  "Round": "End of Round",
-  "Turn": "End of Turn"
-},
-
-"EffectDurations": {
-  "Combat": "End of Combat",
-  "Day": "End of Day",
-  "None": "None"
-},
-
-"ItemAttribute": {
-  "Ammunition": "Ammunition",
-  "Blocking": "Blocking",
-  "Bludgeoning": "Bludgeoning",
-  "Fusion": "Fusion",
-  "Magical": "Magical",
-  "Parrying": "Parrying",
-  "Rending": "Rending"
-},
-
-"PoolConfig": {
-  "FacesLabel": "Die Faces",
-  "MaxLabel": "Pool Size",
-  "SpecializationBalanced": "Balanced",
-  "SpecializationBalancedFacesHint": "A balanced configuration. Each die has the same number of faces.",
-  "SpecializationBalancedSizeHint": "A balanced configuration. Each pool has the same size.",
-  "SpecializationFocused": "Focused",
-  "SpecializationFocusedFacesHint": "A highly focused configuration. One type of pool has a massive number of faces, but the rest are untouched.",
-  "SpecializationFocusedSizeHint": "A highly focused configuration. One type of pool has a massive number of die, but the rest are untouched.",
-  "SpecializationSpecialized": "Specialized",
-  "SpecializationSpecializedFacesHint": "A specialized configuration. The pools have a small, medium, and large number of faces.",
-  "SpecializationSpecializedSizeHint": "A specialized configuration. The pools have a small, medium, and large amount of dice.",
-  "Title": "Configure Pools: {name}"
 },
 
 "ActivitySelectDialog": {
@@ -866,166 +214,218 @@
   }
 },
 
-"PartyDistributionDialog": {
-  "TitleCurrency": "{name}: Distribute Chron",
-  "TitlePoints": "{name}: Distribute Points",
-  "ContentCurrency": "{name} has been distributed {amount} <span class='chron'></span>.",
-  "ContentPoints": "{name} has been distributed {amount} points.",
-  "amount": {
-    "label": "Amount",
-    "hintCurrency": "The amount of funds to distribute. Each recipient will receive this amount.",
-    "hintPoints": "The amount of points to distribute. Each recipient will receive this amount."
+"ActorProperty": {
+  "FIELDS": {
+    "bonuses": {
+      "damage": {
+        "elemental": {
+          "label": "Elemental Damage Amplification"
+        },
+        "physical": {
+          "label": "Physical Damage Amplification"
+        },
+        "planar": {
+          "label": "Planar Damage Amplification"
+        }
+      }
+    },
+    "clocks": {
+      "color": {
+        "label": "Color"
+      },
+      "max": {
+        "label": "Max"
+      },
+      "name": {
+        "initial": "New Clock",
+        "label": "Name"
+      },
+      "value": {
+        "label": "Value"
+      }
+    },
+    "currency": {
+      "funds": {
+        "label": "Funds"
+      },
+      "label": "Currencies"
+    },
+    "danger": {
+      "pool": {
+        "max": {
+          "hint": "The size of this monster's danger pool.",
+          "label": "Pool Maximum"
+        },
+        "spent": {
+          "hint": "How much of the danger pool has been spent.",
+          "label": "Spent"
+        }
+      },
+      "value": {
+        "hint": "The danger level of a monster determines their overall challenge as well as their action points.",
+        "label": "Danger Level"
+      }
+    },
+    "defenses": {
+      "armor": {
+        "hint": "Armor value reduces incoming physical damage.",
+        "label": "Armor"
+      }
+    },
+    "details": {
+      "notes": {
+        "label": "Notes"
+      }
+    },
+    "pips": {
+      "turn": {
+        "hint": "The number of additional action points this actor receives for each turn it takes in a combat round.",
+        "label": "Turn Bonus"
+      },
+      "value": {
+        "hint": "The number of action points this actor has remaining to spend on actions during combat.",
+        "label": "Action Points"
+      }
+    },
+    "pools": {
+      "health": {
+        "faces": {
+          "hint": "The size of each health die.",
+          "label": "Health Pool Faces"
+        },
+        "label": "Health Pool",
+        "max": {
+          "hint": "The size of the total health pool.",
+          "label": "Health Pool Maximum"
+        },
+        "spent": {
+          "hint": "The number of health dice that have been expended.",
+          "label": "Spent"
+        }
+      },
+      "mana": {
+        "faces": {
+          "hint": "The size of each mana die.",
+          "label": "Mana Pool Faces"
+        },
+        "label": "Mana Pool",
+        "max": {
+          "hint": "The size of the total mana pool.",
+          "label": "Mana Pool Maximum"
+        },
+        "spent": {
+          "hint": "The number of mana dice that have been expended.",
+          "label": "Spent"
+        }
+      },
+      "stamina": {
+        "faces": {
+          "hint": "The size of each stamina die.",
+          "label": "Stamina Pool Faces"
+        },
+        "label": "Stamina Pool",
+        "max": {
+          "hint": "The size of the total stamina pool.",
+          "label": "Stamina Pool Maximum"
+        },
+        "spent": {
+          "hint": "The number of stamina dice that have been expended.",
+          "label": "Spent"
+        }
+      }
+    },
+    "shop": {
+      "label": "Shop"
+    },
+    "skills": {
+      "agility": {
+        "bonus": {
+          "label": "Agility Bonus"
+        },
+        "label": "Agility",
+        "number": {
+          "label": "Agility Dice"
+        }
+      },
+      "brawn": {
+        "bonus": {
+          "label": "Brawn Bonus"
+        },
+        "label": "Brawn",
+        "number": {
+          "label": "Brawn Dice"
+        }
+      },
+      "mind": {
+        "bonus": {
+          "label": "Mind Bonus"
+        },
+        "label": "Mind",
+        "number": {
+          "label": "Mind Dice"
+        }
+      },
+      "spirit": {
+        "bonus": {
+          "label": "Spirit Bonus"
+        },
+        "label": "Spirit",
+        "number": {
+          "label": "Spirit Dice"
+        }
+      }
+    }
   },
-  "targets": {
-    "label": "Recipients",
-    "hint": "The members of this party that will receive part of the distribution."
+  "Progression": {
+    "FIELDS": {
+      "type": {
+        "hint": "The type of progression.",
+        "label": "Type"
+      },
+      "value": {
+        "hint": "The amount of points to spend.",
+        "label": "Points"
+      }
+    },
+    "Pool": {
+      "FIELDS": {
+        "pool": {
+          "hint": "Choose the pool to increase. You will gain one additional die for every two points spent.",
+          "label": "Pool"
+        }
+      }
+    },
+    "Skill": {
+      "FIELDS": {
+        "skill": {
+          "hint": "Choose the skill to enhance. You will gain one additional die for every point spent.",
+          "label": "Skill"
+        }
+      }
+    }
   }
 },
 
-"ItemFusionDialog": {
-  "Changes": "Changes",
-  "Default": "Default",
-  "DefaultFusion": "Fusion: {name}",
-  "Fuse": "Fuse",
-  "FusionLabel": "Fusion",
-  "Split": "Split",
-  "SplitLabel": "Fusion",
-  "SplitHint": "Select the active fusion to split off this item. The source item will be restored.",
-  "TargetLabel": "Target",
-  "Title": "{source}: Fuse",
-  "TitleUnfuse": "{item}: Split",
-  "UnfuseTitle": "Split '{source}' and '{target}'?"
+"AmmunitionType": {
+  "Arrow": "Arrow",
+  "Bullet": "Bullet",
+  "Round": "Round",
+  "Shell": "Shotgun Shell"
 },
 
-"ProgressionDialog": {
-  "Title": "{name}: Create Progression",
-  "PoolTitle": "{name}: Create Pool Progression",
-  "SkillTitle": "{name}: Create Skill Progression",
-  "TypeLabel": "Type",
-  "TypeHint": "Choose the type of progression to add to the character.",
-  "WarningNoPoints": "This actor has no progression points to spend!"
-},
-
-"EquipDialog": {
-  "Label": "Item",
-  "Hint": "Select the item to equip in this slot.",
-  "Title": "Change Equipped Item",
-  "Warning": "You have no items that can be equipped in that slot."
-},
-
-"DefenseDialog": {
-  "Title": "Defense Roll: {name}",
-  "Items": "Arsenal",
-  "ItemsHint": "Choose any of your equipped arsenal to defend against the attack and reduce incoming damage.",
-  "Confirm": "Roll",
-  "Content": "{name} is about to take {damage} damage. You can attempt to parry or block to reduce the damage by an amount equal to the rolled totals."
-},
-
-"LootDialog": {
-  "Title": "{name}: Grant Loot",
-  "Content": "Grant the loot from this monster ({name}) to the primary party? The loot will be removed from the monster."
-},
-
-"MerchantConfigurationDialog": {
-  "Title": "Configure Merchant: {name}"
-},
-
-"SkillsDialog": {
-  "Title": "{name}: Roll Skill",
-  "Hint": "Select two skills to combine for the roll, adding together their dice and bonuses.",
-  "Flavor": "Skill Roll ({skills})"
-},
-
-"TargetTypes": {
-  "AreaOfEffect": "Area of Effect",
-  "Self": "Self",
-  "SingleTarget": "Single Target",
-  "AreaRay": "Line",
-  "AreaCone": "Cone",
-  "AreaCircle": "Circle",
-  "AreaRadius": "Radius"
-},
-
-"Setting": {
-  "CircularTokens": "Circular Tokens",
-  "CircularTokensHint": "Are tokens treated as circular for the purpose of their hit area?",
-  "TemplateAreaThreshold": "Template Area Threshold",
-  "TemplateAreaThresholdHint": "The percentage a token must overlap a template to be considered 'inside' it. The default is 0.4.",
-  "TokenBarLength": "Token Bar Length",
-  "TokenBarLengthHint": "The length of token bars, in degrees. The default is 120."
-},
-
-"Warning": {
-  "InvalidActiveEffectType": "The chosen effect type is not valid for this parent.",
-  "MissingActionPoints": "You do not have enough Action Points to perform that action."
-},
-
-"Effect": {
-  "ActiveFusions": "Active Fusions",
-  "Buffs": "Buffs",
-  "FusionOptions": "Fusion Options",
-  "Source": "Source",
-  "ActiveFusion": "Fusion",
-  "TransferredBuff": "Transferred Buff",
-  "Conditions": "Conditions",
-  "Level": "Level: {level}"
-},
-
-"ContextMenu": {
-  "ActiveEffect": {
-    "DecreaseLevel": "Decrease Level",
-    "Delete": "Delete Effect",
-    "Disable": "Disable Effect",
-    "Duplicate": "Duplicate Effect",
-    "Enable": "Enable Effect",
-    "IncreaseLevel": "Increase Level",
-    "Render": "Render Sheet",
-    "Unfuse":"Split Fusion"
-  },
-  "Activity": {
-    "Render": "Render Sheet",
-    "Delete": "Delete Activity",
-    "Duplicate": "Duplicate Activity"
-  },
-  "Directory": {
-    "AssignPrimaryParty": "Assign Primary Party",
-    "RemovePrimaryParty": "Unassign Primary Party"
-  },
-  "Item": {
-    "Delete": "Delete Item",
-    "Favorite": "Add to Favorites",
-    "Fuse": "Fuse Item",
-    "Render": "Render Sheet",
-    "Unequip": "Unequip Item",
-    "Unfavorite": "Remove from Favorites",
-    "Unfuse": "Split Fusion",
-    "Use": "Use Item"
-  }
+"ArmorType": {
+  "Accessory": "Accessory",
+  "Arms": "Arm Piece",
+  "Boots": "Boots",
+  "Chest": "Chest Piece",
+  "Head": "Head Piece",
+  "Legs": "Leg Piece"
 },
 
 "ChatMessage": {
+  "AcceptTrade": "Accept Trade",
   "TradeComplete": "Trade Complete!",
-  "TradeInfo": "{actor} wants to trade {item} to {target}.",
-  "AcceptTrade": "Accept Trade"
-},
-
-"StatusConditions": {
-  "Blind": "Blind",
-  "Bleeding": "Bleeding",
-  "BleedingHint": "{actor} takes {level}d6 physical damage at the start of every round.",
-  "BleedingFlavor": "{actor} is bleeding",
-  "Bloodied": "Bloodied",
-  "Burning": "Burning",
-  "BurningHint": "{actor} takes {level}d12 fire damage at the start of every round.",
-  "BurningFlavor": "{actor} is burning",
-  "Critical": "Critical",
-  "Defeated": "Defeated",
-  "Flying": "Flying",
-  "Hindered": "Hindered",
-  "Injured": "Injured",
-  "Invisible": "Invisible",
-  "Levitating": "Levitating",
-  "Underground": "Underground"
+  "TradeInfo": "{actor} wants to trade {item} to {target}."
 },
 
 "Combat": {
@@ -1045,4 +445,641 @@
   "ToggleCollapsed": "Collapse",
   "ToggleDefeated": "Toggle Defeated",
   "ToggleHidden": "Toggle Hidden"
-}}}
+},
+
+"ContextMenu": {
+  "ActiveEffect": {
+    "DecreaseLevel": "Decrease Level",
+    "Delete": "Delete Effect",
+    "Disable": "Disable Effect",
+    "Duplicate": "Duplicate Effect",
+    "Enable": "Enable Effect",
+    "IncreaseLevel": "Increase Level",
+    "Render": "Render Sheet",
+    "Unfuse": "Split Fusion"
+  },
+  "Activity": {
+    "Delete": "Delete Activity",
+    "Duplicate": "Duplicate Activity",
+    "Render": "Render Sheet"
+  },
+  "Directory": {
+    "AssignPrimaryParty": "Assign Primary Party",
+    "RemovePrimaryParty": "Unassign Primary Party"
+  },
+  "Item": {
+    "Delete": "Delete Item",
+    "Favorite": "Add to Favorites",
+    "Fuse": "Fuse Item",
+    "Render": "Render Sheet",
+    "Unequip": "Unequip Item",
+    "Unfavorite": "Remove from Favorites",
+    "Unfuse": "Split Fusion",
+    "Use": "Use Item"
+  }
+},
+
+"DamageType": {
+  "Arcane": "Arcane",
+  "Darkness": "Darkness",
+  "Fire": "Fire",
+  "Ice": "Ice",
+  "Light": "Light",
+  "Lightning": "Lightning",
+  "Physical": "Physical",
+  "Wind": "Wind"
+},
+
+"DamageTypeGroup": {
+  "Elemental": "Elemental",
+  "Physical": "Physical",
+  "Planar": "Planar"
+},
+
+"DefenseDialog": {
+  "Confirm": "Roll",
+  "Content": "{name} is about to take {damage} damage. You can attempt to parry or block to reduce the damage by an amount equal to the rolled totals.",
+  "Items": "Arsenal",
+  "ItemsHint": "Choose any of your equipped arsenal to defend against the attack and reduce incoming damage.",
+  "Title": "Defense Roll: {name}"
+},
+
+"EFFECT": {
+  "FIELDS": {
+    "expiration": {
+      "hint": "Select when this effect automatically expires.",
+      "label": "Expiration"
+    },
+    "granted": {
+      "hint": "Whether this buff is currently granted.",
+      "label": "Granted"
+    },
+    "itemData": {
+      "hint": "Stored item data for the item that was destroyed when fusing onto this.",
+      "label": "Item Data"
+    },
+    "level": {
+      "hint": "The current level of this status condition.",
+      "label": "Level"
+    },
+    "primary": {
+      "hint": "The primary status condition of this effect.",
+      "label": "Primary Status"
+    },
+    "source": {
+      "hint": "The uuid of the item that granted this buff.",
+      "label": "Source"
+    },
+    "subtype": {
+      "hint": "An actor or item type used to determine the available options on the sheet of this effect.",
+      "label": "Subtype"
+    }
+  }
+},
+
+"EffectDurations": {
+  "Combat": "End of Combat",
+  "Day": "End of Day",
+  "None": "None"
+},
+
+"EquipDialog": {
+  "Hint": "Select the item to equip in this slot.",
+  "Label": "Item",
+  "Title": "Change Equipped Item",
+  "Warning": "You have no items that can be equipped in that slot."
+},
+
+"ItemAttribute": {
+  "Ammunition": "Ammunition",
+  "Blocking": "Blocking",
+  "Bludgeoning": "Bludgeoning",
+  "Fusion": "Fusion",
+  "Magical": "Magical",
+  "Parrying": "Parrying",
+  "Rending": "Rending"
+},
+
+"ItemFusionDialog": {
+  "Changes": "Changes",
+  "Default": "Default",
+  "DefaultFusion": "Fusion: {name}",
+  "Fuse": "Fuse",
+  "FusionLabel": "Fusion",
+  "Split": "Split",
+  "SplitHint": "Select the active fusion to split off this item. The source item will be restored.",
+  "SplitLabel": "Fusion",
+  "TargetLabel": "Target",
+  "Title": "{source}: Fuse",
+  "TitleUnfuse": "{item}: Split",
+  "UnfuseTitle": "Split '{source}' and '{target}'?"
+},
+
+"ITEM": {
+  "AMMO": {
+    "FIELDS": {
+      "category": {
+        "label": "Category",
+        "subtype": {
+          "hint": "The type of ammunition this is will determine what weapons can use it.",
+          "label": "Ammo Type"
+        }
+      }
+    }
+  },
+  "ARMOR": {
+    "FIELDS": {
+      "category": {
+        "label": "Type",
+        "subtype": {
+          "hint": "The type of armor this is will determine how it is equipped.",
+          "label": "Armor Type"
+        }
+      }
+    }
+  },
+  "REQUIREMENT": {
+    "FIELDS": {
+      "type": {
+        "hint": "The type of armor requirement.",
+        "label": "Type"
+      }
+    },
+    "Health": {
+      "content": "At least {value} remaining health.",
+      "FIELDS": {
+        "value": {
+          "hint": "The amount of health this character must have remaining.",
+          "label": "Health",
+          "placeholder": "Health"
+        }
+      },
+      "hint": "The character must have this amount of health remaining to gain the benefits of wearing this armor.",
+      "label": "Health"
+    },
+    "Level": {
+      "content": "Attained at least {value} level.",
+      "FIELDS": {
+        "value": {
+          "hint": "The level of experience the character must have attained.",
+          "label": "Experience"
+        }
+      },
+      "hint": "The character must have attained at least this level of experience to gain the benefits of wearing this armor.",
+      "label": "Level"
+    },
+    "Pool": {
+      "content": "{pool} pool size of at least {value}.",
+      "FIELDS": {
+        "pool": {
+          "hint": "The pool that must be at least the given size.",
+          "label": "Pool"
+        },
+        "value": {
+          "hint": "The pool size that must be met or exceeded.",
+          "label": "Value",
+          "placeholder": "Size"
+        }
+      },
+      "hint": "The character's pool of the given type must be at least this large to gain the benefits of wearing this armor.",
+      "label": "Pool"
+    },
+    "Skill": {
+      "content": "At least {value} dice in the {skill} skill.",
+      "FIELDS": {
+        "skill": {
+          "hint": "The skill that must have the given number of dice.",
+          "label": "Skill"
+        },
+        "value": {
+          "hint": "The skill dice amount that must be met.",
+          "label": "Value",
+          "placeholder": "Dice"
+        }
+      },
+      "hint": "The character must have this many dice in the given skill to gain the benefits of wearing this armor.",
+      "label": "Skill"
+    }
+  },
+  "FIELDS": {
+    "armor": {
+      "value": {
+        "hint": "The armor value of this item, which reduces incoming physical damage.",
+        "label": "Armor"
+      }
+    },
+    "attributes": {
+      "value": {
+        "hint": "Unique attributes of this item.",
+        "label": "Attributes"
+      }
+    },
+    "boost": {
+      "hint": "If this elixir can be used to boost an activity, select the type of the pool.",
+      "label": "Boost"
+    },
+    "description": {
+      "value": {
+        "label": "Description"
+      }
+    },
+    "fusion": {
+      "ignore": {
+        "hint": "If checked, an item property will not be added via fusions by default when this item is fused onto another.",
+        "label": "Ignored Properties"
+      },
+      "label": "Fusion",
+      "max": {
+        "hint": "The maximum number of fusions that can target this item at the same time.",
+        "label": "Maximum Fusions"
+      }
+    },
+    "price": {
+      "value": {
+        "hint": "The deemed value of the item.",
+        "label": "Price"
+      }
+    },
+    "quantity": {
+      "value": {
+        "hint": "The size of this stack of items.",
+        "label": "Quantity"
+      }
+    },
+    "resistances": {
+      "arcane": {
+        "value": {
+          "label": "Arcane Resistance"
+        }
+      },
+      "darkness": {
+        "value": {
+          "label": "Darkness Resistance"
+        }
+      },
+      "fire": {
+        "value": {
+          "label": "Fire Resistance"
+        }
+      },
+      "ice": {
+        "value": {
+          "label": "Ice Resistance"
+        }
+      },
+      "label": "Resistances",
+      "light": {
+        "value": {
+          "label": "Light Resistance"
+        }
+      },
+      "lightning": {
+        "value": {
+          "label": "Lightning Resistance"
+        }
+      },
+      "wind": {
+        "value": {
+          "label": "Wind Resistance"
+        }
+      }
+    },
+    "usage": {
+      "label": "Uses",
+      "max": {
+        "hint": "The total number of uses of this item.",
+        "label": "Max Uses"
+      },
+      "spent": {
+        "hint": "The number of uses of this item that have been spent.",
+        "label": "Spent"
+      }
+    },
+    "weight": {
+      "value": {
+        "hint": "The amount that this item contributes to its owner's encumbrance.",
+        "label": "Weight"
+      }
+    },
+    "wield": {
+      "value": {
+        "hint": "The number of hands required to handle this item.",
+        "label": "Wielding"
+      }
+    }
+  },
+  "PART": {
+    "FIELDS": {
+      "category": {
+        "label": "Type",
+        "subtype": {
+          "hint": "TODO",
+          "label": "Monster Part Subtype"
+        }
+      }
+    }
+  },
+  "SHIELD": {
+    "FIELDS": {
+      "category": {
+        "label": "Type",
+        "subtype": {
+          "hint": "The shield type determines how much it protects the wielder.",
+          "label": "Shield Type"
+        }
+      }
+    }
+  }
+},
+
+"LootDialog": {
+  "Content": "Grant the loot from this monster ({name}) to the primary party? The loot will be removed from the monster.",
+  "Title": "{name}: Grant Loot"
+},
+
+"MACRO": {
+  "ToggleEffect": "Toggle Effect: {name}",
+  "UseItem": "Use Item: {name}"
+},
+
+"MerchantConfigurationDialog": {
+  "Title": "Configure Merchant: {name}"
+},
+
+"PartyDistributionDialog": {
+  "amount": {
+    "hintCurrency": "The amount of funds to distribute. Each recipient will receive this amount.",
+    "hintPoints": "The amount of points to distribute. Each recipient will receive this amount.",
+    "label": "Amount"
+  },
+  "ContentCurrency": "{name} has been distributed {amount} <span class='chron'></span>.",
+  "ContentPoints": "{name} has been distributed {amount} points.",
+  "targets": {
+    "hint": "The members of this party that will receive part of the distribution.",
+    "label": "Recipients"
+  },
+  "TitleCurrency": "{name}: Distribute Chron",
+  "TitlePoints": "{name}: Distribute Points"
+},
+
+"PoolConfig": {
+  "FacesLabel": "Die Faces",
+  "MaxLabel": "Pool Size",
+  "SpecializationBalanced": "Balanced",
+  "SpecializationBalancedFacesHint": "A balanced configuration. Each die has the same number of faces.",
+  "SpecializationBalancedSizeHint": "A balanced configuration. Each pool has the same size.",
+  "SpecializationFocused": "Focused",
+  "SpecializationFocusedFacesHint": "A highly focused configuration. One type of pool has a massive number of faces, but the rest are untouched.",
+  "SpecializationFocusedSizeHint": "A highly focused configuration. One type of pool has a massive number of die, but the rest are untouched.",
+  "SpecializationSpecialized": "Specialized",
+  "SpecializationSpecializedFacesHint": "A specialized configuration. The pools have a small, medium, and large number of faces.",
+  "SpecializationSpecializedSizeHint": "A specialized configuration. The pools have a small, medium, and large amount of dice.",
+  "Title": "Configure Pools: {name}"
+},
+
+"Pools": {
+  "Danger": "Danger",
+  "Health": "Health",
+  "Mana": "Mana",
+  "Stamina": "Stamina"
+},
+
+"PROGRESSION": {
+  "PATHS": {
+    "Cleric": "Cleric",
+    "Fighter": "Fighter",
+    "Mage": "Mage",
+    "Paladin": "Paladin",
+    "Shaman": "Shaman",
+    "Spellblade": "Spellblade",
+    "Thief": "Thief",
+    "Trickster": "Trickster"
+  },
+  "THRESHOLDS": {
+    "Experienced": "Experienced",
+    "Novice": "Novice",
+    "Veteran": "Veteran"
+  }
+},
+
+"ProgressionDialog": {
+  "PoolTitle": "{name}: Create Pool Progression",
+  "SkillTitle": "{name}: Create Skill Progression",
+  "Title": "{name}: Create Progression",
+  "TypeHint": "Choose the type of progression to add to the character.",
+  "TypeLabel": "Type",
+  "WarningNoPoints": "This actor has no progression points to spend!"
+},
+
+"Purchase": {
+  "Checkout": "Checkout",
+  "Receipt": "Receipt",
+  "Summary": "The members of {name} spent {total} at {shop} on the following items:"
+},
+
+"REGION": {
+  "DOORSTATE": {
+    "FIELDS": {
+      "doors": {
+        "hint": "Enter the uuid of the doors whose state is changed by this behavior.",
+        "label": "Doors"
+      },
+      "once": {
+        "hint": "Disable this behavior once it has been triggered.",
+        "label": "Once"
+      },
+      "state": {
+        "hint": "The new state the doors will be set to.",
+        "label": "State"
+      }
+    }
+  },
+  "ENTERSTORE": {
+    "FIELDS": {
+      "merchant": {
+        "hint": "When a token moves into this region, all non-GM users who are owners of the token will render this merchant's sheet.",
+        "label": "Merchant"
+      }
+    }
+  },
+  "TOGGLECONDITION": {
+    "FIELDS": {
+      "decrease": {
+        "hint": "Rather than granting or increasing the level of a condition, this behavior will remove or decrease the level.",
+        "label": "Remove"
+      },
+      "status": {
+        "hint": "The condition that will be applied or increased within this region.",
+        "label": "Status"
+      }
+    }
+  }
+},
+
+"ROLL": {
+  "Damage": {
+    "AmmoItem": "Ammunition",
+    "AmmoItemHint": "An ammunition item to modify the damage roll.",
+    "Ammunition": "Ammunition",
+    "Title": "{name}: Roll Damage"
+  },
+  "Defend": {
+    "Flavor": "{name} - Defensive Roll",
+    "Pool": "Pool",
+    "PoolHint": "Expend points from the relevant pool to increase the number of dice rolled.",
+    "PoolLabel": "Points",
+    "Title": "{name}: Defensive Roll"
+  },
+  "Selected": "Selected",
+  "SelectedNone": "No tokens selected.",
+  "Targeted": "Targeted"
+},
+
+"RULER": {
+  "ERROR": {
+    "NotYourTurn": "You cannot move when it is not your turn.",
+    "NotEnoughAP": "This movement would require at least {cost} Action Points."
+  }
+},
+
+"Setting": {
+  "CircularTokens": "Circular Tokens",
+  "CircularTokensHint": "Are tokens treated as circular for the purpose of their hit area?",
+  "TemplateAreaThreshold": "Template Area Threshold",
+  "TemplateAreaThresholdHint": "The percentage a token must overlap a template to be considered 'inside' it. The default is 0.4.",
+  "TokenBarLength": "Token Bar Length",
+  "TokenBarLengthHint": "The length of token bars, in degrees. The default is 120."
+},
+
+"SheetActions": {
+  "ChangeItem": "Change Item",
+  "CreateBuff": "Create New Buff",
+  "CreateEnhancement": "Create Enhancement",
+  "CreateFusion": "Create New Fusion",
+  "CreateItem": "Create New Item",
+  "Distribute": "Distribute",
+  "EditItem": "Edit Item",
+  "EditPools": "Edit Pools",
+  "FuseItem": "Fuse Item",
+  "GrantLoot": "Grant Loot",
+  "PlaceMembers": "Place Members",
+  "RecallMembers": "Recall Members",
+  "RecoverHealth": "Recover Health",
+  "ToggleOpacity": "Toggle Opacity",
+  "ToggleSheet": "Toggle Sheet"
+},
+
+"SheetLabels": {
+  "About": "About",
+  "Actions": "Actions",
+  "ActiveFusion": "Fusion",
+  "ActiveFusions": "Active Fusions",
+  "Activities": "Activities",
+  "Arsenal": "Arsenal",
+  "Attributes": "Attributes",
+  "Awards": "Awards",
+  "Biography": "Biography",
+  "Buffs": "Buffs",
+  "Cart": "Cart",
+  "Clocks": "Clocks",
+  "Conditions": "Conditions",
+  "Configuration": "Configuration",
+  "Consumables": "Consumables",
+  "Currency": "Currency",
+  "Defenses": "Defenses",
+  "Description": "Description",
+  "Details": "Details",
+  "Duration": "Duration",
+  "EffectChanges": "Changes",
+  "EffectDetails": "Details",
+  "EffectDuration": "Duration",
+  "Effects": "Effects",
+  "Equipment": "Equipment",
+  "Favorites": "Favorites",
+  "Funds": "Funds",
+  "Fusion": "Fusion",
+  "FusionOptions": "Fusion Options",
+  "Gear": "Gear",
+  "Identity": "Identity",
+  "Inventory": "Inventory",
+  "Items": "Items",
+  "Level": "Level: {level}",
+  "Loot": "Loot",
+  "Members": "Members",
+  "Pools": "Pools",
+  "Progress": "Progress",
+  "Progression": "Progression",
+  "Properties": "Properties",
+  "Requirements": "Requirements",
+  "Skills": "Skills",
+  "Source": "Source",
+  "Stock": "Stock",
+  "TransferredBuff": "Transferred Buff"
+},
+
+"ShieldType": {
+  "Buckler": "Buckler",
+  "Heater": "Heater",
+  "Kite": "Kite",
+  "Tower": "Tower"
+},
+
+"Skills": {
+  "Agility": "Agility",
+  "Brawn": "Brawn",
+  "Mind": "Mind",
+  "Spirit": "Spirit"
+},
+
+"SkillsDialog": {
+  "Flavor": "Skill Roll ({skills})",
+  "Hint": "Select two skills to combine for the roll, adding together their dice and bonuses.",
+  "Title": "{name}: Roll Skill"
+},
+
+"StatusConditions": {
+  "Bleeding": "Bleeding",
+  "BleedingFlavor": "{actor} is bleeding",
+  "BleedingHint": "{actor} takes {level}d6 physical damage at the start of every round.",
+  "Blind": "Blind",
+  "Bloodied": "Bloodied",
+  "Burning": "Burning",
+  "BurningFlavor": "{actor} is burning",
+  "BurningHint": "{actor} takes {level}d12 fire damage at the start of every round.",
+  "Critical": "Critical",
+  "Defeated": "Defeated",
+  "Flying": "Flying",
+  "Hindered": "Hindered",
+  "Injured": "Injured",
+  "Invisible": "Invisible",
+  "Levitating": "Levitating",
+  "Underground": "Underground"
+},
+
+"TargetTypes": {
+  "AreaCircle": "Circle",
+  "AreaCone": "Cone",
+  "AreaOfEffect": "Area of Effect",
+  "AreaRadius": "Radius",
+  "AreaRay": "Line",
+  "Self": "Self",
+  "SingleTarget": "Single Target"
+},
+
+"TemplateDurations": {
+  "Combat": "End of Combat",
+  "None": "None",
+  "Round": "End of Round",
+  "Turn": "End of Turn"
+},
+
+"Warning": {
+  "InvalidActiveEffectType": "The chosen effect type is not valid for this parent.",
+  "MissingActionPoints": "You do not have enough Action Points to perform that action."
+},
+
+"Wielding": {
+  "OneHanded": "One-Handed",
+  "TwoHanded": "Two-Handed"
+}
+}}

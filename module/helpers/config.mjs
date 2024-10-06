@@ -595,15 +595,74 @@ SYSTEM.POOL_FACES_SPECIALIZATION_TYPES = {
  * @type {ProgressionThresholdConfig[]}
  */
 SYSTEM.PROGRESSION_THRESHOLDS = [{
-  label: "ARTICHRON.ProgressionThresholds.Novice",
+  label: "ARTICHRON.PROGRESSION.THRESHOLDS.Novice",
   level: 1,
   threshold: 0
 }, {
-  label: "ARTICHRON.ProgressionThresholds.Experienced",
+  label: "ARTICHRON.PROGRESSION.THRESHOLDS.Experienced",
   level: 2,
   threshold: 20
 }, {
-  label: "ARTICHRON.ProgressionThresholds.Veteran",
+  label: "ARTICHRON.PROGRESSION.THRESHOLDS.Veteran",
   level: 3,
   threshold: 50
 }];
+
+/* -------------------------------------------------- */
+
+SYSTEM.PROGRESSION_CORE_PATHS = {
+  cleric: {
+    label: "ARTICHRON.PROGRESSION.PATHS.Cleric"
+  },
+  fighter: {
+    label: "ARTICHRON.PROGRESSION.PATHS.Fighter"
+  },
+  mage: {
+    label: "ARTICHRON.PROGRESSION.PATHS.Mage"
+  },
+  thief: {
+    label: "ARTICHRON.PROGRESSION.PATHS.Thief"
+  }
+};
+
+SYSTEM.PROGRESSION_MIXED_PATHS = {
+  paladin: {
+    label: "ARTICHRON.PROGRESSION.PATHS.Paladin",
+    combo: new Set(["fighter", "cleric"])
+  },
+  shaman: {
+    label: "ARTICHRON.PROGRESSION.PATHS.Shaman",
+    combo: new Set(["cleric", "mage"])
+  },
+  spellblade: {
+    label: "ARTICHRON.PROGRESSION.PATHS.Spellblade",
+    combo: new Set(["fighter", "mage"])
+  },
+  trickster: {
+    label: "ARTICHRON.PROGRESSION.PATHS.Trickster",
+    combo: new Set(["mage", "thief"])
+  },
+  TODO1: {
+    label: "???",
+    combo: new Set(["cleric", "thief"])
+  },
+  TODO2: {
+    label: "???",
+    combo: new Set(["fighter", "thief"])
+  }
+};
+
+Object.defineProperty(SYSTEM.PROGRESSION_CORE_PATHS, "combo", {
+  value: _getCombo, configurable: true
+});
+
+function _getCombo(a, b) {
+  for (const [k, {combo}] of Object.entries(SYSTEM.PROGRESSION_MIXED_PATHS)) {
+    if (combo.has(a) && combo.has(b)) return k;
+  }
+}
+
+SYSTEM.PROGRESSION_MARGINS = {
+  lower: 45,
+  higher: 55
+};

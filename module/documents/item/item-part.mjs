@@ -38,6 +38,6 @@ export default class PartData extends ItemSystemModel {
   /** @override */
   static LOCALIZATION_PREFIXES = [
     ...super.LOCALIZATION_PREFIXES,
-    "ARTICHRON.ItemProperty.PartProperty"
+    "ARTICHRON.ITEM.PART"
   ];
 }

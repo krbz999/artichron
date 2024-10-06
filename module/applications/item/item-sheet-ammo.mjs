@@ -22,9 +22,9 @@ export default class ItemSheetAmmunition extends ItemSheetArtichron {
 
   /** @override */
   static TABS = {
-    description: {id: "description", group: "primary", label: "ARTICHRON.SheetTab.Description"},
-    details: {id: "details", group: "primary", label: "ARTICHRON.SheetTab.Details"},
-    activities: {id: "activities", group: "primary", label: "ARTICHRON.SheetTab.Activities"}
+    description: {id: "description", group: "primary", label: "ARTICHRON.SheetLabels.Description"},
+    details: {id: "details", group: "primary", label: "ARTICHRON.SheetLabels.Details"},
+    activities: {id: "activities", group: "primary", label: "ARTICHRON.SheetLabels.Activities"}
   };
 
   /* -------------------------------------------------- */

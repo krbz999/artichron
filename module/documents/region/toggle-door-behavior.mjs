@@ -16,7 +16,7 @@ export default class DoorStateBehaviorData extends foundry.data.regionBehaviors.
   /* -------------------------------------------------- */
 
   /** @override */
-  static LOCALIZATION_PREFIXES = ["ARTICHRON.RegionProperty.DOORSTATE"];
+  static LOCALIZATION_PREFIXES = ["ARTICHRON.REGION.DOORSTATE"];
 
   /* -------------------------------------------------- */
 

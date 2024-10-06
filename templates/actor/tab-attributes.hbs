@@ -29,14 +29,14 @@
   <div class="center-pane scrollable">
 
     <fieldset class="favorites">
-      <legend>{{localize "ARTICHRON.SheetTab.Favorites"}}</legend>
+      <legend>{{localize "ARTICHRON.SheetLabels.Favorites"}}</legend>
       <div class="inventory-list compact">
         {{#each document.favorites}}{{inventoryItem this}}{{/each}}
       </div>
     </fieldset>
 
     <fieldset class="resistances">
-      <legend>{{localize "ARTICHRON.SheetTab.Defenses"}}</legend>
+      <legend>{{localize "ARTICHRON.SheetLabels.Defenses"}}</legend>
       {{#each resistances}}
       <div class="resistance {{#if active}} active {{/if}}" data-tooltip="{{label}}" style="color: #{{color}}">
         <span class="total">{{value}}</span>
@@ -46,7 +46,7 @@
     </fieldset>
 
     <fieldset class="skills">
-      <legend>{{localize "ARTICHRON.SheetTab.Skills"}}</legend>
+      <legend>{{localize "ARTICHRON.SheetLabels.Skills"}}</legend>
       {{#each skills}}
       <a class="skill label-top" data-action="rollSkill" data-skill-id="{{skillId}}">
         <label>{{label}}</label>

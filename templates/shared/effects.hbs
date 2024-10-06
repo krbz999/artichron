@@ -4,7 +4,7 @@
 
     {{#if conditions.length}}
     <header>
-      <span class="label">{{localize "ARTICHRON.Effect.Conditions"}}</span>
+      <span class="label">{{localize "ARTICHRON.SheetLabels.Conditions"}}</span>
       <span class="controls" style="margin-left: 2px;"></span>
     </header>
 
@@ -33,8 +33,8 @@
     {{/if}}
 
     <header>
-      <span class="label">{{localize "ARTICHRON.Effect.Buffs"}}</span>
-      <span class="source">{{localize "ARTICHRON.Effect.Source"}}</span>
+      <span class="label">{{localize "ARTICHRON.SheetLabels.Buffs"}}</span>
+      <span class="source">{{localize "ARTICHRON.SheetLabels.Source"}}</span>
       {{#if @root.isEditMode}}
       <button class="controls" type="button" data-action="createEffect" data-tooltip="ARTICHRON.SheetActions.CreateBuff" data-type="buff">
         <i class="fa-solid fa-plus"></i>

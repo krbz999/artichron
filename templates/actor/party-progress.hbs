@@ -3,7 +3,7 @@
   {{#if @root.isEditMode}}
   <fieldset class="clocks edit">
     <legend>
-      <span>{{localize "ARTICHRON.SheetTab.Clocks"}}</span>
+      <span>{{localize "ARTICHRON.SheetLabels.Clocks"}}</span>
       <a data-action="addClock">
         <i class="fa-solid fa-plus"></i>
       </a>
@@ -24,7 +24,7 @@
   </fieldset>
   {{else}}
   <fieldset class="clocks play">
-    <legend>{{localize "ARTICHRON.SheetTab.Clocks"}}</legend>
+    <legend>{{localize "ARTICHRON.SheetLabels.Clocks"}}</legend>
     {{#each clocks}}
     <div class="clock">
       <button type="button" data-delta="up" data-idx="{{idx}}" data-action="clockDelta" {{disabled disableUp}}>

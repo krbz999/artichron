@@ -50,7 +50,7 @@ export default class AmmunitionData extends ItemSystemModel {
   /** @override */
   static LOCALIZATION_PREFIXES = [
     ...super.LOCALIZATION_PREFIXES,
-    "ARTICHRON.ItemProperty.AmmoProperty"
+    "ARTICHRON.ITEM.AMMO"
   ];
 
   /* -------------------------------------------------- */

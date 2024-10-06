@@ -2,7 +2,7 @@
   {{> "systems/artichron/templates/actor/monster-defenses.hbs"}}
 
   <fieldset class="equipment">
-    <legend>{{localize "ARTICHRON.SheetTab.Equipment"}}</legend>
+    <legend>{{localize "ARTICHRON.SheetLabels.Equipment"}}</legend>
     {{#each equipment}}
     <div class="item {{#unless active}} empty {{/unless}}" {{#if dataset.itemUuid}} data-item-uuid="{{dataset.itemUuid}}" {{/if}}>
       <img src="{{item.img}}" alt="" {{#if active}} data-action="useItem" {{/if}} {{#if tooltip}} data-tooltip="{{tooltip}}" {{/if}}>
@@ -19,7 +19,7 @@
 
   <div class="inventory-list {{#if compactItems.compact}}compact{{/if}}">
     <header>
-      <span class="label">{{localize "ARTICHRON.SheetTab.Favorites"}}</span>
+      <span class="label">{{localize "ARTICHRON.SheetLabels.Favorites"}}</span>
     </header>
 
     {{#each items.favorites}}
@@ -29,7 +29,7 @@
 
   <div class="inventory-list {{#if compactItems.compact}}compact{{/if}}">
     <header>
-      <span class="label">{{localize "ARTICHRON.SheetTab.Inventory"}}</span>
+      <span class="label">{{localize "ARTICHRON.SheetLabels.Inventory"}}</span>
       {{#if @root.isEditMode}}
       <button class="controls" type="button" data-action="createItem" data-tooltip="ARTICHRON.SheetActions.CreateItem">
         <i class="fa-solid fa-plus"></i>

@@ -23,10 +23,10 @@ export default class ItemSheetElixir extends ItemSheetArtichron {
 
   /** @override */
   static TABS = {
-    description: {id: "description", group: "primary", label: "ARTICHRON.SheetTab.Description"},
-    details: {id: "details", group: "primary", label: "ARTICHRON.SheetTab.Details"},
-    activities: {id: "activities", group: "primary", label: "ARTICHRON.SheetTab.Activities"},
-    effects: {id: "effects", group: "primary", label: "ARTICHRON.SheetTab.Effects"}
+    description: {id: "description", group: "primary", label: "ARTICHRON.SheetLabels.Description"},
+    details: {id: "details", group: "primary", label: "ARTICHRON.SheetLabels.Details"},
+    activities: {id: "activities", group: "primary", label: "ARTICHRON.SheetLabels.Activities"},
+    effects: {id: "effects", group: "primary", label: "ARTICHRON.SheetLabels.Effects"}
   };
 
   /* -------------------------------------------------- */

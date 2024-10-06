@@ -4,14 +4,14 @@
   {{/if}}
 
   <fieldset>
-    <legend>{{localize "ARTICHRON.SheetTab.Biography"}}</legend>
+    <legend>{{localize "ARTICHRON.SheetLabels.Biography"}}</legend>
     {{#with biography}}
     {{formGroup field value=value enriched=enriched height=200 compact=true toggled=true disabled=@root.isPlayMode}}
     {{/with}}
   </fieldset>
 
   <fieldset>
-    <legend>{{localize "ARTICHRON.SheetTab.Details"}}</legend>
+    <legend>{{localize "ARTICHRON.SheetLabels.Details"}}</legend>
     {{#each details}}
     {{formGroup field value=value disabled=@root.isPlayMode max=max}}
     {{/each}}
