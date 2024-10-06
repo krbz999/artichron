@@ -131,9 +131,8 @@ export default class PartyDistributionDialog extends foundry.applications.api.Ha
       if ((this.options.type === "currency") || (a.type === "hero")) acc[a.id] = a.name;
       return acc;
     }, {});
-    if (this.options.type === "currency") choices[this.#party.id] = this.#party.name;
-
     if (!this.#targets) this.#targets = new Set(Object.keys(choices));
+    if (this.options.type === "currency") choices[this.#party.id] = this.#party.name;
 
     const funds = (this.options.type === "currency") ? this.#party.system.currency.award : this.#party.system.points.value;
     const divisor = Math.max(1, this.#targets.size);
