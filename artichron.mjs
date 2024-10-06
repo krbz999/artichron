@@ -72,8 +72,7 @@ Hooks.once("init", function() {
   CONFIG.Dice.Roll = dice.RollArtichron;
   CONFIG.Dice.DamageRoll = dice.DamageRoll;
 
-  /** Set an initiative formula for the system */
-  CONFIG.Combat.initiative.formula = "1d12<=(12 - @pips)";
+  // Set system combat tracker application.
   CONFIG.ui.combat = applications.CombatTrackerArtichron;
 
   // Register sheet application classes

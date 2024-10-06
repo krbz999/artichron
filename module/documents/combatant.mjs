@@ -16,9 +16,15 @@ export default class CombatantArtichron extends Combatant {
 
     let cap;
     switch (actor?.type) {
-      case "hero": cap = actor.system.pools.stamina.max; break;
-      case "monster": cap = actor.system.danger.value * 3; break;
-      default: cap = 3;
+      case "hero":
+        cap = actor.system.pools.stamina.max;
+        break;
+      case "monster":
+        cap = actor.system.danger.value * 3;
+        break;
+      default:
+        cap = 3;
+        break;
     }
 
     rollData.pips = Math.min(actor?.actionPoints ?? 0, cap);
