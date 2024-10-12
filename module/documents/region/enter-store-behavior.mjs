@@ -55,9 +55,12 @@ export default class EnterStoreBehaviorData extends foundry.data.regionBehaviors
   static async #onTokenEnter(event) {
     const isUser = (event.user === game.user) || (!game.user.isGM && event.data.token.isOwner);
     const actor = this.merchant;
-    if (isUser && actor) {
-      await CanvasAnimation.getAnimation(`Token.${event.data.token.id}.animate`)?.promise;
-      actor.sheet.render({force: true});
+    if (isUser && actor && (actor.type === "merchant")) {
+      await CanvasAnimation.getAnimation(event.data.token.object?.animationName)?.promise;
+      actor.sheet.render({force: true}).then(() => foundry.audio.AudioHelper.play({
+        src: "systems/artichron/assets/sounds/shop-bell.wav",
+        channel: "interface"
+      }));
     }
   }
 }

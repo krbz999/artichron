@@ -23,3 +23,7 @@ assets/icons/flying.svg - "Fluffy Wing" by Lorc under CC BY 3.0
 assets/icons/hindred.svg - "Foot Trip" by Lorc under CC BY 3.0
 assets/icons/injured.svg - "Internal Injury" by Lorc under CC BY 3.0
 assets/icons/invisible.svg - "Invisible" by Delapouite under CC BY 3.0
+
+The system includes sound effects licensed from BBC Sound Effects under the BBC's Content Licence for RemArc, found here: https://sound-effects.bbcrewind.co.uk/.
+
+assets/sounds/shop-bell.wav - 'London - Routemaster Double-Decker Bus, interior, bell rung twice'
