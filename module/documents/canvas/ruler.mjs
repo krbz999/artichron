@@ -4,7 +4,7 @@ export default class RulerArtichron extends Ruler {
     super._canMove(token);
     if (!token.actor) return true;
 
-    if (token.actor.inCombat && (token.document.combatant !== game.combat.combatant)) {
+    if (token.actor.inCombat && (token.document.id !== game.combat.combatant.tokenId)) {
       throw new Error(game.i18n.localize("ARTICHRON.RULER.ERROR.NotYourTurn"));
     }
 
