@@ -216,11 +216,11 @@ export default class ActorArtichron extends Actor {
 
   /**
    * Apply damage to this actor.
-   * @param {number|object} values              An object with keys from DAMAGE_TYPES.
-   * @param {object} [options]                  Damage application options.
-   * @param {boolean} [options.defendable]      Whether the actor can parry or block this damage.
-   * @param {object} [options.attributes]       Object of item attributes to the level to apply.
-   * @param {object} [context]                  Update options that are passed along to the final update.
+   * @param {number|object} values                          An object with keys from DAMAGE_TYPES.
+   * @param {object} [options]                              Damage application options.
+   * @param {boolean} [options.defendable]                  Whether the actor can parry or block this damage.
+   * @param {Map<string, number>} [options.attributes]      Map of levels of conditions to apply.
+   * @param {object} [context]                              Update options that are passed along to the final update.
    * @returns {Promise<ActorArtichron>}
    */
   async applyDamage(values, {defendable = true, attributes} = {}, context = {}) {
@@ -250,7 +250,7 @@ export default class ActorArtichron extends Actor {
 
     // If the actor was damaged, apply any relevant status conditions.
     const damaged = hp.value > this.system.health.value;
-    if (damaged) {
+    if (damaged && attributes) {
       if (attributes.has("rending")) await this.applyCondition("bleeding", attributes.get("rending"));
       if (attributes.has("bludgeoning")) await this.applyCondition("hindered", attributes.get("bludgeoning"));
     }
