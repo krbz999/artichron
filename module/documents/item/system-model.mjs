@@ -47,7 +47,11 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
       attributes: new SchemaField({
         value: new SetField(new StringField({
           choices: () => this._attributeChoices()
-        }))
+        })),
+        levels: new SchemaField({
+          bludgeoning: new NumberField({initial: null, integer: true, min: 1}),
+          rending: new NumberField({initial: null, integer: true, min: 1})
+        })
       })
     };
   }

@@ -106,7 +106,21 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
     context.details = {};
 
     // Attributes fieldset
-    context.details.attributes = this._makeField(context, "attributes.value", {type: "checkboxes"});
+    const attrs = this.document.system.attributes.value;
+    context.details.attributes = {
+      legend: this.document.system.schema.getField("attributes").label,
+      values: {
+        field: this.document.system.schema.getField("attributes.value"),
+        value: this.document.system._source.attributes.value
+      },
+      levels: {
+        field: this.document.system.schema.getField("attributes.levels"),
+        fields: [
+          attrs.has("bludgeoning") ? this._makeField(context, "attributes.levels.bludgeoning") : null,
+          attrs.has("rending") ? this._makeField(context, "attributes.levels.rending") : null
+        ].filter(_ => _)
+      }
+    };
 
     // Configuration fieldset
     context.details.configuration = [];

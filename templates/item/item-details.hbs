@@ -1,11 +1,19 @@
 <div class="{{tabs.details.tabCssClass}}" data-group="primary" data-tab="details">
 
   <fieldset class="attributes">
-    {{#with details.attributes}}
-    <legend>{{field.label}}</legend>
-    {{formInput field value=value disabled=disabled type=type}}
-    <p class="hint">{{field.hint}}</p>
-    {{/with}}
+    <legend>{{details.attributes.legend}}</legend>
+    {{formGroup details.attributes.values.field value=details.attributes.values.value type="checkboxes" classes="stacked" disabled=disabled}}
+    {{#if details.attributes.levels.fields.length}}
+    <div class="form-group">
+      <label>{{details.attributes.levels.field.label}}</label>
+      <div class="form-fields">
+        {{#each details.attributes.levels.fields}}
+        {{formGroup field value=value classes="label-top" disabled=disabled placeholder=1}}
+        {{/each}}
+      </div>
+      <p class="hint">{{details.attributes.levels.field.hint}}</p>
+    </div>
+    {{/if}}
   </fieldset>
 
   {{#if details.configuration.length}}

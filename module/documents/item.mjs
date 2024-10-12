@@ -24,9 +24,8 @@ export default class ItemArtichron extends Item {
    */
   get attributes() {
     const attrs = new Map();
-    const obj = this.getFlag("artichron", "attributes") ?? {};
     for (const attr of this.system.attributes?.value ?? []) {
-      const level = obj[attr] ?? 1;
+      const level = this.system.attributes.levels[attr] ?? 1;
       attrs.set(attr, level);
     }
     return attrs;

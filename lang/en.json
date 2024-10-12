@@ -669,9 +669,19 @@
       }
     },
     "attributes": {
+      "label": "Attributes",
       "value": {
-        "hint": "Unique attributes of this item.",
-        "label": "Attributes"
+        "hint": "Unique attributes of this item."
+      },
+      "levels": {
+        "hint": "How many levels of given conditions this item applies when dealing damage.",
+        "label": "Applied Levels",
+        "bludgeoning": {
+          "label": "Bludgeoning"
+        },
+        "rending": {
+          "label": "Rending"
+        }
       }
     },
     "boost": {
