@@ -237,7 +237,7 @@ export default class PartyData extends ActorSystemModel {
 
     const configuration = await PartyDistributionDialog.create(party, "points");
     if (!configuration) return;
-    const {amount, targets} = configuration.object;
+    const {amount, targets} = configuration;
     const actors = Array.from(targets).map(id => game.actors.get(id));
 
     if (!actors.length) {
