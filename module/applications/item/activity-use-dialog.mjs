@@ -115,12 +115,13 @@ export default class ActivityUseDialog extends foundry.applications.api.Handleba
   /** @override */
   async _preparePartContext(partId, context, options) {
     context = await super._preparePartContext(partId, context, options);
+    const activity = this.activity;
 
     switch (partId) {
       case "damage": {
-        context.damage = {show: this.activity.hasDamage};
+        context.damage = {show: activity.hasDamage};
         if (!context.damage.show) break;
-        const damages = this.activity._damages.map(({formula, type}) => {
+        const damages = activity._damages.map(({formula, type}) => {
           return {formula, type: CONFIG.SYSTEM.DAMAGE_TYPES[type].label};
         });
         const field = new foundry.data.fields.NumberField({
@@ -137,15 +138,15 @@ export default class ActivityUseDialog extends foundry.applications.api.Handleba
           field: field
         });
 
-        if (this.activity.usesAmmo) {
+        if (activity.usesAmmo) {
           context.damage.ammunition = new foundry.data.fields.StringField({
             required: false,
             blank: true,
             label: "ARTICHRON.ROLL.Damage.AmmoItem",
             hint: "ARTICHRON.ROLL.Damage.AmmoItemHint",
-            choices: this.activity.item.actor.items.reduce((acc, item) => {
+            choices: activity.item.actor.items.reduce((acc, item) => {
               if (item.type !== "ammo") return acc;
-              if (item.system.category.subtype === this.activity.ammunition.type) {
+              if (item.system.category.subtype === activity.ammunition.type) {
                 acc[item.id] = item.name;
               }
               return acc;
@@ -156,7 +157,7 @@ export default class ActivityUseDialog extends foundry.applications.api.Handleba
         break;
       }
       case "healing": {
-        context.healing = {show: this.activity.type === "healing"};
+        context.healing = {show: (activity.type === "healing") && (activity.item.type === "spell")};
         if (!context.healing.show) break;
         const field = new foundry.data.fields.NumberField({
           integer: true,
@@ -169,12 +170,12 @@ export default class ActivityUseDialog extends foundry.applications.api.Handleba
         Object.assign(context.healing, {
           field: field,
           legend: game.i18n.localize("ARTICHRON.ActivityUseDialog.HealingLegend"),
-          formula: this.activity.healing.formula
+          formula: activity.healing.formula
         });
         break;
       }
       case "defend": {
-        context.defend = {show: this.activity.type === "defend"};
+        context.defend = {show: activity.type === "defend"};
         if (!context.defend.show) break;
         const field = new foundry.data.fields.NumberField({
           integer: true,
@@ -187,13 +188,13 @@ export default class ActivityUseDialog extends foundry.applications.api.Handleba
         Object.assign(context.defend, {
           legend: game.i18n.localize("ARTICHRON.ActivityUseDialog.DefendLegend"),
           field: field,
-          formula: this.activity.defend.formula
+          formula: activity.defend.formula
         });
         break;
       }
       case "area": {
         context.area = {
-          show: this.activity.hasTemplate && (this.activity.item.type === "spell")
+          show: activity.hasTemplate && (activity.item.type === "spell")
         };
         if (!context.area.show) break;
         const field = new foundry.data.fields.NumberField({
@@ -212,7 +213,7 @@ export default class ActivityUseDialog extends foundry.applications.api.Handleba
       }
       case "distance": {
         context.distance = {
-          show: this.activity.type === "teleport"
+          show: activity.type === "teleport"
         };
         if (!context.distance.show) break;
         const field = new foundry.data.fields.NumberField({
@@ -230,8 +231,8 @@ export default class ActivityUseDialog extends foundry.applications.api.Handleba
         break;
       }
       case "elixirs": {
-        const elixirs = this.activity.item.actor.items.filter(item => {
-          return (item.type === "elixir") && item.system.hasUses && (item.system.boost === this.activity.poolType);
+        const elixirs = activity.item.actor.items.filter(item => {
+          return (item.type === "elixir") && item.system.hasUses && (item.system.boost === activity.poolType);
         });
         context.elixirs = {show: !!elixirs.length};
         if (!context.elixirs.show) break;
@@ -247,7 +248,7 @@ export default class ActivityUseDialog extends foundry.applications.api.Handleba
         break;
       }
       case "rollMode": {
-        context.rollMode = {show: ["damage", "defend", "healing"].includes(this.activity.type)};
+        context.rollMode = {show: ["damage", "defend", "healing"].includes(activity.type)};
         if (!context.rollMode.show) break;
 
         const field = new foundry.data.fields.StringField({
