@@ -612,43 +612,43 @@ SYSTEM.PROGRESSION_THRESHOLDS = [{
 
 SYSTEM.PROGRESSION_CORE_PATHS = {
   cleric: {
-    label: "ARTICHRON.PROGRESSION.PATHS.Cleric"
+    label: "ARTICHRON.PROGRESSION.LABELS.Cleric"
   },
   fighter: {
-    label: "ARTICHRON.PROGRESSION.PATHS.Fighter"
+    label: "ARTICHRON.PROGRESSION.LABELS.Fighter"
   },
   mage: {
-    label: "ARTICHRON.PROGRESSION.PATHS.Mage"
+    label: "ARTICHRON.PROGRESSION.LABELS.Mage"
   },
-  thief: {
-    label: "ARTICHRON.PROGRESSION.PATHS.Thief"
+  rogue: {
+    label: "ARTICHRON.PROGRESSION.LABELS.Rogue"
   }
 };
 
 SYSTEM.PROGRESSION_MIXED_PATHS = {
-  paladin: {
-    label: "ARTICHRON.PROGRESSION.PATHS.Paladin",
-    combo: new Set(["fighter", "cleric"])
+  inquisitor: {
+    label: "ARTICHRON.PROGRESSION.LABELS.Inquisitor",
+    combo: new Set(["cleric", "rogue"])
   },
   shaman: {
-    label: "ARTICHRON.PROGRESSION.PATHS.Shaman",
+    label: "ARTICHRON.PROGRESSION.LABELS.Shaman",
     combo: new Set(["cleric", "mage"])
   },
   spellblade: {
-    label: "ARTICHRON.PROGRESSION.PATHS.Spellblade",
+    label: "ARTICHRON.PROGRESSION.LABELS.Spellblade",
     combo: new Set(["fighter", "mage"])
   },
-  trickster: {
-    label: "ARTICHRON.PROGRESSION.PATHS.Trickster",
-    combo: new Set(["mage", "thief"])
+  swashbuckler: {
+    label: "ARTICHRON.PROGRESSION.LABELS.Swashbuckler",
+    combo: new Set(["fighter", "rogue"])
   },
-  TODO1: {
-    label: "???",
-    combo: new Set(["cleric", "thief"])
+  templar: {
+    label: "ARTICHRON.PROGRESSION.LABELS.Templar",
+    combo: new Set(["fighter", "cleric"])
   },
-  TODO2: {
-    label: "???",
-    combo: new Set(["fighter", "thief"])
+  warlock: {
+    label: "ARTICHRON.PROGRESSION.LABELS.Warlock",
+    combo: new Set(["mage", "rogue"])
   }
 };
 

@@ -857,15 +857,25 @@
 },
 
 "PROGRESSION": {
-  "PATHS": {
+  "LABELS": {
     "Cleric": "Cleric",
     "Fighter": "Fighter",
+    "Inquisitor": "Inquisitor",
     "Mage": "Mage",
-    "Paladin": "Paladin",
+    "Rogue": "Rogue",
     "Shaman": "Shaman",
     "Spellblade": "Spellblade",
-    "Thief": "Thief",
-    "Trickster": "Trickster"
+    "Swashbuckler": "Swashbuckler",
+    "Templar": "Templar",
+    "Warlock": "Warlock"
+  },
+  "PATH": {
+    "FIELDS": {
+      "points": {
+        "label": "Heroic Path Points",
+        "value": {}
+      }
+    }
   },
   "THRESHOLDS": {
     "Experienced": "Experienced",
