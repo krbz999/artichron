@@ -65,7 +65,8 @@
         "name": "Kite Block",
         "_id": "OEzgtdriTUvnZuPV",
         "defend": {
-          "formula": "2d6"
+          "number": 2,
+          "denomination": 6
         },
         "description": "<p>Reduce incoming damage using this shield.</p>",
         "cost": {

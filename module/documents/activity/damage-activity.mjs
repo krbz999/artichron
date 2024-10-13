@@ -1,7 +1,8 @@
 import BaseActivity from "./base-activity.mjs";
 import ChatMessageArtichron from "../chat-message.mjs";
+import DamageFormulaModel from "../fields/damage-formula-model.mjs";
 
-const {ArrayField, NumberField, SchemaField, StringField} = foundry.data.fields;
+const {ArrayField, EmbeddedDataField, NumberField, SchemaField, StringField} = foundry.data.fields;
 
 const targetField = () => {
   return new SchemaField({
@@ -41,34 +42,7 @@ export default class DamageActivity extends BaseActivity {
           choices: CONFIG.SYSTEM.AMMUNITION_TYPES
         })
       }),
-      damage: new ArrayField(new SchemaField({
-        denomination: new NumberField({
-          nullable: false,
-          initial: 6,
-          choices: {
-            2: "d2",
-            3: "d3",
-            4: "d4",
-            6: "d6",
-            8: "d8",
-            10: "d10",
-            12: "d12",
-            20: "d20",
-            100: "d100"
-          }
-        }),
-        number: new NumberField({
-          integer: true,
-          nullable: false,
-          initial: 1,
-          min: 1
-        }),
-        type: new StringField({
-          required: true,
-          choices: CONFIG.SYSTEM.DAMAGE_TYPES,
-          initial: "physical"
-        })
-      })),
+      damage: new ArrayField(new EmbeddedDataField(DamageFormulaModel)),
       target: targetField()
     });
   }

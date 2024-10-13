@@ -99,9 +99,11 @@
       "label": "Damage"
     },
     "defend": {
-      "formula": {
-        "hint": "The formula used for a defensive roll. If parrying rather than blocking, the amount of dice will be halved.",
-        "label": "Formula"
+      "denomination": {
+        "label": "Denomination"
+      },
+      "number": {
+        "label": "Number"
       },
       "label": "Defend"
     },
@@ -115,9 +117,11 @@
       "label": "Effects"
     },
     "healing": {
-      "formula": {
-        "hint": "The formula that will be rolled to perform the healing.",
-        "label": "Formula"
+      "denomination": {
+        "label": "Denomination"
+      },
+      "number": {
+        "label": "Number"
       },
       "label": "Healing"
     },
@@ -175,11 +179,9 @@
     "NoActivities": "This item has no activities configured.",
     "NoAmmo": "You have none remaining of the selected ammunition.",
     "NoDamage": "This activity has no damage rolls configured.",
-    "NoDefense": "This activity has no defense formula configured.",
     "NoEffects": "This activity has no effects configured.",
     "NoElixir": "The elixir with id '{id}' did not exist!",
     "NoElixirUses": "The {name} elixir has no uses left.",
-    "NoHealing": "This activity has no healing formula configured.",
     "NoPool": "The actor does not have enough points remaining in their {pool} pool.",
     "NoRemainingUses": "This item has no remaining uses.",
     "NoTemplates": "This item cannot create measured templates!",
@@ -1033,6 +1035,7 @@
   "Effects": "Effects",
   "Equipment": "Equipment",
   "Favorites": "Favorites",
+  "Formula": "Formula",
   "Funds": "Funds",
   "Fusion": "Fusion",
   "FusionOptions": "Fusion Options",

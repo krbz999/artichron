@@ -63,7 +63,8 @@
         "name": "Heater Block",
         "_id": "W8AXn7iK3MjQi2Km",
         "defend": {
-          "formula": "2d6"
+          "number": 2,
+          "denomination": 6
         },
         "description": "<p>Reduce incoming damage using this shield.</p>",
         "cost": {

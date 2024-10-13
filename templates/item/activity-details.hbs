@@ -47,14 +47,26 @@
   {{#if defend.show}}
   <fieldset>
     <legend>{{defend.legend}}</legend>
-    {{formGroup defend.formula.field value=defend.formula.value}}
+    <div class="form-group">
+      <label>{{localize "ARTICHRON.SheetLabels.Formula"}}</label>
+      <div class="form-fields">
+        {{formGroup defend.number.field value=defend.number.value classes="label-top"}}
+        {{formGroup defend.denomination.field value=defend.denomination.value classes="label-top"}}
+      </div>
+    </div>
   </fieldset>
   {{/if}}
 
   {{#if healing.show}}
   <fieldset>
     <legend>{{healing.legend}}</legend>
-    {{formGroup healing.formula.field value=healing.formula.value}}
+    <div class="form-group">
+      <label>{{localize "ARTICHRON.SheetLabels.Formula"}}</label>
+      <div class="form-fields">
+        {{formGroup healing.number.field value=healing.number.value classes="label-top"}}
+        {{formGroup healing.denomination.field value=healing.denomination.value classes="label-top"}}
+      </div>
+    </div>
   </fieldset>
   {{/if}}
 

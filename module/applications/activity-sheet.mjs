@@ -250,7 +250,8 @@ export default class ActivitySheet extends foundry.applications.api.HandlebarsAp
       context.defend = {
         show: true,
         legend: makeLegend("defend"),
-        formula: makeField("defend.formula")
+        number: makeField("defend.number"),
+        denomination: makeField("defend.denomination")
       };
     }
 
@@ -260,7 +261,8 @@ export default class ActivitySheet extends foundry.applications.api.HandlebarsAp
       context.healing = {
         show: true,
         legend: makeLegend("healing"),
-        formula: makeField("healing.formula")
+        number: makeField("healing.number"),
+        denomination: makeField("healing.denomination")
       };
     }
 

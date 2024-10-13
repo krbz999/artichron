@@ -1,8 +1,8 @@
 import BaseActivity from "./base-activity.mjs";
 import ChatMessageArtichron from "../chat-message.mjs";
-import ActivityUseDialog from "../../applications/item/activity-use-dialog.mjs";
+import FormulaModel from "../fields/formula-model.mjs";
 
-const {NumberField, SchemaField, StringField} = foundry.data.fields;
+const {EmbeddedDataField, NumberField, SchemaField, StringField} = foundry.data.fields;
 
 const targetField = () => {
   return new SchemaField({
@@ -35,9 +35,7 @@ export default class HealingActivity extends BaseActivity {
   /** @inheritdoc */
   static defineSchema() {
     return Object.assign(super.defineSchema(), {
-      healing: new SchemaField({
-        formula: new StringField({required: true})
-      }),
+      healing: new EmbeddedDataField(FormulaModel),
       target: targetField()
     });
   }
@@ -46,11 +44,6 @@ export default class HealingActivity extends BaseActivity {
 
   /** @override */
   async use(usage = {}, dialog = {}, message = {}) {
-    if (!this.healing.formula || !foundry.dice.Roll.validate(this.healing.formula)) {
-      ui.notifications.warn("ARTICHRON.ACTIVITY.WARNING.NoHealing", {localize: true});
-      return null;
-    }
-
     const configuration = await this.configure(usage, dialog, message);
     if (!configuration) return null;
 

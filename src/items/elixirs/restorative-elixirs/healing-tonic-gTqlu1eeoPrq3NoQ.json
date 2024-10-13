@@ -36,7 +36,8 @@
         "name": "Drink Tonic",
         "_id": "Xz1sXDFTs0mkE3xt",
         "healing": {
-          "formula": "3d6"
+          "number": 3,
+          "denomination": 6
         },
         "description": "<p>Heal a single target that drinks this tonic.</p>",
         "cost": {

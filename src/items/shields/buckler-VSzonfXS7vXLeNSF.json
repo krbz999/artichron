@@ -63,7 +63,8 @@
         "name": "Buckler Block",
         "_id": "rR1A8oANIu0Wzx7U",
         "defend": {
-          "formula": "2d4"
+          "number": 2,
+          "denomination": 4
         },
         "description": "<p>Reduce incoming damage using this shield.</p>",
         "cost": {

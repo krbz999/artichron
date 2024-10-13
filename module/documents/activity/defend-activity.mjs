@@ -1,8 +1,8 @@
-import ActivityUseDialog from "../../applications/item/activity-use-dialog.mjs";
 import BaseActivity from "./base-activity.mjs";
 import ChatMessageArtichron from "../chat-message.mjs";
+import FormulaModel from "../fields/formula-model.mjs";
 
-const {SchemaField, StringField} = foundry.data.fields;
+const {EmbeddedDataField} = foundry.data.fields;
 
 export default class DefendActivity extends BaseActivity {
   /** @inheritdoc */
@@ -16,9 +16,7 @@ export default class DefendActivity extends BaseActivity {
   /** @inheritdoc */
   static defineSchema() {
     return Object.assign(super.defineSchema(), {
-      defend: new SchemaField({
-        formula: new StringField({required: true})
-      })
+      defend: new EmbeddedDataField(FormulaModel)
     });
   }
 
@@ -29,11 +27,6 @@ export default class DefendActivity extends BaseActivity {
    * @returns {Promise<ChatMessageArtichron|null>}
    */
   async use(usage, dialog, message) {
-    if (!this.defend.formula) {
-      ui.notifications.error("ARTICHRON.ACTIVITY.Warning.NoDefense", {localize: true});
-      return;
-    }
-
     const attr = this.item.system.attributes.value;
     if (!attr.has("blocking") && !attr.has("parrying")) {
       throw new Error("This item cannot be used to defend.");
