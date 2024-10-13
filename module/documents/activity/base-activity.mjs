@@ -115,6 +115,16 @@ export default class BaseActivity extends foundry.abstract.DataModel {
   /* -------------------------------------------------- */
 
   /**
+   * Can this activity be boosted by an elixir or by expending from a pool?
+   * @type {boolean}
+   */
+  get canBoost() {
+    return ["armor", "shield", "spell", "weapon"].includes(this.item.type);
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
    * Does this activity place a measured template?
    * @type {boolean}
    */
@@ -176,25 +186,26 @@ export default class BaseActivity extends foundry.abstract.DataModel {
 
     const dialog = {
       damage: {
-        show: this.hasDamage,
+        show: this.hasDamage && this.canBoost,
         ammo: this.usesAmmo,
         ammoId: item.getFlag("artichron", `usage.${this.id}.damage.ammoId`)
       },
       defend: {
-        show: this.type === "defend"
+        show: (this.type === "defend") && this.canBoost
       },
       healing: {
-        show: (this.type === "healing") && isSpell
+        show: (this.type === "healing") && this.canBoost
       },
       template: {
         show: this.hasTemplate,
+        canIncrease: isSpell,
         place: item.getFlag("artichron", `usage.${this.id}.template.place`) ?? true
       },
       teleport: {
-        show: this.type === "teleport"
+        show: (this.type === "teleport") && this.canBoost
       },
       elixirs: {
-        show: !foundry.utils.isEmpty(elixirs),
+        show: this.canBoost && !foundry.utils.isEmpty(elixirs),
         choices: elixirs
       },
       rollMode: {

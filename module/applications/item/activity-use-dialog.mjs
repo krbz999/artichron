@@ -213,7 +213,6 @@ export default class ActivityUseDialog extends foundry.applications.api.Handleba
         Object.assign(context.template, {
           legend: game.i18n.localize("ARTICHRON.ActivityUseDialog.TemplateLegend"),
           field: field,
-          canIncrease: this.#item.type === "spell",
           placeField: new foundry.data.fields.BooleanField({
             label: "ARTICHRON.ActivityUseDialog.TemplatePlaceLabel",
             hint: "ARTICHRON.ActivityUseDialog.TemplatePlaceHint"

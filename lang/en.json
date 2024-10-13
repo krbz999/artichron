@@ -195,15 +195,15 @@
 
 "ActivityUseDialog": {
   "DamageHint": "Each point spent from the pool will add one additional die to the damage dealt.",
-  "DamageLabel": "Amount",
+  "DamageLabel": "Increase",
   "DamageLegend": "Damage",
   "DefendHint": "Each point spent from the pool will add one additional die to the roll.",
-  "DefendLabel": "Amount",
+  "DefendLabel": "Increase",
   "DefendLegend": "Defend",
   "ElixirsHint": "Elixirs can be consumed for additional points to spend.",
   "ElixirsLegend": "Elixirs",
   "HealingHint": "Each point spent from the pool will add one additional die to the healing.",
-  "HealingLabel": "Amount",
+  "HealingLabel": "Increase",
   "HealingLegend": "Healing",
   "TeleportHint": "Each point spent from the pool will increase the range of the teleportation by 1m.",
   "TeleportLabel": "Increase",
