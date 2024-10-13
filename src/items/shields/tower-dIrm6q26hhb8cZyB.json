@@ -57,8 +57,7 @@
           "size": 1,
           "width": 1
         },
-        "img": "systems/artichron/assets/icons/activity.svg",
-        "ammunition": {}
+        "img": "systems/artichron/assets/icons/activity.svg"
       },
       "HfS8UUeMQ4i9QWIn": {
         "type": "defend",

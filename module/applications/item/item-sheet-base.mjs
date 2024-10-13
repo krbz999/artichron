@@ -122,6 +122,13 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
       }
     };
 
+    if (this.document.system.schema.has("ammunition") && attrs.has("ammunition")) {
+      context.details.attributes.ammo = {
+        show: true,
+        ...this._makeField(context, "ammunition.type")
+      };
+    }
+
     // Configuration fieldset
     context.details.configuration = [];
     if (doc.system.schema.has("wield")) {

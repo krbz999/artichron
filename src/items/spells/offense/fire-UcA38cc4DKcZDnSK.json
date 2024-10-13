@@ -53,8 +53,7 @@
           }
         ],
         "description": "<p>Deal moderate fire damage to a target within 5m.</p>",
-        "img": "systems/artichron/assets/icons/activity.svg",
-        "ammunition": {}
+        "img": "systems/artichron/assets/icons/activity.svg"
       }
     },
     "identifier": null

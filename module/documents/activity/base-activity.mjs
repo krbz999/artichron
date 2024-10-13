@@ -149,7 +149,7 @@ export default class BaseActivity extends foundry.abstract.DataModel {
    * @type {boolean}
    */
   get usesAmmo() {
-    return (this.type === "damage") && this.item.system.attributes.value.has("ammunition") && !!this.ammunition.type;
+    return (this.type === "damage") && this.item.usesAmmo;
   }
 
   /* -------------------------------------------------- */

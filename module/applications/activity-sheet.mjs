@@ -234,16 +234,6 @@ export default class ActivitySheet extends foundry.applications.api.HandlebarsAp
       }
     }
 
-    // Ammunition
-    const ammo = context.activity.schema.has("ammunition");
-    if (ammo) {
-      context.ammunition = {
-        show: true,
-        legend: makeLegend("ammunition"),
-        type: makeField("ammunition.type")
-      };
-    }
-
     // Defend
     const defend = context.activity.schema.has("defend");
     if (defend) {

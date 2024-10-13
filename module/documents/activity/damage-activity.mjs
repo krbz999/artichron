@@ -35,13 +35,6 @@ export default class DamageActivity extends BaseActivity {
   /** @inheritdoc */
   static defineSchema() {
     return Object.assign(super.defineSchema(), {
-      ammunition: new SchemaField({
-        type: new StringField({
-          required: false,
-          blank: true,
-          choices: CONFIG.SYSTEM.AMMUNITION_TYPES
-        })
-      }),
       damage: new ArrayField(new EmbeddedDataField(DamageFormulaModel)),
       target: targetField()
     });

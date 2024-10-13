@@ -52,8 +52,7 @@
           }
         ],
         "description": "<p>Deal 4d10 fire damage to everyone in a 3m radius area at a point up to 10m from you.</p>",
-        "img": "systems/artichron/assets/icons/activity.svg",
-        "ammunition": {}
+        "img": "systems/artichron/assets/icons/activity.svg"
       },
       "bzJqZ5T7iVnVpCU5": {
         "type": "damage",
@@ -78,8 +77,7 @@
           }
         ],
         "description": "<p>Deal 4d8 wind damage to every target within 4m of you.</p>",
-        "img": "systems/artichron/assets/icons/activity.svg",
-        "ammunition": {}
+        "img": "systems/artichron/assets/icons/activity.svg"
       }
     },
     "identifier": null

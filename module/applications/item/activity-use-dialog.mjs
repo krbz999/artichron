@@ -154,7 +154,7 @@ export default class ActivityUseDialog extends foundry.applications.api.Handleba
             hint: "ARTICHRON.ROLL.Damage.AmmoItemHint",
             choices: activity.item.actor.items.reduce((acc, item) => {
               if (item.type !== "ammo") return acc;
-              if (item.system.category.subtype === activity.ammunition.type) {
+              if (item.system.category.subtype === this.#item.system.ammunition.type) {
                 acc[item.id] = item.name;
               }
               return acc;

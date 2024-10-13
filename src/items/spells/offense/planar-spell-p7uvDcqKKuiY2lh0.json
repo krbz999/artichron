@@ -52,8 +52,7 @@
           }
         ],
         "description": "<p>Deal 4d8 light damage in a line.</p>",
-        "img": "systems/artichron/assets/icons/activity.svg",
-        "ammunition": {}
+        "img": "systems/artichron/assets/icons/activity.svg"
       },
       "Dzf3NyrN1evm0XeO": {
         "type": "damage",
@@ -78,8 +77,7 @@
             "type": "darkness"
           }
         ],
-        "img": "systems/artichron/assets/icons/activity.svg",
-        "ammunition": {}
+        "img": "systems/artichron/assets/icons/activity.svg"
       }
     },
     "identifier": null

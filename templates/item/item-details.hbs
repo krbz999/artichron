@@ -2,17 +2,20 @@
 
   <fieldset class="attributes">
     <legend>{{details.attributes.legend}}</legend>
-    {{formGroup details.attributes.values.field value=details.attributes.values.value type="checkboxes" classes="stacked" disabled=disabled}}
+    {{formGroup details.attributes.values.field value=details.attributes.values.value type="checkboxes" classes="stacked" disabled=@root.isPlayMode}}
     {{#if details.attributes.levels.fields.length}}
     <div class="form-group">
       <label>{{details.attributes.levels.field.label}}</label>
       <div class="form-fields">
         {{#each details.attributes.levels.fields}}
-        {{formGroup field value=value classes="label-top" disabled=disabled placeholder=1}}
+        {{formGroup field value=value classes="label-top" disabled=@root.isPlayMode placeholder=1}}
         {{/each}}
       </div>
       <p class="hint">{{details.attributes.levels.field.hint}}</p>
     </div>
+    {{/if}}
+    {{#if details.attributes.ammo.show}}
+    {{formGroup details.attributes.ammo.field value=details.attributes.ammo.value disabled=@root.isPlayMode}}
     {{/if}}
   </fieldset>
 

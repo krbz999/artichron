@@ -54,8 +54,7 @@
           "range": 1
         },
         "description": "<p>Deal 4d10 lightning damage to every target in a line 10m from you.</p>",
-        "img": "systems/artichron/assets/icons/activity.svg",
-        "ammunition": {}
+        "img": "systems/artichron/assets/icons/activity.svg"
       },
       "YjLsPrOhN89lnTKd": {
         "type": "damage",
@@ -80,8 +79,7 @@
           "width": 1
         },
         "description": "<p>Deal 4d12 ice damage to a target within 10m.</p>",
-        "img": "systems/artichron/assets/icons/activity.svg",
-        "ammunition": {}
+        "img": "systems/artichron/assets/icons/activity.svg"
       }
     },
     "identifier": null

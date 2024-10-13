@@ -223,6 +223,16 @@ export default class ItemArtichron extends Item {
   }
 
   /* -------------------------------------------------- */
+
+  /**
+   * Does this item use ammunition?
+   * @type {boolean}
+   */
+  get usesAmmo() {
+    return this.system.usesAmmo ?? false;
+  }
+
+  /* -------------------------------------------------- */
   /*   Preparation methods                              */
   /* -------------------------------------------------- */
 

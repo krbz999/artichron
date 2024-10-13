@@ -54,8 +54,7 @@
           "size": 1,
           "width": 1
         },
-        "img": "systems/artichron/assets/icons/activity.svg",
-        "ammunition": {}
+        "img": "systems/artichron/assets/icons/activity.svg"
       },
       "OTbcytQ4ArWADcfA": {
         "type": "damage",
@@ -80,11 +79,13 @@
         "cost": {
           "value": 1
         },
-        "img": "systems/artichron/assets/icons/activity.svg",
-        "ammunition": {}
+        "img": "systems/artichron/assets/icons/activity.svg"
       }
     },
-    "identifier": null
+    "identifier": null,
+    "ammunition": {
+      "type": "arrow"
+    }
   },
   "effects": [],
   "sort": 0,

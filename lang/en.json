@@ -70,13 +70,6 @@
     "Teleport": "Teleport Token"
   },
   "FIELDS": {
-    "ammunition": {
-      "label": "Ammunition",
-      "type": {
-        "hint": "The type of ammunition used by this activity. If left blank, this activity will not be able to consume ammunition.",
-        "label": "Type"
-      }
-    },
     "cost": {
       "label": "Action Cost",
       "value": {
@@ -803,6 +796,16 @@
         "subtype": {
           "hint": "The shield type determines how much it protects the wielder.",
           "label": "Shield Type"
+        }
+      }
+    }
+  },
+  "WEAPON": {
+    "FIELDS": {
+      "ammunition": {
+        "type": {
+          "hint": "The type of ammunition used by this weapon.",
+          "label": "Ammunition Type"
         }
       }
     }
