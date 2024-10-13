@@ -58,7 +58,7 @@
         "name": "Tower Block",
         "_id": "HfS8UUeMQ4i9QWIn",
         "defend": {
-          "formula": "4d12"
+          "formula": "2d10"
         },
         "cost": {
           "value": 2
