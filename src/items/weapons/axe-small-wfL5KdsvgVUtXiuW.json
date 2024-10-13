@@ -83,7 +83,7 @@
         "img": "systems/artichron/assets/icons/activity.svg"
       }
     },
-    "identifier": null,
+    "identifier": "axe-small",
     "ammunition": {
       "type": "arrow"
     }

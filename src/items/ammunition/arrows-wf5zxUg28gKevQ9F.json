@@ -26,7 +26,7 @@
       "subtype": "arrow"
     },
     "activities": {},
-    "identifier": null,
+    "identifier": "arrows",
     "override": {
       "group": "",
       "value": "fire"

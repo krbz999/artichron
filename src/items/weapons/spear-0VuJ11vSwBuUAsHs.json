@@ -55,7 +55,7 @@
         "img": "systems/artichron/assets/icons/activity.svg"
       }
     },
-    "identifier": null,
+    "identifier": "spear",
     "ammunition": {
       "type": "arrow"
     }

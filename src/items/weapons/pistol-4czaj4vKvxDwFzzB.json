@@ -57,7 +57,7 @@
         "img": "systems/artichron/assets/icons/activity.svg"
       }
     },
-    "identifier": null,
+    "identifier": "pistol",
     "ammunition": {
       "type": "bullet"
     }

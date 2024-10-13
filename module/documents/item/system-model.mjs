@@ -77,7 +77,12 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
 
   /** @override */
   async _preCreate(data, options, user) {
-    return super._preCreate(data, options, user);
+    const result = await super._preCreate(data, options, user);
+    if (result === false) return false;
+
+    if (!this.identifier) {
+      this.parent.updateSource({"system.identifier": this.parent.name.slugify({strict: true})});
+    }
   }
 
   /* -------------------------------------------------- */
@@ -281,6 +286,5 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
   /** @override */
   prepareDerivedData() {
     this.weight.total = this.weight.value * (this.quantity?.value ?? 1);
-    if (!this.identifier) this.identifier = this.parent.name.slugify({strict: true});
   }
 }

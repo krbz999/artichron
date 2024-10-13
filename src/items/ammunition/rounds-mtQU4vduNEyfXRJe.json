@@ -26,7 +26,7 @@
       "subtype": "round"
     },
     "activities": {},
-    "identifier": null,
+    "identifier": "rounds",
     "override": {
       "group": "",
       "value": "fire"
