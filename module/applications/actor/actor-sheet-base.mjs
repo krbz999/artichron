@@ -79,7 +79,7 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
     event.stopPropagation();
     const uuid = target.closest("[data-item-uuid]").dataset.itemUuid;
     const item = await fromUuid(uuid);
-    item.use();
+    item.use({}, {event: event}, {});
   }
 
   /* -------------------------------------------------- */

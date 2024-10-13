@@ -101,14 +101,15 @@ async function toggleEffect(name) {
 
 /**
  * Use an item on an actor.
- * @param {string} name     Name of the effect.
+ * @param {string} name               Name of the effect.
+ * @param {PointerEvent} [event]      A click event when executed from a macro.
  */
-async function useItem(name) {
+async function useItem(name, event) {
   const actor = _getActor();
   if (!actor) return;
   const item = actor.items.find(item => item._source.name === name);
   if (!item) return;
-  item.use();
+  item.use({}, {event: event}, {});
 }
 
 export const macro = {

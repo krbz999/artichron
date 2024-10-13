@@ -334,7 +334,7 @@ const ArtichronSheetMixin = Base => {
         name: "ARTICHRON.ContextMenu.Item.Use",
         icon: `<i class="fa-solid fa-fw fa-${item.isArsenal ? "hand-fist" : "hand-sparkles"}"></i>`,
         condition: () => canEquip && isOwner && (isEquipped || (!item.isArsenal && !item.isArmor)),
-        callback: () => item.use(),
+        callback: (event) => item.use({}, {event: event}, {}),
         group: "action"
       }, {
         name: "ARTICHRON.ContextMenu.Item.Fuse",

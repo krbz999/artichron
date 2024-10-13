@@ -100,37 +100,6 @@ export default class ElixirData extends ItemSystemModel {
   /*   Instance methods                                 */
   /* -------------------------------------------------- */
 
-  /** @override */
-  async use() {
-    if (!this.hasUses) {
-      ui.notifications.warn("ARTICHRON.ACTIVITY.Warning.NoRemainingUses", {localize: true});
-      return;
-    }
-
-    const activities = this.activities;
-    if (!activities.size) {
-      ui.notifications.warn("ARTICHRON.ACTIVITY.Warning.NoActivities", {localize: true});
-      return;
-    }
-    if (activities.size === 1) return activities.contents[0].use();
-    const options = activities.map(a => ({value: a.id, label: a.name, group: a.constructor.metadata.label}));
-    const field = new foundry.data.fields.StringField({required: true, label: "Activity"});
-    const select = field.toFormGroup({}, {localize: true, options: options, name: "activityId"}).outerHTML;
-    const content = `<fieldset>${select}</fieldset>`;
-    return foundry.applications.api.DialogV2.prompt({
-      rejectClose: false,
-      content: content,
-      window: {},
-      position: {width: 350},
-      ok: {callback: async (event, button) => {
-        await this.parent.update(this._usageUpdate());
-        activities.get(button.form.elements.activityId.value).use();
-      }}
-    });
-  }
-
-  /* -------------------------------------------------- */
-
   /**
    * Utility method for crafting the usage update for an elixir.
    * @param {number} [uses]         The uses to subtract, or the value to set to.

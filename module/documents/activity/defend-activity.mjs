@@ -28,7 +28,7 @@ export default class DefendActivity extends BaseActivity {
    * Perform a defensive roll.
    * @returns {Promise<ChatMessageArtichron|null>}
    */
-  async use() {
+  async use(usage, dialog, message) {
     if (!this.defend.formula) {
       ui.notifications.error("ARTICHRON.ACTIVITY.Warning.NoDefense", {localize: true});
       return;
@@ -39,28 +39,23 @@ export default class DefendActivity extends BaseActivity {
       throw new Error("This item cannot be used to defend.");
     }
 
-    const configuration = await ActivityUseDialog.create(this);
+    const configuration = await this.configure(usage, dialog, message);
     if (!configuration) return null;
-
-    const config = foundry.utils.mergeObject({
-      defend: 0,
-      elixirs: [],
-      rollMode: game.settings.get("core", "rollMode")
-    }, configuration);
 
     const actor = this.item.actor;
     const item = this.item;
     const rollData = item.getRollData();
 
     const roll = foundry.dice.Roll.create(this.defend.formula, rollData);
-    if (config.defend) roll.alter(1, config.defend);
+    if (configuration.usage.defend?.increase) roll.alter(1, configuration.usage.defend.increase);
     if (!attr.has("blocking")) roll.alter(0.5);
 
-    const consumed = await this.consume({
-      pool: config.defend,
-      elixirs: config.elixirs
-    });
+    const consumed = await this.consume(configuration.usage);
     if (!consumed) return null;
+
+    await item.setFlag("artichron", `usage.${this.id}`, {
+      "rollMode.mode": foundry.utils.getProperty(configuration.usage, "rollMode.mode") ?? true
+    });
 
     await roll.evaluate();
 
@@ -70,10 +65,11 @@ export default class DefendActivity extends BaseActivity {
       speaker: ChatMessageArtichron.getSpeaker({actor: actor}),
       "system.activity": this.id,
       "system.item": item.uuid,
-      "flags.artichron.usage": config,
+      "flags.artichron.usage": configuration.usage,
       "flags.artichron.type": DefendActivity.metadata.type
     };
-    ChatMessageArtichron.applyRollMode(messageData, config.rollMode);
+    ChatMessageArtichron.applyRollMode(messageData, configuration.usage.rollMode.mode);
+    foundry.utils.mergeObject(messageData, configuration.message);
     return ChatMessageArtichron.create(messageData);
   }
 }

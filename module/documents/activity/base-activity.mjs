@@ -1,25 +1,12 @@
 import ActivitySheet from "../../applications/activity-sheet.mjs";
+import ActivityUseDialog from "../../applications/item/activity-use-dialog.mjs";
+import ChatMessageArtichron from "../chat-message.mjs";
 
 /**
  * @typedef {object} ActivityMetadata     Activity metadata.
  * @property {string} type                The activity type.
  * @property {string} label               Name of this activity type.
  * @property {string} icon                Default icon of this activity type.
- */
-
-/**
- * @typedef {object} ActivityConsumptionConfiguration     Activity consumption configuration.
- *
- * NOTE: Elixir consumption takes priority over pool consumption, meaning the `pool` property
- * should be equal to the full amount of points allocated; elixirs will subtract from this
- * amount as they are consumed. E.g., if enhancing an activity by 5 points but consuming 2
- * elixirs, then set `pool: 5`, the elixirs will be consumed, and only 3 points will be
- * subtracted.
- *
- * @property {boolean} [actionPoints]     Whether to consume action points.
- * @property {string} [ammunition]        The id of an ammunition item to reduce in quantity.
- * @property {string[]} [elixirs]         The ids of elixirs to reduce in usage.
- * @property {number} [pool]              The amount to subtract from a relevant pool.
  */
 
 const {FilePathField, HTMLField, NumberField, SchemaField, StringField} = foundry.data.fields;
@@ -146,6 +133,163 @@ export default class BaseActivity extends foundry.abstract.DataModel {
   }
 
   /* -------------------------------------------------- */
+
+  /**
+   * Does this activity make use of ammo?
+   * @type {boolean}
+   */
+  get usesAmmo() {
+    return (this.type === "damage") && this.item.system.attributes.value.has("ammunition") && !!this.ammunition.type;
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Does this item have any valid damage formulas?
+   * @type {boolean}
+   */
+  get hasDamage() {
+    return false;
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Prepare the base usage configs.
+   * @param {object} [usageConfig]        Values to override in the usage config.
+   * @param {object} [dialogConfig]       Values to override in the dialog config.
+   * @param {object} [messageConfig]      Values to override in the message config.
+   * @returns {{usage: object, dialog: object, message: object}}
+   */
+  getUsageConfigs(usageConfig = {}, dialogConfig = {}, messageConfig = {}) {
+    const item = this.item;
+    const actor = item.actor;
+    const isSpell = item.type === "spell";
+    const elixirs = actor.items.reduce((acc, item) => {
+      if ((item.type === "elixir") && item.system.hasUses && (item.system.boost === this.poolType)) {
+        acc[item.id] = item.name;
+      }
+      return acc;
+    }, {});
+
+    const message = {};
+
+    const dialog = {
+      damage: {
+        show: this.hasDamage,
+        ammo: this.usesAmmo,
+        ammoId: item.getFlag("artichron", `usage.${this.id}.damage.ammoId`)
+      },
+      defend: {
+        show: this.type === "defend"
+      },
+      healing: {
+        show: (this.type === "healing") && isSpell
+      },
+      template: {
+        show: this.hasTemplate,
+        place: item.getFlag("artichron", `usage.${this.id}.template.place`) ?? true
+      },
+      teleport: {
+        show: this.type === "teleport"
+      },
+      elixirs: {
+        show: !foundry.utils.isEmpty(elixirs),
+        choices: elixirs
+      },
+      rollMode: {
+        show: ["damage", "defend", "healing"].includes(this.type),
+        mode: item.getFlag("artichron", `usage.${this.id}.rollMode.mode`) ?? game.settings.get("core", "rollMode")
+      }
+    };
+
+    const usage = {
+      damage: {
+        increase: 0,
+        ammoId: dialog.damage.ammo ? dialog.damage.ammoId : null
+      },
+      defend: {
+        increase: 0
+      },
+      healing: {
+        increase: 0
+      },
+      template: {
+        increase: 0,
+        place: dialog.template.show && dialog.template.place
+      },
+      teleport: {
+        increase: 0
+      },
+      elixirs: {
+        ids: []
+      },
+      rollMode: {
+        mode: dialog.rollMode.mode
+      }
+    };
+
+    // Configuration required?
+    dialog.configure = Object.values(dialog).some(u => u.show);
+
+    foundry.utils.mergeObject(usage, usageConfig);
+    foundry.utils.mergeObject(dialog, dialogConfig);
+    foundry.utils.mergeObject(message, messageConfig);
+
+    return {usage, dialog, message};
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Configure the usage of this activity.
+   * @param {object} [usage]        Values to override in the usage config.
+   * @param {object} [dialog]       Values to override in the dialog config.
+   * @param {object} [message]      Values to override in the message config.
+   * @returns {Promise<{usage: object, dialog: object, message: object}>}
+   */
+  async configure(usage = {}, dialog = {}, message = {}) {
+    // Skip dialog if shift is held.
+    if (dialog.event?.shiftKey) {
+      dialog.configure = false;
+    }
+
+    // Prepare configurations.
+    const configs = this.getUsageConfigs(usage, dialog, message);
+
+    if (configs.dialog.configure) {
+      const configuration = await ActivityUseDialog.create({activity: this, ...configs});
+      if (!configuration) return null;
+      foundry.utils.mergeObject(configs.usage, configuration);
+    }
+
+    return configs;
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Get the pool cost of a given configuration.
+   * @param {object} [usage]      Usage configuration.
+   * @returns {number}            The total cost.
+   */
+  getUsagePoolCost(usage = {}) {
+    let count =
+      (usage.damage?.increase ?? 0)
+      + (usage.healing?.increase ?? 0)
+      + (usage.template?.place ? usage.template?.increase ?? 0 : 0)
+      + (usage.teleport?.increase ?? 0);
+
+    for (const elixir of usage.elixirs?.ids ?? []) {
+      const item = this.item.actor.items.get(elixir);
+      if (!item) continue;
+      count = count - 1;
+    }
+
+    return count;
+  }
+
+  /* -------------------------------------------------- */
   /*   Instance methods                                 */
   /* -------------------------------------------------- */
 
@@ -193,35 +337,31 @@ export default class BaseActivity extends foundry.abstract.DataModel {
 
   /**
    * Use this activity.
-   * @returns {Promise}
+   * @param {object} [usage]        Usage configuration.
+   * @param {object} [dialog]       Dialog configuration.
+   * @param {object} [message]      Message configuration.
+   * @returns {Promise<ChatMessageArtichron|null>}
    */
-  async use() {
-    throw new Error("The 'Activity#use' method must be subclassed.");
+  async use(usage = {}, dialog = {}, message = {}) {
+    // Must be subclassed.
   }
 
   /* -------------------------------------------------- */
 
   /**
    * Consume the various properties when using this activity.
-   * @param {ActivityConsumptionConfiguration} config     Consumption configuration.
-   * @returns {Promise<boolean>}                          Whether the consumption was successful.
+   * @param {object} [usage]          Usage configuration.
+   * @returns {Promise<boolean>}      Whether the consumption was successful.
    */
-  async consume(config = {}) {
+  async consume(usage = {}) {
     const actor = this.item.actor;
     const item = this.item;
-
-    config = foundry.utils.mergeObject({
-      actionPoints: actor.inCombat,
-      ammunition: null,
-      elixirs: [],
-      pool: null
-    }, config);
 
     const actorUpdate = {};
     const itemUpdates = [];
 
     // Consume action points.
-    if (config.actionPoints) {
+    if (actor.inCombat && (usage.actionPoints !== false)) {
       const value = this.cost.value;
       if (!actor.inCombat) {
         ui.notifications.warn(game.i18n.format("ARTICHRON.ACTIVITY.Warning.ConsumeOutOfCombat", {
@@ -241,8 +381,8 @@ export default class BaseActivity extends foundry.abstract.DataModel {
     }
 
     // Reduce quantity of ammo by 1.
-    if (config.ammunition) {
-      const ammo = actor.items.get(config.ammunition);
+    if (usage.damage?.ammoId) {
+      const ammo = actor.items.get(usage.damage.ammoId);
       const qty = ammo.system.quantity.value;
       if (!qty) {
         ui.notifications.warn("ARTICHRON.ACTIVITY.Warning.NoAmmo", {localize: true});
@@ -252,8 +392,8 @@ export default class BaseActivity extends foundry.abstract.DataModel {
     }
 
     // Consume elixirs.
-    if (config.elixirs.length) {
-      for (const id of config.elixirs) {
+    if (usage.elixirs?.ids.length) {
+      for (const id of usage.elixirs.ids) {
         const elixir = actor.items.get(id);
         if (!elixir) {
           ui.notifications.warn(game.i18n.format("ARTICHRON.ACTIVITY.Warning.NoElixir", {id: id}));
@@ -265,27 +405,26 @@ export default class BaseActivity extends foundry.abstract.DataModel {
           return false;
         }
 
-        // Elixirs take precedence over pool points and substract from what is consumed there.
-        if (config.pool > 0) {
-          itemUpdates.push(elixir.system._usageUpdate());
-          config.pool = config.pool - 1;
-        }
+        // Validation such that elixirs are not consumed needlessly is performed elsewhere.
+        itemUpdates.push(elixir.system._usageUpdate());
       }
     }
 
+    const pool = this.getUsagePoolCost(usage);
+
     // Consume pools.
-    if (config.pool > 0) {
+    if (pool > 0) {
       const isMonster = actor.type === "monster";
       const path = isMonster ? "danger.pool" : `pools.${this.poolType}`;
       const value = foundry.utils.getProperty(actor.system, `${path}.value`);
-      if (value < config.pool) {
+      if (value < pool) {
         ui.notifications.warn(game.i18n.format("ARTICHRON.ACTIVITY.Warning.NoPool", {
           pool: game.i18n.localize(`ARTICHRON.Pools.${isMonster ? "Danger" : this.poolType.capitalize()}`)
         }));
         return false;
       }
 
-      actorUpdate[`system.${path}.spent`] = foundry.utils.getProperty(actor.system, `${path}.spent`) + config.pool;
+      actorUpdate[`system.${path}.spent`] = foundry.utils.getProperty(actor.system, `${path}.spent`) + pool;
     }
 
     return Promise.all([

@@ -346,11 +346,11 @@ export default class ItemArtichron extends Item {
   /* -------------------------------------------------- */
 
   /**
-   * Perform the item's type-specific main function.
+   * Use this item.
    * @returns {Promise}
    */
-  async use() {
-    if (this.system.use) return this.system.use();
+  async use(usage = {}, dialog = {}, message = {}) {
+    if (this.system.use) return this.system.use(usage, dialog, message);
     return null;
   }
 

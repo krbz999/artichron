@@ -305,7 +305,7 @@ async function createEffectMacro(data, slot) {
  */
 async function createItemMacro(data, slot) {
   const item = await Item.implementation.fromDropData(data);
-  const command = `artichron.utils.macro.useItem("${item.name}");`;
+  const command = `artichron.utils.macro.useItem("${item.name}", event);`;
   const name = game.i18n.format("ARTICHRON.MACRO.UseItem", {name: item.name});
   let macro = game.macros.find(m => (m.name === name) && (m.command === command));
   if (!macro) {

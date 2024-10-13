@@ -1,4 +1,3 @@
-import ActivityUseDialog from "../../applications/item/activity-use-dialog.mjs";
 import BaseActivity from "./base-activity.mjs";
 import ChatMessageArtichron from "../chat-message.mjs";
 
@@ -56,35 +55,19 @@ export default class DamageActivity extends BaseActivity {
 
   /* -------------------------------------------------- */
 
-  /**
-   * Stored references of what ammunition is default set for damage rolls.
-   * @type {Map<string, string>}
-   */
-  static ammunitionRegistry = new Map();
-
-  /* -------------------------------------------------- */
-
   /** @override */
-  async use() {
+  async use(usage = {}, dialog = {}, message = {}) {
     if (!this.hasDamage) {
       ui.notifications.warn("ARTICHRON.ACTIVITY.Warning.NoDamage", {localize: true});
       return null;
     }
 
-    const configuration = await ActivityUseDialog.create(this);
+    const configuration = await this.configure(usage, dialog, message);
     if (!configuration) return null;
-
-    const config = foundry.utils.mergeObject({
-      ammunition: null,
-      area: 0,
-      damage: 0,
-      elixirs: [],
-      rollMode: game.settings.get("core", "rollMode")
-    }, configuration);
 
     const actor = this.item.actor;
     const item = this.item;
-    const ammo = item.actor.items.get(config.ammunition) ?? null;
+    const ammo = item.actor.items.get(configuration.usage.damage?.ammoId) ?? null;
 
     const rollData = item.getRollData();
     if (ammo) rollData.ammo = ammo.getRollData().item;
@@ -108,7 +91,7 @@ export default class DamageActivity extends BaseActivity {
       return acc;
     }, {})).map(([type, formulas]) => {
       const roll = new CONFIG.Dice.DamageRoll(formulas.join("+"), rollData, {type: type});
-      roll.alter(1, config.damage);
+      roll.alter(1, configuration.usage.damage?.increase ?? 0);
       return roll;
     });
 
@@ -131,15 +114,17 @@ export default class DamageActivity extends BaseActivity {
       roll._total = roll._evaluateTotal();
     }
 
-    const consumed = await this.consume({
-      ammunition: config.ammunition,
-      elixirs: config.elixirs,
-      pool: config.area + config.damage
-    });
+    const consumed = await this.consume(configuration.usage);
     if (!consumed) return null;
 
+    await item.setFlag("artichron", `usage.${this.id}`, {
+      "damage.ammoId": foundry.utils.getProperty(configuration.usage, "damage.ammoId") ?? null,
+      "rollMode.mode": foundry.utils.getProperty(configuration.usage, "rollMode.mode"),
+      "template.place": foundry.utils.getProperty(configuration.usage, "template.place") ?? true
+    });
+
     // Place templates.
-    if (this.hasTemplate) await this.placeTemplate({increase: config.area});
+    if (configuration.usage.template?.place) await this.placeTemplate({increase: configuration.usage.template.increase});
 
     const messageData = {
       type: "usage",
@@ -148,10 +133,11 @@ export default class DamageActivity extends BaseActivity {
       "system.activity": this.id,
       "system.item": item.uuid,
       "system.targets": Array.from(game.user.targets.map(t => t.actor?.uuid)),
-      "flags.artichron.usage": config,
+      "flags.artichron.usage": configuration.usage,
       "flags.artichron.type": DamageActivity.metadata.type
     };
-    ChatMessageArtichron.applyRollMode(messageData, config.rollMode);
+    ChatMessageArtichron.applyRollMode(messageData, configuration.usage.rollMode.mode);
+    foundry.utils.mergeObject(messageData, configuration.message);
     return ChatMessageArtichron.create(messageData);
   }
 
@@ -159,10 +145,7 @@ export default class DamageActivity extends BaseActivity {
   /*   Properties                                       */
   /* -------------------------------------------------- */
 
-  /**
-   * Does this item have any valid damage formulas?
-   * @type {boolean}
-   */
+  /** @override */
   get hasDamage() {
     return this.damage.some(({formula, type}) => {
       return formula && (type in CONFIG.SYSTEM.DAMAGE_TYPES) && Roll.validate(formula);
@@ -179,15 +162,5 @@ export default class DamageActivity extends BaseActivity {
     return this.damage.filter(({formula, type}) => {
       return formula && (type in CONFIG.SYSTEM.DAMAGE_TYPES) && Roll.validate(formula);
     });
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Does this activity make use of ammo?
-   * @type {boolean}
-   */
-  get usesAmmo() {
-    return !!this.ammunition.type;
   }
 }

@@ -45,32 +45,27 @@ export default class EffectActivity extends BaseActivity {
   /* -------------------------------------------------- */
 
   /** @override */
-  async use() {
+  async use(usage = {}, dialog = {}, message = {}) {
     if (!this.effects.ids.size) {
       ui.notifications.warn("ARTICHRON.ACTIVITY.Warning.NoEffects", {localize: true});
       return null;
     }
 
-    const configuration = await ActivityUseDialog.create(this);
+    const configuration = await this.configure(usage, dialog, message);
     if (!configuration) return null;
 
     const actor = this.item.actor;
     const item = this.item;
 
-    const config = foundry.utils.mergeObject({
-      area: 0,
-      elixirs: [],
-      rollMode: game.settings.get("core", "rollMode")
-    }, configuration);
-
-    const consumed = await this.consume({
-      pool: config.area,
-      elixirs: config.elixirs
-    });
+    const consumed = await this.consume(configuration.usage);
     if (!consumed) return null;
 
+    await item.setFlag("artichron", `usage.${this.id}`, {
+      "template.place": foundry.utils.getProperty(configuration.usage, "template.place") ?? true
+    });
+
     // Place templates.
-    if (this.hasTemplate) await this.placeTemplate({increase: config.area});
+    if (configuration.usage.template?.place) await this.placeTemplate({increase: configuration.usage.template.increase});
 
     const messageData = {
       type: "usage",
@@ -78,10 +73,11 @@ export default class EffectActivity extends BaseActivity {
       "system.activity": this.id,
       "system.item": item.uuid,
       "system.targets": Array.from(game.user.targets.map(t => t.actor?.uuid)),
-      "flags.artichron.usage": config,
+      "flags.artichron.usage": configuration.usage,
       "flags.artichron.type": EffectActivity.metadata.type
     };
-    ChatMessageArtichron.applyRollMode(messageData, config.rollMode);
+    ChatMessageArtichron.applyRollMode(messageData, configuration.usage.rollMode.mode);
+    foundry.utils.mergeObject(messageData, configuration.message);
     return ChatMessageArtichron.create(messageData);
   }
 

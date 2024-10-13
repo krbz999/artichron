@@ -129,6 +129,7 @@ export default class ActivitySelectDialog extends foundry.applications.api.Handl
    */
   static #submit(event, html, formData) {
     const config = foundry.utils.expandObject(formData.object);
+    if (game.keyboard.isModifierActive(KeyboardManager.MODIFIER_KEYS.SHIFT)) config.configure = false;
     this.#config = config;
   }
 

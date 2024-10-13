@@ -88,7 +88,7 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
    * Perform the function of an activity of this item.
    * @returns {Promise}
    */
-  async use() {
+  async use(usage = {}, {event, ...dialog} = {}, message = {}) {
     const activities = this.activities;
     if (!activities.size) {
       ui.notifications.warn("ARTICHRON.ACTIVITY.Warning.NoActivities", {localize: true});
@@ -96,13 +96,15 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
     }
 
     let activity;
-    if (activities.size === 1) activity = activities.contents[0];
+    if ((activities.size === 1) || event?.shiftKey) activity = activities.contents[0];
     else {
       const configuration = await ActivitySelectDialog.create(this.parent);
-      if (configuration) activity = activities.get(configuration.activity);
+      if (!configuration) return null;
+      activity = activities.get(configuration.activity);
+      return activity.use(usage, {...dialog, ...configuration}, message);
     }
 
-    if (activity) return activity.use();
+    if (activity) return activity.use(usage, {...dialog, event}, message);
     return null;
   }
 

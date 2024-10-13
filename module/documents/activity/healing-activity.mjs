@@ -45,38 +45,33 @@ export default class HealingActivity extends BaseActivity {
   /* -------------------------------------------------- */
 
   /** @override */
-  async use({multiply, addition} = {}, {create = true} = {}) {
+  async use(usage = {}, dialog = {}, message = {}) {
     if (!this.healing.formula || !foundry.dice.Roll.validate(this.healing.formula)) {
       ui.notifications.warn("ARTICHRON.ACTIVITY.WARNING.NoHealing", {localize: true});
       return null;
     }
 
-    const configuration = await ActivityUseDialog.create(this);
+    const configuration = await this.configure(usage, dialog, message);
     if (!configuration) return null;
-
-    const config = foundry.utils.mergeObject({
-      area: 0,
-      elixirs: [],
-      healing: 0,
-      rollMode: game.settings.get("core", "rollMode")
-    }, configuration);
 
     const actor = this.item.actor;
     const item = this.item;
     const rollData = item.getRollData();
 
     const roll = foundry.dice.Roll.create(this.healing.formula, rollData);
-    if (config.healing) roll.alter(1, config.healing);
+    if (configuration.usage.healing?.increase) roll.alter(1, configuration.usage.healing.increase);
     await roll.evaluate();
 
-    const consumed = await this.consume({
-      pool: config.area + config.healing,
-      elixirs: config.elixirs
-    });
+    const consumed = await this.consume(configuration.usage);
     if (!consumed) return null;
 
+    await item.setFlag("artichron", `usage.${this.id}`, {
+      "template.place": foundry.utils.getProperty(configuration.usage, "template.place") ?? true,
+      "rollMode.mode": foundry.utils.getProperty(configuration.usage, "rollMode.mode")
+    });
+
     // Place templates.
-    if (this.hasTemplate) await this.placeTemplate({increase: config.area});
+    if (configuration.usage.template?.place) await this.placeTemplate({increase: configuration.usage.template.increase});
 
     const messageData = {
       type: "usage",
@@ -85,10 +80,11 @@ export default class HealingActivity extends BaseActivity {
       "system.activity": this.id,
       "system.item": item.uuid,
       "system.targets": Array.from(game.user.targets.map(t => t.actor?.uuid)),
-      "flags.artichron.usage": config,
+      "flags.artichron.usage": configuration.usage,
       "flags.artichron.type": HealingActivity.metadata.type
     };
-    ChatMessageArtichron.applyRollMode(messageData, config.rollMode);
+    ChatMessageArtichron.applyRollMode(messageData, configuration.usage.rollMode.mode);
+    foundry.utils.mergeObject(messageData, configuration.message);
     return ChatMessageArtichron.create(messageData);
   }
 }

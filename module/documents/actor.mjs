@@ -378,7 +378,7 @@ export default class ActorArtichron extends Actor {
       <p class="hint">${game.i18n.localize("ARTICHRON.DefenseDialog.ItemsHint")}</p>
     </fieldset>`;
 
-    const itemIds = await foundry.applications.api.DialogV2.prompt({
+    const prompt = await foundry.applications.api.DialogV2.prompt({
       content: content,
       rejectClose: false,
       modal: true,
@@ -394,20 +394,21 @@ export default class ActorArtichron extends Actor {
       ok: {
         icon: "fa-solid fa-dice",
         label: "ARTICHRON.DefenseDialog.Confirm",
-        callback: (event, button, html) => button.form.elements.items.value
+        callback: (event, button, html) => {
+          return {event, value: button.form.elements.items.value};
+        }
       }
     });
-    let value = 0;
-    if (!itemIds) return false;
+    if (!prompt) return false;
 
-    for (const id of itemIds) {
+    let value = 0;
+    for (const id of prompt.value) {
       const item = this.items.get(id);
       const activity = item.system.activities.getByType("defend")[0];
-      const message = await activity.use();
+      const message = await activity.use({}, {event: prompt.event}, {});
       if (!message) continue;
       value += message.rolls.reduce((acc, roll) => acc + roll.total, 0);
     }
-
     return value;
   }
 

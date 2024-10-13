@@ -25,27 +25,21 @@ export default class TeleportActivity extends BaseActivity {
   /* -------------------------------------------------- */
 
   /** @override */
-  async use() {
+  async use(usage = {}, dialog = {}, message = {}) {
     const token = this.item.token;
     if (!token) {
       ui.notifications.warn("ARTICHRON.ACTIVITY.Warning.NoToken", {localize: true});
       return;
     }
 
-    const configuration = await ActivityUseDialog.create(this);
+    const configuration = await this.configure(usage, dialog, message);
     if (!configuration) return null;
-
-    const config = foundry.utils.mergeObject({
-      distance: 0,
-      elixirs: [],
-      rollMode: game.settings.get("core", "rollMode")
-    }, configuration);
 
     const item = this.item;
     const actor = this.item.actor;
 
     const drawCircle = () => {
-      const range = this.teleport.distance + config.distance
+      const range = this.teleport.distance + (configuration.usage.teleport.increase ?? 0)
       + (canvas.grid.distance * Math.max(token.document.width, token.document.height, 1) / 2);
       const points = canvas.grid.getCircle({x: 0, y: 0}, range).reduce((acc, p) => {
         return acc.concat([p.x, p.y]);
@@ -64,10 +58,7 @@ export default class TeleportActivity extends BaseActivity {
     if (!place.length) return null;
     const {x, y, rotation} = place[0];
 
-    const consumed = await this.consume({
-      pool: config.distance,
-      elixirs: config.elixirs
-    });
+    const consumed = await this.consume(configuration.usage);
     if (!consumed) return null;
 
     token.document.update({x, y, rotation}, {animate: false, teleport: true, forced: true});
@@ -78,10 +69,11 @@ export default class TeleportActivity extends BaseActivity {
       "system.activity": this.id,
       "system.item": item.uuid,
       "system.targets": [],
-      "flags.artichron.usage": config,
+      "flags.artichron.usage": configuration.usage,
       "flags.artichron.type": TeleportActivity.metadata.type
     };
-    ChatMessageArtichron.applyRollMode(messageData, config.rollMode);
+    ChatMessageArtichron.applyRollMode(messageData, configuration.usage.rollMode.mode);
+    foundry.utils.mergeObject(messageData, configuration.message);
     return ChatMessageArtichron.create(messageData);
   }
 }
