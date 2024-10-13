@@ -26,6 +26,18 @@
   }
 }
 
+.artichron.application.activity {
+  .damage {
+    .number, .denomination {
+      flex: 2;
+    }
+
+    .type {
+      flex: 3;
+    }
+  }
+}
+
 /* Fusion Dialog */
 .artichron.application.fusion {
   .indicators {

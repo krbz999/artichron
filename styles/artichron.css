@@ -148,7 +148,7 @@ dialog:-internal-dialog-in-top-layer::backdrop {
       margin-bottom: 0.1rem;
     }
 
-    & input[type=number] { text-align: center; }
+    & input[type=number], select[data-dtype=Number] { text-align: center; }
   }
 
   /* Fixes to prosemirror */

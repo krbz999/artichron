@@ -86,8 +86,11 @@
     },
     "damage": {
       "FIELDS": {
-        "formula": {
-          "label": "Formula"
+        "number": {
+          "label": "Number"
+        },
+        "denomination": {
+          "label": "Denomination"
         },
         "type": {
           "label": "Type"

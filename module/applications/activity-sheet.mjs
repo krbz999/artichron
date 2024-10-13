@@ -22,7 +22,7 @@ export default class ActivitySheet extends foundry.applications.api.HandlebarsAp
       submitOnChange: true
     },
     position: {
-      width: 400,
+      width: 500,
       height: "auto"
     },
     tag: "form",

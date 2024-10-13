@@ -25,10 +25,10 @@
       </button>
     </legend>
     {{#each damage.values}}
-    <div class="form-group" data-idx="{{idx}}">
-      {{formGroup @root.damage.number value=number classes="label-top" name=nameN}}
-      {{formGroup @root.damage.denomination value=denomination classes="label-top" name=nameD}}
-      {{formGroup @root.damage.type options=@root.damage.options value=type classes="label-top" name=nameT}}
+    <div class="form-group damage" data-idx="{{idx}}">
+      {{formGroup @root.damage.number value=number classes="label-top number" name=nameN}}
+      {{formGroup @root.damage.denomination value=denomination classes="label-top denomination" name=nameD}}
+      {{formGroup @root.damage.type options=@root.damage.options value=type classes="label-top type" name=nameT}}
       <button type="button" class="control" data-action="deleteDamage">
         <i class="fa-solid fa-minus"></i>
       </button>
