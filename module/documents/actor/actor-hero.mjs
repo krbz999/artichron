@@ -18,22 +18,18 @@ export default class HeroData extends CreatureData {
   static defineSchema() {
     const schema = super.defineSchema();
 
+    const poolSchema = () => {
+      return new SchemaField({
+        spent: new NumberField({min: 0, integer: true, initial: 0}),
+        max: new NumberField({min: 2, integer: true, initial: 2, nullable: false}),
+        faces: new NumberField({min: 4, integer: true, initial: 4, nullable: false})
+      });
+    };
+
     schema.pools = new SchemaField({
-      health: new SchemaField({
-        spent: new NumberField({min: 0, integer: true, initial: 0}),
-        max: new NumberField({min: 2, integer: true, initial: 2, nullable: false}),
-        faces: new NumberField({min: 4, integer: true, initial: 4, nullable: false})
-      }),
-      stamina: new SchemaField({
-        spent: new NumberField({min: 0, integer: true, initial: 0}),
-        max: new NumberField({min: 2, integer: true, initial: 2, nullable: false}),
-        faces: new NumberField({min: 4, integer: true, initial: 4, nullable: false})
-      }),
-      mana: new SchemaField({
-        spent: new NumberField({min: 0, integer: true, initial: 0}),
-        max: new NumberField({min: 2, integer: true, initial: 2, nullable: false}),
-        faces: new NumberField({min: 4, integer: true, initial: 4, nullable: false})
-      })
+      health: poolSchema(),
+      stamina: poolSchema(),
+      mana: poolSchema()
     });
 
     schema.skills = new SchemaField(Object.entries(CONFIG.SYSTEM.SKILLS).reduce((acc, [k, v]) => {
@@ -105,10 +101,10 @@ export default class HeroData extends CreatureData {
   #prepareEncumbrance() {
     const dice = this.pools.stamina;
     this.encumbrance = {};
-    this.encumbrance.max = dice.max * dice.faces;
+    this.encumbrance.max = (dice.max * dice.faces).toNearest(0.05);
     this.encumbrance.value = this.parent.items.reduce((acc, item) => {
       return acc + item.system.weight.total;
-    }, 0);
+    }, 0).toNearest(0.05);
   }
 
   /* -------------------------------------------------- */
@@ -235,12 +231,13 @@ export default class HeroData extends CreatureData {
    * @returns {Promise<Roll|null>}      The created Roll instance.
    */
   async rollPool(type, {amount = 1, message = true, event} = {}) {
+    // TODO: redo this whole thing, it should take three parameters for usage, dialog, message.
     if (!(type in this.pools)) return null;
     const pool = this.pools[type];
-    if (!pool.value) {
-      ui.notifications.warn(game.i18n.format("ARTICHRON.NotEnoughPoolDice", {
-        name: this.name,
-        type: game.i18n.localize(`ARTICHRON.${type.capitalize()}`)
+    if (pool.value < amount) {
+      ui.notifications.warn(game.i18n.format("ARTICHRON.ROLL.Pool.Warning.NotEnoughPoolDice", {
+        name: this.parent.name,
+        type: game.i18n.localize(`ARTICHRON.Pools.${type.capitalize()}`)
       }));
       return null;
     }
@@ -250,18 +247,23 @@ export default class HeroData extends CreatureData {
 
     if (!event.shiftKey) amount = await foundry.applications.api.DialogV2.prompt({
       content: new foundry.data.fields.NumberField({
-        label: "Dice",
-        hint: "The number of dice to roll.",
+        label: "ARTICHRON.ROLL.Pool.AmountLabel",
+        hint: "ARTICHRON.ROLL.Pool.AmountHint",
         min: 1,
         max: pool.value,
         step: 1,
         nullable: false
-      }).toFormGroup({}, {value: amount, name: "amount"}).outerHTML,
+      }).toFormGroup({localize: true}, {value: amount, name: "amount"}).outerHTML,
       window: {
-        title: "Roll Pool"
+        title: game.i18n.format("ARTICHRON.ROLL.Pool.Title", {
+          type: game.i18n.localize(`ARTICHRON.Pools.${type.capitalize()}`)
+        })
+      },
+      position: {
+        width: 400
       },
       ok: {
-        label: "ARTICHRON.Roll",
+        label: "ARTICHRON.ROLL.Pool.Button",
         callback: (event, button, html) => button.form.elements.amount.valueAsNumber
       },
       modal: true,
@@ -274,7 +276,9 @@ export default class HeroData extends CreatureData {
     if (message) {
       await roll.toMessage({
         speaker: ChatMessage.implementation.getSpeaker({actor: actor}),
-        flavor: `${type} pool roll`,
+        flavor: game.i18n.format("ARTICHRON.ROLL.Pool.Flavor", {
+          type: game.i18n.localize(`ARTICHRON.Pools.${type.capitalize()}`)
+        }),
         "flags.artichron.roll.type": type
       });
     }
@@ -327,7 +331,7 @@ export default class HeroData extends CreatureData {
       `(@skills.${base}.bonus + @skills.${second}.bonus)`
     ].join(" ");
     const rollData = this.parent.getRollData();
-    const roll = await Roll.create(formula, rollData, {skills: [base, second]}).evaluate();
+    const roll = await foundry.dice.Roll.create(formula, rollData, {skills: [base, second]}).evaluate();
     await roll.toMessage({
       flavor: game.i18n.format("ARTICHRON.SkillsDialog.Flavor", {
         skills: Array.from(new Set([base, second]).map(skl => {

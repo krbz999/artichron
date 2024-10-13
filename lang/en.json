@@ -973,6 +973,16 @@
     "PoolLabel": "Points",
     "Title": "{name}: Defensive Roll"
   },
+  "Pool": {
+    "AmountLabel": "Dice",
+    "AmountHint": "The number of dice to roll.",
+    "Button": "Roll",
+    "Flavor": "{type} Pool Roll",
+    "Title": "Roll Pool: {type}",
+    "Warning": {
+      "NotEnoughPoolDice": "{name} does not have enough {type} dice to roll."
+    }
+  },
   "Selected": "Selected",
   "SelectedNone": "No tokens selected.",
   "Targeted": "Targeted"
