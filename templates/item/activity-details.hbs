@@ -26,7 +26,8 @@
     </legend>
     {{#each damage.values}}
     <div class="form-group" data-idx="{{idx}}">
-      {{formGroup @root.damage.formula value=formula classes="label-top" name=nameF}}
+      {{formGroup @root.damage.number value=number classes="label-top" name=nameN}}
+      {{formGroup @root.damage.denomination value=denomination classes="label-top" name=nameD}}
       {{formGroup @root.damage.type options=@root.damage.options value=type classes="label-top" name=nameT}}
       <button type="button" class="control" data-action="deleteDamage">
         <i class="fa-solid fa-minus"></i>

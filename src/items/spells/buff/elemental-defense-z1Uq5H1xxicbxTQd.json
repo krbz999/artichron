@@ -20,7 +20,11 @@
     "attributes": {
       "value": [
         "magical"
-      ]
+      ],
+      "levels": {
+        "bludgeoning": null,
+        "rending": null
+      }
     },
     "fusion": {
       "max": 1,
@@ -47,7 +51,8 @@
           "size": 1,
           "width": 1
         },
-        "description": "<p>Grant +10 fire resistance to a target within 3m of you.</p>"
+        "description": "<p>Grant +10 fire resistance to a target within 3m of you.</p>",
+        "img": "systems/artichron/assets/icons/activity.svg"
       },
       "N1JVyiqhppvEDmPk": {
         "type": "effect",
@@ -69,7 +74,8 @@
           "size": 1,
           "width": 1
         },
-        "description": "<p>Grant +10 ice resistance to a target within 3m of you.</p>"
+        "description": "<p>Grant +10 ice resistance to a target within 3m of you.</p>",
+        "img": "systems/artichron/assets/icons/activity.svg"
       },
       "IO20yRR6IDF2uMt0": {
         "type": "effect",
@@ -91,7 +97,8 @@
           "size": 1,
           "width": 1
         },
-        "description": "<p>Grant +10 lightning resistance to a target within 3m of you.</p>"
+        "description": "<p>Grant +10 lightning resistance to a target within 3m of you.</p>",
+        "img": "systems/artichron/assets/icons/activity.svg"
       },
       "uZ58lm6RU0Ho5PRH": {
         "type": "effect",
@@ -113,9 +120,11 @@
             "t9R8zzyMk9w9qWnE"
           ]
         },
-        "description": "<p>Grant +10 wind resistance to a target within 3m of you.</p>"
+        "description": "<p>Grant +10 wind resistance to a target within 3m of you.</p>",
+        "img": "systems/artichron/assets/icons/activity.svg"
       }
-    }
+    },
+    "identifier": null
   },
   "effects": [
     {

@@ -16,7 +16,11 @@
     "attributes": {
       "value": [
         "magical"
-      ]
+      ],
+      "levels": {
+        "bludgeoning": null,
+        "rending": null
+      }
     },
     "fusion": {
       "max": 1,
@@ -43,13 +47,17 @@
         },
         "damage": [
           {
-            "formula": "4d6",
+            "number": 4,
+            "denomination": 6,
             "type": "darkness"
           }
         ],
-        "description": "<p>Deal moderate darkness damage to a target within 5m.</p>"
+        "description": "<p>Deal moderate darkness damage to a target within 5m.</p>",
+        "img": "systems/artichron/assets/icons/activity.svg",
+        "ammunition": {}
       }
-    }
+    },
+    "identifier": null
   },
   "effects": [],
   "ownership": {

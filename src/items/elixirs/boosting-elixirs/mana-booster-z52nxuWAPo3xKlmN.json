@@ -13,7 +13,11 @@
       "value": 1
     },
     "attributes": {
-      "value": []
+      "value": [],
+      "levels": {
+        "bludgeoning": null,
+        "rending": null
+      }
     },
     "quantity": {
       "value": 1
@@ -23,7 +27,8 @@
       "spent": 0
     },
     "activities": {},
-    "boost": ""
+    "boost": "",
+    "identifier": null
   },
   "effects": [],
   "folder": "gdUX3RYnl43nHJW6",

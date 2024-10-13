@@ -21,7 +21,11 @@
     "attributes": {
       "value": [
         "blocking"
-      ]
+      ],
+      "levels": {
+        "bludgeoning": null,
+        "rending": null
+      }
     },
     "fusion": {
       "max": 1,
@@ -34,7 +38,8 @@
         "_id": "uLOZsxCksVacl4rl",
         "damage": [
           {
-            "formula": "4d6",
+            "number": 4,
+            "denomination": 6,
             "type": "physical"
           }
         ],
@@ -49,7 +54,9 @@
           "range": 1,
           "size": 1,
           "width": 1
-        }
+        },
+        "img": "systems/artichron/assets/icons/activity.svg",
+        "ammunition": {}
       },
       "rR1A8oANIu0Wzx7U": {
         "type": "defend",
@@ -61,9 +68,11 @@
         "description": "<p>Reduce incoming damage using this shield.</p>",
         "cost": {
           "value": 1
-        }
+        },
+        "img": "systems/artichron/assets/icons/activity.svg"
       }
-    }
+    },
+    "identifier": null
   },
   "effects": [],
   "folder": "LnoybnjbBjUtYqBI",

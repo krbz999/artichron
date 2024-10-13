@@ -17,7 +17,11 @@
     "attributes": {
       "value": [
         "magical"
-      ]
+      ],
+      "levels": {
+        "bludgeoning": null,
+        "rending": null
+      }
     },
     "fusion": {
       "max": 1,
@@ -47,9 +51,11 @@
         "cost": {
           "value": 2
         },
-        "description": "<p>Grant targets within 3m of you a +10% bonus to planar damage for the rest of the combat scenario.</p>"
+        "description": "<p>Grant targets within 3m of you a +10% bonus to planar damage for the rest of the combat scenario.</p>",
+        "img": "systems/artichron/assets/icons/activity.svg"
       }
-    }
+    },
+    "identifier": null
   },
   "effects": [
     {

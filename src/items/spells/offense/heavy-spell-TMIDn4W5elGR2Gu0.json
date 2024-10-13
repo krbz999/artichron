@@ -20,7 +20,11 @@
     "attributes": {
       "value": [
         "magical"
-      ]
+      ],
+      "levels": {
+        "bludgeoning": null,
+        "rending": null
+      }
     },
     "fusion": {
       "max": 1,
@@ -33,7 +37,8 @@
         "_id": "6MjfleBZvv1axbpX",
         "damage": [
           {
-            "formula": "4d10",
+            "number": 4,
+            "denomination": 10,
             "type": "lightning"
           }
         ],
@@ -48,7 +53,9 @@
           "count": 1,
           "range": 1
         },
-        "description": "<p>Deal 4d10 lightning damage to every target in a line 10m from you.</p>"
+        "description": "<p>Deal 4d10 lightning damage to every target in a line 10m from you.</p>",
+        "img": "systems/artichron/assets/icons/activity.svg",
+        "ammunition": {}
       },
       "YjLsPrOhN89lnTKd": {
         "type": "damage",
@@ -56,7 +63,8 @@
         "_id": "YjLsPrOhN89lnTKd",
         "damage": [
           {
-            "formula": "4d12",
+            "number": 1,
+            "denomination": 6,
             "type": "ice"
           }
         ],
@@ -71,9 +79,12 @@
           "size": 1,
           "width": 1
         },
-        "description": "<p>Deal 4d12 ice damage to a target within 10m.</p>"
+        "description": "<p>Deal 4d12 ice damage to a target within 10m.</p>",
+        "img": "systems/artichron/assets/icons/activity.svg",
+        "ammunition": {}
       }
-    }
+    },
+    "identifier": null
   },
   "effects": [],
   "sort": 0,

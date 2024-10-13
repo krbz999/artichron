@@ -217,15 +217,18 @@ export default class ActivitySheet extends foundry.applications.api.HandlebarsAp
       context.damage = {
         show: true,
         legend: makeLegend("damage"),
-        formula: context.activity.schema.getField("damage.element.formula"),
+        number: context.activity.schema.getField("damage.element.number"),
+        denomination: context.activity.schema.getField("damage.element.denomination"),
         type: context.activity.schema.getField("damage.element.type"),
         options: CONFIG.SYSTEM.DAMAGE_TYPES.optgroups,
         values: []
       };
-      for (const [i, {formula, type}] of context.activity.damage.entries()) {
+      for (const [i, {number, denomination, type}] of context.activity.damage.entries()) {
         context.damage.values.push({
-          formula: formula, type: type,
-          nameF: `damage.${i}.formula`, nameT: `damage.${i}.type`,
+          number, denomination, type,
+          nameN: `damage.${i}.number`,
+          nameD: `damage.${i}.denomination`,
+          nameT: `damage.${i}.type`,
           idx: i
         });
       }

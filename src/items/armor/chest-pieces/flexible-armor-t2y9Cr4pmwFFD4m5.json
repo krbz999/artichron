@@ -49,13 +49,18 @@
       ]
     },
     "attributes": {
-      "value": []
+      "value": [],
+      "levels": {
+        "bludgeoning": null,
+        "rending": null
+      }
     },
     "fusion": {
       "max": 1,
       "ignore": []
     },
-    "activities": {}
+    "activities": {},
+    "identifier": null
   },
   "effects": [],
   "folder": "el8jZMsQtdJWP18x",

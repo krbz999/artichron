@@ -18,7 +18,11 @@
     "attributes": {
       "value": [
         "magical"
-      ]
+      ],
+      "levels": {
+        "bludgeoning": null,
+        "rending": null
+      }
     },
     "fusion": {
       "max": 1,
@@ -45,9 +49,11 @@
             "JVcgElSH1pxCc6t8"
           ]
         },
-        "description": "<p>Up to 4 targets of your choice within 3 meters gain +5 armor until the end of combat.</p>"
+        "description": "<p>Up to 4 targets of your choice within 3 meters gain +5 armor until the end of combat.</p>",
+        "img": "systems/artichron/assets/icons/activity.svg"
       }
-    }
+    },
+    "identifier": null
   },
   "effects": [
     {

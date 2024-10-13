@@ -20,7 +20,11 @@
       "spent": 0
     },
     "attributes": {
-      "value": []
+      "value": [],
+      "levels": {
+        "bludgeoning": null,
+        "rending": null
+      }
     },
     "activities": {
       "ZMTkxi3vXgMBUJkY": {
@@ -43,10 +47,12 @@
           "range": 1,
           "size": 1,
           "width": 1
-        }
+        },
+        "img": "systems/artichron/assets/icons/activity.svg"
       }
     },
-    "boost": ""
+    "boost": "",
+    "identifier": null
   },
   "effects": [
     {

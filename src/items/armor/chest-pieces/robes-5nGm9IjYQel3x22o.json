@@ -15,7 +15,11 @@
       "value": 1
     },
     "attributes": {
-      "value": []
+      "value": [],
+      "levels": {
+        "bludgeoning": null,
+        "rending": null
+      }
     },
     "fusion": {
       "ignore": [],
@@ -57,7 +61,8 @@
         }
       ]
     },
-    "activities": {}
+    "activities": {},
+    "identifier": null
   },
   "effects": [],
   "sort": 0,

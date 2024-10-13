@@ -13,7 +13,11 @@
       "value": 1
     },
     "attributes": {
-      "value": []
+      "value": [],
+      "levels": {
+        "bludgeoning": null,
+        "rending": null
+      }
     },
     "quantity": {
       "value": 20
@@ -21,7 +25,12 @@
     "category": {
       "subtype": "bullet"
     },
-    "activities": {}
+    "activities": {},
+    "identifier": null,
+    "override": {
+      "group": "",
+      "value": "fire"
+    }
   },
   "effects": [],
   "folder": "RolaJHphF0RArLNp",

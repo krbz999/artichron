@@ -18,7 +18,11 @@
       "value": 1
     },
     "attributes": {
-      "value": []
+      "value": [],
+      "levels": {
+        "bludgeoning": null,
+        "rending": null
+      }
     },
     "fusion": {
       "max": 1,
@@ -35,7 +39,8 @@
         },
         "damage": [
           {
-            "formula": "4d6",
+            "number": 4,
+            "denomination": 6,
             "type": "physical"
           }
         ],
@@ -46,7 +51,9 @@
           "range": 1,
           "size": 1,
           "width": 1
-        }
+        },
+        "img": "systems/artichron/assets/icons/activity.svg",
+        "ammunition": {}
       },
       "oBwE1xOMYM27w4FJ": {
         "type": "damage",
@@ -62,16 +69,20 @@
         },
         "damage": [
           {
-            "formula": "4d6",
+            "number": 4,
+            "denomination": 6,
             "type": "physical"
           }
         ],
         "description": "",
         "cost": {
           "value": 1
-        }
+        },
+        "img": "systems/artichron/assets/icons/activity.svg",
+        "ammunition": {}
       }
-    }
+    },
+    "identifier": null
   },
   "effects": [],
   "sort": 0,

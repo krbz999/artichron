@@ -18,7 +18,11 @@
     "attributes": {
       "value": [
         "magical"
-      ]
+      ],
+      "levels": {
+        "bludgeoning": null,
+        "rending": null
+      }
     },
     "fusion": {
       "max": 1,
@@ -42,11 +46,14 @@
         },
         "damage": [
           {
-            "formula": "4d10",
+            "number": 4,
+            "denomination": 10,
             "type": "fire"
           }
         ],
-        "description": "<p>Deal 4d10 fire damage to everyone in a 3m radius area at a point up to 10m from you.</p>"
+        "description": "<p>Deal 4d10 fire damage to everyone in a 3m radius area at a point up to 10m from you.</p>",
+        "img": "systems/artichron/assets/icons/activity.svg",
+        "ammunition": {}
       },
       "bzJqZ5T7iVnVpCU5": {
         "type": "damage",
@@ -65,13 +72,17 @@
         },
         "damage": [
           {
-            "formula": "4d8",
+            "number": 1,
+            "denomination": 6,
             "type": "wind"
           }
         ],
-        "description": "<p>Deal 4d8 wind damage to every target within 4m of you.</p>"
+        "description": "<p>Deal 4d8 wind damage to every target within 4m of you.</p>",
+        "img": "systems/artichron/assets/icons/activity.svg",
+        "ammunition": {}
       }
-    }
+    },
+    "identifier": null
   },
   "effects": [],
   "folder": "vdB5ExhILgSwkTRd",

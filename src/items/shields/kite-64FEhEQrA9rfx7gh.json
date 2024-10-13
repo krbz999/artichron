@@ -23,7 +23,11 @@
     "attributes": {
       "value": [
         "blocking"
-      ]
+      ],
+      "levels": {
+        "bludgeoning": null,
+        "rending": null
+      }
     },
     "fusion": {
       "max": 1,
@@ -36,7 +40,8 @@
         "_id": "M2PhRkfNteqyizTu",
         "damage": [
           {
-            "formula": "4d8",
+            "number": 4,
+            "denomination": 8,
             "type": "physical"
           }
         ],
@@ -51,7 +56,9 @@
           "range": 1,
           "size": 1,
           "width": 1
-        }
+        },
+        "img": "systems/artichron/assets/icons/activity.svg",
+        "ammunition": {}
       },
       "OEzgtdriTUvnZuPV": {
         "type": "defend",
@@ -63,9 +70,11 @@
         "description": "<p>Reduce incoming damage using this shield.</p>",
         "cost": {
           "value": 1
-        }
+        },
+        "img": "systems/artichron/assets/icons/activity.svg"
       }
-    }
+    },
+    "identifier": null
   },
   "effects": [],
   "sort": 0,

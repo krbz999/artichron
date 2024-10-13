@@ -20,7 +20,11 @@
     "attributes": {
       "value": [
         "rending"
-      ]
+      ],
+      "levels": {
+        "bludgeoning": null,
+        "rending": null
+      }
     },
     "fusion": {
       "max": 1,
@@ -36,7 +40,8 @@
         },
         "damage": [
           {
-            "formula": "4d12",
+            "number": 4,
+            "denomination": 12,
             "type": "physical"
           }
         ],
@@ -48,9 +53,12 @@
           "range": 1,
           "size": 1,
           "width": 1
-        }
+        },
+        "img": "systems/artichron/assets/icons/activity.svg",
+        "ammunition": {}
       }
-    }
+    },
+    "identifier": null
   },
   "effects": [],
   "sort": 0,

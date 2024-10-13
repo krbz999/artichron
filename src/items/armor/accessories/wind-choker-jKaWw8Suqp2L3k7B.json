@@ -45,13 +45,18 @@
     "attributes": {
       "value": [
         "magical"
-      ]
+      ],
+      "levels": {
+        "bludgeoning": null,
+        "rending": null
+      }
     },
     "fusion": {
       "max": 1,
       "ignore": []
     },
-    "activities": {}
+    "activities": {},
+    "identifier": null
   },
   "effects": [],
   "folder": "ceptwscaBkDqa2bN",

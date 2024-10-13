@@ -42,7 +42,27 @@ export default class DamageActivity extends BaseActivity {
         })
       }),
       damage: new ArrayField(new SchemaField({
-        formula: new StringField({required: true}),
+        denomination: new NumberField({
+          nullable: false,
+          initial: 6,
+          choices: {
+            2: "d2",
+            3: "d3",
+            4: "d4",
+            6: "d6",
+            8: "d8",
+            10: "d10",
+            12: "d12",
+            20: "d20",
+            100: "d100"
+          }
+        }),
+        number: new NumberField({
+          integer: true,
+          nullable: false,
+          initial: 1,
+          min: 1
+        }),
         type: new StringField({
           required: true,
           choices: CONFIG.SYSTEM.DAMAGE_TYPES,
@@ -147,9 +167,7 @@ export default class DamageActivity extends BaseActivity {
 
   /** @override */
   get hasDamage() {
-    return this.damage.some(({formula, type}) => {
-      return formula && (type in CONFIG.SYSTEM.DAMAGE_TYPES) && Roll.validate(formula);
-    });
+    return this.damage.length > 0;
   }
 
   /* -------------------------------------------------- */
@@ -159,8 +177,6 @@ export default class DamageActivity extends BaseActivity {
    * @type {object[]}
    */
   get _damages() {
-    return this.damage.filter(({formula, type}) => {
-      return formula && (type in CONFIG.SYSTEM.DAMAGE_TYPES) && Roll.validate(formula);
-    });
+    return this.damage.map(d => ({formula: `${d.number}d${d.denomination}`, type: d.type}));
   }
 }
