@@ -1,7 +1,8 @@
 import CreatureData from "./creature-data.mjs";
 import ProgressionData from "../fields/hero-progression.mjs";
+import HeroicPathModel from "../fields/heroic-path-model.mjs";
 
-const {ArrayField, HTMLField, NumberField, SchemaField, TypedSchemaField} = foundry.data.fields;
+const {ArrayField, EmbeddedDataField, HTMLField, NumberField, SchemaField, TypedSchemaField} = foundry.data.fields;
 
 export default class HeroData extends CreatureData {
   /**
@@ -52,7 +53,8 @@ export default class HeroData extends CreatureData {
       points: new SchemaField({
         total: new NumberField({min: 0, integer: true, initial: 0, nullable: false}),
         spent: new ArrayField(new TypedSchemaField(ProgressionData.TYPES))
-      })
+      }),
+      paths: new EmbeddedDataField(HeroicPathModel)
     });
 
     return schema;

@@ -609,3 +609,65 @@ battery-progress {
     }
   }
 }
+
+.progression-prompt-test {
+  .points .up-down {
+    display: flex;
+    flex-direction: column;
+    font-size: 20px;
+
+    & input {
+      width: 50px;
+      background: none !important;
+      text-align: center;
+      font-size: 30px;
+    }
+  }
+
+  .allocated {
+    display: flex;
+    flex-direction: column;
+    font-size: 24px;
+    flex: 2 !important;
+    align-items: center;
+
+    & span:last-child {
+      font-size: 18px;
+    }
+  }
+
+  .current-path {
+    flex: 0 !important;
+    text-align: center;
+
+    & span:first-child {
+      font-size: 40px !important;
+    }
+  }
+
+  .assign {
+    .form-fields {
+      display: flex;
+      justify-content: space-evenly;
+    }
+
+    .checkbox {
+      flex-direction: column;
+      height: fit-content;
+      cursor: pointer;
+    }
+
+    .checkbox input {
+      display: none;
+    }
+
+    .checkbox img {
+      height: 50px;
+      transition: opacity 200ms ease;
+    }
+
+    .checkbox:not(:has(input:checked)) img {
+      opacity: 0.25;
+    }
+  }
+}
