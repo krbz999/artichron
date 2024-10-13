@@ -671,7 +671,8 @@
     "attributes": {
       "label": "Attributes",
       "value": {
-        "hint": "Unique attributes of this item."
+        "hint": "Unique attributes of this item.",
+        "label": "Attributes"
       },
       "levels": {
         "hint": "How many levels of given conditions this item applies when dealing damage.",
