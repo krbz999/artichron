@@ -133,7 +133,7 @@ class PoolRequirementData extends ArmorRequirementData {
 
   /** @override */
   get fulfilledRequirements() {
-    if (this.item.actor !== "hero") return true;
+    if (this.item.actor.type !== "hero") return true;
     return this.item.actor.system.pools[this.pool].max >= this.value;
   }
 
@@ -191,7 +191,7 @@ class HealthRequirementData extends ArmorRequirementData {
 
   /** @override */
   get fulfilledRequirements() {
-    if (this.item.actor !== "hero") return true;
+    if (this.item.actor.type !== "hero") return true;
     return this.item.actor.system.health.value >= this.value;
   }
 
@@ -253,7 +253,7 @@ class SkillRequirementData extends ArmorRequirementData {
 
   /** @override */
   get fulfilledRequirements() {
-    if (this.item.actor !== "hero") return true;
+    if (this.item.actor.type !== "hero") return true;
     return this.item.actor.system.skills[this.skill].number >= this.value;
   }
 
@@ -312,9 +312,8 @@ class LevelRequirementData extends ArmorRequirementData {
 
   /** @override */
   get fulfilledRequirements() {
-    if (this.item.actor !== "hero") return true;
-    const level = this.item.actor.system.progression.level ?? 0;
-    return level >= this.level;
+    if (this.item.actor.type !== "hero") return true;
+    return this.item.actor.system.progression.level >= this.level;
   }
 
   /* -------------------------------------------------- */
