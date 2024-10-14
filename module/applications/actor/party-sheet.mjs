@@ -395,45 +395,40 @@ export default class PartySheet extends ActorSheetArtichron {
    * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
    */
   static async #manageFunds(event, target) {
-    target.disabled = true;
     const id = target.closest(".member").dataset.id;
     const actor = game.actors.get(id);
     const config = await PartyFundsDialog.create({party: this.document, member: actor});
-    if (config.amount > 0) {
-      const path = "system.currency.funds";
+    if (!config || !(config.amount > 0)) return;
+    const path = "system.currency.funds";
 
-      // Current values
-      const af = foundry.utils.getProperty(actor, path);
-      const pf = foundry.utils.getProperty(this.document, path);
+    // Current values
+    const af = foundry.utils.getProperty(actor, path);
+    const pf = foundry.utils.getProperty(this.document, path);
 
-      // New values
-      const av = config.deposit ? af - config.amount : af + config.amount;
-      const pv = config.deposit ? pf + config.amount : pf - config.amount;
+    // New values
+    const av = config.deposit ? af - config.amount : af + config.amount;
+    const pv = config.deposit ? pf + config.amount : pf - config.amount;
 
-      if (av < 0) {
-        ui.notifications.warn("ARTICHRON.PartyFundsDialog.InsufficientMemberFunds", {localize: true});
-        return;
-      }
-
-      if (pv < 0) {
-        ui.notifications.warn("ARTICHRON.PartyFundsDialog.InsufficientPartyFunds", {localize: true});
-        return;
-      }
-
-      Promise.all([
-        actor.update({[path]: av}),
-        this.document.update({[path]: pv}),
-        ChatMessageArtichron.create({
-          speaker: ChatMessageArtichron.getSpeaker({actor: this.document}),
-          content: game.i18n.format(`ARTICHRON.PartyFundsDialog.Receipt${config.deposit ? "Deposit" : "Withdraw"}`, {
-            name: actor.name, amount: config.amount
-          })
-        })
-      ]);
+    if (av < 0) {
+      ui.notifications.warn("ARTICHRON.PartyFundsDialog.InsufficientMemberFunds", {localize: true});
       return;
     }
 
-    target.disabled = false;
+    if (pv < 0) {
+      ui.notifications.warn("ARTICHRON.PartyFundsDialog.InsufficientPartyFunds", {localize: true});
+      return;
+    }
+
+    Promise.all([
+      actor.update({[path]: av}),
+      this.document.update({[path]: pv}),
+      ChatMessageArtichron.create({
+        speaker: ChatMessageArtichron.getSpeaker({actor: this.document}),
+        content: game.i18n.format(`ARTICHRON.PartyFundsDialog.Receipt${config.deposit ? "Deposit" : "Withdraw"}`, {
+          name: actor.name, amount: config.amount
+        })
+      })
+    ]);
   }
 
   /* -------------------------------------------------- */
