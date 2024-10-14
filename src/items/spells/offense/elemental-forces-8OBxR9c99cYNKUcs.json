@@ -44,13 +44,14 @@
           "count": 1,
           "width": 1
         },
-        "damage": [
-          {
+        "damage": {
+          "W1XYKipULanR0OtN": {
             "number": 4,
             "denomination": 10,
-            "type": "fire"
+            "type": "fire",
+            "_id": "W1XYKipULanR0OtN"
           }
-        ],
+        },
         "description": "<p>Deal 4d10 fire damage to everyone in a 3m radius area at a point up to 10m from you.</p>",
         "img": "systems/artichron/assets/icons/activity.svg"
       },
@@ -69,13 +70,14 @@
           "range": 1,
           "width": 1
         },
-        "damage": [
-          {
+        "damage": {
+          "22LXKztIEA48IIT8": {
             "number": 1,
             "denomination": 6,
-            "type": "wind"
+            "type": "wind",
+            "_id": "22LXKztIEA48IIT8"
           }
-        ],
+        },
         "description": "<p>Deal 4d8 wind damage to every target within 4m of you.</p>",
         "img": "systems/artichron/assets/icons/activity.svg"
       }
@@ -94,8 +96,8 @@
     "coreVersion": "12.331",
     "systemId": "artichron",
     "systemVersion": "1.0.0",
-    "createdTime": 1728917727856,
-    "modifiedTime": 1728917727856,
+    "createdTime": 1728934135530,
+    "modifiedTime": 1728936406535,
     "lastModifiedBy": "3pWaVXzYT6XoJo1Y"
   },
   "_id": "8OBxR9c99cYNKUcs",

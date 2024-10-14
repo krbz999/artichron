@@ -38,13 +38,14 @@
         "type": "damage",
         "name": "Shield Bash",
         "_id": "xOBVFzJjAy6mpx3Y",
-        "damage": [
-          {
+        "damage": {
+          "YzIN9aeilCJyHDOK": {
             "number": 4,
             "denomination": 12,
-            "type": "physical"
+            "type": "physical",
+            "_id": "YzIN9aeilCJyHDOK"
           }
-        ],
+        },
         "cost": {
           "value": 2
         },
@@ -88,8 +89,8 @@
     "coreVersion": "12.331",
     "systemId": "artichron",
     "systemVersion": "1.0.0",
-    "createdTime": 1728917727993,
-    "modifiedTime": 1728917727993,
+    "createdTime": 1728934135926,
+    "modifiedTime": 1728936406602,
     "lastModifiedBy": "3pWaVXzYT6XoJo1Y"
   },
   "_key": "!items!dIrm6q26hhb8cZyB"

@@ -44,13 +44,14 @@
           "range": 1,
           "width": 1
         },
-        "damage": [
-          {
+        "damage": {
+          "3z1kOK48xawEaBQS": {
             "number": 4,
             "denomination": 8,
-            "type": "light"
+            "type": "light",
+            "_id": "3z1kOK48xawEaBQS"
           }
-        ],
+        },
         "description": "<p>Deal 4d8 light damage in a line.</p>",
         "img": "systems/artichron/assets/icons/activity.svg"
       },
@@ -70,13 +71,14 @@
           "count": 1,
           "width": 1
         },
-        "damage": [
-          {
+        "damage": {
+          "KzX9sZcdmj88pk40": {
             "number": 1,
             "denomination": 6,
-            "type": "darkness"
+            "type": "darkness",
+            "_id": "KzX9sZcdmj88pk40"
           }
-        ],
+        },
         "img": "systems/artichron/assets/icons/activity.svg"
       }
     },
@@ -94,8 +96,8 @@
     "coreVersion": "12.331",
     "systemId": "artichron",
     "systemVersion": "1.0.0",
-    "createdTime": 1728917728091,
-    "modifiedTime": 1728917728091,
+    "createdTime": 1728934136210,
+    "modifiedTime": 1728936406636,
     "lastModifiedBy": "3pWaVXzYT6XoJo1Y"
   },
   "_id": "p7uvDcqKKuiY2lh0",

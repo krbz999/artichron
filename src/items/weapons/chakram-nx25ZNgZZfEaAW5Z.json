@@ -39,13 +39,14 @@
         "cost": {
           "value": 1
         },
-        "damage": [
-          {
+        "damage": {
+          "Q1G656BAhcxQjtGz": {
             "number": 4,
             "denomination": 6,
-            "type": "physical"
+            "type": "physical",
+            "_id": "Q1G656BAhcxQjtGz"
           }
-        ],
+        },
         "target": {
           "type": "single",
           "count": 1,
@@ -74,8 +75,8 @@
     "coreVersion": "12.331",
     "systemId": "artichron",
     "systemVersion": "1.0.0",
-    "createdTime": 1728917728082,
-    "modifiedTime": 1728917728082,
+    "createdTime": 1728934136184,
+    "modifiedTime": 1728936406630,
     "lastModifiedBy": "3pWaVXzYT6XoJo1Y"
   },
   "_key": "!items!nx25ZNgZZfEaAW5Z"

@@ -38,13 +38,14 @@
         "cost": {
           "value": 2
         },
-        "damage": [
-          {
+        "damage": {
+          "kmKVogZe84UJ9dV3": {
             "number": 4,
             "denomination": 6,
-            "type": "wind"
+            "type": "wind",
+            "_id": "kmKVogZe84UJ9dV3"
           }
-        ],
+        },
         "target": {
           "range": 5,
           "type": "single",
@@ -71,8 +72,8 @@
     "coreVersion": "12.331",
     "systemId": "artichron",
     "systemVersion": "1.0.0",
-    "createdTime": 1728917728019,
-    "modifiedTime": 1728917728019,
+    "createdTime": 1728934135981,
+    "modifiedTime": 1728936406609,
     "lastModifiedBy": "3pWaVXzYT6XoJo1Y"
   },
   "_key": "!items!fycbK6FkmOPkXhKJ"

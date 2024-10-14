@@ -36,13 +36,14 @@
         "type": "damage",
         "name": "Damage Activity",
         "_id": "OJKtcmPHiN9pG67F",
-        "damage": [
-          {
+        "damage": {
+          "SykCh72ldWGbiYqL": {
             "number": 4,
             "denomination": 6,
-            "type": "physical"
+            "type": "physical",
+            "_id": "SykCh72ldWGbiYqL"
           }
-        ],
+        },
         "description": "",
         "cost": {
           "value": 1
@@ -69,13 +70,14 @@
           "size": 1,
           "width": 1
         },
-        "damage": [
-          {
+        "damage": {
+          "HC4Pw1MqdA0rWwpT": {
             "number": 1,
             "denomination": 6,
-            "type": "physical"
+            "type": "physical",
+            "_id": "HC4Pw1MqdA0rWwpT"
           }
-        ],
+        },
         "description": "",
         "cost": {
           "value": 1
@@ -100,8 +102,8 @@
     "coreVersion": "12.331",
     "systemId": "artichron",
     "systemVersion": "1.0.0",
-    "createdTime": 1728917728162,
-    "modifiedTime": 1728917728162,
+    "createdTime": 1728934136435,
+    "modifiedTime": 1728936406672,
     "lastModifiedBy": "3pWaVXzYT6XoJo1Y"
   },
   "_key": "!items!wfL5KdsvgVUtXiuW"

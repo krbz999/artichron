@@ -39,13 +39,14 @@
         "cost": {
           "value": 1
         },
-        "damage": [
-          {
+        "damage": {
+          "m8WD9ynh0OC7Y23Z": {
             "number": 4,
             "denomination": 6,
-            "type": "physical"
+            "type": "physical",
+            "_id": "m8WD9ynh0OC7Y23Z"
           }
-        ],
+        },
         "target": {
           "type": "single",
           "count": 1,
@@ -74,8 +75,8 @@
     "coreVersion": "12.331",
     "systemId": "artichron",
     "systemVersion": "1.0.0",
-    "createdTime": 1728917727827,
-    "modifiedTime": 1728917727827,
+    "createdTime": 1728934135431,
+    "modifiedTime": 1728936406522,
     "lastModifiedBy": "3pWaVXzYT6XoJo1Y"
   },
   "_key": "!items!4czaj4vKvxDwFzzB"

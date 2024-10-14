@@ -35,13 +35,14 @@
         "type": "damage",
         "name": "Lightning Bolt",
         "_id": "6MjfleBZvv1axbpX",
-        "damage": [
-          {
+        "damage": {
+          "DmrFxMjHeCz1knc5": {
             "number": 4,
             "denomination": 10,
-            "type": "lightning"
+            "type": "lightning",
+            "_id": "DmrFxMjHeCz1knc5"
           }
-        ],
+        },
         "cost": {
           "value": 3
         },
@@ -60,13 +61,14 @@
         "type": "damage",
         "name": "Icicle Spear",
         "_id": "YjLsPrOhN89lnTKd",
-        "damage": [
-          {
+        "damage": {
+          "4OMAAetFsRa85K6g": {
             "number": 1,
             "denomination": 6,
-            "type": "ice"
+            "type": "ice",
+            "_id": "4OMAAetFsRa85K6g"
           }
-        ],
+        },
         "cost": {
           "value": 3
         },
@@ -96,8 +98,8 @@
     "coreVersion": "12.331",
     "systemId": "artichron",
     "systemVersion": "1.0.0",
-    "createdTime": 1728917727936,
-    "modifiedTime": 1728917727936,
+    "createdTime": 1728934135774,
+    "modifiedTime": 1728936406573,
     "lastModifiedBy": "3pWaVXzYT6XoJo1Y"
   },
   "_key": "!items!TMIDn4W5elGR2Gu0"

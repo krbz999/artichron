@@ -1,8 +1,8 @@
 import BaseActivity from "./base-activity.mjs";
 import ChatMessageArtichron from "../chat-message.mjs";
-import DamageFormulaModel from "../fields/damage-formula-model.mjs";
+import DamagesField from "../fields/damages-field.mjs";
 
-const {ArrayField, EmbeddedDataField, NumberField, SchemaField, StringField} = foundry.data.fields;
+const {NumberField, SchemaField, StringField} = foundry.data.fields;
 
 const targetField = () => {
   return new SchemaField({
@@ -35,7 +35,7 @@ export default class DamageActivity extends BaseActivity {
   /** @inheritdoc */
   static defineSchema() {
     return Object.assign(super.defineSchema(), {
-      damage: new ArrayField(new EmbeddedDataField(DamageFormulaModel)),
+      damage: new DamagesField(),
       target: targetField()
     });
   }

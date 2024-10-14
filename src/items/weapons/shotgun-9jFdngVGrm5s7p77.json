@@ -39,13 +39,14 @@
         "cost": {
           "value": 2
         },
-        "damage": [
-          {
+        "damage": {
+          "bfvrHKBK3gHx7icx": {
             "number": 4,
             "denomination": 8,
-            "type": "physical"
+            "type": "physical",
+            "_id": "bfvrHKBK3gHx7icx"
           }
-        ],
+        },
         "target": {
           "type": "single",
           "count": 1,
@@ -74,8 +75,8 @@
     "coreVersion": "12.331",
     "systemId": "artichron",
     "systemVersion": "1.0.0",
-    "createdTime": 1728917727866,
-    "modifiedTime": 1728917727866,
+    "createdTime": 1728934135562,
+    "modifiedTime": 1728936406540,
     "lastModifiedBy": "3pWaVXzYT6XoJo1Y"
   },
   "_key": "!items!9jFdngVGrm5s7p77"

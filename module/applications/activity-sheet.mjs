@@ -217,21 +217,19 @@ export default class ActivitySheet extends foundry.applications.api.HandlebarsAp
       context.damage = {
         show: true,
         legend: makeLegend("damage"),
-        number: context.activity.schema.getField("damage.element.number"),
-        denomination: context.activity.schema.getField("damage.element.denomination"),
-        type: context.activity.schema.getField("damage.element.type"),
         options: CONFIG.SYSTEM.DAMAGE_TYPES.optgroups,
-        values: []
+        damages: context.activity.damage.map(damage => ({
+          damage: damage,
+          fields: ["number", "denomination", "type"].map(path => {
+            return {
+              field: damage.schema.getField(path),
+              name: `damage.${damage.id}.${path}`,
+              value: foundry.utils.getProperty(damage, path),
+              classes: [path, "label-top"].join(" ")
+            };
+          })
+        }))
       };
-      for (const [i, {number, denomination, type}] of context.activity.damage.entries()) {
-        context.damage.values.push({
-          number, denomination, type,
-          nameN: `damage.${i}.number`,
-          nameD: `damage.${i}.denomination`,
-          nameT: `damage.${i}.type`,
-          idx: i
-        });
-      }
     }
 
     // Defend
@@ -308,8 +306,6 @@ export default class ActivitySheet extends foundry.applications.api.HandlebarsAp
    */
   static #onSubmitForm(event, form, formData) {
     const submitData = foundry.utils.expandObject(formData.object);
-    const a = foundry.utils.getProperty(submitData, "damage");
-    if (a) foundry.utils.setProperty(submitData, "damage", Object.values(a));
     this.activity.update(submitData);
   }
 
@@ -322,9 +318,7 @@ export default class ActivitySheet extends foundry.applications.api.HandlebarsAp
    * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
    */
   static #addDamage(event, target) {
-    const damage = this.activity.toObject().damage;
-    damage.push({});
-    this.activity.update({damage: damage});
+    this.activity.damage.createDamage();
   }
 
   /* -------------------------------------------------- */
@@ -336,9 +330,7 @@ export default class ActivitySheet extends foundry.applications.api.HandlebarsAp
    * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
    */
   static #deleteDamage(event, target) {
-    const idx = Number(target.closest("[data-idx]").dataset.idx);
-    const damage = this.activity.toObject().damage;
-    damage.splice(idx, 1);
-    this.activity.update({damage: damage});
+    const id = target.closest("[data-id]").dataset.id;
+    this.activity.damage.deleteDamage(id);
   }
 }

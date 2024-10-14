@@ -39,13 +39,14 @@
         "cost": {
           "value": 2
         },
-        "damage": [
-          {
+        "damage": {
+          "KKR9YN55IFPPMcPQ": {
             "number": 4,
             "denomination": 8,
-            "type": "physical"
+            "type": "physical",
+            "_id": "KKR9YN55IFPPMcPQ"
           }
-        ],
+        },
         "target": {
           "type": "single",
           "count": 1,
@@ -74,8 +75,8 @@
     "coreVersion": "12.331",
     "systemId": "artichron",
     "systemVersion": "1.0.0",
-    "createdTime": 1728917728127,
-    "modifiedTime": 1728917728127,
+    "createdTime": 1728934136330,
+    "modifiedTime": 1728936406658,
     "lastModifiedBy": "3pWaVXzYT6XoJo1Y"
   },
   "_key": "!items!siAqsuJkFy5AJlBw"

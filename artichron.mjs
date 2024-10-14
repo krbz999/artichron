@@ -200,11 +200,12 @@ Hooks.once("i18nInit", function() {
   const clocks = CONFIG.Actor.dataModels.party.schema.getField("clocks").constructor.TYPES;
   for (const cls of Object.values(clocks)) Localization.localizeDataModel(cls);
 
-  for (const model of Object.values(artichron.activities)) {
-    Localization.localizeDataModel(model);
-    const dmg = model.schema.getField("damage.element");
-    if (dmg) Localization.localizeDataModel({schema: dmg}, {prefixes: ["ARTICHRON.ACTIVITY.FIELDS.damage"]});
-  }
+  // Localize activities.
+  for (const model of Object.values(artichron.activities)) Localization.localizeDataModel(model);
+
+  // Localize formula models.
+  Localization.localizeDataModel(artichron.fields.FormulaModel);
+  Localization.localizeDataModel(artichron.fields.DamageFormulaModel);
 });
 
 /* -------------------------------------------------- */
