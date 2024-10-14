@@ -28,10 +28,12 @@ export default class ElixirData extends ItemSystemModel {
         max: new NumberField({min: 1, integer: true, initial: 1, nullable: false})
       }),
       boost: new StringField({
-        required: false,
-        blank: true,
-        initial: "",
-        choices: CONFIG.SYSTEM.POOL_TYPES
+        required: true,
+        initial: "stamina",
+        choices: () => Object.entries(CONFIG.SYSTEM.POOL_TYPES).reduce((acc, [k, v]) => {
+          if (v.boost) acc[k] = v;
+          return acc;
+        }, {})
       })
     };
   }
@@ -67,6 +69,16 @@ export default class ElixirData extends ItemSystemModel {
    */
   get hasTransferrableEffects() {
     return super.hasTransferrableEffects && this.hasUses;
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Can this elixir be used to boost a roll?
+   * @type {boolean}
+   */
+  get isBooster() {
+    return this.attributes.value.has("booster");
   }
 
   /* -------------------------------------------------- */

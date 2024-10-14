@@ -17,6 +17,9 @@
     {{#if details.attributes.ammo.show}}
     {{formGroup details.attributes.ammo.field value=details.attributes.ammo.value disabled=@root.isPlayMode}}
     {{/if}}
+    {{#if details.attributes.boost.show}}
+    {{formGroup details.attributes.boost.field value=details.attributes.boost.value disabled=@root.isPlayMode}}
+    {{/if}}
   </fieldset>
 
   {{#if details.configuration.length}}

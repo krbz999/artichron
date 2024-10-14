@@ -122,10 +122,19 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
       }
     };
 
+    // Show ammunition dropdown on weapons.
     if (this.document.system.schema.has("ammunition") && attrs.has("ammunition")) {
       context.details.attributes.ammo = {
         show: true,
         ...this._makeField(context, "ammunition.type")
+      };
+    }
+
+    // Show booster dropdown on elixirs.
+    if (this.document.system.schema.has("boost") && attrs.has("booster")) {
+      context.details.attributes.boost = {
+        show: true,
+        ...this._makeField(context, "boost")
       };
     }
 

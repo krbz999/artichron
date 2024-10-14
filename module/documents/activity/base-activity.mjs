@@ -176,7 +176,8 @@ export default class BaseActivity extends foundry.abstract.DataModel {
     const actor = item.actor;
     const isSpell = item.type === "spell";
     const elixirs = actor.items.reduce((acc, item) => {
-      if ((item.type === "elixir") && item.system.hasUses && (item.system.boost === this.poolType)) {
+      if (item.type !== "elixir") return acc;
+      if (item.system.hasUses && item.system.isBooster && (item.system.boost === this.poolType)) {
         acc[item.id] = item.name;
       }
       return acc;

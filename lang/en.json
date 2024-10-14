@@ -563,6 +563,7 @@
   "Ammunition": "Ammunition",
   "Blocking": "Blocking",
   "Bludgeoning": "Bludgeoning",
+  "Booster": "Booster",
   "Fusion": "Fusion",
   "Magical": "Magical",
   "Parrying": "Parrying",
@@ -680,7 +681,6 @@
     "attributes": {
       "label": "Attributes",
       "value": {
-        "hint": "Unique attributes of this item.",
         "label": "Attributes"
       },
       "levels": {
@@ -695,7 +695,7 @@
       }
     },
     "boost": {
-      "hint": "If this elixir can be used to boost an activity, select the type of the pool.",
+      "hint": "When using this elixir to boost a roll, this is the type of pool it can enhance.",
       "label": "Boost"
     },
     "description": {

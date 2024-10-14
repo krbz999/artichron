@@ -360,6 +360,11 @@ SYSTEM.ITEM_ATTRIBUTES = {
     types: new Set(["weapon"]),
     transferrable: true
   },
+  booster: {
+    label: "ARTICHRON.ItemAttribute.Booster",
+    types: new Set(["elixir"]),
+    transferrable: false
+  },
   fusion: {
     label: "ARTICHRON.ItemAttribute.Fusion",
     types: new Set(["weapon", "shield", "spell", "armor"]),
@@ -502,7 +507,8 @@ SYSTEM.SKILLS = {
 
 /**
  * @typedef {object} PoolConfig
- * @property {string} label     The displayed label of the pool.
+ * @property {string} label       The displayed label of the pool.
+ * @property {boolean} boost      When using this pool, can it be boosted by an elixir?
  */
 
 /**
@@ -511,13 +517,16 @@ SYSTEM.SKILLS = {
  */
 SYSTEM.POOL_TYPES = {
   health: {
-    label: "ARTICHRON.Pools.Health"
+    label: "ARTICHRON.Pools.Health",
+    boost: false
   },
   stamina: {
-    label: "ARTICHRON.Pools.Stamina"
+    label: "ARTICHRON.Pools.Stamina",
+    boost: true
   },
   mana: {
-    label: "ARTICHRON.Pools.Mana"
+    label: "ARTICHRON.Pools.Mana",
+    boost: true
   }
 };
 
