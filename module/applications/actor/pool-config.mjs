@@ -130,9 +130,9 @@ export default class PoolConfig extends foundry.applications.api.HandlebarsAppli
     const value = this.#facesLargest || "health";
     const largest = new foundry.data.fields.StringField({
       choices: {
-        health: "ARTICHRON.ActorProperty.FIELDS.pools.health.label",
-        stamina: "ARTICHRON.ActorProperty.FIELDS.pools.stamina.label",
-        mana: "ARTICHRON.ActorProperty.FIELDS.pools.mana.label"
+        health: "ARTICHRON.ACTOR.FIELDS.pools.health.label",
+        stamina: "ARTICHRON.ACTOR.FIELDS.pools.stamina.label",
+        mana: "ARTICHRON.ACTOR.FIELDS.pools.mana.label"
       },
       label: "Largest"
     });

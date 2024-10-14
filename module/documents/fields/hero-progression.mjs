@@ -113,8 +113,8 @@ class ProgressionPoolData extends ProgressionData {
 
   /** @override */
   static LOCALIZATION_PREFIXES = [
-    "ARTICHRON.ActorProperty.Progression",
-    "ARTICHRON.ActorProperty.Progression.Pool"
+    "ARTICHRON.ACTOR.Progression",
+    "ARTICHRON.ACTOR.Progression.Pool"
   ];
 
   /* -------------------------------------------------- */
@@ -210,8 +210,8 @@ class ProgressionSkillData extends ProgressionData {
 
   /** @override */
   static LOCALIZATION_PREFIXES = [
-    "ARTICHRON.ActorProperty.Progression",
-    "ARTICHRON.ActorProperty.Progression.Skill"
+    "ARTICHRON.ACTOR.Progression",
+    "ARTICHRON.ACTOR.Progression.Skill"
   ];
 
   /* -------------------------------------------------- */

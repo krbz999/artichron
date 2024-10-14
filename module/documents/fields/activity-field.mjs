@@ -1,7 +1,7 @@
 import BaseActivity from "../activity/base-activity.mjs";
 import MappingField from "./mapping-field.mjs";
 
-export class ActivitiesField extends MappingField {
+export default class ActivitiesField extends MappingField {
   constructor(options) {
     super(new ActivityField(), options);
   }
@@ -19,7 +19,7 @@ export class ActivitiesField extends MappingField {
 /**
  * Field that stores activity data and swaps class based on activity type.
  */
-export class ActivityField extends foundry.data.fields.ObjectField {
+class ActivityField extends foundry.data.fields.ObjectField {
   /** @override */
   static recursive = true;
 
@@ -74,7 +74,7 @@ export class ActivityField extends foundry.data.fields.ObjectField {
  * @param {DataModel} model                   The parent DataModel to which this ActivityCollection belongs.
  * @param {Record<string, Activity>} entries  Object containing the activities to store.
  */
-export class ActivityCollection extends foundry.utils.Collection {
+class ActivityCollection extends foundry.utils.Collection {
   constructor(model, entries) {
     super();
     this.#model = model;

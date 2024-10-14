@@ -9,11 +9,11 @@
       </a>
     </legend>
     {{#each clocks}}
-    <div class="form-group" data-idx="{{idx}}">
-      {{formGroup nameField value=name name=(concat "system.clocks." idx ".name") classes="name label-top" localize=true}}
-      {{formGroup valueField value=value name=(concat "system.clocks." idx ".value") classes="value label-top" localize=true}}
-      {{formGroup maxField value=max name=(concat "system.clocks." idx ".max") classes="max label-top" localize=true}}
-      {{formGroup colorField value=color name=(concat "system.clocks." idx ".color") classes="color label-top" localize=true}}
+    <div class="form-group" data-id="{{clock.id}}">
+      {{formGroup name.field value=name.value name=name.name classes="name label-top"}}
+      {{formGroup value.field value=value.value name=value.name classes="value label-top"}}
+      {{formGroup max.field value=max.value name=max.name classes="max label-top"}}
+      {{formGroup color.field value=color.value name=color.name classes="color label-top"}}
       <div class="controls">
         <button type="button" class="control" data-action="removeClock">
           <i class="fa-solid fa-trash"></i>
@@ -27,11 +27,11 @@
     <legend>{{localize "ARTICHRON.SheetLabels.Clocks"}}</legend>
     {{#each clocks}}
     <div class="clock">
-      <button type="button" data-delta="up" data-idx="{{idx}}" data-action="clockDelta" {{disabled disableUp}}>
+      <button type="button" data-delta="up" data-id="{{clock.id}}" data-action="clockDelta" {{disabled disableUp}}>
         <i class="fa-solid fa-chevron-up"></i>
       </button>
-      {{progressClock value=value max=max color=color}}
-      <button type="button" data-delta="down" data-idx="{{idx}}" data-action="clockDelta" {{disabled disableDown}}>
+      {{progressClock value=clock.value max=clock.max color=clock.color}}
+      <button type="button" data-delta="down" data-id="{{clock.id}}" data-action="clockDelta" {{disabled disableDown}}>
         <i class="fa-solid fa-chevron-down"></i>
       </button>
       <label class="name">{{name}}</label>

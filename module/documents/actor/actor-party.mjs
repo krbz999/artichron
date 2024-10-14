@@ -1,8 +1,9 @@
 import ActorSystemModel from "./system-model.mjs";
+import ClocksField from "../fields/clocks-field.mjs";
 import PartyDistributionDialog from "../../applications/actor/party-distribution-dialog.mjs";
 
 const {
-  ArrayField, ColorField, ForeignDocumentField, NumberField, SchemaField, SetField, StringField
+  ForeignDocumentField, NumberField, SchemaField, SetField
 } = foundry.data.fields;
 
 export default class PartyData extends ActorSystemModel {
@@ -25,25 +26,7 @@ export default class PartyData extends ActorSystemModel {
       actor: new ForeignDocumentField(foundry.documents.BaseActor)
     }));
 
-    schema.clocks = new ArrayField(new SchemaField({
-      name: new StringField({
-        required: true,
-        initial: () => game.i18n.localize("ARTICHRON.ActorProperty.FIELDS.clocks.name.initial"),
-        label: "ARTICHRON.ActorProperty.FIELDS.clocks.name.label"
-      }),
-      value: new NumberField({
-        min: 0, step: 1, initial: 0,
-        label: "ARTICHRON.ActorProperty.FIELDS.clocks.value.label"
-      }),
-      max: new NumberField({
-        min: 1, step: 1, initial: 8, nullable: false,
-        label: "ARTICHRON.ActorProperty.FIELDS.clocks.max.label"
-      }),
-      color: new ColorField({
-        required: true, nullable: false, initial: "#0000ff",
-        label: "ARTICHRON.ActorProperty.FIELDS.clocks.color.label"
-      })
-    }));
+    schema.clocks = new ClocksField();
 
     schema.points = new SchemaField({
       value: new NumberField({min: 0, integer: true})

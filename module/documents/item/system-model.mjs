@@ -1,5 +1,5 @@
 import ActivitySelectDialog from "../../applications/item/activity-select-dialog.mjs";
-import {ActivitiesField} from "../fields/activity-field.mjs";
+import ActivitiesField from "../fields/activity-field.mjs";
 import IdentifierField from "../fields/identifier-field.mjs";
 
 const {StringField, SchemaField, HTMLField, NumberField, SetField} = foundry.data.fields;

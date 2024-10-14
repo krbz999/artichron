@@ -525,7 +525,7 @@
 
   .clocks.play {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(135px, 1fr));
 
     .clock {
       display: grid;

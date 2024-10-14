@@ -214,7 +214,7 @@
   }
 },
 
-"ActorProperty": {
+"ACTOR": {
   "FIELDS": {
     "bonuses": {
       "damage": {
@@ -230,19 +230,7 @@
       }
     },
     "clocks": {
-      "color": {
-        "label": "Color"
-      },
-      "max": {
-        "label": "Max"
-      },
-      "name": {
-        "initial": "New Clock",
-        "label": "Name"
-      },
-      "value": {
-        "label": "Value"
-      }
+      "label": "Clocks"
     },
     "currency": {
       "funds": {
@@ -276,6 +264,9 @@
       "notes": {
         "label": "Notes"
       }
+    },
+    "members": {
+      "label": "Members"
     },
     "pips": {
       "turn": {
@@ -426,6 +417,24 @@
   "AcceptTrade": "Accept Trade",
   "TradeComplete": "Trade Complete!",
   "TradeInfo": "{actor} wants to trade {item} to {target}."
+},
+
+"CLOCK": {
+  "FIELDS": {
+    "color": {
+      "label": "Color"
+    },
+    "max": {
+      "label": "Max"
+    },
+    "name": {
+      "initial": "New Clock",
+      "label": "Name"
+    },
+    "value": {
+      "label": "Value"
+    }
+  }
 },
 
 "Combat": {

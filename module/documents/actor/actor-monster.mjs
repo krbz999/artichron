@@ -20,10 +20,7 @@ export default class MonsterData extends CreatureData {
     schema.loot = new ArrayField(new SchemaField({
       uuid: new DocumentUUIDField({type: "Item", embedded: false}),
       quantity: new NumberField({min: 1, integer: true, initial: 1, nullable: false})
-    }), {
-      label: "ARTICHRON.ActorProperty.Loot",
-      hint: "ARTICHRON.ActorProperty.LootHint"
-    });
+    }));
 
     schema.danger = new SchemaField({
       pool: new SchemaField({

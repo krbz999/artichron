@@ -242,27 +242,27 @@ export default class PartySheet extends ActorSheetArtichron {
     if (!game.user.isGM) return context;
 
     context.clocks = [];
-    for (const [i, clock] of this.document.system.clocks.entries()) {
+    for (const clock of this.document.system.clocks) {
       if (this.isPlayMode) context.clocks.push({
-        ...clock,
-        idx: i,
+        clock: clock,
         disableUp: !(clock.value < clock.max),
         disableDown: !(clock.value > 0),
-        name: clock.name ? clock.name : game.i18n.localize("ARTICHRON.ActorProperty.FIELDS.clocks.name.initial"),
+        name: clock.name ? clock.name : game.i18n.localize("ARTICHRON.CLOCK.FIELDS.name.initial"),
         hue: clock.color.rgb.map(k => k * 255).join(", ")
       });
       else {
-        const [name, value, max, color] = ["name", "value", "max", "color"].map(p => {
-          const path = `clocks.element.${p}`;
-          return this.document.system.schema.getField(path);
-        });
+        const makeField = path => {
+          const field = clock.schema.getField(path);
+          const name = `system.clocks.${clock.id}.${path}`;
+          return {field: field, name: name, value: foundry.utils.getProperty(clock, path)};
+        };
+
         context.clocks.push({
-          ...clock,
-          nameField: name,
-          valueField: value,
-          maxField: max,
-          colorField: color,
-          idx: i
+          clock: clock,
+          name: makeField("name"),
+          value: makeField("value"),
+          max: makeField("max"),
+          color: makeField("color")
         });
       }
     }
@@ -486,11 +486,11 @@ export default class PartySheet extends ActorSheetArtichron {
    * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
    */
   static #clockDelta(event, target) {
-    const delta = target.dataset.delta === "up" ? 1 : -1;
-    const idx = Number(target.dataset.idx);
-    const clocks = this.document.system.toObject().clocks;
-    clocks[idx].value = Math.clamp(clocks[idx].value + delta, 0, clocks[idx].max);
-    this.document.update({"system.clocks": clocks});
+    const isUp = target.dataset.delta === "up";
+    const id = target.dataset.id;
+    const clock = this.document.system.clocks.get(id);
+    if (isUp) clock.increase();
+    else clock.decrease();
   }
 
   /* -------------------------------------------------- */
@@ -502,9 +502,9 @@ export default class PartySheet extends ActorSheetArtichron {
    * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
    */
   static #addClock(event, target) {
-    const clocks = this.document.system.toObject().clocks;
-    clocks.push(this.document.system.schema.getField("clocks.element").initial());
-    this.document.update({"system.clocks": clocks});
+    const clocks = this.document.system.clocks;
+    const type = event.shiftKey ? "bad" : "good";
+    clocks.createClock({type: type});
   }
 
   /* -------------------------------------------------- */
@@ -516,9 +516,8 @@ export default class PartySheet extends ActorSheetArtichron {
    * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
    */
   static #removeClock(event, target) {
-    const clocks = this.document.system.toObject().clocks;
-    const idx = Number(target.closest("[data-idx]").dataset.idx);
-    clocks.splice(idx, 1);
-    this.document.update({"system.clocks": clocks});
+    const clocks = this.document.system.clocks;
+    const id = target.closest("[data-id]").dataset.id;
+    clocks.deleteClock(id);
   }
 }
