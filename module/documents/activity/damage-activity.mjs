@@ -55,34 +55,30 @@ export default class DamageActivity extends BaseActivity {
     const actor = this.item.actor;
     const item = this.item;
     const ammo = item.actor.items.get(configuration.usage.damage?.ammoId) ?? null;
+    const activity = this.clone();
 
     const rollData = item.getRollData();
     if (ammo) rollData.ammo = ammo.getRollData().item;
-
-    const parts = foundry.utils.deepClone(this._damages);
     const mods = ammo ? ammo.system.ammoProperties : new Set();
 
-    // Override the damage type.
-    if (mods.has("override")) {
-      const override = ammo.system.override;
-      for (const p of parts) {
+    // Create roll instances.
+    const rolls = [];
+    for (const part of activity.damage) {
+      let type = part.type;
+
+      // Override the damage type due to ammunition.
+      if (mods.has("override")) {
+        const override = ammo.system.override;
         if ((override.group === "all") || (CONFIG.SYSTEM.DAMAGE_TYPES[p.type].group === override.group)) {
-          p.type = override.value;
+          type = override.value;
         }
       }
+
+      const roll = new CONFIG.Dice.DamageRoll(part.formula, rollData, {type: type});
+      if (configuration.usage.damage?.increase) roll.alter(1, configuration.usage.damage.increase);
+      await roll.evaluate();
+      rolls.push(roll);
     }
-
-    const rolls = Object.entries(parts.reduce((acc, d) => {
-      acc[d.type] ??= [];
-      acc[d.type].push(d.formula);
-      return acc;
-    }, {})).map(([type, formulas]) => {
-      const roll = new CONFIG.Dice.DamageRoll(formulas.join("+"), rollData, {type: type});
-      roll.alter(1, configuration.usage.damage?.increase ?? 0);
-      return roll;
-    });
-
-    for (const roll of rolls) await roll.evaluate();
 
     // Add any amplifying bonuses (increasing the amount of damage dealt of a given type).
     for (const roll of rolls) {
@@ -135,15 +131,5 @@ export default class DamageActivity extends BaseActivity {
   /** @override */
   get hasDamage() {
     return this.damage.length > 0;
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Valid damage parts.
-   * @type {object[]}
-   */
-  get _damages() {
-    return this.damage.map(d => ({formula: `${d.number}d${d.denomination}`, type: d.type}));
   }
 }

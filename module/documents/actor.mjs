@@ -1,3 +1,24 @@
+/**
+ * @typedef {object} DamageDescription
+ * @property {string} type                    The damage type.
+ * @property {number} value                   The damage total.
+ * @property {DamageOptions} [options]        Damage part options.
+ * @property {DamageStatuses} [statuses]      Statuses and the levels that will be applied.
+ */
+
+/**
+ * @typedef {object} DamageOptions        Options that configure how the damage is applied.
+ * @property {boolean} [defendable]       If explicitly `false`, this cannot be reduced by defending.
+ * @property {boolean} [diminishable]     If explicitly `false`, this cannot be reduced by armor.
+ * @property {boolean} [resistable]       If explicitly `false`, this cannot be reduced by resistances.
+ */
+
+/**
+ * @typedef {object} DamageStatuses   Record of the statuses that will be applied.
+ * @property {number} [bleeding]      How many levels of the 'Bleeding' status will be applied.
+ * @property {number} [hindered]      How many levels of the 'Hindered' status will be applied.
+ */
+
 export default class ActorArtichron extends Actor {
   /* -------------------------------------------------- */
   /*   Properties                                       */
@@ -132,12 +153,12 @@ export default class ActorArtichron extends Actor {
 
   /**
    * Display scrolling damage numbers on each of this actor's tokens.
-   * @param {object} [damages]      An object of damage/healing types to their values.
-   * @param {object} [health]       An object describing changes to health.
+   * @param {DamageDescription[]} [damages]     Damage taken. If healing, this is omitted.
+   * @param {object} [health]                   An object describing changes to health.
    * @returns {Promise<void>}
    */
   async _displayScrollingNumbers(damages, health) {
-    if (!damages && !health) return;
+    if (!damages?.length && !health) return;
     const tokens = this.isToken ? [this.token?.object] : this.getActiveTokens(true);
     const options = {
       duration: 3000,
@@ -153,12 +174,13 @@ export default class ActorArtichron extends Actor {
 
     const displayNumbers = async (token) => {
       const c = token.center;
-      damages = damages ? damages : {none: {value: -health.delta}};
-      for (const [type, {value}] of Object.entries(damages)) {
-        if (!value) continue;
-        const isHeal = value < 0;
-        const color = foundry.utils.Color.from(isHeal ? green : CONFIG.SYSTEM.DAMAGE_TYPES[type]?.color ?? red);
-        canvas.interface.createScrollingText(c, (-value).signedString(), {...options, fill: color});
+      damages = damages ? damages : [{type: "healing", value: health.delta}];
+      for (const damage of damages) {
+        if (!damage.value) continue;
+        const isHeal = damage.type === "healing";
+        const text = isHeal ? (-damage.value).signedString() : damage.value.signedString();
+        const color = foundry.utils.Color.from(isHeal ? green : CONFIG.SYSTEM.DAMAGE_TYPES[damage.type]?.color ?? red);
+        canvas.interface.createScrollingText(c, text, {...options, fill: color});
         token.ring?.flashColor(color);
         await new Promise(r => setTimeout(r, 350));
       }
@@ -182,78 +204,99 @@ export default class ActorArtichron extends Actor {
 
   /**
    * Calculate damage that will be taken, excepting any reductions from parrying and blocking.
-   * @param {number|object} values          An object with keys from DAMAGE_TYPES.
-   * @param {object} [options]              Damage calculation options.
-   * @param {boolean} [options.numeric]     Whether to return the damage descriptions instead of the total damage.
-   * @returns {number|object}               The amount of damage taken, or the modified object.
+   * @param {number|DamageDescription[]} damages      Damage to be applied.
+   * @param {object} [options]                        Damage calculation options.
+   * @param {boolean} [options.numeric]               Whether to return the damage descriptions instead of the total damage.
+   * @returns {number|DamageDescription[]}            The amount of damage taken, or the modified values.
    */
-  calculateDamage(values, {numeric = true} = {}) {
-    if (foundry.utils.getType(values) === "number") {
-      values = {none: {value: values}};
+  calculateDamage(damages, {numeric = true} = {}) {
+    if (foundry.utils.getType(damages) === "number") {
+      damages = [{type: "none", value: damages}];
     }
+    damages = foundry.utils.deepClone(damages);
 
-    values = foundry.utils.deepClone(values);
+    const types = CONFIG.SYSTEM.DAMAGE_TYPES;
 
-    // Modify values to take resistances into account.
-    for (const [type, {value, resisted}] of Object.entries(values)) {
-      if ((resisted === false) || (type === "none")) continue;
+    // Values are cloned so we can prevent double-dipping.
+    let armor = this.system.defenses.armor;
+    const resistances = foundry.utils.deepClone(this.system.resistances);
 
-      let v = value;
+    const diminished = damage => {
+      if (damage.options?.diminishable === false) return;
+      if (!types[damage.type]?.armor || !armor) return;
 
-      // Resisted?
-      if (CONFIG.SYSTEM.DAMAGE_TYPES[type].resist) v -= this.system.resistances[type];
+      const diff = Math.min(damage.value, armor);
+      armor = armor - diff;
+      damage.value = damage.value - diff;
+    };
 
-      // Reduced by armor?
-      if (CONFIG.SYSTEM.DAMAGE_TYPES[type].armor) v -= this.system.defenses.armor;
+    const resisted = damage => {
+      if (damage.options?.resistable === false) return;
+      if (!types[damage.type]?.resist || !resistances[damage.type]) return;
 
-      values[type].value = Math.max(0, v);
-    }
+      const diff = Math.min(damage.value, resistances[damage.type]);
+      resistances[damage.type] = resistances[damage.type] - diff;
+      damage.value = damage.value - diff;
+    };
 
-    return numeric ? Object.values(values).reduce((acc, {value}) => acc + value, 0) : values;
+    damages = damages.filter(damage => {
+      diminished(damage);
+      resisted(damage);
+      return damage.value > 0;
+    });
+
+    return numeric ? damages.reduce((acc, damage) => acc + damage.value, 0) : damages;
   }
 
   /* -------------------------------------------------- */
 
   /**
    * Apply damage to this actor.
-   * @param {number|object} values                          An object with keys from DAMAGE_TYPES.
-   * @param {object} [options]                              Damage application options.
-   * @param {boolean} [options.defendable]                  Whether the actor can parry or block this damage.
-   * @param {Map<string, number>} [options.attributes]      Map of levels of conditions to apply.
-   * @param {object} [context]                              Update options that are passed along to the final update.
+   * @param {number|DamageDescription[]} damages      Damage to be applied.
    * @returns {Promise<ActorArtichron>}
    */
-  async applyDamage(values, {defendable = true, attributes} = {}, context = {}) {
+  async applyDamage(damages) {
     if (!this.system.health?.value) return this;
 
-    values = this.calculateDamage(values, {numeric: false});
-    let dmg = Object.values(values).reduce((acc, {value}) => acc + value, 0);
-    let blocking = defendable ? await this.defenseDialog(dmg) : 0;
+    damages = this.calculateDamage(damages, {numeric: false});
+
+    // The amount of damage that can be defended.
+    const defendableDamage = damages.reduce((acc, damage) => {
+      if (damage.options?.defendable === false) return acc;
+      return acc + damage.value;
+    }, 0);
+
+    let blocking = (defendableDamage > 0) ? await this.defenseDialog(defendableDamage) : 0;
     if (blocking === false) return this;
 
-    for (const [type, {value}] of Object.entries(values)) {
+    // Deduct from defensive rolls.
+    for (const damage of damages) {
       if (!blocking) break;
-      const diff = Math.min(value, blocking);
-      blocking -= diff;
-      values[type].value -= diff;
+      const diff = Math.min(damage.value, blocking);
+      blocking = blocking - diff;
+      damage.value = damage.value - diff;
     }
+
+    // The statuses to apply.
+    const statuses = new Map();
+    const statused = damage => {
+      if (foundry.utils.isEmpty(damage.statuses)) return;
+      for (const [status, level] of Object.entries(damage.statuses)) {
+        if (!statuses.has(status)) statuses.set(status, level);
+        else statuses.set(status, Math.max(statuses.get(status), level));
+      }
+    };
+    damages = damages.filter(damage => damage.value > 0);
+    for (const damage of damages) statused(damage);
 
     // Recalculate damage after defensive rolls.
-    dmg = Object.values(values).reduce((acc, {value}) => acc + value, 0);
+    const total = damages.reduce((acc, damage) => acc + damage.value, 0);
     const hp = foundry.utils.deepClone(this.system.health);
-    const val = Math.clamp(hp.value - Math.max(0, dmg), 0, hp.max);
-    await this.update({"system.health.value": val}, {
-      ...context,
-      damages: values,
-      diff: false
-    });
+    const value = Math.clamp(hp.value - Math.max(0, total), 0, hp.max);
+    await this.update({"system.health.value": value}, {damages: damages, diff: false});
 
-    // If the actor was damaged, apply any relevant status conditions.
-    const damaged = hp.value > this.system.health.value;
-    if (damaged && attributes) {
-      if (attributes.has("rending")) await this.applyCondition("bleeding", attributes.get("rending"));
-      if (attributes.has("bludgeoning")) await this.applyCondition("hindered", attributes.get("bludgeoning"));
-    }
+    // Apply conditions from applied damage.
+    for (const [status, level] of statuses.entries()) await this.applyCondition(status, level);
 
     return this;
   }

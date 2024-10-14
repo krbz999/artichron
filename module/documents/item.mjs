@@ -34,13 +34,14 @@ export default class ItemArtichron extends Item {
 
   /**
    * Attributes on this item and their levels.
-   * @type {Map<string, number>}
+   * @type {Record<string, number>}
    */
   get attributes() {
-    const attrs = new Map();
+    const attrs = {};
     for (const attr of this.system.attributes?.value ?? []) {
       const level = this.system.attributes.levels[attr] ?? 1;
-      attrs.set(attr, level);
+      const status = CONFIG.SYSTEM.ITEM_ATTRIBUTES[attr].status;
+      if (status) attrs[status] = level;
     }
     return attrs;
   }

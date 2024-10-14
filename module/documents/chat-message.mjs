@@ -23,14 +23,14 @@ export default class ChatMessageArtichron extends ChatMessage {
 
   /**
    * The damage totals by type.
-   * @type {object|null}
+   * @type {import("./actor.mjs").DamageDescription[]}
    */
   get damages() {
-    return this.rolls.reduce((acc, roll) => {
-      acc[roll.type] ??= {value: 0};
-      acc[roll.type].value += roll.total;
-      return acc;
-    }, {});
+    const item = this.system.item;
+    const statuses = item ? item.attributes : {};
+    return this.rolls.map(roll => {
+      return {type: roll.type, value: roll.total, statuses: statuses};
+    });
   }
 
   /* -------------------------------------------------- */

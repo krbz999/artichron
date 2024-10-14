@@ -130,8 +130,11 @@ export default class ActivityUseDialog extends foundry.applications.api.Handleba
       case "damage": {
         context.damage = {...this.#dialog.damage};
         if (!context.damage.show) break;
-        const damages = activity._damages.map(({formula, type}) => {
-          return {formula, type: CONFIG.SYSTEM.DAMAGE_TYPES[type].label};
+        const damages = activity.damage.map(part => {
+          return {
+            formula: part.formula,
+            type: CONFIG.SYSTEM.DAMAGE_TYPES[part.type].label
+          };
         });
         const field = new foundry.data.fields.NumberField({
           integer: true,

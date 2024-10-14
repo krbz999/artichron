@@ -176,7 +176,7 @@ export default class TokenTargetElement extends HTMLElement {
 
     switch (this.dataset.type) {
       case "damage":
-        return this.actor.applyDamage(this.damages, {attributes: item.attributes});
+        return this.actor.applyDamage(this.damages);
       case "healing":
         return this.actor.applyHealing(this.healing);
       case "effect":

@@ -338,6 +338,7 @@ SYSTEM.TEMPLATE_DURATIONS = {
  *                                          If empty or omitted, then all types.
  * @property {boolean} [transferrable]      If explicitly false, this attribute will not be
  *                                          transferred automatically via fusions.
+ * @property {string} [status]              What status is applied if taking damage from an item with this attribute?
  */
 
 /**
@@ -358,7 +359,8 @@ SYSTEM.ITEM_ATTRIBUTES = {
   bludgeoning: {
     label: "ARTICHRON.ItemAttribute.Bludgeoning",
     types: new Set(["weapon"]),
-    transferrable: true
+    transferrable: true,
+    status: "hindered"
   },
   booster: {
     label: "ARTICHRON.ItemAttribute.Booster",
@@ -382,7 +384,8 @@ SYSTEM.ITEM_ATTRIBUTES = {
   rending: {
     label: "ARTICHRON.ItemAttribute.Rending",
     types: new Set(["weapon", "shield", "spell"]),
-    transferrable: true
+    transferrable: true,
+    status: "bleeding"
   }
 };
 

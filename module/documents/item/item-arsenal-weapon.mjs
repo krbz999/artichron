@@ -44,6 +44,6 @@ export default class WeaponData extends ArsenalData {
    * @type {boolean}
    */
   get usesAmmo() {
-    return this.attributes.values.has("ammunition");
+    return this.attributes.value.has("ammunition");
   }
 }

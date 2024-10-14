@@ -14,4 +14,14 @@ export default class DamageFormulaModel extends FormulaModel {
       })
     };
   }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Formula representation.
+   * @type {string}
+   */
+  get formula() {
+    return `${this.number}d${this.denomination}`;
+  }
 }

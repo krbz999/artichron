@@ -34,6 +34,7 @@ export default class ItemSheetAmmunition extends ItemSheetArtichron {
     const context = await super._prepareContext(options);
 
     context.details.configuration = [
+      "category.subtype",
       "price.value",
       "weight.value",
       "quantity.value"
@@ -41,11 +42,6 @@ export default class ItemSheetAmmunition extends ItemSheetArtichron {
       if (k) acc.push(this._makeField(context, k));
       return acc;
     }, []);
-
-    context.fieldsets.push({
-      legend: this.document.system.schema.getField("category").label,
-      formGroups: [this._makeField(context, "category.subtype")]
-    });
 
     return context;
   }
