@@ -67,12 +67,12 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": null,
-    "systemId": null,
-    "systemVersion": null,
-    "createdTime": null,
-    "modifiedTime": null,
-    "lastModifiedBy": null
+    "coreVersion": "12.331",
+    "systemId": "artichron",
+    "systemVersion": "1.0.0",
+    "createdTime": 1728917728054,
+    "modifiedTime": 1728917728054,
+    "lastModifiedBy": "3pWaVXzYT6XoJo1Y"
   },
   "_id": "jKaWw8Suqp2L3k7B",
   "sort": 0,

@@ -91,12 +91,12 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": null,
-    "systemId": null,
-    "systemVersion": null,
-    "createdTime": null,
-    "modifiedTime": null,
-    "lastModifiedBy": null
+    "coreVersion": "12.331",
+    "systemId": "artichron",
+    "systemVersion": "1.0.0",
+    "createdTime": 1728917727856,
+    "modifiedTime": 1728917727856,
+    "lastModifiedBy": "3pWaVXzYT6XoJo1Y"
   },
   "_id": "8OBxR9c99cYNKUcs",
   "sort": 0,

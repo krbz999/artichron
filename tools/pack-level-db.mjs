@@ -71,15 +71,13 @@ function packageCommand() {
  * Removes unwanted flags, permissions, and other data from entries before extracting or compiling.
  * @param {object} data                           Data for a single entry to clean.
  * @param {object} [options={}]
- * @param {boolean} [options.clearSourceId=true]  Should the core sourceId flag be deleted.
  * @param {number} [options.ownership=0]          Value to reset default ownership to.
  */
-function cleanPackEntry(data, {clearSourceId = true, ownership = 0} = {}) {
+function cleanPackEntry(data, {ownership = 0} = {}) {
   if (data.ownership) data.ownership = {default: ownership};
-  if (clearSourceId) delete data.flags?.core?.sourceId;
+  delete data.flags?.core?.sourceId;
   delete data.flags?.importSource;
   delete data.flags?.exportSource;
-  Object.entries(data._stats ?? {}).forEach(([k, v]) => data._stats[k] = null);
   if (parseInt(data.sort) && (parseInt(data.sort) !== 0)) data.sort = 0;
 
   // Remove empty entries in flags

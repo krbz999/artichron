@@ -29,9 +29,9 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": null,
-        "systemId": null,
-        "systemVersion": null,
+        "coreVersion": "12.331",
+        "systemId": "artichron",
+        "systemVersion": "1.0.0",
         "createdTime": null,
         "modifiedTime": null,
         "lastModifiedBy": null
@@ -65,9 +65,9 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": null,
-        "systemId": null,
-        "systemVersion": null,
+        "coreVersion": "12.331",
+        "systemId": "artichron",
+        "systemVersion": "1.0.0",
         "createdTime": null,
         "modifiedTime": null,
         "lastModifiedBy": null
@@ -101,9 +101,9 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": null,
-        "systemId": null,
-        "systemVersion": null,
+        "coreVersion": "12.331",
+        "systemId": "artichron",
+        "systemVersion": "1.0.0",
         "createdTime": null,
         "modifiedTime": null,
         "lastModifiedBy": null
@@ -137,9 +137,9 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": null,
-        "systemId": null,
-        "systemVersion": null,
+        "coreVersion": "12.331",
+        "systemId": "artichron",
+        "systemVersion": "1.0.0",
         "createdTime": null,
         "modifiedTime": null,
         "lastModifiedBy": null
@@ -173,9 +173,9 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": null,
-        "systemId": null,
-        "systemVersion": null,
+        "coreVersion": "12.331",
+        "systemId": "artichron",
+        "systemVersion": "1.0.0",
         "createdTime": null,
         "modifiedTime": null,
         "lastModifiedBy": null
@@ -192,12 +192,12 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": null,
-    "systemId": null,
-    "systemVersion": null,
-    "createdTime": null,
-    "modifiedTime": null,
-    "lastModifiedBy": null
+    "coreVersion": "12.331",
+    "systemId": "artichron",
+    "systemVersion": "1.0.0",
+    "createdTime": 1728917729303,
+    "modifiedTime": 1728917729303,
+    "lastModifiedBy": "3pWaVXzYT6XoJo1Y"
   },
   "_key": "!journal!xJAQJs1s2SgG9JS0"
 }
