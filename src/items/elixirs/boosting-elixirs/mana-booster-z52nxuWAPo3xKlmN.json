@@ -13,7 +13,9 @@
       "value": 1
     },
     "attributes": {
-      "value": [],
+      "value": [
+        "booster"
+      ],
       "levels": {
         "bludgeoning": null,
         "rending": null
@@ -27,7 +29,7 @@
       "spent": 0
     },
     "activities": {},
-    "boost": "",
+    "boost": "mana",
     "identifier": "mana-booster"
   },
   "effects": [],
