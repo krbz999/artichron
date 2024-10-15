@@ -2,6 +2,9 @@
   <fieldset>
     <legend>{{cost.legend}}</legend>
     {{formGroup cost.field value=cost.value}}
+    {{#if usage.show}}
+    {{formGroup usage.field value=usage.value}}
+    {{/if}}
   </fieldset>
 
   {{#if target.show}}

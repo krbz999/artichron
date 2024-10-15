@@ -9,7 +9,7 @@ import ChatMessageArtichron from "../chat-message.mjs";
  * @property {string} icon                Default icon of this activity type.
  */
 
-const {FilePathField, HTMLField, NumberField, SchemaField, StringField} = foundry.data.fields;
+const {BooleanField, FilePathField, HTMLField, NumberField, SchemaField, StringField} = foundry.data.fields;
 
 export default class BaseActivity extends foundry.abstract.DataModel {
   /**
@@ -61,7 +61,8 @@ export default class BaseActivity extends foundry.abstract.DataModel {
       }),
       description: new HTMLField({required: true}),
       cost: new SchemaField({
-        value: new NumberField({min: 0, integer: true, nullable: false, initial: 1})
+        value: new NumberField({min: 0, integer: true, nullable: false, initial: 1}),
+        uses: new BooleanField({initial: true})
       })
     };
   }
@@ -185,7 +186,17 @@ export default class BaseActivity extends foundry.abstract.DataModel {
 
     const message = {};
 
+    const pips = this.item.actor.inCombat && (this.cost.value > 0);
+    const uses = this.item.type === "elixir";
+
     const dialog = {
+      consume: {
+        show: pips || uses,
+        showAction: pips,
+        action: true,
+        showUses: uses,
+        uses: this.cost.uses
+      },
       damage: {
         show: this.hasDamage && this.canBoost,
         ammo: this.usesAmmo,
@@ -216,6 +227,10 @@ export default class BaseActivity extends foundry.abstract.DataModel {
     };
 
     const usage = {
+      consume: {
+        action: dialog.consume.showAction && dialog.consume.action,
+        uses: dialog.consume.showUses && dialog.consume.uses
+      },
       damage: {
         increase: 0,
         ammoId: dialog.damage.ammo ? dialog.damage.ammoId : null
@@ -373,7 +388,7 @@ export default class BaseActivity extends foundry.abstract.DataModel {
     const itemUpdates = [];
 
     // Consume action points.
-    if (actor.inCombat && (usage.actionPoints !== false)) {
+    if (usage.consume?.action) {
       const value = this.cost.value;
       if (!actor.inCombat) {
         ui.notifications.warn(game.i18n.format("ARTICHRON.ACTIVITY.Warning.ConsumeOutOfCombat", {
@@ -390,6 +405,15 @@ export default class BaseActivity extends foundry.abstract.DataModel {
       }
 
       actorUpdate["system.pips.value"] = actor.system.pips.value - value;
+    }
+
+    // Consume usage if this activity is on an elixir.
+    if (usage.consume?.uses) {
+      if (!this.item.hasUses) {
+        ui.notifications.warn(game.i18n.format("ARTICHRON.ACTIVITY.Warning.NoElixirUses", {name: this.item.name}));
+        return false;
+      }
+      itemUpdates.push(this.item.system._usageUpdate());
     }
 
     // Reduce quantity of ammo by 1.

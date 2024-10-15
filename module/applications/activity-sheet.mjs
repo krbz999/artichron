@@ -194,7 +194,11 @@ export default class ActivitySheet extends foundry.applications.api.HandlebarsAp
     const makeLegend = path => context.activity.schema.getField(path).label;
 
     context.cost = makeField("cost.value");
-    context.cost.legend = makeLegend("cost");
+    context.cost.legend = game.i18n.localize("ARTICHRON.SheetLabels.Configuration");
+
+    if (this.activity.item.type === "elixir") {
+      context.usage = {show: true, ...makeField("cost.uses")};
+    }
 
     // Target
     const target = context.activity.schema.has("target");

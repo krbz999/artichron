@@ -30,6 +30,9 @@ export default class ActivityUseDialog extends foundry.applications.api.Handleba
 
   /** @override */
   static PARTS = {
+    consume: {
+      template: "systems/artichron/templates/item/activity-use-dialog-consume.hbs"
+    },
     damage: {
       template: "systems/artichron/templates/item/activity-use-dialog-damage.hbs"
     },
@@ -127,6 +130,29 @@ export default class ActivityUseDialog extends foundry.applications.api.Handleba
     const activity = this.activity;
 
     switch (partId) {
+      case "consume": {
+        context.consume = {...this.#dialog.consume};
+        if (!context.consume.show) break;
+
+        context.consume.legend = game.i18n.localize("ARTICHRON.ActivityUseDialog.ConsumeLegend");
+        if (context.consume.showAction) {
+          context.consume.actionField = new foundry.data.fields.BooleanField({
+            initial: true,
+            label: "ARTICHRON.ActivityUseDialog.ConsumeActionLabel",
+            hint: game.i18n.format("ARTICHRON.ActivityUseDialog.ConsumeActionHint", {
+              points: this.activity.cost.value
+            })
+          });
+        }
+        if (context.consume.showUses) {
+          context.consume.usesField = new foundry.data.fields.BooleanField({
+            initial: true,
+            label: "ARTICHRON.ActivityUseDialog.ConsumeUsesLabel",
+            hint: "ARTICHRON.ActivityUseDialog.ConsumeUsesHint"
+          });
+        }
+        break;
+      }
       case "damage": {
         context.damage = {...this.#dialog.damage};
         if (!context.damage.show) break;

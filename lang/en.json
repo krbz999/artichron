@@ -72,6 +72,10 @@
   "FIELDS": {
     "cost": {
       "label": "Action Cost",
+      "uses": {
+        "hint": "Consume uses of the elixir when using this activity.",
+        "label": "Consume Uses"
+      },
       "value": {
         "hint": "The action point cost to make use of this activity.",
         "label": "Action Cost"
@@ -189,6 +193,11 @@
 },
 
 "ActivityUseDialog": {
+  "ConsumeActionHint": "When in combat, this action requires consuming {points} action points.",
+  "ConsumeActionLabel": "Action Points",
+  "ConsumeLegend": "Consumption",
+  "ConsumeUsesHint": "Consume a use of this elixir.",
+  "ConsumeUsesLabel": "Consume Elixir",
   "DamageHint": "Each point spent from the pool will add one additional die to the damage dealt.",
   "DamageLabel": "Increase",
   "DamageLegend": "Damage",
