@@ -1,13 +1,22 @@
 <div class="{{tabs.progress.tabCssClass}}" data-group="primary" data-tab="progress">
   {{#if isGM}}
+
   {{#if @root.isEditMode}}
-  <fieldset class="clocks edit">
-    <legend>
-      <span>{{localize "ARTICHRON.SheetLabels.Clocks"}}</span>
-      <a data-action="addClock">
-        <i class="fa-solid fa-plus"></i>
-      </a>
-    </legend>
+  <footer class="form-footer">
+    <button type="button" data-action="addClock" data-clock="good">
+      <i class="fa-solid fa-fw fa-clock"></i>
+      {{localize "ARTICHRON.SheetActions.AddGoodClock"}}
+    </button>
+
+    <button type="button" data-action="addClock" data-clock="bad">
+      <i class="fa-solid fa-fw fa-clock"></i>
+      {{localize "ARTICHRON.SheetActions.AddBadClock"}}
+    </button>
+  </footer>
+  {{/if}}
+
+  <section class="clocks scrollable {{ifThen isEditMode 'edit' 'play'}}">
+    {{#if @root.isEditMode}}
     {{#each clocks}}
     <div class="form-group" data-id="{{clock.id}}">
       {{formGroup name.field value=name.value name=name.name classes="name label-top"}}
@@ -21,10 +30,7 @@
       </div>
     </div>
     {{/each}}
-  </fieldset>
-  {{else}}
-  <fieldset class="clocks play">
-    <legend>{{localize "ARTICHRON.SheetLabels.Clocks"}}</legend>
+    {{else}}
     {{#each clocks}}
     <div class="clock">
       <button type="button" data-delta="up" data-id="{{clock.id}}" data-action="clockDelta" {{disabled disableUp}}>
@@ -37,7 +43,8 @@
       <label class="name">{{name}}</label>
     </div>
     {{/each}}
-  </fieldset>
-  {{/if}}
+    {{/if}}
+  </section>
+
   {{/if}}
 </div>

@@ -229,7 +229,7 @@ class Clock extends foundry.abstract.DataModel {
       }),
       name: new StringField({
         required: true,
-        initial: () => game.i18n.localize("ARTICHRON.CLOCK.FIELDS.name.initial")
+        initial: () => game.i18n.localize(`ARTICHRON.CLOCK.FIELDS.name.initial.${this.metadata.type}`)
       }),
       value: new NumberField({min: 0, integer: true, initial: 0, nullable: false}),
       max: new NumberField({min: 1, integer: true, initial: 8, nullable: false}),

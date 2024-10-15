@@ -38,11 +38,11 @@ export default class PartySheet extends ActorSheetArtichron {
     },
     inventory: {
       template: "systems/artichron/templates/actor/party-inventory.hbs",
-      scrollable: [""]
+      scrollable: [".scrollable"]
     },
     progress: {
       template: "systems/artichron/templates/actor/party-progress.hbs",
-      scrollable: [""]
+      scrollable: [".scrollable"]
     }
   };
 
@@ -545,7 +545,7 @@ export default class PartySheet extends ActorSheetArtichron {
    */
   static #addClock(event, target) {
     const clocks = this.document.system.clocks;
-    const type = event.shiftKey ? "bad" : "good";
+    const type = target.dataset.clock;
     clocks.createClock({type: type});
   }
 

@@ -17,7 +17,7 @@
     scrollbar-gutter: stable;
     --scroll-margin: 0.75rem;
     margin-right: calc(-1 * var(--scroll-margin)) !important;
-    padding-right: calc(0 * var(--scroll-margin)) !important;
+    padding-right: 5px !important;
   }
 
   /* Slight gap below sheet tabs. */

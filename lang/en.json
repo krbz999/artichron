@@ -428,7 +428,10 @@
       "label": "Max"
     },
     "name": {
-      "initial": "New Clock",
+      "initial": {
+        "bad": "Bad Clock",
+        "good": "Good Clock"
+      },
       "label": "Name"
     },
     "value": {
@@ -1014,6 +1017,8 @@
 },
 
 "SheetActions": {
+  "AddBadClock": "Add Bad Clock",
+  "AddGoodClock": "Add Good Clock",
   "ChangeItem": "Change Item",
   "CreateBuff": "Create New Buff",
   "CreateEnhancement": "Create Enhancement",
