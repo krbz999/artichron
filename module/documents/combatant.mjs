@@ -1,7 +1,7 @@
 export default class CombatantArtichron extends Combatant {
   /** @override */
   _getInitiativeFormula() {
-    const pips = this.actor.actionPoints ?? 0;
+    const pips = this.actor?.actionPoints ?? 0;
     if (!pips || (this.parent.round <= 1)) return "1d12x";
     else return "1d12x + (@pips)d6";
   }

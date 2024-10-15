@@ -413,12 +413,6 @@
   "Legs": "Leg Piece"
 },
 
-"ChatMessage": {
-  "AcceptTrade": "Accept Trade",
-  "TradeComplete": "Trade Complete!",
-  "TradeInfo": "{actor} wants to trade {item} to {target}."
-},
-
 "CLOCK": {
   "FIELDS": {
     "color": {
@@ -1140,6 +1134,31 @@
   "None": "None",
   "Round": "End of Round",
   "Turn": "End of Turn"
+},
+
+"TradeDialog": {
+  "actorId": {
+    "hint": "Select the member of the party that will receive the item.",
+    "label": "Target"
+  },
+  "button": {
+    "label": "Trade"
+  },
+  "Chat": {
+    "AcceptTrade": "Accept Trade",
+    "CancelTrade": "Cancel Trade",
+    "TradeComplete": "Trade Complete!",
+    "TradeInfo": "{actor} wants to trade {item} to {target}."
+  },
+  "quantity": {
+    "hint": "Select the quantity of the item to trade to the target.",
+    "label": "Quantity"
+  },
+  "title": "Trade {name}?",
+  "Warning": {
+    "NoParty": "An item cannot be traded with no primary party assigned.",
+    "NoQuantity": "You cannot trade an item from an empty stack."
+  }
 },
 
 "Warning": {

@@ -1,11 +1,20 @@
 {{#if traded}}
-<p class="notification">{{localize "ARTICHRON.ChatMessage.TradeComplete"}}</p>
+<p class="notification">{{localize "ARTICHRON.TradeDialog.Chat.TradeComplete"}}</p>
 {{else if item}}
-<p class="notification">{{localize "ARTICHRON.ChatMessage.TradeInfo" item=item.name actor=actor.name target=target.name}}</p>
+<p class="notification">{{localize "ARTICHRON.TradeDialog.Chat.TradeInfo" item=item.name actor=actor.name target=target.name}}</p>
+
 {{#if isTarget}}
 <button type="button" data-action="acceptTrade">
-  <i class="fa-solid fa-check"></i>
-  {{localize "ARTICHRON.ChatMessage.AcceptTrade"}}
+  <i class="fa-solid fa-check fa-fw"></i>
+  {{localize "ARTICHRON.TradeDialog.Chat.AcceptTrade"}}
 </button>
 {{/if}}
+
+{{#if canCancel}}
+<button type="button" data-action="cancelTrade">
+  <i class="fa-solid fa-times fa-fw"></i>
+  {{localize "ARTICHRON.TradeDialog.Chat.CancelTrade"}}
+</button>
+{{/if}}
+
 {{/if}}
