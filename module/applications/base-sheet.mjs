@@ -313,6 +313,12 @@ const ArtichronSheetMixin = Base => {
         callback: () => item.deleteDialog(),
         group: "manage"
       }, {
+        name: "ARTICHRON.ContextMenu.Item.Equip",
+        icon: "<i class='fa-solid fa-fw fa-shield'></i>",
+        condition: () => isOwner && item.system.canEquip,
+        callback: () => item.system.equip(),
+        group: "action"
+      }, {
         name: "ARTICHRON.ContextMenu.Item.Unequip",
         icon: "<i class='fa-solid fa-fw fa-shield-halved'></i>",
         condition: () => canEquip && isOwner && isEquipped,

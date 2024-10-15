@@ -475,6 +475,7 @@
   },
   "Item": {
     "Delete": "Delete Item",
+    "Equip": "Equip Item",
     "Favorite": "Add to Favorites",
     "Fuse": "Fuse Item",
     "Render": "Render Sheet",

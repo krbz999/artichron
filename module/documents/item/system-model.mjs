@@ -144,6 +144,55 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
   /* -------------------------------------------------- */
 
   /**
+   * Equip this item.
+   * @returns {Promise<boolean>}      Whether equipping was successful.
+   */
+  async equip() {
+    if (!this.canEquip) return false;
+
+    if (this.parent.isArsenal) {
+      let primary;
+      let secondary;
+
+      if (this.isTwoHanded) {
+        primary = this.parent.id;
+        secondary = "";
+      } else {
+        const arsenal = this.parent.actor.arsenal;
+        if (!arsenal.primary) {
+          primary = this.parent.id;
+          secondary = arsenal.secondary?.id ?? "";
+        } else if (arsenal.primary.isOneHanded) {
+          primary = arsenal.primary.id;
+          secondary = this.parent.id;
+        } else {
+          primary = this.parent.id;
+          secondary = "";
+        }
+      }
+
+      await this.parent.actor.update({
+        "system.equipped.arsenal.primary": primary,
+        "system.equipped.arsenal.secondary": secondary
+      });
+
+      return true;
+    }
+
+    else if (this.parent.isArmor) {
+      const slot = this.category.subtype;
+      await this.parent.actor.update({
+        [`system.equipped.armor.${slot}`]: this.parent.id
+      });
+      return true;
+    }
+
+    return false;
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
    * Retrieve an object for roll data.
    * @returns {object}
    */
@@ -259,6 +308,24 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
    */
   get hasTransferrableEffects() {
     return this.transferrableEffects.length > 0;
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Can this item be equipped on its owning actor?
+   * @type {boolean}
+   */
+  get canEquip() {
+    if (!this.parent.isEmbedded) return false;
+
+    if (!this.parent.actor.system.schema.has("equipped")) return false;
+
+    if (this.parent.isArmor || this.parent.isArsenal) {
+      return !this.parent.isEquipped;
+    }
+
+    return false;
   }
 
   /* -------------------------------------------------- */
