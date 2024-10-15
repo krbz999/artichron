@@ -63,6 +63,14 @@ export default class PartySheet extends ActorSheetArtichron {
   };
 
   /* -------------------------------------------------- */
+
+  /**
+   * The current search query on the inventory tab.
+   * @type {string}
+   */
+  #searchQuery = "";
+
+  /* -------------------------------------------------- */
   /*   Rendering methods                                */
   /* -------------------------------------------------- */
 
@@ -227,6 +235,8 @@ export default class PartySheet extends ActorSheetArtichron {
       return a[1].order - b[1].order;
     }));
 
+    context.searchQuery = this.#searchQuery;
+
     return context;
   }
 
@@ -317,10 +327,47 @@ export default class PartySheet extends ActorSheetArtichron {
         input.addEventListener("change", this.#changeCurrency.bind(this));
       });
     }
+
+    if (partId === "inventory") {
+      // TODO: This code copied wholesale from hero sheet.
+      const input = htmlElement.querySelector("#inventory-search");
+      const callback = foundry.utils.debounce(this.#onSearchFilter, 200).bind(this);
+      input.addEventListener("input", event => {
+        const query = event.currentTarget.value.toLowerCase().trim();
+        this.#searchQuery = query;
+        callback(query, htmlElement);
+      });
+    }
+  }
+
+  /* -------------------------------------------------- */
+
+  /** @override */
+  _syncPartState(partId, newElement, priorElement, state) {
+    super._syncPartState(partId, newElement, priorElement, state);
+
+    if (partId === "inventory") {
+      this.#onSearchFilter(this.#searchQuery, newElement);
+    }
   }
 
   /* -------------------------------------------------- */
   /*   Event handlers                                   */
+  /* -------------------------------------------------- */
+
+  /**
+   * Toggle the 'hidden' state of inventory items.
+   * @param {string} query          The input value.
+   * @param {HTMLElement} html      The targeted html container.
+   */
+  #onSearchFilter(query, html) {
+    // TODO: This is copied wholesale from hero sheet.
+    for (const item of html.querySelectorAll("inventory-item")) {
+      const hidden = !!query && !item.dataset.name.toLowerCase().includes(query);
+      item.classList.toggle("hidden", hidden);
+    }
+  }
+
   /* -------------------------------------------------- */
 
   /**
