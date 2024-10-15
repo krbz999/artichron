@@ -523,6 +523,10 @@
     }
   }
 
+  .clocks {
+    padding-left: 0.5em;
+  }
+
   .clocks.play {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(135px, 1fr));
@@ -550,8 +554,19 @@
   }
 
   .clocks.edit {
-    .name { flex: 2; }
-    .color input[type=color] { max-width: var(--input-height); height: var(--input-height); }
+    > .form-group {
+      padding-top: 0.5em;
+    }
+
+    .name { flex: 3; }
+    .value, .max { flex: 1; }
+    .color {
+      flex: 2;
+      & input[type=color] {
+        max-width: var(--input-height);
+        height: var(--input-height);
+      }
+    }
     .controls { place-self: end; }
   }
 }
