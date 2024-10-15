@@ -38,7 +38,7 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
       }),
       identifier: new IdentifierField(),
       weight: new SchemaField({
-        value: new NumberField({min: 0, step: 0.1, initial: () => this.metadata.defaultWeight, nullable: false})
+        value: new NumberField({min: 0, step: 0.01, initial: () => this.metadata.defaultWeight, nullable: false})
       }),
       price: new SchemaField({
         value: new NumberField({min: 0, initial: 0, integer: true, nullable: false})

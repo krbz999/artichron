@@ -7,7 +7,7 @@
       "value": "<p>Standard issue rounds are required for rifles to be able to make an attack.</p>"
     },
     "weight": {
-      "value": 0.2
+      "value": 0.02
     },
     "price": {
       "value": 1
@@ -45,7 +45,7 @@
     "systemId": "artichron",
     "systemVersion": "1.0.0",
     "createdTime": 1728917728064,
-    "modifiedTime": 1728917728064,
+    "modifiedTime": 1728984452297,
     "lastModifiedBy": "3pWaVXzYT6XoJo1Y"
   },
   "_id": "mtQU4vduNEyfXRJe",

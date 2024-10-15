@@ -191,6 +191,8 @@
           font-family: Bruno Ace;
           background-color: black;
           padding: 2px;
+          min-width: 1.5em;
+          text-align: center;
         }
       }
 

@@ -130,6 +130,6 @@ export default class DamageActivity extends BaseActivity {
 
   /** @override */
   get hasDamage() {
-    return this.damage.length > 0;
+    return this.damage.size > 0;
   }
 }

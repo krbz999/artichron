@@ -7,7 +7,7 @@
       "value": "<p>Standard issue bullets are required by pistols to be able to make an attack.</p>"
     },
     "weight": {
-      "value": 0.1
+      "value": 0.01
     },
     "price": {
       "value": 1
@@ -45,7 +45,7 @@
     "systemId": "artichron",
     "systemVersion": "1.0.0",
     "createdTime": 1728917728028,
-    "modifiedTime": 1728917728028,
+    "modifiedTime": 1728984448508,
     "lastModifiedBy": "3pWaVXzYT6XoJo1Y"
   },
   "_id": "gOveppUF3GRQ9Y02",

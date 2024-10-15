@@ -201,7 +201,7 @@ export default class InventoryItemElement extends HTMLElement {
       </section>`;
 
       // Inject small quantity counter.
-      if (item.system.quantity?.value > 1) {
+      if (item.system.schema.has("quantity")) {
         const quantityElement = document.createElement("SPAN");
         quantityElement.classList.add("quantity");
         quantityElement.insertAdjacentHTML("beforeend", `<span class="value">${item.system.quantity.value}</span>`);
