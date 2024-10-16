@@ -174,12 +174,13 @@ export default class ActorArtichron extends Actor {
 
     const displayNumbers = async (token) => {
       const c = token.center;
-      damages = damages ? damages : [{type: "healing", value: health.delta}];
+      damages = damages ? damages : [{type: (health.delta > 0) ? "healing" : "", value: health.delta}];
       for (const damage of damages) {
         if (!damage.value) continue;
-        const isHeal = damage.type === "healing";
-        const text = isHeal ? (-damage.value).signedString() : damage.value.signedString();
-        const color = foundry.utils.Color.from(isHeal ? green : CONFIG.SYSTEM.DAMAGE_TYPES[damage.type]?.color ?? red);
+        const isDamage = damage.type !== "healing";
+        const invert = isDamage && (damage.type !== "");
+        const text = (invert ? (-damage.value) : damage.value).signedString();
+        const color = foundry.utils.Color.from(isDamage ? (CONFIG.SYSTEM.DAMAGE_TYPES[damage.type]?.color ?? red) : green);
         canvas.interface.createScrollingText(c, text, {...options, fill: color});
         token.ring?.flashColor(color);
         await new Promise(r => setTimeout(r, 350));
