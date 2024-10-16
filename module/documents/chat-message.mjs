@@ -29,7 +29,12 @@ export default class ChatMessageArtichron extends ChatMessage {
     const item = this.system.item;
     const statuses = item ? item.attributes : {};
     return this.rolls.map(roll => {
-      return {type: roll.type, value: roll.total, statuses: statuses};
+      return {
+        type: roll.type,
+        value: roll.total,
+        statuses: statuses,
+        options: roll.damageOptions
+      };
     });
   }
 

@@ -339,6 +339,7 @@ SYSTEM.TEMPLATE_DURATIONS = {
  * @property {boolean} [transferrable]      If explicitly false, this attribute will not be
  *                                          transferred automatically via fusions.
  * @property {string} [status]              What status is applied if taking damage from an item with this attribute?
+ * @property {boolean} [damageOption]       Is this configurable per damage part on an arsenal item?
  */
 
 /**
@@ -353,7 +354,7 @@ SYSTEM.ITEM_ATTRIBUTES = {
   },
   blocking: {
     label: "ARTICHRON.ItemAttribute.Blocking",
-    types: new Set(["weapon", "shield", "spell"]),
+    types: new Set(["shield", "spell", "weapon"]),
     transferrable: true
   },
   bludgeoning: {
@@ -369,8 +370,18 @@ SYSTEM.ITEM_ATTRIBUTES = {
   },
   fusion: {
     label: "ARTICHRON.ItemAttribute.Fusion",
-    types: new Set(["weapon", "shield", "spell", "armor"]),
+    types: new Set(["armor", "shield", "spell", "weapon"]),
     transferrable: false
+  },
+  indiminishable: {
+    label: "ARTICHRON.ItemAttribute.Indiminishable",
+    types: new Set(["armor", "shield", "spell", "weapon"]),
+    damageOption: true
+  },
+  irresistible: {
+    label: "ARTICHRON.ItemAttribute.Irresistible",
+    types: new Set(["armor", "shield", "spell", "weapon"]),
+    damageOption: true
   },
   magical: {
     label: "ARTICHRON.ItemAttribute.Magical",
@@ -378,14 +389,19 @@ SYSTEM.ITEM_ATTRIBUTES = {
   },
   parrying: {
     label: "ARTICHRON.ItemAttribute.Parrying",
-    types: new Set(["weapon", "shield", "spell"]),
+    types: new Set(["shield", "spell", "weapon"]),
     transferrable: true
   },
   rending: {
     label: "ARTICHRON.ItemAttribute.Rending",
-    types: new Set(["weapon", "shield", "spell"]),
+    types: new Set(["shield", "spell", "weapon"]),
     transferrable: true,
     status: "bleeding"
+  },
+  undefendable: {
+    label: "ARTICHRON.ItemAttribute.Undefendable",
+    types: new Set(["armor", "shield", "spell", "weapon"]),
+    damageOption: true
   }
 };
 
@@ -406,68 +422,68 @@ SYSTEM.ITEM_ATTRIBUTES = {
  */
 SYSTEM.STATUS_CONDITIONS = {
   defeated: {
-    name: "ARTICHRON.StatusConditions.Defeated",
+    name: "ARTICHRON.CONDITIONS.FIELDS.defeated.label",
     img: "systems/artichron/assets/icons/defeated.svg",
     hud: true
   },
   blind: {
-    name: "ARTICHRON.StatusConditions.Blind",
+    name: "ARTICHRON.CONDITIONS.FIELDS.blind.label",
     img: "systems/artichron/assets/icons/blind.svg",
     hud: true
   },
   bloodied: {
-    name: "ARTICHRON.StatusConditions.Bloodied",
+    name: "ARTICHRON.CONDITIONS.FIELDS.bloodied.label",
     img: "systems/artichron/assets/icons/bloodied.svg",
     hud: false
   },
   critical: {
-    name: "ARTICHRON.StatusConditions.Critical",
+    name: "ARTICHRON.CONDITIONS.FIELDS.critical.label",
     img: "systems/artichron/assets/icons/critical.svg",
     hud: false
   },
   hindered: {
-    name: "ARTICHRON.StatusConditions.Hindered",
+    name: "ARTICHRON.CONDITIONS.FIELDS.hindered.label",
     img: "systems/artichron/assets/icons/hindered.svg",
     levels: 10,
     hud: true,
     reference: "Compendium.artichron.rules.JournalEntry.JjiZqfbpC2YVXV4R.JournalEntryPage.uVv9k9xheOkxzBhO"
   },
   invisible: {
-    name: "ARTICHRON.StatusConditions.Invisible",
+    name: "ARTICHRON.CONDITIONS.FIELDS.invisible.label",
     img: "systems/artichron/assets/icons/invisible.svg",
     hud: true
   },
   underground: {
-    name: "ARTICHRON.StatusConditions.Underground",
+    name: "ARTICHRON.CONDITIONS.FIELDS.underground.label",
     img: "icons/svg/mole.svg",
     hud: true
   },
   flying: {
-    name: "ARTICHRON.StatusConditions.Flying",
+    name: "ARTICHRON.CONDITIONS.FIELDS.flying.label",
     img: "systems/artichron/assets/icons/flying.svg",
     hud: true
   },
   levitating: {
-    name: "ARTICHRON.StatusConditions.Levitating",
+    name: "ARTICHRON.CONDITIONS.FIELDS.levitating.label",
     img: "icons/svg/wingfoot.svg",
     hud: true
   },
   bleeding: {
-    name: "ARTICHRON.StatusConditions.Bleeding",
+    name: "ARTICHRON.CONDITIONS.FIELDS.bleeding.label",
     img: "systems/artichron/assets/icons/bleeding.svg",
     levels: 10,
     hud: true,
     reference: "Compendium.artichron.rules.JournalEntry.JjiZqfbpC2YVXV4R.JournalEntryPage.nIvx3xXwYP9iGSeh"
   },
   burning: {
-    name: "ARTICHRON.StatusConditions.Burning",
+    name: "ARTICHRON.CONDITIONS.FIELDS.burning.label",
     img: "systems/artichron/assets/icons/burning.svg",
     levels: 10,
     hud: true,
     reference: "Compendium.artichron.rules.JournalEntry.JjiZqfbpC2YVXV4R.JournalEntryPage.3VoSsDfCrBGG8Bzy"
   },
   injured: {
-    name: "ARTICHRON.StatusConditions.Injured",
+    name: "ARTICHRON.CONDITIONS.FIELDS.injured.label",
     img: "systems/artichron/assets/icons/injured.svg",
     levels: 20,
     hud: true,

@@ -8,9 +8,9 @@
 
 /**
  * @typedef {object} DamageOptions        Options that configure how the damage is applied.
- * @property {boolean} [defendable]       If explicitly `false`, this cannot be reduced by defending.
- * @property {boolean} [diminishable]     If explicitly `false`, this cannot be reduced by armor.
- * @property {boolean} [resistable]       If explicitly `false`, this cannot be reduced by resistances.
+ * @property {boolean} [undefendable]       If `true`, this cannot be reduced by defending.
+ * @property {boolean} [indiminishable]     If `true`, this cannot be reduced by armor.
+ * @property {boolean} [irresistible]       If `true`, this cannot be reduced by resistances.
  */
 
 /**
@@ -223,7 +223,7 @@ export default class ActorArtichron extends Actor {
     const resistances = foundry.utils.deepClone(this.system.resistances);
 
     const diminished = damage => {
-      if (damage.options?.diminishable === false) return;
+      if (damage.options?.indiminishable) return;
       if (!types[damage.type]?.armor || !armor) return;
 
       const diff = Math.min(damage.value, armor);
@@ -232,7 +232,7 @@ export default class ActorArtichron extends Actor {
     };
 
     const resisted = damage => {
-      if (damage.options?.resistable === false) return;
+      if (damage.options?.irresistible === false) return;
       if (!types[damage.type]?.resist || !resistances[damage.type]) return;
 
       const diff = Math.min(damage.value, resistances[damage.type]);
@@ -263,7 +263,7 @@ export default class ActorArtichron extends Actor {
 
     // The amount of damage that can be defended.
     const defendableDamage = damages.reduce((acc, damage) => {
-      if (damage.options?.defendable === false) return acc;
+      if (damage.options?.undefendable) return acc;
       return acc + damage.value;
     }, 0);
 

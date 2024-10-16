@@ -36,8 +36,8 @@ export default class DamageSheet extends foundry.applications.api.HandlebarsAppl
 
   /** @override */
   static PARTS = {
-    form: {
-      template: "systems/artichron/templates/item/damage-sheet.hbs"
+    damage: {
+      template: "systems/artichron/templates/item/damage-sheet-damage.hbs"
     }
   };
 
@@ -94,13 +94,23 @@ export default class DamageSheet extends foundry.applications.api.HandlebarsAppl
     const makeField = field => {
       const value = foundry.utils.getProperty(damage, field.fieldPath);
       const disabled = !this.#item.sheet.isEditable;
-      return {field, value, disabled};
+
+      const data = {field, value, disabled};
+
+      if (field instanceof foundry.data.fields.SetField) {
+        data.classes = "stacked";
+        data.type = "checkboxes";
+      }
+
+      return data;
     };
 
-    const fields = [...damage.schema].filter(field => !field.readonly).map(makeField);
+    const damageFields = [...damage.schema].filter(field => {
+      return !field.readonly && !(field instanceof foundry.data.fields.SchemaField);
+    }).map(makeField);
 
     return {
-      fields: fields
+      damageFields: damageFields
     };
   }
 

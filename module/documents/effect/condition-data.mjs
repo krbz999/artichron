@@ -89,7 +89,7 @@ export default class EffectConditionData extends ActiveEffectSystemModel {
 
     const hint = document.createElement("P");
     hint.classList.add("hint");
-    hint.textContent = game.i18n.format(`ARTICHRON.StatusConditions.${this.primary.capitalize()}Hint`, {
+    hint.textContent = game.i18n.format(`ARTICHRON.CONDITIONS.FIELDS.${this.primary}.effect`, {
       actor: this.parent.parent.name,
       level: this.level
     });
@@ -157,15 +157,15 @@ export default class EffectConditionData extends ActiveEffectSystemModel {
     const type = "fire";
     const roll = new CONFIG.Dice.DamageRoll(formula, {level: this.level}, {type: type});
     await roll.toMessage({
-      flavor: game.i18n.format("ARTICHRON.StatusConditions.BurningFlavor", {actor: actor.name}),
+      flavor: game.i18n.format("ARTICHRON.CONDITIONS.FIELDS.burning.flavor", {actor: actor.name}),
       sound: null
     });
     return actor.applyDamage([{
       type: type,
       value: roll.total,
       options: {
-        defendable: false,
-        resistable: false
+        undefendable: true,
+        irresistible: true
       }
     }]);
   }
@@ -182,15 +182,15 @@ export default class EffectConditionData extends ActiveEffectSystemModel {
     const type = "physical";
     const roll = new CONFIG.Dice.DamageRoll(formula, {level: this.level}, {type: type});
     await roll.toMessage({
-      flavor: game.i18n.format("ARTICHRON.StatusConditions.BleedingFlavor", {actor: actor.name}),
+      flavor: game.i18n.format("ARTICHRON.CONDITIONS.FIELDS.bleeding.flavor", {actor: actor.name}),
       sound: null
     });
     return actor.applyDamage([{
       type: type,
       value: roll.total,
       options: {
-        defendable: false,
-        diminishable: false
+        undefendable: true,
+        indiminishable: true
       }
     }]);
   }

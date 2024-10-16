@@ -115,12 +115,17 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
       },
       levels: {
         field: this.document.system.schema.getField("attributes.levels"),
-        fields: [
-          attrs.has("bludgeoning") ? this._makeField(context, "attributes.levels.bludgeoning") : null,
-          attrs.has("rending") ? this._makeField(context, "attributes.levels.rending") : null
-        ].filter(_ => _)
+        fields: []
       }
     };
+
+    for (const attr of attrs) {
+      const status = CONFIG.SYSTEM.ITEM_ATTRIBUTES[attr]?.status;
+      if (status) {
+        const path = `attributes.levels.${status}`;
+        context.details.attributes.levels.fields.push(this._makeField(context, path));
+      }
+    }
 
     // Show ammunition dropdown on weapons.
     if (this.document.system.schema.has("ammunition") && attrs.has("ammunition")) {

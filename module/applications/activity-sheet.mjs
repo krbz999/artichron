@@ -13,7 +13,8 @@ export default class ActivitySheet extends foundry.applications.api.HandlebarsAp
   static DEFAULT_OPTIONS = {
     actions: {
       addDamage: ActivitySheet.#addDamage,
-      deleteDamage: ActivitySheet.#deleteDamage
+      deleteDamage: ActivitySheet.#deleteDamage,
+      showDamage: ActivitySheet.#showDamage
     },
     classes: ["artichron", "activity"],
     document: null,
@@ -336,5 +337,18 @@ export default class ActivitySheet extends foundry.applications.api.HandlebarsAp
   static #deleteDamage(event, target) {
     const id = target.closest("[data-id]").dataset.id;
     this.activity.damage.deleteDamage(id);
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Show sheet of a damage part.
+   * @this {ActivitySheet}
+   * @param {PointerEvent} event      The originating click event.
+   * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
+   */
+  static #showDamage(event, target) {
+    const id = target.closest("[data-id]").dataset.id;
+    this.activity.damage.get(id).sheet.render({force: true});
   }
 }

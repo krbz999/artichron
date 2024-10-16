@@ -576,9 +576,12 @@
   "Bludgeoning": "Bludgeoning",
   "Booster": "Booster",
   "Fusion": "Fusion",
+  "Indiminishable": "Indiminishable",
+  "Irresistible": "Irresistible",
   "Magical": "Magical",
   "Parrying": "Parrying",
-  "Rending": "Rending"
+  "Rending": "Rending",
+  "Undefendable": "Undefendable"
 },
 
 "ItemFusionDialog": {
@@ -696,13 +699,7 @@
       },
       "levels": {
         "hint": "How many levels of given conditions this item applies when dealing damage.",
-        "label": "Applied Levels",
-        "bludgeoning": {
-          "label": "Bludgeoning"
-        },
-        "rending": {
-          "label": "Rending"
-        }
+        "label": "Applied Levels"
       }
     },
     "boost": {
@@ -1061,6 +1058,7 @@
   "Configuration": "Configuration",
   "Consumables": "Consumables",
   "Currency": "Currency",
+  "Damage":"Damage",
   "Defenses": "Defenses",
   "Description": "Description",
   "Details": "Details",
@@ -1114,23 +1112,49 @@
   "Title": "{name}: Roll Skill"
 },
 
-"StatusConditions": {
-  "Bleeding": "Bleeding",
-  "BleedingFlavor": "{actor} is bleeding",
-  "BleedingHint": "{actor} takes {level}d6 physical damage at the start of every round.",
-  "Blind": "Blind",
-  "Bloodied": "Bloodied",
-  "Burning": "Burning",
-  "BurningFlavor": "{actor} is burning",
-  "BurningHint": "{actor} takes {level}d12 fire damage at the start of every round.",
-  "Critical": "Critical",
-  "Defeated": "Defeated",
-  "Flying": "Flying",
-  "Hindered": "Hindered",
-  "Injured": "Injured",
-  "Invisible": "Invisible",
-  "Levitating": "Levitating",
-  "Underground": "Underground"
+"CONDITIONS": {
+  "FIELDS": {
+    "bleeding": {
+      "label": "Bleeding",
+      "flavor": "{actor} is bleeding",
+      "effect": "{actor} takes {level}d6 physical damage at the start of every round."
+    },
+    "blind": {
+      "label": "Blind"
+    },
+    "bloodied": {
+      "label": "Bloodied"
+    },
+    "burning": {
+      "label": "Burning",
+      "flavor": "{actor} is burning",
+      "effect": "{actor} takes {level}d12 fire damage at the start of every round."
+    },
+    "critical": {
+      "label": "Critical"
+    },
+    "defeated": {
+      "label": "Defeated"
+    },
+    "flying": {
+      "label": "Flying"
+    },
+    "hindered": {
+      "label": "Hindered"
+    },
+    "injured": {
+      "label": "Injured"
+    },
+    "invisible": {
+      "label": "Invisible"
+    },
+    "levitating": {
+      "label": "Levitating"
+    },
+    "underground": {
+      "label": "Underground"
+    }
+  }
 },
 
 "TargetTypes": {

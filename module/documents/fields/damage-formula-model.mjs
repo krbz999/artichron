@@ -1,7 +1,7 @@
 import DamageSheet from "../../applications/item/damage-sheet.mjs";
 import FormulaModel from "./formula-model.mjs";
 
-const {StringField} = foundry.data.fields;
+const {SetField, StringField} = foundry.data.fields;
 
 export default class DamageFormulaModel extends FormulaModel {
   /** @override */
@@ -18,7 +18,12 @@ export default class DamageFormulaModel extends FormulaModel {
         required: true,
         choices: CONFIG.SYSTEM.DAMAGE_TYPES,
         initial: "physical"
-      })
+      }),
+      options: new SetField(new StringField({
+        choices: () => Object.fromEntries(Object.entries(CONFIG.SYSTEM.ITEM_ATTRIBUTES).filter(([k, v]) => {
+          return v.damageOption;
+        }))
+      }))
     };
   }
 

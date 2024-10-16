@@ -1,6 +1,7 @@
 import ActivitiesField from "./activity-field.mjs";
 import ArmorRequirementData from "./armor-requirements.mjs";
 import ClocksField from "./clocks-field.mjs";
+import ConditionLevelsField from "./condition-levels-field.mjs";
 import DamageFormulaModel from "./damage-formula-model.mjs";
 import DamagesField from "./damages-field.mjs";
 import FormulaField from "./formula-field.mjs";
@@ -13,6 +14,7 @@ export default {
   ActivitiesField,
   ArmorRequirementData,
   ClocksField,
+  ConditionLevelsField,
   DamageFormulaModel,
   DamagesField,
   FormulaField,

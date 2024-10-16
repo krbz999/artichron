@@ -74,7 +74,16 @@ export default class DamageActivity extends BaseActivity {
         }
       }
 
-      const roll = new CONFIG.Dice.DamageRoll(part.formula, rollData, {type: type});
+      const choices = part.schema.getField("options.element").choices();
+      const damageOptions = new Set();
+      for (const k of Object.keys(choices)) {
+        if (item.system.attributes?.value?.has(k) || part.options.has(k)) damageOptions.add(k);
+      }
+
+      const roll = new CONFIG.Dice.DamageRoll(part.formula, rollData, {
+        type: type,
+        damageOptions: Array.from(damageOptions)
+      });
       if (configuration.usage.damage?.increase) roll.alter(1, configuration.usage.damage.increase);
       await roll.evaluate();
       rolls.push(roll);

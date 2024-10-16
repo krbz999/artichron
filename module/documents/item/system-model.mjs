@@ -1,8 +1,9 @@
 import ActivitySelectDialog from "../../applications/item/activity-select-dialog.mjs";
 import ActivitiesField from "../fields/activity-field.mjs";
+import ConditionLevelsField from "../fields/condition-levels-field.mjs";
 import IdentifierField from "../fields/identifier-field.mjs";
 
-const {StringField, SchemaField, HTMLField, NumberField, SetField} = foundry.data.fields;
+const {EmbeddedDataField, StringField, SchemaField, HTMLField, NumberField, SetField} = foundry.data.fields;
 
 export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
   /**
@@ -48,10 +49,7 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
         value: new SetField(new StringField({
           choices: () => this._attributeChoices()
         })),
-        levels: new SchemaField({
-          bludgeoning: new NumberField({initial: null, integer: true, min: 1}),
-          rending: new NumberField({initial: null, integer: true, min: 1})
-        })
+        levels: new EmbeddedDataField(ConditionLevelsField)
       })
     };
   }
@@ -288,7 +286,9 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
   /* -------------------------------------------------- */
 
   /** @override */
-  static LOCALIZATION_PREFIXES = ["ARTICHRON.ITEM"];
+  static LOCALIZATION_PREFIXES = [
+    "ARTICHRON.ITEM"
+  ];
 
   /* -------------------------------------------------- */
 

@@ -21,6 +21,20 @@ export default class DamageRoll extends RollArtichron {
   }
 
   /* -------------------------------------------------- */
+
+  /**
+   * The damage application options.
+   * @type {Record<string, boolean>}
+   */
+  get damageOptions() {
+    const options = {};
+    for (const option of this.options.damageOptions ?? []) {
+      options[option] = true;
+    }
+    return options;
+  }
+
+  /* -------------------------------------------------- */
   /*   Instance methods                                 */
   /* -------------------------------------------------- */
 }

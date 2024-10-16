@@ -206,6 +206,12 @@ Hooks.once("i18nInit", function() {
   // Localize formula models.
   Localization.localizeDataModel(artichron.fields.FormulaModel);
   Localization.localizeDataModel(artichron.fields.DamageFormulaModel);
+
+  // Explicitly localize this embedded data model due to unknown reasons.
+  for (const v of Object.values(CONFIG.Item.dataModels)) {
+    const schema = v.schema.getField("attributes.levels");
+    if (schema) Localization.localizeDataModel({schema: schema});
+  }
 });
 
 /* -------------------------------------------------- */
