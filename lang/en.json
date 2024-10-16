@@ -495,6 +495,10 @@
   }
 },
 
+"DamagePartSheet": {
+  "title": "{name}: Damage Part"
+},
+
 "DamageType": {
   "Arcane": "Arcane",
   "Darkness": "Darkness",
