@@ -140,6 +140,10 @@ export default class UsageMessageData extends ChatMessageSystemModel {
       const {formula, total, dice} = roll;
       return {
         color, icon, formula, total, label,
+        pills: [
+          roll.undefendable ? "Undefendable" : null,
+          roll.irreducible ? "Irreducible" : null
+        ].filter(_ => _),
         dice: dice.flatMap(die => {
           const dice = [];
           for (const result of die.results) {

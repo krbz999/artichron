@@ -9,6 +9,9 @@
         </span>
         <span class="formula">{{formula}}</span>
         <span class="total">{{total}}</span>
+        <div class="pills">
+          {{~#each pills}} <div class="pill" data-tooltip="{{this}}">{{this}}</div> {{/each~}}
+        </div>
       </div>
       <div class="bottom">
         {{#each dice}}

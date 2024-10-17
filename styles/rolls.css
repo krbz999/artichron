@@ -42,6 +42,7 @@
         flex: 1;
         gap: 4px;
         font-size: 20px;
+        flex-wrap: wrap;
 
         .icon {
           width: 40px;
@@ -56,6 +57,25 @@
           text-align: center;
           width: 40px;
           white-space: nowrap;
+        }
+
+        .pills {
+          width: 100%;
+          display: flex;
+          gap: 4px;
+          margin-bottom: 4px;
+
+          &:empty {
+            display: none;
+          }
+
+          .pill {
+            font-size: 10px;
+            color: gray;
+            padding: 2px 4px;
+            border: 1px solid gray;
+            border-radius: 5px;
+          }
         }
       }
     }

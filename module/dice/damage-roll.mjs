@@ -35,6 +35,26 @@ export default class DamageRoll extends RollArtichron {
   }
 
   /* -------------------------------------------------- */
+
+  /**
+   * Can this roll be reduced by armor or resistances?
+   * @type {boolean}
+   */
+  get irreducible() {
+    return (this.options.damageOptions ?? []).includes("irreducible");
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Can this roll be defended against?
+   * @type {boolean}
+   */
+  get undefendable() {
+    return (this.options.damageOptions ?? []).includes("undefendable");
+  }
+
+  /* -------------------------------------------------- */
   /*   Instance methods                                 */
   /* -------------------------------------------------- */
 }
