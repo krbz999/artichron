@@ -14,14 +14,14 @@
     "price": {
       "value": 1
     },
-    "wield": {
-      "value": 2
-    },
     "attributes": {
       "value": [
-        "bludgeoning"
+        "bludgeoning",
+        "twoHanded"
       ],
-      "levels": {}
+      "levels": {
+        "hindered": null
+      }
     },
     "fusion": {
       "max": 1,
@@ -74,8 +74,8 @@
     "coreVersion": "12.331",
     "systemId": "artichron",
     "systemVersion": "1.0.0",
-    "createdTime": 1729157488322,
-    "modifiedTime": 1729157488322,
+    "createdTime": 1729189306537,
+    "modifiedTime": 1729189306537,
     "lastModifiedBy": "3pWaVXzYT6XoJo1Y"
   },
   "_key": "!items!07JEQeRr0VDrr3Zk"

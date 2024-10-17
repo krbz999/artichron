@@ -14,9 +14,6 @@
     "price": {
       "value": 1
     },
-    "wield": {
-      "value": 1
-    },
     "category": {
       "subtype": "kite"
     },
@@ -89,8 +86,8 @@
     "coreVersion": "12.331",
     "systemId": "artichron",
     "systemVersion": "1.0.0",
-    "createdTime": 1729157488370,
-    "modifiedTime": 1729157488370,
+    "createdTime": 1729189306579,
+    "modifiedTime": 1729189306579,
     "lastModifiedBy": "3pWaVXzYT6XoJo1Y"
   },
   "_key": "!items!64FEhEQrA9rfx7gh"

@@ -587,10 +587,12 @@
   "Bludgeoning": "Bludgeoning",
   "Booster": "Booster",
   "Fusion": "Fusion",
+  "Heavy": "Heavy",
   "Irreducible": "Irreducible",
   "Magical": "Magical",
   "Parrying": "Parrying",
   "Rending": "Rending",
+  "TwoHanded": "Two-Handed",
   "Undefendable": "Undefendable"
 },
 
@@ -800,12 +802,6 @@
       "value": {
         "hint": "The amount that this item contributes to its owner's encumbrance.",
         "label": "Weight"
-      }
-    },
-    "wield": {
-      "value": {
-        "hint": "The number of hands required to handle this item.",
-        "label": "Wielding"
       }
     }
   },
@@ -1215,10 +1211,5 @@
 "Warning": {
   "InvalidActiveEffectType": "The chosen effect type is not valid for this parent.",
   "MissingActionPoints": "You do not have enough Action Points to perform that action."
-},
-
-"Wielding": {
-  "OneHanded": "One-Handed",
-  "TwoHanded": "Two-Handed"
 }
 }}

@@ -12,9 +12,6 @@
     "price": {
       "value": 1
     },
-    "wield": {
-      "value": 1
-    },
     "category": {
       "subtype": "heater"
     },
@@ -87,8 +84,8 @@
     "coreVersion": "12.331",
     "systemId": "artichron",
     "systemVersion": "1.0.0",
-    "createdTime": 1729157488446,
-    "modifiedTime": 1729157488446,
+    "createdTime": 1729189306652,
+    "modifiedTime": 1729189306652,
     "lastModifiedBy": "3pWaVXzYT6XoJo1Y"
   },
   "_id": "L0KfBg8MPoLcyZNd",

@@ -149,17 +149,6 @@ const FusionTemplateMixin = Base => {
         if (value) changes.push({key: `system.${path}`, mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: String(value)});
       }
 
-      // Use the highest of the items' wielding (one- or two-handed).
-      path = "wield.value";
-      ifield = item.system.schema.getField(path);
-      sfield = source.system.schema.getField(path);
-      if (!ignoredChanges.has(path) && ifield && sfield) {
-        const valueA = foundry.utils.getProperty(source.system, path);
-        const valueB = foundry.utils.getProperty(item.system, path);
-        const value = Math.max(valueA, valueB);
-        if (value > 1) changes.push({key: `system.${path}`, mode: CONST.ACTIVE_EFFECT_MODES.UPGRADE, value: String(value)});
-      }
-
       // Half the source item's defenses are added.
       path = "defenses";
       ifield = item.system.schema.getField(path);
@@ -269,7 +258,6 @@ const FusionTemplateMixin = Base => {
         "attributes.value",
         "price.value",
         "weight.value",
-        "wield.value",
         "defenses"
       ];
 

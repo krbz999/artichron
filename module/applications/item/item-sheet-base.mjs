@@ -145,9 +145,6 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
 
     // Configuration fieldset
     context.details.configuration = [];
-    if (doc.system.schema.has("wield")) {
-      context.details.configuration.push(this._makeField(context, "wield.value"));
-    }
     if (doc.system.schema.has("category")) {
       context.details.configuration.push(this._makeField(context, "category.subtype"));
     }

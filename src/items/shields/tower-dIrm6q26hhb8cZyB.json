@@ -14,15 +14,13 @@
     "price": {
       "value": 2
     },
-    "wield": {
-      "value": 2
-    },
     "category": {
       "subtype": "tower"
     },
     "attributes": {
       "value": [
-        "blocking"
+        "blocking",
+        "twoHanded"
       ],
       "levels": {}
     },
@@ -89,8 +87,8 @@
     "coreVersion": "12.331",
     "systemId": "artichron",
     "systemVersion": "1.0.0",
-    "createdTime": 1729157488521,
-    "modifiedTime": 1729157488521,
+    "createdTime": 1729189306721,
+    "modifiedTime": 1729189306721,
     "lastModifiedBy": "3pWaVXzYT6XoJo1Y"
   },
   "_key": "!items!dIrm6q26hhb8cZyB"

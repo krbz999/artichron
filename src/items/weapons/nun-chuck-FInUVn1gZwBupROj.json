@@ -14,9 +14,6 @@
     "price": {
       "value": 1
     },
-    "wield": {
-      "value": 1
-    },
     "attributes": {
       "value": [],
       "levels": {}
@@ -72,8 +69,8 @@
     "coreVersion": "12.331",
     "systemId": "artichron",
     "systemVersion": "1.0.0",
-    "createdTime": 1729157488413,
-    "modifiedTime": 1729157488413,
+    "createdTime": 1729189306620,
+    "modifiedTime": 1729189306620,
     "lastModifiedBy": "3pWaVXzYT6XoJo1Y"
   },
   "_key": "!items!FInUVn1gZwBupROj"

@@ -14,12 +14,10 @@
     "price": {
       "value": 1
     },
-    "wield": {
-      "value": 2
-    },
     "attributes": {
       "value": [
-        "ammunition"
+        "ammunition",
+        "twoHanded"
       ],
       "levels": {}
     },
@@ -74,8 +72,8 @@
     "coreVersion": "12.331",
     "systemId": "artichron",
     "systemVersion": "1.0.0",
-    "createdTime": 1729157488393,
-    "modifiedTime": 1729157488393,
+    "createdTime": 1729189306600,
+    "modifiedTime": 1729189306600,
     "lastModifiedBy": "3pWaVXzYT6XoJo1Y"
   },
   "_key": "!items!9jFdngVGrm5s7p77"

@@ -14,11 +14,10 @@
     "price": {
       "value": 1
     },
-    "wield": {
-      "value": 2
-    },
     "attributes": {
-      "value": [],
+      "value": [
+        "twoHanded"
+      ],
       "levels": {}
     },
     "fusion": {
@@ -72,8 +71,8 @@
     "coreVersion": "12.331",
     "systemId": "artichron",
     "systemVersion": "1.0.0",
-    "createdTime": 1729157488951,
-    "modifiedTime": 1729157488951,
+    "createdTime": 1729189306874,
+    "modifiedTime": 1729189306874,
     "lastModifiedBy": "3pWaVXzYT6XoJo1Y"
   },
   "_key": "!items!vmfH49nMcWNDfJs1"

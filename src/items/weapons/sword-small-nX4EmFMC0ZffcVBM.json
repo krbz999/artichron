@@ -14,9 +14,6 @@
     "price": {
       "value": 1
     },
-    "wield": {
-      "value": 1
-    },
     "attributes": {
       "value": [
         "parrying"
@@ -74,8 +71,8 @@
     "coreVersion": "12.331",
     "systemId": "artichron",
     "systemVersion": "1.0.0",
-    "createdTime": 1729157488597,
-    "modifiedTime": 1729157488597,
+    "createdTime": 1729189306797,
+    "modifiedTime": 1729189306797,
     "lastModifiedBy": "3pWaVXzYT6XoJo1Y"
   },
   "_key": "!items!nX4EmFMC0ZffcVBM"

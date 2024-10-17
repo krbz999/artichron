@@ -3,9 +3,6 @@
   "type": "spell",
   "img": "icons/sundries/books/book-embossed-clasp-gold-brown.webp",
   "system": {
-    "wield": {
-      "value": 1
-    },
     "description": {
       "value": "<p>A defensive spell, this can conjure a buff on nearby allies granting them each a +5 bonus to their Armor value until the end of the current combat scenario.</p>"
     },
@@ -114,8 +111,8 @@
     "coreVersion": "12.331",
     "systemId": "artichron",
     "systemVersion": "1.0.0",
-    "createdTime": 1729157489014,
-    "modifiedTime": 1729157489014,
+    "createdTime": 1729189306943,
+    "modifiedTime": 1729189306943,
     "lastModifiedBy": "3pWaVXzYT6XoJo1Y"
   },
   "_id": "zPJ8fPvSprDfdXrf",

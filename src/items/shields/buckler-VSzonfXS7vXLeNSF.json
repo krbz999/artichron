@@ -15,9 +15,6 @@
     "category": {
       "subtype": "buckler"
     },
-    "wield": {
-      "value": 1
-    },
     "attributes": {
       "value": [
         "blocking"
@@ -87,8 +84,8 @@
     "coreVersion": "12.331",
     "systemId": "artichron",
     "systemVersion": "1.0.0",
-    "createdTime": 1729157488491,
-    "modifiedTime": 1729157488491,
+    "createdTime": 1729189306692,
+    "modifiedTime": 1729189306692,
     "lastModifiedBy": "3pWaVXzYT6XoJo1Y"
   },
   "_id": "VSzonfXS7vXLeNSF",

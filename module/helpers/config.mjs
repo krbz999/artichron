@@ -214,26 +214,6 @@ SYSTEM.SHIELD_TYPES = {
 /* -------------------------------------------------- */
 
 /**
- * @typedef {object} ArsenalWieldingConfig
- * @property {string} label     The human-readable label of this type of wielding.
- */
-
-/**
- * Ways in which to wield an arsenal item.
- * @enum {ArsenalWieldingConfig}
- */
-SYSTEM.WIELDING_TYPES = {
-  1: {
-    label: "ARTICHRON.Wielding.OneHanded"
-  },
-  2: {
-    label: "ARTICHRON.Wielding.TwoHanded"
-  }
-};
-
-/* -------------------------------------------------- */
-
-/**
  * @typedef {object} EquipmentCategoryConfig
  * @property {string} label     The human-readable label of this equipment category.
  */
@@ -404,9 +384,16 @@ SYSTEM.ITEM_ATTRIBUTES = {
     types: new Set(["armor", "shield", "spell", "weapon"]),
     transferrable: false
   },
+  heavy: {
+    label: "ARTICHRON.ItemAttribute.Heavy",
+    types: new Set(["armor"]),
+    transferrable: true,
+    damageOption: false
+  },
   irreducible: {
     label: "ARTICHRON.ItemAttribute.Irreducible",
     types: new Set(["armor", "shield", "spell", "weapon"]),
+    transferrable: true,
     damageOption: true
   },
   magical: {
@@ -424,9 +411,16 @@ SYSTEM.ITEM_ATTRIBUTES = {
     transferrable: true,
     status: "bleeding"
   },
+  twoHanded: {
+    label: "ARTICHRON.ItemAttribute.TwoHanded",
+    types: new Set(["shield", "spell", "weapon"]),
+    transferrable: true,
+    damageOption: false
+  },
   undefendable: {
     label: "ARTICHRON.ItemAttribute.Undefendable",
     types: new Set(["armor", "shield", "spell", "weapon"]),
+    transferrable: true,
     damageOption: true
   }
 };

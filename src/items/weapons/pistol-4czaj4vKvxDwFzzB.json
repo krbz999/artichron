@@ -14,9 +14,6 @@
     "price": {
       "value": 1
     },
-    "wield": {
-      "value": 1
-    },
     "attributes": {
       "value": [
         "ammunition"
@@ -74,8 +71,8 @@
     "coreVersion": "12.331",
     "systemId": "artichron",
     "systemVersion": "1.0.0",
-    "createdTime": 1729157488347,
-    "modifiedTime": 1729157488347,
+    "createdTime": 1729189306558,
+    "modifiedTime": 1729189306558,
     "lastModifiedBy": "3pWaVXzYT6XoJo1Y"
   },
   "_key": "!items!4czaj4vKvxDwFzzB"

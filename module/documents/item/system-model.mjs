@@ -249,7 +249,7 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
     const tags = [];
 
     if (this.parent.isArsenal) {
-      if (this.wield.value === 1) tags.push({label: "One-Handed"});
+      if (this.isOneHanded) tags.push({label: "One-Handed"});
       else tags.push({label: "Two-Handed"});
     }
 

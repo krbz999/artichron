@@ -14,9 +14,6 @@
     "price": {
       "value": 1
     },
-    "wield": {
-      "value": 1
-    },
     "attributes": {
       "value": [
         "rending"
@@ -74,8 +71,8 @@
     "coreVersion": "12.331",
     "systemId": "artichron",
     "systemVersion": "1.0.0",
-    "createdTime": 1729157488607,
-    "modifiedTime": 1729157488607,
+    "createdTime": 1729189306808,
+    "modifiedTime": 1729189306808,
     "lastModifiedBy": "3pWaVXzYT6XoJo1Y"
   },
   "_key": "!items!nx25ZNgZZfEaAW5Z"

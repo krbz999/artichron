@@ -14,9 +14,6 @@
     "price": {
       "value": 1
     },
-    "wield": {
-      "value": 1
-    },
     "attributes": {
       "value": [
         "magical"
@@ -332,8 +329,8 @@
     "coreVersion": "12.331",
     "systemId": "artichron",
     "systemVersion": "1.0.0",
-    "createdTime": 1729157488993,
-    "modifiedTime": 1729157488993,
+    "createdTime": 1729189306922,
+    "modifiedTime": 1729189306922,
     "lastModifiedBy": "3pWaVXzYT6XoJo1Y"
   },
   "_key": "!items!z1Uq5H1xxicbxTQd"

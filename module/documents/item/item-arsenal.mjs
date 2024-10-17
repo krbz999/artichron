@@ -16,28 +16,7 @@ export default class ArsenalData extends ItemSystemModel.mixin(
   }, {inplace: false}));
 
   /* -------------------------------------------------- */
-
-  /** @override */
-  static defineSchema() {
-    return {
-      ...super.defineSchema(),
-      wield: new SchemaField({
-        value: new NumberField({initial: 1, choices: CONFIG.SYSTEM.WIELDING_TYPES})
-      })
-    };
-  }
-
-  /* -------------------------------------------------- */
   /*   Properties                                       */
-  /* -------------------------------------------------- */
-
-  /** @override */
-  static get BONUS_FIELDS() {
-    const bonus = super.BONUS_FIELDS;
-    bonus.add("system.wield.value");
-    return bonus;
-  }
-
   /* -------------------------------------------------- */
 
   /**
@@ -45,7 +24,7 @@ export default class ArsenalData extends ItemSystemModel.mixin(
    * @type {boolean}
    */
   get isOneHanded() {
-    return this.wield.value === 1;
+    return !this.attributes.value.has("twoHanded");
   }
 
   /* -------------------------------------------------- */
@@ -55,7 +34,7 @@ export default class ArsenalData extends ItemSystemModel.mixin(
    * @type {boolean}
    */
   get isTwoHanded() {
-    return this.wield.value === 2;
+    return this.attributes.value.has("twoHanded");
   }
 
   /* -------------------------------------------------- */

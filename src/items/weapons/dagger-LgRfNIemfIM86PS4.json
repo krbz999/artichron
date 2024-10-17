@@ -14,9 +14,6 @@
     "price": {
       "value": 1
     },
-    "wield": {
-      "value": 1
-    },
     "attributes": {
       "value": [],
       "levels": {}
@@ -100,8 +97,8 @@
     "coreVersion": "12.331",
     "systemId": "artichron",
     "systemVersion": "1.0.0",
-    "createdTime": 1729157488456,
-    "modifiedTime": 1729157488456,
+    "createdTime": 1729189306662,
+    "modifiedTime": 1729189306662,
     "lastModifiedBy": "3pWaVXzYT6XoJo1Y"
   },
   "_key": "!items!LgRfNIemfIM86PS4"

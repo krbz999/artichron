@@ -316,14 +316,7 @@ export default class ItemArtichron extends Item {
 
   /** @override */
   async _preUpdate(update, options, user) {
-    const allowed = await super._preUpdate(update, options, user);
-    if (allowed === false) return false;
-    if (this.isEquipped && ("value" in (update.system?.wield ?? {}))) {
-      if (this.system.wield.value !== update.system.wield.value) {
-        ui.notifications.warn("You cannot change the Wield state of an equipped item.");
-        delete update.system.wield.value;
-      }
-    }
+    return super._preUpdate(update, options, user);
   }
 
   /* -------------------------------------------------- */
