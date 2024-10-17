@@ -19,10 +19,7 @@
     },
     "attributes": {
       "value": [],
-      "levels": {
-        "bludgeoning": null,
-        "rending": null
-      }
+      "levels": {}
     },
     "fusion": {
       "max": 1,
@@ -35,14 +32,16 @@
         "_id": "yM9VCWLkXRExbiES",
         "description": "",
         "cost": {
-          "value": 1
+          "value": 1,
+          "uses": true
         },
         "damage": {
           "l2xDkjLJnvkgvsl3": {
             "number": 4,
             "denomination": 6,
             "type": "physical",
-            "_id": "l2xDkjLJnvkgvsl3"
+            "_id": "l2xDkjLJnvkgvsl3",
+            "options": []
           }
         },
         "target": {
@@ -73,8 +72,8 @@
     "coreVersion": "12.331",
     "systemId": "artichron",
     "systemVersion": "1.0.0",
-    "createdTime": 1728934135617,
-    "modifiedTime": 1728936406547,
+    "createdTime": 1729157488413,
+    "modifiedTime": 1729157488413,
     "lastModifiedBy": "3pWaVXzYT6XoJo1Y"
   },
   "_key": "!items!FInUVn1gZwBupROj"

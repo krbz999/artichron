@@ -8,9 +8,8 @@
 
 /**
  * @typedef {object} DamageOptions        Options that configure how the damage is applied.
- * @property {boolean} [undefendable]       If `true`, this cannot be reduced by defending.
- * @property {boolean} [indiminishable]     If `true`, this cannot be reduced by armor.
- * @property {boolean} [irresistible]       If `true`, this cannot be reduced by resistances.
+ * @property {boolean} [undefendable]     If `true`, this cannot be reduced by defending.
+ * @property {boolean} [irreducible]      If `true`, this cannot be modified by defense values.
  */
 
 /**
@@ -204,7 +203,7 @@ export default class ActorArtichron extends Actor {
   /* -------------------------------------------------- */
 
   /**
-   * Calculate damage that will be taken, excepting any reductions from parrying and blocking.
+   * Calculate damage that will be taken, excepting any defenses from parrying and blocking.
    * @param {number|DamageDescription[]} damages      Damage to be applied.
    * @param {object} [options]                        Damage calculation options.
    * @param {boolean} [options.numeric]               Whether to return the damage descriptions instead of the total damage.
@@ -216,32 +215,19 @@ export default class ActorArtichron extends Actor {
     }
     damages = foundry.utils.deepClone(damages);
 
-    const types = CONFIG.SYSTEM.DAMAGE_TYPES;
-
     // Values are cloned so we can prevent double-dipping.
-    let armor = this.system.defenses.armor;
-    const resistances = foundry.utils.deepClone(this.system.resistances);
-
-    const diminished = damage => {
-      if (damage.options?.indiminishable) return;
-      if (!types[damage.type]?.armor || !armor) return;
-
-      const diff = Math.min(damage.value, armor);
-      armor = armor - diff;
-      damage.value = damage.value - diff;
-    };
+    const defenses = foundry.utils.deepClone(this.system.defenses);
 
     const resisted = damage => {
-      if (damage.options?.irresistible === false) return;
-      if (!types[damage.type]?.resist || !resistances[damage.type]) return;
+      if (damage.options?.irreducible) return;
+      if (!defenses[damage.type]) return;
 
-      const diff = Math.min(damage.value, resistances[damage.type]);
-      resistances[damage.type] = resistances[damage.type] - diff;
+      const diff = Math.min(damage.value, defenses[damage.type]);
+      defenses[damage.type] = defenses[damage.type] - diff;
       damage.value = damage.value - diff;
     };
 
     damages = damages.filter(damage => {
-      diminished(damage);
       resisted(damage);
       return damage.value > 0;
     });

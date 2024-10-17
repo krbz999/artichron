@@ -16,10 +16,7 @@
       "value": [
         "booster"
       ],
-      "levels": {
-        "bludgeoning": null,
-        "rending": null
-      }
+      "levels": {}
     },
     "quantity": {
       "value": 1
@@ -44,8 +41,8 @@
     "coreVersion": "12.331",
     "systemId": "artichron",
     "systemVersion": "1.0.0",
-    "createdTime": 1728917728206,
-    "modifiedTime": 1728917728206,
+    "createdTime": 1729157489004,
+    "modifiedTime": 1729157489004,
     "lastModifiedBy": "3pWaVXzYT6XoJo1Y"
   },
   "_id": "z52nxuWAPo3xKlmN",

@@ -17,10 +17,7 @@
       "value": [
         "magical"
       ],
-      "levels": {
-        "bludgeoning": null,
-        "rending": null
-      }
+      "levels": {}
     },
     "fusion": {
       "max": 1,
@@ -35,7 +32,8 @@
         "name": "Darkness Damage",
         "_id": "JiCzMdqSgSSQ68yH",
         "cost": {
-          "value": 2
+          "value": 2,
+          "uses": true
         },
         "target": {
           "range": 5,
@@ -50,7 +48,8 @@
             "number": 4,
             "denomination": 6,
             "type": "darkness",
-            "_id": "MW15b9MgEOn86zR7"
+            "_id": "MW15b9MgEOn86zR7",
+            "options": []
           }
         },
         "description": "<p>Deal moderate darkness damage to a target within 5m.</p>",
@@ -70,8 +69,8 @@
     "coreVersion": "12.331",
     "systemId": "artichron",
     "systemVersion": "1.0.0",
-    "createdTime": 1728934136276,
-    "modifiedTime": 1728936406647,
+    "createdTime": 1729157488911,
+    "modifiedTime": 1729157488911,
     "lastModifiedBy": "3pWaVXzYT6XoJo1Y"
   },
   "_id": "qCzuGInvoVWfpN0H",

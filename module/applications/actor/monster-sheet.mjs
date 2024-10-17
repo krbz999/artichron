@@ -69,7 +69,7 @@ export default class MonsterSheet extends ActorSheetArtichron {
 
     const context = {
       document: doc,
-      resistances: {},
+      defenses: {},
       effects: buffs,
       conditions: conditions,
       health: {
@@ -122,20 +122,18 @@ export default class MonsterSheet extends ActorSheetArtichron {
       value: (context.isEditMode ? this.document._source : this.document).system.danger.pool.max
     }];
 
-    // Prepare a resistance for rendering.
     const makeResistance = (key, path) => {
       const value = foundry.utils.getProperty(doc.system, path);
       const {label, color, icon} = CONFIG.SYSTEM.DAMAGE_TYPES[key];
-      context.resistances[key] = {
+      context.defenses[key] = {
         value: value, label: label, color: color, icon: icon, active: value > 0
       };
     };
-    // Armor and resistances.
-    makeResistance("physical", "defenses.armor");
-    for (const k of Object.keys(doc.system.resistances)) {
-      makeResistance(k, `resistances.${k}`);
+    // Damage defenses.
+    for (const k of Object.keys(doc.system.defenses)) {
+      makeResistance(k, `defenses.${k}`);
     }
-    context.resistances = Object.values(context.resistances);
+    context.defenses = Object.values(context.defenses);
 
     // Name and img.
     const {name, img} = context.isPlayMode ? doc : src;

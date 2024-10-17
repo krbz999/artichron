@@ -175,12 +175,6 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
       }, []);
     }
 
-    // Defenses.
-    if (doc.system.schema.has("armor")) context.fieldsets.push({
-      legend: game.i18n.localize("ARTICHRON.SheetLabels.Defenses"),
-      formGroups: [this._makeField(context, "armor.value")]
-    });
-
     const makeResistance = field => {
       const value = foundry.utils.getProperty(context.isEditMode ? src : doc, field.fields.value.fieldPath);
       return {
@@ -195,7 +189,7 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
 
     // Resistances.
     if (doc.isArmor) {
-      const field = this.document.system.schema.getField("resistances");
+      const field = this.document.system.schema.getField("defenses");
       const fieldset = {
         legend: field.label,
         values: []
@@ -204,7 +198,7 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
         fieldset.values.push(makeResistance(k));
       }
 
-      context.resistances = fieldset;
+      context.defenses = fieldset;
     }
 
     // Armor requirements.

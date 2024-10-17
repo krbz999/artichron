@@ -404,13 +404,8 @@ SYSTEM.ITEM_ATTRIBUTES = {
     types: new Set(["armor", "shield", "spell", "weapon"]),
     transferrable: false
   },
-  indiminishable: {
-    label: "ARTICHRON.ItemAttribute.Indiminishable",
-    types: new Set(["armor", "shield", "spell", "weapon"]),
-    damageOption: true
-  },
-  irresistible: {
-    label: "ARTICHRON.ItemAttribute.Irresistible",
+  irreducible: {
+    label: "ARTICHRON.ItemAttribute.Irreducible",
     types: new Set(["armor", "shield", "spell", "weapon"]),
     damageOption: true
   },

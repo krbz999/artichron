@@ -19,10 +19,7 @@
       "value": [
         "magical"
       ],
-      "levels": {
-        "bludgeoning": null,
-        "rending": null
-      }
+      "levels": {}
     },
     "fusion": {
       "max": 1,
@@ -34,7 +31,8 @@
         "name": "Line of Light",
         "_id": "qpMJQHKRdIubrrzS",
         "cost": {
-          "value": 2
+          "value": 2,
+          "uses": true
         },
         "target": {
           "type": "ray",
@@ -49,7 +47,8 @@
             "number": 4,
             "denomination": 8,
             "type": "light",
-            "_id": "3z1kOK48xawEaBQS"
+            "_id": "3z1kOK48xawEaBQS",
+            "options": []
           }
         },
         "description": "<p>Deal 4d8 light damage in a line.</p>",
@@ -61,7 +60,8 @@
         "_id": "Dzf3NyrN1evm0XeO",
         "description": "<p>Deal 4d6 darkness in an area.</p>",
         "cost": {
-          "value": 2
+          "value": 2,
+          "uses": true
         },
         "target": {
           "type": "circle",
@@ -76,7 +76,8 @@
             "number": 1,
             "denomination": 6,
             "type": "darkness",
-            "_id": "KzX9sZcdmj88pk40"
+            "_id": "KzX9sZcdmj88pk40",
+            "options": []
           }
         },
         "img": "systems/artichron/assets/icons/activity.svg"
@@ -96,8 +97,8 @@
     "coreVersion": "12.331",
     "systemId": "artichron",
     "systemVersion": "1.0.0",
-    "createdTime": 1728934136210,
-    "modifiedTime": 1728936406636,
+    "createdTime": 1729157488887,
+    "modifiedTime": 1729157488887,
     "lastModifiedBy": "3pWaVXzYT6XoJo1Y"
   },
   "_id": "p7uvDcqKKuiY2lh0",

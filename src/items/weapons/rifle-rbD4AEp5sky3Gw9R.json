@@ -19,10 +19,7 @@
       "value": [
         "ammunition"
       ],
-      "levels": {
-        "bludgeoning": null,
-        "rending": null
-      }
+      "levels": {}
     },
     "fusion": {
       "max": 1,
@@ -35,14 +32,16 @@
         "_id": "ExYrrATIJtNHjLIV",
         "description": "",
         "cost": {
-          "value": 2
+          "value": 2,
+          "uses": true
         },
         "damage": {
           "xkh4XbphTMFNGJmB": {
             "number": 4,
             "denomination": 12,
             "type": "physical",
-            "_id": "xkh4XbphTMFNGJmB"
+            "_id": "xkh4XbphTMFNGJmB",
+            "options": []
           }
         },
         "target": {
@@ -73,8 +72,8 @@
     "coreVersion": "12.331",
     "systemId": "artichron",
     "systemVersion": "1.0.0",
-    "createdTime": 1728934136303,
-    "modifiedTime": 1728936406652,
+    "createdTime": 1729157488921,
+    "modifiedTime": 1729157488921,
     "lastModifiedBy": "3pWaVXzYT6XoJo1Y"
   },
   "_id": "rbD4AEp5sky3Gw9R",

@@ -6,37 +6,11 @@
     "description": {
       "value": "<p>A heavy set of armor that protects the majority of the body.</p>"
     },
-    "resistances": {
-      "arcane": {
-        "value": null
-      },
-      "darkness": {
-        "value": null
-      },
-      "fire": {
-        "value": null
-      },
-      "ice": {
-        "value": null
-      },
-      "light": {
-        "value": null
-      },
-      "lightning": {
-        "value": null
-      },
-      "wind": {
-        "value": null
-      }
-    },
     "weight": {
       "value": 4
     },
     "price": {
       "value": 2
-    },
-    "armor": {
-      "value": 6
     },
     "category": {
       "subtype": "chest",
@@ -46,21 +20,45 @@
           "pool": "stamina",
           "value": 8
         }
-      ]
+      ],
+      "value": ""
     },
     "attributes": {
       "value": [],
-      "levels": {
-        "bludgeoning": null,
-        "rending": null
-      }
+      "levels": {}
     },
     "fusion": {
       "max": 1,
       "ignore": []
     },
     "activities": {},
-    "identifier": "standard-issue-heavy-armor"
+    "identifier": "standard-issue-heavy-armor",
+    "defenses": {
+      "physical": {
+        "value": 6
+      },
+      "fire": {
+        "value": null
+      },
+      "wind": {
+        "value": null
+      },
+      "lightning": {
+        "value": null
+      },
+      "ice": {
+        "value": null
+      },
+      "light": {
+        "value": null
+      },
+      "darkness": {
+        "value": null
+      },
+      "arcane": {
+        "value": null
+      }
+    }
   },
   "effects": [],
   "folder": "el8jZMsQtdJWP18x",
@@ -74,8 +72,8 @@
     "coreVersion": "12.331",
     "systemId": "artichron",
     "systemVersion": "1.0.0",
-    "createdTime": 1728917727967,
-    "modifiedTime": 1728917727967,
+    "createdTime": 1729157488502,
+    "modifiedTime": 1729157488502,
     "lastModifiedBy": "3pWaVXzYT6XoJo1Y"
   },
   "_id": "ZYaKktB2eI3dCc7o",

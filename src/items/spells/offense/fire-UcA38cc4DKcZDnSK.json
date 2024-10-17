@@ -17,10 +17,7 @@
       "value": [
         "magical"
       ],
-      "levels": {
-        "bludgeoning": null,
-        "rending": null
-      }
+      "levels": {}
     },
     "fusion": {
       "max": 1,
@@ -35,7 +32,8 @@
         "name": "Fire Damage",
         "_id": "NzIrH7L6egjZn40H",
         "cost": {
-          "value": 2
+          "value": 2,
+          "uses": true
         },
         "target": {
           "range": 5,
@@ -50,7 +48,8 @@
             "number": 4,
             "denomination": 6,
             "type": "fire",
-            "_id": "L719554bQq72DZSM"
+            "_id": "L719554bQq72DZSM",
+            "options": []
           }
         },
         "description": "<p>Deal moderate fire damage to a target within 5m.</p>",
@@ -70,8 +69,8 @@
     "coreVersion": "12.331",
     "systemId": "artichron",
     "systemVersion": "1.0.0",
-    "createdTime": 1728934135812,
-    "modifiedTime": 1728936406579,
+    "createdTime": 1729157488480,
+    "modifiedTime": 1729157488480,
     "lastModifiedBy": "3pWaVXzYT6XoJo1Y"
   },
   "_id": "UcA38cc4DKcZDnSK",

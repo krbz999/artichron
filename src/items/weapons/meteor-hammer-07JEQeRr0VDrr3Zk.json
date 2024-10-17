@@ -21,10 +21,7 @@
       "value": [
         "bludgeoning"
       ],
-      "levels": {
-        "bludgeoning": null,
-        "rending": null
-      }
+      "levels": {}
     },
     "fusion": {
       "max": 1,
@@ -37,14 +34,16 @@
         "_id": "6XYFfk3mAYGXZX6s",
         "description": "",
         "cost": {
-          "value": 2
+          "value": 2,
+          "uses": true
         },
         "damage": {
           "bAfUCOqDrrfV196g": {
             "number": 4,
             "denomination": 12,
             "type": "physical",
-            "_id": "bAfUCOqDrrfV196g"
+            "_id": "bAfUCOqDrrfV196g",
+            "options": []
           }
         },
         "target": {
@@ -75,8 +74,8 @@
     "coreVersion": "12.331",
     "systemId": "artichron",
     "systemVersion": "1.0.0",
-    "createdTime": 1728934135359,
-    "modifiedTime": 1728936406499,
+    "createdTime": 1729157488322,
+    "modifiedTime": 1729157488322,
     "lastModifiedBy": "3pWaVXzYT6XoJo1Y"
   },
   "_key": "!items!07JEQeRr0VDrr3Zk"

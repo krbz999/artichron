@@ -44,14 +44,9 @@ export default class CreatureData extends ActorSystemModel {
   prepareBaseData() {
     super.prepareBaseData();
     this.bonuses = {damage: {}};
-    this.resistances = {};
-    for (const k of Object.keys(CONFIG.SYSTEM.DAMAGE_TYPE_GROUPS)) {
-      this.bonuses.damage[k] = 0;
-    }
-    for (const [k, v] of Object.entries(CONFIG.SYSTEM.DAMAGE_TYPES)) {
-      if (v.resist) this.resistances[k] = 0;
-    }
-    this.defenses = {armor: 0};
+    this.defenses = {};
+    for (const k of Object.keys(CONFIG.SYSTEM.DAMAGE_TYPE_GROUPS)) this.bonuses.damage[k] = 0;
+    for (const k of Object.keys(CONFIG.SYSTEM.DAMAGE_TYPES)) this.defenses[k] = 0;
   }
 
   /* -------------------------------------------------- */
@@ -60,28 +55,17 @@ export default class CreatureData extends ActorSystemModel {
   prepareDerivedData() {
     // Calling super first to prepare actor level.
     super.prepareDerivedData();
-    this.#prepareArmor();
-    this.#prepareResistances();
+    this.#prepareDefenses();
   }
 
   /* -------------------------------------------------- */
 
-  /** Prepare armor value. */
-  #prepareArmor() {
+  /** Prepare the value of actor defenses. */
+  #prepareDefenses() {
     for (const item of Object.values(this.parent.armor)) {
       if (!item?.fulfilledRequirements) continue;
-      this.defenses.armor += item.system.armor.value;
-    }
-  }
-
-  /* -------------------------------------------------- */
-
-  /** Prepare the value of actor resistances. */
-  #prepareResistances() {
-    for (const item of Object.values(this.parent.armor)) {
-      if (!item?.fulfilledRequirements) continue;
-      for (const [k, v] of Object.entries(item.system.resistances)) {
-        this.resistances[k] += v.value;
+      for (const [k, v] of Object.entries(item.system.defenses)) {
+        this.defenses[k] += v.value;
       }
     }
   }
@@ -132,13 +116,12 @@ export default class CreatureData extends ActorSystemModel {
   /** @override */
   static get BONUS_FIELDS() {
     const bonus = super.BONUS_FIELDS;
-    bonus.add("system.defenses.armor");
     bonus.add("system.pips.turn");
     for (const k of Object.keys(CONFIG.SYSTEM.DAMAGE_TYPE_GROUPS)) {
       bonus.add(`system.bonuses.damage.${k}`);
     }
-    for (const [k, v] of Object.entries(CONFIG.SYSTEM.DAMAGE_TYPES)) {
-      if (v.resist) bonus.add(`system.resistances.${k}`);
+    for (const k of Object.keys(CONFIG.SYSTEM.DAMAGE_TYPES)) {
+      bonus.add(`system.defenses.${k}`);
     }
     return bonus;
   }

@@ -40,11 +40,11 @@
   </fieldset>
   {{/each}}
 
-  {{#if resistances}}
-  <fieldset class="resistances">
-    <legend>{{resistances.legend}}</legend>
-    {{#each resistances.values}}
-    <div class="resistance {{#if active}} active {{/if}}" data-tooltip="{{label}}" style="color: #{{color}}">
+  {{#if defenses}}
+  <fieldset class="defenses">
+    <legend>{{defenses.legend}}</legend>
+    {{#each defenses.values}}
+    <div class="defense {{#if active}} active {{/if}}" data-tooltip="{{label}}" style="color: #{{color}}">
       {{#if @root.isEditMode}}
       {{formInput field value=value}}
       {{else}}

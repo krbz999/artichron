@@ -14,10 +14,7 @@
     },
     "attributes": {
       "value": [],
-      "levels": {
-        "bludgeoning": null,
-        "rending": null
-      }
+      "levels": {}
     },
     "quantity": {
       "value": 20
@@ -44,8 +41,8 @@
     "coreVersion": "12.331",
     "systemId": "artichron",
     "systemVersion": "1.0.0",
-    "createdTime": 1728917727876,
-    "modifiedTime": 1728984457666,
+    "createdTime": 1729157488405,
+    "modifiedTime": 1729157488405,
     "lastModifiedBy": "3pWaVXzYT6XoJo1Y"
   },
   "_id": "BL8lwLQAmFk98G2u",

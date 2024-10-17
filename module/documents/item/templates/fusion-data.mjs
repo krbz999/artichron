@@ -160,17 +160,8 @@ const FusionTemplateMixin = Base => {
         if (value > 1) changes.push({key: `system.${path}`, mode: CONST.ACTIVE_EFFECT_MODES.UPGRADE, value: String(value)});
       }
 
-      // Half the source item's armor value is added.
-      path = "armor.value";
-      ifield = item.system.schema.getField(path);
-      sfield = source.system.schema.getField(path);
-      if (!ignoredChanges.has(path) && ifield && sfield) {
-        const value = Math.ceil(foundry.utils.getProperty(source.system, path) / 2);
-        if (value) changes.push({key: `system.${path}`, mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: String(value)});
-      }
-
-      // Half the source item's resistances are added.
-      path = "resistances";
+      // Half the source item's defenses are added.
+      path = "defenses";
       ifield = item.system.schema.getField(path);
       sfield = source.system.schema.getField(path);
       if (!ignoredChanges.has(path) && ifield && sfield && item.isArmor && source.isArmor) {
@@ -279,8 +270,7 @@ const FusionTemplateMixin = Base => {
         "price.value",
         "weight.value",
         "wield.value",
-        "armor.value",
-        "resistances"
+        "defenses"
       ];
 
       const set = new Set();

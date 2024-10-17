@@ -16,16 +16,26 @@
     },
     "attributes": {
       "value": [],
-      "levels": {
-        "bludgeoning": null,
-        "rending": null
-      }
+      "levels": {}
     },
     "fusion": {
       "ignore": [],
       "max": 1
     },
-    "resistances": {
+    "category": {
+      "subtype": "chest",
+      "requirements": [
+        {
+          "type": "pool",
+          "pool": "mana",
+          "value": 6
+        }
+      ],
+      "value": ""
+    },
+    "activities": {},
+    "identifier": "robes",
+    "defenses": {
       "fire": {
         "value": 3
       },
@@ -44,25 +54,13 @@
       "darkness": {
         "value": null
       },
+      "physical": {
+        "value": null
+      },
       "arcane": {
         "value": null
       }
-    },
-    "armor": {
-      "value": 0
-    },
-    "category": {
-      "subtype": "chest",
-      "requirements": [
-        {
-          "type": "pool",
-          "pool": "mana",
-          "value": 6
-        }
-      ]
-    },
-    "activities": {},
-    "identifier": "robes"
+    }
   },
   "effects": [],
   "sort": 0,
@@ -76,8 +74,8 @@
     "coreVersion": "12.331",
     "systemId": "artichron",
     "systemVersion": "1.0.0",
-    "createdTime": 1728917727836,
-    "modifiedTime": 1728917727836,
+    "createdTime": 1729157488359,
+    "modifiedTime": 1729157488359,
     "lastModifiedBy": "3pWaVXzYT6XoJo1Y"
   },
   "_key": "!items!5nGm9IjYQel3x22o"

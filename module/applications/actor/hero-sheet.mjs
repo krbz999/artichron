@@ -117,9 +117,9 @@ export default class HeroSheet extends ActorSheetArtichron {
     };
 
     const makeResistance = (key, path) => {
-      context.resistances ??= {};
+      context.defenses ??= {};
       const value = foundry.utils.getProperty(doc.system, path);
-      context.resistances[key] = {
+      context.defenses[key] = {
         value: value,
         label: CONFIG.SYSTEM.DAMAGE_TYPES[key].label,
         color: CONFIG.SYSTEM.DAMAGE_TYPES[key].color,
@@ -128,12 +128,11 @@ export default class HeroSheet extends ActorSheetArtichron {
       };
     };
 
-    // Armor and resistances.
-    makeResistance("physical", "defenses.armor");
-    for (const k of Object.keys(doc.system.resistances)) {
-      makeResistance(k, `resistances.${k}`);
+    // Damage defenses.
+    for (const k of Object.keys(doc.system.defenses)) {
+      makeResistance(k, `defenses.${k}`);
     }
-    context.resistances = Object.values(context.resistances);
+    context.defenses = Object.values(context.defenses);
 
     // Skills.
     context.skills = Object.entries(this.document.system.skills).map(([k, v]) => {

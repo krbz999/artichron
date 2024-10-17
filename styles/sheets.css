@@ -66,11 +66,11 @@
     }
   }
 
-  .resistances {
+  .defenses {
     flex-direction: row;
     gap: 1px;
 
-    .resistance {
+    .defense {
       display: flex;
       flex-direction: column;
       align-items: center;

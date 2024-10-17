@@ -21,10 +21,7 @@
     },
     "attributes": {
       "value": [],
-      "levels": {
-        "bludgeoning": null,
-        "rending": null
-      }
+      "levels": {}
     },
     "activities": {
       "ZMTkxi3vXgMBUJkY": {
@@ -38,7 +35,8 @@
         },
         "description": "<p>Gain fire resistance until the end of the combat scenario when drinking this tonic.</p>",
         "cost": {
-          "value": 1
+          "value": 1,
+          "uses": true
         },
         "target": {
           "type": "single",
@@ -115,8 +113,8 @@
     "coreVersion": "12.331",
     "systemId": "artichron",
     "systemVersion": "1.0.0",
-    "createdTime": 1728917727906,
-    "modifiedTime": 1728917727906,
+    "createdTime": 1729157488434,
+    "modifiedTime": 1729157488434,
     "lastModifiedBy": "3pWaVXzYT6XoJo1Y"
   },
   "_id": "KcQcIaDUNM6BakAJ",

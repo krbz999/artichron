@@ -22,13 +22,6 @@ export default class ArmorData extends FusionTemplateMixin(ItemSystemModel) {
   static defineSchema() {
     return {
       ...super.defineSchema(),
-      resistances: new SchemaField(Object.entries(CONFIG.SYSTEM.DAMAGE_TYPES).reduce((acc, [k, v]) => {
-        if (v.resist) acc[k] = new SchemaField({value: new NumberField({integer: true, min: 0})});
-        return acc;
-      }, {})),
-      armor: new SchemaField({
-        value: new NumberField({min: 0, integer: true})
-      }),
       category: new SchemaField({
         value: new StringField({
           required: true,
@@ -44,7 +37,11 @@ export default class ArmorData extends FusionTemplateMixin(ItemSystemModel) {
           choices: CONFIG.SYSTEM.EQUIPMENT_TYPES
         }),
         requirements: new ArrayField(new TypedSchemaField(ArmorRequirementData.TYPES))
-      })
+      }),
+      defenses: new SchemaField(Object.keys(CONFIG.SYSTEM.DAMAGE_TYPES).reduce((acc, k) => {
+        acc[k] = new SchemaField({value: new NumberField({integer: true, initial: null})});
+        return acc;
+      }, {}))
     };
   }
 
@@ -52,13 +49,9 @@ export default class ArmorData extends FusionTemplateMixin(ItemSystemModel) {
 
   /** @override */
   static get BONUS_FIELDS() {
-    return super.BONUS_FIELDS.union(new Set([
-      "system.armor.value",
-      ...Object.entries(CONFIG.SYSTEM.DAMAGE_TYPES).reduce((acc, [k, v]) => {
-        if (v.resist) acc.push(`system.resistances.${k}.value`);
-        return acc;
-      }, [])
-    ]));
+    return super.BONUS_FIELDS.union(new Set(
+      Object.keys(CONFIG.SYSTEM.DAMAGE_TYPES).map(k => `system.defenses.${k}.value`)
+    ));
   }
 
   /* -------------------------------------------------- */
@@ -94,7 +87,7 @@ export default class ArmorData extends FusionTemplateMixin(ItemSystemModel) {
       return {content: r.toRequirement(), fulfilled: r.fulfilledRequirements};
     });
 
-    context.resistances = Object.entries(this.resistances).reduce((acc, [type, {value}]) => {
+    context.defenses = Object.entries(this.defenses).reduce((acc, [type, {value}]) => {
       if (value) acc.push({
         value: value,
         config: CONFIG.SYSTEM.DAMAGE_TYPES[type]
@@ -103,14 +96,5 @@ export default class ArmorData extends FusionTemplateMixin(ItemSystemModel) {
     }, []);
 
     return context;
-  }
-
-  /* -------------------------------------------------- */
-
-  /** @override */
-  _prepareTooltipProperties() {
-    const props = super._prepareTooltipProperties();
-    props.push({title: "Armor", label: this.armor.value ?? 0, icon: "fa-solid fa-shield"});
-    return props;
   }
 }

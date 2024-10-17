@@ -21,10 +21,7 @@
       "value": [
         "parrying"
       ],
-      "levels": {
-        "bludgeoning": null,
-        "rending": null
-      }
+      "levels": {}
     },
     "fusion": {
       "max": 1,
@@ -37,14 +34,16 @@
         "_id": "qfO4abUAonP7LjM3",
         "description": "",
         "cost": {
-          "value": 1
+          "value": 1,
+          "uses": true
         },
         "damage": {
           "v2tJimAu0lqbcmGl": {
             "number": 4,
             "denomination": 8,
             "type": "physical",
-            "_id": "v2tJimAu0lqbcmGl"
+            "_id": "v2tJimAu0lqbcmGl",
+            "options": []
           }
         },
         "target": {
@@ -75,8 +74,8 @@
     "coreVersion": "12.331",
     "systemId": "artichron",
     "systemVersion": "1.0.0",
-    "createdTime": 1728934136155,
-    "modifiedTime": 1728936406624,
+    "createdTime": 1729157488597,
+    "modifiedTime": 1729157488597,
     "lastModifiedBy": "3pWaVXzYT6XoJo1Y"
   },
   "_key": "!items!nX4EmFMC0ZffcVBM"

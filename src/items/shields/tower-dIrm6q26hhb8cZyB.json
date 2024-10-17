@@ -24,10 +24,7 @@
       "value": [
         "blocking"
       ],
-      "levels": {
-        "bludgeoning": null,
-        "rending": null
-      }
+      "levels": {}
     },
     "fusion": {
       "max": 1,
@@ -43,11 +40,13 @@
             "number": 4,
             "denomination": 12,
             "type": "physical",
-            "_id": "YzIN9aeilCJyHDOK"
+            "_id": "YzIN9aeilCJyHDOK",
+            "options": []
           }
         },
         "cost": {
-          "value": 2
+          "value": 2,
+          "uses": true
         },
         "description": "<p>Bash a target with this shield for moderate damage.</p>",
         "target": {
@@ -69,7 +68,8 @@
           "denomination": 10
         },
         "cost": {
-          "value": 2
+          "value": 2,
+          "uses": true
         },
         "description": "<p>Reduce incoming damage using this shield.</p>",
         "img": "systems/artichron/assets/icons/activity.svg"
@@ -89,8 +89,8 @@
     "coreVersion": "12.331",
     "systemId": "artichron",
     "systemVersion": "1.0.0",
-    "createdTime": 1728934135926,
-    "modifiedTime": 1728936406602,
+    "createdTime": 1729157488521,
+    "modifiedTime": 1729157488521,
     "lastModifiedBy": "3pWaVXzYT6XoJo1Y"
   },
   "_key": "!items!dIrm6q26hhb8cZyB"

@@ -22,10 +22,7 @@
         "parrying",
         "rending"
       ],
-      "levels": {
-        "bludgeoning": null,
-        "rending": null
-      }
+      "levels": {}
     },
     "fusion": {
       "max": 1,
@@ -41,12 +38,14 @@
             "number": 4,
             "denomination": 6,
             "type": "physical",
-            "_id": "SykCh72ldWGbiYqL"
+            "_id": "SykCh72ldWGbiYqL",
+            "options": []
           }
         },
         "description": "",
         "cost": {
-          "value": 1
+          "value": 1,
+          "uses": true
         },
         "target": {
           "type": "single",
@@ -75,12 +74,14 @@
             "number": 1,
             "denomination": 6,
             "type": "physical",
-            "_id": "HC4Pw1MqdA0rWwpT"
+            "_id": "HC4Pw1MqdA0rWwpT",
+            "options": []
           }
         },
         "description": "",
         "cost": {
-          "value": 1
+          "value": 1,
+          "uses": true
         },
         "img": "systems/artichron/assets/icons/activity.svg"
       }
@@ -102,8 +103,8 @@
     "coreVersion": "12.331",
     "systemId": "artichron",
     "systemVersion": "1.0.0",
-    "createdTime": 1728934136435,
-    "modifiedTime": 1728936406672,
+    "createdTime": 1729157488970,
+    "modifiedTime": 1729157488970,
     "lastModifiedBy": "3pWaVXzYT6XoJo1Y"
   },
   "_key": "!items!wfL5KdsvgVUtXiuW"

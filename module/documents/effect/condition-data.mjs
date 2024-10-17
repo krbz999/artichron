@@ -165,7 +165,7 @@ export default class EffectConditionData extends ActiveEffectSystemModel {
       value: roll.total,
       options: {
         undefendable: true,
-        irresistible: true
+        irreducible: true
       }
     }]);
   }
@@ -190,7 +190,7 @@ export default class EffectConditionData extends ActiveEffectSystemModel {
       value: roll.total,
       options: {
         undefendable: true,
-        indiminishable: true
+        irreducible: true
       }
     }]);
   }

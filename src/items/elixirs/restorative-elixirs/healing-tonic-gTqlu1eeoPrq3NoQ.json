@@ -18,10 +18,7 @@
       "value": [
         "magical"
       ],
-      "levels": {
-        "bludgeoning": null,
-        "rending": null
-      }
+      "levels": {}
     },
     "quantity": {
       "value": 1
@@ -41,7 +38,8 @@
         },
         "description": "<p>Heal a single target that drinks this tonic.</p>",
         "cost": {
-          "value": 1
+          "value": 1,
+          "uses": true
         },
         "target": {
           "type": "single",
@@ -69,8 +67,8 @@
     "coreVersion": "12.331",
     "systemId": "artichron",
     "systemVersion": "1.0.0",
-    "createdTime": 1728917728036,
-    "modifiedTime": 1728917728036,
+    "createdTime": 1729157488561,
+    "modifiedTime": 1729157488561,
     "lastModifiedBy": "3pWaVXzYT6XoJo1Y"
   },
   "_key": "!items!gTqlu1eeoPrq3NoQ"

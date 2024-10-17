@@ -18,10 +18,7 @@
       "value": [
         "magical"
       ],
-      "levels": {
-        "bludgeoning": null,
-        "rending": null
-      }
+      "levels": {}
     },
     "fusion": {
       "max": 1,
@@ -36,14 +33,16 @@
         "name": "Wind Damage",
         "_id": "GdeyPliNasppY1Wd",
         "cost": {
-          "value": 2
+          "value": 2,
+          "uses": true
         },
         "damage": {
           "kmKVogZe84UJ9dV3": {
             "number": 4,
             "denomination": 6,
             "type": "wind",
-            "_id": "kmKVogZe84UJ9dV3"
+            "_id": "kmKVogZe84UJ9dV3",
+            "options": []
           }
         },
         "target": {
@@ -72,8 +71,8 @@
     "coreVersion": "12.331",
     "systemId": "artichron",
     "systemVersion": "1.0.0",
-    "createdTime": 1728934135981,
-    "modifiedTime": 1728936406609,
+    "createdTime": 1729157488542,
+    "modifiedTime": 1729157488542,
     "lastModifiedBy": "3pWaVXzYT6XoJo1Y"
   },
   "_key": "!items!fycbK6FkmOPkXhKJ"

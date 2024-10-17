@@ -12,17 +12,32 @@
     "price": {
       "value": 1
     },
-    "armor": {
-      "value": 3
+    "category": {
+      "subtype": "boots",
+      "requirements": [],
+      "value": ""
     },
-    "resistances": {
-      "arcane": {
-        "value": null
-      },
-      "darkness": {
-        "value": null
+    "attributes": {
+      "value": [],
+      "levels": {}
+    },
+    "fusion": {
+      "max": 1,
+      "ignore": []
+    },
+    "activities": {},
+    "identifier": "leather-boots",
+    "defenses": {
+      "physical": {
+        "value": 3
       },
       "fire": {
+        "value": null
+      },
+      "wind": {
+        "value": null
+      },
+      "lightning": {
         "value": null
       },
       "ice": {
@@ -31,30 +46,13 @@
       "light": {
         "value": null
       },
-      "lightning": {
+      "darkness": {
         "value": null
       },
-      "wind": {
+      "arcane": {
         "value": null
       }
-    },
-    "category": {
-      "subtype": "boots",
-      "requirements": []
-    },
-    "attributes": {
-      "value": [],
-      "levels": {
-        "bludgeoning": null,
-        "rending": null
-      }
-    },
-    "fusion": {
-      "max": 1,
-      "ignore": []
-    },
-    "activities": {},
-    "identifier": "leather-boots"
+    }
   },
   "effects": [],
   "folder": "7qzyQIknqQLQYlFl",
@@ -68,8 +66,8 @@
     "coreVersion": "12.331",
     "systemId": "artichron",
     "systemVersion": "1.0.0",
-    "createdTime": 1728917728006,
-    "modifiedTime": 1728917728006,
+    "createdTime": 1729157488531,
+    "modifiedTime": 1729157488531,
     "lastModifiedBy": "3pWaVXzYT6XoJo1Y"
   },
   "_id": "frdzgmkCtQ9xzWPF",

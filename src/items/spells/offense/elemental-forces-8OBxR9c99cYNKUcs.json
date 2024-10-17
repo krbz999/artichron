@@ -19,10 +19,7 @@
       "value": [
         "magical"
       ],
-      "levels": {
-        "bludgeoning": null,
-        "rending": null
-      }
+      "levels": {}
     },
     "fusion": {
       "max": 1,
@@ -34,7 +31,8 @@
         "name": "Fireball",
         "_id": "ZAYch1zoHqhvisot",
         "cost": {
-          "value": 3
+          "value": 3,
+          "uses": true
         },
         "target": {
           "type": "circle",
@@ -49,7 +47,8 @@
             "number": 4,
             "denomination": 10,
             "type": "fire",
-            "_id": "W1XYKipULanR0OtN"
+            "_id": "W1XYKipULanR0OtN",
+            "options": []
           }
         },
         "description": "<p>Deal 4d10 fire damage to everyone in a 3m radius area at a point up to 10m from you.</p>",
@@ -60,7 +59,8 @@
         "name": "Hurricane",
         "_id": "bzJqZ5T7iVnVpCU5",
         "cost": {
-          "value": 3
+          "value": 3,
+          "uses": true
         },
         "target": {
           "type": "radius",
@@ -75,7 +75,8 @@
             "number": 1,
             "denomination": 6,
             "type": "wind",
-            "_id": "22LXKztIEA48IIT8"
+            "_id": "22LXKztIEA48IIT8",
+            "options": []
           }
         },
         "description": "<p>Deal 4d8 wind damage to every target within 4m of you.</p>",
@@ -96,8 +97,8 @@
     "coreVersion": "12.331",
     "systemId": "artichron",
     "systemVersion": "1.0.0",
-    "createdTime": 1728934135530,
-    "modifiedTime": 1728936406535,
+    "createdTime": 1729157488383,
+    "modifiedTime": 1729157488383,
     "lastModifiedBy": "3pWaVXzYT6XoJo1Y"
   },
   "_id": "8OBxR9c99cYNKUcs",

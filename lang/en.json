@@ -587,8 +587,7 @@
   "Bludgeoning": "Bludgeoning",
   "Booster": "Booster",
   "Fusion": "Fusion",
-  "Indiminishable": "Indiminishable",
-  "Irresistible": "Irresistible",
+  "Irreducible": "Irreducible",
   "Magical": "Magical",
   "Parrying": "Parrying",
   "Rending": "Rending",
@@ -701,12 +700,6 @@
     }
   },
   "FIELDS": {
-    "armor": {
-      "value": {
-        "hint": "The armor value of this item, which reduces incoming physical damage.",
-        "label": "Armor"
-      }
-    },
     "attributes": {
       "label": "Attributes",
       "value": {
@@ -720,6 +713,49 @@
     "boost": {
       "hint": "When using this elixir to boost a roll, this is the type of pool it can enhance.",
       "label": "Boost"
+    },
+    "defenses": {
+      "arcane": {
+        "value": {
+          "label": "Arcane Resistance"
+        }
+      },
+      "darkness": {
+        "value": {
+          "label": "Darkness Resistance"
+        }
+      },
+      "fire": {
+        "value": {
+          "label": "Fire Resistance"
+        }
+      },
+      "ice": {
+        "value": {
+          "label": "Ice Resistance"
+        }
+      },
+      "label": "Defenses",
+      "light": {
+        "value": {
+          "label": "Light Resistance"
+        }
+      },
+      "lightning": {
+        "value": {
+          "label": "Lightning Resistance"
+        }
+      },
+      "physical": {
+        "value": {
+          "label": "Physical"
+        }
+      },
+      "wind": {
+        "value": {
+          "label": "Wind Resistance"
+        }
+      }
     },
     "description": {
       "value": {
@@ -747,44 +783,6 @@
       "value": {
         "hint": "The size of this stack of items.",
         "label": "Quantity"
-      }
-    },
-    "resistances": {
-      "arcane": {
-        "value": {
-          "label": "Arcane Resistance"
-        }
-      },
-      "darkness": {
-        "value": {
-          "label": "Darkness Resistance"
-        }
-      },
-      "fire": {
-        "value": {
-          "label": "Fire Resistance"
-        }
-      },
-      "ice": {
-        "value": {
-          "label": "Ice Resistance"
-        }
-      },
-      "label": "Resistances",
-      "light": {
-        "value": {
-          "label": "Light Resistance"
-        }
-      },
-      "lightning": {
-        "value": {
-          "label": "Lightning Resistance"
-        }
-      },
-      "wind": {
-        "value": {
-          "label": "Wind Resistance"
-        }
       }
     },
     "usage": {
