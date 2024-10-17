@@ -38,7 +38,7 @@ export default class ArmorData extends FusionTemplateMixin(ItemSystemModel) {
         }),
         requirements: new ArrayField(new TypedSchemaField(ArmorRequirementData.TYPES))
       }),
-      defenses: new SchemaField(Object.keys(CONFIG.SYSTEM.DAMAGE_TYPES).reduce((acc, k) => {
+      defenses: new SchemaField(CONFIG.SYSTEM.DAMAGE_TYPES.optgroups.reduce((acc, {value: k}) => {
         acc[k] = new SchemaField({value: new NumberField({integer: true, initial: null})});
         return acc;
       }, {}))

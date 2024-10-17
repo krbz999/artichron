@@ -91,6 +91,7 @@ export default class DamageSheet extends foundry.applications.api.HandlebarsAppl
   /** @override */
   async _prepareContext(options) {
     const damage = this.damage;
+
     const makeField = field => {
       const value = foundry.utils.getProperty(damage, field.fieldPath);
       const disabled = !this.#item.sheet.isEditable;
@@ -101,6 +102,8 @@ export default class DamageSheet extends foundry.applications.api.HandlebarsAppl
         data.classes = "stacked";
         data.type = "checkboxes";
       }
+
+      if (field.name === "type") data.options = CONFIG.SYSTEM.DAMAGE_TYPES.optgroups;
 
       return data;
     };

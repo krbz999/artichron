@@ -46,7 +46,7 @@ export default class CreatureData extends ActorSystemModel {
     this.bonuses = {damage: {}};
     this.defenses = {};
     for (const k of Object.keys(CONFIG.SYSTEM.DAMAGE_TYPE_GROUPS)) this.bonuses.damage[k] = 0;
-    for (const k of Object.keys(CONFIG.SYSTEM.DAMAGE_TYPES)) this.defenses[k] = 0;
+    for (const {value} of CONFIG.SYSTEM.DAMAGE_TYPES.optgroups) this.defenses[value] = 0;
   }
 
   /* -------------------------------------------------- */

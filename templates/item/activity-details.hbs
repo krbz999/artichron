@@ -30,7 +30,7 @@
     {{#each damage.damages}}
     <div class="form-group damage" data-id="{{damage.id}}">
       {{#each fields}}
-      {{formGroup field name=name value=value classes=classes}}
+      {{formGroup field name=name value=value classes=classes options=options}}
       {{/each}}
       <button type="button" class="control" data-action="deleteDamage">
         <i class="fa-solid fa-minus"></i>

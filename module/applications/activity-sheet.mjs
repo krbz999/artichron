@@ -221,10 +221,10 @@ export default class ActivitySheet extends foundry.applications.api.HandlebarsAp
     // Damage
     const damage = context.activity.schema.has("damage");
     if (damage) {
+      const groups = CONFIG.SYSTEM.DAMAGE_TYPES.optgroups;
       context.damage = {
         show: true,
         legend: makeLegend("damage"),
-        options: CONFIG.SYSTEM.DAMAGE_TYPES.optgroups,
         damages: context.activity.damage.map(damage => ({
           damage: damage,
           fields: ["number", "denomination", "type"].map(path => {
@@ -232,7 +232,8 @@ export default class ActivitySheet extends foundry.applications.api.HandlebarsAp
               field: damage.schema.getField(path),
               name: `damage.${damage.id}.${path}`,
               value: foundry.utils.getProperty(damage, path),
-              classes: [path, "label-top"].join(" ")
+              classes: [path, "label-top"].join(" "),
+              options: groups
             };
           })
         }))
