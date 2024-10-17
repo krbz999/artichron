@@ -233,7 +233,7 @@ export default class ActivitySheet extends foundry.applications.api.HandlebarsAp
               name: `damage.${damage.id}.${path}`,
               value: foundry.utils.getProperty(damage, path),
               classes: [path, "label-top"].join(" "),
-              options: groups
+              options: (path === "type") ? groups : undefined
             };
           })
         }))
