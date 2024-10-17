@@ -1,5 +1,7 @@
 export const SYSTEM = {};
 
+/* -------------------------------------------------- */
+
 /**
  * @typedef {object} DamageTypeConfig
  * @property {string} label             Displayed label of the damage type.
@@ -99,9 +101,15 @@ Object.defineProperty(SYSTEM.DAMAGE_TYPES, "optgroups", {
  * @enum {DamageTypeGroupConfig}
  */
 SYSTEM.DAMAGE_TYPE_GROUPS = {
-  physical: {label: "ARTICHRON.DamageTypeGroup.Physical"},
-  elemental: {label: "ARTICHRON.DamageTypeGroup.Elemental"},
-  planar: {label: "ARTICHRON.DamageTypeGroup.Planar"}
+  physical: {
+    label: "ARTICHRON.DamageTypeGroup.Physical"
+  },
+  elemental: {
+    label: "ARTICHRON.DamageTypeGroup.Elemental"
+  },
+  planar: {
+    label: "ARTICHRON.DamageTypeGroup.Planar"
+  }
 };
 
 /* -------------------------------------------------- */
@@ -220,6 +228,29 @@ SYSTEM.WIELDING_TYPES = {
   },
   2: {
     label: "ARTICHRON.Wielding.TwoHanded"
+  }
+};
+
+/* -------------------------------------------------- */
+
+/**
+ * @typedef {object} EquipmentCategoryConfig
+ * @property {string} label     The human-readable label of this equipment category.
+ */
+
+/**
+ * Armor categories.
+ * @enum {EquipmentCategoryConfig}
+ */
+SYSTEM.EQUIPMENT_CATEGORIES = {
+  clothing: {
+    label: "ARTICHRON.EQUIPMENT.CATEGORY.Clothing"
+  },
+  natural: {
+    label: "ARTICHRON.EQUIPMENT.CATEGORY.Natural"
+  },
+  tech: {
+    label: "ARTICHRON.EQUIPMENT.CATEGORY.Tech"
   }
 };
 

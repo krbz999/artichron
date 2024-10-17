@@ -97,7 +97,9 @@ export default class ActivitySheet extends foundry.applications.api.HandlebarsAp
 
   /** @override */
   get title() {
-    return this.activity.name;
+    return game.i18n.format("ARTICHRON.SHEET.ACTIVITY.title", {
+      name: this.activity.name
+    });
   }
 
   /* -------------------------------------------------- */

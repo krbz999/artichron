@@ -30,6 +30,14 @@ export default class ArmorData extends FusionTemplateMixin(ItemSystemModel) {
         value: new NumberField({min: 0, integer: true})
       }),
       category: new SchemaField({
+        value: new StringField({
+          required: true,
+          blank: true,
+          choices: () => ({
+            "": game.i18n.localize("ARTICHRON.EQUIPMENT.CATEGORY.None"),
+            ...CONFIG.SYSTEM.EQUIPMENT_CATEGORIES
+          })
+        }),
         subtype: new StringField({
           required: true,
           initial: () => Object.keys(CONFIG.SYSTEM.EQUIPMENT_TYPES)[0],

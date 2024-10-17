@@ -45,7 +45,7 @@ export default class DamageSheet extends foundry.applications.api.HandlebarsAppl
 
   /** @override */
   get title() {
-    return game.i18n.format("ARTICHRON.DamagePartSheet.title", {
+    return game.i18n.format("ARTICHRON.SHEET.DAMAGE_PART.title", {
       name: this.activity.name
     });
   }

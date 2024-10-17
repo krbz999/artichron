@@ -59,6 +59,12 @@
     "Base": "Artichron Item Sheet",
     "Elixir": "Artichron Elixir Sheet",
     "Part": "Artichron Monster Part Sheet"
+  },
+  "ACTIVITY": {
+    "title": "Activity: {name}"
+  },
+  "DAMAGE_PART": {
+    "title": "{name}: Damage Part"
   }
 },
 
@@ -470,13 +476,13 @@
     "Duplicate": "Duplicate Effect",
     "Enable": "Enable Effect",
     "IncreaseLevel": "Increase Level",
-    "Render": "Render Sheet",
+    "Render": "Show Effect",
     "Unfuse": "Split Fusion"
   },
   "Activity": {
     "Delete": "Delete Activity",
     "Duplicate": "Duplicate Activity",
-    "Render": "Render Sheet"
+    "Render": "Show Activity"
   },
   "Directory": {
     "AssignPrimaryParty": "Assign Primary Party",
@@ -487,16 +493,12 @@
     "Equip": "Equip Item",
     "Favorite": "Add to Favorites",
     "Fuse": "Fuse Item",
-    "Render": "Render Sheet",
+    "Render": "Show Item",
     "Unequip": "Unequip Item",
     "Unfavorite": "Remove from Favorites",
     "Unfuse": "Split Fusion",
     "Use": "Use Item"
   }
-},
-
-"DamagePartSheet": {
-  "title": "{name}: Damage Part"
 },
 
 "DamageType": {
@@ -570,6 +572,15 @@
   "Warning": "You have no items that can be equipped in that slot."
 },
 
+"EQUIPMENT": {
+  "CATEGORY": {
+    "None": "None",
+    "Clothing": "Clothing",
+    "Natural": "Natural",
+    "Tech": "Tech"
+  }
+},
+
 "ItemAttribute": {
   "Ammunition": "Ammunition",
   "Blocking": "Blocking",
@@ -618,6 +629,10 @@
         "subtype": {
           "hint": "The type of armor this is will determine how it is equipped.",
           "label": "Armor Type"
+        },
+        "value": {
+          "hint": "TODO: What this property does has yet to be decided.",
+          "label": "Category"
         }
       }
     }
