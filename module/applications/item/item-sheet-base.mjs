@@ -45,7 +45,7 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
   /* -------------------------------------------------- */
 
   /** @override */
-  _sheetMode = this.constructor.SHEET_MODES.EDIT;
+  _sheetMode = this.document.isEmbedded ? this.constructor.SHEET_MODES.PLAY : this.constructor.SHEET_MODES.EDIT;
 
   /* -------------------------------------------------- */
 
@@ -128,7 +128,7 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
     }
 
     // Show ammunition dropdown on weapons.
-    if (this.document.system.schema.has("ammunition") && attrs.has("ammunition")) {
+    if (this.document.usesAmmo) {
       context.details.attributes.ammo = {
         show: true,
         ...this._makeField(context, "ammunition.type")
@@ -136,7 +136,7 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
     }
 
     // Show booster dropdown on elixirs.
-    if (this.document.system.schema.has("boost") && attrs.has("booster")) {
+    if (this.document.isBooster) {
       context.details.attributes.boost = {
         show: true,
         ...this._makeField(context, "boost")

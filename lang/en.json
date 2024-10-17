@@ -704,9 +704,7 @@
   "FIELDS": {
     "attributes": {
       "label": "Attributes",
-      "value": {
-        "label": "Attributes"
-      },
+      "value": {},
       "levels": {
         "hint": "How many levels of given conditions this item applies when dealing damage.",
         "label": "Applied Levels"

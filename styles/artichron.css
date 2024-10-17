@@ -114,7 +114,7 @@ dialog:-internal-dialog-in-top-layer::backdrop {
 
 /* ---------------------------------------- */
 
-/* General sheet styling */
+/* General application styling */
 .application.artichron {
   .window-content {
     & input, select {
@@ -149,6 +149,11 @@ dialog:-internal-dialog-in-top-layer::backdrop {
     }
 
     & input[type=number], select[data-dtype=Number] { text-align: center; }
+  }
+
+  /* Hide empty labels in form groups. */
+  .form-group label:empty {
+    display: none;
   }
 
   /* Fixes to prosemirror */

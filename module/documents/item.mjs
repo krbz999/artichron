@@ -187,6 +187,16 @@ export default class ItemArtichron extends Item {
   /* -------------------------------------------------- */
 
   /**
+   * Can this elixir be used to boost a roll?
+   * @type {boolean}
+   */
+  get isBooster() {
+    return this.system.isBooster ?? false;
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
    * Is this item favorited by its owner?
    * @type {boolean}
    */
