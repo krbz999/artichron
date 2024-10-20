@@ -516,4 +516,16 @@ export default class BaseActivity extends foundry.abstract.DataModel {
     initialLayer.activate();
     return templates;
   }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Create a roll data object.
+   * @returns {object}      Roll data.
+   */
+  getRollData() {
+    const rollData = this.item.getRollData();
+    rollData.activity = {...this};
+    return rollData;
+  }
 }

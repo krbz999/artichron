@@ -5,11 +5,11 @@ import ItemArtichron from "../../documents/item.mjs";
 export default class DamageSheet extends foundry.applications.api.HandlebarsApplicationMixin(
   foundry.applications.api.ApplicationV2
 ) {
-  constructor({damage, ...options} = {}) {
-    options.damageId = damage.id;
+  constructor(options = {}) {
+    options.damageId = options.damage.id;
     super(options);
-    this.#activityId = damage.activity.id;
-    this.#item = damage.activity.item;
+    this.#activityId = options.document.activity.id;
+    this.#item = options.document.activity.item;
   }
 
   /* -------------------------------------------------- */
@@ -29,6 +29,7 @@ export default class DamageSheet extends foundry.applications.api.HandlebarsAppl
       submitOnChange: true
     },
     tag: "form",
+    document: null,
     damageId: null
   };
 
@@ -89,32 +90,35 @@ export default class DamageSheet extends foundry.applications.api.HandlebarsAppl
   /* -------------------------------------------------- */
 
   /** @override */
-  async _prepareContext(options) {
-    const damage = this.damage;
+  async _preparePartContext(partId, context, options) {
+    context = await super._preparePartContext(partId, context, options);
 
-    const makeField = field => {
-      const value = foundry.utils.getProperty(damage, field.fieldPath);
-      const disabled = !this.#item.sheet.isEditable;
+    if (partId === "damage") {
+      const damage = this.damage;
+      const makeField = field => {
+        const value = foundry.utils.getProperty(damage, field.fieldPath);
+        const disabled = !this.#item.sheet.isEditable;
 
-      const data = {field, value, disabled};
+        const data = {field, value, disabled};
 
-      if (field instanceof foundry.data.fields.SetField) {
-        data.classes = "stacked";
-        data.type = "checkboxes";
-      }
+        if (field instanceof foundry.data.fields.SetField) {
+          data.classes = "stacked";
+          data.type = "checkboxes";
+        }
 
-      if (field.name === "type") data.options = CONFIG.SYSTEM.DAMAGE_TYPES.optgroups;
+        if (field.name === "type") data.options = CONFIG.SYSTEM.DAMAGE_TYPES.optgroups;
 
-      return data;
-    };
+        return data;
+      };
 
-    const damageFields = [...damage.schema].filter(field => {
-      return !field.readonly && !(field instanceof foundry.data.fields.SchemaField);
-    }).map(makeField);
+      const damageFields = [...damage.schema].filter(field => {
+        return !field.readonly && !(field instanceof foundry.data.fields.SchemaField);
+      }).map(makeField);
 
-    return {
-      damageFields: damageFields
-    };
+      context.damageFields = damageFields;
+    }
+
+    return context;
   }
 
   /* -------------------------------------------------- */

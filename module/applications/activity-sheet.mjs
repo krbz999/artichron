@@ -172,7 +172,7 @@ export default class ActivitySheet extends foundry.applications.api.HandlebarsAp
       field: context.activity.schema.getField("description"),
       value: context.activity.description,
       enriched: await TextEditor.enrichHTML(context.activity.description, {
-        rollData: context.item.getRollData(), relativeTo: context.item
+        rollData: context.activity.getRollData(), relativeTo: context.item
       })
     };
 

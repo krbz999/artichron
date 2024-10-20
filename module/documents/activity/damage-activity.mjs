@@ -57,7 +57,7 @@ export default class DamageActivity extends BaseActivity {
     const ammo = item.actor.items.get(configuration.usage.damage?.ammoId) ?? null;
     const activity = this.clone();
 
-    const rollData = item.getRollData();
+    const rollData = activity.getRollData();
     if (ammo) rollData.ammo = ammo.getRollData().item;
     const mods = ammo ? ammo.system.ammoProperties : new Set();
 

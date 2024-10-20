@@ -37,7 +37,7 @@ export default class DefendActivity extends BaseActivity {
 
     const actor = this.item.actor;
     const item = this.item;
-    const rollData = item.getRollData();
+    const rollData = this.getRollData();
 
     const roll = foundry.dice.Roll.create(this.defend.formula, rollData);
     if (configuration.usage.defend?.increase) roll.alter(1, configuration.usage.defend.increase);

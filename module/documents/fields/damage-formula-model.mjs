@@ -51,7 +51,7 @@ export default class DamageFormulaModel extends FormulaModel {
    */
   get sheet() {
     if (!DamageFormulaModel.#sheets.has(this.uuid)) {
-      const cls = new DamageSheet({damage: this});
+      const cls = new DamageSheet({document: this});
       DamageFormulaModel.#sheets.set(this.uuid, cls);
     }
     return DamageFormulaModel.#sheets.get(this.uuid);

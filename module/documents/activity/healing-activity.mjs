@@ -49,7 +49,7 @@ export default class HealingActivity extends BaseActivity {
 
     const actor = this.item.actor;
     const item = this.item;
-    const rollData = item.getRollData();
+    const rollData = this.getRollData();
 
     const roll = foundry.dice.Roll.create(this.healing.formula, rollData);
     if (configuration.usage.healing?.increase) roll.alter(1, configuration.usage.healing.increase);
