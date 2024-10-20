@@ -140,6 +140,7 @@ export default class UsageMessageData extends ChatMessageSystemModel {
       const {formula, total, dice} = roll;
       return {
         color, icon, formula, total, label,
+        multiplier: (roll.multiplier !== 1) ? roll.multiplier.toNearest(0.01) : null,
         pills: [
           roll.undefendable ? "Undefendable" : null,
           roll.irreducible ? "Irreducible" : null

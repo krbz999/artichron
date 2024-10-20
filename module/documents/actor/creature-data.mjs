@@ -56,6 +56,7 @@ export default class CreatureData extends ActorSystemModel {
     // Calling super first to prepare actor level.
     super.prepareDerivedData();
     this.#prepareDefenses();
+    this.#prepareDamageBonuses();
   }
 
   /* -------------------------------------------------- */
@@ -67,6 +68,18 @@ export default class CreatureData extends ActorSystemModel {
       for (const [k, v] of Object.entries(item.system.defenses)) {
         this.defenses[k] += v.value;
       }
+    }
+  }
+
+  /* -------------------------------------------------- */
+
+  /** Prepare damage bonuses derived from statuses. */
+  #prepareDamageBonuses() {
+    for (const k of Object.keys(CONFIG.SYSTEM.DAMAGE_TYPE_GROUPS)) {
+      let mult = 0;
+      if (this.parent.statuses.has(`${k.slice(0, 4)}AtkUp`)) mult = 50;
+      if (this.parent.statuses.has(`${k.slice(0, 4)}AtkDown`)) mult = mult ? 0 : -33;
+      if (mult) this.bonuses.damage[k] += mult;
     }
   }
 

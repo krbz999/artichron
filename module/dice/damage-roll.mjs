@@ -23,6 +23,16 @@ export default class DamageRoll extends RollArtichron {
   /* -------------------------------------------------- */
 
   /**
+   * The multiplier on this damage roll.
+   * @type {number}
+   */
+  get multiplier() {
+    return this.options.multiplier ?? 1;
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
    * The damage application options.
    * @type {Record<string, boolean>}
    */
@@ -57,4 +67,11 @@ export default class DamageRoll extends RollArtichron {
   /* -------------------------------------------------- */
   /*   Instance methods                                 */
   /* -------------------------------------------------- */
+
+  /** @override */
+  async _evaluate(options = {}) {
+    await super._evaluate(options);
+    if (this.multiplier !== 1) this._total = Math.round(this._total * this.multiplier);
+    return this;
+  }
 }

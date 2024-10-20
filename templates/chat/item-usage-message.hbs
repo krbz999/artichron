@@ -7,7 +7,9 @@
         <span class="icon" data-tooltip="{{label}}">
           <i class="fa-fw fa-solid {{icon}}" style="color: #{{color}}"></i>
         </span>
-        <span class="formula">{{formula}}</span>
+        <span class="formula">
+          {{formula}} {{#if (ne multiplier null)}}<span class="multiplier">(&times;{{multiplier}})</span>{{/if}}
+        </span>
         <span class="total">{{total}}</span>
         <div class="pills">
           {{~#each pills}} <div class="pill" data-tooltip="{{this}}">{{this}}</div> {{/each~}}

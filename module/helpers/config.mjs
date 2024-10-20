@@ -444,22 +444,26 @@ SYSTEM.STATUS_CONDITIONS = {
   defeated: {
     name: "ARTICHRON.CONDITIONS.FIELDS.defeated.label",
     img: "systems/artichron/assets/icons/defeated.svg",
-    hud: true
+    hud: true,
+    reference: "TODO"
   },
   blind: {
     name: "ARTICHRON.CONDITIONS.FIELDS.blind.label",
     img: "systems/artichron/assets/icons/blind.svg",
-    hud: true
+    hud: true,
+    reference: "TODO"
   },
   bloodied: {
     name: "ARTICHRON.CONDITIONS.FIELDS.bloodied.label",
     img: "systems/artichron/assets/icons/bloodied.svg",
-    hud: false
+    hud: false,
+    reference: "TODO"
   },
   critical: {
     name: "ARTICHRON.CONDITIONS.FIELDS.critical.label",
     img: "systems/artichron/assets/icons/critical.svg",
-    hud: false
+    hud: false,
+    reference: "TODO"
   },
   hindered: {
     name: "ARTICHRON.CONDITIONS.FIELDS.hindered.label",
@@ -471,22 +475,26 @@ SYSTEM.STATUS_CONDITIONS = {
   invisible: {
     name: "ARTICHRON.CONDITIONS.FIELDS.invisible.label",
     img: "systems/artichron/assets/icons/invisible.svg",
-    hud: true
+    hud: true,
+    reference: "TODO"
   },
   underground: {
     name: "ARTICHRON.CONDITIONS.FIELDS.underground.label",
     img: "icons/svg/mole.svg",
-    hud: true
+    hud: true,
+    reference: "TODO"
   },
   flying: {
     name: "ARTICHRON.CONDITIONS.FIELDS.flying.label",
     img: "systems/artichron/assets/icons/flying.svg",
-    hud: true
+    hud: true,
+    reference: "TODO"
   },
   levitating: {
     name: "ARTICHRON.CONDITIONS.FIELDS.levitating.label",
     img: "icons/svg/wingfoot.svg",
-    hud: true
+    hud: true,
+    reference: "TODO"
   },
   bleeding: {
     name: "ARTICHRON.CONDITIONS.FIELDS.bleeding.label",
@@ -508,6 +516,78 @@ SYSTEM.STATUS_CONDITIONS = {
     levels: 20,
     hud: true,
     reference: "Compendium.artichron.rules.JournalEntry.JjiZqfbpC2YVXV4R.JournalEntryPage.FRQ8zjWTfTYZWGx3"
+  },
+  physAtkUp: {
+    name: "ARTICHRON.CONDITIONS.FIELDS.physAtkUp.label",
+    img: "icons/equipment/shield/buckler-wooden-triangle-brown.webp",
+    hud: true,
+    reference: "TODO"
+  },
+  physAtkDown: {
+    name: "ARTICHRON.CONDITIONS.FIELDS.physAtkDown.label",
+    img: "icons/equipment/shield/buckler-wooden-triangle-brown.webp",
+    hud: true,
+    reference: "TODO"
+  },
+  physDefUp: {
+    name: "ARTICHRON.CONDITIONS.FIELDS.physDefUp.label",
+    img: "icons/equipment/shield/buckler-wooden-triangle-brown.webp",
+    hud: true,
+    reference: "TODO"
+  },
+  physDefDown: {
+    name: "ARTICHRON.CONDITIONS.FIELDS.physDefDown.label",
+    img: "icons/equipment/shield/buckler-wooden-triangle-brown.webp",
+    hud: true,
+    reference: "TODO"
+  },
+  elemAtkUp: {
+    name: "ARTICHRON.CONDITIONS.FIELDS.elemAtkUp.label",
+    img: "icons/equipment/shield/buckler-wooden-triangle-brown.webp",
+    hud: true,
+    reference: "TODO"
+  },
+  elemAtkDown: {
+    name: "ARTICHRON.CONDITIONS.FIELDS.elemAtkDown.label",
+    img: "icons/equipment/shield/buckler-wooden-triangle-brown.webp",
+    hud: true,
+    reference: "TODO"
+  },
+  elemDefUp: {
+    name: "ARTICHRON.CONDITIONS.FIELDS.elemDefUp.label",
+    img: "icons/equipment/shield/buckler-wooden-triangle-brown.webp",
+    hud: true,
+    reference: "TODO"
+  },
+  elemDefDown: {
+    name: "ARTICHRON.CONDITIONS.FIELDS.elemDefDOwn.label",
+    img: "icons/equipment/shield/buckler-wooden-triangle-brown.webp",
+    hud: true,
+    reference: "TODO"
+  },
+  planAtkUp: {
+    name: "ARTICHRON.CONDITIONS.FIELDS.planAtkUp.label",
+    img: "icons/equipment/shield/buckler-wooden-triangle-brown.webp",
+    hud: true,
+    reference: "TODO"
+  },
+  planAtkDown: {
+    name: "ARTICHRON.CONDITIONS.FIELDS.planAtkDown.label",
+    img: "icons/equipment/shield/buckler-wooden-triangle-brown.webp",
+    hud: true,
+    reference: "TODO"
+  },
+  planDefUp: {
+    name: "ARTICHRON.CONDITIONS.FIELDS.planDefUp.label",
+    img: "icons/equipment/shield/buckler-wooden-triangle-brown.webp",
+    hud: true,
+    reference: "TODO"
+  },
+  planDefDown: {
+    name: "ARTICHRON.CONDITIONS.FIELDS.planDefDown.label",
+    img: "icons/equipment/shield/buckler-wooden-triangle-brown.webp",
+    hud: true,
+    reference: "TODO"
   }
 };
 

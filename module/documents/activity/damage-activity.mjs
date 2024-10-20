@@ -80,9 +80,14 @@ export default class DamageActivity extends BaseActivity {
         if (item.system.attributes?.value?.has(k) || part.options.has(k)) damageOptions.add(k);
       }
 
+      // Damage modifier.
+      let multiplier = actor.system.bonuses.damage[CONFIG.SYSTEM.DAMAGE_TYPES[type].group];
+      multiplier = 1 + multiplier / 100;
+
       const roll = new CONFIG.Dice.DamageRoll(part.formula, rollData, {
         type: type,
-        damageOptions: Array.from(damageOptions)
+        damageOptions: Array.from(damageOptions),
+        multiplier: multiplier
       });
       if (configuration.usage.damage?.increase) roll.alter(1, configuration.usage.damage.increase);
       await roll.evaluate();
@@ -90,21 +95,21 @@ export default class DamageActivity extends BaseActivity {
     }
 
     // Add any amplifying bonuses (increasing the amount of damage dealt of a given type).
-    for (const roll of rolls) {
-      const group = CONFIG.SYSTEM.DAMAGE_TYPES[roll.type].group;
-      const bonus = actor.system.bonuses.damage[group];
-      if (!bonus) continue;
-      const terms = [
-        new foundry.dice.terms.OperatorTerm({operator: "+"}),
-        new foundry.dice.terms.NumericTerm({number: Math.ceil(roll.total * bonus / 100)})
-      ];
-      for (const term of terms) {
-        term._evaluated = true;
-        roll.terms.push(term);
-      }
-      roll.resetFormula();
-      roll._total = roll._evaluateTotal();
-    }
+    // for (const roll of rolls) {
+    //   const group = CONFIG.SYSTEM.DAMAGE_TYPES[roll.type].group;
+    //   const bonus = actor.system.bonuses.damage[group];
+    //   if (!bonus) continue;
+    //   const terms = [
+    //     new foundry.dice.terms.OperatorTerm({operator: (bonus > 0) ? "+" : "-"}),
+    //     new foundry.dice.terms.NumericTerm({number: Math.ceil(roll.total * Math.abs(bonus) / 100)})
+    //   ];
+    //   for (const term of terms) {
+    //     term._evaluated = true;
+    //     roll.terms.push(term);
+    //   }
+    //   roll.resetFormula();
+    //   roll._total = roll._evaluateTotal();
+    // }
 
     const consumed = await this.consume(configuration.usage);
     if (!consumed) return null;

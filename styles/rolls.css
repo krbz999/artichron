@@ -52,7 +52,13 @@
           align-items: center;
           display: flex;
         }
-        .formula { flex: 1; }
+        .formula {
+          flex: 1;
+
+          .multiplier {
+            font-size: 12px;
+          }
+        }
         .total {
           text-align: center;
           width: 40px;
