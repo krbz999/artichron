@@ -117,7 +117,7 @@ export default class HeroData extends CreatureData {
     const total = this.pools.health.max * this.pools.health.faces;
 
     let max = Math.ceil(total * injury);
-    max = (levels === 1) ? Math.clamp(max, 1, total - 1) : max;
+    if ((levels > 0) && (max === total)) max = Math.clamp(max, 1, total - 1);
 
     this.health.max = max;
     this.health.value = Math.clamp(this.health.value, 0, this.health.max);
