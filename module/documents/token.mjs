@@ -58,4 +58,45 @@ export default class TokenDocumentArtichron extends TokenDocument {
     for (const token of tokens) await CanvasAnimation.getAnimation(token.animationName)?.promise;
     this.parent.deleteEmbeddedDocuments("Token", ids);
   }
+
+  /* -------------------------------------------------- */
+
+  /** @override */
+  static getTrackedAttributes(data, _path) {
+    let bar;
+    switch (data.parent?.type) {
+      case "hero":
+        bar = [
+          ["health"],
+          ["pools", "health"],
+          ["pools", "stamina"],
+          ["pools", "mana"]
+        ];
+        break;
+      case "monster":
+        bar = [
+          ["health"],
+          ["danger", "pool"]
+        ];
+        break;
+      default:
+        return super.getTrackedAttributes(data, _path);
+    }
+    return {bar: bar, value: []};
+  }
+
+  /* -------------------------------------------------- */
+
+  /** @overridde */
+  static getTrackedAttributeChoices(...args) {
+    const groups = super.getTrackedAttributeChoices(...args);
+
+    for (const g of groups) {
+      const string = `ARTICHRON.ACTOR.FIELDS.${g.label}.label`;
+      if (g.label.includes("pool")) g.group = "Pools";
+      if (game.i18n.has(string)) g.label = game.i18n.localize(string);
+    }
+
+    return groups;
+  }
 }

@@ -12,8 +12,7 @@ export default class CreatureData extends ActorSystemModel {
     const schema = super.defineSchema();
 
     schema.health = new SchemaField({
-      value: new NumberField({min: 0, initial: 0, integer: true, nullable: false}),
-      max: new NumberField({initial: null})
+      value: new NumberField({min: 0, initial: 0, integer: true, nullable: false})
     });
 
     schema.pips = new SchemaField({

@@ -255,6 +255,7 @@
     },
     "danger": {
       "pool": {
+        "label": "Danger Pool",
         "max": {
           "hint": "The size of this monster's danger pool.",
           "label": "Pool Maximum"
@@ -279,6 +280,9 @@
       "notes": {
         "label": "Notes"
       }
+    },
+    "health": {
+      "label": "Health"
     },
     "members": {
       "label": "Members"
