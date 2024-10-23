@@ -20,9 +20,10 @@ export default class HeroData extends CreatureData {
 
     const poolSchema = () => {
       return new SchemaField({
-        spent: new NumberField({min: 0, integer: true, initial: 0}),
-        max: new NumberField({min: 2, integer: true, initial: 2, nullable: false}),
-        faces: new NumberField({min: 4, integer: true, initial: 4, nullable: false})
+        base: new NumberField({min: 0, integer: true, initial: 0, nullable: false}),
+        faces: new NumberField({min: 0, integer: true, initial: 0, nullable: false}),
+        increase: new NumberField({min: 0, integer: true, initial: 0, nullable: false}),
+        spent: new NumberField({min: 0, integer: true, initial: 0})
       });
     };
 
@@ -61,6 +62,11 @@ export default class HeroData extends CreatureData {
   /** @override */
   prepareBaseData() {
     super.prepareBaseData();
+
+    // Set pool maximums.
+    for (const [k, v] of Object.entries(this.pools)) {
+      v.max = v.base + v.increase;
+    }
 
     // Set the available number of progression points.
     const spent = this.progression.points.spent.reduce((acc, p) => acc + p.value, 0);

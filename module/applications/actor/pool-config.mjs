@@ -72,27 +72,6 @@ export default class PoolConfig extends foundry.applications.api.HandlebarsAppli
   /* -------------------------------------------------- */
 
   /** @override */
-  async _prepareContext() {
-    const context = {};
-
-    const faces = new Set();
-    for (const schemaField of this.document.system.schema.fields.pools) {
-      const field = schemaField.fields.faces;
-      const value = foundry.utils.getProperty(this.document, field.fieldPath);
-      faces.add(value);
-    }
-    const isConfigured = (faces.size > 1) || (faces.first() !== 4);
-
-    if (isConfigured) {
-      throw new Error("Dice pools have already been configured on this actor.");
-    }
-
-    return context;
-  }
-
-  /* -------------------------------------------------- */
-
-  /** @override */
   async _preparePartContext(partId, context, options) {
     context = await super._preparePartContext(partId, context, options);
 
@@ -267,14 +246,14 @@ function createPoolUpdate(max, faces) {
   return foundry.utils.mergeObject(u, v);
 }
 function poolMax({config, minPool, maxPool}) {
-  return _applyConfig({config, minPool, maxPool, appendix: "max"});
+  return _applyConfig({config, minPool, maxPool, appendix: "base"});
 }
 function poolFaces({config, minPool, maxPool}) {
   return _applyConfig({config, minPool, maxPool, appendix: "faces"});
 }
 function _applyConfig({config, minPool, maxPool, appendix}) {
-  const c = CONFIG.SYSTEM[`POOL_${(appendix === "max") ? "SIZE" : "FACES"}_SPECIALIZATION_TYPES`];
-  const [min, mid, max] = c[config][(appendix === "max") ? "sizes" : "faces"];
+  const c = CONFIG.SYSTEM[`POOL_${(appendix === "base") ? "SIZE" : "FACES"}_SPECIALIZATION_TYPES`];
+  const [min, mid, max] = c[config][(appendix === "base") ? "sizes" : "faces"];
   const update = {};
 
   const keys = new Set(["health", "stamina", "mana"]);

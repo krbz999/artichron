@@ -159,7 +159,7 @@ class ProgressionPoolData extends ProgressionData {
   static async #applyProgression(actor, data) {
     const source = actor.toObject();
     const update = {};
-    const path = `system.pools.${data.pool}.max`;
+    const path = `system.pools.${data.pool}.increase`;
     const value = foundry.utils.getProperty(source, path);
     update[path] = value + data.value / 2;
 
@@ -176,7 +176,7 @@ class ProgressionPoolData extends ProgressionData {
   async removeProgression() {
     const update = {};
     const source = this.actor.toObject();
-    const path = `system.pools.${this.pool}.max`;
+    const path = `system.pools.${this.pool}.increase`;
     const value = foundry.utils.getProperty(source, path);
     update[path] = value - this.value / 2;
 

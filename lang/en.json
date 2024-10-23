@@ -295,49 +295,13 @@
     },
     "pools": {
       "health": {
-        "faces": {
-          "hint": "The size of each health die.",
-          "label": "Health Pool Faces"
-        },
-        "label": "Health Pool",
-        "max": {
-          "hint": "The size of the total health pool.",
-          "label": "Health Pool Maximum"
-        },
-        "spent": {
-          "hint": "The number of health dice that have been expended.",
-          "label": "Spent"
-        }
+        "label": "Health Pool"
       },
       "mana": {
-        "faces": {
-          "hint": "The size of each mana die.",
-          "label": "Mana Pool Faces"
-        },
-        "label": "Mana Pool",
-        "max": {
-          "hint": "The size of the total mana pool.",
-          "label": "Mana Pool Maximum"
-        },
-        "spent": {
-          "hint": "The number of mana dice that have been expended.",
-          "label": "Spent"
-        }
+        "label": "Mana Pool"
       },
       "stamina": {
-        "faces": {
-          "hint": "The size of each stamina die.",
-          "label": "Stamina Pool Faces"
-        },
-        "label": "Stamina Pool",
-        "max": {
-          "hint": "The size of the total stamina pool.",
-          "label": "Stamina Pool Maximum"
-        },
-        "spent": {
-          "hint": "The number of stamina dice that have been expended.",
-          "label": "Spent"
-        }
+        "label": "Stamina Pool"
       }
     },
     "shop": {
