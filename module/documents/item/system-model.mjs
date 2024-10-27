@@ -3,7 +3,7 @@ import ActivitiesField from "../fields/activity-field.mjs";
 import ConditionLevelsField from "../fields/condition-levels-field.mjs";
 import IdentifierField from "../fields/identifier-field.mjs";
 
-const {EmbeddedDataField, StringField, SchemaField, HTMLField, NumberField, SetField} = foundry.data.fields;
+const {EmbeddedDataField, HTMLField, NumberField, SchemaField, SetField, StringField} = foundry.data.fields;
 
 export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
   /**

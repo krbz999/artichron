@@ -11,7 +11,7 @@
 
 /**
  * @typedef {object} ActorSystemModelMetadata
- * @property {string} type      Internal key used for this data model.
+ * @property {string} type                          Internal key used for this data model.
  * @property {Set<string>} [allowedActorTypes]      The actor types allowed to be added to a party actor.
  */
 

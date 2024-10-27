@@ -4,7 +4,9 @@ import FusionTemplateMixin from "./templates/fusion-data.mjs";
 
 const {ArrayField, NumberField, SchemaField, StringField, TypedSchemaField} = foundry.data.fields;
 
-export default class ArmorData extends FusionTemplateMixin(ItemSystemModel) {
+export default class ArmorData extends ItemSystemModel.mixin(
+  FusionTemplateMixin
+) {
   /**
    * Metadata for this datamodel.
    * @type {import("../../helpers/types.mjs").ItemSystemModelMetadata}

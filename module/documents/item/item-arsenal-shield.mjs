@@ -1,6 +1,6 @@
 import ArsenalData from "./item-arsenal.mjs";
 
-const {NumberField, SchemaField, StringField} = foundry.data.fields;
+const {SchemaField, StringField} = foundry.data.fields;
 
 export default class ShieldData extends ArsenalData {
   /**

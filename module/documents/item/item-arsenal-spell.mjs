@@ -1,4 +1,3 @@
-import EffectBuffData from "../effect/system-model.mjs";
 import ArsenalData from "./item-arsenal.mjs";
 
 export default class SpellData extends ArsenalData {

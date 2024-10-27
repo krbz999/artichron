@@ -1,6 +1,6 @@
 import ItemSystemModel from "./system-model.mjs";
 
-const {SchemaField, StringField, NumberField} = foundry.data.fields;
+const {NumberField, SchemaField, StringField} = foundry.data.fields;
 
 export default class PartData extends ItemSystemModel {
   /**

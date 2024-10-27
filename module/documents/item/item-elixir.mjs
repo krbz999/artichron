@@ -1,6 +1,6 @@
 import ItemSystemModel from "./system-model.mjs";
 
-const {SchemaField, NumberField, StringField} = foundry.data.fields;
+const {NumberField, SchemaField, StringField} = foundry.data.fields;
 
 export default class ElixirData extends ItemSystemModel {
   /**

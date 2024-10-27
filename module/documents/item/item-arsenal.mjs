@@ -1,8 +1,6 @@
 import FusionTemplateMixin from "./templates/fusion-data.mjs";
 import ItemSystemModel from "./system-model.mjs";
 
-const {NumberField, SchemaField} = foundry.data.fields;
-
 export default class ArsenalData extends ItemSystemModel.mixin(
   FusionTemplateMixin
 ) {

@@ -35,7 +35,7 @@ export default class EnterStoreBehaviorData extends foundry.data.regionBehaviors
         blank: true,
         initial: "",
         choices: () => {
-          // This is not functional due to a bug in core.
+          // Nonfunctional until v13.
           return game.actors.reduce((acc, actor) => {
             if (actor.type === "merchant") acc[actor.id] = actor.name;
             return acc;
