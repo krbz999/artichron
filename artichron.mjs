@@ -45,11 +45,11 @@ Hooks.once("init", function() {
   registerEnrichers();
   registerSockets();
   CONFIG.Canvas.dispositionColors.CONTROLLED = 2502655;
-  CONFIG.ActiveEffect.legacyTransferral = false;
 
   // Record Configuration Values
   CONFIG.SYSTEM = SYSTEM;
   CONFIG.Token.hudClass = applications.TokenHUDArtichron;
+  CONFIG.Token.objectClass = canvas.TokenArtichron;
   CONFIG.Canvas.rulerClass = canvas.RulerArtichron;
 
   // Hook up document classes.
