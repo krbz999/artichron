@@ -1,4 +1,4 @@
-const { ColorField, NumberField, StringField } = foundry.data.fields;
+const { ColorField, DocumentIdField, NumberField, StringField } = foundry.data.fields;
 
 /**
  * Base clock data model.
@@ -7,12 +7,7 @@ export default class Clock extends foundry.abstract.DataModel {
   /** @override */
   static defineSchema() {
     return {
-      _id: new StringField({
-        required: true,
-        blank: false,
-        readonly: true,
-        initial: () => foundry.utils.randomID(),
-      }),
+      _id: new DocumentIdField({ initial: () => foundry.utils.randomID() }),
       type: new StringField({
         initial: () => this.metadata.type,
         required: true,

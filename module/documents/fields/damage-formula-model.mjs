@@ -1,19 +1,14 @@
 import DamageSheet from "../../applications/item/damage-sheet.mjs";
 import FormulaModel from "./formula-model.mjs";
 
-const { SetField, StringField } = foundry.data.fields;
+const { DocumentIdField, SetField, StringField } = foundry.data.fields;
 
 export default class DamageFormulaModel extends FormulaModel {
   /** @override */
   static defineSchema() {
     return {
       ...super.defineSchema(),
-      _id: new StringField({
-        required: true,
-        blank: false,
-        readonly: true,
-        initial: () => foundry.utils.randomID(),
-      }),
+      _id: new DocumentIdField({ initial: () => foundry.utils.randomID() }),
       type: new StringField({
         required: true,
         choices: CONFIG.SYSTEM.DAMAGE_TYPES,
