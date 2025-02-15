@@ -326,7 +326,7 @@ export default class ActivitySheet extends foundry.applications.api.HandlebarsAp
    * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
    */
   static #addDamage(event, target) {
-    this.activity.damage.createDamage();
+    this.activity.createDamage();
   }
 
   /* -------------------------------------------------- */
@@ -339,7 +339,7 @@ export default class ActivitySheet extends foundry.applications.api.HandlebarsAp
    */
   static #deleteDamage(event, target) {
     const id = target.closest("[data-id]").dataset.id;
-    this.activity.damage.deleteDamage(id);
+    this.activity.deleteDamage(id);
   }
 
   /* -------------------------------------------------- */

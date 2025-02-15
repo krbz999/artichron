@@ -29,6 +29,12 @@ export default class DamageFormulaModel extends FormulaModel {
 
   /* -------------------------------------------------- */
 
+  static metadata = Object.freeze({
+    typed: false,
+  });
+
+  /* -------------------------------------------------- */
+
   /** @override */
   static LOCALIZATION_PREFIXES = [
     ...super.LOCALIZATION_PREFIXES,
@@ -95,5 +101,17 @@ export default class DamageFormulaModel extends FormulaModel {
    */
   get activity() {
     return this.parent;
+  }
+
+  /* -------------------------------------------------- */
+
+  async update(change = {}, context = {}) {
+    return this.activity.update({ [`damage.${this.id}`]: change }, context);
+  }
+
+  /* -------------------------------------------------- */
+
+  async delete(context = {}) {
+    return this.activity.update({ [`damage.-=${this.id}`]: null }, context);
   }
 }

@@ -46,7 +46,8 @@ class _CollectionField extends foundry.data.fields.ObjectField {
    * @returns {typeof DataModel|null}     Data model subtype.
    */
   getModel(value) {
-    return Object.values(this.#model.TYPES).find(a => a.metadata.type === value.type) ?? null;
+    if (this.#model.metadata?.typed === false) return this.#model;
+    return this.#model.TYPES[value.type] ?? null;
   }
 
   /* -------------------------------------------------- */

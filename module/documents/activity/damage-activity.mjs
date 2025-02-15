@@ -1,6 +1,7 @@
 import BaseActivity from "./base-activity.mjs";
 import ChatMessageArtichron from "../chat-message.mjs";
-import DamagesField from "../fields/damages-field.mjs";
+import CollectionField from "../fields/collection-field.mjs";
+import DamageFormulaModel from "../fields/damage-formula-model.mjs";
 
 const { NumberField, SchemaField, StringField } = foundry.data.fields;
 
@@ -35,7 +36,7 @@ export default class DamageActivity extends BaseActivity {
   /** @inheritdoc */
   static defineSchema() {
     return Object.assign(super.defineSchema(), {
-      damage: new DamagesField(),
+      damage: new CollectionField(DamageFormulaModel),
       target: targetField(),
     });
   }
@@ -136,6 +137,30 @@ export default class DamageActivity extends BaseActivity {
     ChatMessageArtichron.applyRollMode(messageData, configuration.usage.rollMode.mode);
     foundry.utils.mergeObject(messageData, configuration.message);
     return ChatMessageArtichron.create(messageData);
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Create a new damage part.
+   * @param {object} [data]     Damage part data.
+   * @returns {Promise}
+   */
+  async createDamage(data = {}) {
+    const id = foundry.utils.randomID();
+    const path = `damage.${id}`;
+    return this.update({ [path]: { ...data, _id: id } });
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Delete a damage part.
+   * @param {string} id     The id of the damage part.
+   * @returns {Promise}
+   */
+  async deleteDamage(id) {
+    return this.damage.get(id).delete();
   }
 
   /* -------------------------------------------------- */
