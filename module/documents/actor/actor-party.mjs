@@ -1,5 +1,6 @@
 import ActorSystemModel from "./system-model.mjs";
-import ClocksField from "../fields/clocks-field.mjs";
+import Clock from "../fields/clocks-field.mjs";
+import CollectionField from "../fields/collection-field.mjs";
 import PartyDistributionDialog from "../../applications/actor/party-distribution-dialog.mjs";
 
 const {
@@ -26,7 +27,7 @@ export default class PartyData extends ActorSystemModel {
       actor: new ForeignDocumentField(foundry.documents.BaseActor),
     }));
 
-    schema.clocks = new ClocksField();
+    schema.clocks = new CollectionField(Clock);
 
     schema.points = new SchemaField({
       value: new NumberField({ min: 0, integer: true }),
