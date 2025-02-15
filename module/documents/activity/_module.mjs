@@ -5,6 +5,14 @@ import EffectActivity from "./effect-activity.mjs";
 import HealingActivity from "./healing-activity.mjs";
 import TeleportActivity from "./teleport-activity.mjs";
 
+BaseActivity.TYPES = {
+  [DamageActivity.metadata.type]: DamageActivity,
+  [DefendActivity.metadata.type]: DefendActivity,
+  [EffectActivity.metadata.type]: EffectActivity,
+  [HealingActivity.metadata.type]: HealingActivity,
+  [TeleportActivity.metadata.type]: TeleportActivity,
+};
+
 export default {
   BaseActivity,
   DamageActivity,

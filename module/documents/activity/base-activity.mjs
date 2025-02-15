@@ -9,7 +9,10 @@ import ChatMessageArtichron from "../chat-message.mjs";
  * @property {string} icon                Default icon of this activity type.
  */
 
-const { BooleanField, FilePathField, HTMLField, NumberField, SchemaField, StringField } = foundry.data.fields;
+const {
+  BooleanField, DocumentIdField, FilePathField, HTMLField,
+  NumberField, SchemaField, StringField,
+} = foundry.data.fields;
 
 export default class BaseActivity extends foundry.abstract.DataModel {
   /**
@@ -21,6 +24,14 @@ export default class BaseActivity extends foundry.abstract.DataModel {
     label: "",
     icon: "systems/artichron/assets/icons/activity.svg",
   });
+
+  /* -------------------------------------------------- */
+
+  /**
+   * The activity subtypes.
+   * @type {Record<string, typeof BaseActivity>}
+   */
+  static TYPES = {};
 
   /* -------------------------------------------------- */
 
@@ -40,12 +51,7 @@ export default class BaseActivity extends foundry.abstract.DataModel {
   /** @inheritdoc */
   static defineSchema() {
     return {
-      _id: new StringField({
-        initial: () => foundry.utils.randomID(),
-        required: true,
-        blank: false,
-        readonly: true,
-      }),
+      _id: new DocumentIdField({ initial: () => foundry.utils.randomID() }),
       type: new StringField({
         initial: () => this.metadata.type,
         required: true,

@@ -1,5 +1,6 @@
 import ActivitySelectDialog from "../../applications/item/activity-select-dialog.mjs";
-import ActivitiesField from "../fields/activity-field.mjs";
+import BaseActivity from "../activity/base-activity.mjs";
+import CollectionField from "../fields/collection-field.mjs";
 import ConditionLevelsField from "../fields/condition-levels-field.mjs";
 import IdentifierField from "../fields/identifier-field.mjs";
 
@@ -44,7 +45,7 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
       price: new SchemaField({
         value: new NumberField({ min: 0, initial: 0, integer: true, nullable: false }),
       }),
-      activities: new ActivitiesField(),
+      activities: new CollectionField(BaseActivity),
       attributes: new SchemaField({
         value: new SetField(new StringField({
           choices: () => this._attributeChoices(),

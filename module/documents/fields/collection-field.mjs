@@ -1,37 +1,52 @@
-import BaseActivity from "../activity/base-activity.mjs";
-import MappingField from "./mapping-field.mjs";
-
-export default class ActivitiesField extends MappingField {
-  constructor(options) {
-    super(new ActivityField(), options);
+export default class CollectionField extends foundry.data.fields.TypedObjectField {
+  constructor(model, options = {}) {
+    const field = new _CollectionField(model);
+    super(field, options);
   }
 
   /* -------------------------------------------------- */
 
   /** @inheritdoc */
-  initialize(value, model, options) {
-    return new ActivityCollection(model, super.initialize(value, model, options));
+  initialize(value, model, options = {}) {
+    const activities = new ModelCollection();
+    for (const [k, v] of Object.entries(value)) {
+      v._id = k;
+      const init = this.element.initialize(v, model, options);
+      activities.set(k, init);
+    }
+    return activities;
   }
 }
 
 /* -------------------------------------------------- */
 
 /**
- * Field that stores activity data and swaps class based on activity type.
+ * Field that stores data model data and swaps class based on subtype.
  */
-class ActivityField extends foundry.data.fields.ObjectField {
+class _CollectionField extends foundry.data.fields.ObjectField {
+  constructor(model, options = {}, { name, parent } = {}) {
+    super(options, { name, parent });
+    this.#model = model;
+  }
+
+  /* -------------------------------------------------- */
+
+  #model = null;
+
+  /* -------------------------------------------------- */
+
   /** @override */
   static recursive = true;
 
   /* -------------------------------------------------- */
 
   /**
-   * Get the document type for this activity.
-   * @param {object} value            Activity data being prepared.
-   * @returns {typeof Activity|null}  Activity document type.
+   * Get the document type for this data model.
+   * @param {object} value                Data being prepared.
+   * @returns {typeof DataModel|null}     Data model subtype.
    */
   getModel(value) {
-    return Object.values(artichron.activities).find(a => a.metadata.type === value.type) ?? null;
+    return Object.values(this.#model.TYPES).find(a => a.metadata.type === value.type) ?? null;
   }
 
   /* -------------------------------------------------- */
@@ -70,34 +85,17 @@ class ActivityField extends foundry.data.fields.ObjectField {
 /* -------------------------------------------------- */
 
 /**
- * Specialized collection type for stored activities.
- * @param {DataModel} model                   The parent DataModel to which this ActivityCollection belongs.
- * @param {Record<string, Activity>} entries  Object containing the activities to store.
+ * Specialized collection type for stored data models.
+ * @param {DataModel} model                   The parent DataModel to which this collection belongs.
+ * @param {Array<string, DataModel>} entries   Array containing the data models to store.
  */
-class ActivityCollection extends foundry.utils.Collection {
-  constructor(model, entries) {
-    super();
-    this.#model = model;
-    for (const [id, entry] of Object.entries(entries)) {
-      if (!(entry instanceof BaseActivity)) continue;
-      this.set(id, entry);
-    }
-  }
-
+class ModelCollection extends foundry.utils.Collection {
   /* -------------------------------------------------- */
   /*  Properties                                        */
   /* -------------------------------------------------- */
 
   /**
-   * The parent DataModel to which this ActivityCollection belongs.
-   * @type {DataModel}
-   */
-  #model;
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Pre-organized arrays of activities by type.
+   * Pre-organized arrays of data models by type.
    * @type {Map<string, Set<string>>}
    */
   #types = new Map();
@@ -107,9 +105,9 @@ class ActivityCollection extends foundry.utils.Collection {
   /* -------------------------------------------------- */
 
   /**
-   * Fetch an array of activities of a certain type.
-   * @param {string} type  Activity type.
-   * @returns {Activity[]}
+   * Fetch an array of data models of a certain type.
+   * @param {string} type     Subtype.
+   * @returns {DataModel[]}
    */
   getByType(type) {
     return Array.from(this.#types.get(type) ?? []).map(key => this.get(key));
@@ -136,7 +134,7 @@ class ActivityCollection extends foundry.utils.Collection {
 
   /**
    * Test the given predicate against every entry in the Collection.
-   * @param {function(*, number, ActivityCollection): boolean} predicate  The predicate.
+   * @param {function(*, number, ModelCollection): boolean} predicate     The predicate.
    * @returns {boolean}
    */
   every(predicate) {
@@ -146,9 +144,9 @@ class ActivityCollection extends foundry.utils.Collection {
   /* -------------------------------------------------- */
 
   /**
-   * Convert the ActivityCollection to an array of simple objects.
-   * @param {boolean} [source=true]  Draw data for contained Documents from the underlying data source?
-   * @returns {object[]}             The extracted array of primitive objects.
+   * Convert the ModelCollection to an array of simple objects.
+   * @param {boolean} [source=true]     Draw data for contained Documents from the underlying data source?
+   * @returns {object[]}                The extracted array of primitive objects.
    */
   toObject(source = true) {
     return this.map(doc => doc.toObject(source));
