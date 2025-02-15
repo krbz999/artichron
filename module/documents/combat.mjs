@@ -225,7 +225,6 @@ export default class CombatArtichron extends Combat {
     }).join("");
 
     const uuids = await foundry.applications.api.DialogV2.prompt({
-      rejectClose: false,
       modal: true,
       content: content,
       window: {

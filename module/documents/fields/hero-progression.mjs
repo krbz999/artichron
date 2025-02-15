@@ -134,7 +134,6 @@ class ProgressionPoolData extends ProgressionData {
     return foundry.applications.api.DialogV2.prompt({
       content: content,
       modal: true,
-      rejectClose: false,
       window: {
         title: game.i18n.format("ARTICHRON.ProgressionDialog.PoolTitle", { name: actor.name }),
         icon: "fa-solid fa-arrow-trend-up",
@@ -231,7 +230,6 @@ class ProgressionSkillData extends ProgressionData {
     return foundry.applications.api.DialogV2.prompt({
       content: content,
       modal: true,
-      rejectClose: false,
       window: {
         title: game.i18n.format("ARTICHRON.ProgressionDialog.SkillTitle", { name: actor.name }),
         icon: "fa-solid fa-arrow-trend-up",

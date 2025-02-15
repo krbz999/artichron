@@ -242,7 +242,6 @@ export default class CreatureData extends ActorSystemModel {
 
     const value = await foundry.applications.api.DialogV2.wait({
       buttons: buttons,
-      rejectClose: false,
       content: content ? `<fieldset>${content}</fieldset>` : undefined,
       classes: ["artichron", "equip"],
       modal: true,

@@ -410,7 +410,6 @@ export default class ActorArtichron extends Actor {
 
     const prompt = await foundry.applications.api.DialogV2.prompt({
       content: content,
-      rejectClose: false,
       modal: true,
       render: render,
       window: {
@@ -660,7 +659,6 @@ export default class ActorArtichron extends Actor {
     foundry.applications.api.DialogV2.prompt({
       content: `<fieldset>${content.outerHTML}</fieldset>`,
       modal: true,
-      rejectClose: false,
       window: { title: field.label, icon: "fa-solid fa-circle" },
       position: { width: 400, height: "auto" },
       ok: {

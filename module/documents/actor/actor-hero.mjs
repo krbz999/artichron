@@ -184,7 +184,6 @@ export default class HeroData extends CreatureData {
           hint: "ARTICHRON.ProgressionDialog.TypeHint",
         }).toFormGroup({ localize: true }, { name: "type" }).outerHTML,
         ok: { callback: (event, button) => button.form.elements.type.value },
-        rejectClose: false,
         window: {
           title: game.i18n.format("ARTICHRON.ProgressionDialog.Title", { name: this.parent.name }),
           icon: "fa-solid fa-arrow-trend-up",
@@ -273,7 +272,6 @@ export default class HeroData extends CreatureData {
         callback: (event, button, html) => button.form.elements.amount.valueAsNumber,
       },
       modal: true,
-      rejectClose: false,
     });
     if (!amount) return null;
 
@@ -316,7 +314,6 @@ export default class HeroData extends CreatureData {
     if (!base || !second || !(new Set([base, second]).isSubset(new Set(Object.keys(CONFIG.SYSTEM.SKILLS))))) {
       const prompt = await foundry.applications.api.DialogV2.prompt({
         content: await renderTemplate("systems/artichron/templates/actor/skill-dialog.hbs", { skills: skills }),
-        rejectClose: false,
         modal: true,
         window: {
           title: game.i18n.format("ARTICHRON.SkillsDialog.Title", { name: this.parent.name }),

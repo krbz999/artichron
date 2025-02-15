@@ -82,7 +82,6 @@ const FusionTemplateMixin = Base => {
         hint: "ARTICHRON.ItemFusionDialog.SplitHint",
       }).toFormGroup({ localize: true }, { name: "effectId" }).outerHTML;
       const id = await foundry.applications.api.DialogV2.prompt({
-        rejectClose: false,
         modal: true,
         content: `<fieldset>${field}</fieldset>`,
         ok: {

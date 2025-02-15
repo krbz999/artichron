@@ -336,7 +336,6 @@ export default class MonsterSheet extends ActorSheetArtichron {
 
     const confirm = await foundry.applications.api.DialogV2.confirm({
       modal: true,
-      rejectClose: false,
       content: game.i18n.format("ARTICHRON.LootDialog.Content", { name: this.document.name }),
       window: {
         title: game.i18n.format("ARTICHRON.LootDialog.Title", { name: this.document.name }),

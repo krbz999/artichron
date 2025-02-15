@@ -191,7 +191,6 @@ async function _onDropItem(event) {
       icon: "fa-solid fa-arrows-turn-to-dots",
     },
     content: `<fieldset>${fields.join("")}</fieldset>`,
-    rejectClose: false,
     ok: {
       label: "ARTICHRON.TradeDialog.button.label",
       callback: (event, button) => new FormDataExtended(button.form).object,
