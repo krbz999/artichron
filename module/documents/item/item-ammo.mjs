@@ -1,6 +1,6 @@
 import ItemSystemModel from "./system-model.mjs";
 
-const {NumberField, SchemaField, StringField} = foundry.data.fields;
+const { NumberField, SchemaField, StringField } = foundry.data.fields;
 
 export default class AmmunitionData extends ItemSystemModel {
   /**
@@ -11,8 +11,8 @@ export default class AmmunitionData extends ItemSystemModel {
     defaultWeight: 0.1,
     inventorySection: "consumables",
     order: 60,
-    type: "ammo"
-  }, {inplace: false}));
+    type: "ammo",
+  }, { inplace: false }));
 
   /* -------------------------------------------------- */
 
@@ -21,27 +21,27 @@ export default class AmmunitionData extends ItemSystemModel {
     return {
       ...super.defineSchema(),
       quantity: new SchemaField({
-        value: new NumberField({initial: 1, min: 0, integer: true, nullable: false})
+        value: new NumberField({ initial: 1, min: 0, integer: true, nullable: false }),
       }),
       category: new SchemaField({
         subtype: new StringField({
           required: true,
           initial: () => Object.keys(CONFIG.SYSTEM.AMMUNITION_TYPES)[0],
-          choices: CONFIG.SYSTEM.AMMUNITION_TYPES
-        })
+          choices: CONFIG.SYSTEM.AMMUNITION_TYPES,
+        }),
       }),
       override: new SchemaField({ // TODO: add this to ammo sheet and fix it up
         group: new StringField({
           required: true,
           blank: true,
-          choices: {all: {label: "All"}, ...CONFIG.SYSTEM.DAMAGE_TYPE_GROUPS}
+          choices: { all: { label: "All" }, ...CONFIG.SYSTEM.DAMAGE_TYPE_GROUPS },
         }),
         value: new StringField({
           required: true,
           choices: CONFIG.SYSTEM.DAMAGE_TYPES,
-          initial: "fire"
-        })
-      })
+          initial: "fire",
+        }),
+      }),
     };
   }
 
@@ -50,7 +50,7 @@ export default class AmmunitionData extends ItemSystemModel {
   /** @override */
   static LOCALIZATION_PREFIXES = [
     ...super.LOCALIZATION_PREFIXES,
-    "ARTICHRON.ITEM.AMMO"
+    "ARTICHRON.ITEM.AMMO",
   ];
 
   /* -------------------------------------------------- */

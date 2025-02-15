@@ -18,7 +18,7 @@ export default class ActiveEffectArtichron extends ActiveEffect {
     else if (field instanceof foundry.data.fields.SetField) {
       const set = foundry.utils.getProperty(model, change.key);
       const values = change.value.matchAll(/(?<remove>-)?(?<key>[a-zA-Z]+)/g);
-      for (const {groups: {remove, key}} of values) {
+      for (const { groups: { remove, key } } of values) {
         if (remove) set.delete(key);
         else set.add(key);
       }
@@ -54,7 +54,7 @@ export default class ActiveEffectArtichron extends ActiveEffect {
     try {
       const parsed = JSON.parse(change.value);
       const cls = Object.values(artichron.activities).find(a => a.metadata.type === parsed.type);
-      const inst = new cls(parsed, {parent: document.system});
+      const inst = new cls(parsed, { parent: document.system });
       document.system.activities.set(inst.id, inst);
     } catch (err) {
       console.warn(err);
@@ -68,9 +68,9 @@ export default class ActiveEffectArtichron extends ActiveEffect {
   static async _fromStatusEffect(statusId, effectData, options) {
     foundry.utils.mergeObject(effectData, {
       type: "condition",
-      "system.primary": statusId
+      "system.primary": statusId,
     });
-    const {reference, levels} = CONFIG.SYSTEM.STATUS_CONDITIONS[statusId];
+    const { reference, levels } = CONFIG.SYSTEM.STATUS_CONDITIONS[statusId];
     if (reference) effectData.description = `@Embed[${reference} caption=false cite=false inline]`;
     if (levels > 0) effectData.system.level = 1;
     return new this(effectData, options);
@@ -135,7 +135,7 @@ export default class ActiveEffectArtichron extends ActiveEffect {
         fontSize: 28,
         stroke: 0x000000,
         strokeThickness: 4,
-        jitter: 0.25
+        jitter: 0.25,
       });
     }
   }

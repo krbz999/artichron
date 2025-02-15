@@ -1,6 +1,6 @@
 import ActiveEffectSystemModel from "./system-model.mjs";
 
-const {JSONField, StringField} = foundry.data.fields;
+const { JSONField, StringField } = foundry.data.fields;
 
 /**
  * System data for "Fusions".
@@ -14,7 +14,7 @@ export default class EffectFusionData extends ActiveEffectSystemModel {
    * @type {import("../../helpers/types.mjs").ActiveEffectSystemModelMetadata}
    */
   static metadata = Object.freeze({
-    type: "fusion"
+    type: "fusion",
   });
 
   /* -------------------------------------------------- */
@@ -30,8 +30,8 @@ export default class EffectFusionData extends ActiveEffectSystemModel {
           const choices = foundry.utils.deepClone(CONFIG.Item.typeLabels);
           delete choices.base;
           return choices;
-        }
-      })
+        },
+      }),
     };
   }
 
@@ -79,7 +79,7 @@ export default class EffectFusionData extends ActiveEffectSystemModel {
     const isActor = this.parent.parent.documentName === "Actor";
     const invalidItem = (this.parent.parent.documentName === "Item") && !this.parent.parent.canFuse;
     if (isActor || invalidItem) {
-      ui.notifications.warn("ARTICHRON.Warning.InvalidActiveEffectType", {localize: true});
+      ui.notifications.warn("ARTICHRON.Warning.InvalidActiveEffectType", { localize: true });
       return false;
     }
   }
@@ -103,7 +103,7 @@ export default class EffectFusionData extends ActiveEffectSystemModel {
   /** @override */
   getRollData() {
     const data = {
-      fusion: {...this.itemData?.system ?? {}}
+      fusion: { ...this.itemData?.system ?? {} },
     };
     data.fusion.name = this.itemData?.name ?? "";
     return data;
@@ -117,7 +117,7 @@ export default class EffectFusionData extends ActiveEffectSystemModel {
    * @param {boolean} [options.keepId]      Restore the item with its original id?
    * @returns {Promise<ItemArtichron|null>}
    */
-  async unfuse({keepId = true} = {}) {
+  async unfuse({ keepId = true } = {}) {
     if (!this.isActiveFusion) {
       throw new Error("This is not an active fusion.");
     }
@@ -135,7 +135,7 @@ export default class EffectFusionData extends ActiveEffectSystemModel {
     else if (game.items.has(this.itemData._id)) keepId = false;
 
     await this.parent.delete();
-    return getDocumentClass("Item").create(this.itemData, {pack, parent: actor, keepId});
+    return getDocumentClass("Item").create(this.itemData, { pack, parent: actor, keepId });
   }
 
   /* -------------------------------------------------- */
@@ -154,13 +154,13 @@ export default class EffectFusionData extends ActiveEffectSystemModel {
       window: {
         title: game.i18n.format("ARTICHRON.ItemFusionDialog.UnfuseTitle", {
           source: this.itemData.name,
-          target: this.parent.parent.name
+          target: this.parent.parent.name,
         }),
-        icon: "fa-solid fa-volcano"
+        icon: "fa-solid fa-volcano",
       },
-      yes: {icon: "fa-solid fa-bolt"},
+      yes: { icon: "fa-solid fa-bolt" },
       rejectClose: false,
-      modal: true
+      modal: true,
     });
 
     if (!confirm) return null;
@@ -178,8 +178,8 @@ export default class EffectFusionData extends ActiveEffectSystemModel {
    * @param {string} change.value     The new value of the property.
    * @returns {string}                A human-readable label.
    */
-  static translateChange({key, mode, value}) {
-    const formatter = game.i18n.getListFormatter({style: "long", type: "conjunction"});
+  static translateChange({ key, mode, value }) {
+    const formatter = game.i18n.getListFormatter({ style: "long", type: "conjunction" });
 
     // Special case: attributes
     if (key === "system.attributes.value") {

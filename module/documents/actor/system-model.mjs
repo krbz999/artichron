@@ -1,12 +1,12 @@
-const {NumberField, SchemaField} = foundry.data.fields;
+const { NumberField, SchemaField } = foundry.data.fields;
 
 export default class ActorSystemModel extends foundry.abstract.TypeDataModel {
   /** @override */
   static defineSchema() {
     return {
       currency: new SchemaField({
-        funds: new NumberField({integer: true, min: 0, initial: 0, nullable: false})
-      })
+        funds: new NumberField({ integer: true, min: 0, initial: 0, nullable: false }),
+      }),
     };
   }
 
@@ -34,7 +34,7 @@ export default class ActorSystemModel extends foundry.abstract.TypeDataModel {
    * @returns {object}
    */
   getRollData() {
-    return {...this};
+    return { ...this };
   }
 
   /* -------------------------------------------------- */

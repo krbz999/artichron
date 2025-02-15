@@ -1,5 +1,5 @@
-export {default as simplifyRollFormula} from "./simplify-formula.mjs";
-export {default as sockets} from "./sockets.mjs";
+export { default as simplifyRollFormula } from "./simplify-formula.mjs";
+export { default as sockets } from "./sockets.mjs";
 
 /**
  * Create a unique id for a status condition.
@@ -24,7 +24,7 @@ export function simplifyBonus(formula, data = {}) {
   if (Number.isNumeric(formula)) return Number(formula);
   try {
     const roll = Roll.create(formula, data);
-    return roll.evaluateSync({strict: false}).total;
+    return roll.evaluateSync({ strict: false }).total;
   } catch (error) {
     console.error(error);
     return 0;
@@ -94,7 +94,7 @@ async function toggleEffect(name) {
   }
 
   if (!effect) return;
-  effect.update({disabled: !effect.disabled});
+  effect.update({ disabled: !effect.disabled });
 }
 
 /* -------------------------------------------------- */
@@ -109,12 +109,12 @@ async function useItem(name, event) {
   if (!actor) return;
   const item = actor.items.find(item => item._source.name === name);
   if (!item) return;
-  item.use({}, {event: event}, {});
+  item.use({}, { event: event }, {});
 }
 
 export const macro = {
   toggleEffect,
-  useItem
+  useItem,
 };
 
 /* -------------------------------------------------- */
@@ -134,7 +134,7 @@ export function getOccupiedGridSpaces(token) {
   const offset = (canvas.grid.type === CONST.GRID_TYPES.GRIDLESS) ? canvas.dimensions.size / 2 : 0;
   for (let x = i; x < i1; x += delta) {
     for (let y = j; y < j1; y += delta) {
-      const point = canvas.grid.getCenterPoint({i: x + offset, j: y + offset});
+      const point = canvas.grid.getCenterPoint({ i: x + offset, j: y + offset });
       if (shape.contains(point.x - token.document.x, point.y - token.document.y)) points.push(point);
     }
   }
@@ -190,7 +190,7 @@ export function createRestrictedCircle(token, size, restrictions = {}) {
 
   let sweep = ClockwiseSweepPolygon.create(token.center, {
     radius: radius,
-    hasLimitedRadius: hasLimitedRadius
+    hasLimitedRadius: hasLimitedRadius,
   });
 
   for (const type of CONST.WALL_RESTRICTION_TYPES) {
@@ -199,7 +199,7 @@ export function createRestrictedCircle(token, size, restrictions = {}) {
       radius: radius,
       type: type,
       hasLimitedRadius: hasLimitedRadius,
-      useThreshold: type !== "move"
+      useThreshold: type !== "move",
     }));
   }
   return sweep;
@@ -219,7 +219,7 @@ export function createRestrictedRect(token, size, restrictions = {}) {
   const rectangles = (size > 0) ? [createRect(token, size)] : [];
 
   let sweep = ClockwiseSweepPolygon.create(token.center, {
-    boundaryShapes: rectangles
+    boundaryShapes: rectangles,
   });
 
   for (const type of CONST.WALL_RESTRICTION_TYPES) {
@@ -227,7 +227,7 @@ export function createRestrictedRect(token, size, restrictions = {}) {
     sweep = sweep.applyConstraint(ClockwiseSweepPolygon.create(token.center, {
       type: type,
       boundaryShapes: rectangles,
-      useThreshold: type !== "move"
+      useThreshold: type !== "move",
     }));
   }
   return sweep;
@@ -254,16 +254,16 @@ export function findTokensCircle(token, size, restrictions = {}) {
     if (!circular) return token.bounds.toPolygon();
     return ClockwiseSweepPolygon.create(token.center, {
       radius: token.w / 2,
-      hasLimitedRadius: true
+      hasLimitedRadius: true,
     });
   };
 
   const sweep = createRestrictedCircle(token, size, restrictions);
   const tokens = canvas.tokens.quadtree.getObjects(sweep.bounds, {
-    collisionTest: ({t}) => {
+    collisionTest: ({ t }) => {
       const intersection = sweep.intersectPolygon(tokenArea(t));
       return intersection.signedArea() >= limit;
-    }
+    },
   });
   return Array.from(tokens);
 }
@@ -282,11 +282,11 @@ export function findTokensRect(token, size, restrictions = {}) {
   const sweep = createRestrictedRect(token, size, restrictions);
   const rect = createRect(token, size);
   const tokens = canvas.tokens.quadtree.getObjects(rect, {
-    collisionTest: ({t}) => {
+    collisionTest: ({ t }) => {
       if (t.id === token.id) return false;
       const centers = getOccupiedGridSpaces(t.document);
       return centers.some(c => sweep.contains(c.x, c.y));
-    }
+    },
   });
   return Array.from(tokens);
 }
@@ -302,7 +302,7 @@ export function findTokensRect(token, size, restrictions = {}) {
  */
 export function createRect(token, size) {
   const spaces = size / canvas.dimensions.distance;
-  const {x, y, width} = token.document;
+  const { x, y, width } = token.document;
   const x0 = x - spaces * canvas.grid.size;
   const y0 = y - spaces * canvas.grid.size;
   const dist = (width + 2 * spaces) * canvas.grid.size;
@@ -328,15 +328,15 @@ export function tokensInTemplate(template) {
     if (!circular) return token.bounds.toPolygon();
     return ClockwiseSweepPolygon.create(token.center, {
       radius: token.w / 2,
-      hasLimitedRadius: true
+      hasLimitedRadius: true,
     });
   };
 
   const tokens = canvas.tokens.quadtree.getObjects(shape.getBounds(), {
-    collisionTest: ({t: token}) => {
+    collisionTest: ({ t: token }) => {
       const intersection = shape.intersectPolygon(tokenArea(token));
       return intersection.signedArea() >= limit;
-    }
+    },
   });
 
   return tokens;
@@ -354,7 +354,7 @@ export function tokensInTemplate(template) {
  * @param {boolean} [options.allowPreTarget]        Are initial targets allowed to be used?
  * @returns {Promise<TokenDocumentArtichron[]>}     The token documents of those targeted.
  */
-export async function awaitTargets(count, {origin, range, allowPreTarget = false} = {}) {
+export async function awaitTargets(count, { origin, range, allowPreTarget = false } = {}) {
   game.user._targeting = true;
   const useRange = !!origin && Number.isInteger(range) && (range > 0);
 
@@ -364,7 +364,7 @@ export async function awaitTargets(count, {origin, range, allowPreTarget = false
   const bar = (v) => {
     const label = !count ? "" : `Pick ${count} targets (${v}/${count})`;
     const pct = !count ? 100 : (v / count * 100).toNearest(0.1);
-    SceneNavigation.displayProgressBar({label: label, pct: pct});
+    SceneNavigation.displayProgressBar({ label: label, pct: pct });
   };
 
   const isValidTokenTarget = (t) => {
@@ -394,7 +394,7 @@ export async function awaitTargets(count, {origin, range, allowPreTarget = false
 
     let c;
     if (useRange) {
-      const points = canvas.grid.getCircle({x: 0, y: 0}, range).reduce((acc, p) => acc.concat(Object.values(p)), []);
+      const points = canvas.grid.getCircle({ x: 0, y: 0 }, range).reduce((acc, p) => acc.concat(Object.values(p)), []);
       // const shape = CONFIG.Canvas.polygonBackends.move.create(center, {
       //   type: "move",
       //   boundaryShapes: [new PIXI.Polygon(points)],
@@ -402,7 +402,7 @@ export async function awaitTargets(count, {origin, range, allowPreTarget = false
       // });
 
       c = new PIXI.Graphics();
-      c.lineStyle({width: 4, color: 0x000000, alpha: 1});
+      c.lineStyle({ width: 4, color: 0x000000, alpha: 1 });
       c.drawShape(new PIXI.Polygon(points));
       c.pivot.set(-(origin.center.x - origin.document.x), -(origin.center.y - origin.document.y));
       origin.addChild(c);
@@ -517,7 +517,7 @@ export function romanize(number) {
   const key = [
     "", "C", "CC", "CCC", "CD", "D", "DC", "DCC", "DCCC", "CM",
     "", "X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC",
-    "", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX"
+    "", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX",
   ];
   let roman = "";
   let i = 3;

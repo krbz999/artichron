@@ -3,5 +3,5 @@ import RollArtichron from "./roll.mjs";
 
 export default {
   DamageRoll,
-  RollArtichron
+  RollArtichron,
 };

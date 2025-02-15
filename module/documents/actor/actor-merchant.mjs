@@ -2,7 +2,7 @@ import ActorArtichron from "../actor.mjs";
 import ItemArtichron from "../item.mjs";
 import ActorSystemModel from "./system-model.mjs";
 
-const {HTMLField, SchemaField, StringField} = foundry.data.fields;
+const { HTMLField, SchemaField, StringField } = foundry.data.fields;
 
 export default class MerchantData extends ActorSystemModel {
   /**
@@ -10,7 +10,7 @@ export default class MerchantData extends ActorSystemModel {
    * @type {import("../../helpers/types.mjs").ActorSystemModelMetadata}
    */
   static metadata = Object.freeze({
-    type: "merchant"
+    type: "merchant",
   });
 
   /* -------------------------------------------------- */
@@ -18,10 +18,10 @@ export default class MerchantData extends ActorSystemModel {
   /** @override */
   static defineSchema() {
     return Object.assign(super.defineSchema(), {
-      shop: new StringField({required: true}),
+      shop: new StringField({ required: true }),
       biography: new SchemaField({
-        value: new HTMLField({required: true})
-      })
+        value: new HTMLField({ required: true }),
+      }),
     });
   }
 
@@ -86,7 +86,7 @@ export default class MerchantData extends ActorSystemModel {
 
     const itemData = Array.from(items).map(item => game.items.fromCompendium(item));
     const created = await party.createEmbeddedDocuments("Item", itemData);
-    await party.update({"system.currency.funds": funds - total});
+    await party.update({ "system.currency.funds": funds - total });
     await this.parent.deleteEmbeddedDocuments("Item", Array.from(items).map(item => item.id));
     await this.parent.setFlag("artichron", "stagedItems", []);
 
@@ -109,12 +109,12 @@ export default class MerchantData extends ActorSystemModel {
       name: party.name,
       total: total,
       items: items,
-      shop: this.parent.system.shop || this.parent.name
+      shop: this.parent.system.shop || this.parent.name,
     };
     const content = await renderTemplate(template, context);
     ChatMessage.implementation.create({
       content: content,
-      speaker: ChatMessage.implementation.getSpeaker({actor: this.parent})
+      speaker: ChatMessage.implementation.getSpeaker({ actor: this.parent }),
     });
   }
 

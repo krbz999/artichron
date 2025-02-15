@@ -7,5 +7,5 @@ export default {
   BuffData,
   ConditionData,
   EnhancementData,
-  FusionData
+  FusionData,
 };

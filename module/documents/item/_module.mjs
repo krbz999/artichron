@@ -13,5 +13,5 @@ export default {
   SpellData,
   WeaponData,
   ElixirData,
-  PartData
+  PartData,
 };

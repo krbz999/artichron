@@ -4,57 +4,57 @@ export default class MonsterSheet extends ActorSheetArtichron {
   /** @override */
   static DEFAULT_OPTIONS = {
     classes: ["monster"],
-    position: {width: 400},
+    position: { width: 400 },
     actions: {
       changeEquipped: MonsterSheet.#onChangeEquipped,
       decreaseLoot: MonsterSheet.#onDecreaseLoot,
       grantLoot: MonsterSheet.#grantLoot,
       increaseLoot: MonsterSheet.#onIncreaseLoot,
-      removeLoot: MonsterSheet.#onRemoveLoot
-    }
+      removeLoot: MonsterSheet.#onRemoveLoot,
+    },
   };
 
   /* -------------------------------------------------- */
 
   /** @override */
   static PARTS = {
-    header: {template: "systems/artichron/templates/shared/sheet-header.hbs"},
-    health: {template: "systems/artichron/templates/actor/monster-health.hbs"},
-    tabs: {template: "systems/artichron/templates/shared/tabs.hbs"},
+    header: { template: "systems/artichron/templates/shared/sheet-header.hbs" },
+    health: { template: "systems/artichron/templates/actor/monster-health.hbs" },
+    tabs: { template: "systems/artichron/templates/shared/tabs.hbs" },
     actions: {
       template: "systems/artichron/templates/actor/monster-actions.hbs",
       templates: ["systems/artichron/templates/actor/monster-defenses.hbs"],
-      scrollable: [""]
+      scrollable: [""],
     },
     loot: {
       template: "systems/artichron/templates/actor/monster-loot.hbs",
-      scrollable: [""]
+      scrollable: [""],
     },
     about: {
       template: "systems/artichron/templates/actor/monster-about.hbs",
-      scrollable: [""]
+      scrollable: [""],
     },
     effects: {
       template: "systems/artichron/templates/shared/effects.hbs",
-      scrollable: [""]
-    }
+      scrollable: [""],
+    },
   };
 
   /* -------------------------------------------------- */
 
   /** @override */
   tabGroups = {
-    primary: "actions"
+    primary: "actions",
   };
 
   /* -------------------------------------------------- */
 
   /** @override */
   static TABS = {
-    actions: {id: "actions", group: "primary", label: "ARTICHRON.SheetLabels.Actions"},
-    loot: {id: "loot", group: "primary", label: "ARTICHRON.SheetLabels.Loot"},
-    about: {id: "about", group: "primary", label: "ARTICHRON.SheetLabels.About"},
-    effects: {id: "effects", group: "primary", label: "ARTICHRON.SheetLabels.Effects"}
+    actions: { id: "actions", group: "primary", label: "ARTICHRON.SheetLabels.Actions" },
+    loot: { id: "loot", group: "primary", label: "ARTICHRON.SheetLabels.Loot" },
+    about: { id: "about", group: "primary", label: "ARTICHRON.SheetLabels.About" },
+    effects: { id: "effects", group: "primary", label: "ARTICHRON.SheetLabels.Effects" },
   };
 
   /* -------------------------------------------------- */
@@ -74,7 +74,7 @@ export default class MonsterSheet extends ActorSheetArtichron {
       conditions: conditions,
       health: {
         src: src.system.health,
-        doc: doc.system.health
+        doc: doc.system.health,
       },
       tabs: this._getTabs(),
       isEditMode: this.isEditMode,
@@ -82,8 +82,8 @@ export default class MonsterSheet extends ActorSheetArtichron {
       isEditable: this.isEditable,
       equipment: this.#prepareEquipment(),
       compactItems: {
-        compact: this.document.flags.artichron?.compactItems ?? game.settings.get("artichron", "compactItems")
-      }
+        compact: this.document.flags.artichron?.compactItems ?? game.settings.get("artichron", "compactItems"),
+      },
     };
 
     if (context.isEditMode) {
@@ -92,8 +92,8 @@ export default class MonsterSheet extends ActorSheetArtichron {
         hint: "Toggle whether items are shown in a list or a grid.",
         choices: {
           0: "Expanded",
-          1: "Compact"
-        }
+          1: "Compact",
+        },
       });
       const value = this.document.flags.artichron?.compactItems ?? null;
       context.compactItems.field = field;
@@ -105,28 +105,28 @@ export default class MonsterSheet extends ActorSheetArtichron {
       field: doc.system.schema.getField("biography.value"),
       value: doc.system.biography.value,
       enriched: await TextEditor.enrichHTML(doc.system.biography.value, {
-        relativeTo: doc, rollData: rollData
-      })
+        relativeTo: doc, rollData: rollData,
+      }),
     };
 
     // Details.
     context.details = [{
       field: this.document.system.schema.getField("danger.value"),
-      value: (context.isEditMode ? this.document._source : this.document).system.danger.value
+      value: (context.isEditMode ? this.document._source : this.document).system.danger.value,
     }, {
       field: this.document.system.schema.getField("danger.pool.spent"),
       value: (context.isEditMode ? this.document._source : this.document).system.danger.pool.spent,
-      max: this.document.system.danger.pool.max
+      max: this.document.system.danger.pool.max,
     }, {
       field: this.document.system.schema.getField("danger.pool.max"),
-      value: (context.isEditMode ? this.document._source : this.document).system.danger.pool.max
+      value: (context.isEditMode ? this.document._source : this.document).system.danger.pool.max,
     }];
 
     const makeResistance = (key, path) => {
       const value = foundry.utils.getProperty(doc.system, path);
-      const {label, color, icon} = CONFIG.SYSTEM.DAMAGE_TYPES[key];
+      const { label, color, icon } = CONFIG.SYSTEM.DAMAGE_TYPES[key];
       context.defenses[key] = {
-        value: value, label: label, color: color, icon: icon, active: value > 0
+        value: value, label: label, color: color, icon: icon, active: value > 0,
       };
     };
     // Damage defenses.
@@ -136,8 +136,8 @@ export default class MonsterSheet extends ActorSheetArtichron {
     context.defenses = Object.values(context.defenses);
 
     // Name and img.
-    const {name, img} = context.isPlayMode ? doc : src;
-    context.header = {name, img};
+    const { name, img } = context.isPlayMode ? doc : src;
+    context.header = { name, img };
 
     // Prepare items.
     context.items = await this._prepareItems();
@@ -166,15 +166,15 @@ export default class MonsterSheet extends ActorSheetArtichron {
       const data = {
         item: item,
         enriched: expanded ? await TextEditor.enrichHTML(item.system.description.value, {
-          relativeTo: item, rollData: item.getRollData()
-        }) : null
+          relativeTo: item, rollData: item.getRollData(),
+        }) : null,
       };
 
       if (favoritedItems.has(item)) favorites.push(data);
       else items.push(data);
     }
 
-    return {favorites, items};
+    return { favorites, items };
   }
 
   /* -------------------------------------------------- */
@@ -205,7 +205,7 @@ export default class MonsterSheet extends ActorSheetArtichron {
       arms: "icons/equipment/hand/glove-ringed-cloth-brown.webp",
       legs: "icons/equipment/leg/pants-breeches-leather-brown.webp",
       accessory: "icons/equipment/neck/choker-simple-bone-fangs.webp",
-      boots: "icons/equipment/feet/boots-leather-engraved-brown.webp"
+      boots: "icons/equipment/feet/boots-leather-engraved-brown.webp",
     };
 
     const equipped = [];
@@ -213,8 +213,8 @@ export default class MonsterSheet extends ActorSheetArtichron {
     const setup = (key, item) => {
       const data = {
         active: !!item,
-        item: item ? item : {img: emptySlotIcons[key] ?? emptySlotIcons.arsenal},
-        dataset: {equipmentSlot: key, action: "changeEquipped"}
+        item: item ? item : { img: emptySlotIcons[key] ?? emptySlotIcons.arsenal },
+        dataset: { equipmentSlot: key, action: "changeEquipped" },
 
       };
       if (item) {
@@ -256,8 +256,8 @@ export default class MonsterSheet extends ActorSheetArtichron {
 
     if (partId === "health") {
       const newBar = newElement.querySelector(".health-bar");
-      const frames = [{width: `${state.healthWidth}px`}, {width: `${Math.max(newBar.offsetWidth, 0)}px`}];
-      newBar.animate(frames, {duration: 1000, easing: "ease-in-out"});
+      const frames = [{ width: `${state.healthWidth}px` }, { width: `${Math.max(newBar.offsetWidth, 0)}px` }];
+      newBar.animate(frames, { duration: 1000, easing: "ease-in-out" });
     }
   }
 
@@ -275,12 +275,12 @@ export default class MonsterSheet extends ActorSheetArtichron {
     if (foundry.utils.hasProperty(changes.actorUpdates, "system.loot")) {
       loot = foundry.utils.getProperty(changes.actorUpdates, "system.loot");
     } else {
-      loot = this.document.system.lootDrops.map(({item, quantity}) => ({uuid: item.uuid, quantity}));
+      loot = this.document.system.lootDrops.map(({ item, quantity }) => ({ uuid: item.uuid, quantity }));
     }
 
     const item = loot.find(l => l.uuid === document.uuid);
     if (item) item.quantity += document.system.quantity?.value ?? 1;
-    else loot.push({uuid: document.uuid, quantity: document.system.quantity?.value ?? 1});
+    else loot.push({ uuid: document.uuid, quantity: document.system.quantity?.value ?? 1 });
     foundry.utils.setProperty(changes.actorUpdates, "system.loot", loot);
   }
 
@@ -337,12 +337,12 @@ export default class MonsterSheet extends ActorSheetArtichron {
     const confirm = await foundry.applications.api.DialogV2.confirm({
       modal: true,
       rejectClose: false,
-      content: game.i18n.format("ARTICHRON.LootDialog.Content", {name: this.document.name}),
+      content: game.i18n.format("ARTICHRON.LootDialog.Content", { name: this.document.name }),
       window: {
-        title: game.i18n.format("ARTICHRON.LootDialog.Title", {name: this.document.name}),
-        icon: "fa-solid fa-box-open"
+        title: game.i18n.format("ARTICHRON.LootDialog.Title", { name: this.document.name }),
+        icon: "fa-solid fa-box-open",
       },
-      position: {width: 400}
+      position: { width: 400 },
     });
     if (!confirm) {
       target.disabled = false;

@@ -1,6 +1,6 @@
 import ActiveEffectSystemModel from "./system-model.mjs";
 
-const {StringField, NumberField} = foundry.data.fields;
+const { StringField, NumberField } = foundry.data.fields;
 
 /**
  * System data for 'Conditions'.
@@ -14,7 +14,7 @@ export default class EffectConditionData extends ActiveEffectSystemModel {
    * @type {import("../../helpers/types.mjs").ActiveEffectSystemModelMetadata}
    */
   static metadata = Object.freeze({
-    type: "condition"
+    type: "condition",
   });
 
   /* -------------------------------------------------- */
@@ -25,7 +25,7 @@ export default class EffectConditionData extends ActiveEffectSystemModel {
    */
   static ROUND_START = new Set([
     "bleeding",
-    "burning"
+    "burning",
   ]);
 
   /* -------------------------------------------------- */
@@ -34,8 +34,8 @@ export default class EffectConditionData extends ActiveEffectSystemModel {
   static defineSchema() {
     return {
       ...super.defineSchema(),
-      primary: new StringField({required: true, blank: false}),
-      level: new NumberField({nullable: true, initial: null, integer: true})
+      primary: new StringField({ required: true, blank: false }),
+      level: new NumberField({ nullable: true, initial: null, integer: true }),
     };
   }
 
@@ -91,7 +91,7 @@ export default class EffectConditionData extends ActiveEffectSystemModel {
     hint.classList.add("hint");
     hint.textContent = game.i18n.format(`ARTICHRON.CONDITIONS.FIELDS.${this.primary}.effect`, {
       actor: this.parent.parent.name,
-      level: this.level
+      level: this.level,
     });
     fg.appendChild(hint);
 
@@ -112,8 +112,8 @@ export default class EffectConditionData extends ActiveEffectSystemModel {
     const diff = Math.min(max, this.level + levels) - this.level;
     await this.parent.update({
       "system.level": Math.min(max, this.level + levels),
-      disabled: false
-    }, {statusLevelDifference: disabled ? undefined : diff});
+      disabled: false,
+    }, { statusLevelDifference: disabled ? undefined : diff });
   }
 
   /* -------------------------------------------------- */
@@ -128,8 +128,8 @@ export default class EffectConditionData extends ActiveEffectSystemModel {
     const diff = (this.level - 1) - this.level;
     await this.parent.update({
       "system.level": this.level - 1,
-      disabled: false
-    }, {statusLevelDifference: disabled ? undefined : diff});
+      disabled: false,
+    }, { statusLevelDifference: disabled ? undefined : diff });
   }
 
   /* -------------------------------------------------- */
@@ -155,18 +155,18 @@ export default class EffectConditionData extends ActiveEffectSystemModel {
     const actor = this.parent.parent;
     const formula = "(@level)d12";
     const type = "fire";
-    const roll = new CONFIG.Dice.DamageRoll(formula, {level: this.level}, {type: type});
+    const roll = new CONFIG.Dice.DamageRoll(formula, { level: this.level }, { type: type });
     await roll.toMessage({
-      flavor: game.i18n.format("ARTICHRON.CONDITIONS.FIELDS.burning.flavor", {actor: actor.name}),
-      sound: null
+      flavor: game.i18n.format("ARTICHRON.CONDITIONS.FIELDS.burning.flavor", { actor: actor.name }),
+      sound: null,
     });
     return actor.applyDamage([{
       type: type,
       value: roll.total,
       options: {
         undefendable: true,
-        irreducible: true
-      }
+        irreducible: true,
+      },
     }]);
   }
 
@@ -180,18 +180,18 @@ export default class EffectConditionData extends ActiveEffectSystemModel {
     const actor = this.parent.parent;
     const formula = "(@level)d6";
     const type = "physical";
-    const roll = new CONFIG.Dice.DamageRoll(formula, {level: this.level}, {type: type});
+    const roll = new CONFIG.Dice.DamageRoll(formula, { level: this.level }, { type: type });
     await roll.toMessage({
-      flavor: game.i18n.format("ARTICHRON.CONDITIONS.FIELDS.bleeding.flavor", {actor: actor.name}),
-      sound: null
+      flavor: game.i18n.format("ARTICHRON.CONDITIONS.FIELDS.bleeding.flavor", { actor: actor.name }),
+      sound: null,
     });
     return actor.applyDamage([{
       type: type,
       value: roll.total,
       options: {
         undefendable: true,
-        irreducible: true
-      }
+        irreducible: true,
+      },
     }]);
   }
 }

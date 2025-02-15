@@ -20,15 +20,15 @@ const ArtichronSheetMixin = Base => {
      * Different sheet modes.
      * @enum {number}
      */
-    static SHEET_MODES = {EDIT: 0, PLAY: 1};
+    static SHEET_MODES = { EDIT: 0, PLAY: 1 };
 
     /* -------------------------------------------------- */
 
     /** @override */
     static DEFAULT_OPTIONS = {
       classes: ["artichron"],
-      window: {contentClasses: ["standard-form"]},
-      form: {submitOnChange: true},
+      window: { contentClasses: ["standard-form"] },
+      form: { submitOnChange: true },
       actions: {
         createEffect: DocumentSheetArtichron.#onCreateEffect,
         deleteEffect: DocumentSheetArtichron.#onDeleteEffect,
@@ -37,8 +37,8 @@ const ArtichronSheetMixin = Base => {
         toggleDescription: DocumentSheetArtichron.#onToggleDescription,
         toggleEffect: DocumentSheetArtichron.#onToggleEffect,
         toggleOpacity: DocumentSheetArtichron.#ontoggleOpacity,
-        toggleSheet: DocumentSheetArtichron.#onToggleSheet
-      }
+        toggleSheet: DocumentSheetArtichron.#onToggleSheet,
+      },
     };
 
     /* -------------------------------------------------- */
@@ -90,7 +90,7 @@ const ArtichronSheetMixin = Base => {
       const item = await fromUuid(uuid);
       const path = (item.documentName === "ActiveEffect") ? "description" : "system.description.value";
       const description = foundry.utils.getProperty(item, path);
-      const text = await TextEditor.enrichHTML(description, {relativeTo: item, rollData: item.getRollData()});
+      const text = await TextEditor.enrichHTML(description, { relativeTo: item, rollData: item.getRollData() });
       if (wrapper.querySelector(".description")) return;
       const div = document.createElement("DIV");
       div.classList.add("description");
@@ -124,7 +124,7 @@ const ArtichronSheetMixin = Base => {
           ...v,
           active: isActive,
           cssClass: [isActive ? "active" : null].filterJoin(" "),
-          tabCssClass: ["tab", "scrollable", isActive ? "active" : null].filterJoin(" ")
+          tabCssClass: ["tab", "scrollable", isActive ? "active" : null].filterJoin(" "),
         };
         return acc;
       }, {});
@@ -146,11 +146,11 @@ const ArtichronSheetMixin = Base => {
 
           isActiveFusion: effect.isActiveFusion,
           isFusionOption: effect.isTransferrableFusion,
-          isCondition: effect.type === "condition"
+          isCondition: effect.type === "condition",
         };
         if (data.isExpanded) {
           data.enrichedText = await TextEditor.enrichHTML(effect.description, {
-            relativeTo: effect, rollData: effect.getRollData()
+            relativeTo: effect, rollData: effect.getRollData(),
           });
         }
         effects.push(data);
@@ -212,12 +212,12 @@ const ArtichronSheetMixin = Base => {
      * Bind a new context menu.
      */
     _setupContextMenu() {
-      new artichron.applications.ContextMenuArtichron(this.element, "[data-item-uuid]", [], {onOpen: element => {
+      new artichron.applications.ContextMenuArtichron(this.element, "[data-item-uuid]", [], { onOpen: element => {
         const item = fromUuidSync(element.dataset.itemUuid);
         if (!item) return;
         if (item.documentName === "ActiveEffect") ui.context.menuItems = this._getEffectContextOptions(item);
         else if (item.documentName === "Item") ui.context.menuItems = this._getItemContextOptions(item);
-      }});
+      } });
     }
 
     /* -------------------------------------------------- */
@@ -234,37 +234,37 @@ const ArtichronSheetMixin = Base => {
         icon: "<i class='fa-solid fa-fw fa-edit'></i>",
         condition: () => isOwner,
         callback: () => item.sheet.render(true),
-        group: "manage"
+        group: "manage",
       }, {
         name: "ARTICHRON.ContextMenu.ActiveEffect.Delete",
         icon: "<i class='fa-solid fa-fw fa-trash'></i>",
         condition: () => isOwner && !item.isActiveFusion,
         callback: () => item.deleteDialog(),
-        group: "manage"
+        group: "manage",
       }, {
         name: "ARTICHRON.ContextMenu.ActiveEffect.Enable",
         icon: "<i class='fa-solid fa-fw fa-toggle-on'></i>",
         condition: () => isOwner && item.disabled,
-        callback: () => item.update({disabled: false}),
-        group: "action"
+        callback: () => item.update({ disabled: false }),
+        group: "action",
       }, {
         name: "ARTICHRON.ContextMenu.ActiveEffect.Disable",
         icon: "<i class='fa-solid fa-fw fa-toggle-off'></i>",
         condition: () => isOwner && !item.disabled && (item.type !== "fusion"),
-        callback: () => item.update({disabled: true}),
-        group: "action"
+        callback: () => item.update({ disabled: true }),
+        group: "action",
       }, {
         name: "ARTICHRON.ContextMenu.ActiveEffect.Duplicate",
         icon: "<i class='fa-solid fa-fw fa-copy'></i>",
         condition: () => isOwner && (item.type !== "condition") && !item.isActiveFusion,
-        callback: () => item.clone({}, {save: true}),
-        group: "action"
+        callback: () => item.clone({}, { save: true }),
+        group: "action",
       }, {
         name: "ARTICHRON.ContextMenu.ActiveEffect.Unfuse",
         icon: "<i class='fa-solid fa-fw fa-volcano'></i>",
         condition: () => isOwner && item.isActiveFusion,
         callback: () => item.unfuseDialog(),
-        group: "action"
+        group: "action",
       }, {
         name: "ARTICHRON.ContextMenu.ActiveEffect.IncreaseLevel",
         icon: "<i class='fa-solid fa-fw fa-circle-arrow-up'></i>",
@@ -275,7 +275,7 @@ const ArtichronSheetMixin = Base => {
             (CONFIG.SYSTEM.STATUS_CONDITIONS[item.system.primary].levels > item.system.level);
         },
         callback: () => item.system.increase(),
-        group: "action"
+        group: "action",
       }, {
         name: "ARTICHRON.ContextMenu.ActiveEffect.DecreaseLevel",
         icon: "<i class='fa-solid fa-fw fa-circle-arrow-down'></i>",
@@ -285,7 +285,7 @@ const ArtichronSheetMixin = Base => {
             Number.isInteger(item.system.level) && (item.system.level > 0);
         },
         callback: () => item.system.decrease(),
-        group: "action"
+        group: "action",
       }];
     }
 
@@ -305,55 +305,55 @@ const ArtichronSheetMixin = Base => {
         icon: "<i class='fa-solid fa-fw fa-edit'></i>",
         condition: () => isOwner,
         callback: () => item.sheet.render(true),
-        group: "manage"
+        group: "manage",
       }, {
         name: "ARTICHRON.ContextMenu.Item.Delete",
         icon: "<i class='fa-solid fa-fw fa-trash'></i>",
         condition: () => isOwner && !isEquipped,
         callback: () => item.deleteDialog(),
-        group: "manage"
+        group: "manage",
       }, {
         name: "ARTICHRON.ContextMenu.Item.Equip",
         icon: "<i class='fa-solid fa-fw fa-shield'></i>",
         condition: () => isOwner && item.system.canEquip,
         callback: () => item.system.equip(),
-        group: "action"
+        group: "action",
       }, {
         name: "ARTICHRON.ContextMenu.Item.Unequip",
         icon: "<i class='fa-solid fa-fw fa-shield-halved'></i>",
         condition: () => canEquip && isOwner && isEquipped,
         callback: () => item.system.unequip(),
-        group: "action"
+        group: "action",
       }, {
         name: "ARTICHRON.ContextMenu.Item.Favorite",
         icon: "<i class='fa-solid fa-fw fa-star'></i>",
         condition: () => canEquip && isOwner && !item.isFavorite,
         callback: () => item.actor.addFavoriteItem(item.id),
-        group: "action"
+        group: "action",
       }, {
         name: "ARTICHRON.ContextMenu.Item.Unfavorite",
         icon: "<i class='fa-regular fa-fw fa-star'></i>",
         condition: () => canEquip && isOwner && item.isFavorite,
         callback: () => item.actor.removeFavoriteItem(item.id),
-        group: "action"
+        group: "action",
       }, {
         name: "ARTICHRON.ContextMenu.Item.Use",
         icon: `<i class="fa-solid fa-fw fa-${item.isArsenal ? "hand-fist" : "hand-sparkles"}"></i>`,
         condition: () => canEquip && isOwner && (isEquipped || (!item.isArsenal && !item.isArmor)),
-        callback: (event) => item.use({}, {event: event}, {}),
-        group: "action"
+        callback: (event) => item.use({}, { event: event }, {}),
+        group: "action",
       }, {
         name: "ARTICHRON.ContextMenu.Item.Fuse",
         icon: "<i class='fa-solid fa-fw fa-volcano'></i>",
         condition: () => canEquip && isOwner && item.hasFusions && !item.isFused,
         callback: () => item.fuseDialog(),
-        group: "action"
+        group: "action",
       }, {
         name: "ARTICHRON.ContextMenu.Item.Unfuse",
         icon: "<i class='fa-solid fa-fw fa-recycle'></i>",
         condition: () => canEquip && isOwner && item.isFused,
         callback: () => item.system.unfuseDialog(),
-        group: "action"
+        group: "action",
       }];
     }
 
@@ -370,12 +370,12 @@ const ArtichronSheetMixin = Base => {
         dropSelector: ".application",
         permissions: {
           dragstart: this._canDragStart.bind(this),
-          drop: this._canDragDrop.bind(this)
+          drop: this._canDragDrop.bind(this),
         },
         callbacks: {
           dragstart: this._onDragStart.bind(this),
-          drop: this._onDrop.bind(this)
-        }
+          drop: this._onDrop.bind(this),
+        },
       });
       dd.bind(this.element);
     }
@@ -427,7 +427,7 @@ const ArtichronSheetMixin = Base => {
       const item = await fromUuid(TextEditor.getDragEventData(event).uuid);
       const actor = this.document;
 
-      const changes = {items: [], itemUpdates: [], effects: [], effectUpdates: [], actorUpdates: {}};
+      const changes = { items: [], itemUpdates: [], effects: [], effectUpdates: [], actorUpdates: {} };
 
       switch (item.documentName) {
         case "ActiveEffect":
@@ -446,14 +446,14 @@ const ArtichronSheetMixin = Base => {
           return;
       }
 
-      const {items, itemUpdates, effects, effectUpdates, actorUpdates} = changes;
+      const { items, itemUpdates, effects, effectUpdates, actorUpdates } = changes;
 
       Promise.all([
         foundry.utils.isEmpty(actorUpdates) ? null : actor.update(actorUpdates),
         foundry.utils.isEmpty(items) ? null : actor.createEmbeddedDocuments("Item", items),
         foundry.utils.isEmpty(itemUpdates) ? null : actor.updateEmbeddedDocuments("Item", itemUpdates),
         foundry.utils.isEmpty(effects) ? null : actor.createEmbeddedDocuments("ActiveEffect", effects),
-        foundry.utils.isEmpty(effectUpdates) ? null : actor.updateEmbeddedDocuments("ActiveEffect", effectUpdates)
+        foundry.utils.isEmpty(effectUpdates) ? null : actor.updateEmbeddedDocuments("ActiveEffect", effectUpdates),
       ]);
     }
 
@@ -479,8 +479,8 @@ const ArtichronSheetMixin = Base => {
         "duration.-=startTurn": null,
         "system.source": null,
         "-=ownership": null,
-        "-=sort": null
-      }, {performDeletions: true});
+        "-=sort": null,
+      }, { performDeletions: true });
 
       changes.effects.push(effectData);
     }
@@ -537,7 +537,7 @@ const ArtichronSheetMixin = Base => {
         if (existing) {
           changes.itemUpdates.push({
             _id: existing.id,
-            "system.quantity.value": existing.system.quantity.value + document.system.quantity.value
+            "system.quantity.value": existing.system.quantity.value + document.system.quantity.value,
           });
           return;
         }
@@ -568,8 +568,8 @@ const ArtichronSheetMixin = Base => {
       siblings = await Promise.all(Array.from(siblings).map(s => fromUuid(s.dataset.itemUuid)));
       siblings.findSplice(i => i === item);
 
-      let updates = SortingHelpers.performIntegerSort(item, {target: sibling, siblings: siblings, sortKey: "sort"});
-      updates = updates.map(({target, update}) => ({_id: target.id, sort: update.sort}));
+      let updates = SortingHelpers.performIntegerSort(item, { target: sibling, siblings: siblings, sortKey: "sort" });
+      updates = updates.map(({ target, update }) => ({ _id: target.id, sort: update.sort }));
       changes.itemUpdates.push(...updates);
     }
 
@@ -593,8 +593,8 @@ const ArtichronSheetMixin = Base => {
       siblings = await Promise.all(Array.from(siblings).map(s => fromUuid(s.dataset.itemUuid)));
       siblings.findSplice(s => s === document);
 
-      let updates = SortingHelpers.performIntegerSort(document, {target: sibling, siblings: siblings, sortKey: "sort"});
-      updates = updates.map(({target, update}) => ({_id: target.id, sort: update.sort}));
+      let updates = SortingHelpers.performIntegerSort(document, { target: sibling, siblings: siblings, sortKey: "sort" });
+      updates = updates.map(({ target, update }) => ({ _id: target.id, sort: update.sort }));
       changes.effectUpdates.push(...updates);
     }
 
@@ -614,9 +614,9 @@ const ArtichronSheetMixin = Base => {
       const fp = new FilePicker({
         type: "image",
         current: current,
-        callback: path => this.document.update({img: path}),
+        callback: path => this.document.update({ img: path }),
         top: this.position.top + 40,
-        left: this.position.left + 10
+        left: this.position.left + 10,
       });
       fp.browse();
     }
@@ -659,7 +659,7 @@ const ArtichronSheetMixin = Base => {
       if (!this.isEditable) return;
       const uuid = target.closest("[data-item-uuid]").dataset.itemUuid;
       const effect = await fromUuid(uuid);
-      effect.update({disabled: !effect.disabled});
+      effect.update({ disabled: !effect.disabled });
     }
 
     /* -------------------------------------------------- */
@@ -703,8 +703,8 @@ const ArtichronSheetMixin = Base => {
       if (!this.isEditable) return;
       const type = target.dataset.type;
       getDocumentClass("ActiveEffect").createDialog({
-        img: "icons/svg/sun.svg"
-      }, {types: [type], parent: this.document});
+        img: "icons/svg/sun.svg",
+      }, { types: [type], parent: this.document });
     }
 
     /* -------------------------------------------------- */

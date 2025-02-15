@@ -11,5 +11,5 @@ export default {
   InventoryItemElement,
   ProgressClockElement,
   ThresholdBarElement,
-  TokenTargetElement
+  TokenTargetElement,
 };

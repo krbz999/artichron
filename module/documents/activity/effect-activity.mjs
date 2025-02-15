@@ -2,24 +2,24 @@ import ActivityUseDialog from "../../applications/item/activity-use-dialog.mjs";
 import BaseActivity from "./base-activity.mjs";
 import ChatMessageArtichron from "../chat-message.mjs";
 
-const {NumberField, SchemaField, SetField, StringField} = foundry.data.fields;
+const { NumberField, SchemaField, SetField, StringField } = foundry.data.fields;
 
 const targetField = () => {
   return new SchemaField({
     type: new StringField({
       choices: CONFIG.SYSTEM.TARGET_TYPES,
       initial: "single",
-      required: true
+      required: true,
     }),
-    count: new NumberField({min: 1, integer: true, nullable: false, initial: 1}),
+    count: new NumberField({ min: 1, integer: true, nullable: false, initial: 1 }),
     duration: new StringField({
       choices: CONFIG.SYSTEM.TEMPLATE_DURATIONS,
       initial: "combat",
-      required: true
+      required: true,
     }),
-    range: new NumberField({min: 1, integer: true, nullable: false, initial: 1}),
-    size: new NumberField({min: 1, integer: true, nullable: false, initial: 1}),
-    width: new NumberField({min: 1, integer: true, nullable: false, initial: 1})
+    range: new NumberField({ min: 1, integer: true, nullable: false, initial: 1 }),
+    size: new NumberField({ min: 1, integer: true, nullable: false, initial: 1 }),
+    width: new NumberField({ min: 1, integer: true, nullable: false, initial: 1 }),
   });
 };
 
@@ -27,8 +27,8 @@ export default class EffectActivity extends BaseActivity {
   /** @inheritdoc */
   static metadata = Object.freeze(foundry.utils.mergeObject(super.metadata, {
     type: "effect",
-    label: "ARTICHRON.ACTIVITY.Types.Effect"
-  }, {inplace: false}));
+    label: "ARTICHRON.ACTIVITY.Types.Effect",
+  }, { inplace: false }));
 
   /* -------------------------------------------------- */
 
@@ -36,9 +36,9 @@ export default class EffectActivity extends BaseActivity {
   static defineSchema() {
     return Object.assign(super.defineSchema(), {
       effects: new SchemaField({
-        ids: new SetField(new StringField())
+        ids: new SetField(new StringField()),
       }),
-      target: targetField()
+      target: targetField(),
     });
   }
 
@@ -47,7 +47,7 @@ export default class EffectActivity extends BaseActivity {
   /** @override */
   async use(usage = {}, dialog = {}, message = {}) {
     if (!this.effects.ids.size) {
-      ui.notifications.warn("ARTICHRON.ACTIVITY.Warning.NoEffects", {localize: true});
+      ui.notifications.warn("ARTICHRON.ACTIVITY.Warning.NoEffects", { localize: true });
       return null;
     }
 
@@ -61,20 +61,20 @@ export default class EffectActivity extends BaseActivity {
     if (!consumed) return null;
 
     await item.setFlag("artichron", `usage.${this.id}`, {
-      "template.place": foundry.utils.getProperty(configuration.usage, "template.place") ?? true
+      "template.place": foundry.utils.getProperty(configuration.usage, "template.place") ?? true,
     });
 
     // Place templates.
-    if (configuration.usage.template?.place) await this.placeTemplate({increase: configuration.usage.template.increase});
+    if (configuration.usage.template?.place) await this.placeTemplate({ increase: configuration.usage.template.increase });
 
     const messageData = {
       type: "usage",
-      speaker: ChatMessageArtichron.getSpeaker({actor: actor}),
+      speaker: ChatMessageArtichron.getSpeaker({ actor: actor }),
       "system.activity": this.id,
       "system.item": item.uuid,
       "system.targets": Array.from(game.user.targets.map(t => t.actor?.uuid)),
       "flags.artichron.usage": configuration.usage,
-      "flags.artichron.type": EffectActivity.metadata.type
+      "flags.artichron.type": EffectActivity.metadata.type,
     };
     ChatMessageArtichron.applyRollMode(messageData, configuration.usage.rollMode.mode);
     foundry.utils.mergeObject(messageData, configuration.message);

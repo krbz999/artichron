@@ -25,7 +25,7 @@ export default class ItemArtichron extends Item {
         img = "icons/svg/sword.svg";
         break;
     }
-    return img ? {img: img} : super.getDefaultArtwork(itemData);
+    return img ? { img: img } : super.getDefaultArtwork(itemData);
   }
 
   /* -------------------------------------------------- */

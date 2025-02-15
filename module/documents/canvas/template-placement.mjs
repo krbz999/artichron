@@ -47,7 +47,7 @@ export default class TemplatePlacement extends MeasuredTemplate {
 
   /* -------------------------------------------------- */
 
-  static fromData(data, {lock = false} = {}) {
+  static fromData(data, { lock = false } = {}) {
     // Prepare template data
     const templateData = foundry.utils.mergeObject({
       user: game.user.id,
@@ -55,21 +55,21 @@ export default class TemplatePlacement extends MeasuredTemplate {
       x: 0,
       y: 0,
       fillColor: game.user.color,
-      ...CONFIG.MeasuredTemplate.defaults
+      ...CONFIG.MeasuredTemplate.defaults,
     }, data);
     // Return the template constructed from the item data
     const cls = CONFIG.MeasuredTemplate.documentClass;
-    const template = new cls(templateData, {parent: canvas.scene});
+    const template = new cls(templateData, { parent: canvas.scene });
     const object = new this(template);
     object.options = {
-      lock: lock
+      lock: lock,
     };
     return object;
   }
 
   /* -------------------------------------------------- */
 
-  static fromToken(token, {type, size, width, attach, angle = 45, range}, options = {}) {
+  static fromToken(token, { type, size, width, attach, angle = 45, range }, options = {}) {
     if (!token) throw new Error("No token available for placing template!");
 
     let t = type;
@@ -91,7 +91,7 @@ export default class TemplatePlacement extends MeasuredTemplate {
       fillColor: game.user.color,
       direction: Math.toDegrees(ray.angle),
       angle: angle,
-      ...(attach ? ((t !== "circle") ? ray.B : token.center) : mp)
+      ...(attach ? ((t !== "circle") ? ray.B : token.center) : mp),
     }, options.templateData ?? {});
 
     const template = this.fromData(data, options);
@@ -101,7 +101,7 @@ export default class TemplatePlacement extends MeasuredTemplate {
       width: width,
       attach: attach,
       angle: angle,
-      range: range
+      range: range,
     };
     return template;
   }
@@ -136,7 +136,7 @@ export default class TemplatePlacement extends MeasuredTemplate {
         confirm: this._onConfirmPlacement.bind(this),
         move: this._onMovePlacement.bind(this),
         resolve,
-        reject
+        reject,
       };
 
       // Activate listeners
@@ -173,7 +173,7 @@ export default class TemplatePlacement extends MeasuredTemplate {
     const freeForm = canvas.grid.isGridless || event.shiftKey;
     const cursor = event.data.getLocalPosition(this.layer);
 
-    const ray = new Ray({...this.origin}, freeForm ? cursor : canvas.grid.getCenterPoint(cursor));
+    const ray = new Ray({ ...this.origin }, freeForm ? cursor : canvas.grid.getCenterPoint(cursor));
     const pos = this.config.attach ? ray.A : ray.B;
     pos.direction = Math.toDegrees(ray.angle);
 
@@ -190,7 +190,7 @@ export default class TemplatePlacement extends MeasuredTemplate {
       // Get direction.
       const direction = Math.toDegrees(new Ray(origin, endPoint).angle);
       // Update coordinates and direction.
-      pos2 = {...origin, direction: direction};
+      pos2 = { ...origin, direction: direction };
     } else if (!this.config.attach && (this.config.range > 0)) {
       const r = canvas.grid.measurePath([ray.A, ray.B]).distance;
       const tooFar = r >= this.config.range;
@@ -219,7 +219,7 @@ export default class TemplatePlacement extends MeasuredTemplate {
     const Cls = CONFIG.MeasuredTemplate.documentClass;
     if (this.token?.actor?.sheet?.rendered) this.token.actor.sheet.maximize();
     if (this.#locked) this.#events.resolve(templateData);
-    else this.#events.resolve(Cls.create(templateData, {parent: this.document.parent}));
+    else this.#events.resolve(Cls.create(templateData, { parent: this.document.parent }));
   }
 
   /* -------------------------------------------------- */

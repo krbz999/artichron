@@ -36,7 +36,7 @@ class DamageField extends foundry.data.fields.ObjectField {
 
   /** @override */
   initialize(value, model, options = {}) {
-    return new DamageFormulaModel(value, {parent: model, ...options});
+    return new DamageFormulaModel(value, { parent: model, ...options });
   }
 
   /* -------------------------------------------------- */
@@ -132,7 +132,7 @@ class DamageCollection extends foundry.utils.Collection {
   async createDamage(data = {}) {
     const id = foundry.utils.randomID();
     const path = `damage.${id}`;
-    return this.activity.update({[path]: {...data, _id: id}});
+    return this.activity.update({ [path]: { ...data, _id: id } });
   }
 
   /* -------------------------------------------------- */
@@ -144,6 +144,6 @@ class DamageCollection extends foundry.utils.Collection {
    */
   async deleteDamage(id) {
     const path = `damage.-=${id}`;
-    return this.activity.update(({[path]: null}));
+    return this.activity.update(({ [path]: null }));
   }
 }

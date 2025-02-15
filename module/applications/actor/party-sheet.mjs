@@ -10,7 +10,7 @@ export default class PartySheet extends ActorSheetArtichron {
   /** @override */
   static DEFAULT_OPTIONS = {
     classes: ["party"],
-    position: {width: 650},
+    position: { width: 650 },
     actions: {
       addClock: PartySheet.#addClock,
       clockDelta: PartySheet.#clockDelta,
@@ -22,44 +22,44 @@ export default class PartySheet extends ActorSheetArtichron {
       placeMembers: PartySheet.#placeMembers,
       recallMembers: PartySheet.#recallMembers,
       removeClock: PartySheet.#removeClock,
-      removeMember: PartySheet.#removeMember
-    }
+      removeMember: PartySheet.#removeMember,
+    },
   };
 
   /* -------------------------------------------------- */
 
   /** @override */
   static PARTS = {
-    header: {template: "systems/artichron/templates/shared/sheet-header.hbs"},
-    tabs: {template: "systems/artichron/templates/shared/tabs.hbs"},
+    header: { template: "systems/artichron/templates/shared/sheet-header.hbs" },
+    tabs: { template: "systems/artichron/templates/shared/tabs.hbs" },
     members: {
       template: "systems/artichron/templates/actor/party-members.hbs",
-      scrollable: [""]
+      scrollable: [""],
     },
     inventory: {
       template: "systems/artichron/templates/actor/party-inventory.hbs",
-      scrollable: [".scrollable"]
+      scrollable: [".scrollable"],
     },
     progress: {
       template: "systems/artichron/templates/actor/party-progress.hbs",
-      scrollable: [".scrollable"]
-    }
+      scrollable: [".scrollable"],
+    },
   };
 
   /* -------------------------------------------------- */
 
   /** @override */
   static TABS = {
-    members: {id: "members", group: "primary", label: "ARTICHRON.SheetLabels.Members"},
-    inventory: {id: "inventory", group: "primary", label: "ARTICHRON.SheetLabels.Inventory"},
-    progress: {id: "progress", group: "primary", label: "ARTICHRON.SheetLabels.Progress"}
+    members: { id: "members", group: "primary", label: "ARTICHRON.SheetLabels.Members" },
+    inventory: { id: "inventory", group: "primary", label: "ARTICHRON.SheetLabels.Inventory" },
+    progress: { id: "progress", group: "primary", label: "ARTICHRON.SheetLabels.Progress" },
   };
 
   /* -------------------------------------------------- */
 
   /** @override */
   tabGroups = {
-    primary: "members"
+    primary: "members",
   };
 
   /* -------------------------------------------------- */
@@ -81,7 +81,7 @@ export default class PartySheet extends ActorSheetArtichron {
       isEditMode: this.isEditMode,
       isPlayMode: this.isPlayMode,
       document: this.document,
-      isGM: game.user.isGM
+      isGM: game.user.isGM,
     };
     return context;
   }
@@ -124,7 +124,7 @@ export default class PartySheet extends ActorSheetArtichron {
 
     context.header = {
       img: prop("img"),
-      name: prop("name")
+      name: prop("name"),
     };
     return context;
   }
@@ -154,16 +154,16 @@ export default class PartySheet extends ActorSheetArtichron {
   async #preparePartContextMembers(context, options) {
     const members = [];
 
-    for (const {actor} of this.document.system.members) {
+    for (const { actor } of this.document.system.members) {
       if (!actor) continue;
       const context = {
         actor: actor,
         isOwner: actor.isOwner,
         isHero: actor.type === "hero",
         isMonster: actor.type === "monster",
-        pct: {hp: actor.system.health.pct},
+        pct: { hp: actor.system.health.pct },
         canView: actor.testUserPermission(game.user, "LIMITED"),
-        canManage: actor.isOwner && this.document.isOwner
+        canManage: actor.isOwner && this.document.isOwner,
       };
 
       if (context.isHero) {
@@ -174,7 +174,7 @@ export default class PartySheet extends ActorSheetArtichron {
         context.pts = {
           available: actor.system.progression.points.available,
           total: actor.system.progression.points.total,
-          spent: actor.system.progression.points.total - actor.system.progression.points.available
+          spent: actor.system.progression.points.total - actor.system.progression.points.available,
         };
       } else if (context.isMonster) {
         context.pct.danger = actor.system.danger.pool.pct;
@@ -186,16 +186,16 @@ export default class PartySheet extends ActorSheetArtichron {
     const distributions = {
       currency: {
         value: this.document.system.currency.award,
-        disabled: !game.user.isGM || !this.document.system.currency.award || !this.isEditable
+        disabled: !game.user.isGM || !this.document.system.currency.award || !this.isEditable,
       },
       points: {
         value: this.document.system.points.value,
-        disabled: !game.user.isGM || !this.document.system.points.value || !this.isEditable
-      }
+        disabled: !game.user.isGM || !this.document.system.points.value || !this.isEditable,
+      },
     };
 
     context.funds = {
-      value: this.document.system.currency.funds
+      value: this.document.system.currency.funds,
     };
 
     context.actors = members;
@@ -218,12 +218,12 @@ export default class PartySheet extends ActorSheetArtichron {
       items[item.type] ??= {
         label: game.i18n.localize(`TYPES.Item.${item.type}Pl`),
         order: CONFIG.Item.dataModels[item.type].metadata.order,
-        items: []
+        items: [],
       };
       items[item.type].items.push(item);
     }
 
-    for (const {items: itemArray} of Object.values(items)) {
+    for (const { items: itemArray } of Object.values(items)) {
       itemArray.sort((a, b) => {
         const sort = a.sort - b.sort;
         if (sort) return sort;
@@ -258,13 +258,13 @@ export default class PartySheet extends ActorSheetArtichron {
         disableUp: !(clock.value < clock.max),
         disableDown: !(clock.value > 0),
         name: clock.name ? clock.name : game.i18n.localize("ARTICHRON.CLOCK.FIELDS.name.initial"),
-        hue: clock.color.rgb.map(k => k * 255).join(", ")
+        hue: clock.color.rgb.map(k => k * 255).join(", "),
       });
       else {
         const makeField = path => {
           const field = clock.schema.getField(path);
           const name = `system.clocks.${clock.id}.${path}`;
-          return {field: field, name: name, value: foundry.utils.getProperty(clock, path)};
+          return { field: field, name: name, value: foundry.utils.getProperty(clock, path) };
         };
 
         context.clocks.push({
@@ -272,7 +272,7 @@ export default class PartySheet extends ActorSheetArtichron {
           name: makeField("name"),
           value: makeField("value"),
           max: makeField("max"),
-          color: makeField("color")
+          color: makeField("color"),
         });
       }
     }
@@ -301,7 +301,7 @@ export default class PartySheet extends ActorSheetArtichron {
   /** @override */
   _onFirstRender(context, options) {
     super._onFirstRender(context, options);
-    for (const {actor} of this.document.system.members) {
+    for (const { actor } of this.document.system.members) {
       if (actor) actor.apps[this.id] = this;
     }
   }
@@ -310,7 +310,7 @@ export default class PartySheet extends ActorSheetArtichron {
 
   /** @override */
   _onClose(options) {
-    for (const {actor} of this.document.system.members) {
+    for (const { actor } of this.document.system.members) {
       if (actor) delete actor.apps[this.id];
     }
     super._onClose(options);
@@ -378,7 +378,7 @@ export default class PartySheet extends ActorSheetArtichron {
     const id = event.currentTarget.closest("[data-id]").dataset.id;
     const actor = this.document.system.members.find(m => m.actor.id === id).actor;
     const result = artichron.utils.parseInputDelta(event.currentTarget, actor);
-    if (result !== undefined) actor.update({"system.currency.funds": result});
+    if (result !== undefined) actor.update({ "system.currency.funds": result });
   }
 
   /* -------------------------------------------------- */
@@ -430,7 +430,7 @@ export default class PartySheet extends ActorSheetArtichron {
   static #displayActor(event, target) {
     const id = target.closest(".member").dataset.id;
     const actor = game.actors.get(id);
-    actor.sheet.render({force: true});
+    actor.sheet.render({ force: true });
   }
 
   /* -------------------------------------------------- */
@@ -444,7 +444,7 @@ export default class PartySheet extends ActorSheetArtichron {
   static async #manageFunds(event, target) {
     const id = target.closest(".member").dataset.id;
     const actor = game.actors.get(id);
-    const config = await PartyFundsDialog.create({party: this.document, member: actor});
+    const config = await PartyFundsDialog.create({ party: this.document, member: actor });
     if (!config || !(config.amount > 0)) return;
     const path = "system.currency.funds";
 
@@ -457,24 +457,24 @@ export default class PartySheet extends ActorSheetArtichron {
     const pv = config.deposit ? pf + config.amount : pf - config.amount;
 
     if (av < 0) {
-      ui.notifications.warn("ARTICHRON.PartyFundsDialog.InsufficientMemberFunds", {localize: true});
+      ui.notifications.warn("ARTICHRON.PartyFundsDialog.InsufficientMemberFunds", { localize: true });
       return;
     }
 
     if (pv < 0) {
-      ui.notifications.warn("ARTICHRON.PartyFundsDialog.InsufficientPartyFunds", {localize: true});
+      ui.notifications.warn("ARTICHRON.PartyFundsDialog.InsufficientPartyFunds", { localize: true });
       return;
     }
 
     Promise.all([
-      actor.update({[path]: av}),
-      this.document.update({[path]: pv}),
+      actor.update({ [path]: av }),
+      this.document.update({ [path]: pv }),
       ChatMessageArtichron.create({
-        speaker: ChatMessageArtichron.getSpeaker({actor: this.document}),
+        speaker: ChatMessageArtichron.getSpeaker({ actor: this.document }),
         content: game.i18n.format(`ARTICHRON.PartyFundsDialog.Receipt${config.deposit ? "Deposit" : "Withdraw"}`, {
-          name: actor.name, amount: config.amount
-        })
-      })
+          name: actor.name, amount: config.amount,
+        }),
+      }),
     ]);
   }
 
@@ -546,7 +546,7 @@ export default class PartySheet extends ActorSheetArtichron {
   static #addClock(event, target) {
     const clocks = this.document.system.clocks;
     const type = target.dataset.clock;
-    clocks.createClock({type: type});
+    clocks.createClock({ type: type });
   }
 
   /* -------------------------------------------------- */

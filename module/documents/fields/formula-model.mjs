@@ -1,4 +1,4 @@
-const {NumberField} = foundry.data.fields;
+const { NumberField } = foundry.data.fields;
 
 export default class FormulaModel extends foundry.abstract.DataModel {
   /** @override */
@@ -16,15 +16,15 @@ export default class FormulaModel extends foundry.abstract.DataModel {
           10: "d10",
           12: "d12",
           20: "d20",
-          100: "d100"
-        }
+          100: "d100",
+        },
       }),
       number: new NumberField({
         integer: true,
         nullable: false,
         initial: 1,
-        min: 1
-      })
+        min: 1,
+      }),
     };
   }
 

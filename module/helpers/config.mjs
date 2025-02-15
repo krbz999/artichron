@@ -22,71 +22,71 @@ SYSTEM.DAMAGE_TYPES = {
     color: "FF5733",
     icon: "fa-solid fa-fire",
     group: "elemental",
-    resist: true
+    resist: true,
   },
   wind: {
     label: "ARTICHRON.DamageType.Wind",
     color: "8DEEB5",
     icon: "fa-solid fa-wind",
     group: "elemental",
-    resist: true
+    resist: true,
   },
   lightning: {
     label: "ARTICHRON.DamageType.Lightning",
     color: "4B70A8",
     icon: "fa-solid fa-bolt",
     group: "elemental",
-    resist: true
+    resist: true,
   },
   ice: {
     label: "ARTICHRON.DamageType.Ice",
     color: "54D7E0",
     icon: "fa-solid fa-snowflake",
     group: "elemental",
-    resist: true
+    resist: true,
   },
   light: {
     label: "ARTICHRON.DamageType.Light",
     color: "FCFFBF",
     icon: "fa-solid fa-sun",
     group: "planar",
-    resist: true
+    resist: true,
   },
   darkness: {
     label: "ARTICHRON.DamageType.Darkness",
     color: "910B94",
     icon: "fa-solid fa-moon",
     group: "planar",
-    resist: true
+    resist: true,
   },
   physical: {
     label: "ARTICHRON.DamageType.Physical",
     color: "868686",
     icon: "fa-solid fa-hand-fist",
     group: "physical",
-    armor: true
+    armor: true,
   },
   arcane: {
     label: "ARTICHRON.DamageType.Arcane",
     color: "C79FFF",
     icon: "fa-solid fa-wand-sparkles",
     group: "planar",
-    resist: true
-  }
+    resist: true,
+  },
 };
 
 Object.defineProperty(SYSTEM.DAMAGE_TYPES, "optgroups", {
   get: function() {
-    const groups = Object.entries(CONFIG.SYSTEM.DAMAGE_TYPE_GROUPS).map(([k, {label}]) => {
+    const groups = Object.entries(CONFIG.SYSTEM.DAMAGE_TYPE_GROUPS).map(([k, { label }]) => {
       const arr = [];
       for (const [u, v] of Object.entries(this)) {
-        if (v.group === k) arr.push({value: u, label: v.label, group: label});
+        if (v.group === k) arr.push({ value: u, label: v.label, group: label });
       }
       return arr;
     });
 
     return groups.flat();
-  }
+  },
 });
 
 /* -------------------------------------------------- */
@@ -102,14 +102,14 @@ Object.defineProperty(SYSTEM.DAMAGE_TYPES, "optgroups", {
  */
 SYSTEM.DAMAGE_TYPE_GROUPS = {
   physical: {
-    label: "ARTICHRON.DamageTypeGroup.Physical"
+    label: "ARTICHRON.DamageTypeGroup.Physical",
   },
   elemental: {
-    label: "ARTICHRON.DamageTypeGroup.Elemental"
+    label: "ARTICHRON.DamageTypeGroup.Elemental",
   },
   planar: {
-    label: "ARTICHRON.DamageTypeGroup.Planar"
-  }
+    label: "ARTICHRON.DamageTypeGroup.Planar",
+  },
 };
 
 /* -------------------------------------------------- */
@@ -132,52 +132,52 @@ SYSTEM.TARGET_TYPES = {
     label: "ARTICHRON.TargetTypes.Self",
     scale: new Set(),
     isAttached: false,
-    isArea: false
+    isArea: false,
   },
   single: {
     label: "ARTICHRON.TargetTypes.SingleTarget",
     scale: new Set(["count", "range"]),
     isAttached: false,
-    isArea: false
+    isArea: false,
   },
   ray: {
     label: "ARTICHRON.TargetTypes.AreaRay",
     scale: new Set(["count", "size", "width"]),
     isAttached: true,
-    isArea: true
+    isArea: true,
   },
   cone: {
     label: "ARTICHRON.TargetTypes.AreaCone",
     scale: new Set(["count", "size"]),
     isAttached: true,
-    isArea: true
+    isArea: true,
   },
   circle: {
     label: "ARTICHRON.TargetTypes.AreaCircle",
     scale: new Set(["count", "size", "range"]),
     isAttached: false,
-    isArea: true
+    isArea: true,
   },
   radius: {
     label: "ARTICHRON.TargetTypes.AreaRadius",
     scale: new Set(["size"]),
     isAttached: true,
-    isArea: true
-  }
+    isArea: true,
+  },
 };
 
 Object.defineProperty(SYSTEM.TARGET_TYPES, "optgroups", {
   get: function() {
-    const {self, single, ...rest} = this;
+    const { self, single, ...rest } = this;
     const options = [];
     options.push(
-      {value: "self", label: self.label},
-      {value: "single", label: single.label}
+      { value: "self", label: self.label },
+      { value: "single", label: single.label },
     );
     const grp = game.i18n.localize("ARTICHRON.TargetTypes.AreaOfEffect");
-    options.push(...Object.entries(rest).map(([k, v]) => ({value: k, label: v.label, group: grp})));
+    options.push(...Object.entries(rest).map(([k, v]) => ({ value: k, label: v.label, group: grp })));
     return options;
-  }
+  },
 });
 
 /* -------------------------------------------------- */
@@ -195,20 +195,20 @@ Object.defineProperty(SYSTEM.TARGET_TYPES, "optgroups", {
 SYSTEM.SHIELD_TYPES = {
   buckler: {
     label: "ARTICHRON.ShieldType.Buckler",
-    width: 1
+    width: 1,
   },
   heater: {
     label: "ARTICHRON.ShieldType.Heater",
-    width: 2
+    width: 2,
   },
   kite: {
     label: "ARTICHRON.ShieldType.Kite",
-    width: 3
+    width: 3,
   },
   tower: {
     label: "ARTICHRON.ShieldType.Tower",
-    width: 4
-  }
+    width: 4,
+  },
 };
 
 /* -------------------------------------------------- */
@@ -224,14 +224,14 @@ SYSTEM.SHIELD_TYPES = {
  */
 SYSTEM.EQUIPMENT_CATEGORIES = {
   clothing: {
-    label: "ARTICHRON.EQUIPMENT.CATEGORY.Clothing"
+    label: "ARTICHRON.EQUIPMENT.CATEGORY.Clothing",
   },
   natural: {
-    label: "ARTICHRON.EQUIPMENT.CATEGORY.Natural"
+    label: "ARTICHRON.EQUIPMENT.CATEGORY.Natural",
   },
   tech: {
-    label: "ARTICHRON.EQUIPMENT.CATEGORY.Tech"
-  }
+    label: "ARTICHRON.EQUIPMENT.CATEGORY.Tech",
+  },
 };
 
 /* -------------------------------------------------- */
@@ -246,12 +246,12 @@ SYSTEM.EQUIPMENT_CATEGORIES = {
  * @enum {EquipmentTypeConfig}
  */
 SYSTEM.EQUIPMENT_TYPES = {
-  accessory: {label: "ARTICHRON.ArmorType.Accessory"},
-  arms: {label: "ARTICHRON.ArmorType.Arms"},
-  chest: {label: "ARTICHRON.ArmorType.Chest"},
-  head: {label: "ARTICHRON.ArmorType.Head"},
-  legs: {label: "ARTICHRON.ArmorType.Legs"},
-  boots: {label: "ARTICHRON.ArmorType.Boots"}
+  accessory: { label: "ARTICHRON.ArmorType.Accessory" },
+  arms: { label: "ARTICHRON.ArmorType.Arms" },
+  chest: { label: "ARTICHRON.ArmorType.Chest" },
+  head: { label: "ARTICHRON.ArmorType.Head" },
+  legs: { label: "ARTICHRON.ArmorType.Legs" },
+  boots: { label: "ARTICHRON.ArmorType.Boots" },
 };
 
 /* -------------------------------------------------- */
@@ -267,17 +267,17 @@ SYSTEM.EQUIPMENT_TYPES = {
  */
 SYSTEM.AMMUNITION_TYPES = {
   arrow: {
-    label: "ARTICHRON.AmmunitionType.Arrow"
+    label: "ARTICHRON.AmmunitionType.Arrow",
   },
   bullet: {
-    label: "ARTICHRON.AmmunitionType.Bullet"
+    label: "ARTICHRON.AmmunitionType.Bullet",
   },
   round: {
-    label: "ARTICHRON.AmmunitionType.Round"
+    label: "ARTICHRON.AmmunitionType.Round",
   },
   shell: {
-    label: "ARTICHRON.AmmunitionType.Shell"
-  }
+    label: "ARTICHRON.AmmunitionType.Shell",
+  },
 };
 
 /* -------------------------------------------------- */
@@ -293,8 +293,8 @@ SYSTEM.AMMUNITION_TYPES = {
  */
 SYSTEM.PART_TYPES = {
   horn: {
-    label: "placeholder"
-  }
+    label: "placeholder",
+  },
 };
 
 /* -------------------------------------------------- */
@@ -309,9 +309,9 @@ SYSTEM.PART_TYPES = {
  * @enum {EffectDurationConfig}
  */
 SYSTEM.EFFECT_EXPIRATION_TYPES = {
-  none: {label: "ARTICHRON.EffectDurations.None"},
-  combat: {label: "ARTICHRON.EffectDurations.Combat"},
-  day: {label: "ARTICHRON.EffectDurations.Day"}
+  none: { label: "ARTICHRON.EffectDurations.None" },
+  combat: { label: "ARTICHRON.EffectDurations.Combat" },
+  day: { label: "ARTICHRON.EffectDurations.Day" },
 };
 
 /* -------------------------------------------------- */
@@ -327,17 +327,17 @@ SYSTEM.EFFECT_EXPIRATION_TYPES = {
  */
 SYSTEM.TEMPLATE_DURATIONS = {
   none: {
-    label: "ARTICHRON.TemplateDurations.None"
+    label: "ARTICHRON.TemplateDurations.None",
   },
   combat: {
-    label: "ARTICHRON.TemplateDurations.Combat"
+    label: "ARTICHRON.TemplateDurations.Combat",
   },
   round: {
-    label: "ARTICHRON.TemplateDurations.Round"
+    label: "ARTICHRON.TemplateDurations.Round",
   },
   turn: {
-    label: "ARTICHRON.TemplateDurations.Turn"
-  }
+    label: "ARTICHRON.TemplateDurations.Turn",
+  },
 };
 
 /* -------------------------------------------------- */
@@ -361,68 +361,68 @@ SYSTEM.ITEM_ATTRIBUTES = {
   ammunition: {
     label: "ARTICHRON.ItemAttribute.Ammunition",
     types: new Set(["weapon"]),
-    transferrable: false
+    transferrable: false,
   },
   blocking: {
     label: "ARTICHRON.ItemAttribute.Blocking",
     types: new Set(["shield", "spell", "weapon"]),
-    transferrable: true
+    transferrable: true,
   },
   bludgeoning: {
     label: "ARTICHRON.ItemAttribute.Bludgeoning",
     types: new Set(["weapon"]),
     transferrable: true,
-    status: "hindered"
+    status: "hindered",
   },
   booster: {
     label: "ARTICHRON.ItemAttribute.Booster",
     types: new Set(["elixir"]),
-    transferrable: false
+    transferrable: false,
   },
   fusion: {
     label: "ARTICHRON.ItemAttribute.Fusion",
     types: new Set(["armor", "shield", "spell", "weapon"]),
-    transferrable: false
+    transferrable: false,
   },
   heavy: {
     label: "ARTICHRON.ItemAttribute.Heavy",
     types: new Set(["armor"]),
     transferrable: true,
-    damageOption: false
+    damageOption: false,
   },
   irreducible: {
     label: "ARTICHRON.ItemAttribute.Irreducible",
     types: new Set(["armor", "shield", "spell", "weapon"]),
     transferrable: true,
-    damageOption: true
+    damageOption: true,
   },
   magical: {
     label: "ARTICHRON.ItemAttribute.Magical",
-    transferrable: true
+    transferrable: true,
   },
   parrying: {
     label: "ARTICHRON.ItemAttribute.Parrying",
     types: new Set(["shield", "spell", "weapon"]),
-    transferrable: true
+    transferrable: true,
   },
   rending: {
     label: "ARTICHRON.ItemAttribute.Rending",
     types: new Set(["shield", "spell", "weapon"]),
     transferrable: true,
-    status: "bleeding"
+    status: "bleeding",
   },
   twoHanded: {
     label: "ARTICHRON.ItemAttribute.TwoHanded",
     types: new Set(["shield", "spell", "weapon"]),
     transferrable: true,
-    damageOption: false
+    damageOption: false,
   },
   undefendable: {
     label: "ARTICHRON.ItemAttribute.Undefendable",
     types: new Set(["armor", "shield", "spell", "weapon"]),
     transferrable: true,
-    damageOption: true
-  }
+    damageOption: true,
+  },
 };
 
 /* -------------------------------------------------- */
@@ -445,150 +445,150 @@ SYSTEM.STATUS_CONDITIONS = {
     name: "ARTICHRON.CONDITIONS.FIELDS.defeated.label",
     img: "systems/artichron/assets/icons/defeated.svg",
     hud: true,
-    reference: "TODO"
+    reference: "TODO",
   },
   blind: {
     name: "ARTICHRON.CONDITIONS.FIELDS.blind.label",
     img: "systems/artichron/assets/icons/blind.svg",
     hud: true,
-    reference: "TODO"
+    reference: "TODO",
   },
   bloodied: {
     name: "ARTICHRON.CONDITIONS.FIELDS.bloodied.label",
     img: "systems/artichron/assets/icons/bloodied.svg",
     hud: false,
-    reference: "TODO"
+    reference: "TODO",
   },
   critical: {
     name: "ARTICHRON.CONDITIONS.FIELDS.critical.label",
     img: "systems/artichron/assets/icons/critical.svg",
     hud: false,
-    reference: "TODO"
+    reference: "TODO",
   },
   hindered: {
     name: "ARTICHRON.CONDITIONS.FIELDS.hindered.label",
     img: "systems/artichron/assets/icons/hindered.svg",
     levels: 10,
     hud: true,
-    reference: "Compendium.artichron.rules.JournalEntry.JjiZqfbpC2YVXV4R.JournalEntryPage.uVv9k9xheOkxzBhO"
+    reference: "Compendium.artichron.rules.JournalEntry.JjiZqfbpC2YVXV4R.JournalEntryPage.uVv9k9xheOkxzBhO",
   },
   invisible: {
     name: "ARTICHRON.CONDITIONS.FIELDS.invisible.label",
     img: "systems/artichron/assets/icons/invisible.svg",
     hud: true,
-    reference: "TODO"
+    reference: "TODO",
   },
   underground: {
     name: "ARTICHRON.CONDITIONS.FIELDS.underground.label",
     img: "icons/svg/mole.svg",
     hud: true,
-    reference: "TODO"
+    reference: "TODO",
   },
   flying: {
     name: "ARTICHRON.CONDITIONS.FIELDS.flying.label",
     img: "systems/artichron/assets/icons/flying.svg",
     hud: true,
-    reference: "TODO"
+    reference: "TODO",
   },
   levitating: {
     name: "ARTICHRON.CONDITIONS.FIELDS.levitating.label",
     img: "icons/svg/wingfoot.svg",
     hud: true,
-    reference: "TODO"
+    reference: "TODO",
   },
   bleeding: {
     name: "ARTICHRON.CONDITIONS.FIELDS.bleeding.label",
     img: "systems/artichron/assets/icons/bleeding.svg",
     levels: 10,
     hud: true,
-    reference: "Compendium.artichron.rules.JournalEntry.JjiZqfbpC2YVXV4R.JournalEntryPage.nIvx3xXwYP9iGSeh"
+    reference: "Compendium.artichron.rules.JournalEntry.JjiZqfbpC2YVXV4R.JournalEntryPage.nIvx3xXwYP9iGSeh",
   },
   burning: {
     name: "ARTICHRON.CONDITIONS.FIELDS.burning.label",
     img: "systems/artichron/assets/icons/burning.svg",
     levels: 10,
     hud: true,
-    reference: "Compendium.artichron.rules.JournalEntry.JjiZqfbpC2YVXV4R.JournalEntryPage.3VoSsDfCrBGG8Bzy"
+    reference: "Compendium.artichron.rules.JournalEntry.JjiZqfbpC2YVXV4R.JournalEntryPage.3VoSsDfCrBGG8Bzy",
   },
   injured: {
     name: "ARTICHRON.CONDITIONS.FIELDS.injured.label",
     img: "systems/artichron/assets/icons/injured.svg",
     levels: 20,
     hud: true,
-    reference: "Compendium.artichron.rules.JournalEntry.JjiZqfbpC2YVXV4R.JournalEntryPage.FRQ8zjWTfTYZWGx3"
+    reference: "Compendium.artichron.rules.JournalEntry.JjiZqfbpC2YVXV4R.JournalEntryPage.FRQ8zjWTfTYZWGx3",
   },
   physAtkUp: {
     name: "ARTICHRON.CONDITIONS.FIELDS.physAtkUp.label",
     img: "icons/equipment/shield/buckler-wooden-triangle-brown.webp",
     hud: true,
-    reference: "TODO"
+    reference: "TODO",
   },
   physAtkDown: {
     name: "ARTICHRON.CONDITIONS.FIELDS.physAtkDown.label",
     img: "icons/equipment/shield/buckler-wooden-triangle-brown.webp",
     hud: true,
-    reference: "TODO"
+    reference: "TODO",
   },
   physDefUp: {
     name: "ARTICHRON.CONDITIONS.FIELDS.physDefUp.label",
     img: "icons/equipment/shield/buckler-wooden-triangle-brown.webp",
     hud: true,
-    reference: "TODO"
+    reference: "TODO",
   },
   physDefDown: {
     name: "ARTICHRON.CONDITIONS.FIELDS.physDefDown.label",
     img: "icons/equipment/shield/buckler-wooden-triangle-brown.webp",
     hud: true,
-    reference: "TODO"
+    reference: "TODO",
   },
   elemAtkUp: {
     name: "ARTICHRON.CONDITIONS.FIELDS.elemAtkUp.label",
     img: "icons/equipment/shield/buckler-wooden-triangle-brown.webp",
     hud: true,
-    reference: "TODO"
+    reference: "TODO",
   },
   elemAtkDown: {
     name: "ARTICHRON.CONDITIONS.FIELDS.elemAtkDown.label",
     img: "icons/equipment/shield/buckler-wooden-triangle-brown.webp",
     hud: true,
-    reference: "TODO"
+    reference: "TODO",
   },
   elemDefUp: {
     name: "ARTICHRON.CONDITIONS.FIELDS.elemDefUp.label",
     img: "icons/equipment/shield/buckler-wooden-triangle-brown.webp",
     hud: true,
-    reference: "TODO"
+    reference: "TODO",
   },
   elemDefDown: {
     name: "ARTICHRON.CONDITIONS.FIELDS.elemDefDOwn.label",
     img: "icons/equipment/shield/buckler-wooden-triangle-brown.webp",
     hud: true,
-    reference: "TODO"
+    reference: "TODO",
   },
   planAtkUp: {
     name: "ARTICHRON.CONDITIONS.FIELDS.planAtkUp.label",
     img: "icons/equipment/shield/buckler-wooden-triangle-brown.webp",
     hud: true,
-    reference: "TODO"
+    reference: "TODO",
   },
   planAtkDown: {
     name: "ARTICHRON.CONDITIONS.FIELDS.planAtkDown.label",
     img: "icons/equipment/shield/buckler-wooden-triangle-brown.webp",
     hud: true,
-    reference: "TODO"
+    reference: "TODO",
   },
   planDefUp: {
     name: "ARTICHRON.CONDITIONS.FIELDS.planDefUp.label",
     img: "icons/equipment/shield/buckler-wooden-triangle-brown.webp",
     hud: true,
-    reference: "TODO"
+    reference: "TODO",
   },
   planDefDown: {
     name: "ARTICHRON.CONDITIONS.FIELDS.planDefDown.label",
     img: "icons/equipment/shield/buckler-wooden-triangle-brown.webp",
     hud: true,
-    reference: "TODO"
-  }
+    reference: "TODO",
+  },
 };
 
 /* -------------------------------------------------- */
@@ -606,20 +606,20 @@ SYSTEM.STATUS_CONDITIONS = {
 SYSTEM.SKILLS = {
   agility: {
     label: "ARTICHRON.Skills.Agility",
-    img: "icons/skills/movement/feet-winged-boots-blue.webp"
+    img: "icons/skills/movement/feet-winged-boots-blue.webp",
   },
   brawn: {
     label: "ARTICHRON.Skills.Brawn",
-    img: "icons/skills/melee/unarmed-punch-fist-white.webp"
+    img: "icons/skills/melee/unarmed-punch-fist-white.webp",
   },
   mind: {
     label: "ARTICHRON.Skills.Mind",
-    img: "icons/magic/symbols/star-solid-gold.webp"
+    img: "icons/magic/symbols/star-solid-gold.webp",
   },
   spirit: {
     label: "ARTICHRON.Skills.Spirit",
-    img: "icons/magic/symbols/star-rising-purple.webp"
-  }
+    img: "icons/magic/symbols/star-rising-purple.webp",
+  },
 };
 
 /* -------------------------------------------------- */
@@ -637,16 +637,16 @@ SYSTEM.SKILLS = {
 SYSTEM.POOL_TYPES = {
   health: {
     label: "ARTICHRON.Pools.Health",
-    boost: false
+    boost: false,
   },
   stamina: {
     label: "ARTICHRON.Pools.Stamina",
-    boost: true
+    boost: true,
   },
   mana: {
     label: "ARTICHRON.Pools.Mana",
-    boost: true
-  }
+    boost: true,
+  },
 };
 
 /* -------------------------------------------------- */
@@ -665,18 +665,18 @@ SYSTEM.POOL_SIZE_SPECIALIZATION_TYPES = {
   balanced: {
     label: "ARTICHRON.PoolConfig.SpecializationBalanced",
     hint: "ARTICHRON.PoolConfig.SpecializationBalancedSizeHint",
-    sizes: [4, 4, 4]
+    sizes: [4, 4, 4],
   },
   specialized: {
     label: "ARTICHRON.PoolConfig.SpecializationSpecialized",
     hint: "ARTICHRON.PoolConfig.SpecializationSpecializedSizeHint",
-    sizes: [2, 4, 6]
+    sizes: [2, 4, 6],
   },
   focused: {
     label: "ARTICHRON.PoolConfig.SpecializationFocused",
     hint: "ARTICHRON.PoolConfig.SpecializationFocusedSizeHint",
-    sizes: [2, 2, 8]
-  }
+    sizes: [2, 2, 8],
+  },
 };
 
 /* -------------------------------------------------- */
@@ -695,18 +695,18 @@ SYSTEM.POOL_FACES_SPECIALIZATION_TYPES = {
   balanced: {
     label: "ARTICHRON.PoolConfig.SpecializationBalanced",
     hint: "ARTICHRON.PoolConfig.SpecializationBalancedFacesHint",
-    faces: [6, 6, 6]
+    faces: [6, 6, 6],
   },
   specialized: {
     label: "ARTICHRON.PoolConfig.SpecializationSpecialized",
     hint: "ARTICHRON.PoolConfig.SpecializationSpecializedFacesHint",
-    faces: [4, 6, 8]
+    faces: [4, 6, 8],
   },
   focused: {
     label: "ARTICHRON.PoolConfig.SpecializationFocused",
     hint: "ARTICHRON.PoolConfig.SpecializationFocusedFacesHint",
-    faces: [4, 4, 10]
-  }
+    faces: [4, 4, 10],
+  },
 };
 
 /* -------------------------------------------------- */
@@ -725,72 +725,72 @@ SYSTEM.POOL_FACES_SPECIALIZATION_TYPES = {
 SYSTEM.PROGRESSION_THRESHOLDS = [{
   label: "ARTICHRON.PROGRESSION.THRESHOLDS.Novice",
   level: 1,
-  threshold: 0
+  threshold: 0,
 }, {
   label: "ARTICHRON.PROGRESSION.THRESHOLDS.Experienced",
   level: 2,
-  threshold: 20
+  threshold: 20,
 }, {
   label: "ARTICHRON.PROGRESSION.THRESHOLDS.Veteran",
   level: 3,
-  threshold: 50
+  threshold: 50,
 }];
 
 /* -------------------------------------------------- */
 
 SYSTEM.PROGRESSION_CORE_PATHS = {
   cleric: {
-    label: "ARTICHRON.PROGRESSION.LABELS.Cleric"
+    label: "ARTICHRON.PROGRESSION.LABELS.Cleric",
   },
   fighter: {
-    label: "ARTICHRON.PROGRESSION.LABELS.Fighter"
+    label: "ARTICHRON.PROGRESSION.LABELS.Fighter",
   },
   mage: {
-    label: "ARTICHRON.PROGRESSION.LABELS.Mage"
+    label: "ARTICHRON.PROGRESSION.LABELS.Mage",
   },
   rogue: {
-    label: "ARTICHRON.PROGRESSION.LABELS.Rogue"
-  }
+    label: "ARTICHRON.PROGRESSION.LABELS.Rogue",
+  },
 };
 
 SYSTEM.PROGRESSION_MIXED_PATHS = {
   inquisitor: {
     label: "ARTICHRON.PROGRESSION.LABELS.Inquisitor",
-    combo: new Set(["cleric", "rogue"])
+    combo: new Set(["cleric", "rogue"]),
   },
   shaman: {
     label: "ARTICHRON.PROGRESSION.LABELS.Shaman",
-    combo: new Set(["cleric", "mage"])
+    combo: new Set(["cleric", "mage"]),
   },
   spellblade: {
     label: "ARTICHRON.PROGRESSION.LABELS.Spellblade",
-    combo: new Set(["fighter", "mage"])
+    combo: new Set(["fighter", "mage"]),
   },
   swashbuckler: {
     label: "ARTICHRON.PROGRESSION.LABELS.Swashbuckler",
-    combo: new Set(["fighter", "rogue"])
+    combo: new Set(["fighter", "rogue"]),
   },
   templar: {
     label: "ARTICHRON.PROGRESSION.LABELS.Templar",
-    combo: new Set(["fighter", "cleric"])
+    combo: new Set(["fighter", "cleric"]),
   },
   warlock: {
     label: "ARTICHRON.PROGRESSION.LABELS.Warlock",
-    combo: new Set(["mage", "rogue"])
-  }
+    combo: new Set(["mage", "rogue"]),
+  },
 };
 
 Object.defineProperty(SYSTEM.PROGRESSION_CORE_PATHS, "combo", {
-  value: _getCombo, configurable: true
+  value: _getCombo, configurable: true,
 });
 
 function _getCombo(a, b) {
-  for (const [k, {combo}] of Object.entries(SYSTEM.PROGRESSION_MIXED_PATHS)) {
+  for (const [k, { combo }] of Object.entries(SYSTEM.PROGRESSION_MIXED_PATHS)) {
     if (combo.has(a) && combo.has(b)) return k;
   }
 }
 
 SYSTEM.PROGRESSION_MARGINS = {
   lower: 45,
-  higher: 55
+  higher: 55,
 };

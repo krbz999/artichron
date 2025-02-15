@@ -4,9 +4,9 @@
   "description": "Implementation of the Artifice Chronicles system.",
   "version": "1.0.0",
   "compatibility": {
-    "minimum": 12,
-    "verified": 12,
-    "maximum": 12
+    "minimum": 13,
+    "verified": 13,
+    "maximum": 13
   },
   "authors": [
     {
@@ -17,7 +17,6 @@
       "patreon": "https://patreon.com/zhell"
     }
   ],
-  "scripts": ["greensock/dist/gsap.min.js"],
   "esmodules": ["artichron.mjs"],
   "styles": [
     "styles/artichron.css",

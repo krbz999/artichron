@@ -1,6 +1,6 @@
 import ChatMessageSystemModel from "./system-model.mjs";
 
-const {ArrayField, DocumentUUIDField, StringField} = foundry.data.fields;
+const { ArrayField, DocumentUUIDField, StringField } = foundry.data.fields;
 
 export default class UsageMessageData extends ChatMessageSystemModel {
   /**
@@ -8,7 +8,7 @@ export default class UsageMessageData extends ChatMessageSystemModel {
    * @type {import("../../helpers/types.mjs").ChatMessageSystemModelMetadata}
    */
   static metadata = Object.freeze({
-    type: "usage"
+    type: "usage",
   });
 
   /* -------------------------------------------------- */
@@ -17,8 +17,8 @@ export default class UsageMessageData extends ChatMessageSystemModel {
   static defineSchema() {
     return {
       activity: new StringField(),
-      item: new DocumentUUIDField({type: "Item", embedded: true}),
-      targets: new ArrayField(new StringField())
+      item: new DocumentUUIDField({ type: "Item", embedded: true }),
+      targets: new ArrayField(new StringField()),
     };
   }
 
@@ -96,7 +96,7 @@ export default class UsageMessageData extends ChatMessageSystemModel {
     const text = activity?.description ? activity.description : item.system.description.value;
 
     const enriched = await TextEditor.enrichHTML(text, {
-      rollData: this.item.getRollData(), relativeTo: this.item
+      rollData: this.item.getRollData(), relativeTo: this.item,
     });
     itemHeader.innerHTML = `
     <img class="icon" src="${item.img}" alt="${item.name}">
@@ -128,7 +128,7 @@ export default class UsageMessageData extends ChatMessageSystemModel {
       let color;
 
       if (this.parent.isDamage) {
-        ({label, color, icon} = CONFIG.SYSTEM.DAMAGE_TYPES[roll.type]);
+        ({ label, color, icon } = CONFIG.SYSTEM.DAMAGE_TYPES[roll.type]);
       } else if (this.parent.isHealing) {
         icon = "fa-solid fa-staff-snake";
         label = "ARTICHRON.Healing";
@@ -137,13 +137,13 @@ export default class UsageMessageData extends ChatMessageSystemModel {
         icon = "fa-solid fa-shield-alt";
       }
 
-      const {formula, total, dice} = roll;
+      const { formula, total, dice } = roll;
       return {
         color, icon, formula, total, label,
         multiplier: (roll.multiplier !== 1) ? roll.multiplier.toNearest(0.01) : null,
         pills: [
           roll.undefendable ? "Undefendable" : null,
-          roll.irreducible ? "Irreducible" : null
+          roll.irreducible ? "Irreducible" : null,
         ].filter(_ => _),
         dice: dice.flatMap(die => {
           const dice = [];
@@ -152,12 +152,12 @@ export default class UsageMessageData extends ChatMessageSystemModel {
               "die",
               `d${die.faces}`,
               (result.result === 1) ? "min" : null,
-              (result.result === die.faces) ? "max" : null
+              (result.result === die.faces) ? "max" : null,
             ];
-            dice.push({cssClasses: cssClasses.filterJoin(" "), total: result.result});
+            dice.push({ cssClasses: cssClasses.filterJoin(" "), total: result.result });
           }
           return dice;
-        })
+        }),
       };
     });
     content.insertAdjacentHTML("beforeend", await renderTemplate(template, context));
@@ -185,7 +185,7 @@ export default class UsageMessageData extends ChatMessageSystemModel {
         "ARTICHRON.ACTIVITY.Buttons.ApplyDamage" :
         this.parent.isHealing ?
           "ARTICHRON.ACTIVITY.Buttons.ApplyHealing" :
-          "ARTICHRON.ACTIVITY.Buttons.ApplyEffects"
+          "ARTICHRON.ACTIVITY.Buttons.ApplyEffects",
     };
     content.insertAdjacentHTML("beforeend", await renderTemplate(template, context));
 

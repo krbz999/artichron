@@ -1,7 +1,7 @@
 import ActorArtichron from "../../documents/actor.mjs";
 
 export default class PartyFundsDialog extends foundry.applications.api.HandlebarsApplicationMixin(
-  foundry.applications.api.ApplicationV2
+  foundry.applications.api.ApplicationV2,
 ) {
   constructor(options) {
     super(options);
@@ -55,8 +55,8 @@ export default class PartyFundsDialog extends foundry.applications.api.Handlebar
   static async create(options) {
     return new Promise(resolve => {
       const application = new this(options);
-      application.addEventListener("close", () => resolve(application.config), {once: true});
-      application.render({force: true});
+      application.addEventListener("close", () => resolve(application.config), { once: true });
+      application.render({ force: true });
     });
   }
 
@@ -67,17 +67,17 @@ export default class PartyFundsDialog extends foundry.applications.api.Handlebar
     classes: ["artichron", "party-funds-dialog"],
     window: {
       icon: "fa-solid fa-money-bill-transfer",
-      contentClasses: ["standard-form"]
+      contentClasses: ["standard-form"],
     },
     position: {
       width: 400,
-      height: "auto"
+      height: "auto",
     },
     tag: "form",
     form: {
       handler: PartyFundsDialog.#handler,
-      closeOnSubmit: true
-    }
+      closeOnSubmit: true,
+    },
   };
 
   /* -------------------------------------------------- */
@@ -85,11 +85,11 @@ export default class PartyFundsDialog extends foundry.applications.api.Handlebar
   /** @override */
   static PARTS = {
     form: {
-      template: "systems/artichron/templates/actor/party-funds-dialog.hbs"
+      template: "systems/artichron/templates/actor/party-funds-dialog.hbs",
     },
     footer: {
-      template: "systems/artichron/templates/actor/party-funds-dialog-footer.hbs"
-    }
+      template: "systems/artichron/templates/actor/party-funds-dialog-footer.hbs",
+    },
   };
 
   /* -------------------------------------------------- */
@@ -97,7 +97,7 @@ export default class PartyFundsDialog extends foundry.applications.api.Handlebar
   /** @override */
   get title() {
     return game.i18n.format("ARTICHRON.PartyFundsDialog.Title", {
-      name: this.#member.name
+      name: this.#member.name,
     });
   }
 
@@ -108,11 +108,11 @@ export default class PartyFundsDialog extends foundry.applications.api.Handlebar
     const field = new foundry.data.fields.NumberField({
       nullable: false,
       label: "ARTICHRON.PartyFundsDialog.label",
-      hint: "ARTICHRON.PartyFundsDialog.hint"
+      hint: "ARTICHRON.PartyFundsDialog.hint",
     });
 
     return {
-      field: field
+      field: field,
     };
   }
 

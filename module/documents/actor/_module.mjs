@@ -7,5 +7,5 @@ export default {
   HeroData,
   MerchantData,
   MonsterData,
-  PartyData
+  PartyData,
 };

@@ -1,4 +1,4 @@
-const {HandlebarsApplicationMixin, ApplicationV2} = foundry.applications.api;
+const { HandlebarsApplicationMixin, ApplicationV2 } = foundry.applications.api;
 
 export default class CombatCarousel extends HandlebarsApplicationMixin(ApplicationV2) {
   /**
@@ -18,11 +18,11 @@ export default class CombatCarousel extends HandlebarsApplicationMixin(Applicati
     classes: ["combat-carousel"],
     tag: "aside",
     position: {
-      height: "auto"
+      height: "auto",
     },
     window: {
       frame: false,
-      positioned: false
+      positioned: false,
     },
     actions: {
       beginCombat: CombatCarousel.#beginCombat,
@@ -33,8 +33,8 @@ export default class CombatCarousel extends HandlebarsApplicationMixin(Applicati
       selectCombatant: CombatCarousel.#onSelectCombatant,
       toggleCollapsed: CombatCarousel.#toggleCollapsed,
       toggleDefeated: CombatCarousel.#toggleDefeated,
-      toggleHidden: CombatCarousel.#toggleHidden
-    }
+      toggleHidden: CombatCarousel.#toggleHidden,
+    },
   };
 
   /* -------------------------------------------------- */
@@ -42,11 +42,11 @@ export default class CombatCarousel extends HandlebarsApplicationMixin(Applicati
   /** @override */
   static PARTS = {
     controls: {
-      template: "systems/artichron/templates/combat/carousel-controls.hbs"
+      template: "systems/artichron/templates/combat/carousel-controls.hbs",
     },
     tracker: {
-      template: "systems/artichron/templates/combat/carousel.hbs"
-    }
+      template: "systems/artichron/templates/combat/carousel.hbs",
+    },
   };
 
   /* -------------------------------------------------- */
@@ -103,7 +103,7 @@ export default class CombatCarousel extends HandlebarsApplicationMixin(Applicati
           dead ? "defeated" : null,
           (turn === i) ? "current" : null,
           (t.token.disposition === CONST.TOKEN_DISPOSITIONS.HOSTILE) ? "hostile" : null,
-          (t.token.disposition === CONST.TOKEN_DISPOSITIONS.FRIENDLY) ? "friendly" : null
+          (t.token.disposition === CONST.TOKEN_DISPOSITIONS.FRIENDLY) ? "friendly" : null,
         ].filterJoin(" ");
         const conditions = t.actor?.effects.filter(e => {
           return (e.type === "condition") && (e.system.primary !== CONFIG.specialStatusEffects.DEFEATED);
@@ -122,7 +122,7 @@ export default class CombatCarousel extends HandlebarsApplicationMixin(Applicati
           ap: {
             pips: Array(pips > 18 ? 17 : pips).fill(0),
             overflow: pips > 18,
-            amount: pips
+            amount: pips,
           },
           left: Math.max(i - hidden, 0),
           defeated: dead,
@@ -136,8 +136,8 @@ export default class CombatCarousel extends HandlebarsApplicationMixin(Applicati
           health: {
             value: hp.value,
             max: hp.max,
-            pct: hp.pct
-          }
+            pct: hp.pct,
+          },
         });
       }
     }
@@ -158,7 +158,7 @@ export default class CombatCarousel extends HandlebarsApplicationMixin(Applicati
         state.offsets[id] = {
           left: c.offsetLeft,
           top: c.offsetTop,
-          hp: c.querySelector(".health .bar")?.clientWidth ?? false
+          hp: c.querySelector(".health .bar")?.clientWidth ?? false,
         };
       }
       state.scrollLeft = priorElement.scrollLeft;
@@ -176,22 +176,22 @@ export default class CombatCarousel extends HandlebarsApplicationMixin(Applicati
       const transitions = [];
       for (const n of turnsN) {
         const o = state.offsets?.[n.dataset.id];
-        const m = {left: n.offsetLeft, top: n.offsetTop};
+        const m = { left: n.offsetLeft, top: n.offsetTop };
         const positionChange = o ? (o.left !== m.left) || (o.top !== m.top) : false;
         if (positionChange) transitions.push({
           element: n,
           params: [
-            {left: `${o.left}px`, top: `${o.top}px`},
-            {left: `${m.left}px`, top: `${m.top}px`}
+            { left: `${o.left}px`, top: `${o.top}px` },
+            { left: `${m.left}px`, top: `${m.top}px` },
           ],
-          options: {duration: 300, easing: "ease-in-out"}
+          options: { duration: 300, easing: "ease-in-out" },
         });
         if (o && (o.hp !== false)) {
           const bar = n.querySelector(".health .bar");
           if (bar) transitions.push({
             element: bar,
-            params: [{width: `${o.hp}px`}, {width: `${bar.clientWidth}px`}],
-            options: {duration: 300, easing: "ease-in-out"}
+            params: [{ width: `${o.hp}px` }, { width: `${bar.clientWidth}px` }],
+            options: { duration: 300, easing: "ease-in-out" },
           });
         }
       }
@@ -209,10 +209,10 @@ export default class CombatCarousel extends HandlebarsApplicationMixin(Applicati
   /** @override */
   _attachFrameListeners() {
     super._attachFrameListeners();
-    new artichron.applications.ContextMenuArtichron(this.element, ".combatant[data-id]", [], {onOpen: element => {
+    new artichron.applications.ContextMenuArtichron(this.element, ".combatant[data-id]", [], { onOpen: element => {
       const combatant = this.combat.combatants.get(element.dataset.id);
       ui.context.menuItems = this._getCombatantContextOptions(combatant);
-    }});
+    } });
   }
 
   /* -------------------------------------------------- */
@@ -241,22 +241,22 @@ export default class CombatCarousel extends HandlebarsApplicationMixin(Applicati
       name: "ARTICHRON.Combat.ContextUpdateCombatant",
       icon: "<i class='fa-solid fa-fw fa-edit'></i>",
       callback: () => combatant.sheet.render(true),
-      condition: () => isGM
+      condition: () => isGM,
     }, {
       name: "ARTICHRON.Combat.ContextClearInitiative",
       icon: "<i class='fa-solid fa-fw fa-undo'></i>",
-      callback: () => combatant.update({initiative: null}),
-      condition: () => isGM && (combatant.initiative !== null)
+      callback: () => combatant.update({ initiative: null }),
+      condition: () => isGM && (combatant.initiative !== null),
     }, {
       name: "ARTICHRON.Combat.ContextRemoveCombatant",
       icon: "<i class='fa-solid fa-fw fa-trash'></i>",
       callback: () => combatant.delete(),
-      condition: () => isGM
+      condition: () => isGM,
     }, {
       name: "ARTICHRON.Combat.ContextUpdateActionPoints",
       icon: "<i class='fa-solid fa-fw fa-circle'></i>",
       callback: () => combatant.actor.actionPointsDialog(),
-      condition: () => combatant.actor.isOwner
+      condition: () => combatant.actor.isOwner,
     }];
   }
 
@@ -268,8 +268,8 @@ export default class CombatCarousel extends HandlebarsApplicationMixin(Applicati
    * @param {object[]} transitions      The configuration of animations.
    */
   #transitionCombatantsAndScrollIntoView(current, transitions) {
-    current?.scrollIntoView({behavior: "smooth", inline: "center"});
-    for (const {element, params, options} of transitions) {
+    current?.scrollIntoView({ behavior: "smooth", inline: "center" });
+    for (const { element, params, options } of transitions) {
       element.animate(params, options);
     }
   }
@@ -287,7 +287,7 @@ export default class CombatCarousel extends HandlebarsApplicationMixin(Applicati
     const id = event.currentTarget.closest("[data-id]").dataset.id;
     const combatant = this.combat.combatants.get(id);
     const actor = combatant.actor;
-    if (actor?.testUserPermission(game.user, "OBSERVER")) actor.sheet.render({force: true});
+    if (actor?.testUserPermission(game.user, "OBSERVER")) actor.sheet.render({ force: true });
   }
 
   /* -------------------------------------------------- */
@@ -308,7 +308,7 @@ export default class CombatCarousel extends HandlebarsApplicationMixin(Applicati
     const releaseOthers = !event.shiftKey;
     if (token.controlled) token.release();
     else {
-      token.control({releaseOthers});
+      token.control({ releaseOthers });
       canvas.animatePan(token.center);
     }
   }
@@ -324,7 +324,7 @@ export default class CombatCarousel extends HandlebarsApplicationMixin(Applicati
     const combatant = this.combat.combatants.get(id);
     const token = combatant.token?.object;
     if (token && token.isVisible) {
-      if (!token.controlled) token._onHoverIn(event, {hoverOutOthers: true});
+      if (!token.controlled) token._onHoverIn(event, { hoverOutOthers: true });
       this._highlighted = token;
     }
   }
@@ -402,7 +402,7 @@ export default class CombatCarousel extends HandlebarsApplicationMixin(Applicati
     const combatant = this.combat.combatants.get(id);
     if (!canvas.ready || (combatant.sceneId !== canvas.scene.id)) return;
     if (!combatant.token.object.visible) {
-      ui.notifications.warn("COMBAT.WarnNonVisibleToken", {localize: true});
+      ui.notifications.warn("COMBAT.WarnNonVisibleToken", { localize: true });
     } else canvas.ping(combatant.token.object.center);
   }
 
@@ -419,7 +419,7 @@ export default class CombatCarousel extends HandlebarsApplicationMixin(Applicati
     const id = target.closest("[data-id]").dataset.id;
     const combatant = this.combat.combatants.get(id);
     const actor = combatant.actor;
-    if (actor) actor.toggleStatusEffect(CONFIG.specialStatusEffects.DEFEATED, {overlay: true});
+    if (actor) actor.toggleStatusEffect(CONFIG.specialStatusEffects.DEFEATED, { overlay: true });
   }
 
   /* -------------------------------------------------- */
@@ -435,7 +435,7 @@ export default class CombatCarousel extends HandlebarsApplicationMixin(Applicati
     const id = target.closest("[data-id]").dataset.id;
     const combatant = this.combat.combatants.get(id);
     const combatants = this.combat.getCombatantsByToken(combatant.token);
-    this.combat.updateEmbeddedDocuments("Combatant", combatants.map(c => ({_id: c.id, hidden: !combatant.hidden})));
+    this.combat.updateEmbeddedDocuments("Combatant", combatants.map(c => ({ _id: c.id, hidden: !combatant.hidden })));
   }
 
   /* -------------------------------------------------- */

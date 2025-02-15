@@ -24,7 +24,7 @@ export default class TokenDocumentArtichron extends TokenDocument {
     const x = Math.round(data.x ?? this.x);
     const y = Math.round(data.y ?? this.y);
     if (!(this.x - x) && !(this.y - y)) return;
-    const ray = new Ray(this, {x, y});
+    const ray = new Ray(this, { x, y });
     data.rotation = Math.toDegrees(ray.angle) - 90;
   }
 
@@ -42,16 +42,16 @@ export default class TokenDocumentArtichron extends TokenDocument {
     }
 
     const tokens = [];
-    for (const {actor} of this.actor.system.members) {
+    for (const { actor } of this.actor.system.members) {
       for (const token of actor.getActiveTokens()) {
         if (!token.actor.isToken) tokens.push(token);
       }
     }
     const updates = tokens.map(token => {
-      return {_id: token.id, x: this.x, y: this.y};
+      return { _id: token.id, x: this.x, y: this.y };
     });
     await this.parent.updateEmbeddedDocuments("Token", updates, {
-      animation: {duration: 1000, easing: "easeInOutCosine"}
+      animation: { duration: 1000, easing: "easeInOutCosine" },
     });
     const ids = tokens.map(token => token.id);
 
@@ -70,19 +70,19 @@ export default class TokenDocumentArtichron extends TokenDocument {
           ["health"],
           ["pools", "health"],
           ["pools", "stamina"],
-          ["pools", "mana"]
+          ["pools", "mana"],
         ];
         break;
       case "monster":
         bar = [
           ["health"],
-          ["danger", "pool"]
+          ["danger", "pool"],
         ];
         break;
       default:
         return super.getTrackedAttributes(data, _path);
     }
-    return {bar: bar, value: []};
+    return { bar: bar, value: [] };
   }
 
   /* -------------------------------------------------- */

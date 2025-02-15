@@ -5,5 +5,5 @@ import TokenPlacement from "./token-placement.mjs";
 export default {
   RulerArtichron,
   TemplatePlacement,
-  TokenPlacement
+  TokenPlacement,
 };

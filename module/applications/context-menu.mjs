@@ -4,12 +4,12 @@
  */
 export default class ContextMenuArtichron extends ContextMenu {
   /** @override */
-  _setPosition([html], [target], {event}) {
+  _setPosition([html], [target], { event }) {
     document.body.appendChild(html);
-    const {clientWidth, clientHeight} = document.documentElement;
-    const {width, height} = html.getBoundingClientRect();
+    const { clientWidth, clientHeight } = document.documentElement;
+    const { width, height } = html.getBoundingClientRect();
 
-    const {clientX, clientY} = event;
+    const { clientX, clientY } = event;
     const left = Math.min(clientX, clientWidth - width) + 1;
     this._expandUp = clientY + height > clientHeight;
     html.classList.add("artichron");

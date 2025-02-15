@@ -2,14 +2,14 @@ export default function registerEnrichers() {
   CONFIG.TextEditor.enrichers.push({
     // Lookup.
     pattern: /\[\[(?<type>lookup) (?<config>[^\]]+)]](?:{(?<label>[^}]+)})?/gi,
-    enricher: enrichString
+    enricher: enrichString,
   });
 }
 
 /* -------------------------------------------------- */
 
 async function enrichString(match, options) {
-  let {type, config, label} = match.groups;
+  let { type, config, label } = match.groups;
   config = parseConfig(config);
   config._input = match[0];
   switch (type.toLowerCase()) {
@@ -21,7 +21,7 @@ async function enrichString(match, options) {
 /* -------------------------------------------------- */
 
 function parseConfig(match) {
-  const config = {_config: match, values: []};
+  const config = { _config: match, values: [] };
   for (const part of match.match(/(?:[^\s"]+|"[^"]*")+/g)) {
     if (!part) continue;
     const [key, value] = part.split("=");

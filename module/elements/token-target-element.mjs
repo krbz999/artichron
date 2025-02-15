@@ -172,7 +172,7 @@ export default class TokenTargetElement extends HTMLElement {
    * Execute the application of this element.
    */
   async apply() {
-    const {item, activity} = this.chatMessage.system;
+    const { item, activity } = this.chatMessage.system;
 
     switch (this.dataset.type) {
       case "damage":

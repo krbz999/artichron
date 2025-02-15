@@ -1,5 +1,5 @@
-import {registerSockets} from "./module/helpers/sockets.mjs";
-import {SYSTEM} from "./module/helpers/config.mjs";
+import { registerSockets } from "./module/helpers/sockets.mjs";
+import { SYSTEM } from "./module/helpers/config.mjs";
 import * as documents from "./module/documents/_module.mjs";
 import * as migrations from "./module/helpers/migrations.mjs";
 import * as utils from "./module/helpers/utils.mjs";
@@ -33,7 +33,7 @@ globalThis.artichron = {
   fields: fields,
   migrations: migrations,
   tooltips: new applications.TooltipsArtichron(),
-  utils: utils
+  utils: utils,
 };
 
 /* -------------------------------------------------- */
@@ -80,56 +80,56 @@ Hooks.once("init", function() {
   Actors.registerSheet("artichron", applications.HeroSheet, {
     makeDefault: true,
     label: "ARTICHRON.SHEET.ACTOR.Hero",
-    types: ["hero"]
+    types: ["hero"],
   });
   Actors.registerSheet("artichron", applications.MonsterSheet, {
     makeDefault: true,
     label: "ARTICHRON.SHEET.ACTOR.Monster",
-    types: ["monster"]
+    types: ["monster"],
   });
   Actors.registerSheet("artichron", applications.MerchantSheet, {
     makeDefault: true,
     label: "ARTICHRON.SHEET.ACTOR.Merchant",
-    types: ["merchant"]
+    types: ["merchant"],
   });
   Actors.registerSheet("artichron", applications.PartySheet, {
     makeDefault: true,
     label: "ARTICHRON.SHEET.ACTOR.Party",
-    types: ["party"]
+    types: ["party"],
   });
 
   Items.unregisterSheet("core", ItemSheet);
   Items.registerSheet("artichron", applications.ItemSheetArtichron, {
     makeDefault: true,
     label: "ARTICHRON.SHEET.ITEM.Base",
-    types: ["weapon", "shield", "spell", "armor"]
+    types: ["weapon", "shield", "spell", "armor"],
   });
   Items.registerSheet("artichron", applications.ItemSheetAmmunition, {
     makeDefault: true,
     label: "ARTICHRON.SHEET.ITEM.Ammunition",
-    types: ["ammo"]
+    types: ["ammo"],
   });
   Items.registerSheet("artichron", applications.ItemSheetElixir, {
     makeDefault: true,
     label: "ARTICHRON.SHEET.ITEM.Elixir",
-    types: ["elixir"]
+    types: ["elixir"],
   });
   Items.registerSheet("artichron", applications.ItemSheetPart, {
     makeDefault: true,
     label: "ARTICHRON.SHEET.ITEM.Part",
-    types: ["part"]
+    types: ["part"],
   });
 
   DocumentSheetConfig.unregisterSheet(ActiveEffect, "core", ActiveEffectConfig);
   DocumentSheetConfig.registerSheet(ActiveEffect, "artichron", applications.ActiveEffectSheetArtichron, {
     makeDefault: true,
-    label: "ARTICHRON.SHEET.EFFECT.Base"
+    label: "ARTICHRON.SHEET.EFFECT.Base",
   });
 
   // Set up conditions.
   CONFIG.statusEffects = [];
   for (const [id, config] of Object.entries(SYSTEM.STATUS_CONDITIONS)) {
-    CONFIG.statusEffects.push({...config, id: id, _id: utils.staticId(id)});
+    CONFIG.statusEffects.push({ ...config, id: id, _id: utils.staticId(id) });
   }
 
   CONFIG.specialStatusEffects.DEFEATED = "defeated";
@@ -148,7 +148,7 @@ Hooks.once("setup", function() {
     effectEntry: effectEntry,
     inventoryItem: inventoryItem,
     progressClock: progressClock,
-    thresholdBar: thresholdBar
+    thresholdBar: thresholdBar,
   });
   artichron.tooltips.observe();
   applications.TooltipsArtichron.activateListeners();
@@ -188,8 +188,8 @@ Hooks.once("i18nInit", function() {
     const meta = model.metadata;
     model.metadata = foundry.utils.mergeObject(meta, {
       label: game.i18n.localize(meta.label),
-      hint: game.i18n.localize(meta.hint)
-    }, {inplace: false});
+      hint: game.i18n.localize(meta.hint),
+    }, { inplace: false });
   }
 
   for (const model of Object.values(artichron.fields.ProgressionData.TYPES)) {
@@ -210,7 +210,7 @@ Hooks.once("i18nInit", function() {
   // Explicitly localize this embedded data model due to unknown reasons.
   for (const v of Object.values(CONFIG.Item.dataModels)) {
     const schema = v.schema.getField("attributes.levels");
-    if (schema) Localization.localizeDataModel({schema: schema});
+    if (schema) Localization.localizeDataModel({ schema: schema });
   }
 });
 
@@ -247,8 +247,8 @@ Hooks.on("getActorDirectoryEntryContext", (directory, options) => {
       const current = game.settings.get("artichron", "primaryParty")?.actor;
       return game.user.isGM && (actor.type === "party") && (actor !== current);
     },
-    callback: ([li]) => game.settings.set("artichron", "primaryParty", {actor: game.actors.get(li.dataset.documentId)}),
-    group: "system"
+    callback: ([li]) => game.settings.set("artichron", "primaryParty", { actor: game.actors.get(li.dataset.documentId) }),
+    group: "system",
   }, {
     name: "ARTICHRON.ContextMenu.Directory.RemovePrimaryParty",
     icon: "<i class='fa-solid fa-fw fa-times'></i>",
@@ -257,8 +257,8 @@ Hooks.on("getActorDirectoryEntryContext", (directory, options) => {
       const current = game.settings.get("artichron", "primaryParty")?.actor;
       return game.user.isGM && (actor === current);
     },
-    callback: ([li]) => game.settings.set("artichron", "primaryParty", {actor: null}),
-    group: "system"
+    callback: ([li]) => game.settings.set("artichron", "primaryParty", { actor: null }),
+    group: "system",
   });
 });
 
@@ -277,7 +277,7 @@ Hooks.on("renderActorDirectory", (directory, [html]) => {
 async function setupCarousel() {
   const cls = applications.CombatCarousel;
   const app = new cls();
-  app.render({force: true});
+  app.render({ force: true });
 }
 
 /* -------------------------------------------------- */
@@ -293,14 +293,14 @@ async function setupCarousel() {
 async function createEffectMacro(data, slot) {
   const effect = await ActiveEffect.implementation.fromDropData(data);
   const command = `artichron.utils.macro.toggleEffect("${effect.name}");`;
-  const name = game.i18n.format("ARTICHRON.MACRO.ToggleEffect", {name: effect.name});
+  const name = game.i18n.format("ARTICHRON.MACRO.ToggleEffect", { name: effect.name });
   let macro = game.macros.find(m => (m.name === name) && (m.command === command));
   if (!macro) {
     macro = await Macro.implementation.create({
       name: name,
       type: "script",
       img: effect.img,
-      command: command
+      command: command,
     });
   }
   game.user.assignHotbarMacro(macro, slot);
@@ -317,14 +317,14 @@ async function createEffectMacro(data, slot) {
 async function createItemMacro(data, slot) {
   const item = await Item.implementation.fromDropData(data);
   const command = `artichron.utils.macro.useItem("${item.name}", event);`;
-  const name = game.i18n.format("ARTICHRON.MACRO.UseItem", {name: item.name});
+  const name = game.i18n.format("ARTICHRON.MACRO.UseItem", { name: item.name });
   let macro = game.macros.find(m => (m.name === name) && (m.command === command));
   if (!macro) {
     macro = await Macro.implementation.create({
       name: name,
       type: "script",
       img: item.img,
-      command: command
+      command: command,
     });
   }
   game.user.assignHotbarMacro(macro, slot);
@@ -335,12 +335,12 @@ async function createItemMacro(data, slot) {
 /* -------------------------------------------------- */
 
 function inventoryItem(item, options) {
-  const element = elements.InventoryItemElement.create({...options.hash, item});
+  const element = elements.InventoryItemElement.create({ ...options.hash, item });
   return new Handlebars.SafeString(element.outerHTML);
 }
 
 function effectEntry(effect, options) {
-  const element = elements.EffectEntryElement.create({...options.hash, effect});
+  const element = elements.EffectEntryElement.create({ ...options.hash, effect });
   return new Handlebars.SafeString(element.outerHTML);
 }
 
@@ -350,13 +350,13 @@ function thresholdBar(options) {
 }
 
 function batteryProgress(field, options) {
-  let {min, max, name, value, step, ...inputConfig} = options.hash;
+  let { min, max, name, value, step, ...inputConfig } = options.hash;
   min ??= field.min;
   max ??= field.max;
   name ??= field.fieldPath;
   value ??= field.initial;
   step ??= 1;
-  const element = elements.BatteryProgressElement.create({...inputConfig, min, max, value, step, name});
+  const element = elements.BatteryProgressElement.create({ ...inputConfig, min, max, value, step, name });
   return new Handlebars.SafeString(element.outerHTML);
 }
 

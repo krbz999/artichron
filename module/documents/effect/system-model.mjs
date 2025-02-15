@@ -1,4 +1,4 @@
-const {StringField} = foundry.data.fields;
+const { StringField } = foundry.data.fields;
 
 /**
  * System data for ActiveEffects.
@@ -10,8 +10,8 @@ export default class ActiveEffectSystemModel extends foundry.abstract.TypeDataMo
       expiration: new StringField({
         required: true,
         initial: "none",
-        choices: CONFIG.SYSTEM.EFFECT_EXPIRATION_TYPES
-      })
+        choices: CONFIG.SYSTEM.EFFECT_EXPIRATION_TYPES,
+      }),
     };
   }
 
@@ -19,7 +19,7 @@ export default class ActiveEffectSystemModel extends foundry.abstract.TypeDataMo
 
   /** @inheritdoc */
   static LOCALIZATION_PREFIXES = [
-    "ARTICHRON.EFFECT"
+    "ARTICHRON.EFFECT",
   ];
 
   /* -------------------------------------------------- */

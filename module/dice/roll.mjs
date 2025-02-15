@@ -19,7 +19,7 @@ export default class RollArtichron extends Roll {
 
     for (const [i, term] of this.terms.entries()) {
       if ((term.roll instanceof RollArtichron) && term.isDeterministic) {
-        this.terms[i] = new foundry.dice.terms.NumericTerm({number: term.roll.evaluateSync().total});
+        this.terms[i] = new foundry.dice.terms.NumericTerm({ number: term.roll.evaluateSync().total });
       }
     }
 
@@ -37,14 +37,14 @@ export default class RollArtichron extends Roll {
    * @param {boolean} [options.create]          Whether to automatically create the chat message or return message data.
    * @returns {Promise<ChatMessage|object>}     A promise that resolves to the created chat message.
    */
-  static async toMessage(rolls, messageData = {}, {rollMode, create = true} = {}) {
+  static async toMessage(rolls, messageData = {}, { rollMode, create = true } = {}) {
     for (const roll of rolls) if (!roll._evaluated) await roll.evaluate();
 
     messageData = foundry.utils.mergeObject({
       rolls: rolls,
       sound: CONFIG.sounds.dice,
-      rollMode: rollMode ? rollMode : game.settings.get("core", "rollMode")
-    }, messageData, {inplace: false});
+      rollMode: rollMode ? rollMode : game.settings.get("core", "rollMode"),
+    }, messageData, { inplace: false });
 
     if (create) return ChatMessage.implementation.create(messageData);
     return messageData;
@@ -57,7 +57,7 @@ export default class RollArtichron extends Roll {
    * @param {object} [messageData]      The data object to use when creating the message.
    * @param {object} [options]          Additional options which modify the created message.
    */
-  async toMessage(messageData = {}, {rollMode, create = true} = {}) {
-    return this.constructor.toMessage([this], messageData, {rollMode, create});
+  async toMessage(messageData = {}, { rollMode, create = true } = {}) {
+    return this.constructor.toMessage([this], messageData, { rollMode, create });
   }
 }

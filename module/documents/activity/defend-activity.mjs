@@ -2,21 +2,21 @@ import BaseActivity from "./base-activity.mjs";
 import ChatMessageArtichron from "../chat-message.mjs";
 import FormulaModel from "../fields/formula-model.mjs";
 
-const {EmbeddedDataField} = foundry.data.fields;
+const { EmbeddedDataField } = foundry.data.fields;
 
 export default class DefendActivity extends BaseActivity {
   /** @inheritdoc */
   static metadata = Object.freeze(foundry.utils.mergeObject(super.metadata, {
     type: "defend",
-    label: "ARTICHRON.ACTIVITY.Types.Defend"
-  }, {inplace: false}));
+    label: "ARTICHRON.ACTIVITY.Types.Defend",
+  }, { inplace: false }));
 
   /* -------------------------------------------------- */
 
   /** @inheritdoc */
   static defineSchema() {
     return Object.assign(super.defineSchema(), {
-      defend: new EmbeddedDataField(FormulaModel)
+      defend: new EmbeddedDataField(FormulaModel),
     });
   }
 
@@ -47,7 +47,7 @@ export default class DefendActivity extends BaseActivity {
     if (!consumed) return null;
 
     await item.setFlag("artichron", `usage.${this.id}`, {
-      "rollMode.mode": foundry.utils.getProperty(configuration.usage, "rollMode.mode") ?? true
+      "rollMode.mode": foundry.utils.getProperty(configuration.usage, "rollMode.mode") ?? true,
     });
 
     await roll.evaluate();
@@ -55,11 +55,11 @@ export default class DefendActivity extends BaseActivity {
     const messageData = {
       type: "usage",
       rolls: [roll],
-      speaker: ChatMessageArtichron.getSpeaker({actor: actor}),
+      speaker: ChatMessageArtichron.getSpeaker({ actor: actor }),
       "system.activity": this.id,
       "system.item": item.uuid,
       "flags.artichron.usage": configuration.usage,
-      "flags.artichron.type": DefendActivity.metadata.type
+      "flags.artichron.type": DefendActivity.metadata.type,
     };
     ChatMessageArtichron.applyRollMode(messageData, configuration.usage.rollMode.mode);
     foundry.utils.mergeObject(messageData, configuration.message);

@@ -1,7 +1,7 @@
 export default class ActivityUseDialog extends foundry.applications.api.HandlebarsApplicationMixin(
-  foundry.applications.api.ApplicationV2
+  foundry.applications.api.ApplicationV2,
 ) {
-  constructor({activity, usage, dialog, message, ...options} = {}) {
+  constructor({ activity, usage, dialog, message, ...options } = {}) {
     super(options);
     this.#activityId = activity.id;
     this.#item = activity.item;
@@ -15,15 +15,15 @@ export default class ActivityUseDialog extends foundry.applications.api.Handleba
     classes: ["artichron", "activity-use-dialog"],
     form: {
       handler: ActivityUseDialog.#submit,
-      closeOnSubmit: true
+      closeOnSubmit: true,
     },
     position: {
-      width: 400
+      width: 400,
     },
     tag: "form",
     window: {
-      contentClasses: ["standard-form"]
-    }
+      contentClasses: ["standard-form"],
+    },
   };
 
   /* -------------------------------------------------- */
@@ -31,32 +31,32 @@ export default class ActivityUseDialog extends foundry.applications.api.Handleba
   /** @override */
   static PARTS = {
     consume: {
-      template: "systems/artichron/templates/item/activity-use-dialog-consume.hbs"
+      template: "systems/artichron/templates/item/activity-use-dialog-consume.hbs",
     },
     damage: {
-      template: "systems/artichron/templates/item/activity-use-dialog-damage.hbs"
+      template: "systems/artichron/templates/item/activity-use-dialog-damage.hbs",
     },
     healing: {
-      template: "systems/artichron/templates/item/activity-use-dialog-healing.hbs"
+      template: "systems/artichron/templates/item/activity-use-dialog-healing.hbs",
     },
     defend: {
-      template: "systems/artichron/templates/item/activity-use-dialog-defend.hbs"
+      template: "systems/artichron/templates/item/activity-use-dialog-defend.hbs",
     },
     template: {
-      template: "systems/artichron/templates/item/activity-use-dialog-template.hbs"
+      template: "systems/artichron/templates/item/activity-use-dialog-template.hbs",
     },
     teleport: {
-      template: "systems/artichron/templates/item/activity-use-dialog-teleport.hbs"
+      template: "systems/artichron/templates/item/activity-use-dialog-teleport.hbs",
     },
     elixirs: {
-      template: "systems/artichron/templates/item/activity-use-dialog-elixirs.hbs"
+      template: "systems/artichron/templates/item/activity-use-dialog-elixirs.hbs",
     },
     rollMode: {
-      template: "systems/artichron/templates/item/activity-use-dialog-rollmode.hbs"
+      template: "systems/artichron/templates/item/activity-use-dialog-rollmode.hbs",
     },
     footer: {
-      template: "systems/artichron/templates/shared/footer.hbs"
-    }
+      template: "systems/artichron/templates/shared/footer.hbs",
+    },
   };
 
   /* -------------------------------------------------- */
@@ -65,7 +65,7 @@ export default class ActivityUseDialog extends foundry.applications.api.Handleba
 
   /** @override */
   get title() {
-    return game.i18n.format("ARTICHRON.ActivityUseDialog.Title", {name: this.activity.name});
+    return game.i18n.format("ARTICHRON.ActivityUseDialog.Title", { name: this.activity.name });
   }
 
   /* -------------------------------------------------- */
@@ -131,7 +131,7 @@ export default class ActivityUseDialog extends foundry.applications.api.Handleba
 
     switch (partId) {
       case "consume": {
-        context.consume = {...this.#dialog.consume};
+        context.consume = { ...this.#dialog.consume };
         if (!context.consume.show) break;
 
         context.consume.legend = game.i18n.localize("ARTICHRON.ActivityUseDialog.ConsumeLegend");
@@ -140,26 +140,26 @@ export default class ActivityUseDialog extends foundry.applications.api.Handleba
             initial: true,
             label: "ARTICHRON.ActivityUseDialog.ConsumeActionLabel",
             hint: game.i18n.format("ARTICHRON.ActivityUseDialog.ConsumeActionHint", {
-              points: this.activity.cost.value
-            })
+              points: this.activity.cost.value,
+            }),
           });
         }
         if (context.consume.showUses) {
           context.consume.usesField = new foundry.data.fields.BooleanField({
             initial: true,
             label: "ARTICHRON.ActivityUseDialog.ConsumeUsesLabel",
-            hint: "ARTICHRON.ActivityUseDialog.ConsumeUsesHint"
+            hint: "ARTICHRON.ActivityUseDialog.ConsumeUsesHint",
           });
         }
         break;
       }
       case "damage": {
-        context.damage = {...this.#dialog.damage};
+        context.damage = { ...this.#dialog.damage };
         if (!context.damage.show) break;
         const damages = activity.damage.map(part => {
           return {
             formula: part.formula,
-            type: CONFIG.SYSTEM.DAMAGE_TYPES[part.type].label
+            type: CONFIG.SYSTEM.DAMAGE_TYPES[part.type].label,
           };
         });
         const field = new foundry.data.fields.NumberField({
@@ -168,12 +168,12 @@ export default class ActivityUseDialog extends foundry.applications.api.Handleba
           nullable: true,
           min: 0,
           label: "ARTICHRON.ActivityUseDialog.DamageLabel",
-          hint: "ARTICHRON.ActivityUseDialog.DamageHint"
+          hint: "ARTICHRON.ActivityUseDialog.DamageHint",
         });
         Object.assign(context.damage, {
           legend: game.i18n.localize("ARTICHRON.ActivityUseDialog.DamageLegend"),
           damages: damages,
-          field: field
+          field: field,
         });
         if (context.damage.ammo) {
           context.damage.ammoField = new foundry.data.fields.StringField({
@@ -187,13 +187,13 @@ export default class ActivityUseDialog extends foundry.applications.api.Handleba
                 acc[item.id] = item.name;
               }
               return acc;
-            }, {})
+            }, {}),
           });
         }
         break;
       }
       case "healing": {
-        context.healing = {...this.#dialog.healing};
+        context.healing = { ...this.#dialog.healing };
         if (!context.healing.show) break;
         const field = new foundry.data.fields.NumberField({
           integer: true,
@@ -201,17 +201,17 @@ export default class ActivityUseDialog extends foundry.applications.api.Handleba
           nullable: true,
           min: 0,
           label: "ARTICHRON.ActivityUseDialog.HealingLabel",
-          hint: "ARTICHRON.ActivityUseDialog.HealingHint"
+          hint: "ARTICHRON.ActivityUseDialog.HealingHint",
         });
         Object.assign(context.healing, {
           field: field,
           legend: game.i18n.localize("ARTICHRON.ActivityUseDialog.HealingLegend"),
-          formula: activity.healing.formula
+          formula: activity.healing.formula,
         });
         break;
       }
       case "defend": {
-        context.defend = {...this.#dialog.defend};
+        context.defend = { ...this.#dialog.defend };
         if (!context.defend.show) break;
         const field = new foundry.data.fields.NumberField({
           integer: true,
@@ -219,17 +219,17 @@ export default class ActivityUseDialog extends foundry.applications.api.Handleba
           nullable: true,
           min: 0,
           label: "ARTICHRON.ActivityUseDialog.DefendLabel",
-          hint: "ARTICHRON.ActivityUseDialog.DefendHint"
+          hint: "ARTICHRON.ActivityUseDialog.DefendHint",
         });
         Object.assign(context.defend, {
           legend: game.i18n.localize("ARTICHRON.ActivityUseDialog.DefendLegend"),
           field: field,
-          formula: activity.defend.formula
+          formula: activity.defend.formula,
         });
         break;
       }
       case "template": {
-        context.template = {...this.#dialog.template};
+        context.template = { ...this.#dialog.template };
         if (!context.template.show) break;
         const field = new foundry.data.fields.NumberField({
           integer: true,
@@ -237,20 +237,20 @@ export default class ActivityUseDialog extends foundry.applications.api.Handleba
           nullable: true,
           min: 0,
           label: "ARTICHRON.ActivityUseDialog.TemplateLabel",
-          hint: "ARTICHRON.ActivityUseDialog.TemplateHint"
+          hint: "ARTICHRON.ActivityUseDialog.TemplateHint",
         });
         Object.assign(context.template, {
           legend: game.i18n.localize("ARTICHRON.ActivityUseDialog.TemplateLegend"),
           field: field,
           placeField: new foundry.data.fields.BooleanField({
             label: "ARTICHRON.ActivityUseDialog.TemplatePlaceLabel",
-            hint: "ARTICHRON.ActivityUseDialog.TemplatePlaceHint"
-          })
+            hint: "ARTICHRON.ActivityUseDialog.TemplatePlaceHint",
+          }),
         });
         break;
       }
       case "teleport": {
-        context.teleport = {...this.#dialog.teleport};
+        context.teleport = { ...this.#dialog.teleport };
         if (!context.teleport.show) break;
         const field = new foundry.data.fields.NumberField({
           integer: true,
@@ -258,30 +258,30 @@ export default class ActivityUseDialog extends foundry.applications.api.Handleba
           nullable: true,
           min: 0,
           label: "ARTICHRON.ActivityUseDialog.TeleportLabel",
-          hint: "ARTICHRON.ActivityUseDialog.TeleportHint"
+          hint: "ARTICHRON.ActivityUseDialog.TeleportHint",
         });
         Object.assign(context.teleport, {
           legend: game.i18n.localize("ARTICHRON.ActivityUseDialog.TeleportLegend"),
-          field: field
+          field: field,
         });
         break;
       }
       case "elixirs": {
-        context.elixirs = {...this.#dialog.elixirs};
+        context.elixirs = { ...this.#dialog.elixirs };
         if (!context.elixirs.show) break;
         const field = new foundry.data.fields.SetField(new foundry.data.fields.StringField({
-          choices: context.elixirs.choices
+          choices: context.elixirs.choices,
         }), {
-          hint: "ARTICHRON.ActivityUseDialog.ElixirsHint"
+          hint: "ARTICHRON.ActivityUseDialog.ElixirsHint",
         });
         Object.assign(context.elixirs, {
           legend: game.i18n.localize("ARTICHRON.ActivityUseDialog.ElixirsLegend"),
-          field: field
+          field: field,
         });
         break;
       }
       case "rollMode": {
-        context.rollMode = {...this.#dialog.rollMode};
+        context.rollMode = { ...this.#dialog.rollMode };
         if (!context.rollMode.show) break;
 
         const field = new foundry.data.fields.StringField({
@@ -290,10 +290,10 @@ export default class ActivityUseDialog extends foundry.applications.api.Handleba
           choices: Object.entries(CONST.DICE_ROLL_MODES).reduce((acc, [k, v]) => {
             acc[v] = game.i18n.localize(`CHAT.Roll${k.toLowerCase().capitalize()}`);
             return acc;
-          }, {})
+          }, {}),
         });
 
-        Object.assign(context.rollMode, {field: field});
+        Object.assign(context.rollMode, { field: field });
         break;
       }
       default:
@@ -344,8 +344,8 @@ export default class ActivityUseDialog extends foundry.applications.api.Handleba
   static async create(options) {
     return new Promise(resolve => {
       const application = new this(options);
-      application.addEventListener("close", () => resolve(application.config), {once: true});
-      application.render({force: true});
+      application.addEventListener("close", () => resolve(application.config), { once: true });
+      application.render({ force: true });
     });
   }
 }

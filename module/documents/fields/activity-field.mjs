@@ -50,7 +50,7 @@ class ActivityField extends foundry.data.fields.ObjectField {
   /** @override */
   initialize(value, model, options = {}) {
     const cls = this.getModel(value);
-    if (cls) return new cls(value, {parent: model, ...options});
+    if (cls) return new cls(value, { parent: model, ...options });
     return foundry.utils.deepClone(value);
   }
 

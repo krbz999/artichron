@@ -1,6 +1,6 @@
 import ArsenalData from "./item-arsenal.mjs";
 
-const {SchemaField, StringField} = foundry.data.fields;
+const { SchemaField, StringField } = foundry.data.fields;
 
 export default class ShieldData extends ArsenalData {
   /**
@@ -10,8 +10,8 @@ export default class ShieldData extends ArsenalData {
   static metadata = Object.freeze(foundry.utils.mergeObject(super.metadata, {
     defaultWeight: 2,
     order: 20,
-    type: "shield"
-  }, {inplace: false}));
+    type: "shield",
+  }, { inplace: false }));
 
   /* -------------------------------------------------- */
 
@@ -23,9 +23,9 @@ export default class ShieldData extends ArsenalData {
         subtype: new StringField({
           required: true,
           initial: "buckler",
-          choices: CONFIG.SYSTEM.SHIELD_TYPES
-        })
-      })
+          choices: CONFIG.SYSTEM.SHIELD_TYPES,
+        }),
+      }),
     };
   }
 
@@ -34,7 +34,7 @@ export default class ShieldData extends ArsenalData {
   /** @override */
   static get BONUS_FIELDS() {
     return super.BONUS_FIELDS.union(new Set([
-      "system.armor.value"
+      "system.armor.value",
     ]));
   }
 
@@ -43,6 +43,6 @@ export default class ShieldData extends ArsenalData {
   /** @override */
   static LOCALIZATION_PREFIXES = [
     ...super.LOCALIZATION_PREFIXES,
-    "ARTICHRON.ITEM.SHIELD"
+    "ARTICHRON.ITEM.SHIELD",
   ];
 }

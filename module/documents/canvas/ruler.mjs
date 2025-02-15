@@ -10,7 +10,7 @@ export default class RulerArtichron extends Ruler {
 
     const cost = Math.ceil(this.totalCost);
     if (!token.actor.canPerformActionPoints(cost)) {
-      throw new Error(game.i18n.format("ARTICHRON.RULER.ERROR.NotEnoughAP", {cost: cost}));
+      throw new Error(game.i18n.format("ARTICHRON.RULER.ERROR.NotEnoughAP", { cost: cost }));
     }
     return true;
   }

@@ -10,7 +10,7 @@ export default class EffectEnhancementData extends ActiveEffectSystemModel {
    * @type {import("../../helpers/types.mjs").ActiveEffectSystemModelMetadata}
    */
   static metadata = Object.freeze({
-    type: "enhancement"
+    type: "enhancement",
   });
 
   /* -------------------------------------------------- */

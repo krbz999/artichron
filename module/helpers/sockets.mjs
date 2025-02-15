@@ -11,7 +11,7 @@ export function registerSockets() {
  * Utility method to direct the socket event.
  * @param {object} eventData
  */
-function handleSocket({action, ...data}) {
+function handleSocket({ action, ...data }) {
   switch (action) {
     case "grantBuff": return _grantBuff(data);
     case "acceptTrade": return _acceptTrade(data);
@@ -27,7 +27,7 @@ export default {
   grantBuff: createBuffEmit,
   acceptTrade: acceptTradeEmit,
   stageMerchantItem: stageMerchantItemEmit,
-  unstageMerchantItem: unstageMerchantItemEmit
+  unstageMerchantItem: unstageMerchantItemEmit,
 };
 
 /* -------------------------------------------------- */
@@ -37,8 +37,8 @@ export default {
 /**
  * Update a chat message to display that a trade has been accepted.
  */
-async function _acceptTrade({userId, messageId}) {
-  if (game.user.id === userId) game.messages.get(messageId).update({"system.traded": true});
+async function _acceptTrade({ userId, messageId }) {
+  if (game.user.id === userId) game.messages.get(messageId).update({ "system.traded": true });
 }
 
 /* -------------------------------------------------- */
@@ -53,14 +53,14 @@ async function acceptTradeEmit(message) {
   })?.id;
 
   if (!userId) {
-    ui.notifications.warn("ARTICHRON.Warning.CannotEmitRequest", {localize: true});
+    ui.notifications.warn("ARTICHRON.Warning.CannotEmitRequest", { localize: true });
     return false;
   }
 
   const data = {
     action: "acceptTrade",
     userId: userId,
-    messageId: message.id
+    messageId: message.id,
   };
 
   if (userId === game.user.id) return _acceptTrade(data);
@@ -79,7 +79,7 @@ async function acceptTradeEmit(message) {
  * @param {string} data.effectUuid      Uuid of the effect to create a copy of.
  * @param {object} [data.options]       Effect creation options.
  */
-async function _grantBuff({userId, actorUuid, effectUuid, options = {}}) {
+async function _grantBuff({ userId, actorUuid, effectUuid, options = {} }) {
   if (game.user.id !== userId) return null;
   const actor = await fromUuid(actorUuid);
   const effect = await fromUuid(effectUuid);
@@ -90,9 +90,9 @@ async function _grantBuff({userId, actorUuid, effectUuid, options = {}}) {
   const effectData = effect.toObject();
   foundry.utils.mergeObject(effectData, {
     "system.source": effect.parent.uuid,
-    "system.granted": true
+    "system.granted": true,
   });
-  ActiveEffect.implementation.create(effectData, {...options, parent: actor});
+  ActiveEffect.implementation.create(effectData, { ...options, parent: actor });
 }
 
 /* -------------------------------------------------- */
@@ -110,7 +110,7 @@ async function createBuffEmit(effect, actor, options = {}) {
   })?.id;
 
   if (!userId) {
-    ui.notifications.warn("ARTICHRON.Warning.CannotEmitRequest", {localize: true});
+    ui.notifications.warn("ARTICHRON.Warning.CannotEmitRequest", { localize: true });
     return;
   }
 
@@ -119,7 +119,7 @@ async function createBuffEmit(effect, actor, options = {}) {
     userId: userId,
     actorUuid: actor.uuid,
     effectUuid: effect.uuid,
-    options: options
+    options: options,
   };
 
   if (userId === game.user.id) return _grantBuff(data);
@@ -136,7 +136,7 @@ async function createBuffEmit(effect, actor, options = {}) {
  * @param {string} data.userId        The id of the user to handle the event.
  * @param {string} data.itemUuid      Uuid of the item to stage.
  */
-async function _stageMerchantItem({userId, itemUuid}) {
+async function _stageMerchantItem({ userId, itemUuid }) {
   if (userId !== game.user.id) return;
   const item = await fromUuid(itemUuid);
   const merchant = item.parent;
@@ -157,14 +157,14 @@ async function stageMerchantItemEmit(item) {
   })?.id;
 
   if (!userId) {
-    ui.notifications.warn("ARTICHRON.Warning.CannotEmitRequest", {localize: true});
+    ui.notifications.warn("ARTICHRON.Warning.CannotEmitRequest", { localize: true });
     return false;
   }
 
   const data = {
     action: "stageMerchantItem",
     userId: userId,
-    itemUuid: item.uuid
+    itemUuid: item.uuid,
   };
 
   if (userId === game.user.id) return _stageMerchantItem(data);
@@ -181,7 +181,7 @@ async function stageMerchantItemEmit(item) {
  * @param {string} data.userId        The id of the user to handle the event.
  * @param {string} data.itemUuid      Uuid of the item to unstage.
  */
-async function _unstageMerchantItem({userId, itemUuid}) {
+async function _unstageMerchantItem({ userId, itemUuid }) {
   if (userId !== game.user.id) return;
   const item = await fromUuid(itemUuid);
   const merchant = item.parent;
@@ -202,14 +202,14 @@ async function unstageMerchantItemEmit(item) {
   })?.id;
 
   if (!userId) {
-    ui.notifications.warn("ARTICHRON.Warning.CannotEmitRequest", {localize: true});
+    ui.notifications.warn("ARTICHRON.Warning.CannotEmitRequest", { localize: true });
     return false;
   }
 
   const data = {
     action: "unstageMerchantItem",
     userId: userId,
-    itemUuid: item.uuid
+    itemUuid: item.uuid,
   };
 
   if (userId === game.user.id) return _unstageMerchantItem(data);

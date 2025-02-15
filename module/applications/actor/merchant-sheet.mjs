@@ -9,12 +9,12 @@ export default class MerchantSheet extends ActorSheetArtichron {
     sheetConfig: false,
     position: {
       width: 1000,
-      height: 1000
+      height: 1000,
     },
     actions: {
       configure: MerchantSheet.#configure,
-      checkout: MerchantSheet.#checkout
-    }
+      checkout: MerchantSheet.#checkout,
+    },
   };
 
   /* -------------------------------------------------- */
@@ -22,12 +22,12 @@ export default class MerchantSheet extends ActorSheetArtichron {
   /** @override */
   static PARTS = {
     header: {
-      template: "systems/artichron/templates/actor/merchant-header.hbs"
+      template: "systems/artichron/templates/actor/merchant-header.hbs",
     },
     trading: {
       template: "systems/artichron/templates/actor/merchant-trading.hbs",
-      scrollable: [".stock", ".cart .contents"]
-    }
+      scrollable: [".stock", ".cart .contents"],
+    },
   };
 
   /* -------------------------------------------------- */
@@ -42,7 +42,7 @@ export default class MerchantSheet extends ActorSheetArtichron {
   async _prepareContext(options) {
     const context = {};
 
-    const {stock, cart} = await this._prepareItems();
+    const { stock, cart } = await this._prepareItems();
 
     context.stock = stock;
     context.cart = cart;
@@ -57,7 +57,7 @@ export default class MerchantSheet extends ActorSheetArtichron {
 
   /** @override */
   async _prepareItems() {
-    const items = {stock: {}, cart: []};
+    const items = { stock: {}, cart: [] };
     const staged = this.document.system.stagedItems;
 
     for (const item of this.document.items) {
@@ -68,12 +68,12 @@ export default class MerchantSheet extends ActorSheetArtichron {
         item: item,
         isExpanded: expanded,
         hasQty: "quantity" in item.system,
-        price: item.system.price?.value || "-"
+        price: item.system.price?.value || "-",
       };
 
       if (expanded) {
         data.enriched = await TextEditor.enrichHTML(item.system.description.value, {
-          relativeTo: item, rollData: item.getRollData()
+          relativeTo: item, rollData: item.getRollData(),
         });
       }
 
@@ -81,7 +81,7 @@ export default class MerchantSheet extends ActorSheetArtichron {
       else {
         items.stock[item.type] ??= {
           label: game.i18n.localize(CONFIG.Item.typeLabels[item.type]),
-          items: []
+          items: [],
         };
         items.stock[item.type].items.push(data);
       }
@@ -117,7 +117,7 @@ export default class MerchantSheet extends ActorSheetArtichron {
       dropSelector: ".cart",
       permissions: {
         dragstart: () => true,
-        drop: () => !isLocked()
+        drop: () => !isLocked(),
       },
       callbacks: {
         dragstart: this._onDragStart.bind(this),
@@ -126,8 +126,8 @@ export default class MerchantSheet extends ActorSheetArtichron {
           const item = await fromUuid(TextEditor.getDragEventData(event).uuid);
           this._expandedItems.delete(item.uuid);
           artichron.utils.sockets.stageMerchantItem(item);
-        }
-      }
+        },
+      },
     });
     stageDrop.bind(this.element);
 
@@ -137,7 +137,7 @@ export default class MerchantSheet extends ActorSheetArtichron {
       dropSelector: ".stock",
       permissions: {
         dragstart: () => true,
-        drop: () => !isLocked()
+        drop: () => !isLocked(),
       },
       callbacks: {
         dragstart: this._onDragStart.bind(this),
@@ -146,8 +146,8 @@ export default class MerchantSheet extends ActorSheetArtichron {
           const item = await fromUuid(TextEditor.getDragEventData(event).uuid);
           this._expandedItems.delete(item.uuid);
           artichron.utils.sockets.unstageMerchantItem(item);
-        }
-      }
+        },
+      },
     });
     unstageDrop.bind(this.element);
   }
@@ -164,7 +164,7 @@ export default class MerchantSheet extends ActorSheetArtichron {
    */
   static #configure(event, target) {
     if (!this.document.isOwner) return;
-    new MerchantConfigurationDialog({document: this.document}).render({force: true});
+    new MerchantConfigurationDialog({ document: this.document }).render({ force: true });
   }
 
   /* -------------------------------------------------- */

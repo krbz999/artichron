@@ -2,7 +2,7 @@ import FusionTemplateMixin from "./templates/fusion-data.mjs";
 import ItemSystemModel from "./system-model.mjs";
 
 export default class ArsenalData extends ItemSystemModel.mixin(
-  FusionTemplateMixin
+  FusionTemplateMixin,
 ) {
   /**
    * Metadata for this datamodel.
@@ -10,8 +10,8 @@ export default class ArsenalData extends ItemSystemModel.mixin(
    */
   static metadata = Object.freeze(foundry.utils.mergeObject(super.metadata, {
     fusion: true,
-    inventorySection: "arsenal"
-  }, {inplace: false}));
+    inventorySection: "arsenal",
+  }, { inplace: false }));
 
   /* -------------------------------------------------- */
   /*   Properties                                       */

@@ -1,4 +1,4 @@
-const {NumberField, StringField} = foundry.data.fields;
+const { NumberField, StringField } = foundry.data.fields;
 
 export default class ArmorRequirementData extends foundry.abstract.DataModel {
   /** @override */
@@ -13,8 +13,8 @@ export default class ArmorRequirementData extends foundry.abstract.DataModel {
         choices: () => Object.entries(ArmorRequirementData.TYPES).reduce((acc, [k, v]) => {
           acc[k] = v.metadata.label;
           return acc;
-        }, {})
-      })
+        }, {}),
+      }),
     };
   }
 
@@ -28,7 +28,7 @@ export default class ArmorRequirementData extends foundry.abstract.DataModel {
    */
   static metadata = Object.freeze({
     label: "",
-    hint: ""
+    hint: "",
   });
 
   /* -------------------------------------------------- */
@@ -50,7 +50,7 @@ export default class ArmorRequirementData extends foundry.abstract.DataModel {
       [HealthRequirementData.TYPE]: HealthRequirementData,
       [LevelRequirementData.TYPE]: LevelRequirementData,
       [PoolRequirementData.TYPE]: PoolRequirementData,
-      [SkillRequirementData.TYPE]: SkillRequirementData
+      [SkillRequirementData.TYPE]: SkillRequirementData,
     };
   }
 
@@ -94,15 +94,15 @@ class PoolRequirementData extends ArmorRequirementData {
       pool: new StringField({
         required: true,
         initial: "stamina",
-        choices: CONFIG.SYSTEM.POOL_TYPES
+        choices: CONFIG.SYSTEM.POOL_TYPES,
       }),
       value: new NumberField({
         min: 2,
         initial: 2,
         integer: true,
         nullable: false,
-        placeholder: "ARTICHRON.ITEM.REQUIREMENT.Pool.FIELDS.value.placeholder"
-      })
+        placeholder: "ARTICHRON.ITEM.REQUIREMENT.Pool.FIELDS.value.placeholder",
+      }),
     });
   }
 
@@ -113,7 +113,7 @@ class PoolRequirementData extends ArmorRequirementData {
   /** @override */
   static metadata = Object.freeze({
     label: "ARTICHRON.ITEM.REQUIREMENT.Pool.label",
-    hint: "ARTICHRON.ITEM.REQUIREMENT.Pool.hint"
+    hint: "ARTICHRON.ITEM.REQUIREMENT.Pool.hint",
   });
 
   /* -------------------------------------------------- */
@@ -126,7 +126,7 @@ class PoolRequirementData extends ArmorRequirementData {
   /** @override */
   static LOCALIZATION_PREFIXES = [
     "ARTICHRON.ITEM.ArmorRequirement",
-    "ARTICHRON.ITEM.REQUIREMENT.Pool"
+    "ARTICHRON.ITEM.REQUIREMENT.Pool",
   ];
 
   /* -------------------------------------------------- */
@@ -145,7 +145,7 @@ class PoolRequirementData extends ArmorRequirementData {
   toRequirement() {
     return game.i18n.format("ARTICHRON.ITEM.REQUIREMENT.Pool.content", {
       value: this.value,
-      pool: CONFIG.SYSTEM.POOL_TYPES[this.pool].label
+      pool: CONFIG.SYSTEM.POOL_TYPES[this.pool].label,
     });
   }
 }
@@ -159,8 +159,8 @@ class HealthRequirementData extends ArmorRequirementData {
         initial: 0,
         integer: true,
         nullable: false,
-        placeholder: "ARTICHRON.ITEM.REQUIREMENT.Health.FIELDS.value.placeholder"
-      })
+        placeholder: "ARTICHRON.ITEM.REQUIREMENT.Health.FIELDS.value.placeholder",
+      }),
     });
   }
 
@@ -171,7 +171,7 @@ class HealthRequirementData extends ArmorRequirementData {
   /** @override */
   static metadata = Object.freeze({
     label: "ARTICHRON.ITEM.REQUIREMENT.Health.label",
-    hint: "ARTICHRON.ITEM.REQUIREMENT.Health.hint"
+    hint: "ARTICHRON.ITEM.REQUIREMENT.Health.hint",
   });
 
   /* -------------------------------------------------- */
@@ -184,7 +184,7 @@ class HealthRequirementData extends ArmorRequirementData {
   /** @override */
   static LOCALIZATION_PREFIXES = [
     "ARTICHRON.ITEM.ArmorRequirement",
-    "ARTICHRON.ITEM.REQUIREMENT.Health"
+    "ARTICHRON.ITEM.REQUIREMENT.Health",
   ];
 
   /* -------------------------------------------------- */
@@ -202,7 +202,7 @@ class HealthRequirementData extends ArmorRequirementData {
   /** @override */
   toRequirement() {
     return game.i18n.format("ARTICHRON.ITEM.REQUIREMENT.Health.content", {
-      value: this.value
+      value: this.value,
     });
   }
 }
@@ -214,15 +214,15 @@ class SkillRequirementData extends ArmorRequirementData {
       skill: new StringField({
         required: true,
         choices: CONFIG.SYSTEM.SKILLS,
-        initial: "agility"
+        initial: "agility",
       }),
       value: new NumberField({
         min: 2,
         initial: 2,
         integer: true,
         nullable: false,
-        placeholder: "ARTICHRON.ITEM.REQUIREMENT.Skill.FIELDS.value.placeholder"
-      })
+        placeholder: "ARTICHRON.ITEM.REQUIREMENT.Skill.FIELDS.value.placeholder",
+      }),
     });
   }
 
@@ -233,7 +233,7 @@ class SkillRequirementData extends ArmorRequirementData {
   /** @override */
   static metadata = Object.freeze({
     label: "ARTICHRON.ITEM.REQUIREMENT.Skill.label",
-    hint: "ARTICHRON.ITEM.REQUIREMENT.Skill.hint"
+    hint: "ARTICHRON.ITEM.REQUIREMENT.Skill.hint",
   });
 
   /* -------------------------------------------------- */
@@ -246,7 +246,7 @@ class SkillRequirementData extends ArmorRequirementData {
   /** @override */
   static LOCALIZATION_PREFIXES = [
     "ARTICHRON.ITEM.ArmorRequirement",
-    "ARTICHRON.ITEM.REQUIREMENT.Skill"
+    "ARTICHRON.ITEM.REQUIREMENT.Skill",
   ];
 
   /* -------------------------------------------------- */
@@ -265,7 +265,7 @@ class SkillRequirementData extends ArmorRequirementData {
   toRequirement() {
     return game.i18n.format("ARTICHRON.ITEM.REQUIREMENT.Skill.content", {
       skill: CONFIG.SYSTEM.SKILLS[this.skill].label,
-      value: this.value
+      value: this.value,
     });
   }
 }
@@ -280,8 +280,8 @@ class LevelRequirementData extends ArmorRequirementData {
         choices: () => CONFIG.SYSTEM.PROGRESSION_THRESHOLDS.reduce((acc, v) => {
           acc[v.level] = v.label;
           return acc;
-        }, {})
-      })
+        }, {}),
+      }),
     });
   }
 
@@ -292,7 +292,7 @@ class LevelRequirementData extends ArmorRequirementData {
   /** @override */
   static metadata = Object.freeze({
     label: "ARTICHRON.ITEM.REQUIREMENT.Level.label",
-    hint: "ARTICHRON.ITEM.REQUIREMENT.Level.hint"
+    hint: "ARTICHRON.ITEM.REQUIREMENT.Level.hint",
   });
 
   /* -------------------------------------------------- */
@@ -305,7 +305,7 @@ class LevelRequirementData extends ArmorRequirementData {
   /** @override */
   static LOCALIZATION_PREFIXES = [
     "ARTICHRON.ITEM.ArmorRequirement",
-    "ARTICHRON.ITEM.REQUIREMENT.Level"
+    "ARTICHRON.ITEM.REQUIREMENT.Level",
   ];
 
   /* -------------------------------------------------- */
@@ -327,7 +327,7 @@ class LevelRequirementData extends ArmorRequirementData {
     });
 
     return game.i18n.format("ARTICHRON.ITEM.REQUIREMENT.Level.content", {
-      value: progression.label
+      value: progression.label,
     });
   }
 }

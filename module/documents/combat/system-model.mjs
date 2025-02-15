@@ -4,7 +4,7 @@ export default class CombatantSystemModel extends foundry.abstract.TypeDataModel
    * @type {import("../../helpers/types.mjs").CombatantSystemModelMetadata}
    */
   static metadata = Object.freeze({
-    type: "artichron"
+    type: "artichron",
   });
 
   /* -------------------------------------------------- */

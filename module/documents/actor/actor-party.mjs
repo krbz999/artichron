@@ -3,7 +3,7 @@ import ClocksField from "../fields/clocks-field.mjs";
 import PartyDistributionDialog from "../../applications/actor/party-distribution-dialog.mjs";
 
 const {
-  ForeignDocumentField, NumberField, SchemaField, SetField
+  ForeignDocumentField, NumberField, SchemaField, SetField,
 } = foundry.data.fields;
 
 export default class PartyData extends ActorSystemModel {
@@ -13,7 +13,7 @@ export default class PartyData extends ActorSystemModel {
    */
   static metadata = Object.freeze({
     type: "party",
-    allowedActorTypes: new Set(["hero", "monster"])
+    allowedActorTypes: new Set(["hero", "monster"]),
   });
 
   /* -------------------------------------------------- */
@@ -23,16 +23,16 @@ export default class PartyData extends ActorSystemModel {
     const schema = super.defineSchema();
 
     schema.members = new SetField(new SchemaField({
-      actor: new ForeignDocumentField(foundry.documents.BaseActor)
+      actor: new ForeignDocumentField(foundry.documents.BaseActor),
     }));
 
     schema.clocks = new ClocksField();
 
     schema.points = new SchemaField({
-      value: new NumberField({min: 0, integer: true})
+      value: new NumberField({ min: 0, integer: true }),
     });
 
-    schema.currency.fields.award = new NumberField({integer: true, min: 0, initial: 0, nullable: false});
+    schema.currency.fields.award = new NumberField({ integer: true, min: 0, initial: 0, nullable: false });
 
     return schema;
   }
@@ -57,7 +57,7 @@ export default class PartyData extends ActorSystemModel {
     Object.defineProperty(this.members, "ids", {
       value: ids,
       enumerable: false,
-      writable: false
+      writable: false,
     });
   }
 
@@ -75,8 +75,8 @@ export default class PartyData extends ActorSystemModel {
     if (actor.pack) throw new Error("Added member cannot be in a compendium!");
     if (this.members.ids.has(actor.id)) return;
     const members = this.toObject().members;
-    members.push({actor: actor.id});
-    return this.parent.update({"system.members": members});
+    members.push({ actor: actor.id });
+    return this.parent.update({ "system.members": members });
   }
 
   /* -------------------------------------------------- */
@@ -93,7 +93,7 @@ export default class PartyData extends ActorSystemModel {
       if (!this.members.ids.has(member.actor) || (member.actor === actor.id)) continue;
       members.push(member);
     }
-    return this.parent.update({"system.members": members});
+    return this.parent.update({ "system.members": members });
   }
 
   /* -------------------------------------------------- */
@@ -104,27 +104,27 @@ export default class PartyData extends ActorSystemModel {
    */
   async placeMembers() {
     const tokens = Array.from(this.members).map(m => m.actor.prototypeToken);
-    const placements = await artichron.canvas.TokenPlacement.place({tokens: tokens});
+    const placements = await artichron.canvas.TokenPlacement.place({ tokens: tokens });
 
     const origin = this.parent.isToken ? this.parent.token?.object : this.parent.getActiveTokens()[0];
 
     const tokenData = [];
     const movements = [];
     for (const p of placements) {
-      const {x, y, rotation} = p;
+      const { x, y, rotation } = p;
       const id = foundry.utils.randomID();
-      movements.push({x, y, rotation, alpha: 1, _id: id});
+      movements.push({ x, y, rotation, alpha: 1, _id: id });
       const token = await p.prototypeToken.parent.getTokenDocument(origin ? {
-        x: origin.document.x, y: origin.document.y, alpha: 0
-      } : {x, y, rotation});
-      tokenData.push(foundry.utils.mergeObject(token.toObject(), {_id: id}));
+        x: origin.document.x, y: origin.document.y, alpha: 0,
+      } : { x, y, rotation });
+      tokenData.push(foundry.utils.mergeObject(token.toObject(), { _id: id }));
     }
-    const created = await canvas.scene.createEmbeddedDocuments("Token", tokenData, {keepId: true});
+    const created = await canvas.scene.createEmbeddedDocuments("Token", tokenData, { keepId: true });
 
     if (origin) {
       await new Promise(r => setTimeout(r, 100));
       await canvas.scene.updateEmbeddedDocuments("Token", movements, {
-        animation: {duration: 1000, easing: "easeInOutCosine"}
+        animation: { duration: 1000, easing: "easeInOutCosine" },
       });
     }
 
@@ -168,7 +168,7 @@ export default class PartyData extends ActorSystemModel {
 
     const configuration = await PartyDistributionDialog.create(party, "currency");
     if (!configuration) return;
-    const {amount, targets} = configuration;
+    const { amount, targets } = configuration;
     const actors = Array.from(targets).map(id => game.actors.get(id));
 
     if (!actors.length) {
@@ -184,21 +184,21 @@ export default class PartyData extends ActorSystemModel {
       if (actor.id === party.id) continue;
       const path = "system.currency.funds";
       const value = foundry.utils.getProperty(actor, path);
-      updates.push({_id: actor.id, [path]: value + amount});
+      updates.push({ _id: actor.id, [path]: value + amount });
     }
 
-    const partyUpdate = {_id: party.id, "system.currency.award": party.system.currency.award - amount * actors.length};
+    const partyUpdate = { _id: party.id, "system.currency.award": party.system.currency.award - amount * actors.length };
     if (actors.includes(party)) partyUpdate["system.currency.funds"] = party.system.currency.funds + amount;
     updates.push(partyUpdate);
 
     for (const actor of actors) {
       const content = game.i18n.format("ARTICHRON.PartyDistributionDialog.ContentCurrency", {
-        name: actor.name, amount: amount
+        name: actor.name, amount: amount,
       });
       ChatMessage.implementation.create({
         whisper: game.users.filter(u => actor.testUserPermission(u, "OWNER")).map(u => u.id),
         content: `<p>${content}</p>`,
-        speaker: ChatMessage.implementation.getSpeaker({actor: party})
+        speaker: ChatMessage.implementation.getSpeaker({ actor: party }),
       });
     }
 
@@ -220,7 +220,7 @@ export default class PartyData extends ActorSystemModel {
 
     const configuration = await PartyDistributionDialog.create(party, "points");
     if (!configuration) return;
-    const {amount, targets} = configuration;
+    const { amount, targets } = configuration;
     const actors = Array.from(targets).map(id => game.actors.get(id));
 
     if (!actors.length) {
@@ -234,18 +234,18 @@ export default class PartyData extends ActorSystemModel {
     const updates = [];
     for (const actor of actors) {
       const value = actor.system.progression.points.total + amount;
-      updates.push({_id: actor.id, "system.progression.points.total": value});
+      updates.push({ _id: actor.id, "system.progression.points.total": value });
     }
-    updates.push({_id: party.id, "system.points.value": party.system.points.value - amount * actors.length});
+    updates.push({ _id: party.id, "system.points.value": party.system.points.value - amount * actors.length });
 
     for (const actor of actors) {
       const content = game.i18n.format("ARTICHRON.PartyDistributionDialog.ContentPoints", {
-        name: actor.name, amount: amount
+        name: actor.name, amount: amount,
       });
       ChatMessage.implementation.create({
         whisper: game.users.filter(u => actor.testUserPermission(u, "OWNER")).map(u => u.id),
         content: `<p>${content}</p>`,
-        speaker: ChatMessage.implementation.getSpeaker({actor: party})
+        speaker: ChatMessage.implementation.getSpeaker({ actor: party }),
       });
     }
 

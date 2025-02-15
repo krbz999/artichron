@@ -25,7 +25,7 @@ export const dataModels = {
   ChatMessage: assign(ChatMessageDataModels),
   Combatant: assign(CombatantDataModels),
   Item: assign(ItemDataModels),
-  RegionBehavior: assign(RegionBehaviorDataModels)
+  RegionBehavior: assign(RegionBehaviorDataModels),
 };
 
 /* -------------------------------------------------- */
@@ -37,5 +37,5 @@ export const documentClasses = {
   [CombatantArtichron.documentName]: CombatantArtichron,
   [CombatArtichron.documentName]: CombatArtichron,
   [ItemArtichron.documentName]: ItemArtichron,
-  [TokenDocumentArtichron.documentName]: TokenDocumentArtichron
+  [TokenDocumentArtichron.documentName]: TokenDocumentArtichron,
 };

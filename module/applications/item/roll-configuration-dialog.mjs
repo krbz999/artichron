@@ -2,26 +2,26 @@
  * A utility dialog class that constructs a form at will.
  */
 export default class RollConfigurationDialog extends foundry.applications.api.HandlebarsApplicationMixin(
-  foundry.applications.api.ApplicationV2
+  foundry.applications.api.ApplicationV2,
 ) {
   /** @override */
   static DEFAULT_OPTIONS = {
     classes: ["artichron", "roll-configuration-dialog"],
     form: {
       handler: RollConfigurationDialog.#submit,
-      closeOnSubmit: true
+      closeOnSubmit: true,
     },
     position: {
       width: 400,
-      height: "auto"
+      height: "auto",
     },
     tag: "form",
     window: {
       title: "",
-      contentClasses: ["standard-form"]
+      contentClasses: ["standard-form"],
     },
     document: null,
-    fieldsets: null
+    fieldsets: null,
   };
 
   /* -------------------------------------------------- */
@@ -29,11 +29,11 @@ export default class RollConfigurationDialog extends foundry.applications.api.Ha
   /** @override */
   static PARTS = {
     form: {
-      template: "systems/artichron/templates/shared/roll-configuration-dialog.hbs"
+      template: "systems/artichron/templates/shared/roll-configuration-dialog.hbs",
     },
     footer: {
-      template: "systems/artichron/templates/shared/footer.hbs"
-    }
+      template: "systems/artichron/templates/shared/footer.hbs",
+    },
   };
 
   /* -------------------------------------------------- */
@@ -63,16 +63,16 @@ export default class RollConfigurationDialog extends foundry.applications.api.Ha
   /** @override */
   async _prepareContext(options) {
     const context = {
-      fieldsets: []
+      fieldsets: [],
     };
 
-    for (const {legend, fields} of this.options.fieldsets ?? []) {
+    for (const { legend, fields } of this.options.fieldsets ?? []) {
       const fieldset = {
         legend: legend ? game.i18n.localize(legend) : null,
-        fields: []
+        fields: [],
       };
-      for (const {field, options} of fields) {
-        const html = field.toFormGroup({localize: true}, options).outerHTML;
+      for (const { field, options } of fields) {
+        const html = field.toFormGroup({ localize: true }, options).outerHTML;
         fieldset.fields.push(html);
       }
       context.fieldsets.push(fieldset);
@@ -88,12 +88,12 @@ export default class RollConfigurationDialog extends foundry.applications.api.Ha
           choices: Object.entries(CONST.DICE_ROLL_MODES).reduce((acc, [k, v]) => {
             acc[v] = game.i18n.localize(`CHAT.Roll${k.toLowerCase().capitalize()}`);
             return acc;
-          }, {})
-        }).toFormGroup({localize: true}, {
+          }, {}),
+        }).toFormGroup({ localize: true }, {
           name: "rollMode",
-          value: game.settings.get("core", "rollMode")
-        }).outerHTML
-      ]
+          value: game.settings.get("core", "rollMode"),
+        }).outerHTML,
+      ],
     });
 
     return context;
@@ -126,8 +126,8 @@ export default class RollConfigurationDialog extends foundry.applications.api.Ha
   static async create(options) {
     return new Promise(resolve => {
       const application = new this(options);
-      application.addEventListener("close", () => resolve(application.config), {once: true});
-      application.render({force: true});
+      application.addEventListener("close", () => resolve(application.config), { once: true });
+      application.render({ force: true });
     });
   }
 }

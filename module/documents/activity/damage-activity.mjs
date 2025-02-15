@@ -2,24 +2,24 @@ import BaseActivity from "./base-activity.mjs";
 import ChatMessageArtichron from "../chat-message.mjs";
 import DamagesField from "../fields/damages-field.mjs";
 
-const {NumberField, SchemaField, StringField} = foundry.data.fields;
+const { NumberField, SchemaField, StringField } = foundry.data.fields;
 
 const targetField = () => {
   return new SchemaField({
     type: new StringField({
       choices: CONFIG.SYSTEM.TARGET_TYPES,
       initial: "single",
-      required: true
+      required: true,
     }),
-    count: new NumberField({min: 1, integer: true, nullable: false, initial: 1}),
+    count: new NumberField({ min: 1, integer: true, nullable: false, initial: 1 }),
     duration: new StringField({
       choices: CONFIG.SYSTEM.TEMPLATE_DURATIONS,
       initial: "combat",
-      required: true
+      required: true,
     }),
-    range: new NumberField({min: 1, integer: true, nullable: false, initial: 1}),
-    size: new NumberField({min: 1, integer: true, nullable: false, initial: 1}),
-    width: new NumberField({min: 1, integer: true, nullable: false, initial: 1})
+    range: new NumberField({ min: 1, integer: true, nullable: false, initial: 1 }),
+    size: new NumberField({ min: 1, integer: true, nullable: false, initial: 1 }),
+    width: new NumberField({ min: 1, integer: true, nullable: false, initial: 1 }),
   });
 };
 
@@ -27,8 +27,8 @@ export default class DamageActivity extends BaseActivity {
   /** @inheritdoc */
   static metadata = Object.freeze(foundry.utils.mergeObject(super.metadata, {
     type: "damage",
-    label: "ARTICHRON.ACTIVITY.Types.Damage"
-  }, {inplace: false}));
+    label: "ARTICHRON.ACTIVITY.Types.Damage",
+  }, { inplace: false }));
 
   /* -------------------------------------------------- */
 
@@ -36,7 +36,7 @@ export default class DamageActivity extends BaseActivity {
   static defineSchema() {
     return Object.assign(super.defineSchema(), {
       damage: new DamagesField(),
-      target: targetField()
+      target: targetField(),
     });
   }
 
@@ -45,7 +45,7 @@ export default class DamageActivity extends BaseActivity {
   /** @override */
   async use(usage = {}, dialog = {}, message = {}) {
     if (!this.hasDamage) {
-      ui.notifications.warn("ARTICHRON.ACTIVITY.Warning.NoDamage", {localize: true});
+      ui.notifications.warn("ARTICHRON.ACTIVITY.Warning.NoDamage", { localize: true });
       return null;
     }
 
@@ -87,7 +87,7 @@ export default class DamageActivity extends BaseActivity {
       const roll = new CONFIG.Dice.DamageRoll(part.formula, rollData, {
         type: type,
         damageOptions: Array.from(damageOptions),
-        multiplier: multiplier
+        multiplier: multiplier,
       });
       if (configuration.usage.damage?.increase) roll.alter(1, configuration.usage.damage.increase);
       await roll.evaluate();
@@ -117,21 +117,21 @@ export default class DamageActivity extends BaseActivity {
     await item.setFlag("artichron", `usage.${this.id}`, {
       "damage.ammoId": foundry.utils.getProperty(configuration.usage, "damage.ammoId") ?? null,
       "rollMode.mode": foundry.utils.getProperty(configuration.usage, "rollMode.mode"),
-      "template.place": foundry.utils.getProperty(configuration.usage, "template.place") ?? true
+      "template.place": foundry.utils.getProperty(configuration.usage, "template.place") ?? true,
     });
 
     // Place templates.
-    if (configuration.usage.template?.place) await this.placeTemplate({increase: configuration.usage.template.increase});
+    if (configuration.usage.template?.place) await this.placeTemplate({ increase: configuration.usage.template.increase });
 
     const messageData = {
       type: "usage",
       rolls: rolls,
-      speaker: ChatMessageArtichron.getSpeaker({actor: actor}),
+      speaker: ChatMessageArtichron.getSpeaker({ actor: actor }),
       "system.activity": this.id,
       "system.item": item.uuid,
       "system.targets": Array.from(game.user.targets.map(t => t.actor?.uuid)),
       "flags.artichron.usage": configuration.usage,
-      "flags.artichron.type": DamageActivity.metadata.type
+      "flags.artichron.type": DamageActivity.metadata.type,
     };
     ChatMessageArtichron.applyRollMode(messageData, configuration.usage.rollMode.mode);
     foundry.utils.mergeObject(messageData, configuration.message);

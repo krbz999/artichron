@@ -1,5 +1,5 @@
 export default class PoolConfig extends foundry.applications.api.HandlebarsApplicationMixin(
-  foundry.applications.api.DocumentSheetV2
+  foundry.applications.api.DocumentSheetV2,
 ) {
   /** @override */
   static DEFAULT_OPTIONS = {
@@ -7,24 +7,24 @@ export default class PoolConfig extends foundry.applications.api.HandlebarsAppli
     sheetConfig: false,
     position: {
       width: 400,
-      height: "auto"
+      height: "auto",
     },
     window: {
-      contentClasses: ["standard-form"]
+      contentClasses: ["standard-form"],
     },
     form: {
       closeOnSubmit: true,
-      submitOnChange: false
-    }
+      submitOnChange: false,
+    },
   };
 
   /* -------------------------------------------------- */
 
   /** @override */
   static PARTS = {
-    faces: {template: "systems/artichron/templates/actor/pool-faces.hbs"},
-    max: {template: "systems/artichron/templates/actor/pool-max.hbs"},
-    footer: {template: "systems/artichron/templates/shared/footer.hbs"}
+    faces: { template: "systems/artichron/templates/actor/pool-faces.hbs" },
+    max: { template: "systems/artichron/templates/actor/pool-max.hbs" },
+    footer: { template: "systems/artichron/templates/shared/footer.hbs" },
   };
 
   /* -------------------------------------------------- */
@@ -33,7 +33,7 @@ export default class PoolConfig extends foundry.applications.api.HandlebarsAppli
 
   /** @override */
   get title() {
-    return game.i18n.format("ARTICHRON.PoolConfig.Title", {name: this.document.name});
+    return game.i18n.format("ARTICHRON.PoolConfig.Title", { name: this.document.name });
   }
 
   /* -------------------------------------------------- */
@@ -92,13 +92,13 @@ export default class PoolConfig extends foundry.applications.api.HandlebarsAppli
   async #prepareFaces(context) {
     const field = new foundry.data.fields.StringField({
       choices: CONFIG.SYSTEM.POOL_FACES_SPECIALIZATION_TYPES,
-      hint: CONFIG.SYSTEM.POOL_FACES_SPECIALIZATION_TYPES[this.#faces]?.hint
+      hint: CONFIG.SYSTEM.POOL_FACES_SPECIALIZATION_TYPES[this.#faces]?.hint,
     });
 
     context.faces = {
       field: field,
       value: this.#faces,
-      selects: []
+      selects: [],
     };
 
     if (!this.#faces) return context;
@@ -111,20 +111,20 @@ export default class PoolConfig extends foundry.applications.api.HandlebarsAppli
       choices: {
         health: "ARTICHRON.ACTOR.FIELDS.pools.health.label",
         stamina: "ARTICHRON.ACTOR.FIELDS.pools.stamina.label",
-        mana: "ARTICHRON.ACTOR.FIELDS.pools.mana.label"
+        mana: "ARTICHRON.ACTOR.FIELDS.pools.mana.label",
       },
-      label: "Largest"
+      label: "Largest",
     });
-    context.faces.selects.push({name: "faces.maxPool", field: largest, value: value});
+    context.faces.selects.push({ name: "faces.maxPool", field: largest, value: value });
 
     if (min < mid) {
       const choices = foundry.utils.deepClone(largest.choices);
       delete choices[value];
       const smallest = new foundry.data.fields.StringField({
         choices: choices,
-        label: "Smallest"
+        label: "Smallest",
       });
-      context.faces.selects.push({name: "faces.minPool", field: smallest, value: "mana"});
+      context.faces.selects.push({ name: "faces.minPool", field: smallest, value: "mana" });
     }
 
     return context;
@@ -140,13 +140,13 @@ export default class PoolConfig extends foundry.applications.api.HandlebarsAppli
   async #prepareMax(context) {
     const field = new foundry.data.fields.StringField({
       choices: CONFIG.SYSTEM.POOL_SIZE_SPECIALIZATION_TYPES,
-      hint: CONFIG.SYSTEM.POOL_SIZE_SPECIALIZATION_TYPES[this.#max]?.hint
+      hint: CONFIG.SYSTEM.POOL_SIZE_SPECIALIZATION_TYPES[this.#max]?.hint,
     });
 
     context.max = {
       field: field,
       value: this.#max,
-      selects: []
+      selects: [],
     };
 
     if (!this.#max) return context;
@@ -157,18 +157,18 @@ export default class PoolConfig extends foundry.applications.api.HandlebarsAppli
     const value = this.#maxLargest || "health";
     const largest = new foundry.data.fields.StringField({
       choices: CONFIG.SYSTEM.POOL_TYPES,
-      label: "Largest"
+      label: "Largest",
     });
-    context.max.selects.push({name: "max.maxPool", field: largest, value: value});
+    context.max.selects.push({ name: "max.maxPool", field: largest, value: value });
 
     if (min < mid) {
       const choices = foundry.utils.deepClone(CONFIG.SYSTEM.POOL_TYPES);
       delete choices[value];
       const smallest = new foundry.data.fields.StringField({
         choices: choices,
-        label: "Smallest"
+        label: "Smallest",
       });
-      context.max.selects.push({name: "max.minPool", field: smallest, value: "mana"});
+      context.max.selects.push({ name: "max.minPool", field: smallest, value: "mana" });
     }
 
     return context;
@@ -182,7 +182,7 @@ export default class PoolConfig extends foundry.applications.api.HandlebarsAppli
    * @returns {Promise<object>}     A promise that resolves to the mutated rendering context.
    */
   async #prepareFooter(context) {
-    context.footer = {disabled: !this.#max || !this.#faces};
+    context.footer = { disabled: !this.#max || !this.#faces };
     return context;
   }
 
@@ -201,7 +201,7 @@ export default class PoolConfig extends foundry.applications.api.HandlebarsAppli
           if (name === "faces.config") this.#faces = value;
           else if (name === "faces.maxPool") this.#facesLargest = value;
           else parts.shift();
-          this.render({parts: parts});
+          this.render({ parts: parts });
         });
       }
     } else if (partId === "max") {
@@ -213,7 +213,7 @@ export default class PoolConfig extends foundry.applications.api.HandlebarsAppli
           if (name === "max.config") this.#max = value;
           else if (name === "max.maxPool") this.#maxLargest = value;
           else parts.shift();
-          this.render({parts: parts});
+          this.render({ parts: parts });
         });
       }
     }
@@ -223,7 +223,7 @@ export default class PoolConfig extends foundry.applications.api.HandlebarsAppli
 
   /** @override */
   _processFormData(event, form, formData) {
-    const {max, faces} = super._processFormData(event, form, formData);
+    const { max, faces } = super._processFormData(event, form, formData);
     const update = createPoolUpdate(max, faces);
     return update;
   }
@@ -245,13 +245,13 @@ function createPoolUpdate(max, faces) {
   const v = faces ? poolFaces(faces) : {};
   return foundry.utils.mergeObject(u, v);
 }
-function poolMax({config, minPool, maxPool}) {
-  return _applyConfig({config, minPool, maxPool, appendix: "base"});
+function poolMax({ config, minPool, maxPool }) {
+  return _applyConfig({ config, minPool, maxPool, appendix: "base" });
 }
-function poolFaces({config, minPool, maxPool}) {
-  return _applyConfig({config, minPool, maxPool, appendix: "faces"});
+function poolFaces({ config, minPool, maxPool }) {
+  return _applyConfig({ config, minPool, maxPool, appendix: "faces" });
 }
-function _applyConfig({config, minPool, maxPool, appendix}) {
+function _applyConfig({ config, minPool, maxPool, appendix }) {
   const c = CONFIG.SYSTEM[`POOL_${(appendix === "base") ? "SIZE" : "FACES"}_SPECIALIZATION_TYPES`];
   const [min, mid, max] = c[config][(appendix === "base") ? "sizes" : "faces"];
   const update = {};

@@ -8,8 +8,8 @@ export default class IdentifierField extends foundry.data.fields.StringField {
       blank: false,
       required: true,
       nullable: true,
-      initial: null
-    }, {inplace: false});
+      initial: null,
+    }, { inplace: false });
   }
 
   /* -------------------------------------------------- */
@@ -18,6 +18,6 @@ export default class IdentifierField extends foundry.data.fields.StringField {
   clean(value, options) {
     value = super.clean(value, options);
     if (!value) return value;
-    return value.slugify({strict: true});
+    return value.slugify({ strict: true });
   }
 }

@@ -1,6 +1,6 @@
 import ArsenalData from "./item-arsenal.mjs";
 
-const {SchemaField, StringField} = foundry.data.fields;
+const { SchemaField, StringField } = foundry.data.fields;
 
 export default class WeaponData extends ArsenalData {
   /**
@@ -10,8 +10,8 @@ export default class WeaponData extends ArsenalData {
   static metadata = Object.freeze(foundry.utils.mergeObject(super.metadata, {
     defaultWeight: 2,
     order: 10,
-    type: "weapon"
-  }, {inplace: false}));
+    type: "weapon",
+  }, { inplace: false }));
 
   /* -------------------------------------------------- */
 
@@ -23,9 +23,9 @@ export default class WeaponData extends ArsenalData {
         type: new StringField({
           required: true,
           choices: CONFIG.SYSTEM.AMMUNITION_TYPES,
-          initial: "arrow"
-        })
-      })
+          initial: "arrow",
+        }),
+      }),
     };
   }
 
@@ -34,7 +34,7 @@ export default class WeaponData extends ArsenalData {
   /** @override */
   static LOCALIZATION_PREFIXES = [
     ...super.LOCALIZATION_PREFIXES,
-    "ARTICHRON.ITEM.WEAPON"
+    "ARTICHRON.ITEM.WEAPON",
   ];
 
   /* -------------------------------------------------- */

@@ -11,7 +11,7 @@ export default function registerSettings() {
     default: true,
     config: true,
     name: "ARTICHRON.Setting.CircularTokens",
-    hint: "ARTICHRON.Setting.CircularTokensHint"
+    hint: "ARTICHRON.Setting.CircularTokensHint",
   });
 
   /* -------------------------------------------------- */
@@ -21,11 +21,11 @@ export default function registerSettings() {
     scope: "world",
     requiresReload: true,
     type: new foundry.data.fields.NumberField({
-      initial: 0.4, min: 0.1, max: 1, step: 0.1, nullable: false
+      initial: 0.4, min: 0.1, max: 1, step: 0.1, nullable: false,
     }),
     config: true,
     name: "ARTICHRON.Setting.TemplateAreaThreshold",
-    hint: "ARTICHRON.Setting.TemplateAreaThresholdHint"
+    hint: "ARTICHRON.Setting.TemplateAreaThresholdHint",
   });
 
   /* -------------------------------------------------- */
@@ -35,11 +35,11 @@ export default function registerSettings() {
     scope: "world",
     requiresReload: false,
     type: new foundry.data.fields.NumberField({
-      initial: 120, min: 45, max: 180, step: 5, nullable: false
+      initial: 120, min: 45, max: 180, step: 5, nullable: false,
     }),
     config: true,
     name: "ARTICHRON.Setting.TokenBarLength",
-    hint: "ARTICHRON.Setting.TokenBarLengthHint"
+    hint: "ARTICHRON.Setting.TokenBarLengthHint",
   });
 
   /* -------------------------------------------------- */
@@ -48,8 +48,8 @@ export default function registerSettings() {
   game.settings.register(id, "combatTrackerCollapsed", {
     scope: "client",
     requiresReload: false,
-    type: new foundry.data.fields.BooleanField({initial: false}),
-    config: false
+    type: new foundry.data.fields.BooleanField({ initial: false }),
+    config: false,
   });
 
   /* -------------------------------------------------- */
@@ -58,7 +58,7 @@ export default function registerSettings() {
   game.settings.register(id, "compactItems", {
     scope: "client",
     requiresReload: false,
-    type: new foundry.data.fields.BooleanField({initial: true}),
+    type: new foundry.data.fields.BooleanField({ initial: true }),
     config: true,
     name: "ARTICHRON.Setting.CompactItems",
     hint: "ARTICHRON.Setting.CompactItemsHint",
@@ -66,7 +66,7 @@ export default function registerSettings() {
       for (const [k, v] of foundry.applications.instances.entries()) {
         if (v.document instanceof Actor) v.render();
       }
-    }
+    },
   });
 
   /* -------------------------------------------------- */
@@ -74,11 +74,11 @@ export default function registerSettings() {
   class PrimaryPartyModel extends foundry.abstract.DataModel {
     /** @override */
     static defineSchema() {
-      return {actor: new foundry.data.fields.ForeignDocumentField(foundry.documents.BaseActor, {
+      return { actor: new foundry.data.fields.ForeignDocumentField(foundry.documents.BaseActor, {
         blank: true,
         validate: id => !game.actors || (game.actors.get(id)?.type === "party"),
-        validationError: "This is not a valid id for a Party-type actor."
-      })};
+        validationError: "This is not a valid id for a Party-type actor.",
+      }) };
     }
   }
 
@@ -90,7 +90,7 @@ export default function registerSettings() {
     type: PrimaryPartyModel,
     default: null,
     config: false,
-    onChange: () => ui.actors.render()
+    onChange: () => ui.actors.render(),
   });
 
   /* -------------------------------------------------- */

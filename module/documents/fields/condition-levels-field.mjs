@@ -1,4 +1,4 @@
-const {NumberField} = foundry.data.fields;
+const { NumberField } = foundry.data.fields;
 
 export default class ConditionLevelsField extends foundry.abstract.DataModel {
   /** @override */
@@ -8,7 +8,7 @@ export default class ConditionLevelsField extends foundry.abstract.DataModel {
         required: false,
         integer: true,
         min: 1,
-        initial: undefined
+        initial: undefined,
       });
       return acc;
     }, {});
@@ -19,6 +19,6 @@ export default class ConditionLevelsField extends foundry.abstract.DataModel {
 
   /** @override */
   static LOCALIZATION_PREFIXES = [
-    "ARTICHRON.CONDITIONS"
+    "ARTICHRON.CONDITIONS",
   ];
 }

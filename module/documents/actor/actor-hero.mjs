@@ -1,7 +1,7 @@
 import CreatureData from "./creature-data.mjs";
 import ProgressionData from "../fields/hero-progression.mjs";
 
-const {ArrayField, HTMLField, NumberField, SchemaField, TypedSchemaField} = foundry.data.fields;
+const { ArrayField, HTMLField, NumberField, SchemaField, TypedSchemaField } = foundry.data.fields;
 
 export default class HeroData extends CreatureData {
   /**
@@ -9,7 +9,7 @@ export default class HeroData extends CreatureData {
    * @type {import("../../helpers/types.mjs").ActorSystemModelMetadata}
    */
   static metadata = Object.freeze({
-    type: "hero"
+    type: "hero",
   });
 
   /* -------------------------------------------------- */
@@ -20,36 +20,36 @@ export default class HeroData extends CreatureData {
 
     const poolSchema = () => {
       return new SchemaField({
-        base: new NumberField({min: 0, integer: true, initial: 0, nullable: false}),
-        faces: new NumberField({min: 0, integer: true, initial: 0, nullable: false}),
-        increase: new NumberField({min: 0, integer: true, initial: 0, nullable: false}),
-        spent: new NumberField({min: 0, integer: true, initial: 0})
+        base: new NumberField({ min: 0, integer: true, initial: 0, nullable: false }),
+        faces: new NumberField({ min: 0, integer: true, initial: 0, nullable: false }),
+        increase: new NumberField({ min: 0, integer: true, initial: 0, nullable: false }),
+        spent: new NumberField({ min: 0, integer: true, initial: 0 }),
       });
     };
 
     schema.pools = new SchemaField({
       health: poolSchema(),
       stamina: poolSchema(),
-      mana: poolSchema()
+      mana: poolSchema(),
     });
 
     schema.skills = new SchemaField(Object.entries(CONFIG.SYSTEM.SKILLS).reduce((acc, [k, v]) => {
       acc[k] = new SchemaField({
-        number: new NumberField({integer: true, min: 2, initial: 2, nullable: false}),
-        bonus: new NumberField({integer: true, min: 0, initial: 0})
+        number: new NumberField({ integer: true, min: 2, initial: 2, nullable: false }),
+        bonus: new NumberField({ integer: true, min: 0, initial: 0 }),
       });
       return acc;
     }, {}));
 
     schema.details = new SchemaField({
-      notes: new HTMLField({required: true})
+      notes: new HTMLField({ required: true }),
     });
 
     schema.progression = new SchemaField({
       points: new SchemaField({
-        total: new NumberField({min: 0, integer: true, initial: 0, nullable: false}),
-        spent: new ArrayField(new TypedSchemaField(ProgressionData.TYPES))
-      })
+        total: new NumberField({ min: 0, integer: true, initial: 0, nullable: false }),
+        spent: new ArrayField(new TypedSchemaField(ProgressionData.TYPES)),
+      }),
     });
 
     return schema;
@@ -167,7 +167,7 @@ export default class HeroData extends CreatureData {
    */
   async createProgression(type) {
     if (this.progression.points.available < 1) {
-      ui.notifications.warn("ARTICHRON.ProgressionDialog.WarningNoPoints", {localize: true});
+      ui.notifications.warn("ARTICHRON.ProgressionDialog.WarningNoPoints", { localize: true });
       return null;
     }
 
@@ -181,16 +181,16 @@ export default class HeroData extends CreatureData {
           }, {}),
           required: true,
           label: "ARTICHRON.ProgressionDialog.TypeLabel",
-          hint: "ARTICHRON.ProgressionDialog.TypeHint"
-        }).toFormGroup({localize: true}, {name: "type"}).outerHTML,
-        ok: {callback: (event, button) => button.form.elements.type.value},
+          hint: "ARTICHRON.ProgressionDialog.TypeHint",
+        }).toFormGroup({ localize: true }, { name: "type" }).outerHTML,
+        ok: { callback: (event, button) => button.form.elements.type.value },
         rejectClose: false,
         window: {
-          title: game.i18n.format("ARTICHRON.ProgressionDialog.Title", {name: this.parent.name}),
-          icon: "fa-solid fa-arrow-trend-up"
+          title: game.i18n.format("ARTICHRON.ProgressionDialog.Title", { name: this.parent.name }),
+          icon: "fa-solid fa-arrow-trend-up",
         },
-        position: {width: 400},
-        modal: true
+        position: { width: 400 },
+        modal: true,
       });
       if (!type) return null;
     }
@@ -236,14 +236,14 @@ export default class HeroData extends CreatureData {
    * @param {PointerEvent} event        An associated click event.
    * @returns {Promise<Roll|null>}      The created Roll instance.
    */
-  async rollPool(type, {amount = 1, message = true, event} = {}) {
+  async rollPool(type, { amount = 1, message = true, event } = {}) {
     // TODO: redo this whole thing, it should take three parameters for usage, dialog, message.
     if (!(type in this.pools)) return null;
     const pool = this.pools[type];
     if (pool.value < amount) {
       ui.notifications.warn(game.i18n.format("ARTICHRON.ROLL.Pool.Warning.NotEnoughPoolDice", {
         name: this.parent.name,
-        type: game.i18n.localize(`ARTICHRON.Pools.${type.capitalize()}`)
+        type: game.i18n.localize(`ARTICHRON.Pools.${type.capitalize()}`),
       }));
       return null;
     }
@@ -258,34 +258,34 @@ export default class HeroData extends CreatureData {
         min: 1,
         max: pool.value,
         step: 1,
-        nullable: false
-      }).toFormGroup({localize: true}, {value: amount, name: "amount"}).outerHTML,
+        nullable: false,
+      }).toFormGroup({ localize: true }, { value: amount, name: "amount" }).outerHTML,
       window: {
         title: game.i18n.format("ARTICHRON.ROLL.Pool.Title", {
-          type: game.i18n.localize(`ARTICHRON.Pools.${type.capitalize()}`)
-        })
+          type: game.i18n.localize(`ARTICHRON.Pools.${type.capitalize()}`),
+        }),
       },
       position: {
-        width: 400
+        width: 400,
       },
       ok: {
         label: "ARTICHRON.ROLL.Pool.Button",
-        callback: (event, button, html) => button.form.elements.amount.valueAsNumber
+        callback: (event, button, html) => button.form.elements.amount.valueAsNumber,
       },
       modal: true,
-      rejectClose: false
+      rejectClose: false,
     });
     if (!amount) return null;
 
-    const roll = await foundry.dice.Roll.create("(@amount)d@faces", {amount, faces: pool.faces}).evaluate();
+    const roll = await foundry.dice.Roll.create("(@amount)d@faces", { amount, faces: pool.faces }).evaluate();
     update[`system.pools.${type}.spent`] = pool.spent + amount;
     if (message) {
       await roll.toMessage({
-        speaker: ChatMessage.implementation.getSpeaker({actor: actor}),
+        speaker: ChatMessage.implementation.getSpeaker({ actor: actor }),
         flavor: game.i18n.format("ARTICHRON.ROLL.Pool.Flavor", {
-          type: game.i18n.localize(`ARTICHRON.Pools.${type.capitalize()}`)
+          type: game.i18n.localize(`ARTICHRON.Pools.${type.capitalize()}`),
         }),
-        "flags.artichron.roll.type": type
+        "flags.artichron.roll.type": type,
       });
     }
 
@@ -302,29 +302,29 @@ export default class HeroData extends CreatureData {
    * @param {string} [config.second]        The second of the skills used.
    * @returns {Promise<RollArtichron>}      A promise that resolves to the created roll.
    */
-  async rollSkill({base, second} = {}) {
+  async rollSkill({ base, second } = {}) {
     const skills = Object.entries(this.skills).map(([k, v], i) => {
       return {
         value: k,
         checked: (k === base) || (!i && !base),
         checked2: (k === second) || (!i && !second),
         img: CONFIG.SYSTEM.SKILLS[k].img,
-        label: CONFIG.SYSTEM.SKILLS[k].label
+        label: CONFIG.SYSTEM.SKILLS[k].label,
       };
     });
 
     if (!base || !second || !(new Set([base, second]).isSubset(new Set(Object.keys(CONFIG.SYSTEM.SKILLS))))) {
       const prompt = await foundry.applications.api.DialogV2.prompt({
-        content: await renderTemplate("systems/artichron/templates/actor/skill-dialog.hbs", {skills: skills}),
+        content: await renderTemplate("systems/artichron/templates/actor/skill-dialog.hbs", { skills: skills }),
         rejectClose: false,
         modal: true,
         window: {
-          title: game.i18n.format("ARTICHRON.SkillsDialog.Title", {name: this.parent.name}),
-          icon: "fa-solid fa-hand-fist"
+          title: game.i18n.format("ARTICHRON.SkillsDialog.Title", { name: this.parent.name }),
+          icon: "fa-solid fa-hand-fist",
         },
-        position: {width: 400, height: "auto"},
-        ok: {callback: (event, button) => new FormDataExtended(button.form).object},
-        classes: ["artichron", "skills"]
+        position: { width: 400, height: "auto" },
+        ok: { callback: (event, button) => new FormDataExtended(button.form).object },
+        classes: ["artichron", "skills"],
       });
       if (!prompt) return null;
       base = prompt.base;
@@ -334,17 +334,17 @@ export default class HeroData extends CreatureData {
     const formula = [
       `(@skills.${base}.number + @skills.${second}.number)d6cs=6`,
       "+",
-      `(@skills.${base}.bonus + @skills.${second}.bonus)`
+      `(@skills.${base}.bonus + @skills.${second}.bonus)`,
     ].join(" ");
     const rollData = this.parent.getRollData();
-    const roll = await foundry.dice.Roll.create(formula, rollData, {skills: [base, second]}).evaluate();
+    const roll = await foundry.dice.Roll.create(formula, rollData, { skills: [base, second] }).evaluate();
     await roll.toMessage({
       flavor: game.i18n.format("ARTICHRON.SkillsDialog.Flavor", {
         skills: Array.from(new Set([base, second]).map(skl => {
           return CONFIG.SYSTEM.SKILLS[skl].label;
-        })).sort((a, b) => a.localeCompare(b)).join(", ")
+        })).sort((a, b) => a.localeCompare(b)).join(", "),
       }),
-      speaker: ChatMessage.implementation.getSpeaker({actor: this.parent})
+      speaker: ChatMessage.implementation.getSpeaker({ actor: this.parent }),
     });
     return roll;
   }

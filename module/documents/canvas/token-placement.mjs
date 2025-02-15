@@ -112,7 +112,7 @@ export default class TokenPlacement {
         if (placement) {
           const actorId = placement.prototypeToken.parent.id;
           uniqueTokens.set(actorId, (uniqueTokens.get(actorId) ?? -1) + 1);
-          placement.index = {total: total++, unique: uniqueTokens.get(actorId)};
+          placement.index = { total: total++, unique: uniqueTokens.get(actorId) };
           placements.push(placement);
         } else obj.clear();
       }
@@ -136,8 +136,8 @@ export default class TokenPlacement {
       tokenData._id = foundry.utils.randomID();
       if (tokenData.randomImg) tokenData.texture.src = prototypeToken.actor.img;
       const cls = getDocumentClass("Token");
-      const doc = new cls(tokenData, {parent: canvas.scene});
-      this.#placements.push({prototypeToken, x: 0, y: 0, rotation: tokenData.rotation ?? 0});
+      const doc = new cls(tokenData, { parent: canvas.scene });
+      this.#placements.push({ prototypeToken, x: 0, y: 0, rotation: tokenData.rotation ?? 0 });
       this.#previews.push(doc);
     }
   }
@@ -168,7 +168,7 @@ export default class TokenPlacement {
         resolve,
         reject,
         rotate: this.#onRotatePlacement.bind(this),
-        skip: this.#onSkipPlacement.bind(this)
+        skip: this.#onSkipPlacement.bind(this),
       };
 
       // Activate listeners
@@ -209,7 +209,7 @@ export default class TokenPlacement {
     local.x -= clone.w / 2;
     local.y -= clone.h / 2;
     const dest = !event.shiftKey ? clone.getSnappedPosition(local) : local;
-    preview.updateSource({x: dest.x, y: dest.y});
+    preview.updateSource({ x: dest.x, y: dest.y });
     this.#placements[idx].x = preview.x;
     this.#placements[idx].y = preview.y;
     canvas.tokens.preview.children[this.#currentPlacement]?.refresh();
@@ -229,7 +229,7 @@ export default class TokenPlacement {
     const snap = event.shiftKey ? delta : 5;
     const preview = this.#previews[this.#currentPlacement];
     this.#placements[this.#currentPlacement].rotation += snap * Math.sign(event.deltaY);
-    preview.updateSource({rotation: this.#placements[this.#currentPlacement].rotation});
+    preview.updateSource({ rotation: this.#placements[this.#currentPlacement].rotation });
     canvas.tokens.preview.children[this.#currentPlacement]?.refresh();
   }
 
@@ -269,7 +269,7 @@ export default class TokenPlacement {
     const match = tokenDocument.name?.match(regex);
     if (!match) return;
     const name = tokenDocument.name.replace(regex, `(${Number(match[1]) + placement.index.unique})`);
-    if (tokenDocument instanceof TokenDocument) tokenDocument.updateSource({name});
+    if (tokenDocument instanceof TokenDocument) tokenDocument.updateSource({ name });
     else tokenDocument.name = name;
   }
 }

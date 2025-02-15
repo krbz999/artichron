@@ -8,7 +8,7 @@
  *
  * @returns {string}  The resulting simplified formula.
  */
-export default function simplifyRollFormula(formula, {preserveFlavor = false, deterministic = false} = {}) {
+export default function simplifyRollFormula(formula, { preserveFlavor = false, deterministic = false } = {}) {
   // Create a new roll and verify that the formula is valid before attempting simplification.
   let roll;
   try { roll = new Roll(formula); }
@@ -35,11 +35,11 @@ export default function simplifyRollFormula(formula, {preserveFlavor = false, de
       let paren;
       let term = roll.terms[i];
       if (term instanceof foundry.dice.terms.ParentheticalTerm) {
-        paren = simplifyRollFormula(term.term, {preserveFlavor, deterministic});
+        paren = simplifyRollFormula(term.term, { preserveFlavor, deterministic });
       }
       if (Number.isNumeric(paren)) {
-        const termData = {number: paren};
-        if (preserveFlavor) termData.options = {flavor: term.flavor};
+        const termData = { number: paren };
+        if (preserveFlavor) termData.options = { flavor: term.flavor };
         term = new foundry.dice.terms.NumericTerm(termData);
       }
       determ = term.isDeterministic && (!multiplicative || determ);
@@ -77,7 +77,7 @@ export default function simplifyRollFormula(formula, {preserveFlavor = false, de
   roll.terms = Roll.simplifyTerms(roll.terms);
 
   // Group terms by type and perform simplifications on various types of roll term.
-  let {poolTerms, diceTerms, mathTerms, numericTerms} = _groupTermsByType(roll.terms);
+  let { poolTerms, diceTerms, mathTerms, numericTerms } = _groupTermsByType(roll.terms);
   numericTerms = _simplifyNumericTerms(numericTerms ?? []);
   diceTerms = _simplifyDiceTerms(diceTerms ?? []);
 
@@ -103,10 +103,10 @@ function _simplifyOperatorTerms(terms) {
     if (ops.has(undefined)) acc.push(term);
 
     // Replace consecutive "+ -" operators with a "-" operator.
-    else if ((ops.has("+")) && (ops.has("-"))) acc.splice(-1, 1, new foundry.dice.terms.OperatorTerm({operator: "-"}));
+    else if ((ops.has("+")) && (ops.has("-"))) acc.splice(-1, 1, new foundry.dice.terms.OperatorTerm({ operator: "-" }));
 
     // Replace double "-" operators with a "+" operator.
-    else if ((ops.has("-")) && (ops.size === 1)) acc.splice(-1, 1, new foundry.dice.terms.OperatorTerm({operator: "+"}));
+    else if ((ops.has("-")) && (ops.size === 1)) acc.splice(-1, 1, new foundry.dice.terms.OperatorTerm({ operator: "+" }));
 
     // Don't include "+" operators that directly follow "+", "*", or "/". Otherwise, add the term as is.
     else if (!ops.has("+")) acc.push(term);
@@ -124,7 +124,7 @@ function _simplifyOperatorTerms(terms) {
  */
 function _simplifyNumericTerms(terms) {
   const simplified = [];
-  const {annotated, unannotated} = _separateAnnotatedTerms(terms);
+  const { annotated, unannotated } = _separateAnnotatedTerms(terms);
 
   // Combine the unannotated numerical bonuses into a single new NumericTerm.
   if (unannotated.length) {
@@ -132,8 +132,8 @@ function _simplifyNumericTerms(terms) {
     if (staticBonus === 0) return [...annotated];
 
     // If the staticBonus is greater than 0, add a "+" operator so the formula remains valid.
-    if (staticBonus > 0) simplified.push(new foundry.dice.terms.OperatorTerm({operator: "+"}));
-    simplified.push(new foundry.dice.terms.NumericTerm({number: staticBonus}));
+    if (staticBonus > 0) simplified.push(new foundry.dice.terms.OperatorTerm({ operator: "+" }));
+    simplified.push(new foundry.dice.terms.NumericTerm({ number: staticBonus }));
   }
   return [...simplified, ...annotated];
 }
@@ -146,7 +146,7 @@ function _simplifyNumericTerms(terms) {
  * @returns {object[]}      A new array of simplified dice terms.
  */
 function _simplifyDiceTerms(terms) {
-  const {annotated, unannotated} = _separateAnnotatedTerms(terms);
+  const { annotated, unannotated } = _separateAnnotatedTerms(terms);
 
   // Split the unannotated terms into different die sizes and signs
   const diceQuantities = unannotated.reduce((obj, curr, i) => {
@@ -162,11 +162,11 @@ function _simplifyDiceTerms(terms) {
   }, {});
 
   // Add new die and operator terms to simplified for each die size and sign
-  const simplified = Object.entries(diceQuantities).flatMap(([key, {number, modifiers}]) => ([
-    new foundry.dice.terms.OperatorTerm({operator: key.charAt(0)}),
+  const simplified = Object.entries(diceQuantities).flatMap(([key, { number, modifiers }]) => ([
+    new foundry.dice.terms.OperatorTerm({ operator: key.charAt(0) }),
     key.slice(1) === "c"
-      ? new foundry.dice.terms.Coin({number: number})
-      : new foundry.dice.terms.Die({number, faces: parseInt(key.slice(1)), modifiers: [...new Set(modifiers)]})
+      ? new foundry.dice.terms.Coin({ number: number })
+      : new foundry.dice.terms.Die({ number, faces: parseInt(key.slice(1)), modifiers: [...new Set(modifiers)] }),
   ]));
   return [...simplified, ...annotated];
 }
@@ -183,7 +183,7 @@ function _expandParentheticalTerms(terms) {
     if (term instanceof foundry.dice.terms.ParentheticalTerm) {
       if (term.isDeterministic) {
         const number = Roll.create(term.term).evaluateSync().total;
-        term = new foundry.dice.terms.NumericTerm({number: number});
+        term = new foundry.dice.terms.NumericTerm({ number: number });
       } else {
         const subterms = new Roll(term.term).terms;
         term = _expandParentheticalTerms(subterms);
@@ -206,7 +206,7 @@ function _expandParentheticalTerms(terms) {
 function _groupTermsByType(terms) {
   // Add an initial operator so that terms can be rearranged arbitrarily.
   if (!(terms[0] instanceof foundry.dice.terms.OperatorTerm)) {
-    terms.unshift(new foundry.dice.terms.OperatorTerm({operator: "+"}));
+    terms.unshift(new foundry.dice.terms.OperatorTerm({ operator: "+" }));
   }
 
   return terms.reduce((obj, term, i) => {
@@ -235,5 +235,5 @@ function _separateAnnotatedTerms(terms) {
     if (curr instanceof foundry.dice.terms.OperatorTerm) return obj;
     obj[curr.flavor ? "annotated" : "unannotated"].push(terms[i - 1], curr);
     return obj;
-  }, {annotated: [], unannotated: []});
+  }, { annotated: [], unannotated: [] });
 }

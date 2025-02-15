@@ -1,7 +1,7 @@
 import DamageSheet from "../../applications/item/damage-sheet.mjs";
 import FormulaModel from "./formula-model.mjs";
 
-const {SetField, StringField} = foundry.data.fields;
+const { SetField, StringField } = foundry.data.fields;
 
 export default class DamageFormulaModel extends FormulaModel {
   /** @override */
@@ -12,18 +12,18 @@ export default class DamageFormulaModel extends FormulaModel {
         required: true,
         blank: false,
         readonly: true,
-        initial: () => foundry.utils.randomID()
+        initial: () => foundry.utils.randomID(),
       }),
       type: new StringField({
         required: true,
         choices: CONFIG.SYSTEM.DAMAGE_TYPES,
-        initial: "physical"
+        initial: "physical",
       }),
       options: new SetField(new StringField({
         choices: () => Object.fromEntries(Object.entries(CONFIG.SYSTEM.ITEM_ATTRIBUTES).filter(([k, v]) => {
           return v.damageOption;
-        }))
-      }))
+        })),
+      })),
     };
   }
 
@@ -32,7 +32,7 @@ export default class DamageFormulaModel extends FormulaModel {
   /** @override */
   static LOCALIZATION_PREFIXES = [
     ...super.LOCALIZATION_PREFIXES,
-    "ARTICHRON.ACTIVITY.FIELDS.damage"
+    "ARTICHRON.ACTIVITY.FIELDS.damage",
   ];
 
   /* -------------------------------------------------- */
@@ -51,7 +51,7 @@ export default class DamageFormulaModel extends FormulaModel {
    */
   get sheet() {
     if (!DamageFormulaModel.#sheets.has(this.uuid)) {
-      const cls = new DamageSheet({document: this});
+      const cls = new DamageSheet({ document: this });
       DamageFormulaModel.#sheets.set(this.uuid, cls);
     }
     return DamageFormulaModel.#sheets.get(this.uuid);

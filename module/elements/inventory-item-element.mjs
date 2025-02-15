@@ -102,7 +102,7 @@ export default class InventoryItemElement extends HTMLElement {
 
         counter.insertAdjacentHTML("beforeend", `
           <span class="sep">/</span>
-          <span class="max">${item.system.usage.max}</span>`
+          <span class="max">${item.system.usage.max}</span>`,
         );
 
         const label = document.createElement("SPAN");

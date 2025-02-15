@@ -1,5 +1,5 @@
 export default class ActivitySheet extends foundry.applications.api.HandlebarsApplicationMixin(
-  foundry.applications.api.ApplicationV2
+  foundry.applications.api.ApplicationV2,
 ) {
   constructor(options) {
     super(options);
@@ -14,23 +14,23 @@ export default class ActivitySheet extends foundry.applications.api.HandlebarsAp
     actions: {
       addDamage: ActivitySheet.#addDamage,
       deleteDamage: ActivitySheet.#deleteDamage,
-      showDamage: ActivitySheet.#showDamage
+      showDamage: ActivitySheet.#showDamage,
     },
     classes: ["artichron", "activity"],
     document: null,
     form: {
       handler: ActivitySheet.#onSubmitForm,
-      submitOnChange: true
+      submitOnChange: true,
     },
     position: {
       width: 500,
-      height: "auto"
+      height: "auto",
     },
     tag: "form",
     window: {
       icon: "fa-solid fa-bolt-lightning",
-      contentClasses: ["standard-form"]
-    }
+      contentClasses: ["standard-form"],
+    },
   };
 
   /* -------------------------------------------------- */
@@ -38,21 +38,21 @@ export default class ActivitySheet extends foundry.applications.api.HandlebarsAp
   /** @override */
   static PARTS = {
     tabs: {
-      template: "templates/generic/tab-navigation.hbs"
+      template: "templates/generic/tab-navigation.hbs",
     },
     identity: {
-      template: "systems/artichron/templates/item/activity-identity.hbs"
+      template: "systems/artichron/templates/item/activity-identity.hbs",
     },
     details: {
-      template: "systems/artichron/templates/item/activity-details.hbs"
-    }
+      template: "systems/artichron/templates/item/activity-details.hbs",
+    },
   };
 
   /* -------------------------------------------------- */
 
   /** @override */
   tabGroups = {
-    primary: "identity"
+    primary: "identity",
   };
 
   /* -------------------------------------------------- */
@@ -98,7 +98,7 @@ export default class ActivitySheet extends foundry.applications.api.HandlebarsAp
   /** @override */
   get title() {
     return game.i18n.format("ARTICHRON.SHEET.ACTIVITY.title", {
-      name: this.activity.name
+      name: this.activity.name,
     });
   }
 
@@ -109,7 +109,7 @@ export default class ActivitySheet extends foundry.applications.api.HandlebarsAp
     const context = {
       activity: this.activity,
       item: this.item,
-      actor: this.item.actor
+      actor: this.item.actor,
     };
     return context;
   }
@@ -139,8 +139,8 @@ export default class ActivitySheet extends foundry.applications.api.HandlebarsAp
    */
   async #prepareTabsContext(context) {
     const tabs = {
-      identity: {id: "identity", group: "primary", icon: "fa-solid fa-tag", label: "ARTICHRON.SheetLabels.Identity"},
-      details: {id: "details", group: "primary", icon: "fa-solid fa-pen-fancy", label: "ARTICHRON.SheetLabels.Details"}
+      identity: { id: "identity", group: "primary", icon: "fa-solid fa-tag", label: "ARTICHRON.SheetLabels.Identity" },
+      details: { id: "details", group: "primary", icon: "fa-solid fa-pen-fancy", label: "ARTICHRON.SheetLabels.Details" },
     };
     for (const v of Object.values(tabs)) {
       v.active = this.tabGroups[v.group] === v.id;
@@ -160,20 +160,20 @@ export default class ActivitySheet extends foundry.applications.api.HandlebarsAp
   async #prepareIdentityContext(context) {
     context.name = {
       field: context.activity.schema.getField("name"),
-      value: context.activity.name
+      value: context.activity.name,
     };
 
     context.img = {
       field: context.activity.schema.getField("img"),
-      value: context.activity.img
+      value: context.activity.img,
     };
 
     context.description = {
       field: context.activity.schema.getField("description"),
       value: context.activity.description,
       enriched: await TextEditor.enrichHTML(context.activity.description, {
-        rollData: context.activity.getRollData(), relativeTo: context.item
-      })
+        rollData: context.activity.getRollData(), relativeTo: context.item,
+      }),
     };
 
     return context;
@@ -190,7 +190,7 @@ export default class ActivitySheet extends foundry.applications.api.HandlebarsAp
     const makeField = path => {
       return {
         field: context.activity.schema.getField(path),
-        value: foundry.utils.getProperty(context.activity, path)
+        value: foundry.utils.getProperty(context.activity, path),
       };
     };
 
@@ -200,7 +200,7 @@ export default class ActivitySheet extends foundry.applications.api.HandlebarsAp
     context.cost.legend = game.i18n.localize("ARTICHRON.SheetLabels.Configuration");
 
     if (this.activity.item.type === "elixir") {
-      context.usage = {show: true, ...makeField("cost.uses")};
+      context.usage = { show: true, ...makeField("cost.uses") };
     }
 
     // Target
@@ -210,7 +210,7 @@ export default class ActivitySheet extends foundry.applications.api.HandlebarsAp
         show: true,
         legend: makeLegend("target"),
         fields: [],
-        type: {...makeField("target.type"), options: CONFIG.SYSTEM.TARGET_TYPES.optgroups}
+        type: { ...makeField("target.type"), options: CONFIG.SYSTEM.TARGET_TYPES.optgroups },
       };
 
       if (context.activity.hasTemplate) context.target.fields.push(makeField("target.duration"));
@@ -233,10 +233,10 @@ export default class ActivitySheet extends foundry.applications.api.HandlebarsAp
               name: `damage.${damage.id}.${path}`,
               value: foundry.utils.getProperty(damage, path),
               classes: [path, "label-top"].join(" "),
-              options: (path === "type") ? groups : undefined
+              options: (path === "type") ? groups : undefined,
             };
-          })
-        }))
+          }),
+        })),
       };
     }
 
@@ -247,7 +247,7 @@ export default class ActivitySheet extends foundry.applications.api.HandlebarsAp
         show: true,
         legend: makeLegend("defend"),
         number: makeField("defend.number"),
-        denomination: makeField("defend.denomination")
+        denomination: makeField("defend.denomination"),
       };
     }
 
@@ -258,7 +258,7 @@ export default class ActivitySheet extends foundry.applications.api.HandlebarsAp
         show: true,
         legend: makeLegend("healing"),
         number: makeField("healing.number"),
-        denomination: makeField("healing.denomination")
+        denomination: makeField("healing.denomination"),
       };
     }
 
@@ -268,10 +268,10 @@ export default class ActivitySheet extends foundry.applications.api.HandlebarsAp
       context.effects = {
         show: true,
         legend: makeLegend("effects"),
-        ids: makeField("effects.ids")
+        ids: makeField("effects.ids"),
       };
       context.effects.ids.choices = this.item.transferrableEffects.map(effect => {
-        return {value: effect.id, label: effect.name};
+        return { value: effect.id, label: effect.name };
       });
     }
 
@@ -281,7 +281,7 @@ export default class ActivitySheet extends foundry.applications.api.HandlebarsAp
       context.teleport = {
         show: true,
         legend: makeLegend("teleport"),
-        distance: makeField("teleport.distance")
+        distance: makeField("teleport.distance"),
       };
     }
 
@@ -352,6 +352,6 @@ export default class ActivitySheet extends foundry.applications.api.HandlebarsAp
    */
   static #showDamage(event, target) {
     const id = target.closest("[data-id]").dataset.id;
-    this.activity.damage.get(id).sheet.render({force: true});
+    this.activity.damage.get(id).sheet.render({ force: true });
   }
 }

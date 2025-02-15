@@ -51,5 +51,5 @@ export default {
   PoolConfig,
   RollConfigurationDialog,
   TokenHUDArtichron,
-  TooltipsArtichron
+  TooltipsArtichron,
 };

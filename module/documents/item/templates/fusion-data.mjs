@@ -1,4 +1,4 @@
-const {NumberField, SchemaField, SetField, StringField} = foundry.data.fields;
+const { NumberField, SchemaField, SetField, StringField } = foundry.data.fields;
 
 const FusionTemplateMixin = Base => {
   return class FusionTemplate extends Base {
@@ -7,7 +7,7 @@ const FusionTemplateMixin = Base => {
       const schema = super.defineSchema();
       schema.fusion = new SchemaField({
         ignore: new SetField(new StringField()),
-        max: new NumberField({integer: true, min: 0, initial: 1, nullable: false})
+        max: new NumberField({ integer: true, min: 0, initial: 1, nullable: false }),
       });
       return schema;
     }
@@ -25,18 +25,18 @@ const FusionTemplateMixin = Base => {
     async fuse(target, fusion) {
       const effect = fusion ? fusion.clone() : new ActiveEffect.implementation({
         type: "fusion",
-        name: game.i18n.format("ARTICHRON.ItemFusionDialog.DefaultFusion", {name: this.parent.name}),
-        img: this.parent.img
-      }, {parent: this.parent});
+        name: game.i18n.format("ARTICHRON.ItemFusionDialog.DefaultFusion", { name: this.parent.name }),
+        img: this.parent.img,
+      }, { parent: this.parent });
 
-      effect.updateSource({"system.itemData": game.items.fromCompendium(this.parent, {
-        clearFolder: true, keepId: true
-      })});
+      effect.updateSource({ "system.itemData": game.items.fromCompendium(this.parent, {
+        clearFolder: true, keepId: true,
+      }) });
 
       const effectData = effect.toObject();
       effectData.changes = target.system.createFusionData(effect);
 
-      const created = await getDocumentClass("ActiveEffect").create(effectData, {parent: target});
+      const created = await getDocumentClass("ActiveEffect").create(effectData, { parent: target });
       await this.parent.delete();
       return created;
     }
@@ -49,7 +49,7 @@ const FusionTemplateMixin = Base => {
      */
     async fuseDialog() {
       if (!this.parent.actor.canPerformActionPoints(1)) {
-        ui.notifications.warn("ARTICHRON.Warning.MissingActionPoints", {localize: true});
+        ui.notifications.warn("ARTICHRON.Warning.MissingActionPoints", { localize: true });
         return null;
       }
 
@@ -79,23 +79,23 @@ const FusionTemplateMixin = Base => {
         choices: choices,
         required: true,
         label: "ARTICHRON.ItemFusionDialog.SplitLabel",
-        hint: "ARTICHRON.ItemFusionDialog.SplitHint"
-      }).toFormGroup({localize: true}, {name: "effectId"}).outerHTML;
+        hint: "ARTICHRON.ItemFusionDialog.SplitHint",
+      }).toFormGroup({ localize: true }, { name: "effectId" }).outerHTML;
       const id = await foundry.applications.api.DialogV2.prompt({
         rejectClose: false,
         modal: true,
         content: `<fieldset>${field}</fieldset>`,
         ok: {
           label: "ARTICHRON.ItemFusionDialog.Split",
-          callback: (event, button, html) => button.form.elements.effectId.value
+          callback: (event, button, html) => button.form.elements.effectId.value,
         },
         window: {
-          title: game.i18n.format("ARTICHRON.ItemFusionDialog.TitleUnfuse", {item: this.parent.name}),
-          icon: "fa-solid fa-recycle"
+          title: game.i18n.format("ARTICHRON.ItemFusionDialog.TitleUnfuse", { item: this.parent.name }),
+          icon: "fa-solid fa-recycle",
         },
         position: {
-          width: 400
-        }
+          width: 400,
+        },
       });
       if (!id) return null;
       const effect = this.parent.effects.get(id);
@@ -128,7 +128,7 @@ const FusionTemplateMixin = Base => {
         const value = Array.from(foundry.utils.getProperty(source.system, path)).filter(key => {
           return CONFIG.SYSTEM.ITEM_ATTRIBUTES[key].transferrable !== false;
         }).join(", ");
-        if (value) changes.push({key: `system.${path}`, mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: value});
+        if (value) changes.push({ key: `system.${path}`, mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: value });
       }
 
       // Half the source item's price is added.
@@ -137,7 +137,7 @@ const FusionTemplateMixin = Base => {
       sfield = source.system.schema.getField(path);
       if (!ignoredChanges.has(path) && ifield && sfield) {
         const value = Math.ceil(foundry.utils.getProperty(source.system, path) / 2);
-        if (value) changes.push({key: `system.${path}`, mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: String(value)});
+        if (value) changes.push({ key: `system.${path}`, mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: String(value) });
       }
 
       // Half the source item's weight is added.
@@ -146,7 +146,7 @@ const FusionTemplateMixin = Base => {
       sfield = source.system.schema.getField(path);
       if (!ignoredChanges.has(path) && ifield && sfield) {
         const value = Math.ceil(foundry.utils.getProperty(source.system, path) / 2);
-        if (value) changes.push({key: `system.${path}`, mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: String(value)});
+        if (value) changes.push({ key: `system.${path}`, mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: String(value) });
       }
 
       // Half the source item's defenses are added.
@@ -157,7 +157,7 @@ const FusionTemplateMixin = Base => {
         for (const field of sfield) {
           const valueField = field.fields.value;
           const value = Math.ceil(foundry.utils.getProperty(source, valueField.fieldPath) / 2);
-          if (value) changes.push({key: valueField.fieldPath, mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: String(value)});
+          if (value) changes.push({ key: valueField.fieldPath, mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: String(value) });
         }
       }
 
@@ -184,12 +184,12 @@ const FusionTemplateMixin = Base => {
         if (ignoredActivity(activity)) continue;
         const data = activity.toObject();
         data._id = foundry.utils.randomID();
-        changes.push({key: "activity", mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: JSON.stringify(data)});
+        changes.push({ key: "activity", mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: JSON.stringify(data) });
       }
 
       // Any valid changes from the effect are added as well.
       for (const change of effect.changes) {
-        if (this.constructor.BONUS_FIELDS.has(change.key)) changes.push({...change});
+        if (this.constructor.BONUS_FIELDS.has(change.key)) changes.push({ ...change });
       }
 
       return changes;
@@ -219,7 +219,7 @@ const FusionTemplateMixin = Base => {
           oldValue: foundry.utils.getProperty(this.parent, path) ?? 0,
           newValue: newValue,
           label: field.label || path,
-          path: path
+          path: path,
         });
       }
       return update;
@@ -258,7 +258,7 @@ const FusionTemplateMixin = Base => {
         "attributes.value",
         "price.value",
         "weight.value",
-        "defenses"
+        "defenses",
       ];
 
       const set = new Set();

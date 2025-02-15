@@ -2,7 +2,7 @@ export default class ThresholdBarElement extends HTMLElement {
   /**
    * Factory method for handlebar helper.
    */
-  static create({limit = 5, value = 0, max} = {}) {
+  static create({ limit = 5, value = 0, max } = {}) {
     const element = new this();
     element.setAttribute("limit", String(limit));
     element.setAttribute("value", String(value));

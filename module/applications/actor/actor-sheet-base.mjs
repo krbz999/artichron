@@ -5,8 +5,8 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
   /** @override */
   static DEFAULT_OPTIONS = {
     classes: ["actor"],
-    position: {height: 700},
-    window: {resizable: true},
+    position: { height: 700 },
+    window: { resizable: true },
     actions: {
       createItem: ActorSheetArtichron.#onCreateItem,
       useItem: ActorSheetArtichron.#onUseItem,
@@ -15,8 +15,8 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
       deleteItem: ActorSheetArtichron.#onDeleteItem,
       recoverHealth: ActorSheetArtichron.#onRecoverHealth,
       toggleConfig: ActorSheetArtichron.#onToggleConfig,
-      fuseItem: ActorSheetArtichron.#onFuseItem
-    }
+      fuseItem: ActorSheetArtichron.#onFuseItem,
+    },
   };
 
   /* -------------------------------------------------- */
@@ -63,7 +63,7 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
       }
       return acc;
     }, []) : undefined;
-    getDocumentClass("Item").createDialog({}, {types: types, parent: this.document});
+    getDocumentClass("Item").createDialog({}, { types: types, parent: this.document });
   }
 
   /* -------------------------------------------------- */
@@ -79,7 +79,7 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
     event.stopPropagation();
     const uuid = target.closest("[data-item-uuid]").dataset.itemUuid;
     const item = await fromUuid(uuid);
-    item.use({}, {event: event}, {});
+    item.use({}, { event: event }, {});
   }
 
   /* -------------------------------------------------- */
@@ -142,7 +142,7 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
     if (result !== undefined) {
       if (property === "system.usage.value") {
         item.update(item.system._usageUpdate(result, false));
-      } else item.update({[property]: result});
+      } else item.update({ [property]: result });
     }
   }
 
@@ -160,7 +160,7 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
     switch (target.dataset.trait) {
       case "pools": Cls = PoolConfig; break;
     }
-    new Cls({document: this.document}).render({force: true});
+    new Cls({ document: this.document }).render({ force: true });
   }
 
   /* -------------------------------------------------- */

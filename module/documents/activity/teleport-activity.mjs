@@ -2,14 +2,14 @@ import ActivityUseDialog from "../../applications/item/activity-use-dialog.mjs";
 import BaseActivity from "./base-activity.mjs";
 import ChatMessageArtichron from "../chat-message.mjs";
 
-const {NumberField, SchemaField} = foundry.data.fields;
+const { NumberField, SchemaField } = foundry.data.fields;
 
 export default class TeleportActivity extends BaseActivity {
   /** @inheritdoc */
   static metadata = Object.freeze(foundry.utils.mergeObject(super.metadata, {
     type: "teleport",
-    label: "ARTICHRON.ACTIVITY.Types.Teleport"
-  }, {inplace: false}));
+    label: "ARTICHRON.ACTIVITY.Types.Teleport",
+  }, { inplace: false }));
 
   /* -------------------------------------------------- */
 
@@ -17,8 +17,8 @@ export default class TeleportActivity extends BaseActivity {
   static defineSchema() {
     return Object.assign(super.defineSchema(), {
       teleport: new SchemaField({
-        distance: new NumberField({min: 1, integer: true, nullable: false, initial: 1})
-      })
+        distance: new NumberField({ min: 1, integer: true, nullable: false, initial: 1 }),
+      }),
     });
   }
 
@@ -28,7 +28,7 @@ export default class TeleportActivity extends BaseActivity {
   async use(usage = {}, dialog = {}, message = {}) {
     const token = this.item.token;
     if (!token) {
-      ui.notifications.warn("ARTICHRON.ACTIVITY.Warning.NoToken", {localize: true});
+      ui.notifications.warn("ARTICHRON.ACTIVITY.Warning.NoToken", { localize: true });
       return;
     }
 
@@ -41,11 +41,11 @@ export default class TeleportActivity extends BaseActivity {
     const drawCircle = () => {
       const range = this.teleport.distance + (configuration.usage.teleport.increase ?? 0)
       + (canvas.grid.distance * Math.max(token.document.width, token.document.height, 1) / 2);
-      const points = canvas.grid.getCircle({x: 0, y: 0}, range).reduce((acc, p) => {
+      const points = canvas.grid.getCircle({ x: 0, y: 0 }, range).reduce((acc, p) => {
         return acc.concat([p.x, p.y]);
       }, []);
       const circle = new PIXI.Graphics();
-      circle.lineStyle({width: 4, color: 0x000000, alpha: 1});
+      circle.lineStyle({ width: 4, color: 0x000000, alpha: 1 });
       circle.drawShape(new PIXI.Polygon(points));
       circle.pivot.set(token.document.x - token.center.x, token.document.y - token.center.y);
       token.addChild(circle);
@@ -53,24 +53,24 @@ export default class TeleportActivity extends BaseActivity {
     };
 
     const circle = drawCircle();
-    const place = await artichron.canvas.TokenPlacement.place({tokens: [token.document]});
+    const place = await artichron.canvas.TokenPlacement.place({ tokens: [token.document] });
     token.removeChild(circle);
     if (!place.length) return null;
-    const {x, y, rotation} = place[0];
+    const { x, y, rotation } = place[0];
 
     const consumed = await this.consume(configuration.usage);
     if (!consumed) return null;
 
-    token.document.update({x, y, rotation}, {animate: false, teleport: true, forced: true});
+    token.document.update({ x, y, rotation }, { animate: false, teleport: true, forced: true });
 
     const messageData = {
       type: "usage",
-      speaker: ChatMessageArtichron.getSpeaker({actor: actor}),
+      speaker: ChatMessageArtichron.getSpeaker({ actor: actor }),
       "system.activity": this.id,
       "system.item": item.uuid,
       "system.targets": [],
       "flags.artichron.usage": configuration.usage,
-      "flags.artichron.type": TeleportActivity.metadata.type
+      "flags.artichron.type": TeleportActivity.metadata.type,
     };
     ChatMessageArtichron.applyRollMode(messageData, configuration.usage.rollMode.mode);
     foundry.utils.mergeObject(messageData, configuration.message);

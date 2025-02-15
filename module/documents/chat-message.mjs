@@ -33,7 +33,7 @@ export default class ChatMessageArtichron extends ChatMessage {
         type: roll.type,
         value: roll.total,
         statuses: statuses,
-        options: roll.damageOptions
+        options: roll.damageOptions,
       };
     });
   }
@@ -51,7 +51,7 @@ export default class ChatMessageArtichron extends ChatMessage {
     template.innerHTML = await renderTemplate("systems/artichron/templates/chat/message-header.hbs", {
       img: token?.texture.src ?? actor?.img ?? this.author?.avatar,
       actorUuid: actor?.uuid,
-      name: actor?.name || this.speaker.alias
+      name: actor?.name || this.speaker.alias,
     });
     html[0].querySelector(".message-sender").replaceWith(template.firstElementChild);
     const avatar = html[0].querySelector(".avatar");
@@ -93,7 +93,7 @@ export default class ChatMessageArtichron extends ChatMessage {
     if (!token) return;
 
     if (token.controlled && event.shiftKey) token.release();
-    else if (!token.controlled) token.control({releaseOthers: !event.shiftKey});
+    else if (!token.controlled) token.control({ releaseOthers: !event.shiftKey });
   }
 
   /* -------------------------------------------------- */
@@ -107,7 +107,7 @@ export default class ChatMessageArtichron extends ChatMessage {
     const actor = fromUuidSync(event.currentTarget.dataset.actorUuid);
     const token = actor?.isToken ? actor.token?.object : actor?.getActiveTokens()[0];
     if (token && token.isVisible && !token.isSecret) {
-      if (!token.controlled) token._onHoverIn(event, {hoverOutOthers: true});
+      if (!token.controlled) token._onHoverIn(event, { hoverOutOthers: true });
       ChatMessageArtichron.#pointerRegistry.set(event.currentTarget.dataset.actorUuid, token);
     }
   }

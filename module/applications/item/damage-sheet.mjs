@@ -3,7 +3,7 @@ import DamageFormulaModel from "../../documents/fields/damage-formula-model.mjs"
 import ItemArtichron from "../../documents/item.mjs";
 
 export default class DamageSheet extends foundry.applications.api.HandlebarsApplicationMixin(
-  foundry.applications.api.ApplicationV2
+  foundry.applications.api.ApplicationV2,
 ) {
   constructor(options = {}) {
     options.damageId = options.damage.id;
@@ -18,19 +18,19 @@ export default class DamageSheet extends foundry.applications.api.HandlebarsAppl
     classes: ["artichron"],
     window: {
       contentClasses: ["standard-form"],
-      icon: "fa-solid fa-burst"
+      icon: "fa-solid fa-burst",
     },
     position: {
       width: 400,
-      height: "auto"
+      height: "auto",
     },
     form: {
       handler: DamageSheet.#onSubmitForm,
-      submitOnChange: true
+      submitOnChange: true,
     },
     tag: "form",
     document: null,
-    damageId: null
+    damageId: null,
   };
 
   /* -------------------------------------------------- */
@@ -38,8 +38,8 @@ export default class DamageSheet extends foundry.applications.api.HandlebarsAppl
   /** @override */
   static PARTS = {
     damage: {
-      template: "systems/artichron/templates/item/damage-sheet-damage.hbs"
-    }
+      template: "systems/artichron/templates/item/damage-sheet-damage.hbs",
+    },
   };
 
   /* -------------------------------------------------- */
@@ -47,7 +47,7 @@ export default class DamageSheet extends foundry.applications.api.HandlebarsAppl
   /** @override */
   get title() {
     return game.i18n.format("ARTICHRON.SHEET.DAMAGE_PART.title", {
-      name: this.activity.name
+      name: this.activity.name,
     });
   }
 
@@ -99,7 +99,7 @@ export default class DamageSheet extends foundry.applications.api.HandlebarsAppl
         const value = foundry.utils.getProperty(damage, field.fieldPath);
         const disabled = !this.#item.sheet.isEditable;
 
-        const data = {field, value, disabled};
+        const data = { field, value, disabled };
 
         if (field instanceof foundry.data.fields.SetField) {
           data.classes = "stacked";
@@ -147,6 +147,6 @@ export default class DamageSheet extends foundry.applications.api.HandlebarsAppl
    */
   static #onSubmitForm(event, form, formData) {
     const submitData = foundry.utils.expandObject(formData.object);
-    this.activity.update({[`damage.${this.options.damageId}`]: submitData});
+    this.activity.update({ [`damage.${this.options.damageId}`]: submitData });
   }
 }

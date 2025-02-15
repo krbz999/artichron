@@ -1,5 +1,5 @@
 export default class ActivitySelectDialog extends foundry.applications.api.HandlebarsApplicationMixin(
-  foundry.applications.api.ApplicationV2
+  foundry.applications.api.ApplicationV2,
 ) {
   constructor(item, options = {}) {
     super(options);
@@ -13,15 +13,15 @@ export default class ActivitySelectDialog extends foundry.applications.api.Handl
     classes: ["artichron", "activity-select-dialog"],
     form: {
       handler: ActivitySelectDialog.#submit,
-      closeOnSubmit: true
+      closeOnSubmit: true,
     },
     position: {
-      width: 400
+      width: 400,
     },
     tag: "form",
     window: {
-      contentClasses: ["standard-form"]
-    }
+      contentClasses: ["standard-form"],
+    },
   };
 
   /* -------------------------------------------------- */
@@ -29,11 +29,11 @@ export default class ActivitySelectDialog extends foundry.applications.api.Handl
   /** @override */
   static PARTS = {
     form: {
-      template: "systems/artichron/templates/item/activity-select-dialog.hbs"
+      template: "systems/artichron/templates/item/activity-select-dialog.hbs",
     },
     footer: {
-      template: "systems/artichron/templates/shared/footer.hbs"
-    }
+      template: "systems/artichron/templates/shared/footer.hbs",
+    },
   };
 
   /* -------------------------------------------------- */
@@ -42,7 +42,7 @@ export default class ActivitySelectDialog extends foundry.applications.api.Handl
 
   /** @override */
   get title() {
-    return game.i18n.format("ARTICHRON.ActivitySelectDialog.Title", {name: this.#item.name});
+    return game.i18n.format("ARTICHRON.ActivitySelectDialog.Title", { name: this.#item.name });
   }
 
   /* -------------------------------------------------- */
@@ -83,7 +83,7 @@ export default class ActivitySelectDialog extends foundry.applications.api.Handl
 
     for (const [i, activity] of this.#item.system.activities.contents.entries()) {
       const enriched = await TextEditor.enrichHTML(activity.description, {
-        rollData: rollData, relativeTo: this.#item
+        rollData: rollData, relativeTo: this.#item,
       });
       activities.push({
         name: activity.name,
@@ -91,12 +91,12 @@ export default class ActivitySelectDialog extends foundry.applications.api.Handl
         enriched: enriched,
         active: !i,
         id: activity.id,
-        textCssClass: [i ? null : "active", enriched ? null : "faint"].filterJoin(" ")
+        textCssClass: [i ? null : "active", enriched ? null : "faint"].filterJoin(" "),
       });
     }
 
     context.activities = activities;
-    context.footer = {label: "Confirm", icon: "fa-solid fa-check"};
+    context.footer = { label: "Confirm", icon: "fa-solid fa-check" };
 
     return context;
   }
@@ -145,8 +145,8 @@ export default class ActivitySelectDialog extends foundry.applications.api.Handl
   static async create(activity) {
     return new Promise(resolve => {
       const application = new this(activity);
-      application.addEventListener("close", () => resolve(application.config), {once: true});
-      application.render({force: true});
+      application.addEventListener("close", () => resolve(application.config), { once: true });
+      application.render({ force: true });
     });
   }
 }

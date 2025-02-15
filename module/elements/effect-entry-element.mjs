@@ -74,8 +74,8 @@ export default class EffectEntryElement extends HTMLElement {
     if (item.system.schema.has("level") && Number.isNumeric(item.system.level)) {
       label.insertAdjacentHTML("beforeend", `
       <span class="subtitle">
-        ${game.i18n.format("ARTICHRON.SheetLabels.Level", {level: item.system.level})}
-      </span>`
+        ${game.i18n.format("ARTICHRON.SheetLabels.Level", { level: item.system.level })}
+      </span>`,
       );
     } else if (item.parent !== application.document) {
       label.insertAdjacentHTML("beforeend", `<span class="subtitle">${item.parent.name}</span>`);
@@ -91,7 +91,7 @@ export default class EffectEntryElement extends HTMLElement {
       a.dataset.tooltip = "ARTICHRON.SheetLabels.ActiveFusion";
       a.insertAdjacentHTML("beforeend", `
         <i class="fa-solid fa-volcano"></i>
-        <i class="fa-solid fa-recycle"></i>`
+        <i class="fa-solid fa-recycle"></i>`,
       );
       this.insertAdjacentElement("beforeend", a);
 
@@ -113,7 +113,7 @@ export default class EffectEntryElement extends HTMLElement {
         div.classList.add("property", "source");
         div.insertAdjacentHTML("beforeend", `
           <span class="origin">${sourceItem}</span>
-          <span class="label">${sourceActor}</span>`
+          <span class="label">${sourceActor}</span>`,
         );
         this.insertAdjacentElement("beforeend", div);
       } catch (err) {/** */}

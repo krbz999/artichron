@@ -60,7 +60,7 @@ export default class CombatArtichron extends Combat {
 
     const ids = [];
     for (const template of scene.templates) {
-      const {id, end} = template.flags.artichron?.combat ?? {};
+      const { id, end } = template.flags.artichron?.combat ?? {};
       if (id !== this.id) continue;
 
       switch (duration) {
@@ -89,12 +89,12 @@ export default class CombatArtichron extends Combat {
     // Delete templates that should be removed when a turn or round ends.
     await this.expireMeasuredTemplates("round");
 
-    const {originals, duplicates, defeated} = this.combatants.reduce((acc, c) => {
+    const { originals, duplicates, defeated } = this.combatants.reduce((acc, c) => {
       if (c.isDefeated || !c.actor) acc.defeated.push(c);
       else if (c.flags.artichron?.duplicate) acc.duplicates.push(c);
       else acc.originals.push(c);
       return acc;
-    }, {originals: [], duplicates: [], defeated: []});
+    }, { originals: [], duplicates: [], defeated: [] });
 
     await this._promptRoundStartConditions(originals);
 
@@ -109,15 +109,15 @@ export default class CombatArtichron extends Combat {
         const roll = c.getInitiativeRoll();
         await roll.toMessage({
           sound: i ? null : CONFIG.sounds.dice,
-          flavor: game.i18n.format("COMBAT.RollsInitiative", {name: c.name}),
+          flavor: game.i18n.format("COMBAT.RollsInitiative", { name: c.name }),
           speaker: ChatMessage.implementation.getSpeaker({
             actor: c.actor,
             token: c.token,
-            alias: c.name
+            alias: c.name,
           }),
-          flags: {"core.initiativeRoll": true}
+          flags: { "core.initiativeRoll": true },
         });
-        const clone = c.clone({initiative: roll.total}, {keepId: true});
+        const clone = c.clone({ initiative: roll.total }, { keepId: true });
         combatants.push(clone);
       }
     }
@@ -125,25 +125,25 @@ export default class CombatArtichron extends Combat {
     // Make the ordering of combatants using actors.
     const order = this._createActorOrder(reroll ? combatants : originals);
     const actors = new Set(); // original actors, for reference later since 'originals' gets emptied.
-    for (const {actor} of originals) if (actor) actors.add(actor);
+    for (const { actor } of originals) if (actor) actors.add(actor);
 
     // Replace each actor in `order` with a combatant. If none exists, make sure to create one.
     for (const [i, actor] of order.entries()) {
       const o = originals.findSplice(c => c.actor === actor);
       if (o) {
-        combatantUpdates.push({_id: o.id, initiative: 100 - i});
+        combatantUpdates.push({ _id: o.id, initiative: 100 - i });
         continue;
       }
 
       const d = duplicates.findSplice(c => c.actor === actor);
       if (d) {
-        combatantUpdates.push({_id: d.id, initiative: 100 - i});
+        combatantUpdates.push({ _id: d.id, initiative: 100 - i });
         continue;
       }
 
       combatantCreations.push(foundry.utils.mergeObject(actor.combatant.toObject(), {
         "flags.artichron.duplicate": true,
-        initiative: 100 - i
+        initiative: 100 - i,
       }));
     }
 
@@ -154,19 +154,19 @@ export default class CombatArtichron extends Combat {
     await Promise.all([
       this.deleteEmbeddedDocuments("Combatant", deleteIds),
       this.createEmbeddedDocuments("Combatant", combatantCreations),
-      this.updateEmbeddedDocuments("Combatant", combatantUpdates)
+      this.updateEmbeddedDocuments("Combatant", combatantUpdates),
     ]);
 
     // Create and perform actor updates.
     const actorUpdates = [];
     for (const actor of actors) {
       const value = actor.determineStartingActionPoints();
-      actorUpdates.push([actor, {"system.pips.value": value}]);
+      actorUpdates.push([actor, { "system.pips.value": value }]);
     }
 
     await Promise.all(actorUpdates.map(([actor, update]) => actor.update(update)));
 
-    await this.update({turn: 0});
+    await this.update({ turn: 0 });
   }
 
   /* -------------------------------------------------- */
@@ -204,14 +204,14 @@ export default class CombatArtichron extends Combat {
       if (effects.length) {
         fieldsets.push({
           actor: actor,
-          effects: effects.map(e => e.system.toFormGroup())
+          effects: effects.map(e => e.system.toFormGroup()),
         });
       }
     }
 
     if (!fieldsets.length) return;
 
-    const content = fieldsets.map(({actor, effects}) => {
+    const content = fieldsets.map(({ actor, effects }) => {
       const fieldset = document.createElement("FIELDSET");
       fieldset.dataset.actorUuid = actor.uuid;
 
@@ -230,17 +230,17 @@ export default class CombatArtichron extends Combat {
       content: content,
       window: {
         icon: "fa-solid fa-bolt",
-        title: "ARTICHRON.Combat.StartRoundTitle"
+        title: "ARTICHRON.Combat.StartRoundTitle",
       },
       position: {
         width: 400,
-        height: "auto"
+        height: "auto",
       },
       ok: {
         label: "ARTICHRON.Combat.StartRoundConfirm",
         icon: "fa-solid fa-bolt",
-        callback: (event, button, html) => new FormDataExtended(button.form).object
-      }
+        callback: (event, button, html) => new FormDataExtended(button.form).object,
+      },
     });
 
     for (const [uuid, active] of Object.entries(uuids ?? {})) {
@@ -280,7 +280,7 @@ export default class CombatArtichron extends Combat {
 
     const zip = (a, b) => {
       const z = [];
-      for (const [i, {actor}] of a.entries()) {
+      for (const [i, { actor }] of a.entries()) {
         const e = b[i]?.actor;
         if (actor) z.push(actor);
         if (e) z.push(e);

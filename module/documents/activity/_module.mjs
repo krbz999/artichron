@@ -11,5 +11,5 @@ export default {
   DefendActivity,
   EffectActivity,
   HealingActivity,
-  TeleportActivity
+  TeleportActivity,
 };

@@ -1,6 +1,6 @@
 import ActorSystemModel from "./system-model.mjs";
 
-const {SchemaField, NumberField, SetField, StringField} = foundry.data.fields;
+const { SchemaField, NumberField, SetField, StringField } = foundry.data.fields;
 
 /**
  * Extended data model for actor types that participate in combat.
@@ -12,24 +12,24 @@ export default class CreatureData extends ActorSystemModel {
     const schema = super.defineSchema();
 
     schema.health = new SchemaField({
-      value: new NumberField({min: 0, initial: 0, integer: true, nullable: false})
+      value: new NumberField({ min: 0, initial: 0, integer: true, nullable: false }),
     });
 
     schema.pips = new SchemaField({
-      value: new NumberField({min: 0, initial: 0, step: 1}),
-      turn: new NumberField({min: 0, initial: 1, step: 1, nullable: false})
+      value: new NumberField({ min: 0, initial: 0, step: 1 }),
+      turn: new NumberField({ min: 0, initial: 1, step: 1, nullable: false }),
     });
 
-    schema.favorites = new SetField(new StringField({required: true}));
+    schema.favorites = new SetField(new StringField({ required: true }));
     schema.equipped = new SchemaField({
       arsenal: new SchemaField({
-        primary: new StringField({required: true}),
-        secondary: new StringField({required: true})
+        primary: new StringField({ required: true }),
+        secondary: new StringField({ required: true }),
       }),
       armor: new SchemaField(Object.keys(CONFIG.SYSTEM.EQUIPMENT_TYPES).reduce((acc, key) => {
-        acc[key] = new StringField({required: true});
+        acc[key] = new StringField({ required: true });
         return acc;
-      }, {}))
+      }, {})),
     });
 
     return schema;
@@ -42,10 +42,10 @@ export default class CreatureData extends ActorSystemModel {
   /** @override */
   prepareBaseData() {
     super.prepareBaseData();
-    this.bonuses = {damage: {}};
+    this.bonuses = { damage: {} };
     this.defenses = {};
     for (const k of Object.keys(CONFIG.SYSTEM.DAMAGE_TYPE_GROUPS)) this.bonuses.damage[k] = 0;
-    for (const {value} of CONFIG.SYSTEM.DAMAGE_TYPES.optgroups) this.defenses[value] = 0;
+    for (const { value } of CONFIG.SYSTEM.DAMAGE_TYPES.optgroups) this.defenses[value] = 0;
   }
 
   /* -------------------------------------------------- */
@@ -98,7 +98,7 @@ export default class CreatureData extends ActorSystemModel {
     const health = update.system?.health ?? {};
     if ("value" in health) {
       health.value = Math.clamp(health.value, 0, this.health.max);
-      options.health = {o: this.health.value};
+      options.health = { o: this.health.value };
     }
   }
 
@@ -115,9 +115,9 @@ export default class CreatureData extends ActorSystemModel {
 
     if (game.user.id === userId) {
       const pct = this.parent.system.health.pct;
-      this.parent.toggleStatusEffect("bloodied", {active: (pct > 20) && (pct <= 50)});
-      this.parent.toggleStatusEffect("critical", {active: (pct > 0) && (pct <= 20)});
-      this.parent.toggleStatusEffect(CONFIG.specialStatusEffects.DEFEATED, {active: !pct, overlay: true});
+      this.parent.toggleStatusEffect("bloodied", { active: (pct > 20) && (pct <= 50) });
+      this.parent.toggleStatusEffect("critical", { active: (pct > 0) && (pct <= 20) });
+      this.parent.toggleStatusEffect(CONFIG.specialStatusEffects.DEFEATED, { active: !pct, overlay: true });
     }
   }
 
@@ -150,7 +150,7 @@ export default class CreatureData extends ActorSystemModel {
     if (!primary?.isArsenal) primary = null;
     let secondary = this.parent.items.get(items.secondary) ?? null;
     if (!secondary?.isArsenal || (primary?.isTwoHanded || secondary.isTwoHanded)) secondary = null;
-    return {primary, secondary};
+    return { primary, secondary };
   }
 
   /* -------------------------------------------------- */
@@ -175,7 +175,7 @@ export default class CreatureData extends ActorSystemModel {
    * @type {boolean}
    */
   get hasShield() {
-    const {primary, secondary} = this.arsenal;
+    const { primary, secondary } = this.arsenal;
     return (primary?.type === "shield") || (secondary?.type === "shield");
   }
 
@@ -198,7 +198,7 @@ export default class CreatureData extends ActorSystemModel {
         if ((item.type !== "armor") || (item.system.category.subtype !== slot)) return acc;
       } else if (type === "arsenal") {
         if (!item.isArsenal) return acc;
-        const {primary, secondary} = this.parent.arsenal;
+        const { primary, secondary } = this.parent.arsenal;
         if ([primary, secondary].includes(item)) return acc;
         if (slot === "secondary") {
           if (item.isTwoHanded) return acc;
@@ -214,8 +214,8 @@ export default class CreatureData extends ActorSystemModel {
       choices: choices,
       required: true,
       label: "ARTICHRON.EquipDialog.Label",
-      hint: "ARTICHRON.EquipDialog.Hint"
-    }).toFormGroup({localize: true}, {name: "itemId"}).outerHTML : null;
+      hint: "ARTICHRON.EquipDialog.Hint",
+    }).toFormGroup({ localize: true }, { name: "itemId" }).outerHTML : null;
 
     const buttons = [];
     if (!foundry.utils.isEmpty(choices)) {
@@ -223,7 +223,7 @@ export default class CreatureData extends ActorSystemModel {
         action: "equip",
         label: "Confirm",
         icon: "fa-solid fa-check",
-        callback: (event, button, html) => button.form.elements.itemId.value
+        callback: (event, button, html) => button.form.elements.itemId.value,
       });
     }
 
@@ -231,12 +231,12 @@ export default class CreatureData extends ActorSystemModel {
       buttons.push({
         action: "unequip",
         label: "Unequip",
-        icon: "fa-solid fa-times"
+        icon: "fa-solid fa-times",
       });
     }
 
     if (!buttons.length) {
-      ui.notifications.warn("ARTICHRON.EquipDialog.Warning", {localize: true});
+      ui.notifications.warn("ARTICHRON.EquipDialog.Warning", { localize: true });
       return null;
     }
 
@@ -246,8 +246,8 @@ export default class CreatureData extends ActorSystemModel {
       content: content ? `<fieldset>${content}</fieldset>` : undefined,
       classes: ["artichron", "equip"],
       modal: true,
-      window: {title: "ARTICHRON.EquipDialog.Title", icon: "fa-solid fa-hand-fist"},
-      position: {width: 350}
+      window: { title: "ARTICHRON.EquipDialog.Title", icon: "fa-solid fa-hand-fist" },
+      position: { width: 350 },
     });
 
     if (!value) return null;
@@ -272,7 +272,7 @@ export default class CreatureData extends ActorSystemModel {
     const type = ["primary", "secondary"].includes(slot) ? "arsenal" : "armor";
     const path = `system.equipped.${type}.${slot}`;
     const current = foundry.utils.getProperty(this.parent, path);
-    const update = {[path]: item ? item.id : ""};
+    const update = { [path]: item ? item.id : "" };
     if ((type === "arsenal") && (slot === "primary") && (item !== current) && item?.isTwoHanded) {
       update[path.replace(slot, "secondary")] = "";
     }

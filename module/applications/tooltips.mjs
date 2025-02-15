@@ -32,7 +32,7 @@ export default class TooltipsArtichron {
   observe() {
     this.#observer?.disconnect();
     this.#observer = new MutationObserver(this._onMutation.bind(this));
-    this.#observer.observe(this.tooltip, {attributeFilter: ["class"], attributeOldValue: true});
+    this.#observer.observe(this.tooltip, { attributeFilter: ["class"], attributeOldValue: true });
   }
 
   /* -------------------------------------------------- */
@@ -45,7 +45,7 @@ export default class TooltipsArtichron {
   _onMutation(mutationList) {
     let isActive = false;
     const tooltip = this.tooltip;
-    for (const {type, attributeName, oldValue} of mutationList) {
+    for (const { type, attributeName, oldValue } of mutationList) {
       if ((type === "attributes") && (attributeName === "class")) {
         const difference = new Set(tooltip.classList).difference(new Set(oldValue?.split(" ")));
         if (difference.has("active")) isActive = true;
@@ -133,6 +133,6 @@ export default class TooltipsArtichron {
       } else if (cl.contains("item-tooltip") && cl.contains("active")) {
         event.preventDefault();
       }
-    }, {capture: true});
+    }, { capture: true });
   }
 }

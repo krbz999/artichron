@@ -1,6 +1,6 @@
 import MappingField from "./mapping-field.mjs";
 
-const {ColorField, NumberField, StringField} = foundry.data.fields;
+const { ColorField, NumberField, StringField } = foundry.data.fields;
 
 export default class ClocksField extends MappingField {
   constructor(options) {
@@ -21,7 +21,7 @@ export default class ClocksField extends MappingField {
    * @type {object}
    */
   static get TYPES() {
-    return Object.values({BadClock, GoodClock}).reduce((acc, cls) => {
+    return Object.values({ BadClock, GoodClock }).reduce((acc, cls) => {
       acc[cls.metadata.type] = cls;
       return acc;
     }, {});
@@ -64,7 +64,7 @@ class ClockField extends foundry.data.fields.ObjectField {
   /** @override */
   initialize(value, model, options = {}) {
     const cls = this.getModel(value);
-    if (cls) return new cls(value, {parent: model, ...options});
+    if (cls) return new cls(value, { parent: model, ...options });
     return foundry.utils.deepClone(value);
   }
 
@@ -188,7 +188,7 @@ class ClockCollection extends foundry.utils.Collection {
   async createClock(data = {}) {
     const id = foundry.utils.randomID();
     const path = `system.clocks.${id}`;
-    return this.actor.update({[path]: {...data, _id: id}});
+    return this.actor.update({ [path]: { ...data, _id: id } });
   }
 
   /* -------------------------------------------------- */
@@ -200,7 +200,7 @@ class ClockCollection extends foundry.utils.Collection {
    */
   async deleteClock(id) {
     const path = `system.clocks.-=${id}`;
-    return this.actor.update(({[path]: null}));
+    return this.actor.update(({ [path]: null }));
   }
 }
 
@@ -217,7 +217,7 @@ class Clock extends foundry.abstract.DataModel {
         required: true,
         blank: false,
         readonly: true,
-        initial: () => foundry.utils.randomID()
+        initial: () => foundry.utils.randomID(),
       }),
       type: new StringField({
         initial: () => this.metadata.type,
@@ -225,15 +225,15 @@ class Clock extends foundry.abstract.DataModel {
         blank: false,
         readonly: true,
         validate: value => value === this.metadata.type,
-        validationError: `Type can only be '${this.metadata.type}'.`
+        validationError: `Type can only be '${this.metadata.type}'.`,
       }),
       name: new StringField({
         required: true,
-        initial: () => game.i18n.localize(`ARTICHRON.CLOCK.FIELDS.name.initial.${this.metadata.type}`)
+        initial: () => game.i18n.localize(`ARTICHRON.CLOCK.FIELDS.name.initial.${this.metadata.type}`),
       }),
-      value: new NumberField({min: 0, integer: true, initial: 0, nullable: false}),
-      max: new NumberField({min: 1, integer: true, initial: 8, nullable: false}),
-      color: new ColorField({required: true, nullable: false, initial: () => this.metadata.color})
+      value: new NumberField({ min: 0, integer: true, initial: 0, nullable: false }),
+      max: new NumberField({ min: 1, integer: true, initial: 8, nullable: false }),
+      color: new ColorField({ required: true, nullable: false, initial: () => this.metadata.color }),
     };
   }
 
@@ -270,7 +270,7 @@ class Clock extends foundry.abstract.DataModel {
    */
   async increase() {
     const value = Math.clamp(this.value + 1, 0, this.max);
-    const update = {[`system.clocks.${this.id}.value`]: value};
+    const update = { [`system.clocks.${this.id}.value`]: value };
     return this.actor.update(update);
   }
 
@@ -282,7 +282,7 @@ class Clock extends foundry.abstract.DataModel {
    */
   async decrease() {
     const value = Math.clamp(Math.min(this.value, this.max) - 1, 0, this.max);
-    const update = {[`system.clocks.${this.id}.value`]: value};
+    const update = { [`system.clocks.${this.id}.value`]: value };
     return this.actor.update(update);
   }
 }
@@ -296,7 +296,7 @@ class BadClock extends Clock {
    */
   static metadata = Object.freeze({
     type: "bad",
-    color: "#FF0000"
+    color: "#FF0000",
   });
 }
 
@@ -309,6 +309,6 @@ class GoodClock extends Clock {
    */
   static metadata = Object.freeze({
     type: "good",
-    color: "#0000FF"
+    color: "#0000FF",
   });
 }

@@ -1,6 +1,6 @@
 import ItemSystemModel from "./system-model.mjs";
 
-const {NumberField, SchemaField, StringField} = foundry.data.fields;
+const { NumberField, SchemaField, StringField } = foundry.data.fields;
 
 export default class ElixirData extends ItemSystemModel {
   /**
@@ -11,8 +11,8 @@ export default class ElixirData extends ItemSystemModel {
     defaultWeight: 0.5,
     inventorySection: "consumables",
     order: 50,
-    type: "elixir"
-  }, {inplace: false}));
+    type: "elixir",
+  }, { inplace: false }));
 
   /* -------------------------------------------------- */
 
@@ -21,11 +21,11 @@ export default class ElixirData extends ItemSystemModel {
     return {
       ...super.defineSchema(),
       quantity: new SchemaField({
-        value: new NumberField({initial: 1, min: 0, integer: true, nullable: false})
+        value: new NumberField({ initial: 1, min: 0, integer: true, nullable: false }),
       }),
       usage: new SchemaField({
-        spent: new NumberField({integer: true, min: 0, initial: 0, nullable: false}),
-        max: new NumberField({min: 1, integer: true, initial: 1, nullable: false})
+        spent: new NumberField({ integer: true, min: 0, initial: 0, nullable: false }),
+        max: new NumberField({ min: 1, integer: true, initial: 1, nullable: false }),
       }),
       boost: new StringField({
         required: true,
@@ -33,8 +33,8 @@ export default class ElixirData extends ItemSystemModel {
         choices: () => Object.entries(CONFIG.SYSTEM.POOL_TYPES).reduce((acc, [k, v]) => {
           if (v.boost) acc[k] = v;
           return acc;
-        }, {})
-      })
+        }, {}),
+      }),
     };
   }
 
@@ -119,7 +119,7 @@ export default class ElixirData extends ItemSystemModel {
    * @returns {object}
    */
   _usageUpdate(uses = 1, isDelta = true) {
-    const update = {_id: this.parent.id};
+    const update = { _id: this.parent.id };
     let spent;
 
     if (isDelta) {
@@ -149,7 +149,7 @@ export default class ElixirData extends ItemSystemModel {
   /** @override */
   _prepareTooltipProperties() {
     const props = super._prepareTooltipProperties();
-    props.push({title: "Uses", label: `${this.usage.value}/${this.usage.max}`, icon: "fa-solid fa-flask"});
+    props.push({ title: "Uses", label: `${this.usage.value}/${this.usage.max}`, icon: "fa-solid fa-flask" });
     return props;
   }
 }

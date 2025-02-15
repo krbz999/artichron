@@ -139,13 +139,13 @@ export default class ActorArtichron extends Actor {
     const isFriendly = ["hero", "merchant", "party"].includes(this.type);
     const display = this.type === "hero";
     const tokenData = {
-      sight: {enabled: this.type === "hero"},
+      sight: { enabled: this.type === "hero" },
       actorLink: isFriendly,
       disposition: CONST.TOKEN_DISPOSITIONS[isFriendly ? "FRIENDLY" : "HOSTILE"],
       displayName: CONST.TOKEN_DISPLAY_MODES[display ? "HOVER" : "OWNER_HOVER"],
-      displayBars: CONST.TOKEN_DISPLAY_MODES[display ? "HOVER" : "OWNER_HOVER"]
+      displayBars: CONST.TOKEN_DISPLAY_MODES[display ? "HOVER" : "OWNER_HOVER"],
     };
-    this.updateSource({prototypeToken: tokenData});
+    this.updateSource({ prototypeToken: tokenData });
   }
 
   /* -------------------------------------------------- */
@@ -164,7 +164,7 @@ export default class ActorArtichron extends Actor {
       anchor: CONST.TEXT_ANCHOR_POINTS.TOP,
       stroke: 0x000000,
       strokeThickness: 4,
-      jitter: 2
+      jitter: 2,
     };
 
     const red = 0xFF0000;
@@ -173,14 +173,14 @@ export default class ActorArtichron extends Actor {
 
     const displayNumbers = async (token) => {
       const c = token.center;
-      damages = damages ? damages : [{type: (health.delta > 0) ? "healing" : "", value: health.delta}];
+      damages = damages ? damages : [{ type: (health.delta > 0) ? "healing" : "", value: health.delta }];
       for (const damage of damages) {
         if (!damage.value) continue;
         const isDamage = damage.type !== "healing";
         const invert = isDamage && (damage.type !== "");
         const text = (invert ? (-damage.value) : damage.value).signedString();
         const color = foundry.utils.Color.from(isDamage ? (CONFIG.SYSTEM.DAMAGE_TYPES[damage.type]?.color ?? red) : green);
-        canvas.interface.createScrollingText(c, text, {...options, fill: color});
+        canvas.interface.createScrollingText(c, text, { ...options, fill: color });
         token.ring?.flashColor(color);
         await new Promise(r => setTimeout(r, 350));
       }
@@ -209,9 +209,9 @@ export default class ActorArtichron extends Actor {
    * @param {boolean} [options.numeric]               Whether to return the damage descriptions instead of the total damage.
    * @returns {number|DamageDescription[]}            The amount of damage taken, or the modified values.
    */
-  calculateDamage(damages, {numeric = true} = {}) {
+  calculateDamage(damages, { numeric = true } = {}) {
     if (foundry.utils.getType(damages) === "number") {
-      damages = [{type: "none", value: damages}];
+      damages = [{ type: "none", value: damages }];
     }
     damages = foundry.utils.deepClone(damages);
 
@@ -245,7 +245,7 @@ export default class ActorArtichron extends Actor {
   async applyDamage(damages) {
     if (!this.system.health?.value) return this;
 
-    damages = this.calculateDamage(damages, {numeric: false});
+    damages = this.calculateDamage(damages, { numeric: false });
 
     // The amount of damage that can be defended.
     const defendableDamage = damages.reduce((acc, damage) => {
@@ -280,7 +280,7 @@ export default class ActorArtichron extends Actor {
     const total = damages.reduce((acc, damage) => acc + damage.value, 0);
     const hp = foundry.utils.deepClone(this.system.health);
     const value = Math.clamp(hp.value - Math.max(0, total), 0, hp.max);
-    await this.update({"system.health.value": value}, {damages: damages, diff: false});
+    await this.update({ "system.health.value": value }, { damages: damages, diff: false });
 
     // Apply conditions from applied damage.
     for (const [status, level] of statuses.entries()) await this.applyCondition(status, level);
@@ -298,7 +298,7 @@ export default class ActorArtichron extends Actor {
   async applyHealing(value) {
     const hp = foundry.utils.deepClone(this.system.health);
     const v = Math.clamp(hp.value + Math.abs(value), 0, hp.max);
-    await this.update({"system.health.value": v}, {diff: false});
+    await this.update({ "system.health.value": v }, { diff: false });
     return this;
   }
 
@@ -312,8 +312,8 @@ export default class ActorArtichron extends Actor {
    * @param {PointerEvent} event        An associated click event.
    * @returns {Promise<Roll|null>}      The created Roll instance.
    */
-  async rollPool(type, {amount = 1, message = true, event} = {}) {
-    if (this.system.rollPool) return this.system.rollPool(type, {amount, message, event});
+  async rollPool(type, { amount = 1, message = true, event } = {}) {
+    if (this.system.rollPool) return this.system.rollPool(type, { amount, message, event });
     return null;
   }
 
@@ -326,8 +326,8 @@ export default class ActorArtichron extends Actor {
    * @param {string} [config.second]        The second of the skills used.
    * @returns {Promise<RollArtichron>}      A promise that resolves to the created roll.
    */
-  async rollSkill({base, second} = {}) {
-    if (this.system.rollSkill) return this.system.rollSkill({base, second});
+  async rollSkill({ base, second } = {}) {
+    if (this.system.rollSkill) return this.system.rollSkill({ base, second });
     return null;
   }
 
@@ -366,8 +366,8 @@ export default class ActorArtichron extends Actor {
     }, {});
 
     const label = "ARTICHRON.DefenseDialog.Items";
-    const input = new foundry.data.fields.SetField(new foundry.data.fields.StringField({choices: choices})).toInput({
-      name: "items", type: "checkboxes"
+    const input = new foundry.data.fields.SetField(new foundry.data.fields.StringField({ choices: choices })).toInput({
+      name: "items", type: "checkboxes",
     }).outerHTML;
 
     const accumulateCost = ids => {
@@ -395,11 +395,11 @@ export default class ActorArtichron extends Actor {
     // Center onto token.
     const [token] = this.isToken ? [this.token?.object] : this.getActiveTokens();
     if (token) canvas.animatePan({
-      ...token.center, duration: 500, easing: CanvasAnimation.easeOutCircle
+      ...token.center, duration: 500, easing: CanvasAnimation.easeOutCircle,
     });
 
     const content = `
-    <p>${game.i18n.format("ARTICHRON.DefenseDialog.Content", {name: this.name, damage: damage})}</p>
+    <p>${game.i18n.format("ARTICHRON.DefenseDialog.Content", { name: this.name, damage: damage })}</p>
     <fieldset>
       <legend>${game.i18n.localize(label)}</legend>
       <div class="form-group stacked">
@@ -415,19 +415,19 @@ export default class ActorArtichron extends Actor {
       render: render,
       window: {
         icon: "fa-solid fa-shield",
-        title: game.i18n.format("ARTICHRON.DefenseDialog.Title", {name: this.name})
+        title: game.i18n.format("ARTICHRON.DefenseDialog.Title", { name: this.name }),
       },
       position: {
         width: 400,
-        height: "auto"
+        height: "auto",
       },
       ok: {
         icon: "fa-solid fa-dice",
         label: "ARTICHRON.DefenseDialog.Confirm",
         callback: (event, button, html) => {
-          return {event, value: button.form.elements.items.value};
-        }
-      }
+          return { event, value: button.form.elements.items.value };
+        },
+      },
     });
     if (!prompt) return false;
 
@@ -435,7 +435,7 @@ export default class ActorArtichron extends Actor {
     for (const id of prompt.value) {
       const item = this.items.get(id);
       const activity = item.system.activities.getByType("defend")[0];
-      const message = await activity.use({}, {event: prompt.event}, {});
+      const message = await activity.use({}, { event: prompt.event }, {});
       if (!message) continue;
       value += message.rolls.reduce((acc, roll) => acc + roll.total, 0);
     }
@@ -472,11 +472,11 @@ export default class ActorArtichron extends Actor {
     else if (hasLevels && (levels > 1)) {
       const effect = await ActiveEffect.fromStatusEffect(status);
       const data = foundry.utils.mergeObject(effect.toObject(), {
-        _id: id, "system.level": levels
+        _id: id, "system.level": levels,
       });
-      return this.createEmbeddedDocuments("ActiveEffect", [data], {keepId: true});
+      return this.createEmbeddedDocuments("ActiveEffect", [data], { keepId: true });
     }
-    return this.toggleStatusEffect(status, {active: true});
+    return this.toggleStatusEffect(status, { active: true });
   }
 
   /* -------------------------------------------------- */
@@ -494,7 +494,7 @@ export default class ActorArtichron extends Actor {
     const decrease = effect && hasLevels && (effect.system.level > 1);
 
     if (decrease) return effect.system.decrease();
-    return this.toggleStatusEffect(status, {active: false});
+    return this.toggleStatusEffect(status, { active: false });
   }
 
   /* -------------------------------------------------- */
@@ -513,7 +513,7 @@ export default class ActorArtichron extends Actor {
     if (favorites.has(item)) favorites.delete(item);
     else favorites.add(item);
     const value = Array.from(favorites).map(k => k.id);
-    return this.update({"system.favorites": value});
+    return this.update({ "system.favorites": value });
   }
 
   /* -------------------------------------------------- */
@@ -530,7 +530,7 @@ export default class ActorArtichron extends Actor {
     if (!favorites.has(item)) return null;
     favorites.delete(item);
     const value = Array.from(favorites).map(k => k.id);
-    return this.update({"system.favorites": value});
+    return this.update({ "system.favorites": value });
   }
 
   /* -------------------------------------------------- */
@@ -547,7 +547,7 @@ export default class ActorArtichron extends Actor {
     if (favorites.has(item)) return null;
     favorites.add(item);
     const value = Array.from(favorites).map(k => k.id);
-    return this.update({"system.favorites": value});
+    return this.update({ "system.favorites": value });
   }
 
   /* -------------------------------------------------- */
@@ -629,7 +629,7 @@ export default class ActorArtichron extends Actor {
    */
   async spendActionPoints(value = 1) {
     if (!this.inCombat) throw new Error("This actor is not in combat.");
-    await this.update({"system.pips.value": this.system.pips.value - value});
+    await this.update({ "system.pips.value": this.system.pips.value - value });
     return this;
   }
 
@@ -656,21 +656,21 @@ export default class ActorArtichron extends Actor {
     const field = this.system.schema.getField("pips.value");
     const max = Math.max(this.system.pips.value, 15);
     const value = this.system.pips.value;
-    const content = field.toFormGroup({localize: true}, {max: max, value: value});
+    const content = field.toFormGroup({ localize: true }, { max: max, value: value });
     foundry.applications.api.DialogV2.prompt({
       content: `<fieldset>${content.outerHTML}</fieldset>`,
       modal: true,
       rejectClose: false,
-      window: {title: field.label, icon: "fa-solid fa-circle"},
-      position: {width: 400, height: "auto"},
+      window: { title: field.label, icon: "fa-solid fa-circle" },
+      position: { width: 400, height: "auto" },
       ok: {
         icon: "fa-solid fa-check",
         label: "Confirm",
         callback: (event, button, html) => {
           const name = "system.pips.value";
-          this.update({[name]: button.form.elements[name].value});
-        }
-      }
+          this.update({ [name]: button.form.elements[name].value });
+        },
+      },
     });
   }
 

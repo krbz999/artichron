@@ -1,6 +1,6 @@
 import CreatureData from "./creature-data.mjs";
 
-const {ArrayField, DocumentUUIDField, HTMLField, NumberField, SchemaField} = foundry.data.fields;
+const { ArrayField, DocumentUUIDField, HTMLField, NumberField, SchemaField } = foundry.data.fields;
 
 export default class MonsterData extends CreatureData {
   /**
@@ -8,7 +8,7 @@ export default class MonsterData extends CreatureData {
    * @type {import("../../helpers/types.mjs").ActorSystemModelMetadata}
    */
   static metadata = Object.freeze({
-    type: "monster"
+    type: "monster",
   });
 
   /* -------------------------------------------------- */
@@ -18,20 +18,20 @@ export default class MonsterData extends CreatureData {
     const schema = super.defineSchema();
 
     schema.loot = new ArrayField(new SchemaField({
-      uuid: new DocumentUUIDField({type: "Item", embedded: false}),
-      quantity: new NumberField({min: 1, integer: true, initial: 1, nullable: false})
+      uuid: new DocumentUUIDField({ type: "Item", embedded: false }),
+      quantity: new NumberField({ min: 1, integer: true, initial: 1, nullable: false }),
     }));
 
     schema.danger = new SchemaField({
       pool: new SchemaField({
-        spent: new NumberField({min: 0, integer: true, nullable: false, initial: 0}),
-        max: new NumberField({min: 0, integer: true, nullable: false, initial: 1})
+        spent: new NumberField({ min: 0, integer: true, nullable: false, initial: 0 }),
+        max: new NumberField({ min: 0, integer: true, nullable: false, initial: 1 }),
       }),
-      value: new NumberField({min: 1, integer: true, initial: 1, nullable: false})
+      value: new NumberField({ min: 1, integer: true, initial: 1, nullable: false }),
     });
 
     schema.biography = new SchemaField({
-      value: new HTMLField({required: true})
+      value: new HTMLField({ required: true }),
     });
 
     return schema;
@@ -89,13 +89,13 @@ export default class MonsterData extends CreatureData {
    */
   get lootDrops() {
     const items = new Map();
-    for (const {uuid, quantity} of this.loot) {
+    for (const { uuid, quantity } of this.loot) {
       try {
         const item = fromUuidSync(uuid);
         if (item) {
           let q = items.get(uuid)?.quantity;
           q = q ? (q + quantity) : quantity;
-          items.set(uuid, {item, quantity: q});
+          items.set(uuid, { item, quantity: q });
         }
       } catch (err) {
         console.warn(err);
@@ -116,11 +116,11 @@ export default class MonsterData extends CreatureData {
    * @returns {Promise<ActorArtichron>}
    */
   async addLootDrop(uuid, quantity = 1) {
-    const loot = this.lootDrops.map(({item, quantity}) => ({uuid: item.uuid, quantity}));
+    const loot = this.lootDrops.map(({ item, quantity }) => ({ uuid: item.uuid, quantity }));
     const item = loot.find(l => l.uuid === uuid);
     if (item) item.quantity += quantity;
-    else loot.push({uuid, quantity});
-    await this.parent.update({"system.loot": loot});
+    else loot.push({ uuid, quantity });
+    await this.parent.update({ "system.loot": loot });
     return this.parent;
   }
 
@@ -132,9 +132,9 @@ export default class MonsterData extends CreatureData {
    * @returns {Promise<ActorArtichron>}
    */
   async removeLootDrop(uuid) {
-    const loot = this.lootDrops.map(({item, quantity}) => ({uuid: item.uuid, quantity}));
+    const loot = this.lootDrops.map(({ item, quantity }) => ({ uuid: item.uuid, quantity }));
     const item = loot.findSplice(l => l.uuid === uuid);
-    if (item) await this.parent.update({"system.loot": loot});
+    if (item) await this.parent.update({ "system.loot": loot });
     return this.parent;
   }
 
@@ -148,13 +148,13 @@ export default class MonsterData extends CreatureData {
    */
   async adjustLootDrop(uuid, quantity) {
     const removeAll = !Number.isInteger(quantity);
-    const loot = this.lootDrops.map(({item, quantity}) => ({uuid: item.uuid, quantity}));
+    const loot = this.lootDrops.map(({ item, quantity }) => ({ uuid: item.uuid, quantity }));
     const item = loot.findSplice(l => l.uuid === uuid);
     if (item && !removeAll) {
       item.quantity += quantity;
-      if (item.quantity > 0) loot.push({uuid, quantity: item.quantity});
+      if (item.quantity > 0) loot.push({ uuid, quantity: item.quantity });
     }
-    await this.parent.update({"system.loot": loot});
+    await this.parent.update({ "system.loot": loot });
     return this.parent;
   }
 
@@ -169,7 +169,7 @@ export default class MonsterData extends CreatureData {
     party ??= game.settings.get("artichron", "primaryParty").actor;
     if (party?.type !== "party") throw new Error("No primary party has been assigned!");
 
-    const promises = this.lootDrops.map(async ({item, quantity}) => {
+    const promises = this.lootDrops.map(async ({ item, quantity }) => {
       item = await fromUuid(item.uuid);
       if (!item) return null;
       item = game.items.fromCompendium(item);
@@ -182,11 +182,11 @@ export default class MonsterData extends CreatureData {
     ChatMessage.implementation.create({
       content: await renderTemplate("systems/artichron/templates/chat/loot-grant.hbs", {
         actor: this.parent,
-        items: created.map(item => ({link: item.link, qty: item.system.quantity?.value ?? 1}))
-      })
+        items: created.map(item => ({ link: item.link, qty: item.system.quantity?.value ?? 1 })),
+      }),
     });
 
-    await this.parent.update({"system.loot": []});
+    await this.parent.update({ "system.loot": [] });
 
     return created;
   }

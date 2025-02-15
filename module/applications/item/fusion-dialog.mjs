@@ -1,4 +1,4 @@
-const {HandlebarsApplicationMixin, ApplicationV2} = foundry.applications.api;
+const { HandlebarsApplicationMixin, ApplicationV2 } = foundry.applications.api;
 
 export default class ItemFusionDialog extends HandlebarsApplicationMixin(ApplicationV2) {
   /** @override */
@@ -8,23 +8,23 @@ export default class ItemFusionDialog extends HandlebarsApplicationMixin(Applica
     window: {
       title: "ARTICHRON.ItemFusionDialog.Title",
       icon: "fa-solid fa-volcano",
-      contentClasses: ["standard-form"]
+      contentClasses: ["standard-form"],
     },
-    position: {width: 400},
+    position: { width: 400 },
     form: {
       handler: ItemFusionDialog.#onSubmitForm,
-      closeOnSubmit: true
-    }
+      closeOnSubmit: true,
+    },
   };
 
   /* -------------------------------------------------- */
 
   /** @override */
   static PARTS = {
-    selections: {template: "systems/artichron/templates/item/fusion-dialog-selections.hbs"},
-    indicators: {template: "systems/artichron/templates/item/fusion-dialog-indicators.hbs"},
-    changes: {template: "systems/artichron/templates/item/fusion-dialog-changes.hbs"},
-    footer: {template: "systems/artichron/templates/shared/footer.hbs"}
+    selections: { template: "systems/artichron/templates/item/fusion-dialog-selections.hbs" },
+    indicators: { template: "systems/artichron/templates/item/fusion-dialog-indicators.hbs" },
+    changes: { template: "systems/artichron/templates/item/fusion-dialog-changes.hbs" },
+    footer: { template: "systems/artichron/templates/shared/footer.hbs" },
   };
 
   /* -------------------------------------------------- */
@@ -34,7 +34,7 @@ export default class ItemFusionDialog extends HandlebarsApplicationMixin(Applica
    * @param {object} options                  Application rendering options.
    * @param {ItemArtichron} options.item      The item being fused onto another.
    */
-  constructor({item, ...options}) {
+  constructor({ item, ...options }) {
     super(options);
     this.#item = item;
   }
@@ -87,7 +87,7 @@ export default class ItemFusionDialog extends HandlebarsApplicationMixin(Applica
 
   /** @override */
   get title() {
-    return game.i18n.format(this.options.window.title, {source: this.#item.name});
+    return game.i18n.format(this.options.window.title, { source: this.#item.name });
   }
 
   /* -------------------------------------------------- */
@@ -106,7 +106,7 @@ export default class ItemFusionDialog extends HandlebarsApplicationMixin(Applica
           if (change === "target") this.#selectedTarget = value;
           else if (change === "fusion") this.#selectedFusion = value;
           else return;
-          this.render({parts: ["indicators", "changes", "footer"]});
+          this.render({ parts: ["indicators", "changes", "footer"] });
         });
       });
     }
@@ -118,7 +118,7 @@ export default class ItemFusionDialog extends HandlebarsApplicationMixin(Applica
   async _preparePartContext(partId, context, options) {
     context = await super._preparePartContext(partId, context, options);
     if (partId === "selections") {
-      const {StringField} = foundry.data.fields;
+      const { StringField } = foundry.data.fields;
 
       // Target.
       const tChoices = {};
@@ -131,14 +131,14 @@ export default class ItemFusionDialog extends HandlebarsApplicationMixin(Applica
       context.target = {
         field: new StringField({
           choices: tChoices,
-          label: "ARTICHRON.ItemFusionDialog.TargetLabel"
+          label: "ARTICHRON.ItemFusionDialog.TargetLabel",
         }),
-        dataset: {change: "target"}
+        dataset: { change: "target" },
       };
 
       // Fusion.
       const eChoices = {
-        default: "ARTICHRON.ItemFusionDialog.Default"
+        default: "ARTICHRON.ItemFusionDialog.Default",
       };
       for (const effect of this.#item.effects) {
         if (effect.isTransferrableFusion) eChoices[effect.id] = effect.name;
@@ -147,9 +147,9 @@ export default class ItemFusionDialog extends HandlebarsApplicationMixin(Applica
         field: new StringField({
           choices: eChoices,
           label: "ARTICHRON.ItemFusionDialog.FusionLabel",
-          required: true
+          required: true,
         }),
-        dataset: {change: "fusion"}
+        dataset: { change: "fusion" },
       };
     } else if (partId === "indicators") {
       const target = this.#item.actor.items.get(this.#selectedTarget);
@@ -159,33 +159,33 @@ export default class ItemFusionDialog extends HandlebarsApplicationMixin(Applica
     } else if (partId === "changes") {
       const effect = this.#item.effects.get(this.#selectedFusion) ?? new ActiveEffect.implementation({
         type: "fusion",
-        name: game.i18n.format("ARTICHRON.ItemFusionDialog.DefaultFusion", {name: this.#item.name}),
-        img: this.#item.img
-      }, {parent: this.#item});
+        name: game.i18n.format("ARTICHRON.ItemFusionDialog.DefaultFusion", { name: this.#item.name }),
+        img: this.#item.img,
+      }, { parent: this.#item });
       const target = this.#item.actor.items.get(this.#selectedTarget);
       const changes = (target && effect) ? target.system.createFusionTranslation(effect) : [];
       context.changes = [];
-      for (let {path, label, oldValue, newValue} of changes) {
+      for (let { path, label, oldValue, newValue } of changes) {
         label = game.i18n.localize(label);
         if (["Set", "Array"].includes(foundry.utils.getType(newValue))) {
           oldValue = effect.system.constructor.translateChange({
             key: path,
             mode: CONST.ACTIVE_EFFECT_MODES.ADD,
-            value: oldValue
+            value: oldValue,
           });
           newValue = effect.system.constructor.translateChange({
             key: path,
             mode: CONST.ACTIVE_EFFECT_MODES.ADD,
-            value: newValue
+            value: newValue,
           });
         }
-        context.changes.push({label, oldValue, newValue});
+        context.changes.push({ label, oldValue, newValue });
       }
     } else if (partId === "footer") {
       context.footer = {
         disabled: !this.#item.actor.items.get(this.#selectedTarget)
         || ((this.#selectedFusion !== "default") && !this.#item.effects.get(this.#selectedFusion)),
-        label: "ARTICHRON.ItemFusionDialog.Fuse"
+        label: "ARTICHRON.ItemFusionDialog.Fuse",
       };
     }
     return context;
@@ -201,7 +201,7 @@ export default class ItemFusionDialog extends HandlebarsApplicationMixin(Applica
    * @returns {{itemId: string, effectId: string}}
    */
   static #onSubmitForm() {
-    const data = {itemId: this.#selectedTarget, effectId: this.#selectedFusion};
+    const data = { itemId: this.#selectedTarget, effectId: this.#selectedFusion };
     this.#config = data;
   }
 
@@ -216,9 +216,9 @@ export default class ItemFusionDialog extends HandlebarsApplicationMixin(Applica
    */
   static async create(item) {
     return new Promise(resolve => {
-      const application = new this({item});
-      application.addEventListener("close", () => resolve(application.config), {once: true});
-      application.render({force: true});
+      const application = new this({ item });
+      application.addEventListener("close", () => resolve(application.config), { once: true });
+      application.render({ force: true });
     });
   }
 }

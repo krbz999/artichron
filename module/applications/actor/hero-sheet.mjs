@@ -13,54 +13,54 @@ export default class HeroSheet extends ActorSheetArtichron {
   /** @override */
   static DEFAULT_OPTIONS = {
     classes: ["hero"],
-    position: {width: 510, height: 800},
+    position: { width: 510, height: 800 },
     actions: {
       changeEquipped: HeroSheet.#onChangeEquipped,
       rollPool: HeroSheet.#onRollPool,
-      rollSkill: HeroSheet.#onRollSkill
-    }
+      rollSkill: HeroSheet.#onRollSkill,
+    },
   };
 
   /* -------------------------------------------------- */
 
   /** @override */
   static PARTS = {
-    header: {template: "systems/artichron/templates/shared/sheet-header.hbs"},
-    tabs: {template: "systems/artichron/templates/shared/tabs.hbs"},
+    header: { template: "systems/artichron/templates/shared/sheet-header.hbs" },
+    tabs: { template: "systems/artichron/templates/shared/tabs.hbs" },
     attributes: {
       template: "systems/artichron/templates/actor/tab-attributes.hbs",
-      scrollable: [".center-pane"]
+      scrollable: [".center-pane"],
     },
     inventory: {
       template: "systems/artichron/templates/actor/tab-inventory.hbs",
-      scrollable: [".inventory-list"]
+      scrollable: [".inventory-list"],
     },
     details: {
       template: "systems/artichron/templates/actor/tab-details.hbs",
-      scrollable: [""]
+      scrollable: [""],
     },
     effects: {
       template: "systems/artichron/templates/shared/effects.hbs",
-      scrollable: [""]
+      scrollable: [""],
     },
-    encumbrance: {template: "systems/artichron/templates/actor/tab-encumbrance.hbs"}
+    encumbrance: { template: "systems/artichron/templates/actor/tab-encumbrance.hbs" },
   };
 
   /* -------------------------------------------------- */
 
   /** @override */
   tabGroups = {
-    primary: "attributes"
+    primary: "attributes",
   };
 
   /* -------------------------------------------------- */
 
   /** @override */
   static TABS = {
-    attributes: {id: "attributes", group: "primary", label: "ARTICHRON.SheetLabels.Attributes"},
-    inventory: {id: "inventory", group: "primary", label: "ARTICHRON.SheetLabels.Inventory"},
-    details: {id: "details", group: "primary", label: "ARTICHRON.SheetLabels.Details"},
-    effects: {id: "effects", group: "primary", label: "ARTICHRON.SheetLabels.Effects"}
+    attributes: { id: "attributes", group: "primary", label: "ARTICHRON.SheetLabels.Attributes" },
+    inventory: { id: "inventory", group: "primary", label: "ARTICHRON.SheetLabels.Inventory" },
+    details: { id: "details", group: "primary", label: "ARTICHRON.SheetLabels.Details" },
+    effects: { id: "effects", group: "primary", label: "ARTICHRON.SheetLabels.Effects" },
   };
 
   /* -------------------------------------------------- */
@@ -89,15 +89,15 @@ export default class HeroSheet extends ActorSheetArtichron {
       isPlayMode: this.isPlayMode,
       isEditable: this.isEditable,
       searchQuery: this.#searchQuery,
-      pointsField1: new foundry.data.fields.NumberField({min: 0, step: 1, max: 20, initial: 0, nullable: false}),
-      pointsField2: new foundry.data.fields.NumberField({min: 0, step: 1, max: 20, initial: 0, nullable: false})
+      pointsField1: new foundry.data.fields.NumberField({ min: 0, step: 1, max: 20, initial: 0, nullable: false }),
+      pointsField2: new foundry.data.fields.NumberField({ min: 0, step: 1, max: 20, initial: 0, nullable: false }),
     };
 
     const makeField = path => {
       const schema = path.startsWith("system") ? this.document.system.schema : this.document.schema;
       const field = path.startsWith("system") ? schema.getField(path.slice(7)) : schema.getField(path);
       const value = foundry.utils.getProperty(context.isEditMode ? this.document._source : this.document, path);
-      return {field, value};
+      return { field, value };
     };
 
     // Details tab.
@@ -107,13 +107,13 @@ export default class HeroSheet extends ActorSheetArtichron {
       hint: "Toggle whether items are shown in a list or a grid.",
       choices: {
         0: "Expanded",
-        1: "Compact"
-      }
+        1: "Compact",
+      },
     });
     const value = this.document.flags.artichron?.compactItems ?? null;
     context.compactItems = {
       field: field,
-      value: value
+      value: value,
     };
 
     const makeResistance = (key, path) => {
@@ -124,7 +124,7 @@ export default class HeroSheet extends ActorSheetArtichron {
         label: CONFIG.SYSTEM.DAMAGE_TYPES[key].label,
         color: CONFIG.SYSTEM.DAMAGE_TYPES[key].color,
         icon: CONFIG.SYSTEM.DAMAGE_TYPES[key].icon,
-        active: value > 0
+        active: value > 0,
       };
     };
 
@@ -136,14 +136,14 @@ export default class HeroSheet extends ActorSheetArtichron {
 
     // Skills.
     context.skills = Object.entries(this.document.system.skills).map(([k, v]) => {
-      const {label, img} = CONFIG.SYSTEM.SKILLS[k];
-      return {label, img, value: v.number, skillId: k};
+      const { label, img } = CONFIG.SYSTEM.SKILLS[k];
+      return { label, img, value: v.number, skillId: k };
     });
 
     // Name and img.
     context.header = {
       name: context.isPlayMode ? doc.name : src.name,
-      img: context.isPlayMode ? doc.img : src.img
+      img: context.isPlayMode ? doc.img : src.img,
     };
 
     // Details tab.
@@ -151,8 +151,8 @@ export default class HeroSheet extends ActorSheetArtichron {
       field: this.document.system.schema.getField("details.notes"),
       value: foundry.utils.getProperty(this.document._source, "system.details.notes"),
       enriched: await TextEditor.enrichHTML(this.document.system.details.notes, {
-        relativeTo: this.document, rollData: rollData
-      })
+        relativeTo: this.document, rollData: rollData,
+      }),
     };
 
     return context;
@@ -165,7 +165,7 @@ export default class HeroSheet extends ActorSheetArtichron {
    * @returns {object[]}
    */
   #preparePools() {
-    const pools = Object.entries(this.document.system.pools).map(([key, pool]) => ({...pool, key: key}));
+    const pools = Object.entries(this.document.system.pools).map(([key, pool]) => ({ ...pool, key: key }));
     return pools;
   }
 
@@ -185,7 +185,7 @@ export default class HeroSheet extends ActorSheetArtichron {
       arms: "icons/equipment/hand/glove-ringed-cloth-brown.webp",
       legs: "icons/equipment/leg/pants-breeches-leather-brown.webp",
       accessory: "icons/equipment/neck/choker-simple-bone-fangs.webp",
-      boots: "icons/equipment/feet/boots-leather-engraved-brown.webp"
+      boots: "icons/equipment/feet/boots-leather-engraved-brown.webp",
     };
 
     const equipped = [];
@@ -193,8 +193,8 @@ export default class HeroSheet extends ActorSheetArtichron {
     const setup = (key, item) => {
       const data = {
         active: !!item,
-        item: item ? item : {img: emptySlotIcons[key] ?? emptySlotIcons.arsenal},
-        dataset: {equipmentSlot: key, action: "changeEquipped"}
+        item: item ? item : { img: emptySlotIcons[key] ?? emptySlotIcons.arsenal },
+        dataset: { equipmentSlot: key, action: "changeEquipped" },
       };
       if (item) {
         data.dataset.itemUuid = item.uuid;
@@ -224,7 +224,7 @@ export default class HeroSheet extends ActorSheetArtichron {
       return [{
         label: "DOCUMENT.Items",
         classes: ["compact"],
-        items: this.document.items.contents.sort((a, b) => a.sort - b.sort).map(item => ({item}))
+        items: this.document.items.contents.sort((a, b) => a.sort - b.sort).map(item => ({ item })),
       }];
     }
 
@@ -232,20 +232,20 @@ export default class HeroSheet extends ActorSheetArtichron {
     const sections = {
       arsenal: {
         label: "ARTICHRON.SheetLabels.Arsenal",
-        types: new Set()
+        types: new Set(),
       },
       gear: {
         label: "ARTICHRON.SheetLabels.Gear",
-        types: new Set()
+        types: new Set(),
       },
       consumables: {
         label: "ARTICHRON.SheetLabels.Consumables",
-        types: new Set()
+        types: new Set(),
       },
       loot: {
         label: "ARTICHRON.SheetLabels.Loot",
-        types: new Set()
-      }
+        types: new Set(),
+      },
     };
 
     for (const [type, Cls] of Object.entries(CONFIG.Item.dataModels)) {
@@ -254,15 +254,15 @@ export default class HeroSheet extends ActorSheetArtichron {
 
     const tabs = [];
     for (const [k, v] of Object.entries(sections)) {
-      const section = {label: v.label, id: k, items: []};
+      const section = { label: v.label, id: k, items: [] };
       for (const t of v.types) {
         for (const item of types[t]) {
           const expanded = this._expandedItems.has(item.uuid);
           const data = {
             item: item,
             enriched: expanded ? await TextEditor.enrichHTML(item.system.description.value, {
-              relativeTo: item, rollData: item.getRollData()
-            }) : null
+              relativeTo: item, rollData: item.getRollData(),
+            }) : null,
           };
           section.items.push(data);
         }
@@ -285,7 +285,7 @@ export default class HeroSheet extends ActorSheetArtichron {
    */
   #prepareEncumbrance() {
     const enc = this.document.system.encumbrance;
-    return {...enc, percent: Math.round(Math.clamp(enc.value / enc.max, 0, 1) * 100)};
+    return { ...enc, percent: Math.round(Math.clamp(enc.value / enc.max, 0, 1) * 100) };
   }
 
   /* -------------------------------------------------- */
@@ -311,15 +311,15 @@ export default class HeroSheet extends ActorSheetArtichron {
       const newBar = newElement.querySelector(".health-bar");
       const n = Math.max(newBar.offsetTop, 0);
       if (state.healthHeight === n) return;
-      const frames = [{top: `${state.healthHeight}px`}, {top: `${n}px`}];
-      newBar.animate(frames, {duration: 1000, easing: "ease-in-out"});
+      const frames = [{ top: `${state.healthHeight}px` }, { top: `${n}px` }];
+      newBar.animate(frames, { duration: 1000, easing: "ease-in-out" });
     }
 
     else if (partId === "encumbrance") {
       const oldBar = priorElement.querySelector(".encumbrance .bar");
       const newBar = newElement.querySelector(".encumbrance .bar");
-      const frames = [{width: oldBar.style.width}, {width: newBar.style.width}];
-      newBar.animate(frames, {duration: 1000, easing: "ease-in-out"});
+      const frames = [{ width: oldBar.style.width }, { width: newBar.style.width }];
+      newBar.animate(frames, { duration: 1000, easing: "ease-in-out" });
     }
 
     else if (partId === "inventory") {
@@ -369,7 +369,7 @@ export default class HeroSheet extends ActorSheetArtichron {
    */
   static #onRollSkill(event, target) {
     if (!this.isEditable) return;
-    this.document.rollSkill({base: target.dataset.skillId});
+    this.document.rollSkill({ base: target.dataset.skillId });
   }
 
   /* -------------------------------------------------- */
@@ -382,7 +382,7 @@ export default class HeroSheet extends ActorSheetArtichron {
    */
   static #onRollPool(event, target) {
     if (!this.isEditable) return;
-    this.document.rollPool(target.dataset.pool, {event});
+    this.document.rollPool(target.dataset.pool, { event });
   }
 
   /* -------------------------------------------------- */

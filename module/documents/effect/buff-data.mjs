@@ -1,6 +1,6 @@
 import ActiveEffectSystemModel from "./system-model.mjs";
 
-const {DocumentUUIDField, BooleanField, StringField} = foundry.data.fields;
+const { DocumentUUIDField, BooleanField, StringField } = foundry.data.fields;
 
 /**
  * System data for "Buffs".
@@ -14,7 +14,7 @@ export default class EffectBuffData extends ActiveEffectSystemModel {
    * @type {import("../../helpers/types.mjs").ActiveEffectSystemModelMetadata}
    */
   static metadata = Object.freeze({
-    type: "buff"
+    type: "buff",
   });
 
   /* -------------------------------------------------- */
@@ -23,7 +23,7 @@ export default class EffectBuffData extends ActiveEffectSystemModel {
   static defineSchema() {
     return {
       ...super.defineSchema(),
-      source: new DocumentUUIDField({type: "Item", embedded: true}),
+      source: new DocumentUUIDField({ type: "Item", embedded: true }),
       granted: new BooleanField(),
       subtype: new StringField({
         required: false,
@@ -31,8 +31,8 @@ export default class EffectBuffData extends ActiveEffectSystemModel {
           const choices = foundry.utils.deepClone(CONFIG.Actor.typeLabels);
           delete choices.base;
           return choices;
-        }
-      })
+        },
+      }),
     };
   }
 

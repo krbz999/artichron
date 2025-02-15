@@ -21,5 +21,5 @@ export default {
   FormulaModel,
   IdentifierField,
   MappingField,
-  ProgressionData
+  ProgressionData,
 };

@@ -4,7 +4,7 @@
  * @param {object} [options]          Application rendering options.
  */
 export default class PartyDistributionDialog extends foundry.applications.api.HandlebarsApplicationMixin(
-  foundry.applications.api.ApplicationV2
+  foundry.applications.api.ApplicationV2,
 ) {
   constructor(party, options = {}) {
     options.type ??= "currency";
@@ -25,8 +25,8 @@ export default class PartyDistributionDialog extends foundry.applications.api.Ha
     return new Promise(resolve => {
       options.type = type;
       const application = new this(party, options);
-      application.addEventListener("close", () => resolve(application.config), {once: true});
-      application.render({force: true});
+      application.addEventListener("close", () => resolve(application.config), { once: true });
+      application.render({ force: true });
     });
   }
 
@@ -39,18 +39,18 @@ export default class PartyDistributionDialog extends foundry.applications.api.Ha
     classes: ["artichron"],
     window: {
       icon: "fa-solid fa-medal",
-      contentClasses: ["standard-form"]
+      contentClasses: ["standard-form"],
     },
     position: {
       width: 400,
-      height: "auto"
+      height: "auto",
     },
     tag: "form",
     type: null,
     form: {
       handler: PartyDistributionDialog.#onSubmit,
-      closeOnSubmit: true
-    }
+      closeOnSubmit: true,
+    },
   };
 
   /* -------------------------------------------------- */
@@ -58,11 +58,11 @@ export default class PartyDistributionDialog extends foundry.applications.api.Ha
   /** @override */
   static PARTS = {
     inputs: {
-      template: "systems/artichron/templates/actor/party-distribution-dialog.hbs"
+      template: "systems/artichron/templates/actor/party-distribution-dialog.hbs",
     },
     footer: {
-      template: "systems/artichron/templates/shared/footer.hbs"
-    }
+      template: "systems/artichron/templates/shared/footer.hbs",
+    },
   };
 
   /* -------------------------------------------------- */
@@ -70,7 +70,7 @@ export default class PartyDistributionDialog extends foundry.applications.api.Ha
   /** @override */
   get title() {
     return game.i18n.format(`ARTICHRON.PartyDistributionDialog.Title${this.options.type.capitalize()}`, {
-      name: this.#party.name
+      name: this.#party.name,
     });
   }
 
@@ -123,7 +123,7 @@ export default class PartyDistributionDialog extends foundry.applications.api.Ha
   /** @override */
   async _prepareContext(options) {
     const context = {
-      formGroups: []
+      formGroups: [],
     };
 
     const choices = this.#party.system.members.reduce((acc, m) => {
@@ -144,25 +144,25 @@ export default class PartyDistributionDialog extends foundry.applications.api.Ha
         step: 1,
         max: Math.max(1, Math.floor(funds / divisor)),
         label: "ARTICHRON.PartyDistributionDialog.amount.label",
-        hint: `ARTICHRON.PartyDistributionDialog.amount.hint${this.options.type.capitalize()}`
+        hint: `ARTICHRON.PartyDistributionDialog.amount.hint${this.options.type.capitalize()}`,
       }),
       value: this.#amount ?? 1,
-      name: "amount"
+      name: "amount",
     }, {
-      field: new foundry.data.fields.SetField(new foundry.data.fields.StringField({choices: choices}), {
+      field: new foundry.data.fields.SetField(new foundry.data.fields.StringField({ choices: choices }), {
         label: "ARTICHRON.PartyDistributionDialog.targets.label",
-        hint: "ARTICHRON.PartyDistributionDialog.targets.hint"
+        hint: "ARTICHRON.PartyDistributionDialog.targets.hint",
       }),
       value: this.#targets,
       name: "targets",
       type: "checkboxes",
-      classes: "stacked"
+      classes: "stacked",
     });
 
     context.footer = {
       disabled: !this.#targets.size || (funds / divisor < 1),
       icon: "fa-solid fa-check",
-      label: "Confirm"
+      label: "Confirm",
     };
 
     return context;

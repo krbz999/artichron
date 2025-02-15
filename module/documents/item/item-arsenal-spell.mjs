@@ -8,15 +8,15 @@ export default class SpellData extends ArsenalData {
   static metadata = Object.freeze(foundry.utils.mergeObject(super.metadata, {
     defaultWeight: 1,
     order: 30,
-    type: "spell"
-  }, {inplace: false}));
+    type: "spell",
+  }, { inplace: false }));
 
   /* -------------------------------------------------- */
 
   /** @override */
   static defineSchema() {
     return {
-      ...super.defineSchema()
+      ...super.defineSchema(),
     };
   }
 }

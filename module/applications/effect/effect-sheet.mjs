@@ -3,38 +3,38 @@ import ArtichronSheetMixin from "../base-sheet.mjs";
 export default class EffectSheetArtichron extends ArtichronSheetMixin(foundry.applications.api.DocumentSheetV2) {
   /** @override */
   static DEFAULT_OPTIONS = {
-    form: {submitOnChange: true, closeOnSubmit: false},
+    form: { submitOnChange: true, closeOnSubmit: false },
     classes: ["effect"],
-    position: {width: 500, height: "auto"},
+    position: { width: 500, height: "auto" },
     actions: {
       addChange: EffectSheetArtichron.#onAddChange,
-      deleteChange: EffectSheetArtichron.#onDeleteChange
-    }
+      deleteChange: EffectSheetArtichron.#onDeleteChange,
+    },
   };
 
   /* -------------------------------------------------- */
 
   /** @override */
   static PARTS = {
-    header: {template: "systems/artichron/templates/shared/sheet-header.hbs"},
-    tabs: {template: "systems/artichron/templates/shared/tabs.hbs"},
-    details: {template: "systems/artichron/templates/effect-config/tab-details.hbs", scrollable: [""]},
-    changes: {template: "systems/artichron/templates/effect-config/tab-changes.hbs", scrollable: [".changes"]}
+    header: { template: "systems/artichron/templates/shared/sheet-header.hbs" },
+    tabs: { template: "systems/artichron/templates/shared/tabs.hbs" },
+    details: { template: "systems/artichron/templates/effect-config/tab-details.hbs", scrollable: [""] },
+    changes: { template: "systems/artichron/templates/effect-config/tab-changes.hbs", scrollable: [".changes"] },
   };
 
   /* -------------------------------------------------- */
 
   /** @override */
   static TABS = {
-    details: {id: "details", group: "primary", label: "ARTICHRON.SheetLabels.EffectDetails"},
-    changes: {id: "changes", group: "primary", label: "ARTICHRON.SheetLabels.EffectChanges"}
+    details: { id: "details", group: "primary", label: "ARTICHRON.SheetLabels.EffectDetails" },
+    changes: { id: "changes", group: "primary", label: "ARTICHRON.SheetLabels.EffectChanges" },
   };
 
   /* -------------------------------------------------- */
 
   /** @override */
   tabGroups = {
-    primary: "details"
+    primary: "details",
   };
 
   /* -------------------------------------------------- */
@@ -59,33 +59,33 @@ export default class EffectSheetArtichron extends ArtichronSheetMixin(foundry.ap
       }
       const value = foundry.utils.getProperty(this.document, path);
 
-      return {field, value};
+      return { field, value };
     };
 
     const context = {
       document: doc,
       header: {
         img: doc.img,
-        name: doc.name
+        name: doc.name,
       },
       fields: {
         tint: makeField("tint"),
         disabled: makeField("disabled"),
         transfer: {
           ...makeField("transfer"),
-          show: (doc.type === "buff") || (doc.type === "base")
+          show: (doc.type === "buff") || (doc.type === "base"),
         },
         description: {
-          enriched: await TextEditor.enrichHTML(doc.description, {relativeTo: doc, rollData: rollData}),
+          enriched: await TextEditor.enrichHTML(doc.description, { relativeTo: doc, rollData: rollData }),
           uuid: doc.uuid,
-          ...makeField("description")
+          ...makeField("description"),
         },
-        combat: makeField("duration.combat")
+        combat: makeField("duration.combat"),
       },
       isEditMode: this.isEditMode,
       isPlayMode: this.isPlayMode,
       isEditable: this.isEditable,
-      tabs: this._getTabs()
+      tabs: this._getTabs(),
     };
 
     // Subtype field.
@@ -118,7 +118,7 @@ export default class EffectSheetArtichron extends ArtichronSheetMixin(foundry.ap
       else if (path.startsWith("pools")) group = "Pools";
       else if (path.startsWith("bonuses.damage")) group = "Damage Amplification";
 
-      acc.push({group, value: k, label});
+      acc.push({ group, value: k, label });
 
       return acc;
     }, []);
@@ -135,7 +135,7 @@ export default class EffectSheetArtichron extends ArtichronSheetMixin(foundry.ap
     const fields = {
       key: this.document.schema.getField("changes.element.key"),
       mode: this.document.schema.getField("changes.element.mode"),
-      value: this.document.schema.getField("changes.element.value")
+      value: this.document.schema.getField("changes.element.value"),
     };
 
     context.changes = doc.changes.map((c, idx) => {
@@ -146,21 +146,21 @@ export default class EffectSheetArtichron extends ArtichronSheetMixin(foundry.ap
           value: c.key,
           options: choices,
           disabled: context.isPlayMode,
-          field: fields.key
+          field: fields.key,
         },
         mode: {
           name: `changes.${idx}.mode`,
           value: c.mode,
           choices: modeChoices,
           disabled: context.isPlayMode,
-          field: fields.mode
+          field: fields.mode,
         },
         value: {
           name: `changes.${idx}.value`,
           value: c.value,
           disabled: context.isPlayMode,
-          field: fields.value
-        }
+          field: fields.value,
+        },
       };
     });
 
@@ -180,8 +180,8 @@ export default class EffectSheetArtichron extends ArtichronSheetMixin(foundry.ap
   static #onAddChange(event, target) {
     if (!this.isEditable) return;
     const changes = foundry.utils.deepClone(this.document.changes);
-    changes.push({key: "", mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: ""});
-    this.document.update({changes: changes});
+    changes.push({ key: "", mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: "" });
+    this.document.update({ changes: changes });
   }
 
   /* -------------------------------------------------- */
@@ -197,6 +197,6 @@ export default class EffectSheetArtichron extends ArtichronSheetMixin(foundry.ap
     const idx = parseInt(target.closest("[data-idx]").dataset.idx);
     const changes = foundry.utils.deepClone(this.document.changes);
     changes.splice(idx, 1);
-    this.document.update({changes: changes});
+    this.document.update({ changes: changes });
   }
 }

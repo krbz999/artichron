@@ -2,10 +2,10 @@ import ArmorRequirementData from "../fields/armor-requirements.mjs";
 import ItemSystemModel from "./system-model.mjs";
 import FusionTemplateMixin from "./templates/fusion-data.mjs";
 
-const {ArrayField, NumberField, SchemaField, StringField, TypedSchemaField} = foundry.data.fields;
+const { ArrayField, NumberField, SchemaField, StringField, TypedSchemaField } = foundry.data.fields;
 
 export default class ArmorData extends ItemSystemModel.mixin(
-  FusionTemplateMixin
+  FusionTemplateMixin,
 ) {
   /**
    * Metadata for this datamodel.
@@ -15,8 +15,8 @@ export default class ArmorData extends ItemSystemModel.mixin(
     defaultWeight: 2,
     inventorySection: "gear",
     order: 40,
-    type: "armor"
-  }, {inplace: false}));
+    type: "armor",
+  }, { inplace: false }));
 
   /* -------------------------------------------------- */
 
@@ -30,20 +30,20 @@ export default class ArmorData extends ItemSystemModel.mixin(
           blank: true,
           choices: () => ({
             "": game.i18n.localize("ARTICHRON.EQUIPMENT.CATEGORY.None"),
-            ...CONFIG.SYSTEM.EQUIPMENT_CATEGORIES
-          })
+            ...CONFIG.SYSTEM.EQUIPMENT_CATEGORIES,
+          }),
         }),
         subtype: new StringField({
           required: true,
           initial: () => Object.keys(CONFIG.SYSTEM.EQUIPMENT_TYPES)[0],
-          choices: CONFIG.SYSTEM.EQUIPMENT_TYPES
+          choices: CONFIG.SYSTEM.EQUIPMENT_TYPES,
         }),
-        requirements: new ArrayField(new TypedSchemaField(ArmorRequirementData.TYPES))
+        requirements: new ArrayField(new TypedSchemaField(ArmorRequirementData.TYPES)),
       }),
-      defenses: new SchemaField(CONFIG.SYSTEM.DAMAGE_TYPES.optgroups.reduce((acc, {value: k}) => {
-        acc[k] = new SchemaField({value: new NumberField({integer: true, initial: null})});
+      defenses: new SchemaField(CONFIG.SYSTEM.DAMAGE_TYPES.optgroups.reduce((acc, { value: k }) => {
+        acc[k] = new SchemaField({ value: new NumberField({ integer: true, initial: null }) });
         return acc;
-      }, {}))
+      }, {})),
     };
   }
 
@@ -52,7 +52,7 @@ export default class ArmorData extends ItemSystemModel.mixin(
   /** @override */
   static get BONUS_FIELDS() {
     return super.BONUS_FIELDS.union(new Set(
-      Object.keys(CONFIG.SYSTEM.DAMAGE_TYPES).map(k => `system.defenses.${k}.value`)
+      Object.keys(CONFIG.SYSTEM.DAMAGE_TYPES).map(k => `system.defenses.${k}.value`),
     ));
   }
 
@@ -61,7 +61,7 @@ export default class ArmorData extends ItemSystemModel.mixin(
   /** @override */
   static LOCALIZATION_PREFIXES = [
     ...super.LOCALIZATION_PREFIXES,
-    "ARTICHRON.ITEM.ARMOR"
+    "ARTICHRON.ITEM.ARMOR",
   ];
 
   /* -------------------------------------------------- */
@@ -86,13 +86,13 @@ export default class ArmorData extends ItemSystemModel.mixin(
     const context = await super._prepareTooltipContext();
 
     context.requirements = this.category.requirements.map(r => {
-      return {content: r.toRequirement(), fulfilled: r.fulfilledRequirements};
+      return { content: r.toRequirement(), fulfilled: r.fulfilledRequirements };
     });
 
-    context.defenses = Object.entries(this.defenses).reduce((acc, [type, {value}]) => {
+    context.defenses = Object.entries(this.defenses).reduce((acc, [type, { value }]) => {
       if (value) acc.push({
         value: value,
-        config: CONFIG.SYSTEM.DAMAGE_TYPES[type]
+        config: CONFIG.SYSTEM.DAMAGE_TYPES[type],
       });
       return acc;
     }, []);

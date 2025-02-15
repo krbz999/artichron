@@ -7,39 +7,39 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
     classes: ["item"],
     position: {
       width: 500,
-      height: "auto"
+      height: "auto",
     },
     actions: {
       addRequirement: ItemSheetArtichron.#addRequirement,
       createActivity: ItemSheetArtichron.#createActivity,
       deleteRequirement: ItemSheetArtichron.#deleteRequirement,
       renderActivity: ItemSheetArtichron.#renderActivity,
-      undoFusion: ItemSheetArtichron.#onUndoFusion
-    }
+      undoFusion: ItemSheetArtichron.#onUndoFusion,
+    },
   };
 
   /* -------------------------------------------------- */
 
   /** @override */
   static PARTS = {
-    header: {template: "systems/artichron/templates/shared/sheet-header.hbs"},
-    tabs: {template: "systems/artichron/templates/shared/tabs.hbs"},
-    description: {template: "systems/artichron/templates/item/item-description.hbs", scrollable: [""]},
-    details: {template: "systems/artichron/templates/item/item-details.hbs", scrollable: [""]},
-    activities: {template: "systems/artichron/templates/item/item-activities.hbs", scrollable: [""]},
-    fusion: {template: "systems/artichron/templates/item/item-fusion.hbs", scrollable: [""]},
-    effects: {template: "systems/artichron/templates/shared/effects.hbs", scrollable: [""]}
+    header: { template: "systems/artichron/templates/shared/sheet-header.hbs" },
+    tabs: { template: "systems/artichron/templates/shared/tabs.hbs" },
+    description: { template: "systems/artichron/templates/item/item-description.hbs", scrollable: [""] },
+    details: { template: "systems/artichron/templates/item/item-details.hbs", scrollable: [""] },
+    activities: { template: "systems/artichron/templates/item/item-activities.hbs", scrollable: [""] },
+    fusion: { template: "systems/artichron/templates/item/item-fusion.hbs", scrollable: [""] },
+    effects: { template: "systems/artichron/templates/shared/effects.hbs", scrollable: [""] },
   };
 
   /* -------------------------------------------------- */
 
   /** @override */
   static TABS = {
-    description: {id: "description", group: "primary", label: "ARTICHRON.SheetLabels.Description"},
-    details: {id: "details", group: "primary", label: "ARTICHRON.SheetLabels.Details"},
-    activities: {id: "activities", group: "primary", label: "ARTICHRON.SheetLabels.Activities"},
-    fusion: {id: "fusion", group: "primary", label: "ARTICHRON.SheetLabels.Fusion"},
-    effects: {id: "effects", group: "primary", label: "ARTICHRON.SheetLabels.Effects"}
+    description: { id: "description", group: "primary", label: "ARTICHRON.SheetLabels.Description" },
+    details: { id: "details", group: "primary", label: "ARTICHRON.SheetLabels.Details" },
+    activities: { id: "activities", group: "primary", label: "ARTICHRON.SheetLabels.Activities" },
+    fusion: { id: "fusion", group: "primary", label: "ARTICHRON.SheetLabels.Fusion" },
+    effects: { id: "effects", group: "primary", label: "ARTICHRON.SheetLabels.Effects" },
   };
 
   /* -------------------------------------------------- */
@@ -51,7 +51,7 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
 
   /** @override */
   tabGroups = {
-    primary: "description"
+    primary: "description",
   };
 
   /* -------------------------------------------------- */
@@ -81,11 +81,11 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
       enhancements: enhancements,
       description: {
         enriched: await TextEditor.enrichHTML(doc.system.description.value, {
-          rollData: rollData, relativeTo: doc
+          rollData: rollData, relativeTo: doc,
         }),
         field: doc.system.schema.getField("description.value"),
         value: doc.system.description.value,
-        uuid: doc.uuid
+        uuid: doc.uuid,
       },
       tabs: this._getTabs(),
       isEditMode: this.isEditMode,
@@ -94,13 +94,13 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
       canFuse: doc.canFuse,
       isArmor: doc.isArmor,
       isItem: true,
-      fieldsets: []
+      fieldsets: [],
     };
 
     // Name and img.
     context.header = {
       name: context.isPlayMode ? doc.name : src.name,
-      img: context.isPlayMode ? doc.img : src.img
+      img: context.isPlayMode ? doc.img : src.img,
     };
 
     context.details = {};
@@ -111,12 +111,12 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
       legend: this.document.system.schema.getField("attributes").label,
       values: {
         field: this.document.system.schema.getField("attributes.value"),
-        value: this.document.system._source.attributes.value
+        value: this.document.system._source.attributes.value,
       },
       levels: {
         field: this.document.system.schema.getField("attributes.levels"),
-        fields: []
-      }
+        fields: [],
+      },
     };
 
     for (const attr of attrs) {
@@ -131,7 +131,7 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
     if (this.document.usesAmmo) {
       context.details.attributes.ammo = {
         show: true,
-        ...this._makeField(context, "ammunition.type")
+        ...this._makeField(context, "ammunition.type"),
       };
     }
 
@@ -139,7 +139,7 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
     if (this.document.isBooster) {
       context.details.attributes.boost = {
         show: true,
-        ...this._makeField(context, "boost")
+        ...this._makeField(context, "boost"),
       };
     }
 
@@ -164,10 +164,10 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
       context.fusionFields = {
         label: this.document.system.schema.getField("fusion").label,
         max: this._makeField(context, "fusion.max"),
-        ignore: this._makeField(context, "fusion.ignore")
+        ignore: this._makeField(context, "fusion.ignore"),
       };
       context.fusionFields.ignore.choices = this.document.defaultFusionProperties.reduce((acc, path) => {
-        acc.push({value: path, label: this.document.system.schema.getField(path).label});
+        acc.push({ value: path, label: this.document.system.schema.getField(path).label });
         return acc;
       }, []);
     }
@@ -180,7 +180,7 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
         label: CONFIG.SYSTEM.DAMAGE_TYPES[field.name].label,
         color: CONFIG.SYSTEM.DAMAGE_TYPES[field.name].color,
         icon: CONFIG.SYSTEM.DAMAGE_TYPES[field.name].icon,
-        active: context.isEditMode || !!value
+        active: context.isEditMode || !!value,
       };
     };
 
@@ -189,7 +189,7 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
       const field = this.document.system.schema.getField("defenses");
       const fieldset = {
         legend: field.label,
-        values: []
+        values: [],
       };
       for (const k of field) {
         fieldset.values.push(makeResistance(k));
@@ -207,12 +207,12 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
         for (const field of r.schema) {
           const name = `${_path}.${field.fieldPath}`;
           const value = r[field.fieldPath];
-          fields.push({field, name, value});
+          fields.push({ field, name, value });
         }
         requirements.push({
           idx: i,
           fields: fields,
-          hint: r.schema.model.metadata.hint
+          hint: r.schema.model.metadata.hint,
         });
       }
       context.armorRequirements = requirements;
@@ -224,7 +224,7 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
         id: activity.id,
         name: activity.name,
         subtitle: game.i18n.localize(activity.constructor.metadata.label),
-        disabled: !context.isEditable || !(activity.id in src.system.activities)
+        disabled: !context.isEditable || !(activity.id in src.system.activities),
       };
     });
 
@@ -255,7 +255,7 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
       value = context.isPlayMode ? dv : src;
     }
 
-    return {field: field, value: value, disabled: context.isPlayMode, ...options};
+    return { field: field, value: value, disabled: context.isPlayMode, ...options };
   }
 
   /* -------------------------------------------------- */
@@ -266,10 +266,10 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
   _setupContextMenu() {
     super._setupContextMenu();
 
-    new artichron.applications.ContextMenuArtichron(this.element, "[data-activity-id]", [], {onOpen: element => {
+    new artichron.applications.ContextMenuArtichron(this.element, "[data-activity-id]", [], { onOpen: element => {
       const activity = this.document.system.activities.get(element.dataset.activityId);
       ui.context.menuItems = this.#getActivityContextOptions(activity);
-    }});
+    } });
   }
 
   /* -------------------------------------------------- */
@@ -285,15 +285,15 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
     return [{
       name: "ARTICHRON.ContextMenu.Activity.Render",
       icon: "<i class='fa-solid fa-fw fa-edit'></i>",
-      callback: () => activity.sheet.render({force: true})
+      callback: () => activity.sheet.render({ force: true }),
     }, {
       name: "ARTICHRON.ContextMenu.Activity.Delete",
       icon: "<i class='fa-solid fa-fw fa-trash'></i>",
-      callback: () => activity.delete()
+      callback: () => activity.delete(),
     }, {
       name: "ARTICHRON.ContextMenu.Activity.Duplicate",
       icon: "<i class='fa-solid fa-fw fa-copy'></i>",
-      callback: () => activity.constructor.create(activity.item, activity.toObject())
+      callback: () => activity.constructor.create(activity.item, activity.toObject()),
     }];
   }
 
@@ -326,8 +326,8 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
     const types = new Set(Object.keys(artichron.fields.ArmorRequirementData.TYPES));
     // for (const {type} of this.document.system.category.requirements) types.delete(type);
     const requirements = this.document.system.toObject().category.requirements;
-    requirements.push({type: types.first()});
-    this.document.update({"system.category.requirements": requirements});
+    requirements.push({ type: types.first() });
+    this.document.update({ "system.category.requirements": requirements });
   }
 
   /* -------------------------------------------------- */
@@ -343,7 +343,7 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
     const idx = parseInt(target.closest("[data-idx]").dataset.idx);
     const requirements = this.document.system.toObject().category.requirements;
     requirements.splice(idx, 1);
-    this.document.update({"system.category.requirements": requirements});
+    this.document.update({ "system.category.requirements": requirements });
   }
 
   /* -------------------------------------------------- */
@@ -362,18 +362,18 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
     const select = new foundry.data.fields.StringField({
       required: true,
       choices: types,
-      label: "Type"
-    }).toFormGroup({}, {name: "type"}).outerHTML;
+      label: "Type",
+    }).toFormGroup({}, { name: "type" }).outerHTML;
     foundry.applications.api.DialogV2.prompt({
       content: `<fieldset>${select}</fieldset>`,
-      ok: {callback: (event, button) => {
+      ok: { callback: (event, button) => {
         const type = button.form.elements.type.value;
         const cls = Object.values(artichron.activities).find(a => a.metadata.type === type);
         cls.create(this.document, {
           type: type,
-          name: game.i18n.localize(cls.metadata.label)
+          name: game.i18n.localize(cls.metadata.label),
         });
-      }}
+      } },
     });
   }
 
@@ -388,6 +388,6 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
   static #renderActivity(event, target) {
     const id = target.closest("[data-activity-id]").dataset.activityId;
     const activity = this.document.system.activities.get(id);
-    activity.sheet.render({force: true});
+    activity.sheet.render({ force: true });
   }
 }

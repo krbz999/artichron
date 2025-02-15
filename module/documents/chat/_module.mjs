@@ -3,5 +3,5 @@ import UsageMessageData from "./usage-message.mjs";
 
 export default {
   TradeMessageData,
-  UsageMessageData
+  UsageMessageData,
 };

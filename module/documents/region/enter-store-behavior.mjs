@@ -1,4 +1,4 @@
-const {ForeignDocumentField} = foundry.data.fields;
+const { ForeignDocumentField } = foundry.data.fields;
 
 /**
  * Behavior type that renders the actor sheet of a merchant type actor.
@@ -10,14 +10,14 @@ export default class EnterStoreBehaviorData extends foundry.data.regionBehaviors
    */
   static metadata = Object.freeze({
     icon: "fa-solid fa-store",
-    type: "enterStore"
+    type: "enterStore",
   });
 
   /* -------------------------------------------------- */
 
   /** @override */
   static events = {
-    [CONST.REGION_EVENTS.TOKEN_ENTER]: EnterStoreBehaviorData.#onTokenEnter
+    [CONST.REGION_EVENTS.TOKEN_ENTER]: EnterStoreBehaviorData.#onTokenEnter,
   };
 
   /* -------------------------------------------------- */
@@ -40,8 +40,8 @@ export default class EnterStoreBehaviorData extends foundry.data.regionBehaviors
             if (actor.type === "merchant") acc[actor.id] = actor.name;
             return acc;
           }, {});
-        }
-      })
+        },
+      }),
     };
   }
 
@@ -57,9 +57,9 @@ export default class EnterStoreBehaviorData extends foundry.data.regionBehaviors
     const actor = this.merchant;
     if (isUser && actor && (actor.type === "merchant")) {
       await CanvasAnimation.getAnimation(event.data.token.object?.animationName)?.promise;
-      actor.sheet.render({force: true}).then(() => foundry.audio.AudioHelper.play({
+      actor.sheet.render({ force: true }).then(() => foundry.audio.AudioHelper.play({
         src: "systems/artichron/assets/sounds/shop-bell.wav",
-        channel: "interface"
+        channel: "interface",
       }));
     }
   }

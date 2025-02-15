@@ -5,5 +5,5 @@ import ToggleConditionBehaviorData from "./toggle-condition-behavior.mjs";
 export default {
   DoorStateConditionBehaviorData,
   EnterStoreBehaviorData,
-  ToggleConditionBehaviorData
+  ToggleConditionBehaviorData,
 };

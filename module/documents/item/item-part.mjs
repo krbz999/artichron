@@ -1,6 +1,6 @@
 import ItemSystemModel from "./system-model.mjs";
 
-const {NumberField, SchemaField, StringField} = foundry.data.fields;
+const { NumberField, SchemaField, StringField } = foundry.data.fields;
 
 export default class PartData extends ItemSystemModel {
   /**
@@ -11,8 +11,8 @@ export default class PartData extends ItemSystemModel {
     defaultWeight: 1,
     inventorySection: "loot",
     order: 70,
-    type: "part"
-  }, {inplace: false}));
+    type: "part",
+  }, { inplace: false }));
 
   /* -------------------------------------------------- */
 
@@ -21,15 +21,15 @@ export default class PartData extends ItemSystemModel {
     return {
       ...super.defineSchema(),
       quantity: new SchemaField({
-        value: new NumberField({initial: 1, min: 0, integer: true, nullable: false})
+        value: new NumberField({ initial: 1, min: 0, integer: true, nullable: false }),
       }),
       category: new SchemaField({
         subtype: new StringField({
           required: true,
           initial: () => Object.keys(CONFIG.SYSTEM.PART_TYPES)[0],
-          choices: CONFIG.SYSTEM.PART_TYPES
-        })
-      })
+          choices: CONFIG.SYSTEM.PART_TYPES,
+        }),
+      }),
     };
   }
 
@@ -38,6 +38,6 @@ export default class PartData extends ItemSystemModel {
   /** @override */
   static LOCALIZATION_PREFIXES = [
     ...super.LOCALIZATION_PREFIXES,
-    "ARTICHRON.ITEM.PART"
+    "ARTICHRON.ITEM.PART",
   ];
 }

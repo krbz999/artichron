@@ -3,7 +3,7 @@ import ActivitiesField from "../fields/activity-field.mjs";
 import ConditionLevelsField from "../fields/condition-levels-field.mjs";
 import IdentifierField from "../fields/identifier-field.mjs";
 
-const {EmbeddedDataField, HTMLField, NumberField, SchemaField, SetField, StringField} = foundry.data.fields;
+const { EmbeddedDataField, HTMLField, NumberField, SchemaField, SetField, StringField } = foundry.data.fields;
 
 export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
   /**
@@ -15,7 +15,7 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
     fusion: false,
     inventorySection: "",
     order: 10,
-    type: ""
+    type: "",
   });
 
   /* -------------------------------------------------- */
@@ -35,22 +35,22 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
   static defineSchema() {
     return {
       description: new SchemaField({
-        value: new HTMLField({required: true})
+        value: new HTMLField({ required: true }),
       }),
       identifier: new IdentifierField(),
       weight: new SchemaField({
-        value: new NumberField({min: 0, step: 0.01, initial: () => this.metadata.defaultWeight, nullable: false})
+        value: new NumberField({ min: 0, step: 0.01, initial: () => this.metadata.defaultWeight, nullable: false }),
       }),
       price: new SchemaField({
-        value: new NumberField({min: 0, initial: 0, integer: true, nullable: false})
+        value: new NumberField({ min: 0, initial: 0, integer: true, nullable: false }),
       }),
       activities: new ActivitiesField(),
       attributes: new SchemaField({
         value: new SetField(new StringField({
-          choices: () => this._attributeChoices()
+          choices: () => this._attributeChoices(),
         })),
-        levels: new EmbeddedDataField(ConditionLevelsField)
-      })
+        levels: new EmbeddedDataField(ConditionLevelsField),
+      }),
     };
   }
 
@@ -79,7 +79,7 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
     if (result === false) return false;
 
     if (!this.identifier) {
-      this.parent.updateSource({"system.identifier": this.parent.name.slugify({strict: true})});
+      this.parent.updateSource({ "system.identifier": this.parent.name.slugify({ strict: true }) });
     }
   }
 
@@ -91,10 +91,10 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
    * Perform the function of an activity of this item.
    * @returns {Promise}
    */
-  async use(usage = {}, {event, ...dialog} = {}, message = {}) {
+  async use(usage = {}, { event, ...dialog } = {}, message = {}) {
     const activities = this.activities;
     if (!activities.size) {
-      ui.notifications.warn("ARTICHRON.ACTIVITY.Warning.NoActivities", {localize: true});
+      ui.notifications.warn("ARTICHRON.ACTIVITY.Warning.NoActivities", { localize: true });
       return;
     }
 
@@ -104,10 +104,10 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
       const configuration = await ActivitySelectDialog.create(this.parent);
       if (!configuration) return null;
       activity = activities.get(configuration.activity);
-      return activity.use(usage, {...dialog, ...configuration}, message);
+      return activity.use(usage, { ...dialog, ...configuration }, message);
     }
 
-    if (activity) return activity.use(usage, {...dialog, event}, message);
+    if (activity) return activity.use(usage, { ...dialog, event }, message);
     return null;
   }
 
@@ -124,7 +124,7 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
       const a = actor.arsenal;
       for (const [k, v] of Object.entries(a)) {
         if (v === this.parent) {
-          await actor.update({[`system.equipped.arsenal.${k}`]: ""});
+          await actor.update({ [`system.equipped.arsenal.${k}`]: "" });
           return this.parent;
         }
       }
@@ -132,7 +132,7 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
       const a = actor.armor;
       for (const [k, v] of Object.entries(a)) {
         if (v === this.parent) {
-          await actor.update({[`system.equipped.armor.${k}`]: ""});
+          await actor.update({ [`system.equipped.armor.${k}`]: "" });
           return this.parent;
         }
       }
@@ -171,7 +171,7 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
 
       await this.parent.actor.update({
         "system.equipped.arsenal.primary": primary,
-        "system.equipped.arsenal.secondary": secondary
+        "system.equipped.arsenal.secondary": secondary,
       });
 
       return true;
@@ -180,7 +180,7 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
     else if (this.parent.isArmor) {
       const slot = this.category.subtype;
       await this.parent.actor.update({
-        [`system.equipped.armor.${slot}`]: this.parent.id
+        [`system.equipped.armor.${slot}`]: this.parent.id,
       });
       return true;
     }
@@ -195,7 +195,7 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
    * @returns {object}
    */
   getRollData() {
-    return {...this};
+    return { ...this };
   }
 
   /* -------------------------------------------------- */
@@ -224,7 +224,7 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
   async _prepareTooltipContext() {
     const item = this.parent;
     const rollData = this.parent.getRollData();
-    const description = await TextEditor.enrichHTML(this.description.value, {rollData: rollData, relativeTo: item});
+    const description = await TextEditor.enrichHTML(this.description.value, { rollData: rollData, relativeTo: item });
 
     const context = {
       item: item,
@@ -232,7 +232,7 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
       description: description,
       subtitle: game.i18n.localize(`TYPES.Item.${this.parent.type}`),
       tags: this._prepareTooltipTags(),
-      properties: this._prepareTooltipProperties()
+      properties: this._prepareTooltipProperties(),
     };
     context.propsCol = Math.min(4, context.properties.length);
 
@@ -249,14 +249,14 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
     const tags = [];
 
     if (this.parent.isArsenal) {
-      if (this.isOneHanded) tags.push({label: "One-Handed"});
-      else tags.push({label: "Two-Handed"});
+      if (this.isOneHanded) tags.push({ label: "One-Handed" });
+      else tags.push({ label: "Two-Handed" });
     }
 
     const valid = this.constructor._attributeChoices();
     for (const attribute of this.attributes.value) {
       const label = valid[attribute]?.label;
-      if (label) tags.push({label: label});
+      if (label) tags.push({ label: label });
     }
 
     return tags;
@@ -271,11 +271,11 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
   _prepareTooltipProperties() {
     const props = [];
 
-    props.push({title: "Price", label: this.price.value ?? 0, icon: "fa-solid fa-sack-dollar"});
-    props.push({title: "Weight", label: this.weight.total, icon: "fa-solid fa-weight-hanging"});
+    props.push({ title: "Price", label: this.price.value ?? 0, icon: "fa-solid fa-sack-dollar" });
+    props.push({ title: "Weight", label: this.weight.total, icon: "fa-solid fa-weight-hanging" });
 
     if (this.schema.has("quantity")) {
-      props.push({title: "Qty", label: this.quantity.value ?? 0, icon: "fa-solid fa-cubes-stacked"});
+      props.push({ title: "Qty", label: this.quantity.value ?? 0, icon: "fa-solid fa-cubes-stacked" });
     }
 
     return props;
@@ -287,7 +287,7 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
 
   /** @override */
   static LOCALIZATION_PREFIXES = [
-    "ARTICHRON.ITEM"
+    "ARTICHRON.ITEM",
   ];
 
   /* -------------------------------------------------- */
@@ -342,7 +342,7 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
       "system.description.value",
       "system.price.value",
       "system.weight.value",
-      "system.attributes.value"
+      "system.attributes.value",
     ]);
   }
 

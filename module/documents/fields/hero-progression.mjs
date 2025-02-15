@@ -1,4 +1,4 @@
-const {NumberField, StringField} = foundry.data.fields;
+const { NumberField, StringField } = foundry.data.fields;
 
 export default class ProgressionData extends foundry.abstract.DataModel {
   /** @override */
@@ -7,7 +7,7 @@ export default class ProgressionData extends foundry.abstract.DataModel {
       _id: new StringField({
         required: true,
         initial: () => foundry.utils.randomID(),
-        readonly: true
+        readonly: true,
       }),
       type: new StringField({
         required: true,
@@ -18,8 +18,8 @@ export default class ProgressionData extends foundry.abstract.DataModel {
         choices: () => Object.entries(ProgressionData.TYPES).reduce((acc, [k, v]) => {
           acc[k] = v.TYPE;
           return acc;
-        }, {})
-      })
+        }, {}),
+      }),
     };
   }
 
@@ -42,7 +42,7 @@ export default class ProgressionData extends foundry.abstract.DataModel {
   static get TYPES() {
     return {
       [ProgressionPoolData.TYPE]: ProgressionPoolData,
-      [ProgressionSkillData.TYPE]: ProgressionSkillData
+      [ProgressionSkillData.TYPE]: ProgressionSkillData,
     };
   }
 
@@ -98,9 +98,9 @@ class ProgressionPoolData extends ProgressionData {
       pool: new StringField({
         required: true,
         initial: "stamina",
-        choices: CONFIG.SYSTEM.POOL_TYPES
+        choices: CONFIG.SYSTEM.POOL_TYPES,
       }),
-      value: new NumberField({min: 2, step: 2, initial: 2, nullable: false})
+      value: new NumberField({ min: 2, step: 2, initial: 2, nullable: false }),
     });
   }
 
@@ -114,7 +114,7 @@ class ProgressionPoolData extends ProgressionData {
   /** @override */
   static LOCALIZATION_PREFIXES = [
     "ARTICHRON.ACTOR.Progression",
-    "ARTICHRON.ACTOR.Progression.Pool"
+    "ARTICHRON.ACTOR.Progression.Pool",
   ];
 
   /* -------------------------------------------------- */
@@ -124,9 +124,9 @@ class ProgressionPoolData extends ProgressionData {
     const fields = Object.values(ProgressionPoolData.schema.fields).reduce((acc, field) => {
       if (["_id", "type"].includes(field.name)) return acc;
       const options = (field.name === "value") ? {
-        max: actor.system.progression.points.available.toNearest(2, "floor")
+        max: actor.system.progression.points.available.toNearest(2, "floor"),
       } : {};
-      acc.push(field.toFormGroup({localize: true}, options).outerHTML);
+      acc.push(field.toFormGroup({ localize: true }, options).outerHTML);
       return acc;
     }, []);
 
@@ -136,15 +136,15 @@ class ProgressionPoolData extends ProgressionData {
       modal: true,
       rejectClose: false,
       window: {
-        title: game.i18n.format("ARTICHRON.ProgressionDialog.PoolTitle", {name: actor.name}),
-        icon: "fa-solid fa-arrow-trend-up"
+        title: game.i18n.format("ARTICHRON.ProgressionDialog.PoolTitle", { name: actor.name }),
+        icon: "fa-solid fa-arrow-trend-up",
       },
-      position: {width: 400, height: "auto"},
-      ok: {callback: (event, button, html) => {
-        const {pool, value} = new FormDataExtended(button.form).object;
-        const modelData = {pool: pool, value: value, type: this.TYPE};
+      position: { width: 400, height: "auto" },
+      ok: { callback: (event, button, html) => {
+        const { pool, value } = new FormDataExtended(button.form).object;
+        const modelData = { pool: pool, value: value, type: this.TYPE };
         return ProgressionPoolData.#applyProgression(actor, modelData);
-      }}
+      } },
     });
   }
 
@@ -195,9 +195,9 @@ class ProgressionSkillData extends ProgressionData {
       skill: new StringField({
         required: true,
         initial: "agility",
-        choices: CONFIG.SYSTEM.SKILLS
+        choices: CONFIG.SYSTEM.SKILLS,
       }),
-      value: new NumberField({min: 1, step: 1, initial: 1, nullable: false})
+      value: new NumberField({ min: 1, step: 1, initial: 1, nullable: false }),
     });
   }
 
@@ -211,7 +211,7 @@ class ProgressionSkillData extends ProgressionData {
   /** @override */
   static LOCALIZATION_PREFIXES = [
     "ARTICHRON.ACTOR.Progression",
-    "ARTICHRON.ACTOR.Progression.Skill"
+    "ARTICHRON.ACTOR.Progression.Skill",
   ];
 
   /* -------------------------------------------------- */
@@ -221,9 +221,9 @@ class ProgressionSkillData extends ProgressionData {
     const fields = Object.values(ProgressionSkillData.schema.fields).reduce((acc, field) => {
       if (["_id", "type"].includes(field.name)) return acc;
       const options = (field.name === "value") ? {
-        max: actor.system.progression.points.available
+        max: actor.system.progression.points.available,
       } : {};
-      acc.push(field.toFormGroup({localize: true}, options).outerHTML);
+      acc.push(field.toFormGroup({ localize: true }, options).outerHTML);
       return acc;
     }, []);
 
@@ -233,15 +233,15 @@ class ProgressionSkillData extends ProgressionData {
       modal: true,
       rejectClose: false,
       window: {
-        title: game.i18n.format("ARTICHRON.ProgressionDialog.SkillTitle", {name: actor.name}),
-        icon: "fa-solid fa-arrow-trend-up"
+        title: game.i18n.format("ARTICHRON.ProgressionDialog.SkillTitle", { name: actor.name }),
+        icon: "fa-solid fa-arrow-trend-up",
       },
-      position: {width: 400, height: "auto"},
-      ok: {callback: (event, button, html) => {
-        const {skill, value} = new FormDataExtended(button.form).object;
-        const modelData = {skill: skill, value: value, type: this.TYPE};
+      position: { width: 400, height: "auto" },
+      ok: { callback: (event, button, html) => {
+        const { skill, value } = new FormDataExtended(button.form).object;
+        const modelData = { skill: skill, value: value, type: this.TYPE };
         return ProgressionSkillData.#applyProgression(actor, modelData);
-      }}
+      } },
     });
   }
 
