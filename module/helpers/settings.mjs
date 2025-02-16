@@ -96,5 +96,9 @@ export default function registerSettings() {
   /* -------------------------------------------------- */
 
   // Color scheme has to always be dark mode for now.
-  Hooks.once("setup", () => game.settings.set("core", "colorScheme", "dark"));
+  Hooks.once("setup", () => {
+    const obj = { ... game.settings.get("core", "uiConfig") };
+    obj.colorScheme = "dark";
+    game.settings.set("core", "uiConfig");
+  });
 }
