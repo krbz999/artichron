@@ -1,6 +1,6 @@
 import ActorSystemModel from "./system-model.mjs";
-import Clock from "../fields/clocks-field.mjs";
-import CollectionField from "../fields/collection-field.mjs";
+import Clock from "../data/clocks.mjs";
+import CollectionField from "../data/fields/collection-field.mjs";
 import PartyDistributionDialog from "../../applications/actor/party-distribution-dialog.mjs";
 
 const {

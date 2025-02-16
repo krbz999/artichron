@@ -1,8 +1,8 @@
 import ActivitySelectDialog from "../../applications/item/activity-select-dialog.mjs";
 import BaseActivity from "../activity/base-activity.mjs";
-import CollectionField from "../fields/collection-field.mjs";
-import ConditionLevelsField from "../fields/condition-levels-field.mjs";
-import IdentifierField from "../fields/identifier-field.mjs";
+import CollectionField from "../data/fields/collection-field.mjs";
+import ConditionLevelsField from "../data/condition-levels.mjs";
+import IdentifierField from "../data/fields/identifier-field.mjs";
 
 const { EmbeddedDataField, HTMLField, NumberField, SchemaField, SetField, StringField } = foundry.data.fields;
 

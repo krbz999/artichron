@@ -8,7 +8,7 @@ import applications from "./module/applications/_module.mjs";
 import canvas from "./module/documents/canvas/_module.mjs";
 import dice from "./module/dice/_module.mjs";
 import elements from "./module/elements/_module.mjs";
-import fields from "./module/documents/fields/_module.mjs";
+import data from "./module/documents/data/_module.mjs";
 import registerEnrichers from "./module/helpers/enrichers.mjs";
 import registerSettings from "./module/helpers/settings.mjs";
 
@@ -30,9 +30,9 @@ globalThis.artichron = {
   dice: dice,
   documents: documents.documentClasses,
   elements: elements,
-  fields: fields,
+  data: data,
   migrations: migrations,
-  tooltips: new applications.TooltipsArtichron(),
+  tooltips: new applications.ui.TooltipsArtichron(),
   utils: utils,
 };
 
@@ -51,7 +51,9 @@ Hooks.once("init", function() {
   CONFIG.Token.hudClass = applications.hud.TokenHUDArtichron;
   CONFIG.Token.objectClass = canvas.TokenArtichron;
   CONFIG.Token.rulerClass = canvas.TokenRulerArtichron;
-  CONFIG.ui.chat = applications.ChatLogArtichron;
+  CONFIG.ui.chat = applications.sidebar.tabs.ChatLogArtichron;
+  CONFIG.ui.combat = applications.sidebar.tabs.CombatTrackerArtichron;
+  CONFIG.ui.carousel = applications.ui.CombatCarousel;
 
   // Hook up document classes.
   for (const [k, v] of Object.entries(documents.documentClasses)) {
@@ -73,9 +75,6 @@ Hooks.once("init", function() {
   CONFIG.Dice.Roll = dice.RollArtichron;
   CONFIG.Dice.DamageRoll = dice.DamageRoll;
 
-  // Set system combat tracker application.
-  CONFIG.ui.combat = applications.CombatTrackerArtichron;
-
   // Register sheet application classes
   const configureSheet = (scope, { DocumentClass, SheetClass, options = {} }) => {
     const config = foundry.applications.apps.DocumentSheetConfig;
@@ -96,47 +95,47 @@ Hooks.once("init", function() {
     artichron: [
       {
         DocumentClass: Actor,
-        SheetClass: applications.HeroSheet,
+        SheetClass: applications.actor.HeroSheet,
         options: { makeDefault: true, label: "ARTICHRON.SHEET.ACTOR.Hero", types: ["hero"] },
       },
       {
         DocumentClass: Actor,
-        SheetClass: applications.MonsterSheet,
+        SheetClass: applications.actor.MonsterSheet,
         options: { makeDefault: true, label: "ARTICHRON.SHEET.ACTOR.Monster", types: ["monster"] },
       },
       {
         DocumentClass: Actor,
-        SheetClass: applications.MerchantSheet,
+        SheetClass: applications.actor.MerchantSheet,
         options: { makeDefault: true, label: "ARTICHRON.SHEET.ACTOR.Merchant", types: ["merchant"] },
       },
       {
         DocumentClass: Actor,
-        SheetClass: applications.PartySheet,
+        SheetClass: applications.actor.PartySheet,
         options: { makeDefault: true, label: "ARTICHRON.SHEET.ACTOR.Party", types: ["party"] },
       },
       {
         DocumentClass: Item,
-        SheetClass: applications.ItemSheetArtichron,
+        SheetClass: applications.item.ItemSheetArtichron,
         options: { makeDefault: true, label: "ARTICHRON.SHEET.ITEM.Base", types: ["weapon", "shield", "spell", "armor"] },
       },
       {
         DocumentClass: Item,
-        SheetClass: applications.ItemSheetAmmunition,
+        SheetClass: applications.item.ItemSheetAmmunition,
         options: { makeDefault: true, label: "ARTICHRON.SHEET.ITEM.Ammunition", types: ["ammo"] },
       },
       {
         DocumentClass: Item,
-        SheetClass: applications.ItemSheetElixir,
+        SheetClass: applications.item.ItemSheetElixir,
         options: { makeDefault: true, label: "ARTICHRON.SHEET.ITEM.Elixir", types: ["elixir"] },
       },
       {
         DocumentClass: Item,
-        SheetClass: applications.ItemSheetPart,
+        SheetClass: applications.item.ItemSheetPart,
         options: { makeDefault: true, label: "ARTICHRON.SHEET.ITEM.Part", types: ["part"] },
       },
       {
         DocumentClass: ActiveEffect,
-        SheetClass: applications.ActiveEffectSheetArtichron,
+        SheetClass: applications.effect.ActiveEffectSheetArtichron,
         options: { makeDefault: true, label: "ARTICHRON.SHEET.EFFECT.Base" },
       },
     ],
@@ -173,7 +172,7 @@ Hooks.once("setup", function() {
     thresholdBar: thresholdBar,
   });
   artichron.tooltips.observe();
-  applications.TooltipsArtichron.activateListeners();
+  applications.ui.TooltipsArtichron.activateListeners();
 });
 
 /* -------------------------------------------------- */
@@ -205,7 +204,7 @@ Hooks.once("i18nInit", function() {
   }
 
   // Localize data models. TODO: Unsure if still needed.
-  // for (const model of Object.values(artichron.fields.ArmorRequirementData.TYPES)) {
+  // for (const model of Object.values(artichron.data.ArmorRequirementData.TYPES)) {
   //   Localization.localizeDataModel(model);
   //   const meta = model.metadata;
   //   model.metadata = foundry.utils.mergeObject(meta, {
@@ -214,7 +213,7 @@ Hooks.once("i18nInit", function() {
   //   }, { inplace: false });
   // }
 
-  // for (const model of Object.values(artichron.fields.ProgressionData.TYPES)) {
+  // for (const model of Object.values(artichron.data.ProgressionData.TYPES)) {
   //   Localization.localizeDataModel(model);
   // }
 
@@ -226,8 +225,8 @@ Hooks.once("i18nInit", function() {
   // for (const model of Object.values(artichron.activities)) Localization.localizeDataModel(model);
 
   // Localize formula models.
-  // Localization.localizeDataModel(artichron.fields.FormulaModel);
-  // Localization.localizeDataModel(artichron.fields.DamageFormulaModel);
+  // Localization.localizeDataModel(artichron.data.FormulaModel);
+  // Localization.localizeDataModel(artichron.data.DamageFormulaModel);
 
   // Explicitly localize this embedded data model due to unknown reasons.
   // for (const v of Object.values(CONFIG.Item.dataModels)) {
@@ -252,8 +251,6 @@ Hooks.once("ready", function() {
       return false;
     }
   });
-
-  setupCarousel();
 });
 
 /* -------------------------------------------------- */
@@ -290,17 +287,6 @@ Hooks.on("renderActorDirectory", (directory, html) => {
   const entry = html.querySelector(`[data-entry-id="${current}"]`);
   if (entry) entry.classList.add("primary-party");
 });
-
-/* -------------------------------------------------- */
-
-/**
- * Create a new carousel combat tracker and render it.
- */
-async function setupCarousel() {
-  const cls = applications.CombatCarousel;
-  const app = new cls();
-  app.render({ force: true });
-}
 
 /* -------------------------------------------------- */
 /*   Hotbar macros                                    */

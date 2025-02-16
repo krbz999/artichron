@@ -1,6 +1,6 @@
 import BaseActivity from "./base-activity.mjs";
 import ChatMessageArtichron from "../chat-message.mjs";
-import FormulaModel from "../fields/formula-model.mjs";
+import FormulaModel from "../data/formula-model.mjs";
 
 const { EmbeddedDataField, NumberField, SchemaField, StringField } = foundry.data.fields;
 

@@ -27,35 +27,51 @@ import TokenHUDArtichron from "./token/token-hud.mjs";
 import TooltipsArtichron from "./tooltips.mjs";
 
 export default {
-  ActiveEffectSheetArtichron,
-  ActivitySelectDialog,
-  ActivitySheet,
-  ActivityUseDialog,
-  ActorSheetArtichron,
-  ArtichronSheetMixin,
-  ChatLogArtichron: ChatLogArtichron,
-  CombatCarousel,
-  CombatTrackerArtichron,
-  DamageSheet,
-  HeroSheet,
-  ItemFusionDialog,
-  ItemSheetAmmunition,
-  ItemSheetArtichron,
-  ItemSheetElixir,
-  ItemSheetPart,
-  MerchantConfigurationDialog,
-  MerchantSheet,
-  MonsterSheet,
-  PartyDistributionDialog,
-  PartyFundsDialog,
-  PartySheet,
-  PoolConfig,
-  RollConfigurationDialog,
-  TooltipsArtichron,
+  effect: {
+    ActiveEffectSheetArtichron,
+  },
+  activity: {
+    ActivitySelectDialog,
+    ActivitySheet,
+    ActivityUseDialog,
+  },
+  actor: {
+    ActorSheetArtichron,
+    HeroSheet,
+    MerchantSheet,
+    MonsterSheet,
+    PartySheet,
+  },
+  api: {
+    ArtichronSheetMixin,
+  },
+  sidebar: {
+    tabs: {
+      ChatLogArtichron,
+      CombatTrackerArtichron,
+    },
+  },
+  item: {
+    DamageSheet,
+    ItemSheetAmmunition,
+    ItemSheetArtichron,
+    ItemSheetElixir,
+    ItemSheetPart,
+  },
+  apps: {
+    ItemFusionDialog,
+    MerchantConfigurationDialog,
+    PartyDistributionDialog,
+    PartyFundsDialog,
+    PoolConfig,
+    RollConfigurationDialog,
+  },
   hud: {
     TokenHUDArtichron,
   },
   ui: {
     ContextMenuArtichron,
+    CombatCarousel,
+    TooltipsArtichron,
   },
 };

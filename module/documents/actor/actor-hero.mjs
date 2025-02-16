@@ -1,5 +1,5 @@
 import CreatureData from "./creature-data.mjs";
-import ProgressionData from "../fields/hero-progression.mjs";
+import ProgressionData from "../data/hero-progression.mjs";
 
 const { ArrayField, HTMLField, NumberField, SchemaField, TypedSchemaField } = foundry.data.fields;
 

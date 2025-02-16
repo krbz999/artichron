@@ -1,4 +1,4 @@
-import ArmorRequirementData from "../fields/armor-requirements.mjs";
+import ArmorRequirementData from "../data/armor-requirements.mjs";
 import ItemSystemModel from "./system-model.mjs";
 import FusionTemplateMixin from "./templates/fusion-data.mjs";
 

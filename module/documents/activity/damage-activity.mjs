@@ -1,7 +1,7 @@
 import BaseActivity from "./base-activity.mjs";
 import ChatMessageArtichron from "../chat-message.mjs";
-import CollectionField from "../fields/collection-field.mjs";
-import DamageFormulaModel from "../fields/damage-formula-model.mjs";
+import CollectionField from "../data/fields/collection-field.mjs";
+import DamageFormulaModel from "../data/damage-formula-model.mjs";
 
 const { NumberField, SchemaField, StringField } = foundry.data.fields;
 

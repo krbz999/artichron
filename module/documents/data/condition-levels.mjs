@@ -1,6 +1,6 @@
 const { NumberField } = foundry.data.fields;
 
-export default class ConditionLevelsField extends foundry.abstract.DataModel {
+export default class ConditionLevels extends foundry.abstract.DataModel {
   /** @override */
   static defineSchema() {
     const statuses = Object.values(CONFIG.SYSTEM.ITEM_ATTRIBUTES).reduce((acc, attr) => {

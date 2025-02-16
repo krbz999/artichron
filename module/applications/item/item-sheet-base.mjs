@@ -1,5 +1,5 @@
 import ArtichronSheetMixin from "../base-sheet.mjs";
-import FormulaField from "../../documents/fields/formula-field.mjs";
+import FormulaField from "../../documents/data/fields/formula-field.mjs";
 
 export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.applications.sheets.ItemSheetV2) {
   /** @override */
@@ -323,7 +323,7 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
    */
   static #addRequirement(event, target) {
     if (!this.isEditable) return;
-    const types = new Set(Object.keys(artichron.fields.ArmorRequirementData.TYPES));
+    const types = new Set(Object.keys(artichron.data.ArmorRequirementData.TYPES));
     // for (const {type} of this.document.system.category.requirements) types.delete(type);
     const requirements = this.document.system.toObject().category.requirements;
     requirements.push({ type: types.first() });

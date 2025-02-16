@@ -1,10 +1,6 @@
 const { HandlebarsApplicationMixin, ApplicationV2 } = foundry.applications.api;
 
 export default class CombatCarousel extends HandlebarsApplicationMixin(ApplicationV2) {
-  /**
-   * @class
-   * @param {object} [options]      Application rendering options.
-   */
   constructor(options = {}) {
     super(options);
     ui.combat.apps = [this];
@@ -12,7 +8,7 @@ export default class CombatCarousel extends HandlebarsApplicationMixin(Applicati
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   static DEFAULT_OPTIONS = {
     id: "combat-carousel",
     classes: ["combat-carousel"],
@@ -39,7 +35,7 @@ export default class CombatCarousel extends HandlebarsApplicationMixin(Applicati
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   static PARTS = {
     controls: {
       template: "systems/artichron/templates/combat/carousel-controls.hbs",
@@ -71,16 +67,16 @@ export default class CombatCarousel extends HandlebarsApplicationMixin(Applicati
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   _insertElement(element) {
     const existing = document.getElementById(element.id);
     if (existing) existing.replaceWith(element);
-    else document.querySelector("#ui-top #navigation").insertAdjacentElement("afterend", element);
+    else document.querySelector("#ui-top").insertAdjacentElement("beforeend", element);
   }
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   async _prepareContext(options) {
     const context = {};
 
@@ -147,7 +143,7 @@ export default class CombatCarousel extends HandlebarsApplicationMixin(Applicati
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   _preSyncPartState(partId, newElement, priorElement, state) {
     super._preSyncPartState(partId, newElement, priorElement, state);
 
@@ -167,7 +163,7 @@ export default class CombatCarousel extends HandlebarsApplicationMixin(Applicati
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   _syncPartState(partId, newElement, priorElement, state) {
     super._syncPartState(partId, newElement, priorElement, state);
 
@@ -206,7 +202,7 @@ export default class CombatCarousel extends HandlebarsApplicationMixin(Applicati
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   _attachFrameListeners() {
     super._attachFrameListeners();
     new artichron.applications.ui.ContextMenuArtichron(this.element, ".combatant[data-id]", [], { onOpen: element => {
@@ -217,7 +213,7 @@ export default class CombatCarousel extends HandlebarsApplicationMixin(Applicati
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   _onRender(...args) {
     super._onRender(...args);
     for (const combatant of this.element.querySelectorAll(".combatant")) {

@@ -33,11 +33,9 @@ export default class CombatantArtichron extends Combatant {
 
   /* -------------------------------------------------- */
 
-  /** @override */
-  async _preCreate(data, options, user) {
-    const allowed = await super._preCreate(data, options, user);
-    if (allowed === false) return false;
-    const update = { type: "artichron" };
-    this.updateSource(update);
+  /** @inheritdoc */
+  static async createDocuments(data = [], operation = {}) {
+    data.forEach(d => d.type = "artichron");
+    return super.createDocuments(data, operation);
   }
 }
