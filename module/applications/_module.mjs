@@ -4,6 +4,7 @@ import ActivitySheet from "./activity-sheet.mjs";
 import ActivityUseDialog from "./item/activity-use-dialog.mjs";
 import ActorSheetArtichron from "./actor/actor-sheet-base.mjs";
 import ArtichronSheetMixin from "./base-sheet.mjs";
+import ChatLogArtichron from "./chatlog.mjs";
 import CombatCarousel from "./combat/carousel.mjs";
 import CombatTrackerArtichron from "./combat/tracker.mjs";
 import ContextMenuArtichron from "./context-menu.mjs";
@@ -32,6 +33,7 @@ export default {
   ActivityUseDialog,
   ActorSheetArtichron,
   ArtichronSheetMixin,
+  ChatLogArtichron: ChatLogArtichron,
   CombatCarousel,
   CombatTrackerArtichron,
   ContextMenuArtichron,

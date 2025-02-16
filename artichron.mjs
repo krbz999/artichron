@@ -51,6 +51,7 @@ Hooks.once("init", function() {
   CONFIG.Token.hudClass = applications.TokenHUDArtichron;
   CONFIG.Token.objectClass = canvas.TokenArtichron;
   CONFIG.Token.rulerClass = canvas.TokenRulerArtichron;
+  CONFIG.ui.chat = applications.ChatLogArtichron;
 
   // Hook up document classes.
   for (const [k, v] of Object.entries(documents.documentClasses)) {
@@ -203,36 +204,36 @@ Hooks.once("i18nInit", function() {
     localize(CONFIG.SYSTEM, k, v);
   }
 
-  // Localize data models.
-  for (const model of Object.values(artichron.fields.ArmorRequirementData.TYPES)) {
-    Localization.localizeDataModel(model);
-    const meta = model.metadata;
-    model.metadata = foundry.utils.mergeObject(meta, {
-      label: game.i18n.localize(meta.label),
-      hint: game.i18n.localize(meta.hint),
-    }, { inplace: false });
-  }
+  // Localize data models. TODO: Unsure if still needed.
+  // for (const model of Object.values(artichron.fields.ArmorRequirementData.TYPES)) {
+  //   Localization.localizeDataModel(model);
+  //   const meta = model.metadata;
+  //   model.metadata = foundry.utils.mergeObject(meta, {
+  //     label: game.i18n.localize(meta.label),
+  //     hint: game.i18n.localize(meta.hint),
+  //   }, { inplace: false });
+  // }
 
-  for (const model of Object.values(artichron.fields.ProgressionData.TYPES)) {
-    Localization.localizeDataModel(model);
-  }
+  // for (const model of Object.values(artichron.fields.ProgressionData.TYPES)) {
+  //   Localization.localizeDataModel(model);
+  // }
 
   // Localize party actor clocks schema.
-  const clocks = CONFIG.Actor.dataModels.party.schema.getField("clocks").constructor.TYPES;
-  for (const cls of Object.values(clocks)) Localization.localizeDataModel(cls);
+  // const clocks = CONFIG.Actor.dataModels.party.schema.getField("clocks").constructor.TYPES;
+  // for (const cls of Object.values(clocks)) Localization.localizeDataModel(cls);
 
   // Localize activities.
-  for (const model of Object.values(artichron.activities)) Localization.localizeDataModel(model);
+  // for (const model of Object.values(artichron.activities)) Localization.localizeDataModel(model);
 
   // Localize formula models.
-  Localization.localizeDataModel(artichron.fields.FormulaModel);
-  Localization.localizeDataModel(artichron.fields.DamageFormulaModel);
+  // Localization.localizeDataModel(artichron.fields.FormulaModel);
+  // Localization.localizeDataModel(artichron.fields.DamageFormulaModel);
 
   // Explicitly localize this embedded data model due to unknown reasons.
-  for (const v of Object.values(CONFIG.Item.dataModels)) {
-    const schema = v.schema.getField("attributes.levels");
-    if (schema) Localization.localizeDataModel({ schema: schema });
-  }
+  // for (const v of Object.values(CONFIG.Item.dataModels)) {
+  //   const schema = v.schema.getField("attributes.levels");
+  //   if (schema) Localization.localizeDataModel({ schema: schema });
+  // }
 });
 
 /* -------------------------------------------------- */
