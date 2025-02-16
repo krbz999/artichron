@@ -76,55 +76,76 @@ Hooks.once("init", function() {
   CONFIG.ui.combat = applications.CombatTrackerArtichron;
 
   // Register sheet application classes
-  Actors.unregisterSheet("core", ActorSheet);
-  Actors.registerSheet("artichron", applications.HeroSheet, {
-    makeDefault: true,
-    label: "ARTICHRON.SHEET.ACTOR.Hero",
-    types: ["hero"],
-  });
-  Actors.registerSheet("artichron", applications.MonsterSheet, {
-    makeDefault: true,
-    label: "ARTICHRON.SHEET.ACTOR.Monster",
-    types: ["monster"],
-  });
-  Actors.registerSheet("artichron", applications.MerchantSheet, {
-    makeDefault: true,
-    label: "ARTICHRON.SHEET.ACTOR.Merchant",
-    types: ["merchant"],
-  });
-  Actors.registerSheet("artichron", applications.PartySheet, {
-    makeDefault: true,
-    label: "ARTICHRON.SHEET.ACTOR.Party",
-    types: ["party"],
-  });
+  const configureSheet = (scope, { DocumentClass, SheetClass, options = {} }) => {
+    const config = foundry.applications.apps.DocumentSheetConfig;
+    switch (scope) {
+      case "core":
+        return config.unregisterSheet(DocumentClass, scope, SheetClass);
+      case "artichron":
+        return config.registerSheet(DocumentClass, scope, SheetClass, options);
+    }
+  };
 
-  Items.unregisterSheet("core", ItemSheet);
-  Items.registerSheet("artichron", applications.ItemSheetArtichron, {
-    makeDefault: true,
-    label: "ARTICHRON.SHEET.ITEM.Base",
-    types: ["weapon", "shield", "spell", "armor"],
-  });
-  Items.registerSheet("artichron", applications.ItemSheetAmmunition, {
-    makeDefault: true,
-    label: "ARTICHRON.SHEET.ITEM.Ammunition",
-    types: ["ammo"],
-  });
-  Items.registerSheet("artichron", applications.ItemSheetElixir, {
-    makeDefault: true,
-    label: "ARTICHRON.SHEET.ITEM.Elixir",
-    types: ["elixir"],
-  });
-  Items.registerSheet("artichron", applications.ItemSheetPart, {
-    makeDefault: true,
-    label: "ARTICHRON.SHEET.ITEM.Part",
-    types: ["part"],
-  });
+  const sheets = {
+    core: [
+      { DocumentClass: Actor, SheetClass: ActorSheet },
+      { DocumentClass: Item, SheetClass: ItemSheet },
+      { DocumentClass: ActiveEffect, SheetClass: foundry.applications.sheets.ActiveEffectConfig },
+    ],
+    artichron: [
+      {
+        DocumentClass: Actor,
+        SheetClass: applications.HeroSheet,
+        options: { makeDefault: true, label: "ARTICHRON.SHEET.ACTOR.Hero", types: ["hero"] },
+      },
+      {
+        DocumentClass: Actor,
+        SheetClass: applications.MonsterSheet,
+        options: { makeDefault: true, label: "ARTICHRON.SHEET.ACTOR.Monster", types: ["monster"] },
+      },
+      {
+        DocumentClass: Actor,
+        SheetClass: applications.MerchantSheet,
+        options: { makeDefault: true, label: "ARTICHRON.SHEET.ACTOR.Merchant", types: ["merchant"] },
+      },
+      {
+        DocumentClass: Actor,
+        SheetClass: applications.PartySheet,
+        options: { makeDefault: true, label: "ARTICHRON.SHEET.ACTOR.Party", types: ["party"] },
+      },
+      {
+        DocumentClass: Item,
+        SheetClass: applications.ItemSheetArtichron,
+        options: { makeDefault: true, label: "ARTICHRON.SHEET.ITEM.Base", types: ["weapon", "shield", "spell", "armor"] },
+      },
+      {
+        DocumentClass: Item,
+        SheetClass: applications.ItemSheetAmmunition,
+        options: { makeDefault: true, label: "ARTICHRON.SHEET.ITEM.Ammunition", types: ["ammo"] },
+      },
+      {
+        DocumentClass: Item,
+        SheetClass: applications.ItemSheetElixir,
+        options: { makeDefault: true, label: "ARTICHRON.SHEET.ITEM.Elixir", types: ["elixir"] },
+      },
+      {
+        DocumentClass: Item,
+        SheetClass: applications.ItemSheetPart,
+        options: { makeDefault: true, label: "ARTICHRON.SHEET.ITEM.Part", types: ["part"] },
+      },
+      {
+        DocumentClass: ActiveEffect,
+        SheetClass: applications.ActiveEffectSheetArtichron,
+        options: { makeDefault: true, label: "ARTICHRON.SHEET.EFFECT.Base" },
+      },
+    ],
+  };
 
-  DocumentSheetConfig.unregisterSheet(ActiveEffect, "core", ActiveEffectConfig);
-  DocumentSheetConfig.registerSheet(ActiveEffect, "artichron", applications.ActiveEffectSheetArtichron, {
-    makeDefault: true,
-    label: "ARTICHRON.SHEET.EFFECT.Base",
-  });
+  for (const [scope, v] of Object.entries(sheets)) {
+    for (const { DocumentClass, SheetClass, options } of v) {
+      configureSheet(scope, { DocumentClass, SheetClass, options });
+    }
+  }
 
   // Set up conditions.
   CONFIG.statusEffects = [];

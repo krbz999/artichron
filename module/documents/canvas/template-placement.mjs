@@ -1,4 +1,4 @@
-export default class TemplatePlacement extends MeasuredTemplate {
+export default class TemplatePlacement extends foundry.canvas.placeables.MeasuredTemplate {
   /**
    * Reference to a token to which this template is oriented.
    * @type {TokenArtichron}
