@@ -1,3 +1,5 @@
+import ItemArtichron from "../documents/item.mjs";
+
 export default class ChatLogArtichron extends foundry.applications.sidebar.tabs.ChatLog {
   _attachLogListeners(element, options) {
     super._attachLogListeners(element, options);
@@ -14,9 +16,7 @@ export default class ChatLogArtichron extends foundry.applications.sidebar.tabs.
     const data = TextEditor.getDragEventData(event);
     if (data.type !== "Item") return;
 
-    /**
-    * @type {ItemArtichron}
-    */
+    /** @type {ItemArtichron} */
     const item = await fromUuid(data.uuid);
     if (!item || !item.isOwner || !item.isEmbedded) return;
 

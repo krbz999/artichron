@@ -47,7 +47,6 @@ export default class ToggleConditionBehaviorData extends foundry.data.regionBeha
   async _handleRegionEvent(event) {
     if ((event.user !== game.user) || !this.status) return;
     await CanvasAnimation.getAnimation(`Token.${event.data.token.id}.animate`)?.promise;
-    if (!this.decrease) event.data.token.actor?.applyCondition(this.status);
-    else event.data.token.actor?.unapplyCondition(this.status);
+    event.data.token.actor.toggleStatusEffect(this.status, { active: !this.decrease });
   }
 }

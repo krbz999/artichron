@@ -209,7 +209,7 @@ export default class CombatCarousel extends HandlebarsApplicationMixin(Applicati
   /** @override */
   _attachFrameListeners() {
     super._attachFrameListeners();
-    new artichron.applications.ContextMenuArtichron(this.element, ".combatant[data-id]", [], { onOpen: element => {
+    new artichron.applications.ui.ContextMenuArtichron(this.element, ".combatant[data-id]", [], { onOpen: element => {
       const combatant = this.combat.combatants.get(element.dataset.id);
       ui.context.menuItems = this._getCombatantContextOptions(combatant);
     } });

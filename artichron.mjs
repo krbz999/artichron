@@ -48,7 +48,7 @@ Hooks.once("init", function() {
 
   // Record Configuration Values
   CONFIG.SYSTEM = SYSTEM;
-  CONFIG.Token.hudClass = applications.TokenHUDArtichron;
+  CONFIG.Token.hudClass = applications.hud.TokenHUDArtichron;
   CONFIG.Token.objectClass = canvas.TokenArtichron;
   CONFIG.Token.rulerClass = canvas.TokenRulerArtichron;
   CONFIG.ui.chat = applications.ChatLogArtichron;

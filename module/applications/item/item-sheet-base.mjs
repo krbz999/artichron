@@ -266,7 +266,7 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
   _setupContextMenu() {
     super._setupContextMenu();
 
-    new artichron.applications.ContextMenuArtichron(this.element, "[data-activity-id]", [], { onOpen: element => {
+    new artichron.applications.ui.ContextMenuArtichron(this.element, "[data-activity-id]", [], { onOpen: element => {
       const activity = this.document.system.activities.get(element.dataset.activityId);
       ui.context.menuItems = this.#getActivityContextOptions(activity);
     } });

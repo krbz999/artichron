@@ -212,7 +212,7 @@ const ArtichronSheetMixin = Base => {
      * Bind a new context menu.
      */
     _setupContextMenu() {
-      new artichron.applications.ContextMenuArtichron(this.element, "[data-item-uuid]", [], { onOpen: element => {
+      new artichron.applications.ui.ContextMenuArtichron(this.element, "[data-item-uuid]", [], { onOpen: element => {
         const item = fromUuidSync(element.dataset.itemUuid);
         if (!item) return;
         if (item.documentName === "ActiveEffect") ui.context.menuItems = this._getEffectContextOptions(item);

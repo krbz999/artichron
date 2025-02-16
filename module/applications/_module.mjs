@@ -36,7 +36,6 @@ export default {
   ChatLogArtichron: ChatLogArtichron,
   CombatCarousel,
   CombatTrackerArtichron,
-  ContextMenuArtichron,
   DamageSheet,
   HeroSheet,
   ItemFusionDialog,
@@ -52,6 +51,11 @@ export default {
   PartySheet,
   PoolConfig,
   RollConfigurationDialog,
-  TokenHUDArtichron,
   TooltipsArtichron,
+  hud: {
+    TokenHUDArtichron,
+  },
+  ui: {
+    ContextMenuArtichron,
+  },
 };

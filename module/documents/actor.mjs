@@ -283,7 +283,7 @@ export default class ActorArtichron extends Actor {
     await this.update({ "system.health.value": value }, { damages: damages, diff: false });
 
     // Apply conditions from applied damage.
-    for (const [status, level] of statuses.entries()) await this.applyCondition(status, level);
+    for (const [status, level] of statuses.entries()) await this.toggleStatusEffect(status, { levels: level });
 
     return this;
   }
@@ -442,6 +442,8 @@ export default class ActorArtichron extends Actor {
   }
 
   /* -------------------------------------------------- */
+  /*   Status Effects                                   */
+  /* -------------------------------------------------- */
 
   /**
    * Retrieve the level of a condition effect.
@@ -456,44 +458,40 @@ export default class ActorArtichron extends Actor {
   /* -------------------------------------------------- */
 
   /**
-   * Utility method to either apply or increase the level of a status condition.
-   * This method can safely be used on statuses that do not have levels.
-   * @param {string} status       The id of a condition as found in `CONFIG.statusEffects`.
-   * @param {number} [levels]     How many levels to increase by.
-   * @returns {Promise}
+   * Toggle a configured status effect for the Actor.
+   * @override
+   * @param {string} statusId       A status effect ID defined in CONFIG.statusEffects
+   * @param {object} [options={}]   Additional options which modify how the effect is created
+   * @param {boolean} [options.active]        Force the effect to be active or inactive regardless of its current state
+   * @param {boolean} [options.overlay=false] Display the toggled effect as an overlay
+   * @param {number} [options.levels=1]       A potential level increase.
+   * @returns {Promise<ActiveEffect|boolean|undefined>}  A promise which resolves to one of the following values:
+   *                                 - ActiveEffect if a new effect need to be created or updated.
+   *                                 - true if was already an existing effect
+   *                                 - false if an existing effect needed to be removed
+   *                                 - undefined if no changes need to be made
    */
-  async applyCondition(status, levels = 1) {
-    const id = artichron.utils.staticId(status);
-    const hasLevels = !!CONFIG.SYSTEM.STATUS_CONDITIONS[status].levels;
+  async toggleStatusEffect(statusId, { active, overlay = false, levels = 1 } = {}) {
+    const id = artichron.utils.staticId(statusId);
+    const hasLevels = !!CONFIG.SYSTEM.STATUS_CONDITIONS[statusId].levels;
     const effect = this.effects.get(id);
+    active ??= !effect || (effect && hasLevels);
 
-    if (effect && hasLevels) return effect.system.increase(levels);
-    else if (hasLevels && (levels > 1)) {
-      const effect = await ActiveEffect.fromStatusEffect(status);
-      const data = foundry.utils.mergeObject(effect.toObject(), {
-        _id: id, "system.level": levels,
-      });
-      return this.createEmbeddedDocuments("ActiveEffect", [data], { keepId: true });
+    if (active) {
+      if (effect && hasLevels) return effect.system.increase(levels);
+      else if (hasLevels && (levels > 1)) {
+        const Cls = getDocumentClass("ActiveEffect");
+        const effect = await Cls.fromStatusEffect(statusId);
+        const data = foundry.utils.mergeObject(effect.toObject(), {
+          _id: id, "system.level": levels,
+        });
+        return Cls.create(data, { keepId: true });
+      }
+    } else {
+      const decrease = effect && hasLevels && (effect.system.level > 1);
+      if (decrease) return effect.system.decrease();
     }
-    return this.toggleStatusEffect(status, { active: true });
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Utility method to either remove or decrease the level of a status condition.
-   * This method can safely be used on statuses that do not have levels.
-   * @param {string} status     The id of a condition as found in `CONFIG.statusEffects`.
-   * @returns {Promise}
-   */
-  async unapplyCondition(status) {
-    const id = artichron.utils.staticId(status);
-    const hasLevels = !!CONFIG.SYSTEM.STATUS_CONDITIONS[status].levels;
-    const effect = this.effects.get(id);
-    const decrease = effect && hasLevels && (effect.system.level > 1);
-
-    if (decrease) return effect.system.decrease();
-    return this.toggleStatusEffect(status, { active: false });
+    return super.toggleStatusEffect(statusId, { overlay, active });
   }
 
   /* -------------------------------------------------- */
