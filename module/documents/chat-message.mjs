@@ -40,12 +40,12 @@ export default class ChatMessageArtichron extends ChatMessage {
 
   /* -------------------------------------------------- */
 
-  /** @override */
-  async getHTML(...T) {
-    const html = await super.getHTML(...T);
+  /** @inheritdoc */
+  async renderHTML({ canDelete, canClose = false, ...rest } = {}) {
+    const element = await super.renderHTML({ canDelete, canClose, ...rest });
 
     // Add speaker element.
-    const actor = this.constructor.getSpeakerActor(this.speaker);
+    const actor = ChatMessageArtichron.getSpeakerActor(this.speaker);
     const token = game.scenes.get(this.speaker.scene)?.tokens.get(this.speaker.token);
     const template = document.createElement("DIV");
     template.innerHTML = await renderTemplate("systems/artichron/templates/chat/message-header.hbs", {
@@ -53,14 +53,14 @@ export default class ChatMessageArtichron extends ChatMessage {
       actorUuid: actor?.uuid,
       name: actor?.name || this.speaker.alias,
     });
-    html[0].querySelector(".message-sender").replaceWith(template.firstElementChild);
-    const avatar = html[0].querySelector(".avatar");
+    element.querySelector(".message-sender").replaceWith(template.firstElementChild);
+    const avatar = element.querySelector(".avatar");
     ChatMessageArtichron.attachTokenListeners(avatar);
 
-    // Inject template from message type.
-    if (this.system.adjustHTML) await this.system.adjustHTML(html[0]);
+    // Inject template from message type. TODO: Adjust for v13's `system.renderHTML`.
+    if (this.system.adjustHTML) await this.system.adjustHTML(element);
 
-    return html;
+    return element;
   }
 
   /* -------------------------------------------------- */
