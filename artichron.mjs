@@ -50,7 +50,7 @@ Hooks.once("init", function() {
   CONFIG.SYSTEM = SYSTEM;
   CONFIG.Token.hudClass = applications.TokenHUDArtichron;
   CONFIG.Token.objectClass = canvas.TokenArtichron;
-  CONFIG.Canvas.rulerClass = canvas.RulerArtichron;
+  CONFIG.Token.rulerClass = canvas.TokenRulerArtichron;
 
   // Hook up document classes.
   for (const [k, v] of Object.entries(documents.documentClasses)) {
