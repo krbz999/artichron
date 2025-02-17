@@ -16,7 +16,7 @@ export default class CreatureData extends ActorSystemModel {
     });
 
     schema.pips = new SchemaField({
-      value: new NumberField({ min: 0, initial: 0, step: 1 }),
+      value: new NumberField({ min: 0, initial: 0, step: 1, nullable: false }),
       turn: new NumberField({ min: 0, initial: 1, step: 1, nullable: false }),
     });
 
