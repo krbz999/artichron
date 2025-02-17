@@ -123,26 +123,14 @@ export const macro = {
 /**
  * Find all occupied grid spaces of a token.
  * @param {TokenArtichron} token      The token on the scene.
- * @returns {Point[]}                 An array of x-y coordinates.
+ * @returns {import("./types.mjs").Point}
  */
 export function getOccupiedGridSpaces(token) {
-  if (canvas.grid.type !== CONST.GRID_TYPES.GRIDLESS) {
-    const offsets = token.document.getOccupiedGridSpaceOffsets();
-    return offsets.map(p => canvas.grid.getCenterPoint(p));
+  if (canvas.grid.type === CONST.GRID_TYPES.GRIDLESS) {
+    return { ...token.center };
   }
-
-  const points = [];
-  const shape = token.shape;
-  const [i, j, i1, j1] = canvas.grid.getOffsetRange(token.bounds);
-  const delta = canvas.dimensions.size;
-  const offset = canvas.dimensions.size / 2;
-  for (let x = i; x < i1; x += delta) {
-    for (let y = j; y < j1; y += delta) {
-      const point = { x: x + offset, y: y + offset };
-      if (shape.contains(point.x - token.document.x, point.y - token.document.y)) points.push(point);
-    }
-  }
-  return points;
+  const offsets = token.document.getOccupiedGridSpaceOffsets();
+  return offsets.map(p => canvas.grid.getCenterPoint(p));
 }
 
 /* -------------------------------------------------- */
@@ -161,6 +149,7 @@ export function getMinimumDistanceBetweenTokens(A, B) {
     for (const q of B) {
       const d = canvas.grid.measurePath([p, q]);
       if (d.distance < min) min = d.distance;
+      if (!min) return 0;
     }
   }
   return min;

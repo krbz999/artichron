@@ -1,6 +1,7 @@
 import ActivitySheet from "../../applications/activity-sheet.mjs";
 import ActivityUseDialog from "../../applications/item/activity-use-dialog.mjs";
 import ChatMessageArtichron from "../chat-message.mjs";
+import ItemArtichron from "../item.mjs";
 
 /**
  * @typedef {object} ActivityMetadata     Activity metadata.
@@ -354,9 +355,9 @@ export default class BaseActivity extends foundry.abstract.DataModel {
 
   /**
    * Create a new activity.
-   * @param {ItemArtichron} item                The item to create the activity on.
-   * @param {object} data                       Creation data.
-   * @returns {Promise<ItemArtichron|null>}     A promise that resolves to the updated item.
+   * @param {ItemArtichron} item            The item to create the activity on.
+   * @param {object} data                   Creation data.
+   * @returns {Promise<ItemArtichron>}      A promise that resolves to the updated item.
    */
   static async create(item, data) {
     const id = foundry.utils.randomID();

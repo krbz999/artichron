@@ -1,4 +1,10 @@
 /**
+ * @typedef {object} Point
+ * @property {number} x
+ * @property {number} y
+ */
+
+/**
  * @typedef {object} SystemModelMetadata
  * @property {string} icon      Type icon for this data model.
  * @property {string} type      Internal key used for this data model.
