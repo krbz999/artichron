@@ -34,7 +34,7 @@ export default class DoorStateBehaviorData extends foundry.data.regionBehaviors.
         choices: () => {
           const choices = {};
           for (const [k, v] of Object.entries(CONST.WALL_DOOR_STATES)) {
-            choices[v] = `WALLS.DoorStates.${k}`;
+            choices[v] = `WALL.DoorStates.${k}`;
           }
           return choices;
         },
