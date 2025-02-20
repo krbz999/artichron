@@ -8,13 +8,13 @@ export default class CollectionField extends foundry.data.fields.TypedObjectFiel
 
   /** @inheritdoc */
   initialize(value, model, options = {}) {
-    const activities = new ModelCollection();
+    const collection = new ModelCollection();
     for (const [k, v] of Object.entries(value)) {
       v._id = k;
       const init = this.element.initialize(v, model, options);
-      activities.set(k, init);
+      collection.set(k, init);
     }
-    return activities;
+    return collection;
   }
 }
 
@@ -31,6 +31,10 @@ class _CollectionField extends foundry.data.fields.ObjectField {
 
   /* -------------------------------------------------- */
 
+  /**
+   * The data model instance.
+   * @type {typeof foundry.abstract.DataModel}
+   */
   #model = null;
 
   /* -------------------------------------------------- */

@@ -544,9 +544,8 @@ export default class PartySheet extends ActorSheetArtichron {
    * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
    */
   static #addClock(event, target) {
-    const clocks = this.document.system.clocks;
     const type = target.dataset.clock;
-    clocks.createClock({ type: type });
+    artichron.data.Clocks.create(this.document, { type });
   }
 
   /* -------------------------------------------------- */
@@ -558,8 +557,7 @@ export default class PartySheet extends ActorSheetArtichron {
    * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
    */
   static #removeClock(event, target) {
-    const clocks = this.document.system.clocks;
     const id = target.closest("[data-id]").dataset.id;
-    clocks.deleteClock(id);
+    this.document.system.clocks.get(id).delete();
   }
 }

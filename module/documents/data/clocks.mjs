@@ -1,3 +1,5 @@
+import ActorArtichron from "../actor.mjs";
+
 const { ColorField, DocumentIdField, NumberField, StringField } = foundry.data.fields;
 
 /**
@@ -68,8 +70,7 @@ export default class Clock extends foundry.abstract.DataModel {
    */
   async increase() {
     const value = Math.clamp(this.value + 1, 0, this.max);
-    const update = { [`system.clocks.${this.id}.value`]: value };
-    return this.actor.update(update);
+    return this.update({ value: value });
   }
 
   /* -------------------------------------------------- */
@@ -80,8 +81,43 @@ export default class Clock extends foundry.abstract.DataModel {
    */
   async decrease() {
     const value = Math.clamp(Math.min(this.value, this.max) - 1, 0, this.max);
-    const update = { [`system.clocks.${this.id}.value`]: value };
-    return this.actor.update(update);
+    return this.update({ value: value });
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Create a new clock.
+   * @param {ActorArtichron} actor          The actor to create the clock on.
+   * @param {object} [data]                 The data to use for the creation.
+   * @returns {Promise<ActorArtichron>}     A promise that resolves to the updated actor.
+   */
+  static async create(actor, data = {}) {
+    const id = foundry.utils.randomID();
+    const type = data.type ?? "good";
+    return actor.update({ [`system.clocks.${id}`]: { ...data, type, _id: id } });
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Delete this clock.
+   * @returns {Promise<ActorArtichron>}     A promise that resolves to the updated actor.
+   */
+  async delete() {
+    return this.actor.update({ [`system.clocks.-=${this.id}`]: null });
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Update this clock.
+   * @param {object} [change]               The update to perform.
+   * @param {object} [operation]            The update context.
+   * @returns {Promise<ActorArtichron>}     A promise that resolves to the updated actor.
+   */
+  async update(change = {}, operation = {}) {
+    return this.actor.update({ [`system.clocks.${this.id}`]: change }, operation);
   }
 }
 
