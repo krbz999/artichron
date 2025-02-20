@@ -1,3 +1,7 @@
+const {
+  BooleanField, ForeignDocumentField, NumberField,
+} = foundry.data.fields;
+
 export default function registerSettings() {
   const id = "artichron";
 
@@ -7,8 +11,7 @@ export default function registerSettings() {
   game.settings.register(id, "circularTokens", {
     scope: "world",
     requiresReload: true,
-    type: Boolean,
-    default: true,
+    type: new BooleanField({ initial: true }),
     config: true,
     name: "ARTICHRON.Setting.CircularTokens",
     hint: "ARTICHRON.Setting.CircularTokensHint",
@@ -20,9 +23,7 @@ export default function registerSettings() {
   game.settings.register(id, "templateAreaThreshold", {
     scope: "world",
     requiresReload: true,
-    type: new foundry.data.fields.NumberField({
-      initial: 0.4, min: 0.1, max: 1, step: 0.1, nullable: false,
-    }),
+    type: new NumberField({ initial: 0.4, min: 0.1, max: 1, step: 0.1, nullable: false }),
     config: true,
     name: "ARTICHRON.Setting.TemplateAreaThreshold",
     hint: "ARTICHRON.Setting.TemplateAreaThresholdHint",
@@ -34,9 +35,7 @@ export default function registerSettings() {
   game.settings.register(id, "tokenBarLength", {
     scope: "world",
     requiresReload: false,
-    type: new foundry.data.fields.NumberField({
-      initial: 120, min: 45, max: 180, step: 5, nullable: false,
-    }),
+    type: new NumberField({ initial: 120, min: 45, max: 180, step: 5, nullable: false }),
     config: true,
     name: "ARTICHRON.Setting.TokenBarLength",
     hint: "ARTICHRON.Setting.TokenBarLengthHint",
@@ -48,7 +47,7 @@ export default function registerSettings() {
   game.settings.register(id, "combatTrackerCollapsed", {
     scope: "client",
     requiresReload: false,
-    type: new foundry.data.fields.BooleanField({ initial: false }),
+    type: new BooleanField({ initial: false }),
     config: false,
   });
 
@@ -58,7 +57,7 @@ export default function registerSettings() {
   game.settings.register(id, "compactItems", {
     scope: "client",
     requiresReload: false,
-    type: new foundry.data.fields.BooleanField({ initial: true }),
+    type: new BooleanField({ initial: true }),
     config: true,
     name: "ARTICHRON.Setting.CompactItems",
     hint: "ARTICHRON.Setting.CompactItemsHint",
@@ -74,7 +73,7 @@ export default function registerSettings() {
   class PrimaryPartyModel extends foundry.abstract.DataModel {
     /** @override */
     static defineSchema() {
-      return { actor: new foundry.data.fields.ForeignDocumentField(foundry.documents.BaseActor, {
+      return { actor: new ForeignDocumentField(foundry.documents.BaseActor, {
         blank: true,
         validate: id => !game.actors || (game.actors.get(id)?.type === "party"),
         validationError: "This is not a valid id for a Party-type actor.",
