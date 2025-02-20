@@ -1,3 +1,5 @@
+import TokenDocumentArtichron from "../documents/token.mjs";
+
 export { default as sockets } from "./sockets.mjs";
 
 /**
@@ -122,15 +124,16 @@ export const macro = {
 
 /**
  * Find all occupied grid spaces of a token.
- * @param {TokenArtichron} token      The token on the scene.
+ * @param {TokenDocumentArtichron} token      The token on the scene.
  * @returns {import("./types.mjs").Point}
  */
 export function getOccupiedGridSpaces(token) {
-  if (canvas.grid.type === CONST.GRID_TYPES.GRIDLESS) {
-    return { ...token.center };
+  if (token.parent.grid.type === CONST.GRID_TYPES.GRIDLESS) {
+    const { x, y, elevation, width, height, shape } = token._source;
+    return token.getCenterPoint({ x, y, elevation, width, height, shape });
   }
-  const offsets = token.document.getOccupiedGridSpaceOffsets();
-  return offsets.map(p => canvas.grid.getCenterPoint(p));
+  const offsets = token.getOccupiedGridSpaceOffsets();
+  return offsets.map(p => ({ ...token.parent.grid.getCenterPoint(p), elevation: token.elevation }));
 }
 
 /* -------------------------------------------------- */
@@ -142,8 +145,8 @@ export function getOccupiedGridSpaces(token) {
  * @returns {number}
  */
 export function getMinimumDistanceBetweenTokens(A, B) {
-  A = getOccupiedGridSpaces(A);
-  B = getOccupiedGridSpaces(B);
+  A = getOccupiedGridSpaces(A.document);
+  B = getOccupiedGridSpaces(B.document);
   let min = Infinity;
   for (const p of A) {
     for (const q of B) {
