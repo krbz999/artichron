@@ -68,4 +68,20 @@ export default class TokenDocumentArtichron extends TokenDocument {
 
     return groups;
   }
+
+  /* -------------------------------------------------- */
+
+  /** @inheritdoc */
+  _preUpdateMovement(movement, operation) {
+    // TODO: Update this method to remove the spent resource at each waypoint,
+    // once https://github.com/foundryvtt/foundryvtt/issues/12170 is resolved.
+    if (!this.actor?.system.health) return;
+    const { passed: current, pending } = movement;
+    const hp = this.actor.system.health.value;
+    const total = current.cost + pending.cost;
+    if (total > hp) {
+      ui.notifications.warn("NOT ENOUGH HP!");
+      return false;
+    }
+  }
 }
