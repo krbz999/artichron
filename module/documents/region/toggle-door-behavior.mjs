@@ -54,7 +54,7 @@ export default class DoorStateBehaviorData extends foundry.data.regionBehaviors.
       if (!wall || (wall.door === CONST.WALL_DOOR_TYPES.NONE)) continue;
       updates.push({ _id: wall.id, ds: this.state });
     }
-    await CanvasAnimation.getAnimation(event.data.token.object?.animationName)?.promise;
+    await event.data.token.object?.movementAnimationPromise;
     this.scene.updateEmbeddedDocuments("Wall", updates);
   }
 }
