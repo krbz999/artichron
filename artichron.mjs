@@ -204,14 +204,14 @@ Hooks.once("i18nInit", function() {
   }
 
   // Localize data models. TODO: Unsure if still needed.
-  // for (const model of Object.values(artichron.data.ArmorRequirementData.TYPES)) {
-  //   Localization.localizeDataModel(model);
-  //   const meta = model.metadata;
-  //   model.metadata = foundry.utils.mergeObject(meta, {
-  //     label: game.i18n.localize(meta.label),
-  //     hint: game.i18n.localize(meta.hint),
-  //   }, { inplace: false });
-  // }
+  for (const model of Object.values(artichron.data.ArmorRequirementData.TYPES)) {
+    Localization.localizeDataModel(model);
+    const meta = model.metadata;
+    model.metadata = foundry.utils.mergeObject(meta, {
+      label: game.i18n.localize(meta.label),
+      hint: game.i18n.localize(meta.hint),
+    }, { inplace: false });
+  }
 
   // for (const model of Object.values(artichron.data.ProgressionData.TYPES)) {
   //   Localization.localizeDataModel(model);
@@ -222,7 +222,7 @@ Hooks.once("i18nInit", function() {
   // for (const cls of Object.values(clocks)) Localization.localizeDataModel(cls);
 
   // Localize activities.
-  // for (const model of Object.values(artichron.activities)) Localization.localizeDataModel(model);
+  for (const model of Object.values(artichron.activities)) Localization.localizeDataModel(model);
 
   // Localize formula models.
   // Localization.localizeDataModel(artichron.data.FormulaModel);
