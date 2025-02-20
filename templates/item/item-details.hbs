@@ -8,7 +8,7 @@
       <label>{{details.attributes.levels.field.label}}</label>
       <div class="form-fields">
         {{#each details.attributes.levels.fields}}
-        {{formGroup field value=value classes="label-top" disabled=@root.isPlayMode placeholder=1}}
+        {{formGroup field value=value name=name label=label classes="label-top" disabled=@root.isPlayMode placeholder=1}}
         {{/each}}
       </div>
       <p class="hint">{{details.attributes.levels.field.hint}}</p>

@@ -1,10 +1,12 @@
 import ActivitySelectDialog from "../../applications/item/activity-select-dialog.mjs";
 import BaseActivity from "../activity/base-activity.mjs";
 import CollectionField from "../data/fields/collection-field.mjs";
-import ConditionLevelsField from "../data/condition-levels.mjs";
 import IdentifierField from "../data/fields/identifier-field.mjs";
 
-const { EmbeddedDataField, HTMLField, NumberField, SchemaField, SetField, StringField } = foundry.data.fields;
+const {
+  EmbeddedDataField, HTMLField, NumberField,
+  SchemaField, SetField, StringField, TypedObjectField,
+} = foundry.data.fields;
 
 export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
   /**
@@ -50,7 +52,11 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
         value: new SetField(new StringField({
           choices: () => this._attributeChoices(),
         })),
-        levels: new EmbeddedDataField(ConditionLevelsField),
+        levels: new TypedObjectField(new NumberField({
+          min: 1, nullable: true, integer: true,
+        }), { validateKey: key => {
+          return Object.values(CONFIG.SYSTEM.ITEM_ATTRIBUTES).some(attr => attr.status === key);
+        } }),
       }),
     };
   }
@@ -354,5 +360,8 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
   /** @override */
   prepareDerivedData() {
     this.weight.total = this.weight.value * (this.quantity?.value ?? 1);
+    for (const k of Object.keys(this.attributes.levels)) {
+      this.attributes.levels[k] ??= 1;
+    }
   }
 }

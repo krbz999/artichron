@@ -123,7 +123,11 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
       const status = CONFIG.SYSTEM.ITEM_ATTRIBUTES[attr]?.status;
       if (status) {
         const path = `attributes.levels.${status}`;
-        context.details.attributes.levels.fields.push(this._makeField(context, path));
+        const name = `system.${path}`;
+        const label = game.i18n.localize(`ARTICHRON.CONDITIONS.FIELDS.${status}.label`);
+        const field = this.document.system.schema.getField("attributes.levels.element");
+        const value = foundry.utils.getProperty(this.isEditMode ? src.system : doc.system, path);
+        context.details.attributes.levels.fields.push({ name, label, field, value });
       }
     }
 
