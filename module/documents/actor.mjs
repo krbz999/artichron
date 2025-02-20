@@ -646,7 +646,7 @@ export default class ActorArtichron extends Actor {
 
   /**
    * Render a dialog to adjust the action points.
-   * @returns {Promise}
+   * @returns {Promise<ActorArtichron|null>}
    */
   async actionPointsDialog() {
     if (!this.inCombat) return null;
@@ -654,7 +654,7 @@ export default class ActorArtichron extends Actor {
     const max = Math.max(this.system.pips.value, 15);
     const value = this.system.pips.value;
     const content = field.toFormGroup({ localize: true }, { max: max, value: value });
-    foundry.applications.api.DialogV2.prompt({
+    return foundry.applications.api.DialogV2.prompt({
       content: `<fieldset>${content.outerHTML}</fieldset>`,
       modal: true,
       window: { title: field.label, icon: "fa-solid fa-circle" },
