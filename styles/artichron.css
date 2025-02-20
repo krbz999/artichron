@@ -117,7 +117,7 @@ dialog:-internal-dialog-in-top-layer::backdrop {
 /* General application styling */
 .application.artichron {
   .window-content {
-    & input, select {
+    & input:not([type=checkbox]), select {
       &:disabled {
         background: none;
         border: none;
