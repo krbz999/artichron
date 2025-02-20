@@ -17,7 +17,7 @@ export default class EnterStoreBehaviorData extends foundry.data.regionBehaviors
 
   /** @override */
   static events = {
-    [CONST.REGION_EVENTS.TOKEN_ENTER]: EnterStoreBehaviorData.#onTokenEnter,
+    [CONST.REGION_EVENTS.TOKEN_MOVE_IN]: EnterStoreBehaviorData.#onTokenEnter,
   };
 
   /* -------------------------------------------------- */
@@ -56,7 +56,11 @@ export default class EnterStoreBehaviorData extends foundry.data.regionBehaviors
     const isUser = (event.user === game.user) || (!game.user.isGM && event.data.token.isOwner);
     const actor = this.merchant;
     if (isUser && actor && (actor.type === "merchant")) {
-      await CanvasAnimation.getAnimation(event.data.token.object?.animationName)?.promise;
+      const endpoint = event.data.token._movement.pending[0];
+      const isEndpoint = event.data.token._movement.pending.length === 1;
+      const endpointIn = isEndpoint && event.region.testPoint(endpoint);
+      if (!endpointIn) return;
+      await event.data.token.object?.movementAnimationPromise;
       actor.sheet.render({ force: true }).then(() => foundry.audio.AudioHelper.play({
         src: "systems/artichron/assets/sounds/shop-bell.wav",
         channel: "interface",
