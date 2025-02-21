@@ -48,7 +48,7 @@ export default class MerchantSheet extends ActorSheetArtichron {
     context.cart = cart;
     context.actor = this.document;
     context.isOwner = this.document.isOwner;
-    context.label = this.document.system.shop || this.document.name;
+    context.label = this.document.system.shop.name;
     context.isGM = game.user.isGM;
     return context;
   }
@@ -58,7 +58,12 @@ export default class MerchantSheet extends ActorSheetArtichron {
   /** @override */
   async _prepareItems() {
     const items = { stock: {}, cart: [] };
-    const staged = this.document.system.stagedItems;
+    const staged = Object.entries(this.document.system.shop.staged).reduce((acc, [actorId, itemIds]) => {
+      const actor = game.actors.get(actorId);
+      if (!actor) return acc;
+      const items = new Set(Array.from(itemIds).map(itemId => this.document.items.get(itemId)).filter(_ => _));
+      return acc.union(items);
+    }, new Set());
 
     for (const item of this.document.items) {
       const isStaged = staged.has(item);
@@ -111,6 +116,11 @@ export default class MerchantSheet extends ActorSheetArtichron {
       return false;
     };
 
+    const defaultActor = () => {
+      if (game.user.character) return game.user.character.id;
+      return game.settings.get("artichron", "primaryParty").actor.id;
+    };
+
     // Staging an item.
     const stageDrop = new DragDrop({
       dragSelector: ".stock inventory-item",
@@ -125,7 +135,14 @@ export default class MerchantSheet extends ActorSheetArtichron {
           event.preventDefault();
           const item = await fromUuid(TextEditor.getDragEventData(event).uuid);
           this._expandedItems.delete(item.uuid);
-          artichron.utils.sockets.stageMerchantItem(item);
+          game.users.activeGM?.query("merchant", {
+            type: "stage",
+            config: {
+              itemId: item.id,
+              actorId: defaultActor(),
+              merchantId: this.document.id,
+            },
+          });
         },
       },
     });
@@ -145,7 +162,14 @@ export default class MerchantSheet extends ActorSheetArtichron {
           event.preventDefault();
           const item = await fromUuid(TextEditor.getDragEventData(event).uuid);
           this._expandedItems.delete(item.uuid);
-          artichron.utils.sockets.unstageMerchantItem(item);
+          game.users.activeGM?.query("merchant", {
+            type: "unstage",
+            config: {
+              itemId: item.id,
+              actorId: defaultActor(),
+              merchantId: this.document.id,
+            },
+          });
         },
       },
     });

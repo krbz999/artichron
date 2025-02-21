@@ -309,7 +309,9 @@
       }
     },
     "shop": {
-      "label": "Shop"
+      "name": {
+        "label": "Shop"
+      }
     },
     "skills": {
       "agility": {

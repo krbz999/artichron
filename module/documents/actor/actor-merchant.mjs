@@ -1,8 +1,9 @@
 import ActorArtichron from "../actor.mjs";
+import ChatMessageArtichron from "../chat-message.mjs";
 import ItemArtichron from "../item.mjs";
 import ActorSystemModel from "./system-model.mjs";
 
-const { HTMLField, SchemaField, StringField } = foundry.data.fields;
+const { DocumentIdField, HTMLField, SchemaField, SetField, StringField, TypedObjectField } = foundry.data.fields;
 
 export default class MerchantData extends ActorSystemModel {
   /**
@@ -18,7 +19,12 @@ export default class MerchantData extends ActorSystemModel {
   /** @override */
   static defineSchema() {
     return Object.assign(super.defineSchema(), {
-      shop: new StringField({ required: true }),
+      shop: new SchemaField({
+        name: new StringField({ required: true }),
+        staged: new TypedObjectField(new SetField(new DocumentIdField()), {
+          validateKey: key => foundry.data.validators.isValidId(key),
+        }),
+      }),
       biography: new SchemaField({
         value: new HTMLField({ required: true }),
       }),
@@ -29,110 +35,120 @@ export default class MerchantData extends ActorSystemModel {
   /*   Preparation methods                              */
   /* -------------------------------------------------- */
 
+  /** @inheritdoc */
+  prepareDerivedData() {
+    super.prepareDerivedData();
+
+    this.shop.name ||= this.parent.name;
+
+    for (const ids of Object.values(this.shop.staged)) {
+      for (const id of ids)
+        if (!this.parent.items.has(id))
+          ids.delete(id);
+    }
+  }
+
   /* -------------------------------------------------- */
   /*   Instance methods                                 */
   /* -------------------------------------------------- */
 
   /**
    * Move an item from the stock area to the cart area.
-   * @param {ItemArtichron} item      The item to move.
-   * @returns {Promise<boolean>}      Whether the item was moved.
+   * @param {ActorArtichron} actor      The actor making the purchase.
+   * @param {ItemArtichron} item        The item being purchased.
+   * @returns {Promise<boolean>}        Whether the item was moved.
    */
-  async stageItem(item) {
-    const items = this.stagedItems;
-    const bool = items.has(item);
-    if (!bool) {
-      items.add(item);
-      await this.parent.setFlag("artichron", "stagedItems", Array.from(items).map(k => k.id));
+  async stageItem(actor, item) {
+    if (item.parent !== this.parent) {
+      throw new Error("You cannot stage an item the merchant does not have.");
     }
-    return !bool;
+    const ids = [...this.shop.staged[actor.id] ?? []];
+    ids.push(item.id);
+    await this.parent.update({ [`system.shop.staged.${actor.id}`]: ids });
+    return true;
   }
 
   /* -------------------------------------------------- */
 
   /**
    * Move an item from the cart area to the stock area.
-   * @param {ItemArtichron} item      The item to move.
-   * @returns {Promise<boolean>}      Whether the item was moved.
+   * @param {ActorArtichron} actor      The actor cancelling the purchase.
+   * @param {ItemArtichron} item        The item being cancelled.
+   * @returns {Promise<boolean>}        Whether the item was moved.
    */
-  async unstageItem(item) {
-    const items = this.stagedItems;
-    const bool = items.has(item);
-    if (bool) {
-      items.delete(item);
-      await this.parent.setFlag("artichron", "stagedItems", Array.from(items).map(k => k.id));
+  async unstageItem(actor, item) {
+    const ids = this.shop.staged[actor.id] ?? new Set();
+    if (!ids.has(item.id)) {
+      throw new Error("You cannot unstage an item that is not staged.");
     }
-    return bool;
+    ids.delete(item.id);
+    await this.parent.update({ [`system.shop.staged.${actor.id}`]: [...ids] });
+    return true;
   }
 
   /* -------------------------------------------------- */
 
   /**
    * Complete the purchase of any items in the cart.
-   * @returns {Promise<ItemArtichron[]>}      A promise that resolves to the purchased, created items.
+   * @param {object} [options]                Purchasing options.
+   * @param {boolean} [options.displayChat]   Whether to display a chat message with a receipt.
+   * @returns {Promise}
    */
-  async finalizePurchase() {
-    const items = this.stagedItems;
-    if (!items.size) return;
-
-    const party = game.settings.get("artichron", "primaryParty").actor;
-    if (!this.parent.isOwner || !party?.isOwner) {
-      throw new Error("You must be owner of both the primary party and the merchant to finalize a purchase!");
+  async finalizePurchase({ displayChat = true } = {}) {
+    if (!this.parent.isOwner) {
+      throw new Error(`You are not owner of merchant ${this.parent.uuid}.`);
     }
 
-    const total = items.reduce((acc, item) => acc + item.system.price.value, 0);
-    const funds = party.system.currency.funds;
-    if (total > funds) throw new Error("You do not have sufficient funds.");
+    const toDelete = [];
+    /** @type {Map<ActorArtichron, Set<ItemArtichron>>} */
+    const toCreate = new Map();
 
-    const itemData = Array.from(items).map(item => game.items.fromCompendium(item));
-    const created = await party.createEmbeddedDocuments("Item", itemData);
-    await party.update({ "system.currency.funds": funds - total });
-    await this.parent.deleteEmbeddedDocuments("Item", Array.from(items).map(item => item.id));
-    await this.parent.setFlag("artichron", "stagedItems", []);
+    for (const [actorId, itemIds] of Object.entries(this.shop.staged)) {
+      const actor = game.actors.get(actorId);
+      if (!actor) continue;
 
-    this.#createReceipt(party, created, total);
+      if (!actor.isOwner) throw new Error(`You are not owner of actor ${actor.uuid}.`);
 
-    return created;
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Create a chat message showing what was purchased.
-   * @param {ActorArtichron} party      The party actor.
-   * @param {ItemArtichron[]} items     The purchased items.
-   * @param {number} total              The amount spent.
-   */
-  async #createReceipt(party, items, total) {
-    const template = "systems/artichron/templates/chat/receipt.hbs";
-    const context = {
-      name: party.name,
-      total: total,
-      items: items,
-      shop: this.parent.system.shop || this.parent.name,
-    };
-    const content = await renderTemplate(template, context);
-    ChatMessage.implementation.create({
-      content: content,
-      speaker: ChatMessage.implementation.getSpeaker({ actor: this.parent }),
-    });
-  }
-
-  /* -------------------------------------------------- */
-  /*   Properties                                       */
-  /* -------------------------------------------------- */
-
-  /**
-   * The items that are currently in the 'cart' area.
-   * @type {Set<ItemArtichron>}
-   */
-  get stagedItems() {
-    const ids = this.parent.getFlag("artichron", "stagedItems") ?? [];
-    const items = new Set();
-    for (const id of ids) {
-      const item = this.parent.items.get(id);
-      if (item) items.add(item);
+      if (!toCreate.get(actor)) toCreate.set(actor, new Set());
+      const items = toCreate.get(actor);
+      for (const itemId of itemIds) {
+        const item = this.parent.items.get(itemId);
+        if (!item) continue;
+        if (toDelete.includes(itemId)) {
+          throw new Error(`Item with uuid ${item.uuid} has been staged twice.`);
+        }
+        items.add(item);
+        toDelete.push(item.id);
+      }
     }
-    return items;
+
+    const receipt = [];
+    let spent = 0;
+    await this.parent.deleteEmbeddedDocuments("Item", toDelete, { isShopping: true });
+    for (const [actor, items] of toCreate.entries()) {
+      if (!items.size) continue;
+      const itemData = Array.from(items).map(item => game.items.fromCompendium(item));
+      const created = await actor.createEmbeddedDocuments("Item", itemData, { isShopping: true });
+      const total = created.reduce((acc, item) => acc + item.system.price.value, 0);
+      await actor.update({ "system.currency.value": actor.system.currency.value - total });
+      receipt.push({
+        actor, total,
+        items: created,
+      });
+      spent += total;
+    }
+
+    if (displayChat) {
+      const template = "systems/artichron/templates/chat/receipt.hbs";
+      const context = {
+        customers: receipt,
+        shop: this.shop.name,
+        total: spent,
+      };
+      ChatMessageArtichron.create({
+        content: await renderTemplate(template, context),
+        speaker: ChatMessageArtichron.getSpeaker({ actor: this.parent }),
+      });
+    }
   }
 }

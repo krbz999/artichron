@@ -3,6 +3,20 @@
  */
 export function registerSockets() {
   game.socket.on("system.artichron", handleSocket);
+
+  CONFIG.queries.merchant = ({ type, config }) => {
+    const merchant = game.actors.get(config.merchantId);
+    const actor = game.actors.get(config.actorId);
+    const item = merchant.items.get(config.itemId);
+    switch (type) {
+      case "stage":
+        merchant.system.stageItem(actor, item);
+        break;
+      case "unstage":
+        merchant.system.unstageItem(actor, item);
+        break;
+    }
+  };
 }
 
 /* -------------------------------------------------- */
@@ -15,8 +29,6 @@ function handleSocket({ action, ...data }) {
   switch (action) {
     case "grantBuff": return _grantBuff(data);
     case "acceptTrade": return _acceptTrade(data);
-    case "stageMerchantItem": return _stageMerchantItem(data);
-    case "unstageMerchantItem": return _unstageMerchantItem(data);
     default: return null;
   }
 }
@@ -26,8 +38,6 @@ function handleSocket({ action, ...data }) {
 export default {
   grantBuff: createBuffEmit,
   acceptTrade: acceptTradeEmit,
-  stageMerchantItem: stageMerchantItemEmit,
-  unstageMerchantItem: unstageMerchantItemEmit,
 };
 
 /* -------------------------------------------------- */
@@ -123,95 +133,5 @@ async function createBuffEmit(effect, actor, options = {}) {
   };
 
   if (userId === game.user.id) return _grantBuff(data);
-  game.socket.emit("system.artichron", data);
-}
-
-/* -------------------------------------------------- */
-/*   Staging merchant items                           */
-/* -------------------------------------------------- */
-
-/**
- * Retrieve an item via uuid and mark it as 'staged' on the merchant.
- * @param {object} data               Emitted data.
- * @param {string} data.userId        The id of the user to handle the event.
- * @param {string} data.itemUuid      Uuid of the item to stage.
- */
-async function _stageMerchantItem({ userId, itemUuid }) {
-  if (userId !== game.user.id) return;
-  const item = await fromUuid(itemUuid);
-  const merchant = item.parent;
-  merchant.system.stageItem(item);
-}
-
-/* -------------------------------------------------- */
-
-/**
- * Emit the event to stage an item on a merchant.
- * @param {ItemArtichron} item      The item to stage.
- * @returns {Promise}
- */
-async function stageMerchantItemEmit(item) {
-  if (!item?.isEmbedded) return;
-  const userId = item.actor.isOwner ? game.user.id : game.users.find(u => {
-    return u.active && item.actor.testUserPermission(u, "OWNER");
-  })?.id;
-
-  if (!userId) {
-    ui.notifications.warn("ARTICHRON.Warning.CannotEmitRequest", { localize: true });
-    return false;
-  }
-
-  const data = {
-    action: "stageMerchantItem",
-    userId: userId,
-    itemUuid: item.uuid,
-  };
-
-  if (userId === game.user.id) return _stageMerchantItem(data);
-  game.socket.emit("system.artichron", data);
-}
-
-/* -------------------------------------------------- */
-/*   Unstaging merchant items                         */
-/* -------------------------------------------------- */
-
-/**
- * Retrieve an item via uuid and mark it as 'unstaged' on the merchant.
- * @param {object} data               Emitted data.
- * @param {string} data.userId        The id of the user to handle the event.
- * @param {string} data.itemUuid      Uuid of the item to unstage.
- */
-async function _unstageMerchantItem({ userId, itemUuid }) {
-  if (userId !== game.user.id) return;
-  const item = await fromUuid(itemUuid);
-  const merchant = item.parent;
-  merchant.system.unstageItem(item);
-}
-
-/* -------------------------------------------------- */
-
-/**
- * Emit the event to unstage an item on a merchant.
- * @param {ItemArtichron} item      The item to unstage.
- * @returns {Promise}
- */
-async function unstageMerchantItemEmit(item) {
-  if (!item?.isEmbedded) return;
-  const userId = item.actor.isOwner ? game.user.id : game.users.find(u => {
-    return u.active && item.actor.testUserPermission(u, "OWNER");
-  })?.id;
-
-  if (!userId) {
-    ui.notifications.warn("ARTICHRON.Warning.CannotEmitRequest", { localize: true });
-    return false;
-  }
-
-  const data = {
-    action: "unstageMerchantItem",
-    userId: userId,
-    itemUuid: item.uuid,
-  };
-
-  if (userId === game.user.id) return _unstageMerchantItem(data);
   game.socket.emit("system.artichron", data);
 }
