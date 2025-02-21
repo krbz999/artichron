@@ -114,19 +114,17 @@ export default class PartyData extends ActorSystemModel {
     for (const p of placements) {
       const { x, y, rotation } = p;
       const id = foundry.utils.randomID();
-      movements.push({ x, y, rotation, alpha: 1, _id: id });
+      movements.push({ x, y, rotation, _id: id });
       const token = await p.prototypeToken.parent.getTokenDocument(origin ? {
-        x: origin.document.x, y: origin.document.y, alpha: 0,
+        x: origin.document.x, y: origin.document.y,
       } : { x, y, rotation });
       tokenData.push(foundry.utils.mergeObject(token.toObject(), { _id: id }));
     }
     const created = await canvas.scene.createEmbeddedDocuments("Token", tokenData, { keepId: true });
-
     if (origin) {
       await new Promise(r => setTimeout(r, 100));
-      await canvas.scene.updateEmbeddedDocuments("Token", movements, {
-        animation: { duration: 1000, easing: "easeInOutCosine" },
-      });
+      const options = { autoRotate: true, animation: { duration: 1000, easing: "easeInOutCosine" } };
+      created.map((token, i) => token.move([movements[i]], options));
     }
 
     return created;

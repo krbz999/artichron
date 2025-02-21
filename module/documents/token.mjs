@@ -16,15 +16,14 @@ export default class TokenDocumentArtichron extends TokenDocument {
         if (!token.actor.isToken) tokens.push(token);
       }
     }
-    const updates = tokens.map(token => {
-      return { _id: token.id, x: this.x, y: this.y };
-    });
-    await this.parent.updateEmbeddedDocuments("Token", updates, {
-      animation: { duration: 1000, easing: "easeInOutCosine" },
-    });
+
+    const options = { autoRotate: true, animation: { duration: 1000, easing: "easeInOutCosine" } };
+    await Promise.all(tokens.map(token => token.document.move([{
+      x: this.x, y: this.y, elevation: this.elevation,
+    }], options)));
     const ids = tokens.map(token => token.id);
 
-    for (const token of tokens) await CanvasAnimation.getAnimation(token.animationName)?.promise;
+    for (const token of tokens) await token.movementAnimationPromise;
     this.parent.deleteEmbeddedDocuments("Token", ids);
   }
 
@@ -75,7 +74,7 @@ export default class TokenDocumentArtichron extends TokenDocument {
   _preUpdateMovement(movement, operation) {
     // TODO: Update this method to remove the spent resource at each waypoint,
     // once https://github.com/foundryvtt/foundryvtt/issues/12170 is resolved.
-    if (!this.actor?.system.health) return;
+    if (!this.actor?.system.health || !this.actor.inCombat) return;
     const { passed: current, pending } = movement;
     const hp = this.actor.system.health.value;
     const total = current.cost + pending.cost;

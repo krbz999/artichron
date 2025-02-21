@@ -395,7 +395,7 @@ export default class ActorArtichron extends Actor {
     // Center onto token.
     const [token] = this.isToken ? [this.token?.object] : this.getActiveTokens();
     if (token) canvas.animatePan({
-      ...token.center, duration: 500, easing: CanvasAnimation.easeOutCircle,
+      ...token.center, duration: 500, easing: foundry.canvas.animation.CanvasAnimation.easeOutCircle,
     });
 
     const content = `
