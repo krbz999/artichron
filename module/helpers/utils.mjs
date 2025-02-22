@@ -177,10 +177,12 @@ export async function awaitTargets(count, { origin, range, allowPreTarget = fals
   // Pad the range due to the token size.
   if (useRange) range += (canvas.grid.distance * origin.document.width * .5);
 
+  let progressId;
   const bar = (v) => {
     const label = !count ? "" : `Pick ${count} targets (${v}/${count})`;
-    const pct = !count ? 100 : (v / count * 100).toNearest(0.1);
-    SceneNavigation.displayProgressBar({ label: label, pct: pct });
+    const pct = !count ? 1 : (v / count).toNearest(0.1);
+    if (progressId) ui.notifications.update(progressId, { pct: pct });
+    else progressId = ui.notifications.info(label, { pct, progress: true });
   };
 
   const isValidTokenTarget = (t) => {
@@ -189,73 +191,67 @@ export async function awaitTargets(count, { origin, range, allowPreTarget = fals
   };
 
   // Set initial targets.
-  if (!allowPreTarget || (game.user.targets.size > count)) await game.user.updateTokenTargets();
+  if (!allowPreTarget || (game.user.targets.size > count)) await canvas.tokens.setTargets([], { mode: "replace" });
   else for (const t of game.user.targets) if (!isValidTokenTarget(t)) removeTarget(t);
 
-  return new Promise(resolve => {
-    let value = game.user.targets.size;
-    let id;
+  const { promise, resolve, reject } = Promise.withResolvers();
 
-    const finish = () => {
-      delete game.user._targeting;
-      resolve(Array.from(game.user.targets).map(token => token.document));
-    };
+  let value = game.user.targets.size;
+  let id;
 
-    if (count === value) {
+  const finish = () => {
+    delete game.user._targeting;
+    resolve(Array.from(game.user.targets).map(token => token.document));
+  };
+
+  if (count === value) {
+    finish();
+    return;
+  }
+
+  let c;
+  if (useRange) {
+    const points = canvas.grid.getCircle({ x: 0, y: 0 }, range).reduce((acc, p) => acc.concat(Object.values(p)), []);
+    c = new PIXI.Graphics();
+    c.lineStyle({ width: 4, color: 0x000000, alpha: 1 });
+    c.drawShape(new PIXI.Polygon(points));
+    c.pivot.set(-(origin.center.x - origin.document.x), -(origin.center.y - origin.document.y));
+    origin.addChild(c);
+  }
+
+  bar(0);
+
+  canvas.app.view.oncontextmenu = (event) => {
+    if (!event.shiftKey) return;
+    count--;
+    value = game.user.targets.size;
+    bar(value);
+    if (value === count) {
+      Hooks.off("targetToken", id);
+      canvas.app.view.oncontextmenu = null;
+      c?.destroy();
       finish();
+    }
+  };
+
+  id = Hooks.on("targetToken", (user, token, bool) => {
+    if (game.user !== user) return;
+    if (bool && !isValidTokenTarget(token)) {
+      removeTarget(token);
+      ui.notifications.warn("The targeted token is outside the range!");
       return;
     }
-
-    ui.notifications.info(`Pick ${count} targets`);
-
-    let c;
-    if (useRange) {
-      const points = canvas.grid.getCircle({ x: 0, y: 0 }, range).reduce((acc, p) => acc.concat(Object.values(p)), []);
-      // const shape = CONFIG.Canvas.polygonBackends.move.create(center, {
-      //   type: "move",
-      //   boundaryShapes: [new PIXI.Polygon(points)],
-      //   debug: false
-      // });
-
-      c = new PIXI.Graphics();
-      c.lineStyle({ width: 4, color: 0x000000, alpha: 1 });
-      c.drawShape(new PIXI.Polygon(points));
-      c.pivot.set(-(origin.center.x - origin.document.x), -(origin.center.y - origin.document.y));
-      origin.addChild(c);
+    value = game.user.targets.size;
+    bar(value);
+    if (value === count) {
+      Hooks.off("targetToken", id);
+      canvas.app.view.oncontextmenu = null;
+      c?.destroy();
+      finish();
     }
-
-    bar(0);
-
-    canvas.app.view.oncontextmenu = (event) => {
-      if (!event.shiftKey) return;
-      count--;
-      value = game.user.targets.size;
-      bar(value);
-      if (value === count) {
-        Hooks.off("targetToken", id);
-        canvas.app.view.oncontextmenu = null;
-        c?.destroy();
-        finish();
-      }
-    };
-
-    id = Hooks.on("targetToken", (user, token, bool) => {
-      if (game.user !== user) return;
-      if (bool && !isValidTokenTarget(token)) {
-        removeTarget(token);
-        ui.notifications.warn("The targeted token is outside the range!");
-        return;
-      }
-      value = game.user.targets.size;
-      bar(value);
-      if (value === count) {
-        Hooks.off("targetToken", id);
-        canvas.app.view.oncontextmenu = null;
-        c?.destroy();
-        finish();
-      }
-    });
   });
+
+  return promise;
 }
 
 /* -------------------------------------------------- */
