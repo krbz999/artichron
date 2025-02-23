@@ -1,8 +1,9 @@
 import ArmorRequirementData from "../data/armor-requirements.mjs";
+import CollectionField from "../data/fields/collection-field.mjs";
 import ItemSystemModel from "./system-model.mjs";
 import FusionTemplateMixin from "./templates/fusion-data.mjs";
 
-const { ArrayField, NumberField, SchemaField, StringField, TypedSchemaField } = foundry.data.fields;
+const { NumberField, SchemaField, StringField } = foundry.data.fields;
 
 export default class ArmorData extends ItemSystemModel.mixin(
   FusionTemplateMixin,
@@ -38,7 +39,7 @@ export default class ArmorData extends ItemSystemModel.mixin(
           initial: () => Object.keys(CONFIG.SYSTEM.EQUIPMENT_TYPES)[0],
           choices: CONFIG.SYSTEM.EQUIPMENT_TYPES,
         }),
-        requirements: new ArrayField(new TypedSchemaField(ArmorRequirementData.TYPES)),
+        requirements: new CollectionField(ArmorRequirementData),
       }),
       defenses: new SchemaField(CONFIG.SYSTEM.DAMAGE_TYPES.optgroups.reduce((acc, { value: k }) => {
         acc[k] = new SchemaField({ value: new NumberField({ integer: true, initial: null }) });

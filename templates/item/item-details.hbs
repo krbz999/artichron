@@ -67,7 +67,7 @@
       {{/if}}
     </legend>
     {{#each armorRequirements}}
-    <div class="form-fields" data-idx="{{idx}}">
+    <div class="form-fields" data-id="{{id}}">
       {{#each fields}}
       {{formInput field value=value name=name disabled=@root.isPlayMode placeholder=(localize field.options.placeholder)}}
       {{/each}}

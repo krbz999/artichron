@@ -1,19 +1,17 @@
-const { NumberField, StringField } = foundry.data.fields;
+const { DocumentIdField, NumberField, StringField } = foundry.data.fields;
 
 export default class ArmorRequirementData extends foundry.abstract.DataModel {
   /** @override */
   static defineSchema() {
     return {
+      _id: new DocumentIdField({ initial: () => foundry.utils.randomID() }),
       type: new StringField({
         required: true,
         blank: false,
+        readonly: true,
         initial: this.TYPE,
         validate: value => value === this.TYPE,
         validationError: `must be equal to "${this.TYPE}"`,
-        choices: () => Object.entries(ArmorRequirementData.TYPES).reduce((acc, [k, v]) => {
-          acc[k] = v.metadata.label;
-          return acc;
-        }, {}),
       }),
     };
   }
@@ -57,6 +55,16 @@ export default class ArmorRequirementData extends foundry.abstract.DataModel {
   /* -------------------------------------------------- */
 
   /**
+   * The id of this requirement.
+   * @type {string}
+   */
+  get id() {
+    return this._id;
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
    * The item this data model is embedded on.
    * @type {ItemArtichron}
    */
@@ -86,6 +94,8 @@ export default class ArmorRequirementData extends foundry.abstract.DataModel {
     return "";
   }
 }
+
+/* -------------------------------------------------- */
 
 class PoolRequirementData extends ArmorRequirementData {
   /** @override */
@@ -150,6 +160,8 @@ class PoolRequirementData extends ArmorRequirementData {
   }
 }
 
+/* -------------------------------------------------- */
+
 class HealthRequirementData extends ArmorRequirementData {
   /** @override */
   static defineSchema() {
@@ -206,6 +218,8 @@ class HealthRequirementData extends ArmorRequirementData {
     });
   }
 }
+
+/* -------------------------------------------------- */
 
 class SkillRequirementData extends ArmorRequirementData {
   /** @override */
@@ -269,6 +283,8 @@ class SkillRequirementData extends ArmorRequirementData {
     });
   }
 }
+
+/* -------------------------------------------------- */
 
 class LevelRequirementData extends ArmorRequirementData {
   /** @override */

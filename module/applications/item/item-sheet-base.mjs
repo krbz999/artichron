@@ -205,18 +205,22 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
     // Armor requirements.
     if (doc.isArmor) {
       const requirements = [];
-      for (const [i, r] of this.document.system.category.requirements.entries()) {
-        const _path = `system.category.requirements.${i}`;
+      const ids = Object.keys(this.document.system._source.category.requirements);
+      const current = this.document.system.category.requirements;
+
+      for (const r of current) {
+        if (!ids.includes(r.id)) continue;
         const fields = [];
         for (const field of r.schema) {
-          const name = `${_path}.${field.fieldPath}`;
-          const value = r[field.fieldPath];
+          if (field.readonly) continue;
+          const name = `system.category.requirements.${r.id}.${field.name}`;
+          const value = r[field.name];
           fields.push({ field, name, value });
         }
         requirements.push({
-          idx: i,
           fields: fields,
-          hint: r.schema.model.metadata.hint,
+          id: r.id,
+          hint: r.constructor.metadata.hint,
         });
       }
       context.armorRequirements = requirements;
@@ -325,13 +329,28 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
    * @param {PointerEvent} event      The originating click event.
    * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
    */
-  static #addRequirement(event, target) {
+  static async #addRequirement(event, target) {
     if (!this.isEditable) return;
-    const types = new Set(Object.keys(artichron.data.ArmorRequirementData.TYPES));
-    // for (const {type} of this.document.system.category.requirements) types.delete(type);
-    const requirements = this.document.system.toObject().category.requirements;
-    requirements.push({ type: types.first() });
-    this.document.update({ "system.category.requirements": requirements });
+
+    const choices = Object.entries(artichron.data.ArmorRequirementData.TYPES).reduce((acc, [k, v]) => {
+      acc[k] = v.metadata.label;
+      return acc;
+    }, {});
+
+    const html = new foundry.data.fields.StringField({
+      required: true,
+      choices: choices,
+      label: "Requirement",
+    }).toFormGroup({}, { name: "type" }).outerHTML;
+
+    const type = await foundry.applications.api.DialogV2.prompt({
+      content: `<fieldset>${html}</fieldset>`,
+      ok: { callback: (event, button) => button.form.elements.type.value },
+    });
+    if (!type) return;
+
+    const data = { type, _id: foundry.utils.randomID() };
+    this.document.update({ [`system.category.requirements.${data._id}`]: data });
   }
 
   /* -------------------------------------------------- */
@@ -344,10 +363,8 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
    */
   static #deleteRequirement(event, target) {
     if (!this.isEditable) return;
-    const idx = parseInt(target.closest("[data-idx]").dataset.idx);
-    const requirements = this.document.system.toObject().category.requirements;
-    requirements.splice(idx, 1);
-    this.document.update({ "system.category.requirements": requirements });
+    const id = target.closest("[data-id]").dataset.id;
+    this.document.update({ [`system.category.requirements.-=${id}`]: null });
   }
 
   /* -------------------------------------------------- */
