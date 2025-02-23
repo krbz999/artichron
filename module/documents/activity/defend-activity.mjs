@@ -7,7 +7,6 @@ const { EmbeddedDataField } = foundry.data.fields;
 export default class DefendActivity extends BaseActivity {
   /** @inheritdoc */
   static metadata = Object.freeze(foundry.utils.mergeObject(super.metadata, {
-    type: "defend",
     label: "ARTICHRON.ACTIVITY.Types.Defend",
   }, { inplace: false }));
 
@@ -22,10 +21,14 @@ export default class DefendActivity extends BaseActivity {
 
   /* -------------------------------------------------- */
 
-  /**
-   * Perform a defensive roll.
-   * @returns {Promise<ChatMessageArtichron|null>}
-   */
+  /** @inheritdoc */
+  static get TYPE() {
+    return "defend";
+  }
+
+  /* -------------------------------------------------- */
+
+  /** @inheritdoc */
   async use(usage, dialog, message) {
     const attr = this.item.system.attributes.value;
     if (!attr.has("blocking") && !attr.has("parrying")) {

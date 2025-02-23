@@ -1,5 +1,3 @@
-import BaseActivity from "../../documents/activity/base-activity.mjs";
-import DamageFormulaModel from "../../documents/data/damage-formula-model.mjs";
 import ItemArtichron from "../../documents/item.mjs";
 
 export default class DamageSheet extends foundry.applications.api.HandlebarsApplicationMixin(

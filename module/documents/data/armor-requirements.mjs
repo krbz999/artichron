@@ -1,48 +1,18 @@
-const { DocumentIdField, NumberField, StringField } = foundry.data.fields;
+import PseudoDocument from "./pseudo-document.mjs";
 
-export default class ArmorRequirementData extends foundry.abstract.DataModel {
-  /** @override */
-  static defineSchema() {
-    return {
-      _id: new DocumentIdField({ initial: () => foundry.utils.randomID() }),
-      type: new StringField({
-        required: true,
-        blank: false,
-        readonly: true,
-        initial: this.TYPE,
-        validate: value => value === this.TYPE,
-        validationError: `must be equal to "${this.TYPE}"`,
-      }),
-    };
-  }
+const { NumberField, StringField } = foundry.data.fields;
 
-  /* -------------------------------------------------- */
-  /*   Properties                                       */
-  /* -------------------------------------------------- */
-
-  /**
-   * Object of metadata for this data model.
-   * @type {object}
-   */
+export default class ArmorRequirementData extends PseudoDocument {
+  /** @inheritdoc */
   static metadata = Object.freeze({
+    documentName: "ArmorRequirement",
     label: "",
     hint: "",
   });
 
   /* -------------------------------------------------- */
 
-  /**
-   * The type property of this data model.
-   * @type {string}
-   */
-  static TYPE = "";
-
-  /* -------------------------------------------------- */
-
-  /**
-   * The valid types of values for requirements.
-   * @type {Record<string, ArmorRequirementData>}
-   */
+  /** @inheritdoc */
   static get TYPES() {
     return {
       [HealthRequirementData.TYPE]: HealthRequirementData,
@@ -54,12 +24,9 @@ export default class ArmorRequirementData extends foundry.abstract.DataModel {
 
   /* -------------------------------------------------- */
 
-  /**
-   * The id of this requirement.
-   * @type {string}
-   */
-  get id() {
-    return this._id;
+  /** @inheritdoc */
+  static get _path() {
+    return "system.category.requirements";
   }
 
   /* -------------------------------------------------- */
@@ -69,7 +36,7 @@ export default class ArmorRequirementData extends foundry.abstract.DataModel {
    * @type {ItemArtichron}
    */
   get item() {
-    return this.parent.parent;
+    return this.document;
   }
 
   /* -------------------------------------------------- */
@@ -98,7 +65,7 @@ export default class ArmorRequirementData extends foundry.abstract.DataModel {
 /* -------------------------------------------------- */
 
 class PoolRequirementData extends ArmorRequirementData {
-  /** @override */
+  /** @inheritdoc */
   static defineSchema() {
     return Object.assign(super.defineSchema(), {
       pool: new StringField({
@@ -120,7 +87,7 @@ class PoolRequirementData extends ArmorRequirementData {
   /*   Properties                                       */
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   static metadata = Object.freeze({
     label: "ARTICHRON.ITEM.REQUIREMENT.Pool.label",
     hint: "ARTICHRON.ITEM.REQUIREMENT.Pool.hint",
@@ -128,12 +95,14 @@ class PoolRequirementData extends ArmorRequirementData {
 
   /* -------------------------------------------------- */
 
-  /** @override */
-  static TYPE = "pool";
+  /** @inheritdoc */
+  static get TYPE() {
+    return "pool";
+  }
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   static LOCALIZATION_PREFIXES = [
     "ARTICHRON.ITEM.ArmorRequirement",
     "ARTICHRON.ITEM.REQUIREMENT.Pool",
@@ -141,7 +110,7 @@ class PoolRequirementData extends ArmorRequirementData {
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   get fulfilledRequirements() {
     if (this.item.actor.type !== "hero") return true;
     return this.item.actor.system.pools[this.pool].max >= this.value;
@@ -151,7 +120,7 @@ class PoolRequirementData extends ArmorRequirementData {
   /*   Instance methods                                 */
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   toRequirement() {
     return game.i18n.format("ARTICHRON.ITEM.REQUIREMENT.Pool.content", {
       value: this.value,
@@ -163,7 +132,7 @@ class PoolRequirementData extends ArmorRequirementData {
 /* -------------------------------------------------- */
 
 class HealthRequirementData extends ArmorRequirementData {
-  /** @override */
+  /** @inheritdoc */
   static defineSchema() {
     return Object.assign(super.defineSchema(), {
       value: new NumberField({
@@ -180,7 +149,7 @@ class HealthRequirementData extends ArmorRequirementData {
   /*   Properties                                       */
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   static metadata = Object.freeze({
     label: "ARTICHRON.ITEM.REQUIREMENT.Health.label",
     hint: "ARTICHRON.ITEM.REQUIREMENT.Health.hint",
@@ -188,12 +157,14 @@ class HealthRequirementData extends ArmorRequirementData {
 
   /* -------------------------------------------------- */
 
-  /** @override */
-  static TYPE = "health";
+  /** @inheritdoc */
+  static get TYPE() {
+    return "health";
+  }
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   static LOCALIZATION_PREFIXES = [
     "ARTICHRON.ITEM.ArmorRequirement",
     "ARTICHRON.ITEM.REQUIREMENT.Health",
@@ -201,7 +172,7 @@ class HealthRequirementData extends ArmorRequirementData {
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   get fulfilledRequirements() {
     if (this.item.actor.type !== "hero") return true;
     return this.item.actor.system.health.value >= this.value;
@@ -211,7 +182,7 @@ class HealthRequirementData extends ArmorRequirementData {
   /*   Instance methods                                 */
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   toRequirement() {
     return game.i18n.format("ARTICHRON.ITEM.REQUIREMENT.Health.content", {
       value: this.value,
@@ -222,7 +193,7 @@ class HealthRequirementData extends ArmorRequirementData {
 /* -------------------------------------------------- */
 
 class SkillRequirementData extends ArmorRequirementData {
-  /** @override */
+  /** @inheritdoc */
   static defineSchema() {
     return Object.assign(super.defineSchema(), {
       skill: new StringField({
@@ -244,7 +215,7 @@ class SkillRequirementData extends ArmorRequirementData {
   /*   Properties                                       */
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   static metadata = Object.freeze({
     label: "ARTICHRON.ITEM.REQUIREMENT.Skill.label",
     hint: "ARTICHRON.ITEM.REQUIREMENT.Skill.hint",
@@ -253,11 +224,13 @@ class SkillRequirementData extends ArmorRequirementData {
   /* -------------------------------------------------- */
 
   /** @override */
-  static TYPE = "skill";
+  static get TYPE() {
+    return "skill";
+  }
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   static LOCALIZATION_PREFIXES = [
     "ARTICHRON.ITEM.ArmorRequirement",
     "ARTICHRON.ITEM.REQUIREMENT.Skill",
@@ -265,7 +238,7 @@ class SkillRequirementData extends ArmorRequirementData {
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   get fulfilledRequirements() {
     if (this.item.actor.type !== "hero") return true;
     return this.item.actor.system.skills[this.skill].number >= this.value;
@@ -275,7 +248,7 @@ class SkillRequirementData extends ArmorRequirementData {
   /*   Instance methods                                 */
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   toRequirement() {
     return game.i18n.format("ARTICHRON.ITEM.REQUIREMENT.Skill.content", {
       skill: CONFIG.SYSTEM.SKILLS[this.skill].label,
@@ -287,7 +260,7 @@ class SkillRequirementData extends ArmorRequirementData {
 /* -------------------------------------------------- */
 
 class LevelRequirementData extends ArmorRequirementData {
-  /** @override */
+  /** @inheritdoc */
   static defineSchema() {
     return Object.assign(super.defineSchema(), {
       level: new NumberField({
@@ -305,7 +278,7 @@ class LevelRequirementData extends ArmorRequirementData {
   /*   Properties                                       */
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   static metadata = Object.freeze({
     label: "ARTICHRON.ITEM.REQUIREMENT.Level.label",
     hint: "ARTICHRON.ITEM.REQUIREMENT.Level.hint",
@@ -313,12 +286,14 @@ class LevelRequirementData extends ArmorRequirementData {
 
   /* -------------------------------------------------- */
 
-  /** @override */
-  static TYPE = "level";
+  /** @inheritdoc */
+  static get TYPE() {
+    return "level";
+  }
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   static LOCALIZATION_PREFIXES = [
     "ARTICHRON.ITEM.ArmorRequirement",
     "ARTICHRON.ITEM.REQUIREMENT.Level",
@@ -326,7 +301,7 @@ class LevelRequirementData extends ArmorRequirementData {
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   get fulfilledRequirements() {
     if (this.item.actor.type !== "hero") return true;
     return this.item.actor.system.progression.level >= this.level;
@@ -336,7 +311,7 @@ class LevelRequirementData extends ArmorRequirementData {
   /*   Instance methods                                 */
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   toRequirement() {
     const progression = CONFIG.SYSTEM.PROGRESSION_THRESHOLDS.toReversed().find(p => {
       return p.level <= this.level;

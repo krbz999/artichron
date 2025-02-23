@@ -1,4 +1,3 @@
-import ActivityUseDialog from "../../applications/item/activity-use-dialog.mjs";
 import BaseActivity from "./base-activity.mjs";
 import ChatMessageArtichron from "../chat-message.mjs";
 
@@ -7,7 +6,6 @@ const { NumberField, SchemaField } = foundry.data.fields;
 export default class TeleportActivity extends BaseActivity {
   /** @inheritdoc */
   static metadata = Object.freeze(foundry.utils.mergeObject(super.metadata, {
-    type: "teleport",
     label: "ARTICHRON.ACTIVITY.Types.Teleport",
   }, { inplace: false }));
 
@@ -24,7 +22,14 @@ export default class TeleportActivity extends BaseActivity {
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
+  static get TYPE() {
+    return "teleport";
+  }
+
+  /* -------------------------------------------------- */
+
+  /** @inheritdoc */
   async use(usage = {}, dialog = {}, message = {}) {
     const token = this.item.token;
     if (!token) {

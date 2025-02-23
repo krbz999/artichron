@@ -1,4 +1,3 @@
-import ActivityUseDialog from "../../applications/item/activity-use-dialog.mjs";
 import BaseActivity from "./base-activity.mjs";
 import ChatMessageArtichron from "../chat-message.mjs";
 
@@ -26,7 +25,6 @@ const targetField = () => {
 export default class EffectActivity extends BaseActivity {
   /** @inheritdoc */
   static metadata = Object.freeze(foundry.utils.mergeObject(super.metadata, {
-    type: "effect",
     label: "ARTICHRON.ACTIVITY.Types.Effect",
   }, { inplace: false }));
 
@@ -44,7 +42,14 @@ export default class EffectActivity extends BaseActivity {
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
+  static get TYPE() {
+    return "effect";
+  }
+
+  /* -------------------------------------------------- */
+
+  /** @inheritdoc */
   async use(usage = {}, dialog = {}, message = {}) {
     if (!this.effects.ids.size) {
       ui.notifications.warn("ARTICHRON.ACTIVITY.Warning.NoEffects", { localize: true });

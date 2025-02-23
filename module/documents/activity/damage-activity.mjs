@@ -27,7 +27,6 @@ const targetField = () => {
 export default class DamageActivity extends BaseActivity {
   /** @inheritdoc */
   static metadata = Object.freeze(foundry.utils.mergeObject(super.metadata, {
-    type: "damage",
     label: "ARTICHRON.ACTIVITY.Types.Damage",
   }, { inplace: false }));
 
@@ -43,7 +42,14 @@ export default class DamageActivity extends BaseActivity {
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
+  static get TYPE() {
+    return "damage";
+  }
+
+  /* -------------------------------------------------- */
+
+  /** @inheritdoc */
   async use(usage = {}, dialog = {}, message = {}) {
     if (!this.hasDamage) {
       ui.notifications.warn("ARTICHRON.ACTIVITY.Warning.NoDamage", { localize: true });

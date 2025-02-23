@@ -1,55 +1,57 @@
 import ActorArtichron from "../actor.mjs";
+import PseudoDocument from "./pseudo-document.mjs";
 
-const { ColorField, DocumentIdField, NumberField, StringField } = foundry.data.fields;
+const { ColorField, NumberField, StringField } = foundry.data.fields;
 
 /**
  * Base clock data model.
  */
-export default class Clock extends foundry.abstract.DataModel {
-  /** @override */
+export default class Clock extends PseudoDocument {
+  /** @inheritdoc */
+  static metadata = Object.freeze({
+    documentName: "Clock",
+    color: "",
+  });
+
+  /* -------------------------------------------------- */
+
+  /** @inheritdoc */
   static defineSchema() {
-    return {
-      _id: new DocumentIdField({ initial: () => foundry.utils.randomID() }),
-      type: new StringField({
-        initial: () => this.metadata.type,
-        required: true,
-        blank: false,
-        readonly: true,
-        validate: value => value === this.metadata.type,
-        validationError: `Type can only be '${this.metadata.type}'.`,
-      }),
+    return Object.assign(super.defineSchema(), {
       name: new StringField({
         required: true,
         initial: () => game.i18n.localize(`ARTICHRON.CLOCK.FIELDS.name.initial.${this.metadata.type}`),
       }),
       value: new NumberField({ min: 0, integer: true, initial: 0, nullable: false }),
       max: new NumberField({ min: 1, integer: true, initial: 8, nullable: false }),
-      color: new ColorField({ required: true, nullable: false, initial: () => this.metadata.color }),
-    };
+      color: new ColorField({
+        required: true,
+        nullable: false,
+        initial: () => this.metadata.color,
+      }),
+    });
   }
 
   /* -------------------------------------------------- */
 
+  /** @inheritdoc */
   static get TYPES() {
     return {
-      [BadClock.metadata.type]: BadClock,
-      [GoodClock.metadata.type]: GoodClock,
+      [BadClock.TYPE]: BadClock,
+      [GoodClock.TYPE]: GoodClock,
     };
   }
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   static LOCALIZATION_PREFIXES = ["ARTICHRON.CLOCK"];
 
   /* -------------------------------------------------- */
 
-  /**
-   * The id of this clock.
-   * @type {string}
-   */
-  get id() {
-    return this._id;
+  /** @inheritdoc */
+  static get _path() {
+    return "system.clocks";
   }
 
   /* -------------------------------------------------- */
@@ -59,7 +61,7 @@ export default class Clock extends foundry.abstract.DataModel {
    * @type {ActorArtichron}
    */
   get actor() {
-    return this.parent.parent;
+    return this.document;
   }
 
   /* -------------------------------------------------- */
@@ -83,66 +85,36 @@ export default class Clock extends foundry.abstract.DataModel {
     const value = Math.clamp(Math.min(this.value, this.max) - 1, 0, this.max);
     return this.update({ value: value });
   }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Create a new clock.
-   * @param {ActorArtichron} actor          The actor to create the clock on.
-   * @param {object} [data]                 The data to use for the creation.
-   * @returns {Promise<ActorArtichron>}     A promise that resolves to the updated actor.
-   */
-  static async create(actor, data = {}) {
-    const id = foundry.utils.randomID();
-    const type = data.type ?? "good";
-    return actor.update({ [`system.clocks.${id}`]: { ...data, type, _id: id } });
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Delete this clock.
-   * @returns {Promise<ActorArtichron>}     A promise that resolves to the updated actor.
-   */
-  async delete() {
-    return this.actor.update({ [`system.clocks.-=${this.id}`]: null });
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Update this clock.
-   * @param {object} [change]               The update to perform.
-   * @param {object} [operation]            The update context.
-   * @returns {Promise<ActorArtichron>}     A promise that resolves to the updated actor.
-   */
-  async update(change = {}, operation = {}) {
-    return this.actor.update({ [`system.clocks.${this.id}`]: change }, operation);
-  }
 }
 
 /* -------------------------------------------------- */
 
 class BadClock extends Clock {
-  /**
-   * Bad clock metadata.
-   * @type {object}
-   */
-  static metadata = Object.freeze({
-    type: "bad",
+  /** @inheritdoc */
+  static metadata = Object.freeze(foundry.utils.mergeObject(super.metadata, {
     color: "#FF0000",
-  });
+  }, { inplace: false }));
+
+  /* -------------------------------------------------- */
+
+  /** @inheritdoc */
+  static get TYPE() {
+    return "bad";
+  }
 }
 
 /* -------------------------------------------------- */
 
 class GoodClock extends Clock {
-  /**
-   * Good clock metadata.
-   * @type {object}
-   */
-  static metadata = Object.freeze({
-    type: "good",
+  /** @inheritdoc */
+  static metadata = Object.freeze(foundry.utils.mergeObject(super.metadata, {
     color: "#0000FF",
-  });
+  }, { inplace: false }));
+
+  /* -------------------------------------------------- */
+
+  /** @inheritdoc */
+  static get TYPE() {
+    return "good";
+  }
 }

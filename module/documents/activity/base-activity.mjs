@@ -2,37 +2,40 @@ import ActivitySheet from "../../applications/activity-sheet.mjs";
 import ActivityUseDialog from "../../applications/item/activity-use-dialog.mjs";
 import ChatMessageArtichron from "../chat-message.mjs";
 import ItemArtichron from "../item.mjs";
+import PseudoDocument from "../data/pseudo-document.mjs";
 
 /**
  * @typedef {object} ActivityMetadata     Activity metadata.
- * @property {string} type                The activity type.
  * @property {string} label               Name of this activity type.
  * @property {string} icon                Default icon of this activity type.
  */
 
 const {
-  BooleanField, DocumentIdField, FilePathField, HTMLField,
+  BooleanField, FilePathField, HTMLField,
   NumberField, SchemaField, StringField,
 } = foundry.data.fields;
 
-export default class BaseActivity extends foundry.abstract.DataModel {
+export default class BaseActivity extends PseudoDocument {
   /**
    * Activity metadata.
    * @type {ActivityMetadata}
    */
   static metadata = Object.freeze({
-    type: "",
+    documentName: "Activity",
     label: "",
     icon: "systems/artichron/assets/icons/activity.svg",
   });
 
   /* -------------------------------------------------- */
 
-  /**
-   * The activity subtypes.
-   * @type {Record<string, typeof BaseActivity>}
-   */
-  static TYPES = {};
+  /** @inheritdoc */
+  static get TYPES() {
+    return this.#TYPES ??= Object.freeze(Object.values(artichron.activities).reduce((acc, Cls) => {
+      if (Cls.TYPE) acc[Cls.TYPE] = Cls;
+      return acc;
+    }, {}));
+  }
+  static #TYPES;
 
   /* -------------------------------------------------- */
 
@@ -50,17 +53,15 @@ export default class BaseActivity extends foundry.abstract.DataModel {
   /* -------------------------------------------------- */
 
   /** @inheritdoc */
+  static get _path() {
+    return "system.activities";
+  }
+
+  /* -------------------------------------------------- */
+
+  /** @inheritdoc */
   static defineSchema() {
     return {
-      _id: new DocumentIdField({ initial: () => foundry.utils.randomID() }),
-      type: new StringField({
-        initial: () => this.metadata.type,
-        required: true,
-        blank: false,
-        readonly: true,
-        validate: (value) => value === this.metadata.type,
-        validationError: `Type can only be '${this.metadata.type}'!`,
-      }),
       name: new StringField({ required: true }),
       img: new FilePathField({
         categories: ["IMAGE"],
@@ -76,16 +77,6 @@ export default class BaseActivity extends foundry.abstract.DataModel {
 
   /* -------------------------------------------------- */
   /*   Properties                                       */
-  /* -------------------------------------------------- */
-
-  /**
-   * The id of this activity.
-   * @type {string}
-   */
-  get id() {
-    return this._id;
-  }
-
   /* -------------------------------------------------- */
 
   /**
@@ -117,7 +108,7 @@ export default class BaseActivity extends foundry.abstract.DataModel {
    * @type {ItemArtichron}
    */
   get item() {
-    return this.parent.parent;
+    return this.document;
   }
 
   /* -------------------------------------------------- */
@@ -327,46 +318,6 @@ export default class BaseActivity extends foundry.abstract.DataModel {
   /*   Instance methods                                 */
   /* -------------------------------------------------- */
 
-  /**
-   * Update this activity.
-   * @param {object} data                       Update data.
-   * @returns {Promise<ItemArtichron|null>}     A promise that resolves to the updated item.
-   */
-  async update(data = {}) {
-    const path = `system.activities.${this.id}`;
-    if (!(this.id in this.item._source.system.activities)) return null;
-    return this.item.update({ [path]: data });
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Delete this activity.
-   * @returns {Promise<ItemArtichron|null>}     A promise that resolves to the updated item.
-   */
-  async delete() {
-    if (!(this.id in this.item._source.system.activities)) return null;
-    const path = `system.activities.-=${this.id}`;
-    await this.sheet?.close();
-    return this.item.update({ [path]: null });
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Create a new activity.
-   * @param {ItemArtichron} item            The item to create the activity on.
-   * @param {object} data                   Creation data.
-   * @returns {Promise<ItemArtichron>}      A promise that resolves to the updated item.
-   */
-  static async create(item, data) {
-    const id = foundry.utils.randomID();
-    const path = `system.activities.${id}`;
-    const result = await item.update({ [path]: { ...data, _id: id } });
-    item.system.activities.get(id).sheet.render({ force: true });
-    return result;
-  }
-
   /* -------------------------------------------------- */
 
   /**
@@ -375,6 +326,7 @@ export default class BaseActivity extends foundry.abstract.DataModel {
    * @param {object} [dialog]       Dialog configuration.
    * @param {object} [message]      Message configuration.
    * @returns {Promise<ChatMessageArtichron|null>}
+   * @abstract
    */
   async use(usage = {}, dialog = {}, message = {}) {
     // Must be subclassed.
