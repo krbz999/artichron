@@ -6,6 +6,7 @@ const { NumberField, SchemaField } = foundry.data.fields;
 export default class TeleportActivity extends BaseActivity {
   /** @inheritdoc */
   static metadata = Object.freeze(foundry.utils.mergeObject(super.metadata, {
+    defaultName: "ARTICHRON.ACTIVITY.Types.TeleportDefaultName",
     label: "ARTICHRON.ACTIVITY.Types.Teleport",
   }, { inplace: false }));
 

@@ -7,6 +7,7 @@ const { EmbeddedDataField } = foundry.data.fields;
 export default class DefendActivity extends BaseActivity {
   /** @inheritdoc */
   static metadata = Object.freeze(foundry.utils.mergeObject(super.metadata, {
+    defaultName: "ARTICHRON.ACTIVITY.Types.DefendDefaultName",
     label: "ARTICHRON.ACTIVITY.Types.Defend",
   }, { inplace: false }));
 

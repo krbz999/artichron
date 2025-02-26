@@ -171,10 +171,15 @@
   },
   "Types": {
     "Damage": "Damage Activity",
+    "DamageDefaultName": "Damage",
     "Defend": "Defend Activity",
+    "DefendDefaultName": "Defend",
     "Effect": "Effect Activity",
+    "EffectDefaultName": "Effect",
     "Healing": "Healing Activity",
-    "Teleport": "Teleport Activity"
+    "HealingDefaultName": "Healing",
+    "Teleport": "Teleport Activity",
+    "TeleportDefaultName": "Teleport"
   },
   "Warning": {
     "ConsumeCostUnavailable": "{name} does not have {number} action points available.",

@@ -1,5 +1,6 @@
 import ArtichronSheetMixin from "../base-sheet.mjs";
 import FormulaField from "../../documents/data/fields/formula-field.mjs";
+import BaseActivity from "../../documents/activity/base-activity.mjs";
 
 export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.applications.sheets.ItemSheetV2) {
   /** @override */
@@ -227,10 +228,11 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
     }
 
     // Activities.
-    context.activities = this.document.system.activities.map(activity => {
+    const activities = this.isEditMode ? this.document.system.activities.sourceContents : this.document.system.activities;
+    context.activities = activities.map(activity => {
       return {
         id: activity.id,
-        name: activity.name,
+        name: activity.name ? activity.name : game.i18n.localize(activity.constructor.metadata.defaultName),
         subtitle: game.i18n.localize(activity.constructor.metadata.label),
         disabled: !context.isEditable || !(activity.id in src.system.activities),
       };
@@ -377,7 +379,7 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
    */
   static #createActivity(event, target) {
     const types = Object.values(artichron.activities).reduce((acc, v) => {
-      acc[v.metadata.type] = game.i18n.localize(v.metadata.label);
+      if (v.TYPE) acc[v.TYPE] = game.i18n.localize(v.metadata.label);
       return acc;
     }, {});
     const select = new foundry.data.fields.StringField({
@@ -389,11 +391,7 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
       content: `<fieldset>${select}</fieldset>`,
       ok: { callback: (event, button) => {
         const type = button.form.elements.type.value;
-        const cls = Object.values(artichron.activities).find(a => a.metadata.type === type);
-        cls.create(this.document, {
-          type: type,
-          name: game.i18n.localize(cls.metadata.label),
-        });
+        BaseActivity.create({ type: type }, { parent: this.document });
       } },
     });
   }

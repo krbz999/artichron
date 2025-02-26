@@ -1,3 +1,6 @@
+/**
+ * A collection that houses pseudo-documents.
+ */
 export default class CollectionField extends foundry.data.fields.TypedObjectField {
   constructor(model, options = {}) {
     const field = new _CollectionField(model);
@@ -91,8 +94,7 @@ class _CollectionField extends foundry.data.fields.ObjectField {
 
 /**
  * Specialized collection type for stored data models.
- * @param {DataModel} model                   The parent DataModel to which this collection belongs.
- * @param {Array<string, DataModel>} entries   Array containing the data models to store.
+ * @param {Array<string, DataModel>} entries      Array containing the data models to store.
  */
 class ModelCollection extends foundry.utils.Collection {
   /* -------------------------------------------------- */
@@ -104,6 +106,16 @@ class ModelCollection extends foundry.utils.Collection {
    * @type {Map<string, Set<string>>}
    */
   #types = new Map();
+
+  /* -------------------------------------------------- */
+
+  /**
+   * The data models that originate from this parent document.
+   * @type {PseudoDocument[]}
+   */
+  get sourceContents() {
+    return this.filter(model => model.isSource);
+  }
 
   /* -------------------------------------------------- */
   /*  Methods                                           */

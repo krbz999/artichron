@@ -25,6 +25,7 @@ const targetField = () => {
 export default class EffectActivity extends BaseActivity {
   /** @inheritdoc */
   static metadata = Object.freeze(foundry.utils.mergeObject(super.metadata, {
+    defaultName: "ARTICHRON.ACTIVITY.Types.EffectDefaultName",
     label: "ARTICHRON.ACTIVITY.Types.Effect",
   }, { inplace: false }));
 

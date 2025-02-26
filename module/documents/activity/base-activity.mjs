@@ -61,7 +61,7 @@ export default class BaseActivity extends PseudoDocument {
 
   /** @inheritdoc */
   static defineSchema() {
-    return {
+    return Object.assign(super.defineSchema(), {
       name: new StringField({ required: true }),
       img: new FilePathField({
         categories: ["IMAGE"],
@@ -72,7 +72,7 @@ export default class BaseActivity extends PseudoDocument {
         value: new NumberField({ min: 0, integer: true, nullable: false, initial: 1 }),
         uses: new BooleanField({ initial: true }),
       }),
-    };
+    });
   }
 
   /* -------------------------------------------------- */

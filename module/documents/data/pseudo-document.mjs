@@ -112,6 +112,9 @@ export default class PseudoDocument extends foundry.abstract.DataModel {
     }
     return this.id in source;
   }
+  get isSource() {
+    return this.#isSource;
+  }
 
   /* -------------------------------------------------- */
 
@@ -122,7 +125,7 @@ export default class PseudoDocument extends foundry.abstract.DataModel {
    * @param {Document} operation.parent     The parent of this document.
    * @returns {Promise<Document>}           A promise that resolves to the updated document.
    */
-  static create(data = {}, { parent, ...operation } = {}) {
+  static async create(data = {}, { parent, ...operation } = {}) {
     if (!parent) {
       throw new Error("A parent document must be specified for the creation of a pseudo-document!");
     }

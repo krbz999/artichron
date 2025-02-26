@@ -161,6 +161,7 @@ export default class ActivitySheet extends foundry.applications.api.HandlebarsAp
     context.name = {
       field: context.activity.schema.getField("name"),
       value: context.activity.name,
+      placeholder: game.i18n.localize(context.activity.constructor.metadata.defaultName),
     };
 
     context.img = {
