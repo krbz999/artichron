@@ -163,7 +163,7 @@ export default class ItemFusionDialog extends HandlebarsApplicationMixin(Applica
         img: this.#item.img,
       }, { parent: this.#item });
       const target = this.#item.actor.items.get(this.#selectedTarget);
-      const changes = (target && effect) ? target.system.createFusionTranslation(effect) : [];
+      const changes = (target && effect) ? target.system.fusion.createFusionTranslation(effect) : [];
       context.changes = [];
       for (let { path, label, oldValue, newValue } of changes) {
         label = game.i18n.localize(label);

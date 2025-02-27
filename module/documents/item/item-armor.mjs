@@ -1,13 +1,11 @@
 import ArmorRequirementData from "../data/armor-requirements.mjs";
 import CollectionField from "../data/fields/collection-field.mjs";
 import ItemSystemModel from "./system-model.mjs";
-import FusionTemplateMixin from "./templates/fusion-data.mjs";
+import FusionField from "../data/fields/fusion-field.mjs";
 
 const { NumberField, SchemaField, StringField } = foundry.data.fields;
 
-export default class ArmorData extends ItemSystemModel.mixin(
-  FusionTemplateMixin,
-) {
+export default class ArmorData extends ItemSystemModel {
   /**
    * Metadata for this datamodel.
    * @type {import("../../helpers/types.mjs").ItemSystemModelMetadata}
@@ -45,6 +43,7 @@ export default class ArmorData extends ItemSystemModel.mixin(
         acc[k] = new SchemaField({ value: new NumberField({ integer: true, initial: null }) });
         return acc;
       }, {})),
+      fusion: new FusionField(),
     };
   }
 

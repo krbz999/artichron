@@ -352,7 +352,7 @@ const ArtichronSheetMixin = Base => {
         name: "ARTICHRON.ContextMenu.Item.Unfuse",
         icon: "<i class='fa-solid fa-fw fa-recycle'></i>",
         condition: () => canEquip && isOwner && item.isFused,
-        callback: () => item.system.unfuseDialog(),
+        callback: () => item.system.fusion.unfuseDialog(),
         group: "action",
       }];
     }

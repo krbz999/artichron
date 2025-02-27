@@ -4,8 +4,7 @@ import CollectionField from "../data/fields/collection-field.mjs";
 import IdentifierField from "../data/fields/identifier-field.mjs";
 
 const {
-  EmbeddedDataField, HTMLField, NumberField,
-  SchemaField, SetField, StringField, TypedObjectField,
+  HTMLField, NumberField, SchemaField, SetField, StringField, TypedObjectField,
 } = foundry.data.fields;
 
 export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
@@ -20,17 +19,6 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
     order: 10,
     type: "",
   });
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Create an instance of this data model extended by several mixins.
-   * @param {...function} templateMethods     The mixin methods.
-   * @returns {typeof ItemSystemModel}        A subclass of this data model.
-   */
-  static mixin(...templateMethods) {
-    return templateMethods.reduce((acc, fn) => fn(acc), this);
-  }
 
   /* -------------------------------------------------- */
 

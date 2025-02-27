@@ -121,7 +121,7 @@ export default class ItemArtichron extends Item {
    * @type {boolean}
    */
   get hasFusions() {
-    return this.system.hasFusions ?? false;
+    return this.system.attributes?.value.has("fusion") ?? false;
   }
 
   /* -------------------------------------------------- */
@@ -131,7 +131,7 @@ export default class ItemArtichron extends Item {
    * @type {boolean}
    */
   get isFused() {
-    return this.system.isFused ?? false;
+    return this.effects.some(effect => effect.isActiveFusion);
   }
 
   /* -------------------------------------------------- */
@@ -141,7 +141,19 @@ export default class ItemArtichron extends Item {
    * @type {Set<string>}
    */
   get defaultFusionProperties() {
-    return this.system.defaultFusionProperties ?? new Set();
+    const paths = [
+      "attributes.value",
+      "price.value",
+      "weight.value",
+      "defenses",
+    ];
+
+    const set = new Set();
+    for (const path of paths) {
+      const field = this.system.schema.getField(path);
+      if (field) set.add(path);
+    }
+    return set;
   }
 
   /* -------------------------------------------------- */
@@ -391,7 +403,7 @@ export default class ItemArtichron extends Item {
    * @returns {Promise<ActiveEffectArtichron|null>}     The created fusion effect.
    */
   async fuse(target, fusion) {
-    if (this.system.fuse) return this.system.fuse(target, fusion);
+    if (this.system.fusion?.fuse) return this.system.fusion.fuse(target, fusion);
     return null;
   }
 
@@ -402,7 +414,7 @@ export default class ItemArtichron extends Item {
    * @returns {Promise<ActiveEffectArtichron|null>}
    */
   async fuseDialog() {
-    if (this.system.fuseDialog) return this.system.fuseDialog();
+    if (this.system.fusion?.fuseDialog) return this.system.fusion.fuseDialog();
     return null;
   }
 

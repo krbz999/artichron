@@ -1,9 +1,7 @@
-import FusionTemplateMixin from "./templates/fusion-data.mjs";
+import FusionField from "../data/fields/fusion-field.mjs";
 import ItemSystemModel from "./system-model.mjs";
 
-export default class ArsenalData extends ItemSystemModel.mixin(
-  FusionTemplateMixin,
-) {
+export default class ArsenalData extends ItemSystemModel {
   /**
    * Metadata for this datamodel.
    * @type {import("../../helpers/types.mjs").ItemSystemModelMetadata}
@@ -12,6 +10,15 @@ export default class ArsenalData extends ItemSystemModel.mixin(
     fusion: true,
     inventorySection: "arsenal",
   }, { inplace: false }));
+
+  /* -------------------------------------------------- */
+
+  /** @inheritdoc */
+  static defineSchema() {
+    return Object.assign(super.defineSchema(), {
+      fusion: new FusionField(),
+    });
+  }
 
   /* -------------------------------------------------- */
   /*   Properties                                       */

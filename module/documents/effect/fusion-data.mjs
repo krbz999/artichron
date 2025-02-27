@@ -128,10 +128,10 @@ export default class EffectFusionData extends ActiveEffectSystemModel {
     }
 
     const actor = item.isEmbedded ? item.parent : undefined;
-    const pack = item.isEmbedded ? undefined : item.compendium?.metadata.id ?? undefined;
+    const pack = item.isEmbedded ? undefined : item.pack;
 
-    if (actor && actor.items.has(this.itemData._id)) keepId = false;
-    else if (item.compendium && item.compendium.index.has(this.itemData._id)) keepId = false;
+    if (actor?.items.has(this.itemData._id)) keepId = false;
+    else if (pack && item.collection.index.has(this.itemData._id)) keepId = false;
     else if (game.items.has(this.itemData._id)) keepId = false;
 
     await this.parent.delete();
