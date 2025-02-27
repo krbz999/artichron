@@ -32,6 +32,10 @@
 /*            System-wide styling           */
 /* ---------------------------------------- */
 
+* {
+  scrollbar-color: var(--artichron-color-blue) #000000;
+}
+
 span.chron {
   width: 1rem;
   aspect-ratio: 1;
