@@ -71,16 +71,15 @@ export default class TokenDocumentArtichron extends TokenDocument {
   /* -------------------------------------------------- */
 
   /** @inheritdoc */
-  _preUpdateMovement(movement, operation) {
-    // TODO: Update this method to remove the spent resource at each waypoint,
-    // once https://github.com/foundryvtt/foundryvtt/issues/12170 is resolved.
-    if (!this.actor?.system.health || !this.actor.inCombat) return;
-    const { passed: current, pending } = movement;
-    const hp = this.actor.system.health.value;
-    const total = current.cost + pending.cost;
-    if (total > hp) {
-      ui.notifications.warn("NOT ENOUGH HP!");
+  async _preUpdateMovement(movement, operation) {
+    if (!this.actor?.system.pips || !this.actor.inCombat) return;
+    const resource = this.actor.system.pips.value;
+    const distance = movement.passed.cost; // Current segment.
+    const consumed = (distance / 5).toNearest(0.2, "ceil");
+    if (consumed > resource) {
+      ui.notifications.warn("You do not have enough AP.");
       return false;
     }
+    await this.actor.update({ "system.pips.value": resource - consumed });
   }
 }
