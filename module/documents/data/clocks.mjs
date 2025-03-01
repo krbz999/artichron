@@ -1,7 +1,8 @@
+import ClockSheet from "../../applications/clock-sheet.mjs";
 import ActorArtichron from "../actor.mjs";
 import PseudoDocument from "./pseudo-document.mjs";
 
-const { ColorField, NumberField, StringField } = foundry.data.fields;
+const { ColorField, HTMLField, NumberField, StringField } = foundry.data.fields;
 
 /**
  * Base clock data model.
@@ -11,7 +12,7 @@ export default class Clock extends PseudoDocument {
   static metadata = Object.freeze({
     documentName: "Clock",
     color: "",
-    sheetClass: null,
+    sheetClass: ClockSheet,
   });
 
   /* -------------------------------------------------- */
@@ -23,6 +24,7 @@ export default class Clock extends PseudoDocument {
       value: new NumberField({ min: 0, integer: true, initial: null }),
       max: new NumberField({ min: 1, integer: true, initial: null }),
       color: new ColorField({ required: true, nullable: true }),
+      description: new HTMLField({ required: true }),
     });
   }
 
@@ -63,6 +65,7 @@ export default class Clock extends PseudoDocument {
   /** @inheritdoc */
   prepareDerivedData() {
     this.max ??= 8;
+    this.value = Math.clamp(this.value, 0, this.max);
     this.color ??= foundry.utils.Color.fromString(this.constructor.metadata.color);
   }
 

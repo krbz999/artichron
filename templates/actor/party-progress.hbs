@@ -32,12 +32,12 @@
     {{/each}}
     {{else}}
     {{#each clocks}}
-    <div class="clock">
-      <button type="button" data-delta="up" data-id="{{clock.id}}" data-action="clockDelta" {{disabled disableUp}}>
+    <div class="clock" data-id="{{clock.id}}">
+      <button type="button" data-delta="up" data-action="clockDelta" {{disabled disableUp}}>
         <i class="fa-solid fa-chevron-up"></i>
       </button>
       {{progressClock value=clock.value max=clock.max color=clock.color}}
-      <button type="button" data-delta="down" data-id="{{clock.id}}" data-action="clockDelta" {{disabled disableDown}}>
+      <button type="button" data-delta="down" data-action="clockDelta" {{disabled disableDown}}>
         <i class="fa-solid fa-chevron-down"></i>
       </button>
       <label class="name">{{name}}</label>

@@ -217,8 +217,7 @@ Hooks.once("i18nInit", function() {
   // }
 
   // Localize party actor clocks schema.
-  // const clocks = CONFIG.Actor.dataModels.party.schema.getField("clocks").constructor.TYPES;
-  // for (const cls of Object.values(clocks)) Localization.localizeDataModel(cls);
+  for (const model of Object.values(artichron.data.Clock.TYPES)) Localization.localizeDataModel(model);
 
   // Localize activities.
   for (const model of Object.values(artichron.activities)) Localization.localizeDataModel(model);

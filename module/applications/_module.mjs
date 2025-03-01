@@ -5,6 +5,7 @@ import ActivityUseDialog from "./item/activity-use-dialog.mjs";
 import ActorSheetArtichron from "./actor/actor-sheet-base.mjs";
 import ArtichronSheetMixin from "./base-sheet.mjs";
 import ChatLogArtichron from "./chatlog.mjs";
+import ClockSheet from "./clock-sheet.mjs";
 import CombatCarousel from "./combat/carousel.mjs";
 import CombatTrackerArtichron from "./combat/tracker.mjs";
 import ContextMenuArtichron from "./context-menu.mjs";
@@ -54,6 +55,7 @@ export default {
     },
   },
   item: {
+    ClockSheet,
     DamageSheet,
     ItemSheetAmmunition,
     ItemSheetArtichron,

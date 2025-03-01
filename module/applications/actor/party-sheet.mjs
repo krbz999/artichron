@@ -309,6 +309,38 @@ export default class PartySheet extends ActorSheetArtichron {
     for (const { actor } of this.document.system.members) {
       if (actor) actor.apps[this.id] = this;
     }
+
+    artichron.applications.ui.ContextMenuArtichron.create(this, this.element, "progress-clock", {
+      hookName: "ClockEntryContext",
+    });
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Get context menu options for clocks.
+   * @returns {ContextMenuEntry[]}
+   */
+  _getClockEntryContextOptions() {
+    return [{
+      name: "Edit Clock",
+      icon: "<i class='fa-solid fa-fw fa-edit'></i>",
+      callback: clock => {
+        const id = clock.closest(".clock").dataset.id;
+        clock = this.document.getEmbeddedDocument("Clock", id);
+        clock.sheet.render({ force: true });
+      },
+      condition: clock => this.isEditable,
+    }, {
+      name: "Delete Clock",
+      icon: "<i class='fa-solid fa-fw fa-trash'></i>",
+      callback: clock => {
+        const id = clock.closest(".clock").dataset.id;
+        clock = this.document.getEmbeddedDocument("Clock", id);
+        clock.delete();
+      },
+      condition: clock => this.isEditable,
+    }];
   }
 
   /* -------------------------------------------------- */
@@ -534,8 +566,8 @@ export default class PartySheet extends ActorSheetArtichron {
    */
   static #clockDelta(event, target) {
     const isUp = target.dataset.delta === "up";
-    const id = target.dataset.id;
-    const clock = this.document.system.clocks.get(id);
+    const id = target.closest(".clock").dataset.id;
+    const clock = this.document.getEmbeddedDocument("Clock", id);
     if (isUp) clock.increase();
     else clock.decrease();
   }
@@ -550,7 +582,7 @@ export default class PartySheet extends ActorSheetArtichron {
    */
   static #addClock(event, target) {
     const type = target.dataset.clock;
-    artichron.data.Clocks.create({ type }, { parent: this.document });
+    artichron.data.Clock.create({ type }, { parent: this.document });
   }
 
   /* -------------------------------------------------- */
@@ -563,6 +595,6 @@ export default class PartySheet extends ActorSheetArtichron {
    */
   static #removeClock(event, target) {
     const id = target.closest("[data-id]").dataset.id;
-    this.document.system.clocks.get(id).delete();
+    this.document.getEmbeddedDocument("Clock", id).delete();
   }
 }

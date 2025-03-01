@@ -1,3 +1,5 @@
+import PseudoDocument from "./data/pseudo-document.mjs";
+
 export default class ItemArtichron extends Item {
   /** @override */
   static getDefaultArtwork(itemData) {
@@ -336,15 +338,23 @@ export default class ItemArtichron extends Item {
   /*   Life-cycle methods                               */
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   async _preUpdate(update, options, user) {
     return super._preUpdate(update, options, user);
   }
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   _onUpdate(update, options, user) {
+    if (options.pseudo?.operation === "delete") {
+      const sheet = PseudoDocument._sheets.get(options.pseudo.uuid);
+      if (sheet) {
+        delete this.apps[sheet.id];
+        PseudoDocument._sheets.delete(options.pseudo.uuid);
+        sheet.close();
+      }
+    }
     return super._onUpdate(update, options, user);
   }
 

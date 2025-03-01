@@ -15,7 +15,7 @@ export default class PseudoDocument extends foundry.abstract.DataModel {
    * Registered sheets.
    * @type {Map<string, PseudoDocumentSheet>}
    */
-  static #sheets = new Map();
+  static _sheets = new Map();
 
   /* -------------------------------------------------- */
 
@@ -95,14 +95,15 @@ export default class PseudoDocument extends foundry.abstract.DataModel {
 
   /**
    * Reference to the sheet of this pseudo-document, registered in a static map.
-   * @type {PseudoDocumentSheet}
+   * @type {PseudoDocumentSheet|null}
    */
   get sheet() {
-    if (!PseudoDocument.#sheets.has(this.uuid)) {
+    if (!PseudoDocument._sheets.has(this.uuid)) {
       const Cls = this.constructor.metadata.sheetClass;
-      PseudoDocument.#sheets.set(this.uuid, new Cls({ document: this }));
+      if (!Cls) return null;
+      PseudoDocument._sheets.set(this.uuid, new Cls({ document: this }));
     }
-    return PseudoDocument.#sheets.get(this.uuid);
+    return PseudoDocument._sheets.get(this.uuid);
   }
 
   /* -------------------------------------------------- */
@@ -196,10 +197,8 @@ export default class PseudoDocument extends foundry.abstract.DataModel {
   async delete(operation = {}) {
     if (!this.#isSource) throw new Error("You cannot delete a non-source pseudo-document!");
     const path = `${this.constructor._path}.-=${this.id}`;
-    delete this.document.apps[this.sheet?.id];
-    await this.document.update({ [path]: null }, operation);
-    this.sheet?.close();
-    return this.document;
+    Object.assign(operation, { pseudo: { operation: "delete", type: this.constructor.documentName, uuid: this.uuid } });
+    return this.document.update({ [path]: null }, operation);
   }
 
   /* -------------------------------------------------- */

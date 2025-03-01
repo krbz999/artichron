@@ -60,7 +60,7 @@ export default class PseudoDocumentSheet extends HandlebarsApplicationMixin(Appl
         label: "ARTICHRON.SheetLabels.Details",
         tooltip: null,
       }],
-      initial: null,
+      initial: "identity",
       labelPrefix: null,
     },
   };
@@ -118,9 +118,11 @@ export default class PseudoDocumentSheet extends HandlebarsApplicationMixin(Appl
 
   /** @inheritdoc */
   get title() {
-    const { label, defaultName } = this.#pseudoDocumentClass.metadata;
-    const name = this.pseudoDocument.name || game.i18n.localize(defaultName);
-    return `${game.i18n.localize(label)}: ${name}`;
+    const { documentName, defaultName } = this.#pseudoDocumentClass.metadata;
+    return [
+      game.i18n.localize(`DOCUMENT.${documentName}`),
+      this.pseudoDocument.name || game.i18n.localize(defaultName),
+    ].join(": ");
   }
 
   /* -------------------------------------------------- */

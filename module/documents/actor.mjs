@@ -6,6 +6,8 @@
  * @property {DamageStatuses} [statuses]      Statuses and the levels that will be applied.
  */
 
+import PseudoDocument from "./data/pseudo-document.mjs";
+
 /**
  * @typedef {object} DamageOptions        Options that configure how the damage is applied.
  * @property {boolean} [undefendable]     If `true`, this cannot be reduced by defending.
@@ -124,8 +126,16 @@ export default class ActorArtichron extends Actor {
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   _onUpdate(update, options, user) {
+    if (options.pseudo?.operation === "delete") {
+      const sheet = PseudoDocument._sheets.get(options.pseudo.uuid);
+      if (sheet) {
+        delete this.apps[sheet.id];
+        PseudoDocument._sheets.delete(options.pseudo.uuid);
+        sheet.close();
+      }
+    }
     super._onUpdate(update, options, user);
     this._displayScrollingNumbers(options.damages, options.health);
   }

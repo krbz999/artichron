@@ -1,6 +1,7 @@
 {
 "DOCUMENT": {
-  "Activity": "Activity"
+  "Activity": "Activity",
+  "Clock": "Clock"
 },
 "TYPES": {
 "ActiveEffect": {

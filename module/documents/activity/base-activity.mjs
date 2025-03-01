@@ -125,6 +125,8 @@ export default class BaseActivity extends PseudoDocument {
   }
 
   /* -------------------------------------------------- */
+  /*   Instance methods                                 */
+  /* -------------------------------------------------- */
 
   /**
    * Prepare the base usage configs.
@@ -276,10 +278,6 @@ export default class BaseActivity extends PseudoDocument {
 
     return count;
   }
-
-  /* -------------------------------------------------- */
-  /*   Instance methods                                 */
-  /* -------------------------------------------------- */
 
   /* -------------------------------------------------- */
 
