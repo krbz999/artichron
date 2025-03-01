@@ -253,26 +253,31 @@ export default class PartySheet extends ActorSheetArtichron {
 
     context.clocks = [];
     for (const clock of this.document.system.clocks) {
-      if (this.isPlayMode) context.clocks.push({
-        clock: clock,
-        disableUp: !(clock.value < clock.max),
-        disableDown: !(clock.value > 0),
-        name: clock.name ? clock.name : game.i18n.localize("ARTICHRON.CLOCK.FIELDS.name.initial"),
-        hue: clock.color.rgb.map(k => k * 255).join(", "),
-      });
-      else {
+      if (this.isPlayMode) {
+        context.clocks.push({
+          clock: clock,
+          disableUp: !(clock.value < clock.max),
+          disableDown: !(clock.value > 0),
+          name: clock.name ? clock.name : game.i18n.localize(clock.constructor.metadata.defaultName),
+          hue: clock.color.rgb.map(k => k * 255).join(", "),
+        });
+      } else {
         const makeField = path => {
           const field = clock.schema.getField(path);
           const name = `system.clocks.${clock.id}.${path}`;
-          return { field: field, name: name, value: foundry.utils.getProperty(clock, path) };
+          return {
+            field, name,
+            value: foundry.utils.getProperty(clock, path) || null,
+            source: foundry.utils.getProperty(clock._source, path),
+          };
         };
 
         context.clocks.push({
           clock: clock,
-          name: makeField("name"),
+          name: { ...makeField("name"), placeholder: game.i18n.localize(clock.constructor.metadata.defaultName) },
           value: makeField("value"),
           max: makeField("max"),
-          color: makeField("color"),
+          color: { ...makeField("color"), placeholder: clock.constructor.metadata.color },
         });
       }
     }
@@ -545,7 +550,7 @@ export default class PartySheet extends ActorSheetArtichron {
    */
   static #addClock(event, target) {
     const type = target.dataset.clock;
-    artichron.data.Clocks.create(this.document, { type });
+    artichron.data.Clocks.create({ type }, { parent: this.document });
   }
 
   /* -------------------------------------------------- */

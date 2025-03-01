@@ -19,10 +19,10 @@
     {{#if @root.isEditMode}}
     {{#each clocks}}
     <div class="form-group" data-id="{{clock.id}}">
-      {{formGroup name.field value=name.value name=name.name classes="name label-top"}}
-      {{formGroup value.field value=value.value name=value.name classes="value label-top"}}
-      {{formGroup max.field value=max.value name=max.name classes="max label-top"}}
-      {{formGroup color.field value=color.value name=color.name classes="color label-top"}}
+      {{formGroup name.field value=name.value name=name.name classes="name label-top" placeholder=name.placeholder}}
+      {{formGroup value.field value=value.value name=value.name classes="value label-top" placeholder="0"}}
+      {{formGroup max.field value=max.source name=max.name classes="max label-top" placeholder="8"}}
+      {{formGroup color.field value=color.source name=color.name classes="color label-top" placeholder=color.placeholder}}
       <div class="controls">
         <button type="button" class="control" data-action="removeClock">
           <i class="fa-solid fa-trash"></i>

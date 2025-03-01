@@ -11,6 +11,7 @@ export default class Clock extends PseudoDocument {
   static metadata = Object.freeze({
     documentName: "Clock",
     color: "",
+    sheetClass: null,
   });
 
   /* -------------------------------------------------- */
@@ -18,17 +19,10 @@ export default class Clock extends PseudoDocument {
   /** @inheritdoc */
   static defineSchema() {
     return Object.assign(super.defineSchema(), {
-      name: new StringField({
-        required: true,
-        initial: () => game.i18n.localize(`ARTICHRON.CLOCK.FIELDS.name.initial.${this.metadata.type}`),
-      }),
-      value: new NumberField({ min: 0, integer: true, initial: 0, nullable: false }),
-      max: new NumberField({ min: 1, integer: true, initial: 8, nullable: false }),
-      color: new ColorField({
-        required: true,
-        nullable: false,
-        initial: () => this.metadata.color,
-      }),
+      name: new StringField({ required: true }),
+      value: new NumberField({ min: 0, integer: true, initial: null }),
+      max: new NumberField({ min: 1, integer: true, initial: null }),
+      color: new ColorField({ required: true, nullable: true }),
     });
   }
 
@@ -66,6 +60,14 @@ export default class Clock extends PseudoDocument {
 
   /* -------------------------------------------------- */
 
+  /** @inheritdoc */
+  prepareDerivedData() {
+    this.max ??= 8;
+    this.color ??= foundry.utils.Color.fromString(this.constructor.metadata.color);
+  }
+
+  /* -------------------------------------------------- */
+
   /**
    * Increase the counter by one.
    * @returns {Promise}
@@ -93,6 +95,7 @@ class BadClock extends Clock {
   /** @inheritdoc */
   static metadata = Object.freeze(foundry.utils.mergeObject(super.metadata, {
     color: "#FF0000",
+    defaultName: "ARTICHRON.CLOCK.FIELDS.name.initial.bad",
   }, { inplace: false }));
 
   /* -------------------------------------------------- */
@@ -109,6 +112,7 @@ class GoodClock extends Clock {
   /** @inheritdoc */
   static metadata = Object.freeze(foundry.utils.mergeObject(super.metadata, {
     color: "#0000FF",
+    defaultName: "ARTICHRON.CLOCK.FIELDS.name.initial.good",
   }, { inplace: false }));
 
   /* -------------------------------------------------- */

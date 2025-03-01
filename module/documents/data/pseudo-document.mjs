@@ -106,6 +106,38 @@ export default class PseudoDocument extends foundry.abstract.DataModel {
   }
 
   /* -------------------------------------------------- */
+  /*   Data preparation                                 */
+  /* -------------------------------------------------- */
+
+  /** @inheritdoc */
+  _initialize(...args) {
+    super._initialize(...args);
+    this.prepareData();
+  }
+
+  /**
+   * Prepare data.
+   */
+  prepareData() {
+    this.prepareBaseData();
+    this.prepareDerivedData();
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Prepase base data.
+   */
+  prepareBaseData() {}
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Prepare derived data.
+   */
+  prepareDerivedData() {}
+
+  /* -------------------------------------------------- */
   /*   CRUD Handlers                                    */
   /* -------------------------------------------------- */
 
