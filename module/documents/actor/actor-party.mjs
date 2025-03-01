@@ -165,7 +165,7 @@ export default class PartyData extends ActorSystemModel {
     party ??= game.settings.get("artichron", "primaryParty").actor;
     if (!party) throw new Error("No primary party has been assigned!");
 
-    const configuration = await PartyDistributionDialog.create(party, "currency");
+    const configuration = await PartyDistributionDialog.create({ party, type: "currency" });
     if (!configuration) return;
     const { amount, targets } = configuration;
     const actors = Array.from(targets).map(id => game.actors.get(id));
@@ -217,7 +217,7 @@ export default class PartyData extends ActorSystemModel {
     party ??= game.settings.get("artichron", "primaryParty").actor;
     if (!party) throw new Error("No primary party has been assigned!");
 
-    const configuration = await PartyDistributionDialog.create(party, "points");
+    const configuration = await PartyDistributionDialog.create({ party, type: "points" });
     if (!configuration) return;
     const { amount, targets } = configuration;
     const actors = Array.from(targets).map(id => game.actors.get(id));

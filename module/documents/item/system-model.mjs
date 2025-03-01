@@ -96,7 +96,7 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
     let activity;
     if ((activities.size === 1) || event?.shiftKey) activity = activities.contents[0];
     else {
-      const configuration = await ActivitySelectDialog.create(this.parent);
+      const configuration = await ActivitySelectDialog.create({ item: this.parent });
       if (!configuration) return null;
       activity = activities.get(configuration.activity);
       return activity.use(usage, { ...dialog, ...configuration }, message);

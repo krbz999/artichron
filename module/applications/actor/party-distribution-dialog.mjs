@@ -1,33 +1,15 @@
+import Application from "../apps/application.mjs";
+
 /**
  * Application for distributing currency and progression points.
  * @param {ActorArtichron} party      The party actor dispensing currency and points.
  * @param {object} [options]          Application rendering options.
  */
-export default class PartyDistributionDialog extends foundry.applications.api.HandlebarsApplicationMixin(
-  foundry.applications.api.ApplicationV2,
-) {
-  constructor(party, options = {}) {
+export default class PartyDistributionDialog extends Application {
+  constructor({ party, ...options }) {
     options.type ??= "currency";
     super(options);
     this.#party = party;
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Factory method for asynchronous behavior.
-   * @param {ActorArtichron} party      The party actor dispensing currency and points.
-   * @param {string} type               The type of distribution (currency or points).
-   * @param {object} [options]          Application rendering options.
-   * @returns {Promise}
-   */
-  static async create(party, type, options = {}) {
-    return new Promise(resolve => {
-      options.type = type;
-      const application = new this(party, options);
-      application.addEventListener("close", () => resolve(application.config), { once: true });
-      application.render({ force: true });
-    });
   }
 
   /* -------------------------------------------------- */
@@ -36,20 +18,9 @@ export default class PartyDistributionDialog extends foundry.applications.api.Ha
 
   /** @override */
   static DEFAULT_OPTIONS = {
-    classes: ["artichron"],
+    type: null,
     window: {
       icon: "fa-solid fa-medal",
-      contentClasses: ["standard-form"],
-    },
-    position: {
-      width: 400,
-      height: "auto",
-    },
-    tag: "form",
-    type: null,
-    form: {
-      handler: PartyDistributionDialog.#onSubmit,
-      closeOnSubmit: true,
     },
   };
 
@@ -81,24 +52,6 @@ export default class PartyDistributionDialog extends foundry.applications.api.Ha
    * @type {ActorArtichron}
    */
   #party = null;
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Stored form data.
-   * @type {object|null}
-   */
-  #config = null;
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Stored form data.
-   * @type {object|null}
-   */
-  get config() {
-    return this.#config;
-  }
 
   /* -------------------------------------------------- */
 
@@ -182,20 +135,5 @@ export default class PartyDistributionDialog extends foundry.applications.api.Ha
         this.#amount = Number(event.currentTarget.value);
       });
     }
-  }
-
-  /* -------------------------------------------------- */
-  /*   Event handlers                                   */
-  /* -------------------------------------------------- */
-
-  /**
-   * Handle submission of the form.
-   * @this {PartyDistributionDialog}
-   * @param {PointerEvent} event            The originating click event.
-   * @param {HTMLElement} target            The submit element.
-   * @param {FormDataExtended} formData     The form data.
-   */
-  static #onSubmit(event, target, formData) {
-    this.#config = foundry.utils.expandObject(formData.object);
   }
 }

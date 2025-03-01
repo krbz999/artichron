@@ -3,6 +3,7 @@ import ActivitySelectDialog from "./item/activity-select-dialog.mjs";
 import ActivitySheet from "./activity-sheet.mjs";
 import ActivityUseDialog from "./item/activity-use-dialog.mjs";
 import ActorSheetArtichron from "./actor/actor-sheet-base.mjs";
+import Application from "./apps/application.mjs";
 import ArtichronSheetMixin from "./base-sheet.mjs";
 import ChatLogArtichron from "./chatlog.mjs";
 import ClockSheet from "./clock-sheet.mjs";
@@ -46,6 +47,7 @@ export default {
     PartySheet,
   },
   api: {
+    Application,
     ArtichronSheetMixin,
     Dialog,
     PseudoDocumentSheet,

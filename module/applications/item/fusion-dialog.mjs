@@ -1,19 +1,12 @@
-const { HandlebarsApplicationMixin, ApplicationV2 } = foundry.applications.api;
+import Application from "../apps/application.mjs";
 
-export default class ItemFusionDialog extends HandlebarsApplicationMixin(ApplicationV2) {
+export default class ItemFusionDialog extends Application {
   /** @override */
   static DEFAULT_OPTIONS = {
-    classes: ["artichron", "fusion"],
-    tag: "form",
+    classes: ["fusion"],
     window: {
       title: "ARTICHRON.ItemFusionDialog.Title",
       icon: "fa-solid fa-volcano",
-      contentClasses: ["standard-form"],
-    },
-    position: { width: 400 },
-    form: {
-      handler: ItemFusionDialog.#onSubmitForm,
-      closeOnSubmit: true,
     },
   };
 
@@ -48,24 +41,6 @@ export default class ItemFusionDialog extends HandlebarsApplicationMixin(Applica
    * @type {ItemArtichron}
    */
   #item = null;
-
-  /* -------------------------------------------------- */
-
-  /**
-   * The resolved configuration.
-   * @type {object|null}
-   */
-  #config = null;
-
-  /* -------------------------------------------------- */
-
-  /**
-   * The resolved configuration.
-   * @type {object|null}
-   */
-  get config() {
-    return this.#config ?? null;
-  }
 
   /* -------------------------------------------------- */
 
@@ -195,30 +170,8 @@ export default class ItemFusionDialog extends HandlebarsApplicationMixin(Applica
   /*   Event Handlers                                   */
   /* -------------------------------------------------- */
 
-  /**
-   * Return the selected ids.
-   * @this {ItemFusionDialog}
-   * @returns {{itemId: string, effectId: string}}
-   */
-  static #onSubmitForm() {
-    const data = { itemId: this.#selectedTarget, effectId: this.#selectedFusion };
-    this.#config = data;
-  }
-
-  /* -------------------------------------------------- */
-  /*   Factory methods                                  */
-  /* -------------------------------------------------- */
-
-  /**
-   * Create an asynchronous instance of this application.
-   * @param {ItemArtichron} item      The item being fused onto another.
-   * @returns {Promise}               The relevant ids, or null if the application is closed.
-   */
-  static async create(item) {
-    return new Promise(resolve => {
-      const application = new this({ item });
-      application.addEventListener("close", () => resolve(application.config), { once: true });
-      application.render({ force: true });
-    });
+  /** @inheritdoc */
+  _processSubmitData(event, form, formData, submitOptions) {
+    return { itemId: this.#selectedTarget, effectId: this.#selectedFusion };
   }
 }

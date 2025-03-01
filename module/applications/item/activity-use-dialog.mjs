@@ -1,6 +1,6 @@
-export default class ActivityUseDialog extends foundry.applications.api.HandlebarsApplicationMixin(
-  foundry.applications.api.ApplicationV2,
-) {
+import Application from "../apps/application.mjs";
+
+export default class ActivityUseDialog extends Application {
   constructor({ activity, usage, dialog, message, ...options } = {}) {
     super(options);
     this.#activityId = activity.id;
@@ -12,18 +12,7 @@ export default class ActivityUseDialog extends foundry.applications.api.Handleba
 
   /** @override */
   static DEFAULT_OPTIONS = {
-    classes: ["artichron", "activity-use-dialog"],
-    form: {
-      handler: ActivityUseDialog.#submit,
-      closeOnSubmit: true,
-    },
-    position: {
-      width: 400,
-    },
-    tag: "form",
-    window: {
-      contentClasses: ["standard-form"],
-    },
+    classes: ["activity-use-dialog"],
   };
 
   /* -------------------------------------------------- */
@@ -92,24 +81,6 @@ export default class ActivityUseDialog extends foundry.applications.api.Handleba
    */
   get activity() {
     return this.#item.system.activities.get(this.#activityId);
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * The activity usage configuration.
-   * @type {object|null}
-   */
-  #config = null;
-
-  /* -------------------------------------------------- */
-
-  /**
-   * The activity usage configuration.
-   * @type {object|null}
-   */
-  get config() {
-    return this.#config ?? null;
   }
 
   /* -------------------------------------------------- */
@@ -307,15 +278,9 @@ export default class ActivityUseDialog extends foundry.applications.api.Handleba
   /*   Event handlers                                   */
   /* -------------------------------------------------- */
 
-  /**
-   * @this {ActivityUseDialog}
-   * @param {SubmitEvent} event             The originating submit event.
-   * @param {HTMLElement} html              The form element.
-   * @param {FormDataExtended} formData     The form data.
-   */
-  static #submit(event, html, formData) {
-    const config = foundry.utils.expandObject(formData.object);
-
+  /** @inheritdoc */
+  _processSubmitData(event, form, formData, submitOptions) {
+    const config = super._processSubmitData(event, form, formData, submitOptions);
     let max;
     switch (this.#item.actor.type) {
       case "monster":
@@ -329,23 +294,6 @@ export default class ActivityUseDialog extends foundry.applications.api.Handleba
       throw new Error(game.i18n.localize("ARTICHRON.ActivityUseDialog.Warning.Overspending"));
     }
 
-    this.#config = config;
-  }
-
-  /* -------------------------------------------------- */
-  /*   Static methods                                   */
-  /* -------------------------------------------------- */
-
-  /**
-   * Factory method for async behavior.
-   * @param {object} options              Application options.
-   * @returns {Promise<object|null>}      A promise that resolves to the usage configuration.
-   */
-  static async create(options) {
-    const { resolve, promise } = Promise.withResolvers();
-    const application = new this(options);
-    application.addEventListener("close", () => resolve(application.config), { once: true });
-    application.render({ force: true });
-    return promise;
+    return config;
   }
 }

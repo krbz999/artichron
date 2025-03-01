@@ -75,7 +75,7 @@ class FusionData extends DataModel {
       return null;
     }
 
-    const prompt = await artichron.applications.apps.ItemFusionDialog.create(item);
+    const prompt = await artichron.applications.apps.ItemFusionDialog.create({ item });
     if (!prompt) return null;
     const target = actor.items.get(prompt.itemId);
     const effect = prompt.effectId === "default" ? null : item.effects.get(prompt.effectId);

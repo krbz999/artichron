@@ -1,7 +1,7 @@
-export default class ActivitySelectDialog extends foundry.applications.api.HandlebarsApplicationMixin(
-  foundry.applications.api.ApplicationV2,
-) {
-  constructor(item, options = {}) {
+import Application from "../apps/application.mjs";
+
+export default class ActivitySelectDialog extends Application {
+  constructor({ item, ...options }) {
     super(options);
     this.#item = item;
   }
@@ -10,18 +10,7 @@ export default class ActivitySelectDialog extends foundry.applications.api.Handl
 
   /** @override */
   static DEFAULT_OPTIONS = {
-    classes: ["artichron", "activity-select-dialog"],
-    form: {
-      handler: ActivitySelectDialog.#submit,
-      closeOnSubmit: true,
-    },
-    position: {
-      width: 400,
-    },
-    tag: "form",
-    window: {
-      contentClasses: ["standard-form"],
-    },
+    classes: ["activity-select-dialog"],
   };
 
   /* -------------------------------------------------- */
@@ -52,24 +41,6 @@ export default class ActivitySelectDialog extends foundry.applications.api.Handl
    * @type {ItemArtichron}
    */
   #item = null;
-
-  /* -------------------------------------------------- */
-
-  /**
-   * The configuration to be resolved.
-   * @type {object|null}
-   */
-  #config = null;
-
-  /* -------------------------------------------------- */
-
-  /**
-   * The configuration to be resolved.
-   * @type {object|null}
-   */
-  get config() {
-    return this.#config ?? null;
-  }
 
   /* -------------------------------------------------- */
   /*   Rendering                                        */
@@ -117,36 +88,11 @@ export default class ActivitySelectDialog extends foundry.applications.api.Handl
   }
 
   /* -------------------------------------------------- */
-  /*   Event handlers                                   */
-  /* -------------------------------------------------- */
 
-  /**
-   * Handle form submission.
-   * @this {ActivitySelectDialog}
-   * @param {SubmitEvent} event             The originating submit event.
-   * @param {HTMLElement} html              The form element.
-   * @param {FormDataExtended} formData     The form data.
-   */
-  static #submit(event, html, formData) {
-    const config = foundry.utils.expandObject(formData.object);
+  /** @inheritdoc */
+  _processSubmitData(event, form, formData, submitOptions) {
+    const config = super._processSubmitData(event, form, formData, submitOptions);
     if (game.keyboard.isModifierActive(KeyboardManager.MODIFIER_KEYS.SHIFT)) config.configure = false;
-    this.#config = config;
-  }
-
-  /* -------------------------------------------------- */
-  /*   Static methods                                   */
-  /* -------------------------------------------------- */
-
-  /**
-   * Factory method for async behavior.
-   * @param {ItemArtichron} item          The item being used.
-   * @returns {Promise<object|null>}      A promise that resolves to the usage configuration.
-   */
-  static async create(activity) {
-    return new Promise(resolve => {
-      const application = new this(activity);
-      application.addEventListener("close", () => resolve(application.config), { once: true });
-      application.render({ force: true });
-    });
+    return config;
   }
 }
