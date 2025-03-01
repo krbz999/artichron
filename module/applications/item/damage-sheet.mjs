@@ -4,7 +4,7 @@ export default class DamageSheet extends foundry.applications.api.HandlebarsAppl
   foundry.applications.api.ApplicationV2,
 ) {
   constructor(options = {}) {
-    options.damageId = options.damage.id;
+    options.damageId = options.document.id;
     super(options);
     this.#activityId = options.document.activity.id;
     this.#item = options.document.activity.item;
@@ -92,28 +92,30 @@ export default class DamageSheet extends foundry.applications.api.HandlebarsAppl
     context = await super._preparePartContext(partId, context, options);
 
     if (partId === "damage") {
-      const damage = this.damage;
-      const makeField = field => {
-        const value = foundry.utils.getProperty(damage, field.fieldPath);
-        const disabled = !this.#item.sheet.isEditable;
-
-        const data = { field, value, disabled };
-
-        if (field instanceof foundry.data.fields.SetField) {
-          data.classes = "stacked";
-          data.type = "checkboxes";
-        }
-
-        if (field.name === "type") data.options = CONFIG.SYSTEM.DAMAGE_TYPES.optgroups;
-
-        return data;
+      const makeField = path => {
+        return {
+          field: this.damage.schema.getField(path),
+          value: foundry.utils.getProperty(this.damage, path),
+        };
       };
 
-      const damageFields = [...damage.schema].filter(field => {
-        return !field.readonly && !(field instanceof foundry.data.fields.SchemaField);
-      }).map(makeField);
-
-      context.damageFields = damageFields;
+      Object.assign(context, {
+        damage: this.damage,
+        fields: {
+          number: {
+            ...makeField("number"),
+          },
+          denomination: {
+            ... makeField("denomination"),
+          },
+          type: {
+            ...makeField("type"), options: CONFIG.SYSTEM.DAMAGE_TYPES.optgroups,
+          },
+          options: {
+            ...makeField("options"),
+          },
+        },
+      });
     }
 
     return context;

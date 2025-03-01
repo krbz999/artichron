@@ -224,7 +224,7 @@ Hooks.once("i18nInit", function() {
 
   // Localize formula models.
   // Localization.localizeDataModel(artichron.data.FormulaModel);
-  // Localization.localizeDataModel(artichron.data.DamageFormulaModel);
+  Localization.localizeDataModel(artichron.data.DamageFormulaModel);
 
   // Explicitly localize this embedded data model due to unknown reasons.
   // for (const v of Object.values(CONFIG.Item.dataModels)) {

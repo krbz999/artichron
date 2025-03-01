@@ -88,7 +88,7 @@ export default class ActivitySheet extends PseudoDocumentSheet {
   async #prepareIdentityContext(context) {
     context.name = {
       field: context.activity.schema.getField("name"),
-      value: context.activity.name,
+      value: context.activity._source.name,
       placeholder: game.i18n.localize(context.activity.constructor.metadata.defaultName),
     };
 

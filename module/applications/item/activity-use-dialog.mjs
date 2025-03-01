@@ -342,10 +342,10 @@ export default class ActivityUseDialog extends foundry.applications.api.Handleba
    * @returns {Promise<object|null>}      A promise that resolves to the usage configuration.
    */
   static async create(options) {
-    return new Promise(resolve => {
-      const application = new this(options);
-      application.addEventListener("close", () => resolve(application.config), { once: true });
-      application.render({ force: true });
-    });
+    const { resolve, promise } = Promise.withResolvers();
+    const application = new this(options);
+    application.addEventListener("close", () => resolve(application.config), { once: true });
+    application.render({ force: true });
+    return promise;
   }
 }

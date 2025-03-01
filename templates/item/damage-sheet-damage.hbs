@@ -1,6 +1,9 @@
 <fieldset>
   <legend>{{localize "ARTICHRON.SheetLabels.Damage"}}</legend>
-  {{#each damageFields}}
-  {{formGroup field value=value disabled=disabled type=type classes=classes options=options}}
-  {{/each}}
+  {{#with fields}}
+  {{formGroup number.field value=number.value}}
+  {{formGroup denomination.field value=denomination.value}}
+  {{formGroup type.field value=type.value options=type.options}}
+  {{formInput options.field value=options.value type="checkboxes"}}
+  {{/with}}
 </fieldset>

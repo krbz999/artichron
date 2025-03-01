@@ -63,6 +63,14 @@ export default class BaseActivity extends PseudoDocument {
   }
 
   /* -------------------------------------------------- */
+
+  /** @inheritdoc */
+  prepareDerivedData() {
+    super.prepareDerivedData();
+    this.name ||= game.i18n.localize(this.constructor.metadata.defaultName);
+  }
+
+  /* -------------------------------------------------- */
   /*   Properties                                       */
   /* -------------------------------------------------- */
 
@@ -126,6 +134,23 @@ export default class BaseActivity extends PseudoDocument {
 
   /* -------------------------------------------------- */
   /*   Instance methods                                 */
+  /* -------------------------------------------------- */
+
+  /**
+   * Retrieve an embedded pseudo-document.
+   * @param {string} embeddedName     The document name of the embedded pseudo-document.
+   * @param {string} id               The id of the embedded pseudo-document.
+   * @param {object} [options]
+   * @returns {PseudoDocument|null}
+   */
+  getEmbeddedDocument(embeddedName, id, { invalid = false, strict = false } = {}) {
+    switch (embeddedName) {
+      case "Damage":
+        return this.damage?.get(id, { invalid, strict }) ?? null;
+    }
+    return null;
+  }
+
   /* -------------------------------------------------- */
 
   /**

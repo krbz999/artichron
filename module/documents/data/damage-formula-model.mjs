@@ -26,6 +26,7 @@ export default class DamageFormulaModel extends FormulaModel {
 
   static metadata = Object.freeze({
     typed: false,
+    documentName: "Damage",
   });
 
   /* -------------------------------------------------- */
