@@ -191,8 +191,10 @@ export async function awaitTargets(count, { origin, range, allowPreTarget = fals
   };
 
   // Set initial targets.
-  if (!allowPreTarget || (game.user.targets.size > count)) await canvas.tokens.setTargets([], { mode: "replace" });
-  else for (const t of game.user.targets) if (!isValidTokenTarget(t)) removeTarget(t);
+  const tokens = Array.from(game.user.targets).filter(token => {
+    return !allowPreTarget || (game.user.targets.size > count) || !isValidTokenTarget(token);
+  });
+  canvas.tokens.setTargets(tokens, { mode: "release" });
 
   const { promise, resolve, reject } = Promise.withResolvers();
 
@@ -237,7 +239,7 @@ export async function awaitTargets(count, { origin, range, allowPreTarget = fals
   id = Hooks.on("targetToken", (user, token, bool) => {
     if (game.user !== user) return;
     if (bool && !isValidTokenTarget(token)) {
-      removeTarget(token);
+      canvas.tokens.setTargets([token], { mode: "release" });
       ui.notifications.warn("The targeted token is outside the range!");
       return;
     }
@@ -252,32 +254,6 @@ export async function awaitTargets(count, { origin, range, allowPreTarget = fals
   });
 
   return promise;
-}
-
-/* -------------------------------------------------- */
-
-/**
- * Properly and visually remove a target from the user.
- * @param {TokenArtichron} token      The token to remove.
- * @returns {void}
- */
-export function removeTarget(token) {
-  const targets = new Set(game.user.targets);
-  targets.delete(token);
-  return game.user.updateTokenTargets([...targets.map(token => token.id)]);
-}
-
-/* -------------------------------------------------- */
-
-/**
- * Properly and visually add a target to the user.
- * @param {TokenArtichron} token      The token to add.
- * @returns {void}
- */
-export function addTarget(token) {
-  const targets = new Set(game.user.targets);
-  targets.add(token);
-  return game.user.updateTokenTargets([...targets.map(token => token.id)]);
 }
 
 /* -------------------------------------------------- */
