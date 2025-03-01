@@ -1,9 +1,9 @@
+const { HandlebarsApplicationMixin, DocumentSheetV2 } = foundry.applications.api;
+
 /**
  * Application for configuring the basic data of a merchant.
  */
-export default class MerchantConfigurationDialog extends foundry.applications.api.HandlebarsApplicationMixin(
-  foundry.applications.api.DocumentSheetV2,
-) {
+export default class MerchantConfigurationDialog extends HandlebarsApplicationMixin(DocumentSheetV2) {
   /** @override */
   static DEFAULT_OPTIONS = {
     classes: ["artichron"],
@@ -47,12 +47,10 @@ export default class MerchantConfigurationDialog extends foundry.applications.ap
     context.name = {
       field: this.document.schema.getField("name"),
       value: this.document.name,
-      label: game.i18n.localize("Name"),
     };
     context.img = {
       field: this.document.schema.getField("img"),
       value: this.document.img,
-      label: game.i18n.localize("Image"),
     };
     context.bio = {
       field: this.document.system.schema.getField("biography.value"),
@@ -62,8 +60,8 @@ export default class MerchantConfigurationDialog extends foundry.applications.ap
       }),
     };
     context.shop = {
-      field: this.document.system.schema.getField("shop"),
-      value: this.document.system.shop,
+      field: this.document.system.schema.getField("shop.name"),
+      value: this.document.system._source.shop.name,
     };
 
     return context;

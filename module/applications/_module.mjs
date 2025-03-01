@@ -10,6 +10,7 @@ import CombatCarousel from "./combat/carousel.mjs";
 import CombatTrackerArtichron from "./combat/tracker.mjs";
 import ContextMenuArtichron from "./context-menu.mjs";
 import DamageSheet from "./item/damage-sheet.mjs";
+import Dialog from "./apps/dialog.mjs";
 import HeroSheet from "./actor/hero-sheet.mjs";
 import ItemFusionDialog from "./item/fusion-dialog.mjs";
 import ItemSheetAmmunition from "./item/item-sheet-ammo.mjs";
@@ -46,6 +47,7 @@ export default {
   },
   api: {
     ArtichronSheetMixin,
+    Dialog,
     PseudoDocumentSheet,
   },
   sidebar: {

@@ -1,3 +1,4 @@
+import MerchantConfigurationDialog from "../../applications/actor/merchant-configuration-dialog.mjs";
 import ActorArtichron from "../actor.mjs";
 import ChatMessageArtichron from "../chat-message.mjs";
 import ItemArtichron from "../item.mjs";
@@ -32,6 +33,16 @@ export default class MerchantData extends ActorSystemModel {
   }
 
   /* -------------------------------------------------- */
+
+  /**
+   * Reference to an existing configuration dialog.
+   * @type {MerchantConfigurationDialog}
+   */
+  #config;
+
+  /* -------------------------------------------------- */
+
+  /* -------------------------------------------------- */
   /*   Preparation methods                              */
   /* -------------------------------------------------- */
 
@@ -50,6 +61,18 @@ export default class MerchantData extends ActorSystemModel {
 
   /* -------------------------------------------------- */
   /*   Instance methods                                 */
+  /* -------------------------------------------------- */
+
+  /**
+   * Render the merchant configuration dialog for this actor.
+   * @returns {MerchantConfigurationDialog}
+   */
+  configure() {
+    if (!this.#config) this.#config = new MerchantConfigurationDialog({ document: this.parent });
+    this.#config.render({ force: true });
+    return this.#config;
+  }
+
   /* -------------------------------------------------- */
 
   /**

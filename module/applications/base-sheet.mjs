@@ -33,7 +33,7 @@ const ArtichronSheetMixin = Base => {
         createEffect: DocumentSheetArtichron.#onCreateEffect,
         deleteEffect: DocumentSheetArtichron.#onDeleteEffect,
         editEffect: DocumentSheetArtichron.#onEditEffect,
-        editImage: DocumentSheetArtichron.#onEditImage,
+        // editImage: DocumentSheetArtichron.#onEditImage,
         toggleDescription: DocumentSheetArtichron.#onToggleDescription,
         toggleEffect: DocumentSheetArtichron.#onToggleEffect,
         toggleOpacity: DocumentSheetArtichron.#ontoggleOpacity,
@@ -602,24 +602,24 @@ const ArtichronSheetMixin = Base => {
     /*   Event handlers                                   */
     /* -------------------------------------------------- */
 
-    /**
-     * Handle editing the document's image.
-     * @this {DocumentSheetArtichron}
-     * @param {PointerEvent} event      The originating click event.
-     * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
-     */
-    static #onEditImage(event, target) {
-      if (!this.isEditable) return;
-      const current = this.document.img;
-      const fp = new FilePicker({
-        type: "image",
-        current: current,
-        callback: path => this.document.update({ img: path }),
-        top: this.position.top + 40,
-        left: this.position.left + 10,
-      });
-      fp.browse();
-    }
+    // /**
+    //  * Handle editing the document's image.
+    //  * @this {DocumentSheetArtichron}
+    //  * @param {PointerEvent} event      The originating click event.
+    //  * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
+    //  */
+    // static #onEditImage(event, target) {
+    //   if (!this.isEditable) return;
+    //   const current = this.document.img;
+    //   const fp = new FilePicker({
+    //     type: "image",
+    //     current: current,
+    //     callback: path => this.document.update({ img: path }),
+    //     top: this.position.top + 40,
+    //     left: this.position.left + 10,
+    //   });
+    //   fp.browse();
+    // }
 
     /* -------------------------------------------------- */
 

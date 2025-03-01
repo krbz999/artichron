@@ -1,6 +1,6 @@
 <fieldset>
-  {{formGroup name.field value=name.value label=name.label classes="stacked"}}
-  {{formGroup shop.field value=shop.value classes="stacked"}}
-  {{formGroup img.field value=img.value label=img.label classes="stacked"}}
-  {{formGroup bio.field value=bio.value enriched=bio.enriched height=200 toggled=true}}
+  {{formGroup name.field value=name.value}}
+  {{formGroup shop.field value=shop.value placeholder=name.value}}
+  {{formGroup img.field value=img.value}}
+  {{formInput bio.field value=bio.value enriched=bio.enriched height=200 toggled=true}}
 </fieldset>

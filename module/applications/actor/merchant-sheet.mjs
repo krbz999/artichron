@@ -1,5 +1,4 @@
 import ActorSheetArtichron from "./actor-sheet-base.mjs";
-import MerchantConfigurationDialog from "./merchant-configuration-dialog.mjs";
 
 export default class MerchantSheet extends ActorSheetArtichron {
   /** @override */
@@ -188,7 +187,7 @@ export default class MerchantSheet extends ActorSheetArtichron {
    */
   static #configure(event, target) {
     if (!this.document.isOwner) return;
-    new MerchantConfigurationDialog({ document: this.document }).render({ force: true });
+    this.document.system.configure();
   }
 
   /* -------------------------------------------------- */
@@ -202,5 +201,4 @@ export default class MerchantSheet extends ActorSheetArtichron {
   static #checkout(event, target) {
     this.document.system.finalizePurchase();
   }
-
 }

@@ -83,6 +83,10 @@ dialog:-internal-dialog-in-top-layer::backdrop {
 
 /* ---------------------------------------- */
 
+.application {
+  max-height: 99vh;
+}
+
 /* System application backdrops */
 .application.artichron .window-content,
 #tooltip.item-tooltip > *,
