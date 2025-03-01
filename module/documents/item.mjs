@@ -41,7 +41,7 @@ export default class ItemArtichron extends Item {
   get attributes() {
     const attrs = {};
     for (const attr of this.system.attributes?.value ?? []) {
-      const status = CONFIG.SYSTEM.ITEM_ATTRIBUTES[attr]?.status;
+      const status = artichron.config.ITEM_ATTRIBUTES[attr]?.status;
       if (status) {
         const level = this.system.attributes.levels[status] ?? 1;
         attrs[status] = level;

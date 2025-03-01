@@ -182,7 +182,7 @@ export default class EffectFusionData extends ActiveEffectSystemModel {
 
     // Special case: attributes
     if (key === "system.attributes.value") {
-      const values = Array.from(value).map(k => CONFIG.SYSTEM.ITEM_ATTRIBUTES[k]?.label).filter(u => u);
+      const values = Array.from(value).map(k => artichron.config.ITEM_ATTRIBUTES[k]?.label).filter(u => u);
       return formatter.format(values);
     }
 

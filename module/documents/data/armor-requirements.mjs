@@ -71,7 +71,7 @@ class PoolRequirementData extends ArmorRequirementData {
       pool: new StringField({
         required: true,
         initial: "stamina",
-        choices: CONFIG.SYSTEM.POOL_TYPES,
+        choices: artichron.config.POOL_TYPES,
       }),
       value: new NumberField({
         min: 2,
@@ -124,7 +124,7 @@ class PoolRequirementData extends ArmorRequirementData {
   toRequirement() {
     return game.i18n.format("ARTICHRON.ITEM.REQUIREMENT.Pool.content", {
       value: this.value,
-      pool: CONFIG.SYSTEM.POOL_TYPES[this.pool].label,
+      pool: artichron.config.POOL_TYPES[this.pool].label,
     });
   }
 }
@@ -198,7 +198,7 @@ class SkillRequirementData extends ArmorRequirementData {
     return Object.assign(super.defineSchema(), {
       skill: new StringField({
         required: true,
-        choices: CONFIG.SYSTEM.SKILLS,
+        choices: artichron.config.SKILLS,
         initial: "agility",
       }),
       value: new NumberField({
@@ -251,7 +251,7 @@ class SkillRequirementData extends ArmorRequirementData {
   /** @inheritdoc */
   toRequirement() {
     return game.i18n.format("ARTICHRON.ITEM.REQUIREMENT.Skill.content", {
-      skill: CONFIG.SYSTEM.SKILLS[this.skill].label,
+      skill: artichron.config.SKILLS[this.skill].label,
       value: this.value,
     });
   }
@@ -264,9 +264,9 @@ class LevelRequirementData extends ArmorRequirementData {
   static defineSchema() {
     return Object.assign(super.defineSchema(), {
       level: new NumberField({
-        initial: () => CONFIG.SYSTEM.PROGRESSION_THRESHOLDS[0].level,
+        initial: () => artichron.config.PROGRESSION_THRESHOLDS[0].level,
         nullable: false,
-        choices: () => CONFIG.SYSTEM.PROGRESSION_THRESHOLDS.reduce((acc, v) => {
+        choices: () => artichron.config.PROGRESSION_THRESHOLDS.reduce((acc, v) => {
           acc[v.level] = v.label;
           return acc;
         }, {}),
@@ -313,7 +313,7 @@ class LevelRequirementData extends ArmorRequirementData {
 
   /** @inheritdoc */
   toRequirement() {
-    const progression = CONFIG.SYSTEM.PROGRESSION_THRESHOLDS.toReversed().find(p => {
+    const progression = artichron.config.PROGRESSION_THRESHOLDS.toReversed().find(p => {
       return p.level <= this.level;
     });
 

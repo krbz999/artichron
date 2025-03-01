@@ -16,7 +16,7 @@ export const SYSTEM = {};
  * Damage types and relevant properties.
  * @enum {DamageTypeConfig}
  */
-SYSTEM.DAMAGE_TYPES = {
+export const DAMAGE_TYPES = {
   fire: {
     label: "ARTICHRON.DamageType.Fire",
     color: "FF5733",
@@ -75,9 +75,9 @@ SYSTEM.DAMAGE_TYPES = {
   },
 };
 
-Object.defineProperty(SYSTEM.DAMAGE_TYPES, "optgroups", {
+Object.defineProperty(DAMAGE_TYPES, "optgroups", {
   get: function() {
-    const groups = Object.entries(CONFIG.SYSTEM.DAMAGE_TYPE_GROUPS).map(([k, { label }]) => {
+    const groups = Object.entries(artichron.config.DAMAGE_TYPE_GROUPS).map(([k, { label }]) => {
       const arr = [];
       for (const [u, v] of Object.entries(this)) {
         if (v.group === k) arr.push({ value: u, label: v.label, group: label });
@@ -100,7 +100,7 @@ Object.defineProperty(SYSTEM.DAMAGE_TYPES, "optgroups", {
  * Damage group types.
  * @enum {DamageTypeGroupConfig}
  */
-SYSTEM.DAMAGE_TYPE_GROUPS = {
+export const DAMAGE_TYPE_GROUPS = {
   physical: {
     label: "ARTICHRON.DamageTypeGroup.Physical",
   },
@@ -127,7 +127,7 @@ SYSTEM.DAMAGE_TYPE_GROUPS = {
  * with mana, as well as what blast zones a piece of ammo can create.
  * @enum {TargetTypeConfig}
  */
-SYSTEM.TARGET_TYPES = {
+export const TARGET_TYPES = {
   self: {
     label: "ARTICHRON.TargetTypes.Self",
     scale: new Set(),
@@ -166,7 +166,7 @@ SYSTEM.TARGET_TYPES = {
   },
 };
 
-Object.defineProperty(SYSTEM.TARGET_TYPES, "optgroups", {
+Object.defineProperty(TARGET_TYPES, "optgroups", {
   get: function() {
     const { self, single, ...rest } = this;
     const options = [];
@@ -192,7 +192,7 @@ Object.defineProperty(SYSTEM.TARGET_TYPES, "optgroups", {
  * Shield subtypes.
  * @enum {ShieldTypeConfig}
  */
-SYSTEM.SHIELD_TYPES = {
+export const SHIELD_TYPES = {
   buckler: {
     label: "ARTICHRON.ShieldType.Buckler",
     width: 1,
@@ -222,7 +222,7 @@ SYSTEM.SHIELD_TYPES = {
  * Armor categories.
  * @enum {EquipmentCategoryConfig}
  */
-SYSTEM.EQUIPMENT_CATEGORIES = {
+export const EQUIPMENT_CATEGORIES = {
   clothing: {
     label: "ARTICHRON.EQUIPMENT.CATEGORY.Clothing",
   },
@@ -245,7 +245,7 @@ SYSTEM.EQUIPMENT_CATEGORIES = {
  * Equipment subtypes.
  * @enum {EquipmentTypeConfig}
  */
-SYSTEM.EQUIPMENT_TYPES = {
+export const EQUIPMENT_TYPES = {
   accessory: { label: "ARTICHRON.ArmorType.Accessory" },
   arms: { label: "ARTICHRON.ArmorType.Arms" },
   chest: { label: "ARTICHRON.ArmorType.Chest" },
@@ -265,7 +265,7 @@ SYSTEM.EQUIPMENT_TYPES = {
  * Ammunition subtypes.
  * @enum {AmmunitionTypeConfig}
  */
-SYSTEM.AMMUNITION_TYPES = {
+export const AMMUNITION_TYPES = {
   arrow: {
     label: "ARTICHRON.AmmunitionType.Arrow",
   },
@@ -291,7 +291,7 @@ SYSTEM.AMMUNITION_TYPES = {
  * Monster part subtypes.
  * @enum {PartTypeConfig}
  */
-SYSTEM.PART_TYPES = {
+export const PART_TYPES = {
   horn: {
     label: "placeholder",
   },
@@ -308,7 +308,7 @@ SYSTEM.PART_TYPES = {
  * Effect duration types.
  * @enum {EffectDurationConfig}
  */
-SYSTEM.EFFECT_EXPIRATION_TYPES = {
+export const EFFECT_EXPIRATION_TYPES = {
   none: { label: "ARTICHRON.EffectDurations.None" },
   combat: { label: "ARTICHRON.EffectDurations.Combat" },
   day: { label: "ARTICHRON.EffectDurations.Day" },
@@ -325,7 +325,7 @@ SYSTEM.EFFECT_EXPIRATION_TYPES = {
  * Template duration types.
  * @enum {TemplateDurationConfig}
  */
-SYSTEM.TEMPLATE_DURATIONS = {
+export const TEMPLATE_DURATIONS = {
   none: {
     label: "ARTICHRON.TemplateDurations.None",
   },
@@ -357,7 +357,7 @@ SYSTEM.TEMPLATE_DURATIONS = {
  * Various item attributes.
  * @enum {ItemAttributeConfig}
  */
-SYSTEM.ITEM_ATTRIBUTES = {
+export const ITEM_ATTRIBUTES = {
   ammunition: {
     label: "ARTICHRON.ItemAttribute.Ammunition",
     types: new Set(["weapon"]),
@@ -440,7 +440,7 @@ SYSTEM.ITEM_ATTRIBUTES = {
  * The status conditions available.
  * @enum {StatusConditionConfig}
  */
-SYSTEM.STATUS_CONDITIONS = {
+export const STATUS_CONDITIONS = {
   defeated: {
     name: "ARTICHRON.CONDITIONS.FIELDS.defeated.label",
     img: "systems/artichron/assets/icons/defeated.svg",
@@ -603,7 +603,7 @@ SYSTEM.STATUS_CONDITIONS = {
  * The skills available.
  * @enum {SkillConfig}
  */
-SYSTEM.SKILLS = {
+export const SKILLS = {
   agility: {
     label: "ARTICHRON.Skills.Agility",
     img: "icons/skills/movement/feet-winged-boots-blue.webp",
@@ -634,7 +634,7 @@ SYSTEM.SKILLS = {
  * The pools used by a character.
  * @enum {PoolConfig}
  */
-SYSTEM.POOL_TYPES = {
+export const POOL_TYPES = {
   health: {
     label: "ARTICHRON.Pools.Health",
     boost: false,
@@ -661,7 +661,7 @@ SYSTEM.POOL_TYPES = {
  * The options for how to distribute the configuration of pool sizes.
  * @enum {PoolSizeSpecializationConfig}
  */
-SYSTEM.POOL_SIZE_SPECIALIZATION_TYPES = {
+export const POOL_SIZE_SPECIALIZATION_TYPES = {
   balanced: {
     label: "ARTICHRON.PoolConfig.SpecializationBalanced",
     hint: "ARTICHRON.PoolConfig.SpecializationBalancedSizeHint",
@@ -691,7 +691,7 @@ SYSTEM.POOL_SIZE_SPECIALIZATION_TYPES = {
  * The options for how to distribute the configuration of pool faces.
  * @enum {PoolFacesSpecializationConfig}
  */
-SYSTEM.POOL_FACES_SPECIALIZATION_TYPES = {
+export const POOL_FACES_SPECIALIZATION_TYPES = {
   balanced: {
     label: "ARTICHRON.PoolConfig.SpecializationBalanced",
     hint: "ARTICHRON.PoolConfig.SpecializationBalancedFacesHint",
@@ -722,7 +722,7 @@ SYSTEM.POOL_FACES_SPECIALIZATION_TYPES = {
  * The thresholds that can be met to achieve a 'level'.
  * @type {ProgressionThresholdConfig[]}
  */
-SYSTEM.PROGRESSION_THRESHOLDS = [{
+export const PROGRESSION_THRESHOLDS = [{
   label: "ARTICHRON.PROGRESSION.THRESHOLDS.Novice",
   level: 1,
   threshold: 0,
@@ -738,7 +738,7 @@ SYSTEM.PROGRESSION_THRESHOLDS = [{
 
 /* -------------------------------------------------- */
 
-SYSTEM.PROGRESSION_CORE_PATHS = {
+export const PROGRESSION_CORE_PATHS = {
   cleric: {
     label: "ARTICHRON.PROGRESSION.LABELS.Cleric",
   },
@@ -753,7 +753,7 @@ SYSTEM.PROGRESSION_CORE_PATHS = {
   },
 };
 
-SYSTEM.PROGRESSION_MIXED_PATHS = {
+export const PROGRESSION_MIXED_PATHS = {
   inquisitor: {
     label: "ARTICHRON.PROGRESSION.LABELS.Inquisitor",
     combo: new Set(["cleric", "rogue"]),
@@ -780,7 +780,7 @@ SYSTEM.PROGRESSION_MIXED_PATHS = {
   },
 };
 
-Object.defineProperty(SYSTEM.PROGRESSION_CORE_PATHS, "combo", {
+Object.defineProperty(PROGRESSION_CORE_PATHS, "combo", {
   value: _getCombo, configurable: true,
 });
 
@@ -790,7 +790,7 @@ function _getCombo(a, b) {
   }
 }
 
-SYSTEM.PROGRESSION_MARGINS = {
+export const PROGRESSION_MARGINS = {
   lower: 45,
   higher: 55,
 };

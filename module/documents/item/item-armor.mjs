@@ -29,17 +29,17 @@ export default class ArmorData extends ItemSystemModel {
           blank: true,
           choices: () => ({
             "": game.i18n.localize("ARTICHRON.EQUIPMENT.CATEGORY.None"),
-            ...CONFIG.SYSTEM.EQUIPMENT_CATEGORIES,
+            ...artichron.config.EQUIPMENT_CATEGORIES,
           }),
         }),
         subtype: new StringField({
           required: true,
-          initial: () => Object.keys(CONFIG.SYSTEM.EQUIPMENT_TYPES)[0],
-          choices: CONFIG.SYSTEM.EQUIPMENT_TYPES,
+          initial: () => Object.keys(artichron.config.EQUIPMENT_TYPES)[0],
+          choices: artichron.config.EQUIPMENT_TYPES,
         }),
         requirements: new CollectionField(ArmorRequirementData),
       }),
-      defenses: new SchemaField(CONFIG.SYSTEM.DAMAGE_TYPES.optgroups.reduce((acc, { value: k }) => {
+      defenses: new SchemaField(artichron.config.DAMAGE_TYPES.optgroups.reduce((acc, { value: k }) => {
         acc[k] = new SchemaField({ value: new NumberField({ integer: true, initial: null }) });
         return acc;
       }, {})),
@@ -52,7 +52,7 @@ export default class ArmorData extends ItemSystemModel {
   /** @override */
   static get BONUS_FIELDS() {
     return super.BONUS_FIELDS.union(new Set(
-      Object.keys(CONFIG.SYSTEM.DAMAGE_TYPES).map(k => `system.defenses.${k}.value`),
+      Object.keys(artichron.config.DAMAGE_TYPES).map(k => `system.defenses.${k}.value`),
     ));
   }
 
@@ -92,7 +92,7 @@ export default class ArmorData extends ItemSystemModel {
     context.defenses = Object.entries(this.defenses).reduce((acc, [type, { value }]) => {
       if (value) acc.push({
         value: value,
-        config: CONFIG.SYSTEM.DAMAGE_TYPES[type],
+        config: artichron.config.DAMAGE_TYPES[type],
       });
       return acc;
     }, []);

@@ -48,7 +48,7 @@ export default class EffectConditionData extends ActiveEffectSystemModel {
     super.prepareDerivedData();
     this.parent.transfer = false;
     this.parent.statuses.add(this.primary);
-    this.maxLevel = CONFIG.SYSTEM.STATUS_CONDITIONS[this.primary].levels || null;
+    this.maxLevel = artichron.config.STATUS_CONDITIONS[this.primary].levels || null;
     if (!this.maxLevel || (this.level > this.maxLevel)) this.level = this.maxLevel;
   }
 
@@ -106,7 +106,7 @@ export default class EffectConditionData extends ActiveEffectSystemModel {
    * @returns {Promise}
    */
   async increase(levels = 1) {
-    const max = CONFIG.SYSTEM.STATUS_CONDITIONS[this.primary].levels;
+    const max = artichron.config.STATUS_CONDITIONS[this.primary].levels;
     if (!max || !(max > 1) || (this.level === max)) return;
     const disabled = this.parent.disabled;
     const diff = Math.min(max, this.level + levels) - this.level;

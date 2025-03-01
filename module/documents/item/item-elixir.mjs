@@ -30,7 +30,7 @@ export default class ElixirData extends ItemSystemModel {
       boost: new StringField({
         required: true,
         initial: "stamina",
-        choices: () => Object.entries(CONFIG.SYSTEM.POOL_TYPES).reduce((acc, [k, v]) => {
+        choices: () => Object.entries(artichron.config.POOL_TYPES).reduce((acc, [k, v]) => {
           if (v.boost) acc[k] = v;
           return acc;
         }, {}),

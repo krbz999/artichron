@@ -91,8 +91,8 @@ export default class PoolConfig extends foundry.applications.api.HandlebarsAppli
    */
   async #prepareFaces(context) {
     const field = new foundry.data.fields.StringField({
-      choices: CONFIG.SYSTEM.POOL_FACES_SPECIALIZATION_TYPES,
-      hint: CONFIG.SYSTEM.POOL_FACES_SPECIALIZATION_TYPES[this.#faces]?.hint,
+      choices: artichron.config.POOL_FACES_SPECIALIZATION_TYPES,
+      hint: artichron.config.POOL_FACES_SPECIALIZATION_TYPES[this.#faces]?.hint,
     });
 
     context.faces = {
@@ -103,7 +103,7 @@ export default class PoolConfig extends foundry.applications.api.HandlebarsAppli
 
     if (!this.#faces) return context;
 
-    const [min, mid, max] = CONFIG.SYSTEM.POOL_FACES_SPECIALIZATION_TYPES[this.#faces].faces;
+    const [min, mid, max] = artichron.config.POOL_FACES_SPECIALIZATION_TYPES[this.#faces].faces;
     if (min === max) return context;
 
     const value = this.#facesLargest || "health";
@@ -139,8 +139,8 @@ export default class PoolConfig extends foundry.applications.api.HandlebarsAppli
    */
   async #prepareMax(context) {
     const field = new foundry.data.fields.StringField({
-      choices: CONFIG.SYSTEM.POOL_SIZE_SPECIALIZATION_TYPES,
-      hint: CONFIG.SYSTEM.POOL_SIZE_SPECIALIZATION_TYPES[this.#max]?.hint,
+      choices: artichron.config.POOL_SIZE_SPECIALIZATION_TYPES,
+      hint: artichron.config.POOL_SIZE_SPECIALIZATION_TYPES[this.#max]?.hint,
     });
 
     context.max = {
@@ -151,18 +151,18 @@ export default class PoolConfig extends foundry.applications.api.HandlebarsAppli
 
     if (!this.#max) return context;
 
-    const [min, mid, max] = CONFIG.SYSTEM.POOL_SIZE_SPECIALIZATION_TYPES[this.#max].sizes;
+    const [min, mid, max] = artichron.config.POOL_SIZE_SPECIALIZATION_TYPES[this.#max].sizes;
     if (min === max) return context;
 
     const value = this.#maxLargest || "health";
     const largest = new foundry.data.fields.StringField({
-      choices: CONFIG.SYSTEM.POOL_TYPES,
+      choices: artichron.config.POOL_TYPES,
       label: "Largest",
     });
     context.max.selects.push({ name: "max.maxPool", field: largest, value: value });
 
     if (min < mid) {
-      const choices = foundry.utils.deepClone(CONFIG.SYSTEM.POOL_TYPES);
+      const choices = foundry.utils.deepClone(artichron.config.POOL_TYPES);
       delete choices[value];
       const smallest = new foundry.data.fields.StringField({
         choices: choices,
@@ -252,7 +252,7 @@ function poolFaces({ config, minPool, maxPool }) {
   return _applyConfig({ config, minPool, maxPool, appendix: "faces" });
 }
 function _applyConfig({ config, minPool, maxPool, appendix }) {
-  const c = CONFIG.SYSTEM[`POOL_${(appendix === "base") ? "SIZE" : "FACES"}_SPECIALIZATION_TYPES`];
+  const c = artichron.config[`POOL_${(appendix === "base") ? "SIZE" : "FACES"}_SPECIALIZATION_TYPES`];
   const [min, mid, max] = c[config][(appendix === "base") ? "sizes" : "faces"];
   const update = {};
 

@@ -7,13 +7,13 @@ const { EmbeddedDataField, NumberField, SchemaField, StringField } = foundry.dat
 const targetField = () => {
   return new SchemaField({
     type: new StringField({
-      choices: CONFIG.SYSTEM.TARGET_TYPES,
+      choices: artichron.config.TARGET_TYPES,
       initial: "single",
       required: true,
     }),
     count: new NumberField({ min: 1, integer: true, nullable: false, initial: 1 }),
     duration: new StringField({
-      choices: CONFIG.SYSTEM.TEMPLATE_DURATIONS,
+      choices: artichron.config.TEMPLATE_DURATIONS,
       initial: "combat",
       required: true,
     }),

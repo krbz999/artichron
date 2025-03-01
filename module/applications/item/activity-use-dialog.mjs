@@ -130,7 +130,7 @@ export default class ActivityUseDialog extends Application {
         const damages = activity.damage.map(part => {
           return {
             formula: part.formula,
-            type: CONFIG.SYSTEM.DAMAGE_TYPES[part.type].label,
+            type: artichron.config.DAMAGE_TYPES[part.type].label,
           };
         });
         const field = new foundry.data.fields.NumberField({

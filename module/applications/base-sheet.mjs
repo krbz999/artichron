@@ -272,7 +272,7 @@ const ArtichronSheetMixin = Base => {
           return isOwner &&
             (item.type === "condition") &&
             Number.isInteger(item.system.level) &&
-            (CONFIG.SYSTEM.STATUS_CONDITIONS[item.system.primary].levels > item.system.level);
+            (artichron.config.STATUS_CONDITIONS[item.system.primary].levels > item.system.level);
         },
         callback: () => item.system.increase(),
         group: "action",

@@ -109,7 +109,7 @@ export default class DamageSheet extends foundry.applications.api.HandlebarsAppl
             ... makeField("denomination"),
           },
           type: {
-            ...makeField("type"), options: CONFIG.SYSTEM.DAMAGE_TYPES.optgroups,
+            ...makeField("type"), options: artichron.config.DAMAGE_TYPES.optgroups,
           },
           options: {
             ...makeField("options"),

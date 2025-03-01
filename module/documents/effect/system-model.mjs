@@ -10,7 +10,7 @@ export default class ActiveEffectSystemModel extends foundry.abstract.TypeDataMo
       expiration: new StringField({
         required: true,
         initial: "none",
-        choices: CONFIG.SYSTEM.EFFECT_EXPIRATION_TYPES,
+        choices: artichron.config.EFFECT_EXPIRATION_TYPES,
       }),
     };
   }

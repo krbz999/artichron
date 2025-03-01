@@ -11,11 +11,11 @@ export default class DamageFormulaModel extends FormulaModel {
       _id: new DocumentIdField({ initial: () => foundry.utils.randomID() }),
       type: new StringField({
         required: true,
-        choices: CONFIG.SYSTEM.DAMAGE_TYPES,
+        choices: artichron.config.DAMAGE_TYPES,
         initial: "physical",
       }),
       options: new SetField(new StringField({
-        choices: () => Object.fromEntries(Object.entries(CONFIG.SYSTEM.ITEM_ATTRIBUTES).filter(([k, v]) => {
+        choices: () => Object.fromEntries(Object.entries(artichron.config.ITEM_ATTRIBUTES).filter(([k, v]) => {
           return v.damageOption;
         })),
       })),

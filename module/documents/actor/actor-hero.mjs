@@ -33,7 +33,7 @@ export default class HeroData extends CreatureData {
       mana: poolSchema(),
     });
 
-    schema.skills = new SchemaField(Object.entries(CONFIG.SYSTEM.SKILLS).reduce((acc, [k, v]) => {
+    schema.skills = new SchemaField(Object.entries(artichron.config.SKILLS).reduce((acc, [k, v]) => {
       acc[k] = new SchemaField({
         number: new NumberField({ integer: true, min: 2, initial: 2, nullable: false }),
         bonus: new NumberField({ integer: true, min: 0, initial: 0 }),
@@ -72,7 +72,7 @@ export default class HeroData extends CreatureData {
     const spent = this.progression.points.spent.reduce((acc, p) => acc + p.value, 0);
     this.progression.points.available = this.progression.points.total - spent;
 
-    const progression = CONFIG.SYSTEM.PROGRESSION_THRESHOLDS.toReversed().find(p => {
+    const progression = artichron.config.PROGRESSION_THRESHOLDS.toReversed().find(p => {
       return this.progression.points.total >= p.threshold;
     });
     this.progression.level = progression.level;
@@ -119,7 +119,7 @@ export default class HeroData extends CreatureData {
   #prepareHealth() {
     // Set health maximum and clamp current health.
     const levels = this.parent.appliedConditionLevel("injured");
-    const injury = 1 - levels / CONFIG.SYSTEM.STATUS_CONDITIONS.injured.levels;
+    const injury = 1 - levels / artichron.config.STATUS_CONDITIONS.injured.levels;
     const total = this.pools.health.max * this.pools.health.faces;
 
     let max = Math.ceil(total * injury);
@@ -145,7 +145,7 @@ export default class HeroData extends CreatureData {
     }
 
     // Skills
-    for (const k of Object.keys(CONFIG.SYSTEM.SKILLS)) {
+    for (const k of Object.keys(artichron.config.SKILLS)) {
       bonus.add(`system.skills.${k}.number`);
       bonus.add(`system.skills.${k}.bonus`);
     }
@@ -305,12 +305,12 @@ export default class HeroData extends CreatureData {
         value: k,
         checked: (k === base) || (!i && !base),
         checked2: (k === second) || (!i && !second),
-        img: CONFIG.SYSTEM.SKILLS[k].img,
-        label: CONFIG.SYSTEM.SKILLS[k].label,
+        img: artichron.config.SKILLS[k].img,
+        label: artichron.config.SKILLS[k].label,
       };
     });
 
-    if (!base || !second || !(new Set([base, second]).isSubset(new Set(Object.keys(CONFIG.SYSTEM.SKILLS))))) {
+    if (!base || !second || !(new Set([base, second]).isSubset(new Set(Object.keys(artichron.config.SKILLS))))) {
       const prompt = await foundry.applications.api.DialogV2.prompt({
         content: await renderTemplate("systems/artichron/templates/actor/skill-dialog.hbs", { skills: skills }),
         modal: true,
@@ -337,7 +337,7 @@ export default class HeroData extends CreatureData {
     await roll.toMessage({
       flavor: game.i18n.format("ARTICHRON.SkillsDialog.Flavor", {
         skills: Array.from(new Set([base, second]).map(skl => {
-          return CONFIG.SYSTEM.SKILLS[skl].label;
+          return artichron.config.SKILLS[skl].label;
         })).sort((a, b) => a.localeCompare(b)).join(", "),
       }),
       speaker: ChatMessage.implementation.getSpeaker({ actor: this.parent }),

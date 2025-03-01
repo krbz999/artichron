@@ -189,7 +189,7 @@ export default class ActorArtichron extends Actor {
         const isDamage = damage.type !== "healing";
         const invert = isDamage && (damage.type !== "");
         const text = (invert ? (-damage.value) : damage.value).signedString();
-        const color = foundry.utils.Color.from(isDamage ? (CONFIG.SYSTEM.DAMAGE_TYPES[damage.type]?.color ?? red) : green);
+        const color = foundry.utils.Color.from(isDamage ? (artichron.config.DAMAGE_TYPES[damage.type]?.color ?? red) : green);
         canvas.interface.createScrollingText(c, text, { ...options, fill: color });
         token.ring?.flashColor(color);
         await new Promise(r => setTimeout(r, 350));
@@ -494,7 +494,7 @@ export default class ActorArtichron extends Actor {
    */
   async toggleStatusEffect(statusId, { active, overlay = false, levels = 1 } = {}) {
     const id = artichron.utils.staticId(statusId);
-    const hasLevels = !!CONFIG.SYSTEM.STATUS_CONDITIONS[statusId].levels;
+    const hasLevels = !!artichron.config.STATUS_CONDITIONS[statusId].levels;
     const effect = this.effects.get(id);
     active ??= !effect || (effect && hasLevels);
 

@@ -26,7 +26,7 @@ export default class CreatureData extends ActorSystemModel {
         primary: new StringField({ required: true }),
         secondary: new StringField({ required: true }),
       }),
-      armor: new SchemaField(Object.keys(CONFIG.SYSTEM.EQUIPMENT_TYPES).reduce((acc, key) => {
+      armor: new SchemaField(Object.keys(artichron.config.EQUIPMENT_TYPES).reduce((acc, key) => {
         acc[key] = new StringField({ required: true });
         return acc;
       }, {})),
@@ -44,8 +44,8 @@ export default class CreatureData extends ActorSystemModel {
     super.prepareBaseData();
     this.bonuses = { damage: {} };
     this.defenses = {};
-    for (const k of Object.keys(CONFIG.SYSTEM.DAMAGE_TYPE_GROUPS)) this.bonuses.damage[k] = 0;
-    for (const { value } of CONFIG.SYSTEM.DAMAGE_TYPES.optgroups) this.defenses[value] = 0;
+    for (const k of Object.keys(artichron.config.DAMAGE_TYPE_GROUPS)) this.bonuses.damage[k] = 0;
+    for (const { value } of artichron.config.DAMAGE_TYPES.optgroups) this.defenses[value] = 0;
   }
 
   /* -------------------------------------------------- */
@@ -74,7 +74,7 @@ export default class CreatureData extends ActorSystemModel {
 
   /** Prepare damage bonuses derived from statuses. */
   #prepareDamageBonuses() {
-    for (const k of Object.keys(CONFIG.SYSTEM.DAMAGE_TYPE_GROUPS)) {
+    for (const k of Object.keys(artichron.config.DAMAGE_TYPE_GROUPS)) {
       let mult = 0;
       if (this.parent.statuses.has(`${k.slice(0, 4)}AtkUp`)) mult = 50;
       if (this.parent.statuses.has(`${k.slice(0, 4)}AtkDown`)) mult = mult ? 0 : -33;
@@ -129,10 +129,10 @@ export default class CreatureData extends ActorSystemModel {
   static get BONUS_FIELDS() {
     const bonus = super.BONUS_FIELDS;
     bonus.add("system.pips.turn");
-    for (const k of Object.keys(CONFIG.SYSTEM.DAMAGE_TYPE_GROUPS)) {
+    for (const k of Object.keys(artichron.config.DAMAGE_TYPE_GROUPS)) {
       bonus.add(`system.bonuses.damage.${k}`);
     }
-    for (const k of Object.keys(CONFIG.SYSTEM.DAMAGE_TYPES)) {
+    for (const k of Object.keys(artichron.config.DAMAGE_TYPES)) {
       bonus.add(`system.defenses.${k}`);
     }
     return bonus;
@@ -161,7 +161,7 @@ export default class CreatureData extends ActorSystemModel {
    */
   get armor() {
     const items = this.equipped.armor;
-    return Object.keys(CONFIG.SYSTEM.EQUIPMENT_TYPES).reduce((acc, k) => {
+    return Object.keys(artichron.config.EQUIPMENT_TYPES).reduce((acc, k) => {
       const item = this.parent.items.get(items[k]) ?? null;
       acc[k] = ((item?.type === "armor") && (item.system.category.subtype === k)) ? item : null;
       return acc;

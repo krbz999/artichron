@@ -2,7 +2,7 @@ import RollArtichron from "./roll.mjs";
 
 export default class DamageRoll extends RollArtichron {
   constructor(formula, data = {}, options = {}) {
-    if (!options.type || !(options.type in CONFIG.SYSTEM.DAMAGE_TYPES)) {
+    if (!options.type || !(options.type in artichron.config.DAMAGE_TYPES)) {
       throw new Error("A damage roll was constructed without a type.");
     }
     super(formula, data, options);

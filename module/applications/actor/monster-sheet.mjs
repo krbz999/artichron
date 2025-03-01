@@ -124,7 +124,7 @@ export default class MonsterSheet extends ActorSheetArtichron {
 
     const makeResistance = (key, path) => {
       const value = foundry.utils.getProperty(doc.system, path);
-      const { label, color, icon } = CONFIG.SYSTEM.DAMAGE_TYPES[key];
+      const { label, color, icon } = artichron.config.DAMAGE_TYPES[key];
       context.defenses[key] = {
         value: value, label: label, color: color, icon: icon, active: value > 0,
       };

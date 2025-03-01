@@ -139,18 +139,18 @@ export default class ActivitySheet extends PseudoDocumentSheet {
         show: true,
         legend: makeLegend("target"),
         fields: [],
-        type: { ...makeField("target.type"), options: CONFIG.SYSTEM.TARGET_TYPES.optgroups },
+        type: { ...makeField("target.type"), options: artichron.config.TARGET_TYPES.optgroups },
       };
 
       if (context.activity.hasTemplate) context.target.fields.push(makeField("target.duration"));
-      const configuration = CONFIG.SYSTEM.TARGET_TYPES[context.activity.target.type];
+      const configuration = artichron.config.TARGET_TYPES[context.activity.target.type];
       for (const s of configuration.scale) context.target.fields.push(makeField(`target.${s}`));
     }
 
     // Damage
     const damage = context.activity.schema.has("damage");
     if (damage) {
-      const groups = CONFIG.SYSTEM.DAMAGE_TYPES.optgroups;
+      const groups = artichron.config.DAMAGE_TYPES.optgroups;
       context.damage = {
         show: true,
         legend: makeLegend("damage"),

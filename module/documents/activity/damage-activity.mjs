@@ -8,13 +8,13 @@ const { NumberField, SchemaField, StringField } = foundry.data.fields;
 const targetField = () => {
   return new SchemaField({
     type: new StringField({
-      choices: CONFIG.SYSTEM.TARGET_TYPES,
+      choices: artichron.config.TARGET_TYPES,
       initial: "single",
       required: true,
     }),
     count: new NumberField({ min: 1, integer: true, nullable: false, initial: 1 }),
     duration: new StringField({
-      choices: CONFIG.SYSTEM.TEMPLATE_DURATIONS,
+      choices: artichron.config.TEMPLATE_DURATIONS,
       initial: "combat",
       required: true,
     }),
@@ -77,7 +77,7 @@ export default class DamageActivity extends BaseActivity {
       // Override the damage type due to ammunition.
       if (mods.has("override")) {
         const override = ammo.system.override;
-        if ((override.group === "all") || (CONFIG.SYSTEM.DAMAGE_TYPES[p.type].group === override.group)) {
+        if ((override.group === "all") || (artichron.config.DAMAGE_TYPES[p.type].group === override.group)) {
           type = override.value;
         }
       }
@@ -89,7 +89,7 @@ export default class DamageActivity extends BaseActivity {
       }
 
       // Damage modifier.
-      let multiplier = actor.system.bonuses.damage[CONFIG.SYSTEM.DAMAGE_TYPES[type].group];
+      let multiplier = actor.system.bonuses.damage[artichron.config.DAMAGE_TYPES[type].group];
       multiplier = 1 + multiplier / 100;
 
       const roll = new CONFIG.Dice.DamageRoll(part.formula, rollData, {
@@ -104,7 +104,7 @@ export default class DamageActivity extends BaseActivity {
 
     // Add any amplifying bonuses (increasing the amount of damage dealt of a given type).
     // for (const roll of rolls) {
-    //   const group = CONFIG.SYSTEM.DAMAGE_TYPES[roll.type].group;
+    //   const group = artichron.config.DAMAGE_TYPES[roll.type].group;
     //   const bonus = actor.system.bonuses.damage[group];
     //   if (!bonus) continue;
     //   const terms = [

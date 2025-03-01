@@ -76,7 +76,7 @@ export default class HeroSheet extends ActorSheetArtichron {
 
     const context = {
       document: doc,
-      config: CONFIG.SYSTEM,
+      config: artichron.config,
       health: this.document.system.health,
       pools: this.#preparePools(),
       equipment: this.#prepareEquipment(),
@@ -121,9 +121,9 @@ export default class HeroSheet extends ActorSheetArtichron {
       const value = foundry.utils.getProperty(doc.system, path);
       context.defenses[key] = {
         value: value,
-        label: CONFIG.SYSTEM.DAMAGE_TYPES[key].label,
-        color: CONFIG.SYSTEM.DAMAGE_TYPES[key].color,
-        icon: CONFIG.SYSTEM.DAMAGE_TYPES[key].icon,
+        label: artichron.config.DAMAGE_TYPES[key].label,
+        color: artichron.config.DAMAGE_TYPES[key].color,
+        icon: artichron.config.DAMAGE_TYPES[key].icon,
         active: value > 0,
       };
     };
@@ -136,7 +136,7 @@ export default class HeroSheet extends ActorSheetArtichron {
 
     // Skills.
     context.skills = Object.entries(this.document.system.skills).map(([k, v]) => {
-      const { label, img } = CONFIG.SYSTEM.SKILLS[k];
+      const { label, img } = artichron.config.SKILLS[k];
       return { label, img, value: v.number, skillId: k };
     });
 

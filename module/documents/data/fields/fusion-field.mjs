@@ -147,7 +147,7 @@ class FusionData extends DataModel {
     let sfield = source.system.schema.getField(path);
     if (!ignoredChanges.has(path) && ifield && sfield) {
       const value = Array.from(foundry.utils.getProperty(source.system, path)).filter(key => {
-        return CONFIG.SYSTEM.ITEM_ATTRIBUTES[key].transferrable !== false;
+        return artichron.config.ITEM_ATTRIBUTES[key].transferrable !== false;
       }).join(", ");
       if (value) changes.push({ key: `system.${path}`, mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: value });
     }

@@ -26,19 +26,19 @@ export default class AmmunitionData extends ItemSystemModel {
       category: new SchemaField({
         subtype: new StringField({
           required: true,
-          initial: () => Object.keys(CONFIG.SYSTEM.AMMUNITION_TYPES)[0],
-          choices: CONFIG.SYSTEM.AMMUNITION_TYPES,
+          initial: () => Object.keys(artichron.config.AMMUNITION_TYPES)[0],
+          choices: artichron.config.AMMUNITION_TYPES,
         }),
       }),
       override: new SchemaField({ // TODO: add this to ammo sheet and fix it up
         group: new StringField({
           required: true,
           blank: true,
-          choices: { all: { label: "All" }, ...CONFIG.SYSTEM.DAMAGE_TYPE_GROUPS },
+          choices: { all: { label: "All" }, ...artichron.config.DAMAGE_TYPE_GROUPS },
         }),
         value: new StringField({
           required: true,
-          choices: CONFIG.SYSTEM.DAMAGE_TYPES,
+          choices: artichron.config.DAMAGE_TYPES,
           initial: "fire",
         }),
       }),

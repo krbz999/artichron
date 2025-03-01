@@ -99,7 +99,7 @@ export default class BaseActivity extends PseudoDocument {
    * @type {boolean}
    */
   get hasTemplate() {
-    return CONFIG.SYSTEM.TARGET_TYPES[this.target?.type]?.isArea ?? false;
+    return artichron.config.TARGET_TYPES[this.target?.type]?.isArea ?? false;
   }
 
   /* -------------------------------------------------- */
@@ -437,7 +437,7 @@ export default class BaseActivity extends PseudoDocument {
     const target = { ...this.target };
     if (target.type === "radius") target.count = 1;
     if (increase) target.size = target.size + increase;
-    target.attach = CONFIG.SYSTEM.TARGET_TYPES[target.type].isAttached;
+    target.attach = artichron.config.TARGET_TYPES[target.type].isAttached;
 
     for (let i = 0; i < target.count; i++) {
       const templateData = await artichron.canvas.TemplatePlacement.fromToken(token, target, {

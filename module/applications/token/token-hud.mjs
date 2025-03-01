@@ -17,7 +17,7 @@ export default class TokenHUDArtichron extends foundry.applications.hud.TokenHUD
     }
     const statusId = target.dataset.statusId;
 
-    const { levels, hud } = CONFIG.SYSTEM.STATUS_CONDITIONS[statusId];
+    const { levels, hud } = artichron.config.STATUS_CONDITIONS[statusId];
     const isLeveled = levels && (levels > 0) && hud;
     const active = isLeveled ? event.button === 0 : undefined;
 

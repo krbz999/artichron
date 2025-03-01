@@ -1,5 +1,5 @@
 import { registerSockets } from "./module/helpers/sockets.mjs";
-import { SYSTEM } from "./module/helpers/config.mjs";
+import * as SYSTEM from "./module/helpers/config.mjs";
 import * as documents from "./module/documents/_module.mjs";
 import * as migrations from "./module/helpers/migrations.mjs";
 import * as utils from "./module/helpers/utils.mjs";
@@ -198,8 +198,8 @@ Hooks.once("i18nInit", function() {
     }
   };
 
-  for (const [k, v] of Object.entries(CONFIG.SYSTEM)) {
-    localize(CONFIG.SYSTEM, k, v);
+  for (const [k, v] of Object.entries(artichron.config)) {
+    localize(artichron.config, k, v);
   }
 
   // Localize data models. TODO: Unsure if still needed.

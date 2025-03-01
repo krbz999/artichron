@@ -128,7 +128,7 @@ export default class UsageMessageData extends ChatMessageSystemModel {
       let color;
 
       if (this.parent.isDamage) {
-        ({ label, color, icon } = CONFIG.SYSTEM.DAMAGE_TYPES[roll.type]);
+        ({ label, color, icon } = artichron.config.DAMAGE_TYPES[roll.type]);
       } else if (this.parent.isHealing) {
         icon = "fa-solid fa-staff-snake";
         label = "ARTICHRON.Healing";

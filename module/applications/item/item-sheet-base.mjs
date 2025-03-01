@@ -75,7 +75,7 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
       document: doc,
       source: src.system,
       rollData: rollData,
-      config: CONFIG.SYSTEM,
+      config: artichron.config,
       activeFusions: activeFusions,
       effects: buffs,
       fusions: fusionOptions,
@@ -121,7 +121,7 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
     };
 
     for (const attr of attrs) {
-      const status = CONFIG.SYSTEM.ITEM_ATTRIBUTES[attr]?.status;
+      const status = artichron.config.ITEM_ATTRIBUTES[attr]?.status;
       if (status) {
         const path = `attributes.levels.${status}`;
         const name = `system.${path}`;
@@ -182,9 +182,9 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
       return {
         field: field.fields.value,
         value: context.isPlayMode ? (value ?? 0) : (value ? value : null),
-        label: CONFIG.SYSTEM.DAMAGE_TYPES[field.name].label,
-        color: CONFIG.SYSTEM.DAMAGE_TYPES[field.name].color,
-        icon: CONFIG.SYSTEM.DAMAGE_TYPES[field.name].icon,
+        label: artichron.config.DAMAGE_TYPES[field.name].label,
+        color: artichron.config.DAMAGE_TYPES[field.name].color,
+        icon: artichron.config.DAMAGE_TYPES[field.name].icon,
         active: context.isEditMode || !!value,
       };
     };

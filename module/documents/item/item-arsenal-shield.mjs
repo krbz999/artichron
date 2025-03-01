@@ -23,7 +23,7 @@ export default class ShieldData extends ArsenalData {
         subtype: new StringField({
           required: true,
           initial: "buckler",
-          choices: CONFIG.SYSTEM.SHIELD_TYPES,
+          choices: artichron.config.SHIELD_TYPES,
         }),
       }),
     };

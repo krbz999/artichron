@@ -26,8 +26,8 @@ export default class PartData extends ItemSystemModel {
       category: new SchemaField({
         subtype: new StringField({
           required: true,
-          initial: () => Object.keys(CONFIG.SYSTEM.PART_TYPES)[0],
-          choices: CONFIG.SYSTEM.PART_TYPES,
+          initial: () => Object.keys(artichron.config.PART_TYPES)[0],
+          choices: artichron.config.PART_TYPES,
         }),
       }),
     };

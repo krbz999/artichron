@@ -98,7 +98,7 @@ class ProgressionPoolData extends ProgressionData {
       pool: new StringField({
         required: true,
         initial: "stamina",
-        choices: CONFIG.SYSTEM.POOL_TYPES,
+        choices: artichron.config.POOL_TYPES,
       }),
       value: new NumberField({ min: 2, step: 2, initial: 2, nullable: false }),
     });
@@ -194,7 +194,7 @@ class ProgressionSkillData extends ProgressionData {
       skill: new StringField({
         required: true,
         initial: "agility",
-        choices: CONFIG.SYSTEM.SKILLS,
+        choices: artichron.config.SKILLS,
       }),
       value: new NumberField({ min: 1, step: 1, initial: 1, nullable: false }),
     });

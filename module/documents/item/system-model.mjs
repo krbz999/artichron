@@ -43,7 +43,7 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
         levels: new TypedObjectField(new NumberField({
           min: 1, nullable: true, integer: true,
         }), { validateKey: key => {
-          return Object.values(CONFIG.SYSTEM.ITEM_ATTRIBUTES).some(attr => attr.status === key);
+          return Object.values(artichron.config.ITEM_ATTRIBUTES).some(attr => attr.status === key);
         } }),
       }),
     };
@@ -58,7 +58,7 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
   static _attributeChoices() {
     const choices = {};
     const type = this.metadata.type;
-    for (const [k, v] of Object.entries(CONFIG.SYSTEM.ITEM_ATTRIBUTES)) {
+    for (const [k, v] of Object.entries(artichron.config.ITEM_ATTRIBUTES)) {
       if (!v.types?.size || v.types.has(type)) choices[k] = v;
     }
     return choices;

@@ -22,7 +22,7 @@ export default class WeaponData extends ArsenalData {
       ammunition: new SchemaField({
         type: new StringField({
           required: true,
-          choices: CONFIG.SYSTEM.AMMUNITION_TYPES,
+          choices: artichron.config.AMMUNITION_TYPES,
           initial: "arrow",
         }),
       }),
