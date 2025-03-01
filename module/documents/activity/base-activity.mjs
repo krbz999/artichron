@@ -311,16 +311,16 @@ export default class BaseActivity extends PseudoDocument {
     if (usage.consume?.action) {
       const value = this.cost.value;
       if (!actor.inCombat) {
-        ui.notifications.warn(game.i18n.format("ARTICHRON.ACTIVITY.Warning.ConsumeOutOfCombat", {
-          name: actor.name,
-        }));
+        ui.notifications.warn("ARTICHRON.ACTIVITY.Warning.ConsumeOutOfCombat", {
+          format: { name: actor.name },
+        });
         return false;
       }
 
       if (!actor.canPerformActionPoints(value)) {
-        ui.notifications.warn(game.i18n.format("ARTICHRON.ACTIVITY.Warning.ConsumeCostUnavailable", {
-          name: actor.name, number: value,
-        }));
+        ui.notifications.warn("ARTICHRON.ACTIVITY.Warning.ConsumeCostUnavailable", {
+          format: { name: actor.name, number: value },
+        });
         return false;
       }
 
@@ -330,7 +330,9 @@ export default class BaseActivity extends PseudoDocument {
     // Consume usage if this activity is on an elixir.
     if (usage.consume?.uses) {
       if (!this.item.hasUses) {
-        ui.notifications.warn(game.i18n.format("ARTICHRON.ACTIVITY.Warning.NoElixirUses", { name: this.item.name }));
+        ui.notifications.warn("ARTICHRON.ACTIVITY.Warning.NoElixirUses", {
+          format: { name: this.item.name },
+        });
         return false;
       }
       itemUpdates.push(this.item.system._usageUpdate());
@@ -352,12 +354,12 @@ export default class BaseActivity extends PseudoDocument {
       for (const id of usage.elixirs.ids) {
         const elixir = actor.items.get(id);
         if (!elixir) {
-          ui.notifications.warn(game.i18n.format("ARTICHRON.ACTIVITY.Warning.NoElixir", { id: id }));
+          ui.notifications.warn("ARTICHRON.ACTIVITY.Warning.NoElixir", { format: { id: id } });
           return false;
         }
 
         if (!elixir.hasUses) {
-          ui.notifications.warn(game.i18n.format("ARTICHRON.ACTIVITY.Warning.NoElixirUses", { name: elixir.name }));
+          ui.notifications.warn("ARTICHRON.ACTIVITY.Warning.NoElixirUses", { format: { name: elixir.name } });
           return false;
         }
 
@@ -374,9 +376,9 @@ export default class BaseActivity extends PseudoDocument {
       const path = isMonster ? "danger.pool" : `pools.${this.poolType}`;
       const value = foundry.utils.getProperty(actor.system, `${path}.value`);
       if (value < pool) {
-        ui.notifications.warn(game.i18n.format("ARTICHRON.ACTIVITY.Warning.NoPool", {
-          pool: game.i18n.localize(`ARTICHRON.Pools.${isMonster ? "Danger" : this.poolType.capitalize()}`),
-        }));
+        ui.notifications.warn("ARTICHRON.ACTIVITY.Warning.NoPool", {
+          format: { pool: game.i18n.localize(`ARTICHRON.Pools.${isMonster ? "Danger" : this.poolType.capitalize()}`) },
+        });
         return false;
       }
 

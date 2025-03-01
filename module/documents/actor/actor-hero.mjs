@@ -240,10 +240,9 @@ export default class HeroData extends CreatureData {
     if (!(type in this.pools)) return null;
     const pool = this.pools[type];
     if (pool.value < amount) {
-      ui.notifications.warn(game.i18n.format("ARTICHRON.ROLL.Pool.Warning.NotEnoughPoolDice", {
-        name: this.parent.name,
-        type: game.i18n.localize(`ARTICHRON.Pools.${type.capitalize()}`),
-      }));
+      ui.notifications.warn("ARTICHRON.ROLL.Pool.Warning.NotEnoughPoolDice", {
+        format: { name: this.parent.name, type: game.i18n.localize(`ARTICHRON.Pools.${type.capitalize()}`) },
+      });
       return null;
     }
 
