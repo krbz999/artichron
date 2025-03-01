@@ -54,7 +54,7 @@ class _CollectionField extends foundry.data.fields.ObjectField {
    */
   getModel(value) {
     if (this.#model.metadata?.typed === false) return this.#model;
-    return this.#model.TYPES[value.type] ?? null;
+    return this.#model.TYPES[value?.type] ?? null;
   }
 
   /* -------------------------------------------------- */
@@ -132,7 +132,7 @@ class ModelCollection extends foundry.utils.Collection {
 
   /* -------------------------------------------------- */
 
-  /** @inheritDoc */
+  /** @inheritdoc */
   set(key, value) {
     if (!this.#types.has(value.type)) this.#types.set(value.type, new Set());
     this.#types.get(value.type).add(key);
@@ -141,7 +141,7 @@ class ModelCollection extends foundry.utils.Collection {
 
   /* -------------------------------------------------- */
 
-  /** @inheritDoc */
+  /** @inheritdoc */
   delete(key) {
     this.#types.get(this.get(key)?.type)?.delete(key);
     return super.delete(key);

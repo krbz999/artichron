@@ -145,7 +145,10 @@ export default class PseudoDocument extends foundry.abstract.DataModel {
   async delete(operation = {}) {
     if (!this.#isSource) throw new Error("You cannot delete a non-source pseudo-document!");
     const path = `${this.constructor._path}.-=${this.id}`;
-    return this.document.update({ [path]: null }, operation);
+    delete this.document.apps[this.sheet?.id];
+    await this.document.update({ [path]: null }, operation);
+    this.sheet?.close();
+    return this.document;
   }
 
   /* -------------------------------------------------- */
