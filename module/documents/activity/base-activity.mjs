@@ -4,12 +4,6 @@ import ChatMessageArtichron from "../chat-message.mjs";
 import ItemArtichron from "../item.mjs";
 import PseudoDocument from "../data/pseudo-document.mjs";
 
-/**
- * @typedef {object} ActivityMetadata     Activity metadata.
- * @property {string} label               Name of this activity type.
- * @property {string} icon                Default icon of this activity type.
- */
-
 const {
   BooleanField, FilePathField, HTMLField,
   NumberField, SchemaField, StringField,
@@ -24,6 +18,7 @@ export default class BaseActivity extends PseudoDocument {
     documentName: "Activity",
     label: "",
     icon: "systems/artichron/assets/icons/activity.svg",
+    sheetClass: ActivitySheet,
   });
 
   /* -------------------------------------------------- */
@@ -36,14 +31,6 @@ export default class BaseActivity extends PseudoDocument {
     }, {}));
   }
   static #TYPES;
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Registered sheets.
-   * @type {Map<string, ApplicationV2>}
-   */
-  static #sheets = new Map();
 
   /* -------------------------------------------------- */
 
@@ -77,30 +64,6 @@ export default class BaseActivity extends PseudoDocument {
 
   /* -------------------------------------------------- */
   /*   Properties                                       */
-  /* -------------------------------------------------- */
-
-  /**
-   * The uuid of this activity.
-   * @type {string}
-   */
-  get uuid() {
-    return `${this.item.uuid}.Activity.${this.id}`;
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Reference to the sheet for this activity, registered in a static map.
-   * @type {ActivitySheet}
-   */
-  get sheet() {
-    if (!BaseActivity.#sheets.has(this.uuid)) {
-      const cls = new ActivitySheet({ document: this });
-      BaseActivity.#sheets.set(this.uuid, cls);
-    }
-    return BaseActivity.#sheets.get(this.uuid);
-  }
-
   /* -------------------------------------------------- */
 
   /**

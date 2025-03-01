@@ -1,7 +1,4 @@
-const {
-  DocumentIdField,
-  StringField,
-} = foundry.data.fields;
+const { DocumentIdField, StringField } = foundry.data.fields;
 
 export default class PseudoDocument extends foundry.abstract.DataModel {
   /**
@@ -11,6 +8,14 @@ export default class PseudoDocument extends foundry.abstract.DataModel {
   static metadata = Object.freeze({
     documentName: "",
   });
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Registered sheets.
+   * @type {Map<string, PseudoDocumentSheet>}
+   */
+  static #sheets = new Map();
 
   /* -------------------------------------------------- */
 
@@ -84,6 +89,20 @@ export default class PseudoDocument extends foundry.abstract.DataModel {
    */
   get document() {
     return this.parent.parent;
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Reference to the sheet of this pseudo-document, registered in a static map.
+   * @type {PseudoDocumentSheet}
+   */
+  get sheet() {
+    if (!PseudoDocument.#sheets.has(this.uuid)) {
+      const Cls = this.constructor.metadata.sheetClass;
+      PseudoDocument.#sheets.set(this.uuid, new Cls({ document: this }));
+    }
+    return PseudoDocument.#sheets.get(this.uuid);
   }
 
   /* -------------------------------------------------- */
