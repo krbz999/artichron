@@ -1,4 +1,7 @@
 {
+"DOCUMENT": {
+  "Activity": "Activity"
+},
 "TYPES": {
 "ActiveEffect": {
   "buff": "Buff",

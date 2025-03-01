@@ -72,8 +72,7 @@ Hooks.once("init", function() {
   // Hook up dice types.
   CONFIG.Dice.rolls[0] = dice.RollArtichron;
   CONFIG.Dice.rolls.push(dice.DamageRoll);
-  CONFIG.Dice.Roll = dice.RollArtichron;
-  CONFIG.Dice.DamageRoll = dice.DamageRoll;
+  Object.assign(CONFIG.Dice, dice);
 
   // Register sheet application classes
   const configureSheet = (scope, { DocumentClass, SheetClass, options = {} }) => {

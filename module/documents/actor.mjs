@@ -193,6 +193,17 @@ export default class ActorArtichron extends Actor {
   /*   Instance methods                                 */
   /* -------------------------------------------------- */
 
+  /** @inheritdoc */
+  getEmbeddedDocument(embeddedName, id, { invalid = false, strict = false } = {}) {
+    switch (embeddedName) {
+      case "Clock":
+        return this.system.clocks?.get(id, { invalid, strict }) ?? null;
+    }
+    return super.getEmbeddedDocument(embeddedName, id, { invalid, strict });
+  }
+
+  /* -------------------------------------------------- */
+
   /** @override */
   getRollData() {
     const data = this.system.getRollData();

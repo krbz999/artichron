@@ -11,10 +11,15 @@ export default class ActivitySheet extends foundry.applications.api.HandlebarsAp
 
   /** @override */
   static DEFAULT_OPTIONS = {
+    id: "{id}",
     actions: {
       addDamage: ActivitySheet.#addDamage,
       deleteDamage: ActivitySheet.#deleteDamage,
       showDamage: ActivitySheet.#showDamage,
+      copyUuid: {
+        handler: ActivitySheet.#onCopyUuid,
+        buttons: [0, 2],
+      },
     },
     classes: ["artichron", "activity"],
     document: null,
@@ -97,9 +102,19 @@ export default class ActivitySheet extends foundry.applications.api.HandlebarsAp
 
   /** @override */
   get title() {
-    return game.i18n.format("ARTICHRON.SHEET.ACTIVITY.title", {
-      name: this.activity.name,
-    });
+    const { label, defaultName } = this.activity.constructor.metadata;
+    const name = this.activity.name || game.i18n.localize(defaultName);
+    return `${game.i18n.localize(label)}: ${name}`;
+  }
+
+  /* -------------------------------------------------- */
+
+  /** @inheritdoc */
+  _initializeApplicationOptions(options) {
+    options = super._initializeApplicationOptions(options);
+    const suffix = options.document.uuid;
+    options.uniqueId = `${this.constructor.name}-${suffix.replaceAll(".", "-")}`;
+    return options;
   }
 
   /* -------------------------------------------------- */
@@ -299,9 +314,28 @@ export default class ActivitySheet extends foundry.applications.api.HandlebarsAp
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   _onClose(_options) {
     delete this.item.apps[this.id];
+  }
+
+  /* -------------------------------------------------- */
+
+  /** @inheritdoc */
+  async _renderFrame(options) {
+    const frame = await super._renderFrame(options);
+    const copyLabel = game.i18n.localize("SHEETS.CopyUuid");
+
+    const properties = Object.entries({
+      type: "button",
+      class: "header-control fa-solid fa-passport icon",
+      "data-action": "copyUuid",
+      "data-tooltip": copyLabel,
+      "aria-label": copyLabel,
+    }).map(([k, v]) => `${k}="${v}"`).join(" ");
+    const copyId = `<button ${properties}></button>`;
+    this.window.close.insertAdjacentHTML("beforebegin", copyId);
+    return frame;
   }
 
   /* -------------------------------------------------- */
@@ -354,5 +388,22 @@ export default class ActivitySheet extends foundry.applications.api.HandlebarsAp
   static #showDamage(event, target) {
     const id = target.closest("[data-id]").dataset.id;
     this.activity.damage.get(id).sheet.render({ force: true });
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * @this {ActivitySheet}
+   * @param {PointerEvent} event      The originating click event.
+   */
+  static #onCopyUuid(event) {
+    event.preventDefault(); // Don't open context menu
+    event.stopPropagation(); // Don't trigger other events
+    if (event.detail > 1) return; // Ignore repeated clicks
+    const id = event.button === 2 ? this.activity.id : this.activity.uuid;
+    const type = event.button === 2 ? "id" : "uuid";
+    const label = game.i18n.localize(`DOCUMENT.${this.activity.constructor.metadata.documentName}`);
+    game.clipboard.copyPlainText(id);
+    ui.notifications.info("DOCUMENT.IdCopiedClipboard", { format: { label, type, id } });
   }
 }

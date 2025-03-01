@@ -352,6 +352,19 @@ export default class ItemArtichron extends Item {
   /*   Instance methods                                 */
   /* -------------------------------------------------- */
 
+  /** @inheritdoc */
+  getEmbeddedDocument(embeddedName, id, { invalid = false, strict = false } = {}) {
+    switch (embeddedName) {
+      case "Activity":
+        return this.system.activities?.get(id, { invalid, strict }) ?? null;
+      case "ArmorRequirement":
+        return this.system.category?.requirements?.get(id, { invalid, strict }) ?? null;
+    }
+    return super.getEmbeddedDocument(embeddedName, id, { invalid, strict });
+  }
+
+  /* -------------------------------------------------- */
+
   /** @override */
   getRollData() {
     const data = this.isEmbedded ? this.actor.getRollData() : {};
