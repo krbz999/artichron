@@ -22,6 +22,7 @@ import PartyDistributionDialog from "./actor/party-distribution-dialog.mjs";
 import PartyFundsDialog from "./actor/party-funds-dialog.mjs";
 import PartySheet from "./actor/party-sheet.mjs";
 import PoolConfig from "./actor/pool-config.mjs";
+import PseudoDocumentSheet from "./pseudo-document-sheet.mjs";
 import RollConfigurationDialog from "./item/roll-configuration-dialog.mjs";
 import TokenHUDArtichron from "./token/token-hud.mjs";
 import TooltipsArtichron from "./tooltips.mjs";
@@ -44,6 +45,7 @@ export default {
   },
   api: {
     ArtichronSheetMixin,
+    PseudoDocumentSheet,
   },
   sidebar: {
     tabs: {

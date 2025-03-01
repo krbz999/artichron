@@ -1,50 +1,24 @@
-export default class ActivitySheet extends foundry.applications.api.HandlebarsApplicationMixin(
-  foundry.applications.api.ApplicationV2,
-) {
-  constructor(options) {
-    super(options);
-    this.#item = options.document.item;
-    this.#activityId = options.document.id;
-  }
+import PseudoDocumentSheet from "./pseudo-document-sheet.mjs";
 
-  /* -------------------------------------------------- */
-
-  /** @override */
+export default class ActivitySheet extends PseudoDocumentSheet {
+  /** @inheritdoc */
   static DEFAULT_OPTIONS = {
-    id: "{id}",
     actions: {
       addDamage: ActivitySheet.#addDamage,
       deleteDamage: ActivitySheet.#deleteDamage,
       showDamage: ActivitySheet.#showDamage,
-      copyUuid: {
-        handler: ActivitySheet.#onCopyUuid,
-        buttons: [0, 2],
-      },
     },
-    classes: ["artichron", "activity"],
-    document: null,
-    form: {
-      handler: ActivitySheet.#onSubmitForm,
-      submitOnChange: true,
-    },
-    position: {
-      width: 500,
-      height: "auto",
-    },
-    tag: "form",
+    classes: ["activity"],
     window: {
       icon: "fa-solid fa-bolt-lightning",
-      contentClasses: ["standard-form"],
     },
   };
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   static PARTS = {
-    tabs: {
-      template: "templates/generic/tab-navigation.hbs",
-    },
+    ...super.PARTS,
     identity: {
       template: "systems/artichron/templates/item/activity-identity.hbs",
     },
@@ -55,7 +29,7 @@ export default class ActivitySheet extends foundry.applications.api.HandlebarsAp
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   tabGroups = {
     primary: "identity",
   };
@@ -68,15 +42,9 @@ export default class ActivitySheet extends foundry.applications.api.HandlebarsAp
    * The item that has this activity.
    * @type {ItemArtichron}
    */
-  #item = null;
-
-  /* -------------------------------------------------- */
-
-  /**
-   * The id of the activity.
-   * @type {string}
-   */
-  #activityId = null;
+  get item() {
+    return this.document;
+  }
 
   /* -------------------------------------------------- */
 
@@ -85,48 +53,7 @@ export default class ActivitySheet extends foundry.applications.api.HandlebarsAp
    * @type {BaseActivity}
    */
   get activity() {
-    return this.#item.system.activities.get(this.#activityId);
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * The item that has this activity.
-   * @type {ItemArtichron}
-   */
-  get item() {
-    return this.#item;
-  }
-
-  /* -------------------------------------------------- */
-
-  /** @override */
-  get title() {
-    const { label, defaultName } = this.activity.constructor.metadata;
-    const name = this.activity.name || game.i18n.localize(defaultName);
-    return `${game.i18n.localize(label)}: ${name}`;
-  }
-
-  /* -------------------------------------------------- */
-
-  /** @inheritdoc */
-  _initializeApplicationOptions(options) {
-    options = super._initializeApplicationOptions(options);
-    const suffix = options.document.uuid;
-    options.uniqueId = `${this.constructor.name}-${suffix.replaceAll(".", "-")}`;
-    return options;
-  }
-
-  /* -------------------------------------------------- */
-
-  /** @override */
-  async _prepareContext(options) {
-    const context = {
-      activity: this.activity,
-      item: this.item,
-      actor: this.item.actor,
-    };
-    return context;
+    return this.pseudoDocument;
   }
 
   /* -------------------------------------------------- */
@@ -135,33 +62,19 @@ export default class ActivitySheet extends foundry.applications.api.HandlebarsAp
   async _preparePartContext(partId, context, options) {
     context = await super._preparePartContext(partId, context, options);
 
+    Object.assign(context, {
+      activity: this.activity,
+      item: this.item,
+      actor: this.item.actor,
+    });
+
     switch (partId) {
-      case "tabs":
-        return this.#prepareTabsContext(context);
       case "identity":
         return this.#prepareIdentityContext(context);
       case "details":
         return this.#prepareDetailsContext(context);
     }
-  }
 
-  /* -------------------------------------------------- */
-
-  /**
-   * Prepare context for the navigation.
-   * @param {object} context        Rendering context.
-   * @returns {Promise<object>}     Mutated rendering context.
-   */
-  async #prepareTabsContext(context) {
-    const tabs = {
-      identity: { id: "identity", group: "primary", icon: "fa-solid fa-tag", label: "ARTICHRON.SheetLabels.Identity" },
-      details: { id: "details", group: "primary", icon: "fa-solid fa-pen-fancy", label: "ARTICHRON.SheetLabels.Details" },
-    };
-    for (const v of Object.values(tabs)) {
-      v.active = this.tabGroups[v.group] === v.id;
-      v.cssClass = v.active ? "active" : "";
-    }
-    context.tabs = tabs;
     return context;
   }
 
@@ -306,54 +219,6 @@ export default class ActivitySheet extends foundry.applications.api.HandlebarsAp
 
   /* -------------------------------------------------- */
 
-  /** @inheritdoc */
-  _onFirstRender(context, options) {
-    super._onFirstRender(context, options);
-    this.item.apps[this.id] = this;
-  }
-
-  /* -------------------------------------------------- */
-
-  /** @inheritdoc */
-  _onClose(_options) {
-    delete this.item.apps[this.id];
-  }
-
-  /* -------------------------------------------------- */
-
-  /** @inheritdoc */
-  async _renderFrame(options) {
-    const frame = await super._renderFrame(options);
-    const copyLabel = game.i18n.localize("SHEETS.CopyUuid");
-
-    const properties = Object.entries({
-      type: "button",
-      class: "header-control fa-solid fa-passport icon",
-      "data-action": "copyUuid",
-      "data-tooltip": copyLabel,
-      "aria-label": copyLabel,
-    }).map(([k, v]) => `${k}="${v}"`).join(" ");
-    const copyId = `<button ${properties}></button>`;
-    this.window.close.insertAdjacentHTML("beforebegin", copyId);
-    return frame;
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Handle form submission.
-   * @this {ActivitySheet}
-   * @param {PointerEvent} event            The originating click event.
-   * @param {HTMLElement} form              The form element.
-   * @param {FormDataExtended} formData     The form data.
-   */
-  static #onSubmitForm(event, form, formData) {
-    const submitData = foundry.utils.expandObject(formData.object);
-    this.activity.update(submitData);
-  }
-
-  /* -------------------------------------------------- */
-
   /**
    * Add a damage part.
    * @this {ActivitySheet}
@@ -388,22 +253,5 @@ export default class ActivitySheet extends foundry.applications.api.HandlebarsAp
   static #showDamage(event, target) {
     const id = target.closest("[data-id]").dataset.id;
     this.activity.damage.get(id).sheet.render({ force: true });
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * @this {ActivitySheet}
-   * @param {PointerEvent} event      The originating click event.
-   */
-  static #onCopyUuid(event) {
-    event.preventDefault(); // Don't open context menu
-    event.stopPropagation(); // Don't trigger other events
-    if (event.detail > 1) return; // Ignore repeated clicks
-    const id = event.button === 2 ? this.activity.id : this.activity.uuid;
-    const type = event.button === 2 ? "id" : "uuid";
-    const label = game.i18n.localize(`DOCUMENT.${this.activity.constructor.metadata.documentName}`);
-    game.clipboard.copyPlainText(id);
-    ui.notifications.info("DOCUMENT.IdCopiedClipboard", { format: { label, type, id } });
   }
 }
