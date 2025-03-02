@@ -631,11 +631,11 @@ export default class ActorArtichron extends Actor {
 
   /**
    * Reference to this actor's current amount of pips.
-   * @type {number|null}      The action points, or null if not in combat.
+   * @type {number|null}      The action points, or null if not in combat or invalid actor.
    */
   get actionPoints() {
     if (!this.inCombat) return null;
-    return this.system.pips.value;
+    return this.system.pips?.value ?? null;
   }
 
   /* -------------------------------------------------- */
@@ -660,6 +660,7 @@ export default class ActorArtichron extends Actor {
    */
   canPerformActionPoints(value = 1) {
     if (!this.inCombat) return true;
+    if (!this.system.pips) return true;
     return this.actionPoints >= value;
   }
 

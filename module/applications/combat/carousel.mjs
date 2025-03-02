@@ -116,7 +116,7 @@ export default class CombatCarousel extends HandlebarsApplicationMixin(Applicati
           idx: i,
           combatant: t,
           ap: {
-            pips: Array(pips > 18 ? 17 : pips).fill(0),
+            pips: Array(Math.ceil(pips > 18 ? 17 : pips)).fill(0),
             overflow: pips > 18,
             amount: pips,
           },
