@@ -319,7 +319,8 @@
     },
     "shop": {
       "name": {
-        "label": "Shop"
+        "label": "Shop",
+        "hint": "The name of the shop. If left blank, the shop will use the merchant's name."
       }
     },
     "skills": {
