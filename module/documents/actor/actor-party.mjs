@@ -3,9 +3,7 @@ import Clock from "../data/clocks.mjs";
 import CollectionField from "../data/fields/collection-field.mjs";
 import PartyDistributionDialog from "../../applications/actor/party-distribution-dialog.mjs";
 
-const {
-  ForeignDocumentField, NumberField, SchemaField, SetField,
-} = foundry.data.fields;
+const { NumberField, SchemaField, TypedObjectField } = foundry.data.fields;
 
 export default class PartyData extends ActorSystemModel {
   /**
@@ -23,14 +21,14 @@ export default class PartyData extends ActorSystemModel {
   static defineSchema() {
     const schema = super.defineSchema();
 
-    schema.members = new SetField(new SchemaField({
-      actor: new ForeignDocumentField(foundry.documents.BaseActor),
-    }));
-
-    schema.clocks = new CollectionField(Clock);
-
-    schema.points = new SchemaField({
-      value: new NumberField({ min: 0, integer: true }),
+    Object.assign(schema, {
+      members: new TypedObjectField(new SchemaField({}), {
+        validateKey: key => foundry.data.validators.isValidId(key),
+      }),
+      clocks: new CollectionField(Clock),
+      points: new SchemaField({
+        value: new NumberField({ min: 0, integer: true }),
+      }),
     });
 
     schema.currency.fields.award = new NumberField({ integer: true, min: 0, initial: 0, nullable: false });
@@ -48,18 +46,13 @@ export default class PartyData extends ActorSystemModel {
 
   /** @override */
   prepareBaseData() {
-    // Assign an 'id' property to the members set for convenience.
-    const ids = new Set();
-    this.members = this.members.filter((member) => {
-      if (!PartyData.metadata.allowedActorTypes.has(member.actor?.type) || ids.has(member.actor.id)) return false;
-      ids.add(member.actor.id);
-      return true;
-    });
-    Object.defineProperty(this.members, "ids", {
-      value: ids,
-      enumerable: false,
-      writable: false,
-    });
+    super.prepareBaseData();
+    this.members = Object.entries(this.members).reduce((acc, [id, obj]) => {
+      const actor = game.actors.get(id);
+      const allowed = actor && (actor !== this.parent) && this.constructor.metadata.allowedActorTypes.has(actor.type);
+      if (allowed) acc.set(id, { ...obj, actor });
+      return acc;
+    }, new foundry.utils.Collection());
   }
 
   /* -------------------------------------------------- */
@@ -73,11 +66,17 @@ export default class PartyData extends ActorSystemModel {
    */
   async addMember(actor) {
     if (!PartyData.metadata.allowedActorTypes.has(actor.type)) throw new Error(`Cannot add a ${actor.type} to a party!`);
-    if (actor.pack) throw new Error("Added member cannot be in a compendium!");
-    if (this.members.ids.has(actor.id)) return;
-    const members = this.toObject().members;
-    members.push({ actor: actor.id });
-    return this.parent.update({ "system.members": members });
+    if (actor.inCompendium) throw new Error("Added member cannot be in a compendium!");
+    if (this.members.has(actor.id)) return;
+
+    const ids = this.members.map(member => member.actor.id).concat(actor.id);
+    const members = Object.entries(this._source.members).reduce((acc, [id, source]) => {
+      if (ids.includes(id)) acc[id] = source;
+      return acc;
+    }, {});
+    members[actor.id] = {};
+
+    return this.parent.update({ "system.==members": members });
   }
 
   /* -------------------------------------------------- */
@@ -88,13 +87,15 @@ export default class PartyData extends ActorSystemModel {
    * @returns {Promise<ActorArtichron>}     A promise that resolves to the updated party actor.
    */
   async removeMember(actor) {
-    if (!this.members.ids.has(actor.id)) return;
-    const members = [];
-    for (const member of this.toObject().members) {
-      if (!this.members.ids.has(member.actor) || (member.actor === actor.id)) continue;
-      members.push(member);
-    }
-    return this.parent.update({ "system.members": members });
+    if (!this.members.has(actor.id)) return;
+
+    const ids = Array.from(this.members.keys()).filter(id => id !== actor.id);
+    const members = Object.entries(this._source.members).reduce((acc, [id, source]) => {
+      if (ids.includes(id)) acc[id] = source;
+      return acc;
+    }, {});
+
+    return this.parent.update({ "system.==members": members });
   }
 
   /* -------------------------------------------------- */
@@ -104,7 +105,7 @@ export default class PartyData extends ActorSystemModel {
    * @returns {TokenDocumentArtichron[]}
    */
   async placeMembers() {
-    const tokens = Array.from(this.members).map(m => m.actor.prototypeToken);
+    const tokens = this.members.map(member => member.actor.prototypeToken);
     const placements = await artichron.canvas.TokenPlacement.place({ tokens: tokens });
 
     const origin = this.parent.isToken ? this.parent.token?.object : this.parent.getActiveTokens()[0];
@@ -124,7 +125,7 @@ export default class PartyData extends ActorSystemModel {
     if (origin) {
       await new Promise(r => setTimeout(r, 100));
       const options = { autoRotate: true, animation: { duration: 1000, easing: "easeInOutCosine" } };
-      created.map((token, i) => token.move([movements[i]], options));
+      created.map((token, i) => token.move([movements[i]], { ...options }));
     }
 
     return created;

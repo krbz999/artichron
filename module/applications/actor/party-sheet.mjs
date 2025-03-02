@@ -155,7 +155,6 @@ export default class PartySheet extends ActorSheetArtichron {
     const members = [];
 
     for (const { actor } of this.document.system.members) {
-      if (!actor) continue;
       const context = {
         actor: actor,
         isOwner: actor.isOwner,
@@ -413,7 +412,7 @@ export default class PartySheet extends ActorSheetArtichron {
    */
   #changeCurrency(event) {
     const id = event.currentTarget.closest("[data-id]").dataset.id;
-    const actor = this.document.system.members.find(m => m.actor.id === id).actor;
+    const actor = this.document.system.members.get(id).actor;
     const result = artichron.utils.parseInputDelta(event.currentTarget, actor);
     if (result !== undefined) actor.update({ "system.currency.funds": result });
   }

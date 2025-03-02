@@ -27,7 +27,7 @@ export default class ChatLogArtichron extends foundry.applications.sidebar.tabs.
     }
 
     const choices = {};
-    for (const id of [party.id, ...party.system.members.ids]) {
+    for (const id of [party.id, ...party.system.members.keys()]) {
       if (id === item.actor.id) continue;
       choices[id] = game.actors.get(id).name;
     }
