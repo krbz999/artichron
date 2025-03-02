@@ -26,6 +26,17 @@ export default class EffectEntryElement extends HTMLElement {
   /* -------------------------------------------------- */
 
   /**
+   * The active effect.
+   * @type {ActiveEffect|null}
+   */
+  #item = null;
+  get item() {
+    return this.#item;
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
    * The tag name of this element.
    * @type {string}
    */
@@ -153,5 +164,7 @@ export default class EffectEntryElement extends HTMLElement {
 
     // Set name for use in search filter.
     this.dataset.name = item.name;
+
+    this.#item = item;
   }
 }

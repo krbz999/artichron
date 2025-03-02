@@ -205,10 +205,9 @@ export default class CombatCarousel extends HandlebarsApplicationMixin(Applicati
   /** @inheritdoc */
   _attachFrameListeners() {
     super._attachFrameListeners();
-    new artichron.applications.ui.ContextMenuArtichron(this.element, ".combatant[data-id]", [], { onOpen: element => {
-      const combatant = this.combat.combatants.get(element.dataset.id);
-      ui.context.menuItems = this._getCombatantContextOptions(combatant);
-    } });
+    artichron.applications.ui.ContextMenuArtichron.create(this, this.element, ".combatant[data-id]", {
+      hookName: "CombatantEntryContext",
+    });
   }
 
   /* -------------------------------------------------- */
@@ -227,32 +226,31 @@ export default class CombatCarousel extends HandlebarsApplicationMixin(Applicati
   /* -------------------------------------------------- */
 
   /**
-   * Create context menu option for a combatant.
-   * @param {CombatantArtichron} combatant      The combatant.
-   * @returns {object[]}                        The array of options.
+   * Create context menu option for combatants.
+   * @returns {ContextMenuEntry[]}
    */
-  _getCombatantContextOptions(combatant) {
+  _getCombatantEntryContextOptions() {
     const isGM = game.user.isGM;
     return [{
       name: "ARTICHRON.Combat.ContextUpdateCombatant",
       icon: "<i class='fa-solid fa-fw fa-edit'></i>",
-      callback: () => combatant.sheet.render(true),
-      condition: () => isGM,
+      callback: element => this.combatants.get(element.dataset.id).sheet.render({ force: true }),
+      condition: element => game.user.isGM,
     }, {
       name: "ARTICHRON.Combat.ContextClearInitiative",
       icon: "<i class='fa-solid fa-fw fa-undo'></i>",
-      callback: () => combatant.update({ initiative: null }),
-      condition: () => isGM && (combatant.initiative !== null),
+      callback: element => this.combatants.get(element.dataset.id).update({ initiative: null }),
+      condition: element => game.user.isGM && (this.combatants.get(element.dataset.id).initiative !== null),
     }, {
       name: "ARTICHRON.Combat.ContextRemoveCombatant",
       icon: "<i class='fa-solid fa-fw fa-trash'></i>",
-      callback: () => combatant.delete(),
-      condition: () => isGM,
+      callback: element => this.combatants.get(element.dataset.id).delete(),
+      condition: element => game.user.isGM,
     }, {
       name: "ARTICHRON.Combat.ContextUpdateActionPoints",
       icon: "<i class='fa-solid fa-fw fa-circle'></i>",
-      callback: () => combatant.actor.actionPointsDialog(),
-      condition: () => combatant.actor.isOwner,
+      callback: element => this.combatants.get(element.dataset.id).actor.actionPointsDialog(),
+      condition: element => this.combatants.get(element.dataset.id).actor.isOwner,
     }];
   }
 

@@ -276,34 +276,35 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
   _setupContextMenu() {
     super._setupContextMenu();
 
-    new artichron.applications.ui.ContextMenuArtichron(this.element, "[data-activity-id]", [], { onOpen: element => {
-      const activity = this.document.system.activities.get(element.dataset.activityId);
-      ui.context.menuItems = this.#getActivityContextOptions(activity);
-    } });
+    artichron.applications.ui.ContextMenuArtichron.create(this, this.element, "[data-activity-id]", {
+      hookName: "ActivityEntryContext",
+    });
   }
 
   /* -------------------------------------------------- */
 
   /**
-   * Set up context menu options for activities.
-   * @param {BaseActivity} activity     The current activity.
-   * @returns {object[]}
+   * Create context menu option for activities.
+   * @returns {ContextMenuEntry[]}
    */
-  #getActivityContextOptions(activity) {
-    if (!(activity.id in this.document._source.system.activities)) return [];
+  _getActivityEntryContextOptions() {
+    const getActivity = element => this.document.getEmbeddedDocument("Activity", element.dataset.activityId);
 
     return [{
       name: "ARTICHRON.ContextMenu.Activity.Render",
       icon: "<i class='fa-solid fa-fw fa-edit'></i>",
-      callback: () => activity.sheet.render({ force: true }),
+      condition: element => getActivity(element).isSource,
+      callback: element => getActivity(element).sheet.render({ force: true }),
     }, {
       name: "ARTICHRON.ContextMenu.Activity.Delete",
       icon: "<i class='fa-solid fa-fw fa-trash'></i>",
-      callback: () => activity.delete(),
+      condition: element => getActivity(element).isSource,
+      callback: element => getActivity(element).delete(),
     }, {
       name: "ARTICHRON.ContextMenu.Activity.Duplicate",
       icon: "<i class='fa-solid fa-fw fa-copy'></i>",
-      callback: () => activity.constructor.create(activity.item, activity.toObject()),
+      condition: element => getActivity(element).isSource,
+      callback: element => getActivity(element).duplicate(),
     }];
   }
 

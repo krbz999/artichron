@@ -204,6 +204,17 @@ export default class PseudoDocument extends foundry.abstract.DataModel {
   /* -------------------------------------------------- */
 
   /**
+   * Duplicate this pseudo-document.
+   * @returns {Promise<Document>}     A promise that resolves to the updated document.
+   */
+  async duplicate() {
+    if (!this.isSource) throw new Error("You cannot duplicate a non-source pseudo-document!");
+    return this.constructor.create(this.toObject(), { parent: this.document });
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
    * Update this pseudo-document.
    * @param {object} [change]         The change to perform.
    * @param {object} [operation]      The context of the operation.

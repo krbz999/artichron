@@ -26,6 +26,17 @@ export default class InventoryItemElement extends HTMLElement {
   /* -------------------------------------------------- */
 
   /**
+   * The item.
+   * @type {ItemArtichron|null}
+   */
+  #item = null;
+  get item() {
+    return this.#item;
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
    * The tag name of this element.
    * @type {string}
    */
@@ -211,5 +222,7 @@ export default class InventoryItemElement extends HTMLElement {
 
     // Set name for use in search filter.
     this.dataset.name = item.name;
+
+    this.#item = item;
   }
 }
