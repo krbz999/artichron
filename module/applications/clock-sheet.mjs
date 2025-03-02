@@ -1,4 +1,3 @@
-import Clock from "../documents/data/clocks.mjs";
 import PseudoDocumentSheet from "./pseudo-document-sheet.mjs";
 
 export default class ClockSheet extends PseudoDocumentSheet {

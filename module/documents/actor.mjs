@@ -1,3 +1,5 @@
+import PseudoDocument from "./data/pseudo-document.mjs";
+
 /**
  * @typedef {object} DamageDescription
  * @property {string} type                    The damage type.
@@ -5,8 +7,6 @@
  * @property {DamageOptions} [options]        Damage part options.
  * @property {DamageStatuses} [statuses]      Statuses and the levels that will be applied.
  */
-
-import PseudoDocument from "./data/pseudo-document.mjs";
 
 /**
  * @typedef {object} DamageOptions        Options that configure how the damage is applied.
