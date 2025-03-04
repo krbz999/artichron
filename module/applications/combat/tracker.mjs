@@ -1,7 +1,7 @@
 const renderCarousel = foundry.utils.debounce(ct => ct.apps?.[0]?.render(), 150);
 
 export default class CombatTrackerArtichron extends foundry.applications.sidebar.tabs.CombatTracker {
-  /** @override */
+  /** @inheritdoc */
   async render(options = {}, _options = {}) {
     if (foundry.utils.getType(options) === "boolean") {
       _options.force = options;

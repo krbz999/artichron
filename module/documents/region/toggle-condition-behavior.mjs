@@ -15,12 +15,12 @@ export default class ToggleConditionBehaviorData extends foundry.data.regionBeha
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   static LOCALIZATION_PREFIXES = ["ARTICHRON.REGION.TOGGLECONDITION"];
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   static defineSchema() {
     return {
       events: this._createEventsField({ events: [

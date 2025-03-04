@@ -16,7 +16,7 @@ export default class ElixirData extends ItemSystemModel {
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   static defineSchema() {
     return {
       ...super.defineSchema(),
@@ -42,7 +42,7 @@ export default class ElixirData extends ItemSystemModel {
   /*   Properties                                       */
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   static get BONUS_FIELDS() {
     const bonus = super.BONUS_FIELDS;
     bonus.add("system.usage.max");
@@ -85,7 +85,7 @@ export default class ElixirData extends ItemSystemModel {
   /*   Life-cycle methods                               */
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   async _preUpdate(change, options, user) {
     const allowed = await super._preUpdate(change, options, user);
     if (allowed === false) return false;
@@ -102,7 +102,7 @@ export default class ElixirData extends ItemSystemModel {
   /*   Data preparation                                 */
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   prepareDerivedData() {
     super.prepareDerivedData();
     this.usage.value = Math.max(0, this.usage.max - this.usage.spent);
@@ -146,7 +146,7 @@ export default class ElixirData extends ItemSystemModel {
   /*   Tooltips                                         */
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   _prepareTooltipProperties() {
     const props = super._prepareTooltipProperties();
     props.push({ title: "Uses", label: `${this.usage.value}/${this.usage.max}`, icon: "fa-solid fa-flask" });

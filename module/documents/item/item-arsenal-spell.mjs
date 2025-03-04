@@ -13,7 +13,7 @@ export default class SpellData extends ArsenalData {
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   static defineSchema() {
     return {
       ...super.defineSchema(),

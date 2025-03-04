@@ -34,7 +34,7 @@ export default class EffectSheetArtichron extends ArtichronSheetMixin(foundry.ap
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   static TABS = {
     primary: {
       tabs: [
@@ -47,7 +47,7 @@ export default class EffectSheetArtichron extends ArtichronSheetMixin(foundry.ap
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   _sheetMode = this.constructor.SHEET_MODES.EDIT;
 
   /* -------------------------------------------------- */

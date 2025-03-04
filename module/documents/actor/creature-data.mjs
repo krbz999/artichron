@@ -7,7 +7,7 @@ const { SchemaField, NumberField, SetField, StringField } = foundry.data.fields;
  * These actor types also have health and can make use of equipment.
  */
 export default class CreatureData extends ActorSystemModel {
-  /** @override */
+  /** @inheritdoc */
   static defineSchema() {
     const schema = super.defineSchema();
 
@@ -39,7 +39,7 @@ export default class CreatureData extends ActorSystemModel {
   /*   Data preparation                                 */
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   prepareBaseData() {
     super.prepareBaseData();
     this.bonuses = { damage: {} };
@@ -50,7 +50,7 @@ export default class CreatureData extends ActorSystemModel {
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   prepareDerivedData() {
     // Calling super first to prepare actor level.
     super.prepareDerivedData();
@@ -104,7 +104,7 @@ export default class CreatureData extends ActorSystemModel {
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   _onUpdate(changed, options, userId) {
     super._onUpdate(changed, options, userId);
 
@@ -125,7 +125,7 @@ export default class CreatureData extends ActorSystemModel {
   /*   Properties                                       */
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   static get BONUS_FIELDS() {
     const bonus = super.BONUS_FIELDS;
     bonus.add("system.pips.turn");

@@ -1,5 +1,5 @@
 export default class CombatantArtichron extends Combatant {
-  /** @override */
+  /** @inheritdoc */
   _getInitiativeFormula() {
     const pips = this.actor?.actionPoints ?? 0;
     if (!pips || (this.parent.round <= 1)) return "1d12x";
@@ -8,7 +8,7 @@ export default class CombatantArtichron extends Combatant {
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   getInitiativeRoll(formula) {
     formula = formula || this._getInitiativeFormula();
     const actor = this.actor;

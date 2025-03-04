@@ -2,7 +2,7 @@ import ArtichronSheetMixin from "../base-sheet.mjs";
 import PoolConfig from "./pool-config.mjs";
 
 export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.applications.sheets.ActorSheetV2) {
-  /** @override */
+  /** @inheritdoc */
   static DEFAULT_OPTIONS = {
     classes: ["actor"],
     position: { height: 700 },
@@ -33,7 +33,7 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   _onRender(context, options) {
     super._onRender(context, options);
 

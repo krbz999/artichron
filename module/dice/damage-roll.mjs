@@ -68,7 +68,7 @@ export default class DamageRoll extends RollArtichron {
   /*   Instance methods                                 */
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   async _evaluate(options = {}) {
     await super._evaluate(options);
     if (this.multiplier !== 1) this._total = Math.round(this._total * this.multiplier);

@@ -42,7 +42,7 @@ class _CollectionField extends foundry.data.fields.ObjectField {
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   static recursive = true;
 
   /* -------------------------------------------------- */
@@ -59,7 +59,7 @@ class _CollectionField extends foundry.data.fields.ObjectField {
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   _cleanType(value, options) {
     if (!(typeof value === "object")) value = {};
 
@@ -70,7 +70,7 @@ class _CollectionField extends foundry.data.fields.ObjectField {
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   initialize(value, model, options = {}) {
     const cls = this.getModel(value);
     if (cls) return new cls(value, { parent: model, ...options });

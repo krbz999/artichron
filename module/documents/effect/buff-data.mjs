@@ -19,7 +19,7 @@ export default class EffectBuffData extends ActiveEffectSystemModel {
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   static defineSchema() {
     return {
       ...super.defineSchema(),
@@ -44,7 +44,7 @@ export default class EffectBuffData extends ActiveEffectSystemModel {
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   getRollData() {
     if (!this.source) return {};
 
@@ -68,7 +68,7 @@ export default class EffectBuffData extends ActiveEffectSystemModel {
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   prepareDerivedData() {
     super.prepareDerivedData();
 

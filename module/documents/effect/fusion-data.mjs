@@ -19,7 +19,7 @@ export default class EffectFusionData extends ActiveEffectSystemModel {
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   static defineSchema() {
     return {
       ...super.defineSchema(),
@@ -71,7 +71,7 @@ export default class EffectFusionData extends ActiveEffectSystemModel {
   /*   Life-cycle events                                */
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   async _preCreate(...T) {
     const allowed = await super._preCreate(...T);
     if (allowed === false) return false;
@@ -88,7 +88,7 @@ export default class EffectFusionData extends ActiveEffectSystemModel {
   /*   Data preparation                                 */
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   prepareDerivedData() {
     super.prepareDerivedData();
 
@@ -100,7 +100,7 @@ export default class EffectFusionData extends ActiveEffectSystemModel {
   /*   Instance methods                                 */
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   getRollData() {
     const data = {
       fusion: { ...this.itemData?.system ?? {} },

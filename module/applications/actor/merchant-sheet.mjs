@@ -1,7 +1,7 @@
 import ActorSheetArtichron from "./actor-sheet-base.mjs";
 
 export default class MerchantSheet extends ActorSheetArtichron {
-  /** @override */
+  /** @inheritdoc */
   static DEFAULT_OPTIONS = {
     classes: ["merchant"],
     viewPermission: CONST.DOCUMENT_OWNERSHIP_LEVELS.NONE,
@@ -18,7 +18,7 @@ export default class MerchantSheet extends ActorSheetArtichron {
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   static PARTS = {
     header: {
       template: "systems/artichron/templates/actor/merchant-header.hbs",
@@ -37,7 +37,7 @@ export default class MerchantSheet extends ActorSheetArtichron {
   /*   Rendering methods                                */
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   async _prepareContext(options) {
     const context = {};
 
@@ -54,7 +54,7 @@ export default class MerchantSheet extends ActorSheetArtichron {
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   async _prepareItems() {
     const items = { stock: {}, cart: [] };
     const staged = Object.entries(this.document.system.shop.staged).reduce((acc, [actorId, itemIds]) => {
@@ -103,7 +103,7 @@ export default class MerchantSheet extends ActorSheetArtichron {
   /*   Drag and drop handlers                           */
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   _setupDragAndDrop() {
     super._setupDragAndDrop();
 

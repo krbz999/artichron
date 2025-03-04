@@ -26,7 +26,7 @@ export default class BatteryProgressElement extends foundry.applications.element
   /*   Properties                                       */
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   static tagName = "battery-progress";
 
   /* -------------------------------------------------- */
@@ -71,14 +71,14 @@ export default class BatteryProgressElement extends foundry.applications.element
   /*   Instance methods                                 */
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   _toggleDisabled(disabled) {
     this.#input.disabled = disabled;
   }
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   _refresh() {
     if (!this.#input) return;
     this.#input.valueAsNumber = this._value;
@@ -86,7 +86,7 @@ export default class BatteryProgressElement extends foundry.applications.element
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   _setValue(value) {
     value = Math.clamp(value, this.#min, this.#max);
     this._value = value.toNearest(1);
@@ -94,7 +94,7 @@ export default class BatteryProgressElement extends foundry.applications.element
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   _buildElements() {
     const max = parseInt(this.getAttribute("max"));
     const value = Math.min(parseInt(this.getAttribute("value")), max);
@@ -125,7 +125,7 @@ export default class BatteryProgressElement extends foundry.applications.element
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   _activateListeners() {
     this.#input.addEventListener("change", this.#onChangeInput.bind(this));
     this.#input.addEventListener("input", this.#onInput.bind(this));

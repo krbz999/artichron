@@ -4,7 +4,7 @@ import FormulaModel from "./formula-model.mjs";
 const { DocumentIdField, SetField, StringField } = foundry.data.fields;
 
 export default class DamageFormulaModel extends FormulaModel {
-  /** @override */
+  /** @inheritdoc */
   static defineSchema() {
     return {
       ...super.defineSchema(),
@@ -31,7 +31,7 @@ export default class DamageFormulaModel extends FormulaModel {
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   static LOCALIZATION_PREFIXES = [
     ...super.LOCALIZATION_PREFIXES,
     "ARTICHRON.ACTIVITY.FIELDS.damage",

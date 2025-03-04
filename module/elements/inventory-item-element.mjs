@@ -46,7 +46,7 @@ export default class InventoryItemElement extends HTMLElement {
   /*   Event listeners                                  */
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   connectedCallback() {
     const application = foundry.applications.instances.get(this.closest(".application").id);
     const item = application.document.items.get(this.dataset.itemId);

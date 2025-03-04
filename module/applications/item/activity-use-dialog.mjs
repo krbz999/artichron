@@ -10,14 +10,14 @@ export default class ActivityUseDialog extends Application {
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   static DEFAULT_OPTIONS = {
     classes: ["activity-use-dialog"],
   };
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   static PARTS = {
     consume: {
       template: "systems/artichron/templates/item/activity-use-dialog-consume.hbs",
@@ -52,7 +52,7 @@ export default class ActivityUseDialog extends Application {
   /*   Properties                                       */
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   get title() {
     return game.i18n.format("ARTICHRON.ActivityUseDialog.Title", { name: this.activity.name });
   }
@@ -95,7 +95,7 @@ export default class ActivityUseDialog extends Application {
   /*   Rendering                                        */
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   async _preparePartContext(partId, context, options) {
     context = await super._preparePartContext(partId, context, options);
     const activity = this.activity;

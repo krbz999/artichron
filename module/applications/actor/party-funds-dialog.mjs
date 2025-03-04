@@ -62,7 +62,7 @@ export default class PartyFundsDialog extends foundry.applications.api.Handlebar
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   static DEFAULT_OPTIONS = {
     classes: ["artichron", "party-funds-dialog"],
     window: {
@@ -82,7 +82,7 @@ export default class PartyFundsDialog extends foundry.applications.api.Handlebar
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   static PARTS = {
     form: {
       template: "systems/artichron/templates/actor/party-funds-dialog.hbs",
@@ -94,7 +94,7 @@ export default class PartyFundsDialog extends foundry.applications.api.Handlebar
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   get title() {
     return game.i18n.format("ARTICHRON.PartyFundsDialog.Title", {
       name: this.#member.name,
@@ -103,7 +103,7 @@ export default class PartyFundsDialog extends foundry.applications.api.Handlebar
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   async _prepareContext(options) {
     const field = new foundry.data.fields.NumberField({
       nullable: false,

@@ -24,7 +24,7 @@ const ArtichronSheetMixin = Base => {
 
     /* -------------------------------------------------- */
 
-    /** @override */
+    /** @inheritdoc */
     static DEFAULT_OPTIONS = {
       classes: ["artichron"],
       window: { contentClasses: ["standard-form"] },
@@ -100,7 +100,7 @@ const ArtichronSheetMixin = Base => {
 
     /* -------------------------------------------------- */
 
-    /** @override */
+    /** @inheritdoc */
     tabGroups = {};
 
     /* -------------------------------------------------- */
@@ -150,7 +150,7 @@ const ArtichronSheetMixin = Base => {
 
     /* -------------------------------------------------- */
 
-    /** @override */
+    /** @inheritdoc */
     _onFirstRender(context, options) {
       super._onFirstRender(context, options);
       this._setupContextMenu();
@@ -158,7 +158,7 @@ const ArtichronSheetMixin = Base => {
 
     /* -------------------------------------------------- */
 
-    /** @override */
+    /** @inheritdoc */
     _onRender(context, options) {
       super._onRender(context, options);
 
@@ -176,7 +176,7 @@ const ArtichronSheetMixin = Base => {
 
     /* -------------------------------------------------- */
 
-    /** @override */
+    /** @inheritdoc */
     _syncPartState(partId, newElement, priorElement, state) {
       super._syncPartState(partId, newElement, priorElement, state);
 

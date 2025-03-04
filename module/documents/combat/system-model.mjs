@@ -9,7 +9,7 @@ export default class CombatantSystemModel extends foundry.abstract.TypeDataModel
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   static defineSchema() {
     return {};
   }

@@ -58,7 +58,7 @@ export default class ActivitySheet extends PseudoDocumentSheet {
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   async _preparePartContext(partId, context, options) {
     context = await super._preparePartContext(partId, context, options);
 

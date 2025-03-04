@@ -10,7 +10,7 @@ export default class HeroSheet extends ActorSheetArtichron {
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   static DEFAULT_OPTIONS = {
     classes: ["hero"],
     position: { width: 510, height: 800 },
@@ -23,7 +23,7 @@ export default class HeroSheet extends ActorSheetArtichron {
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   static PARTS = {
     header: {
       template: "systems/artichron/templates/shared/sheet-header.hbs",
@@ -70,7 +70,7 @@ export default class HeroSheet extends ActorSheetArtichron {
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   async _prepareContext(options) {
     const doc = this.document;
     const src = doc.toObject();
@@ -220,7 +220,7 @@ export default class HeroSheet extends ActorSheetArtichron {
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   async _prepareItems() {
     const compact = this.document.getFlag("artichron", "compactItems") ?? game.settings.get("artichron", "compactItems");
     if (compact) {
@@ -293,7 +293,7 @@ export default class HeroSheet extends ActorSheetArtichron {
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   _preSyncPartState(p, ne, pe, s) {
     super._preSyncPartState(p, ne, pe, s);
 
@@ -305,7 +305,7 @@ export default class HeroSheet extends ActorSheetArtichron {
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   _syncPartState(partId, newElement, priorElement, state) {
     super._syncPartState(partId, newElement, priorElement, state);
 
@@ -332,7 +332,7 @@ export default class HeroSheet extends ActorSheetArtichron {
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   _attachPartListeners(partId, htmlElement, options) {
     super._attachPartListeners(partId, htmlElement, options);
     if (partId === "inventory") {

@@ -19,7 +19,7 @@ export default class ArmorData extends ItemSystemModel {
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   static defineSchema() {
     return {
       ...super.defineSchema(),
@@ -49,7 +49,7 @@ export default class ArmorData extends ItemSystemModel {
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   static get BONUS_FIELDS() {
     return super.BONUS_FIELDS.union(new Set(
       Object.keys(artichron.config.DAMAGE_TYPES).map(k => `system.defenses.${k}.value`),
@@ -58,7 +58,7 @@ export default class ArmorData extends ItemSystemModel {
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   static LOCALIZATION_PREFIXES = [
     ...super.LOCALIZATION_PREFIXES,
     "ARTICHRON.ITEM.ARMOR",
@@ -81,7 +81,7 @@ export default class ArmorData extends ItemSystemModel {
   /*   Tooltips                                         */
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   async _prepareTooltipContext() {
     const context = await super._prepareTooltipContext();
 

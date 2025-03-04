@@ -71,7 +71,7 @@ export default function registerSettings() {
   /* -------------------------------------------------- */
 
   class PrimaryPartyModel extends foundry.abstract.DataModel {
-    /** @override */
+    /** @inheritdoc */
     static defineSchema() {
       return { actor: new ForeignDocumentField(foundry.documents.BaseActor, {
         blank: true,

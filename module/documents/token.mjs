@@ -29,7 +29,7 @@ export default class TokenDocumentArtichron extends TokenDocument {
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   static getTrackedAttributes(data, _path) {
     let bar;
     switch (data.parent?.type) {

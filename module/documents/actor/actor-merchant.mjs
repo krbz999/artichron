@@ -17,7 +17,7 @@ export default class MerchantData extends ActorSystemModel {
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   static defineSchema() {
     return Object.assign(super.defineSchema(), {
       shop: new SchemaField({

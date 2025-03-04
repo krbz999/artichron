@@ -1,7 +1,7 @@
 const { NumberField } = foundry.data.fields;
 
 export default class FormulaModel extends foundry.abstract.DataModel {
-  /** @override */
+  /** @inheritdoc */
   static defineSchema() {
     return {
       denomination: new NumberField({

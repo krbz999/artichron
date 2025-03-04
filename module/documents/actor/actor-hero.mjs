@@ -16,7 +16,7 @@ export default class HeroData extends CreatureData {
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   static defineSchema() {
     const schema = super.defineSchema();
 
@@ -61,7 +61,7 @@ export default class HeroData extends CreatureData {
   /*   Preparation methods                              */
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   prepareBaseData() {
     super.prepareBaseData();
 
@@ -82,7 +82,7 @@ export default class HeroData extends CreatureData {
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   prepareDerivedData() {
     super.prepareDerivedData();
 
@@ -136,7 +136,7 @@ export default class HeroData extends CreatureData {
   /*   Properties                                       */
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   static get BONUS_FIELDS() {
     const bonus = super.BONUS_FIELDS;
 

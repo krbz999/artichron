@@ -15,19 +15,19 @@ export default class EnterStoreBehaviorData extends foundry.data.regionBehaviors
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   static events = {
     [CONST.REGION_EVENTS.TOKEN_MOVE_IN]: EnterStoreBehaviorData.#onTokenEnter,
   };
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   static LOCALIZATION_PREFIXES = ["ARTICHRON.REGION.ENTERSTORE"];
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   static defineSchema() {
     return {
       merchant: new ForeignDocumentField(Actor, {

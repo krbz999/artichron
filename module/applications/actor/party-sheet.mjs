@@ -7,7 +7,7 @@ export default class PartySheet extends ActorSheetArtichron {
   /*   Properties                                       */
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   static DEFAULT_OPTIONS = {
     classes: ["party"],
     position: { width: 650 },
@@ -28,7 +28,7 @@ export default class PartySheet extends ActorSheetArtichron {
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   static PARTS = {
     header: { template: "systems/artichron/templates/shared/sheet-header.hbs" },
     tabs: {
@@ -51,7 +51,7 @@ export default class PartySheet extends ActorSheetArtichron {
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   static TABS = {
     primary: {
       tabs: [
@@ -76,7 +76,7 @@ export default class PartySheet extends ActorSheetArtichron {
   /*   Rendering methods                                */
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   async _prepareContext(options) {
     const context = {
       ...await super._prepareContext(options),
@@ -92,7 +92,7 @@ export default class PartySheet extends ActorSheetArtichron {
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   async _preparePartContext(partId, context, options) {
     context = await super._preparePartContext(partId, context, options);
 
@@ -274,14 +274,14 @@ export default class PartySheet extends ActorSheetArtichron {
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   _canDragStart(selector) {
     return this.isEditable && this.document.isOwner;
   }
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   async _onDropActor(document, target, changes) {
     const isMembers = this.tabGroups.primary === "members";
     if (!isMembers) return;
@@ -290,7 +290,7 @@ export default class PartySheet extends ActorSheetArtichron {
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   _onFirstRender(context, options) {
     super._onFirstRender(context, options);
     for (const { actor } of this.document.system.members) {
@@ -332,7 +332,7 @@ export default class PartySheet extends ActorSheetArtichron {
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   _onClose(options) {
     for (const { actor } of this.document.system.members) {
       if (actor) delete actor.apps[this.id];
@@ -342,7 +342,7 @@ export default class PartySheet extends ActorSheetArtichron {
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   _attachPartListeners(partId, htmlElement, options) {
     super._attachPartListeners(partId, htmlElement, options);
 
@@ -366,7 +366,7 @@ export default class PartySheet extends ActorSheetArtichron {
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   _syncPartState(partId, newElement, priorElement, state) {
     super._syncPartState(partId, newElement, priorElement, state);
 

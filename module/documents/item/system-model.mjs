@@ -22,7 +22,7 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   static defineSchema() {
     return {
       description: new SchemaField({
@@ -68,7 +68,7 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
   /*   Life-cycle methods                               */
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   async _preCreate(data, options, user) {
     const result = await super._preCreate(data, options, user);
     if (result === false) return false;
@@ -280,7 +280,7 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
   /*   Properties                                       */
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   static LOCALIZATION_PREFIXES = [
     "ARTICHRON.ITEM",
   ];
@@ -345,7 +345,7 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
   /*   Preparation methods                              */
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   prepareDerivedData() {
     this.weight.total = this.weight.value * (this.quantity?.value ?? 1);
     for (const k of Object.keys(this.attributes.levels)) {

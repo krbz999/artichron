@@ -24,7 +24,7 @@ export default class ThresholdBarElement extends HTMLElement {
   /*   Event listeners                                  */
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   connectedCallback() {
     const limit = parseInt(this.getAttribute("limit"));
     const max = parseInt(this.getAttribute("max")) || Infinity;

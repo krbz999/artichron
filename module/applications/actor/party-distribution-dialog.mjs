@@ -16,7 +16,7 @@ export default class PartyDistributionDialog extends Application {
   /*   Properties                                       */
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   static DEFAULT_OPTIONS = {
     type: null,
     window: {
@@ -26,7 +26,7 @@ export default class PartyDistributionDialog extends Application {
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   static PARTS = {
     inputs: {
       template: "systems/artichron/templates/actor/party-distribution-dialog.hbs",
@@ -38,7 +38,7 @@ export default class PartyDistributionDialog extends Application {
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   get title() {
     return game.i18n.format(`ARTICHRON.PartyDistributionDialog.Title${this.options.type.capitalize()}`, {
       name: this.#party.name,
@@ -73,7 +73,7 @@ export default class PartyDistributionDialog extends Application {
   /*   Rendering                                        */
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   async _prepareContext(options) {
     const context = {
       formGroups: [],
@@ -123,7 +123,7 @@ export default class PartyDistributionDialog extends Application {
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   _attachPartListeners(partId, htmlElement, options) {
     super._attachPartListeners(partId, htmlElement, options);
     if (partId === "inputs") {

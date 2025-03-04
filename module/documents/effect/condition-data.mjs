@@ -30,7 +30,7 @@ export default class EffectConditionData extends ActiveEffectSystemModel {
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   static defineSchema() {
     return {
       ...super.defineSchema(),
@@ -43,7 +43,7 @@ export default class EffectConditionData extends ActiveEffectSystemModel {
   /*   Data preparation                                 */
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   prepareDerivedData() {
     super.prepareDerivedData();
     this.parent.transfer = false;
@@ -56,7 +56,7 @@ export default class EffectConditionData extends ActiveEffectSystemModel {
   /*   Instance methods                                 */
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   getRollData() {
     const rollData = {};
     for (const status of this.parent.statuses) rollData[status] = 1;

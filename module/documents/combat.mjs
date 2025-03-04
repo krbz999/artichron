@@ -1,5 +1,5 @@
 export default class CombatArtichron extends Combat {
-  /** @override */
+  /** @inheritdoc */
   _onDelete(options, userId) {
     super._onDelete(options, userId);
     if (game.user.id === userId) {
@@ -82,7 +82,7 @@ export default class CombatArtichron extends Combat {
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   async _onStartRound() {
     await super._onStartRound();
 
@@ -171,7 +171,7 @@ export default class CombatArtichron extends Combat {
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   async _onEndTurn(combatant) {
     const result = await super._onEndTurn(combatant);
 

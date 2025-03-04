@@ -1,7 +1,7 @@
 import PseudoDocument from "./data/pseudo-document.mjs";
 
 export default class ItemArtichron extends Item {
-  /** @override */
+  /** @inheritdoc */
   static getDefaultArtwork(itemData) {
     let img;
     switch (itemData.type) {
@@ -263,14 +263,14 @@ export default class ItemArtichron extends Item {
   /*   Preparation methods                              */
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   prepareData() {
     super.prepareData();
   }
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   prepareEmbeddedDocuments() {
     super.prepareEmbeddedDocuments();
     if (!this.isEmbedded || this.actor._prepareEmbedded) this.applyActiveEffects();
@@ -375,7 +375,7 @@ export default class ItemArtichron extends Item {
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   getRollData() {
     const data = this.isEmbedded ? this.actor.getRollData() : {};
     data.item = this.system.getRollData();

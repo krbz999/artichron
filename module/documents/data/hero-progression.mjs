@@ -1,7 +1,7 @@
 const { NumberField, StringField } = foundry.data.fields;
 
 export default class ProgressionData extends foundry.abstract.DataModel {
-  /** @override */
+  /** @inheritdoc */
   static defineSchema() {
     return {
       _id: new StringField({
@@ -92,7 +92,7 @@ export default class ProgressionData extends foundry.abstract.DataModel {
 }
 
 class ProgressionPoolData extends ProgressionData {
-  /** @override */
+  /** @inheritdoc */
   static defineSchema() {
     return Object.assign(super.defineSchema(), {
       pool: new StringField({
@@ -106,12 +106,12 @@ class ProgressionPoolData extends ProgressionData {
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   static TYPE = "pool";
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   static LOCALIZATION_PREFIXES = [
     "ARTICHRON.ACTOR.Progression",
     "ARTICHRON.ACTOR.Progression.Pool",
@@ -119,7 +119,7 @@ class ProgressionPoolData extends ProgressionData {
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   static async toPrompt(actor) {
     const fields = Object.values(ProgressionPoolData.schema.fields).reduce((acc, field) => {
       if (["_id", "type"].includes(field.name)) return acc;
@@ -171,7 +171,7 @@ class ProgressionPoolData extends ProgressionData {
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   async removeProgression() {
     const update = {};
     const source = this.actor.toObject();
@@ -188,7 +188,7 @@ class ProgressionPoolData extends ProgressionData {
 }
 
 class ProgressionSkillData extends ProgressionData {
-  /** @override */
+  /** @inheritdoc */
   static defineSchema() {
     return Object.assign(super.defineSchema(), {
       skill: new StringField({
@@ -202,12 +202,12 @@ class ProgressionSkillData extends ProgressionData {
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   static TYPE = "skill";
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   static LOCALIZATION_PREFIXES = [
     "ARTICHRON.ACTOR.Progression",
     "ARTICHRON.ACTOR.Progression.Skill",
@@ -215,7 +215,7 @@ class ProgressionSkillData extends ProgressionData {
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   static async toPrompt(actor) {
     const fields = Object.values(ProgressionSkillData.schema.fields).reduce((acc, field) => {
       if (["_id", "type"].includes(field.name)) return acc;
@@ -267,7 +267,7 @@ class ProgressionSkillData extends ProgressionData {
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   async removeProgression() {
     const update = {};
     const source = this.actor.toObject();

@@ -4,7 +4,7 @@ const { HandlebarsApplicationMixin, DocumentSheetV2 } = foundry.applications.api
  * Application for configuring the basic data of a merchant.
  */
 export default class MerchantConfigurationDialog extends HandlebarsApplicationMixin(DocumentSheetV2) {
-  /** @override */
+  /** @inheritdoc */
   static DEFAULT_OPTIONS = {
     classes: ["artichron"],
     window: {
@@ -22,7 +22,7 @@ export default class MerchantConfigurationDialog extends HandlebarsApplicationMi
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   static PARTS = {
     form: {
       template: "systems/artichron/templates/actor/merchant-configuration-dialog.hbs",
@@ -31,7 +31,7 @@ export default class MerchantConfigurationDialog extends HandlebarsApplicationMi
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   get title() {
     return game.i18n.format("ARTICHRON.MerchantConfigurationDialog.Title", { name: this.document.name });
   }
@@ -40,7 +40,7 @@ export default class MerchantConfigurationDialog extends HandlebarsApplicationMi
   /*   Rendering                                        */
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   async _prepareContext(options) {
     const context = {};
 

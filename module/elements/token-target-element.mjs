@@ -79,7 +79,7 @@ export default class TokenTargetElement extends HTMLElement {
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   connectedCallback() {
     const messageId = this.closest("[data-message-id]")?.dataset.messageId;
     this.chatMessage = game.messages.get(messageId);
@@ -109,7 +109,7 @@ export default class TokenTargetElement extends HTMLElement {
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   disconnectedCallback() {
     for (const [id, hook] of this.hookIds) Hooks.off(hook, id);
   }

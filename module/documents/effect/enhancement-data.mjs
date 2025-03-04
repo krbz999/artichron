@@ -15,7 +15,7 @@ export default class EffectEnhancementData extends ActiveEffectSystemModel {
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   async _preCreate(...T) {
     const allowed = await super._preCreate(...T);
     if (allowed === false) return false;
@@ -28,7 +28,7 @@ export default class EffectEnhancementData extends ActiveEffectSystemModel {
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   prepareDerivedData() {
     super.prepareDerivedData();
     this.parent.transfer = false;
@@ -36,7 +36,7 @@ export default class EffectEnhancementData extends ActiveEffectSystemModel {
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   getRollData() {
     return {};
   }

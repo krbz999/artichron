@@ -13,7 +13,7 @@ export default class UsageMessageData extends ChatMessageSystemModel {
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   static defineSchema() {
     return {
       activity: new StringField(),
@@ -36,7 +36,7 @@ export default class UsageMessageData extends ChatMessageSystemModel {
   /*   Data preparation                                 */
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   prepareDerivedData() {
     try {
       const item = this.item.startsWith("Compendium") ? null : fromUuidSync(this.item);
@@ -50,7 +50,7 @@ export default class UsageMessageData extends ChatMessageSystemModel {
   /*   Life-cycle events                                */
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   _onDelete(options, userId) {
     super._onDelete(options, userId);
     if (this.#hookId) Hooks.off("controlToken", this.#hookId);
@@ -58,7 +58,7 @@ export default class UsageMessageData extends ChatMessageSystemModel {
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   async adjustHTML(html) {
     await super.adjustHTML(html);
 

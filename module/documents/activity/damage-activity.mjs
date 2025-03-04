@@ -174,7 +174,7 @@ export default class DamageActivity extends BaseActivity {
   /*   Properties                                       */
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   get hasDamage() {
     return this.damage.size > 0;
   }

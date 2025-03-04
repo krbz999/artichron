@@ -223,7 +223,7 @@ class SkillRequirementData extends ArmorRequirementData {
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   static get TYPE() {
     return "skill";
   }

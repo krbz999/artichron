@@ -1,7 +1,7 @@
 export default class PoolConfig extends foundry.applications.api.HandlebarsApplicationMixin(
   foundry.applications.api.DocumentSheetV2,
 ) {
-  /** @override */
+  /** @inheritdoc */
   static DEFAULT_OPTIONS = {
     classes: ["artichron"],
     sheetConfig: false,
@@ -20,7 +20,7 @@ export default class PoolConfig extends foundry.applications.api.HandlebarsAppli
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   static PARTS = {
     faces: { template: "systems/artichron/templates/actor/pool-faces.hbs" },
     max: { template: "systems/artichron/templates/actor/pool-max.hbs" },
@@ -31,7 +31,7 @@ export default class PoolConfig extends foundry.applications.api.HandlebarsAppli
   /*   Properties                                       */
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   get title() {
     return game.i18n.format("ARTICHRON.PoolConfig.Title", { name: this.document.name });
   }
@@ -71,7 +71,7 @@ export default class PoolConfig extends foundry.applications.api.HandlebarsAppli
   /*   Rendering                                        */
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   async _preparePartContext(partId, context, options) {
     context = await super._preparePartContext(partId, context, options);
 
@@ -188,7 +188,7 @@ export default class PoolConfig extends foundry.applications.api.HandlebarsAppli
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   _attachPartListeners(partId, htmlElement, options) {
     super._attachPartListeners(partId, htmlElement, options);
 
@@ -221,7 +221,7 @@ export default class PoolConfig extends foundry.applications.api.HandlebarsAppli
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   _processFormData(event, form, formData) {
     const { max, faces } = super._processFormData(event, form, formData);
     const update = createPoolUpdate(max, faces);

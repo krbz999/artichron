@@ -11,7 +11,7 @@ export default class DamageSheet extends foundry.applications.api.HandlebarsAppl
   }
 
   /* -------------------------------------------------- */
-  /** @override */
+  /** @inheritdoc */
   static DEFAULT_OPTIONS = {
     classes: ["artichron"],
     window: {
@@ -33,7 +33,7 @@ export default class DamageSheet extends foundry.applications.api.HandlebarsAppl
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   static PARTS = {
     damage: {
       template: "systems/artichron/templates/item/damage-sheet-damage.hbs",
@@ -42,7 +42,7 @@ export default class DamageSheet extends foundry.applications.api.HandlebarsAppl
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   get title() {
     return game.i18n.format("ARTICHRON.SHEET.DAMAGE_PART.title", {
       name: this.activity.name,
@@ -87,7 +87,7 @@ export default class DamageSheet extends foundry.applications.api.HandlebarsAppl
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   async _preparePartContext(partId, context, options) {
     context = await super._preparePartContext(partId, context, options);
 
@@ -123,7 +123,7 @@ export default class DamageSheet extends foundry.applications.api.HandlebarsAppl
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   _onFirstRender(context, options) {
     super._onFirstRender(context, options);
     this.#item.apps[this.id] = this;
@@ -131,7 +131,7 @@ export default class DamageSheet extends foundry.applications.api.HandlebarsAppl
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   _close(_options) {
     delete this.#item.apps[this.id];
   }

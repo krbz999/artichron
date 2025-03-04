@@ -15,7 +15,7 @@ export default class ShieldData extends ArsenalData {
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   static defineSchema() {
     return {
       ...super.defineSchema(),
@@ -31,7 +31,7 @@ export default class ShieldData extends ArsenalData {
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   static get BONUS_FIELDS() {
     return super.BONUS_FIELDS.union(new Set([
       "system.armor.value",
@@ -40,7 +40,7 @@ export default class ShieldData extends ArsenalData {
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   static LOCALIZATION_PREFIXES = [
     ...super.LOCALIZATION_PREFIXES,
     "ARTICHRON.ITEM.SHIELD",

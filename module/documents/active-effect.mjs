@@ -1,5 +1,5 @@
 export default class ActiveEffectArtichron extends ActiveEffect {
-  /** @override */
+  /** @inheritdoc */
   static applyField(model, change, field) {
     if (!field) {
       field = change.key.startsWith("system.") ?
@@ -64,7 +64,7 @@ export default class ActiveEffectArtichron extends ActiveEffect {
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   static async _fromStatusEffect(statusId, effectData, options) {
     foundry.utils.mergeObject(effectData, {
       type: "condition",
@@ -80,7 +80,7 @@ export default class ActiveEffectArtichron extends ActiveEffect {
   /*   Life-cycle events                                */
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   async _preCreate(data, options, user) {
     if ((this.parent.documentName === "Actor") && ["merchant", "party"].includes(this.parent.type)) {
       return false;
@@ -91,7 +91,7 @@ export default class ActiveEffectArtichron extends ActiveEffect {
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   _onUpdate(changed, options, userId) {
     super._onUpdate(changed, options, userId);
     if (options.statusLevelDifference) {
@@ -117,7 +117,7 @@ export default class ActiveEffectArtichron extends ActiveEffect {
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   _displayScrollingStatus(enabled) {
     if (!(this.statuses.size || this.changes.length)) return;
     const actor = this.target;
@@ -156,7 +156,7 @@ export default class ActiveEffectArtichron extends ActiveEffect {
   /*   Properties                                       */
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   get isSuppressed() {
     if (this.type === "fusion") {
       // If a fusion can be transferred, it does not apply to its parent.
@@ -167,7 +167,7 @@ export default class ActiveEffectArtichron extends ActiveEffect {
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   get isTemporary() {
     return super.isTemporary || this.system.isTemporary;
   }

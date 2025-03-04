@@ -1,7 +1,7 @@
 const { NumberField, SchemaField } = foundry.data.fields;
 
 export default class ActorSystemModel extends foundry.abstract.TypeDataModel {
-  /** @override */
+  /** @inheritdoc */
   static defineSchema() {
     return {
       currency: new SchemaField({
@@ -30,7 +30,7 @@ export default class ActorSystemModel extends foundry.abstract.TypeDataModel {
   /*   Properties                                       */
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   static LOCALIZATION_PREFIXES = ["ARTICHRON.ACTOR"];
 
   /* -------------------------------------------------- */

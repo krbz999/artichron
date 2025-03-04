@@ -14,7 +14,7 @@ export default class TradeMessageData extends ChatMessageSystemModel {
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   static defineSchema() {
     return {
       itemData: new JSONField(),
@@ -26,7 +26,7 @@ export default class TradeMessageData extends ChatMessageSystemModel {
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   prepareDerivedData() {
     try {
       const actor = this.actor.startsWith("Compendium") ? null : fromUuidSync(this.actor);
@@ -53,7 +53,7 @@ export default class TradeMessageData extends ChatMessageSystemModel {
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   async adjustHTML(html) {
     await super.adjustHTML(html);
 

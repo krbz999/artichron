@@ -8,14 +8,14 @@ export default class ActivitySelectDialog extends Application {
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   static DEFAULT_OPTIONS = {
     classes: ["activity-select-dialog"],
   };
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   static PARTS = {
     form: {
       template: "systems/artichron/templates/item/activity-select-dialog.hbs",
@@ -29,7 +29,7 @@ export default class ActivitySelectDialog extends Application {
   /*   Properties                                       */
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   get title() {
     return game.i18n.format("ARTICHRON.ActivitySelectDialog.Title", { name: this.#item.name });
   }
@@ -46,7 +46,7 @@ export default class ActivitySelectDialog extends Application {
   /*   Rendering                                        */
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   async _prepareContext(options) {
     const context = {};
     const activities = [];
@@ -74,7 +74,7 @@ export default class ActivitySelectDialog extends Application {
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   _attachPartListeners(partId, htmlElement, options) {
     super._attachPartListeners(partId, htmlElement, options);
 

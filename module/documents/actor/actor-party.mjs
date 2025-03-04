@@ -17,7 +17,7 @@ export default class PartyData extends ActorSystemModel {
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   static defineSchema() {
     const schema = super.defineSchema();
 
@@ -44,7 +44,7 @@ export default class PartyData extends ActorSystemModel {
   /*   Preparation methods                              */
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   prepareBaseData() {
     super.prepareBaseData();
     this.members = Object.entries(this.members).reduce((acc, [id, obj]) => {

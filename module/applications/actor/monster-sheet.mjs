@@ -1,7 +1,7 @@
 import ActorSheetArtichron from "./actor-sheet-base.mjs";
 
 export default class MonsterSheet extends ActorSheetArtichron {
-  /** @override */
+  /** @inheritdoc */
   static DEFAULT_OPTIONS = {
     classes: ["monster"],
     position: { width: 400 },
@@ -16,7 +16,7 @@ export default class MonsterSheet extends ActorSheetArtichron {
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   static PARTS = {
     header: {
       template: "systems/artichron/templates/shared/sheet-header.hbs",
@@ -48,7 +48,7 @@ export default class MonsterSheet extends ActorSheetArtichron {
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   static TABS = {
     primary: {
       tabs: [
@@ -63,7 +63,7 @@ export default class MonsterSheet extends ActorSheetArtichron {
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   async _prepareContext(options) {
     const doc = this.document;
     const src = this.document.toObject();
@@ -152,7 +152,7 @@ export default class MonsterSheet extends ActorSheetArtichron {
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   async _prepareItems() {
     const favorites = [];
     const items = [];
@@ -242,7 +242,7 @@ export default class MonsterSheet extends ActorSheetArtichron {
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   _preSyncPartState(p, ne, pe, s) {
     super._preSyncPartState(p, ne, pe, s);
 
@@ -254,7 +254,7 @@ export default class MonsterSheet extends ActorSheetArtichron {
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   _syncPartState(partId, newElement, priorElement, state) {
     super._syncPartState(partId, newElement, priorElement, state);
 
@@ -269,7 +269,7 @@ export default class MonsterSheet extends ActorSheetArtichron {
   /*   Event handlers                                   */
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   async _onDropItem(document, target, changes) {
     if (this.tabGroups.primary !== "loot") return super._onDropItem(document, target, changes);
 

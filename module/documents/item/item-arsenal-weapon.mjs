@@ -15,7 +15,7 @@ export default class WeaponData extends ArsenalData {
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   static defineSchema() {
     return {
       ...super.defineSchema(),
@@ -31,7 +31,7 @@ export default class WeaponData extends ArsenalData {
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   static LOCALIZATION_PREFIXES = [
     ...super.LOCALIZATION_PREFIXES,
     "ARTICHRON.ITEM.WEAPON",

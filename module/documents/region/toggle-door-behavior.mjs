@@ -15,12 +15,12 @@ export default class DoorStateBehaviorData extends foundry.data.regionBehaviors.
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   static LOCALIZATION_PREFIXES = ["ARTICHRON.REGION.DOORSTATE"];
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   static defineSchema() {
     return {
       events: this._createEventsField({ events: [
@@ -44,7 +44,7 @@ export default class DoorStateBehaviorData extends foundry.data.regionBehaviors.
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   async _handleRegionEvent(event) {
     if (!game.users.activeGM?.isSelf) return;
     if (this.once) this.parent.update({ disabled: true });

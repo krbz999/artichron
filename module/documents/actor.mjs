@@ -85,7 +85,7 @@ export default class ActorArtichron extends Actor {
   /*   Preparation                                      */
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   prepareData() {
     /**
      * This calls, in order,
@@ -100,7 +100,7 @@ export default class ActorArtichron extends Actor {
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   prepareBaseData() {
     // Data modifications in this step occur before processing embedded documents or derived data.
     super.prepareBaseData();
@@ -108,7 +108,7 @@ export default class ActorArtichron extends Actor {
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   prepareEmbeddedDocuments() {
     this._prepareEmbedded = true; // avoid applying effects to items twice.
     super.prepareEmbeddedDocuments(); // this calls 'this.applyActiveEffects()'.
@@ -119,7 +119,7 @@ export default class ActorArtichron extends Actor {
   /*   Life-cycle methods                               */
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   async _preUpdate(update, options, user) {
     // This also calls system._preUpdate.
     const allowed = await super._preUpdate(update, options, user);
@@ -144,7 +144,7 @@ export default class ActorArtichron extends Actor {
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   async _preCreate(data, options, user) {
     if ((await super._preCreate(data, options, user)) === false) return false;
 
@@ -216,7 +216,7 @@ export default class ActorArtichron extends Actor {
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   getRollData() {
     const data = this.system.getRollData();
     data.name = this.name;
@@ -613,7 +613,7 @@ export default class ActorArtichron extends Actor {
   /*   Action Points                                    */
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   get inCombat() {
     return super.inCombat;
   }

@@ -1,7 +1,7 @@
 import Application from "../apps/application.mjs";
 
 export default class ItemFusionDialog extends Application {
-  /** @override */
+  /** @inheritdoc */
   static DEFAULT_OPTIONS = {
     classes: ["fusion"],
     window: {
@@ -12,7 +12,7 @@ export default class ItemFusionDialog extends Application {
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   static PARTS = {
     selections: { template: "systems/artichron/templates/item/fusion-dialog-selections.hbs" },
     indicators: { template: "systems/artichron/templates/item/fusion-dialog-indicators.hbs" },
@@ -60,7 +60,7 @@ export default class ItemFusionDialog extends Application {
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   get title() {
     return game.i18n.format(this.options.window.title, { source: this.#item.name });
   }
@@ -69,7 +69,7 @@ export default class ItemFusionDialog extends Application {
   /*   Rendering                                        */
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   _attachPartListeners(partId, htmlElement, options) {
     super._attachPartListeners(partId, htmlElement, options);
 
@@ -89,7 +89,7 @@ export default class ItemFusionDialog extends Application {
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   async _preparePartContext(partId, context, options) {
     context = await super._preparePartContext(partId, context, options);
     if (partId === "selections") {

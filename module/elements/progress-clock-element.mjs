@@ -18,14 +18,14 @@ export default class ProgressClockElement extends HTMLElement {
   /*   Properties                                       */
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   static tagName = "progress-clock";
 
   /* -------------------------------------------------- */
   /*   Instance methods                                 */
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   connectedCallback() {
     const max = parseInt(this.getAttribute("max"));
     const value = parseInt(this.getAttribute("value"));
