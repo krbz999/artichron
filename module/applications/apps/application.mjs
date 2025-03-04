@@ -8,7 +8,7 @@ export default class Application extends HandlebarsApplicationMixin(ApplicationV
   static DEFAULT_OPTIONS = {
     classes: ["artichron"],
     form: {
-      handler: Application._submitHandler,
+      handler: Application.#submitHandler,
       closeOnSubmit: true,
     },
     position: {
@@ -64,7 +64,7 @@ export default class Application extends HandlebarsApplicationMixin(ApplicationV
    * @param {FormDataExtended} formData     The form data.
    * @param {object} submitOptions          The submit options.
    */
-  static _submitHandler(event, form, formData, submitOptions) {
+  static #submitHandler(event, form, formData, submitOptions) {
     this.#config = this._processSubmitData(event, form, formData, submitOptions);
   }
 
