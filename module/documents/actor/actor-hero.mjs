@@ -340,7 +340,7 @@ export default class HeroData extends CreatureData {
 
       const configuration = await artichron.applications.api.Dialog.prompt(dialogData);
       if (!configuration) return null;
-      foundry.utils.mergeObject(config, configuration, { insertKeys: false });
+      foundry.utils.mergeObject(config, configuration);
     }
 
     const formula = [
