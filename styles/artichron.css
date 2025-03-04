@@ -36,6 +36,21 @@
   scrollbar-color: var(--artichron-color-blue) #000000;
 }
 
+.application.artichron fieldset legend:has(button) {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+
+  & button {
+    --button-border-color: transparent;
+    --button-hover-border-color: transparent;
+    --button-hover-background-color: transparent;
+    --button-hover-text-color: var(--button-text-color);
+    height: unset;
+    padding: 0;
+  }
+}
+
 span.chron {
   width: 1rem;
   aspect-ratio: 1;

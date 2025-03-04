@@ -209,7 +209,10 @@ export default class PseudoDocument extends foundry.abstract.DataModel {
    */
   async duplicate() {
     if (!this.isSource) throw new Error("You cannot duplicate a non-source pseudo-document!");
-    return this.constructor.create(this.toObject(), { parent: this.document });
+    const activityData = foundry.utils.mergeObject(this.toObject(), {
+      name: game.i18n.format("DOCUMENT.CopyOf", { name: this.name }),
+    });
+    return this.constructor.create(activityData, { parent: this.document });
   }
 
   /* -------------------------------------------------- */

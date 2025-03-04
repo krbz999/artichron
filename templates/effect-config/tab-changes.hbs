@@ -8,9 +8,7 @@
     <fieldset data-idx="{{idx}}">
       <legend>
         {{#if @root.isEditMode}}
-        <button type="button" class="control" data-action="deleteChange" {{disabled @root.isPlayMode}}>
-          <i class="fa-solid fa-trash"></i>
-        </button>
+        <button type="button" class="icon fa-solid fa-trash" data-action="deleteChange" {{disabled @root.isPlayMode}}></button>
         {{/if}}
         Change {{idx}}
       </legend>

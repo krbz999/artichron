@@ -236,7 +236,12 @@ const ArtichronSheetMixin = Base => {
         name: "ARTICHRON.ContextMenu.ActiveEffect.Duplicate",
         icon: "<i class='fa-solid fa-fw fa-copy'></i>",
         condition: element => element.item.isOwner && (element.item.type !== "condition") && !element.item.isActiveFusion,
-        callback: element => element.item.clone({}, { save: true }),
+        callback: element => {
+          const item = element.item;
+          item.clone({
+            name: game.i18n.format("DOCUMENT.CopyOf", { name: item._source.name }),
+          }, { save: true, addSource: true });
+        },
         group: "action",
       }, {
         name: "ARTICHRON.ContextMenu.ActiveEffect.Unfuse",

@@ -12,6 +12,7 @@
         flex-direction: column;
         height: fit-content;
         align-items: flex-start;
+        padding: 0.5em;
 
         .name {
           font-size: 14px;

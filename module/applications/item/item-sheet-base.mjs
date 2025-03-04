@@ -34,10 +34,12 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
     },
     details: {
       template: "systems/artichron/templates/item/item-details.hbs",
+      classes: ["scrollable"],
       scrollable: [""],
     },
     activities: {
       template: "systems/artichron/templates/item/item-activities.hbs",
+      classes: ["scrollable"],
       scrollable: [""],
     },
     fusion: {
@@ -46,6 +48,7 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
     },
     effects: {
       template: "systems/artichron/templates/shared/effects.hbs",
+      classes: ["scrollable"],
       scrollable: [""],
     },
   };
@@ -237,7 +240,7 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
         requirements.push({
           fields: fields,
           id: r.id,
-          hint: r.constructor.metadata.hint,
+          hint: game.i18n.localize(r.constructor.metadata.hint),
         });
       }
       context.armorRequirements = requirements;
