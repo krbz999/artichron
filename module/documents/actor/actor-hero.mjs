@@ -1,6 +1,8 @@
 import CreatureData from "./creature-data.mjs";
 import ProgressionData from "../data/hero-progression.mjs";
 
+import * as TYPES from "../../helpers/types.mjs";
+
 const { ArrayField, HTMLField, NumberField, SchemaField, TypedSchemaField } = foundry.data.fields;
 
 export default class HeroData extends CreatureData {
@@ -229,19 +231,21 @@ export default class HeroData extends CreatureData {
 
   /**
    * Roll one or more dice from a pool.
-   * @param {string} type               The type of pool dice to roll (health, stamina, mana).
-   * @param {number} amount             The amount of dice to roll.
-   * @param {boolean} message           Whether to create a chat message.
-   * @param {PointerEvent} event        An associated click event.
-   * @returns {Promise<Roll|null>}      The created Roll instance.
+   * @param {TYPES.PoolRollConfiguration} [config]        Roll configuration.
+   * @param {TYPES.RollDialogConfiguration} [dialog]      Dialog configuration.
+   * @param {TYPES.RollMessageConfiguration} [message]    Chat message configuration.
+   * @returns {Promise<RollArtichron|null>}               A promise that resolves to the created roll.
    */
-  async rollPool(type, { amount = 1, message = true, event } = {}) {
-    // TODO: redo this whole thing, it should take three parameters for usage, dialog, message.
-    if (!(type in this.pools)) return null;
-    const pool = this.pools[type];
-    if (pool.value < amount) {
+  async rollPool(config = {}, dialog = {}, message = {}) {
+    config = foundry.utils.mergeObject({
+      pool: "health",
+      amount: 1,
+    }, config);
+
+    const pool = this.pools[config.pool];
+    if (pool.value < config.amount) {
       ui.notifications.warn("ARTICHRON.ROLL.Pool.Warning.NotEnoughPoolDice", {
-        format: { name: this.parent.name, type: game.i18n.localize(`ARTICHRON.Pools.${type.capitalize()}`) },
+        format: { name: this.parent.name, type: game.i18n.localize(`ARTICHRON.Pools.${config.pool.capitalize()}`) },
       });
       return null;
     }
@@ -249,42 +253,50 @@ export default class HeroData extends CreatureData {
     const update = {};
     const actor = this.parent;
 
-    if (!event.shiftKey) amount = await foundry.applications.api.DialogV2.prompt({
-      content: new foundry.data.fields.NumberField({
-        label: "ARTICHRON.ROLL.Pool.AmountLabel",
-        hint: "ARTICHRON.ROLL.Pool.AmountHint",
-        min: 1,
-        max: pool.value,
-        step: 1,
-        nullable: false,
-      }).toFormGroup({ localize: true }, { value: amount, name: "amount" }).outerHTML,
-      window: {
-        title: game.i18n.format("ARTICHRON.ROLL.Pool.Title", {
-          type: game.i18n.localize(`ARTICHRON.Pools.${type.capitalize()}`),
-        }),
-      },
-      position: {
-        width: 400,
-      },
-      ok: {
-        label: "ARTICHRON.ROLL.Pool.Button",
-        callback: (event, button, html) => button.form.elements.amount.valueAsNumber,
-      },
-      modal: true,
-    });
-    if (!amount) return null;
+    if ((dialog.configure !== false) && !config.event?.shiftKey) {
+      dialog = foundry.utils.mergeObject({
+        content: new foundry.data.fields.NumberField({
+          label: "ARTICHRON.ROLL.Pool.AmountLabel",
+          hint: "ARTICHRON.ROLL.Pool.AmountHint",
+          min: 1,
+          max: pool.value,
+          step: 1,
+          nullable: false,
+        }).toFormGroup({ localize: true }, { value: config.amount, name: "amount" }).outerHTML,
+        window: {
+          title: game.i18n.format("ARTICHRON.ROLL.Pool.Title", {
+            type: game.i18n.localize(`ARTICHRON.Pools.${config.pool.capitalize()}`),
+          }),
+        },
+        position: {
+          width: 400,
+        },
+        ok: {
+          label: "ARTICHRON.ROLL.Pool.Button",
+          callback: (event, button, html) => button.form.elements.amount.value,
+        },
+        modal: true,
+      }, dialog, { insertKeys: false });
+      const configuration = await artichron.applications.api.Dialog.prompt(dialog);
+      if (!configuration) return null;
+      config.amount = configuration.amount;
+    }
 
-    const roll = await foundry.dice.Roll.create("(@amount)d@faces", { amount, faces: pool.faces }).evaluate();
-    update[`system.pools.${type}.spent`] = pool.spent + amount;
-    if (message) {
-      await roll.toMessage({
+    const roll = await foundry.dice.Roll.create("(@amount)d@faces", { amount: config.amount, faces: pool.faces }).evaluate();
+    update[`system.pools.${config.pool}.spent`] = pool.spent + parseInt(config.amount);
+
+    message = foundry.utils.mergeObject({
+      create: true,
+      messageData: {
         speaker: ChatMessage.implementation.getSpeaker({ actor: actor }),
         flavor: game.i18n.format("ARTICHRON.ROLL.Pool.Flavor", {
-          type: game.i18n.localize(`ARTICHRON.Pools.${type.capitalize()}`),
+          type: game.i18n.localize(`ARTICHRON.Pools.${config.pool.capitalize()}`),
         }),
-        "flags.artichron.roll.type": type,
-      });
-    }
+        "flags.artichron.roll.type": config.pool,
+      },
+    }, message, { insertKeys: false });
+
+    if (message.create) await roll.toMessage(message.messageData);
 
     await actor.update(update);
     return roll;
@@ -294,24 +306,27 @@ export default class HeroData extends CreatureData {
 
   /**
    * Roll two skills together.
-   * @param {object} [config]               Configuration object.
-   * @param {string} [config.base]          The first of the skills used.
-   * @param {string} [config.second]        The second of the skills used.
-   * @returns {Promise<RollArtichron>}      A promise that resolves to the created roll.
+   * @param {TYPES.SkillRollConfiguration} [config]       Roll configuration.
+   * @param {TYPES.RollDialogConfiguration} [dialog]      Dialog configuration.
+   * @param {TYPES.RollMessageConfiguration} [message]    Chat message configuration.
+   * @returns {Promise<RollArtichron|null>}               A promise that resolves to the created roll.
    */
-  async rollSkill({ base, second } = {}) {
+  async rollSkill(config = {}, dialog = {}, message = {}) {
     const skills = Object.entries(this.skills).map(([k, v], i) => {
       return {
         value: k,
-        checked: (k === base) || (!i && !base),
-        checked2: (k === second) || (!i && !second),
+        checked: (k === config.base) || (!i && !config.base),
+        checked2: (k === config.second) || (!i && !config.second),
         img: artichron.config.SKILLS[k].img,
         label: artichron.config.SKILLS[k].label,
       };
     });
 
-    if (!base || !second || !(new Set([base, second]).isSubset(new Set(Object.keys(artichron.config.SKILLS))))) {
-      const prompt = await foundry.applications.api.DialogV2.prompt({
+    const skillIds = Object.keys(artichron.config.SKILLS);
+    dialog.configure = (!config.event?.shiftKey && (dialog.configure !== false)) || !(skillIds.includes(config.base) && skillIds.includes(config.second));
+
+    if (dialog.configure) {
+      const dialogData = foundry.utils.mergeObject({
         content: await renderTemplate("systems/artichron/templates/actor/skill-dialog.hbs", { skills: skills }),
         modal: true,
         window: {
@@ -320,28 +335,35 @@ export default class HeroData extends CreatureData {
         },
         position: { width: 400, height: "auto" },
         ok: { callback: (event, button) => new FormDataExtended(button.form).object },
-        classes: ["artichron", "skills"],
-      });
-      if (!prompt) return null;
-      base = prompt.base;
-      second = prompt.second;
+        classes: ["skills"],
+      }, dialog, { insertKeys: false });
+
+      const configuration = await artichron.applications.api.Dialog.prompt(dialogData);
+      if (!configuration) return null;
+      foundry.utils.mergeObject(config, configuration, { insertKeys: false });
     }
 
     const formula = [
-      `(@skills.${base}.number + @skills.${second}.number)d6cs=6`,
+      `(@skills.${config.base}.number + @skills.${config.second}.number)d6cs=6`,
       "+",
-      `(@skills.${base}.bonus + @skills.${second}.bonus)`,
+      `(@skills.${config.base}.bonus + @skills.${config.second}.bonus)`,
     ].join(" ");
     const rollData = this.parent.getRollData();
-    const roll = await foundry.dice.Roll.create(formula, rollData, { skills: [base, second] }).evaluate();
-    await roll.toMessage({
-      flavor: game.i18n.format("ARTICHRON.SkillsDialog.Flavor", {
-        skills: Array.from(new Set([base, second]).map(skl => {
-          return artichron.config.SKILLS[skl].label;
-        })).sort((a, b) => a.localeCompare(b)).join(", "),
-      }),
-      speaker: ChatMessage.implementation.getSpeaker({ actor: this.parent }),
-    });
+    const roll = await foundry.dice.Roll.create(formula, rollData, { skills: [config.base, config.second] }).evaluate();
+
+    message = foundry.utils.mergeObject({
+      create: true,
+      messageData: {
+        flavor: game.i18n.format("ARTICHRON.SkillsDialog.Flavor", {
+          skills: Array.from(new Set([config.base, config.second]).map(skl => {
+            return artichron.config.SKILLS[skl].label;
+          })).sort((a, b) => a.localeCompare(b)).join(", "),
+        }),
+        speaker: ChatMessage.implementation.getSpeaker({ actor: this.parent }),
+      },
+    }, message);
+
+    if (message.create) await roll.toMessage(message.messageData);
     return roll;
   }
 }

@@ -369,7 +369,7 @@ export default class HeroSheet extends ActorSheetArtichron {
    */
   static #onRollSkill(event, target) {
     if (!this.isEditable) return;
-    this.document.rollSkill({ base: target.dataset.skillId });
+    this.document.rollSkill({ event, base: target.dataset.skillId });
   }
 
   /* -------------------------------------------------- */
@@ -382,7 +382,7 @@ export default class HeroSheet extends ActorSheetArtichron {
    */
   static #onRollPool(event, target) {
     if (!this.isEditable) return;
-    this.document.rollPool(target.dataset.pool, { event });
+    this.document.rollPool({ pool: target.dataset.pool, event });
   }
 
   /* -------------------------------------------------- */

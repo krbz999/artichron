@@ -252,7 +252,7 @@ Hooks.once("ready", function() {
 });
 
 /* -------------------------------------------------- */
-/*   Sidebar diretories                               */
+/*   Sidebar directories                              */
 /* -------------------------------------------------- */
 
 Hooks.on("getEntryContextActorDirectory", (directory, options) => {

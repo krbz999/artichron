@@ -40,3 +40,33 @@
  * @property {string} inventorySection      The inventory section an item type gets placed in on an actor's inventory tab.
  * @property {string} type                  The internal name of this item type.
  */
+
+/* -------------------------------------------------- */
+
+/**
+ * @typedef {object} RollConfiguration
+ * @property {PointerEvent} [event]   The click event that initiated the roll.
+ */
+
+/**
+ * @typedef {RollConfiguration} PoolRollConfiguration
+ * @property {string} [pool]      The pool to roll.
+ * @property {number} [amount]    The amount to roll and consume.
+ */
+
+/**
+ * @typedef {RollConfiguration} SkillRollConfiguration
+ * @property {string} [base]      The primary skill to use.
+ * @property {string} [second]    The secondary skill to use.
+ */
+
+/**
+ * @typedef {object} RollDialogConfiguration
+ * @property {boolean} [configure]    Whether a dialog should be prompted.
+ */
+
+/**
+ * @typedef {object} RollMessageConfiguration
+ * @property {boolean} [create]       Whether to create the chat message.
+ * @property {object} [messageData]   Data to use for the ChatMessage.
+ */

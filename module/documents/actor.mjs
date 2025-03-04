@@ -1,5 +1,7 @@
 import PseudoDocument from "./data/pseudo-document.mjs";
 
+import * as TYPES from "../helpers/types.mjs";
+
 /**
  * @typedef {object} DamageDescription
  * @property {string} type                    The damage type.
@@ -327,14 +329,13 @@ export default class ActorArtichron extends Actor {
 
   /**
    * Roll one or more dice from a pool.
-   * @param {string} type               The type of pool dice to roll (health, stamina, mana).
-   * @param {number} amount             The amount of dice to roll.
-   * @param {boolean} message           Whether to create a chat message.
-   * @param {PointerEvent} event        An associated click event.
-   * @returns {Promise<Roll|null>}      The created Roll instance.
+   * @param {TYPES.PoolRollConfiguration} [config]        Roll configuration.
+   * @param {TYPES.RollDialogConfiguration} [dialog]      Dialog configuration.
+   * @param {TYPES.RollMessageConfiguration} [message]    Chat message configuration.
+   * @returns {Promise<RollArtichron|null>}               A promise that resolves to the created roll.
    */
-  async rollPool(type, { amount = 1, message = true, event } = {}) {
-    if (this.system.rollPool) return this.system.rollPool(type, { amount, message, event });
+  async rollPool(config = {}, dialog = {}, message = {}) {
+    if (this.system.rollPool) return this.system.rollPool(config, dialog, message);
     return null;
   }
 
@@ -342,13 +343,13 @@ export default class ActorArtichron extends Actor {
 
   /**
    * Roll two skills together.
-   * @param {object} [config]               Configuration object.
-   * @param {string} [config.base]          The first of the skills used.
-   * @param {string} [config.second]        The second of the skills used.
-   * @returns {Promise<RollArtichron>}      A promise that resolves to the created roll.
+   * @param {TYPES.SkillRollConfiguration} [config]       Roll configuration.
+   * @param {TYPES.RollDialogConfiguration} [dialog]      Dialog configuration.
+   * @param {TYPES.RollMessageConfiguration} [message]    Chat message configuration.
+   * @returns {Promise<RollArtichron|null>}               A promise that resolves to the created roll.
    */
-  async rollSkill({ base, second } = {}) {
-    if (this.system.rollSkill) return this.system.rollSkill({ base, second });
+  async rollSkill(config = {}, dialog = {}, message = {}) {
+    if (this.system.rollSkill) return this.system.rollSkill(config, dialog, message);
     return null;
   }
 

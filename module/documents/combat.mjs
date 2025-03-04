@@ -40,7 +40,7 @@ export default class CombatArtichron extends Combat {
 
       for (const item of actor.items) {
         const ids = loop(item);
-        if (ids.length) deleteEffects(item, ids);
+        if (ids.length) await deleteEffects(item, ids);
       }
     }
 

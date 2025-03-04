@@ -1,5 +1,4 @@
 import ArtichronSheetMixin from "../base-sheet.mjs";
-import FormulaField from "../../documents/data/fields/formula-field.mjs";
 import BaseActivity from "../../documents/activity/base-activity.mjs";
 
 export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.applications.sheets.ItemSheetV2) {
@@ -252,18 +251,9 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
    */
   _makeField(context, path, options = {}) {
     const field = this.document.system.schema.getField(path);
-    const formula = field instanceof FormulaField;
     const dv = foundry.utils.getProperty(this.document.system, path);
     const src = foundry.utils.getProperty(context.source, path);
-    let value;
-
-    if (formula) {
-      if (!dv || (dv === "0")) value = "";
-      else if (context.isPlayMode) value = artichron.utils.simplifyBonus(dv, context.rollData);
-      else value = src;
-    } else {
-      value = context.isPlayMode ? dv : src;
-    }
+    const value = context.isPlayMode ? dv : src;
 
     return { field: field, value: value, disabled: context.isPlayMode, ...options };
   }
