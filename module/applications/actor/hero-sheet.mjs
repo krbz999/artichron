@@ -25,8 +25,12 @@ export default class HeroSheet extends ActorSheetArtichron {
 
   /** @override */
   static PARTS = {
-    header: { template: "systems/artichron/templates/shared/sheet-header.hbs" },
-    tabs: { template: "systems/artichron/templates/shared/tabs.hbs" },
+    header: {
+      template: "systems/artichron/templates/shared/sheet-header.hbs",
+    },
+    tabs: {
+      template: "templates/generic/tab-navigation.hbs",
+    },
     attributes: {
       template: "systems/artichron/templates/actor/tab-attributes.hbs",
       scrollable: [".center-pane"],
@@ -43,24 +47,25 @@ export default class HeroSheet extends ActorSheetArtichron {
       template: "systems/artichron/templates/shared/effects.hbs",
       scrollable: [""],
     },
-    encumbrance: { template: "systems/artichron/templates/actor/tab-encumbrance.hbs" },
+    encumbrance: {
+      template: "systems/artichron/templates/actor/tab-encumbrance.hbs",
+    },
   };
 
   /* -------------------------------------------------- */
 
-  /** @override */
-  tabGroups = {
-    primary: "attributes",
-  };
-
-  /* -------------------------------------------------- */
-
-  /** @override */
+  /** @inheritdoc */
   static TABS = {
-    attributes: { id: "attributes", group: "primary", label: "ARTICHRON.SheetLabels.Attributes" },
-    inventory: { id: "inventory", group: "primary", label: "ARTICHRON.SheetLabels.Inventory" },
-    details: { id: "details", group: "primary", label: "ARTICHRON.SheetLabels.Details" },
-    effects: { id: "effects", group: "primary", label: "ARTICHRON.SheetLabels.Effects" },
+    primary: {
+      tabs: [
+        { id: "attributes", label: "ARTICHRON.SheetLabels.Attributes" },
+        { id: "inventory", label: "ARTICHRON.SheetLabels.Inventory" },
+        { id: "details", label: "ARTICHRON.SheetLabels.Details" },
+        { id: "effects", label: "ARTICHRON.SheetLabels.Effects" },
+      ],
+      initial: "attributes",
+      labelPrefix: null,
+    },
   };
 
   /* -------------------------------------------------- */
@@ -75,6 +80,7 @@ export default class HeroSheet extends ActorSheetArtichron {
     const [buffs, conditions] = effects.partition(e => e.effect.type === "condition");
 
     const context = {
+      ...await super._prepareContext(options),
       document: doc,
       config: artichron.config,
       health: this.document.system.health,
@@ -84,13 +90,10 @@ export default class HeroSheet extends ActorSheetArtichron {
       encumbrance: this.#prepareEncumbrance(),
       effects: buffs,
       conditions: conditions,
-      tabs: this._getTabs(),
       isEditMode: this.isEditMode,
       isPlayMode: this.isPlayMode,
       isEditable: this.isEditable,
       searchQuery: this.#searchQuery,
-      pointsField1: new foundry.data.fields.NumberField({ min: 0, step: 1, max: 20, initial: 0, nullable: false }),
-      pointsField2: new foundry.data.fields.NumberField({ min: 0, step: 1, max: 20, initial: 0, nullable: false }),
     };
 
     const makeField = path => {

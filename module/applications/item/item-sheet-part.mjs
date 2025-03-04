@@ -1,7 +1,7 @@
 import ItemSheetArtichron from "./item-sheet-base.mjs";
 
 export default class ItemSheetPart extends ItemSheetArtichron {
-  /** @override */
+  /** @inheritdoc */
   static DEFAULT_OPTIONS = {
     classes: ["part"],
     position: { width: 450 },
@@ -9,27 +9,45 @@ export default class ItemSheetPart extends ItemSheetArtichron {
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   static PARTS = {
-    header: { template: "systems/artichron/templates/shared/sheet-header.hbs" },
-    tabs: { template: "systems/artichron/templates/shared/tabs.hbs" },
-    description: { template: "systems/artichron/templates/item/item-description.hbs", scrollable: [""] },
-    details: { template: "systems/artichron/templates/item/item-details.hbs", scrollable: [""] },
-    activities: { template: "systems/artichron/templates/item/item-activities.hbs", scrollable: [""] },
+    header: {
+      template: "systems/artichron/templates/shared/sheet-header.hbs",
+    },
+    tabs: {
+      template: "templates/generic/tab-navigation.hbs",
+    },
+    description: {
+      template: "systems/artichron/templates/item/item-description.hbs",
+      scrollable: [""],
+    },
+    details: {
+      template: "systems/artichron/templates/item/item-details.hbs",
+      scrollable: [""],
+    },
+    activities: {
+      template: "systems/artichron/templates/item/item-activities.hbs",
+      scrollable: [""],
+    },
   };
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   static TABS = {
-    description: { id: "description", group: "primary", label: "ARTICHRON.SheetLabels.Description" },
-    details: { id: "details", group: "primary", label: "ARTICHRON.SheetLabels.Details" },
-    activities: { id: "activities", group: "primary", label: "ARTICHRON.SheetLabels.Activities" },
+    primary: {
+      tabs: [
+        { id: "description", label: "ARTICHRON.SheetLabels.Description" },
+        { id: "details", label: "ARTICHRON.SheetLabels.Details" },
+        { id: "activities", label: "ARTICHRON.SheetLabels.Activities" },
+      ],
+      initial: "description",
+    },
   };
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   async _prepareContext(options) {
     const context = await super._prepareContext(options);
 

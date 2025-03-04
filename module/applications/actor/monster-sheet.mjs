@@ -18,9 +18,15 @@ export default class MonsterSheet extends ActorSheetArtichron {
 
   /** @override */
   static PARTS = {
-    header: { template: "systems/artichron/templates/shared/sheet-header.hbs" },
-    health: { template: "systems/artichron/templates/actor/monster-health.hbs" },
-    tabs: { template: "systems/artichron/templates/shared/tabs.hbs" },
+    header: {
+      template: "systems/artichron/templates/shared/sheet-header.hbs",
+    },
+    health: {
+      template: "systems/artichron/templates/actor/monster-health.hbs",
+    },
+    tabs: {
+      template: "templates/generic/tab-navigation.hbs",
+    },
     actions: {
       template: "systems/artichron/templates/actor/monster-actions.hbs",
       templates: ["systems/artichron/templates/actor/monster-defenses.hbs"],
@@ -43,18 +49,16 @@ export default class MonsterSheet extends ActorSheetArtichron {
   /* -------------------------------------------------- */
 
   /** @override */
-  tabGroups = {
-    primary: "actions",
-  };
-
-  /* -------------------------------------------------- */
-
-  /** @override */
   static TABS = {
-    actions: { id: "actions", group: "primary", label: "ARTICHRON.SheetLabels.Actions" },
-    loot: { id: "loot", group: "primary", label: "ARTICHRON.SheetLabels.Loot" },
-    about: { id: "about", group: "primary", label: "ARTICHRON.SheetLabels.About" },
-    effects: { id: "effects", group: "primary", label: "ARTICHRON.SheetLabels.Effects" },
+    primary: {
+      tabs: [
+        { id: "actions", label: "ARTICHRON.SheetLabels.Actions" },
+        { id: "loot", label: "ARTICHRON.SheetLabels.Loot" },
+        { id: "about", label: "ARTICHRON.SheetLabels.About" },
+        { id: "effects", label: "ARTICHRON.SheetLabels.Effects" },
+      ],
+      initial: "actions",
+    },
   };
 
   /* -------------------------------------------------- */
@@ -68,6 +72,7 @@ export default class MonsterSheet extends ActorSheetArtichron {
     const [buffs, conditions] = effects.partition(e => e.effect.type === "condition");
 
     const context = {
+      ...await super._prepareContext(options),
       document: doc,
       defenses: {},
       effects: buffs,
@@ -76,7 +81,6 @@ export default class MonsterSheet extends ActorSheetArtichron {
         src: src.system.health,
         doc: doc.system.health,
       },
-      tabs: this._getTabs(),
       isEditMode: this.isEditMode,
       isPlayMode: this.isPlayMode,
       isEditable: this.isEditable,

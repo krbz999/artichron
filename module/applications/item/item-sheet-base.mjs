@@ -2,7 +2,7 @@ import ArtichronSheetMixin from "../base-sheet.mjs";
 import BaseActivity from "../../documents/activity/base-activity.mjs";
 
 export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.applications.sheets.ItemSheetV2) {
-  /** @override */
+  /** @inheritdoc */
   static DEFAULT_OPTIONS = {
     classes: ["item"],
     position: {
@@ -20,43 +20,60 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   static PARTS = {
-    header: { template: "systems/artichron/templates/shared/sheet-header.hbs" },
-    tabs: { template: "systems/artichron/templates/shared/tabs.hbs" },
-    description: { template: "systems/artichron/templates/item/item-description.hbs", scrollable: [""] },
-    details: { template: "systems/artichron/templates/item/item-details.hbs", scrollable: [""] },
-    activities: { template: "systems/artichron/templates/item/item-activities.hbs", scrollable: [""] },
-    fusion: { template: "systems/artichron/templates/item/item-fusion.hbs", scrollable: [""] },
-    effects: { template: "systems/artichron/templates/shared/effects.hbs", scrollable: [""] },
+    header: {
+      template: "systems/artichron/templates/shared/sheet-header.hbs",
+    },
+    tabs: {
+      template: "templates/generic/tab-navigation.hbs",
+    },
+    description: {
+      template: "systems/artichron/templates/item/item-description.hbs",
+      scrollable: [""],
+    },
+    details: {
+      template: "systems/artichron/templates/item/item-details.hbs",
+      scrollable: [""],
+    },
+    activities: {
+      template: "systems/artichron/templates/item/item-activities.hbs",
+      scrollable: [""],
+    },
+    fusion: {
+      template: "systems/artichron/templates/item/item-fusion.hbs",
+      scrollable: [""],
+    },
+    effects: {
+      template: "systems/artichron/templates/shared/effects.hbs",
+      scrollable: [""],
+    },
   };
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   static TABS = {
-    description: { id: "description", group: "primary", label: "ARTICHRON.SheetLabels.Description" },
-    details: { id: "details", group: "primary", label: "ARTICHRON.SheetLabels.Details" },
-    activities: { id: "activities", group: "primary", label: "ARTICHRON.SheetLabels.Activities" },
-    fusion: { id: "fusion", group: "primary", label: "ARTICHRON.SheetLabels.Fusion" },
-    effects: { id: "effects", group: "primary", label: "ARTICHRON.SheetLabels.Effects" },
+    primary: {
+      tabs: [
+        { id: "description", label: "ARTICHRON.SheetLabels.Description" },
+        { id: "details", label: "ARTICHRON.SheetLabels.Details" },
+        { id: "activities", label: "ARTICHRON.SheetLabels.Activities" },
+        { id: "fusion", label: "ARTICHRON.SheetLabels.Fusion" },
+        { id: "effects", label: "ARTICHRON.SheetLabels.Effects" },
+      ],
+      initial: "description",
+    },
   };
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   _sheetMode = this.document.isEmbedded ? this.constructor.SHEET_MODES.PLAY : this.constructor.SHEET_MODES.EDIT;
 
   /* -------------------------------------------------- */
 
-  /** @override */
-  tabGroups = {
-    primary: "description",
-  };
-
-  /* -------------------------------------------------- */
-
-  /** @override */
+  /** @inheritdoc */
   async _prepareContext(options) {
     const doc = this.document;
     const src = doc.toObject();
@@ -71,6 +88,7 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
     }, [[], [], [], []]);
 
     const context = {
+      ...await super._prepareContext(options),
       document: doc,
       source: src.system,
       rollData: rollData,
@@ -87,7 +105,6 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
         value: doc.system.description.value,
         uuid: doc.uuid,
       },
-      tabs: this._getTabs(),
       isEditMode: this.isEditMode,
       isPlayMode: this.isPlayMode,
       isEditable: this.isEditable,
@@ -262,7 +279,7 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
   /*   Context menu handlers                            */
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   _setupContextMenu() {
     super._setupContextMenu();
 

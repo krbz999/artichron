@@ -114,25 +114,6 @@ const ArtichronSheetMixin = Base => {
     /* -------------------------------------------------- */
 
     /**
-     * Utility method for _prepareContext to create the tab navigation.
-     * @returns {object}
-     */
-    _getTabs() {
-      return Object.values(this.constructor.TABS).reduce((acc, v) => {
-        const isActive = this.tabGroups[v.group] === v.id;
-        acc[v.id] = {
-          ...v,
-          active: isActive,
-          cssClass: [isActive ? "active" : null].filterJoin(" "),
-          tabCssClass: ["tab", "scrollable", isActive ? "active" : null].filterJoin(" "),
-        };
-        return acc;
-      }, {});
-    }
-
-    /* -------------------------------------------------- */
-
-    /**
      * Prepare effects for rendering.
      * @returns {object[]}
      */

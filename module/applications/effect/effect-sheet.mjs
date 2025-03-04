@@ -1,7 +1,7 @@
 import ArtichronSheetMixin from "../base-sheet.mjs";
 
 export default class EffectSheetArtichron extends ArtichronSheetMixin(foundry.applications.api.DocumentSheetV2) {
-  /** @override */
+  /** @inheritdoc */
   static DEFAULT_OPTIONS = {
     form: { submitOnChange: true, closeOnSubmit: false },
     classes: ["effect"],
@@ -14,27 +14,35 @@ export default class EffectSheetArtichron extends ArtichronSheetMixin(foundry.ap
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   static PARTS = {
-    header: { template: "systems/artichron/templates/shared/sheet-header.hbs" },
-    tabs: { template: "systems/artichron/templates/shared/tabs.hbs" },
-    details: { template: "systems/artichron/templates/effect-config/tab-details.hbs", scrollable: [""] },
-    changes: { template: "systems/artichron/templates/effect-config/tab-changes.hbs", scrollable: [".changes"] },
+    header: {
+      template: "systems/artichron/templates/shared/sheet-header.hbs",
+    },
+    tabs: {
+      template: "templates/generic/tab-navigation.hbs",
+    },
+    details: {
+      template: "systems/artichron/templates/effect-config/tab-details.hbs",
+      scrollable: [""],
+    },
+    changes: {
+      template: "systems/artichron/templates/effect-config/tab-changes.hbs",
+      scrollable: [".changes"],
+    },
   };
 
   /* -------------------------------------------------- */
 
   /** @override */
   static TABS = {
-    details: { id: "details", group: "primary", label: "ARTICHRON.SheetLabels.EffectDetails" },
-    changes: { id: "changes", group: "primary", label: "ARTICHRON.SheetLabels.EffectChanges" },
-  };
-
-  /* -------------------------------------------------- */
-
-  /** @override */
-  tabGroups = {
-    primary: "details",
+    primary: {
+      tabs: [
+        { id: "details", label: "ARTICHRON.SheetLabels.EffectDetails" },
+        { id: "changes", label: "ARTICHRON.SheetLabels.EffectChanges" },
+      ],
+      initial: "details",
+    },
   };
 
   /* -------------------------------------------------- */
@@ -44,7 +52,7 @@ export default class EffectSheetArtichron extends ArtichronSheetMixin(foundry.ap
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   async _prepareContext(options) {
     const doc = this.document;
     const rollData = doc.getRollData();
@@ -63,6 +71,7 @@ export default class EffectSheetArtichron extends ArtichronSheetMixin(foundry.ap
     };
 
     const context = {
+      ...await super._prepareContext(options),
       document: doc,
       header: {
         img: doc.img,
@@ -85,7 +94,6 @@ export default class EffectSheetArtichron extends ArtichronSheetMixin(foundry.ap
       isEditMode: this.isEditMode,
       isPlayMode: this.isPlayMode,
       isEditable: this.isEditable,
-      tabs: this._getTabs(),
     };
 
     // Subtype field.

@@ -31,10 +31,13 @@ export default class PartySheet extends ActorSheetArtichron {
   /** @override */
   static PARTS = {
     header: { template: "systems/artichron/templates/shared/sheet-header.hbs" },
-    tabs: { template: "systems/artichron/templates/shared/tabs.hbs" },
+    tabs: {
+      template: "templates/generic/tab-navigation.hbs",
+    },
     members: {
       template: "systems/artichron/templates/actor/party-members.hbs",
-      scrollable: [""],
+      scrollable: [".members"],
+      classes: ["scrollable"],
     },
     inventory: {
       template: "systems/artichron/templates/actor/party-inventory.hbs",
@@ -50,16 +53,15 @@ export default class PartySheet extends ActorSheetArtichron {
 
   /** @override */
   static TABS = {
-    members: { id: "members", group: "primary", label: "ARTICHRON.SheetLabels.Members" },
-    inventory: { id: "inventory", group: "primary", label: "ARTICHRON.SheetLabels.Inventory" },
-    progress: { id: "progress", group: "primary", label: "ARTICHRON.SheetLabels.Progress" },
-  };
+    primary: {
+      tabs: [
+        { id: "members", label: "ARTICHRON.SheetLabels.Members" },
+        { id: "inventory", label: "ARTICHRON.SheetLabels.Inventory" },
+        { id: "progress", label: "ARTICHRON.SheetLabels.Progress" },
+      ],
+      initial: "members",
+    },
 
-  /* -------------------------------------------------- */
-
-  /** @override */
-  tabGroups = {
-    primary: "members",
   };
 
   /* -------------------------------------------------- */
@@ -77,12 +79,14 @@ export default class PartySheet extends ActorSheetArtichron {
   /** @override */
   async _prepareContext(options) {
     const context = {
+      ...await super._prepareContext(options),
       isEditable: this.isEditable,
       isEditMode: this.isEditMode,
       isPlayMode: this.isPlayMode,
       document: this.document,
       isGM: game.user.isGM,
     };
+    if (!context.isGM) delete context.tabs.progress;
     return context;
   }
 
@@ -95,17 +99,15 @@ export default class PartySheet extends ActorSheetArtichron {
     switch (partId) {
       case "header":
         return this.#preparePartContextHeader(context, options);
-      case "tabs":
-        return this.#preparePartContextTabs(context, options);
       case "members":
         return this.#preparePartContextMembers(context, options);
       case "inventory":
         return this.#preparePartContextInventory(context, options);
       case "progress":
         return this.#preparePartContextProgress(context, options);
-      default:
-        throw new Error(`'${partId}' is not a valid part for the Party Sheet!`);
     }
+
+    return context;
   }
 
   /* -------------------------------------------------- */
@@ -126,20 +128,6 @@ export default class PartySheet extends ActorSheetArtichron {
       img: prop("img"),
       name: prop("name"),
     };
-    return context;
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Prepare the context for a specific part.
-   * @param {object} context        Rendering context.
-   * @param {object} options        Rendering options.
-   * @returns {Promise<object>}     Mutated rendering context.
-   */
-  async #preparePartContextTabs(context, options) {
-    context.tabs = this._getTabs();
-    if (!game.user.isGM) delete context.tabs.progress;
     return context;
   }
 

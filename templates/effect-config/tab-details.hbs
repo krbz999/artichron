@@ -1,4 +1,4 @@
-<div class="{{tabs.details.tabCssClass}}" data-group="primary" data-tab="details">
+<div class="tab {{tabs.details.cssClass}}" data-group="{{tabs.details.group}}" data-tab="{{tabs.details.id}}">
 
   {{#with fields.description}}
   {{formGroup field value=value enriched=enriched compact=true localize=true height=150 collaborate=true documentUUID=uuid disabled=true toggled=true}}

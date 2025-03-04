@@ -1,7 +1,7 @@
 import ItemSheetArtichron from "./item-sheet-base.mjs";
 
 export default class ItemSheetElixir extends ItemSheetArtichron {
-  /** @override */
+  /** @inheritdoc */
   static DEFAULT_OPTIONS = {
     classes: ["elixir"],
     position: { width: 450 },
@@ -9,29 +9,50 @@ export default class ItemSheetElixir extends ItemSheetArtichron {
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   static PARTS = {
-    header: { template: "systems/artichron/templates/shared/sheet-header.hbs" },
-    tabs: { template: "systems/artichron/templates/shared/tabs.hbs" },
-    description: { template: "systems/artichron/templates/item/item-description.hbs", scrollable: [""] },
-    details: { template: "systems/artichron/templates/item/item-details.hbs", scrollable: [""] },
-    activities: { template: "systems/artichron/templates/item/item-activities.hbs", scrollable: [""] },
-    effects: { template: "systems/artichron/templates/shared/effects.hbs", scrollable: [""] },
+    header: {
+      template: "systems/artichron/templates/shared/sheet-header.hbs",
+    },
+    tabs: {
+      template: "templates/generic/tab-navigation.hbs",
+    },
+    description: {
+      template: "systems/artichron/templates/item/item-description.hbs",
+      scrollable: [""],
+    },
+    details: {
+      template: "systems/artichron/templates/item/item-details.hbs",
+      scrollable: [""],
+    },
+    activities: {
+      template: "systems/artichron/templates/item/item-activities.hbs",
+      scrollable: [""],
+    },
+    effects: {
+      template: "systems/artichron/templates/shared/effects.hbs",
+      scrollable: [""],
+    },
   };
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   static TABS = {
-    description: { id: "description", group: "primary", label: "ARTICHRON.SheetLabels.Description" },
-    details: { id: "details", group: "primary", label: "ARTICHRON.SheetLabels.Details" },
-    activities: { id: "activities", group: "primary", label: "ARTICHRON.SheetLabels.Activities" },
-    effects: { id: "effects", group: "primary", label: "ARTICHRON.SheetLabels.Effects" },
+    primary: {
+      tabs: [
+        { id: "description", label: "ARTICHRON.SheetLabels.Description" },
+        { id: "details", label: "ARTICHRON.SheetLabels.Details" },
+        { id: "activities", label: "ARTICHRON.SheetLabels.Activities" },
+        { id: "effects", label: "ARTICHRON.SheetLabels.Effects" },
+      ],
+      initial: "description",
+    },
   };
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   async _prepareContext(options) {
     const context = await super._prepareContext(options);
 
