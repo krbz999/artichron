@@ -111,30 +111,55 @@
       "monster": {
         "htmlFields": ["biography.value"]
       },
-      "merchant": {},
-      "party": {}
+      "merchant": {
+        "htmlFields": ["biography.value"]
+      },
+      "party": {
+        "htmlFields": ["clocks.*.description"]
+      }
     },
     "Item": {
       "ammo": {
-        "htmlFields": ["description.value"]
+        "htmlFields": [
+          "description.value",
+          "activities.*.description"
+        ]
       },
       "armor": {
-        "htmlFields": ["description.value"]
+        "htmlFields": [
+          "description.value",
+          "activities.*.description"
+        ]
       },
       "elixir": {
-        "htmlFields": ["description.value"]
+        "htmlFields": [
+          "description.value",
+          "activities.*.description"
+        ]
       },
       "part": {
-        "htmlFields": ["description.value"]
+        "htmlFields": [
+          "description.value",
+          "activities.*.description"
+        ]
       },
       "shield": {
-        "htmlFields": ["description.value"]
+        "htmlFields": [
+          "description.value",
+          "activities.*.description"
+        ]
       },
       "spell": {
-        "htmlFields": ["description.value"]
+        "htmlFields": [
+          "description.value",
+          "activities.*.description"
+        ]
       },
       "weapon": {
-        "htmlFields": ["description.value"]
+        "htmlFields": [
+          "description.value",
+          "activities.*.description"
+        ]
       }
     },
     "ChatMessage": {
