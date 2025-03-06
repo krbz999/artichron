@@ -14,10 +14,7 @@ import DamageSheet from "./item/damage-sheet.mjs";
 import Dialog from "./apps/dialog.mjs";
 import HeroSheet from "./actor/hero-sheet.mjs";
 import ItemFusionDialog from "./item/fusion-dialog.mjs";
-import ItemSheetAmmunition from "./item/item-sheet-ammo.mjs";
 import ItemSheetArtichron from "./item/item-sheet-base.mjs";
-import ItemSheetElixir from "./item/item-sheet-elixir.mjs";
-import ItemSheetPart from "./item/item-sheet-part.mjs";
 import MerchantConfigurationDialog from "./actor/merchant-configuration-dialog.mjs";
 import MerchantSheet from "./actor/merchant-sheet.mjs";
 import MonsterSheet from "./actor/monster-sheet.mjs";
@@ -60,10 +57,7 @@ export default {
   item: {
     ClockSheet,
     DamageSheet,
-    ItemSheetAmmunition,
     ItemSheetArtichron,
-    ItemSheetElixir,
-    ItemSheetPart,
   },
   apps: {
     ItemFusionDialog,

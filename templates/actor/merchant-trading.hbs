@@ -1,7 +1,7 @@
 <div class="trading scrollable">
 
   <fieldset class="stock">
-    <legend>{{localize "ARTICHRON.SheetLabels.Stock"}}</legend>
+    <legend>{{localize "ARTICHRON.SHEET.LEGENDS.stock"}}</legend>
     {{#each stock}}
     <div class="inventory-list compact">
       <header>
@@ -13,7 +13,7 @@
   </fieldset>
 
   <fieldset class="cart">
-    <legend>{{localize "ARTICHRON.SheetLabels.Cart"}}</legend>
+    <legend>{{localize "ARTICHRON.SHEET.LEGENDS.cart"}}</legend>
     <div class="contents">
       <div class="inventory-list compact">
         {{#each cart}}
@@ -24,7 +24,7 @@
     {{#if isGM}}
     <button type="button" data-action="checkout">
       <i class="fa-solid fa-cart-shopping"></i>
-      {{localize "ARTICHRON.Purchase.Checkout"}}
+      {{localize "ARTICHRON.PURCHASE.checkout"}}
     </button>
     {{/if}}
   </fieldset>

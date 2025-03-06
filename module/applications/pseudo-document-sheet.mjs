@@ -49,19 +49,12 @@ export default class PseudoDocumentSheet extends HandlebarsApplicationMixin(Appl
   /** @inheritdoc */
   static TABS = {
     primary: {
-      tabs: [{
-        id: "identity",
-        icon: "fa-solid fa-tag",
-        label: "ARTICHRON.SheetLabels.Identity",
-        tooltip: null,
-      }, {
-        id: "details",
-        icon: "fa-solid fa-pen-fancy",
-        label: "ARTICHRON.SheetLabels.Details",
-        tooltip: null,
-      }],
+      tabs: [
+        { id: "identity", icon: "fa-solid fa-tag" },
+        { id: "details", icon: "fa-solid fa-pen-fancy" },
+      ],
       initial: "identity",
-      labelPrefix: null,
+      labelPrefix: "ARTICHRON.SHEET.TABS",
     },
   };
 

@@ -159,7 +159,7 @@ export default class InventoryItemElement extends HTMLElement {
         div.classList.add("property", "fusion");
         const a = document.createElement("A");
         a.dataset.action = "fuseItem";
-        a.dataset.tooltip = "ARTICHRON.SheetActions.FuseItem";
+        a.dataset.tooltip = "ARTICHRON.FUSION.fuseItem";
         const i = document.createElement("I");
         i.classList.add("fa-solid", "fa-volcano");
         a.insertAdjacentElement("beforeend", i);

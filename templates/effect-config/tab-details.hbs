@@ -5,7 +5,7 @@
   {{/with}}
 
   <fieldset>
-    <legend>{{localize "ARTICHRON.SheetLabels.Details"}}</legend>
+    <legend>{{localize "ARTICHRON.SHEET.LEGENDS.details"}}</legend>
     {{#if fields.subtype.field}}
     {{formGroup fields.subtype.field value=fields.subtype.value localize=true disabled=isPlayMode}}
     {{/if}}
@@ -19,7 +19,7 @@
   </fieldset>
 
   <fieldset>
-    <legend>{{localize "ARTICHRON.SheetLabels.Duration"}}</legend>
+    <legend>{{localize "ARTICHRON.SHEET.LEGENDS.duration"}}</legend>
     {{formGroup fields.combat.field value=fields.combat.value localize=true disabled=true}}
 
     {{#if fields.expiration}}

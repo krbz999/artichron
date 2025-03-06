@@ -85,7 +85,7 @@ export default class EffectEntryElement extends HTMLElement {
     if (item.system.schema.has("level") && Number.isNumeric(item.system.level)) {
       label.insertAdjacentHTML("beforeend", `
       <span class="subtitle">
-        ${game.i18n.format("ARTICHRON.SheetLabels.Level", { level: item.system.level })}
+        ${game.i18n.format("ARTICHRON.EFFECT.LABELS.level", { level: item.system.level })}
       </span>`,
       );
     } else if (item.parent !== application.document) {
@@ -99,7 +99,7 @@ export default class EffectEntryElement extends HTMLElement {
     if (item.isActiveFusion) {
       const a = document.createElement("A");
       a.dataset.action = "undoFusion";
-      a.dataset.tooltip = "ARTICHRON.SheetLabels.ActiveFusion";
+      a.dataset.tooltip = "ARTICHRON.EFFECT.LABELS.activeFusion";
       a.insertAdjacentHTML("beforeend", `
         <i class="fa-solid fa-volcano"></i>
         <i class="fa-solid fa-recycle"></i>`,

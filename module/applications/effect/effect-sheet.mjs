@@ -38,10 +38,11 @@ export default class EffectSheetArtichron extends ArtichronSheetMixin(foundry.ap
   static TABS = {
     primary: {
       tabs: [
-        { id: "details", label: "ARTICHRON.SheetLabels.EffectDetails" },
-        { id: "changes", label: "ARTICHRON.SheetLabels.EffectChanges" },
+        { id: "details" },
+        { id: "changes" },
       ],
       initial: "details",
+      labelPrefix: "ARTICHRON.SHEET.TABS",
     },
   };
 

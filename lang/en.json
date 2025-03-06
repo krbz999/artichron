@@ -59,16 +59,52 @@
     "Base": "Artichron ActiveEffect Sheet"
   },
   "ITEM": {
-    "Ammunition": "Artichron Ammunition Sheet",
-    "Base": "Artichron Item Sheet",
-    "Elixir": "Artichron Elixir Sheet",
-    "Part": "Artichron Monster Part Sheet"
+    "Base": "Artichron Item Sheet"
   },
   "ACTIVITY": {
     "title": "Activity: {name}"
   },
   "DAMAGE_PART": {
     "title": "{name}: Damage Part"
+  },
+  "TABS": {
+    "about": "About",
+    "actions": "Actions",
+    "activities": "Activities",
+    "attributes": "Attributes",
+    "changes": "Changes",
+    "description": "Description",
+    "details": "Details",
+    "effects": "Effects",
+    "fusion": "Fusion",
+    "identity": "Identity",
+    "inventory": "Inventory",
+    "loot": "Loot",
+    "members": "Members",
+    "progress": "Progress"
+  },
+  "LEGENDS": {
+    "activities": "Activities",
+    "awards": "Awards",
+    "biography": "Biography",
+    "cart": "Cart",
+    "configuration": "Configuration",
+    "damage": "Damage",
+    "defenses": "Defenses",
+    "details": "Details",
+    "duration": "Duration",
+    "equipment": "Equipment",
+    "favorites": "Favorites",
+    "funds": "Funds",
+    "identity": "Identity",
+    "loot": "Loot",
+    "requirements": "Requirements",
+    "skills": "Skills",
+    "stock": "Stock"
+  },
+  "TOGGLE": {
+    "opacity": "Toggle Opacity",
+    "editing": "Toggle Edit Mode"
   }
 },
 
@@ -536,6 +572,12 @@
       "hint": "An actor or item type used to determine the available options on the sheet of this effect.",
       "label": "Subtype"
     }
+  },
+  "LABELS": {
+    "activeFusion": "Active Fusion",
+    "buffs": "Buffs",
+    "level": "Level: {level}",
+    "source": "Source"
   }
 },
 
@@ -558,6 +600,17 @@
     "Clothing": "Clothing",
     "Natural": "Natural",
     "Tech": "Tech"
+  }
+},
+
+"HERO": {
+  "recover": "Recover",
+  "INVENTORY": {
+    "arsenal": "Arsenal",
+    "consumables": "Consumables",
+    "create": "Create Item",
+    "gear": "Gear",
+    "loot": "Loot"
   }
 },
 
@@ -833,6 +886,36 @@
   "Title": "Configure Merchant: {name}"
 },
 
+"MONSTER": {
+  "recover": "Recover",
+  "INVENTORY": {
+    "favorites": "Favorites",
+    "inventory": "Inventory"
+  },
+  "LOOT": {
+    "grant": "Grant Loot"
+  }
+},
+
+"PARTY": {
+  "LABELS": {
+    "currency": "Currency",
+    "distribute": "Distribute",
+    "progression": "Progression",
+    "FUNDS": {
+      "manage": "Manage Funds"
+    },
+    "PROGRESS": {
+      "bad": "Add Bad Clock",
+      "good": "Add Good Clock"
+    },
+    "MEMBERS": {
+      "place": "Place Members",
+      "recall": "Recall Members"
+    }
+  }
+},
+
 "PartyDistributionDialog": {
   "amount": {
     "hintCurrency": "The amount of funds to distribute. Each recipient will receive this amount.",
@@ -920,10 +1003,10 @@
   "WarningNoPoints": "This actor has no progression points to spend!"
 },
 
-"Purchase": {
-  "Checkout": "Checkout",
-  "Receipt": "Receipt",
-  "Summary": "The members of {name} spent {total} at {shop} on the following items:"
+"PURCHASE": {
+  "checkout": "Checkout",
+  "receipt": "Receipt",
+  "summary": "The members of {name} spent {total} at {shop} on the following items:"
 },
 
 "REGION": {
@@ -1008,77 +1091,6 @@
   "TemplateAreaThresholdHint": "The percentage a token must overlap a template to be considered 'inside' it. The default is 0.4.",
   "TokenBarLength": "Token Bar Length",
   "TokenBarLengthHint": "The length of token bars, in degrees. The default is 120."
-},
-
-"SheetActions": {
-  "AddBadClock": "Add Bad Clock",
-  "AddGoodClock": "Add Good Clock",
-  "ChangeItem": "Change Item",
-  "CreateBuff": "Create New Buff",
-  "CreateEnhancement": "Create Enhancement",
-  "CreateFusion": "Create New Fusion",
-  "CreateItem": "Create New Item",
-  "Distribute": "Distribute",
-  "EditItem": "Edit Item",
-  "EditPools": "Edit Pools",
-  "FuseItem": "Fuse Item",
-  "GrantLoot": "Grant Loot",
-  "PlaceMembers": "Place Members",
-  "RecallMembers": "Recall Members",
-  "RecoverHealth": "Recover Health",
-  "ToggleOpacity": "Toggle Opacity",
-  "ToggleSheet": "Toggle Sheet"
-},
-
-"SheetLabels": {
-  "About": "About",
-  "Actions": "Actions",
-  "ActiveFusion": "Fusion",
-  "ActiveFusions": "Active Fusions",
-  "Activities": "Activities",
-  "Arsenal": "Arsenal",
-  "Attributes": "Attributes",
-  "Awards": "Awards",
-  "Biography": "Biography",
-  "Buffs": "Buffs",
-  "Cart": "Cart",
-  "Clocks": "Clocks",
-  "Conditions": "Conditions",
-  "Configuration": "Configuration",
-  "Consumables": "Consumables",
-  "Currency": "Currency",
-  "Damage":"Damage",
-  "Defenses": "Defenses",
-  "Description": "Description",
-  "Details": "Details",
-  "Duration": "Duration",
-  "EffectChanges": "Changes",
-  "EffectDetails": "Details",
-  "EffectDuration": "Duration",
-  "Effects": "Effects",
-  "Equipment": "Equipment",
-  "Favorites": "Favorites",
-  "Formula": "Formula",
-  "Funds": "Funds",
-  "Fusion": "Fusion",
-  "FusionOptions": "Fusion Options",
-  "Gear": "Gear",
-  "Identity": "Identity",
-  "Inventory": "Inventory",
-  "Items": "Items",
-  "Level": "Level: {level}",
-  "Loot": "Loot",
-  "ManageFunds": "Manage Funds",
-  "Members": "Members",
-  "Pools": "Pools",
-  "Progress": "Progress",
-  "Progression": "Progression",
-  "Properties": "Properties",
-  "Requirements": "Requirements",
-  "Skills": "Skills",
-  "Source": "Source",
-  "Stock": "Stock",
-  "TransferredBuff": "Transferred Buff"
 },
 
 "ShieldType": {

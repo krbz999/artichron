@@ -4,7 +4,7 @@
 
     {{#if conditions.length}}
     <header>
-      <span class="label">{{localize "ARTICHRON.SheetLabels.Conditions"}}</span>
+      <span class="label">{{localize "TYPES.ActiveEffect.conditionPl"}}</span>
       <span class="controls" style="margin-left: 2px;"></span>
     </header>
 
@@ -18,7 +18,7 @@
     <header>
       <span class="label">{{localize "TYPES.ActiveEffect.enhancementPl"}}</span>
       {{#if @root.isEditMode}}
-      <button class="controls" type="button" data-action="createEffect" data-tooltip="ARTICHRON.SheetActions.CreateEnhancement" data-type="enhancement">
+      <button class="controls" type="button" data-action="createEffect" data-tooltip="ARTICHRON.EFFECT.ENHANCEMENT.create" data-type="enhancement">
         <i class="fa-solid fa-plus"></i>
       </button>
       {{else}}
@@ -33,10 +33,10 @@
     {{/if}}
 
     <header>
-      <span class="label">{{localize "ARTICHRON.SheetLabels.Buffs"}}</span>
-      <span class="source">{{localize "ARTICHRON.SheetLabels.Source"}}</span>
+      <span class="label">{{localize "TYPES.ActiveEffect.buffPl"}}</span>
+      <span class="source">{{localize "ARTICHRON.EFFECT.LABELS.source"}}</span>
       {{#if @root.isEditMode}}
-      <button class="controls" type="button" data-action="createEffect" data-tooltip="ARTICHRON.SheetActions.CreateBuff" data-type="buff">
+      <button class="controls" type="button" data-action="createEffect" data-tooltip="ARTICHRON.EFFECT.BUFF.create" data-type="buff">
         <i class="fa-solid fa-plus"></i>
       </button>
       {{else}}

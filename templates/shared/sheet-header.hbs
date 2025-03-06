@@ -6,10 +6,10 @@
   <input class="name" name="name" type="text" value="{{header.name}}" placeholder="{{localize 'Name'}}" {{disabled isPlayMode}}>
   {{/if}}
   <div class="controls">
-    <a class="control" data-action="toggleSheet" data-tooltip="ARTICHRON.SheetActions.ToggleSheet">
+    <a class="control" data-action="toggleSheet" data-tooltip="ARTICHRON.SHEET.TOGGLE.editing">
       <i class="fa-solid fa-user-{{ifThen isPlayMode 'lock' 'pen'}}"></i>
     </a>
-    <a class="control" data-action="toggleOpacity" data-tooltip="ARTICHRON.SheetActions.ToggleOpacity">
+    <a class="control" data-action="toggleOpacity" data-tooltip="ARTICHRON.SHEET.TOGGLE.opacity">
       <i class="fa-solid"></i>
     </a>
   </div>

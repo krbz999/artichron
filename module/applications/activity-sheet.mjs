@@ -126,7 +126,7 @@ export default class ActivitySheet extends PseudoDocumentSheet {
     const makeLegend = path => context.activity.schema.getField(path).label;
 
     context.cost = makeField("cost.value");
-    context.cost.legend = game.i18n.localize("ARTICHRON.SheetLabels.Configuration");
+    context.cost.legend = game.i18n.localize("ARTICHRON.SHEET.LEGENDS.configuration");
 
     if (this.activity.item.type === "elixir") {
       context.usage = { show: true, ...makeField("cost.uses") };

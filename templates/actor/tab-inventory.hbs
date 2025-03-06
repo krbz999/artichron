@@ -1,7 +1,7 @@
 <div class="tab {{tabs.inventory.cssClass}}" data-group="{{tabs.inventory.group}}" data-tab="{{tabs.inventory.id}}">
 
   <fieldset class="equipment">
-    <legend>{{localize "ARTICHRON.SheetLabels.Equipment"}}</legend>
+    <legend>{{localize "ARTICHRON.SHEET.LEGENDS.equipment"}}</legend>
     {{#each equipment}}
     <div class="item {{#unless active}} empty {{/unless}}" {{#if dataset.itemUuid}} data-item-uuid="{{dataset.itemUuid}}" {{/if}}>
       <img src="{{item.img}}" alt="" {{#if active}} data-action="useItem" {{/if}} {{#if tooltip}} data-tooltip="{{tooltip}}" {{/if}}>
@@ -27,7 +27,7 @@
       <header>
         <span class="label">{{localize label}}</span>
         {{#if @root.isEditMode}}
-        <button class="controls" type="button" data-action="createItem" data-tooltip="ARTICHRON.SheetActions.CreateItem" {{#if id}}data-section="{{id}}"{{/if}}>
+        <button class="controls" type="button" data-action="createItem" data-tooltip="ARTICHRON.HERO.INVENTORY.create" {{#if id}}data-section="{{id}}"{{/if}}>
           <i class="fa-solid fa-plus"></i>
         </button>
         {{/if}}

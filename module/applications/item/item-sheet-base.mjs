@@ -45,11 +45,20 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
     fusion: {
       template: "systems/artichron/templates/item/item-fusion.hbs",
       scrollable: [""],
+      types: {
+        ammo: false,
+        elixir: false,
+        part: false,
+      },
     },
     effects: {
       template: "systems/artichron/templates/shared/effects.hbs",
       classes: ["scrollable"],
       scrollable: [""],
+      types: {
+        ammo: false,
+        part: false,
+      },
     },
   };
 
@@ -59,13 +68,14 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
   static TABS = {
     primary: {
       tabs: [
-        { id: "description", label: "ARTICHRON.SheetLabels.Description" },
-        { id: "details", label: "ARTICHRON.SheetLabels.Details" },
-        { id: "activities", label: "ARTICHRON.SheetLabels.Activities" },
-        { id: "fusion", label: "ARTICHRON.SheetLabels.Fusion" },
-        { id: "effects", label: "ARTICHRON.SheetLabels.Effects" },
+        { id: "description" },
+        { id: "details" },
+        { id: "activities" },
+        { id: "fusion" },
+        { id: "effects" },
       ],
       initial: "description",
+      labelPrefix: "ARTICHRON.SHEET.TABS",
     },
   };
 
@@ -244,6 +254,17 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
         });
       }
       context.armorRequirements = requirements;
+    }
+
+    // Elixir uses.
+    if (doc.type === "elixir") {
+      context.fieldsets.push({
+        legend: this.document.system.schema.getField("usage").label,
+        formGroups: [
+          this._makeField(context, "usage.spent", { max: context.document.system.usage.max }),
+          this._makeField(context, "usage.max"),
+        ],
+      });
     }
 
     // Activities.

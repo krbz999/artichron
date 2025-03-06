@@ -115,22 +115,11 @@ Hooks.once("init", function() {
       {
         DocumentClass: Item,
         SheetClass: applications.item.ItemSheetArtichron,
-        options: { makeDefault: true, label: "ARTICHRON.SHEET.ITEM.Base", types: ["weapon", "shield", "spell", "armor"] },
-      },
-      {
-        DocumentClass: Item,
-        SheetClass: applications.item.ItemSheetAmmunition,
-        options: { makeDefault: true, label: "ARTICHRON.SHEET.ITEM.Ammunition", types: ["ammo"] },
-      },
-      {
-        DocumentClass: Item,
-        SheetClass: applications.item.ItemSheetElixir,
-        options: { makeDefault: true, label: "ARTICHRON.SHEET.ITEM.Elixir", types: ["elixir"] },
-      },
-      {
-        DocumentClass: Item,
-        SheetClass: applications.item.ItemSheetPart,
-        options: { makeDefault: true, label: "ARTICHRON.SHEET.ITEM.Part", types: ["part"] },
+        options: {
+          makeDefault: true,
+          label: "ARTICHRON.SHEET.ITEM.Base",
+          types: ["ammo", "armor", "elixir", "part", "shield", "spell", "weapon"],
+        },
       },
       {
         DocumentClass: ActiveEffect,

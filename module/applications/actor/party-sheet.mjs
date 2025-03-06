@@ -55,11 +55,12 @@ export default class PartySheet extends ActorSheetArtichron {
   static TABS = {
     primary: {
       tabs: [
-        { id: "members", label: "ARTICHRON.SheetLabels.Members" },
-        { id: "inventory", label: "ARTICHRON.SheetLabels.Inventory" },
-        { id: "progress", label: "ARTICHRON.SheetLabels.Progress" },
+        { id: "members" },
+        { id: "inventory" },
+        { id: "progress" },
       ],
       initial: "members",
+      labelPrefix: "ARTICHRON.SHEET.TABS",
     },
 
   };

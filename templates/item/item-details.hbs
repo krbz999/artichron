@@ -24,7 +24,7 @@
 
   {{#if details.configuration.length}}
   <fieldset>
-    <legend>{{localize "ARTICHRON.SheetLabels.Configuration"}}</legend>
+    <legend>{{localize "ARTICHRON.SHEET.LEGENDS.configuration"}}</legend>
     {{#each details.configuration}}
     {{formGroup field value=value disabled=disabled}}
     {{/each}}
@@ -59,7 +59,7 @@
   {{#if isArmor}}
   <fieldset class="armor-requirements">
     <legend>
-      {{localize "ARTICHRON.SheetLabels.Requirements"}}
+      {{localize "ARTICHRON.SHEET.LEGENDS.requirements"}}
       {{#if isEditMode}}
       <button type="button" class="icon fa-regular fa-plus-square" data-action="addRequirement"></button>
       {{/if}}

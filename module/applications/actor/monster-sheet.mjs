@@ -39,6 +39,7 @@ export default class MonsterSheet extends ActorSheetArtichron {
     about: {
       template: "systems/artichron/templates/actor/monster-about.hbs",
       scrollable: [""],
+      classes: ["scrollable"],
     },
     effects: {
       template: "systems/artichron/templates/shared/effects.hbs",
@@ -52,12 +53,13 @@ export default class MonsterSheet extends ActorSheetArtichron {
   static TABS = {
     primary: {
       tabs: [
-        { id: "actions", label: "ARTICHRON.SheetLabels.Actions" },
-        { id: "loot", label: "ARTICHRON.SheetLabels.Loot" },
-        { id: "about", label: "ARTICHRON.SheetLabels.About" },
-        { id: "effects", label: "ARTICHRON.SheetLabels.Effects" },
+        { id: "actions" },
+        { id: "loot" },
+        { id: "about" },
+        { id: "effects" },
       ],
       initial: "actions",
+      labelPrefix: "ARTICHRON.SHEET.TABS",
     },
   };
 

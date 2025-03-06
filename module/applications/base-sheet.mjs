@@ -100,19 +100,6 @@ const ArtichronSheetMixin = Base => {
 
     /* -------------------------------------------------- */
 
-    /** @inheritdoc */
-    tabGroups = {};
-
-    /* -------------------------------------------------- */
-
-    /**
-     * Tabs that are present on this sheet.
-     * @enum {TabConfiguration}
-     */
-    static TABS = {};
-
-    /* -------------------------------------------------- */
-
     /**
      * Prepare effects for rendering.
      * @returns {object[]}
@@ -183,6 +170,30 @@ const ArtichronSheetMixin = Base => {
       // Refocus on a delta.
       const focus = newElement.querySelector(":focus");
       if (focus && focus.classList.contains("delta")) focus.select();
+    }
+
+    /* -------------------------------------------------- */
+
+    /** @inheritdoc */
+    _prepareTabs(group) {
+      const tabs = super._prepareTabs(group);
+      for (const k of Object.keys(tabs)) {
+        const ignored = this.constructor.PARTS[k]?.types?.[this.document.type] === false;
+        if (ignored) delete tabs[k];
+      }
+      return tabs;
+    }
+
+    /* -------------------------------------------------- */
+
+    /** @inheritdoc */
+    _configureRenderParts(options) {
+      const parts = super._configureRenderParts(options);
+      for (const [k, v] of Object.entries(parts)) {
+        const ignored = v.types?.[this.document.type] === false;
+        if (ignored) delete parts[k];
+      }
+      return parts;
     }
 
     /* -------------------------------------------------- */

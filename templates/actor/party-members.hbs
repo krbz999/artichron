@@ -1,34 +1,34 @@
 <div class="tab {{tabs.members.cssClass}}" data-group="{{tabs.members.group}}" data-tab="{{tabs.members.id}}">
   {{#if isGM}}
   <fieldset class="awards">
-    <legend>{{localize "ARTICHRON.SheetLabels.Awards"}}</legend>
+    <legend>{{localize "ARTICHRON.SHEET.LEGENDS.awards"}}</legend>
     <div class="form-group">
       <label>
-        <span>{{localize "ARTICHRON.SheetLabels.Currency"}}</span>
+        <span>{{localize "ARTICHRON.PARTY.LABELS.currency"}}</span>
         <img class="icon" src="systems/artichron/assets/icons/chron.svg" alt="Chron">
       </label>
       <input type="text" name="system.currency.award" class="delta" value="{{distributions.currency.value}}" {{disabled (not isEditable)}}>
       <button type="button" data-action="distributeCurrency" {{disabled distributions.currency.disabled}}>
         <i class="fa-solid fa-fw fa-medal"></i>
-        <span>{{localize "ARTICHRON.SheetActions.Distribute"}}</span>
+        <span>{{localize "ARTICHRON.PARTY.LABELS.distribute"}}</span>
       </button>
     </div>
     <div class="form-group">
-      <label>{{localize "ARTICHRON.SheetLabels.Progression"}}</label>
+      <label>{{localize "ARTICHRON.PARTY.LABELS.progression"}}</label>
       <input type="text" name="system.points.value" class="delta" value="{{distributions.points.value}}" {{disabled (not isEditable)}}>
       <button type="button" data-action="distributePoints" {{disabled distributions.points.disabled}}>
         <i class="fa-solid fa-fw fa-cube"></i>
-        <span>{{localize "ARTICHRON.SheetActions.Distribute"}}</span>
+        <span>{{localize "ARTICHRON.PARTY.LABELS.distribute"}}</span>
       </button>
     </div>
   </fieldset>
   {{/if}}
 
   <fieldset class="funds">
-    <legend>{{localize "ARTICHRON.SheetLabels.Funds"}}</legend>
+    <legend>{{localize "ARTICHRON.SHEET.LEGENDS.funds"}}</legend>
     <div class="form-group">
       <label>
-        <span>{{localize "ARTICHRON.SheetLabels.Currency"}}</span>
+        <span>{{localize "ARTICHRON.PARTY.LABELS.currency"}}</span>
         <img src="systems/artichron/assets/icons/chron.svg" alt="Chron" class="icon">
       </label>
       <input type="text" name="system.currency.funds" class="delta" value="{{funds.value}}" {{disabled (not isEditable)}}>
@@ -39,11 +39,11 @@
   <div class="form-group">
     <button type="button" data-action="placeMembers">
       <i class="fa-solid fa-fw fa-street-view"></i>
-      <span>{{localize "ARTICHRON.SheetActions.PlaceMembers"}}</span>
+      <span>{{localize "ARTICHRON.PARTY.LABELS.MEMBERS.place"}}</span>
     </button>
     <button type="button" data-action="recallMembers">
       <i class="fa-solid fa-fw fa-rotate-right"></i>
-      <span>{{localize "ARTICHRON.SheetActions.RecallMembers"}}</span>
+      <span>{{localize "ARTICHRON.PARTY.LABELS.MEMBERS.recall"}}</span>
     </button>
   </div>
   {{/if}}
@@ -71,7 +71,7 @@
         </div>
         <span class="currency">
           {{#if canManage}}
-          <a data-action="manageFunds" data-tooltip="ARTICHRON.SheetLabels.ManageFunds">
+          <a data-action="manageFunds" data-tooltip="ARTICHRON.PARTY.LABELS.FUNDS.manage">
             <img class="icon" src="systems/artichron/assets/icons/chron.svg" alt="">
           </a>
           {{else}}

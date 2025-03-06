@@ -2,7 +2,7 @@
   {{> "systems/artichron/templates/actor/monster-defenses.hbs"}}
 
   <fieldset class="equipment">
-    <legend>{{localize "ARTICHRON.SheetLabels.Equipment"}}</legend>
+    <legend>{{localize "ARTICHRON.SHEET.LEGENDS.equipment"}}</legend>
     {{#each equipment}}
     <div class="item {{#unless active}} empty {{/unless}}" {{#if dataset.itemUuid}} data-item-uuid="{{dataset.itemUuid}}" {{/if}}>
       <img src="{{item.img}}" alt="" {{#if active}} data-action="useItem" {{/if}} {{#if tooltip}} data-tooltip="{{tooltip}}" {{/if}}>
@@ -19,7 +19,7 @@
 
   <div class="inventory-list {{#if compactItems.compact}}compact{{/if}}">
     <header>
-      <span class="label">{{localize "ARTICHRON.SheetLabels.Favorites"}}</span>
+      <span class="label">{{localize "ARTICHRON.MONSTER.INVENTORY.favorites"}}</span>
     </header>
 
     {{#each items.favorites}}
@@ -29,9 +29,9 @@
 
   <div class="inventory-list {{#if compactItems.compact}}compact{{/if}}">
     <header>
-      <span class="label">{{localize "ARTICHRON.SheetLabels.Inventory"}}</span>
+      <span class="label">{{localize "ARTICHRON.MONSTER.INVENTORY.inventory"}}</span>
       {{#if @root.isEditMode}}
-      <button class="controls" type="button" data-action="createItem" data-tooltip="ARTICHRON.SheetActions.CreateItem">
+      <button class="controls" type="button" data-action="createItem" data-tooltip="ARTICHRON.MONSTER.INVENTORY.create">
         <i class="fa-solid fa-plus"></i>
       </button>
       {{/if}}

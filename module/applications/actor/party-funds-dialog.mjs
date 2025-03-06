@@ -1,21 +1,11 @@
 import ActorArtichron from "../../documents/actor.mjs";
+import Application from "../apps/application.mjs";
 
-export default class PartyFundsDialog extends foundry.applications.api.HandlebarsApplicationMixin(
-  foundry.applications.api.ApplicationV2,
-) {
+export default class PartyFundsDialog extends Application {
   constructor(options) {
     super(options);
-    this.#party = options.party;
     this.#member = options.member;
   }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * The party actor.
-   * @type {ActorArtichron}
-   */
-  #party = null;
 
   /* -------------------------------------------------- */
 
@@ -27,56 +17,11 @@ export default class PartyFundsDialog extends foundry.applications.api.Handlebar
 
   /* -------------------------------------------------- */
 
-  /**
-   * Stored form data.
-   * @type {object|null}
-   */
-  #config = null;
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Stored form data.
-   * @type {object|null}
-   */
-  get config() {
-    return this.#config;
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Factory method for asynchronous behavior.
-   * @param {object} options                    Application rendering options.
-   * @param {ActorArtichron} options.party      The party actor.
-   * @param {ActorArtichron} options.member     The member managing funds.
-   * @returns {Promise}
-   */
-  static async create(options) {
-    return new Promise(resolve => {
-      const application = new this(options);
-      application.addEventListener("close", () => resolve(application.config), { once: true });
-      application.render({ force: true });
-    });
-  }
-
-  /* -------------------------------------------------- */
-
   /** @inheritdoc */
   static DEFAULT_OPTIONS = {
-    classes: ["artichron", "party-funds-dialog"],
+    classes: [ "party-funds-dialog"],
     window: {
       icon: "fa-solid fa-money-bill-transfer",
-      contentClasses: ["standard-form"],
-    },
-    position: {
-      width: 400,
-      height: "auto",
-    },
-    tag: "form",
-    form: {
-      handler: PartyFundsDialog.#handler,
-      closeOnSubmit: true,
     },
   };
 
@@ -118,6 +63,7 @@ export default class PartyFundsDialog extends foundry.applications.api.Handlebar
 
   /* -------------------------------------------------- */
 
+  /** @inheritdoc */
   _onRender(options) {
     super._onRender(options);
     this.element.querySelector("[name=amount]").addEventListener("change", (event) => {
@@ -127,15 +73,10 @@ export default class PartyFundsDialog extends foundry.applications.api.Handlebar
 
   /* -------------------------------------------------- */
 
-  /**
-   * Handle form submission.
-   * @this {PartyFundsDialog}
-   * @param {PointerEvent} event            The originating click event.
-   * @param {HTMLElement} form              The form element.
-   * @param {FormDataExtended} formData     The form data.
-   */
-  static #handler(event, form, formData) {
-    this.#config = foundry.utils.expandObject(formData.object);
-    this.#config.deposit = event.submitter.dataset.type === "deposit";
+  /** @inheritdoc */
+  _processSubmitData(event, form, formData, submitOptions) {
+    const config = super._processSubmitData(event, form, formData, submitOptions);
+    config.deposit = event.submitter.dataset.type === "deposit";
+    return config;
   }
 }

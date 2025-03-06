@@ -12,8 +12,8 @@
   <div class="effects-list">
     {{#if activeFusions.length}}
     <header>
-      <span class="label">{{localize "ARTICHRON.SheetLabels.ActiveFusions"}}</span>
-      <span class="source">{{localize "ARTICHRON.SheetLabels.Source"}}</span>
+      <span class="label">{{localize "ARTICHRON.EFFECT.FUSION.active"}}</span>
+      <span class="source">{{localize "ARTICHRON.EFFECT.source"}}</span>
       <span class="controls" style="margin-left: 2px;"></span>
     </header>
 
@@ -25,10 +25,10 @@
 
     {{#if document.hasFusions}}
     <header>
-      <span class="label">{{localize "ARTICHRON.SheetLabels.FusionOptions"}}</span>
+      <span class="label">{{localize "ARTICHRON.EFFECT.FUSION.options"}}</span>
       <span class="source"></span>
       {{#if @root.isEditMode}}
-      <button class="controls" type="button" data-action="createEffect" data-tooltip="ARTICHRON.SheetActions.CreateFusion" data-type="fusion">
+      <button class="controls" type="button" data-action="createEffect" data-tooltip="ARTICHRON.EFFECT.FUSION.create" data-type="fusion">
         <i class="fa-solid fa-plus"></i>
       </button>
       {{else}}

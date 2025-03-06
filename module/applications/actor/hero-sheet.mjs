@@ -37,11 +37,13 @@ export default class HeroSheet extends ActorSheetArtichron {
     },
     inventory: {
       template: "systems/artichron/templates/actor/tab-inventory.hbs",
-      scrollable: [".inventory-list"],
+      scrollable: [".scrollable"],
+      classes: ["scrollable"],
     },
     details: {
       template: "systems/artichron/templates/actor/tab-details.hbs",
       scrollable: [""],
+      classes: ["scrollable"],
     },
     effects: {
       template: "systems/artichron/templates/shared/effects.hbs",
@@ -58,13 +60,13 @@ export default class HeroSheet extends ActorSheetArtichron {
   static TABS = {
     primary: {
       tabs: [
-        { id: "attributes", label: "ARTICHRON.SheetLabels.Attributes" },
-        { id: "inventory", label: "ARTICHRON.SheetLabels.Inventory" },
-        { id: "details", label: "ARTICHRON.SheetLabels.Details" },
-        { id: "effects", label: "ARTICHRON.SheetLabels.Effects" },
+        { id: "attributes" },
+        { id: "inventory" },
+        { id: "details" },
+        { id: "effects" },
       ],
       initial: "attributes",
-      labelPrefix: null,
+      labelPrefix: "ARTICHRON.SHEET.TABS",
     },
   };
 
@@ -234,19 +236,19 @@ export default class HeroSheet extends ActorSheetArtichron {
     const types = this.document.itemTypes;
     const sections = {
       arsenal: {
-        label: "ARTICHRON.SheetLabels.Arsenal",
+        label: "ARTICHRON.HERO.INVENTORY.arsenal",
         types: new Set(),
       },
       gear: {
-        label: "ARTICHRON.SheetLabels.Gear",
+        label: "ARTICHRON.HERO.INVENTORY.gear",
         types: new Set(),
       },
       consumables: {
-        label: "ARTICHRON.SheetLabels.Consumables",
+        label: "ARTICHRON.HERO.INVENTORY.consumables",
         types: new Set(),
       },
       loot: {
-        label: "ARTICHRON.SheetLabels.Loot",
+        label: "ARTICHRON.HERO.INVENTORY.loot",
         types: new Set(),
       },
     };
