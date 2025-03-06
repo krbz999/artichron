@@ -697,7 +697,7 @@ const ArtichronSheetMixin = Base => {
       const type = target.dataset.type;
       getDocumentClass("ActiveEffect").createDialog({
         img: "icons/svg/sun.svg",
-      }, { types: [type], parent: this.document });
+      }, { parent: this.document }, { types: [type] });
     }
 
     /* -------------------------------------------------- */

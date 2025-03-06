@@ -81,12 +81,9 @@ export default class ActiveEffectArtichron extends ActiveEffect {
   /* -------------------------------------------------- */
 
   /** @inheritdoc */
-  async _preCreate(data, options, user) {
-    if ((this.parent.documentName === "Actor") && ["merchant", "party"].includes(this.parent.type)) {
-      return false;
-    }
-
-    return super._preCreate(data, options, user);
+  static async createDialog(data = {}, createOptions = {}, { folders, types, template, ...dialogOptions } = {}) {
+    const options = artichron.applications.api.Dialog.DEFAULT_OPTIONS;
+    return super.createDialog(data, createOptions, { folders, types, template, ...options });
   }
 
   /* -------------------------------------------------- */

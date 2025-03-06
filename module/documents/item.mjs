@@ -339,8 +339,9 @@ export default class ItemArtichron extends Item {
   /* -------------------------------------------------- */
 
   /** @inheritdoc */
-  async _preUpdate(update, options, user) {
-    return super._preUpdate(update, options, user);
+  static async createDialog(data = {}, createOptions = {}, { folders, types, template, ...dialogOptions } = {}) {
+    const options = artichron.applications.api.Dialog.DEFAULT_OPTIONS;
+    return super.createDialog(data, createOptions, { folders, types, template, ...options });
   }
 
   /* -------------------------------------------------- */

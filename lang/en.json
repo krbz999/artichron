@@ -578,6 +578,16 @@
     "buffs": "Buffs",
     "level": "Level: {level}",
     "source": "Source"
+  },
+  "BUFF": {
+    "create": "Create Buff"
+  },
+  "ENHANCEMENT": {
+    "create": "Create Enhancement"
+  },
+  "FUSION": {
+    "create": "Create Fusion",
+    "options": "Fusion Options"
   }
 },
 
