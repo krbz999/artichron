@@ -156,6 +156,9 @@ export default class ActorArtichron extends Actor {
       disposition: CONST.TOKEN_DISPOSITIONS[isFriendly ? "FRIENDLY" : "HOSTILE"],
       displayName: CONST.TOKEN_DISPLAY_MODES[display ? "HOVER" : "OWNER_HOVER"],
       displayBars: CONST.TOKEN_DISPLAY_MODES[display ? "HOVER" : "OWNER_HOVER"],
+      bar1: {
+        attribute: "health",
+      },
     };
     this.updateSource({ prototypeToken: tokenData });
   }
@@ -199,6 +202,30 @@ export default class ActorArtichron extends Actor {
     };
 
     for (const t of tokens) if (t.visible && !t.document.isSecret) displayNumbers(t);
+  }
+
+  /* -------------------------------------------------- */
+
+  /** @inheritdoc */
+  async modifyTokenAttribute(attribute, value, isDelta = false, isBar = true) {
+    if (!isBar) return super.modifyTokenAttribute(attribute, value, isDelta, isBar);
+
+    const schema = this.system.schema.getField(attribute);
+    const object = foundry.utils.getProperty(this.system, attribute);
+
+    const isSpent = schema.has("spent");
+    const current = isSpent ? object.spent : object.value;
+    const update = isDelta
+      ? current + (isSpent ? -value : value)
+      : isSpent ? (object.max - value) : value;
+    if (update === current) return this;
+
+    const updates = {
+      [`system.${attribute}.${isSpent ? "spent" : "value"}`]: Math.clamp(update, 0, object.max),
+    };
+
+    const allowed = Hooks.call("modifyTokenAttribute", { attribute, value, isDelta, isBar }, updates, this);
+    return (allowed === false) ? this : this.update(updates);
   }
 
   /* -------------------------------------------------- */

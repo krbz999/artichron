@@ -89,8 +89,6 @@
     "distance": 1,
     "units": "m"
   },
-  "primaryTokenAttribute": "health",
-  "secondaryTokenAttribute": "pools.health",
   "socket": true,
   "url": "https://github.com/krbz999/artichron",
   "manifest": "https://github.com/krbz999/artichron/releases/latest/download/system.json",

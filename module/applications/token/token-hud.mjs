@@ -1,4 +1,5 @@
 export default class TokenHUDArtichron extends foundry.applications.hud.TokenHUD {
+  /** @inheritdoc */
   static DEFAULT_OPTIONS = {
     actions: {
       effect: {
@@ -10,6 +11,7 @@ export default class TokenHUDArtichron extends foundry.applications.hud.TokenHUD
 
   /* -------------------------------------------------- */
 
+  /** @inheritdoc */
   static async #onToggleEffect(event, target) {
     if (!this.actor) {
       ui.notifications.warn("HUD.WarningEffectNoActor", { localize: true });

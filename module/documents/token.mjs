@@ -30,42 +30,49 @@ export default class TokenDocumentArtichron extends TokenDocument {
   /* -------------------------------------------------- */
 
   /** @inheritdoc */
-  static getTrackedAttributes(data, _path) {
-    let bar;
-    switch (data.parent?.type) {
-      case "hero":
-        bar = [
-          ["health"],
-          ["pools", "health"],
-          ["pools", "stamina"],
-          ["pools", "mana"],
-        ];
-        break;
-      case "monster":
-        bar = [
-          ["health"],
-          ["danger", "pool"],
-        ];
-        break;
-      default:
-        return super.getTrackedAttributes(data, _path);
+  getBarAttribute(barName, { alternative } = {}) {
+    const bar = super.getBarAttribute(barName, { alternative });
+    if (bar === null) return null;
+
+    let max;
+    let { type, attribute, value, editable } = bar;
+
+    // Adjustments made for things that use "spent" instead of "value" in the schema.
+    if ((type === "value") && attribute.endsWith(".spent")) {
+      const object = foundry.utils.getProperty(this.actor.system, attribute.slice(0, attribute.lastIndexOf(".")));
+      value = object.value;
+      max = object.max;
+      type = "bar";
+      editable = true;
+    } else if (type === "bar") {
+      editable = true;
     }
-    return { bar: bar, value: [] };
+
+    return { type, attribute, value, max, editable };
   }
 
   /* -------------------------------------------------- */
 
-  /** @overridde */
-  static getTrackedAttributeChoices(...args) {
-    const groups = super.getTrackedAttributeChoices(...args);
-
-    for (const g of groups) {
-      const string = `ARTICHRON.ACTOR.FIELDS.${g.label}.label`;
-      if (g.label.includes("pool")) g.group = "Pools";
-      if (game.i18n.has(string)) g.label = game.i18n.localize(string);
+  /** @inheritdoc */
+  static _getTrackedAttributesFromSchema(schema, _path = []) {
+    const attributes = { bar: [], value: [] };
+    for (const [name, field] of Object.entries(schema.fields)) {
+      const p = _path.concat([name]);
+      if (field instanceof foundry.data.fields.NumberField) attributes.value.push(p);
+      const isSchema = field instanceof foundry.data.fields.SchemaField;
+      const isModel = field instanceof foundry.data.fields.EmbeddedDataField;
+      if (isSchema || isModel) {
+        const schema = isModel ? field.model.schema : field;
+        const isBar = ((schema.has("value") || schema.has("spent")) && schema.has("max")) || schema.options.trackedAttribute;
+        if (isBar) attributes.bar.push(p);
+        else {
+          const inner = this.getTrackedAttributes(schema, p);
+          attributes.bar.push(...inner.bar);
+          attributes.value.push(...inner.value);
+        }
+      }
     }
-
-    return groups;
+    return attributes;
   }
 
   /* -------------------------------------------------- */

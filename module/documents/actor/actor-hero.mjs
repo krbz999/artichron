@@ -26,6 +26,8 @@ export default class HeroData extends CreatureData {
         faces: new NumberField({ min: 0, integer: true, initial: 0, nullable: false }),
         increase: new NumberField({ min: 0, integer: true, initial: 0, nullable: false }),
         spent: new NumberField({ min: 0, integer: true, initial: 0 }),
+      }, {
+        trackedAttribute: true,
       });
     };
 
@@ -255,7 +257,7 @@ export default class HeroData extends CreatureData {
 
     if ((dialog.configure !== false) && !config.event?.shiftKey) {
       dialog = foundry.utils.mergeObject({
-        content: new foundry.data.fields.NumberField({
+        content: new NumberField({
           label: "ARTICHRON.ROLL.Pool.AmountLabel",
           hint: "ARTICHRON.ROLL.Pool.AmountHint",
           min: 1,
@@ -273,7 +275,7 @@ export default class HeroData extends CreatureData {
         },
         ok: {
           label: "ARTICHRON.ROLL.Pool.Button",
-          callback: (event, button, html) => button.form.elements.amount.value,
+          callback: (event, button, html) => new FormDataExtended(button.form).object,
         },
         modal: true,
       }, dialog, { insertKeys: false });
