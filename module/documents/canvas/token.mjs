@@ -12,6 +12,6 @@ export default class TokenArtichron extends foundry.canvas.placeables.Token {
    * @returns {number}            The AP cost, a multiple of 0.2.
    */
   getAPCost(distance) {
-    return (distance / 5).toNearest(0.2, "ceil");
+    return this.actor?.getAPMovementCost(distance) ?? 0;
   }
 }

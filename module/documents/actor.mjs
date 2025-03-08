@@ -677,7 +677,7 @@ export default class ActorArtichron extends Actor {
     const max = Math.max(this.system.pips.value, 15);
     const value = this.system.pips.value;
     const content = field.toFormGroup({ localize: true }, { max: max, value: value });
-    return foundry.applications.api.DialogV2.prompt({
+    return artichron.applications.api.Dialog.prompt({
       content: `<fieldset>${content.outerHTML}</fieldset>`,
       modal: true,
       window: { title: field.label, icon: "fa-solid fa-circle" },
@@ -705,5 +705,16 @@ export default class ActorArtichron extends Actor {
     const base = (this.type === "hero") ? this.system.pools.stamina.max : this.system.danger.value * 2;
     const value = Math.max(1, base + bonus - hindered);
     return value;
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Get the AP cost when moving a certain distance.
+   * @param {number} distance     The distance to move, after any modifiers.
+   * @returns {number}            The AP cost, a multiple of 0.2.
+   */
+  getAPMovementCost(distance) {
+    return (distance / 5).toNearest(0.2, "ceil");
   }
 }
