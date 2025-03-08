@@ -9,6 +9,7 @@ export default class DefendActivity extends BaseActivity {
   static metadata = Object.freeze(foundry.utils.mergeObject(super.metadata, {
     defaultName: "ARTICHRON.ACTIVITY.Types.DefendDefaultName",
     label: "ARTICHRON.ACTIVITY.Types.Defend",
+    type: "defend",
   }, { inplace: false }));
 
   /* -------------------------------------------------- */

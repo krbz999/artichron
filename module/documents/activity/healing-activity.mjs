@@ -28,6 +28,7 @@ export default class HealingActivity extends BaseActivity {
   static metadata = Object.freeze(foundry.utils.mergeObject(super.metadata, {
     defaultName: "ARTICHRON.ACTIVITY.Types.HealingDefaultName",
     label: "ARTICHRON.ACTIVITY.Types.Healing",
+    type: "healing",
   }, { inplace: false }));
 
   /* -------------------------------------------------- */

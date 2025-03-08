@@ -27,6 +27,7 @@ export default class EffectActivity extends BaseActivity {
   static metadata = Object.freeze(foundry.utils.mergeObject(super.metadata, {
     defaultName: "ARTICHRON.ACTIVITY.Types.EffectDefaultName",
     label: "ARTICHRON.ACTIVITY.Types.Effect",
+    type: "effect",
   }, { inplace: false }));
 
   /* -------------------------------------------------- */
