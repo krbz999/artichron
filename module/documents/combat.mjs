@@ -224,7 +224,7 @@ export default class CombatArtichron extends Combat {
       return fieldset.outerHTML;
     }).join("");
 
-    const uuids = await foundry.applications.api.DialogV2.prompt({
+    const uuids = await foundry.applications.api.DialogV2.input({
       modal: true,
       content: content,
       window: {
@@ -238,7 +238,6 @@ export default class CombatArtichron extends Combat {
       ok: {
         label: "ARTICHRON.Combat.StartRoundConfirm",
         icon: "fa-solid fa-bolt",
-        callback: (event, button, html) => new FormDataExtended(button.form).object,
       },
     });
 

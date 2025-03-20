@@ -140,7 +140,7 @@ class ProgressionPoolData extends ProgressionData {
       },
       position: { width: 400, height: "auto" },
       ok: { callback: (event, button, html) => {
-        const { pool, value } = new FormDataExtended(button.form).object;
+        const { pool, value } = new foundry.applications.ux.FormDataExtended(button.form).object;
         const modelData = { pool: pool, value: value, type: this.TYPE };
         return ProgressionPoolData.#applyProgression(actor, modelData);
       } },
@@ -236,7 +236,7 @@ class ProgressionSkillData extends ProgressionData {
       },
       position: { width: 400, height: "auto" },
       ok: { callback: (event, button, html) => {
-        const { skill, value } = new FormDataExtended(button.form).object;
+        const { skill, value } = new foundry.applications.ux.FormDataExtended(button.form).object;
         const modelData = { skill: skill, value: value, type: this.TYPE };
         return ProgressionSkillData.#applyProgression(actor, modelData);
       } },

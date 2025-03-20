@@ -169,7 +169,7 @@ export default class MerchantData extends ActorSystemModel {
         total: spent,
       };
       ChatMessageArtichron.create({
-        content: await renderTemplate(template, context),
+        content: await foundry.applications.handlebars.renderTemplate(template, context),
         speaker: ChatMessageArtichron.getSpeaker({ actor: this.parent }),
       });
     }

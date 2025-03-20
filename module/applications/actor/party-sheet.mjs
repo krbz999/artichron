@@ -298,9 +298,11 @@ export default class PartySheet extends ActorSheetArtichron {
       if (actor) actor.apps[this.id] = this;
     }
 
-    artichron.applications.ui.ContextMenuArtichron.create(this, this.element, "progress-clock", {
-      hookName: "ClockEntryContext",
-    });
+    this._createContextMenu(
+      this._getClockEntryContextOptions,
+      "progress-clock",
+      "getClockContextOptions",
+    );
   }
 
   /* -------------------------------------------------- */

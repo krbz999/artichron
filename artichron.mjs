@@ -87,33 +87,33 @@ Hooks.once("init", function() {
 
   const sheets = {
     core: [
-      { DocumentClass: Actor, SheetClass: ActorSheet },
-      { DocumentClass: Item, SheetClass: ItemSheet },
-      { DocumentClass: ActiveEffect, SheetClass: foundry.applications.sheets.ActiveEffectConfig },
+      { DocumentClass: foundry.documents.Actor, SheetClass: foundry.appv1.sheets.ActorSheet },
+      { DocumentClass: foundry.documents.Item, SheetClass: foundry.appv1.sheets.ItemSheet },
+      { DocumentClass: foundry.documents.ActiveEffect, SheetClass: foundry.applications.sheets.ActiveEffectConfig },
     ],
     artichron: [
       {
-        DocumentClass: Actor,
+        DocumentClass: foundry.documents.Actor,
         SheetClass: applications.actor.HeroSheet,
         options: { makeDefault: true, label: "ARTICHRON.SHEET.ACTOR.Hero", types: ["hero"] },
       },
       {
-        DocumentClass: Actor,
+        DocumentClass: foundry.documents.Actor,
         SheetClass: applications.actor.MonsterSheet,
         options: { makeDefault: true, label: "ARTICHRON.SHEET.ACTOR.Monster", types: ["monster"] },
       },
       {
-        DocumentClass: Actor,
+        DocumentClass: foundry.documents.Actor,
         SheetClass: applications.actor.MerchantSheet,
         options: { makeDefault: true, label: "ARTICHRON.SHEET.ACTOR.Merchant", types: ["merchant"] },
       },
       {
-        DocumentClass: Actor,
+        DocumentClass: foundry.documents.Actor,
         SheetClass: applications.actor.PartySheet,
         options: { makeDefault: true, label: "ARTICHRON.SHEET.ACTOR.Party", types: ["party"] },
       },
       {
-        DocumentClass: Item,
+        DocumentClass: foundry.documents.Item,
         SheetClass: applications.item.ItemSheetArtichron,
         options: {
           makeDefault: true,
@@ -122,7 +122,7 @@ Hooks.once("init", function() {
         },
       },
       {
-        DocumentClass: ActiveEffect,
+        DocumentClass: foundry.documents.ActiveEffect,
         SheetClass: applications.effect.ActiveEffectSheetArtichron,
         options: { makeDefault: true, label: "ARTICHRON.SHEET.EFFECT.Base" },
       },
@@ -168,6 +168,7 @@ Hooks.once("setup", function() {
 /* -------------------------------------------------- */
 
 Hooks.once("i18nInit", function() {
+  const { Localization } = foundry.helpers;
 
   // Localize all strings in the global system configuration object.
   const localize = (o, k, v) => {

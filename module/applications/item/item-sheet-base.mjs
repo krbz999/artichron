@@ -283,6 +283,13 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
 
   /* -------------------------------------------------- */
 
+  _onRender(...args) {
+    super._onRender(...args);
+    this._setupContextMenu(this._getActivityEntryContextOptions, "[data-activity-id]", "ActivityEntryContext");
+  }
+
+  /* -------------------------------------------------- */
+
   /**
    * Utility method to format a data field for the form group helper.
    * @param {object} context        Current rendering context.
@@ -301,17 +308,6 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
 
   /* -------------------------------------------------- */
   /*   Context menu handlers                            */
-  /* -------------------------------------------------- */
-
-  /** @inheritdoc */
-  _setupContextMenu() {
-    super._setupContextMenu();
-
-    artichron.applications.ui.ContextMenuArtichron.create(this, this.element, "[data-activity-id]", {
-      hookName: "ActivityEntryContext",
-    });
-  }
-
   /* -------------------------------------------------- */
 
   /**

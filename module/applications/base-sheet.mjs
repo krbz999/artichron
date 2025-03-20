@@ -140,7 +140,8 @@ const ArtichronSheetMixin = Base => {
     /** @inheritdoc */
     _onFirstRender(context, options) {
       super._onFirstRender(context, options);
-      this._setupContextMenu();
+      this._setupContextMenu(this._getActiveEffectEntryContextOptions, "effect-entry", "ActiveEffectEntryContext");
+      this._setupContextMenu(this._getItemEntryContextOptions, "inventory-item", "ItemEntryContext");
     }
 
     /* -------------------------------------------------- */
@@ -203,12 +204,18 @@ const ArtichronSheetMixin = Base => {
     /**
      * Bind a new context menu.
      */
-    _setupContextMenu() {
-      artichron.applications.ui.ContextMenuArtichron.create(this, this.element, "effect-entry", {
-        hookName: "ActiveEffectEntryContext",
-      });
-      artichron.applications.ui.ContextMenuArtichron.create(this, this.element, "inventory-item", {
-        hookName: "ItemEntryContext",
+    _setupContextMenu(handler, selector, hookName, options = {}) {
+      this._createContextMenu(handler, selector, { hookName, ...options });
+    }
+
+    /* -------------------------------------------------- */
+
+    /** @inheritdoc */
+    _createContextMenu(handler, selector, { hookName, ...options } = {}) {
+      const menuItems = this._doEvent(handler, { hookName, parentClassHooks: false, hookResponse: true });
+      if (!menuItems.length) return null;
+      return new artichron.applications.ui.ContextMenuArtichron(this.element, selector, menuItems, {
+        jQuery: false, fixed: true, ...options,
       });
     }
 
@@ -358,7 +365,7 @@ const ArtichronSheetMixin = Base => {
      * Set up drag-and-drop handlers.
      */
     _setupDragAndDrop() {
-      const dd = new DragDrop({
+      const dd = new foundry.applications.ux.DragDrop({
         dragSelector: ".compact inventory-item, [data-item-uuid] .wrapper",
         dropSelector: ".application",
         permissions: {

@@ -160,7 +160,7 @@ export default class UsageMessageData extends ChatMessageSystemModel {
         }),
       };
     });
-    content.insertAdjacentHTML("beforeend", await renderTemplate(template, context));
+    content.insertAdjacentHTML("beforeend", await foundry.applications.handlebars.renderTemplate(template, context));
     content.querySelector(".wrapper").addEventListener("click", event => event.currentTarget.classList.toggle("expanded"));
   }
 
@@ -187,7 +187,7 @@ export default class UsageMessageData extends ChatMessageSystemModel {
           "ARTICHRON.ACTIVITY.Buttons.ApplyHealing" :
           "ARTICHRON.ACTIVITY.Buttons.ApplyEffects",
     };
-    content.insertAdjacentHTML("beforeend", await renderTemplate(template, context));
+    content.insertAdjacentHTML("beforeend", await foundry.applications.handlebars.renderTemplate(template, context));
 
     const type = this.parent.flags.artichron.type;
     const tag = "token-target";

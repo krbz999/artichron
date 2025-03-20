@@ -275,11 +275,10 @@ export default class HeroData extends CreatureData {
         },
         ok: {
           label: "ARTICHRON.ROLL.Pool.Button",
-          callback: (event, button, html) => new FormDataExtended(button.form).object,
         },
         modal: true,
       }, dialog, { insertKeys: false });
-      const configuration = await artichron.applications.api.Dialog.prompt(dialog);
+      const configuration = await artichron.applications.api.Dialog.input(dialog);
       if (!configuration) return null;
       config.amount = configuration.amount;
     }
@@ -329,18 +328,20 @@ export default class HeroData extends CreatureData {
 
     if (dialog.configure) {
       const dialogData = foundry.utils.mergeObject({
-        content: await renderTemplate("systems/artichron/templates/actor/skill-dialog.hbs", { skills: skills }),
+        content: await foundry.applications.handlebars.renderTemplate(
+          "systems/artichron/templates/actor/skill-dialog.hbs",
+          { skills: skills },
+        ),
         modal: true,
         window: {
           title: game.i18n.format("ARTICHRON.SkillsDialog.Title", { name: this.parent.name }),
           icon: "fa-solid fa-hand-fist",
         },
         position: { width: 400, height: "auto" },
-        ok: { callback: (event, button) => new FormDataExtended(button.form).object },
         classes: ["skills"],
       }, dialog, { insertKeys: false });
 
-      const configuration = await artichron.applications.api.Dialog.prompt(dialogData);
+      const configuration = await artichron.applications.api.Dialog.input(dialogData);
       if (!configuration) return null;
       foundry.utils.mergeObject(config, configuration);
     }

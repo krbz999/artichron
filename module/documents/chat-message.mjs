@@ -48,11 +48,13 @@ export default class ChatMessageArtichron extends ChatMessage {
     const actor = ChatMessageArtichron.getSpeakerActor(this.speaker);
     const token = game.scenes.get(this.speaker.scene)?.tokens.get(this.speaker.token);
     const template = document.createElement("DIV");
-    template.innerHTML = await renderTemplate("systems/artichron/templates/chat/message-header.hbs", {
-      img: token?.texture.src ?? actor?.img ?? this.author?.avatar,
-      actorUuid: actor?.uuid,
-      name: actor?.name || this.speaker.alias,
-    });
+    template.innerHTML = await foundry.applications.handlebars.renderTemplate(
+      "systems/artichron/templates/chat/message-header.hbs",
+      {
+        img: token?.texture.src ?? actor?.img ?? this.author?.avatar,
+        actorUuid: actor?.uuid,
+        name: actor?.name || this.speaker.alias,
+      });
     element.querySelector(".message-sender").replaceWith(template.firstElementChild);
     const avatar = element.querySelector(".avatar");
     ChatMessageArtichron.attachTokenListeners(avatar);

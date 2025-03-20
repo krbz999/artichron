@@ -180,7 +180,7 @@ export default class MonsterData extends CreatureData {
     const created = await party.createEmbeddedDocuments("Item", itemData);
 
     ChatMessage.implementation.create({
-      content: await renderTemplate("systems/artichron/templates/chat/loot-grant.hbs", {
+      content: await foundry.applications.handlebars.renderTemplate("systems/artichron/templates/chat/loot-grant.hbs", {
         actor: this.parent,
         items: created.map(item => ({ link: item.link, qty: item.system.quantity?.value ?? 1 })),
       }),

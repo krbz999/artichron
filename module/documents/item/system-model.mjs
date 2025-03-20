@@ -205,7 +205,7 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
     const template = "systems/artichron/templates/item/tooltip.hbs";
     const context = await this._prepareTooltipContext();
     const div = document.createElement("DIV");
-    div.innerHTML = await renderTemplate(template, context);
+    div.innerHTML = await foundry.applications.handlebars.renderTemplate(template, context);
     div.classList.add(this.parent.type);
     return div;
   }

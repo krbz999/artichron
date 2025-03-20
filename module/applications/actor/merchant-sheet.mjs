@@ -121,7 +121,7 @@ export default class MerchantSheet extends ActorSheetArtichron {
     };
 
     // Staging an item.
-    const stageDrop = new DragDrop({
+    const stageDrop = new foundry.applications.ux.DragDrop({
       dragSelector: ".stock inventory-item",
       dropSelector: ".cart",
       permissions: {
@@ -148,7 +148,7 @@ export default class MerchantSheet extends ActorSheetArtichron {
     stageDrop.bind(this.element);
 
     // Unstaging an item.
-    const unstageDrop = new DragDrop({
+    const unstageDrop = new foundry.applications.ux.DragDrop({
       dragSelector: ".cart inventory-item",
       dropSelector: ".stock",
       permissions: {
