@@ -4,7 +4,7 @@ export default class TokenLayerArtichron extends foundry.canvas.layers.TokenLaye
     const event = this.history.at(-1);
     const result = await super.undoHistory();
 
-    for (const data of event.data) {
+    for (const data of event?.data ?? []) {
       const actor = this.get(data._id).actor;
       const pips = data._pips;
       if (!pips || !actor) continue;

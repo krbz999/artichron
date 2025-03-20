@@ -205,7 +205,12 @@ export default class CombatCarousel extends HandlebarsApplicationMixin(Applicati
   /** @inheritdoc */
   _attachFrameListeners() {
     super._attachFrameListeners();
-    this._createContextMenu(this._getCombatantEntryContextOptions, ".combatant[data-id]", "CombatantEntryContext");
+    this._createContextMenu(this._getCombatantEntryContextOptions, ".combatant[data-id]", {
+      hookName: "CombatantEntryContext",
+      jQuery: false,
+      fixed: true,
+      parentClassHooks: false,
+    });
   }
 
   /* -------------------------------------------------- */
