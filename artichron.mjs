@@ -54,6 +54,7 @@ Hooks.once("init", function() {
   CONFIG.ui.chat = applications.sidebar.tabs.ChatLogArtichron;
   CONFIG.ui.combat = applications.sidebar.tabs.CombatTrackerArtichron;
   CONFIG.ui.carousel = applications.ui.CombatCarousel;
+  CONFIG.Canvas.layers.tokens.layerClass = canvas.layers.TokenLayerArtichron;
 
   // Hook up document classes.
   for (const [k, v] of Object.entries(documents.documentClasses)) {

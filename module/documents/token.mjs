@@ -87,6 +87,7 @@ export default class TokenDocumentArtichron extends TokenDocument {
       ui.notifications.warn("You do not have enough AP.");
       return false;
     }
+    operation[this.id] = { pips: consumed };
     await this.actor.update({ "system.pips.value": resource - consumed });
   }
 }
