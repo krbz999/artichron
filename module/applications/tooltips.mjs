@@ -93,6 +93,8 @@ export default class TooltipsArtichron {
    * @protected
    */
   _positionItemTooltip(direction) {
+    const { TooltipManager } = foundry.helpers.interaction;
+
     if (!direction) {
       direction = TooltipManager.TOOLTIP_DIRECTIONS.LEFT;
       game.tooltip._setAnchor(direction);
