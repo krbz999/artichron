@@ -39,7 +39,7 @@ class FusionData extends DataModel {
    * @returns {Promise<ActiveEffectArtichron>}      The created fusion effect.
    */
   async fuse(target, fusion) {
-    const Cls = getDocumentClass("ActiveEffect");
+    const Cls = foundry.utils.getDocumentClass("ActiveEffect");
     const item = this.item;
 
     const effect = fusion ? fusion.clone() : new Cls({
@@ -225,7 +225,7 @@ class FusionData extends DataModel {
         source.system.schema.getField(path.slice(7)) :
         source.schema.getField(path);
       if (!field) continue;
-      const newValue = getDocumentClass("ActiveEffect").applyField(clone, change, field);
+      const newValue = foundry.utils.getDocumentClass("ActiveEffect").applyField(clone, change, field);
       update.push({
         oldValue: foundry.utils.getProperty(item, path) ?? 0,
         newValue: newValue,

@@ -699,7 +699,7 @@ const ArtichronDocumentSheetMixin = Base => {
     static #onCreateEffect(event, target) {
       if (!this.isEditable) return;
       const type = target.dataset.type;
-      getDocumentClass("ActiveEffect").createDialog({
+      foundry.utils.getDocumentClass("ActiveEffect").createDialog({
         img: "icons/svg/sun.svg",
       }, { parent: this.document }, { types: [type] });
     }

@@ -125,7 +125,7 @@ export default class EffectFusionData extends ActiveEffectSystemModel {
     }
 
     const item = this.parent.parent;
-    if (item instanceof Actor) {
+    if (item instanceof foundry.documents.Actor) {
       throw new Error("The fusion effect is living on an actor!");
     }
 
@@ -137,7 +137,7 @@ export default class EffectFusionData extends ActiveEffectSystemModel {
     else if (game.items.has(this.itemData._id)) keepId = false;
 
     await this.parent.delete();
-    return getDocumentClass("Item").create(this.itemData, { pack, parent: actor, keepId });
+    return foundry.utils.getDocumentClass("Item").create(this.itemData, { pack, parent: actor, keepId });
   }
 
   /* -------------------------------------------------- */

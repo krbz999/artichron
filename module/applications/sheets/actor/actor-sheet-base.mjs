@@ -62,7 +62,7 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
       }
       return acc;
     }, []) : undefined;
-    getDocumentClass("Item").createDialog({}, { parent: this.document }, { types: types });
+    foundry.utils.getDocumentClass("Item").createDialog({}, { parent: this.document }, { types: types });
   }
 
   /* -------------------------------------------------- */

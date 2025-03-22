@@ -48,7 +48,7 @@ export default class TradeMessageData extends ChatMessageSystemModel {
    */
   get item() {
     if (!this.itemData || !this.actor || this.traded) return null;
-    const Cls = getDocumentClass("Item");
+    const Cls = foundry.utils.getDocumentClass("Item");
     return new Cls(this.itemData, { parent: this.actor });
   }
 

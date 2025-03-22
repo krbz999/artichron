@@ -12,7 +12,7 @@ export async function refreshCompendium(pack) {
     try {
       await document.delete();
       const operation = { pack: pack.metadata.id, keepId: true };
-      await getDocumentClass(pack.metadata.type).create(document.toObject(), operation);
+      await foundry.utils.getDocumentClass(pack.metadata.type).create(document.toObject(), operation);
     } catch (err) {
       console.warn(err);
     }
