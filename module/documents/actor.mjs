@@ -523,7 +523,7 @@ export default class ActorArtichron extends Actor {
     if (active) {
       if (effect && hasLevels) return effect.system.increase(levels);
       else if (hasLevels && (levels > 1)) {
-        const Cls = getDocumentClass("ActiveEffect");
+        const Cls = foundry.utils.getDocumentClass("ActiveEffect");
         const effect = await Cls.fromStatusEffect(statusId);
         const data = foundry.utils.mergeObject(effect.toObject(), {
           _id: id, "system.level": levels,

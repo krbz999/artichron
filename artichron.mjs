@@ -24,7 +24,6 @@ globalThis.artichron = {
   canvas,
   config: SYSTEM,
   data,
-  dataModels: documents.dataModels,
   dice,
   documents,
   migrations,
@@ -47,6 +46,7 @@ Hooks.once("init", function() {
   CONFIG.Token.objectClass = canvas.placeables.TokenArtichron;
   CONFIG.Token.rulerClass = canvas.placeables.tokens.TokenRuler;
   CONFIG.ui.chat = applications.sidebar.tabs.ChatLog;
+  CONFIG.ui.actors = applications.sidebar.tabs.ActorDirectory;
   CONFIG.ui.combat = applications.sidebar.tabs.CombatTracker;
   CONFIG.ui.carousel = applications.apps.combat.CombatCarousel;
   CONFIG.ui.tooltips = applications.ui.Tooltips;
@@ -234,30 +234,6 @@ Hooks.once("ready", function() {
 /* -------------------------------------------------- */
 /*   Sidebar directories                              */
 /* -------------------------------------------------- */
-
-Hooks.on("getEntryContextActorDirectory", (directory, options) => {
-  options.push({
-    name: "ARTICHRON.ContextMenu.Directory.AssignPrimaryParty",
-    icon: "<i class='fa-solid fa-fw fa-medal'></i>",
-    condition: (li) => {
-      const actor = game.actors.get(li.dataset.entryId);
-      const current = game.settings.get("artichron", "primaryParty")?.actor;
-      return game.user.isGM && (actor.type === "party") && (actor !== current);
-    },
-    callback: (li) => game.settings.set("artichron", "primaryParty", { actor: game.actors.get(li.dataset.entryId) }),
-    group: "system",
-  }, {
-    name: "ARTICHRON.ContextMenu.Directory.RemovePrimaryParty",
-    icon: "<i class='fa-solid fa-fw fa-times'></i>",
-    condition: (li) => {
-      const actor = game.actors.get(li.dataset.entryId);
-      const current = game.settings.get("artichron", "primaryParty")?.actor;
-      return game.user.isGM && (actor === current);
-    },
-    callback: (li) => game.settings.set("artichron", "primaryParty", { actor: null }),
-    group: "system",
-  });
-});
 
 Hooks.on("renderActorDirectory", (directory, html) => {
   const current = game.settings.get("artichron", "primaryParty")?.actor?.id;
