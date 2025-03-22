@@ -14,7 +14,9 @@ export default class BaseArmorRequirement extends PseudoDocument {
 
   /** @inheritdoc */
   static get TYPES() {
-    return this.#TYPES ??= Object.freeze(Object.values(artichron.data.pseudoDocuments.armorRequirements).reduce((acc, Cls) => {
+    return this.#TYPES ??= Object.freeze(Object.values(
+      artichron.data.pseudoDocuments.armorRequirements,
+    ).reduce((acc, Cls) => {
       if (Cls.TYPE) acc[Cls.TYPE] = Cls;
       return acc;
     }, {}));

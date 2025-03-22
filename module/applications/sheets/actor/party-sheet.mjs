@@ -538,7 +538,7 @@ export default class PartySheet extends ActorSheetArtichron {
    */
   static #addClock(event, target) {
     const type = target.dataset.clock;
-    artichron.data.Clock.create({ type }, { parent: this.document });
+    artichron.data.pseudoDocuments.clocks.BaseClock.create({ type }, { parent: this.document });
   }
 
   /* -------------------------------------------------- */

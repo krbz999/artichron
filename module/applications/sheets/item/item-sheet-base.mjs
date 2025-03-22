@@ -361,7 +361,9 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
   static async #addRequirement(event, target) {
     if (!this.isEditable) return;
 
-    const choices = Object.entries(artichron.data.ArmorRequirementData.TYPES).reduce((acc, [k, v]) => {
+    const choices = Object.entries(
+      artichron.data.pseudoDocuments.armorRequirements.BaseArmorRequirement.TYPES,
+    ).reduce((acc, [k, v]) => {
       acc[k] = v.metadata.label;
       return acc;
     }, {});
