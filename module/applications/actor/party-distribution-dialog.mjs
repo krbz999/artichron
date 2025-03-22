@@ -1,7 +1,7 @@
 import Application from "../apps/application.mjs";
 
 /**
- * Application for distributing currency and progression points.
+ * Application for distributing currency.
  * @param {ActorArtichron} party      The party actor dispensing currency and points.
  * @param {object} [options]          Application rendering options.
  */

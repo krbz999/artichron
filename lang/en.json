@@ -397,34 +397,6 @@
         }
       }
     }
-  },
-  "Progression": {
-    "FIELDS": {
-      "type": {
-        "hint": "The type of progression.",
-        "label": "Type"
-      },
-      "value": {
-        "hint": "The amount of points to spend.",
-        "label": "Points"
-      }
-    },
-    "Pool": {
-      "FIELDS": {
-        "pool": {
-          "hint": "Choose the pool to increase. You will gain one additional die for every two points spent.",
-          "label": "Pool"
-        }
-      }
-    },
-    "Skill": {
-      "FIELDS": {
-        "skill": {
-          "hint": "Choose the skill to enhance. You will gain one additional die for every point spent.",
-          "label": "Skill"
-        }
-      }
-    }
   }
 },
 
@@ -911,7 +883,6 @@
   "LABELS": {
     "currency": "Currency",
     "distribute": "Distribute",
-    "progression": "Progression",
     "FUNDS": {
       "manage": "Manage Funds"
     },
@@ -1002,15 +973,6 @@
     "Novice": "Novice",
     "Veteran": "Veteran"
   }
-},
-
-"ProgressionDialog": {
-  "PoolTitle": "{name}: Create Pool Progression",
-  "SkillTitle": "{name}: Create Skill Progression",
-  "Title": "{name}: Create Progression",
-  "TypeHint": "Choose the type of progression to add to the character.",
-  "TypeLabel": "Type",
-  "WarningNoPoints": "This actor has no progression points to spend!"
 },
 
 "PURCHASE": {

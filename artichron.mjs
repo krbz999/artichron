@@ -193,7 +193,7 @@ Hooks.once("i18nInit", function() {
     localize(artichron.config, k, v);
   }
 
-  // Localize data models. TODO: Unsure if still needed.
+  // Localize data models.
   for (const model of Object.values(artichron.data.ArmorRequirementData.TYPES)) Localization.localizeDataModel(model);
 
   // Localize party actor clocks schema.

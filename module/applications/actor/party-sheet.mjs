@@ -14,10 +14,8 @@ export default class PartySheet extends ActorSheetArtichron {
     actions: {
       addClock: PartySheet.#addClock,
       clockDelta: PartySheet.#clockDelta,
-      createProgression: PartySheet.#createProgression,
       displayActor: PartySheet.#displayActor,
       distributeCurrency: PartySheet.#distributeCurrency,
-      distributePoints: PartySheet.#distributePoints,
       manageFunds: PartySheet.#manageFunds,
       placeMembers: PartySheet.#placeMembers,
       recallMembers: PartySheet.#recallMembers,
@@ -158,12 +156,6 @@ export default class PartySheet extends ActorSheetArtichron {
         context.pct.health = actor.system.pools.health.pct;
         context.pct.stamina = actor.system.pools.stamina.pct;
         context.pct.mana = actor.system.pools.mana.pct;
-
-        context.pts = {
-          available: actor.system.progression.points.available,
-          total: actor.system.progression.points.total,
-          spent: actor.system.progression.points.total - actor.system.progression.points.available,
-        };
       } else if (context.isMonster) {
         context.pct.danger = actor.system.danger.pool.pct;
       }
@@ -418,32 +410,6 @@ export default class PartySheet extends ActorSheetArtichron {
    */
   static #distributeCurrency(event, target) {
     this.document.system.distributeCurrencyDialog();
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Prompt to distribute to the party an amount of progression points.
-   * @this {PartySheet}
-   * @param {PointerEvent} event      The originating click event.
-   * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
-   */
-  static #distributePoints(event, target) {
-    this.document.system.distributePointsDialog();
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Prompt to create a progression on a hero actor who is a member of this party.
-   * @this {PartySheet}
-   * @param {PointerEvent} event      The originating click event.
-   * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
-   */
-  static #createProgression(event, target) {
-    const id = target.closest(".member").dataset.id;
-    const actor = game.actors.get(id);
-    actor.system.createProgression();
   }
 
   /* -------------------------------------------------- */

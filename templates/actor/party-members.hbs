@@ -13,14 +13,6 @@
         <span>{{localize "ARTICHRON.PARTY.LABELS.distribute"}}</span>
       </button>
     </div>
-    <div class="form-group">
-      <label>{{localize "ARTICHRON.PARTY.LABELS.progression"}}</label>
-      <input type="text" name="system.points.value" class="delta" value="{{distributions.points.value}}" {{disabled (not isEditable)}}>
-      <button type="button" data-action="distributePoints" {{disabled distributions.points.disabled}}>
-        <i class="fa-solid fa-fw fa-cube"></i>
-        <span>{{localize "ARTICHRON.PARTY.LABELS.distribute"}}</span>
-      </button>
-    </div>
   </fieldset>
   {{/if}}
 

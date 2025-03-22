@@ -142,16 +142,6 @@ export default class PartyData extends ActorSystemModel {
   }
 
   /* -------------------------------------------------- */
-
-  /**
-   * Prompt a dialog for a GM user to distribute progression points to the members of this party.
-   * @returns {Promise}
-   */
-  async distributePointsDialog() {
-    return this.constructor.distributePointsDialog(this.parent);
-  }
-
-  /* -------------------------------------------------- */
   /*   Static methods                                   */
   /* -------------------------------------------------- */
 
@@ -202,53 +192,6 @@ export default class PartyData extends ActorSystemModel {
       });
     }
 
-    Actor.implementation.updateDocuments(updates);
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Prompt a dialog for a GM user to distribute progression points to the members of a party.
-   * @param {ActorArtichron} [party]      The party whose members to distribute to.
-   * @returns {Promise}
-   */
-  static async distributePointsDialog(party) {
-    if (!game.user.isGM) throw new Error("Only a GM can distribute to the party!");
-
-    party ??= game.settings.get("artichron", "primaryParty").actor;
-    if (!party) throw new Error("No primary party has been assigned!");
-
-    const configuration = await PartyDistributionDialog.create({ party, type: "points" });
-    if (!configuration) return;
-    const { amount, targets } = configuration;
-    const actors = Array.from(targets).map(id => game.actors.get(id));
-
-    if (!actors.length) {
-      throw new Error("You must select at least one actor!");
-    }
-
-    if (amount <= 0) {
-      throw new Error("You can only distribute a positive amount!");
-    }
-
-    const updates = [];
-    for (const actor of actors) {
-      const value = actor.system.progression.points.total + amount;
-      updates.push({ _id: actor.id, "system.progression.points.total": value });
-    }
-    updates.push({ _id: party.id, "system.points.value": party.system.points.value - amount * actors.length });
-
-    for (const actor of actors) {
-      const content = game.i18n.format("ARTICHRON.PartyDistributionDialog.ContentPoints", {
-        name: actor.name, amount: amount,
-      });
-      ChatMessage.implementation.create({
-        whisper: game.users.filter(u => actor.testUserPermission(u, "OWNER")).map(u => u.id),
-        content: `<p>${content}</p>`,
-        speaker: ChatMessage.implementation.getSpeaker({ actor: party }),
-      });
-    }
-
-    Actor.implementation.updateDocuments(updates);
+    foundry.utils.getDocumentClass("Actor").updateDocuments(updates);
   }
 }

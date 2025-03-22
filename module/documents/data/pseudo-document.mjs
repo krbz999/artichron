@@ -184,8 +184,23 @@ export default class PseudoDocument extends foundry.abstract.DataModel {
     const id = operation.keepId && foundry.data.validators.isValidId(data._id) ? data._id : foundry.utils.randomID();
     const path = `${this._path}.${id}`;
     const type = data.type || Object.keys(this.TYPES)[0];
-    return parent.update({ [path]: { ...data, _id: id, type } }, operation);
+
+    const update = { [path]: { ...data, _id: id, type } };
+
+    this._configureUpdates("create", parent, update, operation);
+
+    return parent.update(update, operation);
   }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * @param {string} action       The operation.
+   * @param {Document} document   The parent document.
+   * @param {object} update       The data used for the update.
+   * @param {object} operation    The context of the operation.
+   */
+  static _configureUpdates(action, document, update, operation) {}
 
   /* -------------------------------------------------- */
 

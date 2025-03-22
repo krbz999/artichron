@@ -3,7 +3,6 @@ import ArmorRequirementData from "./armor-requirements.mjs";
 import Clock from "./clocks.mjs";
 import DamageFormulaModel from "./damage-formula-model.mjs";
 import FormulaModel from "./formula-model.mjs";
-import ProgressionData from "./hero-progression.mjs";
 import PseudoDocument from "./pseudo-document.mjs";
 
 export default {
@@ -12,6 +11,5 @@ export default {
   Clock,
   DamageFormulaModel,
   FormulaModel,
-  ProgressionData,
   PseudoDocument,
 };

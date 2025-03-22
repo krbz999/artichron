@@ -1,5 +1,4 @@
 import CreatureData from "./creature-data.mjs";
-import ProgressionData from "../data/hero-progression.mjs";
 
 import * as TYPES from "../../helpers/types.mjs";
 
@@ -49,13 +48,6 @@ export default class HeroData extends CreatureData {
       notes: new HTMLField({ required: true }),
     });
 
-    schema.progression = new SchemaField({
-      points: new SchemaField({
-        total: new NumberField({ min: 0, integer: true, initial: 0, nullable: false }),
-        spent: new ArrayField(new TypedSchemaField(ProgressionData.TYPES)),
-      }),
-    });
-
     return schema;
   }
 
@@ -71,15 +63,6 @@ export default class HeroData extends CreatureData {
     for (const [k, v] of Object.entries(this.pools)) {
       v.max = v.base + v.increase;
     }
-
-    // Set the available number of progression points.
-    const spent = this.progression.points.spent.reduce((acc, p) => acc + p.value, 0);
-    this.progression.points.available = this.progression.points.total - spent;
-
-    const progression = artichron.config.PROGRESSION_THRESHOLDS.toReversed().find(p => {
-      return this.progression.points.total >= p.threshold;
-    });
-    this.progression.level = progression.level;
   }
 
   /* -------------------------------------------------- */
@@ -161,57 +144,6 @@ export default class HeroData extends CreatureData {
 
   /* -------------------------------------------------- */
   /*   Instance methods                                 */
-  /* -------------------------------------------------- */
-
-  /**
-   * Prompt for the creation of a progression of a given type. The chosen and configured
-   * progression type will be applied to the actor.
-   * @param {string} [type]                 The type of progression.
-   * @returns {Promise<ActorArtichron>}     A promise that resolves to the updated actor.
-   */
-  async createProgression(type) {
-    if (this.progression.points.available < 1) {
-      ui.notifications.warn("ARTICHRON.ProgressionDialog.WarningNoPoints", { localize: true });
-      return null;
-    }
-
-    const types = ProgressionData.TYPES;
-    if (!types[type]) {
-      const configuration = await artichron.applications.api.Dialog.prompt({
-        content: new foundry.data.fields.StringField({
-          choices: Object.entries(types).reduce((acc, [k, v]) => {
-            acc[k] = k;
-            return acc;
-          }, {}),
-          required: true,
-          label: "ARTICHRON.ProgressionDialog.TypeLabel",
-          hint: "ARTICHRON.ProgressionDialog.TypeHint",
-        }).toFormGroup({ localize: true }, { name: "type" }).outerHTML,
-        window: {
-          title: game.i18n.format("ARTICHRON.ProgressionDialog.Title", { name: this.parent.name }),
-          icon: "fa-solid fa-arrow-trend-up",
-        },
-        modal: true,
-      });
-      if (!configuration) return null;
-      type = configuration.type;
-    }
-
-    return types[type].toPrompt(this.parent);
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Update a progression on this actor.
-   * @param {string} id                     The id of the progression to update.
-   * @param {object} [changes]              The change to apply to the progression.
-   * @returns {Promise<ActorArtichron>}     A promise that resolves to the updated actor.
-   */
-  async updateProgression(id, changes = {}) {
-    throw new Error("Updating a progression is not currently supported!");
-  }
-
   /* -------------------------------------------------- */
 
   /**
