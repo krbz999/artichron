@@ -81,71 +81,44 @@ Hooks.once("init", function() {
   Object.assign(CONFIG.Dice, dice);
 
   // Register sheet application classes
-  const configureSheet = (scope, { DocumentClass, SheetClass, options = {} }) => {
-    const config = foundry.applications.apps.DocumentSheetConfig;
-    switch (scope) {
-      case "core":
-        return config.unregisterSheet(DocumentClass, scope, SheetClass);
-      case "artichron":
-        return config.registerSheet(DocumentClass, scope, SheetClass, options);
+  const { DocumentSheetConfig } = foundry.applications.apps;
+  const configureSheet = (documentName, SheetClass, { register = true, ...options } = {}) => {
+    if (register) {
+      return DocumentSheetConfig.registerSheet(foundry.documents[documentName], "artichron", SheetClass, {
+        makeDefault: true,
+        ...options,
+      });
+    } else {
+      return DocumentSheetConfig.unregisterSheet(foundry.documents[documentName], "core", SheetClass);
     }
   };
 
-  const sheets = {
-    core: [
-      { DocumentClass: foundry.documents.Actor, SheetClass: foundry.appv1.sheets.ActorSheet },
-      { DocumentClass: foundry.documents.Item, SheetClass: foundry.appv1.sheets.ItemSheet },
-      { DocumentClass: foundry.documents.ActiveEffect, SheetClass: foundry.applications.sheets.ActiveEffectConfig },
-    ],
-    artichron: [
-      {
-        DocumentClass: foundry.documents.Actor,
-        SheetClass: applications.sheets.actor.ActorSheetHero,
-        options: { makeDefault: true, label: "ARTICHRON.SHEET.ACTOR.Hero", types: ["hero"] },
-      },
-      {
-        DocumentClass: foundry.documents.Actor,
-        SheetClass: applications.sheets.actor.ActorSheetMonster,
-        options: { makeDefault: true, label: "ARTICHRON.SHEET.ACTOR.Monster", types: ["monster"] },
-      },
-      {
-        DocumentClass: foundry.documents.Actor,
-        SheetClass: applications.sheets.actor.ActorSheetMerchant,
-        options: { makeDefault: true, label: "ARTICHRON.SHEET.ACTOR.Merchant", types: ["merchant"] },
-      },
-      {
-        DocumentClass: foundry.documents.Actor,
-        SheetClass: applications.sheets.actor.ActorSheetParty,
-        options: { makeDefault: true, label: "ARTICHRON.SHEET.ACTOR.Party", types: ["party"] },
-      },
-      {
-        DocumentClass: foundry.documents.Item,
-        SheetClass: applications.sheets.item.ItemSheet,
-        options: {
-          makeDefault: true,
-          label: "ARTICHRON.SHEET.ITEM.Base",
-          types: ["ammo", "armor", "elixir", "part", "shield", "spell", "weapon"],
-        },
-      },
-      {
-        DocumentClass: foundry.documents.ActiveEffect,
-        SheetClass: applications.sheets.effect.ActiveEffectSheet,
-        options: { makeDefault: true, label: "ARTICHRON.SHEET.EFFECT.Base" },
-      },
-    ],
-  };
-
-  for (const [scope, v] of Object.entries(sheets)) {
-    for (const { DocumentClass, SheetClass, options } of v) {
-      configureSheet(scope, { DocumentClass, SheetClass, options });
-    }
-  }
+  configureSheet("Actor", foundry.appv1.sheets.ActorSheet, { register: false });
+  configureSheet("Item", foundry.appv1.sheets.ItemSheet, { register: false });
+  configureSheet("ActiveEffect", foundry.applications.sheets.ActiveEffectConfig, { register: false });
+  configureSheet("Actor", applications.sheets.actor.ActorSheetHero, {
+    label: "ARTICHRON.SHEET.ACTOR.Hero", types: ["hero"],
+  });
+  configureSheet("Actor", applications.sheets.actor.ActorSheetMonster, {
+    label: "ARTICHRON.SHEET.ACTOR.Monster", types: ["monster"],
+  });
+  configureSheet("Actor", applications.sheets.actor.ActorSheetMerchant, {
+    label: "ARTICHRON.SHEET.ACTOR.Merchant", types: ["merchant"],
+  });
+  configureSheet("Actor", applications.sheets.actor.ActorSheetParty, {
+    label: "ARTICHRON.SHEET.ACTOR.Party", types: ["party"],
+  });
+  configureSheet("Item", applications.sheets.item.ItemSheet, {
+    label: "ARTICHRON.SHEET.ITEM.Base",
+  });
+  configureSheet("ActiveEffect", applications.sheets.effect.ActiveEffectSheet, {
+    label: "ARTICHRON.SHEET.EFFECT.Base",
+  });
 
   // Set up conditions.
-  CONFIG.statusEffects = [];
-  for (const [id, config] of Object.entries(SYSTEM.STATUS_CONDITIONS)) {
-    CONFIG.statusEffects.push({ ...config, id: id, _id: utils.staticId(id) });
-  }
+  CONFIG.statusEffects = Object.entries(SYSTEM.STATUS_CONDITIONS).map(([id, config]) => {
+    return { ...config, id, _id: utils.staticId(id) };
+  });
 
   CONFIG.specialStatusEffects.DEFEATED = "defeated";
   CONFIG.specialStatusEffects.BURROW = "underground";
@@ -169,6 +142,8 @@ Hooks.once("setup", function() {
 });
 
 /* -------------------------------------------------- */
+/*   Ready hook                                       */
+/* -------------------------------------------------- */
 
 Hooks.once("ready", () => {
   ui.tooltips.observe();
@@ -183,19 +158,26 @@ Hooks.once("i18nInit", function() {
 
   // Localize all strings in the global system configuration object.
   const localize = (o, k, v) => {
-    const type = foundry.utils.getType(v);
-    if ((type === "string") && v.startsWith("ARTICHRON")) {
-      o[k] = game.i18n.localize(v);
-    } else if (type === "Object") {
-      for (const [x, y] of Object.entries(v)) {
-        localize(v, x, y);
-      }
-    } else if (type === "Array") {
-      for (const k of v) if (foundry.utils.getType(k) === "Object") {
-        for (const [u, w] of Object.entries(k)) {
-          localize(k, u, w);
+    switch (foundry.utils.getType(v)) {
+      case "string":
+        if (v.startsWith("ARTICHRON")) {
+          o[k] = game.i18n.localize(v);
         }
-      }
+        break;
+      case "Object":
+        for (const [x, y] of Object.entries(v)) {
+          localize(v, x, y);
+        }
+        break;
+      case "Array":
+        for (const k of v) {
+          if (foundry.utils.getType(k) === "Object") {
+            for (const [u, w] of Object.entries(k)) {
+              localize(k, u, w);
+            }
+          }
+        }
+        break;
     }
   };
 
@@ -214,24 +196,6 @@ Hooks.once("i18nInit", function() {
 });
 
 /* -------------------------------------------------- */
-/*   Ready hook                                       */
-/* -------------------------------------------------- */
-
-Hooks.once("ready", function() {
-  Hooks.on("hotbarDrop", function(bar, data, slot) {
-    if (data.type === "ActiveEffect") {
-      createEffectMacro(data, slot);
-      return false;
-    }
-
-    if (data.type === "Item") {
-      createItemMacro(data, slot);
-      return false;
-    }
-  });
-});
-
-/* -------------------------------------------------- */
 /*   Sidebar directories                              */
 /* -------------------------------------------------- */
 
@@ -244,6 +208,20 @@ Hooks.on("renderActorDirectory", (directory, html) => {
 
 /* -------------------------------------------------- */
 /*   Hotbar macros                                    */
+/* -------------------------------------------------- */
+
+Hooks.on("hotbarDrop", function(bar, data, slot) {
+  if (data.type === "ActiveEffect") {
+    createEffectMacro(data, slot);
+    return false;
+  }
+
+  if (data.type === "Item") {
+    createItemMacro(data, slot);
+    return false;
+  }
+});
+
 /* -------------------------------------------------- */
 
 /**
