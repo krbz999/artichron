@@ -84,7 +84,7 @@ export default class UsageMessageData extends ChatMessageSystemModel {
    */
   async #insertItemHeader(html) {
     const item = this.item;
-    const activity = item?.system.activities?.get(this.activity);
+    const activity = item?.getEmbeddedDocument("Activity", this.activity);
 
     if (!item) return;
 

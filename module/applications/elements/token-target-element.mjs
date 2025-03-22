@@ -45,7 +45,7 @@ export default class TokenTargetElement extends HTMLElement {
    */
   get effects() {
     const item = this.chatMessage.system.item;
-    const activity = item?.system.activities.get(this.chatMessage.system.activity);
+    const activity = item?.getEmbeddedDocument("Activity", this.chatMessage.system.activity);
     const ids = activity?.effects?.ids ?? [];
     const actor = item?.actor;
     return ids.map(id => actor.effects.get(id));
@@ -178,8 +178,9 @@ export default class TokenTargetElement extends HTMLElement {
       case "healing":
         return this.actor.applyHealing(this.healing);
       case "effect":
-        return item.system.activities.get(activity).grantEffects([this.actor]);
-      default: break;
+        return item.getEmbeddedDocument("Activity", activity).grantEffects([this.actor]);
+      default:
+        break;
     }
   }
 }

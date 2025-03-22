@@ -230,12 +230,13 @@ export default class PartySheet extends ActorSheetArtichron {
     if (!game.user.isGM) return context;
 
     context.clocks = [];
-    for (const clock of this.document.system.clocks) {
+    const clocks = this.isEditMode ? this.document.system.clocks.sourceContents : this.document.system.clocks;
+    for (const clock of clocks) {
       if (this.isPlayMode) {
         context.clocks.push({
           clock: clock,
-          disableUp: !(clock.value < clock.max),
-          disableDown: !(clock.value > 0),
+          disableUp: clock.isFull,
+          disableDown: clock.isEmpty,
           name: clock.name ? clock.name : game.i18n.localize(clock.constructor.metadata.defaultName),
           hue: clock.color.rgb.map(k => k * 255).join(", "),
         });

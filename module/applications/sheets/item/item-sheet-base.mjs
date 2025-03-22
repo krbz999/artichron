@@ -234,11 +234,9 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
     // Armor requirements.
     if (doc.isArmor) {
       const requirements = [];
-      const ids = Object.keys(this.document.system._source.category.requirements);
-      const current = this.document.system.category.requirements;
 
-      for (const r of current) {
-        if (!ids.includes(r.id)) continue;
+      for (const r of this.document.system.category.requirements) {
+        if (!r.isSource) continue;
         const fields = [];
         for (const field of r.schema) {
           if (field.readonly) continue;
@@ -273,7 +271,7 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
         id: activity.id,
         name: activity.name ? activity.name : game.i18n.localize(activity.constructor.metadata.defaultName),
         subtitle: game.i18n.localize(activity.constructor.metadata.label),
-        disabled: !context.isEditable || !(activity.id in src.system.activities),
+        disabled: !context.isEditable || !activity.isSource,
       };
     });
 
@@ -361,9 +359,9 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
   static async #addRequirement(event, target) {
     if (!this.isEditable) return;
 
-    const choices = Object.entries(
-      artichron.data.pseudoDocuments.armorRequirements.BaseArmorRequirement.TYPES,
-    ).reduce((acc, [k, v]) => {
+    const Base = artichron.data.pseudoDocuments.armorRequirements.BaseArmorRequirement;
+
+    const choices = Object.entries(Base.TYPES).reduce((acc, [k, v]) => {
       acc[k] = v.metadata.label;
       return acc;
     }, {});
@@ -379,8 +377,7 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
     });
     if (!configuration) return;
 
-    const data = { type: configuration.type, _id: foundry.utils.randomID() };
-    this.document.update({ [`system.category.requirements.${data._id}`]: data });
+    Base.create({ type: configuration.type }, { parent: this.document });
   }
 
   /* -------------------------------------------------- */
@@ -394,7 +391,7 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
   static #deleteRequirement(event, target) {
     if (!this.isEditable) return;
     const id = target.closest("[data-id]").dataset.id;
-    this.document.update({ [`system.category.requirements.-=${id}`]: null });
+    this.document.getEmbeddedDocument("ArmorRequirement", id).delete();
   }
 
   /* -------------------------------------------------- */
@@ -406,8 +403,9 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
    * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
    */
   static #createActivity(event, target) {
-    const types = Object.values(artichron.activities).reduce((acc, v) => {
-      if (v.TYPE) acc[v.TYPE] = game.i18n.localize(v.metadata.label);
+    const Base = artichron.data.pseudoDocuments.activities.BaseActivity;
+    const types = Object.entries(Base.TYPES).reduce((acc, [k, Cls]) => {
+      acc[k] = game.i18n.localize(Cls.metadata.label);
       return acc;
     }, {});
     const select = new foundry.data.fields.StringField({
@@ -418,8 +416,7 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
     artichron.applications.api.Dialog.prompt({
       content: `<fieldset>${select}</fieldset>`,
       ok: { callback: (event, button) => {
-        const type = button.form.elements.type.value;
-        artichron.data.pseudoDocuments.activities.BaseActivity.create({ type: type }, { parent: this.document });
+        Base.create({ type: button.form.elements.type.value }, { parent: this.document });
       } },
     });
   }
@@ -434,7 +431,6 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
    */
   static #renderActivity(event, target) {
     const id = target.closest("[data-activity-id]").dataset.activityId;
-    const activity = this.document.system.activities.get(id);
-    activity.sheet.render({ force: true });
+    this.document.getEmbeddedDocument("Activity", id).sheet.render({ force: true });
   }
 }

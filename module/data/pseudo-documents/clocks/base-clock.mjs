@@ -63,6 +63,26 @@ export default class BaseClock extends PseudoDocument {
 
   /* -------------------------------------------------- */
 
+  /**
+   * Is the clock empty?
+   * @type {boolean}
+   */
+  get isEmpty() {
+    return !this.value;
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Is the clock full?
+   * @type {boolean}
+   */
+  get isFull() {
+    return this.value === this.max;
+  }
+
+  /* -------------------------------------------------- */
+
   /** @inheritdoc */
   prepareDerivedData() {
     this.max ??= 8;
@@ -77,8 +97,7 @@ export default class BaseClock extends PseudoDocument {
    * @returns {Promise}
    */
   async increase() {
-    const value = Math.clamp(this.value + 1, 0, this.max);
-    return this.update({ value: value });
+    return this.delta(1);
   }
 
   /* -------------------------------------------------- */
@@ -88,7 +107,18 @@ export default class BaseClock extends PseudoDocument {
    * @returns {Promise}
    */
   async decrease() {
-    const value = Math.clamp(Math.min(this.value, this.max) - 1, 0, this.max);
+    return this.delta(-1);
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Modify the value of the clock by a delta.
+   * @param {number} delta    The difference.
+   * @returns {Promise}
+   */
+  async delta(delta) {
+    const value = Math.clamp(this.value + delta, 0, this.max);
     return this.update({ value: value });
   }
 }

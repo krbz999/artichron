@@ -54,7 +54,7 @@ export default class DamageSheet extends HandlebarsApplicationMixin(Application)
    * @type {BaseActivity}
    */
   get activity() {
-    return this.#item.system.activities.get(this.#activityId);
+    return this.#item.getEmbeddedDocument("Activity", this.#activityId);
   }
 
   /* -------------------------------------------------- */
