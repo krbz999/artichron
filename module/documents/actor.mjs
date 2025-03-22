@@ -1,5 +1,3 @@
-import PseudoDocument from "./data/pseudo-document.mjs";
-
 import * as TYPES from "../helpers/types.mjs";
 
 /**
@@ -131,10 +129,10 @@ export default class ActorArtichron extends Actor {
   /** @inheritdoc */
   _onUpdate(update, options, user) {
     if (options.pseudo?.operation === "delete") {
-      const sheet = PseudoDocument._sheets.get(options.pseudo.uuid);
+      const sheet = artichron.data.PseudoDocument._sheets.get(options.pseudo.uuid);
       if (sheet) {
         delete this.apps[sheet.id];
-        PseudoDocument._sheets.delete(options.pseudo.uuid);
+        artichron.data.PseudoDocument._sheets.delete(options.pseudo.uuid);
         sheet.close();
       }
     }

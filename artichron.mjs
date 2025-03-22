@@ -3,17 +3,15 @@ import * as SYSTEM from "./module/helpers/config.mjs";
 import * as documents from "./module/documents/_module.mjs";
 import * as migrations from "./module/helpers/migrations.mjs";
 import * as utils from "./module/helpers/utils.mjs";
-import activities from "./module/documents/activity/_module.mjs";
-import applications from "./module/applications/_module.mjs";
-import canvas from "./module/documents/canvas/_module.mjs";
-import dice from "./module/dice/_module.mjs";
-import elements from "./module/elements/_module.mjs";
-import data from "./module/documents/data/_module.mjs";
+import * as applications from "./module/applications/_module.mjs";
+import * as canvas from "./module/canvas/_module.mjs";
+import * as dice from "./module/dice/_module.mjs";
+import * as data from "./module/data/_module.mjs";
 import registerEnrichers from "./module/helpers/enrichers.mjs";
 import registerSettings from "./module/helpers/settings.mjs";
 
 // Custom elements.
-for (const element of Object.values(elements)) {
+for (const element of Object.values(applications.elements)) {
   window.customElements.define(element.tagName, element);
 }
 
@@ -22,18 +20,15 @@ for (const element of Object.values(elements)) {
 /* -------------------------------------------------- */
 
 globalThis.artichron = {
-  activities: activities,
-  applications: applications,
-  canvas: canvas,
+  applications,
+  canvas,
   config: SYSTEM,
+  data,
   dataModels: documents.dataModels,
-  dice: dice,
-  documents: documents.documentClasses,
-  elements: elements,
-  data: data,
-  migrations: migrations,
-  tooltips: new applications.ui.TooltipsArtichron(),
-  utils: utils,
+  dice,
+  documents,
+  migrations,
+  utils,
 };
 
 /* -------------------------------------------------- */
@@ -48,25 +43,35 @@ Hooks.once("init", function() {
 
   // Record Configuration Values
   CONFIG.SYSTEM = SYSTEM;
-  CONFIG.Token.hudClass = applications.hud.TokenHUDArtichron;
-  CONFIG.Token.objectClass = canvas.TokenArtichron;
-  CONFIG.Token.rulerClass = canvas.TokenRulerArtichron;
-  CONFIG.ui.chat = applications.sidebar.tabs.ChatLogArtichron;
-  CONFIG.ui.combat = applications.sidebar.tabs.CombatTrackerArtichron;
-  CONFIG.ui.carousel = applications.ui.CombatCarousel;
+  CONFIG.Token.hudClass = applications.hud.TokenHUD;
+  CONFIG.Token.objectClass = canvas.placeables.TokenArtichron;
+  CONFIG.Token.rulerClass = canvas.placeables.tokens.TokenRuler;
+  CONFIG.ui.chat = applications.sidebar.tabs.ChatLog;
+  CONFIG.ui.combat = applications.sidebar.tabs.CombatTracker;
+  CONFIG.ui.carousel = applications.apps.combat.CombatCarousel;
+  CONFIG.ui.tooltips = applications.ui.Tooltips;
   CONFIG.Canvas.layers.tokens.layerClass = canvas.layers.TokenLayerArtichron;
 
   // Hook up document classes.
-  for (const [k, v] of Object.entries(documents.documentClasses)) {
-    CONFIG[k].documentClass = v;
+  for (const Cls of Object.values(documents)) {
+    CONFIG[Cls.documentName].documentClass = Cls;
   }
 
   // Hook up system data types.
-  for (const [key, dm] of Object.entries(documents.dataModels)) {
-    Object.assign(CONFIG[key].dataModels, dm);
-
-    for (const [k, v] of Object.entries(dm)) {
-      CONFIG[key].typeIcons[k] = v.metadata.icon;
+  for (const [documentName, models] of [
+    ["Actor", data.actors],
+    ["ChatMessage", data.chatMessages],
+    ["Combatant", data.combatants],
+    ["ActiveEffect", data.effects],
+    ["Item", data.items],
+    ["RegionBehavior", data.regionBehaviors],
+  ]) {
+    for (const v of Object.values(models)) {
+      if (foundry.utils.isSubclass(v, foundry.abstract.TypeDataModel)) {
+        const { type, icon } = v.metadata;
+        Object.assign(CONFIG[documentName].dataModels, { [type]: v });
+        Object.assign(CONFIG[documentName].typeIcons, { [type]: icon });
+      }
     }
   }
 
@@ -95,27 +100,27 @@ Hooks.once("init", function() {
     artichron: [
       {
         DocumentClass: foundry.documents.Actor,
-        SheetClass: applications.actor.HeroSheet,
+        SheetClass: applications.sheets.actor.ActorSheetHero,
         options: { makeDefault: true, label: "ARTICHRON.SHEET.ACTOR.Hero", types: ["hero"] },
       },
       {
         DocumentClass: foundry.documents.Actor,
-        SheetClass: applications.actor.MonsterSheet,
+        SheetClass: applications.sheets.actor.ActorSheetMonster,
         options: { makeDefault: true, label: "ARTICHRON.SHEET.ACTOR.Monster", types: ["monster"] },
       },
       {
         DocumentClass: foundry.documents.Actor,
-        SheetClass: applications.actor.MerchantSheet,
+        SheetClass: applications.sheets.actor.ActorSheetMerchant,
         options: { makeDefault: true, label: "ARTICHRON.SHEET.ACTOR.Merchant", types: ["merchant"] },
       },
       {
         DocumentClass: foundry.documents.Actor,
-        SheetClass: applications.actor.PartySheet,
+        SheetClass: applications.sheets.actor.ActorSheetParty,
         options: { makeDefault: true, label: "ARTICHRON.SHEET.ACTOR.Party", types: ["party"] },
       },
       {
         DocumentClass: foundry.documents.Item,
-        SheetClass: applications.item.ItemSheetArtichron,
+        SheetClass: applications.sheets.item.ItemSheet,
         options: {
           makeDefault: true,
           label: "ARTICHRON.SHEET.ITEM.Base",
@@ -124,7 +129,7 @@ Hooks.once("init", function() {
       },
       {
         DocumentClass: foundry.documents.ActiveEffect,
-        SheetClass: applications.effect.ActiveEffectSheetArtichron,
+        SheetClass: applications.sheets.effect.ActiveEffectSheet,
         options: { makeDefault: true, label: "ARTICHRON.SHEET.EFFECT.Base" },
       },
     ],
@@ -160,8 +165,13 @@ Hooks.once("setup", function() {
     progressClock: progressClock,
     thresholdBar: thresholdBar,
   });
-  artichron.tooltips.observe();
-  applications.ui.TooltipsArtichron.activateListeners();
+  applications.ui.Tooltips.activateListeners();
+});
+
+/* -------------------------------------------------- */
+
+Hooks.once("ready", () => {
+  ui.tooltips.observe();
 });
 
 /* -------------------------------------------------- */
@@ -194,13 +204,10 @@ Hooks.once("i18nInit", function() {
   }
 
   // Localize data models.
-  for (const model of Object.values(artichron.data.ArmorRequirementData.TYPES)) Localization.localizeDataModel(model);
-
-  // Localize party actor clocks schema.
-  for (const model of Object.values(artichron.data.Clock.TYPES)) Localization.localizeDataModel(model);
-
-  // Localize activities.
-  for (const model of Object.values(artichron.activities)) Localization.localizeDataModel(model);
+  const { armorRequirements, clocks, activities } = artichron.data.pseudoDocuments;
+  for (const model of Object.values(armorRequirements.BaseArmorRequirement.TYPES)) Localization.localizeDataModel(model);
+  for (const model of Object.values(clocks.BaseClock.TYPES)) Localization.localizeDataModel(model);
+  for (const model of Object.values(activities.BaseActivity.TYPES)) Localization.localizeDataModel(model);
 
   // Localize damage formula models.
   Localization.localizeDataModel(artichron.data.DamageFormulaModel);
@@ -270,12 +277,12 @@ Hooks.on("renderActorDirectory", (directory, html) => {
  * @param {number} slot     The hotbar slot to use.
  */
 async function createEffectMacro(data, slot) {
-  const effect = await ActiveEffect.implementation.fromDropData(data);
+  const effect = await foundry.utils.getDocumentClass("ActiveEffect").fromDropData(data);
   const command = `artichron.utils.macro.toggleEffect("${effect.name}");`;
   const name = game.i18n.format("ARTICHRON.MACRO.ToggleEffect", { name: effect.name });
   let macro = game.macros.find(m => (m.name === name) && (m.command === command));
   if (!macro) {
-    macro = await Macro.implementation.create({
+    macro = await foundry.utils.getDocumentClass("Macro").create({
       name: name,
       type: "script",
       img: effect.img,
@@ -294,12 +301,12 @@ async function createEffectMacro(data, slot) {
  * @param {number} slot     The hotbar slot to use.
  */
 async function createItemMacro(data, slot) {
-  const item = await Item.implementation.fromDropData(data);
+  const item = await foundry.utils.getDocumentClass("Item").fromDropData(data);
   const command = `artichron.utils.macro.useItem("${item.name}", event);`;
   const name = game.i18n.format("ARTICHRON.MACRO.UseItem", { name: item.name });
   let macro = game.macros.find(m => (m.name === name) && (m.command === command));
   if (!macro) {
-    macro = await Macro.implementation.create({
+    macro = await foundry.utils.getDocumentClass("Macro").create({
       name: name,
       type: "script",
       img: item.img,
@@ -314,17 +321,17 @@ async function createItemMacro(data, slot) {
 /* -------------------------------------------------- */
 
 function inventoryItem(item, options) {
-  const element = elements.InventoryItemElement.create({ ...options.hash, item });
+  const element = artichron.applications.elements.InventoryItemElement.create({ ...options.hash, item });
   return new Handlebars.SafeString(element.outerHTML);
 }
 
 function effectEntry(effect, options) {
-  const element = elements.EffectEntryElement.create({ ...options.hash, effect });
+  const element = artichron.applications.elements.EffectEntryElement.create({ ...options.hash, effect });
   return new Handlebars.SafeString(element.outerHTML);
 }
 
 function thresholdBar(options) {
-  const element = elements.ThresholdBarElement.create(options.hash);
+  const element = artichron.applications.elements.ThresholdBarElement.create(options.hash);
   return new Handlebars.SafeString(element.outerHTML);
 }
 
@@ -335,11 +342,13 @@ function batteryProgress(field, options) {
   name ??= field.fieldPath;
   value ??= field.initial;
   step ??= 1;
-  const element = elements.BatteryProgressElement.create({ ...inputConfig, min, max, value, step, name });
+  const element = artichron.applications.elements.BatteryProgressElement.create({
+    ...inputConfig, min, max, value, step, name,
+  });
   return new Handlebars.SafeString(element.outerHTML);
 }
 
 function progressClock(options) {
-  const element = elements.ProgressClockElement.create(options.hash);
+  const element = artichron.applications.elements.ProgressClockElement.create(options.hash);
   return new Handlebars.SafeString(element.outerHTML);
 }

@@ -1,5 +1,3 @@
-import PseudoDocument from "./data/pseudo-document.mjs";
-
 export default class ItemArtichron extends Item {
   /** @inheritdoc */
   static getDefaultArtwork(itemData) {
@@ -349,10 +347,10 @@ export default class ItemArtichron extends Item {
   /** @inheritdoc */
   _onUpdate(update, options, user) {
     if (options.pseudo?.operation === "delete") {
-      const sheet = PseudoDocument._sheets.get(options.pseudo.uuid);
+      const sheet = artichron.data.PseudoDocument._sheets.get(options.pseudo.uuid);
       if (sheet) {
         delete this.apps[sheet.id];
-        PseudoDocument._sheets.delete(options.pseudo.uuid);
+        artichron.data.PseudoDocument._sheets.delete(options.pseudo.uuid);
         sheet.close();
       }
     }

@@ -1,7 +1,2 @@
-import DamageRoll from "./damage-roll.mjs";
-import RollArtichron from "./roll.mjs";
-
-export default {
-  DamageRoll,
-  RollArtichron,
-};
+export { default as DamageRoll } from "./damage-roll.mjs";
+export { default as RollArtichron } from "./roll.mjs";
