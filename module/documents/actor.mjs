@@ -457,17 +457,13 @@ export default class ActorArtichron extends Actor {
       <p class="hint">${game.i18n.localize("ARTICHRON.DefenseDialog.ItemsHint")}</p>
     </fieldset>`;
 
-    const prompt = await foundry.applications.api.DialogV2.prompt({
+    const prompt = await artichron.applications.api.Dialog.prompt({
       content: content,
       modal: true,
       render: render,
       window: {
         icon: "fa-solid fa-shield",
         title: game.i18n.format("ARTICHRON.DefenseDialog.Title", { name: this.name }),
-      },
-      position: {
-        width: 400,
-        height: "auto",
       },
       ok: {
         icon: "fa-solid fa-dice",

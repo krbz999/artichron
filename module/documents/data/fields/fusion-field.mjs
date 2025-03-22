@@ -104,23 +104,19 @@ class FusionData extends DataModel {
       label: "ARTICHRON.ItemFusionDialog.SplitLabel",
       hint: "ARTICHRON.ItemFusionDialog.SplitHint",
     }).toFormGroup({ localize: true }, { name: "effectId" }).outerHTML;
-    const id = await foundry.applications.api.DialogV2.prompt({
+    const data = await artichron.applications.api.Dialog.input({
       modal: true,
       content: `<fieldset>${field}</fieldset>`,
       ok: {
         label: "ARTICHRON.ItemFusionDialog.Split",
-        callback: (event, button, html) => button.form.elements.effectId.value,
       },
       window: {
         title: game.i18n.format("ARTICHRON.ItemFusionDialog.TitleUnfuse", { item: item.name }),
         icon: "fa-solid fa-recycle",
       },
-      position: {
-        width: 400,
-      },
     });
-    if (!id) return null;
-    return item.effects.get(id).system.unfuse();
+    if (!data) return null;
+    return item.effects.get(data.effectId).system.unfuse();
   }
 
   /* -------------------------------------------------- */

@@ -340,14 +340,13 @@ export default class MonsterSheet extends ActorSheetArtichron {
   static async #grantLoot(event, target) {
     target.disabled = true;
 
-    const confirm = await foundry.applications.api.DialogV2.confirm({
+    const confirm = await artichron.applications.api.Dialog.confirm({
       modal: true,
       content: game.i18n.format("ARTICHRON.LootDialog.Content", { name: this.document.name }),
       window: {
         title: game.i18n.format("ARTICHRON.LootDialog.Title", { name: this.document.name }),
         icon: "fa-solid fa-box-open",
       },
-      position: { width: 400 },
     });
     if (!confirm) {
       target.disabled = false;

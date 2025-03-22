@@ -1,7 +1,7 @@
 import ArtichronSheetMixin from "../base-sheet.mjs";
 import PoolConfig from "./pool-config.mjs";
 
-export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.applications.sheets.ActorSheetV2) {
+export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.applications.sheets.ActorSheet) {
   /** @inheritdoc */
   static DEFAULT_OPTIONS = {
     classes: ["actor"],

@@ -1,6 +1,6 @@
-const { HandlebarsApplicationMixin, ApplicationV2 } = foundry.applications.api;
+const { HandlebarsApplicationMixin, Application } = foundry.applications.api;
 
-export default class PseudoDocumentSheet extends HandlebarsApplicationMixin(ApplicationV2) {
+export default class PseudoDocumentSheet extends HandlebarsApplicationMixin(Application) {
   constructor(options) {
     super(options);
     this.#pseudoId = options.document.id;

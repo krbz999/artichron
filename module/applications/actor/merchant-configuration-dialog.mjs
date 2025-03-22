@@ -1,9 +1,9 @@
-const { HandlebarsApplicationMixin, DocumentSheetV2 } = foundry.applications.api;
+const { HandlebarsApplicationMixin, DocumentSheet } = foundry.applications.api;
 
 /**
  * Application for configuring the basic data of a merchant.
  */
-export default class MerchantConfigurationDialog extends HandlebarsApplicationMixin(DocumentSheetV2) {
+export default class MerchantConfigurationDialog extends HandlebarsApplicationMixin(DocumentSheet) {
   /** @inheritdoc */
   static DEFAULT_OPTIONS = {
     classes: ["artichron"],

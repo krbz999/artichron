@@ -240,10 +240,10 @@ export default class CreatureData extends ActorSystemModel {
       return null;
     }
 
-    const value = await foundry.applications.api.DialogV2.wait({
+    const value = await artichron.applications.api.Dialog.wait({
       buttons: buttons,
       content: content ? `<fieldset>${content}</fieldset>` : undefined,
-      classes: ["artichron", "equip"],
+      classes: ["equip"],
       modal: true,
       window: { title: "ARTICHRON.EquipDialog.Title", icon: "fa-solid fa-hand-fist" },
       position: { width: 350 },

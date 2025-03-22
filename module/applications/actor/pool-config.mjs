@@ -1,6 +1,6 @@
-export default class PoolConfig extends foundry.applications.api.HandlebarsApplicationMixin(
-  foundry.applications.api.DocumentSheetV2,
-) {
+const { HandlebarsApplicationMixin, DocumentSheet } = foundry.applications.api;
+
+export default class PoolConfig extends HandlebarsApplicationMixin(DocumentSheet) {
   /** @inheritdoc */
   static DEFAULT_OPTIONS = {
     classes: ["artichron"],

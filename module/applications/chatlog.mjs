@@ -54,11 +54,7 @@ export default class ChatLogArtichron extends foundry.applications.sidebar.tabs.
       }).toFormGroup({ localize: true }, { value: item.system.quantity.value, name: "quantity" }).outerHTML);
     }
 
-    const config = await foundry.applications.api.DialogV2.input({
-      position: {
-        width: 400,
-        height: "auto",
-      },
+    const config = await artichron.applications.api.Dialog.input({
       window: {
         title: game.i18n.format("ARTICHRON.TradeDialog.title", { name: item.name }),
         icon: "fa-solid fa-arrows-turn-to-dots",

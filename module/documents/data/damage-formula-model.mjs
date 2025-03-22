@@ -41,7 +41,7 @@ export default class DamageFormulaModel extends FormulaModel {
 
   /**
    * Registered sheets.
-   * @type {Map<string, ApplicationV2>}
+   * @type {Map<string, Application>}
    */
   static #sheets = new Map();
 

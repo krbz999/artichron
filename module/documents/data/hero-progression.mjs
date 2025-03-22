@@ -131,14 +131,13 @@ class ProgressionPoolData extends ProgressionData {
     }, []);
 
     const content = `<fieldset>${fields.join("")}</fieldset>`;
-    return foundry.applications.api.DialogV2.prompt({
+    return artichron.applications.api.Dialog.prompt({
       content: content,
       modal: true,
       window: {
         title: game.i18n.format("ARTICHRON.ProgressionDialog.PoolTitle", { name: actor.name }),
         icon: "fa-solid fa-arrow-trend-up",
       },
-      position: { width: 400, height: "auto" },
       ok: { callback: (event, button, html) => {
         const { pool, value } = new foundry.applications.ux.FormDataExtended(button.form).object;
         const modelData = { pool: pool, value: value, type: this.TYPE };
@@ -227,14 +226,13 @@ class ProgressionSkillData extends ProgressionData {
     }, []);
 
     const content = `<fieldset>${fields.join("")}</fieldset>`;
-    return foundry.applications.api.DialogV2.prompt({
+    return artichron.applications.api.Dialog.prompt({
       content: content,
       modal: true,
       window: {
         title: game.i18n.format("ARTICHRON.ProgressionDialog.SkillTitle", { name: actor.name }),
         icon: "fa-solid fa-arrow-trend-up",
       },
-      position: { width: 400, height: "auto" },
       ok: { callback: (event, button, html) => {
         const { skill, value } = new foundry.applications.ux.FormDataExtended(button.form).object;
         const modelData = { skill: skill, value: value, type: this.TYPE };

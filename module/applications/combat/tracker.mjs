@@ -1,5 +1,3 @@
-const renderCarousel = foundry.utils.debounce(ct => ct.apps?.[0]?.render(), 150);
-
 export default class CombatTrackerArtichron extends foundry.applications.sidebar.tabs.CombatTracker {
   /** @inheritdoc */
   async render(options = {}, _options = {}) {
@@ -8,7 +6,7 @@ export default class CombatTrackerArtichron extends foundry.applications.sidebar
       options = _options;
     }
     const result = await super.render(options);
-    ui.combat.apps[0]?.render({ force: options.force });
+    ui.carousel.render({ force: options.force });
     return result;
   }
 }

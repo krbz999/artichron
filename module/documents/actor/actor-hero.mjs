@@ -177,7 +177,7 @@ export default class HeroData extends CreatureData {
 
     const types = ProgressionData.TYPES;
     if (!types[type]) {
-      type = await foundry.applications.api.DialogV2.prompt({
+      const configuration = await artichron.applications.api.Dialog.prompt({
         content: new foundry.data.fields.StringField({
           choices: Object.entries(types).reduce((acc, [k, v]) => {
             acc[k] = k;
@@ -187,15 +187,14 @@ export default class HeroData extends CreatureData {
           label: "ARTICHRON.ProgressionDialog.TypeLabel",
           hint: "ARTICHRON.ProgressionDialog.TypeHint",
         }).toFormGroup({ localize: true }, { name: "type" }).outerHTML,
-        ok: { callback: (event, button) => button.form.elements.type.value },
         window: {
           title: game.i18n.format("ARTICHRON.ProgressionDialog.Title", { name: this.parent.name }),
           icon: "fa-solid fa-arrow-trend-up",
         },
-        position: { width: 400 },
         modal: true,
       });
-      if (!type) return null;
+      if (!configuration) return null;
+      type = configuration.type;
     }
 
     return types[type].toPrompt(this.parent);

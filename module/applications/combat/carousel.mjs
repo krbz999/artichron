@@ -1,13 +1,6 @@
-const { HandlebarsApplicationMixin, ApplicationV2 } = foundry.applications.api;
+const { HandlebarsApplicationMixin, Application } = foundry.applications.api;
 
-export default class CombatCarousel extends HandlebarsApplicationMixin(ApplicationV2) {
-  constructor(options = {}) {
-    super(options);
-    ui.combat.apps = [this];
-  }
-
-  /* -------------------------------------------------- */
-
+export default class CombatCarousel extends HandlebarsApplicationMixin(Application) {
   /** @inheritdoc */
   static DEFAULT_OPTIONS = {
     id: "combat-carousel",

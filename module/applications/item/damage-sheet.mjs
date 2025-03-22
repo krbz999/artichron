@@ -1,8 +1,8 @@
 import ItemArtichron from "../../documents/item.mjs";
 
-export default class DamageSheet extends foundry.applications.api.HandlebarsApplicationMixin(
-  foundry.applications.api.ApplicationV2,
-) {
+const { HandlebarsApplicationMixin, Application } = foundry.applications.api;
+
+export default class DamageSheet extends HandlebarsApplicationMixin(Application) {
   constructor(options = {}) {
     options.damageId = options.document.id;
     super(options);

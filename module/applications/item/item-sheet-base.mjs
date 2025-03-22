@@ -1,7 +1,7 @@
 import ArtichronSheetMixin from "../base-sheet.mjs";
 import BaseActivity from "../../documents/activity/base-activity.mjs";
 
-export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.applications.sheets.ItemSheetV2) {
+export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.applications.sheets.ItemSheet) {
   /** @inheritdoc */
   static DEFAULT_OPTIONS = {
     classes: ["item"],
@@ -373,13 +373,12 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
       label: "Requirement",
     }).toFormGroup({}, { name: "type" }).outerHTML;
 
-    const type = await foundry.applications.api.DialogV2.prompt({
+    const configuration = await artichron.applications.api.Dialog.input({
       content: `<fieldset>${html}</fieldset>`,
-      ok: { callback: (event, button) => button.form.elements.type.value },
     });
-    if (!type) return;
+    if (!configuration) return;
 
-    const data = { type, _id: foundry.utils.randomID() };
+    const data = { type: configuration.type, _id: foundry.utils.randomID() };
     this.document.update({ [`system.category.requirements.${data._id}`]: data });
   }
 
@@ -415,7 +414,7 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
       choices: types,
       label: "Type",
     }).toFormGroup({}, { name: "type" }).outerHTML;
-    foundry.applications.api.DialogV2.prompt({
+    artichron.applications.api.Dialog.prompt({
       content: `<fieldset>${select}</fieldset>`,
       ok: { callback: (event, button) => {
         const type = button.form.elements.type.value;

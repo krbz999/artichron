@@ -150,7 +150,7 @@ export default class EffectFusionData extends ActiveEffectSystemModel {
       throw new Error("This is not an active fusion.");
     }
 
-    const confirm = await foundry.applications.api.DialogV2.confirm({
+    const confirm = await artichron.applications.api.Dialog.confirm({
       window: {
         title: game.i18n.format("ARTICHRON.ItemFusionDialog.UnfuseTitle", {
           source: this.itemData.name,

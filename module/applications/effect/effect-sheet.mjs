@@ -1,6 +1,6 @@
 import ArtichronSheetMixin from "../base-sheet.mjs";
 
-export default class EffectSheetArtichron extends ArtichronSheetMixin(foundry.applications.api.DocumentSheetV2) {
+export default class EffectSheetArtichron extends ArtichronSheetMixin(foundry.applications.api.DocumentSheet) {
   /** @inheritdoc */
   static DEFAULT_OPTIONS = {
     form: { submitOnChange: true, closeOnSubmit: false },
