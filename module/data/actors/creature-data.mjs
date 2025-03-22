@@ -13,6 +13,8 @@ export default class CreatureData extends ActorSystemModel {
 
     schema.health = new SchemaField({
       value: new NumberField({ min: 0, initial: 0, integer: true, nullable: false }),
+    }, {
+      trackedAttribute: true,
     });
 
     schema.pips = new SchemaField({

@@ -34,8 +34,7 @@ export default class TokenDocumentArtichron extends TokenDocument {
     const bar = super.getBarAttribute(barName, { alternative });
     if (bar === null) return null;
 
-    let max;
-    let { type, attribute, value, editable } = bar;
+    let { type, attribute, value, max, editable } = bar;
 
     // Adjustments made for things that use "spent" instead of "value" in the schema.
     if ((type === "value") && attribute.endsWith(".spent")) {
