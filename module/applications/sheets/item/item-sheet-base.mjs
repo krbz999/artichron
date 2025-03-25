@@ -280,9 +280,95 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
 
   /* -------------------------------------------------- */
 
-  _onRender(...args) {
-    super._onRender(...args);
+  _onRender(context, options) {
+    super._onRender(context, options);
     this._setupContextMenu(this._getActivityEntryContextOptions, "[data-activity-id]", "ActivityEntryContext");
+    this._setupDragDrop();
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Set up the entirety of active effect drop handling for item sheets.
+   */
+  _setupDragDrop() {
+    const canDragStart = selector => this.isEditable;
+    const canDragDrop = selector => this.isEditable;
+    const onDragStart = async (event) => {
+      const li = event.currentTarget;
+      if ("link" in event.target.dataset) return;
+      let dragData;
+
+      // Active Effect
+      if (li.dataset.effectId) {
+        const effect = this.document.effects.get(li.dataset.effectId);
+        dragData = effect.toDragData();
+      }
+
+      // Set data transfer
+      if (!dragData) return;
+      event.dataTransfer.setData("text/plain", JSON.stringify(dragData));
+    };
+    const onDrop = async (event) => {
+      const data = foundry.applications.ux.TextEditor.getDragEventData(event);
+      const item = this.document;
+      const allowed = Hooks.call("dropItemSheetData", item, this, data);
+      if (allowed === false) return;
+
+      // Dropped Documents
+      const documentClass = foundry.utils.getDocumentClass(data.type);
+      if (documentClass) {
+        const effect = await documentClass.fromDropData(data);
+        if (!effect) return;
+        if (effect.parent === item) {
+          await onSortActiveEffect(event, effect);
+        } else {
+          const keepId = !item.effects.has(effect.id);
+          await documentClass.create(effect.toObject(), { parent: item, keepId });
+        }
+      }
+    };
+    const onSortActiveEffect = async (event, effect) => {
+      const effects = this.document.effects;
+      const source = effects.get(effect.id);
+
+      // Confirm the drop target
+      const dropTarget = event.target.closest("[data-effect-id]");
+      if (!dropTarget) return;
+      const target = effects.get(dropTarget.dataset.effectId);
+      if (source.id === target.id) return;
+
+      // Identify sibling effects based on adjacent HTML elements
+      const siblings = [];
+      for (const element of dropTarget.parentElement.children) {
+        const siblingId = element.dataset.effectId;
+        if (siblingId && (siblingId !== source.id)) siblings.push(effects.get(element.dataset.effectId));
+      }
+
+      // Perform the sort
+      const sortUpdates = foundry.utils.performIntegerSort(source, { target, siblings });
+      const updateData = sortUpdates.map(u => {
+        const update = u.update;
+        update._id = u.target._id;
+        return update;
+      });
+
+      // Perform the update
+      return this.document.updateEmbeddedDocuments("ActiveEffect", updateData);
+    };
+
+    new foundry.applications.ux.DragDrop({
+      dragSelector: ".draggable",
+      dropSelector: null,
+      permissions: {
+        dragstart: canDragStart.bind(this),
+        drop: canDragDrop.bind(this),
+      },
+      callbacks: {
+        dragstart: onDragStart.bind(this),
+        drop: onDrop.bind(this),
+      },
+    }).bind(this.element);
   }
 
   /* -------------------------------------------------- */

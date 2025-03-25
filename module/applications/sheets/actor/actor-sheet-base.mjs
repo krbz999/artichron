@@ -44,6 +44,41 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
   }
 
   /* -------------------------------------------------- */
+  /*   Drag and drop handlers                           */
+  /* -------------------------------------------------- */
+
+  /** @inheritdoc */
+  async _onDropFolder(event, folder) {
+    if (!this.document.isOwner || (folder.type !== "Item")) return;
+
+    const contents = folder.contents.concat(folder.getSubfolders(true).flatMap(folder => folder.contents));
+    for (let item of contents) {
+      if (!(item instanceof foundry.documents.Item)) item = await foundry.utils.fromUuid(item.uuid);
+      await this._onDropItem(event, item);
+    }
+  }
+
+  /* -------------------------------------------------- */
+
+  /** @inheritdoc */
+  async _onDropItem(event, item) {
+    if (!this.document.isOwner) return;
+
+    // Stack the item.
+    if ((item.parent !== this.document) && item.system.identifier && item.system.schema.has("quantity")) {
+      const existing = this.document.itemTypes[item.type].find(i => {
+        return i.system.identifier === item.system.identifier;
+      });
+      if (existing) {
+        await existing.update({ "system.quantity.value": existing.system.quantity.value + item.system.quantity.value });
+        return;
+      }
+    }
+
+    return super._onDropItem(event, item);
+  }
+
+  /* -------------------------------------------------- */
   /*   Event Handlers                                   */
   /* -------------------------------------------------- */
 
