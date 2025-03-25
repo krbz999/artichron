@@ -52,7 +52,7 @@ export default class PoolRequirement extends BaseArmorRequirement {
 
   /** @inheritdoc */
   get fulfilledRequirements() {
-    if (this.item.actor.type !== "hero") return true;
+    if (this.item.actor?.type !== "hero") return true;
     return this.item.actor.system.pools[this.pool].max >= this.value;
   }
 

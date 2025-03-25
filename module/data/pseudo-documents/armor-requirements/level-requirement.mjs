@@ -48,8 +48,9 @@ export default class LevelRequirement extends BaseArmorRequirement {
 
   /** @inheritdoc */
   get fulfilledRequirements() {
-    if (this.item.actor.type !== "hero") return true;
-    return this.item.actor.system.progression.level >= this.level;
+    if (this.item.actor?.type !== "hero") return true;
+    // return this.item.actor.system.progression.level >= this.level;
+    return false;
   }
 
   /* -------------------------------------------------- */
