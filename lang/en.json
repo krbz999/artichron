@@ -906,11 +906,14 @@
   "ContentCurrency": "{name} has been distributed {amount} <span class='chron'></span>.",
   "ContentPoints": "{name} has been distributed {amount} points.",
   "targets": {
-    "hint": "The members of this party that will receive part of the distribution.",
-    "label": "Recipients"
+    "hint": "The members of this party that will receive part of the distribution."
   },
   "TitleCurrency": "{name}: Distribute Chron",
   "TitlePoints": "{name}: Distribute Points"
+},
+
+"DISTRIBUTION": {
+  "recipients": "Recipients"
 },
 
 "PartyFundsDialog": {

@@ -28,8 +28,8 @@ export default class PartyDistributionDialog extends Application {
 
   /** @inheritdoc */
   static PARTS = {
-    inputs: {
-      template: "systems/artichron/templates/actor/party-distribution-dialog.hbs",
+    recipients: {
+      template: "systems/artichron/templates/actor/party-distribution/recipients.hbs",
     },
     footer: {
       template: "systems/artichron/templates/shared/footer.hbs",
@@ -56,69 +56,69 @@ export default class PartyDistributionDialog extends Application {
   /* -------------------------------------------------- */
 
   /**
-   * Saved reference to the amount being dispensed.
-   * @type {number}
+   * Saved references to the amounts being dispensed to targets.
+   * @type {Record<string, number>}
    */
-  #amount = null;
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Saved reference to the targets being granted currency or points.
-   * @type {Set<string>}
-   */
-  #targets = null;
+  #cached = {};
 
   /* -------------------------------------------------- */
   /*   Rendering                                        */
   /* -------------------------------------------------- */
 
   /** @inheritdoc */
-  async _prepareContext(options) {
-    const context = {
-      formGroups: [],
-    };
-
-    const choices = this.#party.system.members.reduce((acc, m) => {
-      const a = m.actor;
-      if ((this.options.type === "currency") || (a.type === "hero")) acc[a.id] = a.name;
-      return acc;
-    }, {});
-    if (!this.#targets) this.#targets = new Set(Object.keys(choices));
-    if (this.options.type === "currency") choices[this.#party.id] = this.#party.name;
-
-    const funds = (this.options.type === "currency") ? this.#party.system.currency.award : this.#party.system.points.value;
-    const divisor = Math.max(1, this.#targets.size);
-
-    context.formGroups.push({
-      field: new foundry.data.fields.NumberField({
-        nullable: false,
-        min: 1,
-        step: 1,
-        max: Math.max(1, Math.floor(funds / divisor)),
-        label: "ARTICHRON.PartyDistributionDialog.amount.label",
-        hint: `ARTICHRON.PartyDistributionDialog.amount.hint${this.options.type.capitalize()}`,
-      }),
-      value: this.#amount ?? 1,
-      name: "amount",
-    }, {
-      field: new foundry.data.fields.SetField(new foundry.data.fields.StringField({ choices: choices }), {
-        label: "ARTICHRON.PartyDistributionDialog.targets.label",
-        hint: "ARTICHRON.PartyDistributionDialog.targets.hint",
-      }),
-      value: this.#targets,
-      name: "targets",
-      type: "checkboxes",
-      classes: "stacked",
-    });
-
-    context.footer = {
-      disabled: !this.#targets.size || (funds / divisor < 1),
-      icon: "fa-solid fa-check",
-      label: "Confirm",
-    };
-
+  async _preparePartContext(partId, context, options) {
+    context = await super._preparePartContext(partId, context, options);
+    switch (partId) {
+      case "recipients":
+        await this.#preparePartContextRecipients(context);
+        break;
+      case "footer":
+        await this.#preparePartContextFooter(context);
+        break;
+    }
     return context;
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Modify the rendering context for a specific part.
+   * @param {object} context    The rendering context. **will be mutated**
+   */
+  async #preparePartContextRecipients(context) {
+    const recipients = [this.#party].concat(this.#party.system.members.map(m => m.actor));
+    const fields = recipients.map(actor => {
+      return {
+        name: `recipients.${actor.id}.value`,
+        value: this.#cached[actor.id] ??= 0,
+        dataset: { id: actor.id },
+        field: new foundry.data.fields.NumberField({
+          nullable: false,
+          min: 0,
+          max: this.#party.system.currency.award,
+          integer: true,
+          label: actor.name,
+        }),
+      };
+    });
+    Object.assign(context, { recipients: fields });
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Modify the rendering context for a specific part.
+   * @param {object} context    The rendering context. **will be mutated**
+   */
+  async #preparePartContextFooter(context) {
+    const total = Object.values(this.#cached).reduce((acc, k) => acc + k, 0);
+    Object.assign(context, {
+      footer: {
+        disabled: !total || (total > this.#party.system.currency.award),
+        icon: "fa-solid fa-check",
+        label: "Confirm",
+      },
+    });
   }
 
   /* -------------------------------------------------- */
@@ -126,14 +126,15 @@ export default class PartyDistributionDialog extends Application {
   /** @inheritdoc */
   _attachPartListeners(partId, htmlElement, options) {
     super._attachPartListeners(partId, htmlElement, options);
-    if (partId === "inputs") {
-      htmlElement.querySelector("[name=targets]").addEventListener("change", event => {
-        this.#targets = new Set(event.currentTarget.value);
-        this.render();
-      });
-      htmlElement.querySelector("[name=amount]").addEventListener("change", event => {
-        this.#amount = Number(event.currentTarget.value);
-      });
+    if (partId === "recipients") {
+      for (const element of htmlElement.querySelectorAll("[name^=recipients]")) {
+        element.addEventListener("change", event => {
+          const value = event.currentTarget.value;
+          const id = event.currentTarget.closest("[data-id]").dataset.id;
+          this.#cached[id] = value;
+          this.render({ parts: ["footer"] });
+        });
+      }
     }
   }
 }
