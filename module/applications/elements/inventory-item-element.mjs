@@ -10,6 +10,7 @@ export default class InventoryItemElement extends HTMLElement {
     if (item) {
       element.dataset.itemUuid = item.uuid;
       element.dataset.itemId = item.id;
+      element.classList.add("draggable");
       if (config.disabled) element.setAttribute("disabled", "");
       if (config.enriched) {
         enrichedCache.set(item.uuid, config.enriched);

@@ -37,16 +37,17 @@ export default class HeroSheet extends ActorSheetArtichron {
     },
     inventory: {
       template: "systems/artichron/templates/actor/tab-inventory.hbs",
-      scrollable: [".scrollable"],
       classes: ["scrollable"],
+      scrollable: [".scrollable"],
     },
     details: {
       template: "systems/artichron/templates/actor/tab-details.hbs",
-      scrollable: [""],
       classes: ["scrollable"],
+      scrollable: [""],
     },
     effects: {
       template: "systems/artichron/templates/shared/effects.hbs",
+      classes: ["scrollable"],
       scrollable: [""],
     },
     encumbrance: {

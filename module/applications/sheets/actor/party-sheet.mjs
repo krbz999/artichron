@@ -274,10 +274,11 @@ export default class PartySheet extends ActorSheetArtichron {
   /* -------------------------------------------------- */
 
   /** @inheritdoc */
-  async _onDropActor(document, target, changes) {
+  async _onDropActor(event, actor) {
+    if (!this.document.isOwner) return;
     const isMembers = this.tabGroups.primary === "members";
     if (!isMembers) return;
-    this.document.system.addMember(document);
+    this.document.system.addMember(actor);
   }
 
   /* -------------------------------------------------- */

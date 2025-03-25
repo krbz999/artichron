@@ -157,8 +157,6 @@ const ArtichronDocumentSheetMixin = Base => {
           });
         });
       }
-
-      this._setupDragAndDrop();
     }
 
     /* -------------------------------------------------- */
@@ -360,216 +358,49 @@ const ArtichronDocumentSheetMixin = Base => {
     /*   Drag and drop handlers                           */
     /* -------------------------------------------------- */
 
-    /**
-     * Set up drag-and-drop handlers.
-     */
-    _setupDragAndDrop() {
-      const dd = new foundry.applications.ux.DragDrop({
-        dragSelector: ".compact inventory-item, [data-item-uuid] .wrapper",
-        dropSelector: ".application",
-        permissions: {
-          dragstart: this._canDragStart.bind(this),
-          drop: this._canDragDrop.bind(this),
-        },
-        callbacks: {
-          dragstart: this._onDragStart.bind(this),
-          drop: this._onDrop.bind(this),
-        },
-      });
-      dd.bind(this.element);
-    }
+    /** @inheritdoc */
+    async _onDropActiveEffect(event, effect) {
+      if (!this.document.isOwner) return;
 
-    /* -------------------------------------------------- */
-
-    /**
-     * Can the user start a drag event?
-     * @param {string} selector     The selector used to initiate the drag event.
-     * @returns {boolean}
-     */
-    _canDragStart(selector) {
-      return true;
-    }
-
-    /* -------------------------------------------------- */
-
-    /**
-     * Can the user perform a drop event?
-     * @param {string} selector     The selector used to initiate the drop event.
-     * @returns {boolean}
-     */
-    _canDragDrop(selector) {
-      return this.isEditable && this.document.isOwner;
-    }
-
-    /* -------------------------------------------------- */
-
-    /**
-     * Handle a drag event being initiated.
-     * @param {DragEvent} event     The initiating drag event.
-     */
-    async _onDragStart(event) {
-      const uuid = event.currentTarget.closest("[data-item-uuid]").dataset.itemUuid;
-      const item = await fromUuid(uuid);
-      const data = item.toDragData();
-      event.dataTransfer.setData("text/plain", JSON.stringify(data));
-    }
-
-    /* -------------------------------------------------- */
-
-    /**
-     * Handle a drop event.
-     * @param {Event} event     The initiating drop event.
-     */
-    async _onDrop(event) {
-      event.preventDefault();
-      const target = event.target;
-      const item = await fromUuid(foundry.applications.ux.TextEditor.getDragEventData(event).uuid);
-      const actor = this.document;
-
-      const changes = { items: [], itemUpdates: [], effects: [], effectUpdates: [], actorUpdates: {} };
-
-      switch (item.documentName) {
-        case "ActiveEffect":
-          await this._onDropActiveEffect(item, target, changes);
-          break;
-        case "Actor":
-          await this._onDropActor(item, target, changes);
-          break;
-        case "Folder":
-          await this._onDropFolder(item, target, changes);
-          break;
-        case "Item":
-          await this._onDropItem(item, target, changes);
-          break;
-        default:
-          return;
-      }
-
-      const { items, itemUpdates, effects, effectUpdates, actorUpdates } = changes;
-
-      Promise.all([
-        foundry.utils.isEmpty(actorUpdates) ? null : actor.update(actorUpdates),
-        foundry.utils.isEmpty(items) ? null : actor.createEmbeddedDocuments("Item", items),
-        foundry.utils.isEmpty(itemUpdates) ? null : actor.updateEmbeddedDocuments("Item", itemUpdates),
-        foundry.utils.isEmpty(effects) ? null : actor.createEmbeddedDocuments("ActiveEffect", effects),
-        foundry.utils.isEmpty(effectUpdates) ? null : actor.updateEmbeddedDocuments("ActiveEffect", effectUpdates),
-      ]);
-    }
-
-    /* -------------------------------------------------- */
-
-    /**
-     * Handle dropping an effect onto the sheet.
-     * @param {Folder} document         The effect being dropped.
-     * @param {HTMLElement} target      The direct target dropped onto.
-     * @param {object} changes          Object of changes to be made to this document.
-     */
-    async _onDropActiveEffect(document, target, changes) {
-      if (document.parent?.parent === this.document) return;
-      if (document.parent === this.document) {
-        await this._onSortActiveEffect(document, target, changes);
+      if (effect?.parent === this.document) {
+        this._onSortActiveEffect(event, effect);
         return;
       }
 
-      const effectData = foundry.utils.mergeObject(document.toObject(), {
-        "duration.-=combat": null,
-        "duration.-=startRound": null,
-        "duration.-=startTime": null,
-        "duration.-=startTurn": null,
-        "system.source": null,
-        "-=ownership": null,
-        "-=sort": null,
-      }, { performDeletions: true });
-
-      changes.effects.push(effectData);
+      await super._onDropActiveEffect(event, effect);
     }
 
     /* -------------------------------------------------- */
 
-    /**
-     * Handle dropping an actor onto the sheet.
-     * @param {Folder} document         The actor being dropped.
-     * @param {HTMLElement} target      The direct target dropped onto.
-     * @param {object} changes          Object of changes to be made to this document.
-     */
-    async _onDropActor(document, target, changes) {}
+    /** @inheritdoc */
+    async _onDropFolder(event, folder) {
+      if (!this.document.isOwner || (folder.type !== "Item")) return;
 
-    /* -------------------------------------------------- */
-
-    /**
-     * Handle dropping a folder of items onto the sheet.
-     * @param {Folder} document         The folder being dropped.
-     * @param {HTMLElement} target      The direct target dropped onto.
-     * @param {object} changes          Object of changes to be made to this document.
-     */
-    async _onDropFolder(document, target, changes) {
-      if (document.type !== "Item") return;
-
-      for (let item of document.contents) {
-        if (!(item instanceof Item)) item = await fromUuid(item.uuid);
-        await this._onDropItem(item, target, changes);
-      }
-
-      for (const folder of document.getSubfolders()) {
-        await this._onDropFolder(folder, target, changes);
+      const contents = folder.contents.concat(folder.getSubfolders(true).flatMap(folder => folder.contents));
+      for (let item of contents) {
+        if (!(item instanceof foundry.documents.Item)) item = await foundry.utils.fromUuid(item.uuid);
+        await this._onDropItem(event, item);
       }
     }
 
     /* -------------------------------------------------- */
 
-    /**
-     * Handle dropping a single item onto the sheet.
-     * @param {ItemArtichron} document      The item being dropped.
-     * @param {HTMLElement} target          The direct target dropped onto.
-     * @param {object} changes              Object of changes to be made to this document.
-     */
-    async _onDropItem(document, target, changes) {
-      if (document.parent === this.document) {
-        await this._onSortItem(document, target, changes);
-        return;
-      }
+    /** @inheritdoc */
+    async _onDropItem(event, item) {
+      if (!this.document.isOwner) return;
 
-      if (document.system.identifier && document.system.schema.has("quantity")) {
-        const existing = this.document.itemTypes[document.type].find(item => {
-          return item.system.identifier === document.system.identifier;
+      // Stack the item.
+      if ((item.parent !== this.document) && item.system.identifier && item.system.schema.has("quantity")) {
+        const existing = this.document.itemTypes[item.type].find(i => {
+          return i.system.identifier === item.system.identifier;
         });
         if (existing) {
-          changes.itemUpdates.push({
-            _id: existing.id,
-            "system.quantity.value": existing.system.quantity.value + document.system.quantity.value,
-          });
+          await existing.update({ "system.quantity.value": existing.system.quantity.value + item.system.quantity.value });
           return;
         }
       }
 
-      const itemData = game.items.fromCompendium(document);
-      changes.items.push(itemData);
-    }
-
-    /* -------------------------------------------------- */
-
-    /**
-     * Perform sorting of items.
-     * @param {ItemArtichron} document      The item being dropped.
-     * @param {HTMLElement} target          The direct target dropped onto.
-     * @param {object} changes              Object of changes to be made to this document.
-     */
-    async _onSortItem(item, target, changes) {
-      if (item.documentName !== "Item") return;
-      const self = target.closest("[data-tab]")?.querySelector(`[data-item-uuid="${item.uuid}"]`);
-      if (!self || !target.closest("[data-item-uuid]")) return;
-
-      let sibling = target.closest("[data-item-uuid]") ?? null;
-      if (sibling?.dataset.itemUuid === item.uuid) return;
-      if (sibling) sibling = await fromUuid(sibling.dataset.itemUuid);
-
-      let siblings = target.closest("[data-tab]").querySelectorAll("[data-item-uuid]");
-      siblings = await Promise.all(Array.from(siblings).map(s => fromUuid(s.dataset.itemUuid)));
-      siblings.findSplice(i => i === item);
-
-      let updates = SortingHelpers.performIntegerSort(item, { target: sibling, siblings: siblings, sortKey: "sort" });
-      updates = updates.map(({ target, update }) => ({ _id: target.id, sort: update.sort }));
-      changes.itemUpdates.push(...updates);
+      return super._onDropItem(event, item);
     }
 
     /* -------------------------------------------------- */

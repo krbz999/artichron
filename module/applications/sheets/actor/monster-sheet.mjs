@@ -38,11 +38,12 @@ export default class MonsterSheet extends ActorSheetArtichron {
     },
     about: {
       template: "systems/artichron/templates/actor/monster-about.hbs",
-      scrollable: [""],
       classes: ["scrollable"],
+      scrollable: [""],
     },
     effects: {
       template: "systems/artichron/templates/shared/effects.hbs",
+      classes: ["scrollable"],
       scrollable: [""],
     },
   };
@@ -272,22 +273,11 @@ export default class MonsterSheet extends ActorSheetArtichron {
   /* -------------------------------------------------- */
 
   /** @inheritdoc */
-  async _onDropItem(document, target, changes) {
-    if (this.tabGroups.primary !== "loot") return super._onDropItem(document, target, changes);
-
+  async _onDropItem(event, item) {
+    if (!this.document.isOwner) return;
+    if (this.tabGroups.primary !== "loot") return super._onDropItem(event, item);
     if (document.isEmbedded) return;
-
-    let loot;
-    if (foundry.utils.hasProperty(changes.actorUpdates, "system.loot")) {
-      loot = foundry.utils.getProperty(changes.actorUpdates, "system.loot");
-    } else {
-      loot = this.document.system.lootDrops.map(({ item, quantity }) => ({ uuid: item.uuid, quantity }));
-    }
-
-    const item = loot.find(l => l.uuid === document.uuid);
-    if (item) item.quantity += document.system.quantity?.value ?? 1;
-    else loot.push({ uuid: document.uuid, quantity: document.system.quantity?.value ?? 1 });
-    foundry.utils.setProperty(changes.actorUpdates, "system.loot", loot);
+    await this.document.system.addLootDrop(item.uuid, item.system.quantity?.value ?? 1);
   }
 
   /* -------------------------------------------------- */

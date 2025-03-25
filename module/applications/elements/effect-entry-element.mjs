@@ -9,8 +9,9 @@ export default class EffectEntryElement extends HTMLElement {
     const item = config.effect;
     if (item) {
       element.dataset.itemUuid = item.uuid;
-      element.dataset.itemId = item.id;
+      element.dataset.effectId = item.id;
       element.dataset.parentId = item.parent.id;
+      element.classList.add("draggable");
       if (config.enriched) {
         enrichedCache.set(item.uuid, config.enriched);
         element.classList.add("expanded");
@@ -51,8 +52,8 @@ export default class EffectEntryElement extends HTMLElement {
     const application = foundry.applications.instances.get(this.closest(".application").id);
 
     const item = (this.dataset.parentId !== application.document.id) ?
-      application.document.items.get(this.dataset.parentId).effects.get(this.dataset.itemId) :
-      application.document.effects.get(this.dataset.itemId);
+      application.document.items.get(this.dataset.parentId).effects.get(this.dataset.effectId) :
+      application.document.effects.get(this.dataset.effectId);
 
     const enriched = enrichedCache.get(item?.uuid);
     const limited = !application.isEditable;

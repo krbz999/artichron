@@ -30,10 +30,6 @@ export default class MerchantSheet extends ActorSheetArtichron {
   };
 
   /* -------------------------------------------------- */
-  /*   Properties                                       */
-  /* -------------------------------------------------- */
-
-  /* -------------------------------------------------- */
   /*   Rendering methods                                */
   /* -------------------------------------------------- */
 
@@ -100,13 +96,21 @@ export default class MerchantSheet extends ActorSheetArtichron {
   }
 
   /* -------------------------------------------------- */
+
+  /** @inheritdoc */
+  _onRender(context, options) {
+    super._onRender(context, options);
+    this._setupDragAndDrop();
+  }
+
+  /* -------------------------------------------------- */
   /*   Drag and drop handlers                           */
   /* -------------------------------------------------- */
 
-  /** @inheritdoc */
+  /**
+   * Set up additional drag-drop handlers.
+   */
   _setupDragAndDrop() {
-    super._setupDragAndDrop();
-
     const isLocked = () => {
       if (this.document.pack) {
         const pack = game.packs.get(this.document.pack);
