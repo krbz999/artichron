@@ -13,14 +13,14 @@ export default class ChatLogArtichron extends foundry.applications.sidebar.tabs.
   * @param {Event} event     Initiating drop event.
   */
   static async _onDropItem(event) {
-    const data = TextEditor.getDragEventData(event);
+    const data = foundry.applications.ux.TextEditor.getDragEventData(event);
     if (data.type !== "Item") return;
 
     /** @type {ItemArtichron} */
     const item = await fromUuid(data.uuid);
     if (!item || !item.isOwner || !item.isEmbedded) return;
 
-    const party = game.settings.get("artichron", "primaryParty").actor;
+    const party = game.actors.party;
     if (party?.type !== "party") {
       ui.notifications.warn("ARTICHRON.TradeDialog.Warning.NoParty", { localize: true });
       return;

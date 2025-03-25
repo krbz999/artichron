@@ -53,7 +53,7 @@ export default class ActivitySelectDialog extends Application {
     const rollData = this.#item.getRollData();
 
     for (const [i, activity] of this.#item.system.activities.contents.entries()) {
-      const enriched = await TextEditor.enrichHTML(activity.description, {
+      const enriched = await foundry.applications.ux.TextEditor.enrichHTML(activity.description, {
         rollData: rollData, relativeTo: this.#item,
       });
       activities.push({

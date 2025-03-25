@@ -86,7 +86,9 @@ export default class EffectSheetArtichron extends ArtichronSheetMixin(foundry.ap
           show: (doc.type === "buff") || (doc.type === "base"),
         },
         description: {
-          enriched: await TextEditor.enrichHTML(doc.description, { relativeTo: doc, rollData: rollData }),
+          enriched: await foundry.applications.ux.TextEditor.enrichHTML(doc.description, {
+            relativeTo: doc, rollData: rollData,
+          }),
           uuid: doc.uuid,
           ...makeField("description"),
         },

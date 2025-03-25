@@ -55,7 +55,7 @@ export default class MerchantConfigurationDialog extends HandlebarsApplicationMi
     context.bio = {
       field: this.document.system.schema.getField("biography.value"),
       value: this.document.system.biography.value,
-      enriched: await TextEditor.enrichHTML(this.document.system.biography.value, {
+      enriched: await foundry.applications.ux.TextEditor.enrichHTML(this.document.system.biography.value, {
         rollData: this.document.getRollData(), relativeTo: this.document,
       }),
     };

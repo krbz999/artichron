@@ -104,7 +104,7 @@ export default class ClockSheet extends PseudoDocumentSheet {
       },
       description: {
         ...this.#prepareField(context, "description"),
-        enriched: await TextEditor.enrichHTML(context.clock.description),
+        enriched: await foundry.applications.ux.TextEditor.enrichHTML(context.clock.description),
       },
     });
   }

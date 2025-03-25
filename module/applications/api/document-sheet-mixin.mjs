@@ -87,7 +87,9 @@ const ArtichronDocumentSheetMixin = Base => {
       const item = await fromUuid(uuid);
       const path = (item.documentName === "ActiveEffect") ? "description" : "system.description.value";
       const description = foundry.utils.getProperty(item, path);
-      const text = await TextEditor.enrichHTML(description, { relativeTo: item, rollData: item.getRollData() });
+      const text = await foundry.applications.ux.TextEditor.enrichHTML(description, {
+        relativeTo: item, rollData: item.getRollData(),
+      });
       if (wrapper.querySelector(".description")) return;
       const div = document.createElement("DIV");
       div.classList.add("description");
@@ -114,7 +116,7 @@ const ArtichronDocumentSheetMixin = Base => {
           isCondition: effect.type === "condition",
         };
         if (data.isExpanded) {
-          data.enrichedText = await TextEditor.enrichHTML(effect.description, {
+          data.enrichedText = await foundry.applications.ux.TextEditor.enrichHTML(effect.description, {
             relativeTo: effect, rollData: effect.getRollData(),
           });
         }
@@ -421,7 +423,7 @@ const ArtichronDocumentSheetMixin = Base => {
     async _onDrop(event) {
       event.preventDefault();
       const target = event.target;
-      const item = await fromUuid(TextEditor.getDragEventData(event).uuid);
+      const item = await fromUuid(foundry.applications.ux.TextEditor.getDragEventData(event).uuid);
       const actor = this.document;
 
       const changes = { items: [], itemUpdates: [], effects: [], effectUpdates: [], actorUpdates: {} };

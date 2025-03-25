@@ -76,7 +76,7 @@ export default class MerchantSheet extends ActorSheetArtichron {
       };
 
       if (expanded) {
-        data.enriched = await TextEditor.enrichHTML(item.system.description.value, {
+        data.enriched = await foundry.applications.ux.TextEditor.enrichHTML(item.system.description.value, {
           relativeTo: item, rollData: item.getRollData(),
         });
       }
@@ -117,7 +117,7 @@ export default class MerchantSheet extends ActorSheetArtichron {
 
     const defaultActor = () => {
       if (game.user.character) return game.user.character.id;
-      return game.settings.get("artichron", "primaryParty").actor.id;
+      return game.actors.party.id;
     };
 
     // Staging an item.
@@ -132,7 +132,7 @@ export default class MerchantSheet extends ActorSheetArtichron {
         dragstart: this._onDragStart.bind(this),
         drop: async (event) => {
           event.preventDefault();
-          const item = await fromUuid(TextEditor.getDragEventData(event).uuid);
+          const item = await fromUuid(foundry.applications.ux.TextEditor.getDragEventData(event).uuid);
           this._expandedItems.delete(item.uuid);
           game.users.activeGM?.query("merchant", {
             type: "stage",
@@ -159,7 +159,7 @@ export default class MerchantSheet extends ActorSheetArtichron {
         dragstart: this._onDragStart.bind(this),
         drop: async (event) => {
           event.preventDefault();
-          const item = await fromUuid(TextEditor.getDragEventData(event).uuid);
+          const item = await fromUuid(foundry.applications.ux.TextEditor.getDragEventData(event).uuid);
           this._expandedItems.delete(item.uuid);
           game.users.activeGM?.query("merchant", {
             type: "unstage",

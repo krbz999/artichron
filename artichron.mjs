@@ -49,13 +49,18 @@ Hooks.once("init", function() {
   CONFIG.ui.actors = applications.sidebar.tabs.ActorDirectory;
   CONFIG.ui.combat = applications.sidebar.tabs.CombatTracker;
   CONFIG.ui.carousel = applications.apps.combat.CombatCarousel;
-  CONFIG.ui.tooltips = applications.ui.Tooltips;
+  CONFIG.ui.tooltips = applications.ui.Tooltips; // TODO: https://github.com/foundryvtt/foundryvtt/issues/12395
   CONFIG.Canvas.layers.tokens.layerClass = canvas.layers.TokenLayerArtichron;
 
-  // Hook up document classes.
-  for (const Cls of Object.values(documents)) {
-    CONFIG[Cls.documentName].documentClass = Cls;
-  }
+  // Hook up document classes and collections.
+  CONFIG.ActiveEffect.documentClass = documents.ActiveEffectArtichron;
+  CONFIG.Actor.documentClass = documents.ActorArtichron;
+  CONFIG.Actor.collection = documents.collections.ActorsArtichron;
+  CONFIG.ChatMessage.documentClass = documents.ChatMessageArtichron;
+  CONFIG.Combat.documentClass = documents.CombatArtichron;
+  CONFIG.Combatant.documentClass = documents.CombatantArtichron;
+  CONFIG.Item.documentClass = documents.ItemArtichron;
+  CONFIG.Token.documentClass = documents.TokenDocumentArtichron;
 
   // Hook up system data types.
   for (const [documentName, models] of [
@@ -193,17 +198,6 @@ Hooks.once("i18nInit", function() {
 
   // Localize damage formula models.
   Localization.localizeDataModel(artichron.data.DamageFormulaModel);
-});
-
-/* -------------------------------------------------- */
-/*   Sidebar directories                              */
-/* -------------------------------------------------- */
-
-Hooks.on("renderActorDirectory", (directory, html) => {
-  const current = game.settings.get("artichron", "primaryParty")?.actor?.id;
-  if (!current) return;
-  const entry = html.querySelector(`[data-entry-id="${current}"]`);
-  if (entry) entry.classList.add("primary-party");
 });
 
 /* -------------------------------------------------- */

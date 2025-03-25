@@ -100,7 +100,7 @@ export default class ActivitySheet extends PseudoDocumentSheet {
     context.description = {
       field: context.activity.schema.getField("description"),
       value: context.activity.description,
-      enriched: await TextEditor.enrichHTML(context.activity.description, {
+      enriched: await foundry.applications.ux.TextEditor.enrichHTML(context.activity.description, {
         rollData: context.activity.getRollData(), relativeTo: context.item,
       }),
     };

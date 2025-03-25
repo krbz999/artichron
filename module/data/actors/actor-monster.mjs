@@ -168,7 +168,7 @@ export default class MonsterData extends CreatureData {
    * @returns {Promise<ItemArtichron[]>}      A promise that resolves to the created items.
    */
   async grantLootDrops(party = null) {
-    party ??= game.settings.get("artichron", "primaryParty").actor;
+    party ??= game.actors.party;
     if (party?.type !== "party") throw new Error("No primary party has been assigned!");
 
     const promises = this.lootDrops.map(async ({ item, quantity }) => {

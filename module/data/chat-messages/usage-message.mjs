@@ -97,7 +97,7 @@ export default class UsageMessageData extends ChatMessageSystemModel {
 
     const text = activity?.description ? activity.description : item.system.description.value;
 
-    const enriched = await TextEditor.enrichHTML(text, {
+    const enriched = await foundry.applications.ux.TextEditor.enrichHTML(text, {
       rollData: this.item.getRollData(), relativeTo: this.item,
     });
     itemHeader.innerHTML = `

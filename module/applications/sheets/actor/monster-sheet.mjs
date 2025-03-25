@@ -110,7 +110,7 @@ export default class MonsterSheet extends ActorSheetArtichron {
     context.biography = {
       field: doc.system.schema.getField("biography.value"),
       value: doc.system.biography.value,
-      enriched: await TextEditor.enrichHTML(doc.system.biography.value, {
+      enriched: await foundry.applications.ux.TextEditor.enrichHTML(doc.system.biography.value, {
         relativeTo: doc, rollData: rollData,
       }),
     };
@@ -171,7 +171,7 @@ export default class MonsterSheet extends ActorSheetArtichron {
       const expanded = this._expandedItems.has(item.uuid);
       const data = {
         item: item,
-        enriched: expanded ? await TextEditor.enrichHTML(item.system.description.value, {
+        enriched: expanded ? await foundry.applications.ux.TextEditor.enrichHTML(item.system.description.value, {
           relativeTo: item, rollData: item.getRollData(),
         }) : null,
       };

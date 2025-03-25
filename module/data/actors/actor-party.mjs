@@ -152,7 +152,7 @@ export default class PartyData extends ActorSystemModel {
   static async distributeCurrencyDialog(party) {
     if (!game.user.isGM) throw new Error("Only a GM can distribute to the party!");
 
-    party ??= game.settings.get("artichron", "primaryParty").actor;
+    party ??= game.actors.party;
     if (!party) throw new Error("No primary party has been assigned!");
 
     const configuration = await artichron.applications.apps.actor.PartyDistributionDialog.create({

@@ -216,7 +216,9 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
   async _prepareTooltipContext() {
     const item = this.parent;
     const rollData = this.parent.getRollData();
-    const description = await TextEditor.enrichHTML(this.description.value, { rollData: rollData, relativeTo: item });
+    const description = await foundry.applications.ux.TextEditor.enrichHTML(this.description.value, {
+      rollData: rollData, relativeTo: item,
+    });
 
     const context = {
       item: item,

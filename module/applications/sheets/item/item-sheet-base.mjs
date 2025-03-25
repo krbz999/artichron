@@ -110,7 +110,7 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
       fusions: fusionOptions,
       enhancements: enhancements,
       description: {
-        enriched: await TextEditor.enrichHTML(doc.system.description.value, {
+        enriched: await foundry.applications.ux.TextEditor.enrichHTML(doc.system.description.value, {
           rollData: rollData, relativeTo: doc,
         }),
         field: doc.system.schema.getField("description.value"),

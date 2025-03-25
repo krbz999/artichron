@@ -155,7 +155,7 @@ export default class HeroSheet extends ActorSheetArtichron {
     context.notes = {
       field: this.document.system.schema.getField("details.notes"),
       value: foundry.utils.getProperty(this.document._source, "system.details.notes"),
-      enriched: await TextEditor.enrichHTML(this.document.system.details.notes, {
+      enriched: await foundry.applications.ux.TextEditor.enrichHTML(this.document.system.details.notes, {
         relativeTo: this.document, rollData: rollData,
       }),
     };
@@ -265,7 +265,7 @@ export default class HeroSheet extends ActorSheetArtichron {
           const expanded = this._expandedItems.has(item.uuid);
           const data = {
             item: item,
-            enriched: expanded ? await TextEditor.enrichHTML(item.system.description.value, {
+            enriched: expanded ? await foundry.applications.ux.TextEditor.enrichHTML(item.system.description.value, {
               relativeTo: item, rollData: item.getRollData(),
             }) : null,
           };
