@@ -2,23 +2,21 @@ export default class ActorDirectoryArtichron extends foundry.applications.sideba
   /** @inheritdoc */
   _getEntryContextOptions() {
     const options = super._getEntryContextOptions();
+    const getActor = li => game.actors.get(li.dataset.entryId);
     options.push({
       name: "ARTICHRON.ContextMenu.Directory.AssignPrimaryParty",
       icon: "<i class='fa-solid fa-fw fa-medal'></i>",
       condition: (li) => {
-        const actor = game.actors.get(li.dataset.entryId);
+        const actor = getActor(li);
         return game.user.isGM && (actor.type === "party") && (actor !== game.actors.party);
       },
-      callback: (li) => game.settings.set("artichron", "primaryParty", { actor: game.actors.get(li.dataset.entryId) }),
+      callback: (li) => game.actors.setParty(getActor(li)),
       group: "system",
     }, {
       name: "ARTICHRON.ContextMenu.Directory.RemovePrimaryParty",
       icon: "<i class='fa-solid fa-fw fa-times'></i>",
-      condition: (li) => {
-        const actor = game.actors.get(li.dataset.entryId);
-        return game.user.isGM && (actor === game.actors.party);
-      },
-      callback: (li) => game.settings.set("artichron", "primaryParty", { actor: null }),
+      condition: (li) => game.user.isGM && (getActor(li) === game.actors.party),
+      callback: (li) => game.actors.unsetParty(),
       group: "system",
     });
     return options;
