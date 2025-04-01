@@ -63,8 +63,8 @@ export default class PartyFundsDialog extends Application {
   /* -------------------------------------------------- */
 
   /** @inheritdoc */
-  _onRender(options) {
-    super._onRender(options);
+  async _onRender(options) {
+    await super._onRender(options);
     this.element.querySelector("[name=amount]").addEventListener("change", (event) => {
       event.currentTarget.value = Math.max(event.currentTarget.valueAsNumber, 0);
     });

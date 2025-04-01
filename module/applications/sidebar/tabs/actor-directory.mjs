@@ -25,8 +25,8 @@ export default class ActorDirectoryArtichron extends foundry.applications.sideba
   /* -------------------------------------------------- */
 
   /** @inheritdoc */
-  _onRender(context, options) {
-    super._onRender(context, options);
+  async _onRender(context, options) {
+    await super._onRender(context, options);
 
     const party = game.actors.party;
     if (!party) return;

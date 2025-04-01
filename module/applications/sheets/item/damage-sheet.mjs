@@ -122,8 +122,8 @@ export default class DamageSheet extends HandlebarsApplicationMixin(Application)
   /* -------------------------------------------------- */
 
   /** @inheritdoc */
-  _onFirstRender(context, options) {
-    super._onFirstRender(context, options);
+  async _onFirstRender(context, options) {
+    await super._onFirstRender(context, options);
     this.#item.apps[this.id] = this;
   }
 

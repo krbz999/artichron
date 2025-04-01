@@ -98,8 +98,8 @@ export default class MerchantSheet extends ActorSheetArtichron {
   /* -------------------------------------------------- */
 
   /** @inheritdoc */
-  _onRender(context, options) {
-    super._onRender(context, options);
+  async _onRender(context, options) {
+    await super._onRender(context, options);
     this._setupDragAndDrop();
   }
 

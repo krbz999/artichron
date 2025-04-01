@@ -284,8 +284,8 @@ export default class PartySheet extends ActorSheetArtichron {
   /* -------------------------------------------------- */
 
   /** @inheritdoc */
-  _onFirstRender(context, options) {
-    super._onFirstRender(context, options);
+  async _onFirstRender(context, options) {
+    await super._onFirstRender(context, options);
     for (const { actor } of this.document.system.members) {
       if (actor) actor.apps[this.id] = this;
     }

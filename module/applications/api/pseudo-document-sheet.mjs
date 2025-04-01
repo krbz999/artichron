@@ -131,8 +131,8 @@ export default class PseudoDocumentSheet extends HandlebarsApplicationMixin(Appl
   /* -------------------------------------------------- */
 
   /** @inheritdoc */
-  _onFirstRender(context, options) {
-    super._onFirstRender(context, options);
+  async _onFirstRender(context, options) {
+    await super._onFirstRender(context, options);
     this.document.apps[this.id] = this;
   }
 

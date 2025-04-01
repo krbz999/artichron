@@ -209,8 +209,8 @@ export default class CombatCarousel extends HandlebarsApplicationMixin(Applicati
   /* -------------------------------------------------- */
 
   /** @inheritdoc */
-  _onRender(...args) {
-    super._onRender(...args);
+  async _onRender(...args) {
+    await super._onRender(...args);
     for (const combatant of this.element.querySelectorAll(".combatant")) {
       const name = combatant.querySelector(".name");
       name.addEventListener("dblclick", CombatCarousel.#renderActor.bind(this));

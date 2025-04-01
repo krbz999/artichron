@@ -33,8 +33,8 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
   /* -------------------------------------------------- */
 
   /** @inheritdoc */
-  _onRender(context, options) {
-    super._onRender(context, options);
+  async _onRender(context, options) {
+    await super._onRender(context, options);
 
     if (!this.isEditable) return;
 

@@ -137,8 +137,8 @@ const ArtichronDocumentSheetMixin = Base => {
     /* -------------------------------------------------- */
 
     /** @inheritdoc */
-    _onFirstRender(context, options) {
-      super._onFirstRender(context, options);
+    async _onFirstRender(context, options) {
+      await super._onFirstRender(context, options);
       this._setupContextMenu(this._getActiveEffectEntryContextOptions, "effect-entry", "ActiveEffectEntryContext");
       this._setupContextMenu(this._getItemEntryContextOptions, "inventory-item", "ItemEntryContext");
     }
@@ -146,8 +146,8 @@ const ArtichronDocumentSheetMixin = Base => {
     /* -------------------------------------------------- */
 
     /** @inheritdoc */
-    _onRender(context, options) {
-      super._onRender(context, options);
+    async _onRender(context, options) {
+      await super._onRender(context, options);
 
       if (this.isEditable) {
         this.element.querySelectorAll("input.delta").forEach(n => {
