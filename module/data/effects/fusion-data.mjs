@@ -55,7 +55,9 @@ export default class EffectFusionData extends ActiveEffectSystemModel {
    * Is this a fusion that can be transferred?
    * @type {boolean}
    */
-  get isTransferrableFusion() {
+  get isSuppressed() {
+    // Called by ActiveEffect#isSuppressed.
+    // If a fusion has data stored, it is an active fusion and should apply, ergo it should not be suppressed.
     return foundry.utils.getType(this.itemData) !== "Object";
   }
 
@@ -66,7 +68,7 @@ export default class EffectFusionData extends ActiveEffectSystemModel {
    * @type {boolean}
    */
   get isActiveFusion() {
-    return !this.isTransferrableFusion;
+    return !this.isSuppressed;
   }
 
   /* -------------------------------------------------- */

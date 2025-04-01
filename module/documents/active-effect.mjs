@@ -154,17 +154,6 @@ export default class ActiveEffectArtichron extends ActiveEffect {
   /* -------------------------------------------------- */
 
   /** @inheritdoc */
-  get isSuppressed() {
-    if (this.type === "fusion") {
-      // If a fusion can be transferred, it does not apply to its parent.
-      return this.isTransferrableFusion;
-    }
-    return false;
-  }
-
-  /* -------------------------------------------------- */
-
-  /** @inheritdoc */
   get isTemporary() {
     return super.isTemporary || this.system.isTemporary;
   }
@@ -176,7 +165,7 @@ export default class ActiveEffectArtichron extends ActiveEffect {
    * @type {boolean}
    */
   get isTransferrableFusion() {
-    return this.system.isTransferrableFusion ?? false;
+    return (this.type === "fusion") && this.isSuppressed;
   }
 
   /* -------------------------------------------------- */
