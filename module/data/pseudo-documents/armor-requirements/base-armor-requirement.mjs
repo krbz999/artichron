@@ -1,33 +1,17 @@
 import PseudoDocument from "../../pseudo-document.mjs";
 
 export default class BaseArmorRequirement extends PseudoDocument {
-  /** @inheritdoc */
+  /**
+   * @type {import("../../../helpers/types.mjs").ArmorRequirementMetadata}
+   */
   static get metadata() {
     return {
       documentName: "ArmorRequirement",
-      label: "",
-      hint: "",
+      hint: null,
+      label: null,
+      path: "system.category.requirements",
+      types: artichron.data.pseudoDocuments.armorRequirements,
     };
-  }
-
-  /* -------------------------------------------------- */
-
-  /** @inheritdoc */
-  static get TYPES() {
-    return this.#TYPES ??= Object.freeze(Object.values(
-      artichron.data.pseudoDocuments.armorRequirements,
-    ).reduce((acc, Cls) => {
-      if (Cls.TYPE) acc[Cls.TYPE] = Cls;
-      return acc;
-    }, {}));
-  }
-  static #TYPES;
-
-  /* -------------------------------------------------- */
-
-  /** @inheritdoc */
-  static get _path() {
-    return "system.category.requirements";
   }
 
   /* -------------------------------------------------- */

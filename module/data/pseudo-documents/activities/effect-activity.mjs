@@ -83,7 +83,7 @@ export default class EffectActivity extends BaseActivity {
       "system.item": item.uuid,
       "system.targets": Array.from(game.user.targets.map(t => t.actor?.uuid)),
       "flags.artichron.usage": configuration.usage,
-      "flags.artichron.type": EffectActivity.metadata.type,
+      "flags.artichron.type": EffectActivity.TYPE,
     };
     Cls.applyRollMode(messageData, configuration.usage.rollMode.mode);
     foundry.utils.mergeObject(messageData, configuration.message);

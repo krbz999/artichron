@@ -79,7 +79,7 @@ export default class TeleportActivity extends BaseActivity {
       "system.item": item.uuid,
       "system.targets": [],
       "flags.artichron.usage": configuration.usage,
-      "flags.artichron.type": TeleportActivity.metadata.type,
+      "flags.artichron.type": TeleportActivity.TYPE,
     };
     Cls.applyRollMode(messageData, configuration.usage.rollMode.mode);
     foundry.utils.mergeObject(messageData, configuration.message);

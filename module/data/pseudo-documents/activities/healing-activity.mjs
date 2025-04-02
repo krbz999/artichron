@@ -83,7 +83,7 @@ export default class HealingActivity extends BaseActivity {
       "system.item": item.uuid,
       "system.targets": Array.from(game.user.targets.map(t => t.actor?.uuid)),
       "flags.artichron.usage": configuration.usage,
-      "flags.artichron.type": HealingActivity.metadata.type,
+      "flags.artichron.type": HealingActivity.TYPE,
     };
     Cls.applyRollMode(messageData, configuration.usage.rollMode.mode);
     foundry.utils.mergeObject(messageData, configuration.message);

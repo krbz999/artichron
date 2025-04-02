@@ -6,12 +6,17 @@ const { ColorField, HTMLField, NumberField, StringField } = foundry.data.fields;
  * Base clock data model.
  */
 export default class BaseClock extends PseudoDocument {
-  /** @inheritdoc */
+  /**
+   * @type {import("../../../helpers/types.mjs").ClockMetadata}
+   */
   static get metadata() {
     return {
+      color: null,
+      defaultName: null,
       documentName: "Clock",
-      color: "",
+      path: "system.clocks",
       sheetClass: artichron.applications.sheets.actor.ClockSheet,
+      types: artichron.data.pseudoDocuments.clocks,
     };
   }
 
@@ -31,25 +36,7 @@ export default class BaseClock extends PseudoDocument {
   /* -------------------------------------------------- */
 
   /** @inheritdoc */
-  static get TYPES() {
-    return this.#TYPES ??= Object.values(artichron.data.pseudoDocuments.clocks).reduce((acc, Cls) => {
-      if (Cls.TYPE) acc[Cls.TYPE] = Cls;
-      return acc;
-    }, {});
-  }
-  static #TYPES;
-
-  /* -------------------------------------------------- */
-
-  /** @inheritdoc */
   static LOCALIZATION_PREFIXES = ["ARTICHRON.CLOCK"];
-
-  /* -------------------------------------------------- */
-
-  /** @inheritdoc */
-  static get _path() {
-    return "system.clocks";
-  }
 
   /* -------------------------------------------------- */
 

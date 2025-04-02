@@ -1,46 +1,29 @@
 import PseudoDocument from "../../pseudo-document.mjs";
 
 const {
-  BooleanField, FilePathField, HTMLField,
-  NumberField, SchemaField, StringField,
+  BooleanField, FilePathField, HTMLField, NumberField, SchemaField, StringField,
 } = foundry.data.fields;
 
 export default class BaseActivity extends PseudoDocument {
   /**
    * Activity metadata.
-   * @type {ActivityMetadata}
+   * @type {import("../../../helpers/types.mjs").ActivityMetadata}
    */
   static get metadata() {
     return {
       documentName: "Activity",
-      label: "",
       icon: "systems/artichron/assets/icons/activity.svg",
+      label: null,
+      path: "system.activities",
       sheetClass: artichron.applications.sheets.item.ActivitySheet,
+      types: artichron.data.pseudoDocuments.activities,
     };
   }
 
   /* -------------------------------------------------- */
 
   /** @inheritdoc */
-  static get TYPES() {
-    return this.#TYPES ??= Object.freeze(Object.values(artichron.data.pseudoDocuments.activities).reduce((acc, Cls) => {
-      if (Cls.TYPE) acc[Cls.TYPE] = Cls;
-      return acc;
-    }, {}));
-  }
-  static #TYPES;
-
-  /* -------------------------------------------------- */
-
-  /** @inheritdoc */
   static LOCALIZATION_PREFIXES = ["ARTICHRON.ACTIVITY"];
-
-  /* -------------------------------------------------- */
-
-  /** @inheritdoc */
-  static get _path() {
-    return "system.activities";
-  }
 
   /* -------------------------------------------------- */
 

@@ -5,6 +5,37 @@
  * @property {number} [elevation]
  */
 
+/* -------------------------------------------------- */
+
+/**
+ * @typedef {Object} PseudoDocumentMetadata
+ * @property {string} documentName                            Document name used for this pseudo document.
+ * @property {string} path                                    The path at which this collection is stored.
+ * @property {Record<string, typeof PseudoDocument>} types    A record of this pseudo document's base class and subtypes.
+ */
+
+/**
+ * @typedef {PseudoDocumentMetadata} ActivityMetadata
+ * @property {string} icon                      File path to activity default icon.
+ * @property {string} label                     i18n path to an activity type's default name.
+ * @property {typeof Application} sheetClass    The sheet class used to render this pseudo document.
+ */
+
+/**
+ * @typedef {PseudoDocumentMetadata} ArmorRequirementMetadata
+ * @property {string} hint    i18n path for display hint.
+ * @property {string} label   i18n path for display label.
+ */
+
+/**
+ * @typedef {PseudoDocumentMetadata} ClockMetadata
+ * @property {string} color                     Hex string for default color.
+ * @property {string} defaultName               i18n path for default name.
+ * @property {typeof Application} sheetClass    The sheet class used to render this pseudo document.
+ */
+
+/* -------------------------------------------------- */
+
 /**
  * @typedef {object} SystemModelMetadata
  * @property {string} icon      Type icon for this data model.

@@ -1,92 +1,24 @@
+const { TypedObjectField, TypedSchemaField } = foundry.data.fields;
+
 /**
  * A collection that houses pseudo-documents.
  */
-export default class CollectionField extends foundry.data.fields.TypedObjectField {
-  constructor(model, options = {}) {
-    const field = new _CollectionField(model);
-    super(field, options);
+export default class CollectionField extends TypedObjectField {
+  constructor(model, options = {}, context = {}) {
+    const field = new TypedSchemaField(model.TYPES, options, context);
+    super(field, options, context);
   }
 
   /* -------------------------------------------------- */
 
   /** @inheritdoc */
   initialize(value, model, options = {}) {
+    const init = super.initialize(value, model, options);
     const collection = new ModelCollection();
-    for (const [k, v] of Object.entries(value)) {
-      v._id = k;
-      const init = this.element.initialize(v, model, options);
-      collection.set(k, init);
+    for (const [id, model] of Object.entries(init)) {
+      collection.set(id, model);
     }
     return collection;
-  }
-}
-
-/* -------------------------------------------------- */
-
-/**
- * Field that stores data model data and swaps class based on subtype.
- */
-class _CollectionField extends foundry.data.fields.ObjectField {
-  constructor(model, options = {}, { name, parent } = {}) {
-    super(options, { name, parent });
-    this.#model = model;
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * The data model instance.
-   * @type {typeof foundry.abstract.DataModel}
-   */
-  #model = null;
-
-  /* -------------------------------------------------- */
-
-  /** @inheritdoc */
-  static recursive = true;
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Get the document type for this data model.
-   * @param {object} value                Data being prepared.
-   * @returns {typeof DataModel|null}     Data model subtype.
-   */
-  getModel(value) {
-    if (this.#model.metadata?.typed === false) return this.#model;
-    return this.#model.TYPES[value?.type] ?? null;
-  }
-
-  /* -------------------------------------------------- */
-
-  /** @inheritdoc */
-  _cleanType(value, options) {
-    if (!(typeof value === "object")) value = {};
-
-    const cls = this.getModel(value);
-    if (cls) return cls.cleanData(value, options);
-    return value;
-  }
-
-  /* -------------------------------------------------- */
-
-  /** @inheritdoc */
-  initialize(value, model, options = {}) {
-    const cls = this.getModel(value);
-    if (cls) return new cls(value, { parent: model, ...options });
-    return foundry.utils.deepClone(value);
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Migrate this field's candidate source data.
-   * @param {object} sourceData  Candidate source data of the root model.
-   * @param {any} fieldData      The value of this field within the source data.
-   */
-  migrateSource(sourceData, fieldData) {
-    const cls = this.getModel(fieldData);
-    if (cls) cls.migrateDataSafe(fieldData);
   }
 }
 

@@ -3,11 +3,13 @@ const { DocumentIdField, StringField } = foundry.data.fields;
 export default class PseudoDocument extends foundry.abstract.DataModel {
   /**
    * Pseudo-document metadata.
-   * @type {PseudoDocumentMetadata}
+   * @type {import("../helpers/types.mjs").PseudoDocumentMetadata}
    */
   static get metadata() {
     return {
-      documentName: "",
+      documentName: null,
+      path: null,
+      types: null,
     };
   }
 
@@ -31,7 +33,7 @@ export default class PseudoDocument extends foundry.abstract.DataModel {
         blank: false,
         readonly: true,
         validate: value => value === this.TYPE,
-        validationError: `Type can only be '${this.type}'.`,
+        validationError: `Type can only be '${this.TYPE}'.`,
       }),
     };
   }
@@ -52,10 +54,12 @@ export default class PseudoDocument extends foundry.abstract.DataModel {
   /**
    * The subtypes of this pseudo-document.
    * @type {Record<string, typeof PseudoDocument>}
-   * @abstract
    */
   static get TYPES() {
-    throw new Error("The 'TYPES' getter must be overridden in a subclass.");
+    return Object.values(this.metadata.types).reduce((acc, Cls) => {
+      if (Cls.TYPE) acc[Cls.TYPE] = Cls;
+      return acc;
+    }, {});
   }
 
   /* -------------------------------------------------- */
@@ -118,6 +122,8 @@ export default class PseudoDocument extends foundry.abstract.DataModel {
     this.prepareData();
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Prepare data.
    */
@@ -145,21 +151,11 @@ export default class PseudoDocument extends foundry.abstract.DataModel {
   /* -------------------------------------------------- */
 
   /**
-   * The path to this pseudo-document relative to the parent document.
-   * @type {string}
-   */
-  static get _path() {
-    return "";
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
    * Does this pseudo-document exist in the document's source?
    * @type {boolean}
    */
   get #isSource() {
-    const path = this.constructor._path.slice(7);
+    const path = this.constructor.metadata.path.slice(7);
     const source = foundry.utils.getProperty(this.document.system._source, path);
     if (foundry.utils.getType(source) !== "Object") {
       throw new Error("Source is not an object!");
@@ -184,7 +180,7 @@ export default class PseudoDocument extends foundry.abstract.DataModel {
       throw new Error("A parent document must be specified for the creation of a pseudo-document!");
     }
     const id = operation.keepId && foundry.data.validators.isValidId(data._id) ? data._id : foundry.utils.randomID();
-    const path = `${this._path}.${id}`;
+    const path = `${this.metadata.path}.${id}`;
     const type = data.type || Object.keys(this.TYPES)[0];
 
     const update = { [path]: { ...data, _id: id, type } };
@@ -213,7 +209,7 @@ export default class PseudoDocument extends foundry.abstract.DataModel {
    */
   async delete(operation = {}) {
     if (!this.#isSource) throw new Error("You cannot delete a non-source pseudo-document!");
-    const path = `${this.constructor._path}.-=${this.id}`;
+    const path = `${this.constructor.metadata.path}.-=${this.id}`;
     Object.assign(operation, { pseudo: { operation: "delete", type: this.constructor.documentName, uuid: this.uuid } });
     return this.document.update({ [path]: null }, operation);
   }
@@ -242,7 +238,7 @@ export default class PseudoDocument extends foundry.abstract.DataModel {
    */
   async update(change = {}, operation = {}) {
     if (!this.#isSource) throw new Error("You cannot update a non-source pseudo-document!");
-    const path = `${this.constructor._path}.${this.id}`;
+    const path = `${this.constructor.metadata.path}.${this.id}`;
     return this.document.update({ [path]: change }, operation);
   }
 }

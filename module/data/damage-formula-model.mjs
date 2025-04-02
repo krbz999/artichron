@@ -25,9 +25,15 @@ export default class DamageFormulaModel extends FormulaModel {
 
   static get metadata() {
     return {
-      typed: false,
       documentName: "Damage",
     };
+  }
+
+  static get TYPES () {
+    return Object.keys(artichron.config.DAMAGE_TYPES).reduce((acc, k) => {
+      acc[k] = DamageFormulaModel;
+      return acc;
+    }, {});
   }
 
   /* -------------------------------------------------- */

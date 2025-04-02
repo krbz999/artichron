@@ -65,7 +65,7 @@ export default class DefendActivity extends BaseActivity {
       "system.activity": this.id,
       "system.item": item.uuid,
       "flags.artichron.usage": configuration.usage,
-      "flags.artichron.type": DefendActivity.metadata.type,
+      "flags.artichron.type": DefendActivity.TYPE,
     };
     Cls.applyRollMode(messageData, configuration.usage.rollMode.mode);
     foundry.utils.mergeObject(messageData, configuration.message);
