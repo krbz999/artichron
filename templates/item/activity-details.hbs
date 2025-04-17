@@ -1,19 +1,19 @@
 <div class="tab details {{tabs.details.cssClass}}" data-group="primary" data-tab="details">
   <fieldset>
     <legend>{{cost.legend}}</legend>
-    {{formGroup cost.field value=cost.value}}
+    {{formGroup cost.field value=cost.value name=cost.name}}
     {{#if usage.show}}
-    {{formGroup usage.field value=usage.value}}
+    {{formGroup usage.field value=usage.value name=usage.name}}
     {{/if}}
   </fieldset>
 
   {{#if target.show}}
   <fieldset>
     <legend>{{target.legend}}</legend>
-    {{formGroup target.type.field value=target.type.value options=target.type.options}}
+    {{formGroup target.type.field value=target.type.value options=target.type.options name=target.type.name}}
     {{#if target.fields.length}}
     {{#each target.fields}}
-    {{formGroup field value=value}}
+    {{formGroup field value=value name=name}}
     {{/each}}
     {{/if}}
   </fieldset>
@@ -47,8 +47,8 @@
     <div class="form-group">
       <label>{{localize "ARTICHRON.ACTIVITY.LABELS.formula"}}</label>
       <div class="form-fields">
-        {{formGroup defend.number.field value=defend.number.value classes="label-top"}}
-        {{formGroup defend.denomination.field value=defend.denomination.value classes="label-top"}}
+        {{formGroup defend.number.field value=defend.number.value classes="label-top" name=defend.number.name}}
+        {{formGroup defend.denomination.field value=defend.denomination.value classes="label-top" name=defend.denomination.name}}
       </div>
     </div>
   </fieldset>
@@ -60,8 +60,8 @@
     <div class="form-group">
       <label>{{localize "ARTICHRON.ACTIVITY.LABELS.formula"}}</label>
       <div class="form-fields">
-        {{formGroup healing.number.field value=healing.number.value classes="label-top"}}
-        {{formGroup healing.denomination.field value=healing.denomination.value classes="label-top"}}
+        {{formGroup healing.number.field value=healing.number.value classes="label-top" name=healing.number.name}}
+        {{formGroup healing.denomination.field value=healing.denomination.value classes="label-top" name=healing.denomination.name}}
       </div>
     </div>
   </fieldset>
@@ -70,14 +70,14 @@
   {{#if effects.show}}
   <fieldset>
     <legend>{{effects.legend}}</legend>
-    {{formGroup effects.ids.field value=effects.ids.value options=effects.ids.choices classes="stacked"}}
+    {{formGroup effects.ids.field value=effects.ids.value options=effects.ids.choices classes="stacked" name=effects.ids.name}}
   </fieldset>
   {{/if}}
 
   {{#if teleport.show}}
   <fieldset>
     <legend>{{teleport.legend}}</legend>
-    {{formGroup teleport.distance.field value=teleport.distance.value}}
+    {{formGroup teleport.distance.field value=teleport.distance.value name=teleport.distance.name}}
   </fieldset>
   {{/if}}
 </div>

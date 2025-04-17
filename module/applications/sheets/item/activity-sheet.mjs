@@ -89,17 +89,20 @@ export default class ActivitySheet extends PseudoDocumentSheet {
     context.name = {
       field: context.activity.schema.getField("name"),
       value: context.activity._source.name,
+      name: "name",
       placeholder: game.i18n.localize(context.activity.constructor.metadata.defaultName),
     };
 
     context.img = {
       field: context.activity.schema.getField("img"),
+      name: "img",
       value: context.activity.img,
     };
 
     context.description = {
       field: context.activity.schema.getField("description"),
       value: context.activity.description,
+      name: "description",
       enriched: await foundry.applications.ux.TextEditor.enrichHTML(context.activity.description, {
         rollData: context.activity.getRollData(), relativeTo: context.item,
       }),
@@ -120,6 +123,7 @@ export default class ActivitySheet extends PseudoDocumentSheet {
       return {
         field: context.activity.schema.getField(path),
         value: foundry.utils.getProperty(context.activity, path),
+        name: path,
       };
     };
 

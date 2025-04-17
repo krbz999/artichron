@@ -1,8 +1,8 @@
 <div class="tab identity {{tabs.identity.cssClass}}" data-group="primary" data-tab="identity">
   <fieldset>
     <legend>{{localize "ARTICHRON.SHEET.LEGENDS.identity"}}</legend>
-    {{formGroup name.field value=name.value placeholder=name.placeholder}}
-    {{formGroup img.field value=img.value}}
-    {{formGroup description.field value=description.value enriched=description.enriched height=200 toggled=true}}
+    {{formGroup name.field value=name.value placeholder=name.placeholder name=name.name}}
+    {{formGroup img.field value=img.value name=img.name}}
+    {{formGroup description.field value=description.value enriched=description.enriched height=200 toggled=true name=description.name}}
   </fieldset>
 </div>
