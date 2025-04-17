@@ -290,7 +290,39 @@
       }
     },
     "clocks": {
-      "label": "Clocks"
+      "label": "Clocks",
+      "element": {
+        "bad": {
+          "color": {
+            "label": "Color"
+          },
+          "max": {
+            "label": "Max"
+          },
+          "name": {
+            "initial": "Bad Clock",
+            "label": "Name"
+          },
+          "value": {
+            "label": "Value"
+          }
+        },
+        "good": {
+          "color": {
+            "label": "Color"
+          },
+          "max": {
+            "label": "Max"
+          },
+          "name": {
+            "initial": "Good Clock",
+            "label": "Name"
+          },
+          "value": {
+            "label": "Value"
+          }
+        }
+      }
     },
     "currency": {
       "funds": {
@@ -414,27 +446,6 @@
   "Chest": "Chest Piece",
   "Head": "Head Piece",
   "Legs": "Leg Piece"
-},
-
-"CLOCK": {
-  "FIELDS": {
-    "color": {
-      "label": "Color"
-    },
-    "max": {
-      "label": "Max"
-    },
-    "name": {
-      "initial": {
-        "bad": "Bad Clock",
-        "good": "Good Clock"
-      },
-      "label": "Name"
-    },
-    "value": {
-      "label": "Value"
-    }
-  }
 },
 
 "Combat": {

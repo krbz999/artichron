@@ -5,7 +5,7 @@ export default class GoodClock extends BaseClock {
   static get metadata() {
     return foundry.utils.mergeObject(super.metadata, {
       color: "#0000FF",
-      defaultName: "ARTICHRON.CLOCK.FIELDS.name.initial.good",
+      defaultName: "ARTICHRON.ACTOR.FIELDS.clocks.element.good.name.initial",
     });
   }
 

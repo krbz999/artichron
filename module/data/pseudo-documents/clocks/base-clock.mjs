@@ -35,11 +35,6 @@ export default class BaseClock extends PseudoDocument {
 
   /* -------------------------------------------------- */
 
-  /** @inheritdoc */
-  static LOCALIZATION_PREFIXES = ["ARTICHRON.CLOCK"];
-
-  /* -------------------------------------------------- */
-
   /**
    * The party actor.
    * @type {ActorArtichron}
