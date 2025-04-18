@@ -365,9 +365,11 @@ export default class ItemArtichron extends Item {
   getEmbeddedDocument(embeddedName, id, { invalid = false, strict = false } = {}) {
     switch (embeddedName) {
       case "Activity":
-        return this.system.activities?.get(id, { invalid, strict }) ?? null;
-      case "ArmorRequirement":
-        return this.system.category?.requirements?.get(id, { invalid, strict }) ?? null;
+      case "ArmorRequirement": {
+        const path = this.system.constructor.metadata?.embedded?.[embeddedName];
+        if (!path) return null;
+        return foundry.utils.getProperty(this, path).get(id, { invalid, strict }) ?? null;
+      }
     }
     return super.getEmbeddedDocument(embeddedName, id, { invalid, strict });
   }

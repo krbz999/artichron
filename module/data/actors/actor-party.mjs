@@ -11,6 +11,9 @@ export default class PartyData extends ActorSystemModel {
     return {
       type: "party",
       allowedActorTypes: new Set(["hero", "monster"]),
+      embedded: {
+        Clock: "system.clocks",
+      },
     };
   }
 

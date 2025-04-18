@@ -14,6 +14,9 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
       inventorySection: "",
       order: 10,
       type: "",
+      embedded: {
+        Activity: "system.activities",
+      },
     };
   }
 

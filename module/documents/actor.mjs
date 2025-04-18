@@ -233,8 +233,11 @@ export default class ActorArtichron extends Actor {
   /** @inheritdoc */
   getEmbeddedDocument(embeddedName, id, { invalid = false, strict = false } = {}) {
     switch (embeddedName) {
-      case "Clock":
-        return this.system.clocks?.get(id, { invalid, strict }) ?? null;
+      case "Clock": {
+        const path = this.system.constructor.metadata?.embedded?.[embeddedName];
+        if (!path) return null;
+        return foundry.utils.getProperty(this, path).get(id, { invalid, strict }) ?? null;
+      }
     }
     return super.getEmbeddedDocument(embeddedName, id, { invalid, strict });
   }

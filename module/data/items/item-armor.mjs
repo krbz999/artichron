@@ -13,6 +13,9 @@ export default class ArmorData extends ItemSystemModel {
       inventorySection: "gear",
       order: 40,
       type: "armor",
+      embedded: {
+        ArmorRequirement: "system.category.requirements",
+      },
     });
   }
 

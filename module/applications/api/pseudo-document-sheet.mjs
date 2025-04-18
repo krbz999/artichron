@@ -78,7 +78,7 @@ export default class PseudoDocumentSheet extends HandlebarsApplicationMixin(Appl
    * @type {PseudoDocument}
    */
   get pseudoDocument() {
-    return foundry.utils.getProperty(this.document, this.#pseudoDocumentClass.metadata.path).get(this.#pseudoId);
+    return this.document.getEmbeddedDocument(this.#pseudoDocumentClass.metadata.documentName, this.#pseudoId);
   }
 
   /* -------------------------------------------------- */

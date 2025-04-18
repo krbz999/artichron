@@ -10,7 +10,6 @@
 /**
  * @typedef {Object} PseudoDocumentMetadata
  * @property {string} documentName                            Document name used for this pseudo document.
- * @property {string} path                                    The path at which this collection is stored.
  * @property {Record<string, typeof PseudoDocument>} types    A record of this pseudo document's base class and subtypes.
  */
 
@@ -51,6 +50,7 @@
  * @typedef {object} ActorSystemModelMetadata
  * @property {string} type                          Internal key used for this data model.
  * @property {Set<string>} [allowedActorTypes]      The actor types allowed to be added to a party actor.
+ * @property {Record<string, string>} [embedded]    Record of pseudo-documents and their collection's property.
  */
 
 /**
@@ -70,6 +70,7 @@
  * @property {number} order                 The order this inventory section is in relative to other sections.
  * @property {string} inventorySection      The inventory section an item type gets placed in on an actor's inventory tab.
  * @property {string} type                  The internal name of this item type.
+ * @property {Record<string, string>} [embedded]    Record of pseudo-documents and their collection's property.
  */
 
 /* -------------------------------------------------- */
