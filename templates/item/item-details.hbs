@@ -60,9 +60,7 @@
   <fieldset class="armor-requirements">
     <legend>
       {{localize "ARTICHRON.SHEET.LEGENDS.requirements"}}
-      {{#if isEditMode}}
-      <button type="button" class="icon fa-regular fa-plus-square" data-action="addRequirement"></button>
-      {{/if}}
+      <button type="button" class="icon fa-regular fa-plus-square" data-action="addRequirement" {{disabled isPlayMode}}></button>
     </legend>
     {{#each armorRequirements}}
     <div class="form-fields" data-id="{{id}}">

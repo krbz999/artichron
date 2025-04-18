@@ -2,9 +2,7 @@
   <fieldset class="activities">
     <legend>
       {{localize "ARTICHRON.SHEET.LEGENDS.activities"}}
-      {{#if isEditMode}}
-      <button type="button" class="icon fa-regular fa-plus-square" data-action="createActivity"></button>
-      {{/if}}
+      <button type="button" class="icon fa-regular fa-plus-square" data-action="createActivity" {{disabled isPlayMode}}></button>
     </legend>
     {{#each activities}}
     <div class="form-group activity" data-activity-id="{{id}}">
