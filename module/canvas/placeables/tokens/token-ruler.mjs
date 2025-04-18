@@ -7,24 +7,20 @@
  */
 export default class TokenRulerArtichron extends foundry.canvas.placeables.tokens.TokenRuler {
   /** @inheritdoc */
-  static WAYPOINT_TEMPLATE = "systems/artichron/templates/hud/waypoint-label.hbs";
+  static WAYPOINT_LABEL_TEMPLATE = "systems/artichron/templates/hud/waypoint-label.hbs";
 
   /* -------------------------------------------------- */
 
   /** @inheritdoc */
-  _prepareWaypointData(waypoints) {
-    const data = super._prepareWaypointData(waypoints);
-    if (!this.token.actor?.inCombat) return data;
-
-    for (const [i, w] of waypoints.entries()) {
-      const d = data[i - 1];
-      if (!d) continue;
-      const segment = (i > 1) || (w.stage !== "passed") ? this.token.getAPCost(w.cost) : null;
-      const total = this.token.getAPCost(w.measurement.cost);
-      Object.assign(d, { AP: { segment, total } });
-    }
-
-    return data;
+  _getWaypointLabelContext(waypoint, state) {
+    const result = super._getWaypointLabelContext(waypoint, state);
+    if (!result) return result;
+    const p = waypoint.previous;
+    if (!p) return result;
+    const segment = (p.previous) || (waypoint.stage !== "passed") ? this.token.getAPCost(waypoint.cost) : null;
+    const total = this.token.getAPCost(waypoint.measurement.cost);
+    Object.assign(result, { AP: { segment, total } });
+    return result;
   }
 
   /* -------------------------------------------------- */
