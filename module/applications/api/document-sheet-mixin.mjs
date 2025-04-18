@@ -195,6 +195,18 @@ const ArtichronDocumentSheetMixin = Base => {
     }
 
     /* -------------------------------------------------- */
+
+    /** @inheritdoc */
+    async _renderFrame(options) {
+      const frame = await super._renderFrame(options);
+      this.window.controls.insertAdjacentHTML("afterend", `
+        <button type="button" class="header-control icon fa-solid fa-user-lock" data-action="toggleSheet" data-tooltip="ARTICHRON.SHEET.TOGGLE.editing"></button>
+        <button type="button" class="header-control icon fa-solid" data-action="toggleOpacity" data-tooltip="ARTICHRON.SHEET.TOGGLE.opacity"></button>`);
+
+      return frame;
+    }
+
+    /* -------------------------------------------------- */
     /*   Context menu handlers                            */
     /* -------------------------------------------------- */
 

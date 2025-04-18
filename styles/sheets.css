@@ -4,8 +4,8 @@
     transition: opacity 250ms;
     &:not(:hover) { opacity: 0.1; }
   }
-  [data-action=toggleOpacity] .fa-solid::before { content: "\f06e"; }
-  &.opacity [data-action=toggleOpacity] .fa-solid::before { content: "\f2a8"; }
+  [data-action=toggleOpacity]::before { content: "\f06e"; }
+  &.opacity [data-action=toggleOpacity]::before { content: "\f2a8"; }
 
   /* Transition control */
   .transitioning .description-wrapper .description {
@@ -54,15 +54,6 @@
         font-size: 36px;
         text-align: center;
       }
-    }
-
-    .controls {
-      flex: 0 0 var(--height);
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-evenly;
-      align-items: end;
     }
   }
 
