@@ -207,7 +207,7 @@ export default class InventoryItemElement extends HTMLElement {
     }
 
     else {
-      this.dataset.tooltip = `
+      this.dataset.tooltipHtml = `
       <section class="loading" data-uuid="${item.uuid}">
         <i class="fas fa-spinner fa-spin-pulse"></i>
       </section>`;

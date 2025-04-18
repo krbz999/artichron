@@ -1,7 +1,7 @@
 /**
  * A class responsible for orchestrating tooltips in the system.
  */
-export default class TooltipsArtichron {
+export default class TooltipManagerArtichron extends foundry.helpers.interaction.TooltipManager {
   /* -------------------------------------------------- */
   /*  Properties                                        */
   /* -------------------------------------------------- */
@@ -11,16 +11,6 @@ export default class TooltipsArtichron {
    * @type {MutationObserver}
    */
   #observer;
-
-  /* -------------------------------------------------- */
-
-  /**
-   * The tooltip element.
-   * @type {HTMLElement}
-   */
-  get tooltip() {
-    return document.getElementById("tooltip");
-  }
 
   /* -------------------------------------------------- */
   /*  Methods                                           */
@@ -57,17 +47,13 @@ export default class TooltipsArtichron {
   /* -------------------------------------------------- */
 
   /**
-   * Handle tooltip activation.
-   * @protected
-   * @returns {Promise}
+   * Retrieve an item via uuid when hovering over a loading tooltip.
    */
   async _onTooltipActivate() {
     const loading = this.tooltip.querySelector(".loading");
-
-    // Sheet-specific tooltips
     if (loading?.dataset.uuid) {
       const doc = await fromUuid(loading.dataset.uuid);
-      if (doc instanceof Item) return this._onHoverItem(doc);
+      if (doc instanceof Item) this._onHoverItem(doc);
     }
   }
 
@@ -75,7 +61,7 @@ export default class TooltipsArtichron {
 
   /**
    * Handle hovering over an item and showing rich tooltips if possible.
-   * @param {ItemArtichron} item      The item.
+   * @param {ItemArtichron} item    The item.
    */
   async _onHoverItem(item) {
     const content = await (item.system.richTooltip?.() ?? {});
@@ -93,48 +79,30 @@ export default class TooltipsArtichron {
    * @protected
    */
   _positionItemTooltip(direction) {
-    const { TooltipManager } = foundry.helpers.interaction;
+    const Cls = this.constructor;
 
     if (!direction) {
-      direction = TooltipManager.TOOLTIP_DIRECTIONS.LEFT;
-      game.tooltip._setAnchor(direction);
+      direction = Cls.TOOLTIP_DIRECTIONS.LEFT;
+      this._setAnchor(direction);
     }
 
     const pos = this.tooltip.getBoundingClientRect();
-    const dirs = TooltipManager.TOOLTIP_DIRECTIONS;
+    const dirs = Cls.TOOLTIP_DIRECTIONS;
     switch (direction) {
       case dirs.UP:
-        if (pos.y - TooltipManager.TOOLTIP_MARGIN_PX <= 0) direction = dirs.DOWN;
+        if (pos.y - Cls.TOOLTIP_MARGIN_PX <= 0) direction = dirs.DOWN;
         break;
       case dirs.DOWN:
         if (pos.y + this.tooltip.offsetHeight > window.innerHeight) direction = dirs.UP;
         break;
       case dirs.LEFT:
-        if (pos.x - TooltipManager.TOOLTIP_MARGIN_PX <= 0) direction = dirs.RIGHT;
+        if (pos.x - Cls.TOOLTIP_MARGIN_PX <= 0) direction = dirs.RIGHT;
         break;
       case dirs.RIGHT:
-        if (pos.x + this.tooltip.offsetWidth > window.innerWith) direction = dirs.LEFT;
+        if (pos.x + this.tooltip.offsetWidth > window.innerWidth) direction = dirs.LEFT;
         break;
     }
 
-    game.tooltip._setAnchor(direction);
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Intercept middle-click listeners to prevent scrolling behavior inside a locked tooltip when attempting to lock
-   * another tooltip.
-   */
-  static activateListeners() {
-    document.addEventListener("pointerdown", event => {
-      if (event.button !== 1) return;
-      const cl = game.tooltip.tooltip.classList;
-      if (event.target.closest(".item-tooltip, .locked-tooltip")) {
-        event.preventDefault();
-      } else if (cl.contains("item-tooltip") && cl.contains("active")) {
-        event.preventDefault();
-      }
-    }, { capture: true });
+    this._setAnchor(direction);
   }
 }

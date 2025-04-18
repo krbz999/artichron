@@ -1,12 +1,13 @@
 import { registerSockets } from "./module/helpers/sockets.mjs";
-import * as SYSTEM from "./module/helpers/config.mjs";
-import * as documents from "./module/documents/_module.mjs";
-import * as migrations from "./module/helpers/migrations.mjs";
-import * as utils from "./module/helpers/utils.mjs";
 import * as applications from "./module/applications/_module.mjs";
 import * as canvas from "./module/canvas/_module.mjs";
-import * as dice from "./module/dice/_module.mjs";
 import * as data from "./module/data/_module.mjs";
+import * as dice from "./module/dice/_module.mjs";
+import * as documents from "./module/documents/_module.mjs";
+import * as helpers from "./module/helpers/_module.mjs";
+import * as migrations from "./module/helpers/migrations.mjs";
+import * as SYSTEM from "./module/helpers/config.mjs";
+import * as utils from "./module/helpers/utils.mjs";
 import registerEnrichers from "./module/helpers/enrichers.mjs";
 import registerSettings from "./module/helpers/settings.mjs";
 
@@ -26,9 +27,13 @@ globalThis.artichron = {
   data,
   dice,
   documents,
+  helpers,
   migrations,
   utils,
 };
+
+// FIXME: Core constructs too early.
+CONFIG.ux.TooltipManager = helpers.interaction.TooltipManagerArtichron;
 
 /* -------------------------------------------------- */
 /*   Init hook                                        */
@@ -49,7 +54,7 @@ Hooks.once("init", function() {
   CONFIG.ui.actors = applications.sidebar.tabs.ActorDirectory;
   CONFIG.ui.combat = applications.sidebar.tabs.CombatTracker;
   CONFIG.ui.carousel = applications.apps.combat.CombatCarousel;
-  CONFIG.ui.tooltips = applications.ui.Tooltips; // TODO: https://github.com/foundryvtt/foundryvtt/issues/12395
+  // CONFIG.ux.TooltipManager = applications.ui.TooltipManager;
   CONFIG.Canvas.layers.tokens.layerClass = canvas.layers.TokenLayerArtichron;
 
   // Hook up document classes and collections.
@@ -143,7 +148,6 @@ Hooks.once("setup", function() {
     progressClock: progressClock,
     thresholdBar: thresholdBar,
   });
-  applications.ui.Tooltips.activateListeners();
 });
 
 /* -------------------------------------------------- */
@@ -151,7 +155,7 @@ Hooks.once("setup", function() {
 /* -------------------------------------------------- */
 
 Hooks.once("ready", () => {
-  ui.tooltips.observe();
+  game.tooltip.observe();
 });
 
 /* -------------------------------------------------- */
@@ -159,8 +163,6 @@ Hooks.once("ready", () => {
 /* -------------------------------------------------- */
 
 Hooks.once("i18nInit", function() {
-  const { Localization } = foundry.helpers;
-
   // Localize all strings in the global system configuration object.
   const localize = (o, k, v) => {
     switch (foundry.utils.getType(v)) {
