@@ -1,8 +1,5 @@
 <div class="tab {{tabs.description.cssClass}}" data-group="{{tabs.description.group}}" data-tab="{{tabs.description.id}}">
   {{#with description}}
-  <fieldset>
-    <legend>{{field.label}}</legend>
-    {{formInput field value=value enriched=enriched toggled=true compact=true height=300 collaborate=true documentUUID=uuid disabled=@root.isPlayMode}}
-  </fieldset>
+  {{formInput field value=value enriched=enriched toggled=true compact=true height=300 collaborate=true documentUUID=uuid disabled=@root.isPlayMode}}
   {{/with}}
 </div>
