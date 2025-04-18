@@ -1,4 +1,4 @@
-export default class ChatMessageArtichron extends ChatMessage {
+export default class ChatMessageArtichron extends foundry.documents.ChatMessage {
   /**
    * Static register of token hover events for elements that emulate these.
    * @type {Map<string, Token>}

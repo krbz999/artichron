@@ -1,4 +1,4 @@
-export default class CombatArtichron extends Combat {
+export default class CombatArtichron extends foundry.documents.Combat {
   /** @inheritdoc */
   _onDelete(options, userId) {
     super._onDelete(options, userId);

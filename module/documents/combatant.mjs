@@ -1,4 +1,4 @@
-export default class CombatantArtichron extends Combatant {
+export default class CombatantArtichron extends foundry.documents.Combatant {
   /** @inheritdoc */
   _getInitiativeFormula() {
     const pips = this.actor?.actionPoints ?? 0;

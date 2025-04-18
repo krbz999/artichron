@@ -1,4 +1,4 @@
-export default class ActiveEffectArtichron extends ActiveEffect {
+export default class ActiveEffectArtichron extends foundry.documents.ActiveEffect {
   /** @inheritdoc */
   static applyField(model, change, field) {
     if (!field) {

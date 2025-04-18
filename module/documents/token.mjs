@@ -1,4 +1,4 @@
-export default class TokenDocumentArtichron extends TokenDocument {
+export default class TokenDocumentArtichron extends foundry.documents.TokenDocument {
   /**
    * Recall members of a party.
    */

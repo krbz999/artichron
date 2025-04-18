@@ -20,7 +20,7 @@ import * as TYPES from "../helpers/types.mjs";
  * @property {number} [hindered]      How many levels of the 'Hindered' status will be applied.
  */
 
-export default class ActorArtichron extends Actor {
+export default class ActorArtichron extends foundry.documents.Actor {
   /* -------------------------------------------------- */
   /*   Properties                                       */
   /* -------------------------------------------------- */

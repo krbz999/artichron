@@ -1,4 +1,4 @@
-export default class ItemArtichron extends Item {
+export default class ItemArtichron extends foundry.documents.Item {
   /** @inheritdoc */
   static getDefaultArtwork(itemData) {
     let img;
@@ -345,7 +345,7 @@ export default class ItemArtichron extends Item {
   /* -------------------------------------------------- */
 
   /** @inheritdoc */
-  _onUpdate(update, options, user) {
+  _onUpdate(update, options, userId) {
     if (options.pseudo?.operation === "delete") {
       const sheet = artichron.data.PseudoDocument._sheets.get(options.pseudo.uuid);
       if (sheet) {
@@ -354,7 +354,7 @@ export default class ItemArtichron extends Item {
         sheet.close();
       }
     }
-    return super._onUpdate(update, options, user);
+    return super._onUpdate(update, options, userId);
   }
 
   /* -------------------------------------------------- */
