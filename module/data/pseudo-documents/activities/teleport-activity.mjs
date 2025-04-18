@@ -61,7 +61,7 @@ export default class TeleportActivity extends BaseActivity {
     };
 
     const circle = drawCircle();
-    const place = await artichron.canvas.TokenPlacement.place({ tokens: [token.document] });
+    const place = await artichron.canvas.placement.TokenPlacement.place({ tokens: [token.document] });
     token.removeChild(circle);
     if (!place.length) return null;
     const { x, y, rotation } = place[0];

@@ -421,7 +421,7 @@ export default class BaseActivity extends PseudoDocument {
     target.attach = artichron.config.TARGET_TYPES[target.type].isAttached;
 
     for (let i = 0; i < target.count; i++) {
-      const templateData = await artichron.canvas.TemplatePlacement.fromToken(token, target, {
+      const templateData = await artichron.canvas.placement.TemplatePlacement.fromToken(token, target, {
         lock: true,
         templateData: templateDatas.at(-1),
       }).drawPreview();

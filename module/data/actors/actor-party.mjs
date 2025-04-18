@@ -105,7 +105,7 @@ export default class PartyData extends ActorSystemModel {
    */
   async placeMembers() {
     const tokens = this.members.map(member => member.actor.prototypeToken);
-    const placements = await artichron.canvas.TokenPlacement.place({ tokens: tokens });
+    const placements = await artichron.canvas.placement.TokenPlacement.place({ tokens: tokens });
 
     const origin = this.parent.isToken ? this.parent.token?.object : this.parent.getActiveTokens()[0];
 
