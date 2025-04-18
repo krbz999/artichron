@@ -98,7 +98,7 @@
   "flags": {
     "hotReload": {
       "extensions": ["css", "hbs", "json"],
-      "paths": ["lang/en.json", "styles/*.css", "templates/**/*.hbs"]
+      "paths": ["lang", "styles", "templates"]
     }
   },
   "documentTypes": {
