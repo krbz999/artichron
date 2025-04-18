@@ -159,40 +159,30 @@ export default class PartyData extends ActorSystemModel {
       party, type: "currency",
     });
     if (!configuration) return;
-    const { amount, targets } = configuration;
-    const actors = Array.from(targets).map(id => game.actors.get(id));
 
-    if (!actors.length) {
-      throw new Error("You must select at least one actor!");
-    }
-
-    if (amount <= 0) {
-      throw new Error("You can only distribute a positive amount!");
-    }
-
+    let amount = 0;
+    const Cls = foundry.utils.getDocumentClass("ChatMessage");
     const updates = [];
-    for (const actor of actors) {
-      if (actor.id === party.id) continue;
+    const messageData = [];
+    for (const [actorId, { value } ] of Object.entries(configuration.recipients)) {
+      amount += value;
+      const actor = game.actors.get(actorId);
       const path = "system.currency.funds";
-      const value = foundry.utils.getProperty(actor, path);
-      updates.push({ _id: actor.id, [path]: value + amount });
-    }
+      updates.push({ _id: actorId, [path]: foundry.utils.getProperty(actor, path) + value });
 
-    const partyUpdate = { _id: party.id, "system.currency.award": party.system.currency.award - amount * actors.length };
-    if (actors.includes(party)) partyUpdate["system.currency.funds"] = party.system.currency.funds + amount;
-    updates.push(partyUpdate);
-
-    for (const actor of actors) {
       const content = game.i18n.format("ARTICHRON.PartyDistributionDialog.ContentCurrency", {
-        name: actor.name, amount: amount,
+        name: actor.name, amount: value,
       });
-      ChatMessage.implementation.create({
+      if (value) messageData.push({
         whisper: game.users.filter(u => actor.testUserPermission(u, "OWNER")).map(u => u.id),
         content: `<p>${content}</p>`,
-        speaker: ChatMessage.implementation.getSpeaker({ actor: party }),
+        speaker: Cls.getSpeaker({ actor: party }),
       });
     }
+    const partyUpdate = updates.find(k => k._id === party.id);
+    partyUpdate["system.currency.award"] = party.system.currency.award - amount;
 
-    foundry.utils.getDocumentClass("Actor").updateDocuments(updates);
+    await Cls.createDocuments(messageData);
+    return foundry.utils.getDocumentClass("Actor").updateDocuments(updates);
   }
 }
