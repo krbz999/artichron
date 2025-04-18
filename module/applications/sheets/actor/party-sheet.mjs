@@ -41,6 +41,7 @@ export default class PartySheet extends ActorSheetArtichron {
     },
     progress: {
       template: "systems/artichron/templates/actor/party-progress.hbs",
+      classes: ["scrollable"],
       scrollable: [".scrollable"],
     },
   };
