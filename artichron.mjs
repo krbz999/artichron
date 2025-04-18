@@ -100,7 +100,7 @@ Hooks.once("init", function() {
 
   configureSheet("Actor", foundry.appv1.sheets.ActorSheet, { register: false });
   configureSheet("Item", foundry.appv1.sheets.ItemSheet, { register: false });
-  configureSheet("ActiveEffect", foundry.applications.sheets.ActiveEffectConfig, { register: false });
+  // configureSheet("ActiveEffect", foundry.applications.sheets.ActiveEffectConfig, { register: false });
   configureSheet("Actor", applications.sheets.actor.ActorSheetHero, {
     label: "ARTICHRON.SHEET.ACTOR.Hero", types: ["hero"],
   });
@@ -116,9 +116,9 @@ Hooks.once("init", function() {
   configureSheet("Item", applications.sheets.item.ItemSheet, {
     label: "ARTICHRON.SHEET.ITEM.Base",
   });
-  configureSheet("ActiveEffect", applications.sheets.effect.ActiveEffectSheet, {
-    label: "ARTICHRON.SHEET.EFFECT.Base",
-  });
+  // configureSheet("ActiveEffect", applications.sheets.effect.ActiveEffectSheet, {
+  //   label: "ARTICHRON.SHEET.EFFECT.Base",
+  // });
 
   // Set up conditions.
   CONFIG.statusEffects = Object.entries(SYSTEM.STATUS_CONDITIONS).map(([id, config]) => {
