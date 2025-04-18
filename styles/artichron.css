@@ -103,7 +103,7 @@ dialog:-internal-dialog-in-top-layer::backdrop {
 /* ---------------------------------------- */
 
 .application {
-  max-height: 99vh;
+  max-height: 100vh;
 }
 
 /* System application backdrops */
