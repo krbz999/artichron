@@ -246,7 +246,7 @@
         max-height: 200px;
         max-width: 200px;
         &[data-action] {
-          cursor: pointer;
+          cursor: var(--cursor-pointer);
         }
       }
     }
@@ -374,7 +374,10 @@
         object-position: center top;
         border-radius: 50%;
         border: 2px inset rgba(var(--artichron-color-border-blue), 0.85);
-        &[data-action] { cursor: pointer; }
+
+        &[data-action] {
+          cursor: var(--cursor-pointer);
+        }
       }
 
       .center {

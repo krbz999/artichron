@@ -244,7 +244,7 @@ dialog:-internal-dialog-in-top-layer::backdrop {
 
       & img {
         border-radius: 50%;
-        cursor: pointer;
+        cursor: var(--cursor-pointer);
         object-fit: cover;
         object-position: top;
         aspect-ratio: 1;
@@ -278,7 +278,7 @@ dialog:-internal-dialog-in-top-layer::backdrop {
       display: flex;
       flex-wrap: wrap;
       margin: 0 0.5rem;
-      cursor: pointer;
+      cursor: var(--cursor-pointer);
 
       .icon {
         width: 40px;
@@ -578,7 +578,7 @@ battery-progress {
   }
 
   &:not(:disabled) .bars .bar {
-    cursor: pointer;
+    cursor: var(--cursor-pointer);
 
     &:hover::after {
       opacity: 0.5;
