@@ -28,6 +28,7 @@ export default class PoolRequirement extends BaseArmorRequirement {
   /** @inheritdoc */
   static get metadata() {
     return {
+      ...super.metadata,
       label: "ARTICHRON.ITEM.REQUIREMENT.Pool.label",
       hint: "ARTICHRON.ITEM.REQUIREMENT.Pool.hint",
     };

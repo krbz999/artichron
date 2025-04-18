@@ -28,6 +28,7 @@ export default class SkillRequirement extends BaseArmorRequirement {
   /** @inheritdoc */
   static get metadata() {
     return {
+      ...super.metadata,
       label: "ARTICHRON.ITEM.REQUIREMENT.Skill.label",
       hint: "ARTICHRON.ITEM.REQUIREMENT.Skill.hint",
     };

@@ -24,6 +24,7 @@ export default class LevelRequirement extends BaseArmorRequirement {
   /** @inheritdoc */
   static get metadata() {
     return {
+      ...super.metadata,
       label: "ARTICHRON.ITEM.REQUIREMENT.Level.label",
       hint: "ARTICHRON.ITEM.REQUIREMENT.Level.hint",
     };

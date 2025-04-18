@@ -23,6 +23,7 @@ export default class HealthRequirement extends BaseArmorRequirement {
   /** @inheritdoc */
   static get metadata() {
     return {
+      ...super.metadata,
       label: "ARTICHRON.ITEM.REQUIREMENT.Health.label",
       hint: "ARTICHRON.ITEM.REQUIREMENT.Health.hint",
     };
