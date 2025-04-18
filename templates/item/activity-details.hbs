@@ -1,19 +1,19 @@
 <div class="tab details {{tabs.details.cssClass}}" data-group="primary" data-tab="details">
   <fieldset>
     <legend>{{cost.legend}}</legend>
-    {{formGroup cost.field value=cost.value name=cost.name}}
+    {{formGroup cost.field value=cost.src name=cost.name}}
     {{#if usage.show}}
-    {{formGroup usage.field value=usage.value name=usage.name}}
+    {{formGroup usage.field value=usage.src name=usage.name}}
     {{/if}}
   </fieldset>
 
   {{#if target.show}}
   <fieldset>
     <legend>{{target.legend}}</legend>
-    {{formGroup target.type.field value=target.type.value options=target.type.options name=target.type.name}}
+    {{formGroup target.type.field value=target.type.src options=target.type.options name=target.type.name}}
     {{#if target.fields.length}}
     {{#each target.fields}}
-    {{formGroup field value=value name=name}}
+    {{formGroup field value=src name=name}}
     {{/each}}
     {{/if}}
   </fieldset>
@@ -45,39 +45,43 @@
   <fieldset>
     <legend>{{defend.legend}}</legend>
     <div class="form-group">
-      <label>{{localize "ARTICHRON.ACTIVITY.LABELS.formula"}}</label>
+      <label>{{localize "ARTICHRON.ACTIVITY.LABELS.defendFormula"}}</label>
       <div class="form-fields">
-        {{formGroup defend.number.field value=defend.number.value classes="label-top" name=defend.number.name}}
-        {{formGroup defend.denomination.field value=defend.denomination.value classes="label-top" name=defend.denomination.name}}
+        {{#with defend}}
+        {{formGroup number.field value=number.src classes="label-top" name=number.name}}
+        {{formGroup denomination.field value=denomination.src classes="label-top" name=denomination.name}}
+        {{/with}}
       </div>
     </div>
   </fieldset>
   {{/if}}
 
   {{#if healing.show}}
+  {{#with healing}}
   <fieldset>
-    <legend>{{healing.legend}}</legend>
+    <legend>{{legend}}</legend>
     <div class="form-group">
-      <label>{{localize "ARTICHRON.ACTIVITY.LABELS.formula"}}</label>
+      <label>{{localize "ARTICHRON.ACTIVITY.LABELS.healingFormula"}}</label>
       <div class="form-fields">
-        {{formGroup healing.number.field value=healing.number.value classes="label-top" name=healing.number.name}}
-        {{formGroup healing.denomination.field value=healing.denomination.value classes="label-top" name=healing.denomination.name}}
+        {{formGroup number.field value=number.src classes="label-top" name=number.name}}
+        {{formGroup denomination.field value=denomination.src classes="label-top" name=denomination.name}}
       </div>
     </div>
   </fieldset>
+  {{/with}}
   {{/if}}
 
   {{#if effects.show}}
   <fieldset>
     <legend>{{effects.legend}}</legend>
-    {{formGroup effects.ids.field value=effects.ids.value options=effects.ids.choices classes="stacked" name=effects.ids.name}}
+    {{formGroup effects.ids.field value=effects.ids.src options=effects.ids.choices classes="stacked" name=effects.ids.name}}
   </fieldset>
   {{/if}}
 
   {{#if teleport.show}}
   <fieldset>
     <legend>{{teleport.legend}}</legend>
-    {{formGroup teleport.distance.field value=teleport.distance.value name=teleport.distance.name}}
+    {{formGroup teleport.distance.field value=teleport.distance.src name=teleport.distance.name}}
   </fieldset>
   {{/if}}
 </div>

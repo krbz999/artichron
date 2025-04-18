@@ -157,7 +157,7 @@ export default class DamageActivity extends BaseActivity {
   async createDamage(data = {}) {
     const id = foundry.utils.randomID();
     const path = `damage.${id}`;
-    return this.update({ [path]: { ...data, _id: id } });
+    return this.update({ [path]: { type: "fire", ...data, _id: id } });
   }
 
   /* -------------------------------------------------- */

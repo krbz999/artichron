@@ -115,18 +115,11 @@
     "ApplyHealing": "Apply Healing",
     "Teleport": "Teleport Token"
   },
+  "LABELS": {
+    "defendFormula": "Defensive Formula",
+    "healingFormula": "Healing Formula"
+  },
   "FIELDS": {
-    "cost": {
-      "label": "Action Cost",
-      "uses": {
-        "hint": "Consume uses of the elixir when using this activity.",
-        "label": "Consume Uses"
-      },
-      "value": {
-        "hint": "The action point cost to make use of this activity.",
-        "label": "Action Cost"
-      }
-    },
     "damage": {
       "FIELDS": {
         "number": {
@@ -140,73 +133,6 @@
         }
       },
       "label": "Damage"
-    },
-    "defend": {
-      "denomination": {
-        "label": "Denomination"
-      },
-      "number": {
-        "label": "Number"
-      },
-      "label": "Defend"
-    },
-    "description": {
-      "label": "Description"
-    },
-    "effects": {
-      "ids": {
-        "hint": "The transferrable effects this activity will be able to transfer to a target."
-      },
-      "label": "Effects"
-    },
-    "healing": {
-      "denomination": {
-        "label": "Denomination"
-      },
-      "number": {
-        "label": "Number"
-      },
-      "label": "Healing"
-    },
-    "img": {
-      "label": "Image"
-    },
-    "name": {
-      "label": "Name"
-    },
-    "target": {
-      "count": {
-        "hint": "How many targets this activity can have, or areas of effect this activity creates.",
-        "label": "Count"
-      },
-      "duration": {
-        "hint": "When measured templates created by this activity are automatically removed.",
-        "label": "Duration"
-      },
-      "label": "Targeting",
-      "range": {
-        "hint": "The maximum range between the character and the target.",
-        "label": "Range"
-      },
-      "size": {
-        "hint": "The length or radius of the created template.",
-        "label": "Size"
-      },
-      "type": {
-        "hint": "The type of targeting this activity requires, either individual targets or areas of effect.",
-        "label": "Type"
-      },
-      "width": {
-        "hint": "The width of the created templates.",
-        "label": "Width"
-      }
-    },
-    "teleport": {
-      "distance": {
-        "hint": "The distance the target is teleported.",
-        "label": "Distance"
-      },
-      "label": "Teleport"
     }
   },
   "Types": {
@@ -728,6 +654,284 @@
     }
   },
   "FIELDS": {
+    "activities": {
+      "element": {
+        "*": {
+          "cost": {
+            "label": "Action Cost",
+            "uses": {
+              "hint": "Consume uses of the elixir when using this activity.",
+              "label": "Consume Uses"
+            },
+            "value": {
+              "hint": "The action point cost to make use of this activity.",
+              "label": "Action Cost"
+            }
+          },
+          "description": {
+            "label": "Description"
+          },
+          "img": {
+            "label": "Image"
+          },
+          "name": {
+            "label": "Name"
+          },
+          "target": {
+            "count": {
+              "hint": "How many targets this activity can have, or areas of effect this activity creates.",
+              "label": "Count"
+            },
+            "duration": {
+              "hint": "When measured templates created by this activity are automatically removed.",
+              "label": "Duration"
+            },
+            "label": "Targeting",
+            "range": {
+              "hint": "The maximum range between the character and the target.",
+              "label": "Range"
+            },
+            "size": {
+              "hint": "The length or radius of the created template.",
+              "label": "Size"
+            },
+            "type": {
+              "hint": "The type of targeting this activity requires, either individual targets or areas of effect.",
+              "label": "Type"
+            },
+            "width": {
+              "hint": "The width of the created templates.",
+              "label": "Width"
+            }
+          }
+        },
+        "damage": {
+          "cost": {
+            "label": "Action Cost",
+            "uses": {
+              "hint": "Consume uses of the elixir when using this activity.",
+              "label": "Consume Uses"
+            },
+            "value": {
+              "hint": "The action point cost to make use of this activity.",
+              "label": "Action Cost"
+            }
+          },
+          "description": {
+            "label": "Description"
+          },
+          "img": {
+            "label": "Image"
+          },
+          "name": {
+            "label": "Name"
+          },
+          "target": {
+            "count": {
+              "hint": "How many targets this activity can have, or areas of effect this activity creates.",
+              "label": "Count"
+            },
+            "duration": {
+              "hint": "When measured templates created by this activity are automatically removed.",
+              "label": "Duration"
+            },
+            "label": "Targeting",
+            "range": {
+              "hint": "The maximum range between the character and the target.",
+              "label": "Range"
+            },
+            "size": {
+              "hint": "The length or radius of the created template.",
+              "label": "Size"
+            },
+            "type": {
+              "hint": "The type of targeting this activity requires, either individual targets or areas of effect.",
+              "label": "Type"
+            },
+            "width": {
+              "hint": "The width of the created templates.",
+              "label": "Width"
+            }
+          },
+          "damage": {
+            "label": "Damage"
+          }
+        },
+        "defend": {
+          "cost": {
+            "label": "Action Cost",
+            "uses": {
+              "hint": "Consume uses of the elixir when using this activity.",
+              "label": "Consume Uses"
+            },
+            "value": {
+              "hint": "The action point cost to make use of this activity.",
+              "label": "Action Cost"
+            }
+          },
+          "description": {
+            "label": "Description"
+          },
+          "img": {
+            "label": "Image"
+          },
+          "name": {
+            "label": "Name"
+          },
+          "defend": {
+            "denomination": {
+              "label": "Denomination"
+            },
+            "number": {
+              "label": "Number"
+            },
+            "label": "Defend"
+          }
+        },
+        "effect": {
+          "cost": {
+            "label": "Action Cost",
+            "uses": {
+              "hint": "Consume uses of the elixir when using this activity.",
+              "label": "Consume Uses"
+            },
+            "value": {
+              "hint": "The action point cost to make use of this activity.",
+              "label": "Action Cost"
+            }
+          },
+          "description": {
+            "label": "Description"
+          },
+          "img": {
+            "label": "Image"
+          },
+          "name": {
+            "label": "Name"
+          },
+          "effects": {
+            "ids": {
+              "hint": "The transferrable effects this activity will be able to transfer to a target."
+            },
+            "label": "Effects"
+          },
+          "target": {
+            "count": {
+              "hint": "How many targets this activity can have, or areas of effect this activity creates.",
+              "label": "Count"
+            },
+            "duration": {
+              "hint": "When measured templates created by this activity are automatically removed.",
+              "label": "Duration"
+            },
+            "label": "Targeting",
+            "range": {
+              "hint": "The maximum range between the character and the target.",
+              "label": "Range"
+            },
+            "size": {
+              "hint": "The length or radius of the created template.",
+              "label": "Size"
+            },
+            "type": {
+              "hint": "The type of targeting this activity requires, either individual targets or areas of effect.",
+              "label": "Type"
+            },
+            "width": {
+              "hint": "The width of the created templates.",
+              "label": "Width"
+            }
+          }
+        },
+        "healing": {
+          "cost": {
+            "label": "Action Cost",
+            "uses": {
+              "hint": "Consume uses of the elixir when using this activity.",
+              "label": "Consume Uses"
+            },
+            "value": {
+              "hint": "The action point cost to make use of this activity.",
+              "label": "Action Cost"
+            }
+          },
+          "description": {
+            "label": "Description"
+          },
+          "img": {
+            "label": "Image"
+          },
+          "name": {
+            "label": "Name"
+          },
+          "healing": {
+            "denomination": {
+              "label": "Denomination"
+            },
+            "number": {
+              "label": "Number"
+            },
+            "label": "Healing"
+          },
+          "target": {
+            "count": {
+              "hint": "How many targets this activity can have, or areas of effect this activity creates.",
+              "label": "Count"
+            },
+            "duration": {
+              "hint": "When measured templates created by this activity are automatically removed.",
+              "label": "Duration"
+            },
+            "label": "Targeting",
+            "range": {
+              "hint": "The maximum range between the character and the target.",
+              "label": "Range"
+            },
+            "size": {
+              "hint": "The length or radius of the created template.",
+              "label": "Size"
+            },
+            "type": {
+              "hint": "The type of targeting this activity requires, either individual targets or areas of effect.",
+              "label": "Type"
+            },
+            "width": {
+              "hint": "The width of the created templates.",
+              "label": "Width"
+            }
+          }
+        },
+        "teleport": {
+          "cost": {
+            "label": "Action Cost",
+            "uses": {
+              "hint": "Consume uses of the elixir when using this activity.",
+              "label": "Consume Uses"
+            },
+            "value": {
+              "hint": "The action point cost to make use of this activity.",
+              "label": "Action Cost"
+            }
+          },
+          "description": {
+            "label": "Description"
+          },
+          "img": {
+            "label": "Image"
+          },
+          "name": {
+            "label": "Name"
+          },
+          "teleport": {
+            "distance": {
+              "hint": "The distance the target is teleported.",
+              "label": "Distance"
+            },
+            "label": "Teleport"
+          }
+        }
+      }
+    },
     "attributes": {
       "label": "Attributes",
       "value": {

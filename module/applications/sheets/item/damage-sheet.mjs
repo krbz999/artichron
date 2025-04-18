@@ -104,7 +104,7 @@ export default class DamageSheet extends HandlebarsApplicationMixin(Application)
             ...makeField("number"),
           },
           denomination: {
-            ... makeField("denomination"),
+            ...makeField("denomination"),
           },
           type: {
             ...makeField("type"), options: artichron.config.DAMAGE_TYPES.optgroups,

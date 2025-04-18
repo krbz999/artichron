@@ -46,8 +46,12 @@
     --button-hover-border-color: transparent;
     --button-hover-background-color: transparent;
     --button-hover-text-color: var(--button-text-color);
-    height: unset;
-    padding: 0;
+    background-color: transparent;
+
+    &:focus {
+      outline: none;
+      box-shadow: none;
+    }
   }
 }
 

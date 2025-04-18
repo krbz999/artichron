@@ -52,36 +52,16 @@ export default class ClockSheet extends PseudoDocumentSheet {
   /* -------------------------------------------------- */
 
   /**
-   * Helper method for creating field data.
-   * @param {object} context      Current rendering context.
-   * @param {string} path         Path in the clock schema.
-   * @returns {object}            Field data.
-   */
-  #prepareField(context, path) {
-    return {
-      field: context.clock.schema.getField(path),
-      value: context.clock[path] || null,
-      source: context.clock._source[path],
-    };
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
    * Prepare context for Identity tab.
    * @param {object} context      Rendering context. **will be mutated**
    * @param {object} options      Rendering options.
    */
   async #prepareIdentityContext(context, options) {
-    Object.assign(context, {
-      name: {
-        ...this.#prepareField(context, "name"),
-        placeholder: game.i18n.localize(context.clock.constructor.metadata.defaultName),
-      },
-      color: {
-        ...this.#prepareField(context, "color"),
-        placeholder: context.clock.constructor.metadata.color,
-      },
+    context.name = Object.assign(this._prepareField("name"), {
+      placeholder: game.i18n.localize(context.clock.constructor.metadata.defaultName),
+    });
+    context.color = Object.assign(this._prepareField("color"), {
+      placeholder: context.clock.constructor.metadata.color,
     });
   }
 
@@ -93,19 +73,10 @@ export default class ClockSheet extends PseudoDocumentSheet {
    * @param {object} options      Rendering options.
    */
   async #prepareDetailsContext(context, options) {
-    Object.assign(context, {
-      value: {
-        ...this.#prepareField(context, "value"),
-        placeholder: "0",
-      },
-      max: {
-        ...this.#prepareField(context, "max"),
-        placeholder: "8",
-      },
-      description: {
-        ...this.#prepareField(context, "description"),
-        enriched: await foundry.applications.ux.TextEditor.enrichHTML(context.clock.description),
-      },
+    context.value = Object.assign(this._prepareField("value"), { placeholder: "0" });
+    context.max = Object.assign(this._prepareField("max"), { placeholder: "8" });
+    context.description = Object.assign(this._prepareField("description"), {
+      enriched: await foundry.applications.ux.TextEditor.enrichHTML(context.clock._source.description),
     });
   }
 }

@@ -189,15 +189,6 @@ Hooks.once("i18nInit", function() {
   for (const [k, v] of Object.entries(artichron.config)) {
     localize(artichron.config, k, v);
   }
-
-  // Localize data models.
-  const { armorRequirements, clocks, activities } = artichron.data.pseudoDocuments;
-  for (const model of Object.values(armorRequirements.BaseArmorRequirement.TYPES)) Localization.localizeDataModel(model);
-  for (const model of Object.values(clocks.BaseClock.TYPES)) Localization.localizeDataModel(model);
-  for (const model of Object.values(activities.BaseActivity.TYPES)) Localization.localizeDataModel(model);
-
-  // Localize damage formula models.
-  Localization.localizeDataModel(artichron.data.DamageFormulaModel);
 });
 
 /* -------------------------------------------------- */
