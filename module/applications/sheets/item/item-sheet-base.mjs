@@ -280,6 +280,7 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
 
   /* -------------------------------------------------- */
 
+  /** @inheritdoc */
   async _onRender(context, options) {
     await super._onRender(context, options);
     this._setupContextMenu(this._getActivityEntryContextOptions, "[data-activity-id]", "ActivityEntryContext");
