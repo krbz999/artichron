@@ -389,33 +389,12 @@
           padding-bottom: 0.2rem;
         }
 
-        .points {
-          position: absolute;
-          bottom: 25%;
-          right: 0.5rem;
-          font-size: 12px;
-          width: 3rem;
-          height: 1.5rem;
-          align-content: space-evenly;
-          align-items: center;
-          padding: 0;
-          margin: 0 0 0.2rem 0;
-          justify-content: center;
-
-          > * {
-            flex: 1;
-            margin: 0;
-            padding: 0;
-          }
-        }
-
         .currency {
           position: absolute;
           bottom: 25%;
-          right: calc(1rem + 3rem);
+          right: 0;
           width: 4rem;
           height: 1.5rem;
-          align-content: space-evenly;
           align-items: center;
           justify-content: center;
           padding: 0;

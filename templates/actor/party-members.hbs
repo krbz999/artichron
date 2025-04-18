@@ -71,12 +71,6 @@
           {{/if}}
           <input type="text" id="currency-{{@root.document.id}}-{{actor.id}}" class="delta" value="{{actor.system.currency.funds}}" {{#if isOwner}} data-change="changeCurrency" data-property="system.currency.funds" {{else}} disabled {{/if}}>
         </span>
-        {{#if isHero}}
-        <button type="button" data-action="createProgression" class="points" {{disabled (not isOwner)}}>
-          <span>{{pts.available}}</span>
-          <i class="fa-solid fa-fw fa-cube"></i>
-        </button>
-        {{/if}}
       </div>
       <div class="controls">
         <button type="button" data-action="removeMember" {{#unless (and @root.isEditable @root.isEditMode)}}disabled{{/unless}}>
