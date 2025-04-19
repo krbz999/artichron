@@ -1,9 +1,8 @@
 <fieldset>
+  {{!-- FIXME: redundant labels once core fixes i18n bug --}}
   <legend>{{localize "ARTICHRON.SHEET.LEGENDS.damage"}}</legend>
-  {{#with fields}}
-  {{formGroup number.field value=number.value}}
-  {{formGroup denomination.field value=denomination.value}}
-  {{formGroup type.field value=type.value options=type.options}}
-  {{formInput options.field value=options.value type="checkboxes"}}
-  {{/with}}
+  {{formGroup number.field value=number.src name=number.name label=(localize "ARTICHRON.DAMAGE.FIELDS.number.label")}}
+  {{formGroup denomination.field value=denomination.src name=denomination.name label=(localize "ARTICHRON.DAMAGE.FIELDS.denomination.label")}}
+  {{formGroup type.field value=type.src options=type.options name=type.name label=(localize "ARTICHRON.DAMAGE.FIELDS.type.label")}}
+  {{formInput options.field value=options.src type="checkboxes" name=options.name}}
 </fieldset>

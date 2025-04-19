@@ -138,7 +138,6 @@ export default class ActivitySheet extends PseudoDocumentSheet {
       const groups = artichron.config.DAMAGE_TYPES.optgroups;
       context.damage = {
         show: true,
-        legend: makeLegend("damage"),
         damages: context.activity.damage.map(damage => ({
           damage: damage,
           fields: ["number", "denomination", "type"].map(path => {
@@ -148,6 +147,8 @@ export default class ActivitySheet extends PseudoDocumentSheet {
               value: foundry.utils.getProperty(damage, path),
               classes: [path, "label-top"].join(" "),
               options: (path === "type") ? groups : undefined,
+              // FIXME: redundant label once core fixes i18n bug
+              label: game.i18n.localize(`ARTICHRON.DAMAGE.FIELDS.${path}.label`),
             };
           }),
         })),

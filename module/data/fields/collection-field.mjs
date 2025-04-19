@@ -1,11 +1,14 @@
-const { TypedObjectField, TypedSchemaField } = foundry.data.fields;
+const { EmbeddedDataField, TypedObjectField, TypedSchemaField } = foundry.data.fields;
 
 /**
  * A collection that houses pseudo-documents.
  */
 export default class CollectionField extends TypedObjectField {
-  constructor(model, options = {}, context = {}) {
-    const field = new TypedSchemaField(model.TYPES, options, context);
+  constructor(model, { typed = true, ...options } = {}, context = {}) {
+    let field;
+    if (typed === false) field = new EmbeddedDataField(model);
+    else field = new TypedSchemaField(model.TYPES);
+    options.validateKey ||= ((key) => foundry.data.validators.isValidId(key));
     super(field, options, context);
   }
 
@@ -26,7 +29,7 @@ export default class CollectionField extends TypedObjectField {
 
 /**
  * Specialized collection type for stored data models.
- * @param {Array<string, DataModel>} entries      Array containing the data models to store.
+ * @param {Array<string, DataModel>} entries    Array containing the data models to store.
  */
 class ModelCollection extends foundry.utils.Collection {
   /* -------------------------------------------------- */

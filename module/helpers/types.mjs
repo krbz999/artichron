@@ -33,6 +33,12 @@
  * @property {typeof Application} sheetClass    The sheet class used to render this pseudo document.
  */
 
+/**
+ * @typedef {PseudoDocumentMetadata} DamagePartMetadata
+ * @property {string} defaultName               i18n path for default name.
+ * @property {typeof Application} sheetClass    The sheet class used to render this pseudo document.
+ */
+
 /* -------------------------------------------------- */
 
 /**

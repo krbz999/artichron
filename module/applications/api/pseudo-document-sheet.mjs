@@ -3,9 +3,8 @@ const { HandlebarsApplicationMixin, Application } = foundry.applications.api;
 export default class PseudoDocumentSheet extends HandlebarsApplicationMixin(Application) {
   constructor(options) {
     super(options);
-    this.#pseudoId = options.document.id;
-    this.#parent = options.document.document;
-    this.#pseudoDocumentClass = options.document.constructor;
+    this.#pseudoUuid = options.document.uuid;
+    this.#document = options.document.document;
   }
 
   /* -------------------------------------------------- */
@@ -66,10 +65,10 @@ export default class PseudoDocumentSheet extends HandlebarsApplicationMixin(Appl
   /* -------------------------------------------------- */
 
   /**
-   * The id of the pseudo-document.
+   * Stored uuid of this pseudo document.
    * @type {string}
    */
-  #pseudoId;
+  #pseudoUuid;
 
   /* -------------------------------------------------- */
 
@@ -78,16 +77,8 @@ export default class PseudoDocumentSheet extends HandlebarsApplicationMixin(Appl
    * @type {PseudoDocument}
    */
   get pseudoDocument() {
-    return this.document.getEmbeddedDocument(this.#pseudoDocumentClass.metadata.documentName, this.#pseudoId);
+    return fromUuidSync(this.#pseudoUuid);
   }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * The constructor class of the pseudo-document.
-   * @type {typeof PseudoDocument}
-   */
-  #pseudoDocumentClass;
 
   /* -------------------------------------------------- */
 
@@ -95,7 +86,7 @@ export default class PseudoDocumentSheet extends HandlebarsApplicationMixin(Appl
    * The parent document.
    * @type {Document}
    */
-  #parent;
+  #document;
 
   /* -------------------------------------------------- */
 
@@ -104,17 +95,19 @@ export default class PseudoDocumentSheet extends HandlebarsApplicationMixin(Appl
    * @type {Document}
    */
   get document() {
-    return this.#parent;
+    return this.#document;
   }
 
   /* -------------------------------------------------- */
 
   /** @inheritdoc */
   get title() {
-    const { documentName, defaultName } = this.#pseudoDocumentClass.metadata;
+    const pseudo = this.pseudoDocument;
+    const { documentName, name } = pseudo;
+    const defaultName = pseudo.constructor.metadata.defaultName;
     return [
       game.i18n.localize(`DOCUMENT.${documentName}`),
-      this.pseudoDocument.name || game.i18n.localize(defaultName),
+      name || game.i18n.localize(defaultName),
     ].join(": ");
   }
 
@@ -207,7 +200,7 @@ export default class PseudoDocumentSheet extends HandlebarsApplicationMixin(Appl
     const pseudo = this.pseudoDocument;
     const id = event.button === 2 ? pseudo.id : pseudo.uuid;
     const type = event.button === 2 ? "id" : "uuid";
-    const label = game.i18n.localize(`DOCUMENT.${this.#pseudoDocumentClass.metadata.documentName}`);
+    const label = game.i18n.localize(`DOCUMENT.${pseudo.documentName}`);
     game.clipboard.copyPlainText(id);
     ui.notifications.info("DOCUMENT.IdCopiedClipboard", { format: { label, type, id } });
   }

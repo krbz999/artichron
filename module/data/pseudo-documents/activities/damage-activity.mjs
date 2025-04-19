@@ -36,7 +36,7 @@ export default class DamageActivity extends BaseActivity {
   /** @inheritdoc */
   static defineSchema() {
     return Object.assign(super.defineSchema(), {
-      damage: new artichron.data.fields.CollectionField(artichron.data.DamageFormulaModel),
+      damage: new artichron.data.fields.CollectionField(artichron.data.pseudoDocuments.damage.Damage, { typed: false }),
       target: targetField(),
     });
   }

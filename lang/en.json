@@ -1,7 +1,8 @@
 {
 "DOCUMENT": {
   "Activity": "Activity",
-  "Clock": "Clock"
+  "Clock": "Clock",
+  "Damage": "Damage"
 },
 "TYPES": {
 "ActiveEffect": {
@@ -63,9 +64,6 @@
   },
   "ACTIVITY": {
     "title": "Activity: {name}"
-  },
-  "DAMAGE_PART": {
-    "title": "{name}: Damage Part"
   },
   "TABS": {
     "about": "About",
@@ -426,6 +424,21 @@
   }
 },
 
+"DAMAGE": {
+  "defaultName": "Damage Part",
+  "FIELDS": {
+    "denomination": {
+      "label": "Denomination"
+    },
+    "number": {
+      "label": "Number"
+    },
+    "type": {
+      "label": "Damage Type"
+    }
+  }
+},
+
 "DamageType": {
   "Arcane": "Arcane",
   "Darkness": "Darkness",
@@ -752,9 +765,6 @@
               "hint": "The width of the created templates.",
               "label": "Width"
             }
-          },
-          "damage": {
-            "label": "Damage"
           }
         },
         "defend": {

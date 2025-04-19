@@ -63,11 +63,6 @@ export default class PseudoDocument extends foundry.abstract.DataModel {
 
   /* -------------------------------------------------- */
 
-  /** @inheritdoc */
-  static LOCALIZATION_PREFIXES = [];
-
-  /* -------------------------------------------------- */
-
   /**
    * The id of this pseudo-document.
    * @type {string}
@@ -79,11 +74,23 @@ export default class PseudoDocument extends foundry.abstract.DataModel {
   /* -------------------------------------------------- */
 
   /**
+   * The document name of this pseudo document.
+   * @type {string}
+   */
+  get documentName() {
+    return this.constructor.metadata.documentName;
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
    * The uuid of this document.
    * @type {string}
    */
   get uuid() {
-    return [this.document.uuid, this.constructor.metadata.documentName, this.id].join(".");
+    let parent = this.parent;
+    while (!(parent instanceof PseudoDocument) && !(parent instanceof foundry.abstract.Document)) parent = parent.parent;
+    return [parent.uuid, this.documentName, this.id].join(".");
   }
 
   /* -------------------------------------------------- */
@@ -93,18 +100,25 @@ export default class PseudoDocument extends foundry.abstract.DataModel {
    * @type {Document}
    */
   get document() {
-    return this.parent.parent;
+    let parent = this;
+    while (!(parent instanceof foundry.abstract.Document)) parent = parent.parent;
+    return parent;
   }
 
   /* -------------------------------------------------- */
 
   /**
-   * The property path to this pseudo document.
+   * The property path to this pseudo document relative to its parent document.
    * @type {string}
    */
   get fieldPath() {
     const fp = this.schema.fieldPath;
-    const path = fp.slice(0, fp.lastIndexOf("element") - 1);
+    let path = fp.slice(0, fp.lastIndexOf("element") - 1);
+
+    if (this.parent instanceof PseudoDocument) {
+      path = [this.parent.fieldPath, this.parent.id, path].join(".");
+    }
+
     return path;
   }
 

@@ -1,4 +1,3 @@
-export { default as DamageFormulaModel } from "./damage-formula-model.mjs";
 export { default as FormulaModel } from "./formula-model.mjs";
 export { default as PseudoDocument } from "./pseudo-document.mjs";
 export * as actors from "./actors/_module.mjs";

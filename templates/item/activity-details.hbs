@@ -22,13 +22,14 @@
   {{#if damage.show}}
   <fieldset>
     <legend>
-      {{damage.legend}}
+      {{localize "ARTICHRON.SHEET.LEGENDS.damage"}}
       <button class="icon fa-regular fa-plus-square" type="button" data-action="addDamage"></button>
     </legend>
     {{#each damage.damages}}
     <div class="form-group damage" data-id="{{damage.id}}">
       {{#each fields}}
-      {{formGroup field name=name value=value classes=classes options=options}}
+      {{!-- FIXME: Redundant labels once core fixes i18n bug --}}
+      {{formGroup field name=name value=value classes=classes options=options label=label}}
       {{/each}}
       <button type="button" class="control" data-action="deleteDamage">
         <i class="fa-solid fa-minus"></i>
