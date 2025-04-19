@@ -139,8 +139,12 @@ const ArtichronDocumentSheetMixin = Base => {
     /** @inheritdoc */
     async _onFirstRender(context, options) {
       await super._onFirstRender(context, options);
-      this._setupContextMenu(this._getActiveEffectEntryContextOptions, "effect-entry", "ActiveEffectEntryContext");
-      this._setupContextMenu(this._getItemEntryContextOptions, "inventory-item", "ItemEntryContext");
+      this._createContextMenu(this._getActiveEffectEntryContextOptions, "effect-entry", {
+        hookName: "ActiveEffectEntryContext",
+      });
+      this._createContextMenu(this._getItemEntryContextOptions, "inventory-item", {
+        hookName: "ItemEntryContext",
+      });
     }
 
     /* -------------------------------------------------- */
@@ -210,21 +214,13 @@ const ArtichronDocumentSheetMixin = Base => {
     /*   Context menu handlers                            */
     /* -------------------------------------------------- */
 
-    /**
-     * Bind a new context menu.
-     */
-    _setupContextMenu(handler, selector, hookName, options = {}) {
-      this._createContextMenu(handler, selector, { hookName, ...options });
-    }
-
-    /* -------------------------------------------------- */
-
     /** @inheritdoc */
     _createContextMenu(handler, selector, { hookName, ...options } = {}) {
-      const menuItems = this._doEvent(handler, { hookName, parentClassHooks: false, hookResponse: true });
-      if (!menuItems.length) return null;
-      return new artichron.applications.ui.ContextMenu(this.element, selector, menuItems, {
-        jQuery: false, fixed: true, ...options,
+      return super._createContextMenu(handler, selector, {
+        hookName,
+        parentClassHooks: false,
+        hookResponse: true,
+        ...options,
       });
     }
 
