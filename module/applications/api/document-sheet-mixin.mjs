@@ -77,6 +77,14 @@ const ArtichronDocumentSheetMixin = Base => {
     /* -------------------------------------------------- */
 
     /**
+     * Is opacity enabled?
+     * @type {boolean}
+     */
+    #opacity = false;
+
+    /* -------------------------------------------------- */
+
+    /**
      * Convenience method for preparing a document's description for direct insertion.
      * @param {HTMLElement} target      The containing element.
      * @param {string} uuid             The uuid of the document.
@@ -203,6 +211,7 @@ const ArtichronDocumentSheetMixin = Base => {
     /** @inheritdoc */
     async _renderFrame(options) {
       const frame = await super._renderFrame(options);
+      if (this.#opacity) frame.classList.add("opacity");
       this.window.controls.insertAdjacentHTML("afterend", `
         <button type="button" class="header-control icon fa-solid fa-user-lock" data-action="toggleSheet" data-tooltip="ARTICHRON.SHEET.TOGGLE.editing"></button>
         <button type="button" class="header-control icon fa-solid" data-action="toggleOpacity" data-tooltip="ARTICHRON.SHEET.TOGGLE.opacity"></button>`);
@@ -373,7 +382,7 @@ const ArtichronDocumentSheetMixin = Base => {
      * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
      */
     static #ontoggleOpacity(event, target) {
-      target.closest(".application").classList.toggle("opacity");
+      this.#opacity = target.closest(".application").classList.toggle("opacity");
     }
 
     /* -------------------------------------------------- */
