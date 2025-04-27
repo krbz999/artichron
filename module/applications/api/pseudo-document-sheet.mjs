@@ -19,7 +19,6 @@ export default class PseudoDocumentSheet extends HandlebarsApplicationMixin(Appl
       },
     },
     classes: ["artichron"],
-    document: null,
     form: {
       handler: PseudoDocumentSheet.#onSubmitForm,
       submitOnChange: true,
@@ -77,7 +76,14 @@ export default class PseudoDocumentSheet extends HandlebarsApplicationMixin(Appl
    * @type {PseudoDocument}
    */
   get pseudoDocument() {
-    return fromUuidSync(this.#pseudoUuid);
+    let relative = this.document;
+    const uuidParts = this.#pseudoUuid.replace(relative.uuid, "").slice(1).split(".");
+    for (let i = 0; i < uuidParts.length; i += 2) {
+      const dname = uuidParts[i];
+      const id = uuidParts[i + 1];
+      relative = relative.getEmbeddedDocument(dname, id);
+    }
+    return relative;
   }
 
   /* -------------------------------------------------- */
@@ -114,10 +120,9 @@ export default class PseudoDocumentSheet extends HandlebarsApplicationMixin(Appl
   /* -------------------------------------------------- */
 
   /** @inheritdoc */
-  _initializeApplicationOptions(options) {
+  _initializeApplicationOptions({ document, ...options }) {
     options = super._initializeApplicationOptions(options);
-    const suffix = options.document.uuid;
-    options.uniqueId = `${this.constructor.name}-${suffix.replaceAll(".", "-")}`;
+    options.uniqueId = `${this.constructor.name}-${document.uuid.replaceAll(".", "-")}`;
     return options;
   }
 
