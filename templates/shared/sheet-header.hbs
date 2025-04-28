@@ -4,5 +4,5 @@
   {{else}}
   <input class="name" name="name" type="text" value="{{header.name}}" placeholder="{{localize 'Name'}}" {{disabled isPlayMode}}>
   {{/if}}
-  <img class="avatar" alt="{{actor.name}}" src="{{header.img}}" {{#if isEditMode}}data-action="editImage" style="cursor: var(--cursor-pointer);"{{/if}}>
+  <img class="avatar" data-edit="img" alt="{{actor.name}}" src="{{header.img}}" {{#if isEditMode}}data-action="editImage" style="cursor: var(--cursor-pointer);"{{/if}}>
 </header>
