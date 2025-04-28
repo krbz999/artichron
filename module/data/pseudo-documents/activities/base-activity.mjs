@@ -14,9 +14,11 @@ export default class BaseActivity extends PseudoDocument {
       documentName: "Activity",
       icon: "systems/artichron/assets/icons/activity.svg",
       label: null,
-      path: "system.activities",
       sheetClass: artichron.applications.sheets.item.ActivitySheet,
       types: artichron.data.pseudoDocuments.activities,
+      embedded: {
+        Damage: "damage",
+      },
     };
   }
 
@@ -115,23 +117,6 @@ export default class BaseActivity extends PseudoDocument {
 
   /* -------------------------------------------------- */
   /*   Instance methods                                 */
-  /* -------------------------------------------------- */
-
-  /**
-   * Retrieve an embedded pseudo-document.
-   * @param {string} embeddedName     The document name of the embedded pseudo-document.
-   * @param {string} id               The id of the embedded pseudo-document.
-   * @param {object} [options]
-   * @returns {PseudoDocument|null}
-   */
-  getEmbeddedDocument(embeddedName, id, { invalid = false, strict = false } = {}) {
-    switch (embeddedName) {
-      case "Damage":
-        return this.damage?.get(id, { invalid, strict }) ?? null;
-    }
-    return null;
-  }
-
   /* -------------------------------------------------- */
 
   /**

@@ -1,4 +1,6 @@
-export default class ItemArtichron extends foundry.documents.Item {
+import BaseDocumentMixin from "./base-document-mixin.mjs";
+
+export default class ItemArtichron extends BaseDocumentMixin(foundry.documents.Item) {
   /** @inheritdoc */
   static getDefaultArtwork(itemData) {
     let img;
@@ -343,37 +345,7 @@ export default class ItemArtichron extends foundry.documents.Item {
   }
 
   /* -------------------------------------------------- */
-
-  /** @inheritdoc */
-  _onUpdate(update, options, userId) {
-    if (options.pseudo?.operation === "delete") {
-      const sheet = artichron.data.PseudoDocument._sheets.get(options.pseudo.uuid);
-      if (sheet) {
-        delete this.apps[sheet.id];
-        artichron.data.PseudoDocument._sheets.delete(options.pseudo.uuid);
-        sheet.close();
-      }
-    }
-    return super._onUpdate(update, options, userId);
-  }
-
-  /* -------------------------------------------------- */
   /*   Instance methods                                 */
-  /* -------------------------------------------------- */
-
-  /** @inheritdoc */
-  getEmbeddedDocument(embeddedName, id, { invalid = false, strict = false } = {}) {
-    switch (embeddedName) {
-      case "Activity":
-      case "ArmorRequirement": {
-        const path = this.system.constructor.metadata?.embedded?.[embeddedName];
-        if (!path) return null;
-        return foundry.utils.getProperty(this, path).get(id, { invalid, strict }) ?? null;
-      }
-    }
-    return super.getEmbeddedDocument(embeddedName, id, { invalid, strict });
-  }
-
   /* -------------------------------------------------- */
 
   /** @inheritdoc */

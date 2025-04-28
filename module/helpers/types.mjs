@@ -10,6 +10,8 @@
 /**
  * @typedef {Object} PseudoDocumentMetadata
  * @property {string} documentName                            Document name used for this pseudo document.
+ * @property {Record<string, string>} embedded                A record of document names for pseudo documents and the
+ *                                                            path to their collection.
  * @property {Record<string, typeof PseudoDocument>} types    A record of this pseudo document's base class and subtypes.
  */
 
@@ -43,13 +45,13 @@
 
 /**
  * @typedef {object} SystemModelMetadata
- * @property {string} icon      Type icon for this data model.
- * @property {string} type      Internal key used for this data model.
+ * @property {string} icon    Type icon for this data model.
+ * @property {string} type    Internal key used for this data model.
  */
 
 /**
  * @typedef {object} ActiveEffectSystemModelMetadata
- * @property {string} type      Internal key used for this data model.
+ * @property {string} type    Internal key used for this data model.
  */
 
 /**
@@ -61,21 +63,22 @@
 
 /**
  * @typedef {object} ChatMessageSystemModelMetadata
- * @property {string} type      Internal key used for this data model.
+ * @property {string} type    Internal key used for this data model.
  */
 
 /**
  * @typedef {object} CombatantSystemModelMetadata
- * @property {string} type      Internal key used for this data model.
+ * @property {string} type    Internal key used for this data model.
  */
 
 /**
  * @typedef {object} ItemSystemModelMetadata
- * @property {boolean} fusion               Whether this item type allows being fused or fused onto.
- * @property {number} defaultWeight         The initial weight of a new item of this type.
- * @property {number} order                 The order this inventory section is in relative to other sections.
- * @property {string} inventorySection      The inventory section an item type gets placed in on an actor's inventory tab.
- * @property {string} type                  The internal name of this item type.
+ * @property {boolean} fusion                       Whether this item type allows being fused or fused onto.
+ * @property {number} defaultWeight                 The initial weight of a new item of this type.
+ * @property {number} order                         The order this inventory section is in relative to other sections.
+ * @property {string} inventorySection              The inventory section an item type gets
+ *                                                  placed in on an actor's inventory tab.
+ * @property {string} type                          The internal name of this item type.
  * @property {Record<string, string>} [embedded]    Record of pseudo-documents and their collection's property.
  */
 

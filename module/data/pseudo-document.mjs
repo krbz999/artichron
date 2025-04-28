@@ -8,6 +8,7 @@ export default class PseudoDocument extends foundry.abstract.DataModel {
   static get metadata() {
     return {
       documentName: null,
+      embedded: {},
       types: null,
     };
   }
@@ -18,7 +19,7 @@ export default class PseudoDocument extends foundry.abstract.DataModel {
    * Registered sheets.
    * @type {Map<string, PseudoDocumentSheet>}
    */
-  static _sheets = new Map();
+  static #sheets = new Map();
 
   /* -------------------------------------------------- */
 
@@ -129,12 +130,22 @@ export default class PseudoDocument extends foundry.abstract.DataModel {
    * @type {PseudoDocumentSheet|null}
    */
   get sheet() {
-    if (!PseudoDocument._sheets.has(this.uuid)) {
+    if (!PseudoDocument.#sheets.has(this.uuid)) {
       const Cls = this.constructor.metadata.sheetClass;
       if (!Cls) return null;
-      PseudoDocument._sheets.set(this.uuid, new Cls({ document: this }));
+      PseudoDocument.#sheets.set(this.uuid, new Cls({ document: this }));
     }
-    return PseudoDocument._sheets.get(this.uuid);
+    return PseudoDocument.#sheets.get(this.uuid);
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Destroy a sheet.
+   * @param {string} uuid   The uuid of the pseudo-document.
+   */
+  static _removeSheet(uuid) {
+    PseudoDocument.#sheets.delete(uuid);
   }
 
   /* -------------------------------------------------- */
@@ -172,6 +183,26 @@ export default class PseudoDocument extends foundry.abstract.DataModel {
   prepareDerivedData() {}
 
   /* -------------------------------------------------- */
+  /*   Instance Methods                                 */
+  /* -------------------------------------------------- */
+
+  /**
+   * Retrieve an embedded pseudo-document.
+   * @param {string} embeddedName     The document name of the embedded pseudo-document.
+   * @param {string} id               The id of the embedded pseudo-document.
+   * @param {object} [options]
+   * @returns {PseudoDocument|null}
+   */
+  getEmbeddedDocument(embeddedName, id, { invalid = false, strict = false } = {}) {
+    const embeds = this.constructor.metadata.embedded ?? {};
+    if (embeddedName in embeds) {
+      const path = embeds[embeddedName];
+      return foundry.utils.getProperty(this, path).get(id, { invalid, strict }) ?? null;
+    }
+    return null;
+  }
+
+  /* -------------------------------------------------- */
   /*   CRUD Handlers                                    */
   /* -------------------------------------------------- */
 
@@ -191,10 +222,10 @@ export default class PseudoDocument extends foundry.abstract.DataModel {
 
   /**
    * Create a new instance of this pseudo-document.
-   * @param {object} [data]                 The data used for the creation.
-   * @param {object} operation              The context of the operation.
-   * @param {Document} operation.parent     The parent of this document.
-   * @returns {Promise<Document>}           A promise that resolves to the updated document.
+   * @param {object} [data]                                 The data used for the creation.
+   * @param {object} operation                              The context of the operation.
+   * @param {foundry.abstract.Document} operation.parent    The parent of this document.
+   * @returns {Promise<foundry.abstract.Document>}          A promise that resolves to the updated document.
    */
   static async create(data = {}, { parent, ...operation } = {}) {
     if (!parent) {
@@ -218,32 +249,23 @@ export default class PseudoDocument extends foundry.abstract.DataModel {
   /* -------------------------------------------------- */
 
   /**
-   * @param {string} action       The operation.
-   * @param {Document} document   The parent document.
-   * @param {object} update       The data used for the update.
-   * @param {object} operation    The context of the operation.
-   */
-  static _configureUpdates(action, document, update, operation) {}
-
-  /* -------------------------------------------------- */
-
-  /**
    * Delete this pseudo-document.
-   * @param {object} [operation]      The context of the operation.
-   * @returns {Promise<Document>}     A promise that resolves to the updated document.
+   * @param {object} [operation]                      The context of the operation.
+   * @returns {Promise<foundry.abstract.Document>}    A promise that resolves to the updated document.
    */
   async delete(operation = {}) {
     if (!this.isSource) throw new Error("You cannot delete a non-source pseudo-document!");
-    const path = `${this.fieldPath}.-=${this.id}`;
     Object.assign(operation, { pseudo: { operation: "delete", type: this.constructor.documentName, uuid: this.uuid } });
-    return this.document.update({ [path]: null }, operation);
+    const update = { [`${this.fieldPath}.-=${this.id}`]: null };
+    this.constructor._configureUpdates("delete", this.document, update, operation);
+    return this.document.update(update, operation);
   }
 
   /* -------------------------------------------------- */
 
   /**
    * Duplicate this pseudo-document.
-   * @returns {Promise<Document>}     A promise that resolves to the updated document.
+   * @returns {Promise<foundry.abstract.Document>}    A promise that resolves to the updated document.
    */
   async duplicate() {
     if (!this.isSource) throw new Error("You cannot duplicate a non-source pseudo-document!");
@@ -257,13 +279,26 @@ export default class PseudoDocument extends foundry.abstract.DataModel {
 
   /**
    * Update this pseudo-document.
-   * @param {object} [change]         The change to perform.
-   * @param {object} [operation]      The context of the operation.
-   * @returns {Promise<Document>}     A promise that resolves to the updated document.
+   * @param {object} [change]                         The change to perform.
+   * @param {object} [operation]                      The context of the operation.
+   * @returns {Promise<foundry.abstract.Document>}    A promise that resolves to the updated document.
    */
   async update(change = {}, operation = {}) {
     if (!this.isSource) throw new Error("You cannot update a non-source pseudo-document!");
     const path = [this.fieldPath, this.id].join(".");
-    return this.document.update({ [path]: change }, operation);
+    const update = { [path]: change };
+    this.constructor._configureUpdates("update", this.document, update, operation);
+    return this.document.update(update, operation);
   }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Allow for subclasses to configure the CRUD workflow.
+   * @param {"create"|"update"|"delete"} action     The operation.
+   * @param {foundry.abstract.Document} document    The parent document.
+   * @param {object} update                         The data used for the update.
+   * @param {object} operation                      The context of the operation.
+   */
+  static _configureUpdates(action, document, update, operation) {}
 }

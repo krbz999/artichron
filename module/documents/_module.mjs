@@ -6,3 +6,4 @@ export { default as CombatantArtichron } from "./combatant.mjs";
 export { default as ItemArtichron } from "./item.mjs";
 export { default as TokenDocumentArtichron } from "./token.mjs";
 export * as collections from "./collections/_module.mjs";
+export { default as BaseDocumentMixin } from "./base-document-mixin.mjs";

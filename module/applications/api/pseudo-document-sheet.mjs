@@ -72,8 +72,8 @@ export default class PseudoDocumentSheet extends HandlebarsApplicationMixin(Appl
   /* -------------------------------------------------- */
 
   /**
-   * The pseudo-document.
-   * @type {PseudoDocument}
+   * The pseudo-document. This can be null if a parent pseudo-document is removed.
+   * @type {PseudoDocument|null}
    */
   get pseudoDocument() {
     let relative = this.document;
@@ -81,7 +81,8 @@ export default class PseudoDocumentSheet extends HandlebarsApplicationMixin(Appl
     for (let i = 0; i < uuidParts.length; i += 2) {
       const dname = uuidParts[i];
       const id = uuidParts[i + 1];
-      relative = relative.getEmbeddedDocument(dname, id);
+      relative = relative?.getEmbeddedDocument(dname, id);
+      if (!relative) return null;
     }
     return relative;
   }
@@ -139,6 +140,7 @@ export default class PseudoDocumentSheet extends HandlebarsApplicationMixin(Appl
   /** @inheritdoc */
   _onClose(options) {
     super._onClose(options);
+    artichron.data.PseudoDocument._removeSheet(this.#pseudoUuid);
     delete this.document.apps[this.id];
   }
 
@@ -174,6 +176,16 @@ export default class PseudoDocumentSheet extends HandlebarsApplicationMixin(Appl
     const copyId = `<button ${properties}></button>`;
     this.window.close.insertAdjacentHTML("beforebegin", copyId);
     return frame;
+  }
+
+  /* -------------------------------------------------- */
+
+  /** @inheritdoc */
+  _canRender(options) {
+    if (!this.pseudoDocument) {
+      if (this.rendered) this.close();
+      return false;
+    }
   }
 
   /* -------------------------------------------------- */

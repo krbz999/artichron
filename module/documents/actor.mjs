@@ -1,4 +1,5 @@
 import * as TYPES from "../helpers/types.mjs";
+import BaseDocumentMixin from "./base-document-mixin.mjs";
 
 /**
  * @typedef {object} DamageDescription
@@ -20,7 +21,7 @@ import * as TYPES from "../helpers/types.mjs";
  * @property {number} [hindered]      How many levels of the 'Hindered' status will be applied.
  */
 
-export default class ActorArtichron extends foundry.documents.Actor {
+export default class ActorArtichron extends BaseDocumentMixin(foundry.documents.Actor) {
   /* -------------------------------------------------- */
   /*   Properties                                       */
   /* -------------------------------------------------- */
@@ -128,14 +129,6 @@ export default class ActorArtichron extends foundry.documents.Actor {
 
   /** @inheritdoc */
   _onUpdate(update, options, user) {
-    if (options.pseudo?.operation === "delete") {
-      const sheet = artichron.data.PseudoDocument._sheets.get(options.pseudo.uuid);
-      if (sheet) {
-        delete this.apps[sheet.id];
-        artichron.data.PseudoDocument._sheets.delete(options.pseudo.uuid);
-        sheet.close();
-      }
-    }
     super._onUpdate(update, options, user);
     this._displayScrollingNumbers(options.damages, options.health);
   }
@@ -228,20 +221,6 @@ export default class ActorArtichron extends foundry.documents.Actor {
 
   /* -------------------------------------------------- */
   /*   Instance methods                                 */
-  /* -------------------------------------------------- */
-
-  /** @inheritdoc */
-  getEmbeddedDocument(embeddedName, id, { invalid = false, strict = false } = {}) {
-    switch (embeddedName) {
-      case "Clock": {
-        const path = this.system.constructor.metadata?.embedded?.[embeddedName];
-        if (!path) return null;
-        return foundry.utils.getProperty(this, path).get(id, { invalid, strict }) ?? null;
-      }
-    }
-    return super.getEmbeddedDocument(embeddedName, id, { invalid, strict });
-  }
-
   /* -------------------------------------------------- */
 
   /** @inheritdoc */
