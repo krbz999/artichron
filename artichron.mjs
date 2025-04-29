@@ -32,9 +32,6 @@ globalThis.artichron = {
   utils,
 };
 
-// FIXME: Core constructs too early.
-CONFIG.ux.TooltipManager = helpers.interaction.TooltipManagerArtichron;
-
 /* -------------------------------------------------- */
 /*   Init hook                                        */
 /* -------------------------------------------------- */
@@ -54,7 +51,7 @@ Hooks.once("init", function() {
   CONFIG.ui.actors = applications.sidebar.tabs.ActorDirectory;
   CONFIG.ui.combat = applications.sidebar.tabs.CombatTracker;
   CONFIG.ui.carousel = applications.apps.combat.CombatCarousel;
-  // CONFIG.ux.TooltipManager = applications.ui.TooltipManager;
+  CONFIG.ux.TooltipManager = helpers.interaction.TooltipManagerArtichron;
   CONFIG.ux.ContextMenu = applications.ux.ContextMenu;
   CONFIG.Canvas.layers.tokens.layerClass = canvas.layers.TokenLayerArtichron;
 
