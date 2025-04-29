@@ -1,5 +1,3 @@
-import TokenDocumentArtichron from "../documents/token.mjs";
-
 export { default as sockets } from "./sockets.mjs";
 
 /**
@@ -24,7 +22,7 @@ export function simplifyBonus(formula, data = {}) {
   if (!formula) return 0;
   if (Number.isNumeric(formula)) return Number(formula);
   try {
-    const roll = Roll.create(formula, data);
+    const roll = foundry.dice.Roll.create(formula, data);
     return roll.evaluateSync({ strict: false }).total;
   } catch (error) {
     console.error(error);
@@ -34,6 +32,11 @@ export function simplifyBonus(formula, data = {}) {
 
 /* -------------------------------------------------- */
 
+/**
+ * Get a unique array of actors from an iterable of tokens.
+ * @param {Iterable<Token>} tokens    The tokens.
+ * @returns {ActorArtichron[]}        The actors with no duplicates.
+ */
 export function getActorTargets(tokens) {
   const actors = new Set();
   for (const token of tokens) if (token.actor) actors.add(token.actor);
@@ -124,8 +127,8 @@ export const macro = {
 
 /**
  * Find all occupied grid spaces of a token.
- * @param {TokenDocumentArtichron} token      The token on the scene.
- * @returns {import("./types.mjs").Point}
+ * @param {TokenDocumentArtichron} token    The token on the scene.
+ * @returns {import("@common/_types.mjs").ElevatedPoint}
  */
 export function getOccupiedGridSpaces(token) {
   if (token.parent.grid.type === CONST.GRID_TYPES.GRIDLESS) {

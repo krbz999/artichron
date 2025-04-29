@@ -1,4 +1,6 @@
-export default class TokenDocumentArtichron extends foundry.documents.TokenDocument {
+import BaseDocumentMixin from "./base-document-mixin.mjs";
+
+export default class TokenDocumentArtichron extends BaseDocumentMixin(foundry.documents.TokenDocument) {
   /**
    * Recall members of a party.
    */

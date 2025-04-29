@@ -1,4 +1,3 @@
-import * as TYPES from "../helpers/types.mjs";
 import BaseDocumentMixin from "./base-document-mixin.mjs";
 
 /**
@@ -336,10 +335,10 @@ export default class ActorArtichron extends BaseDocumentMixin(foundry.documents.
 
   /**
    * Roll one or more dice from a pool.
-   * @param {TYPES.PoolRollConfiguration} [config]        Roll configuration.
-   * @param {TYPES.RollDialogConfiguration} [dialog]      Dialog configuration.
-   * @param {TYPES.RollMessageConfiguration} [message]    Chat message configuration.
-   * @returns {Promise<RollArtichron|null>}               A promise that resolves to the created roll.
+   * @param {import("../_types").PoolRollConfiguration} [config]        Roll configuration.
+   * @param {import("../_types").RollDialogConfiguration} [dialog]      Dialog configuration.
+   * @param {import("../_types").RollMessageConfiguration} [message]    Chat message configuration.
+   * @returns {Promise<RollArtichron|null>}   A promise that resolves to the created roll.
    */
   async rollPool(config = {}, dialog = {}, message = {}) {
     if (this.system.rollPool) return this.system.rollPool(config, dialog, message);
@@ -350,10 +349,10 @@ export default class ActorArtichron extends BaseDocumentMixin(foundry.documents.
 
   /**
    * Roll two skills together.
-   * @param {TYPES.SkillRollConfiguration} [config]       Roll configuration.
-   * @param {TYPES.RollDialogConfiguration} [dialog]      Dialog configuration.
-   * @param {TYPES.RollMessageConfiguration} [message]    Chat message configuration.
-   * @returns {Promise<RollArtichron|null>}               A promise that resolves to the created roll.
+   * @param {import("../_types").SkillRollConfiguration} [config]       Roll configuration.
+   * @param {import("../_types").RollDialogConfiguration} [dialog]      Dialog configuration.
+   * @param {import("../_types").RollMessageConfiguration} [message]    Chat message configuration.
+   * @returns {Promise<RollArtichron|null>}   A promise that resolves to the created roll.
    */
   async rollSkill(config = {}, dialog = {}, message = {}) {
     if (this.system.rollSkill) return this.system.rollSkill(config, dialog, message);

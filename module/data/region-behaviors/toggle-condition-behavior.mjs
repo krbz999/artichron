@@ -4,12 +4,10 @@ const { BooleanField, StringField } = foundry.data.fields;
  * Behavior type that toggles a status condition.
  */
 export default class ToggleConditionBehaviorData extends foundry.data.regionBehaviors.RegionBehaviorType {
-  /**
-   * Metadata for this datamodel.
-   * @type {import("../../helpers/types.mjs").SystemModelMetadata}
-   */
+  /** @type {import("../../_types").RegionBehaviorSubtypeMetadata} */
   static get metadata() {
     return {
+      embedded: {},
       icon: "fa-solid fa-stroopwafel",
       type: "statusCondition",
     };

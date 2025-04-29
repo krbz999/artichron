@@ -5,14 +5,11 @@ import ActiveEffectSystemModel from "./system-model.mjs";
  * Enhancements are effects that apply to an item. They can live only on an item.
  */
 export default class EffectEnhancementData extends ActiveEffectSystemModel {
-  /**
-   * Metadata for this data model.
-   * @type {import("../../helpers/types.mjs").ActiveEffectSystemModelMetadata}
-   */
+  /** @inheritdoc */
   static get metadata() {
-    return {
+    return foundry.utils.mergeObject(super.metadata, {
       type: "enhancement",
-    };
+    });
   }
 
   /* -------------------------------------------------- */

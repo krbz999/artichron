@@ -1,4 +1,6 @@
-export default class CombatantArtichron extends foundry.documents.Combatant {
+import BaseDocumentMixin from "./base-document-mixin.mjs";
+
+export default class CombatantArtichron extends BaseDocumentMixin(foundry.documents.Combatant) {
   /** @inheritdoc */
   _getInitiativeFormula() {
     const pips = this.actor?.actionPoints ?? 0;

@@ -42,15 +42,15 @@ export default class Damage extends PseudoDocument {
 
   /* -------------------------------------------------- */
 
-  /**
-   * @type {import("../../../helpers/types.mjs").DamagePartMetadata}
-   */
+  /** @type {import("../../../_types").DamagePartMetadata} */
   static get metadata() {
-    return Object.assign(super.metadata, {
-      documentName: "Damage",
+    return {
       defaultName: "ARTICHRON.DAMAGE.defaultName",
+      documentName: "Damage",
+      embedded: {},
       sheetClass: artichron.applications.sheets.item.DamageSheet,
-    });
+      types: {},
+    };
   }
 
   /* -------------------------------------------------- */

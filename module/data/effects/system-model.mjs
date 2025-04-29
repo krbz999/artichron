@@ -1,10 +1,24 @@
-const { StringField } = foundry.data.fields;
+const {
+  StringField,
+} = foundry.data.fields;
 
 /**
  * System data for ActiveEffects.
  * @property {string} expiration      When does this effect automatically expire?
  */
 export default class ActiveEffectSystemModel extends foundry.abstract.TypeDataModel {
+  /** @type {import("../../_types").ActiveEffectSubtypeMetadata} */
+  static get metadata() {
+    return {
+      embedded: {},
+      icon: "",
+      type: "",
+    };
+  }
+
+  /* -------------------------------------------------- */
+
+  /** @inheritdoc */
   static defineSchema() {
     return {
       expiration: new StringField({

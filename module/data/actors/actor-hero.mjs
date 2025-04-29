@@ -1,18 +1,13 @@
 import CreatureData from "./creature-data.mjs";
 
-import * as TYPES from "../../helpers/types.mjs";
-
 const { HTMLField, NumberField, SchemaField } = foundry.data.fields;
 
 export default class HeroData extends CreatureData {
-  /**
-   * Metadata for this data model.
-   * @type {import("../../helpers/types.mjs").ActorSystemModelMetadata}
-   */
+  /** @inheritdoc */
   static get metadata() {
-    return {
+    return foundry.utils.mergeObject(super.metadata, {
       type: "hero",
-    };
+    });
   }
 
   /* -------------------------------------------------- */
@@ -166,10 +161,10 @@ export default class HeroData extends CreatureData {
 
   /**
    * Roll one or more dice from a pool.
-   * @param {TYPES.PoolRollConfiguration} [config]        Roll configuration.
-   * @param {TYPES.RollDialogConfiguration} [dialog]      Dialog configuration.
-   * @param {TYPES.RollMessageConfiguration} [message]    Chat message configuration.
-   * @returns {Promise<RollArtichron|null>}               A promise that resolves to the created roll.
+   * @param {import("../../_types").PoolRollConfiguration} [config]       Roll configuration.
+   * @param {import("../../_types").RollDialogConfiguration} [dialog]     Dialog configuration.
+   * @param {import("../../_types").RollMessageConfiguration} [message]   Chat message configuration.
+   * @returns {Promise<RollArtichron|null>}   A promise that resolves to the created roll.
    */
   async rollPool(config = {}, dialog = {}, message = {}) {
     config = foundry.utils.mergeObject({
@@ -240,10 +235,10 @@ export default class HeroData extends CreatureData {
 
   /**
    * Roll two skills together.
-   * @param {TYPES.SkillRollConfiguration} [config]       Roll configuration.
-   * @param {TYPES.RollDialogConfiguration} [dialog]      Dialog configuration.
-   * @param {TYPES.RollMessageConfiguration} [message]    Chat message configuration.
-   * @returns {Promise<RollArtichron|null>}               A promise that resolves to the created roll.
+   * @param {import("../../_types").SkillRollConfiguration} [config]      Roll configuration.
+   * @param {import("../../_types").RollDialogConfiguration} [dialog]     Dialog configuration.
+   * @param {import("../../_types").RollMessageConfiguration} [message]   Chat message configuration.
+   * @returns {Promise<RollArtichron|null>}   A promise that resolves to the created roll.
    */
   async rollSkill(config = {}, dialog = {}, message = {}) {
     const skills = Object.entries(this.skills).map(([k, v], i) => {

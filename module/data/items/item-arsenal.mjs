@@ -1,10 +1,7 @@
 import ItemSystemModel from "./system-model.mjs";
 
 export default class ArsenalData extends ItemSystemModel {
-  /**
-   * Metadata for this datamodel.
-   * @type {import("../../helpers/types.mjs").ItemSystemModelMetadata}
-   */
+  /** @inheritdoc */
   static get metadata() {
     return foundry.utils.mergeObject(super.metadata, {
       fusion: true,

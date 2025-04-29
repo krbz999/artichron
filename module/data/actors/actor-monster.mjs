@@ -3,14 +3,11 @@ import CreatureData from "./creature-data.mjs";
 const { ArrayField, DocumentUUIDField, HTMLField, NumberField, SchemaField } = foundry.data.fields;
 
 export default class MonsterData extends CreatureData {
-  /**
-   * Metadata for this data model.
-   * @type {import("../../helpers/types.mjs").ActorSystemModelMetadata}
-   */
+  /** @inheritdoc */
   static get metadata() {
-    return {
+    return foundry.utils.mergeObject(super.metadata, {
       type: "monster",
-    };
+    });
   }
 
   /* -------------------------------------------------- */

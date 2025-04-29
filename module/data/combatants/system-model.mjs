@@ -1,10 +1,12 @@
 export default class CombatantSystemModel extends foundry.abstract.TypeDataModel {
   /**
    * Metadata for this datamodel.
-   * @type {import("../../helpers/types.mjs").CombatantSystemModelMetadata}
+   * @type {import("../../_types").CombatantSubtypeMetadata}
    */
   static get metadata() {
     return {
+      embedded: {},
+      icon: "",
       type: "artichron",
     };
   }

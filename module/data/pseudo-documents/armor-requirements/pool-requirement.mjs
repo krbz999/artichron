@@ -27,11 +27,10 @@ export default class PoolRequirement extends BaseArmorRequirement {
 
   /** @inheritdoc */
   static get metadata() {
-    return {
-      ...super.metadata,
-      label: "ARTICHRON.ITEM.REQUIREMENT.Pool.label",
+    return foundry.utils.mergeObject(super.metadata, {
       hint: "ARTICHRON.ITEM.REQUIREMENT.Pool.hint",
-    };
+      label: "ARTICHRON.ITEM.REQUIREMENT.Pool.label",
+    });
   }
 
   /* -------------------------------------------------- */

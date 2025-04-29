@@ -4,12 +4,10 @@ const { BooleanField, NumberField, SetField, StringField } = foundry.data.fields
  * Behavior type that toggles a door state.
  */
 export default class DoorStateBehaviorData extends foundry.data.regionBehaviors.RegionBehaviorType {
-  /**
-   * Metadata for this datamodel.
-   * @type {import("../../helpers/types.mjs").SystemModelMetadata}
-   */
+  /** @type {import("../../_types").RegionBehaviorSubtypeMetadata} */
   static get metadata() {
     return {
+      embedded: {},
       icon: "fa-solid fa-door-open",
       type: "doorState",
     };

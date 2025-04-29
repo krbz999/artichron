@@ -3,19 +3,16 @@ import ItemSystemModel from "./system-model.mjs";
 const { NumberField, SchemaField, StringField } = foundry.data.fields;
 
 export default class ArmorData extends ItemSystemModel {
-  /**
-   * Metadata for this datamodel.
-   * @type {import("../../helpers/types.mjs").ItemSystemModelMetadata}
-   */
+  /** @inheritdoc */
   static get metadata() {
     return foundry.utils.mergeObject(super.metadata, {
       defaultWeight: 2,
-      inventorySection: "gear",
-      order: 40,
-      type: "armor",
       embedded: {
         ArmorRequirement: "system.category.requirements",
       },
+      inventorySection: "gear",
+      order: 40,
+      type: "armor",
     });
   }
 

@@ -25,7 +25,6 @@ export default class EffectActivity extends BaseActivity {
   /** @inheritdoc */
   static get metadata() {
     return foundry.utils.mergeObject(super.metadata, {
-      defaultName: "ARTICHRON.ACTIVITY.Types.EffectDefaultName",
       label: "ARTICHRON.ACTIVITY.Types.Effect",
       type: "effect",
     });

@@ -9,14 +9,11 @@ const { DocumentUUIDField, BooleanField, StringField } = foundry.data.fields;
  * @property {boolean} granted      Has this been granted?
  */
 export default class EffectBuffData extends ActiveEffectSystemModel {
-  /**
-   * Metadata for this data model.
-   * @type {import("../../helpers/types.mjs").ActiveEffectSystemModelMetadata}
-   */
+  /** @inheritdoc */
   static get metadata() {
-    return {
+    return foundry.utils.mergeObject(super.metadata, {
       type: "buff",
-    };
+    });
   }
 
   /* -------------------------------------------------- */

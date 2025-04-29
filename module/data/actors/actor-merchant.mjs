@@ -3,14 +3,11 @@ import ActorSystemModel from "./system-model.mjs";
 const { DocumentIdField, HTMLField, SchemaField, SetField, StringField, TypedObjectField } = foundry.data.fields;
 
 export default class MerchantData extends ActorSystemModel {
-  /**
-   * Metadata for this data model.
-   * @type {import("../../helpers/types.mjs").ActorSystemModelMetadata}
-   */
+  /** @inheritdoc */
   static get metadata() {
-    return {
+    return foundry.utils.mergeObject(super.metadata, {
       type: "merchant",
-    };
+    });
   }
 
   /* -------------------------------------------------- */

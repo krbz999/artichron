@@ -1,4 +1,6 @@
-export default class ChatMessageArtichron extends foundry.documents.ChatMessage {
+import BaseDocumentMixin from "./base-document-mixin.mjs";
+
+export default class ChatMessageArtichron extends BaseDocumentMixin(foundry.documents.ChatMessage) {
   /**
    * Static register of token hover events for elements that emulate these.
    * @type {Map<string, Token>}

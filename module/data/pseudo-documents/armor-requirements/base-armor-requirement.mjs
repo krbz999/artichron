@@ -1,15 +1,13 @@
 import PseudoDocument from "../../pseudo-document.mjs";
 
 export default class BaseArmorRequirement extends PseudoDocument {
-  /**
-   * @type {import("../../../helpers/types.mjs").ArmorRequirementMetadata}
-   */
+  /** @type {import("../../../_types").ArmorRequirementMetadata} */
   static get metadata() {
     return {
       documentName: "ArmorRequirement",
-      hint: null,
-      label: null,
-      path: "system.category.requirements",
+      embedded: {},
+      hint: "",
+      label: "",
       types: artichron.data.pseudoDocuments.armorRequirements,
     };
   }

@@ -3,20 +3,18 @@ const {
 } = foundry.data.fields;
 
 export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
-  /**
-   * Metadata for this datamodel.
-   * @type {import("../../helpers/types.mjs").ItemSystemModelMetadata}
-   */
+  /** @type {import("../../_types").ItemSubtypeMetadata} */
   static get metadata() {
     return {
       defaultWeight: 1,
-      fusion: false,
-      inventorySection: "",
-      order: 10,
-      type: "",
       embedded: {
         Activity: "system.activities",
       },
+      fusion: false,
+      icon: "",
+      inventorySection: "",
+      order: 10,
+      type: "",
     };
   }
 

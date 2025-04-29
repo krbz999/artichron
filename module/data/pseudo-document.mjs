@@ -1,9 +1,11 @@
 const { DocumentIdField, StringField } = foundry.data.fields;
 
+/** @import { PseudoDocumentMetadata } from "../_types.d.ts" */
+
 export default class PseudoDocument extends foundry.abstract.DataModel {
   /**
    * Pseudo-document metadata.
-   * @type {import("../helpers/types.mjs").PseudoDocumentMetadata}
+   * @type {PseudoDocumentMetadata}
    */
   static get metadata() {
     return {

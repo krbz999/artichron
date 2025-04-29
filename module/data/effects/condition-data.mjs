@@ -9,14 +9,11 @@ const { StringField, NumberField } = foundry.data.fields;
  * @property {number} level       The level of this condition.
  */
 export default class EffectConditionData extends ActiveEffectSystemModel {
-  /**
-   * Metadata for this data model.
-   * @type {import("../../helpers/types.mjs").ActiveEffectSystemModelMetadata}
-   */
+  /** @inheritdoc */
   static get metadata() {
-    return {
+    return foundry.utils.mergeObject(super.metadata, {
       type: "condition",
-    };
+    });
   }
 
   /* -------------------------------------------------- */

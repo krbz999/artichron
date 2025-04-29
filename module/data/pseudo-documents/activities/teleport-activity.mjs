@@ -6,7 +6,6 @@ export default class TeleportActivity extends BaseActivity {
   /** @inheritdoc */
   static get metadata() {
     return foundry.utils.mergeObject(super.metadata, {
-      defaultName: "ARTICHRON.ACTIVITY.Types.TeleportDefaultName",
       label: "ARTICHRON.ACTIVITY.Types.Teleport",
       type: "teleport",
     });

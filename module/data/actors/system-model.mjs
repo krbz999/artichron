@@ -1,6 +1,17 @@
 const { NumberField, SchemaField } = foundry.data.fields;
 
 export default class ActorSystemModel extends foundry.abstract.TypeDataModel {
+  /** @type {import("../../_types").ActorSubtypeMetadata} */
+  static get metadata() {
+    return {
+      embedded: {},
+      icon: "",
+      type: "",
+    };
+  }
+
+  /* -------------------------------------------------- */
+
   /** @inheritdoc */
   static defineSchema() {
     return {

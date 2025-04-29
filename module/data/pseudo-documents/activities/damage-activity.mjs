@@ -25,7 +25,6 @@ export default class DamageActivity extends BaseActivity {
   /** @inheritdoc */
   static get metadata() {
     return foundry.utils.mergeObject(super.metadata, {
-      defaultName: "ARTICHRON.ACTIVITY.Types.DamageDefaultName",
       label: "ARTICHRON.ACTIVITY.Types.Damage",
       type: "damage",
     });

@@ -5,20 +5,17 @@ const {
 } = foundry.data.fields;
 
 export default class BaseActivity extends PseudoDocument {
-  /**
-   * Activity metadata.
-   * @type {import("../../../helpers/types.mjs").ActivityMetadata}
-   */
+  /** @type {import("../../../_types").ActivityMetadata} */
   static get metadata() {
     return {
       documentName: "Activity",
-      icon: "systems/artichron/assets/icons/activity.svg",
-      label: null,
-      sheetClass: artichron.applications.sheets.item.ActivitySheet,
-      types: artichron.data.pseudoDocuments.activities,
       embedded: {
         Damage: "damage",
       },
+      icon: "systems/artichron/assets/icons/activity.svg",
+      label: "",
+      sheetClass: artichron.applications.sheets.item.ActivitySheet,
+      types: artichron.data.pseudoDocuments.activities,
     };
   }
 

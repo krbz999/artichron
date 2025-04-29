@@ -3,10 +3,7 @@ import ItemSystemModel from "./system-model.mjs";
 const { NumberField, SchemaField, StringField } = foundry.data.fields;
 
 export default class ElixirData extends ItemSystemModel {
-  /**
-   * Metadata for this datamodel.
-   * @type {import("../../helpers/types.mjs").ItemSystemModelMetadata}
-   */
+  /** @inheritdoc */
   static get metadata() {
     return foundry.utils.mergeObject(super.metadata, {
       defaultWeight: 0.5,

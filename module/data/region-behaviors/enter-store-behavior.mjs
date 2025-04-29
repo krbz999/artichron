@@ -4,12 +4,10 @@ const { ForeignDocumentField } = foundry.data.fields;
  * Behavior type that renders the actor sheet of a merchant type actor.
  */
 export default class EnterStoreBehaviorData extends foundry.data.regionBehaviors.RegionBehaviorType {
-  /**
-   * Metadata for this datamodel.
-   * @type {import("../../helpers/types.mjs").SystemModelMetadata}
-   */
+  /** @type {import("../../_types").RegionBehaviorSubtypeMetadata} */
   static get metadata() {
     return {
+      embedded: {},
       icon: "fa-solid fa-store",
       type: "enterStore",
     };

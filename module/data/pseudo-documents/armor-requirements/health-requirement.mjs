@@ -4,6 +4,15 @@ const { NumberField } = foundry.data.fields;
 
 export default class HealthRequirement extends BaseArmorRequirement {
   /** @inheritdoc */
+  static get metadata() {
+    return foundry.utils.mergeObject(super.metadata, {
+      hint: "ARTICHRON.ITEM.REQUIREMENT.Health.hint",
+      label: "ARTICHRON.ITEM.REQUIREMENT.Health.label",
+    });
+  }
+
+  /* -------------------------------------------------- */
+  /** @inheritdoc */
   static defineSchema() {
     return Object.assign(super.defineSchema(), {
       value: new NumberField({
@@ -14,19 +23,6 @@ export default class HealthRequirement extends BaseArmorRequirement {
         placeholder: "ARTICHRON.ITEM.REQUIREMENT.Health.FIELDS.value.placeholder",
       }),
     });
-  }
-
-  /* -------------------------------------------------- */
-  /*   Properties                                       */
-  /* -------------------------------------------------- */
-
-  /** @inheritdoc */
-  static get metadata() {
-    return {
-      ...super.metadata,
-      label: "ARTICHRON.ITEM.REQUIREMENT.Health.label",
-      hint: "ARTICHRON.ITEM.REQUIREMENT.Health.hint",
-    };
   }
 
   /* -------------------------------------------------- */

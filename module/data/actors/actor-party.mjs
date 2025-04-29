@@ -3,18 +3,15 @@ import ActorSystemModel from "./system-model.mjs";
 const { NumberField, SchemaField, TypedObjectField } = foundry.data.fields;
 
 export default class PartyData extends ActorSystemModel {
-  /**
-   * Metadata for this data model.
-   * @type {import("../../helpers/types.mjs").ActorSystemModelMetadata}
-   */
+  /** @type {import("../../_types").PartyActorMetadata} */
   static get metadata() {
-    return {
+    return foundry.utils.mergeObject(super.metadata, {
       type: "party",
       allowedActorTypes: new Set(["hero", "monster"]),
       embedded: {
         Clock: "system.clocks",
       },
-    };
+    });
   }
 
   /* -------------------------------------------------- */

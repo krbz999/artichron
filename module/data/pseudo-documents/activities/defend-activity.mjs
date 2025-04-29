@@ -6,7 +6,6 @@ export default class DefendActivity extends BaseActivity {
   /** @inheritdoc */
   static get metadata() {
     return foundry.utils.mergeObject(super.metadata, {
-      defaultName: "ARTICHRON.ACTIVITY.Types.DefendDefaultName",
       label: "ARTICHRON.ACTIVITY.Types.Defend",
       type: "defend",
     });

@@ -1,4 +1,6 @@
-export default class ActiveEffectArtichron extends foundry.documents.ActiveEffect {
+import BaseDocumentMixin from "./base-document-mixin.mjs";
+
+export default class ActiveEffectArtichron extends BaseDocumentMixin(foundry.documents.ActiveEffect) {
   /** @inheritdoc */
   static applyField(model, change, field) {
     if (!field) {

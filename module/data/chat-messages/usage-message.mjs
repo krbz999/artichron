@@ -3,14 +3,11 @@ import ChatMessageSystemModel from "./system-model.mjs";
 const { ArrayField, DocumentUUIDField, StringField } = foundry.data.fields;
 
 export default class UsageMessageData extends ChatMessageSystemModel {
-  /**
-   * Metadata for this data model.
-   * @type {import("../../helpers/types.mjs").ChatMessageSystemModelMetadata}
-   */
+  /** @inheritdoc */
   static get metadata() {
-    return {
+    return foundry.utils.mergeObject(super.metadata, {
       type: "usage",
-    };
+    });
   }
 
   /* -------------------------------------------------- */

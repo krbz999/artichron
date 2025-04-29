@@ -1,6 +1,8 @@
 import ActorSystemModel from "./system-model.mjs";
 
-const { SchemaField, NumberField, SetField, StringField } = foundry.data.fields;
+const {
+  NumberField, SchemaField, SetField, StringField,
+} = foundry.data.fields;
 
 /**
  * Extended data model for actor types that participate in combat.
