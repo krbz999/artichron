@@ -55,7 +55,7 @@ Hooks.once("init", function() {
   CONFIG.ui.combat = applications.sidebar.tabs.CombatTracker;
   CONFIG.ui.carousel = applications.apps.combat.CombatCarousel;
   // CONFIG.ux.TooltipManager = applications.ui.TooltipManager;
-  CONFIG.ux.ContextMenu = applications.ui.ContextMenu;
+  CONFIG.ux.ContextMenu = applications.ux.ContextMenu;
   CONFIG.Canvas.layers.tokens.layerClass = canvas.layers.TokenLayerArtichron;
 
   // Hook up document classes and collections.
