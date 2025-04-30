@@ -22,11 +22,6 @@ export default class BaseActivity extends PseudoDocument {
   /* -------------------------------------------------- */
 
   /** @inheritdoc */
-  static LOCALIZATION_PREFIXES = ["ARTICHRON.ACTIVITY"];
-
-  /* -------------------------------------------------- */
-
-  /** @inheritdoc */
   static defineSchema() {
     return Object.assign(super.defineSchema(), {
       name: new StringField({ required: true }),
