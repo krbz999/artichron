@@ -142,13 +142,12 @@ export default class ActivitySheet extends PseudoDocumentSheet {
           damage: damage,
           fields: ["number", "denomination", "type"].map(path => {
             return {
-              field: damage.schema.getField(path),
+              // FIXME: core bug; shouldn't need to grab the fields from the parent model
+              field: context.activity.schema.getField(`damage.element.${path}`),
               name: `damage.${damage.id}.${path}`,
               value: foundry.utils.getProperty(damage, path),
               classes: [path, "label-top"].join(" "),
               options: (path === "type") ? groups : undefined,
-              // FIXME: redundant label once core fixes i18n bug
-              label: game.i18n.localize(`ARTICHRON.DAMAGE.FIELDS.${path}.label`),
             };
           }),
         })),

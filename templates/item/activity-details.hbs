@@ -28,8 +28,7 @@
     {{#each damage.damages}}
     <div class="form-group damage" data-id="{{damage.id}}">
       {{#each fields}}
-      {{!-- FIXME: Redundant labels once core fixes i18n bug --}}
-      {{formGroup field name=name value=value classes=classes options=options label=label}}
+      {{formGroup field name=name value=value classes=classes options=options}}
       {{/each}}
       <button type="button" class="control" data-action="deleteDamage">
         <i class="fa-solid fa-minus"></i>

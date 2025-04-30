@@ -117,22 +117,6 @@
     "defendFormula": "Defensive Formula",
     "healingFormula": "Healing Formula"
   },
-  "FIELDS": {
-    "damage": {
-      "FIELDS": {
-        "number": {
-          "label": "Number"
-        },
-        "denomination": {
-          "label": "Denomination"
-        },
-        "type": {
-          "label": "Type"
-        }
-      },
-      "label": "Damage"
-    }
-  },
   "Types": {
     "Damage": "Damage Activity",
     "Defend": "Defend Activity",
@@ -420,18 +404,7 @@
 },
 
 "DAMAGE": {
-  "defaultName": "Damage Part",
-  "FIELDS": {
-    "denomination": {
-      "label": "Denomination"
-    },
-    "number": {
-      "label": "Number"
-    },
-    "type": {
-      "label": "Damage Type"
-    }
-  }
+  "defaultName": "Damage Part"
 },
 
 "DamageType": {
@@ -723,6 +696,19 @@
             "value": {
               "hint": "The action point cost to make use of this activity.",
               "label": "Action Cost"
+            }
+          },
+          "damage": {
+            "element": {
+              "denomination": {
+                "label": "Denomination"
+              },
+              "number": {
+                "label": "Number"
+              },
+              "type": {
+                "label": "Damage Type"
+              }
             }
           },
           "description": {
