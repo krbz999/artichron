@@ -77,7 +77,7 @@ export default class UsageMessageData extends ChatMessageSystemModel {
 
   /**
    * Insert an item detail element if this message has an item.
-   * @param {HTMLElement} html      The html being modified.
+   * @param {HTMLElement} html    The html being modified.
    */
   async #insertItemHeader(html) {
     const item = this.item;
@@ -113,7 +113,7 @@ export default class UsageMessageData extends ChatMessageSystemModel {
 
   /**
    * Inject the array of roll parts to the html.
-   * @param {HTMLElement} content     The dialog content element.
+   * @param {HTMLElement} content   The dialog content element.
    */
   async #insertDamageHealingRolls(content) {
     const template = "systems/artichron/templates/chat/item-usage-message.hbs";
@@ -167,7 +167,7 @@ export default class UsageMessageData extends ChatMessageSystemModel {
 
   /**
    * Inject the damage application elements.
-   * @param {HTMLElement} content     The dialog content element.
+   * @param {HTMLElement} content   The dialog content element.
    */
   async #insertDamageApplication(content) {
     const promises = this.targets.map(uuid => fromUuid(uuid));

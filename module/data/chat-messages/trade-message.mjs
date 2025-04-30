@@ -73,7 +73,7 @@ export default class TradeMessageData extends ChatMessageSystemModel {
 
   /**
    * Handle click events on the Accept Trade button.
-   * @param {PointerEvent} event     Initiating click event.
+   * @param {PointerEvent} event    Initiating click event.
    */
   async #onAcceptTrade(event) {
     event.currentTarget.disabled = true;
@@ -101,7 +101,7 @@ export default class TradeMessageData extends ChatMessageSystemModel {
 
   /**
    * Handle click events on the Cancel Trade button.
-   * @param {PointerEvent} event      Initiating click event.
+   * @param {PointerEvent} event    Initiating click event.
    */
   async #onCancelTrade(event) {
     const canCancel = !this.traded && !!this.actor.isOwner && this.parent.isAuthor;

@@ -101,7 +101,7 @@ export default class EffectConditionData extends ActiveEffectSystemModel {
 
   /**
    * Increase the level of a condition that has multiple stages.
-   * @param {number} [levels]     Amount of levels to increase by.
+   * @param {number} [levels]   Amount of levels to increase by.
    * @returns {Promise}
    */
   async increase(levels = 1) {

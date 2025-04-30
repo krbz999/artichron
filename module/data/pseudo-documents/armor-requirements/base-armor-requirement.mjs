@@ -38,7 +38,7 @@ export default class BaseArmorRequirement extends PseudoDocument {
 
   /**
    * Convert this requirement to a human-readable string.
-   * @returns {string}      The content.
+   * @returns {string}    The content.
    */
   toRequirement() {
     return "";

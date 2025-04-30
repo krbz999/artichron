@@ -49,7 +49,7 @@ export default class EnterStoreBehaviorData extends foundry.data.regionBehaviors
   /**
    * The script that is executed when a token enters the region.
    * @this {EnterStoreBehaviorData}
-   * @param {RegionEvent} event     The region event data from triggering this behavior.
+   * @param {RegionEvent} event   The region event data from triggering this behavior.
    */
   static async #onTokenEnter(event) {
     const isUser = (event.user === game.user) || (!game.user.isGM && event.data.token.isOwner);

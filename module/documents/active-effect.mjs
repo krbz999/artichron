@@ -44,10 +44,10 @@ export default class ActiveEffectArtichron extends BaseDocumentMixin(foundry.doc
 
   /**
    * Apply special properties via fusions for those paths that cannot be applied normally.
-   * @param {Document} document     Actor or item document.
-   * @param {object} change         The active effect change.
-   * @param {object} changes        Applied changes.
-   * @returns {boolean|void}        Return `false` to prevent regular application.
+   * @param {Document} document   Actor or item document.
+   * @param {object} change       The active effect change.
+   * @param {object} changes      Applied changes.
+   * @returns {boolean|void}      Return `false` to prevent regular application.
    */
   #applySpecial(document, change, changes) {
     if (!(document instanceof Item)) return;
@@ -143,8 +143,8 @@ export default class ActiveEffectArtichron extends BaseDocumentMixin(foundry.doc
 
   /**
    * Create a prompt to destroy this fusion and create the two base items.
-   * @param {object} [options]      Options to modify the splitting process.
-   * @returns {Promise<ItemArtichron|null>}
+   * @param {object} [options]                Options to modify the splitting process.
+   * @returns {Promise<ItemArtichron|null>}   A promise that resolves to the recreated item.
    */
   async unfuseDialog(options = {}) {
     if (this.system.unfuseDialog) return this.system.unfuseDialog(options);

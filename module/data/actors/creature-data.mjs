@@ -92,9 +92,9 @@ export default class CreatureData extends ActorSystemModel {
 
   /**
    * Modify the update to the system data model.
-   * @param {object} update       The update to any system-specific properties.
-   * @param {object} options      The update options.
-   * @param {User} user           The user performing the update.
+   * @param {object} update     The update to any system-specific properties.
+   * @param {object} options    The update options.
+   * @param {User} user         The user performing the update.
    */
   async _preUpdate(update, options, user) {
     const allowed = await super._preUpdate(update, options, user);
@@ -189,7 +189,7 @@ export default class CreatureData extends ActorSystemModel {
 
   /**
    * Call a dialog to change the item equipped in a particular slot.
-   * @param {string} slot     The slot to change.
+   * @param {string} slot   The slot to change.
    * @returns {Promise}
    */
   async changeEquippedDialog(slot) {
@@ -267,9 +267,9 @@ export default class CreatureData extends ActorSystemModel {
 
   /**
    * Change the item equipped in a particular slot.
-   * @param {string} slot                   The slot to change equipment in.
-   * @param {ItemArtichron} [item]          An optional item to equip in the given slot.
-   * @returns {Promise<ActorArtichron>}     A promise that resolves to the updated actor.
+   * @param {string} slot                 The slot to change equipment in.
+   * @param {ItemArtichron} [item]        An optional item to equip in the given slot.
+   * @returns {Promise<ActorArtichron>}   A promise that resolves to the updated actor.
    */
   async changeEquipped(slot, item = null) {
     const type = ["primary", "secondary"].includes(slot) ? "arsenal" : "armor";

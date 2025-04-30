@@ -271,15 +271,13 @@ export default class BaseActivity extends PseudoDocument {
 
   /**
    * Use this activity.
-   * @param {object} [usage]        Usage configuration.
-   * @param {object} [dialog]       Dialog configuration.
-   * @param {object} [message]      Message configuration.
+   * @param {object} [usage]      Usage configuration.
+   * @param {object} [dialog]     Dialog configuration.
+   * @param {object} [message]    Message configuration.
    * @returns {Promise<ChatMessageArtichron|null>}
    * @abstract
    */
-  async use(usage = {}, dialog = {}, message = {}) {
-    // Must be subclassed.
-  }
+  async use(usage = {}, dialog = {}, message = {}) {}
 
   /* -------------------------------------------------- */
 

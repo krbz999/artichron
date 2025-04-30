@@ -30,12 +30,12 @@ export default class RollArtichron extends Roll {
 
   /**
    * Evaluate an array of rolls and create a singular chat message.
-   * @param {RollArtichron[]} rolls             The roll instances.
-   * @param {object} [messageData]              The data object to use when creating the message.
-   * @param {object} [options]                  Additional options which modify the created message.
-   * @param {string} [options.rollMode]         The template roll mode to use for the message from CONFIG.Dice.rollModes.
-   * @param {boolean} [options.create]          Whether to automatically create the chat message or return message data.
-   * @returns {Promise<ChatMessage|object>}     A promise that resolves to the created chat message.
+   * @param {RollArtichron[]} rolls           The roll instances.
+   * @param {object} [messageData]            The data object to use when creating the message.
+   * @param {object} [options]                Additional options which modify the created message.
+   * @param {string} [options.rollMode]       The template roll mode to use for the message from CONFIG.Dice.rollModes.
+   * @param {boolean} [options.create]        Whether to automatically create the chat message or return message data.
+   * @returns {Promise<ChatMessage|object>}   A promise that resolves to the created chat message.
    */
   static async toMessage(rolls, messageData = {}, { rollMode, create = true } = {}) {
     for (const roll of rolls) if (!roll._evaluated) await roll.evaluate();
@@ -54,8 +54,8 @@ export default class RollArtichron extends Roll {
 
   /**
    * Create a chat message with all the rolls.
-   * @param {object} [messageData]      The data object to use when creating the message.
-   * @param {object} [options]          Additional options which modify the created message.
+   * @param {object} [messageData]    The data object to use when creating the message.
+   * @param {object} [options]        Additional options which modify the created message.
    */
   async toMessage(messageData = {}, { rollMode, create = true } = {}) {
     return this.constructor.toMessage([this], messageData, { rollMode, create });

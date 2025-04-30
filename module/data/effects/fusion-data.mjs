@@ -73,8 +73,8 @@ export default class EffectFusionData extends ActiveEffectSystemModel {
   /* -------------------------------------------------- */
 
   /** @inheritdoc */
-  async _preCreate(...T) {
-    const allowed = await super._preCreate(...T);
+  async _preCreate(data, options, user) {
+    const allowed = await super._preCreate(data, options, user);
     if (allowed === false) return false;
 
     const isActor = this.parent.parent.documentName === "Actor";
@@ -114,9 +114,9 @@ export default class EffectFusionData extends ActiveEffectSystemModel {
 
   /**
    * Delete this fusion and restore the original item.
-   * @param {object} [options]              Options to modify the splitting process.
-   * @param {boolean} [options.keepId]      Restore the item with its original id?
-   * @returns {Promise<ItemArtichron|null>}
+   * @param {object} [options]                Options to modify the splitting process.
+   * @param {boolean} [options.keepId]        Restore the item with its original id?
+   * @returns {Promise<ItemArtichron|null>}   A promise that resolves to the recreated item.
    */
   async unfuse({ keepId = true } = {}) {
     if (!this.isActiveFusion) {
@@ -143,8 +143,8 @@ export default class EffectFusionData extends ActiveEffectSystemModel {
 
   /**
    * Create a prompt to delete this fusion and restore the original item.
-   * @param {object} [options]      Options to modify the splitting process.
-   * @returns {Promise<ItemArtichron|null>}
+   * @param {object} [options]                Options to modify the splitting process.
+   * @returns {Promise<ItemArtichron|null>}   A promise that resolves to the recreated item.
    */
   async unfuseDialog(options = {}) {
     if (!this.isActiveFusion) {
@@ -172,11 +172,11 @@ export default class EffectFusionData extends ActiveEffectSystemModel {
 
   /**
    * Utility method for translating an edge-case change into a human-readable label.
-   * @param {object} change           Change effect data.
-   * @param {string} change.key       The attribute targeted.
-   * @param {number} change.mode      The active effect mode.
-   * @param {string} change.value     The new value of the property.
-   * @returns {string}                A human-readable label.
+   * @param {object} change         Change effect data.
+   * @param {string} change.key     The attribute targeted.
+   * @param {number} change.mode    The active effect mode.
+   * @param {string} change.value   The new value of the property.
+   * @returns {string}              A human-readable label.
    */
   static translateChange({ key, mode, value }) {
     const formatter = game.i18n.getListFormatter({ style: "long", type: "conjunction" });

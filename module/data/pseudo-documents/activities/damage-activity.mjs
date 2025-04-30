@@ -150,7 +150,7 @@ export default class DamageActivity extends BaseActivity {
 
   /**
    * Create a new damage part.
-   * @param {object} [data]     Damage part data.
+   * @param {object} [data]   Damage part data.
    * @returns {Promise}
    */
   async createDamage(data = {}) {
@@ -163,7 +163,7 @@ export default class DamageActivity extends BaseActivity {
 
   /**
    * Delete a damage part.
-   * @param {string} id     The id of the damage part.
+   * @param {string} id   The id of the damage part.
    * @returns {Promise}
    */
   async deleteDamage(id) {

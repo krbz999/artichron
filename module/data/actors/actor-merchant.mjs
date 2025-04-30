@@ -36,8 +36,6 @@ export default class MerchantData extends ActorSystemModel {
   #config;
 
   /* -------------------------------------------------- */
-
-  /* -------------------------------------------------- */
   /*   Preparation methods                              */
   /* -------------------------------------------------- */
 
@@ -74,9 +72,9 @@ export default class MerchantData extends ActorSystemModel {
 
   /**
    * Move an item from the stock area to the cart area.
-   * @param {ActorArtichron} actor      The actor making the purchase.
-   * @param {ItemArtichron} item        The item being purchased.
-   * @returns {Promise<boolean>}        Whether the item was moved.
+   * @param {ActorArtichron} actor    The actor making the purchase.
+   * @param {ItemArtichron} item      The item being purchased.
+   * @returns {Promise<boolean>}      Whether the item was moved.
    */
   async stageItem(actor, item) {
     if (item.parent !== this.parent) {
@@ -92,9 +90,9 @@ export default class MerchantData extends ActorSystemModel {
 
   /**
    * Move an item from the cart area to the stock area.
-   * @param {ActorArtichron} actor      The actor cancelling the purchase.
-   * @param {ItemArtichron} item        The item being cancelled.
-   * @returns {Promise<boolean>}        Whether the item was moved.
+   * @param {ActorArtichron} actor    The actor cancelling the purchase.
+   * @param {ItemArtichron} item      The item being cancelled.
+   * @returns {Promise<boolean>}      Whether the item was moved.
    */
   async unstageItem(actor, item) {
     const ids = this.shop.staged[actor.id] ?? new Set();

@@ -12,7 +12,7 @@ export default class ChatMessageSystemModel extends foundry.abstract.TypeDataMod
 
   /**
    * Make system-specific adjustments to the chat message when created by an item.
-   * @param {HTMLElement} html      The default html.
+   * @param {HTMLElement} html    The default html.
    */
   async adjustHTML(html) {
     html.classList.add("artichron", this.parent.type);

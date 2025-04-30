@@ -14,7 +14,7 @@ export default class CombatArtichron extends BaseDocumentMixin(foundry.documents
 
   /**
    * Delete any effects that expire when combat ends.
-   * @returns {Promise<ActiveEffectArtichron[]>}      All the deleted effects.
+   * @returns {Promise<ActiveEffectArtichron[]>}    A promise that resolves to all the deleted effects.
    */
   async expireCombatEffects() {
     const actors = new Set(this.combatants.map(c => c.actor));
@@ -53,8 +53,8 @@ export default class CombatArtichron extends BaseDocumentMixin(foundry.documents
 
   /**
    * Delete any measured templates tied to this combat document.
-   * @param {string} duration                    When the template should expire (turn, round, combat).
-   * @returns {Promise<MeasuredTemplate[]>}      All the deleted templates.
+   * @param {string} duration                 When the template should expire (turn, round, combat).
+   * @returns {Promise<MeasuredTemplate[]>}   A promise that resolves to all the deleted templates.
    */
   async expireMeasuredTemplates(duration) {
     const scene = this.scene;
@@ -186,8 +186,8 @@ export default class CombatArtichron extends BaseDocumentMixin(foundry.documents
 
   /**
    * Prompt the GM to apply any effects from conditions that apply at the start of the round.
-   * @param {Combatant[]} combatants      An array of undefeated combatants whose conditions to apply.
-   * @returns {Promise}
+   * @param {Combatant[]} combatants    An array of undefeated combatants whose conditions to apply.
+   * @returns {Promise<void>}           A promise that resolves once all conditions have been resolved.
    */
   async _promptRoundStartConditions(combatants) {
     const actors = new Set(combatants.map(c => c.actor));
@@ -250,8 +250,8 @@ export default class CombatArtichron extends BaseDocumentMixin(foundry.documents
 
   /**
    * Create the initiative order using just actors. This array will contain repeats.
-   * @param {Combatant[]} combatants      Array of undefeated, unique combatants.
-   * @returns {ActorArtichron[]}          Array of actors, with repeats, in initiative order.
+   * @param {Combatant[]} combatants    Array of undefeated, unique combatants.
+   * @returns {ActorArtichron[]}        Array of actors, with repeats, in initiative order.
    */
   _createActorOrder(combatants) {
     const [hostile, friendly] = combatants.partition(c => c.token.disposition >= 0);

@@ -73,7 +73,7 @@ export default class ActorArtichron extends BaseDocumentMixin(foundry.documents.
 
   /**
    * The items that this monster will drop when killed.
-   * @type {object[]}     Objects with an index entry and quantity.
+   * @type {object[]}   Objects with an index entry and quantity.
    */
   get lootDrops() {
     return this.system.lootDrops ?? [];
@@ -157,8 +157,8 @@ export default class ActorArtichron extends BaseDocumentMixin(foundry.documents.
 
   /**
    * Display scrolling damage numbers on each of this actor's tokens.
-   * @param {DamageDescription[]} [damages]     Damage taken. If healing, this is omitted.
-   * @param {object} [health]                   An object describing changes to health.
+   * @param {DamageDescription[]} [damages]   Damage taken. If healing, this is omitted.
+   * @param {object} [health]                 An object describing changes to health.
    * @returns {Promise<void>}
    */
   async _displayScrollingNumbers(damages, health) {
@@ -233,10 +233,10 @@ export default class ActorArtichron extends BaseDocumentMixin(foundry.documents.
 
   /**
    * Calculate damage that will be taken, excepting any defenses from parrying and blocking.
-   * @param {number|DamageDescription[]} damages      Damage to be applied.
-   * @param {object} [options]                        Damage calculation options.
-   * @param {boolean} [options.numeric]               Whether to return the damage descriptions instead of the total damage.
-   * @returns {number|DamageDescription[]}            The amount of damage taken, or the modified values.
+   * @param {number|DamageDescription[]} damages    Damage to be applied.
+   * @param {object} [options]                      Damage calculation options.
+   * @param {boolean} [options.numeric]             Whether to return the damage descriptions instead of the total damage.
+   * @returns {number|DamageDescription[]}          The amount of damage taken, or the modified values.
    */
   calculateDamage(damages, { numeric = true } = {}) {
     if (foundry.utils.getType(damages) === "number") {
@@ -268,8 +268,8 @@ export default class ActorArtichron extends BaseDocumentMixin(foundry.documents.
 
   /**
    * Apply damage to this actor.
-   * @param {number|DamageDescription[]} damages      Damage to be applied.
-   * @returns {Promise<ActorArtichron>}
+   * @param {number|DamageDescription[]} damages    Damage to be applied.
+   * @returns {Promise<ActorArtichron>}             A promise that resolves to the updated actor.
    */
   async applyDamage(damages) {
     if (!this.system.health?.value) return this;
@@ -321,8 +321,8 @@ export default class ActorArtichron extends BaseDocumentMixin(foundry.documents.
 
   /**
    * Apply healing to this actor.
-   * @param {number} value                  The amount to heal.
-   * @returns {Promise<ActorArtichron>}     This actor after having been healed.
+   * @param {number} value                The amount to heal.
+   * @returns {Promise<ActorArtichron>}   This actor after having been healed.
    */
   async applyHealing(value) {
     const hp = foundry.utils.deepClone(this.system.health);
@@ -374,10 +374,10 @@ export default class ActorArtichron extends BaseDocumentMixin(foundry.documents.
 
   /**
    * Prompt the user to roll block and parry to reduce incoming damage using any of their equipped arsenal.
-   * @param {number} damage               The damage to attempt to reduce.
-   * @returns {Promise<number|false>}     A promise that resolves to the total of all defensive rolls, or false
-   *                                      if the dialog was cancelled, which will be taken to mean the damage
-   *                                      application should also be cancelled.
+   * @param {number} damage             The damage to attempt to reduce.
+   * @returns {Promise<number|false>}   A promise that resolves to the total of all defensive rolls, or false
+   *                                    if the dialog was cancelled, which will be taken to mean the damage
+   *                                    application should also be cancelled.
    */
   async defenseDialog(damage) {
     const items = Object.values(this.arsenal).filter(item => item?.system.canDefend);
@@ -471,8 +471,8 @@ export default class ActorArtichron extends BaseDocumentMixin(foundry.documents.
 
   /**
    * Retrieve the level of a condition effect.
-   * @param {string} status     The id of a condition as found in `CONFIG.statusEffects`.
-   * @returns {number}          The level of the condition.
+   * @param {string} status   The id of a condition as found in `CONFIG.statusEffects`.
+   * @returns {number}        The level of the condition.
    */
   appliedConditionLevel(status) {
     const effect = this.effects.get(artichron.utils.staticId(status));
@@ -524,8 +524,8 @@ export default class ActorArtichron extends BaseDocumentMixin(foundry.documents.
 
   /**
    * Toggle whether an item is favorited.
-   * @param {string} id                           The id of the item to toggle.
-   * @returns {Promise<ActorArtichron|null>}      A promise that resolves to updated actor.
+   * @param {string} id                         The id of the item to toggle.
+   * @returns {Promise<ActorArtichron|null>}    A promise that resolves to updated actor.
    */
   async toggleFavoriteItem(id) {
     const item = this.items.get(id);
@@ -541,8 +541,8 @@ export default class ActorArtichron extends BaseDocumentMixin(foundry.documents.
 
   /**
    * Remove an item as favorite.
-   * @param {string} id                           The id of the item to unfavorite.
-   * @returns {Promise<ActorArtichron|null>}      A promise that resolves to updated actor.
+   * @param {string} id                         The id of the item to unfavorite.
+   * @returns {Promise<ActorArtichron|null>}    A promise that resolves to updated actor.
    */
   async removeFavoriteItem(id) {
     const item = this.items.get(id);
@@ -558,8 +558,8 @@ export default class ActorArtichron extends BaseDocumentMixin(foundry.documents.
 
   /**
    * Add a favorited item.
-   * @param {string} id                           The id of the item to favorite.
-   * @returns {Promise<ActorArtichron|null>}      A promise that resolves to updated actor.
+   * @param {string} id                         The id of the item to favorite.
+   * @returns {Promise<ActorArtichron|null>}    A promise that resolves to updated actor.
    */
   async addFavoriteItem(id) {
     const item = this.items.get(id);
@@ -577,9 +577,9 @@ export default class ActorArtichron extends BaseDocumentMixin(foundry.documents.
 
   /**
    * Add a new loot item.
-   * @param {string} uuid           Uuid of the item.
-   * @param {number} [quantity]     The quantity of the item.
-   * @returns {Promise<ActorArtichron>}
+   * @param {string} uuid                 Uuid of the item.
+   * @param {number} [quantity]           The quantity of the item.
+   * @returns {Promise<ActorArtichron>}   A promise that resolves to the updated actor.
    */
   async addLootDrop(uuid, quantity = 1) {
     if (this.system.addLootDrop) await this.system.addLootDrop(uuid, quantity);
@@ -590,8 +590,8 @@ export default class ActorArtichron extends BaseDocumentMixin(foundry.documents.
 
   /**
    * Remove a loot item.
-   * @param {string} uuid     Uuid of the item.
-   * @returns {Promise<ActorArtichron>}
+   * @param {string} uuid                 Uuid of the item.
+   * @returns {Promise<ActorArtichron>}   A promise that resolves to the updated actor.
    */
   async removeLootDrop(uuid) {
     if (this.system.removeLootDrop) await this.system.removeLootDrop(uuid);
@@ -602,9 +602,9 @@ export default class ActorArtichron extends BaseDocumentMixin(foundry.documents.
 
   /**
    * Adjust a loot item's quantity.
-   * @param {string} uuid         Uuid of the item.
-   * @param {number} quantity     The quantity to add or remove. Reducing to 0 will remove the stack.
-   * @returns {Promise<ActorArtichron>}
+   * @param {string} uuid                 Uuid of the item.
+   * @param {number} quantity             The quantity to add or remove. Reducing to 0 will remove the stack.
+   * @returns {Promise<ActorArtichron>}   A promise that resolves to the updated actor.
    */
   async adjustLootDrop(uuid, quantity) {
     if (this.system.adjustLootDrop) await this.system.adjustLootDrop(uuid, quantity);
@@ -634,7 +634,7 @@ export default class ActorArtichron extends BaseDocumentMixin(foundry.documents.
 
   /**
    * Reference to this actor's current amount of pips.
-   * @type {number|null}      The action points, or null if not in combat or invalid actor.
+   * @type {number|null}    The action points, or `null` if not in combat or invalid actor.
    */
   get actionPoints() {
     if (!this.inCombat) return null;
@@ -645,8 +645,8 @@ export default class ActorArtichron extends BaseDocumentMixin(foundry.documents.
 
   /**
    * Adjust the remaining action points of this actor.
-   * @param {number} [value]                The amount to spend. Omit to spend 1 point, use negative values to gain points.
-   * @returns {Promise<ActorArtichron>}     A promise that resolves to the updated actor.
+   * @param {number} [value]              The amount to spend. Omit to spend 1 point, use negative values to gain points.
+   * @returns {Promise<ActorArtichron>}   A promise that resolves to the updated actor.
    */
   async spendActionPoints(value = 1) {
     if (!this.inCombat) throw new Error("This actor is not in combat.");
@@ -658,8 +658,8 @@ export default class ActorArtichron extends BaseDocumentMixin(foundry.documents.
 
   /**
    * Can this actor perform an action that costs a certain amount of action points?
-   * @param {number} [value]      The action point cost.
-   * @returns {boolean}
+   * @param {number} [value]    The action point cost.
+   * @returns {boolean}         Whether the actor is in combat, uses pips, and has enough pips.
    */
   canPerformActionPoints(value = 1) {
     if (!this.inCombat) return true;
@@ -671,7 +671,7 @@ export default class ActorArtichron extends BaseDocumentMixin(foundry.documents.
 
   /**
    * Render a dialog to adjust the action points.
-   * @returns {Promise<ActorArtichron|null>}
+   * @returns {Promise<ActorArtichron|null>}    A promise that resolves to the updated actor.
    */
   async actionPointsDialog() {
     if (!this.inCombat) return null;
@@ -699,7 +699,7 @@ export default class ActorArtichron extends BaseDocumentMixin(foundry.documents.
 
   /**
    * Determine this actor's action points at the start of the round.
-   * @returns {number}
+   * @returns {number}    The number of starting action points.
    */
   determineStartingActionPoints() {
     const hindered = this.appliedConditionLevel("hindered");
@@ -713,8 +713,8 @@ export default class ActorArtichron extends BaseDocumentMixin(foundry.documents.
 
   /**
    * Get the AP cost when moving a certain distance.
-   * @param {number} distance     The distance to move, after any modifiers.
-   * @returns {number}            The AP cost, a multiple of 0.2.
+   * @param {number} distance   The distance to move, after any modifiers.
+   * @returns {number}          The AP cost, a multiple of 0.2.
    */
   getAPMovementCost(distance) {
     return (distance / 5).toNearest(0.2, "ceil");

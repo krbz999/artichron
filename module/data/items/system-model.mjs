@@ -136,7 +136,7 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
 
   /**
    * Equip this item.
-   * @returns {Promise<boolean>}      Whether equipping was successful.
+   * @returns {Promise<boolean>}    Whether equipping was successful.
    */
   async equip() {
     if (!this.canEquip) return false;

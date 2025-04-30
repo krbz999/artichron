@@ -37,6 +37,10 @@ export default class EffectBuffData extends ActiveEffectSystemModel {
 
   /* -------------------------------------------------- */
 
+  /**
+   * Is this buff granted or dormant on its source?
+   * @type {boolean}
+   */
   get isGranted() {
     return !!this.source && this.granted;
   }

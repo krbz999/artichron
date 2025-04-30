@@ -9,14 +9,30 @@ export default class ChatMessageArtichron extends BaseDocumentMixin(foundry.docu
 
   /* -------------------------------------------------- */
 
+  /**
+   * Is this a damage message?
+   * @type {boolean}
+   */
   get isDamage() {
     return this.flags.artichron?.type === "damage";
   }
 
+  /* -------------------------------------------------- */
+
+  /**
+   * Is this a healing message?
+   * @type {boolean}
+   */
   get isHealing() {
     return this.flags.artichron?.type === "healing";
   }
 
+  /* -------------------------------------------------- */
+
+  /**
+   * Is this an effect message?
+   * @type {boolean}
+   */
   get isEffect() {
     return this.flags.artichron?.type === "effect";
   }
@@ -72,7 +88,7 @@ export default class ChatMessageArtichron extends BaseDocumentMixin(foundry.docu
   /**
    * Utility method to attach token pointer and hover events to an element.
    * The element must have the `data-actor-uuid` attribute.
-   * @param {HTMLElement} element     The element with the pointer events.
+   * @param {HTMLElement} element   The element with the pointer events.
    */
   static attachTokenListeners(element) {
     element.addEventListener("click", this.#onTargetMouseDown.bind(element));
@@ -85,7 +101,7 @@ export default class ChatMessageArtichron extends BaseDocumentMixin(foundry.docu
   /**
    * Handle click events on chat message avatar.
    * @this {HTMLElement}
-   * @param {PointerEvent} event      The originating click event.
+   * @param {PointerEvent} event    The originating click event.
    */
   static #onTargetMouseDown(event) {
     event.stopPropagation();
@@ -105,7 +121,7 @@ export default class ChatMessageArtichron extends BaseDocumentMixin(foundry.docu
   /**
    * Handle hover-in events on chat message avatar.
    * @this {HTMLElement}
-   * @param {PointerEvent} event      The originating hover event.
+   * @param {PointerEvent} event    The originating hover event.
    */
   static #onTargetHoverIn(event) {
     const actor = fromUuidSync(event.currentTarget.dataset.actorUuid);
@@ -121,7 +137,7 @@ export default class ChatMessageArtichron extends BaseDocumentMixin(foundry.docu
   /**
    * Handle hover-out events on chat message avatar.
    * @this {HTMLElement}
-   * @param {PointerEvent} event      The originating hover event.
+   * @param {PointerEvent} event    The originating hover event.
    */
   static #onTargetHoverOut(event) {
     const uuid = event.currentTarget.dataset.actorUuid;

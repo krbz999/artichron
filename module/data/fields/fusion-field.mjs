@@ -34,9 +34,9 @@ class FusionData extends DataModel {
 
   /**
    * Pick one of the fusion options of this item, grant it to a target item, and destroy this.
-   * @param {ItemArtichron} target                  The target item.
-   * @param {ActiveEffectArtichron} [fusion]        The fusion template effect. If omitted, use defaults.
-   * @returns {Promise<ActiveEffectArtichron>}      The created fusion effect.
+   * @param {ItemArtichron} target                The target item.
+   * @param {ActiveEffectArtichron} [fusion]      The fusion template effect. If omitted, use defaults.
+   * @returns {Promise<ActiveEffectArtichron>}    The created fusion effect.
    */
   async fuse(target, fusion) {
     const Cls = foundry.utils.getDocumentClass("ActiveEffect");
@@ -87,7 +87,7 @@ class FusionData extends DataModel {
 
   /**
    * Prompt a dialog to pick an active fusion on this item to end.
-   * @returns {Promise<ItemArtichron|null>}     A promise that resolves to the recreated item.
+   * @returns {Promise<ItemArtichron|null>}   A promise that resolves to the recreated item.
    */
   async unfuseDialog() {
     const item = this.item;
@@ -121,8 +121,8 @@ class FusionData extends DataModel {
 
   /**
    * Create fusion data using a fusion effect from a source item with the target being this item.
-   * @param {ActiveEffectArtichron} effect      The selected effect.
-   * @returns {object[]}                        An array of effect change data.
+   * @param {ActiveEffectArtichron} effect    The selected effect.
+   * @returns {object[]}                      An array of effect change data.
    */
   createFusionData(effect) {
     const source = effect.parent;
@@ -205,11 +205,13 @@ class FusionData extends DataModel {
     return changes;
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Construct an array of changes that will be applying to this item if a given fusion
    * effect is chosen from its source item.
-   * @param {ActiveEffectArtichron} effect      The selected effect.
-   * @returns {object[]}                        An array of objects, each with path, label, and the old and new values.
+   * @param {ActiveEffectArtichron} effect    The selected effect.
+   * @returns {object[]}                      An array of objects, each with path, label, and the old and new values.
    */
   createFusionTranslation(effect) {
     const source = effect.parent;

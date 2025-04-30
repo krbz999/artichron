@@ -93,8 +93,8 @@ export default class EffectActivity extends BaseActivity {
 
   /**
    * Transfer a copy of the effects to actors.
-   * @param {ActorArtichron[]} [targets]      The actor targets.
-   * @returns {Promise<void>}                 A promise that resolves once all socket events have been emitted.
+   * @param {ActorArtichron[]} [targets]    The actor targets.
+   * @returns {Promise<void>}               A promise that resolves once all socket events have been emitted.
    */
   async grantEffects(targets = []) {
     const effects = this.effects.ids.map(id => this.item.effects.get(id));

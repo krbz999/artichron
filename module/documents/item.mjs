@@ -312,7 +312,7 @@ export default class ItemArtichron extends BaseDocumentMixin(foundry.documents.I
   /**
    * Get all effects that may apply to this item.
    * @yields {ActiveEffectArtichron}
-   * @returns {Generator<ActiveEffectArtichron, void, void}
+   * @returns {Generator<ActiveEffectArtichron, void, void>}
    */
   *allApplicableEffects() {
     for (const e of this.effects) {
@@ -360,11 +360,11 @@ export default class ItemArtichron extends BaseDocumentMixin(foundry.documents.I
 
   /**
    * Favorite this item on its actor.
-   * @returns {Promise<ActorArtichron|null>}
+   * @returns {Promise<ActorArtichron|null>}    A promise that resolves to the updated actor.
    */
   async favorite() {
     if (!this.isEmbedded) return null;
-    this.actor.toggleFavoriteItem(this.id);
+    return this.actor.toggleFavoriteItem(this.id);
   }
 
   /* -------------------------------------------------- */

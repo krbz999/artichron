@@ -85,8 +85,8 @@ class ModelCollection extends foundry.utils.Collection {
 
   /**
    * Fetch an array of data models of a certain type.
-   * @param {string} type     Subtype.
-   * @returns {DataModel[]}
+   * @param {string} type     The subtype of the data models.
+   * @returns {DataModel[]}   The data models of this type.
    */
   getByType(type) {
     return Array.from(this.#types.get(type) ?? []).map(key => this.get(key));
@@ -123,7 +123,7 @@ class ModelCollection extends foundry.utils.Collection {
 
   /**
    * Test the given predicate against every entry in the Collection.
-   * @param {function(*, number, ModelCollection): boolean} predicate     The predicate.
+   * @param {function(*, number, ModelCollection): boolean} predicate   The predicate.
    * @returns {boolean}
    */
   every(predicate) {
@@ -134,10 +134,9 @@ class ModelCollection extends foundry.utils.Collection {
 
   /**
    * Convert the ModelCollection to an array of simple objects.
-   * @param {boolean} [source=true]     Draw data for contained Documents from the underlying data source?
-   * @returns {object[]}                The extracted array of primitive objects.
+   * @returns {object[]}    The extracted array of primitive objects.
    */
-  toObject(source = true) {
-    return this.map(doc => doc.toObject(source));
+  toObject() {
+    return this.map(doc => doc.toObject(true));
   }
 }

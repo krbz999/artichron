@@ -113,8 +113,8 @@ export default class ElixirData extends ItemSystemModel {
 
   /**
    * Utility method for crafting the usage update for an elixir.
-   * @param {number} [uses]         The uses to subtract, or the value to set to.
-   * @param {boolean} [isDelta]     Whether this modifies the current uses, or overrides the value.
+   * @param {number} [uses]       The uses to subtract, or the value to set to.
+   * @param {boolean} [isDelta]   Whether this modifies the current uses, or overrides the value.
    * @returns {object}
    */
   _usageUpdate(uses = 1, isDelta = true) {

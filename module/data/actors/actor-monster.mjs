@@ -82,6 +82,8 @@ export default class MonsterData extends CreatureData {
     return bonus;
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * The items that this monster will drop when killed.
    * @type {object[]}     Objects with an index entry and quantity.
@@ -110,8 +112,8 @@ export default class MonsterData extends CreatureData {
 
   /**
    * Add a new loot item.
-   * @param {string} uuid           Uuid of the item.
-   * @param {number} [quantity]     The quantity of the item.
+   * @param {string} uuid         Uuid of the item.
+   * @param {number} [quantity]   The quantity of the item.
    * @returns {Promise<ActorArtichron>}
    */
   async addLootDrop(uuid, quantity = 1) {
@@ -127,7 +129,7 @@ export default class MonsterData extends CreatureData {
 
   /**
    * Remove a loot item.
-   * @param {string} uuid     Uuid of the item.
+   * @param {string} uuid   Uuid of the item.
    * @returns {Promise<ActorArtichron>}
    */
   async removeLootDrop(uuid) {
@@ -141,8 +143,8 @@ export default class MonsterData extends CreatureData {
 
   /**
    * Adjust a loot item's quantity.
-   * @param {string} uuid         Uuid of the item.
-   * @param {number} quantity     The quantity to add or remove. Reducing to 0 will remove the stack.
+   * @param {string} uuid       Uuid of the item.
+   * @param {number} quantity   The quantity to add or remove. Reducing to 0 will remove the stack.
    * @returns {Promise<ActorArtichron>}
    */
   async adjustLootDrop(uuid, quantity) {
@@ -161,8 +163,8 @@ export default class MonsterData extends CreatureData {
 
   /**
    * Grant the loot of this monster to the party.
-   * @param {ActorArtichron} [party]          The party to grant the items to.
-   * @returns {Promise<ItemArtichron[]>}      A promise that resolves to the created items.
+   * @param {ActorArtichron} [party]        The party to grant the items to.
+   * @returns {Promise<ItemArtichron[]>}    A promise that resolves to the created items.
    */
   async grantLootDrops(party = null) {
     party ??= game.actors.party;

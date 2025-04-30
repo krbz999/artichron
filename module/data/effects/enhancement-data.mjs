@@ -15,8 +15,8 @@ export default class EffectEnhancementData extends ActiveEffectSystemModel {
   /* -------------------------------------------------- */
 
   /** @inheritdoc */
-  async _preCreate(...T) {
-    const allowed = await super._preCreate(...T);
+  async _preCreate(data, options, user) {
+    const allowed = await super._preCreate(data, options, user);
     if (allowed === false) return false;
 
     if (this.parent.parent.documentName === "Actor") {

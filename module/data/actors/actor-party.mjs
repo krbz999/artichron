@@ -60,8 +60,8 @@ export default class PartyData extends ActorSystemModel {
 
   /**
    * Add a new member.
-   * @param {ActorArtichron} actor          The actor to add.
-   * @returns {Promise<ActorArtichron>}     A promise that resolves to the updated party actor.
+   * @param {ActorArtichron} actor        The actor to add.
+   * @returns {Promise<ActorArtichron>}   A promise that resolves to the updated party actor.
    */
   async addMember(actor) {
     if (!PartyData.metadata.allowedActorTypes.has(actor.type)) throw new Error(`Cannot add a ${actor.type} to a party!`);
@@ -82,8 +82,8 @@ export default class PartyData extends ActorSystemModel {
 
   /**
    * Remove a member from the party.
-   * @param {ActorArtichron} actor          The actor to remove.
-   * @returns {Promise<ActorArtichron>}     A promise that resolves to the updated party actor.
+   * @param {ActorArtichron} actor        The actor to remove.
+   * @returns {Promise<ActorArtichron>}   A promise that resolves to the updated party actor.
    */
   async removeMember(actor) {
     if (!this.members.has(actor.id)) return;
@@ -146,7 +146,7 @@ export default class PartyData extends ActorSystemModel {
 
   /**
    * Prompt a dialog for a GM user to distribute currency to the members of a party.
-   * @param {ActorArtichron} [party]      The party whose members to distribute to.
+   * @param {ActorArtichron} [party]    The party whose members to distribute to.
    * @returns {Promise}
    */
   static async distributeCurrencyDialog(party) {
