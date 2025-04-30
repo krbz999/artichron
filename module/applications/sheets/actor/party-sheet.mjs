@@ -238,7 +238,7 @@ export default class PartySheet extends ActorSheetArtichron {
           clock: clock,
           disableUp: clock.isFull,
           disableDown: clock.isEmpty,
-          name: clock.name ? clock.name : game.i18n.localize(clock.constructor.metadata.defaultName),
+          name: clock.name ? clock.name : game.i18n.localize(clock.constructor.metadata.label),
           hue: clock.color.rgb.map(k => k * 255).join(", "),
         });
       } else {
@@ -254,7 +254,7 @@ export default class PartySheet extends ActorSheetArtichron {
 
         context.clocks.push({
           clock: clock,
-          name: { ...makeField("name"), placeholder: game.i18n.localize(clock.constructor.metadata.defaultName) },
+          name: { ...makeField("name"), placeholder: game.i18n.localize(clock.constructor.metadata.label) },
           value: makeField("value"),
           max: makeField("max"),
           color: { ...makeField("color"), placeholder: clock.constructor.metadata.color },

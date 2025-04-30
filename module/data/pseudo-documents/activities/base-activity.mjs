@@ -47,7 +47,7 @@ export default class BaseActivity extends PseudoDocument {
   /** @inheritdoc */
   prepareDerivedData() {
     super.prepareDerivedData();
-    this.name ||= game.i18n.localize(this.constructor.metadata.defaultName);
+    this.name ||= game.i18n.localize(this.constructor.metadata.label);
   }
 
   /* -------------------------------------------------- */

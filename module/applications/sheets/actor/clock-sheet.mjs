@@ -58,7 +58,7 @@ export default class ClockSheet extends PseudoDocumentSheet {
    */
   async #prepareIdentityContext(context, options) {
     context.name = Object.assign(this._prepareField("name"), {
-      placeholder: game.i18n.localize(context.clock.constructor.metadata.defaultName),
+      placeholder: game.i18n.localize(context.clock.constructor.metadata.label),
     });
     context.color = Object.assign(this._prepareField("color"), {
       placeholder: context.clock.constructor.metadata.color,

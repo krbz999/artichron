@@ -111,11 +111,11 @@ export default class PseudoDocumentSheet extends HandlebarsApplicationMixin(Appl
   get title() {
     const pseudo = this.pseudoDocument;
     const { documentName, name } = pseudo;
-    const defaultName = pseudo.constructor.metadata.defaultName;
+    const label = pseudo.constructor.metadata.label;
     return [
       game.i18n.localize(`DOCUMENT.${documentName}`),
-      name || game.i18n.localize(defaultName),
-    ].join(": ");
+      name ? name : (label ? game.i18n.localize(label) : null),
+    ].filterJoin(": ");
   }
 
   /* -------------------------------------------------- */

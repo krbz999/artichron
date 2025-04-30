@@ -87,7 +87,7 @@ export default class ActivitySheet extends PseudoDocumentSheet {
    */
   async #prepareIdentityContext(context) {
     context.name = Object.assign(this._prepareField("name"), {
-      placeholder: game.i18n.localize(context.activity.constructor.metadata.defaultName),
+      placeholder: game.i18n.localize(context.activity.constructor.metadata.label),
     });
 
     context.img = this._prepareField("img");

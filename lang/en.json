@@ -404,7 +404,7 @@
 },
 
 "DAMAGE": {
-  "defaultName": "Damage Part"
+  "label": "Damage Part"
 },
 
 "DamageType": {

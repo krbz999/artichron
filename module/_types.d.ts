@@ -35,12 +35,12 @@ export interface ClockMetadata extends PseudoDocumentMetadata {
   /** Hex string for default color. */
   color: string;
   /** i18n path for default name. */
-  defaultName: string;
+  label: string;
 }
 
 export interface DamagePartMetadata extends PseudoDocumentMetadata {
   /** i18n path for default name. */
-  defaultName: string;
+  label: string;
 }
 
 /* -------------------------------------------------- */

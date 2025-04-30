@@ -10,7 +10,7 @@ export default class BaseClock extends PseudoDocument {
   static get metadata() {
     return {
       color: "",
-      defaultName: "",
+      label: "",
       documentName: "Clock",
       embedded: {},
       sheetClass: artichron.applications.sheets.actor.ClockSheet,

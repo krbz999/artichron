@@ -7,7 +7,7 @@ export default class CollectionField extends TypedObjectField {
   constructor(model, { typed = true, ...options } = {}, context = {}) {
     let field;
     if (typed === false) field = new EmbeddedDataField(model);
-    else field = new TypedSchemaField(model.TYPES);
+    else field = new LazyTypedSchemaField(model.TYPES);
     options.validateKey ||= ((key) => foundry.data.validators.isValidId(key));
     super(field, options, context);
   }
@@ -19,9 +19,27 @@ export default class CollectionField extends TypedObjectField {
     const init = super.initialize(value, model, options);
     const collection = new ModelCollection();
     for (const [id, model] of Object.entries(init)) {
-      collection.set(id, model);
+      if (model instanceof artichron.data.PseudoDocument) {
+        collection.set(id, model);
+      } else {
+        collection.setInvalid(model);
+      }
     }
     return collection;
+  }
+}
+
+/* -------------------------------------------------- */
+
+/**
+ * A subclass of TypedSchemaField that does not throw an error if the `type` of the
+ * embedded model is invalid, e.g., due to disabled modules.
+ */
+class LazyTypedSchemaField extends TypedSchemaField {
+  /** @inheritdoc */
+  _validateSpecial(value) {
+    if (!value || (value.type in this.types)) return super._validateSpecial(value);
+    return true;
   }
 }
 
@@ -53,6 +71,15 @@ class ModelCollection extends foundry.utils.Collection {
   }
 
   /* -------------------------------------------------- */
+
+  /**
+   * A set of the un-initialized pseudo-documents.
+   * Stored safely for debugging purposes.
+   * @type {Set<object>}
+   */
+  #invalid = new Set();
+
+  /* -------------------------------------------------- */
   /*  Methods                                           */
   /* -------------------------------------------------- */
 
@@ -72,6 +99,16 @@ class ModelCollection extends foundry.utils.Collection {
     if (!this.#types.has(value.type)) this.#types.set(value.type, new Set());
     this.#types.get(value.type).add(key);
     return super.set(key, value);
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Store invalid pseudo-documents.
+   * @param {object} value    The un-initialized data model.
+   */
+  setInvalid(value) {
+    this.#invalid.add(value);
   }
 
   /* -------------------------------------------------- */
