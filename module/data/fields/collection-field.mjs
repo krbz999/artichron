@@ -4,10 +4,10 @@ const { EmbeddedDataField, TypedObjectField, TypedSchemaField } = foundry.data.f
  * A collection that houses pseudo-documents.
  */
 export default class CollectionField extends TypedObjectField {
-  constructor(model, { typed = true, ...options } = {}, context = {}) {
-    let field;
-    if (typed === false) field = new EmbeddedDataField(model);
-    else field = new LazyTypedSchemaField(model.TYPES);
+  constructor(model, options = {}, context = {}) {
+    let field = foundry.utils.isSubclass(model, artichron.data.pseudoDocuments.TypedPseudoDocument)
+      ? new LazyTypedSchemaField(model.TYPES)
+      : new EmbeddedDataField(model);
     options.validateKey ||= ((key) => foundry.data.validators.isValidId(key));
     super(field, options, context);
   }
@@ -19,7 +19,7 @@ export default class CollectionField extends TypedObjectField {
     const init = super.initialize(value, model, options);
     const collection = new ModelCollection();
     for (const [id, model] of Object.entries(init)) {
-      if (model instanceof artichron.data.PseudoDocument) {
+      if (model instanceof artichron.data.pseudoDocuments.PseudoDocument) {
         collection.set(id, model);
       } else {
         collection.setInvalid(model);

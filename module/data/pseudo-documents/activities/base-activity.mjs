@@ -1,10 +1,10 @@
-import PseudoDocument from "../../pseudo-document.mjs";
+import TypedPseudoDocument from "../typed-pseudo-document.mjs";
 
 const {
   BooleanField, FilePathField, HTMLField, NumberField, SchemaField, StringField,
 } = foundry.data.fields;
 
-export default class BaseActivity extends PseudoDocument {
+export default class BaseActivity extends TypedPseudoDocument {
   /** @type {import("../../../_types").ActivityMetadata} */
   static get metadata() {
     return {

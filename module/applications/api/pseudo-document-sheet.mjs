@@ -140,7 +140,7 @@ export default class PseudoDocumentSheet extends HandlebarsApplicationMixin(Appl
   /** @inheritdoc */
   _onClose(options) {
     super._onClose(options);
-    artichron.data.PseudoDocument._removeSheet(this.#pseudoUuid);
+    artichron.data.pseudoDocuments.PseudoDocument._removeSheet(this.#pseudoUuid);
     delete this.document.apps[this.id];
   }
 

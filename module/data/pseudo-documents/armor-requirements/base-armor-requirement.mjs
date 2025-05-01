@@ -1,6 +1,6 @@
-import PseudoDocument from "../../pseudo-document.mjs";
+import TypedPseudoDocument from "../typed-pseudo-document.mjs";
 
-export default class BaseArmorRequirement extends PseudoDocument {
+export default class BaseArmorRequirement extends TypedPseudoDocument {
   /** @type {import("../../../_types").ArmorRequirementMetadata} */
   static get metadata() {
     return {

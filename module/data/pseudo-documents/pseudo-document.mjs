@@ -1,6 +1,6 @@
 const { DocumentIdField, StringField } = foundry.data.fields;
 
-/** @import { PseudoDocumentMetadata } from "../_types.d.ts" */
+/** @import { PseudoDocumentMetadata } from "../../_types" */
 
 export default class PseudoDocument extends foundry.abstract.DataModel {
   /**
@@ -11,7 +11,6 @@ export default class PseudoDocument extends foundry.abstract.DataModel {
     return {
       documentName: null,
       embedded: {},
-      types: null,
     };
   }
 
@@ -29,39 +28,7 @@ export default class PseudoDocument extends foundry.abstract.DataModel {
   static defineSchema() {
     return {
       _id: new DocumentIdField({ initial: () => foundry.utils.randomID() }),
-      type: new StringField({
-        initial: () => this.TYPE,
-        required: true,
-        blank: false,
-        readonly: true,
-        validate: value => value === this.TYPE,
-        validationError: `Type can only be '${this.TYPE}'.`,
-      }),
     };
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * The type of this pseudo-document subclass.
-   * @type {string}
-   * @abstract
-   */
-  static get TYPE() {
-    return "";
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * The subtypes of this pseudo-document.
-   * @type {Record<string, typeof PseudoDocument>}
-   */
-  static get TYPES() {
-    return Object.values(this.metadata.types).reduce((acc, Cls) => {
-      if (Cls.TYPE) acc[Cls.TYPE] = Cls;
-      return acc;
-    }, {});
   }
 
   /* -------------------------------------------------- */
@@ -242,11 +209,8 @@ export default class PseudoDocument extends foundry.abstract.DataModel {
       throw new Error(`A ${parent.documentName} of type '${parent.type}' does not support ${this.metadata.documentName}!`);
     }
 
-    const type = data.type || Object.keys(this.TYPES)[0];
-    const update = { [`${fieldPath}.${id}`]: { ...data, _id: id, type } };
-
+    const update = { [`${fieldPath}.${id}`]: { ...data, _id: id } };
     this._configureUpdates("create", parent, update, operation);
-
     return parent.update(update, operation);
   }
 

@@ -11,7 +11,7 @@ export interface PseudoDocumentMetadata {
   /** The sheet class used to render this pseudo document if it has a sheet. */
   sheetClass?: typeof foundry.applications.api.Application;
   /** A record of this pseudo document's base class and subtypes. */
-  types: Record<string, typeof artichron.data.PseudoDocument>;
+  types?: Record<string, typeof artichron.data.pseudoDocument.PseudoDocument>;
 }
 
 /** Metadata for activities. */

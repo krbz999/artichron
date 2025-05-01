@@ -1,4 +1,4 @@
-import PseudoDocument from "../../pseudo-document.mjs";
+import PseudoDocument from "../pseudo-document.mjs";
 
 const { NumberField, SetField, StringField } = foundry.data.fields;
 
@@ -49,7 +49,6 @@ export default class Damage extends PseudoDocument {
       documentName: "Damage",
       embedded: {},
       sheetClass: artichron.applications.sheets.item.DamageSheet,
-      types: {},
     };
   }
 

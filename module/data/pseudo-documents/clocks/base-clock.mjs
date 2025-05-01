@@ -1,11 +1,11 @@
-import PseudoDocument from "../../pseudo-document.mjs";
+import TypedPseudoDocument from "../typed-pseudo-document.mjs";
 
 const { ColorField, HTMLField, NumberField, StringField } = foundry.data.fields;
 
 /**
  * Base clock data model.
  */
-export default class BaseClock extends PseudoDocument {
+export default class BaseClock extends TypedPseudoDocument {
   /** @type {import("../../../_types").ClockMetadata} */
   static get metadata() {
     return {
