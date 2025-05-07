@@ -16,14 +16,6 @@ export default class PseudoDocument extends foundry.abstract.DataModel {
 
   /* -------------------------------------------------- */
 
-  /**
-   * Registered sheets.
-   * @type {Map<string, PseudoDocumentSheet>}
-   */
-  static #sheets = new Map();
-
-  /* -------------------------------------------------- */
-
   /** @inheritdoc */
   static defineSchema() {
     return {
@@ -95,26 +87,11 @@ export default class PseudoDocument extends foundry.abstract.DataModel {
   /* -------------------------------------------------- */
 
   /**
-   * Reference to the sheet of this pseudo-document, registered in a static map.
-   * @type {PseudoDocumentSheet|null}
+   * Reference to the sheet of this pseudo-document.
+   * @type {artichron.applications.api.PseudoDocumentSheet|null}
    */
   get sheet() {
-    if (!PseudoDocument.#sheets.has(this.uuid)) {
-      const Cls = this.constructor.metadata.sheetClass;
-      if (!Cls) return null;
-      PseudoDocument.#sheets.set(this.uuid, new Cls({ document: this }));
-    }
-    return PseudoDocument.#sheets.get(this.uuid);
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Destroy a sheet.
-   * @param {string} uuid   The uuid of the pseudo-document.
-   */
-  static _removeSheet(uuid) {
-    PseudoDocument.#sheets.delete(uuid);
+    return artichron.applications.api.PseudoDocumentSheet.getSheet(this);
   }
 
   /* -------------------------------------------------- */

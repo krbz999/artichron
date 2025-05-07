@@ -58,6 +58,14 @@ export default class PseudoDocumentSheet extends HandlebarsApplicationMixin(Appl
 
   /* -------------------------------------------------- */
 
+  /**
+   * Registered sheets.
+   * @type {Map<foundry.abstract.Document, Map<string, PseudoDocumentSheet>>}
+   */
+  static #sheets = new Map();
+
+  /* -------------------------------------------------- */
+
   /** @inheritdoc */
   tabGroups = {};
 
@@ -120,6 +128,27 @@ export default class PseudoDocumentSheet extends HandlebarsApplicationMixin(Appl
 
   /* -------------------------------------------------- */
 
+  /**
+   * Retrieve or register a sheet for a pseudo-document.
+   * @param {artichron.data.pseudoDocuments.PseudoDocument} pseudoDocument
+   * @returns {PseudoDocumentSheet|null}    An existing or new instance of a sheet, or null if the pseudo-
+   *                                        document does not have a sheet class.
+   */
+  static getSheet(pseudoDocument) {
+    const doc = pseudoDocument.document;
+    if (!PseudoDocumentSheet.#sheets.get(doc)) {
+      PseudoDocumentSheet.#sheets.set(doc, new Map());
+    }
+    if (!PseudoDocumentSheet.#sheets.get(doc).get(pseudoDocument.uuid)) {
+      const Cls = pseudoDocument.constructor.metadata.sheetClass;
+      if (!Cls) return null;
+      PseudoDocumentSheet.#sheets.get(doc).set(pseudoDocument.uuid, new Cls({ document: pseudoDocument }));
+    }
+    return PseudoDocumentSheet.#sheets.get(doc).get(pseudoDocument.uuid);
+  }
+
+  /* -------------------------------------------------- */
+
   /** @inheritdoc */
   _initializeApplicationOptions({ document, ...options }) {
     options = super._initializeApplicationOptions(options);
@@ -140,7 +169,6 @@ export default class PseudoDocumentSheet extends HandlebarsApplicationMixin(Appl
   /** @inheritdoc */
   _onClose(options) {
     super._onClose(options);
-    artichron.data.pseudoDocuments.PseudoDocument._removeSheet(this.#pseudoUuid);
     delete this.document.apps[this.id];
   }
 
