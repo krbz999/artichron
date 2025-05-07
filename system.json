@@ -4,7 +4,7 @@
   "description": "Implementation of the Artifice Chronicles system.",
   "version": "1.0.0",
   "compatibility": {
-    "minimum": "13.337",
+    "minimum": "13.342",
     "verified": "13",
     "maximum": "13"
   },
