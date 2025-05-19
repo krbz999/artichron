@@ -35,14 +35,23 @@
     gap: 8px;
     display: flex;
     align-items: center;
+    anchor-name: --sheet-header;
+    position: relative;
 
     .avatar {
-      flex: 0 0 var(--height);
-      height: 100%;
       object-fit: cover;
       object-position: center top;
-      border-radius: 50%;
+      border-radius: 1rem;
       border: 2px inset rgba(var(--artichron-color-border-blue), 0.85);
+      position: fixed;
+      width: calc(1.25 * var(--height));
+      z-index: 1;
+      position-anchor: --sheet-header;
+      position-area: center top;
+
+      &:not([data-action]) {
+        pointer-events: none;
+      }
     }
 
     .name {

@@ -91,4 +91,59 @@ export default class TokenDocumentArtichron extends BaseDocumentMixin(foundry.do
     operation[this.id] = { pips: consumed };
     await this.actor.update({ "system.pips.value": resource - consumed });
   }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Forcibly move another token on the same scene, either towards this token or away.
+   * This forced movement respects wall collisions.
+   * @param {TokenDocumentArtichron} token      The other token to move.
+   * @param {object} [options={}]               Force movement options.
+   * @param {number} [options.distance=10]      The distance to push or pull.
+   * @param {boolean} [options.isPull=false]    Is this a pull?
+   * @returns {Promise}
+   */
+  async forceMove(token, { distance = 10, isPull = false } = {}) {
+    distance = Math.abs(distance);
+    const scene = this.parent;
+    const object = this.object;
+    if ((token.parent !== scene) || !object) {
+      throw new Error("You cannot force move a token on a different scene!");
+    }
+
+    const origin = this.getCenterPoint();
+    const target = token.getCenterPoint();
+    const separated = object.checkCollision(target, { origin, mode: "any" });
+    if (separated) return;
+    const ray = new foundry.canvas.geometry.Ray(isPull ? target : origin, isPull ? origin : target);
+    const translated = scene.grid.getTranslatedPoint(target, Math.toDegrees(ray.angle), distance);
+    const waypoint = { ...scene.grid.getTopLeftPoint(translated), snapped: true };
+    await token.move(waypoint);
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Pull this token towards another token.
+   * @param {TokenDocumentArtichron} token    The token to pull towards.
+   * @param {object} [options={}]             Force movement options.
+   * @param {number} [options.distance]       The distance to pull.
+   * @returns {Promise}
+   */
+  async pullTowards(token, { distance } = {}) {
+    return token.forceMove(this, { distance, isPull: true });
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Push this token away from another token.
+   * @param {TokenDocumentArtichron} token    The token to pull towards.
+   * @param {object} [options={}]             Force movement options.
+   * @param {number} [options.distance]       The distance to pull.
+   * @returns {Promise}
+   */
+  async pushAwayFrom(token, { distance } = {}) {
+    return token.forceMove(this, { distance, isPull: false });
+  }
 }
