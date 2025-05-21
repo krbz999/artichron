@@ -18,7 +18,7 @@ export default class ActivitySelectDialog extends Application {
   /** @inheritdoc */
   static PARTS = {
     form: {
-      template: "systems/artichron/templates/item/activity-select-dialog.hbs",
+      template: "systems/artichron/templates/apps/item/activity-select-dialog/form.hbs",
     },
     footer: {
       template: "systems/artichron/templates/shared/footer.hbs",

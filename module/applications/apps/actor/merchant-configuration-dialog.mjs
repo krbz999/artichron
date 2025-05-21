@@ -25,7 +25,7 @@ export default class MerchantConfigurationDialog extends HandlebarsApplicationMi
   /** @inheritdoc */
   static PARTS = {
     form: {
-      template: "systems/artichron/templates/actor/merchant-configuration-dialog.hbs",
+      template: "systems/artichron/templates/apps/actor/merchant-configuration-dialog/form.hbs",
     },
   };
 

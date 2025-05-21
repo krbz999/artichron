@@ -13,7 +13,7 @@ export default class DamageSheet extends PseudoDocumentSheet {
   /** @inheritdoc */
   static PARTS = {
     damage: {
-      template: "systems/artichron/templates/item/damage-sheet-damage.hbs",
+      template: "systems/artichron/templates/sheets/item/damage-sheet/damage.hbs",
     },
   };
 

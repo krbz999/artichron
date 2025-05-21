@@ -14,18 +14,26 @@ export default class ItemFusionDialog extends Application {
 
   /** @inheritdoc */
   static PARTS = {
-    selections: { template: "systems/artichron/templates/item/fusion-dialog-selections.hbs" },
-    indicators: { template: "systems/artichron/templates/item/fusion-dialog-indicators.hbs" },
-    changes: { template: "systems/artichron/templates/item/fusion-dialog-changes.hbs" },
-    footer: { template: "systems/artichron/templates/shared/footer.hbs" },
+    selections: {
+      template: "systems/artichron/templates/apps/item/item-fusion-dialog/selections.hbs",
+    },
+    indicators: {
+      template: "systems/artichron/templates/apps/item/item-fusion-dialog/indicators.hbs",
+    },
+    changes: {
+      template: "systems/artichron/templates/apps/item/item-fusion-dialog/changes.hbs",
+    },
+    footer: {
+      template: "systems/artichron/templates/shared/footer.hbs",
+    },
   };
 
   /* -------------------------------------------------- */
 
   /**
    * @class
-   * @param {object} options                  Application rendering options.
-   * @param {ItemArtichron} options.item      The item being fused onto another.
+   * @param {object} options                Application rendering options.
+   * @param {ItemArtichron} options.item    The item being fused onto another.
    */
   constructor({ item, ...options }) {
     super(options);

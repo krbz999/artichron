@@ -26,21 +26,23 @@ export default class PartySheet extends ActorSheetArtichron {
 
   /** @inheritdoc */
   static PARTS = {
-    header: { template: "systems/artichron/templates/shared/sheet-header.hbs" },
+    header: {
+      template: "systems/artichron/templates/shared/sheet-header.hbs",
+    },
     tabs: {
       template: "templates/generic/tab-navigation.hbs",
     },
     members: {
-      template: "systems/artichron/templates/actor/party-members.hbs",
+      template: "systems/artichron/templates/sheets/actor/party-sheet/members.hbs",
       scrollable: [".members"],
       classes: ["scrollable"],
     },
     inventory: {
-      template: "systems/artichron/templates/actor/party-inventory.hbs",
+      template: "systems/artichron/templates/sheets/actor/party-sheet/inventory.hbs",
       scrollable: [".scrollable"],
     },
     progress: {
-      template: "systems/artichron/templates/actor/party-progress.hbs",
+      template: "systems/artichron/templates/sheets/actor/party-sheet/progress.hbs",
       classes: ["scrollable"],
       scrollable: [".scrollable"],
     },

@@ -12,10 +12,10 @@ export default class ClockSheet extends PseudoDocumentSheet {
   static PARTS = {
     ...super.PARTS,
     identity: {
-      template: "systems/artichron/templates/actor/clocks/identity.hbs",
+      template: "systems/artichron/templates/sheets/actor/clock-sheet/identity.hbs",
     },
     details: {
-      template: "systems/artichron/templates/actor/clocks/details.hbs",
+      template: "systems/artichron/templates/sheets/actor/clock-sheet/details.hbs",
     },
   };
 

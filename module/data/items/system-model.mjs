@@ -200,7 +200,7 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
    * @returns {Promise<HTMLElement>}
    */
   async richTooltip() {
-    const template = "systems/artichron/templates/item/tooltip.hbs";
+    const template = "systems/artichron/templates/ui/item/tooltip.hbs";
     const context = await this._prepareTooltipContext();
     const div = document.createElement("DIV");
     div.innerHTML = await foundry.applications.handlebars.renderTemplate(template, context);

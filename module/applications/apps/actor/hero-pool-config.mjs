@@ -22,9 +22,15 @@ export default class HeroPoolConfig extends HandlebarsApplicationMixin(DocumentS
 
   /** @inheritdoc */
   static PARTS = {
-    faces: { template: "systems/artichron/templates/actor/pool-faces.hbs" },
-    max: { template: "systems/artichron/templates/actor/pool-max.hbs" },
-    footer: { template: "systems/artichron/templates/shared/footer.hbs" },
+    faces: {
+      template: "systems/artichron/templates/apps/actor/hero-pool-config/faces.hbs",
+    },
+    max: {
+      template: "systems/artichron/templates/apps/actor/hero-pool-config/max.hbs",
+    },
+    footer: {
+      template: "systems/artichron/templates/shared/footer.hbs",
+    },
   };
 
   /* -------------------------------------------------- */

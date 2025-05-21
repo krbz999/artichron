@@ -29,7 +29,7 @@ export default class PartyDistributionDialog extends Application {
   /** @inheritdoc */
   static PARTS = {
     recipients: {
-      template: "systems/artichron/templates/actor/party-distribution/recipients.hbs",
+      template: "systems/artichron/templates/apps/actor/party-distribution-dialog/recipients.hbs",
     },
     footer: {
       template: "systems/artichron/templates/shared/footer.hbs",

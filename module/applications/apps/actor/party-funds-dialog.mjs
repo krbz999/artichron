@@ -29,10 +29,10 @@ export default class PartyFundsDialog extends Application {
   /** @inheritdoc */
   static PARTS = {
     form: {
-      template: "systems/artichron/templates/actor/party-funds-dialog.hbs",
+      template: "systems/artichron/templates/apps/actor/party-funds-dialog/form.hbs",
     },
     footer: {
-      template: "systems/artichron/templates/actor/party-funds-dialog-footer.hbs",
+      template: "systems/artichron/templates/apps/actor/party-funds-dialog/footer.hbs",
     },
   };
 

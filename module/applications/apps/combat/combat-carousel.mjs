@@ -31,10 +31,10 @@ export default class CombatCarousel extends HandlebarsApplicationMixin(Applicati
   /** @inheritdoc */
   static PARTS = {
     controls: {
-      template: "systems/artichron/templates/combat/carousel-controls.hbs",
+      template: "systems/artichron/templates/apps/combat/combat-carousel/controls.hbs",
     },
     tracker: {
-      template: "systems/artichron/templates/combat/carousel.hbs",
+      template: "systems/artichron/templates/apps/combat/combat-carousel/tracker.hbs",
     },
   };
 

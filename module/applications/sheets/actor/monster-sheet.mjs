@@ -22,22 +22,22 @@ export default class MonsterSheet extends ActorSheetArtichron {
       template: "systems/artichron/templates/shared/sheet-header.hbs",
     },
     health: {
-      template: "systems/artichron/templates/actor/monster-health.hbs",
+      template: "systems/artichron/templates/sheets/actor/monster-sheet/health.hbs",
     },
     tabs: {
       template: "templates/generic/tab-navigation.hbs",
     },
     actions: {
-      template: "systems/artichron/templates/actor/monster-actions.hbs",
-      templates: ["systems/artichron/templates/actor/monster-defenses.hbs"],
+      template: "systems/artichron/templates/sheets/actor/monster-sheet/actions.hbs",
+      templates: ["systems/artichron/templates/sheets/actor/monster-sheet/defenses.hbs"],
       scrollable: [""],
     },
     loot: {
-      template: "systems/artichron/templates/actor/monster-loot.hbs",
+      template: "systems/artichron/templates/sheets/actor/monster-sheet/loot.hbs",
       scrollable: [""],
     },
     about: {
-      template: "systems/artichron/templates/actor/monster-about.hbs",
+      template: "systems/artichron/templates/sheets/actor/monster-sheet/about.hbs",
       classes: ["scrollable"],
       scrollable: [""],
     },

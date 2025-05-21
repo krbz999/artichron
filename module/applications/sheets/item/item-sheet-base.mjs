@@ -28,21 +28,21 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
       template: "templates/generic/tab-navigation.hbs",
     },
     description: {
-      template: "systems/artichron/templates/item/item-description.hbs",
+      template: "systems/artichron/templates/sheets/item/item-sheet/description.hbs",
       scrollable: [""],
     },
     details: {
-      template: "systems/artichron/templates/item/item-details.hbs",
+      template: "systems/artichron/templates/sheets/item/item-sheet/details.hbs",
       classes: ["scrollable"],
       scrollable: [""],
     },
     activities: {
-      template: "systems/artichron/templates/item/item-activities.hbs",
+      template: "systems/artichron/templates/sheets/item/item-sheet/activities.hbs",
       classes: ["scrollable"],
       scrollable: [""],
     },
     fusion: {
-      template: "systems/artichron/templates/item/item-fusion.hbs",
+      template: "systems/artichron/templates/sheets/item/item-sheet/fusion.hbs",
       scrollable: [""],
       types: {
         ammo: false,

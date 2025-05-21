@@ -32,16 +32,16 @@ export default class HeroSheet extends ActorSheetArtichron {
       template: "templates/generic/tab-navigation.hbs",
     },
     attributes: {
-      template: "systems/artichron/templates/actor/tab-attributes.hbs",
+      template: "systems/artichron/templates/sheets/actor/hero-sheet/attributes.hbs",
       scrollable: [".center-pane"],
     },
     inventory: {
-      template: "systems/artichron/templates/actor/tab-inventory.hbs",
+      template: "systems/artichron/templates/sheets/actor/hero-sheet/inventory.hbs",
       classes: ["scrollable"],
       scrollable: [".scrollable"],
     },
     details: {
-      template: "systems/artichron/templates/actor/tab-details.hbs",
+      template: "systems/artichron/templates/sheets/actor/hero-sheet/details.hbs",
       classes: ["scrollable"],
       scrollable: [""],
     },
@@ -51,7 +51,7 @@ export default class HeroSheet extends ActorSheetArtichron {
       scrollable: [""],
     },
     encumbrance: {
-      template: "systems/artichron/templates/actor/tab-encumbrance.hbs",
+      template: "systems/artichron/templates/sheets/actor/hero-sheet/encumbrance.hbs",
     },
   };
 

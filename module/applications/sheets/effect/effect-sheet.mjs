@@ -23,11 +23,11 @@ export default class EffectSheetArtichron extends ArtichronSheetMixin(foundry.ap
       template: "templates/generic/tab-navigation.hbs",
     },
     details: {
-      template: "systems/artichron/templates/effect-config/tab-details.hbs",
+      template: "systems/artichron/templates/sheets/effect/effect-sheet/details.hbs",
       scrollable: [""],
     },
     changes: {
-      template: "systems/artichron/templates/effect-config/tab-changes.hbs",
+      template: "systems/artichron/templates/sheets/effect/effect-sheet/changes.hbs",
       scrollable: [".changes"],
     },
   };

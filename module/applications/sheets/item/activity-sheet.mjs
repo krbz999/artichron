@@ -20,10 +20,10 @@ export default class ActivitySheet extends PseudoDocumentSheet {
   static PARTS = {
     ...super.PARTS,
     identity: {
-      template: "systems/artichron/templates/item/activity-identity.hbs",
+      template: "systems/artichron/templates/sheets/item/activity-sheet/identity.hbs",
     },
     details: {
-      template: "systems/artichron/templates/item/activity-details.hbs",
+      template: "systems/artichron/templates/sheets/item/activity-sheet/details.hbs",
     },
   };
 

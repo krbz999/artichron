@@ -20,28 +20,28 @@ export default class ActivityUseDialog extends Application {
   /** @inheritdoc */
   static PARTS = {
     consume: {
-      template: "systems/artichron/templates/item/activity-use-dialog-consume.hbs",
+      template: "systems/artichron/templates/apps/item/activity-use-dialog/consume.hbs",
     },
     damage: {
-      template: "systems/artichron/templates/item/activity-use-dialog-damage.hbs",
+      template: "systems/artichron/templates/apps/item/activity-use-dialog/damage.hbs",
     },
     healing: {
-      template: "systems/artichron/templates/item/activity-use-dialog-healing.hbs",
+      template: "systems/artichron/templates/apps/item/activity-use-dialog/healing.hbs",
     },
     defend: {
-      template: "systems/artichron/templates/item/activity-use-dialog-defend.hbs",
+      template: "systems/artichron/templates/apps/item/activity-use-dialog/defend.hbs",
     },
     template: {
-      template: "systems/artichron/templates/item/activity-use-dialog-template.hbs",
+      template: "systems/artichron/templates/apps/item/activity-use-dialog/template.hbs",
     },
     teleport: {
-      template: "systems/artichron/templates/item/activity-use-dialog-teleport.hbs",
+      template: "systems/artichron/templates/apps/item/activity-use-dialog/teleport.hbs",
     },
     elixirs: {
-      template: "systems/artichron/templates/item/activity-use-dialog-elixirs.hbs",
+      template: "systems/artichron/templates/apps/item/activity-use-dialog/elixirs.hbs",
     },
     rollMode: {
-      template: "systems/artichron/templates/item/activity-use-dialog-rollmode.hbs",
+      template: "systems/artichron/templates/apps/item/activity-use-dialog/rollmode.hbs",
     },
     footer: {
       template: "systems/artichron/templates/shared/footer.hbs",

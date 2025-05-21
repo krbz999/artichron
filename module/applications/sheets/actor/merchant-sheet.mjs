@@ -21,10 +21,10 @@ export default class MerchantSheet extends ActorSheetArtichron {
   /** @inheritdoc */
   static PARTS = {
     header: {
-      template: "systems/artichron/templates/actor/merchant-header.hbs",
+      template: "systems/artichron/templates/sheets/actor/merchant-sheet/header.hbs",
     },
     trading: {
-      template: "systems/artichron/templates/actor/merchant-trading.hbs",
+      template: "systems/artichron/templates/sheets/actor/merchant-sheet/trading.hbs",
       scrollable: [".stock", ".cart .contents"],
     },
   };

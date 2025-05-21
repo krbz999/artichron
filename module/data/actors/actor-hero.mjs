@@ -257,7 +257,7 @@ export default class HeroData extends CreatureData {
     if (dialog.configure) {
       const dialogData = foundry.utils.mergeObject({
         content: await foundry.applications.handlebars.renderTemplate(
-          "systems/artichron/templates/actor/skill-dialog.hbs",
+          "systems/artichron/templates/apps/actor/skill-dialog/content.hbs",
           { skills: skills },
         ),
         modal: true,
