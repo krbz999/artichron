@@ -3,22 +3,30 @@
   "version": "1.0.0",
   "description": "Artifice Chronicles System",
   "scripts": {
-    "db:unpack": "node tools/pack-level-db.mjs package unpack",
-    "db:pack": "node tools/pack-level-db.mjs package pack",
-    "build": "rollup -c",
     "createSymlinks": "node ./tools/create-symlinks.mjs",
-    "postinstall": "npm run createSymlinks"
+    "pullJSONtoLDB": "node ./tools/pullJSONtoLDB.mjs",
+    "pushLDBtoJSON": "node ./tools/pushLDBtoJSON.mjs",
+    "build": "npm run build:packs && npm run build:code",
+    "build:packs": "npm run pullJSONtoLDB",
+    "build:code": "rollup -c",
+    "postinstall": "npm run createSymlinks",
+    "db:unpack": "node tools/pack-level-db.mjs package unpack",
+    "db:pack": "node tools/pack-level-db.mjs package pack"
   },
   "author": "Zhell",
-  "bugs": {
-    "url": "https://github.com/krbz999/artichron/issues"
-  },
+  "private": true,
   "devDependencies": {
-    "@foundryvtt/foundryvtt-cli": "^1.0.2",
+    "@eslint/js": "^9.27.0",
+    "@foundryvtt/foundryvtt-cli": "^1.0.3",
     "@html-eslint/eslint-plugin": "^0.26.0",
     "@html-eslint/parser": "^0.26.0",
     "@rollup/plugin-node-resolve": "^15.2.3",
-    "eslint": "^8.57.0",
-    "rollup": "^4.9.1"
+    "@stylistic/eslint-plugin": "^4.3.0",
+    "eslint": "^9.27.0",
+    "rollup": "^4.9.1",
+    "rollup-plugin-import-css": "^3.5.8",
+    "showdown": "^2.1.0",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.32.1"
   }
 }
