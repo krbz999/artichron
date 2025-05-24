@@ -1,52 +1,34 @@
 <div class="tab {{tabs.effects.cssClass}}" data-group="{{tabs.effects.group}}" data-tab="{{tabs.effects.id}}">
 
+  {{#if conditions.length}}
   <div class="effects-list">
-
-    {{#if conditions.length}}
-    <header>
-      <span class="label">{{localize "TYPES.ActiveEffect.conditionPl"}}</span>
-      <span class="controls" style="margin-left: 2px;"></span>
-    </header>
-
+    <header>{{localize "TYPES.ActiveEffect.conditionPl"}}</header>
     {{#each conditions}}
     {{effectEntry effect enriched=enrichedText}}
     {{/each}}
-    {{/if}}
+  </div>
+  {{/if}}
 
-    {{#if isItem}}
-
-    <header>
-      <span class="label">{{localize "TYPES.ActiveEffect.enhancementPl"}}</span>
-      {{#if @root.isEditMode}}
-      <button class="controls" type="button" data-action="createEffect" data-tooltip="ARTICHRON.EFFECT.ENHANCEMENT.create" data-type="enhancement">
-        <i class="fa-solid fa-plus"></i>
-      </button>
-      {{else}}
-      <span class="controls" style="margin-left: 2px;"></span>
-      {{/if}}
-    </header>
+  {{#if isItem}}
+  <div class="effects-list">
+    <header>{{localize "TYPES.ActiveEffect.enhancementPl"}}</header>
 
     {{#each enhancements}}
     {{effectEntry effect enriched=enrichedText}}
     {{/each}}
 
-    {{/if}}
+    <button class="create icon fa-solid fa-plus" type="button" data-action="createEffect" data-tooltip="ARTICHRON.EFFECT.ENHANCEMENT.create" data-type="enhancement" {{disabled @root.isPlayMode}}></button>
+  </div>
+  {{/if}}
 
-    <header>
-      <span class="label">{{localize "TYPES.ActiveEffect.buffPl"}}</span>
-      <span class="source">{{localize "ARTICHRON.EFFECT.LABELS.source"}}</span>
-      {{#if @root.isEditMode}}
-      <button class="controls" type="button" data-action="createEffect" data-tooltip="ARTICHRON.EFFECT.BUFF.create" data-type="buff">
-        <i class="fa-solid fa-plus"></i>
-      </button>
-      {{else}}
-      <span class="controls" style="margin-left: 2px;"></span>
-      {{/if}}
-    </header>
+  <div class="effects-list">
+    <header>{{localize "TYPES.ActiveEffect.buffPl"}}</header>
 
     {{#each effects}}
     {{effectEntry effect enriched=enrichedText}}
     {{/each}}
+
+    <button class="create icon fa-solid fa-plus" type="button" data-action="createEffect" data-tooltip="ARTICHRON.EFFECT.BUFF.create" data-type="buff" {{disabled @root.isPlayMode}}></button>
   </div>
 
 </div>

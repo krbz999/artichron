@@ -110,11 +110,21 @@
 
 /* Shared styling */
 .inventory-list, .effects-list {
-  padding-bottom: 0.5rem;
   display: flex;
   flex-direction: column;
   gap: 5px;
   width: 100%;
+  position: relative;
+
+  .create {
+    position: absolute;
+    bottom: 1rem;
+    right: 1rem;
+  }
+
+  &:has(.create) {
+    padding-bottom: calc(2 * var(--input-height));
+  }
 
   .description-wrapper {
     display: grid;
@@ -291,10 +301,6 @@
     .label { flex: 1; }
     .source { flex: var(--artichron-effect-source-flex); text-align: center; }
     .properties { flex: var(--artichron-item-properties-flex); text-align: center; }
-    .controls {
-      flex: var(--artichron-effect-controls-flex);
-      height: unset;
-    }
   }
 
   & effect-entry {

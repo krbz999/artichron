@@ -42,6 +42,11 @@ export default class Damage extends PseudoDocument {
 
   /* -------------------------------------------------- */
 
+  /** @inheritdoc */
+  static LOCALIZATION_PREFIXES = ["ARTICHRON.DAMAGE"];
+
+  /* -------------------------------------------------- */
+
   /** @type {import("../../../_types").DamagePartMetadata} */
   static get metadata() {
     return {

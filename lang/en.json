@@ -404,7 +404,18 @@
 },
 
 "DAMAGE": {
-  "label": "Damage Part"
+  "label": "Damage Part",
+  "FIELDS": {
+    "number": {
+      "label": "Number"
+    },
+    "denomination": {
+      "label": "Denomination"
+    },
+    "type": {
+      "label": "Damage Type"
+    }
+  }
 },
 
 "DamageType": {
