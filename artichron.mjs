@@ -189,8 +189,6 @@ Hooks.once("i18nInit", function() {
   for (const [k, v] of Object.entries(artichron.config)) {
     localize(artichron.config, k, v);
   }
-
-  foundry.helpers.Localization.localizeDataModel(data.pseudoDocuments.damage.Damage);
 });
 
 /* -------------------------------------------------- */

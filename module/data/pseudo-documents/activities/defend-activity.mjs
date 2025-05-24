@@ -30,6 +30,14 @@ export default class DefendActivity extends BaseActivity {
   /* -------------------------------------------------- */
 
   /** @inheritdoc */
+  static LOCALIZATION_PREFIXES = [
+    ...super.LOCALIZATION_PREFIXES,
+    "ARTICHRON.ACTIVITY.DEFEND",
+  ];
+
+  /* -------------------------------------------------- */
+
+  /** @inheritdoc */
   async use(usage, dialog, message) {
     const attr = this.item.system.attributes.value;
     if (!attr.has("blocking") && !attr.has("parrying")) {

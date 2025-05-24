@@ -105,7 +105,6 @@
     "editing": "Toggle Edit Mode"
   }
 },
-
 "ACTIVITY": {
   "Buttons": {
     "ApplyDamage": "Apply Damage",
@@ -137,15 +136,108 @@
     "NoRemainingUses": "This item has no remaining uses.",
     "NoTemplates": "This item cannot create measured templates!",
     "NoToken": "A token must be present on the scene."
+  },
+  "FIELDS": {
+    "cost": {
+      "label": "Action Cost",
+      "value": {
+        "hint": "The action point cost to make use of this activity.",
+        "label": "Action Cost"
+      }
+    },
+    "target": {
+      "count": {
+        "hint": "How many targets this activity can have, or areas of effect this activity creates.",
+        "label": "Count"
+      },
+      "duration": {
+        "hint": "When measured templates created by this activity are automatically removed.",
+        "label": "Duration"
+      },
+      "label": "Targeting",
+      "range": {
+        "hint": "The maximum range between the character and the target.",
+        "label": "Range"
+      },
+      "size": {
+        "hint": "The length or radius of the created template.",
+        "label": "Size"
+      },
+      "type": {
+        "hint": "The type of targeting this activity requires, either individual targets or areas of effect.",
+        "label": "Type"
+      },
+      "width": {
+        "hint": "The width of the created templates.",
+        "label": "Width"
+      }
+    },
+    "description": {
+      "label": "Description"
+    },
+    "img": {
+      "label": "Image"
+    },
+    "name": {
+      "label": "Name"
+    }
+  },
+  "DAMAGE": {
+    "FIELDS": {}
+  },
+  "DEFEND": {
+    "FIELDS": {
+      "defend": {
+        "denomination": {
+          "label": "Denomination"
+        },
+        "number": {
+          "label": "Number"
+        },
+        "label": "Defend"
+      }
+    }
+  },
+  "EFFECT": {
+    "FIELDS": {
+      "effects": {
+        "ids": {
+          "hint": "The transferrable effects this activity will be able to transfer to a target."
+        },
+        "label": "Effects"
+      }
+    }
+  },
+  "HEALING": {
+    "FIELDS": {
+      "healing": {
+        "label": "Healing",
+        "denomination": {
+          "label": "Denomination"
+        },
+        "number": {
+          "label": "Number"
+        }
+      }
+    }
+  },
+  "TELEPORT": {
+    "FIELDS": {
+      "teleport": {
+        "label": "Teleport",
+        "distance": {
+          "hint": "The distance the target is teleported.",
+          "label": "Distance"
+        }
+      }
+    }
   }
 },
-
 "ActivitySelectDialog": {
   "Legend": "Activities",
   "NoDescription": "No details provided.",
   "Title": "Select Activity: {name}"
 },
-
 "ActivityUseDialog": {
   "ConsumeActionHint": "When in combat, this action requires consuming {points} action points.",
   "ConsumeActionLabel": "Action Points",
@@ -176,7 +268,6 @@
     "Overspending": "You do not have enough available resources to enhance the activity in this way."
   }
 },
-
 "ACTOR": {
   "FIELDS": {
     "bonuses": {
@@ -193,39 +284,7 @@
       }
     },
     "clocks": {
-      "label": "Clocks",
-      "element": {
-        "bad": {
-          "color": {
-            "label": "Color"
-          },
-          "max": {
-            "label": "Max"
-          },
-          "name": {
-            "initial": "Bad Clock",
-            "label": "Name"
-          },
-          "value": {
-            "label": "Value"
-          }
-        },
-        "good": {
-          "color": {
-            "label": "Color"
-          },
-          "max": {
-            "label": "Max"
-          },
-          "name": {
-            "initial": "Good Clock",
-            "label": "Name"
-          },
-          "value": {
-            "label": "Value"
-          }
-        }
-      }
+      "label": "Clocks"
     },
     "currency": {
       "funds": {
@@ -334,14 +393,12 @@
     }
   }
 },
-
 "AmmunitionType": {
   "Arrow": "Arrow",
   "Bullet": "Bullet",
   "Round": "Round",
   "Shell": "Shotgun Shell"
 },
-
 "ArmorType": {
   "Accessory": "Accessory",
   "Arms": "Arm Piece",
@@ -349,6 +406,28 @@
   "Chest": "Chest Piece",
   "Head": "Head Piece",
   "Legs": "Leg Piece"
+},
+
+"CLOCK": {
+  "defaultName": {
+    "good": "Good Clock",
+    "bad": "Bad Clock"
+  },
+  "FIELDS": {
+    "color": {
+      "label": "Color"
+    },
+    "max": {
+      "label": "Max"
+    },
+    "name": {
+      "initial": "Bad Clock",
+      "label": "Name"
+    },
+    "value": {
+      "label": "Value"
+    }
+  }
 },
 
 "Combat": {
@@ -369,7 +448,6 @@
   "ToggleDefeated": "Toggle Defeated",
   "ToggleHidden": "Toggle Hidden"
 },
-
 "ContextMenu": {
   "ActiveEffect": {
     "DecreaseLevel": "Decrease Level",
@@ -402,7 +480,6 @@
     "Use": "Use Item"
   }
 },
-
 "DAMAGE": {
   "label": "Damage Part",
   "FIELDS": {
@@ -417,7 +494,6 @@
     }
   }
 },
-
 "DamageType": {
   "Arcane": "Arcane",
   "Darkness": "Darkness",
@@ -428,13 +504,11 @@
   "Physical": "Physical",
   "Wind": "Wind"
 },
-
 "DamageTypeGroup": {
   "Elemental": "Elemental",
   "Physical": "Physical",
   "Planar": "Planar"
 },
-
 "DefenseDialog": {
   "Confirm": "Roll",
   "Content": "{name} is about to take {damage} damage. You can attempt to parry or block to reduce the damage by an amount equal to the rolled totals.",
@@ -442,7 +516,6 @@
   "ItemsHint": "Choose any of your equipped arsenal to defend against the attack and reduce incoming damage.",
   "Title": "Defense Roll: {name}"
 },
-
 "EFFECT": {
   "FIELDS": {
     "expiration": {
@@ -491,20 +564,17 @@
     "options": "Fusion Options"
   }
 },
-
 "EffectDurations": {
   "Combat": "End of Combat",
   "Day": "End of Day",
   "None": "None"
 },
-
 "EquipDialog": {
   "Hint": "Select the item to equip in this slot.",
   "Label": "Item",
   "Title": "Change Equipped Item",
   "Warning": "You have no items that can be equipped in that slot."
 },
-
 "EQUIPMENT": {
   "CATEGORY": {
     "None": "None",
@@ -513,7 +583,6 @@
     "Tech": "Tech"
   }
 },
-
 "HERO": {
   "recover": "Recover",
   "INVENTORY": {
@@ -524,7 +593,6 @@
     "loot": "Loot"
   }
 },
-
 "ItemAttribute": {
   "Ammunition": "Ammunition",
   "Blocking": "Blocking",
@@ -539,7 +607,6 @@
   "TwoHanded": "Two-Handed",
   "Undefendable": "Undefendable"
 },
-
 "ItemFusionDialog": {
   "Changes": "Changes",
   "Default": "Default",
@@ -554,7 +621,6 @@
   "TitleUnfuse": "{item}: Split",
   "UnfuseTitle": "Split '{source}' and '{target}'?"
 },
-
 "ITEM": {
   "AMMO": {
     "FIELDS": {
@@ -696,241 +762,6 @@
               "label": "Width"
             }
           }
-        },
-        "damage": {
-          "cost": {
-            "label": "Action Cost",
-            "uses": {
-              "hint": "Consume uses of the elixir when using this activity.",
-              "label": "Consume Uses"
-            },
-            "value": {
-              "hint": "The action point cost to make use of this activity.",
-              "label": "Action Cost"
-            }
-          },
-          "damage": {
-            "element": {
-              "denomination": {
-                "label": "Denomination"
-              },
-              "number": {
-                "label": "Number"
-              },
-              "type": {
-                "label": "Damage Type"
-              }
-            }
-          },
-          "description": {
-            "label": "Description"
-          },
-          "img": {
-            "label": "Image"
-          },
-          "name": {
-            "label": "Name"
-          },
-          "target": {
-            "count": {
-              "hint": "How many targets this activity can have, or areas of effect this activity creates.",
-              "label": "Count"
-            },
-            "duration": {
-              "hint": "When measured templates created by this activity are automatically removed.",
-              "label": "Duration"
-            },
-            "label": "Targeting",
-            "range": {
-              "hint": "The maximum range between the character and the target.",
-              "label": "Range"
-            },
-            "size": {
-              "hint": "The length or radius of the created template.",
-              "label": "Size"
-            },
-            "type": {
-              "hint": "The type of targeting this activity requires, either individual targets or areas of effect.",
-              "label": "Type"
-            },
-            "width": {
-              "hint": "The width of the created templates.",
-              "label": "Width"
-            }
-          }
-        },
-        "defend": {
-          "cost": {
-            "label": "Action Cost",
-            "uses": {
-              "hint": "Consume uses of the elixir when using this activity.",
-              "label": "Consume Uses"
-            },
-            "value": {
-              "hint": "The action point cost to make use of this activity.",
-              "label": "Action Cost"
-            }
-          },
-          "description": {
-            "label": "Description"
-          },
-          "img": {
-            "label": "Image"
-          },
-          "name": {
-            "label": "Name"
-          },
-          "defend": {
-            "denomination": {
-              "label": "Denomination"
-            },
-            "number": {
-              "label": "Number"
-            },
-            "label": "Defend"
-          }
-        },
-        "effect": {
-          "cost": {
-            "label": "Action Cost",
-            "uses": {
-              "hint": "Consume uses of the elixir when using this activity.",
-              "label": "Consume Uses"
-            },
-            "value": {
-              "hint": "The action point cost to make use of this activity.",
-              "label": "Action Cost"
-            }
-          },
-          "description": {
-            "label": "Description"
-          },
-          "img": {
-            "label": "Image"
-          },
-          "name": {
-            "label": "Name"
-          },
-          "effects": {
-            "ids": {
-              "hint": "The transferrable effects this activity will be able to transfer to a target."
-            },
-            "label": "Effects"
-          },
-          "target": {
-            "count": {
-              "hint": "How many targets this activity can have, or areas of effect this activity creates.",
-              "label": "Count"
-            },
-            "duration": {
-              "hint": "When measured templates created by this activity are automatically removed.",
-              "label": "Duration"
-            },
-            "label": "Targeting",
-            "range": {
-              "hint": "The maximum range between the character and the target.",
-              "label": "Range"
-            },
-            "size": {
-              "hint": "The length or radius of the created template.",
-              "label": "Size"
-            },
-            "type": {
-              "hint": "The type of targeting this activity requires, either individual targets or areas of effect.",
-              "label": "Type"
-            },
-            "width": {
-              "hint": "The width of the created templates.",
-              "label": "Width"
-            }
-          }
-        },
-        "healing": {
-          "cost": {
-            "label": "Action Cost",
-            "uses": {
-              "hint": "Consume uses of the elixir when using this activity.",
-              "label": "Consume Uses"
-            },
-            "value": {
-              "hint": "The action point cost to make use of this activity.",
-              "label": "Action Cost"
-            }
-          },
-          "description": {
-            "label": "Description"
-          },
-          "img": {
-            "label": "Image"
-          },
-          "name": {
-            "label": "Name"
-          },
-          "healing": {
-            "denomination": {
-              "label": "Denomination"
-            },
-            "number": {
-              "label": "Number"
-            },
-            "label": "Healing"
-          },
-          "target": {
-            "count": {
-              "hint": "How many targets this activity can have, or areas of effect this activity creates.",
-              "label": "Count"
-            },
-            "duration": {
-              "hint": "When measured templates created by this activity are automatically removed.",
-              "label": "Duration"
-            },
-            "label": "Targeting",
-            "range": {
-              "hint": "The maximum range between the character and the target.",
-              "label": "Range"
-            },
-            "size": {
-              "hint": "The length or radius of the created template.",
-              "label": "Size"
-            },
-            "type": {
-              "hint": "The type of targeting this activity requires, either individual targets or areas of effect.",
-              "label": "Type"
-            },
-            "width": {
-              "hint": "The width of the created templates.",
-              "label": "Width"
-            }
-          }
-        },
-        "teleport": {
-          "cost": {
-            "label": "Action Cost",
-            "uses": {
-              "hint": "Consume uses of the elixir when using this activity.",
-              "label": "Consume Uses"
-            },
-            "value": {
-              "hint": "The action point cost to make use of this activity.",
-              "label": "Action Cost"
-            }
-          },
-          "description": {
-            "label": "Description"
-          },
-          "img": {
-            "label": "Image"
-          },
-          "name": {
-            "label": "Name"
-          },
-          "teleport": {
-            "distance": {
-              "hint": "The distance the target is teleported.",
-              "label": "Distance"
-            },
-            "label": "Teleport"
-          }
         }
       }
     },
@@ -1070,21 +901,17 @@
     }
   }
 },
-
 "LootDialog": {
   "Content": "Grant the loot from this monster ({name}) to the primary party? The loot will be removed from the monster.",
   "Title": "{name}: Grant Loot"
 },
-
 "MACRO": {
   "ToggleEffect": "Toggle Effect: {name}",
   "UseItem": "Use Item: {name}"
 },
-
 "MerchantConfigurationDialog": {
   "Title": "Configure Merchant: {name}"
 },
-
 "MONSTER": {
   "recover": "Recover",
   "INVENTORY": {
@@ -1095,7 +922,6 @@
     "grant": "Grant Loot"
   }
 },
-
 "PARTY": {
   "LABELS": {
     "currency": "Currency",
@@ -1113,7 +939,6 @@
     }
   }
 },
-
 "PartyDistributionDialog": {
   "amount": {
     "hintCurrency": "The amount of funds to distribute. Each recipient will receive this amount.",
@@ -1128,11 +953,9 @@
   "TitleCurrency": "{name}: Distribute Chron",
   "TitlePoints": "{name}: Distribute Points"
 },
-
 "DISTRIBUTION": {
   "recipients": "Recipients"
 },
-
 "PartyFundsDialog": {
   "Deposit": "Deposit",
   "hint": "The amount to deposit or subtract from the party funds.",
@@ -1144,7 +967,6 @@
   "Title": "Manage Funds: {name}",
   "Withdraw": "Withdraw"
 },
-
 "PoolConfig": {
   "FacesLabel": "Die Faces",
   "MaxLabel": "Pool Size",
@@ -1159,14 +981,12 @@
   "SpecializationSpecializedSizeHint": "A specialized configuration. The pools have a small, medium, and large amount of dice.",
   "Title": "Configure Pools: {name}"
 },
-
 "Pools": {
   "Danger": "Danger",
   "Health": "Health",
   "Mana": "Mana",
   "Stamina": "Stamina"
 },
-
 "PROGRESSION": {
   "LABELS": {
     "Cleric": "Cleric",
@@ -1194,13 +1014,11 @@
     "Veteran": "Veteran"
   }
 },
-
 "PURCHASE": {
   "checkout": "Checkout",
   "receipt": "Receipt",
   "summary": "The members of {name} spent {total} at {shop} on the following items:"
 },
-
 "REGION": {
   "DOORSTATE": {
     "FIELDS": {
@@ -1239,7 +1057,6 @@
     }
   }
 },
-
 "ROLL": {
   "Damage": {
     "AmmoItem": "Ammunition",
@@ -1268,14 +1085,12 @@
   "SelectedNone": "No tokens selected.",
   "Targeted": "Targeted"
 },
-
 "RULER": {
   "ERROR": {
     "NotYourTurn": "You cannot move when it is not your turn.",
     "NotEnoughAP": "This movement would require at least {cost} Action Points."
   }
 },
-
 "Setting": {
   "CircularTokens": "Circular Tokens",
   "CircularTokensHint": "Are tokens treated as circular for the purpose of their hit area?",
@@ -1284,27 +1099,23 @@
   "TokenBarLength": "Token Bar Length",
   "TokenBarLengthHint": "The length of token bars, in degrees. The default is 120."
 },
-
 "ShieldType": {
   "Buckler": "Buckler",
   "Heater": "Heater",
   "Kite": "Kite",
   "Tower": "Tower"
 },
-
 "Skills": {
   "Agility": "Agility",
   "Brawn": "Brawn",
   "Mind": "Mind",
   "Spirit": "Spirit"
 },
-
 "SkillsDialog": {
   "Flavor": "Skill Roll ({skills})",
   "Hint": "Select two skills to combine for the roll, adding together their dice and bonuses.",
   "Title": "{name}: Roll Skill"
 },
-
 "CONDITIONS": {
   "FIELDS": {
     "bleeding": {
@@ -1349,7 +1160,6 @@
     }
   }
 },
-
 "TargetTypes": {
   "AreaCircle": "Circle",
   "AreaCone": "Cone",
@@ -1359,14 +1169,12 @@
   "Self": "Self",
   "SingleTarget": "Single Target"
 },
-
 "TemplateDurations": {
   "Combat": "End of Combat",
   "None": "None",
   "Round": "End of Round",
   "Turn": "End of Turn"
 },
-
 "TradeDialog": {
   "actorId": {
     "hint": "Select the member of the party that will receive the item.",
@@ -1391,7 +1199,6 @@
     "NoQuantity": "You cannot trade an item from an empty stack."
   }
 },
-
 "Warning": {
   "InvalidActiveEffectType": "The chosen effect type is not valid for this parent.",
   "MissingActionPoints": "You do not have enough Action Points to perform that action."

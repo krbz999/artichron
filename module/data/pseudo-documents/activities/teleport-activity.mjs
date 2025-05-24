@@ -32,6 +32,14 @@ export default class TeleportActivity extends BaseActivity {
   /* -------------------------------------------------- */
 
   /** @inheritdoc */
+  static LOCALIZATION_PREFIXES = [
+    ...super.LOCALIZATION_PREFIXES,
+    "ARTICHRON.ACTIVITY.TELEPORT",
+  ];
+
+  /* -------------------------------------------------- */
+
+  /** @inheritdoc */
   async use(usage = {}, dialog = {}, message = {}) {
     const token = this.item.token;
     if (!token) {

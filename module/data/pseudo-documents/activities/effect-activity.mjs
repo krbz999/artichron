@@ -52,6 +52,14 @@ export default class EffectActivity extends BaseActivity {
   /* -------------------------------------------------- */
 
   /** @inheritdoc */
+  static LOCALIZATION_PREFIXES = [
+    ...super.LOCALIZATION_PREFIXES,
+    "ARTICHRON.ACTIVITY.EFFECT",
+  ];
+
+  /* -------------------------------------------------- */
+
+  /** @inheritdoc */
   async use(usage = {}, dialog = {}, message = {}) {
     if (!this.effects.ids.size) {
       ui.notifications.warn("ARTICHRON.ACTIVITY.Warning.NoEffects", { localize: true });

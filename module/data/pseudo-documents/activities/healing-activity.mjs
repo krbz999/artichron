@@ -50,6 +50,14 @@ export default class HealingActivity extends BaseActivity {
   /* -------------------------------------------------- */
 
   /** @inheritdoc */
+  static LOCALIZATION_PREFIXES = [
+    ...super.LOCALIZATION_PREFIXES,
+    "ARTICHRON.ACTIVITY.HEALING",
+  ];
+
+  /* -------------------------------------------------- */
+
+  /** @inheritdoc */
   async use(usage = {}, dialog = {}, message = {}) {
     const configuration = await this.configure(usage, dialog, message);
     if (!configuration) return null;

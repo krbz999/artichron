@@ -50,6 +50,14 @@ export default class DamageActivity extends BaseActivity {
   /* -------------------------------------------------- */
 
   /** @inheritdoc */
+  static LOCALIZATION_PREFIXES = [
+    ...super.LOCALIZATION_PREFIXES,
+    "ARTICHRON.ACTIVITY.DAMAGE",
+  ];
+
+  /* -------------------------------------------------- */
+
+  /** @inheritdoc */
   async use(usage = {}, dialog = {}, message = {}) {
     if (!this.hasDamage) {
       ui.notifications.warn("ARTICHRON.ACTIVITY.Warning.NoDamage", { localize: true });
