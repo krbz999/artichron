@@ -1,0 +1,31 @@
+threshold-bar {
+  display: grid;
+  grid-template-columns: 3rem 1fr;
+  gap: 1rem;
+
+  > :first-child {
+    text-align: center;
+    border: 1px solid gold;
+  }
+
+  > :nth-child(2) {
+    display: grid;
+    grid-template-columns: repeat(var(--limit), 1fr);
+    height: 100%;
+    overflow: hidden;
+
+    > span {
+      width: 125%;
+      background-color: var(--artichron-color-blue);
+      border: 2px solid blue;
+      clip-path: polygon(25% 0%, 100% 0%, 75% 100%, 0% 100%);
+      margin-left: -1rem;
+      margin-right: -1rem;
+      opacity: 0;
+
+      &:first-child { clip-path: polygon(0% 0%, 100% 0%, 75% 100%, 0% 100%); }
+      &:last-child { clip-path: polygon(25% 0%, 100% 0%, 100% 100%, 0% 100%); }
+      &.filled { opacity: 1; }
+    }
+  }
+}

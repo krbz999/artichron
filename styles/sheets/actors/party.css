@@ -1,0 +1,223 @@
+.artichron.application.sheet.party {
+  min-width: 450px;
+
+  :is(.awards, .funds) .form-group {
+    & label {
+      display: flex;
+      align-items: center;
+    }
+
+    & input {
+      flex: 1;
+    }
+
+    & button {
+      flex: 0;
+    }
+
+    .icon {
+      height: calc(var(--input-height) * 0.7);
+      border: none;
+      filter: drop-shadow(0 0 1px rgba(0, 153, 255, 0.664));
+      margin-left: 0.5rem;
+    }
+  }
+
+  .members {
+    padding: 0 1rem;
+    gap: 1rem;
+
+    .member {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+
+      &:not(:last-child) { margin-bottom: 2rem; }
+
+      .avatar {
+        flex: 0 0 4rem;
+        height: 4rem;
+        object-fit: cover;
+        object-position: center top;
+        border-radius: 50%;
+        border: 2px inset rgba(var(--artichron-color-border-blue), 0.85);
+
+        &[data-action] {
+          cursor: var(--cursor-pointer);
+        }
+      }
+
+      .center {
+        flex: 1;
+        display: grid;
+        grid-template-rows: 3fr 1fr;
+        position: relative;
+
+        .name {
+          font-size: 24px;
+          align-self: end;
+          padding-bottom: 0.2rem;
+        }
+
+        .currency {
+          position: absolute;
+          bottom: 25%;
+          right: 0;
+          width: 4rem;
+          height: 1.5rem;
+          align-items: center;
+          justify-content: center;
+          padding: 0;
+          margin: 0 0 0.2rem 0;
+          display: flex;
+          gap: 2px;
+
+          & input {
+            width: 3rem;
+            font-size: 12px;
+            height: 100%;
+          }
+
+          .icon {
+            width: 1rem;
+            border: none;
+            height: 90%;
+          }
+        }
+
+        .bars {
+          gap: 0.3rem;
+          display: flex;
+          flex-direction: column;
+
+          .hp {
+            position: relative;
+            box-shadow: 0 0 2px white;
+            height: 0.5rem;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            border-radius: 3px;
+
+            &::before {
+              z-index: -1;
+              position: absolute;
+              content: "";
+              bottom: 0;
+              left: 0;
+              right: calc(100% - var(--hp));
+              height: 100%;
+              background: linear-gradient(to right, rgba(255, 0, 0, 0.25) 0%, rgba(255, 0, 0, 0.5) 50%, rgba(255, 0, 0, 0.75) 100%);
+              border-radius: inherit;
+            }
+          }
+
+          .pools {
+            width: 100%;
+            display: flex;
+            gap: 0.2rem;
+            left: 0;
+            right: 0;
+            height: 0.2rem;
+
+            .health, .stamina, .mana, .danger {
+              position: relative;
+              flex: 1;
+              height: 100%;
+              box-shadow: 0 0 1px white;
+
+              &::before {
+                z-index: -1;
+                position: absolute;
+                content: "";
+                bottom: 0;
+                left: 0;
+                border-radius: 3px;
+                height: 100%;
+              }
+            }
+
+            .health::before {
+              right: calc(100% - var(--health));
+              background: rgb(200, 75, 75);
+            }
+            .stamina::before {
+              right: calc(100% - var(--stamina));
+              background: rgb(75, 150, 75);
+            }
+            .mana::before {
+              right: calc(100% - var(--mana));
+              background: rgb(75, 75, 250);
+            }
+            .danger::before {
+              right: calc(100% - var(--danger));
+              background: rgb(129, 32, 255);
+            }
+          }
+        }
+      }
+
+      .controls {
+        min-width: calc(2rem + 2px);
+
+        & button {
+          width: 2rem;
+          height: 2rem;
+        }
+
+        .fa-solid {
+          margin: 0;
+        }
+      }
+    }
+  }
+
+  .clocks {
+    padding-left: 0.5em;
+  }
+
+  .clocks.play {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(135px, 1fr));
+    gap: 1em;
+
+    .clock {
+      display: grid;
+
+      & progress-clock {
+        width: 100%;
+        max-height: unset;
+      }
+
+      .name {
+        text-align: center;
+        display: block;
+        padding: 0.5rem 0;
+        font-size: 14px;
+        color: var(--artichron-color-gold);
+        font-style: italic;
+        overflow: hidden;
+        white-space: nowrap;
+      }
+    }
+  }
+
+  .clocks.edit {
+    > .form-group {
+      padding-top: 0.5em;
+      padding-bottom: 0.5em;
+    }
+
+    .name { flex: 3; }
+    .value, .max { flex: 1; }
+    .color {
+      flex: 2;
+      & input[type=color] {
+        max-width: var(--input-height);
+        height: var(--input-height);
+      }
+    }
+    .controls { place-self: end; }
+  }
+}
