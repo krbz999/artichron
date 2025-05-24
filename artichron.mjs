@@ -189,6 +189,9 @@ Hooks.once("i18nInit", function() {
   for (const [k, v] of Object.entries(artichron.config)) {
     localize(artichron.config, k, v);
   }
+
+  // FIXME: shouldnt be needed?
+  foundry.helpers.Localization.localizeDataModel(data.pseudoDocuments.damage.Damage);
 });
 
 /* -------------------------------------------------- */
