@@ -9,6 +9,12 @@ export default [{
     file: "./public/artichron.mjs",
     format: "esm",
   },
+}, {
+  input: "./artichron.css",
+  output: {
+    file: "./public/artichron.css",
+    format: "esm",
+  },
   plugins: [
     resolve(),
     postcss({

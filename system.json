@@ -18,7 +18,7 @@
     }
   ],
   "esmodules": ["artichron.mjs"],
-  "styles": [{ "src": "styles.css", "layer": "system" }],
+  "styles": [{ "src": "artichron.css", "layer": "system" }],
   "packs": [
     {
       "name": "actors",
