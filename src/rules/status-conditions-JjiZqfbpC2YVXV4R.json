@@ -29,13 +29,15 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "12.331",
+        "coreVersion": "13.344",
         "systemId": "artichron",
         "systemVersion": "1.0.0",
         "createdTime": null,
         "modifiedTime": null,
-        "lastModifiedBy": null
+        "lastModifiedBy": "artichronbuilder",
+        "exportSource": null
       },
+      "category": null,
       "_key": "!journal.pages!JjiZqfbpC2YVXV4R.uVv9k9xheOkxzBhO"
     },
     {
@@ -65,13 +67,15 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "12.331",
+        "coreVersion": "13.344",
         "systemId": "artichron",
         "systemVersion": "1.0.0",
         "createdTime": null,
         "modifiedTime": null,
-        "lastModifiedBy": null
+        "lastModifiedBy": "artichronbuilder",
+        "exportSource": null
       },
+      "category": null,
       "_key": "!journal.pages!JjiZqfbpC2YVXV4R.3VoSsDfCrBGG8Bzy"
     },
     {
@@ -100,14 +104,16 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "12.331",
+        "coreVersion": "13.344",
         "systemId": "artichron",
         "systemVersion": "1.0.0",
         "createdTime": null,
         "modifiedTime": null,
-        "lastModifiedBy": null
+        "lastModifiedBy": "artichronbuilder",
+        "exportSource": null
       },
       "_id": "nIvx3xXwYP9iGSeh",
+      "category": null,
       "_key": "!journal.pages!JjiZqfbpC2YVXV4R.nIvx3xXwYP9iGSeh"
     },
     {
@@ -137,13 +143,15 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "12.331",
+        "coreVersion": "13.344",
         "systemId": "artichron",
         "systemVersion": "1.0.0",
         "createdTime": null,
         "modifiedTime": null,
-        "lastModifiedBy": null
+        "lastModifiedBy": "artichronbuilder",
+        "exportSource": null
       },
+      "category": null,
       "_key": "!journal.pages!JjiZqfbpC2YVXV4R.FRQ8zjWTfTYZWGx3"
     }
   ],
@@ -156,12 +164,14 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "12.331",
+    "coreVersion": "13.344",
     "systemId": "artichron",
     "systemVersion": "1.0.0",
     "createdTime": 1729157490067,
     "modifiedTime": 1729157490067,
-    "lastModifiedBy": "3pWaVXzYT6XoJo1Y"
+    "lastModifiedBy": "artichronbuilder",
+    "exportSource": null
   },
+  "categories": [],
   "_key": "!journal!JjiZqfbpC2YVXV4R"
 }

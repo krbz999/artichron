@@ -164,12 +164,13 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "12.331",
+        "coreVersion": "13.344",
         "systemId": "artichron",
         "systemVersion": "1.0.0",
         "createdTime": null,
         "modifiedTime": null,
-        "lastModifiedBy": null
+        "lastModifiedBy": "artichronbuilder",
+        "exportSource": null
       },
       "_key": "!items.effects!z1Uq5H1xxicbxTQd.yhn8C8ghKx502jaT"
     },
@@ -210,12 +211,13 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "12.331",
+        "coreVersion": "13.344",
         "systemId": "artichron",
         "systemVersion": "1.0.0",
         "createdTime": null,
         "modifiedTime": null,
-        "lastModifiedBy": null
+        "lastModifiedBy": "artichronbuilder",
+        "exportSource": null
       },
       "_id": "t9R8zzyMk9w9qWnE",
       "sort": 0,
@@ -258,12 +260,13 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "12.331",
+        "coreVersion": "13.344",
         "systemId": "artichron",
         "systemVersion": "1.0.0",
         "createdTime": null,
         "modifiedTime": null,
-        "lastModifiedBy": null
+        "lastModifiedBy": "artichronbuilder",
+        "exportSource": null
       },
       "_id": "Tvwjv5htKnIENps8",
       "sort": 0,
@@ -306,12 +309,13 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "12.331",
+        "coreVersion": "13.344",
         "systemId": "artichron",
         "systemVersion": "1.0.0",
         "createdTime": null,
         "modifiedTime": null,
-        "lastModifiedBy": null
+        "lastModifiedBy": "artichronbuilder",
+        "exportSource": null
       },
       "_id": "PTVYpFsSdbbQcoko",
       "sort": 0,
@@ -326,12 +330,13 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "12.331",
+    "coreVersion": "13.344",
     "systemId": "artichron",
     "systemVersion": "1.0.0",
     "createdTime": 1729189306922,
     "modifiedTime": 1729189306922,
-    "lastModifiedBy": "3pWaVXzYT6XoJo1Y"
+    "lastModifiedBy": "artichronbuilder",
+    "exportSource": null
   },
   "_key": "!items!z1Uq5H1xxicbxTQd"
 }

@@ -7,7 +7,7 @@
     "pullJSONtoLDB": "node ./tools/pullJSONtoLDB.mjs",
     "pushLDBtoJSON": "node ./tools/pushLDBtoJSON.mjs",
     "build": "npm run build:packs && npm run build:code",
-    "build:packs": "npm run pullJSONtoLDB",
+    "build:packs": "npm run db:pack",
     "build:code": "rollup -c",
     "postinstall": "npm run createSymlinks",
     "db:unpack": "node tools/pack-level-db.mjs package unpack",

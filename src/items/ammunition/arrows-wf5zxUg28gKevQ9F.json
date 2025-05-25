@@ -38,12 +38,13 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "12.331",
+    "coreVersion": "13.344",
     "systemId": "artichron",
     "systemVersion": "1.0.0",
     "createdTime": 1729157488961,
     "modifiedTime": 1729157488961,
-    "lastModifiedBy": "3pWaVXzYT6XoJo1Y"
+    "lastModifiedBy": "artichronbuilder",
+    "exportSource": null
   },
   "_id": "wf5zxUg28gKevQ9F",
   "sort": 0,

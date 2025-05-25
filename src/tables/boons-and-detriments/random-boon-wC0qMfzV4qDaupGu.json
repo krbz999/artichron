@@ -14,10 +14,22 @@
       ],
       "drawn": false,
       "_id": "32w5l2musBwohzCV",
-      "text": "Your success thus far have bolstered your confidence! For the next session, you have one additional Action Point during your first turn of each combat.",
       "img": "icons/svg/d20-black.svg",
-      "documentId": null,
       "flags": {},
+      "_stats": {
+        "coreVersion": "13.344",
+        "systemId": null,
+        "systemVersion": null,
+        "createdTime": null,
+        "modifiedTime": 1748168126419,
+        "lastModifiedBy": "artichronbuilder",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "description": "<p>Your success thus far have bolstered your confidence! For the next session, you have one additional Action Point during your first turn of each combat.</p>",
+      "name": "",
+      "documentUuid": null,
       "_key": "!tables.results!wC0qMfzV4qDaupGu.32w5l2musBwohzCV"
     },
     {
@@ -29,10 +41,22 @@
       ],
       "drawn": false,
       "_id": "nRg1esmO0ir8xApy",
-      "text": "You have managed to do exceptional well today and are more comfortable with your abilities. You have one additional mind and one additional stamina die next session.",
       "img": "icons/svg/d20-black.svg",
-      "documentId": null,
       "flags": {},
+      "_stats": {
+        "coreVersion": "13.344",
+        "systemId": null,
+        "systemVersion": null,
+        "createdTime": null,
+        "modifiedTime": 1748168135044,
+        "lastModifiedBy": "artichronbuilder",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "description": "<p>You have managed to do exceptional well today and are more comfortable with your abilities. You have one additional mind and one additional stamina die next session.</p>",
+      "name": "",
+      "documentUuid": null,
       "_key": "!tables.results!wC0qMfzV4qDaupGu.nRg1esmO0ir8xApy"
     },
     {
@@ -44,10 +68,22 @@
       ],
       "drawn": false,
       "_id": "z6MvkJ3p9MFbkrKA",
-      "text": "The exceptional ways in which you accomplished your goals today have taught you many valuable things. When you roll for Mind or for Spirit next session, you add 1 extra die to your pool. If you are rolling Mind AND Spirit, you add 2 extra die, 1 for each.",
       "img": "icons/svg/d20-black.svg",
-      "documentId": null,
       "flags": {},
+      "_stats": {
+        "coreVersion": "13.344",
+        "systemId": null,
+        "systemVersion": null,
+        "createdTime": null,
+        "modifiedTime": 1748168135442,
+        "lastModifiedBy": "artichronbuilder",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "description": "<p>The exceptional ways in which you accomplished your goals today have taught you many valuable things. When you roll for Mind or for Spirit next session, you add 1 extra die to your pool. If you are rolling Mind AND Spirit, you add 2 extra die, 1 for each.</p>",
+      "name": "",
+      "documentUuid": null,
       "_key": "!tables.results!wC0qMfzV4qDaupGu.z6MvkJ3p9MFbkrKA"
     },
     {
@@ -59,10 +95,22 @@
       ],
       "drawn": false,
       "_id": "eBdAcqvtuIjo2kHY",
-      "text": "Having easily made your way through today's hardships, you are more than well rested for the next session! Your maximum hit points are increased by 20 for the next session.",
       "img": "icons/svg/d20-black.svg",
-      "documentId": null,
       "flags": {},
+      "_stats": {
+        "coreVersion": "13.344",
+        "systemId": null,
+        "systemVersion": null,
+        "createdTime": null,
+        "modifiedTime": 1748168135841,
+        "lastModifiedBy": "artichronbuilder",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "description": "<p>Having easily made your way through today's hardships, you are more than well rested for the next session! Your maximum hit points are increased by 20 for the next session.</p>",
+      "name": "",
+      "documentUuid": null,
       "_key": "!tables.results!wC0qMfzV4qDaupGu.eBdAcqvtuIjo2kHY"
     },
     {
@@ -74,10 +122,22 @@
       ],
       "drawn": false,
       "_id": "67s47TLdndoSqT1M",
-      "text": "The training you've put yourself under recently has paid off! During the next session, your Brawn and Agility rolls explode!",
       "img": "icons/svg/d20-black.svg",
-      "documentId": null,
       "flags": {},
+      "_stats": {
+        "coreVersion": "13.344",
+        "systemId": null,
+        "systemVersion": null,
+        "createdTime": null,
+        "modifiedTime": 1748168136244,
+        "lastModifiedBy": "artichronbuilder",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "description": "<p>The training you've put yourself under recently has paid off! During the next session, your Brawn and Agility rolls explode!</p>",
+      "name": "",
+      "documentUuid": null,
       "_key": "!tables.results!wC0qMfzV4qDaupGu.67s47TLdndoSqT1M"
     },
     {
@@ -89,10 +149,22 @@
       ],
       "drawn": false,
       "_id": "eKu8hAaN6uC86T9S",
-      "text": "The strongest weapons are forged in the toughest environments and your body is no exception! For the next session, you re-roll any 1's in your damage dice.",
       "img": "icons/svg/d20-black.svg",
-      "documentId": null,
       "flags": {},
+      "_stats": {
+        "coreVersion": "13.344",
+        "systemId": null,
+        "systemVersion": null,
+        "createdTime": null,
+        "modifiedTime": 1748168136642,
+        "lastModifiedBy": "artichronbuilder",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "description": "<p>The strongest weapons are forged in the toughest environments and your body is no exception! For the next session, you re-roll any 1's in your damage dice.</p>",
+      "name": "",
+      "documentUuid": null,
       "_key": "!tables.results!wC0qMfzV4qDaupGu.eKu8hAaN6uC86T9S"
     }
   ],
@@ -106,12 +178,13 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "12.331",
+    "coreVersion": "13.344",
     "systemId": "artichron",
     "systemVersion": "1.0.0",
     "createdTime": 1729157491160,
     "modifiedTime": 1729157491160,
-    "lastModifiedBy": "3pWaVXzYT6XoJo1Y"
+    "lastModifiedBy": "artichronbuilder",
+    "exportSource": null
   },
   "formula": "1d6",
   "_key": "!tables!wC0qMfzV4qDaupGu"

@@ -13,9 +13,10 @@
     "coreVersion": null,
     "createdTime": null,
     "modifiedTime": null,
-    "lastModifiedBy": null,
+    "lastModifiedBy": "artichronbuilder",
     "compendiumSource": null,
-    "duplicateSource": null
+    "duplicateSource": null,
+    "exportSource": null
   },
   "description": "",
   "_key": "!folders!kfEanDXifA2im2os"
