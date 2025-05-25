@@ -11,6 +11,9 @@ export default [{
   },
   plugins: [
     resolve(),
-    postcss({ plugins: [postcssImport()], extract: path.resolve("public/styles.css") }),
+    postcss({
+      plugins: [postcssImport()],
+      extract: path.resolve("public/artichron.css"),
+    }),
   ],
 }];

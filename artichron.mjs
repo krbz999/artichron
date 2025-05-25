@@ -1,4 +1,4 @@
-import "./styles.css";
+import "./artichron.css";
 
 import { registerSockets } from "./module/helpers/sockets.mjs";
 import * as applications from "./module/applications/_module.mjs";

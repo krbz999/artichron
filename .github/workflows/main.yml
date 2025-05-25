@@ -11,11 +11,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      # Combine CSS files into a single CSS file
-      - name: Combine CSS files
-        run: |
-          cat styles/*.css > artichron.css
-
       # Get part of the tag after the `v`.
       - name: Extract tag version number
         id: get_version
@@ -51,6 +46,7 @@ jobs:
           npm run db:pack
           npm run build
           mv --force public/artichron.mjs artichron.mjs
+          mv --force public/artichron.css artichron.css
 
       # Create zip file.
       - name: Create ZIP archive
