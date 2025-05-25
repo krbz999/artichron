@@ -1,6 +1,6 @@
 import PseudoDocument from "./pseudo-document.mjs";
 
-const { StringField } = foundry.data.fields;
+const { DocumentTypeField } = foundry.data.fields;
 
 export default class TypedPseudoDocument extends PseudoDocument {
   /** @inheritdoc */
@@ -16,14 +16,7 @@ export default class TypedPseudoDocument extends PseudoDocument {
   /** @inheritdoc */
   static defineSchema() {
     return Object.assign(super.defineSchema(), {
-      type: new StringField({
-        initial: () => this.TYPE,
-        required: true,
-        blank: false,
-        readonly: true,
-        validate: value => value === this.TYPE,
-        validationError: `Type can only be '${this.TYPE}'.`,
-      }),
+      type: new DocumentTypeField(this),
     });
   }
 
