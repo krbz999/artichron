@@ -1,3 +1,5 @@
+import "./styles.css";
+
 import { registerSockets } from "./module/helpers/sockets.mjs";
 import * as applications from "./module/applications/_module.mjs";
 import * as canvas from "./module/canvas/_module.mjs";
