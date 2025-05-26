@@ -1,5 +1,8 @@
 import BaseDocumentMixin from "./base-document-mixin.mjs";
 
+/**
+ * @extends foundry.documents.Item
+ */
 export default class ItemArtichron extends BaseDocumentMixin(foundry.documents.Item) {
   /** @inheritdoc */
   static getDefaultArtwork(itemData) {
@@ -430,4 +433,8 @@ export default class ItemArtichron extends BaseDocumentMixin(foundry.documents.I
     if (this.system.rollDamage) return this.system.rollDamage(config, options);
     return null;
   }
+
+  /* -------------------------------------------------- */
+  /*   Advancements                                     */
+  /* -------------------------------------------------- */
 }

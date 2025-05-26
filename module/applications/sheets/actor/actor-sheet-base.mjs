@@ -1,5 +1,9 @@
 import ArtichronSheetMixin from "../../api/document-sheet-mixin.mjs";
 
+/**
+ * Base actor sheet.
+ * @extends {foundry.applications.sheets.ActorSheet}
+ */
 export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.applications.sheets.ActorSheet) {
   /** @inheritdoc */
   static DEFAULT_OPTIONS = {
@@ -64,6 +68,19 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
   async _onDropItem(event, item) {
     if (!this.document.isOwner) return;
 
+    // Trigger advancements.
+    advancement: if (item.supportsAdvancements) {
+      const collection = item.getEmbeddedPseudoDocumentCollection("Advancement");
+      if (!collection.size) break advancement;
+
+      const roots = [];
+      for (const a of collection) roots.push(await a.determineChain());
+      const itemData = artichron.data.pseudoDocuments.advancements.BaseAdvancement.prepareItems(roots);
+      itemData.unshift(game.items.fromCompendium(item));
+      await foundry.utils.getDocumentClass("Item").create(itemData, { parent: this.document });
+      return;
+    }
+
     // Stack the item.
     if ((item.parent !== this.document) && item.system.identifier && item.system.schema.has("quantity")) {
       const existing = this.document.itemTypes[item.type].find(i => {
@@ -75,7 +92,9 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
       }
     }
 
+    // Default behavior.
     return super._onDropItem(event, item);
+
   }
 
   /* -------------------------------------------------- */

@@ -7,7 +7,8 @@ import * as documents from "./module/documents/_module.mjs";
 import * as helpers from "./module/helpers/_module.mjs";
 import * as migrations from "./module/helpers/migrations.mjs";
 import * as SYSTEM from "./module/helpers/config.mjs";
-import * as utils from "./module/helpers/utils.mjs";
+import * as __utils from "./module/helpers/utils.mjs";
+import * as utils from "./module/utils/_module.mjs";
 import registerEnrichers from "./module/helpers/enrichers.mjs";
 import registerSettings from "./module/helpers/settings.mjs";
 
@@ -29,7 +30,7 @@ globalThis.artichron = {
   documents,
   helpers,
   migrations,
-  utils,
+  utils: { ...utils, ...__utils }, // FIXME: move helpers.utils into separate files in /utils
 };
 
 /* -------------------------------------------------- */
@@ -125,7 +126,7 @@ Hooks.once("init", function() {
 
   // Set up conditions.
   CONFIG.statusEffects = Object.entries(SYSTEM.STATUS_CONDITIONS).map(([id, config]) => {
-    return { ...config, id, _id: utils.staticId(id) };
+    return { ...config, id, _id: __utils.staticId(id) };
   });
 
   CONFIG.specialStatusEffects.DEFEATED = "defeated";

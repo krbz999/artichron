@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-empty-object-type */
+
 /* -------------------------------------------------- */
 /*   Pseudo-Documents                                 */
 /* -------------------------------------------------- */
@@ -41,6 +43,26 @@ export interface ClockMetadata extends PseudoDocumentMetadata {
 export interface DamagePartMetadata extends PseudoDocumentMetadata {
   /** i18n path for default name. */
   label: string;
+}
+
+export interface AdvancementMetadata extends PseudoDocumentMetadata {}
+
+/* -------------------------------------------------- */
+/*   Advancements                                     */
+/* -------------------------------------------------- */
+
+export interface AdvancementChainLink {
+  /* The advancement of this link in the chain. */
+  advancement: BaseAdvancement;
+  /* Child advancements (can be understood as the inverse of `parent`). If an item granted by *this* advancement grants
+  no advancements, nothing is recorded here. The key is the id of the "granted" advancement. */
+  children: Record<string, AdvancementChainLink>;
+  /* The 'parent' advancement, if this advancement is from an item granted by another advancement. */
+  parent: AdvancementChainLink | null;
+  /* Granted items from this advancement and their configuration. */
+  pool: object[];
+  /* Is this the root of the chain? */
+  root: boolean;
 }
 
 /* -------------------------------------------------- */

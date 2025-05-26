@@ -1,4 +1,4 @@
-const { DocumentIdField, StringField } = foundry.data.fields;
+const { DocumentIdField } = foundry.data.fields;
 
 /** @import { PseudoDocumentMetadata } from "../../_types" */
 
