@@ -48,13 +48,5 @@ export default class DamageSheet extends PseudoDocumentSheet {
     context.denomination = this._prepareField("denomination");
     context.type = Object.assign(this._prepareField("type"), { options: artichron.config.DAMAGE_TYPES.optgroups });
     context.options = this._prepareField("options");
-
-    // // FIXME: core bug results in needing to grab the parent to get proper labels
-    // const p = this.pseudoDocument;
-    // for (const path of ["number", "denomination", "type"]) {
-    //   context[path].field = p.parent.schema.getField(`damage.element.${path}`);
-    // }
-
-    // commented out to show bug
   }
 }

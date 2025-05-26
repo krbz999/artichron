@@ -142,8 +142,7 @@ export default class ActivitySheet extends PseudoDocumentSheet {
           damage: damage,
           fields: ["number", "denomination", "type"].map(path => {
             return {
-              // FIXME: core bug; shouldn't need to grab the fields from the parent model
-              field: context.activity.schema.getField(`damage.element.${path}`),
+              field: damage.schema.getField(path),
               name: `damage.${damage.id}.${path}`,
               value: foundry.utils.getProperty(damage, path),
               classes: [path, "label-top"].join(" "),

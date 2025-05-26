@@ -191,8 +191,16 @@ Hooks.once("i18nInit", function() {
     localize(artichron.config, k, v);
   }
 
-  // FIXME: shouldnt be needed?
-  foundry.helpers.Localization.localizeDataModel(data.pseudoDocuments.damage.Damage);
+  const localizeTypes = types => {
+    for (const v of Object.values(types))
+      foundry.helpers.Localization.localizeDataModel(v);
+  };
+
+  localizeTypes(data.pseudoDocuments.activities);
+  localizeTypes(data.pseudoDocuments.advancements);
+  localizeTypes(data.pseudoDocuments.armorRequirements);
+  localizeTypes(data.pseudoDocuments.clocks);
+  localizeTypes(data.pseudoDocuments.damage);
 });
 
 /* -------------------------------------------------- */
