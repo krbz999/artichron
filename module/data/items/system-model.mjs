@@ -70,12 +70,53 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
 
   /** @inheritdoc */
   async _preCreate(data, options, user) {
-    const result = await super._preCreate(data, options, user);
-    if (result === false) return false;
+    if (await super._preCreate(data, options, user) === false) return false;
 
+    const update = {};
     if (!this.identifier) {
-      this.parent.updateSource({ "system.identifier": this.parent.name.slugify({ strict: true }) });
+      update["system.identifier"] = this.parent.name.slugify({ strict: true });
     }
+    if (!foundry.utils.isEmpty(update)) this.parent.updateSource(update);
+  }
+
+  /* -------------------------------------------------- */
+
+  /** @inheritdoc */
+  async _preDelete(options, user) {
+    if (await super._preDelete(options, user) === false) return false;
+
+    if (!this.parent.isEmbedded) return;
+
+    // If this is being deleted due to a chain of advancements, do not intervene.
+    if (options.artichron?.deletion === "advancement") return;
+
+    if (!this.parent.supportsAdvancements) return;
+
+    const other = this.parent.getEmbeddedPseudoDocumentCollection("Advancement").getByType("itemGrant").reduce((acc, a) => {
+      const items = a.grantedItemsChain();
+      return acc.concat(items);
+    }, []);
+    if (!other.length) return;
+
+    const ids = new Set(other.map(item => item.id));
+    ids.add(this.parent.id);
+    this.#promptAdvancementDeletion(ids);
+    return false;
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Delete items granted by advancements, as well as the 'root' item.
+   * @param {Set<string>} itemIds   The ids of the items to delete.
+   * @returns {Promise<void>}
+   */
+  async #promptAdvancementDeletion(itemIds) {
+    const confirm = await artichron.applications.api.Dialog.confirm();
+    if (!confirm) return;
+    this.parent.actor.deleteEmbeddedDocuments("Item", Array.from(itemIds), {
+      artichron: { deletion: "advancement" },
+    });
   }
 
   /* -------------------------------------------------- */

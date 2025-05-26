@@ -73,11 +73,8 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
       const collection = item.getEmbeddedPseudoDocumentCollection("Advancement");
       if (!collection.size) break advancement;
 
-      const roots = [];
-      for (const a of collection) roots.push(await a.determineChain());
-      const itemData = artichron.data.pseudoDocuments.advancements.BaseAdvancement.prepareItems(roots);
-      itemData.unshift(game.items.fromCompendium(item));
-      await foundry.utils.getDocumentClass("Item").create(itemData, { parent: this.document });
+      const itemData = await artichron.data.pseudoDocuments.advancements.BaseAdvancement.prepareItems(this.document, item);
+      await foundry.utils.getDocumentClass("Item").create(itemData, { parent: this.document, keepId: true });
       return;
     }
 

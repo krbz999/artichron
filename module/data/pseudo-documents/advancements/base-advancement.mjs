@@ -83,6 +83,7 @@ export default class BaseAdvancement extends TypedPseudoDocument {
 
   /**
    * Find all items on an actor that were granted by this advancement.
+   * @returns {foundry.documents.Item[]|null}
    */
   grantedItems() {
     const item = this.document;
@@ -91,8 +92,24 @@ export default class BaseAdvancement extends TypedPseudoDocument {
     return item.collection.filter(i => {
       if (i === item) return false;
       const { advancementId, itemId } = i.getFlag("artichron", "advancement") ?? {};
-      return (itemId === i.id) && (advancementId === this.id);
+      return (itemId === item.id) && (advancementId === this.id);
     });
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Find all items on an actor that would be removed were this advancement undone (e.g. the item deleted).
+   */
+  grantedItemsChain() {
+    const items = this.grantedItems();
+    for (const item of [...items]) {
+      if (!item.supportsAdvancements) continue;
+      for (const advancement of item.getEmbeddedPseudoDocumentCollection("Advancement").getByType("itemGrant")) {
+        items.push(...advancement.grantedItemsChain());
+      }
+    }
+    return items;
   }
 
   /* -------------------------------------------------- */
@@ -113,31 +130,45 @@ export default class BaseAdvancement extends TypedPseudoDocument {
   /* -------------------------------------------------- */
 
   /**
-   * Retrieve and prepare items to be created on an actor.
-   * @param {AdvancementChain[]} [roots=[]]   The roots of the advancement.
-   * @returns {object[]}                      Prepared item data.
+   * Retrieve and prepare items to be created on an actor. The data is prepared in such a way that
+   * the items should be created with `keepId: true`.
+   * @param {foundry.documents.Actor} actor   The actor on which to create the items.
+   * @param {foundry.documents.Item} item     The root item that triggered advancements,
+   *                                          which is not yet owned by the actor.
+   * @returns {Promise<object[]>}             A promise that resolves to the prepared item data.
    */
-  static prepareItems(roots = []) {
-    const itemData = [];
+  static async prepareItems(actor, item) {
+    const roots = [];
+    const collection = item.getEmbeddedPseudoDocumentCollection("Advancement");
+    for (const advancement of collection) {
+      roots.push(await advancement.determineChain());
+    }
+
+    // Mapping of items' original id to the current item data. Used to find and set `itemId`.
+    const items = new foundry.utils.Collection();
+
+    // The item being prepared and the advancement that granted it.
+    const prepareItem = (item, advancement) => {
+      const data = game.items.fromCompendium(item, { keepId: true });
+      if (actor.items.has(data._id)) data._id = foundry.utils.randomID();
+      if (advancement) {
+        foundry.utils.mergeObject(data, {
+          "flags.artichron.advancement": {
+            itemId: items.get(advancement.document.id)._id,
+            advancementId: advancement.id },
+        });
+      }
+      items.set(item.id, data);
+    };
+
+    prepareItem(item, null);
+
+    // Traverse the chain to gather all items.
     for (const root of roots)
       for (const node of root.active())
         for (const { item, selected } of node.pool)
-          if (selected !== false) itemData.push(node.advancement.prepareItem(item));
-    return itemData;
-  }
+          if (selected !== false) prepareItem(item, node.advancement);
 
-  /* -------------------------------------------------- */
-
-  /**
-   * Prepare an item to be created on an actor.
-   * @param {foundry.documents.Item} item   The item to prepare.
-   * @returns {object}
-   */
-  prepareItem(item) {
-    item = game.items.fromCompendium(item);
-    foundry.utils.mergeObject(item.flags, {
-      artichron: { itemId: this.document.id, advancementId: this.id },
-    });
-    return item;
+    return Array.from(items.values());
   }
 }
