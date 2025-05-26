@@ -1,16 +1,6 @@
 export default base => {
   return class ArtichronDocument extends base {
     /**
-     * Does this document support advancements?
-     * @type {boolean}
-     */
-    get supportsAdvancements() {
-      return !!this.system.constructor.metadata.embedded.Advancement;
-    }
-
-    /* -------------------------------------------------- */
-
-    /**
      * Obtain the embedded collection of a given pseudo-document type.
      * @param {string} embeddedName   The document name of the embedded collection.
      * @returns {ModelCollection}     The embedded collection.

@@ -82,7 +82,7 @@ export default class BaseAdvancement extends TypedPseudoDocument {
   /* -------------------------------------------------- */
 
   /**
-   * Find all items on an actor that were granted by this advancement.
+   * Find all items on an actor that were granted by this specific advancement.
    * @returns {foundry.documents.Item[]|null}
    */
   grantedItems() {
@@ -100,6 +100,7 @@ export default class BaseAdvancement extends TypedPseudoDocument {
 
   /**
    * Find all items on an actor that would be removed were this advancement undone (e.g. the item deleted).
+   * @returns {foundry.documents.Item[]}    An array of to-be-deleted items.
    */
   grantedItemsChain() {
     const items = this.grantedItems();

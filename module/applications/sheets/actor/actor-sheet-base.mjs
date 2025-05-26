@@ -91,7 +91,6 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
 
     // Default behavior.
     return super._onDropItem(event, item);
-
   }
 
   /* -------------------------------------------------- */
@@ -143,7 +142,7 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
   static async #onEditItem(event, target) {
     const uuid = target.closest("[data-item-uuid]").dataset.itemUuid;
     const item = await fromUuid(uuid);
-    item.sheet.render(true);
+    item.sheet.render({ force: true });
   }
 
   /* -------------------------------------------------- */
@@ -158,7 +157,9 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
     if (!this.isEditable) return;
     const uuid = target.closest("[data-item-uuid]").dataset.itemUuid;
     const item = await fromUuid(uuid);
-    item.deleteDialog();
+
+    if (item.hasGrantedItems) item.advancementDeletionPrompt();
+    else item.deleteDialog();
   }
 
   /* -------------------------------------------------- */

@@ -1,11 +1,4 @@
 /**
- * @typedef {object} TabConfiguration
- * @property {string} id        The unique key for this tab.
- * @property {string} group     The group that this tab belongs to.
- * @property {string} label     The displayed label for this tab.
- */
-
-/**
  * Sheet class mixin to add common functions shared by all types of sheets.
  * @param {*} Base                        The base class.
  * @returns {DocumentSheetArtichron}      Extended class.
@@ -310,7 +303,7 @@ const ArtichronDocumentSheetMixin = Base => {
     /* -------------------------------------------------- */
 
     /**
-     * Create context menu options for items.
+     * Create context menu options for items. This is relevant only for actor sheets.
      * @returns {ContextMenuEntry[]}
      */
     _getItemEntryContextOptions() {
@@ -324,7 +317,7 @@ const ArtichronDocumentSheetMixin = Base => {
         name: "ARTICHRON.ContextMenu.Item.Delete",
         icon: "<i class='fa-solid fa-fw fa-trash'></i>",
         condition: element => element.item.isOwner && !element.item.isEquipped,
-        callback: element => element.item.deleteDialog(),
+        callback: element => element.item.hasGrantedItems ? element.item.advancementDeletionPrompt() : element.item.deleteDialog(),
         group: "manage",
       }, {
         name: "ARTICHRON.ContextMenu.Item.Equip",
@@ -335,37 +328,37 @@ const ArtichronDocumentSheetMixin = Base => {
       }, {
         name: "ARTICHRON.ContextMenu.Item.Unequip",
         icon: "<i class='fa-solid fa-fw fa-shield-halved'></i>",
-        condition: element => ["hero", "monster"].includes(element.item.actor.type) && element.item.isOwner && element.item.isEquipped,
+        condition: element => ["hero", "monster"].includes(this.document.type) && element.item.isOwner && element.item.isEquipped,
         callback: element => element.item.system.unequip(),
         group: "action",
       }, {
         name: "ARTICHRON.ContextMenu.Item.Favorite",
         icon: "<i class='fa-solid fa-fw fa-star'></i>",
-        condition: element => ["hero", "monster"].includes(element.item.actor.type) && element.item.isOwner && !element.item.isFavorite,
+        condition: element => ["hero", "monster"].includes(this.document.type) && element.item.isOwner && !element.item.isFavorite,
         callback: element => element.item.actor.addFavoriteItem(element.item.id),
         group: "action",
       }, {
         name: "ARTICHRON.ContextMenu.Item.Unfavorite",
         icon: "<i class='fa-regular fa-fw fa-star'></i>",
-        condition: element => ["hero", "monster"].includes(element.item.actor.type) && element.item.isOwner && element.item.isFavorite,
-        callback: element => element.item.actor.removeFavoriteItem(element.item.id),
+        condition: element => ["hero", "monster"].includes(this.document.type) && element.item.isOwner && element.item.isFavorite,
+        callback: element => this.document.removeFavoriteItem(element.item.id),
         group: "action",
       }, {
         name: "ARTICHRON.ContextMenu.Item.Use",
         icon: "<i class='fa-solid fa-fw fa-hand-fist'></i>",
-        condition: element => ["hero", "monster"].includes(element.item.actor.type) && element.item.isOwner && (element.item.isEquipped || (!element.item.isArsenal && !element.item.isArmor)),
+        condition: element => ["hero", "monster"].includes(this.document.type) && element.item.isOwner && (element.item.isEquipped || (!element.item.isArsenal && !element.item.isArmor)),
         callback: element => element.item.use(),
         group: "action",
       }, {
         name: "ARTICHRON.ContextMenu.Item.Fuse",
         icon: "<i class='fa-solid fa-fw fa-volcano'></i>",
-        condition: element => ["hero", "monster"].includes(element.item.actor.type) && element.item.isOwner && element.item.hasFusions && !element.item.isFused,
+        condition: element => ["hero", "monster"].includes(this.document.type) && element.item.isOwner && element.item.hasFusions && !element.item.isFused,
         callback: element => element.item.fuseDialog(),
         group: "action",
       }, {
         name: "ARTICHRON.ContextMenu.Item.Unfuse",
         icon: "<i class='fa-solid fa-fw fa-recycle'></i>",
-        condition: element => ["hero", "monster"].includes(element.item.actor.type) && element.item.isOwner && element.item.isFused,
+        condition: element => ["hero", "monster"].includes(this.document.type) && element.item.isOwner && element.item.isFused,
         callback: element => element.item.system.fusion.unfuseDialog(),
         group: "action",
       }];
