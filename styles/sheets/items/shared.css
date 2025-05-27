@@ -7,7 +7,7 @@
     }
 
     & fieldset.activities {
-      & button[data-action=renderActivity] {
+      & button[data-action=renderPseudoDocument] {
         display: flex;
         flex-direction: column;
         height: fit-content;

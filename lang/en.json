@@ -1,6 +1,8 @@
 {
 "DOCUMENT": {
   "Activity": "Activity",
+  "Advancement": "Advancement",
+  "ArmorRequirement": "Armor Requirement",
   "Clock": "Clock",
   "Damage": "Damage"
 },
@@ -34,6 +36,8 @@
   "elixirPl": "Elixirs",
   "part": "Monster Part",
   "partPl": "Monster Parts",
+  "path": "Path",
+  "pathPl": "Paths",
   "shield": "Shield",
   "shieldPl": "Shields",
   "spell": "Spell",
@@ -60,7 +64,11 @@
     "Base": "Artichron ActiveEffect Sheet"
   },
   "ITEM": {
-    "Base": "Artichron Item Sheet"
+    "AmmoSheet": "Artichron Ammunition Sheet",
+    "ArmorSheet": "Artichron Armor Piece Sheet",
+    "PartSheet": "Artichron Monster Part Sheet",
+    "PathSheet": "Artichron Path Sheet",
+    "SpellSheet": "Artichron Spell Sheet"
   },
   "ACTIVITY": {
     "title": "Activity: {name}"
@@ -69,6 +77,7 @@
     "about": "About",
     "actions": "Actions",
     "activities": "Activities",
+    "advancements": "Advancements",
     "attributes": "Attributes",
     "changes": "Changes",
     "description": "Description",

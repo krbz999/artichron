@@ -55,4 +55,35 @@ export default class TypedPseudoDocument extends PseudoDocument {
     }
     return super.create(data, { parent, ...operation });
   }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Prompt for picking the subtype of this pseudo-document.
+   * @param {object} [data]                                 The data used for the creation.
+   * @param {object} operation                              The context of the operation.
+   * @param {foundry.abstract.Document} operation.parent    The parent of this document.
+   * @returns {Promise<foundry.abstract.Document|null>}     A promise that resolves to the updated document.
+   */
+  static async createDialog(data = {}, { parent, ...operation } = {}) {
+    const select = foundry.applications.fields.createFormGroup({
+      label: "Type",
+      input: foundry.applications.fields.createSelectInput({
+        blank: false,
+        name: "type",
+        options: Object.entries(this.TYPES).map(([k, Cls]) => ({
+          value: k,
+          label: game.i18n.localize(Cls.metadata.label),
+        })),
+      }),
+    }).outerHTML;
+    const result = await artichron.applications.api.Dialog.input({
+      window: {
+        title: game.i18n.format("DOCUMENT.New", { type: game.i18n.localize(`DOCUMENT.${this.metadata.documentName}`) }),
+      },
+      content: `<fieldset>${select}</fieldset>`,
+    });
+    if (!result) return null;
+    return this.create({ ...data, ...result }, { parent, ...operation });
+  }
 }

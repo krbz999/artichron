@@ -9,7 +9,7 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
       defaultWeight: 1,
       embedded: {
         Activity: "system.activities",
-        Advancement: "system.advancements",
+        Advancement: "system.advancements", // TODO: remove
       },
       fusion: false,
       icon: "",
@@ -35,6 +35,7 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
         value: new NumberField({ min: 0, initial: 0, integer: true, nullable: false }),
       }),
       activities: new artichron.data.fields.CollectionField(artichron.data.pseudoDocuments.activities.BaseActivity),
+      // TODO: remove
       advancements: new artichron.data.fields.CollectionField(artichron.data.pseudoDocuments.advancements.BaseAdvancement),
       attributes: new SchemaField({
         value: new SetField(new StringField({

@@ -102,9 +102,6 @@ Hooks.once("init", function() {
     }
   };
 
-  configureSheet("Actor", foundry.appv1.sheets.ActorSheet, { register: false });
-  configureSheet("Item", foundry.appv1.sheets.ItemSheet, { register: false });
-  // configureSheet("ActiveEffect", foundry.applications.sheets.ActiveEffectConfig, { register: false });
   configureSheet("Actor", applications.sheets.actor.ActorSheetHero, {
     label: "ARTICHRON.SHEET.ACTOR.Hero", types: ["hero"],
   });
@@ -117,12 +114,27 @@ Hooks.once("init", function() {
   configureSheet("Actor", applications.sheets.actor.ActorSheetParty, {
     label: "ARTICHRON.SHEET.ACTOR.Party", types: ["party"],
   });
-  configureSheet("Item", applications.sheets.item.ItemSheet, {
-    label: "ARTICHRON.SHEET.ITEM.Base",
+
+  configureSheet("Item", applications.sheets.item.AmmoSheet, {
+    label: "ARTICHRON.SHEET.ITEM.AmmoSheet",
+    types: ["ammo"],
   });
-  // configureSheet("ActiveEffect", applications.sheets.effect.ActiveEffectSheet, {
-  //   label: "ARTICHRON.SHEET.EFFECT.Base",
+  configureSheet("Item", applications.sheets.item.ArmorSheet, {
+    label: "ARTICHRON.SHEET.ITEM.ArmorSheet",
+    types: ["armor"],
+  });
+  // configureSheet("Item", applications.sheets.item.PathSheet, {
+  //   label: "ARTICHRON.SHEET.ITEM.PathSheet",
+  //   types: ["path"],
   // });
+  // configureSheet("Item", applications.sheets.item.PartSheet, {
+  //   label: "ARTICHRON.SHEET.ITEM.PartSheet",
+  //   types: ["part"],
+  // });
+  configureSheet("Item", applications.sheets.item.SpellSheet, {
+    label: "ARTICHRON.SHEET.ITEM.SpellSheet",
+    types: ["spell"],
+  });
 
   // Set up conditions.
   CONFIG.statusEffects = Object.entries(SYSTEM.STATUS_CONDITIONS).map(([id, config]) => {

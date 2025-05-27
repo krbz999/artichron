@@ -133,6 +133,11 @@
           "activities.*.description"
         ]
       },
+      "path": {
+        "htmlFields": [
+          "description.value"
+        ]
+      },
       "shield": {
         "htmlFields": [
           "description.value",

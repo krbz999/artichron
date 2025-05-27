@@ -1,0 +1,23 @@
+<div class="tab {{tabs.effects.cssClass}}" data-group="{{tabs.effects.group}}" data-tab="{{tabs.effects.id}}">
+
+  <div class="effects-list">
+    <header>{{localize "TYPES.ActiveEffect.enhancementPl"}}</header>
+
+    {{#each ctx.effects.enhancements}}
+    {{effectEntry effect enriched=enrichedText}}
+    {{/each}}
+
+    <button class="create icon fa-solid fa-plus" type="button" data-action="createEffect" data-tooltip="ARTICHRON.EFFECT.ENHANCEMENT.create" data-type="enhancement" {{disabled @root.isPlayMode}}></button>
+  </div>
+
+  <div class="effects-list">
+    <header>{{localize "TYPES.ActiveEffect.buffPl"}}</header>
+
+    {{#each ctx.effects.buffs}}
+    {{effectEntry effect enriched=enrichedText}}
+    {{/each}}
+
+    <button class="create icon fa-solid fa-plus" type="button" data-action="createEffect" data-tooltip="ARTICHRON.EFFECT.BUFF.create" data-type="buff" {{disabled @root.isPlayMode}}></button>
+  </div>
+
+</div>

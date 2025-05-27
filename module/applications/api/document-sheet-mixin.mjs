@@ -2,6 +2,8 @@
  * Sheet class mixin to add common functions shared by all types of sheets.
  * @param {*} Base                        The base class.
  * @returns {DocumentSheetArtichron}      Extended class.
+ * @extends {foundry.applications.api.HandlebarsApplicationMixin}
+ * @extends {Base}
  */
 const ArtichronDocumentSheetMixin = Base => {
   const mixin = foundry.applications.api.HandlebarsApplicationMixin;
