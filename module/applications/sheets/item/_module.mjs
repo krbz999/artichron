@@ -6,4 +6,7 @@ export { default as DamageSheet } from "./damage-sheet.mjs";
 
 export { default as AmmoSheet } from "./ammo-sheet.mjs";
 export { default as ArmorSheet } from "./armor-sheet.mjs";
+export { default as ElixirSheet } from "./elixir-sheet.mjs";
+export { default as PartSheet } from "./part-sheet.mjs";
+export { default as PathSheet } from "./path-sheet.mjs";
 export { default as SpellSheet } from "./spell-sheet.mjs";

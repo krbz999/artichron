@@ -41,10 +41,14 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
   static TABS = {
     primary: {
       tabs: [
-        { id: "description" },
+        { id: "description", tooltip: "ARTICHRON.SHEET.TABS.description", icon: "fa-solid fa-fw fa-pen-fancy" },
+        { id: "details", tooltip: "ARTICHRON.SHEET.TABS.details", icon: "fa-solid fa-fw fa-tags" },
+        { id: "fusion", tooltip: "ARTICHRON.SHEET.TABS.fusion", icon: "fa-solid fa-fw fa-volcano" },
+        { id: "activities", tooltip: "ARTICHRON.SHEET.TABS.activities", icon: "fa-solid fa-fw fa-location-crosshairs " },
+        { id: "advancements", tooltip: "ARTICHRON.SHEET.TABS.advancements", icon: "fa-solid fa-fw fa-circle-nodes" },
+        { id: "effects", tooltip: "ARTICHRON.SHEET.TABS.effects", icon: "fa-solid fa-fw fa-bolt" },
       ],
       initial: "description",
-      labelPrefix: "ARTICHRON.SHEET.TABS",
     },
   };
 
@@ -101,6 +105,10 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
    * @returns {Promise<object>}   Rendering context.
    */
   async _preparePartContextTabs(context, options) {
+    context.verticalTabs = true;
+    for (const k in context.tabs)
+      if (this.constructor.metadata.excludeTabs.includes(k))
+        delete context.tabs[k];
     return context;
   }
 

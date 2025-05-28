@@ -75,7 +75,8 @@ dialog:-internal-dialog-in-top-layer::backdrop {
 /* System application backdrops */
 .application.artichron .window-content,
 #tooltip.item-tooltip > *,
-.locked-tooltip.item-tooltip > * {
+.locked-tooltip.item-tooltip > *,
+.artichron-backdrop {
   position: relative;
 
   /* Application backdrops */

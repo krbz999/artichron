@@ -2,6 +2,13 @@ import PhysicalItemSheet from "./physical-item-sheet.mjs";
 
 export default class SpellSheet extends PhysicalItemSheet {
   /** @inheritdoc */
+  static metadata = {
+    excludeTabs: ["fusion", "advancements"],
+  };
+
+  /* -------------------------------------------------- */
+
+  /** @inheritdoc */
   static PARTS = {
     header: {
       template: "systems/artichron/templates/sheets/item/item-sheet/header.hbs",
@@ -33,18 +40,12 @@ export default class SpellSheet extends PhysicalItemSheet {
   /* -------------------------------------------------- */
 
   /** @inheritdoc */
-  static TABS = {
-    primary: {
-      tabs: [
-        { id: "description" },
-        { id: "details" },
-        { id: "activities" },
-        { id: "effects" },
-      ],
-      initial: "description",
-      labelPrefix: "ARTICHRON.SHEET.TABS",
-    },
-  };
+  _prepareTabs(group) {
+    const tabs = super._prepareTabs(group);
+    delete tabs.advancements;
+    delete tabs.fusion;
+    return tabs;
+  }
 
   /* -------------------------------------------------- */
 

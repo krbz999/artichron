@@ -123,14 +123,18 @@ Hooks.once("init", function() {
     label: "ARTICHRON.SHEET.ITEM.ArmorSheet",
     types: ["armor"],
   });
-  // configureSheet("Item", applications.sheets.item.PathSheet, {
-  //   label: "ARTICHRON.SHEET.ITEM.PathSheet",
-  //   types: ["path"],
-  // });
-  // configureSheet("Item", applications.sheets.item.PartSheet, {
-  //   label: "ARTICHRON.SHEET.ITEM.PartSheet",
-  //   types: ["part"],
-  // });
+  configureSheet("Item", applications.sheets.item.ElixirSheet, {
+    label: "ARTICHRON.SHEET.ITEM.ElixirSheet",
+    types: ["elixir"],
+  });
+  configureSheet("Item", applications.sheets.item.PathSheet, {
+    label: "ARTICHRON.SHEET.ITEM.PathSheet",
+    types: ["path"],
+  });
+  configureSheet("Item", applications.sheets.item.PartSheet, {
+    label: "ARTICHRON.SHEET.ITEM.PartSheet",
+    types: ["part"],
+  });
   configureSheet("Item", applications.sheets.item.SpellSheet, {
     label: "ARTICHRON.SHEET.ITEM.SpellSheet",
     types: ["spell"],

@@ -32,17 +32,11 @@ export default class PhysicalItemSheet extends ItemSheetArtichron {
   /* -------------------------------------------------- */
 
   /** @inheritdoc */
-  static TABS = {
-    primary: {
-      tabs: [
-        { id: "description" },
-        { id: "details" },
-        { id: "effects" },
-      ],
-      initial: "description",
-      labelPrefix: "ARTICHRON.SHEET.TABS",
-    },
-  };
+  _prepareTabs(group) {
+    const tabs = super._prepareTabs(group);
+    delete tabs.advancements;
+    return tabs;
+  }
 
   /* -------------------------------------------------- */
 

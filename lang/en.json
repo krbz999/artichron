@@ -66,6 +66,7 @@
   "ITEM": {
     "AmmoSheet": "Artichron Ammunition Sheet",
     "ArmorSheet": "Artichron Armor Piece Sheet",
+    "ElixirSheet": "Artichron Elixir Sheet",
     "PartSheet": "Artichron Monster Part Sheet",
     "PathSheet": "Artichron Path Sheet",
     "SpellSheet": "Artichron Spell Sheet"

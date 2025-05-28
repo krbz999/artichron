@@ -4,7 +4,7 @@
   "description": "Implementation of the Artifice Chronicles system.",
   "version": "1.0.0",
   "compatibility": {
-    "minimum": "13.342",
+    "minimum": "13.344",
     "verified": "13",
     "maximum": "13"
   },
@@ -111,26 +111,22 @@
     "Item": {
       "ammo": {
         "htmlFields": [
-          "description.value",
-          "activities.*.description"
+          "description.value"
         ]
       },
       "armor": {
         "htmlFields": [
-          "description.value",
-          "activities.*.description"
+          "description.value"
         ]
       },
       "elixir": {
         "htmlFields": [
-          "description.value",
-          "activities.*.description"
+          "description.value"
         ]
       },
       "part": {
         "htmlFields": [
-          "description.value",
-          "activities.*.description"
+          "description.value"
         ]
       },
       "path": {
@@ -138,19 +134,7 @@
           "description.value"
         ]
       },
-      "shield": {
-        "htmlFields": [
-          "description.value",
-          "activities.*.description"
-        ]
-      },
       "spell": {
-        "htmlFields": [
-          "description.value",
-          "activities.*.description"
-        ]
-      },
-      "weapon": {
         "htmlFields": [
           "description.value",
           "activities.*.description"

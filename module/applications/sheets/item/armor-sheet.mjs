@@ -2,6 +2,13 @@ import PhysicalItemSheet from "./physical-item-sheet.mjs";
 
 export default class ArmorSheet extends PhysicalItemSheet {
   /** @inheritdoc */
+  static metadata = {
+    excludeTabs: ["advancements", "activities"],
+  };
+
+  /* -------------------------------------------------- */
+
+  /** @inheritdoc */
   static DEFAULT_OPTIONS = {
     actions: {
       undoFusion: ArmorSheet.#undoFusion,
@@ -35,22 +42,6 @@ export default class ArmorSheet extends PhysicalItemSheet {
       template: "systems/artichron/templates/sheets/item/item-sheet/physical/effects.hbs",
       classes: ["scrollable"],
       scrollable: [""],
-    },
-  };
-
-  /* -------------------------------------------------- */
-
-  /** @inheritdoc */
-  static TABS = {
-    primary: {
-      tabs: [
-        { id: "description" },
-        { id: "details" },
-        { id: "fusion" },
-        { id: "effects" },
-      ],
-      initial: "description",
-      labelPrefix: "ARTICHRON.SHEET.TABS",
     },
   };
 
