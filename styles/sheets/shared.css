@@ -48,6 +48,7 @@
       z-index: 1;
       position-anchor: --sheet-header;
       position-area: center top;
+      aspect-ratio: 1;
 
       &:not([data-action]) {
         pointer-events: none;
