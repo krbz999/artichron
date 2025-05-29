@@ -13,7 +13,7 @@ export default class BaseAdvancement extends TypedPseudoDocument {
       documentName: "Advancement",
       defaultImage: "systems/artichron/assets/icons/advancement.svg",
       embedded: {},
-      sheetClass: null,
+      sheetClass: artichron.applications.sheets.item.AdvancementSheet,
       types: artichron.data.pseudoDocuments.advancements,
     };
   }

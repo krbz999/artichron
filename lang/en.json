@@ -113,6 +113,11 @@
   "ACTIVITY": {
     "title": "Activity: {name}"
   },
+  "ADVANCEMENT": {
+    "HEADERS": {
+      "requirements": "Requirements"
+    }
+  },
   "SPELL": {
     "HEADERS": {
       "activities": "Activities"
@@ -454,6 +459,28 @@
     }
   }
 },
+
+"ADVANCEMENT": {
+  "FIELDS": {
+    "name": {
+      "label": "Name"
+    },
+    "img": {
+      "label": "Image"
+    }
+  },
+  "ITEM_GRANT": {
+    "FIELDS": {
+      "requirements": {
+        "points": {
+          "label": "Point Requirement",
+          "hint": "The number of points required to unlock this advancement."
+        }
+      }
+    }
+  }
+},
+
 "AmmunitionType": {
   "Arrow": "Arrow",
   "Bullet": "Bullet",

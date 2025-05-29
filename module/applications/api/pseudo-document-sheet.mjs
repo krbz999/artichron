@@ -66,11 +66,6 @@ export default class PseudoDocumentSheet extends HandlebarsApplicationMixin(Appl
 
   /* -------------------------------------------------- */
 
-  /** @inheritdoc */
-  tabGroups = {};
-
-  /* -------------------------------------------------- */
-
   /**
    * Stored uuid of this pseudo document.
    * @type {string}
@@ -111,6 +106,17 @@ export default class PseudoDocumentSheet extends HandlebarsApplicationMixin(Appl
    */
   get document() {
     return this.#document;
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Is this pseudo-document sheet editable by the current User?
+   * Whether this sheet is editable is governed by the parent document's sheet.
+   * @type {boolean}
+   */
+  get isEditable() {
+    return this.document.sheet.isEditable;
   }
 
   /* -------------------------------------------------- */
@@ -170,6 +176,24 @@ export default class PseudoDocumentSheet extends HandlebarsApplicationMixin(Appl
   _onClose(options) {
     super._onClose(options);
     delete this.document.apps[this.id];
+  }
+
+  /* -------------------------------------------------- */
+
+  /** @inheritdoc */
+  async _prepareContext(options) {
+    const context = await super._prepareContext(options);
+    const doc = this.pseudoDocument;
+
+    Object.assign(context, {
+      pseudoDocument: doc,
+      source: doc._source,
+      document: this.document,
+      fields: doc.schema.fields,
+      editable: this.isEditable,
+    });
+
+    return context;
   }
 
   /* -------------------------------------------------- */

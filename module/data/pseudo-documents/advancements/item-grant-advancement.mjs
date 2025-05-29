@@ -21,4 +21,12 @@ export default class ItemGrantAdvancement extends BaseAdvancement {
   static get TYPE() {
     return "itemGrant";
   }
+
+  /* -------------------------------------------------- */
+
+  /** @inheritdoc */
+  static LOCALIZATION_PREFIXES = [
+    ...super.LOCALIZATION_PREFIXES,
+    "ARTICHRON.ADVANCEMENT.ITEM_GRANT",
+  ];
 }
