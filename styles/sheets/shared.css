@@ -140,7 +140,7 @@
         border-color: hsl(from var(--artichron-color-blue-light) h s l / 0.7);
         /* font-family: var(--artichron-font-primary); */
 
-        .img {
+        .icon {
           height: 2rem;
           width: 2rem;
         }
