@@ -61,11 +61,11 @@
   .tab.scrollable {
     padding-bottom: 3px;
 
-    & fieldset.armor-requirements {
+    & .armor-requirements {
       .form-fields select:first-child { flex: 0 0 100px; }
     }
 
-    & fieldset.activities {
+    & .activities {
       & button[data-action=renderPseudoDocumentSheet] {
         display: flex;
         flex-direction: column;

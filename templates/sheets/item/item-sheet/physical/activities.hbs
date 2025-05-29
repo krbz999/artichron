@@ -1,9 +1,8 @@
 <section class="tab {{tabs.activities.cssClass}}" data-group="{{tabs.activities.group}}" data-tab="{{tabs.activities.id}}">
-  <fieldset class="activities" data-pseudo-document-name="Activity">
-    <legend>
-      {{localize "ARTICHRON.SHEET.LEGENDS.activities"}}
-      <button type="button" class="icon fa-regular fa-plus-square" data-action="createPseudoDocument" {{disabled isPlayMode}}></button>
-    </legend>
+  <div class="document-list activities" data-pseudo-document-name="Activity">
+
+    <button type="button" class="create-document icon fa-solid" data-action="createPseudoDocument" {{disabled isPlayMode}}></button>
+
     {{#each ctx.activities}}
     <div class="form-group activity" data-pseudo-id="{{activity.id}}">
       <button type="button" data-action="renderPseudoDocumentSheet" {{disabled disabled}}>
@@ -12,5 +11,6 @@
       </button>
     </div>
     {{/each}}
-  </fieldset>
+
+  </div>
 </section>

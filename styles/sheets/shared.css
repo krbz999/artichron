@@ -101,6 +101,23 @@
       }
     }
   }
+
+  .document-list {
+    display: grid;
+    gap: 1ch;
+    position: relative;
+    padding-bottom: calc(2 * var(--input-height));
+
+    .create-document {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+
+      &::before {
+        content: "\f055";
+      }
+    }
+  }
 }
 
 /* Item and effect lists. */
