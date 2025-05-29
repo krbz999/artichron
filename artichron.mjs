@@ -139,6 +139,10 @@ Hooks.once("init", function() {
     label: "ARTICHRON.SHEET.ITEM.SpellSheet",
     types: ["spell"],
   });
+  configureSheet("Item", applications.sheets.item.TalentSheet, {
+    label: "ARTICHRON.SHEET.ITEM.TalentSheet",
+    types: ["talent"],
+  });
 
   // Set up conditions.
   CONFIG.statusEffects = Object.entries(SYSTEM.STATUS_CONDITIONS).map(([id, config]) => {
@@ -236,6 +240,7 @@ Hooks.on("hotbarDrop", function(bar, data, slot) {
   }
 
   if (data.type === "Item") {
+    if (!fromUuidSync(data.uuid)?.isEmbedded) return;
     createItemMacro(data, slot);
     return false;
   }

@@ -4,6 +4,7 @@ export default class BaseArmorRequirement extends TypedPseudoDocument {
   /** @type {import("../../../_types").ArmorRequirementMetadata} */
   static get metadata() {
     return {
+      ...super.metadata,
       documentName: "ArmorRequirement",
       embedded: {},
       hint: "",

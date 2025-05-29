@@ -1,15 +1,17 @@
 <section class="tab {{tabs.activities.cssClass}}" data-group="{{tabs.activities.group}}" data-tab="{{tabs.activities.id}}">
   <div class="document-list activities" data-pseudo-document-name="Activity">
 
-    <button type="button" class="create-document icon fa-solid" data-action="createPseudoDocument" {{disabled isPlayMode}}></button>
+    <h3 class="document-list-header">
+      <span>{{localize "ARTICHRON.SHEET.SPELL.HEADERS.activities"}}</span>
+      <button type="button" class="create-document icon fa-solid" data-action="createPseudoDocument" {{disabled isPlayMode}}></button>
+    </h3>
 
     {{#each ctx.activities}}
-    <div class="form-group activity" data-pseudo-id="{{activity.id}}">
-      <button type="button" data-action="renderPseudoDocumentSheet" {{disabled disabled}}>
-        <span class="name">{{name}}</span>
-        <span class="subtitle">{{subtitle}}</span>
-      </button>
-    </div>
+    <button type="button" data-action="renderPseudoDocumentSheet" data-pseudo-id="{{activity.id}}" {{disabled disabled}}>
+      <img src="{{activity.img}}" alt="{{activity.name}}" class="icon">
+      <span class="title">{{name}}</span>
+      <span class="subtitle">{{subtitle}}</span>
+    </button>
     {{/each}}
 
   </div>

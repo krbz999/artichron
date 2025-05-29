@@ -42,7 +42,7 @@
       object-fit: cover;
       object-position: center top;
       border-radius: 1rem;
-      border: 2px inset rgba(var(--artichron-color-border-blue), 0.85);
+      border: 2px inset hsl(from var(--artichron-color-border-blue) h s l / 0.85);
       position: fixed;
       width: calc(1.25 * var(--height));
       z-index: 1;
@@ -105,16 +105,57 @@
   .document-list {
     display: grid;
     gap: 1ch;
-    position: relative;
+    /* position: relative; */
     padding-bottom: calc(2 * var(--input-height));
 
-    .create-document {
-      position: absolute;
-      bottom: 0;
-      right: 0;
+    .document-list-header {
+      display: grid;
+      grid-template-columns: 1fr 0fr;
+      align-items: center;
+      background: linear-gradient(3deg, hsl(from var(--artichron-color-purple) h s l / 0.4), transparent 70%);
+      padding: 0.25rem;
+      padding-left: 1ch;
+      border-bottom: 2px solid hsl(from var(--artichron-color-purple) h s l / 0.5);
+      font-size: 16px;
+    }
 
+    .create-document {
       &::before {
         content: "\f055";
+      }
+    }
+
+    &:is(.activities, .advancements, .effects) {
+      display: grid;
+
+      [data-action=renderEmbeddedDocumentSheet], [data-action=renderPseudoDocumentSheet] {
+        display: grid;
+        height: fit-content;
+        justify-content: space-between;
+        padding: 1ch;
+        gap: 1ch;
+        grid-template-columns: 3rem 1fr;
+        text-align: left;
+        position: relative;
+        border-color: hsl(from var(--artichron-color-blue-light) h s l / 0.7);
+        /* font-family: var(--artichron-font-primary); */
+
+        .img {
+          height: 2rem;
+          width: 2rem;
+        }
+        &.inactive .icon { opacity: 0.5; }
+
+        .title {
+          font-size: 18px;
+        }
+
+        .subtitle {
+          color: var(--artichron-color-gold);
+          position: absolute;
+          right: 1ch;
+          bottom: 1ch;
+        }
       }
     }
   }

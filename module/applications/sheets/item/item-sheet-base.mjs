@@ -16,6 +16,8 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
       createPseudoDocument: ItemSheetArtichron.#createPseudoDocument,
       deletePseudoDocument: ItemSheetArtichron.#deletePseudoDocument,
       renderPseudoDocumentSheet: ItemSheetArtichron.#renderPseudoDocumentSheet,
+      createEmbeddedDocument: ItemSheetArtichron.#createEmbeddedDocument,
+      renderEmbeddedDocumentSheet: ItemSheetArtichron.#renderEmbeddedDocumentSheet,
     },
   };
 
@@ -77,7 +79,13 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
   /** @inheritdoc */
   async _preparePartContext(partId, context, options) {
     context = await super._preparePartContext(partId, context, options);
-    return this[`_preparePartContext${partId.capitalize()}`](context, options);
+
+    const fn = `_preparePartContext${partId.capitalize()}`;
+    if (!(this[fn] instanceof Function)) {
+      throw new Error(`The ${this.constructor.name} sheet does not implement the ${fn} method.`);
+    }
+
+    return this[fn](context, options);
   }
 
   /* -------------------------------------------------- */
@@ -191,5 +199,41 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
   static #renderPseudoDocumentSheet(event, target) {
     const doc = this._getPseudoDocument(target);
     doc.sheet.render({ force: true });
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Create a new embedded document on this document.
+   * @this {ItemSheetArtichron}
+   * @param {PointerEvent} event      The originating click event.
+   * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
+   */
+  static #createEmbeddedDocument(event, target) {
+    const documentName = target.closest("[data-document-name]").dataset.documentName;
+    const type = target.closest("[data-type]")?.dataset.type;
+    const Cls = foundry.utils.getDocumentClass(documentName);
+    if (type) {
+      Cls.create({
+        type,
+        name: Cls.defaultName({ type, parent: this.document }),
+      }, { parent: this.document });
+    } else {
+      Cls.createDialog({}, { parent: this.document });
+    }
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Render the sheet of an embedded document.
+   * @this {ItemSheetArtichron}
+   * @param {PointerEvent} event      The originating click event.
+   * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
+   */
+  static #renderEmbeddedDocumentSheet(event, target) {
+    const documentName = target.closest("[data-document-name]").dataset.documentName;
+    const id = target.closest("[data-id]").dataset.id;
+    this.document.getEmbeddedDocument(documentName, id).sheet.render({ force: true });
   }
 }

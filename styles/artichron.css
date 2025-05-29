@@ -3,7 +3,7 @@
 /* ---------------------------------------- */
 
 * {
-  scrollbar-color: var(--artichron-color-blue) #000000;
+  scrollbar-color: hsl(from var(--artichron-color-blue) h s l / 0.6) #000000;
 }
 
 .application.artichron fieldset legend:has(button) {
@@ -123,7 +123,7 @@ dialog:-internal-dialog-in-top-layer::backdrop {
 
     & fieldset {
       border-width: 1px;
-      border-color: rgba(var(--artichron-color-border-blue), 0.5);
+      border-color: hsl(from var(--artichron-color-border-blue) h s l / 0.5);
     }
   }
 

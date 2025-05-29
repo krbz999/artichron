@@ -2,13 +2,14 @@ import AdvancementChain from "../../../utils/advancement-chain.mjs";
 import TypedPseudoDocument from "../typed-pseudo-document.mjs";
 
 const {
-  StringField,
+  NumberField, SchemaField,
 } = foundry.data.fields;
 
 export default class BaseAdvancement extends TypedPseudoDocument {
   /** @type {import("../../../_types").PseudoDocumentMetadata} */
   static get metadata() {
     return {
+      ...super.metadata,
       documentName: "Advancement",
       embedded: {},
       sheetClass: null,
@@ -21,7 +22,10 @@ export default class BaseAdvancement extends TypedPseudoDocument {
   /** @inheritdoc */
   static defineSchema() {
     return Object.assign(super.defineSchema(), {
-      name: new StringField({ required: true }),
+      requirements: new SchemaField({
+        // How many points are required to unlock this
+        points: new NumberField({ integer: true, min: 1, nullable: false, initial: 1 }),
+      }),
     });
   }
 

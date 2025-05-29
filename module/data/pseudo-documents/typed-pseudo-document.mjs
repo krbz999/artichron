@@ -86,4 +86,11 @@ export default class TypedPseudoDocument extends PseudoDocument {
     if (!result) return null;
     return this.create({ ...data, ...result }, { parent, ...operation });
   }
+
+  /* -------------------------------------------------- */
+
+  /** @inheritdoc */
+  prepareDerivedData() {
+    this.name ||= game.i18n.localize(`TYPES.${this.constructor.metadata.documentName}.${this.type}`);
+  }
 }

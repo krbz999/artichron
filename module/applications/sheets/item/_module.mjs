@@ -10,3 +10,4 @@ export { default as ElixirSheet } from "./elixir-sheet.mjs";
 export { default as PartSheet } from "./part-sheet.mjs";
 export { default as PathSheet } from "./path-sheet.mjs";
 export { default as SpellSheet } from "./spell-sheet.mjs";
+export { default as TalentSheet } from "./talent-sheet.mjs";

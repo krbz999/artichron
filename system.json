@@ -139,6 +139,11 @@
           "description.value",
           "activities.*.description"
         ]
+      },
+      "talent": {
+        "htmlFields": [
+          "description.value"
+        ]
       }
     },
     "ChatMessage": {

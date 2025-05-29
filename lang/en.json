@@ -27,6 +27,29 @@
   "party": "Party",
   "partyPl": "Parties"
 },
+"Activity": {
+  "damage": "Damage Activity",
+  "defend": "Defend Activity",
+  "effect": "Effect Activity",
+  "healing": "Healing Activity",
+  "teleport": "Teleport Activity"
+},
+"Advancement": {
+  "itemGrant": "Item Grant"
+},
+"ArmorRequirement": {
+  "health": "Health Requirement",
+  "level": "Level Requirement",
+  "pool": "Pool Requirement",
+  "skill": "Skill Requirement"
+},
+"Clock": {
+  "bad": "Bad Clock",
+  "good": "Good Clock"
+},
+"Damage": {
+  "base": "Damage"
+},
 "Item": {
   "ammo": "Ammunition",
   "ammoPl": "Ammunition",
@@ -42,8 +65,8 @@
   "shieldPl": "Shields",
   "spell": "Spell",
   "spellPl": "Spells",
-  "weapon": "Weapon",
-  "weaponPl": "Weapons"
+  "talent": "Talent",
+  "talentPl": "Talents"
 },
 "RegionBehavior": {
   "doorState": "Toggle Door State",
@@ -69,10 +92,16 @@
     "ElixirSheet": "Artichron Elixir Sheet",
     "PartSheet": "Artichron Monster Part Sheet",
     "PathSheet": "Artichron Path Sheet",
-    "SpellSheet": "Artichron Spell Sheet"
+    "SpellSheet": "Artichron Spell Sheet",
+    "TalentSheet": "Artichron Talent Sheet"
   },
   "ACTIVITY": {
     "title": "Activity: {name}"
+  },
+  "SPELL": {
+    "HEADERS": {
+      "activities": "Activities"
+    }
   },
   "TABS": {
     "about": "About",
@@ -90,6 +119,13 @@
     "loot": "Loot",
     "members": "Members",
     "progress": "Progress"
+  },
+  "TALENT": {
+    "HEADERS": {
+      "activeBuffs": "Active Buffs",
+      "inactiveBuffs": "Inactive Buffs",
+      "advancements": "Advancements"
+    }
   },
   "LEGENDS": {
     "activities": "Activities",

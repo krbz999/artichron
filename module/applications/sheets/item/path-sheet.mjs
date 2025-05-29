@@ -21,7 +21,7 @@ export default class PathSheet extends ItemSheetArtichron {
       scrollable: [""],
     },
     advancements: {
-      template: "systems/artichron/templates/sheets/item/item-sheet/advancements.hbs",
+      template: "systems/artichron/templates/sheets/item/item-sheet/path/advancements.hbs",
     },
   };
 
@@ -34,6 +34,18 @@ export default class PathSheet extends ItemSheetArtichron {
    * @returns {Promise<object>}   Rendering context.
    */
   async _preparePartContextAdvancements(context, options) {
+    context.ctx = {
+      advancements: {},
+    };
+
+    for (const advancement of this.document.getEmbeddedPseudoDocumentCollection("Advancement")) {
+      const pts = advancement.requirements.points;
+      context.ctx.advancements[pts] ??= { label: `${pts} points required`, entries: [] };
+      context.ctx.advancements[pts].entries.push(advancement);
+    }
+
+    artichron.utils.sortObject(context.ctx.advancements, { inplace: true });
+
     return context;
   }
 }

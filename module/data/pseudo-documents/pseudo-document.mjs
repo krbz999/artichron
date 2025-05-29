@@ -1,4 +1,4 @@
-const { DocumentIdField } = foundry.data.fields;
+const { DocumentIdField, FilePathField, StringField } = foundry.data.fields;
 
 /** @import { PseudoDocumentMetadata } from "../../_types" */
 
@@ -10,6 +10,7 @@ export default class PseudoDocument extends foundry.abstract.DataModel {
   static get metadata() {
     return {
       documentName: null,
+      defaultImage: null,
       embedded: {},
     };
   }
@@ -20,6 +21,11 @@ export default class PseudoDocument extends foundry.abstract.DataModel {
   static defineSchema() {
     return {
       _id: new DocumentIdField({ initial: () => foundry.utils.randomID() }),
+      name: new StringField({ required: true }),
+      img: new FilePathField({
+        categories: ["IMAGE"],
+        initial: () => this.metadata.defaultImage,
+      }),
     };
   }
 
@@ -126,7 +132,9 @@ export default class PseudoDocument extends foundry.abstract.DataModel {
   /**
    * Prepare derived data.
    */
-  prepareDerivedData() {}
+  prepareDerivedData() {
+    this.name ||= game.i18n.localize(`TYPES.${this.constructor.metadata.documentName}.base`);
+  }
 
   /* -------------------------------------------------- */
   /*   Instance Methods                                 */
