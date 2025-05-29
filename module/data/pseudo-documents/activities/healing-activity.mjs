@@ -23,16 +23,6 @@ const targetField = () => {
 
 export default class HealingActivity extends BaseActivity {
   /** @inheritdoc */
-  static get metadata() {
-    return foundry.utils.mergeObject(super.metadata, {
-      label: "ARTICHRON.ACTIVITY.Types.Healing",
-      type: "healing",
-    });
-  }
-
-  /* -------------------------------------------------- */
-
-  /** @inheritdoc */
   static defineSchema() {
     return Object.assign(super.defineSchema(), {
       healing: new EmbeddedDataField(artichron.data.FormulaModel),

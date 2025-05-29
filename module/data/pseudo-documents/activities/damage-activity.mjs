@@ -23,16 +23,6 @@ const targetField = () => {
 
 export default class DamageActivity extends BaseActivity {
   /** @inheritdoc */
-  static get metadata() {
-    return foundry.utils.mergeObject(super.metadata, {
-      label: "ARTICHRON.ACTIVITY.Types.Damage",
-      type: "damage",
-    });
-  }
-
-  /* -------------------------------------------------- */
-
-  /** @inheritdoc */
   static defineSchema() {
     return Object.assign(super.defineSchema(), {
       damage: new artichron.data.fields.CollectionField(artichron.data.pseudoDocuments.damage.Damage),

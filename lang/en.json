@@ -28,27 +28,40 @@
   "partyPl": "Parties"
 },
 "Activity": {
-  "damage": "Damage Activity",
-  "defend": "Defend Activity",
-  "effect": "Effect Activity",
-  "healing": "Healing Activity",
-  "teleport": "Teleport Activity"
+  "damage": "Damage",
+  "damagePl": "Damage Activities",
+  "defend": "Defend",
+  "defendPl": "Defend Activities",
+  "effect": "Effect",
+  "effectPl": "Effect Activities",
+  "healing": "Healing",
+  "healingPl": "Healing Activities",
+  "teleport": "Teleport",
+  "teleportPl": "Teleport Activities"
 },
 "Advancement": {
-  "itemGrant": "Item Grant"
+  "itemGrant": "Item Grant",
+  "itemGrantPl": "Item Grant Advancements"
 },
 "ArmorRequirement": {
-  "health": "Health Requirement",
-  "level": "Level Requirement",
-  "pool": "Pool Requirement",
-  "skill": "Skill Requirement"
+  "health": "Health",
+  "healthPl": "Health Requirements",
+  "level": "Level",
+  "levelPl": "Level Requirements",
+  "pool": "Pool",
+  "poolPl": "Pool Requirements",
+  "skill": "Skill",
+  "skillPl": "Skill Requirements"
 },
 "Clock": {
   "bad": "Bad Clock",
-  "good": "Good Clock"
+  "badPl": "Bad Clocks",
+  "good": "Good Clock",
+  "goodPl": "Good Clocks"
 },
 "Damage": {
-  "base": "Damage"
+  "base": "Damage Part",
+  "basePl": "Damages Parts"
 },
 "Item": {
   "ammo": "Ammunition",
@@ -96,6 +109,11 @@
     "TalentSheet": "Artichron Talent Sheet",
 
     "CONTEXT": {
+      "ACTIVITY": {
+        "render": "Edit Activity",
+        "delete": "Delete Activity",
+        "duplicate": "Duplicate Activity"
+      },
       "ADVANCEMENT": {
         "render": "Edit Advancement",
         "delete": "Delete Advancement",
@@ -538,7 +556,6 @@
   }
 },
 "DAMAGE": {
-  "label": "Damage Part",
   "FIELDS": {
     "number": {
       "label": "Number"
@@ -721,8 +738,7 @@
           "placeholder": "Health"
         }
       },
-      "hint": "The character must have this amount of health remaining to gain the benefits of wearing this armor.",
-      "label": "Health"
+      "hint": "The character must have this amount of health remaining to gain the benefits of wearing this armor."
     },
     "Level": {
       "content": "Attained at least {value} level.",
@@ -732,8 +748,7 @@
           "label": "Experience"
         }
       },
-      "hint": "The character must have attained at least this level of experience to gain the benefits of wearing this armor.",
-      "label": "Level"
+      "hint": "The character must have attained at least this level of experience to gain the benefits of wearing this armor."
     },
     "Pool": {
       "content": "{pool} pool size of at least {value}.",
@@ -748,8 +763,7 @@
           "placeholder": "Size"
         }
       },
-      "hint": "The character's pool of the given type must be at least this large to gain the benefits of wearing this armor.",
-      "label": "Pool"
+      "hint": "The character's pool of the given type must be at least this large to gain the benefits of wearing this armor."
     },
     "Skill": {
       "content": "At least {value} dice in the {skill} skill.",
@@ -764,8 +778,7 @@
           "placeholder": "Dice"
         }
       },
-      "hint": "The character must have this many dice in the given skill to gain the benefits of wearing this armor.",
-      "label": "Skill"
+      "hint": "The character must have this many dice in the given skill to gain the benefits of wearing this armor."
     }
   },
   "FIELDS": {

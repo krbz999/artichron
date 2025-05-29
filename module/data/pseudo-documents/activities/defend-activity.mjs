@@ -4,16 +4,6 @@ const { EmbeddedDataField } = foundry.data.fields;
 
 export default class DefendActivity extends BaseActivity {
   /** @inheritdoc */
-  static get metadata() {
-    return foundry.utils.mergeObject(super.metadata, {
-      label: "ARTICHRON.ACTIVITY.Types.Defend",
-      type: "defend",
-    });
-  }
-
-  /* -------------------------------------------------- */
-
-  /** @inheritdoc */
   static defineSchema() {
     return Object.assign(super.defineSchema(), {
       defend: new EmbeddedDataField(artichron.data.FormulaModel),

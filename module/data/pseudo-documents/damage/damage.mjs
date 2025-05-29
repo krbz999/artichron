@@ -6,7 +6,6 @@ export default class Damage extends PseudoDocument {
   /** @type {import("../../../_types").DamagePartMetadata} */
   static get metadata() {
     return {
-      label: "ARTICHRON.DAMAGE.label",
       documentName: "Damage",
       embedded: {},
       sheetClass: artichron.applications.sheets.item.DamageSheet,

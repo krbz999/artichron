@@ -65,7 +65,6 @@ export default class SpellSheet extends PhysicalItemSheet {
         return {
           activity,
           name: activity.name ? activity.name : game.i18n.localize(activity.constructor.metadata.label),
-          subtitle: game.i18n.localize(activity.constructor.metadata.label),
           disabled: !activity.isSource,
         };
       }),

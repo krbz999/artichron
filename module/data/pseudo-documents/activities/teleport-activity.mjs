@@ -4,16 +4,6 @@ const { NumberField, SchemaField } = foundry.data.fields;
 
 export default class TeleportActivity extends BaseActivity {
   /** @inheritdoc */
-  static get metadata() {
-    return foundry.utils.mergeObject(super.metadata, {
-      label: "ARTICHRON.ACTIVITY.Types.Teleport",
-      type: "teleport",
-    });
-  }
-
-  /* -------------------------------------------------- */
-
-  /** @inheritdoc */
   static defineSchema() {
     return Object.assign(super.defineSchema(), {
       teleport: new SchemaField({

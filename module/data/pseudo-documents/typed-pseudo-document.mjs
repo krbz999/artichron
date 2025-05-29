@@ -71,9 +71,9 @@ export default class TypedPseudoDocument extends PseudoDocument {
       input: foundry.applications.fields.createSelectInput({
         blank: false,
         name: "type",
-        options: Object.entries(this.TYPES).map(([k, Cls]) => ({
-          value: k,
-          label: game.i18n.localize(Cls.metadata.label),
+        options: Object.keys(this.TYPES).map(type => ({
+          value: type,
+          label: game.i18n.localize(`TYPES.${this.metadata.documentName}.${type}`),
         })),
       }),
     }).outerHTML;

@@ -8,7 +8,6 @@ export default class BaseArmorRequirement extends TypedPseudoDocument {
       documentName: "ArmorRequirement",
       embedded: {},
       hint: "",
-      label: "",
       types: artichron.data.pseudoDocuments.armorRequirements,
     };
   }
