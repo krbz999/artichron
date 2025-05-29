@@ -60,6 +60,178 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
   _sheetMode = this.document.isEmbedded ? this.constructor.SHEET_MODES.PLAY : this.constructor.SHEET_MODES.EDIT;
 
   /* -------------------------------------------------- */
+
+  /** @inheritdoc */
+  async _onFirstRender(context, options) {
+    await super._onFirstRender(context, options);
+
+    // Add context menu for effects.
+    this._createContextMenu(
+      this.#getContextOptionsActiveEffect,
+      ".document-list.effects button[data-id]",
+      { hookName: "ActiveEffectEntryContext" },
+    );
+
+    // Add context menu for activities.
+    this._createContextMenu(
+      this.#getContextOptionsActivity,
+      ".document-list[data-pseudo-document-name=Activity] button[data-pseudo-id]",
+      { hookName: "ActivityEntryContext" },
+    );
+
+    // Add context menu for advancements.
+    this._createContextMenu(
+      this.#getContextOptionsAdvancement,
+      ".document-list[data-pseudo-document-name=Advancement] button[data-pseudo-id]",
+      { hookName: "AdvancementEntryContext" },
+    );
+
+    // Add context menu for armor requirements.
+    this._createContextMenu(
+      this.#getContextOptionsArmorRequirement,
+      ".document-list[data-pseudo-document-name=ArmorRequirement] button[data-pseudo-id]",
+      { hookName: "ArmorRequirementEntryContext" },
+    );
+  }
+
+  /* -------------------------------------------------- */
+  /*   Context menu                                     */
+  /* -------------------------------------------------- */
+
+  /**
+   * Prepare options for context menus for ActiveEffects.
+   * @returns {object[]}
+   */
+  #getContextOptionsActiveEffect() {
+    if (!this.document.isOwner) return [];
+    const getEffect = btn => this.document.effects.get(btn.dataset.id);
+
+    return [{
+      name: "ARTICHRON.SHEET.ITEM.CONTEXT.EFFECT.render",
+      icon: "<i class='fa-solid fa-fw fa-edit'></i>",
+      callback: btn => getEffect(btn).sheet.render({ force: true }),
+      group: "manage",
+    }, {
+      name: "ARTICHRON.SHEET.ITEM.CONTEXT.EFFECT.delete",
+      icon: "<i class='fa-solid fa-fw fa-trash'></i>",
+      condition: btn => !getEffect(btn).isActiveFusion,
+      callback: btn => getEffect(btn).deleteDialog(),
+      group: "manage",
+    }, {
+      name: "ARTICHRON.SHEET.ITEM.CONTEXT.EFFECT.enable",
+      icon: "<i class='fa-solid fa-fw fa-toggle-on'></i>",
+      condition: btn => getEffect(btn).disabled,
+      callback: btn => getEffect(btn).update({ disabled: false }),
+      group: "action",
+    }, {
+      name: "ARTICHRON.SHEET.ITEM.CONTEXT.EFFECT.disable",
+      icon: "<i class='fa-solid fa-fw fa-toggle-off'></i>",
+      condition: btn => !getEffect(btn).disabled && (getEffect(btn).type !== "fusion"),
+      callback: btn => getEffect(btn).update({ disabled: true }),
+      group: "action",
+    }, {
+      name: "ARTICHRON.SHEET.ITEM.CONTEXT.EFFECT.duplicate",
+      icon: "<i class='fa-solid fa-fw fa-copy'></i>",
+      condition: btn => !getEffect(btn).isActiveFusion,
+      callback: btn => {
+        const effect = getEffect(btn);
+        effect.clone(
+          { name: game.i18n.format("DOCUMENT.CopyOf", { name: effect._source.name }) },
+          { save: true, addSource: true },
+        );
+      },
+      group: "action",
+    }, {
+      name: "ARTICHRON.SHEET.ITEM.CONTEXT.EFFECT.unfuse",
+      icon: "<i class='fa-solid fa-fw fa-volcano'></i>",
+      condition: btn => getEffect(btn).isActiveFusion,
+      callback: btn => getEffect(btn).unfuseDialog(),
+      group: "action",
+    }];
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Prepare options for context menus for activities.
+   * @returns {object[]}
+   */
+  #getContextOptionsActivity() {
+    if (!this.document.isOwner) return [];
+
+    return [{
+      name: "ARTICHRON.SHEET.ITEM.CONTEXT.ACTIVITY.render",
+      icon: "<i class='fa-solid fa-fw fa-edit'></i>",
+      condition: element => this._getPseudoDocument(element).isSource,
+      callback: element => this._getPseudoDocument(element).sheet.render({ force: true }),
+    }, {
+      name: "ARTICHRON.SHEET.ITEM.CONTEXT.ACTIVITY.delete",
+      icon: "<i class='fa-solid fa-fw fa-trash'></i>",
+      condition: element => this._getPseudoDocument(element).isSource,
+      callback: element => this._getPseudoDocument(element).delete(),
+    }, {
+      name: "ARTICHRON.SHEET.ITEM.CONTEXT.ACTIVITY.duplicate",
+      icon: "<i class='fa-solid fa-fw fa-copy'></i>",
+      condition: element => this._getPseudoDocument(element).isSource,
+      callback: element => this._getPseudoDocument(element).duplicate(),
+    }];
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Prepare options for context menus for advancements.
+   * @returns {object[]}
+   */
+  #getContextOptionsAdvancement() {
+    if (!this.document.isOwner) return [];
+
+    return [{
+      name: "ARTICHRON.SHEET.ITEM.CONTEXT.ADVANCEMENT.render",
+      icon: "<i class='fa-solid fa-fw fa-edit'></i>",
+      condition: element => this._getPseudoDocument(element).isSource,
+      callback: element => this._getPseudoDocument(element).sheet.render({ force: true }),
+    }, {
+      name: "ARTICHRON.SHEET.ITEM.CONTEXT.ADVANCEMENT.delete",
+      icon: "<i class='fa-solid fa-fw fa-trash'></i>",
+      condition: element => this._getPseudoDocument(element).isSource,
+      callback: element => this._getPseudoDocument(element).delete(),
+    }, {
+      name: "ARTICHRON.SHEET.ITEM.CONTEXT.ADVANCEMENT.duplicate",
+      icon: "<i class='fa-solid fa-fw fa-copy'></i>",
+      condition: element => this._getPseudoDocument(element).isSource,
+      callback: element => this._getPseudoDocument(element).duplicate(),
+    }];
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Prepare options for context menus for armor requirements.
+   * @returns {object[]}
+   */
+  #getContextOptionsArmorRequirement() {
+    if (!this.document.isOwner) return [];
+
+    return [{
+      name: "ARTICHRON.SHEET.ITEM.CONTEXT.REQUIREMENT.render",
+      icon: "<i class='fa-solid fa-fw fa-edit'></i>",
+      condition: element => this._getPseudoDocument(element).isSource,
+      callback: element => this._getPseudoDocument(element).sheet.render({ force: true }),
+    }, {
+      name: "ARTICHRON.SHEET.ITEM.CONTEXT.REQUIREMENT.delete",
+      icon: "<i class='fa-solid fa-fw fa-trash'></i>",
+      condition: element => this._getPseudoDocument(element).isSource,
+      callback: element => this._getPseudoDocument(element).delete(),
+    }, {
+      name: "ARTICHRON.SHEET.ITEM.CONTEXT.REQUIREMENT.duplicate",
+      icon: "<i class='fa-solid fa-fw fa-copy'></i>",
+      condition: element => this._getPseudoDocument(element).isSource,
+      callback: element => this._getPseudoDocument(element).duplicate(),
+    }];
+  }
+
+  /* -------------------------------------------------- */
   /*   Context preparation                              */
   /* -------------------------------------------------- */
 
@@ -152,6 +324,8 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
     const id = element.closest("[data-pseudo-id]").dataset.pseudoId;
     return this.document.getEmbeddedDocument(documentName, id);
   }
+
+  /* -------------------------------------------------- */
 
   /* -------------------------------------------------- */
   /*   Event handlers                                   */

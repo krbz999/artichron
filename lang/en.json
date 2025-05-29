@@ -93,7 +93,22 @@
     "PartSheet": "Artichron Monster Part Sheet",
     "PathSheet": "Artichron Path Sheet",
     "SpellSheet": "Artichron Spell Sheet",
-    "TalentSheet": "Artichron Talent Sheet"
+    "TalentSheet": "Artichron Talent Sheet",
+
+    "CONTEXT": {
+      "ADVANCEMENT": {
+        "render": "Edit Advancement",
+        "delete": "Delete Advancement",
+        "duplicate": "Duplicate Advancement"
+      },
+      "EFFECT": {
+        "render": "Edit Effect",
+        "delete": "Delete Effect",
+        "enable": "Enable Effect",
+        "disable": "Disable Effect",
+        "duplicate": "Duplicate Effect"
+      }
+    }
   },
   "ACTIVITY": {
     "title": "Activity: {name}"
@@ -455,10 +470,6 @@
 },
 
 "CLOCK": {
-  "defaultName": {
-    "good": "Good Clock",
-    "bad": "Bad Clock"
-  },
   "FIELDS": {
     "color": {
       "label": "Color"
@@ -467,7 +478,6 @@
       "label": "Max"
     },
     "name": {
-      "initial": "Bad Clock",
       "label": "Name"
     },
     "value": {
@@ -495,35 +505,9 @@
   "ToggleHidden": "Toggle Hidden"
 },
 "ContextMenu": {
-  "ActiveEffect": {
-    "DecreaseLevel": "Decrease Level",
-    "Delete": "Delete Effect",
-    "Disable": "Disable Effect",
-    "Duplicate": "Duplicate Effect",
-    "Enable": "Enable Effect",
-    "IncreaseLevel": "Increase Level",
-    "Render": "Show Effect",
-    "Unfuse": "Split Fusion"
-  },
-  "Activity": {
-    "Delete": "Delete Activity",
-    "Duplicate": "Duplicate Activity",
-    "Render": "Show Activity"
-  },
   "Directory": {
     "AssignPrimaryParty": "Assign Primary Party",
     "RemovePrimaryParty": "Unassign Primary Party"
-  },
-  "Item": {
-    "Delete": "Delete Item",
-    "Equip": "Equip Item",
-    "Favorite": "Add to Favorites",
-    "Fuse": "Fuse Item",
-    "Render": "Show Item",
-    "Unequip": "Unequip Item",
-    "Unfavorite": "Remove from Favorites",
-    "Unfuse": "Split Fusion",
-    "Use": "Use Item"
   }
 },
 "DAMAGE": {

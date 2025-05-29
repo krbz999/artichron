@@ -73,39 +73,4 @@ export default class SpellSheet extends PhysicalItemSheet {
 
     return context;
   }
-
-  /* -------------------------------------------------- */
-
-  /** @inheritdoc */
-  async _onFirstRender(context, options) {
-    await super._onFirstRender(context, options);
-    this._createContextMenu(this._getActivityEntryContextOptions, "[data-pseudo-document-name=Activity] [data-pseudo-id]", {
-      hookName: "ActivityEntryContext",
-    });
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Create context menu option for activities.
-   * @returns {ContextMenuEntry[]}
-   */
-  _getActivityEntryContextOptions() {
-    return [{
-      name: "ARTICHRON.ContextMenu.Activity.Render",
-      icon: "<i class='fa-solid fa-fw fa-edit'></i>",
-      condition: element => this._getPseudoDocument(element).isSource,
-      callback: element => this._getPseudoDocument(element).sheet.render({ force: true }),
-    }, {
-      name: "ARTICHRON.ContextMenu.Activity.Delete",
-      icon: "<i class='fa-solid fa-fw fa-trash'></i>",
-      condition: element => this._getPseudoDocument(element).isSource,
-      callback: element => this._getPseudoDocument(element).delete(),
-    }, {
-      name: "ARTICHRON.ContextMenu.Activity.Duplicate",
-      icon: "<i class='fa-solid fa-fw fa-copy'></i>",
-      condition: element => this._getPseudoDocument(element).isSource,
-      callback: element => this._getPseudoDocument(element).duplicate(),
-    }];
-  }
 }
