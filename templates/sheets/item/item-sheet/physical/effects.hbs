@@ -4,7 +4,7 @@
     {{!-- ENHANCEMENTS --}}
     <h3 class="document-list-header">
       <span>{{localize "TYPES.ActiveEffect.enhancementPl"}}</span>
-      <button type="button" class="create-document icon fa-solid" data-action="createEmbeddedDocument" data-type="enhancement"></button>
+      <button type="button" class="create-document icon fa-solid" data-action="createEmbeddedDocument" data-type="enhancement" {{disabled isPlayMode}}></button>
     </h3>
 
     {{#each ctx.effects.enhancements}}
@@ -18,8 +18,7 @@
     {{!-- BUFFS --}}
     <h3 class="document-list-header">
       <span>{{localize "TYPES.ActiveEffect.buffPl"}}</span>
-      <button type="button" class="create-document icon fa-solid" data-action="createEmbeddedDocument" data-type="buff"></button>
-
+      <button type="button" class="create-document icon fa-solid" data-action="createEmbeddedDocument" data-type="buff" {{disabled isPlayMode}}></button>
     </h3>
 
     {{#each ctx.effects.buffs}}

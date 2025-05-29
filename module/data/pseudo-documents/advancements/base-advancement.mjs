@@ -11,6 +11,7 @@ export default class BaseAdvancement extends TypedPseudoDocument {
     return {
       ...super.metadata,
       documentName: "Advancement",
+      defaultImage: "systems/artichron/assets/icons/advancement.svg",
       embedded: {},
       sheetClass: null,
       types: artichron.data.pseudoDocuments.advancements,
