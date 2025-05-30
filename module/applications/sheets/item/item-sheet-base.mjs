@@ -334,8 +334,8 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
   /**
    * Create a pseudo-document.
    * @this {ItemSheetArtichron}
-   * @param {PointerEvent} event      The originating click event.
-   * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
+   * @param {PointerEvent} event    The initiating click event.
+   * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
    */
   static #createPseudoDocument(event, target) {
     const documentName = target.closest("[data-pseudo-document-name]").dataset.pseudoDocumentName;
@@ -354,8 +354,8 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
   /**
    * Delete a pseudo-document.
    * @this {ItemSheetArtichron}
-   * @param {PointerEvent} event      The originating click event.
-   * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
+   * @param {PointerEvent} event    The initiating click event.
+   * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
    */
   static #deletePseudoDocument(event, target) {
     const doc = this._getPseudoDocument(target);
@@ -367,8 +367,8 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
   /**
    * Render the sheet of a pseudo-document.
    * @this {ItemSheetArtichron}
-   * @param {PointerEvent} event      The originating click event.
-   * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
+   * @param {PointerEvent} event    The initiating click event.
+   * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
    */
   static #renderPseudoDocumentSheet(event, target) {
     const doc = this._getPseudoDocument(target);
@@ -380,8 +380,8 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
   /**
    * Create a new embedded document on this document.
    * @this {ItemSheetArtichron}
-   * @param {PointerEvent} event      The originating click event.
-   * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
+   * @param {PointerEvent} event    The initiating click event.
+   * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
    */
   static #createEmbeddedDocument(event, target) {
     const documentName = target.closest("[data-document-name]").dataset.documentName;
@@ -402,8 +402,8 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
   /**
    * Render the sheet of an embedded document.
    * @this {ItemSheetArtichron}
-   * @param {PointerEvent} event      The originating click event.
-   * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
+   * @param {PointerEvent} event    The initiating click event.
+   * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
    */
   static #renderEmbeddedDocumentSheet(event, target) {
     const documentName = target.closest("[data-document-name]").dataset.documentName;

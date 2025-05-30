@@ -185,8 +185,8 @@ export default class EffectSheetArtichron extends ArtichronSheetMixin(foundry.ap
   /**
    * Handle click events to add a new Change to this effect.
    * @this {EffectSheetArtichron}
-   * @param {PointerEvent} event      The originating click event.
-   * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
+   * @param {PointerEvent} event    The initiating click event.
+   * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
    */
   static #onAddChange(event, target) {
     if (!this.isEditable) return;
@@ -200,8 +200,8 @@ export default class EffectSheetArtichron extends ArtichronSheetMixin(foundry.ap
   /**
    * Handle click events to remove a Change from this effect.
    * @this {EffectSheetArtichron}
-   * @param {PointerEvent} event      The originating click event.
-   * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
+   * @param {PointerEvent} event    The initiating click event.
+   * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
    */
   static #onDeleteChange(event, target) {
     if (!this.isEditable) return;

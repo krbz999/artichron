@@ -17,8 +17,8 @@ export default class BatteryProgressElement extends foundry.applications.element
 
   constructor() {
     super();
-    this.#min = Number(this.getAttribute("min")) ?? 0;
-    this.#max = Number(this.getAttribute("max")) ?? 1;
+    this.#min = Number(this.getAttribute("min")) || 0;
+    this.#max = Number(this.getAttribute("max")) || 1;
     this._setValue(Number(this.getAttribute("value"))); // Initialize existing value
   }
 
@@ -138,7 +138,7 @@ export default class BatteryProgressElement extends foundry.applications.element
 
   /**
    * Handle changes to the direct input.
-   * @param {InputEvent} event      The originating input change event.
+   * @param {InputEvent} event    The initiating input change event.
    */
   #onChangeInput(event) {
     event.stopPropagation();
@@ -149,7 +149,7 @@ export default class BatteryProgressElement extends foundry.applications.element
 
   /**
    * Handle input events to the numeric input field.
-   * @param {InputEvent} event      Initiating input event.
+   * @param {InputEvent} event    Initiating input event.
    */
   #onInput(event) {
     event.preventDefault();
@@ -175,7 +175,7 @@ export default class BatteryProgressElement extends foundry.applications.element
 
   /**
    * Handle click events on the bars element.
-   * @param {PointerEvent} event     The originating click event.
+   * @param {PointerEvent} event    The initiating click event.
    */
   #onClickBars(event) {
     const target = event.target;

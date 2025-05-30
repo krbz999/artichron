@@ -150,7 +150,7 @@ export default class TemplatePlacement extends foundry.canvas.placeables.Measure
 
   /**
    * Shared code for when template placement ends by being confirmed or canceled.
-   * @param {PointerEvent} event  The originating click event.that ended the placement.
+   * @param {PointerEvent} event    The initiating click event that ended the placement.
    */
   async _finishPlacement(event) {
     if (!this.#locked) this.layer._onDragLeftCancel(event);
@@ -163,7 +163,7 @@ export default class TemplatePlacement extends foundry.canvas.placeables.Measure
 
   /**
    * Move the template preview when the mouse moves.
-   * @param {PointerEvent} event  The originating click event.
+   * @param {PointerEvent} event    The initiating click event.
    */
   _onMovePlacement(event) {
     if (this.#locked) return;
@@ -209,7 +209,7 @@ export default class TemplatePlacement extends foundry.canvas.placeables.Measure
 
   /**
    * Confirm placement when the left mouse button is clicked.
-   * @param {PointerEvent} event  The originating click event.
+   * @param {PointerEvent} event    The initiating click event.
    */
   async _onConfirmPlacement(event) {
     if (event.button !== 0) return;
@@ -226,7 +226,7 @@ export default class TemplatePlacement extends foundry.canvas.placeables.Measure
 
   /**
    * Cancel placement when the right mouse button is clicked.
-   * @param {PointerEvent} event  The originating click event.
+   * @param {PointerEvent} event    The initiating click event.
    */
   async _onCancelPlacement(event) {
     if (event.button !== 2) return;

@@ -139,17 +139,10 @@ export default class BaseAdvancement extends TypedPseudoDocument {
    * Retrieve and prepare items to be created on an actor. The data is prepared in such a way that
    * the items should be created with `keepId: true`.
    * @param {foundry.documents.Actor} actor   The actor on which to create the items.
-   * @param {foundry.documents.Item} item     The root item that triggered advancements,
-   *                                          which is not yet owned by the actor.
+   * @param {AdvancementChain[]} [roots=[]]   The fully configured advancement chains.
    * @returns {Promise<object[]>}             A promise that resolves to the prepared item data.
    */
-  static async prepareItems(actor, item) {
-    const roots = [];
-    const collection = item.getEmbeddedPseudoDocumentCollection("Advancement");
-    for (const advancement of collection) {
-      roots.push(await advancement.determineChain());
-    }
-
+  static async prepareItems(actor, roots = []) {
     // Mapping of items' original id to the current item data. Used to find and set `itemId`.
     const items = new foundry.utils.Collection();
 
@@ -157,19 +150,22 @@ export default class BaseAdvancement extends TypedPseudoDocument {
     const prepareItem = (item, advancement) => {
       const data = game.items.fromCompendium(item, { keepId: true });
       if (actor.items.has(data._id)) data._id = foundry.utils.randomID();
-      if (advancement) {
-        foundry.utils.mergeObject(data, {
-          "flags.artichron.advancement": {
-            itemId: items.get(advancement.document.id)._id,
-            advancementId: advancement.id },
-        });
-      }
+      foundry.utils.mergeObject(data, {
+        "flags.artichron.advancement": {
+          itemId: items.get(advancement.document.id)?._id, // is undefined in the case of Path items
+          advancementId: advancement.id,
+          advancementUuid: advancement.uuid,
+        },
+      });
       items.set(item.id, data);
     };
 
-    prepareItem(item, null);
+    // FIXME: Enough data needs to be stored such that it will be easy to
+    // undo a whole chain of added items and advancements. If the path item
+    // is not stored, what is the 'entry point'? What can be 'undone' on the
+    // actor sheet?
 
-    // Traverse the chain to gather all items.
+    // Traverse the chains to gather all items.
     for (const root of roots)
       for (const node of root.active())
         for (const { item, selected } of node.pool)

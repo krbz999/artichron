@@ -247,11 +247,11 @@ export default class PseudoDocumentSheet extends HandlebarsApplicationMixin(Appl
   /**
    * Handle form submission.
    * @this {PseudoDocumentSheet}
-   * @param {PointerEvent} event            The originating click event.
-   * @param {HTMLElement} form              The form element.
-   * @param {FormDataExtended} formData     The form data.
+   * @param {PointerEvent} event          The initiating click event.
+   * @param {HTMLElement} form            The form element.
+   * @param {FormDataExtended} formData   The form data.
    */
-  static #onSubmitForm(event, form, formData) {
+  static async #onSubmitForm(event, form, formData) {
     const submitData = foundry.utils.expandObject(formData.object);
     this.pseudoDocument.update(submitData);
   }
@@ -260,7 +260,7 @@ export default class PseudoDocumentSheet extends HandlebarsApplicationMixin(Appl
 
   /**
    * @this {PseudoDocumentSheet}
-   * @param {PointerEvent} event      The originating click event.
+   * @param {PointerEvent} event    The initiating click event.
    */
   static #copyUuid(event) {
     event.preventDefault(); // Don't open context menu

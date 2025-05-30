@@ -83,11 +83,11 @@ async function acceptTradeEmit(message) {
 
 /**
  * Handle the creation of the buff.
- * @param {object} data                 Emitted data.
- * @param {string} data.userId          The id of the user to handle the event.
- * @param {string} data.actorUuid       Uuid of the targeted actor.
- * @param {string} data.effectUuid      Uuid of the effect to create a copy of.
- * @param {object} [data.options]       Effect creation options.
+ * @param {object} data               Emitted data.
+ * @param {string} data.userId        The id of the user to handle the event.
+ * @param {string} data.actorUuid     Uuid of the targeted actor.
+ * @param {string} data.effectUuid    Uuid of the effect to create a copy of.
+ * @param {object} [data.options]     Effect creation options.
  */
 async function _grantBuff({ userId, actorUuid, effectUuid, options = {} }) {
   if (game.user.id !== userId) return null;

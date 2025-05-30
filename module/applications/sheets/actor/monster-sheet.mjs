@@ -285,8 +285,8 @@ export default class MonsterSheet extends ActorSheetArtichron {
   /**
    * Remove a loot entry.
    * @this {MonsterSheet}
-   * @param {PointerEvent} event      The originating click event.
-   * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
+   * @param {PointerEvent} event    The initiating click event.
+   * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
    */
   static #onRemoveLoot(event, target) {
     const uuid = target.closest("[data-uuid]").dataset.uuid;
@@ -298,8 +298,8 @@ export default class MonsterSheet extends ActorSheetArtichron {
   /**
    * Increase the quantity of a loot entry.
    * @this {MonsterSheet}
-   * @param {PointerEvent} event      The originating click event.
-   * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
+   * @param {PointerEvent} event    The initiating click event.
+   * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
    */
   static #onIncreaseLoot(event, target) {
     const uuid = target.closest("[data-uuid]").dataset.uuid;
@@ -311,8 +311,8 @@ export default class MonsterSheet extends ActorSheetArtichron {
   /**
    * Decrease the quantity of a loot entry.
    * @this {MonsterSheet}
-   * @param {PointerEvent} event      The originating click event.
-   * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
+   * @param {PointerEvent} event    The initiating click event.
+   * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
    */
   static #onDecreaseLoot(event, target) {
     const uuid = target.closest("[data-uuid]").dataset.uuid;
@@ -324,8 +324,8 @@ export default class MonsterSheet extends ActorSheetArtichron {
   /**
    * Grant the loot of this monster to the primary party.
    * @this {MonsterSheet}
-   * @param {PointerEvent} event      The originating click event.
-   * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
+   * @param {PointerEvent} event    The initiating click event.
+   * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
    */
   static async #grantLoot(event, target) {
     target.disabled = true;
@@ -351,8 +351,8 @@ export default class MonsterSheet extends ActorSheetArtichron {
   /**
    * Handle click events to change an equipped item in a particular slot.
    * @this {MonsterSheet}
-   * @param {PointerEvent} event      The originating click event.
-   * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
+   * @param {PointerEvent} event    The initiating click event.
+   * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
    */
   static #onChangeEquipped(event, target) {
     // TODO: this is copied from the hero sheet.

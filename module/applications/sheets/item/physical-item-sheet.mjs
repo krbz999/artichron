@@ -126,7 +126,7 @@ export default class PhysicalItemSheet extends ItemSheetArtichron {
 
   /**
    * Define whether a user is able to begin a dragstart workflow for a given drag selector.
-   * @param {string} selector   The candidate HTML selector for dragging
+   * @param {string} selector   The candidate HTML selector for dragging.
    * @returns {boolean}         Can the current user drag this selector?
    */
   #canDragStart(selector) {
@@ -137,7 +137,7 @@ export default class PhysicalItemSheet extends ItemSheetArtichron {
 
   /**
    * Define whether a user is able to conclude a drag-and-drop workflow for a given drop selector.
-   * @param {string} selector   The candidate HTML selector for the drop target
+   * @param {string} selector   The candidate HTML selector for the drop target.
    * @returns {boolean}         Can the current user drop on this selector?
    */
   #canDragDrop(selector) {
@@ -148,7 +148,7 @@ export default class PhysicalItemSheet extends ItemSheetArtichron {
 
   /**
    * An event that occurs when a drag workflow begins for a draggable item on the sheet.
-   * @param {DragEvent} event   The initiating drag start event
+   * @param {DragEvent} event   The initiating drag event.
    * @returns {Promise<void>}
    */
   async #onDragStart(event) {
@@ -206,7 +206,7 @@ export default class PhysicalItemSheet extends ItemSheetArtichron {
 
   /**
    * Sort effects.
-   * @param {DragEvent} event                         The drag event.
+   * @param {DragEvent} event                         The initiating drag event.
    * @param {foundry.documents.ActiveEffect} effect   The effect that was dropped.
    */
   async #onSortEffects(event, effect) {

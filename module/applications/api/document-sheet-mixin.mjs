@@ -373,8 +373,8 @@ const ArtichronDocumentSheetMixin = Base => {
     /**
      * Handle toggling the Opacity lock of the sheet.
      * @this {DocumentSheetArtichron}
-     * @param {PointerEvent} event      The originating click event.
-     * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
+     * @param {PointerEvent} event    The initiating click event.
+     * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
      */
     static #ontoggleOpacity(event, target) {
       this.#opacity = target.closest(".application").classList.toggle("opacity");
@@ -385,8 +385,8 @@ const ArtichronDocumentSheetMixin = Base => {
     /**
      * Handle toggling between Edit and Play mode.
      * @this {DocumentSheetArtichron}
-     * @param {PointerEvent} event      The originating click event.
-     * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
+     * @param {PointerEvent} event    The initiating click event.
+     * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
      */
     static #onToggleSheet(event, target) {
       const modes = this.constructor.SHEET_MODES;
@@ -399,8 +399,8 @@ const ArtichronDocumentSheetMixin = Base => {
     /**
      * Handle toggling an active effect on or off.
      * @this {DocumentSheetArtichron}
-     * @param {PointerEvent} event      The originating click event.
-     * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
+     * @param {PointerEvent} event    The initiating click event.
+     * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
      */
     static async #onToggleEffect(event, target) {
       if (!this.isEditable) return;
@@ -414,8 +414,8 @@ const ArtichronDocumentSheetMixin = Base => {
     /**
      * Handle click events to render an effect's sheet.
      * @this {DocumentSheetArtichron}
-     * @param {PointerEvent} event      The originating click event.
-     * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
+     * @param {PointerEvent} event    The initiating click event.
+     * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
      */
     static async #onEditEffect(event, target) {
       const uuid = target.closest("[data-item-uuid]").dataset.itemUuid;
@@ -428,8 +428,8 @@ const ArtichronDocumentSheetMixin = Base => {
     /**
      * Handle click events to delete an effect.
      * @this {DocumentSheetArtichron}
-     * @param {PointerEvent} event      The originating click event.
-     * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
+     * @param {PointerEvent} event    The initiating click event.
+     * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
      */
     static async #onDeleteEffect(event, target) {
       if (!this.isEditable) return;
@@ -443,8 +443,8 @@ const ArtichronDocumentSheetMixin = Base => {
     /**
      * Handle click events to create an effect.
      * @this {DocumentSheetArtichron}
-     * @param {PointerEvent} event      The originating click event.
-     * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
+     * @param {PointerEvent} event    The initiating click event.
+     * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
      */
     static #onCreateEffect(event, target) {
       if (!this.isEditable) return;
@@ -459,8 +459,8 @@ const ArtichronDocumentSheetMixin = Base => {
     /**
      * Handle click events to toggle a document's description.
      * @this {DocumentSheetArtichron}
-     * @param {PointerEvent} event      The originating click event.
-     * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
+     * @param {PointerEvent} event    The initiating click event.
+     * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
      */
     static #onToggleDescription(event, target) {
       const item = target.closest("[data-item-uuid]");

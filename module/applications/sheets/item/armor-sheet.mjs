@@ -104,8 +104,8 @@ export default class ArmorSheet extends PhysicalItemSheet {
   /**
    * Handle click events to unfuse this item.
    * @this {PhysicalItemSheet}
-   * @param {PointerEvent} event      The originating click event.
-   * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
+   * @param {PointerEvent} event    The initiating click event.
+   * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
    */
   static async #undoFusion(event, target) {
     if (!this.isEditable) return;

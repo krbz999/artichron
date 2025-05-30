@@ -100,8 +100,8 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
   /**
    * Handle click events to create an item.
    * @this {ActorSheetArtichron}
-   * @param {PointerEvent} event      The originating click event.
-   * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
+   * @param {PointerEvent} event    The initiating click event.
+   * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
    */
   static #onCreateItem(event, target) {
     if (!this.isEditable) return;
@@ -120,8 +120,8 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
   /**
    * Handle click events to use an item.
    * @this {ActorSheetArtichron}
-   * @param {PointerEvent} event      The originating click event.
-   * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
+   * @param {PointerEvent} event    The initiating click event.
+   * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
    */
   static async #onUseItem(event, target) {
     if (!this.isEditable) return;
@@ -136,8 +136,8 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
   /**
    * Handle click events to render an item's sheet.
    * @this {ActorSheetArtichron}
-   * @param {PointerEvent} event      The originating click event.
-   * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
+   * @param {PointerEvent} event    The initiating click event.
+   * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
    */
   static async #onEditItem(event, target) {
     const uuid = target.closest("[data-item-uuid]").dataset.itemUuid;
@@ -150,8 +150,8 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
   /**
    * Handle click events to delete an item.
    * @this {ActorSheetArtichron}
-   * @param {PointerEvent} event      The originating click event.
-   * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
+   * @param {PointerEvent} event    The initiating click event.
+   * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
    */
   static async #onDeleteItem(event, target) {
     if (!this.isEditable) return;
@@ -167,8 +167,8 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
   /**
    * Handle click events to toggle an item's Favorited state.
    * @this {ActorSheetArtichron}
-   * @param {PointerEvent} event      The originating click event.
-   * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
+   * @param {PointerEvent} event    The initiating click event.
+   * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
    */
   static async #onFavoriteItem(event, target) {
     if (!this.isEditable) return;
@@ -181,7 +181,7 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
 
   /**
    * Handle the change events on input fields that should propagate to the embedded document.
-   * @param {PointerEvent} event      The originating click event..
+   * @param {PointerEvent} event    The initiating click event.
    */
   async #onUpdateEmbedded(event) {
     if (!this.isEditable) return;
@@ -202,8 +202,8 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
   /**
    * Handle click events to render a configuration menu.
    * @this {ActorSheetArtichron}
-   * @param {PointerEvent} event      The originating click event.
-   * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
+   * @param {PointerEvent} event    The initiating click event.
+   * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
    */
   static #onToggleConfig(event, target) {
     if (!this.isEditable) return;
@@ -219,8 +219,8 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
   /**
    * Handle click events to restore the actor's hit points and other resources.
    * @this {ActorSheetArtichron}
-   * @param {PointerEvent} event      The originating click event.
-   * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
+   * @param {PointerEvent} event    The initiating click event.
+   * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
    */
   static #onRecoverHealth(event, target) {
     if (!this.isEditable) return;
@@ -232,8 +232,8 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
   /**
    * Handle click events to fuse one item onto another.
    * @this {ActorSheetArtichron}
-   * @param {PointerEvent} event      The originating click event.
-   * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
+   * @param {PointerEvent} event    The initiating click event.
+   * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
    */
   static async #onFuseItem(event, target) {
     if (!this.isEditable) return;

@@ -159,6 +159,28 @@ dialog:-internal-dialog-in-top-layer::backdrop {
 
 /* -------------------------------------------------- */
 
+.application.artichron .drop-target-area {
+  min-height: 300px;
+  border-radius: 5px;
+  border: 1px dashed var(--artichron-color-gold);
+  margin: 1rem;
+
+  &.dragover {
+    border-style: solid;
+  }
+}
+
+/* -------------------------------------------------- */
+
+/* Tables */
+.application.artichron table thead {
+  background: linear-gradient(3deg, hsl(from var(--artichron-color-purple) h s l / 0.4), transparent 70%);
+  border: none;
+  border-bottom: 2px solid hsl(from var(--artichron-color-purple) h s l / 0.5);
+}
+
+/* -------------------------------------------------- */
+
 /* Content links */
 .artichron .content-link {
   padding: unset;

@@ -101,7 +101,7 @@ export default class ChatMessageArtichron extends BaseDocumentMixin(foundry.docu
   /**
    * Handle click events on chat message avatar.
    * @this {HTMLElement}
-   * @param {PointerEvent} event    The originating click event.
+   * @param {PointerEvent} event    The initiating click event.
    */
   static #onTargetMouseDown(event) {
     event.stopPropagation();
@@ -121,7 +121,7 @@ export default class ChatMessageArtichron extends BaseDocumentMixin(foundry.docu
   /**
    * Handle hover-in events on chat message avatar.
    * @this {HTMLElement}
-   * @param {PointerEvent} event    The originating hover event.
+   * @param {PointerEvent} event    The initiating hover event.
    */
   static #onTargetHoverIn(event) {
     const actor = fromUuidSync(event.currentTarget.dataset.actorUuid);
@@ -137,7 +137,7 @@ export default class ChatMessageArtichron extends BaseDocumentMixin(foundry.docu
   /**
    * Handle hover-out events on chat message avatar.
    * @this {HTMLElement}
-   * @param {PointerEvent} event    The originating hover event.
+   * @param {PointerEvent} event    The initiating hover event.
    */
   static #onTargetHoverOut(event) {
     const uuid = event.currentTarget.dataset.actorUuid;

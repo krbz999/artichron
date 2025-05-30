@@ -5,6 +5,7 @@
 export default class AdvancementChain {
   constructor(chainLink) {
     chainLink = foundry.utils.deepClone(chainLink);
+    chainLink.pool.forEach(p => p.selected = !p.optional);
     Object.assign(this, chainLink);
   }
 
@@ -64,7 +65,7 @@ export default class AdvancementChain {
     for (const node of this)
       if (node.advancement.uuid === advancementUuid)
         for (const p of node.pool)
-          if ((p.item.uuid === itemUuid) && (p.selected !== selected)) {
+          if ((p.item.uuid === itemUuid) && (p.optional) && (p.selected !== selected)) {
             p.selected = selected;
             success = true;
           }

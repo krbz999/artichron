@@ -202,8 +202,8 @@ export default class ActivitySheet extends PseudoDocumentSheet {
   /**
    * Add a damage part.
    * @this {ActivitySheet}
-   * @param {PointerEvent} event      The originating click event.
-   * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
+   * @param {PointerEvent} event    The initiating click event.
+   * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
    */
   static #addDamage(event, target) {
     this.activity.createDamage();
@@ -214,8 +214,8 @@ export default class ActivitySheet extends PseudoDocumentSheet {
   /**
    * Delete a damage part.
    * @this {ActivitySheet}
-   * @param {PointerEvent} event      The originating click event.
-   * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
+   * @param {PointerEvent} event    The initiating click event.
+   * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
    */
   static #deleteDamage(event, target) {
     const id = target.closest("[data-id]").dataset.id;
@@ -227,8 +227,8 @@ export default class ActivitySheet extends PseudoDocumentSheet {
   /**
    * Show sheet of a damage part.
    * @this {ActivitySheet}
-   * @param {PointerEvent} event      The originating click event.
-   * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
+   * @param {PointerEvent} event    The initiating click event.
+   * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
    */
   static #showDamage(event, target) {
     const id = target.closest("[data-id]").dataset.id;

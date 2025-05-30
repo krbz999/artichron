@@ -78,6 +78,21 @@
   }
 }
 
+/* Advancement sheet */
+.artichron.application.advancement {
+  .item-grant {
+    background: none;
+
+    .item-grant-item { width: 100% }
+    .item-grant-optional { text-align: center; }
+    .item-grant-controls { text-align: center; }
+
+    tbody tr {
+      background: none;
+    }
+  }
+}
+
 /* Fusion Dialog */
 .artichron.application.fusion {
   .indicators {
