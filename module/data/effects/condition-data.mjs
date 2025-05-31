@@ -39,6 +39,25 @@ export default class EffectConditionData extends ActiveEffectSystemModel {
   }
 
   /* -------------------------------------------------- */
+
+  get hasLevels() {
+    const max = artichron.config.STATUS_CONDITIONS[this.primary].levels;
+    return !!max || (max > 1);
+  }
+
+  /* -------------------------------------------------- */
+
+  get canIncrease() {
+    return this.hasLevels && (this.level < artichron.config.STATUS_CONDITIONS[this.primary].levels);
+  }
+
+  /* -------------------------------------------------- */
+
+  get canDecrease() {
+    return this.hasLevels && (this.level > 0);
+  }
+
+  /* -------------------------------------------------- */
   /*   Data preparation                                 */
   /* -------------------------------------------------- */
 

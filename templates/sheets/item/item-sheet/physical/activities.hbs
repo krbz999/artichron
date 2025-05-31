@@ -6,13 +6,15 @@
       <button type="button" class="create-document icon fa-solid" data-action="createPseudoDocument" {{disabled isPlayMode}}></button>
     </h3>
 
-    {{#each ctx.activities}}
-    <button type="button" data-action="renderPseudoDocumentSheet" data-pseudo-id="{{activity.id}}" {{disabled disabled}}>
-      <img src="{{activity.img}}" alt="{{activity.name}}" class="icon">
-      <span class="title">{{name}}</span>
-      <span class="subtitle">{{localize (concat "TYPES.Activity." activity.type)}}</span>
-    </button>
-    {{/each}}
+    <div class="document-list-entries">
+      {{#each ctx.activities}}
+      <div class="entry button" data-action="renderPseudoDocumentSheet" data-pseudo-id="{{activity.id}}" {{disabled disabled}}>
+        <img src="{{activity.img}}" alt="{{activity.name}}" class="icon">
+        <span class="title">{{name}}</span>
+        <span class="subtitle">{{localize (concat "TYPES.Activity." activity.type)}}</span>
+      </div>
+      {{/each}}
+    </div>
 
   </div>
 </section>

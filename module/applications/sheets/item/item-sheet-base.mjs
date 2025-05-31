@@ -68,28 +68,28 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
     // Add context menu for effects.
     this._createContextMenu(
       this.#getContextOptionsActiveEffect,
-      ".document-list.effects button[data-id]",
+      ".document-list.effects .entry",
       { hookName: "ActiveEffectEntryContext" },
     );
 
     // Add context menu for activities.
     this._createContextMenu(
       this.#getContextOptionsActivity,
-      ".document-list[data-pseudo-document-name=Activity] button[data-pseudo-id]",
+      ".document-list.activities .entry",
       { hookName: "ActivityEntryContext" },
     );
 
     // Add context menu for advancements.
     this._createContextMenu(
       this.#getContextOptionsAdvancement,
-      ".document-list[data-pseudo-document-name=Advancement] button[data-pseudo-id]",
+      ".document-list.advancements .entry",
       { hookName: "AdvancementEntryContext" },
     );
 
     // Add context menu for armor requirements.
     this._createContextMenu(
       this.#getContextOptionsArmorRequirement,
-      ".document-list[data-pseudo-document-name=ArmorRequirement] button[data-pseudo-id]",
+      ".document-list.armor-requirements .entry",
       { hookName: "ArmorRequirementEntryContext" },
     );
   }
@@ -388,13 +388,15 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
     const documentName = target.closest("[data-document-name]").dataset.documentName;
     const type = target.closest("[data-type]")?.dataset.type;
     const Cls = foundry.utils.getDocumentClass(documentName);
+    const context = { parent: this.document, renderSheet: true };
+
     if (type) {
       Cls.create({
         type,
         name: Cls.defaultName({ type, parent: this.document }),
-      }, { parent: this.document });
+      }, context);
     } else {
-      Cls.createDialog({}, { parent: this.document });
+      Cls.createDialog({}, context, { types: undefined });
     }
   }
 

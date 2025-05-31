@@ -64,6 +64,7 @@ export default class MonsterData extends CreatureData {
     this.health.pct = Math.round(this.health.value / this.health.max * 100);
 
     const d = this.danger.pool;
+    d.spent = Math.clamp(d.spent, 0, d.max);
     d.value = Math.max(d.max - d.spent);
     d.pct = Math.round(d.value / d.max * 100);
   }

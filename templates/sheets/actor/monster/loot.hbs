@@ -1,0 +1,27 @@
+<div class="tab {{tabs.loot.cssClass}}" data-group="{{tabs.loot.group}}" data-tab="{{tabs.loot.id}}">
+  <button type="button" data-action="grantLoot" {{disabled (not ctx.loot.length)}}>
+    <i class="fa-solid fa-fw fa-box-open"></i>
+    <span>{{localize "ARTICHRON.MONSTER.LOOT.grant"}}</span>
+  </button>
+
+  <div class="document-list items scrollable" data-document-name="Item">
+    <h3 class="document-list-header">
+      <span>{{localize "ARTICHRON.SHEET.MONSTER.HEADERS.loot"}}</span>
+    </h3>
+
+    <div class="document-list-entries scrollable">
+      {{#each ctx.loot}}
+      <div class="entry button" data-uuid="{{item.uuid}}">
+        <img src="{{item.img}}" alt="{{item.name}}" class="icon">
+        <span class="title">{{item.name}}</span>
+        <span class="subtitle quantity">
+          <a class="fa-solid fa-fw fa-minus" data-action="decreaseLoot"></a>
+          <span>{{quantity}}</span>
+          <a class="fa-solid fa-fw fa-plus" data-action="increaseLoot"></a>
+        </span>
+      </div>
+      {{/each}}
+    </div>
+  </div>
+
+</div>

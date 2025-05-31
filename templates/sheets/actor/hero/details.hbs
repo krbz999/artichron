@@ -1,9 +1,3 @@
 <section class="tab {{tabs.details.cssClass}}" data-group="{{tabs.details.group}}" data-tab="{{tabs.details.id}}">
-  {{formGroup systemFields.details.fields.notes value=source.system.details.notes enriched=ctx.notes height=300 disabled=isPlayMode toggled=isPlayMode}}
-
-  <fieldset>
-    <legend>{{localize "ARTICHRON.SHEET.LEGENDS.configuration"}}</legend>
-    {{formGroup systemFields.pips.fields.turn value=source.system.pips.turn disabled=isPlayMode}}
-  </fieldset>
-
+  {{formGroup systemFields.details.fields.notes value=source.system.details.notes enriched=ctx.notes height="100%" disabled=isPlayMode toggled=isPlayMode classes="prosemirror-full-height"}}
 </section>

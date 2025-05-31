@@ -16,7 +16,6 @@ export default class HeroSheet extends ActorSheetArtichron {
     classes: ["hero"],
     position: { width: 510, height: 800 },
     actions: {
-      changeEquipped: HeroSheet.#onChangeEquipped,
       rollPool: HeroSheet.#onRollPool,
       rollSkill: HeroSheet.#onRollSkill,
     },
@@ -44,7 +43,7 @@ export default class HeroSheet extends ActorSheetArtichron {
     inventory: {
       template: "systems/artichron/templates/sheets/actor/hero/inventory.hbs",
       classes: ["scrollable"],
-      scrollable: [".scrollable"],
+      scrollable: [".document-list-entries.scrollable"],
     },
     details: {
       template: "systems/artichron/templates/sheets/actor/hero/details.hbs",
@@ -77,20 +76,6 @@ export default class HeroSheet extends ActorSheetArtichron {
       labelPrefix: "ARTICHRON.SHEET.TABS",
     },
   };
-
-  /* -------------------------------------------------- */
-
-  /** @inheritdoc */
-  async _preparePartContext(partId, context, options) {
-    context = await super._preparePartContext(partId, context, options);
-
-    const fn = `_preparePartContext${partId.capitalize()}`;
-    if (!(this[fn] instanceof Function)) {
-      throw new Error(`The ${this.constructor.name} sheet does not implement the ${fn} method.`);
-    }
-
-    return this[fn](context, options);
-  }
 
   /* -------------------------------------------------- */
 
@@ -130,6 +115,7 @@ export default class HeroSheet extends ActorSheetArtichron {
     context.ctx = {
       health: this.document.system.health,
       pools: [],
+      favorites: Array.from(this.document.favorites),
       defenses: [],
       skills: [],
     };
@@ -213,10 +199,15 @@ export default class HeroSheet extends ActorSheetArtichron {
    */
   async _preparePartContextInventory(context, options) {
     context.ctx = {
-      equipment: this.#prepareEquipment(),
-      items: await this._prepareItems(),
+      items: [],
       searchQuery: this.#searchQuery,
     };
+
+    for (const item of this.document.items) {
+      context.ctx.items.push({ item });
+    }
+    context.ctx.items.sort((a, b) => artichron.utils.nameSort(a, b, "item"));
+
     return context;
   }
 
@@ -245,146 +236,12 @@ export default class HeroSheet extends ActorSheetArtichron {
    * @param {object} options    Rendering options.
    * @returns {Promise<object>}
    */
-  async _preparePartContextEffects(context, options) {
-    context.ctx = {
-      conditions: [],
-      buffs: { active: [], inactive: [] },
-    };
-
-    for (const effect of this.document.allApplicableEffects()) {
-      const data = { effect };
-      if (effect.parent !== this.document) data.parentId = effect.parent.id;
-
-      if (effect.type === "condition") context.ctx.conditions.push(data);
-      else if ((effect.type === "buff") && effect.disabled) context.ctx.buffs.inactive.push(data);
-      else if (effect.type === "buff") context.ctx.buffs.active.push(data);
-    }
-
-    return context;
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Prepare context for a part.
-   * @param {object} context    Rendering context. **will be mutated**
-   * @param {object} options    Rendering options.
-   * @returns {Promise<object>}
-   */
   async _preparePartContextEncumbrance(context, options) {
     const enc = this.document.system.encumbrance;
     context.ctx = {
       encumbrance: Math.round(Math.clamp(enc.value / enc.max, 0, 1) * 100),
     };
     return context;
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Prepare equipped items for rendering.
-   * @returns {object[]}
-   */
-  #prepareEquipment() {
-    const [primary, secondary] = Object.values(this.document.arsenal);
-
-    const emptySlotIcons = {
-      arsenal: "icons/weapons/axes/axe-broad-brown.webp",
-      head: "icons/equipment/head/helm-barbute-brown-tan.webp",
-      chest: "icons/equipment/chest/breastplate-leather-brown-belted.webp",
-      arms: "icons/equipment/hand/glove-ringed-cloth-brown.webp",
-      legs: "icons/equipment/leg/pants-breeches-leather-brown.webp",
-      accessory: "icons/equipment/neck/choker-simple-bone-fangs.webp",
-      boots: "icons/equipment/feet/boots-leather-engraved-brown.webp",
-    };
-
-    const equipped = [];
-
-    const setup = (key, item) => {
-      const data = {
-        active: !!item,
-        item: item ? item : { img: emptySlotIcons[key] ?? emptySlotIcons.arsenal },
-        dataset: { equipmentSlot: key, action: "changeEquipped" },
-      };
-      if (item) {
-        data.dataset.itemUuid = item.uuid;
-        data.tooltip = `<section class="loading" data-uuid="${item.uuid}">
-          <i class="fas fa-spinner fa-spin-pulse"></i>
-        </section>`;
-      }
-      equipped.push(data);
-    };
-
-    // Arsenal.
-    setup("primary", primary);
-    if (!primary || !primary.isTwoHanded) setup("secondary", secondary);
-
-    // Armor.
-    for (const [key, item] of Object.entries(this.document.armor)) setup(key, item);
-
-    return equipped;
-  }
-
-  /* -------------------------------------------------- */
-
-  /** @inheritdoc */
-  async _prepareItems() {
-    const compact = this.document.getFlag("artichron", "compactItems") ?? game.settings.get("artichron", "compactItems");
-    if (compact) {
-      return [{
-        label: "DOCUMENT.Items",
-        classes: ["compact"],
-        items: this.document.items.contents.sort((a, b) => a.sort - b.sort).map(item => ({ item })),
-      }];
-    }
-
-    const types = this.document.itemTypes;
-    const sections = {
-      arsenal: {
-        label: "ARTICHRON.HERO.INVENTORY.arsenal",
-        types: new Set(),
-      },
-      gear: {
-        label: "ARTICHRON.HERO.INVENTORY.gear",
-        types: new Set(),
-      },
-      consumables: {
-        label: "ARTICHRON.HERO.INVENTORY.consumables",
-        types: new Set(),
-      },
-      loot: {
-        label: "ARTICHRON.HERO.INVENTORY.loot",
-        types: new Set(),
-      },
-    };
-
-    for (const [type, Cls] of Object.entries(CONFIG.Item.dataModels)) {
-      sections[Cls.metadata.inventorySection].types.add(type);
-    }
-
-    const tabs = [];
-    for (const [k, v] of Object.entries(sections)) {
-      const section = { label: v.label, id: k, items: [] };
-      for (const t of v.types) {
-        for (const item of types[t]) {
-          const expanded = this._expandedItems.has(item.uuid);
-          const data = {
-            item: item,
-            enriched: expanded ? await foundry.applications.ux.TextEditor.enrichHTML(item.system.description.value, {
-              relativeTo: item, rollData: item.getRollData(),
-            }) : null,
-          };
-          section.items.push(data);
-        }
-        section.items.sort((a, b) => {
-          const sort = a.item.sort - b.item.sort;
-          if (sort) return sort;
-          return a.item._source.name.localeCompare(b.item._source.name);
-        });
-      }
-      tabs.push(section);
-    }
-    return tabs;
   }
 
   /* -------------------------------------------------- */
@@ -520,7 +377,6 @@ export default class HeroSheet extends ActorSheetArtichron {
    * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
    */
   static #onRollSkill(event, target) {
-    if (!this.isEditable) return;
     this.document.rollSkill({ event, base: target.dataset.skillId });
   }
 
@@ -533,21 +389,6 @@ export default class HeroSheet extends ActorSheetArtichron {
    * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
    */
   static #onRollPool(event, target) {
-    if (!this.isEditable) return;
     this.document.rollPool({ pool: target.dataset.pool, event });
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Handle click events to change an equipped item in a particular slot.
-   * @this {HeroSheet}
-   * @param {PointerEvent} event    The initiating click event.
-   * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
-   */
-  static #onChangeEquipped(event, target) {
-    if (!this.isEditable) return;
-    const slot = target.closest("[data-equipment-slot]").dataset.equipmentSlot;
-    this.document.system.changeEquippedDialog(slot);
   }
 }

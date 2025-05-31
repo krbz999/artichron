@@ -126,23 +126,6 @@
       padding: 4px;
     }
   }
-  &.monster .health {
-    flex-direction: row;
-    height: 3rem;
-
-    & input {
-      width: 3rem;
-      height: 1.5rem;
-      margin: 0.3rem 0;
-    }
-
-    .health-bar {
-      left: 0;
-      right: calc(100% - var(--health-bar-pct));
-      bottom: 0;
-      top: 0;
-    }
-  }
 
   .equipment {
     display: flex;

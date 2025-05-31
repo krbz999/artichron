@@ -1,43 +1,24 @@
 <section class="tab {{tabs.inventory.cssClass}}" data-group="{{tabs.inventory.group}}" data-tab="{{tabs.inventory.id}}">
 
-  <fieldset class="equipment" data-document-name="Item">
-    <legend>{{localize "ARTICHRON.SHEET.LEGENDS.equipment"}}</legend>
-    {{#each ctx.equipment}}
-    <div class="item {{#unless active}} empty {{/unless}}" {{#if active}} data-item-uuid="{{item.uuid}}" data-id="{{item.id}}" {{/if}}>
-      <img src="{{item.img}}" alt="" {{#if active}} data-action="useItem" {{/if}} {{#if tooltip}} data-tooltip="{{tooltip}}" {{/if}}>
-      {{#if @root.isEditMode}}
-      <div class="controls">
-        <a class="fa-solid fa-shield-alt" data-action="changeEquipped" data-equipment-slot="{{dataset.equipmentSlot}}"></a>
-      </div>
-      {{/if}}
-    </div>
-    {{/each}}
-  </fieldset>
-
   <search>
     <input type="search" id="inventory-search" placeholder="{{localize 'SIDEBAR.Search' types=(localize 'DOCUMENT.Items')}}" value="{{ctx.searchQuery}}">
   </search>
 
-  <div class="scrollable">
+  <div class="document-list scrollable items" data-document-name="Item">
+    <h3 class="document-list-header">
+      <span>{{localize "ARTICHRON.SHEET.HERO.HEADERS.inventory"}}</span>
+      <button type="button" class="create-document fa-solid icon" data-action="createEmbeddedDocument" {{disabled isPlayMode}}></button>
+    </h3>
 
-    {{#each ctx.items}}
-    <div class="inventory-list {{#each classes}}{{this}}{{/each}}" data-document-name="Item">
-      <header>
-        <span class="label">{{localize label}}</span>
-        {{#if @root.isEditMode}}
-        <button class="controls" type="button" data-action="createItem" data-tooltip="ARTICHRON.HERO.INVENTORY.create" {{#if id}}data-section="{{id}}"{{/if}}>
-          <i class="fa-solid fa-plus"></i>
-        </button>
-        {{/if}}
-      </header>
-
-      {{#each items}}
-      {{inventoryItem item enriched=enriched}}
+    <div class="document-list-entries compact scrollable">
+      {{#each ctx.items}}
+      <div class="entry button" data-id="{{item.id}}" data-action="useItem">
+        <img src="{{item.img}}" alt="{{item.name}}" class="icon">
+        <span class="title">{{item.name}}</span>
+        <span class="subtitle">{{localize (concat "TYPES.Item." item.type)}}</span>
+      </div>
       {{/each}}
-
     </div>
-    {{/each}}
-
   </div>
 
 </section>

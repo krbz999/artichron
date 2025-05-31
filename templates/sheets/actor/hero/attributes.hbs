@@ -24,15 +24,27 @@
 
   <div class="center-pane scrollable">
 
-    <fieldset class="favorites" data-document-name="Item">
-      <legend>{{localize "ARTICHRON.SHEET.LEGENDS.favorites"}}</legend>
-      <div class="inventory-list compact">
-        {{#each document.favorites}}{{inventoryItem this}}{{/each}}
+    {{!-- FAVORITES --}}
+    {{#if ctx.favorites.length}}
+    <div class="document-list items" data-document-name="Item">
+      <h3 class="document-list-header">
+        <span>{{localize "ARTICHRON.SHEET.HERO.HEADERS.favorites"}}</span>
+      </h3>
+
+      <div class="document-list-entries compact">
+        {{#each ctx.favorites}}
+        <div class="entry button" data-id="{{id}}" data-action="useItem">
+          <img src="{{img}}" alt="{{name}}" class="icon">
+          <span class="title">{{name}}</span>
+          <span class="subtitle">{{name}}</span>
+        </div>
+        {{/each}}
       </div>
-    </fieldset>
+    </div>
+    {{/if}}
 
     <fieldset class="defenses">
-      <legend>{{localize "ARTICHRON.SHEET.LEGENDS.defenses"}}</legend>
+      <legend>{{localize "ARTICHRON.SHEET.HERO.HEADERS.defenses"}}</legend>
       {{#each ctx.defenses}}
       <div class="defense {{#if active}} active {{/if}}" data-tooltip="{{label}}" style="color: #{{color}}">
         <span class="total">{{value}}</span>
@@ -42,7 +54,7 @@
     </fieldset>
 
     <fieldset class="skills">
-      <legend>{{localize "ARTICHRON.SHEET.LEGENDS.skills"}}</legend>
+      <legend>{{localize "ARTICHRON.SHEET.HERO.HEADERS.skills"}}</legend>
       {{#each ctx.skills}}
       <a class="skill label-top" data-action="rollSkill" data-skill-id="{{skillId}}">
         <label>{{label}}</label>

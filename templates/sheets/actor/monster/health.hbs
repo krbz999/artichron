@@ -1,0 +1,8 @@
+<section>
+  <input type="text" name="system.health.value" class="delta" value="{{document.system.health.value}}" placeholder="0">
+  <span class="sep">/</span>
+  <span>{{document.system.health.max}}</span>
+
+  <div class="health-bar" style="--health-bar-pct: {{document.system.health.pct}}%"></div>
+  <a class="control fa-solid fa-heart" data-action="recoverHealth" data-tooltip="ARTICHRON.MONSTER.recover"></a>
+</section>

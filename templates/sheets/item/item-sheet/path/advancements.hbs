@@ -11,13 +11,15 @@
       <span>{{label}}</span>
     </h4>
 
-    {{#each entries}}
-    <button type="button" data-action="renderPseudoDocumentSheet" data-pseudo-id="{{id}}">
-      <img src="{{img}}" alt="{{name}}" class="icon">
-      <span class="title">{{name}}</span>
-      <span class="subtitle">{{localize (concat "TYPES.Advancement." type)}}</span>
-    </button>
-    {{/each}}
+    <div class="document-list-entries">
+      {{#each entries}}
+      <div class="entry button" data-action="renderPseudoDocumentSheet" data-pseudo-id="{{id}}">
+        <img src="{{img}}" alt="{{name}}" class="icon">
+        <span class="title">{{name}}</span>
+        <span class="subtitle">{{localize (concat "TYPES.Advancement." type)}}</span>
+      </div>
+      {{/each}}
+    </div>
     {{/each}}
 
   </div>

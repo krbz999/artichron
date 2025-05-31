@@ -1,6 +1,6 @@
 <fieldset class="defenses">
-  <legend>{{localize "ARTICHRON.SHEET.LEGENDS.defenses"}}</legend>
-  {{#each defenses}}
+  <legend>{{localize "ARTICHRON.SHEET.MONSTER.HEADERS.defenses"}}</legend>
+  {{#each ctx.defenses}}
   <div class="defense {{#if active}} active {{/if}}" data-tooltip="{{label}}" style="color: #{{color}}">
     <span class="total">{{value}}</span>
     <i class="{{icon}}"></i>

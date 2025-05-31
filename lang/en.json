@@ -101,7 +101,10 @@
         "render": "Edit Effect",
         "delete": "Delete Effect",
         "disable": "Disable Effect",
-        "enable": "Enable Effect"
+        "enable": "Enable Effect",
+        "removeCondition": "Remove Condition",
+        "decreaseCondition": "Decrease Level",
+        "increaseCondition": "Increase Level"
       },
       "ITEM": {
         "render": "Edit Item",
@@ -109,7 +112,8 @@
         "favorite": "Favorite Item",
         "unfavorite": "Unfavorite Item",
         "equip": "Equip Item",
-        "unequip": "Unequip Item"
+        "unequip": "Unequip Item",
+        "fuse": "Fuse Item"
       }
     }
   },
@@ -121,7 +125,12 @@
     "HEADERS": {
       "conditions": "Conditions",
       "activeBuffs": "Active Buffs",
-      "inactiveBuffs": "Inactive Buffs"
+      "inactiveBuffs": "Inactive Buffs",
+      "favorites": "Favorites",
+      "defenses": "Defenses",
+      "skills": "Skills",
+      "equipment": "Equipment",
+      "inventory": "Inventory"
     }
   },
 
@@ -154,6 +163,21 @@
       }
     }
   },
+
+  "MONSTER": {
+    "HEADERS": {
+      "defenses": "Defenses",
+      "details": "Details",
+      "equipment": "Equipment",
+      "favorites": "Favorites",
+      "inventory": "Inventory",
+      "loot": "Loot",
+      "conditions": "Conditions",
+      "activeBuffs": "Active Buffs",
+      "inactiveBuffs": "Inactive Buffs"
+    }
+  },
+
   "ACTIVITY": {
     "title": "Activity: {name}"
   },
@@ -191,25 +215,6 @@
       "inactiveBuffs": "Inactive Buffs",
       "advancements": "Advancements"
     }
-  },
-  "LEGENDS": {
-    "activities": "Activities",
-    "awards": "Awards",
-    "biography": "Biography",
-    "cart": "Cart",
-    "configuration": "Configuration",
-    "damage": "Damage",
-    "defenses": "Defenses",
-    "details": "Details",
-    "duration": "Duration",
-    "equipment": "Equipment",
-    "favorites": "Favorites",
-    "funds": "Funds",
-    "identity": "Identity",
-    "loot": "Loot",
-    "requirements": "Requirements",
-    "skills": "Skills",
-    "stock": "Stock"
   },
   "TOGGLE": {
     "opacity": "Toggle Opacity",
