@@ -22,7 +22,7 @@ export default class MonsterSheet extends ActorSheetArtichron {
     },
     health: {
       template: "systems/artichron/templates/sheets/actor/monster/health.hbs",
-      classes: ["health"],
+      classes: ["health-bar"],
     },
     tabs: {
       template: "templates/generic/tab-navigation.hbs",
@@ -187,7 +187,7 @@ export default class MonsterSheet extends ActorSheetArtichron {
     super._preSyncPartState(p, ne, pe, s);
 
     if (p === "health") {
-      const o = pe.querySelector(".health-bar");
+      const o = pe.querySelector(".health-fill");
       s.healthHeight = Math.max(o.offsetTop, 0);
     }
   }
@@ -200,7 +200,7 @@ export default class MonsterSheet extends ActorSheetArtichron {
 
     if (partId === "health") {
       if (!("healthHeight" in state)) return;
-      const newBar = newElement.querySelector(".health-bar");
+      const newBar = newElement.querySelector(".health-fill");
       const n = Math.max(newBar.offsetTop, 0);
       if (state.healthHeight === n) return;
       const frames = [{ top: `${state.healthHeight}px` }, { top: `${n}px` }];

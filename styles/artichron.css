@@ -25,6 +25,11 @@
   }
 }
 
+/* Css class used to prevent animation of elements. */
+.artichron.application .no-animate {
+  transition-duration: 0s !important;
+}
+
 span.chron {
   width: 1rem;
   aspect-ratio: 1;

@@ -1,12 +1,1 @@
-.artichron.application.sheet.monster {
-  [data-application-part=health] {
-    position: fixed;
-    right: anchor(--sheet-header left);
-    min-height: 600px;
-    display: flex;
-    width: 75px;
-    box-shadow: 0 0 5px black;
-    border-radius: 5px;
-    margin-right: 1.25rem;
-  }
-}
+.artichron.application.sheet.monster {}

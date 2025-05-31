@@ -31,6 +31,10 @@ export default class HeroSheet extends ActorSheetArtichron {
     tabs: {
       template: "templates/generic/tab-navigation.hbs",
     },
+    health: {
+      template: "systems/artichron/templates/sheets/actor/hero/health.hbs",
+      classes: ["health-bar"],
+    },
     attributes: {
       template: "systems/artichron/templates/sheets/actor/hero/attributes.hbs",
       scrollable: [".center-pane"],
@@ -111,6 +115,19 @@ export default class HeroSheet extends ActorSheetArtichron {
    * @param {object} options    Rendering options.
    * @returns {Promise<object>}
    */
+  async _preparePartContextHealth(context, options) {
+    context.ctx = {};
+    return context;
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Prepare context for a part.
+   * @param {object} context    Rendering context. **will be mutated**
+   * @param {object} options    Rendering options.
+   * @returns {Promise<object>}
+   */
   async _preparePartContextAttributes(context, options) {
     context.ctx = {
       health: this.document.system.health,
@@ -156,7 +173,7 @@ export default class HeroSheet extends ActorSheetArtichron {
 
     const pathKeys = Object.keys(this.document.system.paths);
     const investedTotal = pathKeys.reduce((acc, k) => acc + this.document.system.paths[k].invested, 0);
-    const mixedKey = artichron.config.PROGRESSION_CORE_PATHS[pathKeys[0]].mixed[pathKeys[1]];
+    const mixedKey = artichron.config.PROGRESSION_CORE_PATHS[pathKeys[0]]?.mixed[pathKeys[1]];
 
     // The lowest invested path
     const [lowest] = pathKeys.sort((a, b) =>
@@ -250,8 +267,8 @@ export default class HeroSheet extends ActorSheetArtichron {
   _preSyncPartState(p, ne, pe, s) {
     super._preSyncPartState(p, ne, pe, s);
 
-    if (p === "attributes") {
-      const o = pe.querySelector(".health-bar");
+    if (p === "health") {
+      const o = pe.querySelector(".health-fill");
       s.healthHeight = Math.max(o.offsetTop, 0);
     }
   }
@@ -262,9 +279,9 @@ export default class HeroSheet extends ActorSheetArtichron {
   _syncPartState(partId, newElement, priorElement, state) {
     super._syncPartState(partId, newElement, priorElement, state);
 
-    if (partId === "attributes") {
+    if (partId === "health") {
       if (!("healthHeight" in state)) return;
-      const newBar = newElement.querySelector(".health-bar");
+      const newBar = newElement.querySelector(".health-fill");
       const n = Math.max(newBar.offsetTop, 0);
       if (state.healthHeight === n) return;
       const frames = [{ top: `${state.healthHeight}px` }, { top: `${n}px` }];
@@ -290,11 +307,23 @@ export default class HeroSheet extends ActorSheetArtichron {
     super._attachPartListeners(partId, htmlElement, options);
 
     switch (partId) {
+      case "health":
+        this.#attachPartListenersHealth(htmlElement, options);
+        break;
       case "inventory":
         this.#attachPartListenersInventory(htmlElement, options);
         break;
     }
   }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Attach event listeners to a specific part.
+   * @param {HTMLElement} element   The part element.
+   * @param {object} options        Rendering options
+   */
+  #attachPartListenersHealth(element, options) {}
 
   /* -------------------------------------------------- */
 

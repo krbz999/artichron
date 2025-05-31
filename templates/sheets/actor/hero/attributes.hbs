@@ -11,15 +11,6 @@
       </a>
       {{/each}}
     </fieldset>
-
-    <fieldset class="health">
-      <input type="text" name="system.health.value" class="delta" value="{{ctx.health.value}}" placeholder="0">
-      <span class="sep">/</span>
-      <span class="max">{{ctx.health.max}}</span>
-
-      <div class="health-bar" style="--health-bar-pct: {{ctx.health.pct}}%"></div>
-      <a class="control fa-solid fa-heart" data-action="recoverHealth" data-tooltip="ARTICHRON.HERO.recover"></a>
-    </fieldset>
   </div>
 
   <div class="center-pane scrollable">
