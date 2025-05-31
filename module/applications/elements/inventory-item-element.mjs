@@ -9,7 +9,7 @@ export default class InventoryItemElement extends HTMLElement {
     const item = config.item;
     if (item) {
       element.dataset.itemUuid = item.uuid;
-      element.dataset.itemId = item.id;
+      element.dataset.id = item.id;
       element.classList.add("draggable");
       if (config.disabled) element.setAttribute("disabled", "");
       if (config.enriched) {
@@ -50,7 +50,7 @@ export default class InventoryItemElement extends HTMLElement {
   /** @inheritdoc */
   connectedCallback() {
     const application = foundry.applications.instances.get(this.closest(".application").id);
-    const item = application.document.items.get(this.dataset.itemId);
+    const item = application.document.items.get(this.dataset.id);
     const enriched = enrichedCache.get(item?.uuid);
     const limited = !application.isEditable;
     const editMode = application.isEditMode;

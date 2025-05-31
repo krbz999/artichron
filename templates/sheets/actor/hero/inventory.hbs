@@ -1,9 +1,9 @@
 <section class="tab {{tabs.inventory.cssClass}}" data-group="{{tabs.inventory.group}}" data-tab="{{tabs.inventory.id}}">
 
-  <fieldset class="equipment">
+  <fieldset class="equipment" data-document-name="Item">
     <legend>{{localize "ARTICHRON.SHEET.LEGENDS.equipment"}}</legend>
     {{#each ctx.equipment}}
-    <div class="item {{#unless active}} empty {{/unless}}" {{#if dataset.itemUuid}} data-item-uuid="{{dataset.itemUuid}}" {{/if}}>
+    <div class="item {{#unless active}} empty {{/unless}}" {{#if active}} data-item-uuid="{{item.uuid}}" data-id="{{item.id}}" {{/if}}>
       <img src="{{item.img}}" alt="" {{#if active}} data-action="useItem" {{/if}} {{#if tooltip}} data-tooltip="{{tooltip}}" {{/if}}>
       {{#if @root.isEditMode}}
       <div class="controls">
@@ -21,7 +21,7 @@
   <div class="scrollable">
 
     {{#each ctx.items}}
-    <div class="inventory-list {{#each classes}}{{this}}{{/each}}">
+    <div class="inventory-list {{#each classes}}{{this}}{{/each}}" data-document-name="Item">
       <header>
         <span class="label">{{localize label}}</span>
         {{#if @root.isEditMode}}

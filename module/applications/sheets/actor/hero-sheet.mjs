@@ -253,6 +253,8 @@ export default class HeroSheet extends ActorSheetArtichron {
 
     for (const effect of this.document.allApplicableEffects()) {
       const data = { effect };
+      if (effect.parent !== this.document) data.parentId = effect.parent.id;
+
       if (effect.type === "condition") context.ctx.conditions.push(data);
       else if ((effect.type === "buff") && effect.disabled) context.ctx.buffs.inactive.push(data);
       else if (effect.type === "buff") context.ctx.buffs.active.push(data);

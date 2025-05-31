@@ -94,7 +94,24 @@
     "Hero": "Artichron Hero Sheet",
     "Merchant": "Artichron Merchant Sheet",
     "Monster": "Artichron Monster Sheet",
-    "Party": "Artichron Party Sheet"
+    "Party": "Artichron Party Sheet",
+
+    "CONTEXT": {
+      "EFFECT": {
+        "render": "Edit Effect",
+        "delete": "Delete Effect",
+        "disable": "Disable Effect",
+        "enable": "Enable Effect"
+      },
+      "ITEM": {
+        "render": "Edit Item",
+        "delete": "Delete Item",
+        "favorite": "Favorite Item",
+        "unfavorite": "Unfavorite Item",
+        "equip": "Equip Item",
+        "unequip": "Unequip Item"
+      }
+    }
   },
   "EFFECT": {
     "Base": "Artichron ActiveEffect Sheet"
