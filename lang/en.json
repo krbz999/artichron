@@ -99,6 +99,15 @@
   "EFFECT": {
     "Base": "Artichron ActiveEffect Sheet"
   },
+
+  "HERO": {
+    "HEADERS": {
+      "conditions": "Conditions",
+      "activeBuffs": "Active Buffs",
+      "inactiveBuffs": "Inactive Buffs"
+    }
+  },
+
   "ITEM": {
     "AmmoSheet": "Artichron Ammunition Sheet",
     "ArmorSheet": "Artichron Armor Piece Sheet",
@@ -156,7 +165,8 @@
     "inventory": "Inventory",
     "loot": "Loot",
     "members": "Members",
-    "progress": "Progress"
+    "progress": "Progress",
+    "progression": "Progression"
   },
   "TALENT": {
     "HEADERS": {
@@ -722,6 +732,19 @@
       }
     }
   },
+
+  "PATH": {
+    "WARNING": {
+      "cannotAddNewPath": "You cannot add more paths!"
+    },
+    "FIELDS": {
+      "identifier": {
+        "label": "Path Identifier",
+        "hint": "Which of the core paths this item represents."
+      }
+    }
+  },
+
   "REQUIREMENT": {
     "FIELDS": {
       "type": {

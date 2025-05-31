@@ -26,6 +26,23 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
   /*   Rendering                                        */
   /* -------------------------------------------------- */
 
+  /** @inheritdoc */
+  async _prepareContext(options) {
+    const context = await super._prepareContext(options);
+
+    Object.assign(context, {
+      config: artichron.config,
+      systemFields: this.document.system.schema.fields,
+      source: this.document._source,
+      isPlayMode: this.isPlayMode,
+      isEditMode: this.isEditMode,
+    });
+
+    return context;
+  }
+
+  /* -------------------------------------------------- */
+
   /**
    * Prepare the items for rendering.
    * @returns {Promise<object>}

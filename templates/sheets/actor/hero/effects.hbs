@@ -1,0 +1,46 @@
+<section class="tab {{tabs.effects.cssClass}}" data-group="{{tabs.effects.group}}" data-tab="{{tabs.effects.id}}">
+
+  <div class="document-list effects" data-document-name="ActiveEffect">
+    {{!-- CONDITIONS --}}
+    {{#if ctx.conditions.length}}
+    <h3 class="document-list-header">
+      <span>{{localize "ARTICHRON.SHEET.HERO.HEADERS.conditions"}}</span>
+    </h3>
+    {{#each ctx.conditions}}
+    <button type="button" data-action="renderEmbeddedDocumentSheet" data-id="{{effect.id}}" {{#if effect.disabled}} class="inactive" {{/if}}>
+      <img src="{{effect.img}}" alt="{{effect.name}}" class="icon">
+      <span class="title">{{effect.name}}</span>
+      <span class="subtitle">{{localize "TYPES.ActiveEffect.condition"}}</span>
+    </button>
+    {{/each}}
+    {{/if}}
+
+    {{!-- ACTIVE BUFFS --}}
+    <h3 class="document-list-header">
+      <span>{{localize "ARTICHRON.SHEET.HERO.HEADERS.activeBuffs"}}</span>
+      <button class="create-document icon fa-solid" type="button" data-action="createEmbeddedDocument" data-type="buff" {{disabled isPlayMode}}></button>
+    </h3>
+    {{#each ctx.buffs.active}}
+    <button type="button" data-action="renderEmbeddedDocumentSheet" data-id="{{effect.id}}" {{#if effect.disabled}} class="inactive" {{/if}}>
+      <img src="{{effect.img}}" alt="{{effect.name}}" class="icon">
+      <span class="title">{{effect.name}}</span>
+      <span class="subtitle">{{localize "TYPES.ActiveEffect.buff"}}</span>
+    </button>
+    {{/each}}
+
+    {{!-- INACTIVE BUFFS --}}
+    {{#if ctx.buffs.inactive.length}}
+    <h3 class="document-list-header">
+      <span>{{localize "ARTICHRON.SHEET.HERO.HEADERS.inactiveBuffs"}}</span>
+    </h3>
+    {{#each ctx.buffs.inactive}}
+    <button type="button" data-action="renderEmbeddedDocumentSheet" data-id="{{effect.id}}" {{#if effect.disabled}} class="inactive" {{/if}}>
+      <img src="{{effect.img}}" alt="{{effect.name}}" class="icon">
+      <span class="title">{{effect.name}}</span>
+      <span class="subtitle">{{localize "TYPES.ActiveEffect.buff"}}</span>
+    </button>
+    {{/each}}
+    {{/if}}
+  </div>
+
+</section>

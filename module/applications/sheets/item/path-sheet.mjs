@@ -17,7 +17,7 @@ export default class PathSheet extends ItemSheetArtichron {
       template: "templates/generic/tab-navigation.hbs",
     },
     description: {
-      template: "systems/artichron/templates/sheets/item/item-sheet/description.hbs",
+      template: "systems/artichron/templates/sheets/item/item-sheet/path/description.hbs",
       scrollable: [""],
     },
     advancements: {

@@ -31,4 +31,12 @@ export default class PathData extends ItemSystemModel {
       }),
     });
   }
+
+  /* -------------------------------------------------- */
+
+  /** @inheritdoc */
+  static LOCALIZATION_PREFIXES = [
+    ...super.LOCALIZATION_PREFIXES,
+    "ARTICHRON.ITEM.PATH",
+  ];
 }

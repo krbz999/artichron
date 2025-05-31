@@ -239,6 +239,7 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
   async _prepareContext(options) {
     const context = await super._prepareContext(options);
 
+    context.config = artichron.config;
     context.systemFields = this.document.system.schema.fields;
     context.isPlayMode = this.isPlayMode;
     context.isEditMode = this.isEditMode;

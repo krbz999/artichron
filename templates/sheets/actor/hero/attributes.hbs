@@ -1,13 +1,11 @@
-<div class="tab {{tabs.attributes.cssClass}}" data-group="{{tabs.attributes.group}}" data-tab="{{tabs.attributes.id}}">
+<section class="tab {{tabs.attributes.cssClass}}" data-group="{{tabs.attributes.group}}" data-tab="{{tabs.attributes.id}}">
 
   <div class="left-pane">
     <fieldset class="pools">
       {{#if isEditMode}}
-      <a class="edit" data-action="toggleConfig" data-tooltip="ARTICHRON.POOL.edit" data-trait="pools">
-        <i class="fa-solid fa-cog"></i>
-      </a>
+      <a class="edit fa-solid fa-cog" data-action="toggleConfig" data-tooltip="ARTICHRON.POOL.edit" data-trait="pools"></a>
       {{/if}}
-      {{#each pools}}
+      {{#each ctx.pools}}
       <a class="pool die d{{faces}} {{key}}" data-action="rollPool" data-pool="{{key}}" data-tooltip="{{value}} / {{max}} (d{{faces}})">
         <span class="label">{{value}}</span>
       </a>
@@ -15,14 +13,12 @@
     </fieldset>
 
     <fieldset class="health">
-      <input type="text" name="system.health.value" class="delta" value="{{health.value}}" placeholder="0">
+      <input type="text" name="system.health.value" class="delta" value="{{ctx.health.value}}" placeholder="0">
       <span class="sep">/</span>
-      <span class="max">{{health.max}}</span>
+      <span class="max">{{ctx.health.max}}</span>
 
-      <div class="health-bar" style="--health-bar-pct: {{health.pct}}%"></div>
-      <a class="control" data-action="recoverHealth" data-tooltip="ARTICHRON.HERO.recover">
-        <i class="fa-solid fa-heart"></i>
-      </a>
+      <div class="health-bar" style="--health-bar-pct: {{ctx.health.pct}}%"></div>
+      <a class="control fa-solid fa-heart" data-action="recoverHealth" data-tooltip="ARTICHRON.HERO.recover"></a>
     </fieldset>
   </div>
 
@@ -37,7 +33,7 @@
 
     <fieldset class="defenses">
       <legend>{{localize "ARTICHRON.SHEET.LEGENDS.defenses"}}</legend>
-      {{#each defenses}}
+      {{#each ctx.defenses}}
       <div class="defense {{#if active}} active {{/if}}" data-tooltip="{{label}}" style="color: #{{color}}">
         <span class="total">{{value}}</span>
         <i class="{{icon}}"></i>
@@ -47,7 +43,7 @@
 
     <fieldset class="skills">
       <legend>{{localize "ARTICHRON.SHEET.LEGENDS.skills"}}</legend>
-      {{#each skills}}
+      {{#each ctx.skills}}
       <a class="skill label-top" data-action="rollSkill" data-skill-id="{{skillId}}">
         <label>{{label}}</label>
         <img src="{{img}}" alt="{{label}}">
@@ -58,4 +54,4 @@
 
   </div>
 
-</div>
+</section>

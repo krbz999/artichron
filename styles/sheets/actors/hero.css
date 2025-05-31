@@ -21,4 +21,10 @@
       }
     }
   }
+
+  .document-list.progression {
+    .document-list-header.inactive {
+      opacity: 0.5;
+    }
+  }
 }

@@ -1,15 +1,13 @@
-<div class="tab {{tabs.inventory.cssClass}}" data-group="{{tabs.inventory.group}}" data-tab="{{tabs.inventory.id}}">
+<section class="tab {{tabs.inventory.cssClass}}" data-group="{{tabs.inventory.group}}" data-tab="{{tabs.inventory.id}}">
 
   <fieldset class="equipment">
     <legend>{{localize "ARTICHRON.SHEET.LEGENDS.equipment"}}</legend>
-    {{#each equipment}}
+    {{#each ctx.equipment}}
     <div class="item {{#unless active}} empty {{/unless}}" {{#if dataset.itemUuid}} data-item-uuid="{{dataset.itemUuid}}" {{/if}}>
       <img src="{{item.img}}" alt="" {{#if active}} data-action="useItem" {{/if}} {{#if tooltip}} data-tooltip="{{tooltip}}" {{/if}}>
       {{#if @root.isEditMode}}
       <div class="controls">
-        <a data-action="changeEquipped" data-equipment-slot="{{dataset.equipmentSlot}}">
-          <i class="fa-solid fa-shield-alt"></i>
-        </a>
+        <a class="fa-solid fa-shield-alt" data-action="changeEquipped" data-equipment-slot="{{dataset.equipmentSlot}}"></a>
       </div>
       {{/if}}
     </div>
@@ -17,12 +15,12 @@
   </fieldset>
 
   <search>
-    <input type="search" id="inventory-search" placeholder="{{localize 'SIDEBAR.Search' types=(localize 'DOCUMENT.Items')}}" value="{{searchQuery}}">
+    <input type="search" id="inventory-search" placeholder="{{localize 'SIDEBAR.Search' types=(localize 'DOCUMENT.Items')}}" value="{{ctx.searchQuery}}">
   </search>
 
   <div class="scrollable">
 
-    {{#each items}}
+    {{#each ctx.items}}
     <div class="inventory-list {{#each classes}}{{this}}{{/each}}">
       <header>
         <span class="label">{{localize label}}</span>
@@ -42,4 +40,4 @@
 
   </div>
 
-</div>
+</section>

@@ -1,3 +1,4 @@
+import ItemArtichron from "../../../documents/item.mjs";
 import ActorSheetArtichron from "./actor-sheet-base.mjs";
 
 export default class HeroSheet extends ActorSheetArtichron {
@@ -26,32 +27,37 @@ export default class HeroSheet extends ActorSheetArtichron {
   /** @inheritdoc */
   static PARTS = {
     header: {
-      template: "systems/artichron/templates/shared/sheet-header.hbs",
+      template: "systems/artichron/templates/sheets/actor/hero/header.hbs",
     },
     tabs: {
       template: "templates/generic/tab-navigation.hbs",
     },
     attributes: {
-      template: "systems/artichron/templates/sheets/actor/hero-sheet/attributes.hbs",
+      template: "systems/artichron/templates/sheets/actor/hero/attributes.hbs",
       scrollable: [".center-pane"],
     },
+    progression: {
+      template: "systems/artichron/templates/sheets/actor/hero/progression.hbs",
+      classes: ["scrollable"],
+      scrollable: [""],
+    },
     inventory: {
-      template: "systems/artichron/templates/sheets/actor/hero-sheet/inventory.hbs",
+      template: "systems/artichron/templates/sheets/actor/hero/inventory.hbs",
       classes: ["scrollable"],
       scrollable: [".scrollable"],
     },
     details: {
-      template: "systems/artichron/templates/sheets/actor/hero-sheet/details.hbs",
+      template: "systems/artichron/templates/sheets/actor/hero/details.hbs",
       classes: ["scrollable"],
       scrollable: [""],
     },
     effects: {
-      template: "systems/artichron/templates/shared/effects.hbs",
+      template: "systems/artichron/templates/sheets/actor/hero/effects.hbs",
       classes: ["scrollable"],
       scrollable: [""],
     },
     encumbrance: {
-      template: "systems/artichron/templates/sheets/actor/hero-sheet/encumbrance.hbs",
+      template: "systems/artichron/templates/sheets/actor/hero/encumbrance.hbs",
     },
   };
 
@@ -62,6 +68,7 @@ export default class HeroSheet extends ActorSheetArtichron {
     primary: {
       tabs: [
         { id: "attributes" },
+        { id: "progression" },
         { id: "inventory" },
         { id: "details" },
         { id: "effects" },
@@ -74,92 +81,78 @@ export default class HeroSheet extends ActorSheetArtichron {
   /* -------------------------------------------------- */
 
   /** @inheritdoc */
-  async _prepareContext(options) {
-    const doc = this.document;
-    const src = doc.toObject();
-    const rollData = doc.getRollData();
+  async _preparePartContext(partId, context, options) {
+    context = await super._preparePartContext(partId, context, options);
 
-    const effects = await this._prepareEffects();
-    const [buffs, conditions] = effects.partition(e => e.effect.type === "condition");
-
-    const context = {
-      ...await super._prepareContext(options),
-      document: doc,
-      config: artichron.config,
-      health: this.document.system.health,
-      pools: this.#preparePools(),
-      equipment: this.#prepareEquipment(),
-      items: await this._prepareItems(),
-      encumbrance: this.#prepareEncumbrance(),
-      effects: buffs,
-      conditions: conditions,
-      isEditMode: this.isEditMode,
-      isPlayMode: this.isPlayMode,
-      isEditable: this.isEditable,
-      searchQuery: this.#searchQuery,
-    };
-
-    const makeField = path => {
-      const schema = path.startsWith("system") ? this.document.system.schema : this.document.schema;
-      const field = path.startsWith("system") ? schema.getField(path.slice(7)) : schema.getField(path);
-      const value = foundry.utils.getProperty(context.isEditMode ? this.document._source : this.document, path);
-      return { field, value };
-    };
-
-    // Details tab.
-    context.pips = makeField("system.pips.turn");
-    const field = new foundry.data.fields.NumberField({
-      label: "Compact Items",
-      hint: "Toggle whether items are shown in a list or a grid.",
-      choices: {
-        0: "Expanded",
-        1: "Compact",
-      },
-    });
-    const value = this.document.flags.artichron?.compactItems ?? null;
-    context.compactItems = {
-      field: field,
-      value: value,
-    };
-
-    const makeResistance = (key, path) => {
-      context.defenses ??= {};
-      const value = foundry.utils.getProperty(doc.system, path);
-      context.defenses[key] = {
-        value: value,
-        label: artichron.config.DAMAGE_TYPES[key].label,
-        color: artichron.config.DAMAGE_TYPES[key].color,
-        icon: artichron.config.DAMAGE_TYPES[key].icon,
-        active: value > 0,
-      };
-    };
-
-    // Damage defenses.
-    for (const k of Object.keys(doc.system.defenses)) {
-      makeResistance(k, `defenses.${k}`);
+    const fn = `_preparePartContext${partId.capitalize()}`;
+    if (!(this[fn] instanceof Function)) {
+      throw new Error(`The ${this.constructor.name} sheet does not implement the ${fn} method.`);
     }
-    context.defenses = Object.values(context.defenses);
 
-    // Skills.
-    context.skills = Object.entries(this.document.system.skills).map(([k, v]) => {
-      const { label, img } = artichron.config.SKILLS[k];
-      return { label, img, value: v.number, skillId: k };
-    });
+    return this[fn](context, options);
+  }
 
-    // Name and img.
-    context.header = {
-      name: context.isPlayMode ? doc.name : src.name,
-      img: context.isPlayMode ? doc.img : src.img,
+  /* -------------------------------------------------- */
+
+  /**
+   * Prepare context for a part.
+   * @param {object} context    Rendering context. **will be mutated**
+   * @param {object} options    Rendering options.
+   * @returns {Promise<object>}
+   */
+  async _preparePartContextHeader(context, options) {
+    context.ctx = {};
+    return context;
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Prepare context for a part.
+   * @param {object} context    Rendering context. **will be mutated**
+   * @param {object} options    Rendering options.
+   * @returns {Promise<object>}
+   */
+  async _preparePartContextTabs(context, options) {
+    context.ctx = {};
+    return context;
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Prepare context for a part.
+   * @param {object} context    Rendering context. **will be mutated**
+   * @param {object} options    Rendering options.
+   * @returns {Promise<object>}
+   */
+  async _preparePartContextAttributes(context, options) {
+    context.ctx = {
+      health: this.document.system.health,
+      pools: [],
+      defenses: [],
+      skills: [],
     };
 
-    // Details tab.
-    context.notes = {
-      field: this.document.system.schema.getField("details.notes"),
-      value: foundry.utils.getProperty(this.document._source, "system.details.notes"),
-      enriched: await foundry.applications.ux.TextEditor.enrichHTML(this.document.system.details.notes, {
-        relativeTo: this.document, rollData: rollData,
-      }),
-    };
+    for (const [k, v] of Object.entries(this.document.system.pools)) {
+      context.ctx.pools.push({ ...v, key: k });
+    }
+
+    for (const [k, v] of Object.entries(this.document.system.defenses)) {
+      context.ctx.defenses.push({
+        ...artichron.config.DAMAGE_TYPES[k],
+        value: v,
+        active: v > 0,
+      });
+    }
+
+    for (const [k, v] of Object.entries(this.document.system.skills)) {
+      context.ctx.skills.push({
+        ...artichron.config.SKILLS[k],
+        value: v.number,
+        skillId: k,
+      });
+    }
 
     return context;
   }
@@ -167,12 +160,121 @@ export default class HeroSheet extends ActorSheetArtichron {
   /* -------------------------------------------------- */
 
   /**
-   * Prepare health, stamina, mana pools.
-   * @returns {object[]}
+   * Prepare context for a part.
+   * @param {object} context    Rendering context. **will be mutated**
+   * @param {object} options    Rendering options.
+   * @returns {Promise<object>}
    */
-  #preparePools() {
-    const pools = Object.entries(this.document.system.pools).map(([key, pool]) => ({ ...pool, key: key }));
-    return pools;
+  async _preparePartContextProgression(context, options) {
+    context.ctx = { paths: [], mixed: null };
+
+    const pathKeys = Object.keys(this.document.system.paths);
+    const investedTotal = pathKeys.reduce((acc, k) => acc + this.document.system.paths[k].invested, 0);
+    const mixedKey = artichron.config.PROGRESSION_CORE_PATHS[pathKeys[0]].mixed[pathKeys[1]];
+
+    // The lowest invested path
+    const [lowest] = pathKeys.sort((a, b) =>
+      this.document.system.paths[a].invested - this.document.system.paths[b].invested,
+    );
+
+    const isMixed = !!mixedKey
+      && pathKeys.some(k => this.document.system.paths[k].invested > artichron.config.PROGRESSION_VALUES.absolute)
+      && (this.document.system.paths[lowest].invested / investedTotal * 100).between(
+        artichron.config.PROGRESSION_VALUES.relative.lower,
+        artichron.config.PROGRESSION_VALUES.relative.upper,
+      );
+
+    if (isMixed) {
+      context.ctx.mixed = {
+        ...artichron.config.PROGRESSION_MIXED_PATHS[mixedKey],
+        key: mixedKey,
+      };
+    }
+
+    for (const [i, key] of pathKeys.reverse().entries()) {
+      context.ctx.paths.push({
+        ...artichron.config.PROGRESSION_CORE_PATHS[key],
+        ...this.document.system.paths[key],
+        key,
+        cssClass: isMixed || (i > 0) ? "inactive" : "",
+      });
+    }
+
+    return context;
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Prepare context for a part.
+   * @param {object} context    Rendering context. **will be mutated**
+   * @param {object} options    Rendering options.
+   * @returns {Promise<object>}
+   */
+  async _preparePartContextInventory(context, options) {
+    context.ctx = {
+      equipment: this.#prepareEquipment(),
+      items: await this._prepareItems(),
+      searchQuery: this.#searchQuery,
+    };
+    return context;
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Prepare context for a part.
+   * @param {object} context    Rendering context. **will be mutated**
+   * @param {object} options    Rendering options.
+   * @returns {Promise<object>}
+   */
+  async _preparePartContextDetails(context, options) {
+    context.ctx = {
+      notes: await foundry.applications.ux.TextEditor.implementation.enrichHTML(this.document.system.details.notes, {
+        relativeTo: this.document, rollData: this.document.getRollData(),
+      }),
+    };
+    return context;
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Prepare context for a part.
+   * @param {object} context    Rendering context. **will be mutated**
+   * @param {object} options    Rendering options.
+   * @returns {Promise<object>}
+   */
+  async _preparePartContextEffects(context, options) {
+    context.ctx = {
+      conditions: [],
+      buffs: { active: [], inactive: [] },
+    };
+
+    for (const effect of this.document.allApplicableEffects()) {
+      const data = { effect };
+      if (effect.type === "condition") context.ctx.conditions.push(data);
+      else if ((effect.type === "buff") && effect.disabled) context.ctx.buffs.inactive.push(data);
+      else if (effect.type === "buff") context.ctx.buffs.active.push(data);
+    }
+
+    return context;
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Prepare context for a part.
+   * @param {object} context    Rendering context. **will be mutated**
+   * @param {object} options    Rendering options.
+   * @returns {Promise<object>}
+   */
+  async _preparePartContextEncumbrance(context, options) {
+    const enc = this.document.system.encumbrance;
+    context.ctx = {
+      encumbrance: Math.round(Math.clamp(enc.value / enc.max, 0, 1) * 100),
+    };
+    return context;
   }
 
   /* -------------------------------------------------- */
@@ -285,17 +387,6 @@ export default class HeroSheet extends ActorSheetArtichron {
 
   /* -------------------------------------------------- */
 
-  /**
-   * Prepare encumbrance bar.
-   * @returns {object}
-   */
-  #prepareEncumbrance() {
-    const enc = this.document.system.encumbrance;
-    return { ...enc, percent: Math.round(Math.clamp(enc.value / enc.max, 0, 1) * 100) };
-  }
-
-  /* -------------------------------------------------- */
-
   /** @inheritdoc */
   _preSyncPartState(p, ne, pe, s) {
     super._preSyncPartState(p, ne, pe, s);
@@ -338,15 +429,68 @@ export default class HeroSheet extends ActorSheetArtichron {
   /** @inheritdoc */
   _attachPartListeners(partId, htmlElement, options) {
     super._attachPartListeners(partId, htmlElement, options);
-    if (partId === "inventory") {
-      const input = htmlElement.querySelector("#inventory-search");
-      const callback = foundry.utils.debounce(this.#onSearchFilter, 200).bind(this);
-      input.addEventListener("input", event => {
-        const query = event.currentTarget.value.toLowerCase().trim();
-        this.#searchQuery = query;
-        callback(query, htmlElement);
-      });
+
+    switch (partId) {
+      case "inventory":
+        this.#attachPartListenersInventory(htmlElement, options);
+        break;
     }
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Attach event listeners to a specific part.
+   * @param {HTMLElement} element   The part element.
+   * @param {object} options        Rendering options
+   */
+  #attachPartListenersInventory(element, options) {
+    const input = element.querySelector("#inventory-search");
+    const callback = foundry.utils.debounce(this.#onSearchFilter, 200).bind(this);
+    input.addEventListener("input", event => {
+      const query = event.currentTarget.value.toLowerCase().trim();
+      this.#searchQuery = query;
+      callback(query, element);
+    });
+  }
+
+  /* -------------------------------------------------- */
+
+  /** @inheritdoc */
+  async _onDropItem(event, item) {
+    if (!this.document.isOwner) return;
+    if (item.type === "path") return this.#onDropPath(item);
+    return super._onDropItem(event, item);
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Implement drop handling of a Path item onto the sheet.
+   * @param {ItemArtichron} item   The path item.
+   */
+  async #onDropPath(item) {
+    const { paths } = this.document.system;
+    const identifier = item.system.identifier;
+
+    const picked = identifier in paths;
+
+    const allowed = picked || (Object.keys(paths).length < 2);
+    if (!allowed) {
+      ui.notifications.error("ARTICHRON.ITEM.PATH.WARNING.cannotAddNewPath", { localize: true });
+      return;
+    }
+
+    // A path that has already been picked is dropped onto the sheet again.
+    if (picked) {
+      const confirm = await artichron.applications.api.Dialog.confirm({});
+      if (!confirm) return;
+      throw new Error("TODO: Do things when an existing path is dropped again.");
+    }
+
+    // A path that has not yet been picked is dropped onto the sheet.
+    this.document.update({ [`system.paths.${identifier}`]: { advancements: [0] } });
+    // TODO: do more
   }
 
   /* -------------------------------------------------- */

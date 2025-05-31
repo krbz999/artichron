@@ -741,56 +741,64 @@ export const PROGRESSION_THRESHOLDS = [{
 export const PROGRESSION_CORE_PATHS = {
   cleric: {
     label: "ARTICHRON.PROGRESSION.LABELS.Cleric",
+    mixed: {},
   },
   fighter: {
     label: "ARTICHRON.PROGRESSION.LABELS.Fighter",
+    mixed: {},
   },
   mage: {
     label: "ARTICHRON.PROGRESSION.LABELS.Mage",
+    mixed: {},
   },
   rogue: {
     label: "ARTICHRON.PROGRESSION.LABELS.Rogue",
+    mixed: {},
   },
 };
 
 export const PROGRESSION_MIXED_PATHS = {
   inquisitor: {
     label: "ARTICHRON.PROGRESSION.LABELS.Inquisitor",
-    combo: new Set(["cleric", "rogue"]),
   },
   shaman: {
     label: "ARTICHRON.PROGRESSION.LABELS.Shaman",
-    combo: new Set(["cleric", "mage"]),
   },
   spellblade: {
     label: "ARTICHRON.PROGRESSION.LABELS.Spellblade",
-    combo: new Set(["fighter", "mage"]),
   },
   swashbuckler: {
     label: "ARTICHRON.PROGRESSION.LABELS.Swashbuckler",
-    combo: new Set(["fighter", "rogue"]),
   },
   templar: {
     label: "ARTICHRON.PROGRESSION.LABELS.Templar",
-    combo: new Set(["fighter", "cleric"]),
   },
   warlock: {
     label: "ARTICHRON.PROGRESSION.LABELS.Warlock",
-    combo: new Set(["mage", "rogue"]),
   },
 };
 
-Object.defineProperty(PROGRESSION_CORE_PATHS, "combo", {
-  value: _getCombo, configurable: true,
-});
-
-function _getCombo(a, b) {
-  for (const [k, { combo }] of Object.entries(SYSTEM.PROGRESSION_MIXED_PATHS)) {
-    if (combo.has(a) && combo.has(b)) return k;
-  }
+for (const k in PROGRESSION_CORE_PATHS) {
+  PROGRESSION_CORE_PATHS[k].mixed = new Proxy(PROGRESSION_CORE_PATHS[k].mixed, { get(target, prop, receiver) {
+    prop = [k, prop].sort((a, b) => a.localeCompare(b)).join(":");
+    prop = {
+      "cleric:fighter": "templar",
+      "cleric:mage": "shaman",
+      "cleric:rogue": "inquisitor",
+      "fighter:mage": "spellblade",
+      "fighter:rogue": "swashbuckler",
+      "mage:rogue": "warlock",
+    }[prop];
+    return prop;
+  } });
 }
 
-export const PROGRESSION_MARGINS = {
-  lower: 45,
-  higher: 55,
+export const PROGRESSION_VALUES = {
+  relative: {
+    lower: 45,
+    upper: 55,
+  },
+  // If any path has more than this, use relative.
+  // You also cannot be mixed-path unless meeting this.
+  absolute: 10,
 };

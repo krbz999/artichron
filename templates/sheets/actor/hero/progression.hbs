@@ -1,0 +1,16 @@
+<section class="tab {{tabs.progression.cssClass}}" data-group="{{tabs.progression.group}}" data-tab="{{tabs.progression.id}}">
+  <div class="document-list progression">
+    {{#if ctx.mixed}}
+    <h3 class="document-list-header">
+      <span>{{ctx.mixed.label}}</span>
+    </h3>
+    {{/if}}
+
+    {{#each ctx.paths}}
+    <h3 class="document-list-header {{cssClass}}">
+      <span>{{label}} ({{invested}})</span>
+      <input type="number" name="system.paths.{{key}}.invested" value="{{invested}}" style="min-width: 5rem;">
+    </h3>
+    {{/each}}
+  </div>
+</section>
