@@ -177,9 +177,10 @@ dialog:-internal-dialog-in-top-layer::backdrop {
   }
 
   /* Make a prosemirror form group the full height of a tab. */
-  .form-group.prosemirror-full-height {
-    height: 100%;
+  .prosemirror-full-height {
+    flex: 1;
     display: grid;
+    height: 100%;
     grid-template-rows: 0fr 1fr;
 
     .form-fields {

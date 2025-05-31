@@ -9,7 +9,7 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
   static DEFAULT_OPTIONS = {
     classes: ["item"],
     position: {
-      width: 500,
+      width: 350,
       height: "auto",
     },
     actions: {

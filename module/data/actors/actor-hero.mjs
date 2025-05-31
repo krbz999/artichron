@@ -26,9 +26,6 @@ export default class HeroData extends CreatureData {
     };
 
     return Object.assign(super.defineSchema(), {
-      details: new SchemaField({
-        notes: new HTMLField({ required: true }),
-      }),
       paths: new TypedObjectField(new SchemaField({
         invested: new NumberField({ min: 0, integer: true, initial: 0 }),
       }), {

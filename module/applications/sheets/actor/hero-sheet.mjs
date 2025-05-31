@@ -14,7 +14,7 @@ export default class HeroSheet extends ActorSheetArtichron {
   /** @inheritdoc */
   static DEFAULT_OPTIONS = {
     classes: ["hero"],
-    position: { width: 510, height: 800 },
+    position: { width: 400 },
     actions: {
       rollPool: HeroSheet.#onRollPool,
       rollSkill: HeroSheet.#onRollSkill,
@@ -70,14 +70,13 @@ export default class HeroSheet extends ActorSheetArtichron {
   static TABS = {
     primary: {
       tabs: [
-        { id: "attributes" },
-        { id: "progression" },
-        { id: "inventory" },
-        { id: "details" },
-        { id: "effects" },
+        { id: "attributes", tooltip: "ARTICHRON.SHEET.TABS.attributes", icon: "fa-solid fa-fw fa-clover" },
+        { id: "progression", tooltip: "ARTICHRON.SHEET.TABS.progression", icon: "fa-solid fa-fw fa-circle-nodes" },
+        { id: "inventory", tooltip: "ARTICHRON.SHEET.TABS.inventory", icon: "fa-solid fa-fw fa-boxes" },
+        { id: "details", tooltip: "ARTICHRON.SHEET.TABS.details", icon: "fa-solid fa-fw fa-pen-fancy" },
+        { id: "effects", tooltip: "ARTICHRON.SHEET.TABS.effects", icon: "fa-solid fa-fw fa-bolt" },
       ],
       initial: "attributes",
-      labelPrefix: "ARTICHRON.SHEET.TABS",
     },
   };
 
@@ -103,6 +102,7 @@ export default class HeroSheet extends ActorSheetArtichron {
    * @returns {Promise<object>}
    */
   async _preparePartContextTabs(context, options) {
+    context.verticalTabs = true;
     context.ctx = {};
     return context;
   }
@@ -238,9 +238,10 @@ export default class HeroSheet extends ActorSheetArtichron {
    */
   async _preparePartContextDetails(context, options) {
     context.ctx = {
-      notes: await foundry.applications.ux.TextEditor.implementation.enrichHTML(this.document.system.details.notes, {
-        relativeTo: this.document, rollData: this.document.getRollData(),
-      }),
+      bio: await foundry.applications.ux.TextEditor.implementation.enrichHTML(
+        this.document.system.biography.value,
+        { relativeTo: this.document, rollData: this.document.getRollData() },
+      ),
     };
     return context;
   }

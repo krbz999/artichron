@@ -8,7 +8,7 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
   /** @inheritdoc */
   static DEFAULT_OPTIONS = {
     classes: ["actor"],
-    position: { height: 700 },
+    position: { height: 500, width: 400 },
     window: { resizable: true },
     actions: {
       useItem: ActorSheetArtichron.#onUseItem,

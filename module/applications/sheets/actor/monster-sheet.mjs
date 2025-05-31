@@ -37,8 +37,8 @@ export default class MonsterSheet extends ActorSheetArtichron {
       template: "systems/artichron/templates/sheets/actor/monster/loot.hbs",
       scrollable: [""],
     },
-    about: {
-      template: "systems/artichron/templates/sheets/actor/monster/about.hbs",
+    details: {
+      template: "systems/artichron/templates/sheets/actor/monster/details.hbs",
       classes: ["scrollable"],
       scrollable: [""],
     },
@@ -55,13 +55,12 @@ export default class MonsterSheet extends ActorSheetArtichron {
   static TABS = {
     primary: {
       tabs: [
-        { id: "actions" },
-        { id: "loot" },
-        { id: "about" },
-        { id: "effects" },
+        { id: "actions", tooltip: "ARTICHRON.SHEET.TABS.actions", icon: "fa-solid fa-fw fa-clover" },
+        { id: "loot", tooltip: "ARTICHRON.SHEET.TABS.loot", icon: "fa-solid fa-fw fa-boxes" },
+        { id: "details", tooltip: "ARTICHRON.SHEET.TABS.details", icon: "fa-solid fa-fw fa-pen-fancy" },
+        { id: "effects", tooltip: "ARTICHRON.SHEET.TABS.effects", icon: "fa-solid fa-fw fa-bolt" },
       ],
       initial: "actions",
-      labelPrefix: "ARTICHRON.SHEET.TABS",
     },
   };
 
@@ -101,6 +100,7 @@ export default class MonsterSheet extends ActorSheetArtichron {
    */
   async _preparePartContextTabs(context, options) {
     context.ctx = {};
+    context.verticalTabs = true;
     return context;
   }
 
@@ -170,9 +170,9 @@ export default class MonsterSheet extends ActorSheetArtichron {
    * @param {object} options    Rendering options.
    * @returns {Promise<object>}
    */
-  async _preparePartContextAbout(context, options) {
+  async _preparePartContextDetails(context, options) {
     context.ctx = {
-      biography: await foundry.applications.ux.TextEditor.implementation.enrichHTML(
+      bio: await foundry.applications.ux.TextEditor.implementation.enrichHTML(
         this.document.system.biography.value,
         { relativeTo: this.document, rollData: this.document.getRollData() },
       ),

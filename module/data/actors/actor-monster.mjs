@@ -1,6 +1,6 @@
 import CreatureData from "./creature-data.mjs";
 
-const { ArrayField, DocumentUUIDField, HTMLField, NumberField, SchemaField } = foundry.data.fields;
+const { ArrayField, DocumentUUIDField, NumberField, SchemaField } = foundry.data.fields;
 
 export default class MonsterData extends CreatureData {
   /** @inheritdoc */
@@ -14,26 +14,19 @@ export default class MonsterData extends CreatureData {
 
   /** @inheritdoc */
   static defineSchema() {
-    const schema = super.defineSchema();
-
-    schema.loot = new ArrayField(new SchemaField({
-      uuid: new DocumentUUIDField({ type: "Item", embedded: false }),
-      quantity: new NumberField({ min: 1, integer: true, initial: 1, nullable: false }),
-    }));
-
-    schema.danger = new SchemaField({
-      pool: new SchemaField({
-        spent: new NumberField({ min: 0, integer: true, nullable: false, initial: 0 }),
-        max: new NumberField({ min: 0, integer: true, nullable: false, initial: 1 }),
+    return Object.assign(super.defineSchema(), {
+      danger: new SchemaField({
+        pool: new SchemaField({
+          spent: new NumberField({ min: 0, integer: true, nullable: false, initial: 0 }),
+          max: new NumberField({ min: 0, integer: true, nullable: false, initial: 1 }),
+        }),
+        value: new NumberField({ min: 1, integer: true, initial: 1, nullable: false }),
       }),
-      value: new NumberField({ min: 1, integer: true, initial: 1, nullable: false }),
+      loot: new ArrayField(new SchemaField({
+        uuid: new DocumentUUIDField({ type: "Item", embedded: false }),
+        quantity: new NumberField({ min: 1, integer: true, initial: 1, nullable: false }),
+      })),
     });
-
-    schema.biography = new SchemaField({
-      value: new HTMLField({ required: true }),
-    });
-
-    return schema;
   }
 
   /* -------------------------------------------------- */

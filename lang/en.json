@@ -192,7 +192,6 @@
     }
   },
   "TABS": {
-    "about": "About",
     "actions": "Actions",
     "activities": "Activities",
     "advancements": "Advancements",
@@ -429,11 +428,6 @@
       "armor": {
         "hint": "Armor value reduces incoming physical damage.",
         "label": "Armor"
-      }
-    },
-    "details": {
-      "notes": {
-        "label": "Notes"
       }
     },
     "health": {
@@ -687,16 +681,6 @@
     "Clothing": "Clothing",
     "Natural": "Natural",
     "Tech": "Tech"
-  }
-},
-"HERO": {
-  "recover": "Recover",
-  "INVENTORY": {
-    "arsenal": "Arsenal",
-    "consumables": "Consumables",
-    "create": "Create Item",
-    "gear": "Gear",
-    "loot": "Loot"
   }
 },
 "ItemAttribute": {
