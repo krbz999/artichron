@@ -1,0 +1,26 @@
+<section class="standard-form">
+  {{#each ctx.chains}}
+
+  {{#each this}}
+  <div data-advancement-uuid="{{advancement.uuid}}" style="margin-left: calc({{depth}} * 2rem);">
+    <h5>{{advancement.name}}</h5>
+
+    {{#if pool.length}}
+    {{#each pool}}
+    <div class="form-group" data-item-uuid="{{item.uuid}}">
+      <label>{{item.name}}</label>
+      <div class="form-fields">
+        <input type="checkbox" {{#if optional}} data-change="changeOptionalAdvancement" {{/if}} {{checked selected}} {{disabled (not optional)}}>
+      </div>
+    </div>
+    {{/each}}
+    {{/if}}
+  </div>
+  {{/each}}
+
+  {{#unless @last}}
+  <hr>
+  {{/unless}}
+
+  {{/each}}
+</section>

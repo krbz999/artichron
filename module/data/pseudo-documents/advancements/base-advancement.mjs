@@ -47,6 +47,7 @@ export default class BaseAdvancement extends TypedPseudoDocument {
     const leaf = new artichron.utils.AdvancementChain({
       advancement: this,
       children: {},
+      depth: _depth,
       parent,
       pool: [],
       root: _depth === 0,
@@ -206,7 +207,8 @@ export default class BaseAdvancement extends TypedPseudoDocument {
 
     const chains = await Promise.all(collection.map(advancement => advancement.determineChain()));
 
-    // TODO: pop UI to configure the chains here
+    const configuration = await artichron.applications.apps.advancement.ChainConfigurationDialog.create({ chains });
+    if (!configuration) return null;
 
     const { itemData, actorUpdate } = await BaseAdvancement.prepareUpdates(actor, item, chains);
 
