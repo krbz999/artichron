@@ -1,11 +1,9 @@
 .artichron.application.sheet.actor {
-  min-height: 670px;
-  min-width: 400px;
+  --min-height: 600px;
 
-  /* Core fix */
-  &.minimizing, &.minimized, &.maximizing {
-    min-height: unset;
-    min-width: unset;
+  &:not(.minimizing, .minimized, .maximizing) {
+    min-height: var(--min-height);
+    min-width: 400px;
   }
 
   .tab.active {
@@ -14,6 +12,56 @@
 
   & search {
     margin: 0.5rem;
+  }
+
+  .health-bar {
+    position: fixed;
+    right: anchor(--sheet-header left);
+    min-height: calc(var(--min-height) - 2 * var(--header-height));
+    width: 40px;
+    transition: width 200ms ease;
+    box-shadow: -2px 2px 5px black;
+    border-radius: 5px;
+    margin-right: 1.3rem;
+    place-content: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    padding: 0;
+    overflow: hidden;
+
+    &:has(:focus) {
+      width: 75px;
+      transition-duration: 0s;
+    }
+
+    input {
+      text-align: center;
+      width: calc(100% - 4px);
+      background-color: transparent;
+      color: initial;
+      border: 1px solid hsl(from black h s l / 0.35);
+      padding: 0;
+      margin: 0;
+    }
+
+    .health-fill {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      top: calc(100% - var(--health-bar-pct));
+      background: linear-gradient(to top, rgb(25, 0, 0) 15%, rgb(150, 0, 0) 50%, rgb(255, 0, 0) 100%);
+      z-index: -1;
+    }
+
+    .control {
+      position: absolute;
+      top: 0;
+      right: 0;
+      padding: 4px;
+    }
   }
 
   .tab[data-tab=attributes].active {
@@ -91,56 +139,6 @@
           z-index: 1;
         }
       }
-    }
-  }
-
-  .health {
-    position: relative;
-    place-content: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    flex: 1;
-    padding: 0;
-    overflow: hidden;
-
-    & input {
-      width: calc(100% - 8px);
-      text-align: center;
-    }
-
-    .health-bar {
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      top: calc(100% - var(--health-bar-pct));
-      z-index: -1;
-      background: rgba(255, 0, 0, 0.5);
-    }
-
-    .control {
-      position: absolute;
-      top: 0;
-      right: 0;
-      padding: 4px;
-    }
-  }
-  &.monster .health {
-    flex-direction: row;
-    height: 3rem;
-
-    & input {
-      width: 3rem;
-      height: 1.5rem;
-      margin: 0.3rem 0;
-    }
-
-    .health-bar {
-      left: 0;
-      right: calc(100% - var(--health-bar-pct));
-      bottom: 0;
-      top: 0;
     }
   }
 

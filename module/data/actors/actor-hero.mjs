@@ -1,12 +1,15 @@
 import CreatureData from "./creature-data.mjs";
 
-const { HTMLField, NumberField, SchemaField } = foundry.data.fields;
+const { NumberField, SchemaField, TypedObjectField } = foundry.data.fields;
 
 export default class HeroData extends CreatureData {
   /** @inheritdoc */
   static get metadata() {
     return foundry.utils.mergeObject(super.metadata, {
       type: "hero",
+      embedded: {
+        Progression: "system.progressions",
+      },
     });
   }
 
@@ -14,8 +17,6 @@ export default class HeroData extends CreatureData {
 
   /** @inheritdoc */
   static defineSchema() {
-    const schema = super.defineSchema();
-
     const poolSchema = () => {
       return new SchemaField({
         base: new NumberField({ min: 0, integer: true, initial: 0, nullable: false }),
@@ -27,25 +28,26 @@ export default class HeroData extends CreatureData {
       });
     };
 
-    schema.pools = new SchemaField({
-      health: poolSchema(),
-      stamina: poolSchema(),
-      mana: poolSchema(),
+    return Object.assign(super.defineSchema(), {
+      paths: new TypedObjectField(new SchemaField({
+        invested: new NumberField({ min: 0, integer: true, initial: 0 }),
+      }), {
+        validateKey: key => key in artichron.config.PROGRESSION_CORE_PATHS,
+      }),
+      pools: new SchemaField({
+        health: poolSchema(),
+        stamina: poolSchema(),
+        mana: poolSchema(),
+      }),
+      progressions: new artichron.data.fields.CollectionField(artichron.data.pseudoDocuments.progressions.Progression),
+      skills: new SchemaField(Object.entries(artichron.config.SKILLS).reduce((acc, [k, v]) => {
+        acc[k] = new SchemaField({
+          number: new NumberField({ integer: true, min: 2, initial: 2, nullable: false }),
+          bonus: new NumberField({ integer: true, min: 0, initial: 0 }),
+        });
+        return acc;
+      }, {})),
     });
-
-    schema.skills = new SchemaField(Object.entries(artichron.config.SKILLS).reduce((acc, [k, v]) => {
-      acc[k] = new SchemaField({
-        number: new NumberField({ integer: true, min: 2, initial: 2, nullable: false }),
-        bonus: new NumberField({ integer: true, min: 0, initial: 0 }),
-      });
-      return acc;
-    }, {}));
-
-    schema.details = new SchemaField({
-      notes: new HTMLField({ required: true }),
-    });
-
-    return schema;
   }
 
   /* -------------------------------------------------- */

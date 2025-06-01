@@ -1,0 +1,60 @@
+<section class="tab {{tabs.attributes.cssClass}}" data-group="{{tabs.attributes.group}}" data-tab="{{tabs.attributes.id}}">
+
+  <div class="left-pane">
+    <fieldset class="pools">
+      {{#if isEditMode}}
+      <a class="edit fa-solid fa-cog" data-action="toggleConfig" data-tooltip="ARTICHRON.POOL.edit" data-trait="pools"></a>
+      {{/if}}
+      {{#each ctx.pools}}
+      <a class="pool die d{{faces}} {{key}}" data-action="rollPool" data-pool="{{key}}" data-tooltip="{{value}} / {{max}} (d{{faces}})">
+        <span class="label">{{value}}</span>
+      </a>
+      {{/each}}
+    </fieldset>
+  </div>
+
+  <div class="center-pane scrollable">
+
+    {{!-- FAVORITES --}}
+    {{#if ctx.favorites.length}}
+    <div class="document-list items" data-document-name="Item">
+      <h3 class="document-list-header">
+        <span>{{localize "ARTICHRON.SHEET.HERO.HEADERS.favorites"}}</span>
+      </h3>
+
+      <div class="document-list-entries compact">
+        {{#each ctx.favorites}}
+        <div class="entry button" data-id="{{id}}" data-action="useItem">
+          <img src="{{img}}" alt="{{name}}" class="icon">
+          <span class="title">{{name}}</span>
+          <span class="subtitle">{{name}}</span>
+        </div>
+        {{/each}}
+      </div>
+    </div>
+    {{/if}}
+
+    <fieldset class="defenses">
+      <legend>{{localize "ARTICHRON.SHEET.HERO.HEADERS.defenses"}}</legend>
+      {{#each ctx.defenses}}
+      <div class="defense {{#if active}} active {{/if}}" data-tooltip="{{label}}" style="color: #{{color}}">
+        <span class="total">{{value}}</span>
+        <i class="{{icon}}"></i>
+      </div>
+      {{/each}}
+    </fieldset>
+
+    <fieldset class="skills">
+      <legend>{{localize "ARTICHRON.SHEET.HERO.HEADERS.skills"}}</legend>
+      {{#each ctx.skills}}
+      <a class="skill label-top" data-action="rollSkill" data-skill-id="{{skillId}}">
+        <label>{{label}}</label>
+        <img src="{{img}}" alt="{{label}}">
+        <span class="value">{{value}}d6</span>
+      </a>
+      {{/each}}
+    </fieldset>
+
+  </div>
+
+</section>

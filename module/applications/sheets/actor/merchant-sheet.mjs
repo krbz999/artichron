@@ -186,8 +186,8 @@ export default class MerchantSheet extends ActorSheetArtichron {
   /**
    * Open the merchant actor configuration dialog.
    * @this {MerchantSheet}
-   * @param {PointerEvent} event      The originating click event.
-   * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
+   * @param {PointerEvent} event    The initiating click event.
+   * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
    */
   static #configure(event, target) {
     if (!this.document.isOwner) return;
@@ -199,8 +199,8 @@ export default class MerchantSheet extends ActorSheetArtichron {
   /**
    * Finalize the purchase.
    * @this {MerchantSheet}
-   * @param {PointerEvent} event      The originating click event.
-   * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
+   * @param {PointerEvent} event    The initiating click event.
+   * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
    */
   static #checkout(event, target) {
     this.document.system.finalizePurchase();

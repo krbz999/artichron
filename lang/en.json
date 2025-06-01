@@ -1,6 +1,8 @@
 {
 "DOCUMENT": {
   "Activity": "Activity",
+  "Advancement": "Advancement",
+  "ArmorRequirement": "Armor Requirement",
   "Clock": "Clock",
   "Damage": "Damage"
 },
@@ -25,6 +27,42 @@
   "party": "Party",
   "partyPl": "Parties"
 },
+"Activity": {
+  "damage": "Damage",
+  "damagePl": "Damage Activities",
+  "defend": "Defend",
+  "defendPl": "Defend Activities",
+  "effect": "Effect",
+  "effectPl": "Effect Activities",
+  "healing": "Healing",
+  "healingPl": "Healing Activities",
+  "teleport": "Teleport",
+  "teleportPl": "Teleport Activities"
+},
+"Advancement": {
+  "itemGrant": "Item Grant",
+  "itemGrantPl": "Item Grant Advancements"
+},
+"ArmorRequirement": {
+  "health": "Health",
+  "healthPl": "Health Requirements",
+  "level": "Level",
+  "levelPl": "Level Requirements",
+  "pool": "Pool",
+  "poolPl": "Pool Requirements",
+  "skill": "Skill",
+  "skillPl": "Skill Requirements"
+},
+"Clock": {
+  "bad": "Bad Clock",
+  "badPl": "Bad Clocks",
+  "good": "Good Clock",
+  "goodPl": "Good Clocks"
+},
+"Damage": {
+  "base": "Damage Part",
+  "basePl": "Damages Parts"
+},
 "Item": {
   "ammo": "Ammunition",
   "ammoPl": "Ammunition",
@@ -34,12 +72,14 @@
   "elixirPl": "Elixirs",
   "part": "Monster Part",
   "partPl": "Monster Parts",
+  "path": "Path",
+  "pathPl": "Paths",
   "shield": "Shield",
   "shieldPl": "Shields",
   "spell": "Spell",
   "spellPl": "Spells",
-  "weapon": "Weapon",
-  "weaponPl": "Weapons"
+  "talent": "Talent",
+  "talentPl": "Talents"
 },
 "RegionBehavior": {
   "doorState": "Toggle Door State",
@@ -54,21 +94,107 @@
     "Hero": "Artichron Hero Sheet",
     "Merchant": "Artichron Merchant Sheet",
     "Monster": "Artichron Monster Sheet",
-    "Party": "Artichron Party Sheet"
+    "Party": "Artichron Party Sheet",
+
+    "CONTEXT": {
+      "EFFECT": {
+        "render": "Edit Effect",
+        "delete": "Delete Effect",
+        "disable": "Disable Effect",
+        "enable": "Enable Effect",
+        "removeCondition": "Remove Condition",
+        "decreaseCondition": "Decrease Level",
+        "increaseCondition": "Increase Level"
+      },
+      "ITEM": {
+        "render": "Edit Item",
+        "delete": "Delete Item",
+        "favorite": "Favorite Item",
+        "unfavorite": "Unfavorite Item",
+        "equip": "Equip Item",
+        "unequip": "Unequip Item",
+        "fuse": "Fuse Item"
+      }
+    }
   },
   "EFFECT": {
     "Base": "Artichron ActiveEffect Sheet"
   },
-  "ITEM": {
-    "Base": "Artichron Item Sheet"
+
+  "HERO": {
+    "HEADERS": {
+      "conditions": "Conditions",
+      "activeBuffs": "Active Buffs",
+      "inactiveBuffs": "Inactive Buffs",
+      "favorites": "Favorites",
+      "defenses": "Defenses",
+      "skills": "Skills",
+      "equipment": "Equipment",
+      "inventory": "Inventory"
+    }
   },
+
+  "ITEM": {
+    "AmmoSheet": "Artichron Ammunition Sheet",
+    "ArmorSheet": "Artichron Armor Piece Sheet",
+    "ElixirSheet": "Artichron Elixir Sheet",
+    "PartSheet": "Artichron Monster Part Sheet",
+    "PathSheet": "Artichron Path Sheet",
+    "SpellSheet": "Artichron Spell Sheet",
+    "TalentSheet": "Artichron Talent Sheet",
+
+    "CONTEXT": {
+      "ACTIVITY": {
+        "render": "Edit Activity",
+        "delete": "Delete Activity",
+        "duplicate": "Duplicate Activity"
+      },
+      "ADVANCEMENT": {
+        "render": "Edit Advancement",
+        "delete": "Delete Advancement",
+        "duplicate": "Duplicate Advancement"
+      },
+      "EFFECT": {
+        "render": "Edit Effect",
+        "delete": "Delete Effect",
+        "enable": "Enable Effect",
+        "disable": "Disable Effect",
+        "duplicate": "Duplicate Effect"
+      }
+    }
+  },
+
+  "MONSTER": {
+    "HEADERS": {
+      "defenses": "Defenses",
+      "details": "Details",
+      "equipment": "Equipment",
+      "favorites": "Favorites",
+      "inventory": "Inventory",
+      "loot": "Loot",
+      "conditions": "Conditions",
+      "activeBuffs": "Active Buffs",
+      "inactiveBuffs": "Inactive Buffs"
+    }
+  },
+
   "ACTIVITY": {
     "title": "Activity: {name}"
   },
+  "ADVANCEMENT": {
+    "HEADERS": {
+      "requirements": "Requirements"
+    }
+  },
+  "SPELL": {
+    "HEADERS": {
+      "activities": "Activities"
+    }
+  },
   "TABS": {
-    "about": "About",
     "actions": "Actions",
     "activities": "Activities",
+    "advancements": "Advancements",
     "attributes": "Attributes",
     "changes": "Changes",
     "description": "Description",
@@ -79,26 +205,15 @@
     "inventory": "Inventory",
     "loot": "Loot",
     "members": "Members",
-    "progress": "Progress"
+    "progress": "Progress",
+    "progression": "Progression"
   },
-  "LEGENDS": {
-    "activities": "Activities",
-    "awards": "Awards",
-    "biography": "Biography",
-    "cart": "Cart",
-    "configuration": "Configuration",
-    "damage": "Damage",
-    "defenses": "Defenses",
-    "details": "Details",
-    "duration": "Duration",
-    "equipment": "Equipment",
-    "favorites": "Favorites",
-    "funds": "Funds",
-    "identity": "Identity",
-    "loot": "Loot",
-    "requirements": "Requirements",
-    "skills": "Skills",
-    "stock": "Stock"
+  "TALENT": {
+    "HEADERS": {
+      "activeBuffs": "Active Buffs",
+      "inactiveBuffs": "Inactive Buffs",
+      "advancements": "Advancements"
+    }
   },
   "TOGGLE": {
     "opacity": "Toggle Opacity",
@@ -315,11 +430,6 @@
         "label": "Armor"
       }
     },
-    "details": {
-      "notes": {
-        "label": "Notes"
-      }
-    },
     "health": {
       "label": "Health"
     },
@@ -393,6 +503,28 @@
     }
   }
 },
+
+"ADVANCEMENT": {
+  "FIELDS": {
+    "name": {
+      "label": "Name"
+    },
+    "img": {
+      "label": "Image"
+    }
+  },
+  "ITEM_GRANT": {
+    "FIELDS": {
+      "requirements": {
+        "points": {
+          "label": "Point Requirement",
+          "hint": "The number of points required to unlock this advancement."
+        }
+      }
+    }
+  }
+},
+
 "AmmunitionType": {
   "Arrow": "Arrow",
   "Bullet": "Bullet",
@@ -409,10 +541,6 @@
 },
 
 "CLOCK": {
-  "defaultName": {
-    "good": "Good Clock",
-    "bad": "Bad Clock"
-  },
   "FIELDS": {
     "color": {
       "label": "Color"
@@ -421,7 +549,6 @@
       "label": "Max"
     },
     "name": {
-      "initial": "Bad Clock",
       "label": "Name"
     },
     "value": {
@@ -449,39 +576,12 @@
   "ToggleHidden": "Toggle Hidden"
 },
 "ContextMenu": {
-  "ActiveEffect": {
-    "DecreaseLevel": "Decrease Level",
-    "Delete": "Delete Effect",
-    "Disable": "Disable Effect",
-    "Duplicate": "Duplicate Effect",
-    "Enable": "Enable Effect",
-    "IncreaseLevel": "Increase Level",
-    "Render": "Show Effect",
-    "Unfuse": "Split Fusion"
-  },
-  "Activity": {
-    "Delete": "Delete Activity",
-    "Duplicate": "Duplicate Activity",
-    "Render": "Show Activity"
-  },
   "Directory": {
     "AssignPrimaryParty": "Assign Primary Party",
     "RemovePrimaryParty": "Unassign Primary Party"
-  },
-  "Item": {
-    "Delete": "Delete Item",
-    "Equip": "Equip Item",
-    "Favorite": "Add to Favorites",
-    "Fuse": "Fuse Item",
-    "Render": "Show Item",
-    "Unequip": "Unequip Item",
-    "Unfavorite": "Remove from Favorites",
-    "Unfuse": "Split Fusion",
-    "Use": "Use Item"
   }
 },
 "DAMAGE": {
-  "label": "Damage Part",
   "FIELDS": {
     "number": {
       "label": "Number"
@@ -583,16 +683,6 @@
     "Tech": "Tech"
   }
 },
-"HERO": {
-  "recover": "Recover",
-  "INVENTORY": {
-    "arsenal": "Arsenal",
-    "consumables": "Consumables",
-    "create": "Create Item",
-    "gear": "Gear",
-    "loot": "Loot"
-  }
-},
 "ItemAttribute": {
   "Ammunition": "Ammunition",
   "Blocking": "Blocking",
@@ -648,6 +738,19 @@
       }
     }
   },
+
+  "PATH": {
+    "WARNING": {
+      "cannotAddNewPath": "You cannot add more paths!"
+    },
+    "FIELDS": {
+      "identifier": {
+        "label": "Path Identifier",
+        "hint": "Which of the core paths this item represents."
+      }
+    }
+  },
+
   "REQUIREMENT": {
     "FIELDS": {
       "type": {
@@ -664,8 +767,7 @@
           "placeholder": "Health"
         }
       },
-      "hint": "The character must have this amount of health remaining to gain the benefits of wearing this armor.",
-      "label": "Health"
+      "hint": "The character must have this amount of health remaining to gain the benefits of wearing this armor."
     },
     "Level": {
       "content": "Attained at least {value} level.",
@@ -675,8 +777,7 @@
           "label": "Experience"
         }
       },
-      "hint": "The character must have attained at least this level of experience to gain the benefits of wearing this armor.",
-      "label": "Level"
+      "hint": "The character must have attained at least this level of experience to gain the benefits of wearing this armor."
     },
     "Pool": {
       "content": "{pool} pool size of at least {value}.",
@@ -691,8 +792,7 @@
           "placeholder": "Size"
         }
       },
-      "hint": "The character's pool of the given type must be at least this large to gain the benefits of wearing this armor.",
-      "label": "Pool"
+      "hint": "The character's pool of the given type must be at least this large to gain the benefits of wearing this armor."
     },
     "Skill": {
       "content": "At least {value} dice in the {skill} skill.",
@@ -707,8 +807,7 @@
           "placeholder": "Dice"
         }
       },
-      "hint": "The character must have this many dice in the given skill to gain the benefits of wearing this armor.",
-      "label": "Skill"
+      "hint": "The character must have this many dice in the given skill to gain the benefits of wearing this armor."
     }
   },
   "FIELDS": {

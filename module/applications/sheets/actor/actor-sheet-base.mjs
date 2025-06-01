@@ -1,20 +1,21 @@
 import ArtichronSheetMixin from "../../api/document-sheet-mixin.mjs";
 
+/**
+ * Base actor sheet.
+ * @extends {foundry.applications.sheets.ActorSheet}
+ */
 export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.applications.sheets.ActorSheet) {
   /** @inheritdoc */
   static DEFAULT_OPTIONS = {
     classes: ["actor"],
-    position: { height: 700 },
+    position: { height: 500, width: 400 },
     window: { resizable: true },
     actions: {
-      createItem: ActorSheetArtichron.#onCreateItem,
       useItem: ActorSheetArtichron.#onUseItem,
-      editItem: ActorSheetArtichron.#onEditItem,
-      favoriteItem: ActorSheetArtichron.#onFavoriteItem,
-      deleteItem: ActorSheetArtichron.#onDeleteItem,
+      createEmbeddedDocument: ActorSheetArtichron.#createEmbeddedDocument,
+      renderEmbeddedDocumentSheet: ActorSheetArtichron.#renderEmbeddedDocumentSheet,
       recoverHealth: ActorSheetArtichron.#onRecoverHealth,
       toggleConfig: ActorSheetArtichron.#onToggleConfig,
-      fuseItem: ActorSheetArtichron.#onFuseItem,
     },
   };
 
@@ -22,12 +23,199 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
   /*   Rendering                                        */
   /* -------------------------------------------------- */
 
+  /** @inheritdoc */
+  async _prepareContext(options) {
+    const context = await super._prepareContext(options);
+
+    Object.assign(context, {
+      config: artichron.config,
+      systemFields: this.document.system.schema.fields,
+      source: this.document._source,
+      isPlayMode: this.isPlayMode,
+      isEditMode: this.isEditMode,
+    });
+
+    return context;
+  }
+
+  /* -------------------------------------------------- */
+
+  /** @inheritdoc */
+  async _preparePartContext(partId, context, options) {
+    context = await super._preparePartContext(partId, context, options);
+
+    const fn = `_preparePartContext${partId.capitalize()}`;
+    if (!(this[fn] instanceof Function)) {
+      throw new Error(`The ${this.constructor.name} sheet does not implement the ${fn} method.`);
+    }
+
+    return this[fn](context, options);
+  }
+
+  /* -------------------------------------------------- */
+
   /**
-   * Prepare the items for rendering.
+   * Prepare context for a part.
+   * @param {object} context    Rendering context. **will be mutated**
+   * @param {object} options    Rendering options.
    * @returns {Promise<object>}
    */
-  async _prepareItems() {
-    return {};
+  async _preparePartContextEffects(context, options) {
+    context.ctx = {
+      conditions: [],
+      buffs: { active: [], inactive: [] },
+    };
+
+    for (const effect of this.document.allApplicableEffects()) {
+      const data = { effect, label: effect.name };
+      if (effect.parent !== this.document) data.parentId = effect.parent.id;
+
+      if (effect.type === "condition") {
+        if (effect.system.hasLevels) data.label = `${effect.name} (${artichron.utils.romanize(effect.system.level)})`;
+        context.ctx.conditions.push(data);
+      } else if ((effect.type === "buff") && effect.disabled) context.ctx.buffs.inactive.push(data);
+      else if (effect.type === "buff") context.ctx.buffs.active.push(data);
+    }
+
+    return context;
+  }
+
+  /* -------------------------------------------------- */
+
+  /** @inheritdoc */
+  async _onFirstRender(context, options) {
+    await super._onFirstRender(context, options);
+
+    // Add context menu for effects.
+    this._createContextMenu(
+      this.#getContextOptionsActiveEffect,
+      ".document-list.effects .entry",
+      { hookName: "ActiveEffectEntryContext" },
+    );
+
+    // Add context menu for items.
+    this._createContextMenu(
+      this.#getContextOptionsItem,
+      ".document-list.items .entry",
+      { hookName: "ItemEntryContext" },
+    );
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Prepare options for context menus for ActiveEffects.
+   * @returns {object[]}
+   */
+  #getContextOptionsActiveEffect() {
+    if (!this.document.isOwner) return [];
+    const getEffect = btn => {
+      const parentId = btn.dataset.parentId;
+      if (parentId) return this.document.items.get(parentId).effects.get(btn.dataset.id);
+      return this.document.effects.get(btn.dataset.id);
+    };
+
+    return [{
+      name: "ARTICHRON.SHEET.ACTOR.CONTEXT.EFFECT.render",
+      icon: "<i class='fa-solid fa-fw fa-edit'></i>",
+      callback: btn => getEffect(btn).sheet.render({ force: true }),
+      group: "manage",
+    }, {
+      name: "ARTICHRON.SHEET.ACTOR.CONTEXT.EFFECT.delete",
+      icon: "<i class='fa-solid fa-fw fa-trash'></i>",
+      condition: btn => getEffect(btn).type !== "condition",
+      callback: btn => getEffect(btn).deleteDialog(),
+      group: "manage",
+    }, {
+      name: "ARTICHRON.SHEET.ACTOR.CONTEXT.EFFECT.enable",
+      icon: "<i class='fa-solid fa-fw fa-toggle-on'></i>",
+      condition: btn => (getEffect(btn).type !== "condition") && getEffect(btn).disabled,
+      callback: btn => getEffect(btn).update({ disabled: false }),
+      group: "action",
+    }, {
+      name: "ARTICHRON.SHEET.ACTOR.CONTEXT.EFFECT.disable",
+      icon: "<i class='fa-solid fa-fw fa-toggle-off'></i>",
+      condition: btn => (getEffect(btn).type !== "condition") && !getEffect(btn).disabled,
+      callback: btn => getEffect(btn).update({ disabled: true }),
+      group: "action",
+    }, {
+      name: "ARTICHRON.SHEET.ACTOR.CONTEXT.EFFECT.removeCondition",
+      icon: "<i class='fa-solid fa-fw fa-trash'></i>",
+      condition: btn => (getEffect(btn).type === "condition") && !getEffect(btn).system.hasLevels,
+      callback: btn => getEffect(btn).delete(),
+      group: "manage",
+    }, {
+      name: "ARTICHRON.SHEET.ACTOR.CONTEXT.EFFECT.increaseCondition",
+      icon: "<i class='fa-solid fa-fw fa-circle-up'></i>",
+      condition: btn => (getEffect(btn).type === "condition") && getEffect(btn).system.canIncrease,
+      callback: btn => this.document.toggleStatusEffect(getEffect(btn).system.primary, { active: true }),
+      group: "action",
+    }, {
+      name: "ARTICHRON.SHEET.ACTOR.CONTEXT.EFFECT.decreaseCondition",
+      icon: "<i class='fa-solid fa-fw fa-circle-down'></i>",
+      condition: btn => (getEffect(btn).type === "condition") && getEffect(btn).system.canDecrease,
+      callback: btn => this.document.toggleStatusEffect(getEffect(btn).system.primary, { active: false }),
+      group: "action",
+    }];
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Prepare options for context menus for items.
+   * @returns {object[]}
+   */
+  #getContextOptionsItem() {
+    if (!this.document.isOwner) return [];
+    const getItem = el => this.document.items.get(el.dataset.id);
+
+    return [{
+      name: "ARTICHRON.SHEET.ACTOR.CONTEXT.ITEM.render",
+      icon: "<i class='fa-solid fa-fw fa-edit'></i>",
+      callback: el => getItem(el).sheet.render({ force: true }),
+      group: "manage",
+    }, {
+      name: "ARTICHRON.SHEET.ACTOR.CONTEXT.ITEM.delete",
+      icon: "<i class='fa-solid fa-fw fa-trash'></i>",
+      callback: el => getItem(el).hasGrantedItems ? getItem(el).advancementDeletionPrompt() : getItem(el).deleteDialog(),
+      group: "manage",
+    }, {
+      name: "ARTICHRON.SHEET.ACTOR.CONTEXT.ITEM.equip",
+      icon: "<i class='fa-solid fa-fw fa-shield'></i>",
+      condition: el => getItem(el).system.canEquip,
+      callback: el => getItem(el).system.equip(),
+      group: "action",
+    }, {
+      name: "ARTICHRON.SHEET.ACTOR.CONTEXT.ITEM.unequip",
+      icon: "<i class='fa-solid fa-fw fa-shield-halved'></i>",
+      condition: el => ["hero", "monster"].includes(this.document.type) && getItem(el).isEquipped,
+      callback: el => getItem(el).system.unequip(),
+      group: "action",
+    }, {
+      name: "ARTICHRON.SHEET.ACTOR.CONTEXT.ITEM.favorite",
+      icon: "<i class='fa-solid fa-fw fa-star'></i>",
+      condition: el => ["hero", "monster"].includes(this.document.type) && !getItem(el).isFavorite,
+      callback: el => this.document.addFavoriteItem(getItem(el).id),
+      group: "action",
+    }, {
+      name: "ARTICHRON.SHEET.ACTOR.CONTEXT.ITEM.unfavorite",
+      icon: "<i class='fa-regular fa-fw fa-star'></i>",
+      condition: el => ["hero", "monster"].includes(this.document.type) && getItem(el).isFavorite,
+      callback: el => this.document.removeFavoriteItem(getItem(el).id),
+      group: "action",
+    }, {
+      name: "ARTICHRON.SHEET.ACTOR.CONTEXT.ITEM.fuse",
+      icon: "<i class='fa-solid fa-fw fa-volcano'></i>",
+      condition: el => ["hero", "monster"].includes(this.document.type) && getItem(el).hasFusions && !getItem(el).isFused,
+      callback: el => getItem(el).fuseDialog(),
+      group: "action",
+    }, {
+      name: "ARTICHRON.SHEET.ACTOR.CONTEXT.ITEM.unfuse",
+      icon: "<i class='fa-solid fa-fw fa-recycle'></i>",
+      condition: el => ["hero", "monster"].includes(this.document.type) && getItem(el).isFused,
+      callback: el => getItem(el).system.fusion.unfuseDialog(),
+      group: "action",
+    }];
   }
 
   /* -------------------------------------------------- */
@@ -64,6 +252,12 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
   async _onDropItem(event, item) {
     if (!this.document.isOwner) return;
 
+    // Trigger advancements.
+    if (item.supportsAdvancements) {
+      await artichron.data.pseudoDocuments.advancements.BaseAdvancement.performChanges(this.document, item);
+      return;
+    }
+
     // Stack the item.
     if ((item.parent !== this.document) && item.system.identifier && item.system.schema.has("quantity")) {
       const existing = this.document.itemTypes[item.type].find(i => {
@@ -75,7 +269,26 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
       }
     }
 
+    // Default behavior.
     return super._onDropItem(event, item);
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Helper method to retrieve an embedded document (possibly a grandchild).
+   * @param {HTMLElement} element   An element able to find [data-id] and optionally [data-parent-id].
+   * @returns {foundry.documents.Item|foundry.documents.ActiveEffect}   The embedded document.
+   */
+  #getEmbeddedDocument(element) {
+    let embedded;
+    const { parentId, id } = element.closest("[data-id]")?.dataset ?? {};
+    if (parentId) {
+      embedded = this.document.items.get(parentId).effects.get(id);
+    } else {
+      embedded = this.document.getEmbeddedCollection(element.closest("[data-document-name]").dataset.documentName).get(id);
+    }
+    return embedded;
   }
 
   /* -------------------------------------------------- */
@@ -85,19 +298,23 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
   /**
    * Handle click events to create an item.
    * @this {ActorSheetArtichron}
-   * @param {PointerEvent} event      The originating click event.
-   * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
+   * @param {PointerEvent} event    The initiating click event.
+   * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
    */
-  static #onCreateItem(event, target) {
-    if (!this.isEditable) return;
-    const section = target.dataset.section;
-    const types = section ? Object.entries(CONFIG.Item.dataModels).reduce((acc, [type, cls]) => {
-      if (cls.metadata.inventorySection === section) {
-        acc.push(type);
-      }
-      return acc;
-    }, []) : undefined;
-    foundry.utils.getDocumentClass("Item").createDialog({}, { parent: this.document }, { types: types });
+  static #createEmbeddedDocument(event, target) {
+    const documentName = target.closest("[data-document-name]").dataset.documentName;
+    const type = target.closest("[data-type]")?.dataset.type;
+    const Cls = foundry.utils.getDocumentClass(documentName);
+    const context = { parent: this.document, renderSheet: true };
+
+    if (type) {
+      Cls.create({
+        type,
+        name: Cls.defaultName({ type, parent: this.document }),
+      }, context);
+    } else {
+      Cls.createDialog({}, context, { types: undefined });
+    }
   }
 
   /* -------------------------------------------------- */
@@ -105,14 +322,11 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
   /**
    * Handle click events to use an item.
    * @this {ActorSheetArtichron}
-   * @param {PointerEvent} event      The originating click event.
-   * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
+   * @param {PointerEvent} event    The initiating click event.
+   * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
    */
   static async #onUseItem(event, target) {
-    if (!this.isEditable) return;
-    event.stopPropagation();
-    const uuid = target.closest("[data-item-uuid]").dataset.itemUuid;
-    const item = await fromUuid(uuid);
+    const item = this.#getEmbeddedDocument(target);
     item.use({}, { event: event }, {});
   }
 
@@ -121,57 +335,23 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
   /**
    * Handle click events to render an item's sheet.
    * @this {ActorSheetArtichron}
-   * @param {PointerEvent} event      The originating click event.
-   * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
+   * @param {PointerEvent} event    The initiating click event.
+   * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
    */
-  static async #onEditItem(event, target) {
-    const uuid = target.closest("[data-item-uuid]").dataset.itemUuid;
-    const item = await fromUuid(uuid);
-    item.sheet.render(true);
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Handle click events to delete an item.
-   * @this {ActorSheetArtichron}
-   * @param {PointerEvent} event      The originating click event.
-   * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
-   */
-  static async #onDeleteItem(event, target) {
-    if (!this.isEditable) return;
-    const uuid = target.closest("[data-item-uuid]").dataset.itemUuid;
-    const item = await fromUuid(uuid);
-    item.deleteDialog();
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Handle click events to toggle an item's Favorited state.
-   * @this {ActorSheetArtichron}
-   * @param {PointerEvent} event      The originating click event.
-   * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
-   */
-  static async #onFavoriteItem(event, target) {
-    if (!this.isEditable) return;
-    const uuid = target.closest("[data-item-uuid]").dataset.itemUuid;
-    const item = await fromUuid(uuid);
-    this.document.toggleFavoriteItem(item.id);
+  static async #renderEmbeddedDocumentSheet(event, target) {
+    this.#getEmbeddedDocument(target).sheet.render({ force: true });
   }
 
   /* -------------------------------------------------- */
 
   /**
    * Handle the change events on input fields that should propagate to the embedded document.
-   * @param {PointerEvent} event      The originating click event..
+   * @param {PointerEvent} event    The initiating click event.
    */
   async #onUpdateEmbedded(event) {
-    if (!this.isEditable) return;
     const target = event.currentTarget;
     const property = target.dataset.property;
-    const uuid = target.closest("[data-item-uuid]").dataset.itemUuid;
-    const item = await fromUuid(uuid);
+    const item = this.#getEmbeddedDocument(target);
     const result = artichron.utils.parseInputDelta(target, item);
     if (result !== undefined) {
       if (property === "system.usage.value") {
@@ -185,11 +365,10 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
   /**
    * Handle click events to render a configuration menu.
    * @this {ActorSheetArtichron}
-   * @param {PointerEvent} event      The originating click event.
-   * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
+   * @param {PointerEvent} event    The initiating click event.
+   * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
    */
   static #onToggleConfig(event, target) {
-    if (!this.isEditable) return;
     let Cls;
     switch (target.dataset.trait) {
       case "pools": Cls = artichron.applications.apps.actor.HeroPoolConfig; break;
@@ -202,26 +381,10 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
   /**
    * Handle click events to restore the actor's hit points and other resources.
    * @this {ActorSheetArtichron}
-   * @param {PointerEvent} event      The originating click event.
-   * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
+   * @param {PointerEvent} event    The initiating click event.
+   * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
    */
   static #onRecoverHealth(event, target) {
-    if (!this.isEditable) return;
     this.document.recover();
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Handle click events to fuse one item onto another.
-   * @this {ActorSheetArtichron}
-   * @param {PointerEvent} event      The originating click event.
-   * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
-   */
-  static async #onFuseItem(event, target) {
-    if (!this.isEditable) return;
-    const uuid = target.closest("[data-item-uuid]").dataset.itemUuid;
-    const item = await fromUuid(uuid);
-    item.fuseDialog();
   }
 }

@@ -25,7 +25,6 @@ export default class LevelRequirement extends BaseArmorRequirement {
   static get metadata() {
     return foundry.utils.mergeObject(super.metadata, {
       hint: "ARTICHRON.ITEM.REQUIREMENT.Level.hint",
-      label: "ARTICHRON.ITEM.REQUIREMENT.Level.label",
     });
   }
 

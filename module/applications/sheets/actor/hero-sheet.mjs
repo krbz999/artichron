@@ -1,3 +1,4 @@
+import ItemArtichron from "../../../documents/item.mjs";
 import ActorSheetArtichron from "./actor-sheet-base.mjs";
 
 export default class HeroSheet extends ActorSheetArtichron {
@@ -13,9 +14,8 @@ export default class HeroSheet extends ActorSheetArtichron {
   /** @inheritdoc */
   static DEFAULT_OPTIONS = {
     classes: ["hero"],
-    position: { width: 510, height: 800 },
+    position: { width: 400 },
     actions: {
-      changeEquipped: HeroSheet.#onChangeEquipped,
       rollPool: HeroSheet.#onRollPool,
       rollSkill: HeroSheet.#onRollSkill,
     },
@@ -26,32 +26,41 @@ export default class HeroSheet extends ActorSheetArtichron {
   /** @inheritdoc */
   static PARTS = {
     header: {
-      template: "systems/artichron/templates/shared/sheet-header.hbs",
+      template: "systems/artichron/templates/sheets/actor/hero/header.hbs",
     },
     tabs: {
       template: "templates/generic/tab-navigation.hbs",
     },
+    health: {
+      template: "systems/artichron/templates/sheets/actor/hero/health.hbs",
+      classes: ["health-bar"],
+    },
     attributes: {
-      template: "systems/artichron/templates/sheets/actor/hero-sheet/attributes.hbs",
+      template: "systems/artichron/templates/sheets/actor/hero/attributes.hbs",
       scrollable: [".center-pane"],
     },
-    inventory: {
-      template: "systems/artichron/templates/sheets/actor/hero-sheet/inventory.hbs",
+    progression: {
+      template: "systems/artichron/templates/sheets/actor/hero/progression.hbs",
       classes: ["scrollable"],
-      scrollable: [".scrollable"],
+      scrollable: [""],
+    },
+    inventory: {
+      template: "systems/artichron/templates/sheets/actor/hero/inventory.hbs",
+      classes: ["scrollable"],
+      scrollable: [".document-list-entries.scrollable"],
     },
     details: {
-      template: "systems/artichron/templates/sheets/actor/hero-sheet/details.hbs",
+      template: "systems/artichron/templates/sheets/actor/hero/details.hbs",
       classes: ["scrollable"],
       scrollable: [""],
     },
     effects: {
-      template: "systems/artichron/templates/shared/effects.hbs",
+      template: "systems/artichron/templates/sheets/actor/hero/effects.hbs",
       classes: ["scrollable"],
       scrollable: [""],
     },
     encumbrance: {
-      template: "systems/artichron/templates/sheets/actor/hero-sheet/encumbrance.hbs",
+      template: "systems/artichron/templates/sheets/actor/hero/encumbrance.hbs",
     },
   };
 
@@ -61,105 +70,92 @@ export default class HeroSheet extends ActorSheetArtichron {
   static TABS = {
     primary: {
       tabs: [
-        { id: "attributes" },
-        { id: "inventory" },
-        { id: "details" },
-        { id: "effects" },
+        { id: "attributes", tooltip: "ARTICHRON.SHEET.TABS.attributes", icon: "fa-solid fa-fw fa-clover" },
+        { id: "progression", tooltip: "ARTICHRON.SHEET.TABS.progression", icon: "fa-solid fa-fw fa-circle-nodes" },
+        { id: "inventory", tooltip: "ARTICHRON.SHEET.TABS.inventory", icon: "fa-solid fa-fw fa-boxes" },
+        { id: "details", tooltip: "ARTICHRON.SHEET.TABS.details", icon: "fa-solid fa-fw fa-pen-fancy" },
+        { id: "effects", tooltip: "ARTICHRON.SHEET.TABS.effects", icon: "fa-solid fa-fw fa-bolt" },
       ],
       initial: "attributes",
-      labelPrefix: "ARTICHRON.SHEET.TABS",
     },
   };
 
   /* -------------------------------------------------- */
 
-  /** @inheritdoc */
-  async _prepareContext(options) {
-    const doc = this.document;
-    const src = doc.toObject();
-    const rollData = doc.getRollData();
+  /**
+   * Prepare context for a part.
+   * @param {object} context    Rendering context. **will be mutated**
+   * @param {object} options    Rendering options.
+   * @returns {Promise<object>}
+   */
+  async _preparePartContextHeader(context, options) {
+    context.ctx = {};
+    return context;
+  }
 
-    const effects = await this._prepareEffects();
-    const [buffs, conditions] = effects.partition(e => e.effect.type === "condition");
+  /* -------------------------------------------------- */
 
-    const context = {
-      ...await super._prepareContext(options),
-      document: doc,
-      config: artichron.config,
+  /**
+   * Prepare context for a part.
+   * @param {object} context    Rendering context. **will be mutated**
+   * @param {object} options    Rendering options.
+   * @returns {Promise<object>}
+   */
+  async _preparePartContextTabs(context, options) {
+    context.verticalTabs = true;
+    context.ctx = {};
+    return context;
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Prepare context for a part.
+   * @param {object} context    Rendering context. **will be mutated**
+   * @param {object} options    Rendering options.
+   * @returns {Promise<object>}
+   */
+  async _preparePartContextHealth(context, options) {
+    context.ctx = {};
+    return context;
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Prepare context for a part.
+   * @param {object} context    Rendering context. **will be mutated**
+   * @param {object} options    Rendering options.
+   * @returns {Promise<object>}
+   */
+  async _preparePartContextAttributes(context, options) {
+    context.ctx = {
       health: this.document.system.health,
-      pools: this.#preparePools(),
-      equipment: this.#prepareEquipment(),
-      items: await this._prepareItems(),
-      encumbrance: this.#prepareEncumbrance(),
-      effects: buffs,
-      conditions: conditions,
-      isEditMode: this.isEditMode,
-      isPlayMode: this.isPlayMode,
-      isEditable: this.isEditable,
-      searchQuery: this.#searchQuery,
+      pools: [],
+      favorites: Array.from(this.document.favorites),
+      defenses: [],
+      skills: [],
     };
 
-    const makeField = path => {
-      const schema = path.startsWith("system") ? this.document.system.schema : this.document.schema;
-      const field = path.startsWith("system") ? schema.getField(path.slice(7)) : schema.getField(path);
-      const value = foundry.utils.getProperty(context.isEditMode ? this.document._source : this.document, path);
-      return { field, value };
-    };
-
-    // Details tab.
-    context.pips = makeField("system.pips.turn");
-    const field = new foundry.data.fields.NumberField({
-      label: "Compact Items",
-      hint: "Toggle whether items are shown in a list or a grid.",
-      choices: {
-        0: "Expanded",
-        1: "Compact",
-      },
-    });
-    const value = this.document.flags.artichron?.compactItems ?? null;
-    context.compactItems = {
-      field: field,
-      value: value,
-    };
-
-    const makeResistance = (key, path) => {
-      context.defenses ??= {};
-      const value = foundry.utils.getProperty(doc.system, path);
-      context.defenses[key] = {
-        value: value,
-        label: artichron.config.DAMAGE_TYPES[key].label,
-        color: artichron.config.DAMAGE_TYPES[key].color,
-        icon: artichron.config.DAMAGE_TYPES[key].icon,
-        active: value > 0,
-      };
-    };
-
-    // Damage defenses.
-    for (const k of Object.keys(doc.system.defenses)) {
-      makeResistance(k, `defenses.${k}`);
+    for (const [k, v] of Object.entries(this.document.system.pools)) {
+      context.ctx.pools.push({ ...v, key: k });
     }
-    context.defenses = Object.values(context.defenses);
 
-    // Skills.
-    context.skills = Object.entries(this.document.system.skills).map(([k, v]) => {
-      const { label, img } = artichron.config.SKILLS[k];
-      return { label, img, value: v.number, skillId: k };
-    });
+    for (const [k, v] of Object.entries(this.document.system.defenses)) {
+      context.ctx.defenses.push({
+        ...artichron.config.DAMAGE_TYPES[k],
+        value: v,
+        active: v > 0,
+      });
+    }
 
-    // Name and img.
-    context.header = {
-      name: context.isPlayMode ? doc.name : src.name,
-      img: context.isPlayMode ? doc.img : src.img,
-    };
-
-    // Details tab.
-    context.notes = {
-      field: this.document.system.schema.getField("details.notes"),
-      value: foundry.utils.getProperty(this.document._source, "system.details.notes"),
-      enriched: await foundry.applications.ux.TextEditor.enrichHTML(this.document.system.details.notes, {
-        relativeTo: this.document, rollData: rollData,
-      }),
-    };
+    for (const [k, v] of Object.entries(this.document.system.skills)) {
+      context.ctx.skills.push({
+        ...artichron.config.SKILLS[k],
+        value: v.number,
+        skillId: k,
+      });
+    }
 
     return context;
   }
@@ -167,131 +163,103 @@ export default class HeroSheet extends ActorSheetArtichron {
   /* -------------------------------------------------- */
 
   /**
-   * Prepare health, stamina, mana pools.
-   * @returns {object[]}
+   * Prepare context for a part.
+   * @param {object} context    Rendering context. **will be mutated**
+   * @param {object} options    Rendering options.
+   * @returns {Promise<object>}
    */
-  #preparePools() {
-    const pools = Object.entries(this.document.system.pools).map(([key, pool]) => ({ ...pool, key: key }));
-    return pools;
-  }
+  async _preparePartContextProgression(context, options) {
+    context.ctx = { paths: [], mixed: null };
 
-  /* -------------------------------------------------- */
+    const pathKeys = Object.keys(this.document.system.paths);
+    const investedTotal = pathKeys.reduce((acc, k) => acc + this.document.system.paths[k].invested, 0);
+    const mixedKey = artichron.config.PROGRESSION_CORE_PATHS[pathKeys[0]]?.mixed[pathKeys[1]];
 
-  /**
-   * Prepare equipped items for rendering.
-   * @returns {object[]}
-   */
-  #prepareEquipment() {
-    const [primary, secondary] = Object.values(this.document.arsenal);
+    // The lowest invested path
+    const [lowest] = pathKeys.sort((a, b) =>
+      this.document.system.paths[a].invested - this.document.system.paths[b].invested,
+    );
 
-    const emptySlotIcons = {
-      arsenal: "icons/weapons/axes/axe-broad-brown.webp",
-      head: "icons/equipment/head/helm-barbute-brown-tan.webp",
-      chest: "icons/equipment/chest/breastplate-leather-brown-belted.webp",
-      arms: "icons/equipment/hand/glove-ringed-cloth-brown.webp",
-      legs: "icons/equipment/leg/pants-breeches-leather-brown.webp",
-      accessory: "icons/equipment/neck/choker-simple-bone-fangs.webp",
-      boots: "icons/equipment/feet/boots-leather-engraved-brown.webp",
-    };
+    const isMixed = !!mixedKey
+      && pathKeys.some(k => this.document.system.paths[k].invested > artichron.config.PROGRESSION_VALUES.absolute)
+      && (this.document.system.paths[lowest].invested / investedTotal * 100).between(
+        artichron.config.PROGRESSION_VALUES.relative.lower,
+        artichron.config.PROGRESSION_VALUES.relative.upper,
+      );
 
-    const equipped = [];
-
-    const setup = (key, item) => {
-      const data = {
-        active: !!item,
-        item: item ? item : { img: emptySlotIcons[key] ?? emptySlotIcons.arsenal },
-        dataset: { equipmentSlot: key, action: "changeEquipped" },
+    if (isMixed) {
+      context.ctx.mixed = {
+        ...artichron.config.PROGRESSION_MIXED_PATHS[mixedKey],
+        key: mixedKey,
       };
-      if (item) {
-        data.dataset.itemUuid = item.uuid;
-        data.tooltip = `<section class="loading" data-uuid="${item.uuid}">
-          <i class="fas fa-spinner fa-spin-pulse"></i>
-        </section>`;
-      }
-      equipped.push(data);
-    };
-
-    // Arsenal.
-    setup("primary", primary);
-    if (!primary || !primary.isTwoHanded) setup("secondary", secondary);
-
-    // Armor.
-    for (const [key, item] of Object.entries(this.document.armor)) setup(key, item);
-
-    return equipped;
-  }
-
-  /* -------------------------------------------------- */
-
-  /** @inheritdoc */
-  async _prepareItems() {
-    const compact = this.document.getFlag("artichron", "compactItems") ?? game.settings.get("artichron", "compactItems");
-    if (compact) {
-      return [{
-        label: "DOCUMENT.Items",
-        classes: ["compact"],
-        items: this.document.items.contents.sort((a, b) => a.sort - b.sort).map(item => ({ item })),
-      }];
     }
 
-    const types = this.document.itemTypes;
-    const sections = {
-      arsenal: {
-        label: "ARTICHRON.HERO.INVENTORY.arsenal",
-        types: new Set(),
-      },
-      gear: {
-        label: "ARTICHRON.HERO.INVENTORY.gear",
-        types: new Set(),
-      },
-      consumables: {
-        label: "ARTICHRON.HERO.INVENTORY.consumables",
-        types: new Set(),
-      },
-      loot: {
-        label: "ARTICHRON.HERO.INVENTORY.loot",
-        types: new Set(),
-      },
-    };
-
-    for (const [type, Cls] of Object.entries(CONFIG.Item.dataModels)) {
-      sections[Cls.metadata.inventorySection].types.add(type);
+    for (const [i, key] of pathKeys.reverse().entries()) {
+      context.ctx.paths.push({
+        ...artichron.config.PROGRESSION_CORE_PATHS[key],
+        ...this.document.system.paths[key],
+        key,
+        cssClass: isMixed || (i > 0) ? "inactive" : "",
+      });
     }
 
-    const tabs = [];
-    for (const [k, v] of Object.entries(sections)) {
-      const section = { label: v.label, id: k, items: [] };
-      for (const t of v.types) {
-        for (const item of types[t]) {
-          const expanded = this._expandedItems.has(item.uuid);
-          const data = {
-            item: item,
-            enriched: expanded ? await foundry.applications.ux.TextEditor.enrichHTML(item.system.description.value, {
-              relativeTo: item, rollData: item.getRollData(),
-            }) : null,
-          };
-          section.items.push(data);
-        }
-        section.items.sort((a, b) => {
-          const sort = a.item.sort - b.item.sort;
-          if (sort) return sort;
-          return a.item._source.name.localeCompare(b.item._source.name);
-        });
-      }
-      tabs.push(section);
-    }
-    return tabs;
+    return context;
   }
 
   /* -------------------------------------------------- */
 
   /**
-   * Prepare encumbrance bar.
-   * @returns {object}
+   * Prepare context for a part.
+   * @param {object} context    Rendering context. **will be mutated**
+   * @param {object} options    Rendering options.
+   * @returns {Promise<object>}
    */
-  #prepareEncumbrance() {
+  async _preparePartContextInventory(context, options) {
+    context.ctx = {
+      items: [],
+      searchQuery: this.#searchQuery,
+    };
+
+    for (const item of this.document.items) {
+      context.ctx.items.push({ item });
+    }
+    context.ctx.items.sort((a, b) => artichron.utils.nameSort(a, b, "item"));
+
+    return context;
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Prepare context for a part.
+   * @param {object} context    Rendering context. **will be mutated**
+   * @param {object} options    Rendering options.
+   * @returns {Promise<object>}
+   */
+  async _preparePartContextDetails(context, options) {
+    context.ctx = {
+      bio: await foundry.applications.ux.TextEditor.implementation.enrichHTML(
+        this.document.system.biography.value,
+        { relativeTo: this.document, rollData: this.document.getRollData() },
+      ),
+    };
+    return context;
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Prepare context for a part.
+   * @param {object} context    Rendering context. **will be mutated**
+   * @param {object} options    Rendering options.
+   * @returns {Promise<object>}
+   */
+  async _preparePartContextEncumbrance(context, options) {
     const enc = this.document.system.encumbrance;
-    return { ...enc, percent: Math.round(Math.clamp(enc.value / enc.max, 0, 1) * 100) };
+    context.ctx = {
+      encumbrance: Math.round(Math.clamp(enc.value / enc.max, 0, 1) * 100),
+    };
+    return context;
   }
 
   /* -------------------------------------------------- */
@@ -300,8 +268,8 @@ export default class HeroSheet extends ActorSheetArtichron {
   _preSyncPartState(p, ne, pe, s) {
     super._preSyncPartState(p, ne, pe, s);
 
-    if (p === "attributes") {
-      const o = pe.querySelector(".health-bar");
+    if (p === "health") {
+      const o = pe.querySelector(".health-fill");
       s.healthHeight = Math.max(o.offsetTop, 0);
     }
   }
@@ -312,9 +280,9 @@ export default class HeroSheet extends ActorSheetArtichron {
   _syncPartState(partId, newElement, priorElement, state) {
     super._syncPartState(partId, newElement, priorElement, state);
 
-    if (partId === "attributes") {
+    if (partId === "health") {
       if (!("healthHeight" in state)) return;
-      const newBar = newElement.querySelector(".health-bar");
+      const newBar = newElement.querySelector(".health-fill");
       const n = Math.max(newBar.offsetTop, 0);
       if (state.healthHeight === n) return;
       const frames = [{ top: `${state.healthHeight}px` }, { top: `${n}px` }];
@@ -338,15 +306,59 @@ export default class HeroSheet extends ActorSheetArtichron {
   /** @inheritdoc */
   _attachPartListeners(partId, htmlElement, options) {
     super._attachPartListeners(partId, htmlElement, options);
-    if (partId === "inventory") {
-      const input = htmlElement.querySelector("#inventory-search");
-      const callback = foundry.utils.debounce(this.#onSearchFilter, 200).bind(this);
-      input.addEventListener("input", event => {
-        const query = event.currentTarget.value.toLowerCase().trim();
-        this.#searchQuery = query;
-        callback(query, htmlElement);
-      });
+
+    switch (partId) {
+      case "health":
+        this.#attachPartListenersHealth(htmlElement, options);
+        break;
+      case "inventory":
+        this.#attachPartListenersInventory(htmlElement, options);
+        break;
     }
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Attach event listeners to a specific part.
+   * @param {HTMLElement} element   The part element.
+   * @param {object} options        Rendering options
+   */
+  #attachPartListenersHealth(element, options) {}
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Attach event listeners to a specific part.
+   * @param {HTMLElement} element   The part element.
+   * @param {object} options        Rendering options
+   */
+  #attachPartListenersInventory(element, options) {
+    const input = element.querySelector("#inventory-search");
+    const callback = foundry.utils.debounce(this.#onSearchFilter, 200).bind(this);
+    input.addEventListener("input", event => {
+      const query = event.currentTarget.value.toLowerCase().trim();
+      this.#searchQuery = query;
+      callback(query, element);
+    });
+  }
+
+  /* -------------------------------------------------- */
+
+  /** @inheritdoc */
+  async _onDropItem(event, item) {
+    if (!this.document.isOwner) return;
+
+    if (item.type === "path") {
+      const { paths } = this.document.system;
+      const allowed = (item.system.identifier in paths) || (Object.keys(paths).length < 2);
+      if (!allowed) {
+        ui.notifications.error("ARTICHRON.ITEM.PATH.WARNING.cannotAddNewPath", { localize: true });
+        return;
+      }
+    }
+
+    return super._onDropItem(event, item);
   }
 
   /* -------------------------------------------------- */
@@ -359,7 +371,7 @@ export default class HeroSheet extends ActorSheetArtichron {
    * @param {HTMLElement} html      The targeted html container.
    */
   #onSearchFilter(query, html) {
-    for (const item of html.querySelectorAll("inventory-item")) {
+    for (const item of html.querySelectorAll(".document-list-entries .entry")) {
       const hidden = !!query && !item.dataset.name.toLowerCase().includes(query);
       item.classList.toggle("hidden", hidden);
     }
@@ -370,11 +382,10 @@ export default class HeroSheet extends ActorSheetArtichron {
   /**
    * Handle click events to roll a skill.
    * @this {HeroSheet}
-   * @param {PointerEvent} event      The originating click event.
-   * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
+   * @param {PointerEvent} event    The initiating click event.
+   * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
    */
   static #onRollSkill(event, target) {
-    if (!this.isEditable) return;
     this.document.rollSkill({ event, base: target.dataset.skillId });
   }
 
@@ -383,25 +394,10 @@ export default class HeroSheet extends ActorSheetArtichron {
   /**
    * Handle click events to roll one of the pools.
    * @this {HeroSheet}
-   * @param {PointerEvent} event      The originating click event.
-   * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
+   * @param {PointerEvent} event    The initiating click event.
+   * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
    */
   static #onRollPool(event, target) {
-    if (!this.isEditable) return;
     this.document.rollPool({ pool: target.dataset.pool, event });
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Handle click events to change an equipped item in a particular slot.
-   * @this {HeroSheet}
-   * @param {PointerEvent} event      The originating click event.
-   * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
-   */
-  static #onChangeEquipped(event, target) {
-    if (!this.isEditable) return;
-    const slot = target.closest("[data-equipment-slot]").dataset.equipmentSlot;
-    this.document.system.changeEquippedDialog(slot);
   }
 }

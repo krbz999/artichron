@@ -66,11 +66,6 @@ export default class PseudoDocumentSheet extends HandlebarsApplicationMixin(Appl
 
   /* -------------------------------------------------- */
 
-  /** @inheritdoc */
-  tabGroups = {};
-
-  /* -------------------------------------------------- */
-
   /**
    * Stored uuid of this pseudo document.
    * @type {string}
@@ -111,6 +106,17 @@ export default class PseudoDocumentSheet extends HandlebarsApplicationMixin(Appl
    */
   get document() {
     return this.#document;
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Is this pseudo-document sheet editable by the current User?
+   * Whether this sheet is editable is governed by the parent document's sheet.
+   * @type {boolean}
+   */
+  get isEditable() {
+    return this.document.sheet.isEditable;
   }
 
   /* -------------------------------------------------- */
@@ -174,6 +180,24 @@ export default class PseudoDocumentSheet extends HandlebarsApplicationMixin(Appl
 
   /* -------------------------------------------------- */
 
+  /** @inheritdoc */
+  async _prepareContext(options) {
+    const context = await super._prepareContext(options);
+    const doc = this.pseudoDocument;
+
+    Object.assign(context, {
+      pseudoDocument: doc,
+      source: doc._source,
+      document: this.document,
+      fields: doc.schema.fields,
+      editable: this.isEditable,
+    });
+
+    return context;
+  }
+
+  /* -------------------------------------------------- */
+
   /**
    * Utility context preparation method for individual fields.
    * @param {string} path   The path to the given field, relative to the root of the pseudo document.
@@ -223,11 +247,11 @@ export default class PseudoDocumentSheet extends HandlebarsApplicationMixin(Appl
   /**
    * Handle form submission.
    * @this {PseudoDocumentSheet}
-   * @param {PointerEvent} event            The originating click event.
-   * @param {HTMLElement} form              The form element.
-   * @param {FormDataExtended} formData     The form data.
+   * @param {PointerEvent} event          The initiating click event.
+   * @param {HTMLElement} form            The form element.
+   * @param {FormDataExtended} formData   The form data.
    */
-  static #onSubmitForm(event, form, formData) {
+  static async #onSubmitForm(event, form, formData) {
     const submitData = foundry.utils.expandObject(formData.object);
     this.pseudoDocument.update(submitData);
   }
@@ -236,7 +260,7 @@ export default class PseudoDocumentSheet extends HandlebarsApplicationMixin(Appl
 
   /**
    * @this {PseudoDocumentSheet}
-   * @param {PointerEvent} event      The originating click event.
+   * @param {PointerEvent} event    The initiating click event.
    */
   static #copyUuid(event) {
     event.preventDefault(); // Don't open context menu

@@ -1,4 +1,3 @@
-import { registerSockets } from "./module/helpers/sockets.mjs";
 import * as applications from "./module/applications/_module.mjs";
 import * as canvas from "./module/canvas/_module.mjs";
 import * as data from "./module/data/_module.mjs";
@@ -7,7 +6,7 @@ import * as documents from "./module/documents/_module.mjs";
 import * as helpers from "./module/helpers/_module.mjs";
 import * as migrations from "./module/helpers/migrations.mjs";
 import * as SYSTEM from "./module/helpers/config.mjs";
-import * as utils from "./module/helpers/utils.mjs";
+import * as utils from "./module/utils/_module.mjs";
 import registerEnrichers from "./module/helpers/enrichers.mjs";
 import registerSettings from "./module/helpers/settings.mjs";
 
@@ -39,7 +38,7 @@ globalThis.artichron = {
 Hooks.once("init", function() {
   registerSettings();
   registerEnrichers();
-  registerSockets();
+  helpers.sockets.registerSockets();
   CONFIG.Canvas.dispositionColors.CONTROLLED = 2502655;
 
   // Record Configuration Values
@@ -101,9 +100,6 @@ Hooks.once("init", function() {
     }
   };
 
-  configureSheet("Actor", foundry.appv1.sheets.ActorSheet, { register: false });
-  configureSheet("Item", foundry.appv1.sheets.ItemSheet, { register: false });
-  // configureSheet("ActiveEffect", foundry.applications.sheets.ActiveEffectConfig, { register: false });
   configureSheet("Actor", applications.sheets.actor.ActorSheetHero, {
     label: "ARTICHRON.SHEET.ACTOR.Hero", types: ["hero"],
   });
@@ -116,12 +112,35 @@ Hooks.once("init", function() {
   configureSheet("Actor", applications.sheets.actor.ActorSheetParty, {
     label: "ARTICHRON.SHEET.ACTOR.Party", types: ["party"],
   });
-  configureSheet("Item", applications.sheets.item.ItemSheet, {
-    label: "ARTICHRON.SHEET.ITEM.Base",
+
+  configureSheet("Item", applications.sheets.item.AmmoSheet, {
+    label: "ARTICHRON.SHEET.ITEM.AmmoSheet",
+    types: ["ammo"],
   });
-  // configureSheet("ActiveEffect", applications.sheets.effect.ActiveEffectSheet, {
-  //   label: "ARTICHRON.SHEET.EFFECT.Base",
-  // });
+  configureSheet("Item", applications.sheets.item.ArmorSheet, {
+    label: "ARTICHRON.SHEET.ITEM.ArmorSheet",
+    types: ["armor"],
+  });
+  configureSheet("Item", applications.sheets.item.ElixirSheet, {
+    label: "ARTICHRON.SHEET.ITEM.ElixirSheet",
+    types: ["elixir"],
+  });
+  configureSheet("Item", applications.sheets.item.PathSheet, {
+    label: "ARTICHRON.SHEET.ITEM.PathSheet",
+    types: ["path"],
+  });
+  configureSheet("Item", applications.sheets.item.PartSheet, {
+    label: "ARTICHRON.SHEET.ITEM.PartSheet",
+    types: ["part"],
+  });
+  configureSheet("Item", applications.sheets.item.SpellSheet, {
+    label: "ARTICHRON.SHEET.ITEM.SpellSheet",
+    types: ["spell"],
+  });
+  configureSheet("Item", applications.sheets.item.TalentSheet, {
+    label: "ARTICHRON.SHEET.ITEM.TalentSheet",
+    types: ["talent"],
+  });
 
   // Set up conditions.
   CONFIG.statusEffects = Object.entries(SYSTEM.STATUS_CONDITIONS).map(([id, config]) => {
@@ -190,8 +209,16 @@ Hooks.once("i18nInit", function() {
     localize(artichron.config, k, v);
   }
 
-  // FIXME: shouldnt be needed?
-  foundry.helpers.Localization.localizeDataModel(data.pseudoDocuments.damage.Damage);
+  const localizeTypes = types => {
+    for (const v of Object.values(types))
+      foundry.helpers.Localization.localizeDataModel(v);
+  };
+
+  localizeTypes(data.pseudoDocuments.activities);
+  localizeTypes(data.pseudoDocuments.advancements);
+  localizeTypes(data.pseudoDocuments.armorRequirements);
+  localizeTypes(data.pseudoDocuments.clocks);
+  localizeTypes(data.pseudoDocuments.damage);
 });
 
 /* -------------------------------------------------- */
@@ -211,6 +238,7 @@ Hooks.on("hotbarDrop", function(bar, data, slot) {
   }
 
   if (data.type === "Item") {
+    if (!fromUuidSync(data.uuid)?.isEmbedded) return;
     createItemMacro(data, slot);
     return false;
   }

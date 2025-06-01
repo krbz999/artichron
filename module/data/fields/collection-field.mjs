@@ -10,6 +10,15 @@ export default class CollectionField extends TypedObjectField {
       : new EmbeddedDataField(model);
     options.validateKey ||= ((key) => foundry.data.validators.isValidId(key));
     super(field, options, context);
+
+    this.#documentClass = model;
+  }
+
+  /* -------------------------------------------------- */
+
+  #documentClass;
+  get documentClass() {
+    return this.#documentClass;
   }
 
   /* -------------------------------------------------- */
@@ -25,6 +34,8 @@ export default class CollectionField extends TypedObjectField {
         collection.setInvalid(model);
       }
     }
+
+    collection.documentClass = this.documentClass;
     return collection;
   }
 }
@@ -55,6 +66,14 @@ class ModelCollection extends foundry.utils.Collection {
   /* -------------------------------------------------- */
 
   /**
+   * Pseudo-document base model.
+   * @type {typeof artichron.data.pseudoDocuments.PseudoDocument}
+   */
+  documentClass;
+
+  /* -------------------------------------------------- */
+
+  /**
    * Pre-organized arrays of data models by type.
    * @type {Map<string, Set<string>>}
    */
@@ -64,7 +83,7 @@ class ModelCollection extends foundry.utils.Collection {
 
   /**
    * The data models that originate from this parent document.
-   * @type {PseudoDocument[]}
+   * @type {artichron.data.pseudoDocuments.PseudoDocument[]}
    */
   get sourceContents() {
     return this.filter(model => model.isSource);
@@ -86,7 +105,7 @@ class ModelCollection extends foundry.utils.Collection {
   /**
    * Fetch an array of data models of a certain type.
    * @param {string} type     The subtype of the data models.
-   * @returns {DataModel[]}   The data models of this type.
+   * @returns {artichron.data.pseudoDocuments.PseudoDocument[]}   The data models of this type.
    */
   getByType(type) {
     return Array.from(this.#types.get(type) ?? []).map(key => this.get(key));

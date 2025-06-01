@@ -1,14 +1,9 @@
 /**
- * @typedef {object} TabConfiguration
- * @property {string} id        The unique key for this tab.
- * @property {string} group     The group that this tab belongs to.
- * @property {string} label     The displayed label for this tab.
- */
-
-/**
  * Sheet class mixin to add common functions shared by all types of sheets.
  * @param {*} Base                        The base class.
  * @returns {DocumentSheetArtichron}      Extended class.
+ * @extends {foundry.applications.api.HandlebarsApplicationMixin}
+ * @extends {Base}
  */
 const ArtichronDocumentSheetMixin = Base => {
   const mixin = foundry.applications.api.HandlebarsApplicationMixin;
@@ -124,7 +119,7 @@ const ArtichronDocumentSheetMixin = Base => {
           isCondition: effect.type === "condition",
         };
         if (data.isExpanded) {
-          data.enrichedText = await foundry.applications.ux.TextEditor.enrichHTML(effect.description, {
+          data.enrichedText = await foundry.applications.ux.TextEditor.implementation.enrichHTML(effect.description, {
             relativeTo: effect, rollData: effect.getRollData(),
           });
         }
@@ -140,19 +135,6 @@ const ArtichronDocumentSheetMixin = Base => {
         return a.effect.name.localeCompare(b.effect.name);
       });
       return effects;
-    }
-
-    /* -------------------------------------------------- */
-
-    /** @inheritdoc */
-    async _onFirstRender(context, options) {
-      await super._onFirstRender(context, options);
-      this._createContextMenu(this._getActiveEffectEntryContextOptions, "effect-entry", {
-        hookName: "ActiveEffectEntryContext",
-      });
-      this._createContextMenu(this._getItemEntryContextOptions, "inventory-item", {
-        hookName: "ItemEntryContext",
-      });
     }
 
     /* -------------------------------------------------- */
@@ -234,152 +216,14 @@ const ArtichronDocumentSheetMixin = Base => {
     }
 
     /* -------------------------------------------------- */
-
-    /**
-     * Create context menu options for active effects.
-     * @returns {ContextMenuEntry[]}
-     */
-    _getActiveEffectEntryContextOptions() {
-      return [{
-        name: "ARTICHRON.ContextMenu.ActiveEffect.Render",
-        icon: "<i class='fa-solid fa-fw fa-edit'></i>",
-        condition: element => element.item.isOwner,
-        callback: element => element.item.sheet.render({ force: true }),
-        group: "manage",
-      }, {
-        name: "ARTICHRON.ContextMenu.ActiveEffect.Delete",
-        icon: "<i class='fa-solid fa-fw fa-trash'></i>",
-        condition: element => element.item.isOwner && !element.item.isActiveFusion,
-        callback: element => element.item.deleteDialog(),
-        group: "manage",
-      }, {
-        name: "ARTICHRON.ContextMenu.ActiveEffect.Enable",
-        icon: "<i class='fa-solid fa-fw fa-toggle-on'></i>",
-        condition: element => element.item.isOwner && element.item.disabled,
-        callback: element => element.item.update({ disabled: false }),
-        group: "action",
-      }, {
-        name: "ARTICHRON.ContextMenu.ActiveEffect.Disable",
-        icon: "<i class='fa-solid fa-fw fa-toggle-off'></i>",
-        condition: element => element.item.isOwner && !element.item.disabled && (element.item.type !== "fusion"),
-        callback: element => element.item.update({ disabled: true }),
-        group: "action",
-      }, {
-        name: "ARTICHRON.ContextMenu.ActiveEffect.Duplicate",
-        icon: "<i class='fa-solid fa-fw fa-copy'></i>",
-        condition: element => element.item.isOwner && (element.item.type !== "condition") && !element.item.isActiveFusion,
-        callback: element => {
-          const item = element.item;
-          item.clone({
-            name: game.i18n.format("DOCUMENT.CopyOf", { name: item._source.name }),
-          }, { save: true, addSource: true });
-        },
-        group: "action",
-      }, {
-        name: "ARTICHRON.ContextMenu.ActiveEffect.Unfuse",
-        icon: "<i class='fa-solid fa-fw fa-volcano'></i>",
-        condition: element => element.item.isOwner && element.item.isActiveFusion,
-        callback: element => element.item.unfuseDialog(),
-        group: "action",
-      }, {
-        name: "ARTICHRON.ContextMenu.ActiveEffect.IncreaseLevel",
-        icon: "<i class='fa-solid fa-fw fa-circle-arrow-up'></i>",
-        condition: element => {
-          const e = element.item;
-          return e.isOwner &&
-            (e.type === "condition") &&
-            Number.isInteger(e.system.level) &&
-            (artichron.config.STATUS_CONDITIONS[e.system.primary].levels > e.system.level);
-        },
-        callback: element => element.item.system.increase(),
-        group: "action",
-      }, {
-        name: "ARTICHRON.ContextMenu.ActiveEffect.DecreaseLevel",
-        icon: "<i class='fa-solid fa-fw fa-circle-arrow-down'></i>",
-        condition: element => {
-          const e = element.item;
-          return e.isOwner &&
-            (e.type === "condition") &&
-            Number.isInteger(e.system.level) && (e.system.level > 0);
-        },
-        callback: element => element.item.system.decrease(),
-        group: "action",
-      }];
-    }
-
-    /* -------------------------------------------------- */
-
-    /**
-     * Create context menu options for items.
-     * @returns {ContextMenuEntry[]}
-     */
-    _getItemEntryContextOptions() {
-      return [{
-        name: "ARTICHRON.ContextMenu.Item.Render",
-        icon: "<i class='fa-solid fa-fw fa-edit'></i>",
-        condition: element => element.item.isOwner,
-        callback: element => element.item.sheet.render({ force: true }),
-        group: "manage",
-      }, {
-        name: "ARTICHRON.ContextMenu.Item.Delete",
-        icon: "<i class='fa-solid fa-fw fa-trash'></i>",
-        condition: element => element.item.isOwner && !element.item.isEquipped,
-        callback: element => element.item.deleteDialog(),
-        group: "manage",
-      }, {
-        name: "ARTICHRON.ContextMenu.Item.Equip",
-        icon: "<i class='fa-solid fa-fw fa-shield'></i>",
-        condition: element => element.item.isOwner && element.item.system.canEquip,
-        callback: element => element.item.system.equip(),
-        group: "action",
-      }, {
-        name: "ARTICHRON.ContextMenu.Item.Unequip",
-        icon: "<i class='fa-solid fa-fw fa-shield-halved'></i>",
-        condition: element => ["hero", "monster"].includes(element.item.actor.type) && element.item.isOwner && element.item.isEquipped,
-        callback: element => element.item.system.unequip(),
-        group: "action",
-      }, {
-        name: "ARTICHRON.ContextMenu.Item.Favorite",
-        icon: "<i class='fa-solid fa-fw fa-star'></i>",
-        condition: element => ["hero", "monster"].includes(element.item.actor.type) && element.item.isOwner && !element.item.isFavorite,
-        callback: element => element.item.actor.addFavoriteItem(element.item.id),
-        group: "action",
-      }, {
-        name: "ARTICHRON.ContextMenu.Item.Unfavorite",
-        icon: "<i class='fa-regular fa-fw fa-star'></i>",
-        condition: element => ["hero", "monster"].includes(element.item.actor.type) && element.item.isOwner && element.item.isFavorite,
-        callback: element => element.item.actor.removeFavoriteItem(element.item.id),
-        group: "action",
-      }, {
-        name: "ARTICHRON.ContextMenu.Item.Use",
-        icon: "<i class='fa-solid fa-fw fa-hand-fist'></i>",
-        condition: element => ["hero", "monster"].includes(element.item.actor.type) && element.item.isOwner && (element.item.isEquipped || (!element.item.isArsenal && !element.item.isArmor)),
-        callback: element => element.item.use(),
-        group: "action",
-      }, {
-        name: "ARTICHRON.ContextMenu.Item.Fuse",
-        icon: "<i class='fa-solid fa-fw fa-volcano'></i>",
-        condition: element => ["hero", "monster"].includes(element.item.actor.type) && element.item.isOwner && element.item.hasFusions && !element.item.isFused,
-        callback: element => element.item.fuseDialog(),
-        group: "action",
-      }, {
-        name: "ARTICHRON.ContextMenu.Item.Unfuse",
-        icon: "<i class='fa-solid fa-fw fa-recycle'></i>",
-        condition: element => ["hero", "monster"].includes(element.item.actor.type) && element.item.isOwner && element.item.isFused,
-        callback: element => element.item.system.fusion.unfuseDialog(),
-        group: "action",
-      }];
-    }
-
-    /* -------------------------------------------------- */
     /*   Event handlers                                   */
     /* -------------------------------------------------- */
 
     /**
      * Handle toggling the Opacity lock of the sheet.
      * @this {DocumentSheetArtichron}
-     * @param {PointerEvent} event      The originating click event.
-     * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
+     * @param {PointerEvent} event    The initiating click event.
+     * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
      */
     static #ontoggleOpacity(event, target) {
       this.#opacity = target.closest(".application").classList.toggle("opacity");
@@ -390,8 +234,8 @@ const ArtichronDocumentSheetMixin = Base => {
     /**
      * Handle toggling between Edit and Play mode.
      * @this {DocumentSheetArtichron}
-     * @param {PointerEvent} event      The originating click event.
-     * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
+     * @param {PointerEvent} event    The initiating click event.
+     * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
      */
     static #onToggleSheet(event, target) {
       const modes = this.constructor.SHEET_MODES;
@@ -404,8 +248,8 @@ const ArtichronDocumentSheetMixin = Base => {
     /**
      * Handle toggling an active effect on or off.
      * @this {DocumentSheetArtichron}
-     * @param {PointerEvent} event      The originating click event.
-     * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
+     * @param {PointerEvent} event    The initiating click event.
+     * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
      */
     static async #onToggleEffect(event, target) {
       if (!this.isEditable) return;
@@ -419,8 +263,8 @@ const ArtichronDocumentSheetMixin = Base => {
     /**
      * Handle click events to render an effect's sheet.
      * @this {DocumentSheetArtichron}
-     * @param {PointerEvent} event      The originating click event.
-     * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
+     * @param {PointerEvent} event    The initiating click event.
+     * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
      */
     static async #onEditEffect(event, target) {
       const uuid = target.closest("[data-item-uuid]").dataset.itemUuid;
@@ -433,8 +277,8 @@ const ArtichronDocumentSheetMixin = Base => {
     /**
      * Handle click events to delete an effect.
      * @this {DocumentSheetArtichron}
-     * @param {PointerEvent} event      The originating click event.
-     * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
+     * @param {PointerEvent} event    The initiating click event.
+     * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
      */
     static async #onDeleteEffect(event, target) {
       if (!this.isEditable) return;
@@ -448,8 +292,8 @@ const ArtichronDocumentSheetMixin = Base => {
     /**
      * Handle click events to create an effect.
      * @this {DocumentSheetArtichron}
-     * @param {PointerEvent} event      The originating click event.
-     * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
+     * @param {PointerEvent} event    The initiating click event.
+     * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
      */
     static #onCreateEffect(event, target) {
       if (!this.isEditable) return;
@@ -464,8 +308,8 @@ const ArtichronDocumentSheetMixin = Base => {
     /**
      * Handle click events to toggle a document's description.
      * @this {DocumentSheetArtichron}
-     * @param {PointerEvent} event      The originating click event.
-     * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
+     * @param {PointerEvent} event    The initiating click event.
+     * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
      */
     static #onToggleDescription(event, target) {
       const item = target.closest("[data-item-uuid]");

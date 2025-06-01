@@ -31,7 +31,7 @@
 
   .header {
     --height: 74px;
-    height: var(--height);
+    flex: 0 0 var(--height);
     gap: 8px;
     display: flex;
     align-items: center;
@@ -42,12 +42,13 @@
       object-fit: cover;
       object-position: center top;
       border-radius: 1rem;
-      border: 2px inset rgba(var(--artichron-color-border-blue), 0.85);
+      border: 2px inset hsl(from var(--artichron-color-border-blue) h s l / 0.85);
       position: fixed;
       width: calc(1.25 * var(--height));
       z-index: 1;
       position-anchor: --sheet-header;
       position-area: center top;
+      aspect-ratio: 1;
 
       &:not([data-action]) {
         pointer-events: none;
@@ -100,285 +101,149 @@
       }
     }
   }
-}
 
-/* Item and effect lists. */
-.tab.scrollable.active:has(.inventory-list, .effects-list) {
-  display: flex;
-  flex-direction: column;
-}
+  /* Tab Navigation outside of the sheet itself. */
+  &:not(.maximizing, .minimizing, .minimized) {
+    overflow: visible;
 
-/* Shared styling */
-.inventory-list, .effects-list {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  width: 100%;
-  position: relative;
-
-  .create {
+    .window-content {
+      overflow: visible;
+    }
+  }
+  [data-application-part=tabs].vertical {
     position: absolute;
-    bottom: 1rem;
-    right: 1rem;
-  }
+    left: anchor(--sheet-header right);
+    flex-direction: column;
+    margin: 0 1rem 0 1rem;
+    gap: 5px;
+    border: none;
+    border-top-right-radius: 25%;
+    border-bottom-right-radius: 25%;
+    align-items: flex-start;
+    height: unset;
 
-  &:has(.create) {
-    padding-bottom: calc(2 * var(--input-height));
-  }
-
-  .description-wrapper {
-    display: grid;
-    grid-template-rows: 0fr;
-    flex: 0 0 100%;
-    overflow: hidden auto;
-    padding: 0 5px;
-
-    .description {
+    [data-tab] {
+      position: relative;
+      width: 100%;
+      padding: 1rem 1rem;
       font-size: 12px;
-    }
-  }
+      border-top-right-radius: 25%;
+      border-bottom-right-radius: 25%;
+      background: var(--background);
+      box-shadow: 0 0 3px var(--background);
+      overflow: hidden;
+      display: flex;
 
-  .expanded .description-wrapper {
-    grid-template-rows: 1fr;
-  }
-
-  .transitioning .description-wrapper {
-    transition: grid-template-rows 150ms ease, margin 150ms ease;
-  }
-}
-
-.inventory-list {
-  &.compact {
-    flex-wrap: wrap;
-    flex-direction: row;
-  }
-
-  & header {
-    display: flex;
-    margin-top: 0.5rem;
-    min-height: 1.25rem;
-    align-items: stretch;
-    width: 100%;
-
-    .label { flex: 1; }
-    .controls {
-      flex: var(--artichron-inventory-controls-flex);
-
-      &[data-action=createItem] {
-        height: unset;
-      }
-    }
-  }
-
-  & inventory-item {
-    display: flex;
-    border: 1px solid gray;
-    border-radius: 4px;
-    align-items: center;
-    flex-wrap: wrap;
-    animation: scroll-watcher linear;
-    animation-timeline: view();
-    animation-range: entry;
-    --height: calc(3rem - 2px);
-
-    .image {
-      border: none;
-      height: var(--height);
-      position: relative;
-      text-shadow: none;
-
-      & img {
-        aspect-ratio: 1;
-        object-fit: cover;
+      span, i {
+        position: relative;
+        font-size: 20px;
       }
 
-      > * {
-        height: 100%;
-        transition: opacity 200ms ease;
-      }
-
-      .quantity {
+      &::before {
+        background-repeat: no-repeat;
+        background-size: auto 100%;
+        background-position: center;
+        content: "";
         position: absolute;
-        inset-block-end: 0;
-			  inset-inline-end: 0;
-        display: flex;
-        align-items: end;
-
-        .value {
-          font-size: 10px;
-          font-family: Bruno Ace;
-          background-color: black;
-          padding: 2px;
-          min-width: 1.5em;
-          text-align: center;
-        }
-      }
-
-      .use {
-        position: absolute;
+        left: 0;
         top: 0;
-        opacity: 0;
         width: 100%;
-        font-size: 1.5rem;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        color: var(--artichron-color-gold);
-      }
-      &:hover {
-        & img { opacity: 0.25; }
-        .use { opacity: 1; }
-      }
-    }
-
-    /* Disables hover effects */
-    &[disabled] .image { pointer-events: none; }
-
-    .wrapper {
-      height: var(--height);
-      flex: 1;
-      display: flex;
-      align-items: center;
-      margin-left: 5px;
-
-      .name {
-        pointer-events: none;
-      }
-    }
-
-    .property {
-      flex: var(--artichron-item-property-flex);
-      text-align: center;
-      font-size: 10px;
-
-      &.fusion {
-        font-size: unset;
-      }
-
-      .counter {
-        display: flex;
-        align-items: center;
-        gap: 3px;
-        justify-content: center;
-
-        &.origin { font-size: 13px; }
-
-        & input, .max {
-          margin: 0;
-          padding: 0;
-          flex: 1;
-          font-size: 10px;
-          height: 100%;
-          background: unset;
-        }
-      }
-
-      .label {
-        color: var(--artichron-color-gold);
-      }
-    }
-
-    .controls {
-      display: flex;
-      flex: var(--artichron-inventory-controls-flex);
-      justify-content: space-around;
-    }
-  }
-}
-
-@keyframes scroll-watcher {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-.effects-list {
-  & header {
-    display: flex;
-    margin-top: 0.5rem;
-    min-height: 1.25rem;
-    align-items: stretch;
-
-    .label { flex: 1; }
-    .source { flex: var(--artichron-effect-source-flex); text-align: center; }
-    .properties { flex: var(--artichron-item-properties-flex); text-align: center; }
-  }
-
-  & effect-entry {
-    display: flex;
-    border: 1px solid gray;
-    border-radius: 4px;
-    align-items: center;
-    flex-wrap: wrap;
-    --height: calc(3rem - 2px);
-
-    .image {
-      border: none;
-      margin-right: 5px;
-      height: var(--height);
-      position: relative;
-      text-shadow: none;
-
-      & img {
-        aspect-ratio: 1;
-        object-fit: cover;
-      }
-
-      > * {
         height: 100%;
+        opacity: 0.3;
+        background-image: url(/systems/artichron/assets/layout/technology-banner.webp);
         transition: opacity 200ms ease;
       }
-    }
 
-    .wrapper {
-      height: var(--height);
-      flex: 1;
-      display: flex;
+      &:is(:hover, .active)::before {
+        opacity: 1;
+      }
+    }
+  }
+
+  .document-list {
+    display: grid;
+    gap: 1ch;
+
+    .document-list-header {
+      display: grid;
+      grid-template-columns: 1fr 0fr;
       align-items: center;
+      background: linear-gradient(3deg, hsl(from var(--artichron-color-purple) h s l / 0.4), transparent 70%);
+      padding: 0.25rem;
+      padding-left: 1ch;
+      border-bottom: 2px solid hsl(from var(--artichron-color-purple) h s l / 0.5);
+      font-size: 16px;
+    }
 
-      .name {
-        pointer-events: none;
+    .create-document {
+      &::before {
+        content: "\f055";
+      }
+    }
 
-        &.stacked {
-          display: flex;
-          flex-direction: column;
+    .document-list-entries {
+      display: grid;
+      gap: 1ch;
+
+      .entry {
+        display: grid;
+        height: fit-content;
+        justify-content: space-between;
+        padding: 1ch;
+        grid-template-columns: 3rem 1fr;
+        text-align: left;
+        position: relative;
+        align-items: center;
+
+        .icon {
+          height: 2rem;
+          width: 2rem;
+          object-fit: cover;
+        }
+        &.inactive .icon { opacity: 0.5; }
+
+        .title {
+          font-size: 18px;
         }
 
-        .title {}
         .subtitle {
-          font-size: 80%;
           color: var(--artichron-color-gold);
+          position: absolute;
+          right: 1ch;
+          bottom: 1ch;
+
+          /* For loot on monster sheets, the subtitle is quantity instead */
+          &.quantity {
+            display: grid;
+            grid-template-columns: 0fr 1fr 0fr;
+            text-align: center;
+            align-items: center;
+          }
         }
       }
     }
 
-    .property {
-      flex: var(--artichron-effect-source-flex);
-      text-align: center;
-      font-size: 10px;
-    }
-
-    .controls {
+    /* COMPACT VIEW */
+    .document-list-entries.compact {
       display: flex;
-      justify-content: space-around;
-      flex: var(--artichron-effect-controls-flex);
-    }
+      flex-wrap: wrap;
 
-    [data-action=undoFusion] {
-      position: relative;
+      .entry {
+        width: fit-content;
+        display: flex;
+        aspect-ratio: 1;
 
-      .fa-solid {
-        transition: opacity 500ms ease;
-
-        &.fa-recycle { opacity: 0; }
-        &.fa-volcano { opacity: 1; position: absolute; }
-      }
-      &:hover .fa-solid {
-        &.fa-recycle { opacity: 1; }
-        &.fa-volcano { opacity: 0; }
+        .icon {
+          height: 3rem;
+          width: 3rem;
+        }
+        .title { display: none }
+        .subtitle { display: none }
       }
     }
   }
 }
+
 
 /* Enriched item tooltips */
 .item-tooltip {

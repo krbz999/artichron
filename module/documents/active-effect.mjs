@@ -2,6 +2,14 @@ import BaseDocumentMixin from "./base-document-mixin.mjs";
 
 export default class ActiveEffectArtichron extends BaseDocumentMixin(foundry.documents.ActiveEffect) {
   /** @inheritdoc */
+  static async createDocuments(data = [], operation = {}) {
+    data.forEach(d => d.img ||= "icons/svg/sun.svg");
+    return super.createDocuments(data, operation);
+  }
+
+  /* -------------------------------------------------- */
+
+  /** @inheritdoc */
   static applyField(model, change, field) {
     if (!field) {
       field = change.key.startsWith("system.") ?

@@ -29,7 +29,6 @@ export default class SkillRequirement extends BaseArmorRequirement {
   static get metadata() {
     return foundry.utils.mergeObject(super.metadata, {
       hint: "ARTICHRON.ITEM.REQUIREMENT.Skill.hint",
-      label: "ARTICHRON.ITEM.REQUIREMENT.Skill.label",
     });
   }
 

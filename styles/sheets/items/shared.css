@@ -1,28 +1,12 @@
 .artichron.application.sheet.item {
+
+  &:not(.maximizing, .minimizing, .minimized) {
+    min-height: 450px;
+  }
+
   .tab.scrollable {
-    padding-bottom: 3px;
-
-    & fieldset.armor-requirements {
+    .armor-requirements {
       .form-fields select:first-child { flex: 0 0 100px; }
-    }
-
-    & fieldset.activities {
-      & button[data-action=renderActivity] {
-        display: flex;
-        flex-direction: column;
-        height: fit-content;
-        align-items: flex-start;
-        padding: 0.5em;
-
-        .name {
-          font-size: 14px;
-        }
-
-        .subtitle {
-          font-size: 11px;
-          opacity: 0.75;
-        }
-      }
     }
   }
 }
@@ -35,6 +19,21 @@
 
     .type {
       flex: 3;
+    }
+  }
+}
+
+/* Advancement sheet */
+.artichron.application.advancement {
+  .item-grant {
+    background: none;
+
+    .item-grant-item { width: 100% }
+    .item-grant-optional { text-align: center; }
+    .item-grant-controls { text-align: center; }
+
+    tbody tr {
+      background: none;
     }
   }
 }

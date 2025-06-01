@@ -1,9 +1,13 @@
+/* eslint-disable @typescript-eslint/no-empty-object-type */
+
 /* -------------------------------------------------- */
 /*   Pseudo-Documents                                 */
 /* -------------------------------------------------- */
 
 /** Metadata for a pseudo-document. */
 export interface PseudoDocumentMetadata {
+  /** File path to a pseudo-document's default artwork. */
+  defaultImage: string;
   /** Document name used for this pseudo document. */
   documentName: string;
   /** A record of document names for pseudo documents and the path to their collection. */
@@ -15,32 +19,41 @@ export interface PseudoDocumentMetadata {
 }
 
 /** Metadata for activities. */
-export interface ActivityMetadata extends PseudoDocumentMetadata {
-  /** File path to activity default icon. */
-  icon: string;
-  /** i18n path to an activity type's default name. */
-  label: string;
-}
+export interface ActivityMetadata extends PseudoDocumentMetadata {}
 
 /** Metadata for armor requirements. */
 export interface ArmorRequirementMetadata extends PseudoDocumentMetadata {
   /** i18n path for display hint. */
   hint: string;
-  /** i18n path for display label. */
-  label: string;
 }
 
 /** Metadata for clocks. */
 export interface ClockMetadata extends PseudoDocumentMetadata {
   /** Hex string for default color. */
   color: string;
-  /** i18n path for default name. */
-  label: string;
 }
 
-export interface DamagePartMetadata extends PseudoDocumentMetadata {
-  /** i18n path for default name. */
-  label: string;
+export interface DamagePartMetadata extends PseudoDocumentMetadata {}
+
+export interface AdvancementMetadata extends PseudoDocumentMetadata {}
+
+/* -------------------------------------------------- */
+/*   Advancements                                     */
+/* -------------------------------------------------- */
+
+export interface AdvancementChainLink {
+  /* The advancement of this link in the chain. */
+  advancement: BaseAdvancement;
+  /* Child advancements (can be understood as the inverse of `parent`). If an item granted by *this* advancement grants
+  no advancements, nothing is recorded here. The key is the id of the "granted" advancement. */
+  children: Record<string, AdvancementChainLink>;
+  /* The 'parent' advancement, if this advancement is from an item granted by another advancement. This can also be
+  a progression stored on an actor - in which case, it always means that this link was directly from a Path item. */
+  parent: AdvancementChainLink | Progression | null;
+  /* Granted items from this advancement and their configuration. */
+  pool: object[];
+  /* Is this the root of the chain? */
+  root: boolean;
 }
 
 /* -------------------------------------------------- */

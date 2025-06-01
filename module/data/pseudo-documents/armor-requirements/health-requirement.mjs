@@ -7,7 +7,6 @@ export default class HealthRequirement extends BaseArmorRequirement {
   static get metadata() {
     return foundry.utils.mergeObject(super.metadata, {
       hint: "ARTICHRON.ITEM.REQUIREMENT.Health.hint",
-      label: "ARTICHRON.ITEM.REQUIREMENT.Health.label",
     });
   }
 

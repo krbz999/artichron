@@ -1,0 +1,20 @@
+<section class="tab {{tabs.advancements.cssClass}}" data-group="{{tabs.advancements.group}}" data-tab="{{tabs.advancements.id}}">
+
+  <div class="document-list advancements" data-pseudo-document-name="Advancement">
+    <h3 class="document-list-header">
+      <span>{{localize "ARTICHRON.SHEET.TALENT.HEADERS.advancements"}}</span>
+      <button type="button" class="create-document icon fa-solid" data-action="createPseudoDocument" {{disabled isPlayMode}}></button>
+    </h3>
+
+    <div class="document-list-entries">
+      {{#each ctx.advancements}}
+      <div class="entry button" data-action="renderPseudoDocumentSheet" data-pseudo-id="{{advancement.id}}">
+        <img src="{{advancement.img}}" alt="{{advancement.name}}" class="icon">
+        <span class="title">{{advancement.name}}</span>
+        <span class="subtitle">{{localize (concat "TYPES.Advancement." advancement.type)}}</span>
+      </div>
+      {{/each}}
+    </div>
+
+  </div>
+</section>

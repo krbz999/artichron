@@ -7,9 +7,10 @@
   --artichron-font-primary: "Bruno Ace";
   --artichron-font-labels: "Amiri";
 
-  --artichron-color-border-blue: 79, 79, 206;
-  --artichron-color-blue: rgba(0, 0, 255, 0.6);
-  --artichron-color-blue-dark: rgba(0, 0, 255, 0.2);
+  --artichron-color-border-blue: rgb(79, 79, 206);
+  --artichron-color-blue-light: rgb(121, 121, 245);
+  --artichron-color-blue: rgb(0, 0, 255);
+  --artichron-color-blue-dark: rgb(0, 0, 255);
   --artichron-color-white: rgba(204, 204, 204, 0.9);
   --artichron-color-black: rgb(0, 0, 0);
   --artichron-color-black-45: rgba(0, 0, 0, 0.45);
@@ -23,4 +24,11 @@
   --artichron-effect-controls-flex: 0 0 50px;
   --artichron-item-property-flex: 0 0 60px;
   --artichron-inventory-controls-flex: 0 0 60px;
+}
+
+/* OVERRIDES */
+.artichron.application :is(button, .button) {
+  --button-hover-background-color: hsl(from var(--artichron-color-purple) h s l / 0.5);
+  --button-hover-border-color: hsl(from var(--artichron-color-purple) h s l / 0.7);
+  --button-focus-outline-color: none;
 }

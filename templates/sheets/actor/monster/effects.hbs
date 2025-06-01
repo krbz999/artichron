@@ -1,0 +1,52 @@
+<section class="tab {{tabs.effects.cssClass}}" data-group="{{tabs.effects.group}}" data-tab="{{tabs.effects.id}}">
+
+  <div class="document-list effects" data-document-name="ActiveEffect">
+    {{!-- CONDITIONS --}}
+    {{#if ctx.conditions.length}}
+    <h3 class="document-list-header">
+      <span>{{localize "ARTICHRON.SHEET.MONSTER.HEADERS.conditions"}}</span>
+    </h3>
+    <div class="document-list-entries">
+      {{#each ctx.conditions}}
+      <div class="entry button {{#if effect.disabled}} inactive {{/if}}" data-action="renderEmbeddedDocumentSheet" data-id="{{effect.id}}" {{#if parentId}} data-parent-id="{{parentId}}" {{/if}}>
+        <img src="{{effect.img}}" alt="{{effect.name}}" class="icon">
+        <span class="title">{{label}}</span>
+        <span class="subtitle">{{localize "TYPES.ActiveEffect.condition"}}</span>
+      </div>
+      {{/each}}
+    </div>
+    {{/if}}
+
+    {{!-- ACTIVE BUFFS --}}
+    <h3 class="document-list-header">
+      <span>{{localize "ARTICHRON.SHEET.MONSTER.HEADERS.activeBuffs"}}</span>
+      <button class="create-document icon fa-solid" type="button" data-action="createEmbeddedDocument" data-type="buff" {{disabled isPlayMode}}></button>
+    </h3>
+    <div class="document-list-entries">
+      {{#each ctx.buffs.active}}
+      <div class="entry button {{#if effect.disabled}} inactive {{/if}}" data-action="renderEmbeddedDocumentSheet" data-id="{{effect.id}}" {{#if parentId}} data-parent-id="{{parentId}}" {{/if}}>
+        <img src="{{effect.img}}" alt="{{effect.name}}" class="icon">
+        <span class="title">{{effect.name}}</span>
+        <span class="subtitle">{{localize "TYPES.ActiveEffect.buff"}}</span>
+      </div>
+      {{/each}}
+    </div>
+
+    {{!-- INACTIVE BUFFS --}}
+    {{#if ctx.buffs.inactive.length}}
+    <h3 class="document-list-header">
+      <span>{{localize "ARTICHRON.SHEET.MONSTER.HEADERS.inactiveBuffs"}}</span>
+    </h3>
+    <div class="document-list-entries">
+      {{#each ctx.buffs.inactive}}
+      <div class="entry button {{#if effect.disabled}} inactive {{/if}}" data-action="renderEmbeddedDocumentSheet" data-id="{{effect.id}}" {{#if parentId}} data-parent-id="{{parentId}}" {{/if}}>
+        <img src="{{effect.img}}" alt="{{effect.name}}" class="icon">
+        <span class="title">{{effect.name}}</span>
+        <span class="subtitle">{{localize "TYPES.ActiveEffect.buff"}}</span>
+      </div>
+      {{/each}}
+    </div>
+    {{/if}}
+  </div>
+
+</section>

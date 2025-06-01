@@ -1,0 +1,43 @@
+<section class="tab {{tabs.fusion.cssClass}}" data-group="{{tabs.fusion.group}}" data-tab="{{tabs.fusion.id}}">
+  {{!-- <fieldset>
+    <legend>{{fusionFields.label}}</legend>
+    {{#with fusionFields.ignore}}
+    {{formGroup field value=value options=choices type="checkboxes" classes="stacked" disabled=@root.isPlayMode sort=true}}
+    {{/with}}
+    {{#with fusionFields.max}}
+    {{formGroup field value=value disabled=@root.isPlayMode}}
+    {{/with}}
+  </fieldset>
+
+  <div class="effects-list">
+    {{#if activeFusions.length}}
+    <header>
+      <span class="label">{{localize "ARTICHRON.EFFECT.FUSION.active"}}</span>
+      <span class="source">{{localize "ARTICHRON.EFFECT.source"}}</span>
+      <span class="controls" style="margin-left: 2px;"></span>
+    </header>
+
+    {{#each activeFusions}}
+    {{effectEntry effect enriched=enrichedText}}
+    {{/each}}
+
+    {{/if}}
+
+    {{#if document.hasFusions}}
+    <header>
+      <span class="label">{{localize "ARTICHRON.EFFECT.FUSION.options"}}</span>
+      <span class="source"></span>
+      {{#if @root.isEditMode}}
+      <button class="icon fa-solid fa-plus" type="button" data-action="createEffect" data-tooltip="ARTICHRON.EFFECT.FUSION.create" data-type="fusion"></button>
+      {{else}}
+      <span class="controls" style="margin-left: 2px;"></span>
+      {{/if}}
+    </header>
+
+    {{#each fusions}}
+    {{effectEntry effect enriched=enrichedText}}
+    {{/each}}
+    {{/if}}
+
+  </div> --}}
+</section>

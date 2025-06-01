@@ -142,8 +142,7 @@ export default class ActivitySheet extends PseudoDocumentSheet {
           damage: damage,
           fields: ["number", "denomination", "type"].map(path => {
             return {
-              // FIXME: core bug; shouldn't need to grab the fields from the parent model
-              field: context.activity.schema.getField(`damage.element.${path}`),
+              field: damage.schema.getField(path),
               name: `damage.${damage.id}.${path}`,
               value: foundry.utils.getProperty(damage, path),
               classes: [path, "label-top"].join(" "),
@@ -203,8 +202,8 @@ export default class ActivitySheet extends PseudoDocumentSheet {
   /**
    * Add a damage part.
    * @this {ActivitySheet}
-   * @param {PointerEvent} event      The originating click event.
-   * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
+   * @param {PointerEvent} event    The initiating click event.
+   * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
    */
   static #addDamage(event, target) {
     this.activity.createDamage();
@@ -215,8 +214,8 @@ export default class ActivitySheet extends PseudoDocumentSheet {
   /**
    * Delete a damage part.
    * @this {ActivitySheet}
-   * @param {PointerEvent} event      The originating click event.
-   * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
+   * @param {PointerEvent} event    The initiating click event.
+   * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
    */
   static #deleteDamage(event, target) {
     const id = target.closest("[data-id]").dataset.id;
@@ -228,8 +227,8 @@ export default class ActivitySheet extends PseudoDocumentSheet {
   /**
    * Show sheet of a damage part.
    * @this {ActivitySheet}
-   * @param {PointerEvent} event      The originating click event.
-   * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
+   * @param {PointerEvent} event    The initiating click event.
+   * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
    */
   static #showDamage(event, target) {
     const id = target.closest("[data-id]").dataset.id;

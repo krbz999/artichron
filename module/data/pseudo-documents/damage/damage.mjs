@@ -3,6 +3,17 @@ import PseudoDocument from "../pseudo-document.mjs";
 const { NumberField, SetField, StringField } = foundry.data.fields;
 
 export default class Damage extends PseudoDocument {
+  /** @type {import("../../../_types").DamagePartMetadata} */
+  static get metadata() {
+    return {
+      documentName: "Damage",
+      embedded: {},
+      sheetClass: artichron.applications.sheets.item.DamageSheet,
+    };
+  }
+
+  /* -------------------------------------------------- */
+
   /** @inheritdoc */
   static defineSchema() {
     return Object.assign(super.defineSchema(), {
@@ -44,18 +55,6 @@ export default class Damage extends PseudoDocument {
 
   /** @inheritdoc */
   static LOCALIZATION_PREFIXES = ["ARTICHRON.DAMAGE"];
-
-  /* -------------------------------------------------- */
-
-  /** @type {import("../../../_types").DamagePartMetadata} */
-  static get metadata() {
-    return {
-      label: "ARTICHRON.DAMAGE.label",
-      documentName: "Damage",
-      embedded: {},
-      sheetClass: artichron.applications.sheets.item.DamageSheet,
-    };
-  }
 
   /* -------------------------------------------------- */
 

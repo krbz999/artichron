@@ -8,12 +8,12 @@ export default class BaseActivity extends TypedPseudoDocument {
   /** @type {import("../../../_types").ActivityMetadata} */
   static get metadata() {
     return {
+      ...super.metadata,
       documentName: "Activity",
       embedded: {
         Damage: "damage",
       },
-      icon: "systems/artichron/assets/icons/activity.svg",
-      label: "",
+      defaultImage: "systems/artichron/assets/icons/activity.svg",
       sheetClass: artichron.applications.sheets.item.ActivitySheet,
       types: artichron.data.pseudoDocuments.activities,
     };
@@ -29,25 +29,12 @@ export default class BaseActivity extends TypedPseudoDocument {
   /** @inheritdoc */
   static defineSchema() {
     return Object.assign(super.defineSchema(), {
-      name: new StringField({ required: true }),
-      img: new FilePathField({
-        categories: ["IMAGE"],
-        initial: () => this.metadata.icon,
-      }),
       description: new HTMLField({ required: true }),
       cost: new SchemaField({
         value: new NumberField({ min: 0, integer: true, nullable: false, initial: 1 }),
         uses: new BooleanField({ initial: true }),
       }),
     });
-  }
-
-  /* -------------------------------------------------- */
-
-  /** @inheritdoc */
-  prepareDerivedData() {
-    super.prepareDerivedData();
-    this.name ||= game.i18n.localize(this.constructor.metadata.label);
   }
 
   /* -------------------------------------------------- */

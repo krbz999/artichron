@@ -9,6 +9,7 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
       defaultWeight: 1,
       embedded: {
         Activity: "system.activities",
+        Advancement: "system.advancements", // TODO: remove
       },
       fusion: false,
       icon: "",
@@ -34,6 +35,8 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
         value: new NumberField({ min: 0, initial: 0, integer: true, nullable: false }),
       }),
       activities: new artichron.data.fields.CollectionField(artichron.data.pseudoDocuments.activities.BaseActivity),
+      // TODO: remove
+      advancements: new artichron.data.fields.CollectionField(artichron.data.pseudoDocuments.advancements.BaseAdvancement),
       attributes: new SchemaField({
         value: new SetField(new StringField({
           choices: () => this._attributeChoices(),
@@ -68,12 +71,13 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
 
   /** @inheritdoc */
   async _preCreate(data, options, user) {
-    const result = await super._preCreate(data, options, user);
-    if (result === false) return false;
+    if (await super._preCreate(data, options, user) === false) return false;
 
+    const update = {};
     if (!this.identifier) {
-      this.parent.updateSource({ "system.identifier": this.parent.name.slugify({ strict: true }) });
+      update["system.identifier"] = this.parent.name.slugify({ strict: true });
     }
+    if (!foundry.utils.isEmpty(update)) this.parent.updateSource(update);
   }
 
   /* -------------------------------------------------- */

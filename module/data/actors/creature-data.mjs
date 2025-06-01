@@ -1,7 +1,7 @@
 import ActorSystemModel from "./system-model.mjs";
 
 const {
-  NumberField, SchemaField, SetField, StringField,
+  HTMLField, NumberField, SchemaField, SetField, StringField,
 } = foundry.data.fields;
 
 /**
@@ -11,32 +11,31 @@ const {
 export default class CreatureData extends ActorSystemModel {
   /** @inheritdoc */
   static defineSchema() {
-    const schema = super.defineSchema();
-
-    schema.health = new SchemaField({
-      value: new NumberField({ min: 0, initial: 0, integer: true, nullable: false }),
-    }, {
-      trackedAttribute: true,
-    });
-
-    schema.pips = new SchemaField({
-      value: new NumberField({ min: 0, initial: 0, step: 0.2, nullable: false }),
-      turn: new NumberField({ min: 0, initial: 1, step: 1, nullable: false }),
-    });
-
-    schema.favorites = new SetField(new StringField({ required: true }));
-    schema.equipped = new SchemaField({
-      arsenal: new SchemaField({
-        primary: new StringField({ required: true }),
-        secondary: new StringField({ required: true }),
+    return Object.assign(super.defineSchema(), {
+      biography: new SchemaField({
+        value: new HTMLField(),
       }),
-      armor: new SchemaField(Object.keys(artichron.config.EQUIPMENT_TYPES).reduce((acc, key) => {
-        acc[key] = new StringField({ required: true });
-        return acc;
-      }, {})),
+      equipped: new SchemaField({
+        arsenal: new SchemaField({
+          primary: new StringField({ required: true }),
+          secondary: new StringField({ required: true }),
+        }),
+        armor: new SchemaField(Object.keys(artichron.config.EQUIPMENT_TYPES).reduce((acc, key) => {
+          acc[key] = new StringField({ required: true });
+          return acc;
+        }, {})),
+      }),
+      favorites: new SetField(new StringField({ required: true })),
+      health: new SchemaField({
+        value: new NumberField({ min: 0, initial: 0, integer: true, nullable: false }),
+      }, {
+        trackedAttribute: true,
+      }),
+      pips: new SchemaField({
+        value: new NumberField({ min: 0, initial: 0, step: 0.2, nullable: false }),
+        turn: new NumberField({ min: 0, initial: 1, step: 1, nullable: false }),
+      }),
     });
-
-    return schema;
   }
 
   /* -------------------------------------------------- */

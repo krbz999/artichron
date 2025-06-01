@@ -1,0 +1,47 @@
+<section class="tab {{tabs.details.cssClass}}" data-group="{{tabs.details.group}}" data-tab="{{tabs.details.id}}">
+  {{formInput systemFields.attributes.fields.value value=ctx.attributes type="checkboxes" disabled=isPlayMode}}
+
+  <fieldset>
+    <legend>{{localize "ARTICHRON.SHEET.LEGENDS.configuration"}}</legend>
+    {{formGroup systemFields.price.fields.value value=(ifThen isPlayMode document.system.price.value source.system.price.value) disabled=isPlayMode}}
+    {{formGroup systemFields.weight.fields.value value=(ifThen isPlayMode document.system.weight.value source.system.weight.value) disabled=isPlayMode}}
+
+    {{#if systemFields.quantity}}
+    {{formGroup systemFields.quantity.fields.value value=(ifThen isPlayMode document.system.quantity.value source.system.quantity.value) disabled=isPlayMode}}
+    {{/if}}
+  </fieldset>
+
+  {{#if ctx.isArmor}}
+  <fieldset class="defenses">
+    <legend>{{localize "ARTICHRON.SHEET.LEGENDS.defenses"}}</legend>
+    {{#each ctx.defenses.values}}
+    <div class="defense {{#if active}} active {{/if}}" data-tooltip="{{label}}" style="color: #{{color}}">
+      {{#if @root.isEditMode}}
+      {{formInput field value=value}}
+      {{else}}
+      <span class="total">{{ifThen value value 0}}</span>
+      {{/if}}
+      <i class="{{icon}}"></i>
+    </div>
+    {{/each}}
+  </fieldset>
+
+  <fieldset class="armor-requirements" data-pseudo-document-name="ArmorRequirement">
+    <legend>
+      {{localize "ARTICHRON.SHEET.LEGENDS.requirements"}}
+      <button type="button" class="icon fa-regular fa-plus-square" data-action="createPseudoDocument" {{disabled isPlayMode}}></button>
+    </legend>
+    {{#each ctx.requirements}}
+    <div class="form-fields" data-pseudo-id="{{requirement.id}}">
+      {{#each fields}}
+      {{formInput field value=value name=name disabled=@root.isPlayMode placeholder=(localize field.options.placeholder)}}
+      {{/each}}
+      {{#if @root.isEditMode}}
+      <button type="button" class="icon fa-solid fa-minus" data-action="deletePseudoDocument"></button>
+      {{/if}}
+    </div>
+    <p class="hint">{{hint}}</p>
+    {{/each}}
+  </fieldset>
+  {{/if}}
+</section>

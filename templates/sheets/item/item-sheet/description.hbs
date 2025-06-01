@@ -1,5 +1,3 @@
-<div class="tab {{tabs.description.cssClass}}" data-group="{{tabs.description.group}}" data-tab="{{tabs.description.id}}">
-  {{#with description}}
-  {{formInput field value=value enriched=enriched toggled=true compact=true height=300 collaborate=true documentUUID=uuid disabled=@root.isPlayMode}}
-  {{/with}}
-</div>
+<section class="tab {{tabs.description.cssClass}}" data-group="{{tabs.description.group}}" data-tab="{{tabs.description.id}}">
+  {{formInput systemFields.description.fields.value value=source.system.description.value enriched=ctx.descriptionValue height=300 disabled=isPlayMode documentUuid=document.uuid toggled=isPlayMode}}
+</section>

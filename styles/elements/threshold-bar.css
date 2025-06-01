@@ -16,7 +16,7 @@ threshold-bar {
 
     > span {
       width: 125%;
-      background-color: var(--artichron-color-blue);
+      background-color: hsl(from var(--artichron-color-blue) h s l / 0.6);
       border: 2px solid blue;
       clip-path: polygon(25% 0%, 100% 0%, 75% 100%, 0% 100%);
       margin-left: -1rem;

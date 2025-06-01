@@ -9,8 +9,8 @@ export default class BaseClock extends TypedPseudoDocument {
   /** @type {import("../../../_types").ClockMetadata} */
   static get metadata() {
     return {
+      ...super.metadata,
       color: "",
-      label: "",
       documentName: "Clock",
       embedded: {},
       sheetClass: artichron.applications.sheets.actor.ClockSheet,
@@ -23,7 +23,6 @@ export default class BaseClock extends TypedPseudoDocument {
   /** @inheritdoc */
   static defineSchema() {
     return Object.assign(super.defineSchema(), {
-      name: new StringField({ required: true }),
       value: new NumberField({ min: 0, integer: true, initial: null }),
       max: new NumberField({ min: 1, integer: true, initial: null }),
       color: new ColorField({ required: true, nullable: true }),
@@ -70,6 +69,7 @@ export default class BaseClock extends TypedPseudoDocument {
 
   /** @inheritdoc */
   prepareDerivedData() {
+    super.prepareDerivedData();
     this.max ??= 8;
     this.value = Math.clamp(this.value, 0, this.max);
     this.color ??= foundry.utils.Color.fromString(this.constructor.metadata.color);

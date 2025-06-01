@@ -1,19 +1,23 @@
 import ArtichronSheetMixin from "../../api/document-sheet-mixin.mjs";
 
+/**
+ * @mixes foundry.applications.api.HandlebarsApplicationMixin
+ * @extends {foundry.applications.sheets.ItemSheet}
+ */
 export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.applications.sheets.ItemSheet) {
   /** @inheritdoc */
   static DEFAULT_OPTIONS = {
     classes: ["item"],
     position: {
-      width: 500,
+      width: 350,
       height: "auto",
     },
     actions: {
-      addRequirement: ItemSheetArtichron.#addRequirement,
-      createActivity: ItemSheetArtichron.#createActivity,
-      deleteRequirement: ItemSheetArtichron.#deleteRequirement,
-      renderActivity: ItemSheetArtichron.#renderActivity,
-      undoFusion: ItemSheetArtichron.#onUndoFusion,
+      createPseudoDocument: ItemSheetArtichron.#createPseudoDocument,
+      deletePseudoDocument: ItemSheetArtichron.#deletePseudoDocument,
+      renderPseudoDocumentSheet: ItemSheetArtichron.#renderPseudoDocumentSheet,
+      createEmbeddedDocument: ItemSheetArtichron.#createEmbeddedDocument,
+      renderEmbeddedDocumentSheet: ItemSheetArtichron.#renderEmbeddedDocumentSheet,
     },
   };
 
@@ -22,7 +26,7 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
   /** @inheritdoc */
   static PARTS = {
     header: {
-      template: "systems/artichron/templates/shared/sheet-header.hbs",
+      template: "systems/artichron/templates/sheets/item/item-sheet/header.hbs",
     },
     tabs: {
       template: "templates/generic/tab-navigation.hbs",
@@ -30,34 +34,6 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
     description: {
       template: "systems/artichron/templates/sheets/item/item-sheet/description.hbs",
       scrollable: [""],
-    },
-    details: {
-      template: "systems/artichron/templates/sheets/item/item-sheet/details.hbs",
-      classes: ["scrollable"],
-      scrollable: [""],
-    },
-    activities: {
-      template: "systems/artichron/templates/sheets/item/item-sheet/activities.hbs",
-      classes: ["scrollable"],
-      scrollable: [""],
-    },
-    fusion: {
-      template: "systems/artichron/templates/sheets/item/item-sheet/fusion.hbs",
-      scrollable: [""],
-      types: {
-        ammo: false,
-        elixir: false,
-        part: false,
-      },
-    },
-    effects: {
-      template: "systems/artichron/templates/shared/effects.hbs",
-      classes: ["scrollable"],
-      scrollable: [""],
-      types: {
-        ammo: false,
-        part: false,
-      },
     },
   };
 
@@ -67,14 +43,14 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
   static TABS = {
     primary: {
       tabs: [
-        { id: "description" },
-        { id: "details" },
-        { id: "activities" },
-        { id: "fusion" },
-        { id: "effects" },
+        { id: "description", tooltip: "ARTICHRON.SHEET.TABS.description", icon: "fa-solid fa-fw fa-pen-fancy" },
+        { id: "details", tooltip: "ARTICHRON.SHEET.TABS.details", icon: "fa-solid fa-fw fa-tags" },
+        { id: "fusion", tooltip: "ARTICHRON.SHEET.TABS.fusion", icon: "fa-solid fa-fw fa-volcano" },
+        { id: "activities", tooltip: "ARTICHRON.SHEET.TABS.activities", icon: "fa-solid fa-fw fa-location-crosshairs " },
+        { id: "advancements", tooltip: "ARTICHRON.SHEET.TABS.advancements", icon: "fa-solid fa-fw fa-circle-nodes" },
+        { id: "effects", tooltip: "ARTICHRON.SHEET.TABS.effects", icon: "fa-solid fa-fw fa-bolt" },
       ],
       initial: "description",
-      labelPrefix: "ARTICHRON.SHEET.TABS",
     },
   };
 
@@ -86,194 +62,187 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
   /* -------------------------------------------------- */
 
   /** @inheritdoc */
+  async _onFirstRender(context, options) {
+    await super._onFirstRender(context, options);
+
+    // Add context menu for effects.
+    this._createContextMenu(
+      this.#getContextOptionsActiveEffect,
+      ".document-list.effects .entry",
+      { hookName: "ActiveEffectEntryContext" },
+    );
+
+    // Add context menu for activities.
+    this._createContextMenu(
+      this.#getContextOptionsActivity,
+      ".document-list.activities .entry",
+      { hookName: "ActivityEntryContext" },
+    );
+
+    // Add context menu for advancements.
+    this._createContextMenu(
+      this.#getContextOptionsAdvancement,
+      ".document-list.advancements .entry",
+      { hookName: "AdvancementEntryContext" },
+    );
+
+    // Add context menu for armor requirements.
+    this._createContextMenu(
+      this.#getContextOptionsArmorRequirement,
+      ".document-list.armor-requirements .entry",
+      { hookName: "ArmorRequirementEntryContext" },
+    );
+  }
+
+  /* -------------------------------------------------- */
+  /*   Context menu                                     */
+  /* -------------------------------------------------- */
+
+  /**
+   * Prepare options for context menus for ActiveEffects.
+   * @returns {object[]}
+   */
+  #getContextOptionsActiveEffect() {
+    if (!this.document.isOwner) return [];
+    const getEffect = btn => this.document.effects.get(btn.dataset.id);
+
+    return [{
+      name: "ARTICHRON.SHEET.ITEM.CONTEXT.EFFECT.render",
+      icon: "<i class='fa-solid fa-fw fa-edit'></i>",
+      callback: btn => getEffect(btn).sheet.render({ force: true }),
+      group: "manage",
+    }, {
+      name: "ARTICHRON.SHEET.ITEM.CONTEXT.EFFECT.delete",
+      icon: "<i class='fa-solid fa-fw fa-trash'></i>",
+      condition: btn => !getEffect(btn).isActiveFusion,
+      callback: btn => getEffect(btn).deleteDialog(),
+      group: "manage",
+    }, {
+      name: "ARTICHRON.SHEET.ITEM.CONTEXT.EFFECT.enable",
+      icon: "<i class='fa-solid fa-fw fa-toggle-on'></i>",
+      condition: btn => getEffect(btn).disabled,
+      callback: btn => getEffect(btn).update({ disabled: false }),
+      group: "action",
+    }, {
+      name: "ARTICHRON.SHEET.ITEM.CONTEXT.EFFECT.disable",
+      icon: "<i class='fa-solid fa-fw fa-toggle-off'></i>",
+      condition: btn => !getEffect(btn).disabled && (getEffect(btn).type !== "fusion"),
+      callback: btn => getEffect(btn).update({ disabled: true }),
+      group: "action",
+    }, {
+      name: "ARTICHRON.SHEET.ITEM.CONTEXT.EFFECT.duplicate",
+      icon: "<i class='fa-solid fa-fw fa-copy'></i>",
+      condition: btn => !getEffect(btn).isActiveFusion,
+      callback: btn => {
+        const effect = getEffect(btn);
+        effect.clone(
+          { name: game.i18n.format("DOCUMENT.CopyOf", { name: effect._source.name }) },
+          { save: true, addSource: true },
+        );
+      },
+      group: "action",
+    }, {
+      name: "ARTICHRON.SHEET.ITEM.CONTEXT.EFFECT.unfuse",
+      icon: "<i class='fa-solid fa-fw fa-volcano'></i>",
+      condition: btn => getEffect(btn).isActiveFusion,
+      callback: btn => getEffect(btn).unfuseDialog(),
+      group: "action",
+    }];
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Prepare options for context menus for activities.
+   * @returns {object[]}
+   */
+  #getContextOptionsActivity() {
+    if (!this.document.isOwner) return [];
+
+    return [{
+      name: "ARTICHRON.SHEET.ITEM.CONTEXT.ACTIVITY.render",
+      icon: "<i class='fa-solid fa-fw fa-edit'></i>",
+      condition: element => this._getPseudoDocument(element).isSource,
+      callback: element => this._getPseudoDocument(element).sheet.render({ force: true }),
+    }, {
+      name: "ARTICHRON.SHEET.ITEM.CONTEXT.ACTIVITY.delete",
+      icon: "<i class='fa-solid fa-fw fa-trash'></i>",
+      condition: element => this._getPseudoDocument(element).isSource,
+      callback: element => this._getPseudoDocument(element).delete(),
+    }, {
+      name: "ARTICHRON.SHEET.ITEM.CONTEXT.ACTIVITY.duplicate",
+      icon: "<i class='fa-solid fa-fw fa-copy'></i>",
+      condition: element => this._getPseudoDocument(element).isSource,
+      callback: element => this._getPseudoDocument(element).duplicate(),
+    }];
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Prepare options for context menus for advancements.
+   * @returns {object[]}
+   */
+  #getContextOptionsAdvancement() {
+    if (!this.document.isOwner) return [];
+
+    return [{
+      name: "ARTICHRON.SHEET.ITEM.CONTEXT.ADVANCEMENT.render",
+      icon: "<i class='fa-solid fa-fw fa-edit'></i>",
+      condition: element => this._getPseudoDocument(element).isSource,
+      callback: element => this._getPseudoDocument(element).sheet.render({ force: true }),
+    }, {
+      name: "ARTICHRON.SHEET.ITEM.CONTEXT.ADVANCEMENT.delete",
+      icon: "<i class='fa-solid fa-fw fa-trash'></i>",
+      condition: element => this._getPseudoDocument(element).isSource,
+      callback: element => this._getPseudoDocument(element).delete(),
+    }, {
+      name: "ARTICHRON.SHEET.ITEM.CONTEXT.ADVANCEMENT.duplicate",
+      icon: "<i class='fa-solid fa-fw fa-copy'></i>",
+      condition: element => this._getPseudoDocument(element).isSource,
+      callback: element => this._getPseudoDocument(element).duplicate(),
+    }];
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Prepare options for context menus for armor requirements.
+   * @returns {object[]}
+   */
+  #getContextOptionsArmorRequirement() {
+    if (!this.document.isOwner) return [];
+
+    return [{
+      name: "ARTICHRON.SHEET.ITEM.CONTEXT.REQUIREMENT.render",
+      icon: "<i class='fa-solid fa-fw fa-edit'></i>",
+      condition: element => this._getPseudoDocument(element).isSource,
+      callback: element => this._getPseudoDocument(element).sheet.render({ force: true }),
+    }, {
+      name: "ARTICHRON.SHEET.ITEM.CONTEXT.REQUIREMENT.delete",
+      icon: "<i class='fa-solid fa-fw fa-trash'></i>",
+      condition: element => this._getPseudoDocument(element).isSource,
+      callback: element => this._getPseudoDocument(element).delete(),
+    }, {
+      name: "ARTICHRON.SHEET.ITEM.CONTEXT.REQUIREMENT.duplicate",
+      icon: "<i class='fa-solid fa-fw fa-copy'></i>",
+      condition: element => this._getPseudoDocument(element).isSource,
+      callback: element => this._getPseudoDocument(element).duplicate(),
+    }];
+  }
+
+  /* -------------------------------------------------- */
+  /*   Context preparation                              */
+  /* -------------------------------------------------- */
+
+  /** @inheritdoc */
   async _prepareContext(options) {
-    const doc = this.document;
-    const src = doc.toObject();
-    const rollData = doc.getRollData();
+    const context = await super._prepareContext(options);
 
-    const [activeFusions, buffs, fusionOptions, enhancements] = (await this._prepareEffects()).reduce((acc, data) => {
-      if (data.isActiveFusion) acc[0].push(data);
-      else if (data.isFusionOption) acc[2].push(data);
-      else if (data.effect.type === "enhancement") acc[3].push(data);
-      else acc[1].push(data);
-      return acc;
-    }, [[], [], [], []]);
-
-    const context = {
-      ...await super._prepareContext(options),
-      document: doc,
-      source: src.system,
-      rollData: rollData,
-      config: artichron.config,
-      activeFusions: activeFusions,
-      effects: buffs,
-      fusions: fusionOptions,
-      enhancements: enhancements,
-      description: {
-        enriched: await foundry.applications.ux.TextEditor.enrichHTML(doc.system.description.value, {
-          rollData: rollData, relativeTo: doc,
-        }),
-        field: doc.system.schema.getField("description.value"),
-        value: doc.system.description.value,
-        uuid: doc.uuid,
-      },
-      isEditMode: this.isEditMode,
-      isPlayMode: this.isPlayMode,
-      isEditable: this.isEditable,
-      canFuse: doc.canFuse,
-      isArmor: doc.isArmor,
-      isItem: true,
-      fieldsets: [],
-    };
-
-    // Name and img.
-    context.header = {
-      name: context.isPlayMode ? doc.name : src.name,
-      img: context.isPlayMode ? doc.img : src.img,
-    };
-
-    context.details = {};
-
-    // Attributes fieldset
-    const attrs = this.document.system.attributes.value;
-    context.details.attributes = {
-      legend: this.document.system.schema.getField("attributes").label,
-      values: {
-        field: this.document.system.schema.getField("attributes.value"),
-        value: this.document.system._source.attributes.value,
-      },
-      levels: {
-        field: this.document.system.schema.getField("attributes.levels"),
-        fields: [],
-      },
-    };
-
-    for (const attr of attrs) {
-      const status = artichron.config.ITEM_ATTRIBUTES[attr]?.status;
-      if (status) {
-        const path = `attributes.levels.${status}`;
-        const name = `system.${path}`;
-        const label = game.i18n.localize(`ARTICHRON.CONDITIONS.FIELDS.${status}.label`);
-        const field = this.document.system.schema.getField("attributes.levels.element");
-        const value = foundry.utils.getProperty(this.isEditMode ? src.system : doc.system, path);
-        context.details.attributes.levels.fields.push({ name, label, field, value });
-      }
-    }
-
-    // Show ammunition dropdown on weapons.
-    if (this.document.usesAmmo) {
-      context.details.attributes.ammo = {
-        show: true,
-        ...this._makeField(context, "ammunition.type"),
-      };
-    }
-
-    // Show booster dropdown on elixirs.
-    if (this.document.isBooster) {
-      context.details.attributes.boost = {
-        show: true,
-        ...this._makeField(context, "boost"),
-      };
-    }
-
-    // Configuration fieldset
-    context.details.configuration = [];
-    if (doc.system.schema.has("category")) {
-      context.details.configuration.push(this._makeField(context, "category.subtype"));
-    }
-    if (doc.system.schema.getField("category.value")) {
-      context.details.configuration.push(this._makeField(context, "category.value"));
-    }
-    if (doc.system.schema.has("price")) {
-      context.details.configuration.push(this._makeField(context, "price.value"));
-    }
-    if (doc.system.schema.has("weight")) {
-      context.details.configuration.push(this._makeField(context, "weight.value"));
-    }
-    if (doc.system.schema.has("quantity")) {
-      context.details.configuration.push(this._makeField(context, "quantity.value"));
-    }
-    if (doc.system.schema.has("fusion")) {
-      context.fusionFields = {
-        label: this.document.system.schema.getField("fusion").label,
-        max: this._makeField(context, "fusion.max"),
-        ignore: this._makeField(context, "fusion.ignore"),
-      };
-      context.fusionFields.ignore.choices = this.document.defaultFusionProperties.reduce((acc, path) => {
-        acc.push({ value: path, label: this.document.system.schema.getField(path).label });
-        return acc;
-      }, []);
-    }
-
-    const makeResistance = field => {
-      const value = foundry.utils.getProperty(context.isEditMode ? src : doc, field.fields.value.fieldPath);
-      return {
-        field: field.fields.value,
-        value: context.isPlayMode ? (value ?? 0) : (value ? value : null),
-        label: artichron.config.DAMAGE_TYPES[field.name].label,
-        color: artichron.config.DAMAGE_TYPES[field.name].color,
-        icon: artichron.config.DAMAGE_TYPES[field.name].icon,
-        active: context.isEditMode || !!value,
-      };
-    };
-
-    // Resistances.
-    if (doc.isArmor) {
-      const field = this.document.system.schema.getField("defenses");
-      const fieldset = {
-        legend: field.label,
-        values: [],
-      };
-      for (const k of field) {
-        fieldset.values.push(makeResistance(k));
-      }
-
-      context.defenses = fieldset;
-    }
-
-    // Armor requirements.
-    if (doc.isArmor) {
-      const requirements = [];
-
-      for (const r of this.document.system.category.requirements) {
-        if (!r.isSource) continue;
-        const fields = [];
-        for (const field of r.schema) {
-          if (field.readonly) continue;
-          const name = `system.category.requirements.${r.id}.${field.name}`;
-          const value = r[field.name];
-          fields.push({ field, name, value });
-        }
-        requirements.push({
-          fields: fields,
-          id: r.id,
-          hint: game.i18n.localize(r.constructor.metadata.hint),
-        });
-      }
-      context.armorRequirements = requirements;
-    }
-
-    // Elixir uses.
-    if (doc.type === "elixir") {
-      context.fieldsets.push({
-        legend: this.document.system.schema.getField("usage").label,
-        formGroups: [
-          this._makeField(context, "usage.spent", { max: context.document.system.usage.max }),
-          this._makeField(context, "usage.max"),
-        ],
-      });
-    }
-
-    // Activities.
-    const activities = this.isEditMode ? this.document.system.activities.sourceContents : this.document.system.activities;
-    context.activities = activities.map(activity => {
-      return {
-        id: activity.id,
-        name: activity.name ? activity.name : game.i18n.localize(activity.constructor.metadata.label),
-        subtitle: game.i18n.localize(activity.constructor.metadata.label),
-        disabled: !context.isEditable || !activity.isSource,
-      };
-    });
+    context.config = artichron.config;
+    context.systemFields = this.document.system.schema.fields;
+    context.isPlayMode = this.isPlayMode;
+    context.isEditMode = this.isEditMode;
 
     return context;
   }
@@ -281,245 +250,167 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
   /* -------------------------------------------------- */
 
   /** @inheritdoc */
-  async _onRender(context, options) {
-    await super._onRender(context, options);
-    this._createContextMenu(this._getActivityEntryContextOptions, "[data-activity-id]", {
-      hookName: "ActivityEntryContext",
-    });
-    this._setupDragDrop();
+  async _preparePartContext(partId, context, options) {
+    context = await super._preparePartContext(partId, context, options);
+
+    const fn = `_preparePartContext${partId.capitalize()}`;
+    if (!(this[fn] instanceof Function)) {
+      throw new Error(`The ${this.constructor.name} sheet does not implement the ${fn} method.`);
+    }
+
+    return this[fn](context, options);
   }
 
   /* -------------------------------------------------- */
 
   /**
-   * Set up the entirety of active effect drop handling for item sheets.
+   * Prepare a part.
+   * @param {object} context    Rendering context. **will be mutated**
+   * @param {object} options    Rendering options.
+   * @returns {Promise<object>}   Rendering context.
    */
-  _setupDragDrop() {
-    const canDragStart = selector => this.isEditable;
-    const canDragDrop = selector => this.isEditable;
-    const onDragStart = async (event) => {
-      const li = event.currentTarget;
-      if ("link" in event.target.dataset) return;
-      let dragData;
-
-      // Active Effect
-      if (li.dataset.effectId) {
-        const effect = this.document.effects.get(li.dataset.effectId);
-        dragData = effect.toDragData();
-      }
-
-      // Set data transfer
-      if (!dragData) return;
-      event.dataTransfer.setData("text/plain", JSON.stringify(dragData));
+  async _preparePartContextHeader(context, options) {
+    context.ctx = {
+      name: context.isPlayMode ? this.document.name : this.document._source.name,
+      img: context.isPlayMode ? this.document.img : this.document._source.img,
     };
-    const onDrop = async (event) => {
-      const data = foundry.applications.ux.TextEditor.getDragEventData(event);
-      const item = this.document;
-      const allowed = Hooks.call("dropItemSheetData", item, this, data);
-      if (allowed === false) return;
-
-      // Dropped Documents
-      const documentClass = foundry.utils.getDocumentClass(data.type);
-      if (documentClass) {
-        const effect = await documentClass.fromDropData(data);
-        if (!effect) return;
-        if (effect.parent === item) {
-          await onSortActiveEffect(event, effect);
-        } else {
-          const keepId = !item.effects.has(effect.id);
-          await documentClass.create(effect.toObject(), { parent: item, keepId });
-        }
-      }
-    };
-    const onSortActiveEffect = async (event, effect) => {
-      const effects = this.document.effects;
-      const source = effects.get(effect.id);
-
-      // Confirm the drop target
-      const dropTarget = event.target.closest("[data-effect-id]");
-      if (!dropTarget) return;
-      const target = effects.get(dropTarget.dataset.effectId);
-      if (source.id === target.id) return;
-
-      // Identify sibling effects based on adjacent HTML elements
-      const siblings = [];
-      for (const element of dropTarget.parentElement.children) {
-        const siblingId = element.dataset.effectId;
-        if (siblingId && (siblingId !== source.id)) siblings.push(effects.get(element.dataset.effectId));
-      }
-
-      // Perform the sort
-      const sortUpdates = foundry.utils.performIntegerSort(source, { target, siblings });
-      const updateData = sortUpdates.map(u => {
-        const update = u.update;
-        update._id = u.target._id;
-        return update;
-      });
-
-      // Perform the update
-      return this.document.updateEmbeddedDocuments("ActiveEffect", updateData);
-    };
-
-    new foundry.applications.ux.DragDrop({
-      dragSelector: ".draggable",
-      dropSelector: null,
-      permissions: {
-        dragstart: canDragStart.bind(this),
-        drop: canDragDrop.bind(this),
-      },
-      callbacks: {
-        dragstart: onDragStart.bind(this),
-        drop: onDrop.bind(this),
-      },
-    }).bind(this.element);
+    return context;
   }
 
   /* -------------------------------------------------- */
 
   /**
-   * Utility method to format a data field for the form group helper.
-   * @param {object} context        Current rendering context.
-   * @param {string} path           The path to the data field, relative to 'system'.
-   * @param {object} [options]      Additional data to add.
-   * @returns {object}              Object with at least field, value, disabled.
+   * Prepare a part.
+   * @param {object} context    Rendering context. **will be mutated**
+   * @param {object} options    Rendering options.
+   * @returns {Promise<object>}   Rendering context.
    */
-  _makeField(context, path, options = {}) {
-    const field = this.document.system.schema.getField(path);
-    const dv = foundry.utils.getProperty(this.document.system, path);
-    const src = foundry.utils.getProperty(context.source, path);
-    const value = context.isPlayMode ? dv : src;
-
-    return { field: field, value: value, disabled: context.isPlayMode, ...options };
+  async _preparePartContextTabs(context, options) {
+    context.verticalTabs = true;
+    for (const k in context.tabs)
+      if (this.constructor.metadata.excludeTabs.includes(k))
+        delete context.tabs[k];
+    return context;
   }
 
-  /* -------------------------------------------------- */
-  /*   Context menu handlers                            */
   /* -------------------------------------------------- */
 
   /**
-   * Create context menu option for activities.
-   * @returns {ContextMenuEntry[]}
+   * Prepare a part.
+   * @param {object} context    Rendering context. **will be mutated**
+   * @param {object} options    Rendering options.
+   * @returns {Promise<object>}   Rendering context.
    */
-  _getActivityEntryContextOptions() {
-    const getActivity = element => this.document.getEmbeddedDocument("Activity", element.dataset.activityId);
-
-    return [{
-      name: "ARTICHRON.ContextMenu.Activity.Render",
-      icon: "<i class='fa-solid fa-fw fa-edit'></i>",
-      condition: element => getActivity(element).isSource,
-      callback: element => getActivity(element).sheet.render({ force: true }),
-    }, {
-      name: "ARTICHRON.ContextMenu.Activity.Delete",
-      icon: "<i class='fa-solid fa-fw fa-trash'></i>",
-      condition: element => getActivity(element).isSource,
-      callback: element => getActivity(element).delete(),
-    }, {
-      name: "ARTICHRON.ContextMenu.Activity.Duplicate",
-      icon: "<i class='fa-solid fa-fw fa-copy'></i>",
-      condition: element => getActivity(element).isSource,
-      callback: element => getActivity(element).duplicate(),
-    }];
+  async _preparePartContextDescription(context, options) {
+    context.ctx = {
+      descriptionValue: await foundry.applications.ux.TextEditor.implementation.enrichHTML(
+        this.document.system.description.value,
+        { relativeTo: this.document, rollData: context.rollData },
+      ),
+    };
+    return context;
   }
+
+  /* -------------------------------------------------- */
+  /*   Utility methods                                  */
+  /* -------------------------------------------------- */
+
+  /**
+   * Get a pseudo-document.
+   * @param {HTMLElement} element   The element with relevant data.
+   * @returns {artichron.data.pseudoDocuments.PseudoDocument}
+   */
+  _getPseudoDocument(element) {
+    const documentName = element.closest("[data-pseudo-document-name]").dataset.pseudoDocumentName;
+    const id = element.closest("[data-pseudo-id]").dataset.pseudoId;
+    return this.document.getEmbeddedDocument(documentName, id);
+  }
+
+  /* -------------------------------------------------- */
 
   /* -------------------------------------------------- */
   /*   Event handlers                                   */
   /* -------------------------------------------------- */
 
   /**
-   * Handle click events to unfuse this item.
+   * Create a pseudo-document.
    * @this {ItemSheetArtichron}
-   * @param {PointerEvent} event      The originating click event.
-   * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
+   * @param {PointerEvent} event    The initiating click event.
+   * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
    */
-  static async #onUndoFusion(event, target) {
-    if (!this.isEditable) return;
-    const effect = await fromUuid(target.closest("[data-item-uuid]").dataset.itemUuid);
-    effect.unfuseDialog();
+  static #createPseudoDocument(event, target) {
+    const documentName = target.closest("[data-pseudo-document-name]").dataset.pseudoDocumentName;
+    const type = target.closest("[data-pseudo-type]")?.dataset.pseudoType;
+    const Cls = this.document.getEmbeddedPseudoDocumentCollection(documentName).documentClass;
+
+    if (!type && (foundry.utils.isSubclass(Cls, artichron.data.pseudoDocuments.TypedPseudoDocument))) {
+      Cls.createDialog({}, { parent: this.document });
+    } else {
+      Cls.create({ type }, { parent: this.document });
+    }
   }
 
   /* -------------------------------------------------- */
 
   /**
-   * Handle click events to add an armor requirement.
+   * Delete a pseudo-document.
    * @this {ItemSheetArtichron}
-   * @param {PointerEvent} event      The originating click event.
-   * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
+   * @param {PointerEvent} event    The initiating click event.
+   * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
    */
-  static async #addRequirement(event, target) {
-    if (!this.isEditable) return;
-
-    const Base = artichron.data.pseudoDocuments.armorRequirements.BaseArmorRequirement;
-
-    const choices = Object.entries(Base.TYPES).reduce((acc, [k, v]) => {
-      acc[k] = v.metadata.label;
-      return acc;
-    }, {});
-
-    const html = new foundry.data.fields.StringField({
-      required: true,
-      choices: choices,
-      label: "Requirement",
-    }).toFormGroup({}, { name: "type" }).outerHTML;
-
-    const configuration = await artichron.applications.api.Dialog.input({
-      content: `<fieldset>${html}</fieldset>`,
-    });
-    if (!configuration) return;
-
-    Base.create({ type: configuration.type }, { parent: this.document });
+  static #deletePseudoDocument(event, target) {
+    const doc = this._getPseudoDocument(target);
+    doc.delete();
   }
 
   /* -------------------------------------------------- */
 
   /**
-   * Handle click events to remove an armor requirement.
+   * Render the sheet of a pseudo-document.
    * @this {ItemSheetArtichron}
-   * @param {PointerEvent} event      The originating click event.
-   * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
+   * @param {PointerEvent} event    The initiating click event.
+   * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
    */
-  static #deleteRequirement(event, target) {
-    if (!this.isEditable) return;
+  static #renderPseudoDocumentSheet(event, target) {
+    const doc = this._getPseudoDocument(target);
+    doc.sheet.render({ force: true });
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Create a new embedded document on this document.
+   * @this {ItemSheetArtichron}
+   * @param {PointerEvent} event    The initiating click event.
+   * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
+   */
+  static #createEmbeddedDocument(event, target) {
+    const documentName = target.closest("[data-document-name]").dataset.documentName;
+    const type = target.closest("[data-type]")?.dataset.type;
+    const Cls = foundry.utils.getDocumentClass(documentName);
+    const context = { parent: this.document, renderSheet: true };
+
+    if (type) {
+      Cls.create({
+        type,
+        name: Cls.defaultName({ type, parent: this.document }),
+      }, context);
+    } else {
+      Cls.createDialog({}, context, { types: undefined });
+    }
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Render the sheet of an embedded document.
+   * @this {ItemSheetArtichron}
+   * @param {PointerEvent} event    The initiating click event.
+   * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
+   */
+  static #renderEmbeddedDocumentSheet(event, target) {
+    const documentName = target.closest("[data-document-name]").dataset.documentName;
     const id = target.closest("[data-id]").dataset.id;
-    this.document.getEmbeddedDocument("ArmorRequirement", id).delete();
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Create an activity.
-   * @this {ItemSheetArtichron}
-   * @param {PointerEvent} event      The originating click event.
-   * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
-   */
-  static #createActivity(event, target) {
-    const Base = artichron.data.pseudoDocuments.activities.BaseActivity;
-    const types = Object.entries(Base.TYPES).reduce((acc, [k, Cls]) => {
-      acc[k] = game.i18n.localize(Cls.metadata.label);
-      return acc;
-    }, {});
-    const select = new foundry.data.fields.StringField({
-      required: true,
-      choices: types,
-      label: "Type",
-    }).toFormGroup({}, { name: "type" }).outerHTML;
-    artichron.applications.api.Dialog.prompt({
-      content: `<fieldset>${select}</fieldset>`,
-      ok: { callback: (event, button) => {
-        Base.create({ type: button.form.elements.type.value }, { parent: this.document });
-      } },
-    });
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Render an activity's sheet.
-   * @this {ItemSheetArtichron}
-   * @param {PointerEvent} event      The originating click event.
-   * @param {HTMLElement} target      The capturing HTML element which defined a [data-action].
-   */
-  static #renderActivity(event, target) {
-    const id = target.closest("[data-activity-id]").dataset.activityId;
-    this.document.getEmbeddedDocument("Activity", id).sheet.render({ force: true });
+    this.document.getEmbeddedDocument(documentName, id).sheet.render({ force: true });
   }
 }
