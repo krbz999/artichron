@@ -348,38 +348,17 @@ export default class HeroSheet extends ActorSheetArtichron {
   /** @inheritdoc */
   async _onDropItem(event, item) {
     if (!this.document.isOwner) return;
-    if (item.type === "path") return this.#onDropPath(item);
+
+    if (item.type === "path") {
+      const { paths } = this.document.system;
+      const allowed = (item.system.identifier in paths) || (Object.keys(paths).length < 2);
+      if (!allowed) {
+        ui.notifications.error("ARTICHRON.ITEM.PATH.WARNING.cannotAddNewPath", { localize: true });
+        return;
+      }
+    }
+
     return super._onDropItem(event, item);
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Implement drop handling of a Path item onto the sheet.
-   * @param {ItemArtichron} item   The path item.
-   */
-  async #onDropPath(item) {
-    const { paths } = this.document.system;
-    const identifier = item.system.identifier;
-
-    const picked = identifier in paths;
-
-    const allowed = picked || (Object.keys(paths).length < 2);
-    if (!allowed) {
-      ui.notifications.error("ARTICHRON.ITEM.PATH.WARNING.cannotAddNewPath", { localize: true });
-      return;
-    }
-
-    // A path that has already been picked is dropped onto the sheet again.
-    if (picked) {
-      const confirm = await artichron.applications.api.Dialog.confirm({});
-      if (!confirm) return;
-      throw new Error("TODO: Do things when an existing path is dropped again.");
-    }
-
-    // A path that has not yet been picked is dropped onto the sheet.
-    this.document.update({ [`system.paths.${identifier}`]: { advancements: [0] } });
-    // TODO: do more
   }
 
   /* -------------------------------------------------- */
@@ -392,7 +371,7 @@ export default class HeroSheet extends ActorSheetArtichron {
    * @param {HTMLElement} html      The targeted html container.
    */
   #onSearchFilter(query, html) {
-    for (const item of html.querySelectorAll("inventory-item")) {
+    for (const item of html.querySelectorAll(".document-list-entries .entry")) {
       const hidden = !!query && !item.dataset.name.toLowerCase().includes(query);
       item.classList.toggle("hidden", hidden);
     }

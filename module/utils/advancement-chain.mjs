@@ -4,8 +4,6 @@
  */
 export default class AdvancementChain {
   constructor(chainLink) {
-    chainLink = foundry.utils.deepClone(chainLink);
-    chainLink.pool.forEach(p => p.selected = !p.optional);
     Object.assign(this, chainLink);
   }
 

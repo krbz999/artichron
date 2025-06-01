@@ -47,8 +47,9 @@ export interface AdvancementChainLink {
   /* Child advancements (can be understood as the inverse of `parent`). If an item granted by *this* advancement grants
   no advancements, nothing is recorded here. The key is the id of the "granted" advancement. */
   children: Record<string, AdvancementChainLink>;
-  /* The 'parent' advancement, if this advancement is from an item granted by another advancement. */
-  parent: AdvancementChainLink | null;
+  /* The 'parent' advancement, if this advancement is from an item granted by another advancement. This can also be
+  a progression stored on an actor - in which case, it always means that this link was directly from a Path item. */
+  parent: AdvancementChainLink | Progression | null;
   /* Granted items from this advancement and their configuration. */
   pool: object[];
   /* Is this the root of the chain? */

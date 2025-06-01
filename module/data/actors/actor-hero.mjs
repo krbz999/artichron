@@ -1,12 +1,15 @@
 import CreatureData from "./creature-data.mjs";
 
-const { HTMLField, NumberField, SchemaField, TypedObjectField } = foundry.data.fields;
+const { NumberField, SchemaField, TypedObjectField } = foundry.data.fields;
 
 export default class HeroData extends CreatureData {
   /** @inheritdoc */
   static get metadata() {
     return foundry.utils.mergeObject(super.metadata, {
       type: "hero",
+      embedded: {
+        Progression: "system.progressions",
+      },
     });
   }
 
@@ -36,6 +39,7 @@ export default class HeroData extends CreatureData {
         stamina: poolSchema(),
         mana: poolSchema(),
       }),
+      progressions: new artichron.data.fields.CollectionField(artichron.data.pseudoDocuments.progressions.Progression),
       skills: new SchemaField(Object.entries(artichron.config.SKILLS).reduce((acc, [k, v]) => {
         acc[k] = new SchemaField({
           number: new NumberField({ integer: true, min: 2, initial: 2, nullable: false }),

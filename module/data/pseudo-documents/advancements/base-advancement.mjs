@@ -56,7 +56,7 @@ export default class BaseAdvancement extends TypedPseudoDocument {
       for (const { uuid, ...rest } of this.pool ?? []) {
         const item = await fromUuid(uuid);
         if (!item) continue;
-        leaf.pool.push({ item, selected: null, ...rest });
+        leaf.pool.push({ item, selected: !rest.optional, ...rest });
 
         if (!item.supportsAdvancements) continue;
         for (const advancement of item.getEmbeddedPseudoDocumentCollection("Advancement")) {
@@ -139,38 +139,80 @@ export default class BaseAdvancement extends TypedPseudoDocument {
    * Retrieve and prepare items to be created on an actor. The data is prepared in such a way that
    * the items should be created with `keepId: true`.
    * @param {foundry.documents.Actor} actor   The actor on which to create the items.
+   * @param {foundry.documents.Item} item     The root item. If a path item, this is not created.
    * @param {AdvancementChain[]} [roots=[]]   The fully configured advancement chains.
-   * @returns {Promise<object[]>}             A promise that resolves to the prepared item data.
+   * @returns {Promise<object[]>}             A promise that resolves to the prepared item data and other updates.
    */
-  static async prepareItems(actor, roots = []) {
+  static async prepareUpdates(actor, item, roots = []) {
     // Mapping of items' original id to the current item data. Used to find and set `itemId`.
     const items = new foundry.utils.Collection();
+    const actorUpdate = {};
+
+    // If this is a path item, second-level items created should point to the created progression.
+    let progressionId = null;
 
     // The item being prepared and the advancement that granted it.
-    const prepareItem = (item, advancement) => {
+    const prepareItem = (item, advancement = null) => {
       const data = game.items.fromCompendium(item, { keepId: true });
       if (actor.items.has(data._id)) data._id = foundry.utils.randomID();
+
+      const stored = items.get(advancement?.document.id);
+
       foundry.utils.mergeObject(data, {
-        "flags.artichron.advancement": {
-          itemId: items.get(advancement.document.id)?._id, // is undefined in the case of Path items
-          advancementId: advancement.id,
-          advancementUuid: advancement.uuid,
-        },
+        "flags.artichron.advancement": stored
+          ? { advancementId: advancement.id, itemId: stored._id }
+          : { progressionId },
       });
       items.set(item.id, data);
     };
 
-    // FIXME: Enough data needs to be stored such that it will be easy to
-    // undo a whole chain of added items and advancements. If the path item
-    // is not stored, what is the 'entry point'? What can be 'undone' on the
-    // actor sheet?
+    // The root item itself is created as well unless it is a Path item.
+    if (item.type === "path") {
+      // FIXME: Enough data needs to be stored such that it will be easy to
+      // undo a whole chain of added items and advancements. If the path item
+      // is not stored, what is the 'entry point'? What can be 'undone' on the
+      // actor sheet?
+      const cls = item.system.identifier;
+      const invested = actor.system.paths[cls]?.invested ?? 0;
+
+      progressionId = foundry.utils.randomID();
+      actorUpdate[`system.paths.${cls}.invested`] = invested + 1;
+      actorUpdate[`system.progressions.${progressionId}`] = {
+        _id: progressionId,
+        path: cls,
+        point: invested, // how many points were invested already when this was added
+      };
+    } else {
+      prepareItem(item, null);
+    }
 
     // Traverse the chains to gather all items.
     for (const root of roots)
       for (const node of root.active())
-        for (const { item, selected } of node.pool)
-          if (selected !== false) prepareItem(item, node.advancement);
+        for (const { item, selected } of node.pool) {
+          if (selected) prepareItem(item, node.advancement);
+        }
 
-    return Array.from(items.values());
+    const itemData = Array.from(items.values());
+
+    return { actorUpdate, itemData };
+  }
+
+  /* -------------------------------------------------- */
+
+  static async performChanges(actor, item) {
+    const collection = item.getEmbeddedPseudoDocumentCollection("Advancement");
+    if (!collection.size) return null;
+
+    const chains = await Promise.all(collection.map(advancement => advancement.determineChain()));
+
+    // TODO: pop UI to configure the chains here
+
+    const { itemData, actorUpdate } = await BaseAdvancement.prepareUpdates(actor, item, chains);
+
+    return Promise.all([
+      foundry.utils.isEmpty(itemData) ? null : actor.createEmbeddedDocuments("Item", itemData, { keepId: true }),
+      foundry.utils.isEmpty(actorUpdate) ? null : actor.update(actorUpdate),
+    ]);
   }
 }

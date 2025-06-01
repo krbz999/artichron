@@ -144,7 +144,7 @@ Hooks.once("init", function() {
 
   // Set up conditions.
   CONFIG.statusEffects = Object.entries(SYSTEM.STATUS_CONDITIONS).map(([id, config]) => {
-    return { ...config, id, _id: __utils.staticId(id) };
+    return { ...config, id, _id: utils.staticId(id) };
   });
 
   CONFIG.specialStatusEffects.DEFEATED = "defeated";
