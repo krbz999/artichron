@@ -136,3 +136,17 @@ export interface RollMessageConfiguration {
   /** Data to use for the ChatMessage. */
   messageData?: object;
 }
+
+/* -------------------------------------------------- */
+/*   Callbacks                                        */
+/* -------------------------------------------------- */
+
+/**
+ * Prepare context for a specific part.
+ * @param {object} context      Rendering context. **will be mutated**
+ * @param {object} options      Rendering options.
+ * @returns {Promise<object>}   A promise that resolves to the mutated rendering context.
+ */
+export interface ContextPartHandler {
+  (context: object, options: object): Promise<object>;
+}

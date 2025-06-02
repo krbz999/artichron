@@ -229,3 +229,61 @@ dialog:-internal-dialog-in-top-layer::backdrop {
   text-decoration-style: solid;
   text-decoration-color: var(--artichron-color-gold);
 }
+
+.artichron.application {
+  /* Tab Navigation outside of the sheet itself. */
+  &:has([data-application-part=tabs].vertical) {
+    anchor-name: --sheet-window-content;
+  }
+  [data-application-part=tabs].vertical {
+    position: fixed;
+    left: anchor(right);
+    top: anchor(top);
+    position-anchor: --sheet-window-content;
+    flex-direction: column;
+    margin-top: 1rem;
+    gap: 5px;
+    border: none;
+    border-top-right-radius: 25%;
+    border-bottom-right-radius: 25%;
+    align-items: flex-start;
+    height: unset;
+
+    [data-tab] {
+      position: relative;
+      width: 100%;
+      padding: 1rem 1rem;
+      font-size: 12px;
+      border-top-right-radius: 25%;
+      border-bottom-right-radius: 25%;
+      background: var(--background);
+      box-shadow: 0 0 3px var(--background);
+      overflow: hidden;
+      display: flex;
+
+      span, i {
+        position: relative;
+        font-size: 20px;
+      }
+
+      &::before {
+        background-repeat: no-repeat;
+        background-size: auto 100%;
+        background-position: center;
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0.3;
+        background-image: url(/systems/artichron/assets/layout/technology-banner.webp);
+        transition: opacity 200ms ease;
+      }
+
+      &:is(:hover, .active)::before {
+        opacity: 1;
+      }
+    }
+  }
+}

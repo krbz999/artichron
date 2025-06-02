@@ -179,8 +179,19 @@
   },
 
   "ACTIVITY": {
-    "title": "Activity: {name}"
+    "title": "Activity: {name}",
+    "HEADERS": {
+      "identity": "Identity",
+      "configuration": "Configuration",
+      "damage": "Damage",
+      "targeting": "Targeting",
+      "defend": "Defending",
+      "effects": "Effects",
+      "healing": "Healing",
+      "teleport": "Teleportation"
+    }
   },
+
   "ADVANCEMENT": {
     "HEADERS": {
       "requirements": "Requirements"

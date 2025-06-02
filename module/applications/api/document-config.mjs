@@ -1,9 +1,11 @@
-const { HandlebarsApplicationMixin, DocumentSheet } = foundry.applications.api;
+import ArtichronApplicationMixin from "./artichron-application-mixin.mjs";
 
-export default class DocumentConfig extends HandlebarsApplicationMixin(DocumentSheet) {
+const { DocumentSheet } = foundry.applications.api;
+
+export default class DocumentConfig extends ArtichronApplicationMixin(DocumentSheet) {
   /** @inheritdoc */
   static DEFAULT_OPTIONS = {
-    classes: ["artichron", "config"],
+    classes: ["config"],
     form: {
       submitOnChange: true,
       closeOnSubmit: false,
@@ -13,7 +15,6 @@ export default class DocumentConfig extends HandlebarsApplicationMixin(DocumentS
       height: "auto",
     },
     window: {
-      contentClasses: ["standard-form"],
       title: null,
     },
   };
@@ -35,19 +36,5 @@ export default class DocumentConfig extends HandlebarsApplicationMixin(DocumentS
       fields: this.document.schema.fields,
       systemFields: this.document.system.schema.fields,
     };
-  }
-
-  /* -------------------------------------------------- */
-
-  /** @inheritdoc */
-  async _preparePartContext(partId, context, options) {
-    context = await super._preparePartContext(partId, context, options);
-
-    const fn = `_preparePartContext${partId.capitalize()}`;
-    if (!(this[fn] instanceof Function)) {
-      throw new Error(`The ${this.constructor.name} sheet does not implement the [${fn}] method.`);
-    }
-
-    return this[fn](context, options);
   }
 }

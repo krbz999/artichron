@@ -39,16 +39,6 @@ export default class SpellSheet extends PhysicalItemSheet {
 
   /* -------------------------------------------------- */
 
-  /** @inheritdoc */
-  _prepareTabs(group) {
-    const tabs = super._prepareTabs(group);
-    delete tabs.advancements;
-    delete tabs.fusion;
-    return tabs;
-  }
-
-  /* -------------------------------------------------- */
-
   /**
    * Prepare a part.
    * @param {object} context    Rendering context. **will be mutated**

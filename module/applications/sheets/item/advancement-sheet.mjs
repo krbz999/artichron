@@ -54,9 +54,9 @@ export default class AdvancementSheet extends PseudoDocumentSheet {
 
     switch (partId) {
       case "identity":
-        return this.#prepareIdentityContext(context);
+        return this.#prepareIdentityContext(context, options);
       case "details":
-        return this.#prepareDetailsContext(context);
+        return this.#prepareDetailsContext(context, options);
     }
 
     return context;
@@ -64,24 +64,16 @@ export default class AdvancementSheet extends PseudoDocumentSheet {
 
   /* -------------------------------------------------- */
 
-  /**
-   * Prepare context for the identity tab.
-   * @param {object} context        Rendering context.
-   * @returns {Promise<object>}     Mutated rendering context.
-   */
-  async #prepareIdentityContext(context) {
+  /** @type {import("../../../_types").ContextPartHandler} */
+  async #prepareIdentityContext(context, options) {
     context.ctx = {};
     return context;
   }
 
   /* -------------------------------------------------- */
 
-  /**
-   * Prepare context for the details tab.
-   * @param {object} context        Rendering context.
-   * @returns {Promise<object>}     Mutated rendering context.
-   */
-  async #prepareDetailsContext(context) {
+  /** @type {import("../../../_types").ContextPartHandler} */
+  async #prepareDetailsContext(context, options) {
     context.ctx = {
       itemPool: [],
     };

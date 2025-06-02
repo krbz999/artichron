@@ -1,6 +1,13 @@
-const { HandlebarsApplicationMixin, Application } = foundry.applications.api;
+import ArtichronApplicationMixin from "./artichron-application-mixin.mjs";
 
-export default class PseudoDocumentSheet extends HandlebarsApplicationMixin(Application) {
+const { Application } = foundry.applications.api;
+
+/**
+ * Base sheet class for pseudo-documents.
+ * @extends {ArtichronApplicationMixin}
+ * @extends {foundry.applications.api.Application}
+ */
+export default class PseudoDocumentSheet extends ArtichronApplicationMixin(Application) {
   constructor(options) {
     super(options);
     this.#pseudoUuid = options.document.uuid;
@@ -18,7 +25,6 @@ export default class PseudoDocumentSheet extends HandlebarsApplicationMixin(Appl
         buttons: [0, 2],
       },
     },
-    classes: ["artichron"],
     form: {
       handler: PseudoDocumentSheet.#onSubmitForm,
       submitOnChange: true,
@@ -28,9 +34,6 @@ export default class PseudoDocumentSheet extends HandlebarsApplicationMixin(Appl
       height: "auto",
     },
     tag: "form",
-    window: {
-      contentClasses: ["standard-form"],
-    },
   };
 
   /* -------------------------------------------------- */

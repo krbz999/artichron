@@ -55,23 +55,19 @@ export default class MonsterSheet extends ActorSheetArtichron {
   static TABS = {
     primary: {
       tabs: [
-        { id: "actions", tooltip: "ARTICHRON.SHEET.TABS.actions", icon: "fa-solid fa-fw fa-clover" },
-        { id: "loot", tooltip: "ARTICHRON.SHEET.TABS.loot", icon: "fa-solid fa-fw fa-boxes" },
-        { id: "details", tooltip: "ARTICHRON.SHEET.TABS.details", icon: "fa-solid fa-fw fa-pen-fancy" },
-        { id: "effects", tooltip: "ARTICHRON.SHEET.TABS.effects", icon: "fa-solid fa-fw fa-bolt" },
+        { id: "actions", icon: "fa-solid fa-fw fa-clover" },
+        { id: "loot", icon: "fa-solid fa-fw fa-boxes" },
+        { id: "details", icon: "fa-solid fa-fw fa-pen-fancy" },
+        { id: "effects", icon: "fa-solid fa-fw fa-bolt" },
       ],
+      labelPrefix: "ARTICHRON.SHEET.TABS",
       initial: "actions",
     },
   };
 
   /* -------------------------------------------------- */
 
-  /**
-   * Prepare context for a part.
-   * @param {object} context    Rendering context. **will be mutated**
-   * @param {object} options    Rendering options.
-   * @returns {Promise<object>}
-   */
+  /** @type {import("../../../_types").ContextPartHandler} */
   async _preparePartContextHeader(context, options) {
     context.ctx = {};
     return context;
@@ -79,12 +75,7 @@ export default class MonsterSheet extends ActorSheetArtichron {
 
   /* -------------------------------------------------- */
 
-  /**
-   * Prepare context for a part.
-   * @param {object} context    Rendering context. **will be mutated**
-   * @param {object} options    Rendering options.
-   * @returns {Promise<object>}
-   */
+  /** @type {import("../../../_types").ContextPartHandler} */
   async _preparePartContextHealth(context, options) {
     context.ctx = {};
     return context;
@@ -92,12 +83,7 @@ export default class MonsterSheet extends ActorSheetArtichron {
 
   /* -------------------------------------------------- */
 
-  /**
-   * Prepare context for a part.
-   * @param {object} context    Rendering context. **will be mutated**
-   * @param {object} options    Rendering options.
-   * @returns {Promise<object>}
-   */
+  /** @type {import("../../../_types").ContextPartHandler} */
   async _preparePartContextTabs(context, options) {
     context.ctx = {};
     context.verticalTabs = true;
@@ -106,12 +92,7 @@ export default class MonsterSheet extends ActorSheetArtichron {
 
   /* -------------------------------------------------- */
 
-  /**
-   * Prepare context for a part.
-   * @param {object} context    Rendering context. **will be mutated**
-   * @param {object} options    Rendering options.
-   * @returns {Promise<object>}
-   */
+  /** @type {import("../../../_types").ContextPartHandler} */
   async _preparePartContextActions(context, options) {
     context.ctx = {
       defenses: [],
@@ -148,12 +129,7 @@ export default class MonsterSheet extends ActorSheetArtichron {
 
   /* -------------------------------------------------- */
 
-  /**
-   * Prepare context for a part.
-   * @param {object} context    Rendering context. **will be mutated**
-   * @param {object} options    Rendering options.
-   * @returns {Promise<object>}
-   */
+  /** @type {import("../../../_types").ContextPartHandler} */
   async _preparePartContextLoot(context, options) {
     context.ctx = {
       loot: this.document.system.lootDrops,
@@ -164,12 +140,7 @@ export default class MonsterSheet extends ActorSheetArtichron {
 
   /* -------------------------------------------------- */
 
-  /**
-   * Prepare context for a part.
-   * @param {object} context    Rendering context. **will be mutated**
-   * @param {object} options    Rendering options.
-   * @returns {Promise<object>}
-   */
+  /** @type {import("../../../_types").ContextPartHandler} */
   async _preparePartContextDetails(context, options) {
     context.ctx = {
       bio: await foundry.applications.ux.TextEditor.implementation.enrichHTML(

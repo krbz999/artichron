@@ -28,13 +28,6 @@ export default class ActivitySheet extends PseudoDocumentSheet {
   };
 
   /* -------------------------------------------------- */
-
-  /** @inheritdoc */
-  tabGroups = {
-    primary: "identity",
-  };
-
-  /* -------------------------------------------------- */
   /*   Properties                                       */
   /* -------------------------------------------------- */
 
@@ -58,69 +51,35 @@ export default class ActivitySheet extends PseudoDocumentSheet {
 
   /* -------------------------------------------------- */
 
-  /** @inheritdoc */
-  async _preparePartContext(partId, context, options) {
-    context = await super._preparePartContext(partId, context, options);
-
-    Object.assign(context, {
-      activity: this.activity,
-      item: this.item,
-      actor: this.item.actor,
-    });
-
-    switch (partId) {
-      case "identity":
-        return this.#prepareIdentityContext(context);
-      case "details":
-        return this.#prepareDetailsContext(context);
-    }
-
-    return context;
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Prepare context for the identity tab.
-   * @param {object} context        Rendering context.
-   * @returns {Promise<object>}     Mutated rendering context.
-   */
-  async #prepareIdentityContext(context) {
-    context.name = Object.assign(this._prepareField("name"), {
-      placeholder: game.i18n.localize(context.activity.constructor.metadata.label),
-    });
-
-    context.img = this._prepareField("img");
-
-    context.description = Object.assign(this._prepareField("description"), {
-      enriched: await foundry.applications.ux.TextEditor.enrichHTML(context.activity.description, {
-        rollData: context.activity.getRollData(), relativeTo: context.item,
+  /** @type {import("../../../_types").ContextPartHandler} */
+  async _preparePartContextIdentity(context, options) {
+    const a = context.pseudoDocument;
+    context.ctx = {
+      namePlaceholder: game.i18n.localize(a.constructor.metadata.label),
+      enriched: await foundry.applications.ux.TextEditor.enrichHTML(a.description, {
+        rollData: a.getRollData(), relativeTo: context.document,
       }),
-    });
-
+    };
     return context;
   }
 
   /* -------------------------------------------------- */
 
-  /**
-   * Prepare context for the details tab.
-   * @param {object} context        Rendering context.
-   * @returns {Promise<object>}     Mutated rendering context.
-   */
-  async #prepareDetailsContext(context) {
-    const makeLegend = path => context.activity.schema.getField(path).label;
+  /** @type {import("../../../_types").ContextPartHandler} */
+  async _preparePartContextDetails(context, options) {
+    const a = context.pseudoDocument;
+    const makeLegend = path => a.schema.getField(path).label;
 
     context.cost = Object.assign(this._prepareField("cost.value"), {
       legend: game.i18n.localize("ARTICHRON.SHEET.LEGENDS.configuration"),
     });
 
-    if (this.activity.item.type === "elixir") {
+    if (a.item.type === "elixir") {
       context.usage = Object.assign(this._prepareField("cost.uses"), { show: true });
     }
 
     // Target
-    if (context.activity.schema.has("target")) {
+    if (a.schema.has("target")) {
       context.target = {
         show: true,
         legend: makeLegend("target"),
@@ -128,18 +87,18 @@ export default class ActivitySheet extends PseudoDocumentSheet {
         type: Object.assign(this._prepareField("target.type"), { options: artichron.config.TARGET_TYPES.optgroups }),
       };
 
-      if (context.activity.hasTemplate) context.target.fields.push(this._prepareField("target.duration"));
-      const configuration = artichron.config.TARGET_TYPES[context.activity.target.type];
+      if (a.hasTemplate) context.target.fields.push(this._prepareField("target.duration"));
+      const configuration = artichron.config.TARGET_TYPES[a.target.type];
       for (const s of configuration.scale) context.target.fields.push(this._prepareField(`target.${s}`));
     }
 
     // Damage
-    if (context.activity.schema.has("damage")) {
+    if (a.schema.has("damage")) {
       const groups = artichron.config.DAMAGE_TYPES.optgroups;
       context.damage = {
         show: true,
-        damages: context.activity.damage.map(damage => ({
-          damage: damage,
+        damages: a.damage.map(damage => ({
+          damage,
           fields: ["number", "denomination", "type"].map(path => {
             return {
               field: damage.schema.getField(path),
@@ -154,7 +113,7 @@ export default class ActivitySheet extends PseudoDocumentSheet {
     }
 
     // Defend
-    if (context.activity.schema.has("defend")) {
+    if (a.schema.has("defend")) {
       context.defend = {
         show: true,
         legend: makeLegend("defend"),
@@ -164,7 +123,7 @@ export default class ActivitySheet extends PseudoDocumentSheet {
     }
 
     // Healing
-    if (context.activity.schema.has("healing")) {
+    if (a.schema.has("healing")) {
       context.healing = {
         show: true,
         legend: makeLegend("healing"),
@@ -174,7 +133,7 @@ export default class ActivitySheet extends PseudoDocumentSheet {
     }
 
     // Effect
-    if (context.activity.schema.has("effects")) {
+    if (a.schema.has("effects")) {
       context.effects = {
         show: true,
         legend: makeLegend("effects"),
@@ -186,7 +145,7 @@ export default class ActivitySheet extends PseudoDocumentSheet {
     }
 
     // Teleport
-    if (context.activity.schema.has("teleport")) {
+    if (a.schema.has("teleport")) {
       context.teleport = {
         show: true,
         legend: makeLegend("teleport"),

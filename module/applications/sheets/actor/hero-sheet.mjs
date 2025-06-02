@@ -1,4 +1,3 @@
-import ItemArtichron from "../../../documents/item.mjs";
 import ActorSheetArtichron from "./actor-sheet-base.mjs";
 
 export default class HeroSheet extends ActorSheetArtichron {
@@ -70,24 +69,20 @@ export default class HeroSheet extends ActorSheetArtichron {
   static TABS = {
     primary: {
       tabs: [
-        { id: "attributes", tooltip: "ARTICHRON.SHEET.TABS.attributes", icon: "fa-solid fa-fw fa-clover" },
-        { id: "progression", tooltip: "ARTICHRON.SHEET.TABS.progression", icon: "fa-solid fa-fw fa-circle-nodes" },
-        { id: "inventory", tooltip: "ARTICHRON.SHEET.TABS.inventory", icon: "fa-solid fa-fw fa-boxes" },
-        { id: "details", tooltip: "ARTICHRON.SHEET.TABS.details", icon: "fa-solid fa-fw fa-pen-fancy" },
-        { id: "effects", tooltip: "ARTICHRON.SHEET.TABS.effects", icon: "fa-solid fa-fw fa-bolt" },
+        { id: "attributes", icon: "fa-solid fa-fw fa-clover" },
+        { id: "progression", icon: "fa-solid fa-fw fa-circle-nodes" },
+        { id: "inventory", icon: "fa-solid fa-fw fa-boxes" },
+        { id: "details", icon: "fa-solid fa-fw fa-pen-fancy" },
+        { id: "effects", icon: "fa-solid fa-fw fa-bolt" },
       ],
+      labelPrefix: "ARTICHRON.SHEET.TABS",
       initial: "attributes",
     },
   };
 
   /* -------------------------------------------------- */
 
-  /**
-   * Prepare context for a part.
-   * @param {object} context    Rendering context. **will be mutated**
-   * @param {object} options    Rendering options.
-   * @returns {Promise<object>}
-   */
+  /** @type {import("../../../_types").ContextPartHandler} */
   async _preparePartContextHeader(context, options) {
     context.ctx = {};
     return context;
@@ -95,12 +90,7 @@ export default class HeroSheet extends ActorSheetArtichron {
 
   /* -------------------------------------------------- */
 
-  /**
-   * Prepare context for a part.
-   * @param {object} context    Rendering context. **will be mutated**
-   * @param {object} options    Rendering options.
-   * @returns {Promise<object>}
-   */
+  /** @type {import("../../../_types").ContextPartHandler} */
   async _preparePartContextTabs(context, options) {
     context.verticalTabs = true;
     context.ctx = {};
@@ -109,12 +99,7 @@ export default class HeroSheet extends ActorSheetArtichron {
 
   /* -------------------------------------------------- */
 
-  /**
-   * Prepare context for a part.
-   * @param {object} context    Rendering context. **will be mutated**
-   * @param {object} options    Rendering options.
-   * @returns {Promise<object>}
-   */
+  /** @type {import("../../../_types").ContextPartHandler} */
   async _preparePartContextHealth(context, options) {
     context.ctx = {};
     return context;
@@ -122,12 +107,7 @@ export default class HeroSheet extends ActorSheetArtichron {
 
   /* -------------------------------------------------- */
 
-  /**
-   * Prepare context for a part.
-   * @param {object} context    Rendering context. **will be mutated**
-   * @param {object} options    Rendering options.
-   * @returns {Promise<object>}
-   */
+  /** @type {import("../../../_types").ContextPartHandler} */
   async _preparePartContextAttributes(context, options) {
     context.ctx = {
       health: this.document.system.health,
@@ -162,12 +142,7 @@ export default class HeroSheet extends ActorSheetArtichron {
 
   /* -------------------------------------------------- */
 
-  /**
-   * Prepare context for a part.
-   * @param {object} context    Rendering context. **will be mutated**
-   * @param {object} options    Rendering options.
-   * @returns {Promise<object>}
-   */
+  /** @type {import("../../../_types").ContextPartHandler} */
   async _preparePartContextProgression(context, options) {
     context.ctx = { paths: [], mixed: null };
 
@@ -208,12 +183,7 @@ export default class HeroSheet extends ActorSheetArtichron {
 
   /* -------------------------------------------------- */
 
-  /**
-   * Prepare context for a part.
-   * @param {object} context    Rendering context. **will be mutated**
-   * @param {object} options    Rendering options.
-   * @returns {Promise<object>}
-   */
+  /** @type {import("../../../_types").ContextPartHandler} */
   async _preparePartContextInventory(context, options) {
     context.ctx = {
       items: [],
@@ -230,12 +200,7 @@ export default class HeroSheet extends ActorSheetArtichron {
 
   /* -------------------------------------------------- */
 
-  /**
-   * Prepare context for a part.
-   * @param {object} context    Rendering context. **will be mutated**
-   * @param {object} options    Rendering options.
-   * @returns {Promise<object>}
-   */
+  /** @type {import("../../../_types").ContextPartHandler} */
   async _preparePartContextDetails(context, options) {
     context.ctx = {
       bio: await foundry.applications.ux.TextEditor.implementation.enrichHTML(
@@ -248,12 +213,7 @@ export default class HeroSheet extends ActorSheetArtichron {
 
   /* -------------------------------------------------- */
 
-  /**
-   * Prepare context for a part.
-   * @param {object} context    Rendering context. **will be mutated**
-   * @param {object} options    Rendering options.
-   * @returns {Promise<object>}
-   */
+  /** @type {import("../../../_types").ContextPartHandler} */
   async _preparePartContextEncumbrance(context, options) {
     const enc = this.document.system.encumbrance;
     context.ctx = {

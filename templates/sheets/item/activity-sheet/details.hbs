@@ -1,6 +1,6 @@
 <div class="tab details {{tabs.details.cssClass}}" data-group="primary" data-tab="details">
   <fieldset>
-    <legend>{{cost.legend}}</legend>
+    <legend>{{localize "ARTICHRON.SHEET.ACTIVITY.HEADERS.configuration"}}</legend>
     {{formGroup cost.field value=cost.src name=cost.name}}
     {{#if usage.show}}
     {{formGroup usage.field value=usage.src name=usage.name}}
@@ -9,7 +9,7 @@
 
   {{#if target.show}}
   <fieldset>
-    <legend>{{target.legend}}</legend>
+    <legend>{{localize "ARTICHRON.SHEET.ACTIVITY.HEADERS.targeting"}}</legend>
     {{formGroup target.type.field value=target.type.src options=target.type.options name=target.type.name}}
     {{#if target.fields.length}}
     {{#each target.fields}}
@@ -22,7 +22,7 @@
   {{#if damage.show}}
   <fieldset>
     <legend>
-      {{localize "ARTICHRON.SHEET.LEGENDS.damage"}}
+      {{localize "ARTICHRON.SHEET.ACTIVITY.HEADERS.damage"}}
       <button class="icon fa-regular fa-plus-square" type="button" data-action="addDamage"></button>
     </legend>
     {{#each damage.damages}}
@@ -43,7 +43,7 @@
 
   {{#if defend.show}}
   <fieldset>
-    <legend>{{defend.legend}}</legend>
+    <legend>{{localize "ARTICHRON.SHEET.ACTIVITY.HEADERS.defend"}}</legend>
     <div class="form-group">
       <label>{{localize "ARTICHRON.ACTIVITY.LABELS.defendFormula"}}</label>
       <div class="form-fields">
@@ -59,7 +59,7 @@
   {{#if healing.show}}
   {{#with healing}}
   <fieldset>
-    <legend>{{legend}}</legend>
+    <legend>{{localize "ARTICHRON.SHEET.ACTIVITY.HEADERS.healing"}}</legend>
     <div class="form-group">
       <label>{{localize "ARTICHRON.ACTIVITY.LABELS.healingFormula"}}</label>
       <div class="form-fields">
@@ -73,14 +73,14 @@
 
   {{#if effects.show}}
   <fieldset>
-    <legend>{{effects.legend}}</legend>
+    <legend>{{localize "ARTICHRON.SHEET.ACTIVITY.HEADERS.effects"}}</legend>
     {{formGroup effects.ids.field value=effects.ids.src options=effects.ids.choices classes="stacked" name=effects.ids.name}}
   </fieldset>
   {{/if}}
 
   {{#if teleport.show}}
   <fieldset>
-    <legend>{{teleport.legend}}</legend>
+    <legend>{{localize "ARTICHRON.SHEET.ACTIVITY.HEADERS.teleport"}}</legend>
     {{formGroup teleport.distance.field value=teleport.distance.src name=teleport.distance.name}}
   </fieldset>
   {{/if}}

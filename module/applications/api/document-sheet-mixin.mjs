@@ -1,13 +1,20 @@
+import ArtichronApplicationMixin from "./artichron-application-mixin.mjs";
+
 /**
  * Sheet class mixin to add common functions shared by all types of sheets.
- * @param {*} Base                        The base class.
- * @returns {DocumentSheetArtichron}      Extended class.
- * @extends {foundry.applications.api.HandlebarsApplicationMixin}
- * @extends {Base}
+ * Feature set:
+ * - Play/Edit mode toggle.
+ * - Automatically selecting full contents of `INPUT.delta` elements.
+ * - Allowing for deltas to be entered in `INPUT.delta` elements.
+ * - Intended primarily for actor/item sheets, the base assumption is that this has no submit button but submits on change.
+ * - Preparing basic context relevant to documents.
+ * - Utility methods for handling embedded documents.
+ * - Utility methods for handling embedded pseudo-documents.
+ * @template {Function} DocumentSheet
+ * @param {DocumentSheet} Class
  */
-const ArtichronDocumentSheetMixin = Base => {
-  const mixin = foundry.applications.api.HandlebarsApplicationMixin;
-  return class DocumentSheetArtichron extends mixin(Base) {
+export default function DocumentSheetMixin(Class) {
+  return class DocumentSheetArtichron extends ArtichronApplicationMixin(Class) {
     /**
      * Different sheet modes.
      * @enum {number}
@@ -18,18 +25,14 @@ const ArtichronDocumentSheetMixin = Base => {
 
     /** @inheritdoc */
     static DEFAULT_OPTIONS = {
-      classes: ["artichron"],
-      window: { contentClasses: ["standard-form"] },
       form: { submitOnChange: true },
       actions: {
-        createEffect: DocumentSheetArtichron.#onCreateEffect,
-        deleteEffect: DocumentSheetArtichron.#onDeleteEffect,
-        editEffect: DocumentSheetArtichron.#onEditEffect,
-        // editImage: DocumentSheetArtichron.#onEditImage,
-        toggleDescription: DocumentSheetArtichron.#onToggleDescription,
-        toggleEffect: DocumentSheetArtichron.#onToggleEffect,
-        toggleOpacity: DocumentSheetArtichron.#ontoggleOpacity,
         toggleSheet: DocumentSheetArtichron.#onToggleSheet,
+        createEmbeddedDocument: DocumentSheetArtichron.#createEmbeddedDocument,
+        renderEmbeddedDocumentSheet: DocumentSheetArtichron.#renderEmbeddedDocumentSheet,
+        createPseudoDocument: DocumentSheetArtichron.#createPseudoDocument,
+        deletePseudoDocument: DocumentSheetArtichron.#deletePseudoDocument,
+        renderPseudoDocumentSheet: DocumentSheetArtichron.#renderPseudoDocumentSheet,
       },
     };
 
@@ -71,33 +74,21 @@ const ArtichronDocumentSheetMixin = Base => {
 
     /* -------------------------------------------------- */
 
-    /**
-     * Is opacity enabled?
-     * @type {boolean}
-     */
-    #opacity = false;
+    /** @inheritdoc */
+    async _prepareContext(options) {
+      const context = await super._prepareContext(options);
 
-    /* -------------------------------------------------- */
-
-    /**
-     * Convenience method for preparing a document's description for direct insertion.
-     * @param {HTMLElement} target      The containing element.
-     * @param {string} uuid             The uuid of the document.
-     */
-    async #insertDocumentDescription(target, uuid) {
-      const wrapper = target.querySelector(".description-wrapper");
-      if (wrapper.querySelector(".description")) return;
-      const item = await fromUuid(uuid);
-      const path = (item.documentName === "ActiveEffect") ? "description" : "system.description.value";
-      const description = foundry.utils.getProperty(item, path);
-      const text = await foundry.applications.ux.TextEditor.enrichHTML(description, {
-        relativeTo: item, rollData: item.getRollData(),
+      Object.assign(context, {
+        config: artichron.config,
+        isPlayMode: this.isPlayMode,
+        isEditMode: this.isEditMode,
       });
-      if (wrapper.querySelector(".description")) return;
-      const div = document.createElement("DIV");
-      div.classList.add("description");
-      div.innerHTML = text;
-      wrapper.replaceChildren(div);
+
+      if (this.document.system instanceof foundry.abstract.TypeDataModel) {
+        context.systemFields = this.document.system.schema.fields;
+      }
+
+      return context;
     }
 
     /* -------------------------------------------------- */
@@ -143,13 +134,18 @@ const ArtichronDocumentSheetMixin = Base => {
     async _onRender(context, options) {
       await super._onRender(context, options);
 
-      if (this.isEditable) {
-        this.element.querySelectorAll("input.delta").forEach(n => {
-          n.addEventListener("focus", event => event.currentTarget.select());
-          if (n.name) n.addEventListener("change", event => {
-            artichron.utils.parseInputDelta(event.currentTarget, this.document);
-          });
-        });
+      if (!this.isEditable) return;
+
+      // INPUT.delta elements select their contents when focused and have deltas parsed.
+      for (const input of this.element.querySelectorAll("input.delta")) {
+        input.addEventListener("focus", () => input.select());
+        if (input.name) {
+          input.addEventListener("change", () => artichron.utils.parseInputDelta(input, this.document));
+        }
+      }
+
+      for (const input of this.element.querySelectorAll("[data-change=updateEmbedded]")) {
+        input.addEventListener("change", DocumentSheetArtichron.#updateEmbedded.bind(this));
       }
     }
 
@@ -167,68 +163,15 @@ const ArtichronDocumentSheetMixin = Base => {
     /* -------------------------------------------------- */
 
     /** @inheritdoc */
-    _prepareTabs(group) {
-      const tabs = super._prepareTabs(group);
-      for (const k of Object.keys(tabs)) {
-        const ignored = this.constructor.PARTS[k]?.types?.[this.document.type] === false;
-        if (ignored) delete tabs[k];
-      }
-      return tabs;
-    }
-
-    /* -------------------------------------------------- */
-
-    /** @inheritdoc */
-    _configureRenderParts(options) {
-      const parts = super._configureRenderParts(options);
-      for (const [k, v] of Object.entries(parts)) {
-        const ignored = v.types?.[this.document.type] === false;
-        if (ignored) delete parts[k];
-      }
-      return parts;
-    }
-
-    /* -------------------------------------------------- */
-
-    /** @inheritdoc */
     async _renderFrame(options) {
       const frame = await super._renderFrame(options);
-      if (this.#opacity) frame.classList.add("opacity");
       this.window.controls.insertAdjacentHTML("afterend", `
-        <button type="button" class="header-control icon fa-solid fa-user-lock" data-action="toggleSheet" data-tooltip="ARTICHRON.SHEET.TOGGLE.editing"></button>
-        <button type="button" class="header-control icon fa-solid" data-action="toggleOpacity" data-tooltip="ARTICHRON.SHEET.TOGGLE.opacity"></button>`);
-
+        <button type="button" class="header-control icon fa-solid fa-user-lock" data-action="toggleSheet" data-tooltip="ARTICHRON.SHEET.TOGGLE.editing"></button>`);
       return frame;
     }
 
     /* -------------------------------------------------- */
-    /*   Context menu handlers                            */
-    /* -------------------------------------------------- */
-
-    /** @inheritdoc */
-    _createContextMenu(handler, selector, { hookName, ...options } = {}) {
-      return super._createContextMenu(handler, selector, {
-        hookName,
-        parentClassHooks: false,
-        hookResponse: true,
-        ...options,
-      });
-    }
-
-    /* -------------------------------------------------- */
     /*   Event handlers                                   */
-    /* -------------------------------------------------- */
-
-    /**
-     * Handle toggling the Opacity lock of the sheet.
-     * @this {DocumentSheetArtichron}
-     * @param {PointerEvent} event    The initiating click event.
-     * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
-     */
-    static #ontoggleOpacity(event, target) {
-      this.#opacity = target.closest(".application").classList.toggle("opacity");
-    }
-
     /* -------------------------------------------------- */
 
     /**
@@ -246,84 +189,133 @@ const ArtichronDocumentSheetMixin = Base => {
     /* -------------------------------------------------- */
 
     /**
-     * Handle toggling an active effect on or off.
-     * @this {DocumentSheetArtichron}
-     * @param {PointerEvent} event    The initiating click event.
-     * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
+     * Helper method to retrieve an embedded document (possibly a grandchild).
+     * @param {HTMLElement} element   An element able to find [data-id] and optionally [data-parent-id].
+     * @returns {foundry.abstract.Document}   The embedded document.
      */
-    static async #onToggleEffect(event, target) {
-      if (!this.isEditable) return;
-      const uuid = target.closest("[data-item-uuid]").dataset.itemUuid;
-      const effect = await fromUuid(uuid);
-      effect.update({ disabled: !effect.disabled });
+    _getEmbeddedDocument(element) {
+      let embedded;
+      const { parentId, id } = element.closest("[data-id]")?.dataset ?? {};
+      if (parentId) {
+        embedded = this.document.items.get(parentId).effects.get(id);
+      } else {
+        embedded = this.document.getEmbeddedCollection(element.closest("[data-document-name]").dataset.documentName).get(id);
+      }
+      return embedded;
     }
 
     /* -------------------------------------------------- */
 
     /**
-     * Handle click events to render an effect's sheet.
-     * @this {DocumentSheetArtichron}
-     * @param {PointerEvent} event    The initiating click event.
-     * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
+     * Helper method to retrieve an embedded pseudo-document.
+     * @param {HTMLElement} element   The element with relevant data.
+     * @returns {artichron.data.pseudoDocuments.PseudoDocument}
      */
-    static async #onEditEffect(event, target) {
-      const uuid = target.closest("[data-item-uuid]").dataset.itemUuid;
-      const effect = await fromUuid(uuid);
-      effect.sheet.render(true);
+    _getPseudoDocument(element) {
+      const documentName = element.closest("[data-pseudo-document-name]").dataset.pseudoDocumentName;
+      const id = element.closest("[data-pseudo-id]").dataset.pseudoId;
+      return this.document.getEmbeddedDocument(documentName, id);
     }
 
     /* -------------------------------------------------- */
 
     /**
-     * Handle click events to delete an effect.
+     * Handle click events to create an item.
      * @this {DocumentSheetArtichron}
      * @param {PointerEvent} event    The initiating click event.
      * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
      */
-    static async #onDeleteEffect(event, target) {
-      if (!this.isEditable) return;
-      const uuid = target.closest("[data-item-uuid]").dataset.itemUuid;
-      const effect = await fromUuid(uuid);
-      effect.deleteDialog();
-    }
+    static #createEmbeddedDocument(event, target) {
+      const documentName = target.closest("[data-document-name]").dataset.documentName;
+      const type = target.closest("[data-type]")?.dataset.type;
+      const Cls = foundry.utils.getDocumentClass(documentName);
+      const context = { parent: this.document, renderSheet: true };
 
-    /* -------------------------------------------------- */
-
-    /**
-     * Handle click events to create an effect.
-     * @this {DocumentSheetArtichron}
-     * @param {PointerEvent} event    The initiating click event.
-     * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
-     */
-    static #onCreateEffect(event, target) {
-      if (!this.isEditable) return;
-      const type = target.dataset.type;
-      foundry.utils.getDocumentClass("ActiveEffect").createDialog({
-        img: "icons/svg/sun.svg",
-      }, { parent: this.document }, { types: [type] });
-    }
-
-    /* -------------------------------------------------- */
-
-    /**
-     * Handle click events to toggle a document's description.
-     * @this {DocumentSheetArtichron}
-     * @param {PointerEvent} event    The initiating click event.
-     * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
-     */
-    static #onToggleDescription(event, target) {
-      const item = target.closest("[data-item-uuid]");
-      const expanded = item.classList.contains("expanded");
-      item.classList.toggle("expanded", !expanded);
-      item.classList.add("transitioning");
-      const uuid = item.dataset.itemUuid;
-      if (expanded) this._expandedItems.delete(uuid);
-      else {
-        this._expandedItems.add(uuid);
-        this.#insertDocumentDescription(item, uuid);
+      if (type) {
+        Cls.create({
+          type,
+          name: Cls.defaultName({ type, parent: this.document }),
+        }, context);
+      } else {
+        Cls.createDialog({}, context, { types: undefined });
       }
     }
-  };
-};
 
-export default ArtichronDocumentSheetMixin;
+    /* -------------------------------------------------- */
+
+    /**
+     * Handle click events to render an item's sheet.
+     * @this {DocumentSheetArtichron}
+     * @param {PointerEvent} event    The initiating click event.
+     * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
+     */
+    static async #renderEmbeddedDocumentSheet(event, target) {
+      this._getEmbeddedDocument(target).sheet.render({ force: true });
+    }
+
+    /* -------------------------------------------------- */
+
+    /**
+     * Handle the change events on input fields that should propagate to the embedded document.
+     * @this {DocumentSheetArtichron}
+     * @param {PointerEvent} event    The initiating change event.
+     */
+    static #updateEmbedded(event) {
+      const target = event.currentTarget;
+      const property = target.dataset.property;
+      const item = this._getEmbeddedDocument(target);
+      const result = artichron.utils.parseInputDelta(target, item);
+      if (result !== undefined) {
+        if (property === "system.usage.value") {
+          item.update(item.system._usageUpdate(result, false));
+        } else item.update({ [property]: result });
+      }
+    }
+
+    /* -------------------------------------------------- */
+
+    /**
+     * Create a pseudo-document.
+     * @this {ItemSheetArtichron}
+     * @param {PointerEvent} event    The initiating click event.
+     * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
+     */
+    static #createPseudoDocument(event, target) {
+      const documentName = target.closest("[data-pseudo-document-name]").dataset.pseudoDocumentName;
+      const type = target.closest("[data-pseudo-type]")?.dataset.pseudoType;
+      const Cls = this.document.getEmbeddedPseudoDocumentCollection(documentName).documentClass;
+
+      if (!type && (foundry.utils.isSubclass(Cls, artichron.data.pseudoDocuments.TypedPseudoDocument))) {
+        Cls.createDialog({}, { parent: this.document });
+      } else {
+        Cls.create({ type }, { parent: this.document });
+      }
+    }
+
+    /* -------------------------------------------------- */
+
+    /**
+     * Delete a pseudo-document.
+     * @this {ItemSheetArtichron}
+     * @param {PointerEvent} event    The initiating click event.
+     * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
+     */
+    static #deletePseudoDocument(event, target) {
+      const doc = this._getPseudoDocument(target);
+      doc.delete();
+    }
+
+    /* -------------------------------------------------- */
+
+    /**
+     * Render the sheet of a pseudo-document.
+     * @this {ItemSheetArtichron}
+     * @param {PointerEvent} event    The initiating click event.
+     * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
+     */
+    static #renderPseudoDocumentSheet(event, target) {
+      const doc = this._getPseudoDocument(target);
+      doc.sheet.render({ force: true });
+    }
+  };
+}

@@ -58,12 +58,7 @@ export default class ChainConfigurationDialog extends Application {
 
   /* -------------------------------------------------- */
 
-  /**
-   * Prepare context for a specific part.
-   * @param {object} context    Rendering context. **will be mutated**
-   * @param {object} options    Rendering options.
-   * @returns {Promise<object>}   Rendering context.
-   */
+  /** @type {import("../../../_types").ContextPartHandler} */
   async #preparePartContextChains(context, options) {
     context.ctx = { chains: this.#chains.map(c => c.active()) };
     return context;
@@ -71,12 +66,7 @@ export default class ChainConfigurationDialog extends Application {
 
   /* -------------------------------------------------- */
 
-  /**
-   * Prepare context for a specific part.
-   * @param {object} context    Rendering context. **will be mutated**
-   * @param {object} options    Rendering options.
-   * @returns {Promise<object>}   Rendering context.
-   */
+  /** @type {import("../../../_types").ContextPartHandler} */
   async #preparePartContextFooter(context, options) {
     context.buttons = [{ type: "submit", label: "Confirm", icon: "fa-solid fa-fw fa-check" }];
     return context;

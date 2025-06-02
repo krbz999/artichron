@@ -29,24 +29,19 @@ export default class DamageSheet extends PseudoDocumentSheet {
     context = await super._preparePartContext(partId, context, options);
     switch (partId) {
       case "damage":
-        await this.#preparePartContextDamage(context, options);
-        break;
+        return this.#preparePartContextDamage(context, options);
     }
     return context;
   }
 
   /* -------------------------------------------------- */
 
-  /**
-   * Prepare context for a specific render part.
-   * @param {object} context    Rendering context. **will be mutated**
-   * @param {object} options    Rendering options.
-   * @returns {Promise}
-   */
+  /** @type {import("../../../_types").ContextPartHandler} */
   async #preparePartContextDamage(context, options) {
     context.number = this._prepareField("number");
     context.denomination = this._prepareField("denomination");
     context.type = Object.assign(this._prepareField("type"), { options: artichron.config.DAMAGE_TYPES.optgroups });
     context.options = this._prepareField("options");
+    return context;
   }
 }

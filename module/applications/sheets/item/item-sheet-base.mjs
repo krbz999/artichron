@@ -12,13 +12,6 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
       width: 350,
       height: "auto",
     },
-    actions: {
-      createPseudoDocument: ItemSheetArtichron.#createPseudoDocument,
-      deletePseudoDocument: ItemSheetArtichron.#deletePseudoDocument,
-      renderPseudoDocumentSheet: ItemSheetArtichron.#renderPseudoDocumentSheet,
-      createEmbeddedDocument: ItemSheetArtichron.#createEmbeddedDocument,
-      renderEmbeddedDocumentSheet: ItemSheetArtichron.#renderEmbeddedDocumentSheet,
-    },
   };
 
   /* -------------------------------------------------- */
@@ -43,13 +36,14 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
   static TABS = {
     primary: {
       tabs: [
-        { id: "description", tooltip: "ARTICHRON.SHEET.TABS.description", icon: "fa-solid fa-fw fa-pen-fancy" },
-        { id: "details", tooltip: "ARTICHRON.SHEET.TABS.details", icon: "fa-solid fa-fw fa-tags" },
-        { id: "fusion", tooltip: "ARTICHRON.SHEET.TABS.fusion", icon: "fa-solid fa-fw fa-volcano" },
-        { id: "activities", tooltip: "ARTICHRON.SHEET.TABS.activities", icon: "fa-solid fa-fw fa-location-crosshairs " },
-        { id: "advancements", tooltip: "ARTICHRON.SHEET.TABS.advancements", icon: "fa-solid fa-fw fa-circle-nodes" },
-        { id: "effects", tooltip: "ARTICHRON.SHEET.TABS.effects", icon: "fa-solid fa-fw fa-bolt" },
+        { id: "description", icon: "fa-solid fa-fw fa-pen-fancy" },
+        { id: "details", icon: "fa-solid fa-fw fa-tags" },
+        { id: "fusion", icon: "fa-solid fa-fw fa-volcano" },
+        { id: "activities", icon: "fa-solid fa-fw fa-location-crosshairs " },
+        { id: "advancements", icon: "fa-solid fa-fw fa-circle-nodes" },
+        { id: "effects", icon: "fa-solid fa-fw fa-bolt" },
       ],
+      labelPrefix: "ARTICHRON.SHEET.TABS",
       initial: "description",
     },
   };
@@ -235,40 +229,7 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
   /*   Context preparation                              */
   /* -------------------------------------------------- */
 
-  /** @inheritdoc */
-  async _prepareContext(options) {
-    const context = await super._prepareContext(options);
-
-    context.config = artichron.config;
-    context.systemFields = this.document.system.schema.fields;
-    context.isPlayMode = this.isPlayMode;
-    context.isEditMode = this.isEditMode;
-
-    return context;
-  }
-
-  /* -------------------------------------------------- */
-
-  /** @inheritdoc */
-  async _preparePartContext(partId, context, options) {
-    context = await super._preparePartContext(partId, context, options);
-
-    const fn = `_preparePartContext${partId.capitalize()}`;
-    if (!(this[fn] instanceof Function)) {
-      throw new Error(`The ${this.constructor.name} sheet does not implement the [${fn}] method.`);
-    }
-
-    return this[fn](context, options);
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Prepare a part.
-   * @param {object} context    Rendering context. **will be mutated**
-   * @param {object} options    Rendering options.
-   * @returns {Promise<object>}   Rendering context.
-   */
+  /** @type {import("../../../_types").ContextPartHandler} */
   async _preparePartContextHeader(context, options) {
     context.ctx = {
       name: context.isPlayMode ? this.document.name : this.document._source.name,
@@ -279,14 +240,9 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
 
   /* -------------------------------------------------- */
 
-  /**
-   * Prepare a part.
-   * @param {object} context    Rendering context. **will be mutated**
-   * @param {object} options    Rendering options.
-   * @returns {Promise<object>}   Rendering context.
-   */
+  /** @type {import("../../../_types").ContextPartHandler} */
   async _preparePartContextTabs(context, options) {
-    context.verticalTabs = true;
+    context = await super._preparePartContextTabs(context, options);
     for (const k in context.tabs)
       if (this.constructor.metadata.excludeTabs.includes(k))
         delete context.tabs[k];
@@ -295,12 +251,7 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
 
   /* -------------------------------------------------- */
 
-  /**
-   * Prepare a part.
-   * @param {object} context    Rendering context. **will be mutated**
-   * @param {object} options    Rendering options.
-   * @returns {Promise<object>}   Rendering context.
-   */
+  /** @type {import("../../../_types").ContextPartHandler} */
   async _preparePartContextDescription(context, options) {
     context.ctx = {
       descriptionValue: await foundry.applications.ux.TextEditor.implementation.enrichHTML(
@@ -309,108 +260,5 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
       ),
     };
     return context;
-  }
-
-  /* -------------------------------------------------- */
-  /*   Utility methods                                  */
-  /* -------------------------------------------------- */
-
-  /**
-   * Get a pseudo-document.
-   * @param {HTMLElement} element   The element with relevant data.
-   * @returns {artichron.data.pseudoDocuments.PseudoDocument}
-   */
-  _getPseudoDocument(element) {
-    const documentName = element.closest("[data-pseudo-document-name]").dataset.pseudoDocumentName;
-    const id = element.closest("[data-pseudo-id]").dataset.pseudoId;
-    return this.document.getEmbeddedDocument(documentName, id);
-  }
-
-  /* -------------------------------------------------- */
-
-  /* -------------------------------------------------- */
-  /*   Event handlers                                   */
-  /* -------------------------------------------------- */
-
-  /**
-   * Create a pseudo-document.
-   * @this {ItemSheetArtichron}
-   * @param {PointerEvent} event    The initiating click event.
-   * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
-   */
-  static #createPseudoDocument(event, target) {
-    const documentName = target.closest("[data-pseudo-document-name]").dataset.pseudoDocumentName;
-    const type = target.closest("[data-pseudo-type]")?.dataset.pseudoType;
-    const Cls = this.document.getEmbeddedPseudoDocumentCollection(documentName).documentClass;
-
-    if (!type && (foundry.utils.isSubclass(Cls, artichron.data.pseudoDocuments.TypedPseudoDocument))) {
-      Cls.createDialog({}, { parent: this.document });
-    } else {
-      Cls.create({ type }, { parent: this.document });
-    }
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Delete a pseudo-document.
-   * @this {ItemSheetArtichron}
-   * @param {PointerEvent} event    The initiating click event.
-   * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
-   */
-  static #deletePseudoDocument(event, target) {
-    const doc = this._getPseudoDocument(target);
-    doc.delete();
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Render the sheet of a pseudo-document.
-   * @this {ItemSheetArtichron}
-   * @param {PointerEvent} event    The initiating click event.
-   * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
-   */
-  static #renderPseudoDocumentSheet(event, target) {
-    const doc = this._getPseudoDocument(target);
-    doc.sheet.render({ force: true });
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Create a new embedded document on this document.
-   * @this {ItemSheetArtichron}
-   * @param {PointerEvent} event    The initiating click event.
-   * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
-   */
-  static #createEmbeddedDocument(event, target) {
-    const documentName = target.closest("[data-document-name]").dataset.documentName;
-    const type = target.closest("[data-type]")?.dataset.type;
-    const Cls = foundry.utils.getDocumentClass(documentName);
-    const context = { parent: this.document, renderSheet: true };
-
-    if (type) {
-      Cls.create({
-        type,
-        name: Cls.defaultName({ type, parent: this.document }),
-      }, context);
-    } else {
-      Cls.createDialog({}, context, { types: undefined });
-    }
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Render the sheet of an embedded document.
-   * @this {ItemSheetArtichron}
-   * @param {PointerEvent} event    The initiating click event.
-   * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
-   */
-  static #renderEmbeddedDocumentSheet(event, target) {
-    const documentName = target.closest("[data-document-name]").dataset.documentName;
-    const id = target.closest("[data-id]").dataset.id;
-    this.document.getEmbeddedDocument(documentName, id).sheet.render({ force: true });
   }
 }

@@ -12,8 +12,6 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
     window: { resizable: true },
     actions: {
       useItem: ActorSheetArtichron.#onUseItem,
-      createEmbeddedDocument: ActorSheetArtichron.#createEmbeddedDocument,
-      renderEmbeddedDocumentSheet: ActorSheetArtichron.#renderEmbeddedDocumentSheet,
       recoverHealth: ActorSheetArtichron.#onRecoverHealth,
       configure: ActorSheetArtichron.#onToggleConfig,
     },
@@ -23,43 +21,9 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
   /*   Rendering                                        */
   /* -------------------------------------------------- */
 
-  /** @inheritdoc */
-  async _prepareContext(options) {
-    const context = await super._prepareContext(options);
-
-    Object.assign(context, {
-      config: artichron.config,
-      systemFields: this.document.system.schema.fields,
-      source: this.document._source,
-      isPlayMode: this.isPlayMode,
-      isEditMode: this.isEditMode,
-    });
-
-    return context;
-  }
-
   /* -------------------------------------------------- */
 
-  /** @inheritdoc */
-  async _preparePartContext(partId, context, options) {
-    context = await super._preparePartContext(partId, context, options);
-
-    const fn = `_preparePartContext${partId.capitalize()}`;
-    if (!(this[fn] instanceof Function)) {
-      throw new Error(`The ${this.constructor.name} sheet does not implement the [${fn}] method.`);
-    }
-
-    return this[fn](context, options);
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Prepare context for a part.
-   * @param {object} context    Rendering context. **will be mutated**
-   * @param {object} options    Rendering options.
-   * @returns {Promise<object>}
-   */
+  /** @type {import("../../../_types").ContextPartHandler} */
   async _preparePartContextEffects(context, options) {
     context.ctx = {
       conditions: [],
@@ -219,19 +183,6 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
   }
 
   /* -------------------------------------------------- */
-
-  /** @inheritdoc */
-  async _onRender(context, options) {
-    await super._onRender(context, options);
-
-    if (!this.isEditable) return;
-
-    this.element.querySelectorAll("[data-action=updateEmbedded]").forEach(n => {
-      n.addEventListener("change", this.#onUpdateEmbedded.bind(this));
-    });
-  }
-
-  /* -------------------------------------------------- */
   /*   Drag and drop handlers                           */
   /* -------------------------------------------------- */
 
@@ -274,49 +225,7 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
   }
 
   /* -------------------------------------------------- */
-
-  /**
-   * Helper method to retrieve an embedded document (possibly a grandchild).
-   * @param {HTMLElement} element   An element able to find [data-id] and optionally [data-parent-id].
-   * @returns {foundry.documents.Item|foundry.documents.ActiveEffect}   The embedded document.
-   */
-  #getEmbeddedDocument(element) {
-    let embedded;
-    const { parentId, id } = element.closest("[data-id]")?.dataset ?? {};
-    if (parentId) {
-      embedded = this.document.items.get(parentId).effects.get(id);
-    } else {
-      embedded = this.document.getEmbeddedCollection(element.closest("[data-document-name]").dataset.documentName).get(id);
-    }
-    return embedded;
-  }
-
-  /* -------------------------------------------------- */
   /*   Event Handlers                                   */
-  /* -------------------------------------------------- */
-
-  /**
-   * Handle click events to create an item.
-   * @this {ActorSheetArtichron}
-   * @param {PointerEvent} event    The initiating click event.
-   * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
-   */
-  static #createEmbeddedDocument(event, target) {
-    const documentName = target.closest("[data-document-name]").dataset.documentName;
-    const type = target.closest("[data-type]")?.dataset.type;
-    const Cls = foundry.utils.getDocumentClass(documentName);
-    const context = { parent: this.document, renderSheet: true };
-
-    if (type) {
-      Cls.create({
-        type,
-        name: Cls.defaultName({ type, parent: this.document }),
-      }, context);
-    } else {
-      Cls.createDialog({}, context, { types: undefined });
-    }
-  }
-
   /* -------------------------------------------------- */
 
   /**
@@ -326,38 +235,8 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
    * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
    */
   static async #onUseItem(event, target) {
-    const item = this.#getEmbeddedDocument(target);
+    const item = this._getEmbeddedDocument(target);
     item.use({}, { event: event }, {});
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Handle click events to render an item's sheet.
-   * @this {ActorSheetArtichron}
-   * @param {PointerEvent} event    The initiating click event.
-   * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
-   */
-  static async #renderEmbeddedDocumentSheet(event, target) {
-    this.#getEmbeddedDocument(target).sheet.render({ force: true });
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Handle the change events on input fields that should propagate to the embedded document.
-   * @param {PointerEvent} event    The initiating click event.
-   */
-  async #onUpdateEmbedded(event) {
-    const target = event.currentTarget;
-    const property = target.dataset.property;
-    const item = this.#getEmbeddedDocument(target);
-    const result = artichron.utils.parseInputDelta(target, item);
-    if (result !== undefined) {
-      if (property === "system.usage.value") {
-        item.update(item.system._usageUpdate(result, false));
-      } else item.update({ [property]: result });
-    }
   }
 
   /* -------------------------------------------------- */

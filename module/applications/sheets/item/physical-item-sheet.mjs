@@ -31,15 +31,6 @@ export default class PhysicalItemSheet extends ItemSheetArtichron {
 
   /* -------------------------------------------------- */
 
-  /** @inheritdoc */
-  _prepareTabs(group) {
-    const tabs = super._prepareTabs(group);
-    delete tabs.advancements;
-    return tabs;
-  }
-
-  /* -------------------------------------------------- */
-
   /**
    * Prepare a part.
    * @param {object} context    Rendering context. **will be mutated**
