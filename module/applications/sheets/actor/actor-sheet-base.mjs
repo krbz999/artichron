@@ -15,7 +15,7 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
       createEmbeddedDocument: ActorSheetArtichron.#createEmbeddedDocument,
       renderEmbeddedDocumentSheet: ActorSheetArtichron.#renderEmbeddedDocumentSheet,
       recoverHealth: ActorSheetArtichron.#onRecoverHealth,
-      toggleConfig: ActorSheetArtichron.#onToggleConfig,
+      configure: ActorSheetArtichron.#onToggleConfig,
     },
   };
 
@@ -370,10 +370,14 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
    */
   static #onToggleConfig(event, target) {
     let Cls;
-    switch (target.dataset.trait) {
+    let options;
+    switch (target.dataset.config) {
       case "pools": Cls = artichron.applications.apps.actor.HeroPoolConfig; break;
+      case "skill": Cls = artichron.applications.apps.actor.configs.SkillConfig; break;
     }
-    new Cls({ document: this.document }).render({ force: true });
+    const application = new Cls({ document: this.document, ...options });
+    if (foundry.applications.instances.get(application.id)) return;
+    application.render({ force: true });
   }
 
   /* -------------------------------------------------- */

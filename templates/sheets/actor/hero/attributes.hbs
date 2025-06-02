@@ -47,11 +47,19 @@
     <fieldset class="skills">
       <legend>{{localize "ARTICHRON.SHEET.HERO.HEADERS.skills"}}</legend>
       {{#each ctx.skills}}
+      {{#if @root.isEditMode}}
+      <a class="skill label-top" data-action="configure" data-config="skill">
+        <label>{{label}}</label>
+        <i class="fa-solid fa-cog"></i>
+        <span class="value">{{value}}d6</span>
+      </a>
+      {{else}}
       <a class="skill label-top" data-action="rollSkill" data-skill-id="{{skillId}}">
         <label>{{label}}</label>
         <img src="{{img}}" alt="{{label}}">
         <span class="value">{{value}}d6</span>
       </a>
+      {{/if}}
       {{/each}}
     </fieldset>
 

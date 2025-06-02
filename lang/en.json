@@ -465,39 +465,47 @@
     },
     "skills": {
       "agility": {
-        "bonus": {
-          "label": "Agility Bonus"
-        },
         "label": "Agility",
+        "bonus": {
+          "label": "Agility Bonus",
+          "hint": "A bonus to Agility guarantees this number of successes."
+        },
         "number": {
-          "label": "Agility Dice"
+          "label": "Agility Dice",
+          "hint": "When making an Agility skill roll, this is the number of dice contributed by this skill."
         }
       },
       "brawn": {
-        "bonus": {
-          "label": "Brawn Bonus"
-        },
         "label": "Brawn",
+        "bonus": {
+          "label": "Brawn Bonus",
+          "hint": "A bonus to Brawn guarantees this number of successes."
+        },
         "number": {
-          "label": "Brawn Dice"
+          "label": "Brawn Dice",
+          "hint": "When making an Agility skill roll, this is the number of dice contributed by this skill."
         }
       },
       "mind": {
-        "bonus": {
-          "label": "Mind Bonus"
-        },
         "label": "Mind",
+        "bonus": {
+          "label": "Mind Bonus",
+          "hint":"A bonus to Mind guarantees this number of successes."
+        },
         "number": {
-          "label": "Mind Dice"
+          "label": "Mind Dice",
+          "hint": "When making an Mind skill roll, this is the number of dice contributed by this skill."
         }
       },
       "spirit": {
-        "bonus": {
-          "label": "Spirit Bonus"
-        },
         "label": "Spirit",
+        "bonus": {
+          "label": "Spirit Bonus",
+          "hint":"A bonus to Spirit guarantees this number of successes."
+        },
         "number": {
-          "label": "Spirit Dice"
+          "label": "Spirit Dice",
+          "hint": "When making an Spirit skill roll, this is the number of dice contributed by this skill."
         }
       }
     }
@@ -1204,17 +1212,24 @@
   "Kite": "Kite",
   "Tower": "Tower"
 },
-"Skills": {
-  "Agility": "Agility",
-  "Brawn": "Brawn",
-  "Mind": "Mind",
-  "Spirit": "Spirit"
+
+"SKILL": {
+  "agility": "Agility",
+  "brawn": "Brawn",
+  "mind": "Mind",
+  "spirit": "Spirit",
+
+  "CONFIG": {
+    "TITLE": "Configure Skills"
+  }
 },
+
 "SkillsDialog": {
   "Flavor": "Skill Roll ({skills})",
   "Hint": "Select two skills to combine for the roll, adding together their dice and bonuses.",
   "Title": "{name}: Roll Skill"
 },
+
 "CONDITIONS": {
   "FIELDS": {
     "bleeding": {

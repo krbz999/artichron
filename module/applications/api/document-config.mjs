@@ -3,6 +3,7 @@ const { HandlebarsApplicationMixin, DocumentSheet } = foundry.applications.api;
 export default class DocumentConfig extends HandlebarsApplicationMixin(DocumentSheet) {
   /** @inheritdoc */
   static DEFAULT_OPTIONS = {
+    classes: ["artichron", "config"],
     form: {
       submitOnChange: true,
       closeOnSubmit: false,
@@ -12,6 +13,7 @@ export default class DocumentConfig extends HandlebarsApplicationMixin(DocumentS
       height: "auto",
     },
     window: {
+      contentClasses: ["standard-form"],
       title: null,
     },
   };
