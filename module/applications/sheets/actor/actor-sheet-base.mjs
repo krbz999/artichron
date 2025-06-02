@@ -372,8 +372,13 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
     let Cls;
     let options;
     switch (target.dataset.config) {
-      case "pools": Cls = artichron.applications.apps.actor.HeroPoolConfig; break;
-      case "skill": Cls = artichron.applications.apps.actor.configs.SkillConfig; break;
+      case "pools":
+        Cls = artichron.applications.apps.actor.HeroPoolConfig;
+        break;
+      case "skill":
+        Cls = artichron.applications.apps.actor.configs.SkillConfig;
+        options = { skill: target.dataset.skillId };
+        break;
     }
     const application = new Cls({ document: this.document, ...options });
     if (foundry.applications.instances.get(application.id)) return;

@@ -3,7 +3,6 @@ import DocumentConfig from "../../../api/document-config.mjs";
 export default class SkillConfig extends DocumentConfig {
   constructor({ skill, ...options } = {}) {
     super(options);
-
     if (skill in artichron.config.SKILLS) this.tabGroups.primary = skill;
   }
 
@@ -15,7 +14,6 @@ export default class SkillConfig extends DocumentConfig {
       title: "ARTICHRON.SKILL.CONFIG.TITLE",
     },
     sheetConfig: false,
-    skill: null,
   };
 
   /* -------------------------------------------------- */

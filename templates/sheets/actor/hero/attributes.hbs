@@ -48,7 +48,7 @@
       <legend>{{localize "ARTICHRON.SHEET.HERO.HEADERS.skills"}}</legend>
       {{#each ctx.skills}}
       {{#if @root.isEditMode}}
-      <a class="skill label-top" data-action="configure" data-config="skill">
+      <a class="skill label-top" data-action="configure" data-config="skill" data-skill-id="{{skillId}}">
         <label>{{label}}</label>
         <i class="fa-solid fa-cog"></i>
         <span class="value">{{value}}d6</span>
