@@ -1,9 +1,9 @@
 .artichron.application.sheet.actor {
-  --min-height: 600px;
+  --min-height: 300px;
 
   &:not(.minimizing, .minimized, .maximizing) {
     min-height: var(--min-height);
-    min-width: 400px;
+    min-width: 300px;
   }
 
   .tab.active {
@@ -16,20 +16,22 @@
 
   .health-bar {
     position: fixed;
-    right: anchor(--sheet-header left);
-    min-height: calc(var(--min-height) - 2 * var(--header-height));
+    position-anchor: --sheet-window-content;
+    right: anchor(left);
+    top: anchor(top);
+    bottom: anchor(bottom);
     width: 40px;
     transition: width 200ms ease;
     box-shadow: -2px 2px 5px black;
-    border-radius: 5px;
-    margin-right: 1.3rem;
+    border-radius: 5px 0 0 5px;
+    border: 1px solid black;
+    border-right: none;
     place-content: center;
     display: flex;
     flex-direction: column;
     align-items: center;
-    flex: 1;
-    padding: 0;
     overflow: hidden;
+    margin: 1rem 0;
 
     &:has(:focus) {
       width: 75px;
@@ -52,7 +54,12 @@
       right: 0;
       bottom: 0;
       top: calc(100% - var(--health-bar-pct));
-      background: linear-gradient(to top, rgb(25, 0, 0) 15%, rgb(150, 0, 0) 50%, rgb(255, 0, 0) 100%);
+      background: linear-gradient(
+        to top,
+        rgb(25, 0, 0) 15%,
+        rgb(150, 0, 0) 50%,
+        rgb(255, 0, 0) 100%
+      );
       z-index: -1;
     }
 
@@ -166,30 +173,43 @@
   }
 
   .encumbrance {
-    position: relative;
-    min-height: 22px;
-    border-radius: 10px;
-    border: 2px var(--artichron-color-gold) inset;
-    text-align: center;
+    position: fixed;
+    position-anchor: --sheet-window-content;
+    top: anchor(bottom);
+    left: anchor(left);
+    right: anchor(right);
+    height: calc(0.75 * var(--header-height));
+    transition: height 200ms ease;
+    border-radius: 0 0 10px 10px;
+    border: 3px hsl(from var(--artichron-color-gold) 0 s l / 1) solid;
+    border-top: none;
     overflow: hidden;
-    margin-top: 5px;
+    margin: 0 1rem 0;
+    background-color: hsl(from var(--artichron-color-gold) h s l / 0.5);
+    display: flex;
+    align-items: center;
+
+    &:hover {
+      height: var(--header-height);
+    }
 
     .values {
-      z-index: 1;
+      color: white;
+      text-align: center;
+      width: 100%;
     }
 
     .bar {
       position: absolute;
       top: 0;
-      height: 100%;
+      bottom: 0;
+      left: 0;
       z-index: -1;
-      border-radius: 5px;
       background: linear-gradient(
-        90deg,
-        rgb(240 160 0 / 50%) 0%,
-        rgb(240 160 0 / 70%) 15%,
-        rgb(240 160 0 / 70%) 98%,
-        rgb(240 160 0 / 0%) 100%
+        to right,
+        rgb(25, 25, 0) 15%,
+        rgb(100, 60, 0) 50%,
+        rgb(200, 120, 0) 100%
       )
     }
   }

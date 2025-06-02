@@ -35,7 +35,6 @@
     gap: 8px;
     display: flex;
     align-items: center;
-    anchor-name: --sheet-header;
     position: relative;
 
     .avatar {
@@ -46,9 +45,10 @@
       position: fixed;
       width: calc(1.25 * var(--height));
       z-index: 1;
-      position-anchor: --sheet-header;
-      position-area: center top;
+      position-anchor: --sheet-window-content;
+      position-area: top center;
       aspect-ratio: 1;
+      margin-bottom: calc(var(--header-height) * -1 - 1rem);
 
       &:not([data-action]) {
         pointer-events: none;
@@ -103,18 +103,16 @@
   }
 
   /* Tab Navigation outside of the sheet itself. */
-  &:not(.maximizing, .minimizing, .minimized) {
-    overflow: visible;
-
-    .window-content {
-      overflow: visible;
-    }
+  &:has([data-application-part=tabs].vertical) {
+    anchor-name: --sheet-window-content;
   }
   [data-application-part=tabs].vertical {
-    position: absolute;
-    left: anchor(--sheet-header right);
+    position: fixed;
+    left: anchor(right);
+    top: anchor(top);
+    position-anchor: --sheet-window-content;
     flex-direction: column;
-    margin: 0 1rem 0 1rem;
+    margin-top: 1rem;
     gap: 5px;
     border: none;
     border-top-right-radius: 25%;
