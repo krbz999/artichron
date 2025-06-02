@@ -7,6 +7,7 @@
   --artichron-font-primary: "Bruno Ace";
   --artichron-font-labels: "Amiri";
 
+  /* COLORS */
   --artichron-color-border-blue: rgb(79, 79, 206);
   --artichron-color-blue-light: rgb(121, 121, 245);
   --artichron-color-blue: rgb(0, 0, 255);
@@ -20,10 +21,9 @@
   --artichron-color-enemy: rgba(255, 97, 144, 0.699);
   --artichron-color-ally: rgba(98, 98, 255, 0.788);
 
-  --artichron-effect-source-flex: 0 0 100px;
-  --artichron-effect-controls-flex: 0 0 50px;
-  --artichron-item-property-flex: 0 0 60px;
-  --artichron-inventory-controls-flex: 0 0 60px;
+  /* SHADING */
+  --artichron-header-background-gradient: linear-gradient(3deg, hsl(from var(--artichron-color-purple) h s l / 0.4), transparent 70%);
+  --artichron-header-border: 2px solid hsl(from var(--artichron-color-purple) h s l / 0.5);
 }
 
 /* OVERRIDES */

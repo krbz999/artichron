@@ -110,10 +110,10 @@
       display: grid;
       grid-template-columns: 1fr 0fr;
       align-items: center;
-      background: linear-gradient(3deg, hsl(from var(--artichron-color-purple) h s l / 0.4), transparent 70%);
+      background: var(--artichron-header-background-gradient);
+      border-bottom: var(--artichron-header-border);
       padding: 0.25rem;
       padding-left: 1ch;
-      border-bottom: 2px solid hsl(from var(--artichron-color-purple) h s l / 0.5);
       font-size: 16px;
     }
 

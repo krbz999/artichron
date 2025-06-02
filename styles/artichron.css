@@ -38,14 +38,6 @@ span.chron {
   vertical-align: text-bottom;
 }
 
-#context-menu.artichron {
-  width: 200px;
-
-  .context-group:not(:last-child) {
-    border-bottom: 1px dotted gray;
-  }
-}
-
 dialog:-internal-dialog-in-top-layer::backdrop {
   background: rgba(0, 0, 0, 0.25);
 }
@@ -56,22 +48,6 @@ dialog:-internal-dialog-in-top-layer::backdrop {
   align-items: center;
   gap: 0.5rem;
 }
-
-.sheet .controls {
-  flex: none;
-
-  & button.control {
-    margin: 0;
-    flex: none;
-
-    .fa-solid {
-      margin: 0;
-      padding: 0;
-    }
-  }
-}
-
-/* ---------------------------------------- */
 
 .application {
   max-height: 100vh;
@@ -165,17 +141,6 @@ dialog:-internal-dialog-in-top-layer::backdrop {
     }
   }
 
-  /* Hide empty labels in form groups. */
-  .form-group label:empty {
-    display: none;
-  }
-
-  /* Fixes to prosemirror */
-  .editor.prosemirror.inactive .editor-content,
-  .editor.prosemirror.active .editor-container {
-    overflow: hidden auto;
-  }
-
   /* Make a prosemirror form group the full height of a tab. */
   .prosemirror-full-height {
     flex: 1;
@@ -210,7 +175,7 @@ dialog:-internal-dialog-in-top-layer::backdrop {
 
 /* Tables */
 .application.artichron table thead {
-  background: linear-gradient(3deg, hsl(from var(--artichron-color-purple) h s l / 0.4), transparent 70%);
+  background: var(--artichron-header-background-gradient);
   border: none;
   border-bottom: 2px solid hsl(from var(--artichron-color-purple) h s l / 0.5);
 }
