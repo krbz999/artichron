@@ -1,25 +1,15 @@
 .artichron.application.sheet.party {
-  min-width: 450px;
-
   :is(.awards, .funds) .form-group {
-    & label {
+    label {
       display: flex;
       align-items: center;
-    }
 
-    & input {
-      flex: 1;
-    }
-
-    & button {
-      flex: 0;
-    }
-
-    .icon {
-      height: calc(var(--input-height) * 0.7);
-      border: none;
-      filter: drop-shadow(0 0 1px rgba(0, 153, 255, 0.664));
-      margin-left: 0.5rem;
+      img.icon {
+        height: calc(var(--input-height) * 0.7);
+        border: none;
+        filter: drop-shadow(0 0 1px rgba(0, 153, 255, 0.664));
+        margin-left: 0.5rem;
+      }
     }
   }
 

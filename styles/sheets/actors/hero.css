@@ -1,5 +1,49 @@
 .artichron.application.sheet.actor.hero {
-  & fieldset.skills {
+  .pools {
+      position: relative;
+      display: flex;
+      flex-direction: row;
+
+      .pool {
+        flex: 1;
+        font-size: 20px;
+        display: flex;
+        height: 100%;
+        aspect-ratio: 1;
+        justify-content: center;
+        align-items: center;
+        color: black;
+        background-repeat: no-repeat;
+        background-size: contain;
+
+        &.d4 { background-image: url(/icons/svg/d4-grey.svg); }
+        &.d6 { background-image: url(/icons/svg/d6-grey.svg); }
+        &.d8 { background-image: url(/icons/svg/d8-grey.svg); }
+        &.d10 { background-image: url(/icons/svg/d10-grey.svg); }
+
+        .label {
+          place-content: center;
+        }
+
+        &.health {
+          filter: var(--health-filter);
+        }
+        &.stamina {
+          filter: var(--stamina-filter);
+        }
+        &.mana {
+          filter: var(--mana-filter);
+        }
+      }
+
+      .edit {
+        position: absolute;
+        top: 4px;
+        right: 4px;
+      }
+    }
+
+  .skills {
     display: flex;
     flex-direction: row;
 
@@ -20,9 +64,51 @@
     }
   }
 
-  .document-list.progression {
-    .document-list-header.inactive {
-      opacity: 0.5;
+  .tab[data-tab=attributes] .sections {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(calc(320px - 2rem), 1fr));
+    gap: 1rem;
+  }
+
+  .encumbrance {
+    position: fixed;
+    position-anchor: --sheet-window-content;
+    top: anchor(bottom);
+    left: anchor(left);
+    right: anchor(right);
+    height: calc(0.75 * var(--header-height));
+    transition: height 200ms ease;
+    border-radius: 0 0 10px 10px;
+    border: 3px hsl(from var(--artichron-color-gold) 0 s l / 1) solid;
+    border-top: none;
+    overflow: hidden;
+    margin: 0 1rem 0;
+    background-color: hsl(from var(--artichron-color-gold) h s l / 0.5);
+    display: flex;
+    align-items: center;
+
+    &:hover {
+      height: var(--header-height);
+    }
+
+    .values {
+      color: white;
+      text-align: center;
+      width: 100%;
+    }
+
+    .bar {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      z-index: -1;
+      background: linear-gradient(
+        to right,
+        rgb(25, 25, 0) 15%,
+        rgb(100, 60, 0) 50%,
+        rgb(200, 120, 0) 100%
+      )
     }
   }
 }

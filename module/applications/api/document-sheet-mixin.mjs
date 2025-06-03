@@ -79,7 +79,6 @@ export default function DocumentSheetMixin(Class) {
       const context = await super._prepareContext(options);
 
       Object.assign(context, {
-        config: artichron.config,
         isPlayMode: this.isPlayMode,
         isEditMode: this.isEditMode,
       });

@@ -1,17 +1,25 @@
-<div class="tab {{tabs.inventory.cssClass}}" data-group="{{tabs.inventory.group}}" data-tab="{{tabs.inventory.id}}">
+<div class="tab scrollable {{tabs.inventory.cssClass}}" data-group="{{tabs.inventory.group}}" data-tab="{{tabs.inventory.id}}">
   <search>
-    <input type="search" id="inventory-search" placeholder="{{localize 'SIDEBAR.Search' types=(localize 'DOCUMENT.Items')}}" value="{{searchQuery}}">
+    <input type="search" id="inventory-search" placeholder="{{localize 'SIDEBAR.Search' types=(localize 'DOCUMENT.Items')}}" value="{{ctx.searchQuery}}">
   </search>
 
-  <section class="inventory scrollable">
-    {{#each items}}
-    <div class="inventory-list compact">
-      <header>
-        <span class="label">{{label}}</span>
-      </header>
-      {{#each items}}
-      {{inventoryItem this disabled=true}}
-      {{/each}}
+  <section class="inventory scrollable standard-form">
+    {{#each ctx.items}}
+    <div class="document-list" data-document-name="Item">
+      <h3 class="document-list-header">
+        <span>{{label}}</span>
+      </h3>
+
+      <div class="document-list-entries items compact">
+        {{#each items}}
+        <div class="button entry" data-name="{{name}}" data-id="{{id}}">
+          <img src="{{img}}" alt="{{name}}" class="icon">
+          <span class="count">{{system.quantity.value}}</span>
+          <span class="title">{{name}}</span>
+          <span class="subtitle">{{localize (concat "TYPES.Item." type)}}</span>
+        </div>
+        {{/each}}
+      </div>
     </div>
     {{/each}}
   </section>

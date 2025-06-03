@@ -34,6 +34,17 @@ export default function ArtichronApplicationMixin(Class) {
     /* -------------------------------------------------- */
 
     /** @inheritdoc */
+    async _prepareContext(options) {
+      const context = await super._prepareContext(options);
+      return Object.assign(context, {
+        config: artichron.config,
+        isGM: game.user.isGM,
+      });
+    }
+
+    /* -------------------------------------------------- */
+
+    /** @inheritdoc */
     async _preparePartContext(partId, context, options) {
       context = await super._preparePartContext(partId, context, options);
 

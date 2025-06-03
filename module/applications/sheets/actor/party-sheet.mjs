@@ -10,14 +10,12 @@ export default class PartySheet extends ActorSheetArtichron {
     classes: ["party"],
     position: { width: 650 },
     actions: {
-      addClock: PartySheet.#addClock,
       clockDelta: PartySheet.#clockDelta,
       displayActor: PartySheet.#displayActor,
       distributeCurrency: PartySheet.#distributeCurrency,
       manageFunds: PartySheet.#manageFunds,
       placeMembers: PartySheet.#placeMembers,
       recallMembers: PartySheet.#recallMembers,
-      removeClock: PartySheet.#removeClock,
       removeMember: PartySheet.#removeMember,
     },
   };
@@ -54,9 +52,9 @@ export default class PartySheet extends ActorSheetArtichron {
   static TABS = {
     primary: {
       tabs: [
-        { id: "members" },
-        { id: "inventory" },
-        { id: "progress" },
+        { id: "members", icon: "fa-solid fa-fw fa-users" },
+        { id: "inventory", icon: "fa-solid fa-fw fa-boxes" },
+        { id: "progress", icon: "fa-solid fa-fw fa-clock" },
       ],
       initial: "members",
       labelPrefix: "ARTICHRON.SHEET.TABS",
@@ -77,48 +75,25 @@ export default class PartySheet extends ActorSheetArtichron {
   /* -------------------------------------------------- */
 
   /** @inheritdoc */
-  async _prepareContext(options) {
-    const context = {
-      ...await super._prepareContext(options),
-      isEditable: this.isEditable,
-      isEditMode: this.isEditMode,
-      isPlayMode: this.isPlayMode,
-      document: this.document,
-      isGM: game.user.isGM,
-    };
-    if (!context.isGM) delete context.tabs.progress;
-    return context;
+  _prepareTabs(group) {
+    const tabs = super._prepareTabs(group);
+    if (!game.user.isGM) delete tabs.progress;
+    return tabs;
   }
 
   /* -------------------------------------------------- */
 
   /** @inheritdoc */
-  async _preparePartContext(partId, context, options) {
-    context = await super._preparePartContext(partId, context, options);
-
-    switch (partId) {
-      case "header":
-        return this.#preparePartContextHeader(context, options);
-      case "members":
-        return this.#preparePartContextMembers(context, options);
-      case "inventory":
-        return this.#preparePartContextInventory(context, options);
-      case "progress":
-        return this.#preparePartContextProgress(context, options);
-    }
-
-    return context;
+  _configureRenderParts(options) {
+    const parts = super._configureRenderParts(options);
+    if (!game.user.isGM) delete parts.progress;
+    return parts;
   }
 
   /* -------------------------------------------------- */
 
-  /**
-   * Prepare the context for a specific part.
-   * @param {object} context        Rendering context.
-   * @param {object} options        Rendering options.
-   * @returns {Promise<object>}     Mutated rendering context.
-   */
-  async #preparePartContextHeader(context, options) {
+  /** @type {import("../../../_types").ContextPartHandler} */
+  async _preparePartContextHeader(context, options) {
     const prop = path => {
       if (context.isEditMode) return foundry.utils.getProperty(this.document._source, path);
       return foundry.utils.getProperty(this.document, path);
@@ -128,18 +103,14 @@ export default class PartySheet extends ActorSheetArtichron {
       img: prop("img"),
       name: prop("name"),
     };
+
     return context;
   }
 
   /* -------------------------------------------------- */
 
-  /**
-   * Prepare the context for a specific part.
-   * @param {object} context        Rendering context.
-   * @param {object} options        Rendering options.
-   * @returns {Promise<object>}     Mutated rendering context.
-   */
-  async #preparePartContextMembers(context, options) {
+  /** @type {import("../../../_types").ContextPartHandler} */
+  async _preparePartContextMembers(context, options) {
     const members = [];
 
     for (const { actor } of this.document.system.members) {
@@ -186,80 +157,47 @@ export default class PartySheet extends ActorSheetArtichron {
 
   /* -------------------------------------------------- */
 
-  /**
-   * Prepare the context for a specific part.
-   * @param {object} context        Rendering context.
-   * @param {object} options        Rendering options.
-   * @returns {Promise<object>}     Mutated rendering context.
-   */
-  async #preparePartContextInventory(context, options) {
-    const items = {};
-
-    for (const item of this.document.items) {
-      items[item.type] ??= {
-        label: game.i18n.localize(`TYPES.Item.${item.type}Pl`),
-        order: CONFIG.Item.dataModels[item.type].metadata.order,
-        items: [],
+  /** @type {import("../../../_types").ContextPartHandler} */
+  async _preparePartContextInventory(context, options) {
+    const items = Array.from(this.document.system.constructor.metadata.allowedItemTypes).map(type => {
+      const items = this.document.items.documentsByType[type].toSorted((a, b) => artichron.utils.nameSort(a, b));
+      return {
+        items,
+        label: game.i18n.localize(`TYPES.Item.${type}Pl`),
       };
-      items[item.type].items.push(item);
-    }
+    });
+    items.sort((a, b) => a.label.localeCompare(b.label));
 
-    for (const { items: itemArray } of Object.values(items)) {
-      itemArray.sort((a, b) => {
-        const sort = a.sort - b.sort;
-        if (sort) return sort;
-        return a.name.localeCompare(b.name);
-      });
-    }
-
-    context.items = Object.fromEntries(Object.entries(items).sort((a, b) => {
-      return a[1].order - b[1].order;
-    }));
-
-    context.searchQuery = this.#searchQuery;
-
+    context.ctx = {
+      items,
+      searchQuery: this.#searchQuery,
+    };
     return context;
   }
 
   /* -------------------------------------------------- */
 
-  /**
-   * Prepare the context for a specific part.
-   * @param {object} context        Rendering context.
-   * @param {object} options        Rendering options.
-   * @returns {Promise<object>}     Mutated rendering context.
-   */
-  async #preparePartContextProgress(context, options) {
-    if (!game.user.isGM) return context;
+  /** @type {import("../../../_types").ContextPartHandler} */
+  async _preparePartContextProgress(context, options) {
+    context.ctx = {
+      clocks: [],
+    };
 
-    context.clocks = [];
-    const clocks = this.isEditMode ? this.document.system.clocks.sourceContents : this.document.system.clocks;
+    const clocks = context.isEditMode ? this.document.system.clocks.sourceContents : this.document.system.clocks;
     for (const clock of clocks) {
-      if (this.isPlayMode) {
-        context.clocks.push({
-          clock: clock,
+      if (context.isPlayMode) {
+        context.ctx.clocks.push({
+          clock,
           disableUp: clock.isFull,
           disableDown: clock.isEmpty,
-          name: clock.name ? clock.name : game.i18n.localize(clock.constructor.metadata.label),
           hue: clock.color.rgb.map(k => k * 255).join(", "),
         });
       } else {
-        const makeField = path => {
-          const field = clock.schema.getField(path);
-          const name = `system.clocks.${clock.id}.${path}`;
-          return {
-            field, name,
-            value: foundry.utils.getProperty(clock, path) || null,
-            source: foundry.utils.getProperty(clock._source, path),
-          };
-        };
-
-        context.clocks.push({
-          clock: clock,
-          name: { ...makeField("name"), placeholder: game.i18n.localize(clock.constructor.metadata.label) },
-          value: makeField("value"),
-          max: makeField("max"),
-          color: { ...makeField("color"), placeholder: clock.constructor.metadata.color },
+        context.ctx.clocks.push({
+          clock,
+          fields: clock.schema.fields,
+          source: clock._source,
+          colorPlaceholder: clock.constructor.metadata.color,
         });
       }
     }
@@ -287,16 +225,33 @@ export default class PartySheet extends ActorSheetArtichron {
   /* -------------------------------------------------- */
 
   /** @inheritdoc */
+  async _onDropItem(event, item) {
+    if (!this.document.isOwner) return;
+    if (!this.document.system.constructor.metadata.has(item.type)) return;
+    return super._onDropItem(event, item);
+  }
+
+  /* -------------------------------------------------- */
+
+  /** @inheritdoc */
   async _onFirstRender(context, options) {
     await super._onFirstRender(context, options);
     for (const { actor } of this.document.system.members) {
       if (actor) actor.apps[this.id] = this;
     }
 
+    // Clock context menus.
     this._createContextMenu(
-      this._getClockEntryContextOptions,
+      this.#getContextOptionsClock,
       "progress-clock",
-      "getClockContextOptions",
+      { hookName: "ClockEntryContext" },
+    );
+
+    // Item context menus.
+    this._createContextMenu(
+      this.#getContextOptionsItem,
+      ".document-list-entries.items .entry",
+      { hookName: "ItemEntryContext" },
     );
   }
 
@@ -306,25 +261,37 @@ export default class PartySheet extends ActorSheetArtichron {
    * Get context menu options for clocks.
    * @returns {ContextMenuEntry[]}
    */
-  _getClockEntryContextOptions() {
+  #getContextOptionsClock() {
+    if (!this.isEditable) return [];
+
     return [{
-      name: "Edit Clock",
+      name: "ARTICHRON.SHEET.PARTY.CONTEXT.CLOCK.render",
       icon: "<i class='fa-solid fa-fw fa-edit'></i>",
-      callback: clock => {
-        const id = clock.closest(".clock").dataset.id;
-        clock = this.document.getEmbeddedDocument("Clock", id);
-        clock.sheet.render({ force: true });
-      },
-      condition: clock => this.isEditable,
+      callback: clock => this._getPseudoDocument(clock).sheet.render({ force: true }),
     }, {
-      name: "Delete Clock",
+      name: "ARTICHRON.SHEET.PARTY.CONTEXT.CLOCK.delete",
       icon: "<i class='fa-solid fa-fw fa-trash'></i>",
-      callback: clock => {
-        const id = clock.closest(".clock").dataset.id;
-        clock = this.document.getEmbeddedDocument("Clock", id);
-        clock.delete();
-      },
-      condition: clock => this.isEditable,
+      callback: clock => this._getPseudoDocument(clock).delete(),
+    }];
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Get context menu options for items.
+   * @returns {ContextMenuEntry[]}
+   */
+  #getContextOptionsItem() {
+    if (!this.isEditable) return [];
+
+    return [{
+      name: "ARTICHRON.SHEET.PARTY.CONTEXT.ITEM.render",
+      icon: "<i class='fa-solid fa-fw fa-edit'></i>",
+      callback: entry => this._getEmbeddedDocument(entry).sheet.render({ force: true }),
+    }, {
+      name: "ARTICHRON.SHEET.PARTY.CONTEXT.ITEM.delete",
+      icon: "<i class='fa-solid fa-fw fa-trash'></i>",
+      callback: entry => this._getEmbeddedDocument(entry).delete(),
     }];
   }
 
@@ -383,8 +350,7 @@ export default class PartySheet extends ActorSheetArtichron {
    * @param {HTMLElement} html      The targeted html container.
    */
   #onSearchFilter(query, html) {
-    // TODO: This is copied wholesale from hero sheet.
-    for (const item of html.querySelectorAll("inventory-item")) {
+    for (const item of html.querySelectorAll(".document-list-entries .entry")) {
       const hidden = !!query && !item.dataset.name.toLowerCase().includes(query);
       item.classList.toggle("hidden", hidden);
     }
@@ -527,35 +493,8 @@ export default class PartySheet extends ActorSheetArtichron {
    */
   static #clockDelta(event, target) {
     const isUp = target.dataset.delta === "up";
-    const id = target.closest(".clock").dataset.id;
-    const clock = this.document.getEmbeddedDocument("Clock", id);
+    const clock = this._getPseudoDocument(target);
     if (isUp) clock.increase();
     else clock.decrease();
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Create a new clock.
-   * @this {PartySheet}
-   * @param {PointerEvent} event    The initiating click event.
-   * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
-   */
-  static #addClock(event, target) {
-    const type = target.dataset.clock;
-    artichron.data.pseudoDocuments.clocks.BaseClock.create({ type }, { parent: this.document });
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Remove a clock.
-   * @this {PartySheet}
-   * @param {PointerEvent} event    The initiating click event.
-   * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
-   */
-  static #removeClock(event, target) {
-    const id = target.closest("[data-id]").dataset.id;
-    this.document.getEmbeddedDocument("Clock", id).delete();
   }
 }

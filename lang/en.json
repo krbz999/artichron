@@ -179,6 +179,27 @@
     }
   },
 
+  "PARTY": {
+    "currency": "Currency",
+    "manageFunds": "Manage Funds",
+    "placeMembers": "Place Members",
+    "recallMembers": "Recall Members",
+    "CONTEXT": {
+      "CLOCK": {
+        "render": "Edit Clock",
+        "delete": "Delete Clock"
+      },
+      "ITEM": {
+        "render": "Edit Item",
+        "delete": "Delete Item"
+      }
+    },
+    "HEADERS": {
+      "awards": "Awards",
+      "funds": "Funds"
+    }
+  },
+
   "ACTIVITY": {
     "title": "Activity: {name}",
     "HEADERS": {
