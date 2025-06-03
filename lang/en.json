@@ -3,7 +3,8 @@
   "Activity": "Activity",
   "Advancement": "Advancement",
   "ArmorRequirement": "Armor Requirement",
-  "Clock": "Clock",
+  "Clock": "Progress Clock",
+  "ClockPl": "Progress Clocks",
   "Damage": "Damage"
 },
 "TYPES": {
@@ -176,6 +177,29 @@
       "conditions": "Conditions",
       "activeBuffs": "Active Buffs",
       "inactiveBuffs": "Inactive Buffs"
+    }
+  },
+
+  "PARTY": {
+    "currency": "Currency",
+    "manageFunds": "Manage Funds",
+    "placeMembers": "Place Members",
+    "recallMembers": "Recall Members",
+
+    "CONTEXT": {
+      "CLOCK": {
+        "render": "Edit Clock",
+        "delete": "Delete Clock"
+      },
+      "ITEM": {
+        "render": "Edit Item",
+        "delete": "Delete Item"
+      }
+    },
+
+    "HEADERS": {
+      "awards": "Awards",
+      "funds": "Funds"
     }
   },
 
@@ -1041,23 +1065,7 @@
     "grant": "Grant Loot"
   }
 },
-"PARTY": {
-  "LABELS": {
-    "currency": "Currency",
-    "distribute": "Distribute",
-    "FUNDS": {
-      "manage": "Manage Funds"
-    },
-    "PROGRESS": {
-      "bad": "Add Bad Clock",
-      "good": "Add Good Clock"
-    },
-    "MEMBERS": {
-      "place": "Place Members",
-      "recall": "Recall Members"
-    }
-  }
-},
+
 "PartyDistributionDialog": {
   "amount": {
     "hintCurrency": "The amount of funds to distribute. Each recipient will receive this amount.",

@@ -10,73 +10,48 @@ export default class ClockSheet extends PseudoDocumentSheet {
 
   /** @inheritdoc */
   static PARTS = {
-    ...super.PARTS,
+    tabs: {
+      template: "templates/generic/tab-navigation.hbs",
+    },
     identity: {
-      template: "systems/artichron/templates/sheets/actor/clock-sheet/identity.hbs",
+      template: "systems/artichron/templates/sheets/pseudo/clock/identity.hbs",
     },
     details: {
-      template: "systems/artichron/templates/sheets/actor/clock-sheet/details.hbs",
+      template: "systems/artichron/templates/sheets/pseudo/clock/details.hbs",
     },
   };
 
   /* -------------------------------------------------- */
 
-  /**
-   * The clock pseudo-document.
-   * @type {Clock}
-   */
-  get clock() {
-    return this.pseudoDocument;
-  }
+  /** @inheritdoc */
+  static TABS = {
+    primary: {
+      tabs: [
+        { id: "identity", icon: "fa-solid fa-tag" },
+        { id: "details", icon: "fa-solid fa-pen-fancy" },
+      ],
+      initial: "identity",
+      labelPrefix: "ARTICHRON.SHEET.TABS",
+    },
+  };
 
   /* -------------------------------------------------- */
 
-  /** @inheritdoc */
-  async _preparePartContext(partId, context, options) {
-    context = await super._preparePartContext(partId, context, options);
-    Object.assign(context, {
-      clock: this.clock,
-    });
-
-    switch (partId) {
-      case "identity":
-        await this.#prepareIdentityContext(context, options);
-        break;
-      case "details":
-        await this.#prepareDetailsContext(context, options);
-        break;
-    }
+  /** @type {import("../../../_types").ContextPartHandler} */
+  async _preparePartContextIdentity(context, options) {
+    context.ctx = {
+      colorPlaceholder: context.pseudoDocument.constructor.metadata.color,
+    };
     return context;
   }
 
   /* -------------------------------------------------- */
 
-  /**
-   * Prepare context for Identity tab.
-   * @param {object} context      Rendering context. **will be mutated**
-   * @param {object} options      Rendering options.
-   */
-  async #prepareIdentityContext(context, options) {
-    context.name = Object.assign(this._prepareField("name"), {
-      placeholder: game.i18n.localize(context.clock.constructor.metadata.label),
-    });
-    context.color = Object.assign(this._prepareField("color"), {
-      placeholder: context.clock.constructor.metadata.color,
-    });
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Prepare context for Details tab.
-   * @param {object} context      Rendering context. **will be mutated**
-   * @param {object} options      Rendering options.
-   */
-  async #prepareDetailsContext(context, options) {
-    context.value = Object.assign(this._prepareField("value"), { placeholder: "0" });
-    context.max = Object.assign(this._prepareField("max"), { placeholder: "8" });
-    context.description = Object.assign(this._prepareField("description"), {
-      enriched: await foundry.applications.ux.TextEditor.enrichHTML(context.clock._source.description),
-    });
+  /** @type {import("../../../_types").ContextPartHandler} */
+  async _preparePartContextDetails(context, options) {
+    context.ctx = {
+      enriched: await foundry.applications.ux.TextEditor.enrichHTML(context.pseudoDocument.description),
+    };
+    return context;
   }
 }

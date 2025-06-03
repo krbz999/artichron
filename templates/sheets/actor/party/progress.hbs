@@ -1,0 +1,39 @@
+<div class="tab {{tabs.progress.cssClass}}" data-group="{{tabs.progress.group}}" data-tab="{{tabs.progress.id}}">
+  {{#if isGM}}
+
+  <div class="document-list" data-pseudo-document-name="Clock">
+    <h3 class="document-list-header">
+      <span>{{localize "DOCUMENT.ClockPl"}}</span>
+      <button type="button" class="create-document icon fa-solid fa-fw" data-action="createPseudoDocument" {{disabled (not editable)}}></button>
+    </h3>
+  </div>
+
+  <section class="clocks scrollable {{ifThen isEditMode 'edit' 'play'}}" data-pseudo-document-name="Clock">
+    {{#if isEditMode}}
+    {{#each ctx.clocks}}
+    <div class="form-group" data-pseudo-id="{{clock.id}}">
+      {{formGroup fields.name value=source.name classes="name label-top" placeholder=(localize (concat "TYPES.Clock." clock.type)) name=(concat "system.clocks." clock.id ".name")}}
+      {{formGroup fields.value value=clock.value classes="value label-top" placeholder="0" name=(concat "system.clocks." clock.id ".value")}}
+      {{formGroup fields.max value=source.max classes="max label-top" placeholder="8" name=(concat "system.clocks." clock.id ".max")}}
+      {{formGroup fields.color value=source.color classes="color label-top" placeholder=colorPlaceholder name=(concat "system.clocks." clock.id ".color")}}
+      <button type="button" class="icon fa-solid fa-trash fa-fw" data-action="deletePseudoDocument"></button>
+    </div>
+    {{/each}}
+    {{else}}
+    {{#each ctx.clocks}}
+    <div class="clock" data-pseudo-id="{{clock.id}}">
+      <button type="button" data-delta="up" data-action="clockDelta" {{disabled disableUp}}>
+        <i class="fa-solid fa-chevron-up"></i>
+      </button>
+      {{progressClock value=clock.value max=clock.max color=clock.color}}
+      <button type="button" data-delta="down" data-action="clockDelta" {{disabled disableDown}}>
+        <i class="fa-solid fa-chevron-down"></i>
+      </button>
+      <label class="name">{{clock.name}}</label>
+    </div>
+    {{/each}}
+    {{/if}}
+  </section>
+
+  {{/if}}
+</div>
