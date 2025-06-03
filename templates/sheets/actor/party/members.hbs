@@ -7,8 +7,8 @@
         <span>{{localize "ARTICHRON.SHEET.PARTY.currency"}}</span>
         <img class="icon" src="systems/artichron/assets/icons/chron.svg" alt="Chron">
       </label>
-      <input type="text" name="system.currency.award" class="delta" value="{{distributions.currency.value}}" {{disabled (not editable)}}>
-      <button type="button" class="icon fa-solid fa-fw fa-medal" data-action="distributeCurrency" {{disabled distributions.currency.disabled}}></button>
+      <input type="text" name="system.currency.award" class="delta" value="{{ctx.distributions.currency.value}}" {{disabled (not editable)}}>
+      <button type="button" class="icon fa-solid fa-fw fa-medal" data-action="distributeCurrency" {{disabled ctx.distributions.currency.disabled}}></button>
     </div>
   </fieldset>
   {{/if}}
@@ -20,7 +20,7 @@
         <span>{{localize "ARTICHRON.SHEET.PARTY.currency"}}</span>
         <img src="systems/artichron/assets/icons/chron.svg" alt="Chron" class="icon">
       </label>
-      <input type="text" name="system.currency.funds" class="delta" value="{{funds.value}}" {{disabled (not editable)}}>
+      <input type="text" name="system.currency.funds" class="delta" value="{{ctx.funds}}" {{disabled (not editable)}}>
     </div>
   </fieldset>
 
@@ -38,7 +38,7 @@
   {{/if}}
 
   <ul class="members scrollable">
-    {{#each actors}}
+    {{#each ctx.actors}}
     <li class="member" data-id="{{actor.id}}">
       <img src="{{actor.img}}" alt="{{actor.name}}" class="avatar" {{#if canView}}data-action="displayActor"{{/if}}>
 

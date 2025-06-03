@@ -25,7 +25,7 @@ export default class PartySheet extends ActorSheetArtichron {
   /** @inheritdoc */
   static PARTS = {
     header: {
-      template: "systems/artichron/templates/shared/sheet-header.hbs",
+      template: "systems/artichron/templates/sheets/actor/party/header.hbs",
     },
     tabs: {
       template: "templates/generic/tab-navigation.hbs",
@@ -34,16 +34,16 @@ export default class PartySheet extends ActorSheetArtichron {
       template: "systems/artichron/templates/sheets/actor/party/health.hbs",
     },
     members: {
-      template: "systems/artichron/templates/sheets/actor/party-sheet/members.hbs",
+      template: "systems/artichron/templates/sheets/actor/party/members.hbs",
       scrollable: [".members"],
       classes: ["scrollable"],
     },
     inventory: {
-      template: "systems/artichron/templates/sheets/actor/party-sheet/inventory.hbs",
+      template: "systems/artichron/templates/sheets/actor/party/inventory.hbs",
       scrollable: [".scrollable"],
     },
     progress: {
-      template: "systems/artichron/templates/sheets/actor/party-sheet/progress.hbs",
+      template: "systems/artichron/templates/sheets/actor/party/progress.hbs",
       classes: ["scrollable"],
       scrollable: [".scrollable"],
     },
@@ -97,16 +97,7 @@ export default class PartySheet extends ActorSheetArtichron {
 
   /** @type {import("../../../_types").ContextPartHandler} */
   async _preparePartContextHeader(context, options) {
-    const prop = path => {
-      if (context.isEditMode) return foundry.utils.getProperty(this.document._source, path);
-      return foundry.utils.getProperty(this.document, path);
-    };
-
-    context.header = {
-      img: prop("img"),
-      name: prop("name"),
-    };
-
+    context.ctx = {};
     return context;
   }
 
@@ -160,12 +151,11 @@ export default class PartySheet extends ActorSheetArtichron {
       },
     };
 
-    context.funds = {
-      value: this.document.system.currency.funds,
+    context.ctx = {
+      distributions,
+      funds: this.document.system.currency.funds,
+      actors: members,
     };
-
-    context.actors = members;
-    context.distributions = distributions;
     return context;
   }
 
