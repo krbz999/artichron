@@ -1,4 +1,5 @@
 export { default as FormulaModel } from "./formula-model.mjs";
+export { default as HeroicPathModel } from "./heroic-path-model.mjs";
 export * as actors from "./actors/_module.mjs";
 export * as chatMessages from "./chat-messages/_module.mjs";
 export * as combatants from "./combatants/_module.mjs";
