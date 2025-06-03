@@ -1,36 +1,10 @@
 @import url("./styles/variables.css");
+
+@import url("./styles/rolls.css");
 @import url("./styles/artichron.css");
 
-/* Sidebar */
-@import url("./styles/sidebar/actors.css");
-@import url("./styles/sidebar/chat.css");
-@import url("./styles/rolls.css");
-
-/* Canvas */
-@import url("./styles/canvas/ruler.css");
-
-/* UI */
-@import url("./styles/ui/combat-carousel.css");
-
-/* Elements */
-@import url("./styles/elements/battery-progress.css");
-@import url("./styles/elements/progress-clock.css");
-@import url("./styles/elements/threshold-bar.css");
-
-/* -------------------------------------------------- */
-
-/* Sheets */
-@import url("./styles/sheets/shared.css");
-
-/* Sheets: Actors */
-@import url("./styles/sheets/actors/shared.css");
-@import url("./styles/sheets/actors/hero.css");
-@import url("./styles/sheets/actors/merchant.css");
-@import url("./styles/sheets/actors/monster.css");
-@import url("./styles/sheets/actors/party.css");
-
-/* Sheets: Items */
-@import url("./styles/sheets/items/shared.css");
-
-/* Sheets: Effects */
-@import url("./styles/sheets/effects/shared.css");
+@import url("./styles/sidebar/_styles.css");
+@import url("./styles/canvas/_styles.css");
+@import url("./styles/ui/_styles.css");
+@import url("./styles/elements/_styles.css");
+@import url("./styles/sheets/_styles.css");
