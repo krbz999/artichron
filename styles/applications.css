@@ -1,0 +1,229 @@
+/* -------------------------------------------------- */
+/*   GENERAL APPLICATION STYLING                      */
+/* -------------------------------------------------- */
+
+.application {
+  max-height: 100vh;
+}
+
+/* -------------------------------------------------- */
+
+/* Opacity control */
+.application.artichron {
+  &.opacity:not(.maximizing, .minimized, .minimizing) {
+    transition: opacity 250ms;
+    &:not(:hover) { opacity: 0.1; }
+  }
+
+  [data-action=toggleOpacity]::before {
+    content: "\f06e";
+  }
+
+  &.opacity [data-action=toggleOpacity]::before {
+    content: "\f2a8";
+  }
+}
+
+/* -------------------------------------------------- */
+
+/* Css class used to prevent animation of elements. */
+.application.artichron .no-animate {
+  transition-duration: 0s !important;
+}
+
+/* -------------------------------------------------- */
+
+/* Styling to make elements look like buttons */
+.application.artichron .button {
+  border-radius: 3px;
+  border-width: 1px;
+  border-style: solid;
+  border-color: hsl(from var(--artichron-color-blue-light) h s l / 0.7);
+  cursor: var(--cursor-pointer);
+  transition: all 300ms ease;
+
+  &:hover {
+    background: var(--button-hover-background-color);
+    border-color: var(--button-hover-border-color);
+  }
+}
+
+/* -------------------------------------------------- */
+
+/* Make a prosemirror form group the full height of a tab. */
+.application.artichron .prosemirror-full-height {
+  flex: 1;
+  display: grid;
+  height: 100%;
+  grid-template-rows: 0fr 1fr;
+
+  .form-fields {
+    height: 100%;
+
+    prose-mirror {
+      height: 100%;
+    }
+  }
+}
+
+/* -------------------------------------------------- */
+
+.application.artichron .drop-target-area {
+  min-height: 300px;
+  border-radius: 5px;
+  border: 1px dashed var(--artichron-color-gold);
+  margin: 1rem;
+
+  &.dragover {
+    border-style: solid;
+  }
+}
+
+/* -------------------------------------------------- */
+
+/* Tables */
+.application.artichron table thead {
+  background: var(--artichron-header-background-gradient);
+  border: none;
+  border-bottom: 2px solid hsl(from var(--artichron-color-purple) h s l / 0.5);
+}
+
+/* -------------------------------------------------- */
+
+/* Section headers */
+.application.artichron .section-header {
+  background: var(--artichron-header-background-gradient);
+  border-bottom: var(--artichron-header-border);
+  padding: 0.25rem;
+  padding-left: 1ch;
+  font-size: 16px;
+  margin: 1rem 0;
+}
+
+/* -------------------------------------------------- */
+
+/* FIELDSETS */
+.application.artichron fieldset {
+  border-width: 1px;
+  border-color: hsl(from var(--artichron-color-border-blue) h s l / 0.5);
+
+  legend {
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    &:has(button) {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+
+      button {
+        --button-border-color: transparent;
+        --button-hover-border-color: transparent;
+        --button-hover-background-color: transparent;
+        --button-hover-text-color: var(--button-text-color);
+        --button-size: unset;
+        background-color: transparent;
+        border: none;
+        padding: 0;
+        margin-left: 1ch;
+
+        &:focus {
+          outline: none;
+          box-shadow: none;
+        }
+      }
+    }
+  }
+}
+
+/* -------------------------------------------------- */
+
+/* INPUTS AND FORM GROUPS */
+.application.artichron {
+  input[disabled]:not([type=checkbox]),
+  select {
+    background: none;
+    border: none;
+  }
+
+  input:not([disabled], [type=range]),
+  select {
+    background: rgba(48, 40, 49, 0.75);
+  }
+
+  .form-group.label-top {
+    display: grid;
+    gap: 0;
+
+    label {
+      text-align: center;
+    }
+
+    input[type=number],
+    select[data-dtype=Number] {
+      text-align: center;
+    }
+  }
+}
+
+/* -------------------------------------------------- */
+
+/* Tab Navigation outside of the sheet itself. */
+.application.artichron {
+  &:has([data-application-part=tabs].vertical) {
+    anchor-name: --sheet-window-content;
+  }
+  [data-application-part=tabs].vertical {
+    position: fixed;
+    left: anchor(right);
+    top: anchor(top);
+    position-anchor: --sheet-window-content;
+    flex-direction: column;
+    margin-top: 1rem;
+    gap: 5px;
+    border: none;
+    border-top-right-radius: 25%;
+    border-bottom-right-radius: 25%;
+    align-items: flex-start;
+    height: unset;
+
+    [data-tab] {
+      position: relative;
+      width: 100%;
+      padding: 1rem 1rem;
+      font-size: 12px;
+      border-top-right-radius: 25%;
+      border-bottom-right-radius: 25%;
+      background: var(--background);
+      box-shadow: 0 0 3px var(--background);
+      overflow: hidden;
+      display: flex;
+
+      span, i {
+        position: relative;
+        font-size: 20px;
+      }
+
+      &::before {
+        background-repeat: no-repeat;
+        background-size: auto 100%;
+        background-position: center;
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0.3;
+        background-image: url(/systems/artichron/assets/layout/technology-banner.webp);
+        transition: opacity 200ms ease;
+      }
+
+      &:is(:hover, .active)::before {
+        opacity: 1;
+      }
+    }
+  }
+}
