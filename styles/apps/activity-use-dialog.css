@@ -1,0 +1,4 @@
+/* Activity Use Dialog */
+.artichron.application.activity-use-dialog {
+  & fieldset:empty { display: none; }
+}

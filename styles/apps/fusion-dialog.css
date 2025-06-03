@@ -1,0 +1,26 @@
+/* Fusion Dialog */
+.artichron.application.fusion {
+  .indicators {
+    display: grid;
+    grid-template-columns: 2fr 1fr 2fr;
+    align-items: center;
+
+    .arrow {
+      border: none;
+      transform: rotate(270deg);
+    }
+
+    .target, .source {
+      border-radius: 5px;
+      border: 1px solid var(--artichron-color-gold);
+      overflow: hidden;
+      display: grid;
+
+      &.disabled img { opacity: 0.25; }
+    }
+  }
+
+  .changes ul {
+    margin: 0;
+  }
+}

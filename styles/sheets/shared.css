@@ -168,77 +168,9 @@
   }
 }
 
-
 /* Enriched item tooltips */
 .item-tooltip {
   .description {
     text-align: left;
-  }
-}
-
-/* Fieldset stylings */
-.artichron.application fieldset {
-  .form-group .control {
-    aspect-ratio: 1;
-    flex: 0;
-    place-self: end;
-
-    & i {
-      margin: 0;
-    }
-  }
-
-  & multi-checkbox:disabled label.checkbox:has(input:not(:checked)) {
-    opacity: 0.25;
-  }
-}
-
-/* Skill and activity select dialogs (apps with radio inputs) */
-.artichron.application.skills, .artichron.application.activity-select-dialog {
-  .form-fields {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-
-    .checkbox {
-      flex-direction: column;
-      height: 100%;
-      cursor: var(--cursor-pointer);
-      text-align: center;
-
-      &:has(:checked) img {
-        opacity: 1;
-        outline: 1px solid var(--artichron-color-purple);
-      }
-
-      & input[type=radio] {
-        display: none;
-      }
-
-      & img {
-        border: none;
-        border-radius: 1rem;
-        opacity: 0.35;
-        transition: opacity 150ms ease;
-      }
-    }
-  }
-
-  &.skills .form-fields .checkbox img {
-    filter: sepia(1) hue-rotate(180deg);
-  }
-
-  &.activity-select-dialog .description {
-    height: 200px;
-    overflow-y: auto;
-
-    &:not(.active) {
-      display: none;
-    }
-
-    &.faint {
-      opacity: 0.6;
-      font-style: italic;
-      font-size: 12px;
-    }
   }
 }

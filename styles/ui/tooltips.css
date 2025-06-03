@@ -1,0 +1,140 @@
+/* Item Tooltips */
+#tooltip.item-tooltip, .locked-tooltip.item-tooltip {
+  margin-left: 1rem;
+  padding: 0;
+  box-shadow: 0 0 5px 2px rgb(53, 66, 110);
+  background-color: rgb(18, 10, 61);
+  --tooltip-gray: rgb(177, 177, 177);
+
+  .weapon, .shield, .armor, .elixir, .part, .spell, .ammo {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+
+    /* Minor override on regular backdrops */
+    &::before, &::after {
+      filter: brightness(2);
+      opacity: 0.75;
+    }
+
+    .item-banner {
+      position: relative;
+      height: auto;
+      display: flex;
+      flex-direction: column;
+      color: var(--tooltip-gray);
+      border-bottom: 2px dotted rgb(53, 66, 110);
+      margin: 0 1rem;
+      flex: none;
+
+      .image {
+        position: absolute;
+        inset: 2px;
+        height: 60px;
+        border: none;
+        opacity: 0.75;
+        display: none;
+      }
+
+      .name {
+        width: 100%;
+        text-align: left;
+        display: flex;
+        flex-direction: column;
+        height: calc(150px - 1rem);
+        justify-content: start;
+        padding-top: 1rem;
+
+        .title {
+          font-size: 30px;
+          line-height: 30px;
+          color: rgb(162, 201, 230);
+          filter: brightness(1.5);
+        }
+
+        .subtitle {
+          font-size: 18px;
+          line-height: 24px;
+          color: rgba(177, 177, 177, 0.75);
+          font-style: italic;
+          filter: brightness(2);
+        }
+      }
+
+      .description {
+        flex: none;
+        margin: 0;
+        padding: 1rem 0;
+        font-style: italic;
+        font-family: "Amiri";
+        font-size: 14px;
+        -webkit-text-stroke-color: black;
+        -webkit-text-stroke-width: thin;
+        overflow: hidden auto;
+        min-height: 100px;
+        max-height: 200px;
+        color: white;
+      }
+    }
+
+    .item-details {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      margin: 1rem;
+      gap: 1rem;
+      text-align: left;
+      min-height: 125px;
+
+      .title {
+        text-transform: uppercase;
+        color: var(--tooltip-gray);
+        font-size: 14px;
+      }
+
+      .tags-wrapper {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px;
+        margin-top: 4px;
+
+        .tag {
+          border: 1px solid var(--tooltip-gray);
+          border-radius: 3px;
+          padding: 2px 4px;
+          background-color: rgba(0, 0, 0, 0.3);
+          white-space: nowrap;
+          font-size: 11px;
+        }
+      }
+
+      .requirements {
+        & ul {
+          padding-left: 1rem;
+          margin: 4px 0 0 0;
+        }
+        & li {
+          font-size: 12px;
+          font-style: italic;
+          line-height: 12px;
+
+          &.red { color: rgba(255, 150, 150, 1); }
+        }
+      }
+
+      .properties {
+        display: grid;
+        grid-template-columns: repeat(var(--length), 1fr);
+        margin-top: auto;
+
+        .property {
+          .subtitle {
+            font-size: 14px;
+            margin-left: 4px;
+            margin-top: 4px;
+          }
+        }
+      }
+    }
+  }
+}
