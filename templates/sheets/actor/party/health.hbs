@@ -1,0 +1,10 @@
+<section style="--units: {{ctx.members.length}}">
+  {{#each ctx.members}}
+  <div class="member" data-member-id="{{actor.id}}">
+    <div class="health">
+      <span class="health-gauge" style="--health-pct: {{actor.system.health.pct}}%"></span>
+      <img src="{{actor.img}}" alt="{{actor.name}}" class="avatar">
+    </div>
+  </div>
+  {{/each}}
+</section>

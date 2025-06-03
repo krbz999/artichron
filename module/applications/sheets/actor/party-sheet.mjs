@@ -30,6 +30,9 @@ export default class PartySheet extends ActorSheetArtichron {
     tabs: {
       template: "templates/generic/tab-navigation.hbs",
     },
+    health: {
+      template: "systems/artichron/templates/sheets/actor/party/health.hbs",
+    },
     members: {
       template: "systems/artichron/templates/sheets/actor/party-sheet/members.hbs",
       scrollable: [".members"],
@@ -104,6 +107,17 @@ export default class PartySheet extends ActorSheetArtichron {
       name: prop("name"),
     };
 
+    return context;
+  }
+
+  /* -------------------------------------------------- */
+
+  /** @type {import("../../../_types").ContextPartHandler} */
+  async _preparePartContextHealth(context, options) {
+    context.ctx = { members: [] };
+    for (const { actor } of this.document.system.members) {
+      if (actor) context.ctx.members.push({ actor });
+    }
     return context;
   }
 
