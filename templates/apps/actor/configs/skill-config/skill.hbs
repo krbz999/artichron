@@ -1,5 +1,5 @@
 <section class="standard-form tab {{lookup (lookup tabs ctx.skill) 'cssClass'}}" data-tab="{{ctx.skill}}" data-group="primary">
-  <h1 class="header">{{localize (concat "ARTICHRON.SKILL." ctx.skill)}}</h1>
+  <h2>{{localize (concat "ARTICHRON.SKILL." ctx.skill)}}</h2>
   {{formGroup ctx.fields.number value=(lookup (lookup source.system.skills ctx.skill) "number") placeholder="2"}}
   {{formGroup ctx.fields.bonus value=(lookup (lookup source.system.skills ctx.skill) "bonus") placeholder="0"}}
 </section>

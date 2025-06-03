@@ -31,6 +31,7 @@ export default class DocumentConfig extends ArtichronApplicationMixin(DocumentSh
   /** @inheritdoc */
   async _prepareContext(options) {
     return {
+      ...await super._prepareContext(options),
       document: this.document,
       source: this.document._source,
       fields: this.document.schema.fields,

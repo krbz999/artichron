@@ -1,17 +1,9 @@
 .artichron.application.sheet.actor {
-  --min-height: 300px;
+  --min-height: 320px;
 
   &:not(.minimizing, .minimized, .maximizing) {
     min-height: var(--min-height);
-    min-width: 300px;
-  }
-
-  .tab.active {
-    flex: 1;
-  }
-
-  & search {
-    margin: 0.5rem;
+    min-width: 320px;
   }
 
   .health-bar {
@@ -71,103 +63,65 @@
     }
   }
 
-  .tab[data-tab=attributes].active {
-    flex-direction: row;
+  .tab[data-tab=attributes] .sections {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(calc(320px - 2rem), 1fr));
     gap: 1rem;
 
-    .left-pane {
-      width: 5rem;
-      overflow: hidden;
+    .pools {
+      position: relative;
       display: flex;
-      flex-direction: column;
-      gap: 1rem;
+      flex-direction: row;
 
-      .pools {
-        align-items: center;
-        position: relative;
-
-        .pool {
-          font-size: 20px;
-          display: flex;
-          width: 100%;
-          aspect-ratio: 1/1;
-          justify-content: center;
-          align-items: center;
-          color: black;
-          background-repeat: no-repeat;
-          text-align: center;
-          background-position: center;
-          background-size: contain;
-
-          &.d4 { background-image: url(/icons/svg/d4-grey.svg); }
-          &.d6 { background-image: url(/icons/svg/d6-grey.svg); }
-          &.d8 { background-image: url(/icons/svg/d8-grey.svg); }
-          &.d10 { background-image: url(/icons/svg/d10-grey.svg); }
-
-          .label {
-            width: 2rem;
-            line-height: 2rem;
-          }
-
-          &.health {
-            filter: var(--health-filter);
-          }
-          &.stamina {
-            filter: var(--stamina-filter);
-          }
-          &.mana {
-            filter: var(--mana-filter);
-          }
-        }
-
-        .edit {
-          position: absolute;
-          top: 4px;
-          right: 4px;
-        }
-      }
-    }
-
-    .center-pane {
-      flex: 1;
-      gap: 1rem;
-      display: flex;
-      flex-direction: column;
-
-      & fieldset {
-        position: relative;
-
-        [data-action=toggleConfig] {
-          position: absolute;
-          top: 0;
-          right: 0;
-          padding: 4px;
-          font-size: 12px;
-          z-index: 1;
-        }
-      }
-    }
-  }
-
-  .equipment {
-    display: flex;
-    flex-direction: row;
-    gap: 4px;
-
-    .item {
-      flex: 1;
-      text-align: center;
-
-      & img {
-        border: none;
-        border-radius: 4px;
-        object-fit: cover;
+      .pool {
+        flex: 1;
+        font-size: 20px;
+        display: flex;
+        height: 100%;
         aspect-ratio: 1;
+        justify-content: center;
+        align-items: center;
+        color: black;
+        background-repeat: no-repeat;
+        background-size: contain;
+
+        &.d4 { background-image: url(/icons/svg/d4-grey.svg); }
+        &.d6 { background-image: url(/icons/svg/d6-grey.svg); }
+        &.d8 { background-image: url(/icons/svg/d8-grey.svg); }
+        &.d10 { background-image: url(/icons/svg/d10-grey.svg); }
+
+        .label {
+          place-content: center;
+        }
+
+        &.health {
+          filter: var(--health-filter);
+        }
+        &.stamina {
+          filter: var(--stamina-filter);
+        }
+        &.mana {
+          filter: var(--mana-filter);
+        }
       }
 
-      &.empty img {
-        opacity: 0.5;
-        filter: grayscale(1)
+      .edit {
+        position: absolute;
+        top: 4px;
+        right: 4px;
+      }
+    }
+
+    fieldset {
+      position: relative;
+
+      [data-action=toggleConfig] {
+        position: absolute;
+        top: 0;
+        right: 0;
+        padding: 4px;
+        font-size: 12px;
+        z-index: 1;
       }
     }
   }
@@ -212,11 +166,5 @@
         rgb(200, 120, 0) 100%
       )
     }
-  }
-}
-
-.artichron.application.party-funds-dialog {
-  .form-footer {
-    flex-wrap: nowrap;
   }
 }

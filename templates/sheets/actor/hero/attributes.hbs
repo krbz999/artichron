@@ -1,7 +1,9 @@
 <section class="tab {{tabs.attributes.cssClass}}" data-group="{{tabs.attributes.group}}" data-tab="{{tabs.attributes.id}}">
 
-  <div class="left-pane">
+  <div class="sections">
+
     <fieldset class="pools">
+      <legend>{{localize "ARTICHRON.SHEET.HERO.HEADERS.pools"}}</legend>
       {{#if isEditMode}}
       <a class="edit fa-solid fa-cog" data-action="toggleConfig" data-tooltip="ARTICHRON.POOL.edit" data-trait="pools"></a>
       {{/if}}
@@ -11,9 +13,6 @@
       </a>
       {{/each}}
     </fieldset>
-  </div>
-
-  <div class="center-pane scrollable">
 
     {{!-- FAVORITES --}}
     {{#if ctx.favorites.length}}
@@ -34,16 +33,6 @@
     </div>
     {{/if}}
 
-    <fieldset class="defenses">
-      <legend>{{localize "ARTICHRON.SHEET.HERO.HEADERS.defenses"}}</legend>
-      {{#each ctx.defenses}}
-      <div class="defense {{#if active}} active {{/if}}" data-tooltip="{{label}}" style="color: #{{color}}">
-        <span class="total">{{value}}</span>
-        <i class="{{icon}}"></i>
-      </div>
-      {{/each}}
-    </fieldset>
-
     <fieldset class="skills">
       <legend>{{localize "ARTICHRON.SHEET.HERO.HEADERS.skills"}}</legend>
       {{#each ctx.skills}}
@@ -60,6 +49,16 @@
         <span class="value">{{value}}d6</span>
       </a>
       {{/if}}
+      {{/each}}
+    </fieldset>
+
+    <fieldset class="defenses">
+      <legend>{{localize "ARTICHRON.SHEET.HERO.HEADERS.defenses"}}</legend>
+      {{#each ctx.defenses}}
+      <div class="defense {{#if active}} active {{/if}}" data-tooltip="{{label}}" style="color: #{{color}}">
+        <span class="total">{{value}}</span>
+        <i class="{{icon}}"></i>
+      </div>
       {{/each}}
     </fieldset>
 

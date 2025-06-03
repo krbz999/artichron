@@ -4,9 +4,7 @@
     flex-direction: row;
 
     .skill {
-      flex: 1;
       text-align: center;
-      max-width: 4rem;
 
       & label, .value {
         font-size: 12px;

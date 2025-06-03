@@ -1,12 +1,4 @@
 .artichron.application.sheet {
-  /* Opacity control */
-  &.opacity:not(.maximizing, .minimized, .minimizing) {
-    transition: opacity 250ms;
-    &:not(:hover) { opacity: 0.1; }
-  }
-  [data-action=toggleOpacity]::before { content: "\f06e"; }
-  &.opacity [data-action=toggleOpacity]::before { content: "\f2a8"; }
-
   /* Transition control */
   .transitioning .description-wrapper .description {
     overflow: hidden;
@@ -20,49 +12,27 @@
     padding-right: 5px !important;
   }
 
-  /* Slight gap below sheet tabs. */
-  .sheet-tabs.tabs {
-    margin-bottom: 1rem;
-    & a {
-      flex: 1;
-      font-size: 12px;
-    }
-  }
-
   .header {
     --height: 74px;
+    --avatar-width: calc(1.25 * var(--height));
     flex: 0 0 var(--height);
-    gap: 8px;
-    display: flex;
-    align-items: center;
-    position: relative;
+    display: grid;
+    grid-template-columns: 1fr var(--avatar-width);
+    gap: 1rem;
+
+    > * {
+      font-size: 20px;
+    }
 
     .avatar {
       object-fit: cover;
       object-position: center top;
-      border-radius: 1rem;
+      border-radius: 5px;
       border: 2px inset hsl(from var(--artichron-color-border-blue) h s l / 0.85);
-      position: fixed;
-      width: calc(1.25 * var(--height));
-      z-index: 1;
-      position-anchor: --sheet-window-content;
-      position-area: top center;
       aspect-ratio: 1;
-      margin-bottom: calc(var(--header-height) * -1 - 1rem);
 
       &:not([data-action]) {
         pointer-events: none;
-      }
-    }
-
-    .name {
-      flex: 1;
-      border: none;
-      margin: 0;
-
-      &:is(h1) {
-        font-size: 36px;
-        text-align: center;
       }
     }
   }
