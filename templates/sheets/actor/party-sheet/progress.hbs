@@ -1,19 +1,12 @@
 <div class="tab {{tabs.progress.cssClass}}" data-group="{{tabs.progress.group}}" data-tab="{{tabs.progress.id}}">
   {{#if isGM}}
 
-  {{#if isEditMode}}
-  <footer class="form-footer" data-pseudo-document-name="Clock">
-    <button type="button" data-action="createPseudoDocument" data-pseudo-type="good">
-      <i class="fa-solid fa-fw fa-clock"></i>
-      {{localize "ARTICHRON.PARTY.LABELS.PROGRESS.good"}}
-    </button>
-
-    <button type="button" data-action="createPseudoDocument" data-pseudo-type="bad">
-      <i class="fa-solid fa-fw fa-clock"></i>
-      {{localize "ARTICHRON.PARTY.LABELS.PROGRESS.bad"}}
-    </button>
-  </footer>
-  {{/if}}
+  <div class="document-list" data-pseudo-document-name="Clock">
+    <h3 class="document-list-header">
+      <span>{{localize "DOCUMENT.ClockPl"}}</span>
+      <button type="button" class="create-document icon fa-solid fa-fw" data-action="createPseudoDocument" {{disabled (not editable)}}></button>
+    </h3>
+  </div>
 
   <section class="clocks scrollable {{ifThen isEditMode 'edit' 'play'}}" data-pseudo-document-name="Clock">
     {{#if isEditMode}}
