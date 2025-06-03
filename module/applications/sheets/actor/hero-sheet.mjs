@@ -36,7 +36,8 @@ export default class HeroSheet extends ActorSheetArtichron {
     },
     attributes: {
       template: "systems/artichron/templates/sheets/actor/hero/attributes.hbs",
-      scrollable: [".center-pane"],
+      classes: ["scrollable"],
+      scrollable: [".sections.scrollable"],
     },
     progression: {
       template: "systems/artichron/templates/sheets/actor/hero/progression.hbs",
