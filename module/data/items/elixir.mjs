@@ -4,28 +4,8 @@ const { NumberField, SchemaField, StringField } = foundry.data.fields;
 
 export default class ElixirData extends ItemSystemModel {
   /** @inheritdoc */
-  static get metadata() {
-    return foundry.utils.mergeObject(super.metadata, {
-      defaultWeight: 0.5,
-      inventorySection: "consumables",
-      order: 50,
-      type: "elixir",
-    });
-  }
-
-  /* -------------------------------------------------- */
-
-  /** @inheritdoc */
   static defineSchema() {
-    return {
-      ...super.defineSchema(),
-      quantity: new SchemaField({
-        value: new NumberField({ initial: 1, min: 0, integer: true, nullable: false }),
-      }),
-      usage: new SchemaField({
-        spent: new NumberField({ integer: true, min: 0, initial: 0, nullable: false }),
-        max: new NumberField({ min: 1, integer: true, initial: 1, nullable: false }),
-      }),
+    return Object.assign(super.defineSchema(), {
       boost: new StringField({
         required: true,
         initial: "stamina",
@@ -34,20 +14,24 @@ export default class ElixirData extends ItemSystemModel {
           return acc;
         }, {}),
       }),
-    };
+      price: new SchemaField({
+        value: new NumberField({ min: 0, initial: 0, integer: true, nullable: false }),
+      }),
+      quantity: new SchemaField({
+        value: new NumberField({ initial: 1, min: 0, integer: true, nullable: false }),
+      }),
+      usage: new SchemaField({
+        spent: new NumberField({ integer: true, min: 0, initial: 0, nullable: false }),
+        max: new NumberField({ min: 1, integer: true, initial: 1, nullable: false }),
+      }),
+      weight: new SchemaField({
+        value: new NumberField({ min: 0, step: 0.01, initial: 0.5, nullable: false }),
+      }),
+    });
   }
 
   /* -------------------------------------------------- */
   /*   Properties                                       */
-  /* -------------------------------------------------- */
-
-  /** @inheritdoc */
-  static get BONUS_FIELDS() {
-    const bonus = super.BONUS_FIELDS;
-    bonus.add("system.usage.max");
-    return bonus;
-  }
-
   /* -------------------------------------------------- */
 
   /**

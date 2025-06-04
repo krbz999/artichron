@@ -38,9 +38,10 @@ export default class PhysicalItemSheet extends ItemSheetArtichron {
    * @returns {Promise<object>}   Rendering context.
    */
   async _preparePartContextDetails(context, options) {
-    context.ctx = {
+    Object.assign(context.ctx, {
+      attrOptions: this.document.system.constructor._attributeChoices(),
       attributes: context.isPlayMode ? context.source.system.attributes.value : context.document.system.attributes.value,
-    };
+    });
     return context;
   }
 

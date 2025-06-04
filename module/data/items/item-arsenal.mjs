@@ -3,19 +3,7 @@ import ItemSystemModel from "./system-model.mjs";
 export default class ArsenalData extends ItemSystemModel {
   /** @inheritdoc */
   static get metadata() {
-    return foundry.utils.mergeObject(super.metadata, {
-      fusion: true,
-      inventorySection: "arsenal",
-    });
-  }
-
-  /* -------------------------------------------------- */
-
-  /** @inheritdoc */
-  static defineSchema() {
-    return Object.assign(super.defineSchema(), {
-      fusion: new artichron.data.fields.FusionField(),
-    });
+    return foundry.utils.mergeObject(super.metadata, {});
   }
 
   /* -------------------------------------------------- */

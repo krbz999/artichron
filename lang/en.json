@@ -118,6 +118,14 @@
       }
     }
   },
+
+  "ARMOR": {
+    "HEADERS": {
+      "defenses": "Defenses",
+      "requirements": "Requirements"
+    }
+  },
+
   "EFFECT": {
     "Base": "Artichron ActiveEffect Sheet"
   },
@@ -163,6 +171,10 @@
         "disable": "Disable Effect",
         "duplicate": "Duplicate Effect"
       }
+    },
+
+    "HEADERS": {
+      "configuration": "Configuration"
     }
   },
 

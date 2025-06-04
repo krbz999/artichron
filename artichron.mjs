@@ -64,23 +64,50 @@ Hooks.once("init", function() {
   CONFIG.Item.documentClass = documents.ItemArtichron;
   CONFIG.Token.documentClass = documents.TokenDocumentArtichron;
 
-  // Hook up system data types.
-  for (const [documentName, models] of [
-    ["Actor", data.actors],
-    ["ChatMessage", data.chatMessages],
-    ["Combatant", data.combatants],
-    ["ActiveEffect", data.effects],
-    ["Item", data.items],
-    ["RegionBehavior", data.regionBehaviors],
-  ]) {
-    for (const v of Object.values(models)) {
-      if (foundry.utils.isSubclass(v, foundry.abstract.TypeDataModel)) {
-        const { type, icon } = v.metadata;
-        Object.assign(CONFIG[documentName].dataModels, { [type]: v });
-        Object.assign(CONFIG[documentName].typeIcons, { [type]: icon });
-      }
-    }
-  }
+  // ActiveEffect Data Models
+  Object.assign(CONFIG.ActiveEffect.dataModels, {
+    buff: data.effects.BuffData,
+    condition: data.effects.ConditionData,
+    enhancement: data.effects.EnhancementData,
+    fusion: data.effects.FusionData,
+  });
+
+  // Actor Data Models
+  Object.assign(CONFIG.Actor.dataModels, {
+    hero: data.actors.HeroData,
+    merchant: data.actors.MerchantData,
+    monster: data.actors.MonsterData,
+    party: data.actors.PartyData,
+  });
+
+  // ChatMessage Data Models
+  Object.assign(CONFIG.ChatMessage.dataModels, {
+    trade: data.chatMessages.TradeMessageData,
+    usage: data.chatMessages.UsageMessageData,
+  });
+
+  // Combatant Data Models
+  Object.assign(CONFIG.Combatant.dataModels, {
+    artichron: data.combatants.CombatantSystemModel,
+  });
+
+  // Item Data Models
+  Object.assign(CONFIG.Item.dataModels, {
+    ammo: data.items.AmmoData,
+    armor: data.items.ArmorData,
+    elixir: data.items.ElixirData,
+    part: data.items.PartData,
+    path: data.items.PathData,
+    spell: data.items.SpellData,
+    talent: data.items.TalentData,
+  });
+
+  // RegionBehavior Data Models
+  Object.assign(CONFIG.RegionBehavior.dataModels, {
+    enterStore: data.regionBehaviors.EnterStoreBehaviorData,
+    statusCondition: data.regionBehaviors.ToggleConditionBehaviorData,
+    doorState: data.regionBehaviors.DoorStateConditionBehaviorData,
+  });
 
   // Hook up dice types.
   CONFIG.Dice.rolls[0] = dice.RollArtichron;
@@ -89,15 +116,11 @@ Hooks.once("init", function() {
 
   // Register sheet application classes
   const { DocumentSheetConfig } = foundry.applications.apps;
-  const configureSheet = (documentName, SheetClass, { register = true, ...options } = {}) => {
-    if (register) {
-      return DocumentSheetConfig.registerSheet(foundry.documents[documentName], "artichron", SheetClass, {
-        makeDefault: true,
-        ...options,
-      });
-    } else {
-      return DocumentSheetConfig.unregisterSheet(foundry.documents[documentName], "core", SheetClass);
-    }
+  const configureSheet = (documentName, SheetClass, options = {}) => {
+    return DocumentSheetConfig.registerSheet(foundry.documents[documentName], "artichron", SheetClass, {
+      makeDefault: true,
+      ...options,
+    });
   };
 
   configureSheet("Actor", applications.sheets.actor.ActorSheetHero, {

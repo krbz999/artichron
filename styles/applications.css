@@ -143,12 +143,12 @@
 /* INPUTS AND FORM GROUPS */
 .application.artichron {
   input[disabled]:not([type=checkbox]),
-  select {
+  select[disabled] {
     background: none;
     border: none;
   }
 
-  input:not([disabled], [type=range]),
+  input:not([disabled], [type=range], [type=checkbox]),
   select {
     background: rgba(48, 40, 49, 0.75);
   }

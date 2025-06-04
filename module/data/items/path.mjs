@@ -7,17 +7,11 @@ const {
 export default class PathData extends ItemSystemModel {
   /** @inheritdoc */
   static get metadata() {
-    // TODO: clean this mess up. The ItemSystemModel makes too many assumptions about all items being physical.
-    return {
+    return foundry.utils.mergeObject(super.metadata, {
       embedded: {
         Advancement: "system.advancements",
       },
-      fusion: false,
-      icon: "",
-      inventorySection: "",
-      order: 0,
-      type: "path",
-    };
+    });
   }
 
   /* -------------------------------------------------- */

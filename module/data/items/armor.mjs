@@ -6,13 +6,9 @@ export default class ArmorData extends ItemSystemModel {
   /** @inheritdoc */
   static get metadata() {
     return foundry.utils.mergeObject(super.metadata, {
-      defaultWeight: 2,
       embedded: {
         ArmorRequirement: "system.category.requirements",
       },
-      inventorySection: "gear",
-      order: 40,
-      type: "armor",
     });
   }
 
@@ -20,8 +16,7 @@ export default class ArmorData extends ItemSystemModel {
 
   /** @inheritdoc */
   static defineSchema() {
-    return {
-      ...super.defineSchema(),
+    return Object.assign(super.defineSchema(), {
       category: new SchemaField({
         value: new StringField({
           required: true,
@@ -40,21 +35,21 @@ export default class ArmorData extends ItemSystemModel {
           artichron.data.pseudoDocuments.armorRequirements.BaseArmorRequirement,
         ),
       }),
+
       defenses: new SchemaField(artichron.config.DAMAGE_TYPES.optgroups.reduce((acc, { value: k }) => {
         acc[k] = new SchemaField({ value: new NumberField({ integer: true, initial: null }) });
         return acc;
       }, {})),
+
       fusion: new artichron.data.fields.FusionField(),
-    };
-  }
 
-  /* -------------------------------------------------- */
-
-  /** @inheritdoc */
-  static get BONUS_FIELDS() {
-    return super.BONUS_FIELDS.union(new Set(
-      Object.keys(artichron.config.DAMAGE_TYPES).map(k => `system.defenses.${k}.value`),
-    ));
+      price: new SchemaField({
+        value: new NumberField({ min: 0, initial: 0, integer: true, nullable: false }),
+      }),
+      weight: new SchemaField({
+        value: new NumberField({ min: 0, step: 0.01, initial: 2, nullable: false }),
+      }),
+    });
   }
 
   /* -------------------------------------------------- */

@@ -6,15 +6,7 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
   /** @type {import("../../_types").ItemSubtypeMetadata} */
   static get metadata() {
     return {
-      defaultWeight: 1,
-      embedded: {
-        Activity: "system.activities",
-      },
-      fusion: false,
-      icon: "",
-      inventorySection: "",
-      order: 10,
-      type: "",
+      embedded: {},
     };
   }
 
@@ -23,27 +15,20 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
   /** @inheritdoc */
   static defineSchema() {
     return {
-      description: new SchemaField({
-        value: new HTMLField({ required: true }),
-      }),
-      identifier: new artichron.data.fields.IdentifierField(),
-      weight: new SchemaField({
-        value: new NumberField({ min: 0, step: 0.01, initial: () => this.metadata.defaultWeight, nullable: false }),
-      }),
-      price: new SchemaField({
-        value: new NumberField({ min: 0, initial: 0, integer: true, nullable: false }),
-      }),
-      activities: new artichron.data.fields.CollectionField(artichron.data.pseudoDocuments.activities.BaseActivity),
       attributes: new SchemaField({
-        value: new SetField(new StringField({
-          choices: () => this._attributeChoices(),
-        })),
+        value: new SetField(new StringField()),
         levels: new TypedObjectField(new NumberField({
           min: 1, nullable: true, integer: true,
         }), { validateKey: key => {
           return Object.values(artichron.config.ITEM_ATTRIBUTES).some(attr => attr.status === key);
         } }),
       }),
+
+      description: new SchemaField({
+        value: new HTMLField({ required: true }),
+      }),
+
+      identifier: new artichron.data.fields.IdentifierField(),
     };
   }
 
@@ -51,15 +36,15 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
 
   /**
    * Create the choices for the attributes fieldset of this item type.
-   * @returns {object}      Filtered choices from 'SYSTEM.ITEM_ATTRIBUTES'.
+   * @returns {object[]}    Filtered choices from 'SYSTEM.ITEM_ATTRIBUTES'.
    */
   static _attributeChoices() {
-    const choices = {};
+    const options = [];
     const type = this.metadata.type;
     for (const [k, v] of Object.entries(artichron.config.ITEM_ATTRIBUTES)) {
-      if (!v.types?.size || v.types.has(type)) choices[k] = v;
+      if (!v.types?.size || v.types.has(type)) options.push({ value: k, label: v.label });
     }
-    return choices;
+    return options;
   }
 
   /* -------------------------------------------------- */
@@ -325,32 +310,21 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
   }
 
   /* -------------------------------------------------- */
-
-  /**
-   * Properties that can be amplified by a fused item.
-   * @type {Set<string>}
-   */
-  static get BONUS_FIELDS() {
-    return new Set([
-      "name",
-      "img",
-      "activity",
-      "system.description.value",
-      "system.price.value",
-      "system.weight.value",
-      "system.attributes.value",
-    ]);
-  }
-
-  /* -------------------------------------------------- */
   /*   Preparation methods                              */
   /* -------------------------------------------------- */
 
   /** @inheritdoc */
   prepareDerivedData() {
-    this.weight.total = this.weight.value * (this.quantity?.value ?? 1);
     for (const k of Object.keys(this.attributes.levels)) {
       this.attributes.levels[k] ??= 1;
+    }
+
+    if (!this.weight) {
+      this.weight = {
+        total: 0,
+      };
+    } else {
+      this.weight.total = this.weight.value * (this.quantity?.value ?? 1);
     }
   }
 }
