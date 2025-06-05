@@ -24,15 +24,7 @@
         <span>{{localize "ARTICHRON.SHEET.HERO.HEADERS.favorites"}}</span>
       </h3>
 
-      <div class="document-list-entries compact">
-        {{#each ctx.favorites}}
-        <div class="entry button" data-id="{{id}}" data-action="useItem">
-          <img src="{{img}}" alt="{{name}}" class="icon">
-          <span class="title">{{name}}</span>
-          <span class="subtitle">{{name}}</span>
-        </div>
-        {{/each}}
-      </div>
+      {{document-list-entries documents=ctx.favorites classes="compact" action="useItem"}}
     </div>
     {{/if}}
 

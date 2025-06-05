@@ -113,15 +113,22 @@ export default class HeroSheet extends ActorSheetArtichron {
     context.ctx = {
       health: this.document.system.health,
       pools: [],
-      favorites: Array.from(this.document.favorites),
+      favorites: [],
       defenses: [],
       skills: [],
     };
 
+    // Pools
     for (const [k, v] of Object.entries(this.document.system.pools)) {
       context.ctx.pools.push({ ...v, key: k });
     }
 
+    // Favorites
+    for (const item of this.document.favorites) {
+      context.ctx.favorites.push({ document: item });
+    }
+
+    // Defenses
     for (const [k, v] of Object.entries(this.document.system.defenses)) {
       context.ctx.defenses.push({
         ...artichron.config.DAMAGE_TYPES[k],
@@ -130,6 +137,7 @@ export default class HeroSheet extends ActorSheetArtichron {
       });
     }
 
+    // Skill
     for (const [k, v] of Object.entries(this.document.system.skills)) {
       context.ctx.skills.push({
         ...artichron.config.SKILLS[k],
@@ -192,9 +200,9 @@ export default class HeroSheet extends ActorSheetArtichron {
     };
 
     for (const item of this.document.items) {
-      context.ctx.items.push({ item });
+      context.ctx.items.push({ document: item, dataset: { name: item.name } });
     }
-    context.ctx.items.sort((a, b) => artichron.utils.nameSort(a, b, "item"));
+    context.ctx.items.sort((a, b) => artichron.utils.nameSort(a, b, "document"));
 
     return context;
   }

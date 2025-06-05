@@ -6,32 +6,14 @@
       <span>{{localize "TYPES.ActiveEffect.enhancementPl"}}</span>
       <button type="button" class="create-document icon fa-solid" data-action="createEmbeddedDocument" data-type="enhancement" {{disabled isPlayMode}}></button>
     </h3>
-
-    <div class="document-list-entries">
-      {{#each ctx.effects.enhancements}}
-      <div class="entry button {{#if effect.disabled}} inactive {{/if}}" data-action="renderEmbeddedDocumentSheet" data-id="{{effect.id}}">
-        <img src="{{effect.img}}" alt="{{effect.name}}" class="icon">
-        <span class="title">{{effect.name}}</span>
-        <span class="subtitle">{{localize "TYPES.ActiveEffect.enhancement"}}</span>
-      </div>
-      {{/each}}
-    </div>
+    {{document-list-entries documents=ctx.effects.enhancements}}
 
     {{!-- BUFFS --}}
     <h3 class="document-list-header">
       <span>{{localize "TYPES.ActiveEffect.buffPl"}}</span>
       <button type="button" class="create-document icon fa-solid" data-action="createEmbeddedDocument" data-type="buff" {{disabled isPlayMode}}></button>
     </h3>
-
-    <div class="document-list-entries">
-      {{#each ctx.effects.buffs}}
-      <div class="entry button {{#if effect.disabled}} inactive {{/if}}" data-action="renderEmbeddedDocumentSheet" data-id="{{effect.id}}">
-        <img src="{{effect.img}}" alt="{{effect.name}}" class="icon">
-        <span class="title">{{effect.name}}</span>
-        <span class="subtitle">{{localize "TYPES.ActiveEffect.buff"}}</span>
-      </div>
-      {{/each}}
-    </div>
+    {{document-list-entries documents=ctx.effects.buffs}}
 
   </div>
 </section>

@@ -7,16 +7,7 @@
     <h3 class="document-list-header">
       <span>{{localize "ARTICHRON.SHEET.MONSTER.HEADERS.favorites"}}</span>
     </h3>
-
-    <div class="document-list-entries compact">
-      {{#each ctx.favorites}}
-      <div class="entry button" data-action="useItem" data-id="{{item.id}}">
-        <img src="{{item.img}}" alt="{{item.name}}" class="icon">
-        <span class="title">{{item.name}}</span>
-        <span class="subtitle">{{localize (concat "TYPES.Item." item.type)}}</span>
-      </div>
-      {{/each}}
-    </div>
+    {{document-list-entries documents=ctx.favorites classes="compact" action="useItem"}}
   </div>
   {{/if}}
 
@@ -26,15 +17,6 @@
       <span>{{localize "ARTICHRON.SHEET.MONSTER.HEADERS.inventory"}}</span>
       <button type="button" data-action="createEmbeddedDocument" class="create-document icon fa-solid" {{disabled isPlayMode}}></button>
     </h3>
-
-    <div class="document-list-entries compact">
-      {{#each ctx.inventory}}
-      <div class="entry button" data-action="useItem" data-id="{{item.id}}">
-        <img src="{{item.img}}" alt="{{item.name}}" class="icon">
-        <span class="title">{{item.name}}</span>
-        <span class="subtitle">{{localize (concat "TYPES.Item." item.type)}}</span>
-      </div>
-      {{/each}}
-    </div>
+    {{document-list-entries documents=ctx.inventory classes="compact" action="useItem"}}
   </div>
 </section>

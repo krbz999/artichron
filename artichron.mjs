@@ -183,8 +183,7 @@ Hooks.once("init", function() {
 Hooks.once("setup", function() {
   Handlebars.registerHelper({
     batteryProgress: batteryProgress,
-    effectEntry: effectEntry,
-    inventoryItem: inventoryItem,
+    "document-list-entries": documentListEntries,
     progressClock: progressClock,
     thresholdBar: thresholdBar,
   });
@@ -319,13 +318,8 @@ async function createItemMacro(data, slot) {
 /*   Handlebars helpers                               */
 /* -------------------------------------------------- */
 
-function inventoryItem(item, options) {
-  const element = artichron.applications.elements.InventoryItemElement.create({ ...options.hash, item });
-  return new Handlebars.SafeString(element.outerHTML);
-}
-
-function effectEntry(effect, options) {
-  const element = artichron.applications.elements.EffectEntryElement.create({ ...options.hash, effect });
+function documentListEntries(options) {
+  const element = artichron.applications.elements.DocumentListEntriesElement.create(options.hash);
   return new Handlebars.SafeString(element.outerHTML);
 }
 

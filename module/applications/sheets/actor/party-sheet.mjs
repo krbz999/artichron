@@ -163,17 +163,24 @@ export default class PartySheet extends ActorSheetArtichron {
 
   /** @type {import("../../../_types").ContextPartHandler} */
   async _preparePartContextInventory(context, options) {
-    const items = Array.from(this.document.system.constructor.metadata.allowedItemTypes).map(type => {
-      const items = this.document.items.documentsByType[type].toSorted((a, b) => artichron.utils.nameSort(a, b));
+    const sections = Array.from(this.document.system.constructor.metadata.allowedItemTypes).map(type => {
+      const items = [];
+      for (const item of this.document.items.documentsByType[type].toSorted((a, b) => artichron.utils.nameSort(a, b))) {
+        items.push({
+          document: item,
+          count: item.system.schema.has("quantity") ? item.system.quantity.value : null,
+          dataset: { name: item.name },
+        });
+      }
       return {
         items,
         label: game.i18n.localize(`TYPES.Item.${type}Pl`),
       };
     });
-    items.sort((a, b) => a.label.localeCompare(b.label));
+    sections.sort((a, b) => a.label.localeCompare(b.label));
 
     context.ctx = {
-      items,
+      sections,
       searchQuery: this.#searchQuery,
     };
     return context;

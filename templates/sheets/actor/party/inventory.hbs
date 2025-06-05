@@ -4,22 +4,12 @@
   </search>
 
   <section class="inventory scrollable standard-form">
-    {{#each ctx.items}}
+    {{#each ctx.sections}}
     <div class="document-list" data-document-name="Item">
       <h3 class="document-list-header">
         <span>{{label}}</span>
       </h3>
-
-      <div class="document-list-entries items compact">
-        {{#each items}}
-        <div class="button entry" data-name="{{name}}" data-id="{{id}}">
-          <img src="{{img}}" alt="{{name}}" class="icon">
-          <span class="count">{{system.quantity.value}}</span>
-          <span class="title">{{name}}</span>
-          <span class="subtitle">{{localize (concat "TYPES.Item." type)}}</span>
-        </div>
-        {{/each}}
-      </div>
+      {{document-list-entries documents=items classes="items compact"}}
     </div>
     {{/each}}
   </section>

@@ -53,9 +53,9 @@ export default class SpellSheet extends PhysicalItemSheet {
     context.ctx = {
       activities: activities.map(activity => {
         return {
-          activity,
+          document: activity,
           name: activity.name ? activity.name : game.i18n.localize(activity.constructor.metadata.label),
-          disabled: !activity.isSource,
+          classes: !activity.isSource ? ["disabled"] : undefined,
         };
       }),
     };

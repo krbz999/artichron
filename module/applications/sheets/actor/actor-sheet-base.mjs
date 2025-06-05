@@ -31,7 +31,9 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
     };
 
     for (const effect of this.document.allApplicableEffects()) {
-      const data = { effect, label: effect.name };
+      const data = { document: effect, label: effect.name };
+
+      if (effect.disabled) data.classes = ["inactive"];
       if (effect.parent !== this.document) data.parentId = effect.parent.id;
 
       if (effect.type === "condition") {

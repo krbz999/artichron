@@ -111,18 +111,14 @@ export default class MonsterSheet extends ActorSheetArtichron {
 
     // Favorites
     for (const item of this.document.favorites) {
-      context.ctx.favorites.push({
-        item,
-      });
+      context.ctx.favorites.push({ document: item });
     }
 
     // Inventory
     for (const item of this.document.items) {
-      context.ctx.inventory.push({
-        item,
-      });
+      context.ctx.inventory.push({ document: item });
     }
-    context.ctx.inventory.sort((a, b) => artichron.utils.nameSort(a, b, "item"));
+    context.ctx.inventory.sort((a, b) => artichron.utils.nameSort(a, b, "document"));
 
     return context;
   }

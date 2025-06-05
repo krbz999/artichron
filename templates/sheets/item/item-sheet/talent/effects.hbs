@@ -6,32 +6,14 @@
       <span>{{localize "ARTICHRON.SHEET.TALENT.HEADERS.activeBuffs"}}</span>
       <button class="create-document icon fa-solid" type="button" data-action="createEmbeddedDocument" data-type="buff" {{disabled isPlayMode}}></button>
     </h3>
-
-    <div class="document-list-entries">
-      {{#each ctx.buffs.active}}
-      <div class="entry button {{#if effect.disabled}} class="inactive" {{/if}}" data-action="renderEmbeddedDocumentSheet" data-id="{{effect.id}}">
-        <img src="{{effect.img}}" alt="{{effect.name}}" class="icon">
-        <span class="title">{{effect.name}}</span>
-        <span class="subtitle">{{localize "TYPES.ActiveEffect.buff"}}</span>
-      </div>
-      {{/each}}
-    </div>
+    {{document-list-entries documents=ctx.buffs.active}}
 
     {{!-- INACTIVE BUFFS --}}
     {{#if ctx.buffs.inactive.length}}
     <h3 class="document-list-header">
       <span>{{localize "ARTICHRON.SHEET.TALENT.HEADERS.inactiveBuffs"}}</span>
     </h3>
-
-    <div class="document-list-entries">
-      {{#each ctx.buffs.inactive}}
-      <div class="entry button {{#if effect.disabled}} class="inactive" {{/if}}" data-action="renderEmbeddedDocumentSheet" data-id="{{effect.id}}">
-        <img src="{{effect.img}}" alt="{{effect.name}}" class="icon">
-        <span class="title">{{effect.name}}</span>
-        <span class="subtitle">{{localize "TYPES.ActiveEffect.buff"}}</span>
-      </div>
-      {{/each}}
-    </div>
+    {{document-list-entries documents=ctx.buffs.inactive}}
     {{/if}}
 
   </div>

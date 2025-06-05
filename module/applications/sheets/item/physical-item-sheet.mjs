@@ -60,14 +60,9 @@ export default class PhysicalItemSheet extends ItemSheetArtichron {
 
     for (const effect of this.document.effects) {
       const data = {
-        effect,
-        isExpanded: this._expandedItems.has(effect.uuid),
+        document: effect,
+        classes: effect.disabled ? ["inactive"] : undefined,
       };
-      if (data.isExpanded) {
-        data.enrichedText = await foundry.applications.ux.TextEditor.implementation.enrichHTML(effect.description, {
-          relativeTo: effect, rollData: effect.getRollData(),
-        });
-      }
 
       if (effect.isActiveFusion) fusions.active.push(data);
       else if (effect.isTransferrableFusion) fusions.inactive.push(data);
@@ -75,12 +70,7 @@ export default class PhysicalItemSheet extends ItemSheetArtichron {
       else if (effect.type === "buff") buffs.push(data);
     }
 
-    const sort = (a, b) => {
-      const sort = a.effect.sort - b.effect.sort;
-      if (sort) return sort;
-      return a.effect.name.localeCompare(b.effect.name);
-    };
-
+    const sort = (a, b) => artichron.utils.nameSort(a, b, "document");
     fusions.active.sort(sort);
     fusions.inactive.sort(sort);
     enhancements.sort(sort);

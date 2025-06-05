@@ -33,55 +33,41 @@ export default class TalentSheet extends ItemSheetArtichron {
 
   /* -------------------------------------------------- */
 
-  /**
-   * Prepare a part.
-   * @param {object} context    Rendering context. **will be mutated**
-   * @param {object} options    Rendering options.
-   * @returns {Promise<object>}   Rendering context.
-   */
+  /** @type {import("../../../_types").ContextPartHandler} */
   async _preparePartContextDetails(context, options) {
     return context;
   }
 
   /* -------------------------------------------------- */
 
-  /**
-   * Prepare a part.
-   * @param {object} context    Rendering context. **will be mutated**
-   * @param {object} options    Rendering options.
-   * @returns {Promise<object>}   Rendering context.
-   */
+  /** @type {import("../../../_types").ContextPartHandler} */
   async _preparePartContextAdvancements(context, options) {
     context.ctx = {};
     const arr = context.ctx.advancements = [];
-    for (const a of this.document.system.advancements) {
-      arr.push({
-        advancement: a,
-      });
+    for (const advancement of this.document.system.advancements) {
+      arr.push({ document: advancement });
     }
     return context;
   }
 
   /* -------------------------------------------------- */
 
-  /**
-   * Prepare a part.
-   * @param {object} context    Rendering context. **will be mutated**
-   * @param {object} options    Rendering options.
-   * @returns {Promise<object>}   Rendering context.
-   */
+  /** @type {import("../../../_types").ContextPartHandler} */
   async _preparePartContextEffects(context, options) {
     context.ctx = { buffs: { active: [], inactive: [] } };
 
     for (const effect of this.document.effects.documentsByType.buff) {
-      const data = { effect };
-
-      if (effect.disabled) context.ctx.buffs.inactive.push(data);
-      else context.ctx.buffs.active.push(data);
+      const data = { document: effect };
+      if (effect.disabled) {
+        data.classes = ["inactive"];
+        context.ctx.buffs.inactive.push(data);
+      } else {
+        context.ctx.buffs.active.push(data);
+      }
     }
 
-    context.ctx.buffs.active.sort((a, b) => artichron.utils.nameSort(a, b, "effect"));
-    context.ctx.buffs.inactive.sort((a, b) => artichron.utils.nameSort(a, b, "effect"));
+    context.ctx.buffs.active.sort((a, b) => artichron.utils.nameSort(a, b, "document"));
+    context.ctx.buffs.inactive.sort((a, b) => artichron.utils.nameSort(a, b, "document"));
     return context;
   }
 }
