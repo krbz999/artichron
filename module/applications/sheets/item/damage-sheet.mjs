@@ -13,7 +13,7 @@ export default class DamageSheet extends PseudoDocumentSheet {
   /** @inheritdoc */
   static PARTS = {
     damage: {
-      template: "systems/artichron/templates/sheets/item/damage-sheet/damage.hbs",
+      template: "systems/artichron/templates/sheets/pseudo/damage/damage.hbs",
     },
   };
 
@@ -24,24 +24,14 @@ export default class DamageSheet extends PseudoDocumentSheet {
 
   /* -------------------------------------------------- */
 
-  /** @inheritdoc */
-  async _preparePartContext(partId, context, options) {
-    context = await super._preparePartContext(partId, context, options);
-    switch (partId) {
-      case "damage":
-        return this.#preparePartContextDamage(context, options);
-    }
-    return context;
-  }
-
-  /* -------------------------------------------------- */
-
   /** @type {import("../../../_types").ContextPartHandler} */
-  async #preparePartContextDamage(context, options) {
-    context.number = this._prepareField("number");
-    context.denomination = this._prepareField("denomination");
-    context.type = Object.assign(this._prepareField("type"), { options: artichron.config.DAMAGE_TYPES.optgroups });
-    context.options = this._prepareField("options");
+  async _preparePartContextDamage(context, options) {
+    context.ctx = {
+      typeOptions: artichron.config.DAMAGE_TYPES.optgroups,
+      optionsOptions: Object.entries(artichron.config.ITEM_ATTRIBUTES)
+        .filter(([k, v]) => v.damageOption)
+        .map(([k, v]) => ({ value: k, label: v.label })),
+    };
     return context;
   }
 }

@@ -26,16 +26,14 @@
       <button class="icon fa-regular fa-plus-square" type="button" data-action="addDamage"></button>
     </legend>
     {{#each damage.damages}}
-    <div class="form-group damage" data-id="{{damage.id}}">
-      {{#each fields}}
-      {{formGroup field name=name value=value classes=classes options=options}}
-      {{/each}}
-      <button type="button" class="control" data-action="deleteDamage">
-        <i class="fa-solid fa-minus"></i>
-      </button>
-      <button type="button" class="control" data-action="showDamage">
-        <i class="fa-solid fa-cog"></i>
-      </button>
+    <div class="form-group" data-id="{{damage.id}}">
+      <div class="form-fields">
+        {{formGroup fields.number classes="label-top" value=(ifThen (eq source.number 1) null source.number) placeholder="1" name=(concat "damage." damage.id ".number")}}
+        {{formGroup fields.denomination classes="label-top" value=source.denomination name=(concat "damage." damage.id ".denomination")}}
+        {{formGroup fields.type classes="label-top" value=source.type options=damageGroups name=(concat "damage." damage.id ".type")}}
+        <button type="button" class="icon fa-solid fa-minus" data-action="deleteDamage"></button>
+        <button type="button" class="icon fa-solid fa-cog" data-action="showDamage"></button>
+      </div>
     </div>
     {{/each}}
   </fieldset>

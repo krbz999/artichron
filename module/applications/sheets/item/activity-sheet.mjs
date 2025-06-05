@@ -99,15 +99,9 @@ export default class ActivitySheet extends PseudoDocumentSheet {
         show: true,
         damages: a.damage.map(damage => ({
           damage,
-          fields: ["number", "denomination", "type"].map(path => {
-            return {
-              field: damage.schema.getField(path),
-              name: `damage.${damage.id}.${path}`,
-              value: foundry.utils.getProperty(damage, path),
-              classes: [path, "label-top"].join(" "),
-              options: (path === "type") ? groups : undefined,
-            };
-          }),
+          fields: damage.schema.fields,
+          source: damage._source,
+          damageGroups: groups,
         })),
       };
     }

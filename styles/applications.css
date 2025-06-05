@@ -166,6 +166,11 @@
       text-align: center;
     }
   }
+
+  /* Align buttons at the bottom. */
+  .form-group .form-fields button.icon {
+    align-self: flex-end;
+  }
 }
 
 /* -------------------------------------------------- */

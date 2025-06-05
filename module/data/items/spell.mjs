@@ -6,6 +6,17 @@ const {
 
 export default class SpellData extends ArsenalData {
   /** @inheritdoc */
+  static get metadata() {
+    return foundry.utils.mergeObject(super.metadata, {
+      embedded: {
+        Activity: "system.activities",
+      },
+    });
+  }
+
+  /* -------------------------------------------------- */
+
+  /** @inheritdoc */
   static defineSchema() {
     return Object.assign(super.defineSchema(), {
       activities: new artichron.data.fields.CollectionField(artichron.data.pseudoDocuments.activities.BaseActivity),
