@@ -51,19 +51,8 @@
 /* -------------------------------------------------- */
 
 /* Make a prosemirror form group the full height of a tab. */
-.application.artichron .prosemirror-full-height {
+.application.artichron .tab:has(.prosemirror-full-height), .prosemirror-full-height {
   flex: 1;
-  display: grid;
-  height: 100%;
-  grid-template-rows: 0fr 1fr;
-
-  .form-fields {
-    height: 100%;
-
-    prose-mirror {
-      height: 100%;
-    }
-  }
 }
 
 /* -------------------------------------------------- */
