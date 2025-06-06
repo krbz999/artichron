@@ -103,6 +103,14 @@ export default class DocumentListEntriesElement extends HTMLElement {
     // Any additional dataset properties (e.g. `data-name` for search filters).
     for (const [k, v] of Object.entries(data.dataset ?? {})) div.dataset[k] = v;
 
+    // If an item, add tooltip.
+    if (data.document.documentName === "Item") {
+      div.dataset.tooltipHtml = `
+      <section>
+        <i class="fa-solid fa-loading loading" data-uuid="${data.document.uuid}"></i>
+      </section>`;
+    }
+
     return div;
   }
 }

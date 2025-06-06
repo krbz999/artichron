@@ -8,7 +8,7 @@ export default class PartySheet extends ActorSheetArtichron {
   /** @inheritdoc */
   static DEFAULT_OPTIONS = {
     classes: ["party"],
-    position: { width: 650 },
+    position: { width: 650, height: 800 },
     actions: {
       clockDelta: PartySheet.#clockDelta,
       displayActor: PartySheet.#displayActor,
