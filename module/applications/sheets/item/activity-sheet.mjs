@@ -67,15 +67,26 @@ export default class ActivitySheet extends PseudoDocumentSheet {
 
   /** @type {import("../../../_types").ContextPartHandler} */
   async _preparePartContextDetails(context, options) {
+    // FIXME: Use `context.ctx`.
+
     const a = context.pseudoDocument;
     const makeLegend = path => a.schema.getField(path).label;
 
-    context.cost = Object.assign(this._prepareField("cost.value"), {
+    const _prepareField = (path) => {
+      // FIXME: Get rid of this helper method.
+      const doc = a;
+      const field = doc.schema.getField(path);
+      const value = foundry.utils.getProperty(doc, path);
+      const src = foundry.utils.getProperty(doc._source, path);
+      return { field, value, src, name: path };
+    };
+
+    context.cost = Object.assign(_prepareField("cost.value"), {
       legend: game.i18n.localize("ARTICHRON.SHEET.LEGENDS.configuration"),
     });
 
     if (a.item.type === "elixir") {
-      context.usage = Object.assign(this._prepareField("cost.uses"), { show: true });
+      context.usage = Object.assign(_prepareField("cost.uses"), { show: true });
     }
 
     // Target
@@ -84,12 +95,12 @@ export default class ActivitySheet extends PseudoDocumentSheet {
         show: true,
         legend: makeLegend("target"),
         fields: [],
-        type: Object.assign(this._prepareField("target.type"), { options: artichron.config.TARGET_TYPES.optgroups }),
+        type: Object.assign(_prepareField("target.type"), { options: artichron.config.TARGET_TYPES.optgroups }),
       };
 
-      if (a.hasTemplate) context.target.fields.push(this._prepareField("target.duration"));
+      if (a.hasTemplate) context.target.fields.push(_prepareField("target.duration"));
       const configuration = artichron.config.TARGET_TYPES[a.target.type];
-      for (const s of configuration.scale) context.target.fields.push(this._prepareField(`target.${s}`));
+      for (const s of configuration.scale) context.target.fields.push(_prepareField(`target.${s}`));
     }
 
     // Damage
@@ -111,8 +122,8 @@ export default class ActivitySheet extends PseudoDocumentSheet {
       context.defend = {
         show: true,
         legend: makeLegend("defend"),
-        number: this._prepareField("defend.number"),
-        denomination: this._prepareField("defend.denomination"),
+        number: _prepareField("defend.number"),
+        denomination: _prepareField("defend.denomination"),
       };
     }
 
@@ -121,8 +132,8 @@ export default class ActivitySheet extends PseudoDocumentSheet {
       context.healing = {
         show: true,
         legend: makeLegend("healing"),
-        number: this._prepareField("healing.number"),
-        denomination: this._prepareField("healing.denomination"),
+        number: _prepareField("healing.number"),
+        denomination: _prepareField("healing.denomination"),
       };
     }
 
@@ -131,7 +142,7 @@ export default class ActivitySheet extends PseudoDocumentSheet {
       context.effects = {
         show: true,
         legend: makeLegend("effects"),
-        ids: this._prepareField("effects.ids"),
+        ids: _prepareField("effects.ids"),
       };
       context.effects.ids.choices = this.item.transferrableEffects.map(effect => {
         return { value: effect.id, label: effect.name };
@@ -143,7 +154,7 @@ export default class ActivitySheet extends PseudoDocumentSheet {
       context.teleport = {
         show: true,
         legend: makeLegend("teleport"),
-        distance: this._prepareField("teleport.distance"),
+        distance: _prepareField("teleport.distance"),
       };
     }
 

@@ -1,9 +1,13 @@
-const { HandlebarsApplicationMixin, ApplicationV2 } = foundry.applications.api;
+import ArtichronApplicationMixin from "./artichron-application-mixin.mjs";
+
+const { ApplicationV2 } = foundry.applications.api;
 
 /**
  * A stock application meant for async behavior using templates.
+ * @template {Function} ApplicationV2
+ * @param {ApplicationV2} Class
  */
-export default class Application extends HandlebarsApplicationMixin(ApplicationV2) {
+export default class Application extends ArtichronApplicationMixin(ApplicationV2) {
   /** @inheritdoc */
   static DEFAULT_OPTIONS = {
     classes: ["artichron"],

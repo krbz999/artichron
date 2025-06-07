@@ -96,9 +96,12 @@
   background: var(--artichron-header-background-gradient);
   border-bottom: var(--artichron-header-border);
   padding: 0.25rem;
-  padding-left: 1ch;
-  font-size: 16px;
   margin: 1rem 0;
+
+  &:not(H1) {
+    font-size: 16px;
+    padding-left: 1ch;
+  }
 }
 
 /* -------------------------------------------------- */

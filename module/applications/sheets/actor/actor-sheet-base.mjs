@@ -201,13 +201,7 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
 
   /** @inheritdoc */
   async _onDropItem(event, item) {
-    if (!this.document.isOwner) return;
-
-    // Trigger advancements.
-    if (item.supportsAdvancements) {
-      await artichron.data.pseudoDocuments.advancements.BaseAdvancement.performAdvancement(this.document, item);
-      return;
-    }
+    if (!this.document.isOwner || (item.type === "path")) return;
 
     // Stack the item.
     if ((item.parent !== this.document) && item.system.identifier && item.system.schema.has("quantity")) {

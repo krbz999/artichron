@@ -168,7 +168,7 @@ export default class HeroSheet extends ActorSheetArtichron {
       if (!key) continue;
       context.ctx.paths.push({
         ...artichron.config.PROGRESSION_CORE_PATHS[key],
-        ...this.document.system.paths[key],
+        ...this.document.system.progression.paths[key],
         key,
         cssClass: context.ctx.mixed || (i > 0) ? "inactive" : "",
         items: [],
@@ -196,7 +196,7 @@ export default class HeroSheet extends ActorSheetArtichron {
       if (item.type === "path") continue;
       if (item.type === "talent") {
         const path = item.getFlag("artichron", "advancement.path");
-        if (path && (path in this.document.system.paths)) continue;
+        if (path && (path in this.document.system.progression.paths)) continue;
       }
       context.ctx.items.push({ document: item, dataset: { name: item.name } });
     }
@@ -318,12 +318,17 @@ export default class HeroSheet extends ActorSheetArtichron {
 
     if (item.type === "path") {
       if (!event.target.classList.contains("drop-target-area")) return;
-      const { paths } = this.document.system;
-      const allowed = (item.system.identifier in paths) || (Object.keys(paths).length < 2);
-      if (!allowed) {
-        ui.notifications.error("ARTICHRON.ITEM.PATH.WARNING.cannotAddNewPath", { localize: true });
+      const id = item.system.identifier;
+      if (!(id in artichron.config.PROGRESSION_CORE_PATHS)) {
+        ui.notifications.error("ARTICHRON.ITEM.PATH.WARNING.invalidPath", { localize: true });
         return;
       }
+
+      const { paths } = this.document.system.progression;
+
+      // This drop area is only used if the actor has 0 paths.
+      if (foundry.utils.isEmpty(paths)) await this.document.system.advance({ [id]: 1 });
+      return;
     }
 
     return super._onDropItem(event, item);

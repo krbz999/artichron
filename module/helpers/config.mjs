@@ -729,15 +729,15 @@ export const POOL_FACES_SPECIALIZATION_TYPES = {
  * @type {ProgressionThresholdConfig[]}
  */
 export const PROGRESSION_THRESHOLDS = [{
-  label: "ARTICHRON.PROGRESSION.THRESHOLDS.Novice",
+  label: "ARTICHRON.PROGRESSION.THRESHOLDS.novice",
   level: 1,
   threshold: 0,
 }, {
-  label: "ARTICHRON.PROGRESSION.THRESHOLDS.Experienced",
+  label: "ARTICHRON.PROGRESSION.THRESHOLDS.experienced",
   level: 2,
   threshold: 20,
 }, {
-  label: "ARTICHRON.PROGRESSION.THRESHOLDS.Veteran",
+  label: "ARTICHRON.PROGRESSION.THRESHOLDS.veteran",
   level: 3,
   threshold: 50,
 }];
@@ -754,22 +754,22 @@ export const PROGRESSION_THRESHOLDS = [{
 /** @type {Record<string, CorePathConfiguration>} */
 export const PROGRESSION_CORE_PATHS = {
   cleric: {
-    label: "ARTICHRON.PROGRESSION.LABELS.Cleric",
+    label: "ARTICHRON.PROGRESSION.LABELS.cleric",
     uuid: "Compendium.artichron.items.Item.TOPOCY0zrPjEj59G",
     mixed: {},
   },
   fighter: {
-    label: "ARTICHRON.PROGRESSION.LABELS.Fighter",
+    label: "ARTICHRON.PROGRESSION.LABELS.fighter",
     uuid: "Compendium.artichron.items.Item.UrSG9mEumnMbTIrM",
     mixed: {},
   },
   mage: {
-    label: "ARTICHRON.PROGRESSION.LABELS.Mage",
+    label: "ARTICHRON.PROGRESSION.LABELS.mage",
     uuid: "Compendium.artichron.items.Item.7i6uNxcreJWoO4C9",
     mixed: {},
   },
   rogue: {
-    label: "ARTICHRON.PROGRESSION.LABELS.Rogue",
+    label: "ARTICHRON.PROGRESSION.LABELS.rogue",
     uuid: "Compendium.artichron.items.Item.1LlHcgghhPrbJjIi",
     mixed: {},
   },
@@ -777,22 +777,28 @@ export const PROGRESSION_CORE_PATHS = {
 
 export const PROGRESSION_MIXED_PATHS = {
   inquisitor: {
-    label: "ARTICHRON.PROGRESSION.LABELS.Inquisitor",
+    label: "ARTICHRON.PROGRESSION.LABELS.inquisitor",
+    uuid: "Compendium.artichron.items.Item.WuJqNVsC1LKvvPjF",
   },
   shaman: {
-    label: "ARTICHRON.PROGRESSION.LABELS.Shaman",
+    label: "ARTICHRON.PROGRESSION.LABELS.shaman",
+    uuid: "Compendium.artichron.items.Item.SzGVudF2sfodAy9O",
   },
   spellblade: {
-    label: "ARTICHRON.PROGRESSION.LABELS.Spellblade",
+    label: "ARTICHRON.PROGRESSION.LABELS.spellblade",
+    uuid: "Compendium.artichron.items.Item.59ScnAaMmCDPtZfe",
   },
   swashbuckler: {
-    label: "ARTICHRON.PROGRESSION.LABELS.Swashbuckler",
+    label: "ARTICHRON.PROGRESSION.LABELS.swashbuckler",
+    uuid: "Compendium.artichron.items.Item.MRLCVc7ewf3y4T91",
   },
   templar: {
-    label: "ARTICHRON.PROGRESSION.LABELS.Templar",
+    label: "ARTICHRON.PROGRESSION.LABELS.templar",
+    uuid: "Compendium.artichron.items.Item.VzLWOrUWzibGNClQ",
   },
   warlock: {
-    label: "ARTICHRON.PROGRESSION.LABELS.Warlock",
+    label: "ARTICHRON.PROGRESSION.LABELS.warlock",
+    uuid: "Compendium.artichron.items.Item.WJltuDU36z2v0hH1",
   },
 };
 

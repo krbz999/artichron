@@ -45,21 +45,8 @@ export default class ChainConfigurationDialog extends Application {
 
   /* -------------------------------------------------- */
 
-  /** @inheritdoc */
-  async _preparePartContext(partId, context, options) {
-    context = await super._preparePartContext(partId, context, options);
-    switch (partId) {
-      case "chains":
-        return this.#preparePartContextChains(context, options);
-      case "footer":
-        return this.#preparePartContextFooter(context, options);
-    }
-  }
-
-  /* -------------------------------------------------- */
-
   /** @type {import("../../../_types").ContextPartHandler} */
-  async #preparePartContextChains(context, options) {
+  async _preparePartContextChains(context, options) {
     context.ctx = { chains: this.#chains.map(c => c.active()) };
     return context;
   }
@@ -67,7 +54,7 @@ export default class ChainConfigurationDialog extends Application {
   /* -------------------------------------------------- */
 
   /** @type {import("../../../_types").ContextPartHandler} */
-  async #preparePartContextFooter(context, options) {
+  async _preparePartContextFooter(context, options) {
     context.buttons = [{ type: "submit", label: "Confirm", icon: "fa-solid fa-fw fa-check" }];
     return context;
   }

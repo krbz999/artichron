@@ -75,8 +75,6 @@
   "partPl": "Monster Parts",
   "path": "Path",
   "pathPl": "Paths",
-  "shield": "Shield",
-  "shieldPl": "Shields",
   "spell": "Spell",
   "spellPl": "Spells",
   "talent": "Talent",
@@ -729,7 +727,7 @@
 
   "PATH": {
     "WARNING": {
-      "cannotAddNewPath": "You cannot add more paths!"
+      "invalidPath": "The dropped Path item does not have a valid identifier!"
     },
     "FIELDS": {
       "identifier": {
@@ -966,27 +964,6 @@
         }
       }
     }
-  },
-  "SHIELD": {
-    "FIELDS": {
-      "category": {
-        "label": "Type",
-        "subtype": {
-          "hint": "The shield type determines how much it protects the wielder.",
-          "label": "Shield Type"
-        }
-      }
-    }
-  },
-  "WEAPON": {
-    "FIELDS": {
-      "ammunition": {
-        "type": {
-          "hint": "The type of ammunition used by this weapon.",
-          "label": "Ammunition Type"
-        }
-      }
-    }
   }
 },
 
@@ -1008,29 +985,21 @@
 
 "PROGRESSION": {
   "LABELS": {
-    "Cleric": "Cleric",
-    "Fighter": "Fighter",
-    "Inquisitor": "Inquisitor",
-    "Mage": "Mage",
-    "Rogue": "Rogue",
-    "Shaman": "Shaman",
-    "Spellblade": "Spellblade",
-    "Swashbuckler": "Swashbuckler",
-    "Templar": "Templar",
-    "Warlock": "Warlock"
-  },
-  "PATH": {
-    "FIELDS": {
-      "points": {
-        "label": "Heroic Path Points",
-        "value": {}
-      }
-    }
+    "cleric": "Cleric",
+    "fighter": "Fighter",
+    "inquisitor": "Inquisitor",
+    "mage": "Mage",
+    "rogue": "Rogue",
+    "shaman": "Shaman",
+    "spellblade": "Spellblade",
+    "swashbuckler": "Swashbuckler",
+    "templar": "Templar",
+    "warlock": "Warlock"
   },
   "THRESHOLDS": {
-    "Experienced": "Experienced",
-    "Novice": "Novice",
-    "Veteran": "Veteran"
+    "experienced": "Experienced",
+    "novice": "Novice",
+    "veteran": "Veteran"
   }
 },
 
@@ -1197,6 +1166,7 @@
   "ToggleDefeated": "Toggle Defeated",
   "ToggleHidden": "Toggle Hidden"
 },
+
 "ContextMenu": {
   "Directory": {
     "AssignPrimaryParty": "Assign Primary Party",

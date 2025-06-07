@@ -6,9 +6,7 @@ export default class HeroData extends CreatureData {
   /** @inheritdoc */
   static get metadata() {
     return foundry.utils.mergeObject(super.metadata, {
-      embedded: {
-        Progression: "system.progressions",
-      },
+      embedded: {},
     });
   }
 
@@ -28,17 +26,19 @@ export default class HeroData extends CreatureData {
     };
 
     return Object.assign(super.defineSchema(), {
-      paths: new TypedObjectField(new SchemaField({
-        invested: new NumberField({ min: 0, integer: true, initial: 0 }),
-      }), {
-        validateKey: key => key in artichron.config.PROGRESSION_CORE_PATHS,
-      }),
       pools: new SchemaField({
         health: poolSchema(),
         stamina: poolSchema(),
         mana: poolSchema(),
       }),
-      progressions: new artichron.data.fields.CollectionField(artichron.data.pseudoDocuments.progressions.Progression),
+      progression: new SchemaField({
+        paths: new TypedObjectField(new SchemaField({
+          invested: new NumberField({ min: 0, integer: true, initial: 0 }),
+        }), { validateKey: key => key in artichron.config.PROGRESSION_CORE_PATHS }),
+        points: new SchemaField({
+          value: new NumberField({ min: 0, nullable: false, initial: 0, integer: true }),
+        }),
+      }),
       skills: new SchemaField(Object.entries(artichron.config.SKILLS).reduce((acc, [k, v]) => {
         acc[k] = new SchemaField({
           number: new NumberField({ integer: true, min: 2, initial: 2, nullable: false }),
@@ -139,9 +139,9 @@ export default class HeroData extends CreatureData {
     const paths = [null, null, null];
 
     // Core paths, sorted highest first.
-    const corePaths = Object.keys(this.paths)
+    const corePaths = Object.keys(this.progression.paths)
       .filter(path => path in artichron.config.PROGRESSION_CORE_PATHS)
-      .sort((a, b) => this.paths[b].invested - this.paths[a].invested);
+      .sort((a, b) => this.progression.paths[b].invested - this.progression.paths[a].invested);
     if (!corePaths.length) return paths;
 
     if (corePaths.length === 1) {
@@ -154,8 +154,9 @@ export default class HeroData extends CreatureData {
 
     // Is mixed path?
     const values = artichron.config.PROGRESSION_VALUES;
-    const isMixed = corePaths.some(path => this.paths[path].invested > values.absolute)
-      && (this.paths[paths[1]].invested / total * 100).between(values.relative.lower, values.relative.upper);
+    const total = corePaths.reduce((acc, path) => acc + this.progression.paths[path].invested, 0);
+    const isMixed = corePaths.some(path => this.progression.paths[path].invested >= values.absolute)
+      && (this.progression.paths[paths[1]].invested / total * 100).between(values.relative.lower, values.relative.upper);
 
     // If mixed, return that.
     if (isMixed) {
@@ -322,5 +323,36 @@ export default class HeroData extends CreatureData {
 
     if (message.create) await roll.toMessage(message.messageData);
     return roll;
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Advance.
+   */
+  async advance(allocated) {
+    const actorUpdate = {};
+    for (const [k, v] of Object.entries(allocated)) {
+      actorUpdate[`system.progression.paths.${k}.invested`] = (this.progression.paths[k]?.invested ?? 0) + v;
+    }
+    const range = [Object.values(this.progression.paths).reduce((acc, p) => acc + p.invested, 1)];
+    const clone = this.parent.clone(actorUpdate, { keepId: true });
+    const path = clone.system.currentPath;
+    range.push(Object.values(clone.system.progression.paths).reduce((acc, p) => acc + p.invested, 0));
+
+    const uuid = (path in artichron.config.PROGRESSION_CORE_PATHS)
+      ? artichron.config.PROGRESSION_CORE_PATHS[path].uuid
+      : artichron.config.PROGRESSION_MIXED_PATHS[path].uuid;
+    const pathItem = await fromUuid(uuid);
+    const itemData = await artichron.data.pseudoDocuments.advancements.BaseAdvancement.configureAdvancement(
+      this.parent,
+      pathItem,
+      { range },
+    );
+
+    return Promise.all([
+      this.parent.update(actorUpdate),
+      this.parent.createEmbeddedDocuments("Item", itemData, { keepId: true }),
+    ]);
   }
 }

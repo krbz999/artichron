@@ -137,93 +137,46 @@ export default class BaseAdvancement extends TypedPseudoDocument {
   /* -------------------------------------------------- */
 
   /**
-   * Retrieve and prepare items to be created on an actor. The data is prepared in such a way that
-   * the items should be created with `keepId: true`.
-   * @param {foundry.documents.Actor} actor   The actor on which to create the items.
-   * @param {foundry.documents.Item} item     The root item. If a path item, this is not created.
-   * @param {AdvancementChain[]} [roots=[]]   The fully configured advancement chains.
-   * @returns {Promise<object[]>}             A promise that resolves to the prepared item data and other updates.
-   */
-  static async prepareUpdates(actor, item, roots = []) {
-    // Mapping of items' original id to the current item data. Used to find and set `itemId`.
-    const items = new foundry.utils.Collection();
-    const actorUpdate = {};
-
-    // If this is a path item, second-level items created should point to the created progression.
-    let progressionId = null;
-
-    // The item being prepared and the advancement that granted it.
-    const prepareItem = (item, advancement = null) => {
-      const data = game.items.fromCompendium(item, { keepId: true });
-      if (actor.items.has(data._id)) data._id = foundry.utils.randomID();
-
-      const stored = items.get(advancement?.document.id);
-
-      foundry.utils.mergeObject(data, {
-        "flags.artichron.advancement": stored
-          ? { advancementId: advancement.id, itemId: stored._id }
-          : { progressionId },
-      });
-      items.set(item.id, data);
-    };
-
-    // The root item itself is created as well unless it is a Path item.
-    if (item.type === "path") {
-      // FIXME: Enough data needs to be stored such that it will be easy to
-      // undo a whole chain of added items and advancements. If the path item
-      // is not stored, what is the 'entry point'? What can be 'undone' on the
-      // actor sheet?
-      const cls = item.system.identifier;
-      const invested = actor.system.paths[cls]?.invested ?? 0;
-
-      progressionId = foundry.utils.randomID();
-      actorUpdate[`system.paths.${cls}.invested`] = invested + 1;
-      actorUpdate[`system.progressions.${progressionId}`] = {
-        _id: progressionId,
-        path: cls,
-        point: invested, // how many points were invested already when this was added
-      };
-    } else {
-      prepareItem(item, null);
-    }
-
-    // Traverse the chains to gather all items.
-    for (const root of roots)
-      for (const node of root.active())
-        for (const { item, selected } of node.pool) {
-          if (selected) prepareItem(item, node.advancement);
-        }
-
-    const itemData = Array.from(items.values());
-
-    return { actorUpdate, itemData };
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
    * Perform the advancement flow.
    * @param {foundry.documents.Actor} actor   The actor being targeted by advancements.
-   * @param {foundry.documents.Item} item     The root item being granted.
-   * @returns {Promise<array|null>}           A promise that resolves to the final updates, or `null` if aborted.
+   * @param {foundry.documents.Item} item     The path item retrieved from the config, which holds advancements.
+   * @param {object} options                  Advancement options.
+   * @param {number[]} options.range          The range of the advancements to trigger, a two-length array of integers.
+   * @returns {Promise<object[]|null>}        A promise that resolves to the item data that is to be created.
    */
-  static async performAdvancement(actor, item) {
+  static async configureAdvancement(actor, item, { range }) {
+    if (item.type !== "path") {
+      throw new Error("Cannot trigger advancements with a non-Path item as the root item.");
+    }
+
     const collection = item.getEmbeddedPseudoDocumentCollection("Advancement");
     if (!collection.size) return null;
 
-    const chains = await Promise.all(collection.map(advancement => advancement.determineChain()));
+    const chains = [];
+    for (const advancement of collection) {
+      const validRange = advancement.requirements.points.between(range[0], range[1]);
+      if (validRange) chains.push(await advancement.determineChain());
+    }
 
     const configuration = await artichron.applications.apps.advancement.ChainConfigurationDialog.create({ chains });
     if (!configuration) return null;
 
-    const { itemData, actorUpdate } = await BaseAdvancement.prepareUpdates(actor, item, chains);
-    for (const itemD of itemData) {
-      foundry.utils.setProperty(itemD, "flags.artichron.advancement.path", item.system.identifier);
-    }
+    const id = item.system.identifier;
+    const items = new foundry.utils.Collection();
+    const prepareItem = item => {
+      const keepId = !actor.items.has(item._id) && !items.has(item._id);
+      const data = game.items.fromCompendium(item, { keepId });
+      foundry.utils.setProperty(data, "flags.artichron.advancement.path", id);
+      if (!keepId) data._id = foundry.utils.randomID();
+      items.set(data._id, data);
+    };
 
-    return Promise.all([
-      foundry.utils.isEmpty(itemData) ? null : actor.createEmbeddedDocuments("Item", itemData, { keepId: true }),
-      foundry.utils.isEmpty(actorUpdate) ? null : actor.update(actorUpdate),
-    ]);
+    // Traverse the chains to gather all items.
+    for (const root of chains)
+      for (const node of root.active())
+        for (const { item, selected } of node.pool)
+          if (selected) prepareItem(item);
+
+    return Array.from(items.values());
   }
 }

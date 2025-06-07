@@ -1,0 +1,42 @@
+<section>
+  {{!-- {{log this ctx level="warn"}} --}}
+  <section class="current">
+    <h1 class="section-header">{{ctx.current.label}}</h1>
+    <span class="subtitle">Current Path</span>
+  </section>
+
+  <section class="paths">
+
+    <div class="primary" data-path="{{ctx.primary.key}}">
+      <button type="button" data-action="investPoint" {{disabled (not ctx.points.remaining)}}>
+        <i class="fa-solid fa-chevron-up"></i>
+      </button>
+      <img src="{{ctx.primary.item.img}}" alt="{{ctx.primary.label}}">
+      <button type="button" data-action="removePoint" {{disabled (not ctx.primary.allocated)}}>
+        <i class="fa-solid fa-chevron-down"></i>
+      </button>
+
+      <h2>{{ctx.primary.label}}</h2>
+      <span class="subtitle">Invested: {{ctx.primary.invested}} (+{{ctx.primary.allocated}})</span>
+    </div>
+
+    <div class="points">
+      <span class="counter">{{ctx.points.remaining}}</span>
+      <p class="hint">Invest additional points into your current paths.</p>
+    </div>
+
+    <div class="secondary" data-path="{{ctx.secondary.key}}">
+      <button type="button" data-action="investPoint" {{disabled (not ctx.points.remaining)}}>
+        <i class="fa-solid fa-chevron-up"></i>
+      </button>
+      <img src="{{ctx.secondary.item.img}}" alt="{{ctx.secondary.label}}">
+      <button type="button" data-action="removePoint" {{disabled (not ctx.secondary.allocated)}}>
+        <i class="fa-solid fa-chevron-down"></i>
+      </button>
+
+      <h2>{{ctx.secondary.label}}</h2>
+      <span class="subtitle">Invested: {{ctx.secondary.invested}} (+{{ctx.secondary.allocated}})</span>
+    </div>
+
+  </section>
+</section>

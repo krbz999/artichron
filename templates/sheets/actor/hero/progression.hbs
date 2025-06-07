@@ -9,7 +9,6 @@
     {{#each ctx.paths}}
     <h3 class="document-list-header {{cssClass}}">
       <span>{{label}} ({{invested}})</span>
-      <input type="number" name="system.paths.{{key}}.invested" value="{{invested}}" style="min-width: 5rem;">
     </h3>
 
     {{document-list-entries documents=items classes="compact"}}
@@ -17,7 +16,7 @@
   </div>
 
   {{!-- Display action to add path. --}}
-  {{#if (and (lt ctx.paths.length 2) isEditMode editable)}}
+  {{#if (and (eq ctx.paths.length 0) editable)}}
   <section class="progression actions">
     <div class="drop-target-area empty" style="--height: 150;">
       <p>{{localize "ARTICHRON.SHEET.HERO.dropPath"}}</p>
