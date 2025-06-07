@@ -155,35 +155,22 @@ export default class HeroSheet extends ActorSheetArtichron {
   async _preparePartContextProgression(context, options) {
     context.ctx = { paths: [], mixed: null };
 
-    const pathKeys = Object.keys(this.document.system.paths);
-    const investedTotal = pathKeys.reduce((acc, k) => acc + this.document.system.paths[k].invested, 0);
-    const mixedKey = artichron.config.PROGRESSION_CORE_PATHS[pathKeys[0]]?.mixed[pathKeys[1]];
+    const [mixed, primary, secondary] = this.document.system.currentPaths;
 
-    // The lowest invested path
-    const [lowest] = pathKeys.sort((a, b) =>
-      this.document.system.paths[a].invested - this.document.system.paths[b].invested,
-    );
-
-    const isMixed = !!mixedKey
-      && pathKeys.some(k => this.document.system.paths[k].invested > artichron.config.PROGRESSION_VALUES.absolute)
-      && (this.document.system.paths[lowest].invested / investedTotal * 100).between(
-        artichron.config.PROGRESSION_VALUES.relative.lower,
-        artichron.config.PROGRESSION_VALUES.relative.upper,
-      );
-
-    if (isMixed) {
+    if (mixed) {
       context.ctx.mixed = {
-        ...artichron.config.PROGRESSION_MIXED_PATHS[mixedKey],
-        key: mixedKey,
+        ...artichron.config.PROGRESSION_MIXED_PATHS[mixed],
+        key: mixed,
       };
     }
 
-    for (const [i, key] of pathKeys.reverse().entries()) {
+    for (const [i, key] of [primary, secondary].entries()) {
+      if (!key) continue;
       context.ctx.paths.push({
         ...artichron.config.PROGRESSION_CORE_PATHS[key],
         ...this.document.system.paths[key],
         key,
-        cssClass: isMixed || (i > 0) ? "inactive" : "",
+        cssClass: context.ctx.mixed || (i > 0) ? "inactive" : "",
         items: [],
       });
     }

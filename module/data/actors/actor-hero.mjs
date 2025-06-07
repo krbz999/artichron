@@ -6,7 +6,6 @@ export default class HeroData extends CreatureData {
   /** @inheritdoc */
   static get metadata() {
     return foundry.utils.mergeObject(super.metadata, {
-      type: "hero",
       embedded: {
         Progression: "system.progressions",
       },
@@ -120,25 +119,50 @@ export default class HeroData extends CreatureData {
   /*   Properties                                       */
   /* -------------------------------------------------- */
 
-  /** @inheritdoc */
-  static get BONUS_FIELDS() {
-    const bonus = super.BONUS_FIELDS;
+  /**
+   * The hero's current path.
+   * @type {string|null}
+   */
+  get currentPath() {
+    const [mixed, main] = this.currentPaths;
+    return mixed ? mixed : main;
+  }
 
-    // Pools
-    for (const k of ["health", "mana", "stamina"]) {
-      bonus.add(`system.pools.${k}.max`);
-      bonus.add(`system.pools.${k}.faces`);
+  /* -------------------------------------------------- */
+
+  /**
+   * The hero's current paths. In order, the mixed path, then the core path with the
+   * highest investment, then the secondary path.
+   * @type {Array<string|null>}
+   */
+  get currentPaths() {
+    const paths = [null, null, null];
+
+    // Core paths, sorted highest first.
+    const corePaths = Object.keys(this.paths)
+      .filter(path => path in artichron.config.PROGRESSION_CORE_PATHS)
+      .sort((a, b) => this.paths[b].invested - this.paths[a].invested);
+    if (!corePaths.length) return paths;
+
+    if (corePaths.length === 1) {
+      paths[1] = corePaths[0];
+      return paths;
     }
 
-    // Skills
-    for (const k of Object.keys(artichron.config.SKILLS)) {
-      bonus.add(`system.skills.${k}.number`);
-      bonus.add(`system.skills.${k}.bonus`);
+    paths[1] = corePaths[0];
+    paths[2] = corePaths[1];
+
+    // Is mixed path?
+    const values = artichron.config.PROGRESSION_VALUES;
+    const isMixed = corePaths.some(path => this.paths[path].invested > values.absolute)
+      && (this.paths[paths[1]].invested / total * 100).between(values.relative.lower, values.relative.upper);
+
+    // If mixed, return that.
+    if (isMixed) {
+      paths[0] = artichron.config.PROGRESSION_CORE_PATHS[corePaths[0]].mixed[corePaths[1]];
     }
 
-    bonus.add("system.details.notes");
-
-    return bonus;
+    return paths;
   }
 
   /* -------------------------------------------------- */
