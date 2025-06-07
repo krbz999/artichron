@@ -1,4 +1,5 @@
 <section class="tab {{tabs.description.cssClass}}" data-group="{{tabs.description.group}}" data-tab="{{tabs.description.id}}">
-  {{formGroup systemFields.identifier value=source.system.identifier choices=config.PROGRESSION_CORE_PATHS blank=false disabled=isPlayMode}}
+  {{formInput systemFields.attributes.fields.value value=source.system.attributes.value options=ctx.attributes type="checkboxes" disabled=isPlayMode}}
+  {{formGroup systemFields.identifier value=source.system.identifier options=ctx.identifiers disabled=isPlayMode hint=ctx.idHint}}
   {{formInput systemFields.description.fields.value value=source.system.description.value enriched=ctx.descriptionValue height=300 disabled=isPlayMode documentUuid=document.uuid toggled=isPlayMode}}
 </section>

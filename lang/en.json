@@ -583,6 +583,16 @@
   }
 },
 
+"ATTRIBUTES": {
+  "booster": "Booster",
+  "fusion": "Fusion",
+  "heavy": "Heavy",
+  "irreducible": "Irreducible",
+  "magical": "Magical",
+  "mixed": "Mixed Path",
+  "twoHanded": "Two-Handed"
+},
+
 "AmmunitionType": {
   "Arrow": "Arrow",
   "Bullet": "Bullet",
@@ -733,6 +743,7 @@
   "Title": "Change Equipped Item",
   "Warning": "You have no items that can be equipped in that slot."
 },
+
 "EQUIPMENT": {
   "CATEGORY": {
     "None": "None",
@@ -741,20 +752,7 @@
     "Tech": "Tech"
   }
 },
-"ItemAttribute": {
-  "Ammunition": "Ammunition",
-  "Blocking": "Blocking",
-  "Bludgeoning": "Bludgeoning",
-  "Booster": "Booster",
-  "Fusion": "Fusion",
-  "Heavy": "Heavy",
-  "Irreducible": "Irreducible",
-  "Magical": "Magical",
-  "Parrying": "Parrying",
-  "Rending": "Rending",
-  "TwoHanded": "Two-Handed",
-  "Undefendable": "Undefendable"
-},
+
 "ItemFusionDialog": {
   "Changes": "Changes",
   "Default": "Default",
@@ -804,7 +802,8 @@
     "FIELDS": {
       "identifier": {
         "label": "Path Identifier",
-        "hint": "Which of the core paths this item represents."
+        "hint": "Which of the core paths this item represents.",
+        "hintMixed": "Which of the mixed paths this item represents."
       }
     }
   },

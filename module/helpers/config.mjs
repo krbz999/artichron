@@ -358,71 +358,77 @@ export const TEMPLATE_DURATIONS = {
  * @enum {ItemAttributeConfig}
  */
 export const ITEM_ATTRIBUTES = {
-  ammunition: {
-    label: "ARTICHRON.ItemAttribute.Ammunition",
-    types: new Set(["weapon"]),
-    transferrable: false,
-  },
-  blocking: {
-    label: "ARTICHRON.ItemAttribute.Blocking",
-    types: new Set(["shield", "spell", "weapon"]),
-    transferrable: true,
-  },
-  bludgeoning: {
-    label: "ARTICHRON.ItemAttribute.Bludgeoning",
-    types: new Set(["weapon"]),
-    transferrable: true,
-    status: "hindered",
-  },
+  // ammunition: {
+  //   label: "ARTICHRON.ItemAttribute.Ammunition",
+  //   types: new Set(["weapon"]),
+  //   transferrable: false,
+  // },
+  // blocking: {
+  //   label: "ARTICHRON.ItemAttribute.Blocking",
+  //   types: new Set(["spell"]),
+  //   transferrable: true,
+  // },
+  // bludgeoning: {
+  //   label: "ARTICHRON.ItemAttribute.Bludgeoning",
+  //   types: new Set(["weapon"]),
+  //   transferrable: true,
+  //   status: "hindered",
+  // },
   booster: {
-    label: "ARTICHRON.ItemAttribute.Booster",
+    label: "ARTICHRON.ATTRIBUTES.booster",
     types: new Set(["elixir"]),
     transferrable: false,
   },
   fusion: {
-    label: "ARTICHRON.ItemAttribute.Fusion",
-    types: new Set(["armor", "shield", "spell", "weapon"]),
+    label: "ARTICHRON.ATTRIBUTES.fusion",
+    types: new Set(["armor"]),
     transferrable: false,
   },
   heavy: {
-    label: "ARTICHRON.ItemAttribute.Heavy",
+    label: "ARTICHRON.ATTRIBUTES.heavy",
     types: new Set(["armor"]),
     transferrable: true,
     damageOption: false,
   },
   irreducible: {
-    label: "ARTICHRON.ItemAttribute.Irreducible",
-    types: new Set(["armor", "shield", "spell", "weapon"]),
+    label: "ARTICHRON.ATTRIBUTES.irreducible",
+    types: new Set(["spell"]),
     transferrable: true,
     damageOption: true,
   },
   magical: {
-    label: "ARTICHRON.ItemAttribute.Magical",
+    label: "ARTICHRON.ATTRIBUTES.magical",
+    types: new Set(["ammo", "armor", "spell", "part"]),
     transferrable: true,
   },
-  parrying: {
-    label: "ARTICHRON.ItemAttribute.Parrying",
-    types: new Set(["shield", "spell", "weapon"]),
-    transferrable: true,
+  mixed: {
+    label: "ARTICHRON.ATTRIBUTES.mixed",
+    types: new Set(["path"]),
+    transferrable: false,
   },
-  rending: {
-    label: "ARTICHRON.ItemAttribute.Rending",
-    types: new Set(["shield", "spell", "weapon"]),
-    transferrable: true,
-    status: "bleeding",
-  },
+  // parrying: {
+  //   label: "ARTICHRON.ItemAttribute.Parrying",
+  //   types: new Set(["spell"]),
+  //   transferrable: true,
+  // },
+  // rending: {
+  //   label: "ARTICHRON.ItemAttribute.Rending",
+  //   types: new Set(["spell"]),
+  //   transferrable: true,
+  //   status: "bleeding",
+  // },
   twoHanded: {
-    label: "ARTICHRON.ItemAttribute.TwoHanded",
-    types: new Set(["shield", "spell", "weapon"]),
+    label: "ARTICHRON.ATTRIBUTES.twoHanded",
+    types: new Set(["spell"]),
     transferrable: true,
     damageOption: false,
   },
-  undefendable: {
-    label: "ARTICHRON.ItemAttribute.Undefendable",
-    types: new Set(["armor", "shield", "spell", "weapon"]),
-    transferrable: true,
-    damageOption: true,
-  },
+  // undefendable: {
+  //   label: "ARTICHRON.ItemAttribute.Undefendable",
+  //   types: new Set(["spell"]),
+  //   transferrable: true,
+  //   damageOption: true,
+  // },
 };
 
 /* -------------------------------------------------- */
@@ -738,21 +744,33 @@ export const PROGRESSION_THRESHOLDS = [{
 
 /* -------------------------------------------------- */
 
+/**
+ * @typedef CorePathConfiguration
+ * @property {string} label   Human-readable label.
+ * @property {string} uuid    The uuid to the core path item.
+ * @property {Proxy} mixed    Proxy object to retrieve a resulting mixed path.
+ */
+
+/** @type {Record<string, CorePathConfiguration>} */
 export const PROGRESSION_CORE_PATHS = {
   cleric: {
     label: "ARTICHRON.PROGRESSION.LABELS.Cleric",
+    uuid: "Compendium.artichron.items.Item.TOPOCY0zrPjEj59G",
     mixed: {},
   },
   fighter: {
     label: "ARTICHRON.PROGRESSION.LABELS.Fighter",
+    uuid: "Compendium.artichron.items.Item.UrSG9mEumnMbTIrM",
     mixed: {},
   },
   mage: {
     label: "ARTICHRON.PROGRESSION.LABELS.Mage",
+    uuid: "Compendium.artichron.items.Item.7i6uNxcreJWoO4C9",
     mixed: {},
   },
   rogue: {
     label: "ARTICHRON.PROGRESSION.LABELS.Rogue",
+    uuid: "Compendium.artichron.items.Item.1LlHcgghhPrbJjIi",
     mixed: {},
   },
 };
