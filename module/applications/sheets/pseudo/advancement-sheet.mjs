@@ -15,11 +15,11 @@ export default class AdvancementSheet extends PseudoDocumentSheet {
   static PARTS = {
     ...super.PARTS,
     identity: {
-      template: "systems/artichron/templates/sheets/item/advancement-sheet/identity.hbs",
+      template: "systems/artichron/templates/sheets/pseudo/advancement/identity.hbs",
       classes: ["tab", "standard-form"],
     },
     details: {
-      template: "systems/artichron/templates/sheets/item/advancement-sheet/details.hbs",
+      template: "systems/artichron/templates/sheets/pseudo/advancement/details.hbs",
       classes: ["tab", "standard-form"],
     },
   };
@@ -28,44 +28,8 @@ export default class AdvancementSheet extends PseudoDocumentSheet {
   /*   Properties                                       */
   /* -------------------------------------------------- */
 
-  /**
-   * The item that has this advancement.
-   * @type {ItemArtichron}
-   */
-  get item() {
-    return this.document;
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * The advancement.
-   * @type {BaseAdvancement}
-   */
-  get advancement() {
-    return this.pseudoDocument;
-  }
-
-  /* -------------------------------------------------- */
-
-  /** @inheritdoc */
-  async _preparePartContext(partId, context, options) {
-    context = await super._preparePartContext(partId, context, options);
-
-    switch (partId) {
-      case "identity":
-        return this.#prepareIdentityContext(context, options);
-      case "details":
-        return this.#prepareDetailsContext(context, options);
-    }
-
-    return context;
-  }
-
-  /* -------------------------------------------------- */
-
   /** @type {import("../../../_types").ContextPartHandler} */
-  async #prepareIdentityContext(context, options) {
+  async _preparePartContextIdentity(context, options) {
     context.ctx = {};
     return context;
   }
@@ -73,7 +37,7 @@ export default class AdvancementSheet extends PseudoDocumentSheet {
   /* -------------------------------------------------- */
 
   /** @type {import("../../../_types").ContextPartHandler} */
-  async #prepareDetailsContext(context, options) {
+  async _preparePartContextDetails(context, options) {
     context.ctx = {
       itemPool: [],
     };
@@ -116,11 +80,12 @@ export default class AdvancementSheet extends PseudoDocumentSheet {
   static async #onDropTargetArea(event) {
     const item = await fromUuid(foundry.applications.ux.TextEditor.implementation.getDragEventData(event).uuid);
     if (!item || (item.documentName !== "Item") || (item.type !== "talent")) return;
-    const exists = this.pseudoDocument.pool.some(k => k.uuid === item.uuid);
+    const advancement = this.pseudoDocument;
+    const exists = advancement.pool.some(k => k.uuid === item.uuid);
     if (exists) return;
-    const pool = foundry.utils.deepClone(this.pseudoDocument._source.pool);
+    const pool = foundry.utils.deepClone(advancement._source.pool);
     pool.push({ uuid: item.uuid, optional: !!pool.length && pool.every(p => p.optional) });
-    this.pseudoDocument.update({ pool });
+    advancement.update({ pool });
   }
 
   /* -------------------------------------------------- */
@@ -132,9 +97,10 @@ export default class AdvancementSheet extends PseudoDocumentSheet {
    * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
    */
   static async #deletePoolItem(event, target) {
+    const advancement = this.pseudoDocument;
     const index = Number(target.closest("[data-pool-index]").dataset.poolIndex);
-    const pool = foundry.utils.deepClone(this.pseudoDocument._source.pool);
+    const pool = foundry.utils.deepClone(advancement._source.pool);
     pool.splice(index, 1);
-    this.pseudoDocument.update({ pool });
+    advancement.update({ pool });
   }
 }

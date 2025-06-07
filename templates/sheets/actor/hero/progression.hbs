@@ -1,5 +1,5 @@
 <section class="tab {{tabs.progression.cssClass}}" data-group="{{tabs.progression.group}}" data-tab="{{tabs.progression.id}}">
-  <div class="document-list progression">
+  <div class="document-list items progression" data-document-name="Item">
     {{#if ctx.mixed}}
     <h3 class="document-list-header">
       <span>{{ctx.mixed.label}}</span>
@@ -11,6 +11,8 @@
       <span>{{label}} ({{invested}})</span>
       <input type="number" name="system.paths.{{key}}.invested" value="{{invested}}" style="min-width: 5rem;">
     </h3>
+
+    {{document-list-entries documents=items classes="compact"}}
     {{/each}}
   </div>
 </section>

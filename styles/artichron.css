@@ -73,3 +73,32 @@ dialog:-internal-dialog-in-top-layer::backdrop {
   text-decoration-style: solid;
   text-decoration-color: var(--artichron-color-gold);
 }
+
+/* -------------------------------------------------- */
+
+/* Blockquotes */
+.artichron blockquote {
+  border-left: 3px solid var(--artichron-color-quotes);
+  padding-top: 0;
+  padding-bottom: 0;
+
+  p.cite {
+    text-align: center;
+    &::before {
+      content: "—";
+    }
+    &::after {
+      content: "—";
+    }
+
+    cite {
+      font-family: arial;
+      font-style: normal;
+    }
+  }
+
+  * {
+    font-family: var(--artichron-font-raleway);
+    color: var(--artichron-color-quotes);
+  }
+}

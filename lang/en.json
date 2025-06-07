@@ -231,7 +231,9 @@
 
   "ADVANCEMENT": {
     "HEADERS": {
-      "requirements": "Requirements"
+      "requirements": "Requirements",
+      "item": "Item",
+      "optional": "Optional"
     }
   },
   "SPELL": {

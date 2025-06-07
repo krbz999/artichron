@@ -1,0 +1,4 @@
+.artichron :is(h1, h2, h3, h4, h5, h6) {
+  font-family: var(--artichron-font-header);
+  font-weight: normal;
+}

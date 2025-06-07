@@ -21,8 +21,6 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
   /*   Rendering                                        */
   /* -------------------------------------------------- */
 
-  /* -------------------------------------------------- */
-
   /** @type {import("../../../_types").ContextPartHandler} */
   async _preparePartContextEffects(context, options) {
     context.ctx = {
@@ -207,7 +205,7 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
 
     // Trigger advancements.
     if (item.supportsAdvancements) {
-      await artichron.data.pseudoDocuments.advancements.BaseAdvancement.performChanges(this.document, item);
+      await artichron.data.pseudoDocuments.advancements.BaseAdvancement.performAdvancement(this.document, item);
       return;
     }
 

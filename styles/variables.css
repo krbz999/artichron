@@ -4,8 +4,6 @@
   --stamina-filter: sepia(1) hue-rotate(90deg) drop-shadow(0 0 1px green);
   --artichron-theme-bright: rgb(222, 225, 255);
   --artichron-pool-die-size: 100px;
-  --artichron-font-primary: "Bruno Ace";
-  --artichron-font-labels: "Amiri";
 
   /* COLORS */
   --artichron-color-border-blue: rgb(79, 79, 206);
@@ -17,6 +15,7 @@
   --artichron-color-black-45: rgba(0, 0, 0, 0.45);
   --artichron-color-gold: #9f9275;
   --artichron-color-purple: #bb52f5;
+  --artichron-color-quotes: #e7d1b1;
 
   --artichron-color-enemy: rgba(255, 97, 144, 0.699);
   --artichron-color-ally: rgba(98, 98, 255, 0.788);
@@ -34,4 +33,11 @@
   }
 
   --button-focus-outline-color: none;
+}
+
+body {
+  /* FONTS */
+  --artichron-font-header: "Roboto";
+  --artichron-font-raleway: "Raleway";
+  --font-body: var(--artichron-font-raleway);
 }

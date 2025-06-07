@@ -38,6 +38,7 @@ globalThis.artichron = {
 Hooks.once("init", function() {
   registerSettings();
   registerEnrichers();
+  registerFonts();
   helpers.sockets.registerSockets();
   CONFIG.Canvas.dispositionColors.CONTROLLED = 2502655;
 
@@ -248,6 +249,24 @@ Hooks.once("i18nInit", function() {
 /* -------------------------------------------------- */
 
 Hooks.on("hotReload", helpers.hotReload);
+
+/* -------------------------------------------------- */
+/*   Fonts                                            */
+/* -------------------------------------------------- */
+
+/**
+ * Assign font families.
+ */
+function registerFonts() {
+  Object.assign(CONFIG.fontDefinitions, {
+    Raleway: {
+      editor: true,
+      fonts: [
+        { urls: ["systems/artichron/assets/fonts/Raleway/Raleway-VariableFont_wght.ttf"] },
+      ],
+    },
+  });
+}
 
 /* -------------------------------------------------- */
 /*   Hotbar macros                                    */

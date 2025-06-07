@@ -8,9 +8,6 @@ https://www.freepik.com/free-vector/futuristic-technology-background_7594479.htm
 assets/layout/banner.webp
 https://www.freepik.com/free-vector/futuristic-design-background_7434515.htm
 
-assets/layout/vial-red.svg
-https://www.freepik.com/free-vector/triglyceride-blood-test-illustration_410856929.htm
-
 #
 
 The following vectors and icons by SVG Repo

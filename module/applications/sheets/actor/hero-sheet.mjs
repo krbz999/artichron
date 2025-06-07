@@ -184,7 +184,13 @@ export default class HeroSheet extends ActorSheetArtichron {
         ...this.document.system.paths[key],
         key,
         cssClass: isMixed || (i > 0) ? "inactive" : "",
+        items: [],
       });
+    }
+
+    for (const talent of this.document.items.documentsByType.talent) {
+      const path = talent.getFlag("artichron", "advancement.path");
+      context.ctx.paths.find(p => p.key === path)?.items.push({ document: talent });
     }
 
     return context;
@@ -200,6 +206,11 @@ export default class HeroSheet extends ActorSheetArtichron {
     };
 
     for (const item of this.document.items) {
+      if (item.type === "path") continue;
+      if (item.type === "talent") {
+        const path = item.getFlag("artichron", "advancement.path");
+        if (path && (path in this.document.system.paths)) continue;
+      }
       context.ctx.items.push({ document: item, dataset: { name: item.name } });
     }
     context.ctx.items.sort((a, b) => artichron.utils.nameSort(a, b, "document"));

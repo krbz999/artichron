@@ -13,7 +13,7 @@ export default class BaseAdvancement extends TypedPseudoDocument {
       documentName: "Advancement",
       defaultImage: "systems/artichron/assets/icons/advancement.svg",
       embedded: {},
-      sheetClass: artichron.applications.sheets.item.AdvancementSheet,
+      sheetClass: artichron.applications.sheets.pseudo.AdvancementSheet,
       types: artichron.data.pseudoDocuments.advancements,
     };
   }
@@ -201,7 +201,13 @@ export default class BaseAdvancement extends TypedPseudoDocument {
 
   /* -------------------------------------------------- */
 
-  static async performChanges(actor, item) {
+  /**
+   * Perform the advancement flow.
+   * @param {foundry.documents.Actor} actor   The actor being targeted by advancements.
+   * @param {foundry.documents.Item} item     The root item being granted.
+   * @returns {Promise<array|null>}           A promise that resolves to the final updates, or `null` if aborted.
+   */
+  static async performAdvancement(actor, item) {
     const collection = item.getEmbeddedPseudoDocumentCollection("Advancement");
     if (!collection.size) return null;
 
@@ -211,6 +217,9 @@ export default class BaseAdvancement extends TypedPseudoDocument {
     if (!configuration) return null;
 
     const { itemData, actorUpdate } = await BaseAdvancement.prepareUpdates(actor, item, chains);
+    for (const itemD of itemData) {
+      foundry.utils.setProperty(itemD, "flags.artichron.advancement.path", item.system.identifier);
+    }
 
     return Promise.all([
       foundry.utils.isEmpty(itemData) ? null : actor.createEmbeddedDocuments("Item", itemData, { keepId: true }),
