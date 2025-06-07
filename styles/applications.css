@@ -58,10 +58,22 @@
 /* -------------------------------------------------- */
 
 .application.artichron .drop-target-area {
-  min-height: 300px;
+  min-height: calc(var(--height, 300) * 1px);
   border-radius: 5px;
   border: 1px dashed var(--artichron-color-gold);
   margin: 1rem;
+  display: grid;
+
+  &.empty {
+    text-align: center;
+    align-items: center;
+    font-style: italic;
+    color: var(--artichron-color-gold);
+
+    * {
+      pointer-events: none;
+    }
+  }
 
   &.dragover {
     border-style: solid;

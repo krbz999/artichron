@@ -330,6 +330,7 @@ export default class HeroSheet extends ActorSheetArtichron {
     if (!this.document.isOwner) return;
 
     if (item.type === "path") {
+      if (!event.target.classList.contains("drop-target-area")) return;
       const { paths } = this.document.system;
       const allowed = (item.system.identifier in paths) || (Object.keys(paths).length < 2);
       if (!allowed) {
@@ -339,6 +340,18 @@ export default class HeroSheet extends ActorSheetArtichron {
     }
 
     return super._onDropItem(event, item);
+  }
+
+  /* -------------------------------------------------- */
+
+  /** @inheritdoc */
+  _onDragOver(event) {
+    const area = event.target.closest(".drop-target-area");
+    if (!area) return super._onDragOver(event);
+    if (area.classList.contains("dragover")) return;
+
+    area.classList.add("dragover");
+    area.addEventListener("dragleave", () => area.classList.remove("dragover"), { once: true });
   }
 
   /* -------------------------------------------------- */

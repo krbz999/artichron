@@ -15,4 +15,13 @@
     {{document-list-entries documents=items classes="compact"}}
     {{/each}}
   </div>
+
+  {{!-- Display action to add path. --}}
+  {{#if (and (lt ctx.paths.length 2) isEditMode editable)}}
+  <section class="progression actions">
+    <div class="drop-target-area empty" style="--height: 150;">
+      <p>{{localize "ARTICHRON.SHEET.HERO.dropPath"}}</p>
+    </div>
+  </section>
+  {{/if}}
 </section>
