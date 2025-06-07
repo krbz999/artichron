@@ -270,6 +270,7 @@
     "editing": "Toggle Edit Mode"
   }
 },
+
 "ACTIVITY": {
   "Buttons": {
     "ApplyDamage": "Apply Damage",
@@ -398,41 +399,7 @@
     }
   }
 },
-"ActivitySelectDialog": {
-  "Legend": "Activities",
-  "NoDescription": "No details provided.",
-  "Title": "Select Activity: {name}"
-},
-"ActivityUseDialog": {
-  "ConsumeActionHint": "When in combat, this action requires consuming {points} action points.",
-  "ConsumeActionLabel": "Action Points",
-  "ConsumeLegend": "Consumption",
-  "ConsumeUsesHint": "Consume a use of this elixir.",
-  "ConsumeUsesLabel": "Consume Elixir",
-  "DamageHint": "Each point spent from the pool will add one additional die to the damage dealt.",
-  "DamageLabel": "Increase",
-  "DamageLegend": "Damage",
-  "DefendHint": "Each point spent from the pool will add one additional die to the roll.",
-  "DefendLabel": "Increase",
-  "DefendLegend": "Defend",
-  "ElixirsHint": "Elixirs can be consumed for additional points to spend.",
-  "ElixirsLegend": "Elixirs",
-  "HealingHint": "Each point spent from the pool will add one additional die to the healing.",
-  "HealingLabel": "Increase",
-  "HealingLegend": "Healing",
-  "TeleportHint": "Each point spent from the pool will increase the range of the teleportation by 1m.",
-  "TeleportLabel": "Increase",
-  "TeleportLegend": "Teleportation",
-  "TemplateHint": "Each point spent from the pool will increase the distance or radius of the area of effect by 1m.",
-  "TemplateLabel": "Size",
-  "TemplateLegend": "Area",
-  "TemplatePlaceHint": "Place a measured template.",
-  "TemplatePlaceLabel": "Place",
-  "Title": "Use Activity: {name}",
-  "Warning": {
-    "Overspending": "You do not have enough available resources to enhance the activity in this way."
-  }
-},
+
 "ACTOR": {
   "FIELDS": {
     "bonuses": {
@@ -593,21 +560,6 @@
   "twoHanded": "Two-Handed"
 },
 
-"AmmunitionType": {
-  "Arrow": "Arrow",
-  "Bullet": "Bullet",
-  "Round": "Round",
-  "Shell": "Shotgun Shell"
-},
-"ArmorType": {
-  "Accessory": "Accessory",
-  "Arms": "Arm Piece",
-  "Boots": "Boots",
-  "Chest": "Chest Piece",
-  "Head": "Head Piece",
-  "Legs": "Leg Piece"
-},
-
 "CLOCK": {
   "FIELDS": {
     "color": {
@@ -625,30 +577,51 @@
   }
 },
 
-"Combat": {
-  "ActionPointsOverflow": "Pips: {n}",
-  "BeginCombat": "Begin Combat",
-  "ContextClearInitiative": "clear Initiative",
-  "ContextRemoveCombatant": "Remove Combatant",
-  "ContextUpdateActionPoints": "Update Action Points",
-  "ContextUpdateCombatant": "Update Combatant",
-  "EndCombat": "End Combat",
-  "HealthBar": "Health ({value} / {max})",
-  "NextTurn": "Next Turn",
-  "PingCombatant": "Ping Combatant",
-  "PreviousTurn": "Previous Turn",
-  "StartRoundConfirm": "Apply",
-  "StartRoundTitle": "Start of Round Conditions",
-  "ToggleCollapsed": "Collapse",
-  "ToggleDefeated": "Toggle Defeated",
-  "ToggleHidden": "Toggle Hidden"
-},
-"ContextMenu": {
-  "Directory": {
-    "AssignPrimaryParty": "Assign Primary Party",
-    "RemovePrimaryParty": "Unassign Primary Party"
+"CONDITIONS": {
+  "FIELDS": {
+    "bleeding": {
+      "label": "Bleeding",
+      "flavor": "{actor} is bleeding",
+      "effect": "{actor} takes {level}d6 physical damage at the start of every round."
+    },
+    "blind": {
+      "label": "Blind"
+    },
+    "bloodied": {
+      "label": "Bloodied"
+    },
+    "burning": {
+      "label": "Burning",
+      "flavor": "{actor} is burning",
+      "effect": "{actor} takes {level}d12 fire damage at the start of every round."
+    },
+    "critical": {
+      "label": "Critical"
+    },
+    "defeated": {
+      "label": "Defeated"
+    },
+    "flying": {
+      "label": "Flying"
+    },
+    "hindered": {
+      "label": "Hindered"
+    },
+    "injured": {
+      "label": "Injured"
+    },
+    "invisible": {
+      "label": "Invisible"
+    },
+    "levitating": {
+      "label": "Levitating"
+    },
+    "underground": {
+      "label": "Underground"
+    }
   }
 },
+
 "DAMAGE": {
   "FIELDS": {
     "number": {
@@ -662,28 +635,11 @@
     }
   }
 },
-"DamageType": {
-  "Arcane": "Arcane",
-  "Darkness": "Darkness",
-  "Fire": "Fire",
-  "Ice": "Ice",
-  "Light": "Light",
-  "Lightning": "Lightning",
-  "Physical": "Physical",
-  "Wind": "Wind"
+
+"DISTRIBUTION": {
+  "recipients": "Recipients"
 },
-"DamageTypeGroup": {
-  "Elemental": "Elemental",
-  "Physical": "Physical",
-  "Planar": "Planar"
-},
-"DefenseDialog": {
-  "Confirm": "Roll",
-  "Content": "{name} is about to take {damage} damage. You can attempt to parry or block to reduce the damage by an amount equal to the rolled totals.",
-  "Items": "Arsenal",
-  "ItemsHint": "Choose any of your equipped arsenal to defend against the attack and reduce incoming damage.",
-  "Title": "Defense Roll: {name}"
-},
+
 "EFFECT": {
   "FIELDS": {
     "expiration": {
@@ -732,17 +688,6 @@
     "options": "Fusion Options"
   }
 },
-"EffectDurations": {
-  "Combat": "End of Combat",
-  "Day": "End of Day",
-  "None": "None"
-},
-"EquipDialog": {
-  "Hint": "Select the item to equip in this slot.",
-  "Label": "Item",
-  "Title": "Change Equipped Item",
-  "Warning": "You have no items that can be equipped in that slot."
-},
 
 "EQUIPMENT": {
   "CATEGORY": {
@@ -753,20 +698,6 @@
   }
 },
 
-"ItemFusionDialog": {
-  "Changes": "Changes",
-  "Default": "Default",
-  "DefaultFusion": "Fusion: {name}",
-  "Fuse": "Fuse",
-  "FusionLabel": "Fusion",
-  "Split": "Split",
-  "SplitHint": "Select the active fusion to split off this item. The source item will be restored.",
-  "SplitLabel": "Fusion",
-  "TargetLabel": "Target",
-  "Title": "{source}: Fuse",
-  "TitleUnfuse": "{item}: Split",
-  "UnfuseTitle": "Split '{source}' and '{target}'?"
-},
 "ITEM": {
   "AMMO": {
     "FIELDS": {
@@ -1057,17 +988,12 @@
     }
   }
 },
-"LootDialog": {
-  "Content": "Grant the loot from this monster ({name}) to the primary party? The loot will be removed from the monster.",
-  "Title": "{name}: Grant Loot"
-},
+
 "MACRO": {
   "ToggleEffect": "Toggle Effect: {name}",
   "UseItem": "Use Item: {name}"
 },
-"MerchantConfigurationDialog": {
-  "Title": "Configure Merchant: {name}"
-},
+
 "MONSTER": {
   "recover": "Recover",
   "INVENTORY": {
@@ -1079,54 +1005,6 @@
   }
 },
 
-"PartyDistributionDialog": {
-  "amount": {
-    "hintCurrency": "The amount of funds to distribute. Each recipient will receive this amount.",
-    "hintPoints": "The amount of points to distribute. Each recipient will receive this amount.",
-    "label": "Amount"
-  },
-  "ContentCurrency": "{name} has been distributed {amount} <span class='chron'></span>.",
-  "ContentPoints": "{name} has been distributed {amount} points.",
-  "targets": {
-    "hint": "The members of this party that will receive part of the distribution."
-  },
-  "TitleCurrency": "{name}: Distribute Chron",
-  "TitlePoints": "{name}: Distribute Points"
-},
-"DISTRIBUTION": {
-  "recipients": "Recipients"
-},
-"PartyFundsDialog": {
-  "Deposit": "Deposit",
-  "hint": "The amount to deposit or subtract from the party funds.",
-  "InsufficientMemberFunds": "The member does not have enough funds available to deposit.",
-  "InsufficientPartyFunds": "The party does not have enough funds available to withdraw.",
-  "label": "Amount",
-  "ReceiptDeposit": "{name} deposited {amount} into the group fund.",
-  "ReceiptWithdraw": "{name} withdrew {amount} from the group fund.",
-  "Title": "Manage Funds: {name}",
-  "Withdraw": "Withdraw"
-},
-"PoolConfig": {
-  "FacesLabel": "Die Faces",
-  "MaxLabel": "Pool Size",
-  "SpecializationBalanced": "Balanced",
-  "SpecializationBalancedFacesHint": "A balanced configuration. Each die has the same number of faces.",
-  "SpecializationBalancedSizeHint": "A balanced configuration. Each pool has the same size.",
-  "SpecializationFocused": "Focused",
-  "SpecializationFocusedFacesHint": "A highly focused configuration. One type of pool has a massive number of faces, but the rest are untouched.",
-  "SpecializationFocusedSizeHint": "A highly focused configuration. One type of pool has a massive number of die, but the rest are untouched.",
-  "SpecializationSpecialized": "Specialized",
-  "SpecializationSpecializedFacesHint": "A specialized configuration. The pools have a small, medium, and large number of faces.",
-  "SpecializationSpecializedSizeHint": "A specialized configuration. The pools have a small, medium, and large amount of dice.",
-  "Title": "Configure Pools: {name}"
-},
-"Pools": {
-  "Danger": "Danger",
-  "Health": "Health",
-  "Mana": "Mana",
-  "Stamina": "Stamina"
-},
 "PROGRESSION": {
   "LABELS": {
     "Cleric": "Cleric",
@@ -1154,11 +1032,13 @@
     "Veteran": "Veteran"
   }
 },
+
 "PURCHASE": {
   "checkout": "Checkout",
   "receipt": "Receipt",
   "summary": "The members of {name} spent {total} at {shop} on the following items:"
 },
+
 "REGION": {
   "DOORSTATE": {
     "FIELDS": {
@@ -1197,6 +1077,7 @@
     }
   }
 },
+
 "ROLL": {
   "Damage": {
     "AmmoItem": "Ammunition",
@@ -1225,25 +1106,12 @@
   "SelectedNone": "No tokens selected.",
   "Targeted": "Targeted"
 },
+
 "RULER": {
   "ERROR": {
     "NotYourTurn": "You cannot move when it is not your turn.",
     "NotEnoughAP": "This movement would require at least {cost} Action Points."
   }
-},
-"Setting": {
-  "CircularTokens": "Circular Tokens",
-  "CircularTokensHint": "Are tokens treated as circular for the purpose of their hit area?",
-  "TemplateAreaThreshold": "Template Area Threshold",
-  "TemplateAreaThresholdHint": "The percentage a token must overlap a template to be considered 'inside' it. The default is 0.4.",
-  "TokenBarLength": "Token Bar Length",
-  "TokenBarLengthHint": "The length of token bars, in degrees. The default is 120."
-},
-"ShieldType": {
-  "Buckler": "Buckler",
-  "Heater": "Heater",
-  "Kite": "Kite",
-  "Tower": "Tower"
 },
 
 "SKILL": {
@@ -1257,56 +1125,217 @@
   }
 },
 
+"ActivitySelectDialog": {
+  "Legend": "Activities",
+  "NoDescription": "No details provided.",
+  "Title": "Select Activity: {name}"
+},
+
+"ActivityUseDialog": {
+  "ConsumeActionHint": "When in combat, this action requires consuming {points} action points.",
+  "ConsumeActionLabel": "Action Points",
+  "ConsumeLegend": "Consumption",
+  "ConsumeUsesHint": "Consume a use of this elixir.",
+  "ConsumeUsesLabel": "Consume Elixir",
+  "DamageHint": "Each point spent from the pool will add one additional die to the damage dealt.",
+  "DamageLabel": "Increase",
+  "DamageLegend": "Damage",
+  "DefendHint": "Each point spent from the pool will add one additional die to the roll.",
+  "DefendLabel": "Increase",
+  "DefendLegend": "Defend",
+  "ElixirsHint": "Elixirs can be consumed for additional points to spend.",
+  "ElixirsLegend": "Elixirs",
+  "HealingHint": "Each point spent from the pool will add one additional die to the healing.",
+  "HealingLabel": "Increase",
+  "HealingLegend": "Healing",
+  "TeleportHint": "Each point spent from the pool will increase the range of the teleportation by 1m.",
+  "TeleportLabel": "Increase",
+  "TeleportLegend": "Teleportation",
+  "TemplateHint": "Each point spent from the pool will increase the distance or radius of the area of effect by 1m.",
+  "TemplateLabel": "Size",
+  "TemplateLegend": "Area",
+  "TemplatePlaceHint": "Place a measured template.",
+  "TemplatePlaceLabel": "Place",
+  "Title": "Use Activity: {name}",
+  "Warning": {
+    "Overspending": "You do not have enough available resources to enhance the activity in this way."
+  }
+},
+
+"AmmunitionType": {
+  "Arrow": "Arrow",
+  "Bullet": "Bullet",
+  "Round": "Round",
+  "Shell": "Shotgun Shell"
+},
+
+"ArmorType": {
+  "Accessory": "Accessory",
+  "Arms": "Arm Piece",
+  "Boots": "Boots",
+  "Chest": "Chest Piece",
+  "Head": "Head Piece",
+  "Legs": "Leg Piece"
+},
+
+"Combat": {
+  "ActionPointsOverflow": "Pips: {n}",
+  "BeginCombat": "Begin Combat",
+  "ContextClearInitiative": "clear Initiative",
+  "ContextRemoveCombatant": "Remove Combatant",
+  "ContextUpdateActionPoints": "Update Action Points",
+  "ContextUpdateCombatant": "Update Combatant",
+  "EndCombat": "End Combat",
+  "HealthBar": "Health ({value} / {max})",
+  "NextTurn": "Next Turn",
+  "PingCombatant": "Ping Combatant",
+  "PreviousTurn": "Previous Turn",
+  "StartRoundConfirm": "Apply",
+  "StartRoundTitle": "Start of Round Conditions",
+  "ToggleCollapsed": "Collapse",
+  "ToggleDefeated": "Toggle Defeated",
+  "ToggleHidden": "Toggle Hidden"
+},
+"ContextMenu": {
+  "Directory": {
+    "AssignPrimaryParty": "Assign Primary Party",
+    "RemovePrimaryParty": "Unassign Primary Party"
+  }
+},
+
+"DamageType": {
+  "Arcane": "Arcane",
+  "Darkness": "Darkness",
+  "Fire": "Fire",
+  "Ice": "Ice",
+  "Light": "Light",
+  "Lightning": "Lightning",
+  "Physical": "Physical",
+  "Wind": "Wind"
+},
+
+"DamageTypeGroup": {
+  "Elemental": "Elemental",
+  "Physical": "Physical",
+  "Planar": "Planar"
+},
+
+"DefenseDialog": {
+  "Confirm": "Roll",
+  "Content": "{name} is about to take {damage} damage. You can attempt to parry or block to reduce the damage by an amount equal to the rolled totals.",
+  "Items": "Arsenal",
+  "ItemsHint": "Choose any of your equipped arsenal to defend against the attack and reduce incoming damage.",
+  "Title": "Defense Roll: {name}"
+},
+
+"EffectDurations": {
+  "Combat": "End of Combat",
+  "Day": "End of Day",
+  "None": "None"
+},
+
+"EquipDialog": {
+  "Hint": "Select the item to equip in this slot.",
+  "Label": "Item",
+  "Title": "Change Equipped Item",
+  "Warning": "You have no items that can be equipped in that slot."
+},
+
+"ItemFusionDialog": {
+  "Changes": "Changes",
+  "Default": "Default",
+  "DefaultFusion": "Fusion: {name}",
+  "Fuse": "Fuse",
+  "FusionLabel": "Fusion",
+  "Split": "Split",
+  "SplitHint": "Select the active fusion to split off this item. The source item will be restored.",
+  "SplitLabel": "Fusion",
+  "TargetLabel": "Target",
+  "Title": "{source}: Fuse",
+  "TitleUnfuse": "{item}: Split",
+  "UnfuseTitle": "Split '{source}' and '{target}'?"
+},
+
+"LootDialog": {
+  "Content": "Grant the loot from this monster ({name}) to the primary party? The loot will be removed from the monster.",
+  "Title": "{name}: Grant Loot"
+},
+
+"MerchantConfigurationDialog": {
+  "Title": "Configure Merchant: {name}"
+},
+
+"PartyDistributionDialog": {
+  "amount": {
+    "hintCurrency": "The amount of funds to distribute. Each recipient will receive this amount.",
+    "hintPoints": "The amount of points to distribute. Each recipient will receive this amount.",
+    "label": "Amount"
+  },
+  "ContentCurrency": "{name} has been distributed {amount} <span class='chron'></span>.",
+  "ContentPoints": "{name} has been distributed {amount} points.",
+  "targets": {
+    "hint": "The members of this party that will receive part of the distribution."
+  },
+  "TitleCurrency": "{name}: Distribute Chron",
+  "TitlePoints": "{name}: Distribute Points"
+},
+
+"PartyFundsDialog": {
+  "Deposit": "Deposit",
+  "hint": "The amount to deposit or subtract from the party funds.",
+  "InsufficientMemberFunds": "The member does not have enough funds available to deposit.",
+  "InsufficientPartyFunds": "The party does not have enough funds available to withdraw.",
+  "label": "Amount",
+  "ReceiptDeposit": "{name} deposited {amount} into the group fund.",
+  "ReceiptWithdraw": "{name} withdrew {amount} from the group fund.",
+  "Title": "Manage Funds: {name}",
+  "Withdraw": "Withdraw"
+},
+
+"PoolConfig": {
+  "FacesLabel": "Die Faces",
+  "MaxLabel": "Pool Size",
+  "SpecializationBalanced": "Balanced",
+  "SpecializationBalancedFacesHint": "A balanced configuration. Each die has the same number of faces.",
+  "SpecializationBalancedSizeHint": "A balanced configuration. Each pool has the same size.",
+  "SpecializationFocused": "Focused",
+  "SpecializationFocusedFacesHint": "A highly focused configuration. One type of pool has a massive number of faces, but the rest are untouched.",
+  "SpecializationFocusedSizeHint": "A highly focused configuration. One type of pool has a massive number of die, but the rest are untouched.",
+  "SpecializationSpecialized": "Specialized",
+  "SpecializationSpecializedFacesHint": "A specialized configuration. The pools have a small, medium, and large number of faces.",
+  "SpecializationSpecializedSizeHint": "A specialized configuration. The pools have a small, medium, and large amount of dice.",
+  "Title": "Configure Pools: {name}"
+},
+
+"Pools": {
+  "Danger": "Danger",
+  "Health": "Health",
+  "Mana": "Mana",
+  "Stamina": "Stamina"
+},
+
+"Setting": {
+  "CircularTokens": "Circular Tokens",
+  "CircularTokensHint": "Are tokens treated as circular for the purpose of their hit area?",
+  "TemplateAreaThreshold": "Template Area Threshold",
+  "TemplateAreaThresholdHint": "The percentage a token must overlap a template to be considered 'inside' it. The default is 0.4.",
+  "TokenBarLength": "Token Bar Length",
+  "TokenBarLengthHint": "The length of token bars, in degrees. The default is 120."
+},
+
+"ShieldType": {
+  "Buckler": "Buckler",
+  "Heater": "Heater",
+  "Kite": "Kite",
+  "Tower": "Tower"
+},
+
 "SkillsDialog": {
   "Flavor": "Skill Roll ({skills})",
   "Hint": "Select two skills to combine for the roll, adding together their dice and bonuses.",
   "Title": "{name}: Roll Skill"
 },
 
-"CONDITIONS": {
-  "FIELDS": {
-    "bleeding": {
-      "label": "Bleeding",
-      "flavor": "{actor} is bleeding",
-      "effect": "{actor} takes {level}d6 physical damage at the start of every round."
-    },
-    "blind": {
-      "label": "Blind"
-    },
-    "bloodied": {
-      "label": "Bloodied"
-    },
-    "burning": {
-      "label": "Burning",
-      "flavor": "{actor} is burning",
-      "effect": "{actor} takes {level}d12 fire damage at the start of every round."
-    },
-    "critical": {
-      "label": "Critical"
-    },
-    "defeated": {
-      "label": "Defeated"
-    },
-    "flying": {
-      "label": "Flying"
-    },
-    "hindered": {
-      "label": "Hindered"
-    },
-    "injured": {
-      "label": "Injured"
-    },
-    "invisible": {
-      "label": "Invisible"
-    },
-    "levitating": {
-      "label": "Levitating"
-    },
-    "underground": {
-      "label": "Underground"
-    }
-  }
-},
 "TargetTypes": {
   "AreaCircle": "Circle",
   "AreaCone": "Cone",
@@ -1316,12 +1345,14 @@
   "Self": "Self",
   "SingleTarget": "Single Target"
 },
+
 "TemplateDurations": {
   "Combat": "End of Combat",
   "None": "None",
   "Round": "End of Round",
   "Turn": "End of Turn"
 },
+
 "TradeDialog": {
   "actorId": {
     "hint": "Select the member of the party that will receive the item.",
@@ -1346,6 +1377,7 @@
     "NoQuantity": "You cannot trade an item from an empty stack."
   }
 },
+
 "Warning": {
   "InvalidActiveEffectType": "The chosen effect type is not valid for this parent.",
   "MissingActionPoints": "You do not have enough Action Points to perform that action."
