@@ -1,14 +1,16 @@
 <section class="tab {{tabs.progression.cssClass}}" data-group="{{tabs.progression.group}}" data-tab="{{tabs.progression.id}}">
-  <div class="document-list items progression" data-document-name="Item">
-    {{#if ctx.mixed}}
-    <h3 class="document-list-header">
-      <span>{{ctx.mixed.label}}</span>
-    </h3>
-    {{/if}}
 
+  {{#if (and editable isEditMode)}}
+  <button type="button" data-action="advancementDialog">
+    <i class="fa-solid fa-circle-nodes"></i>
+    <span>Advance!</span>
+  </button>
+  {{/if}}
+
+  <div class="document-list items progression" data-document-name="Item">
     {{#each ctx.paths}}
-    <h3 class="document-list-header {{cssClass}}">
-      <span>{{label}} ({{invested}})</span>
+    <h3 class="document-list-header">
+      <span>{{label}}</span>
     </h3>
 
     {{document-list-entries documents=items classes="compact"}}
@@ -16,7 +18,7 @@
   </div>
 
   {{!-- Display action to add path. --}}
-  {{#if (and (eq ctx.paths.length 0) editable)}}
+  {{#if (and ctx.droparea editable)}}
   <section class="progression actions">
     <div class="drop-target-area empty" style="--height: 150;">
       <p>{{localize "ARTICHRON.SHEET.HERO.dropPath"}}</p>

@@ -120,19 +120,8 @@ export default class HeroData extends CreatureData {
   /* -------------------------------------------------- */
 
   /**
-   * The hero's current path.
-   * @type {string|null}
-   */
-  get currentPath() {
-    const [mixed, main] = this.currentPaths;
-    return mixed ? mixed : main;
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * The hero's current paths. In order, the mixed path, then the core path with the
-   * highest investment, then the secondary path.
+   * The hero's current paths. In order, the current path (possibly a core path), then the core path
+   * with the highest investment, then the core path with the least investment.
    * @type {Array<string|null>}
    */
   get currentPaths() {
@@ -145,7 +134,7 @@ export default class HeroData extends CreatureData {
     if (!corePaths.length) return paths;
 
     if (corePaths.length === 1) {
-      paths[1] = corePaths[0];
+      paths[0] = paths[1] = corePaths[0];
       return paths;
     }
 
@@ -158,10 +147,8 @@ export default class HeroData extends CreatureData {
     const isMixed = corePaths.some(path => this.progression.paths[path].invested >= values.absolute)
       && (this.progression.paths[paths[1]].invested / total * 100).between(values.relative.lower, values.relative.upper);
 
-    // If mixed, return that.
-    if (isMixed) {
-      paths[0] = artichron.config.PROGRESSION_CORE_PATHS[corePaths[0]].mixed[corePaths[1]];
-    }
+    // Current path is the mixed path unless the difference is too great.
+    paths[0] = isMixed ? artichron.config.PROGRESSION_CORE_PATHS[corePaths[0]].mixed[corePaths[1]] : paths[1];
 
     return paths;
   }
@@ -328,16 +315,33 @@ export default class HeroData extends CreatureData {
   /* -------------------------------------------------- */
 
   /**
-   * Advance.
+   * Advance the hero in one or more of its paths.
+   * @param {Record<string, number>} allocated    How many points to advance in given paths.
+   * @returns {Promise}                           A promise that resolves once advancement choices have been
+   *                                              configured, the actor updated, and any new items created.
    */
   async advance(allocated) {
     const actorUpdate = {};
+
+    let spent = 0;
     for (const [k, v] of Object.entries(allocated)) {
-      actorUpdate[`system.progression.paths.${k}.invested`] = (this.progression.paths[k]?.invested ?? 0) + v;
+      if (!artichron.utils.isIntegerLike(v, { sign: 1 })) {
+        throw new Error("One or more advancement allocations were not a positive integer!");
+      }
+
+      spent += Number(v);
+      actorUpdate[`system.progression.paths.${k}.invested`] = (this.progression.paths[k]?.invested ?? 0) + Number(v);
     }
+    actorUpdate["system.progression.points.value"] = this.progression.points.value - spent;
+
     const range = [Object.values(this.progression.paths).reduce((acc, p) => acc + p.invested, 1)];
     const clone = this.parent.clone(actorUpdate, { keepId: true });
-    const path = clone.system.currentPath;
+
+    if (Object.keys(clone.system.progression.paths).length > 2) {
+      throw new Error("You cannot advance in more than two paths!");
+    }
+
+    const path = clone.system.currentPaths[0];
     range.push(Object.values(clone.system.progression.paths).reduce((acc, p) => acc + p.invested, 0));
 
     const uuid = (path in artichron.config.PROGRESSION_CORE_PATHS)
@@ -349,10 +353,29 @@ export default class HeroData extends CreatureData {
       pathItem,
       { range },
     );
+    if (!itemData) return null;
 
     return Promise.all([
       this.parent.update(actorUpdate),
       this.parent.createEmbeddedDocuments("Item", itemData, { keepId: true }),
     ]);
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Advance the hero in one or more of its paths. With a dialog to configure the distribution.
+   * @param {object} [options={}]                 Additional options that modify the advancement.
+   * @param {string[]} [options.additional=[]]    Pre-select new paths?
+   * @returns {Promise}                           A promise that resolves once advancement choices have been
+   *                                              configured, the actor updated, and any new items created.
+   */
+  async advanceDialog({ additional = [] } = {}) {
+    const allocated = await artichron.applications.apps.advancement.PathConfigurationDialog.create({
+      additional,
+      document: this.parent,
+    });
+    if (!allocated) return null;
+    return this.advance(allocated);
   }
 }

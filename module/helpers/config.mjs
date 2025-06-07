@@ -804,6 +804,7 @@ export const PROGRESSION_MIXED_PATHS = {
 
 for (const k in PROGRESSION_CORE_PATHS) {
   PROGRESSION_CORE_PATHS[k].mixed = new Proxy(PROGRESSION_CORE_PATHS[k].mixed, { get(target, prop, receiver) {
+    if (!prop) return undefined;
     prop = [k, prop].sort((a, b) => a.localeCompare(b)).join(":");
     prop = {
       "cleric:fighter": "templar",

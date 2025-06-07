@@ -1,7 +1,6 @@
 import ActorSheetArtichron from "./actor-sheet-base.mjs";
 
 export default class HeroSheet extends ActorSheetArtichron {
-
   /**
    * The current search query on the inventory tab.
    * @type {string}
@@ -15,6 +14,7 @@ export default class HeroSheet extends ActorSheetArtichron {
     classes: ["hero"],
     position: { width: 400 },
     actions: {
+      advancementDialog: HeroSheet.#advancementDialog,
       rollPool: HeroSheet.#onRollPool,
       rollSkill: HeroSheet.#onRollSkill,
     },
@@ -153,32 +153,59 @@ export default class HeroSheet extends ActorSheetArtichron {
 
   /** @type {import("../../../_types").ContextPartHandler} */
   async _preparePartContextProgression(context, options) {
-    context.ctx = { paths: [], mixed: null };
+    // The sections and whether the hero is *currently* mixed path.
+    context.ctx = { paths: {}, mixed: false, droparea: false };
 
-    const [mixed, primary, secondary] = this.document.system.currentPaths;
+    const paths = this.document.system.progression.paths;
+    const [currentPath, primary, secondary] = this.document.system.currentPaths;
 
+    const mixed = artichron.config.PROGRESSION_CORE_PATHS[primary]?.mixed[secondary];
     if (mixed) {
-      context.ctx.mixed = {
+      context.ctx.paths[mixed] = {
         ...artichron.config.PROGRESSION_MIXED_PATHS[mixed],
         key: mixed,
+        items: [],
+      };
+      context.ctx.mixed = currentPath === mixed;
+    }
+
+    for (const key of [primary, secondary]) {
+      if (!key) continue;
+      const config = artichron.config.PROGRESSION_CORE_PATHS[key];
+      context.ctx.paths[key] = {
+        ...config,
+        ...paths[key],
+        key,
+        items: [],
+        label: `${config.label} (${paths[key].invested})`,
       };
     }
 
-    for (const [i, key] of [primary, secondary].entries()) {
-      if (!key) continue;
-      context.ctx.paths.push({
-        ...artichron.config.PROGRESSION_CORE_PATHS[key],
-        ...this.document.system.progression.paths[key],
-        key,
-        cssClass: context.ctx.mixed || (i > 0) ? "inactive" : "",
-        items: [],
-      });
+    // Set full invested value for mixed path.
+    if (mixed) {
+      context.ctx.paths[mixed].invested = (paths[primary]?.invested ?? 0) + (paths[secondary]?.invested ?? 0);
+      context.ctx.paths[mixed].label = `${context.ctx.paths[mixed].label} (${context.ctx.paths[mixed].invested})`;
     }
 
+    // A temporary "misc" section to store unsorted talents. Removed if none found.
+    context.ctx.paths.other = { items: [], label: game.i18n.localize("ARTICHRON.SHEET.HERO.HEADERS.otherTalents") };
+
+    // Sort talents into path sections.
     for (const talent of this.document.items.documentsByType.talent) {
       const path = talent.getFlag("artichron", "advancement.path");
-      context.ctx.paths.find(p => p.key === path)?.items.push({ document: talent });
+      let section = context.ctx.paths.other;
+      section = context.ctx.paths[path] ?? section;
+      section.items.push({ document: talent });
     }
+
+    // If the hero is not currently mixed path and there are no talents from the mixed path either, remove that section.
+    if (mixed && !context.ctx.mixed && !context.ctx.paths[mixed]?.items.length) delete context.ctx.paths[mixed];
+
+    // Remove "other" section if empty.
+    if (!context.ctx.paths.other.items.length) delete context.ctx.paths.other;
+
+    context.ctx.droparea = !Object.keys(context.ctx.paths).some(k => k !== "other");
+    context.ctx.paths = Object.values(context.ctx.paths);
 
     return context;
   }
@@ -194,10 +221,7 @@ export default class HeroSheet extends ActorSheetArtichron {
 
     for (const item of this.document.items) {
       if (item.type === "path") continue;
-      if (item.type === "talent") {
-        const path = item.getFlag("artichron", "advancement.path");
-        if (path && (path in this.document.system.progression.paths)) continue;
-      }
+      if (item.type === "talent") continue;
       context.ctx.items.push({ document: item, dataset: { name: item.name } });
     }
     context.ctx.items.sort((a, b) => artichron.utils.nameSort(a, b, "document"));
@@ -327,7 +351,7 @@ export default class HeroSheet extends ActorSheetArtichron {
       const { paths } = this.document.system.progression;
 
       // This drop area is only used if the actor has 0 paths.
-      if (foundry.utils.isEmpty(paths)) await this.document.system.advance({ [id]: 1 });
+      if (foundry.utils.isEmpty(paths)) await this.document.system.advanceDialog({ additional: [id] });
       return;
     }
 
@@ -384,5 +408,17 @@ export default class HeroSheet extends ActorSheetArtichron {
    */
   static #onRollPool(event, target) {
     this.document.rollPool({ pool: target.dataset.pool, event });
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Trigger advancement dialog.
+   * @this {HeroSheet}
+   * @param {PointerEvent} event    The initiating click event.
+   * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
+   */
+  static #advancementDialog(event, target) {
+    this.document.system.advanceDialog();
   }
 }

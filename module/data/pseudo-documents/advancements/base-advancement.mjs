@@ -150,13 +150,14 @@ export default class BaseAdvancement extends TypedPseudoDocument {
     }
 
     const collection = item.getEmbeddedPseudoDocumentCollection("Advancement");
-    if (!collection.size) return null;
+    if (!collection.size) return [];
 
     const chains = [];
     for (const advancement of collection) {
       const validRange = advancement.requirements.points.between(range[0], range[1]);
       if (validRange) chains.push(await advancement.determineChain());
     }
+    if (!chains.length) return [];
 
     const configuration = await artichron.applications.apps.advancement.ChainConfigurationDialog.create({ chains });
     if (!configuration) return null;

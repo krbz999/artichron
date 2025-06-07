@@ -50,7 +50,7 @@ export default function ArtichronApplicationMixin(Class) {
 
       const fn = `_preparePartContext${partId.capitalize()}`;
       if (!(this[fn] instanceof Function)) {
-        throw new Error(`The ${this.constructor.name} sheet does not implement the [${fn}] method.`);
+        throw new Error(`The [${this.constructor.name}] application does not implement the [${fn}] method.`);
       }
 
       return this[fn](context, options);

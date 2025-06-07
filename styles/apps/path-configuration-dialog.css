@@ -1,49 +1,16 @@
 .artichron.path-configuration-dialog {
   [data-application-part=paths] {
-    .current {
-      text-align: center;
-    }
+    text-align: center;
 
     .paths {
-      padding-top: 2rem;
-      margin-top: 2rem;
-      border-top: 1px solid var(--artichron-color-gold);
       gap: 1rem;
       display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-
-      .points {
-        flex: 0 0 40%;
-        display: grid;
-        align-content: center;
-        gap: 1rem;
-        margin-top: -2rem;
-
-        .controls {
-          display: grid;
-          grid-template-columns: 1fr 1fr 1fr;
-          justify-items: center;
-
-          * {
-            font-size: 3rem;
-            --button-size: 4rem;
-          }
-        }
-
-        [data-action=confirmPointSelection] {
-          margin: 0 1rem;
-        }
-      }
+      align-items: center;
 
       .primary, .secondary {
-        flex: 0 0 25%;
-        text-align: center;
+        flex: 0 0 30%;
+        justify-items: center;
       }
-
-      .primary {}
-
-      .secondary {}
     }
   }
 }

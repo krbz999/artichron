@@ -2,40 +2,32 @@
   {{!-- {{log this ctx level="warn"}} --}}
   <section class="current">
     <h1 class="section-header">{{ctx.current.label}}</h1>
-    <span class="subtitle">Current Path</span>
+    <span class="subtitle">{{localize "ARTICHRON.PROGRESSION.PATH_CONFIGURATION.currentPath"}}</span>
   </section>
 
   <section class="paths">
 
-    <div class="primary" data-path="{{ctx.primary.key}}">
-      <button type="button" data-action="investPoint" {{disabled (not ctx.points.remaining)}}>
-        <i class="fa-solid fa-chevron-up"></i>
-      </button>
-      <img src="{{ctx.primary.item.img}}" alt="{{ctx.primary.label}}">
-      <button type="button" data-action="removePoint" {{disabled (not ctx.primary.allocated)}}>
-        <i class="fa-solid fa-chevron-down"></i>
-      </button>
+    <div class="primary" data-path="{{ctx.primary.key}}" {{#unless ctx.primary.key}} data-drop-area="primary" {{/unless}}>
+      <button type="button" class="icon fa-solid fa-chevron-up" data-action="investPoint" {{disabled (or (not ctx.points.remaining) ctx.primary.disabled)}}></button>
+      <img src="{{ctx.primary.image}}" alt="{{ctx.primary.label}}">
+      <button type="button" class="icon fa-solid fa-chevron-down" data-action="removePoint" {{disabled (not ctx.primary.allocated)}}></button>
 
       <h2>{{ctx.primary.label}}</h2>
-      <span class="subtitle">Invested: {{ctx.primary.invested}} (+{{ctx.primary.allocated}})</span>
+      <span class="subtitle">{{localize "ARTICHRON.PROGRESSION.PATH_CONFIGURATION.invested" total=ctx.primary.invested delta=ctx.primary.allocated}}</span>
     </div>
 
     <div class="points">
-      <span class="counter">{{ctx.points.remaining}}</span>
-      <p class="hint">Invest additional points into your current paths.</p>
+      <h3>{{ctx.points.remaining}}</h3>
+      <p class="hint">{{localize "ARTICHRON.PROGRESSION.PATH_CONFIGURATION.investHint"}}</p>
     </div>
 
-    <div class="secondary" data-path="{{ctx.secondary.key}}">
-      <button type="button" data-action="investPoint" {{disabled (not ctx.points.remaining)}}>
-        <i class="fa-solid fa-chevron-up"></i>
-      </button>
-      <img src="{{ctx.secondary.item.img}}" alt="{{ctx.secondary.label}}">
-      <button type="button" data-action="removePoint" {{disabled (not ctx.secondary.allocated)}}>
-        <i class="fa-solid fa-chevron-down"></i>
-      </button>
+    <div class="secondary" data-path="{{ctx.secondary.key}}" {{#unless ctx.secondary.key}} data-drop-area="secondary" {{/unless}}>
+      <button type="button" class="icon fa-solid fa-chevron-up" data-action="investPoint" {{disabled (or (not ctx.points.remaining) ctx.secondary.disabled)}}></button>
+      <img src="{{ctx.secondary.image}}" alt="{{ctx.secondary.label}}">
+      <button type="button" class="icon fa-solid fa-chevron-down" data-action="removePoint" {{disabled (not ctx.secondary.allocated)}}></button>
 
       <h2>{{ctx.secondary.label}}</h2>
-      <span class="subtitle">Invested: {{ctx.secondary.invested}} (+{{ctx.secondary.allocated}})</span>
+      <span class="subtitle">{{localize "ARTICHRON.PROGRESSION.PATH_CONFIGURATION.invested" total=ctx.secondary.invested delta=ctx.secondary.allocated}}</span>
     </div>
 
   </section>

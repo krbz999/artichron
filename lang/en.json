@@ -139,7 +139,8 @@
       "defenses": "Defenses",
       "skills": "Skills",
       "equipment": "Equipment",
-      "inventory": "Inventory"
+      "inventory": "Inventory",
+      "otherTalents": "Other Talents"
     }
   },
 
@@ -995,6 +996,13 @@
     "swashbuckler": "Swashbuckler",
     "templar": "Templar",
     "warlock": "Warlock"
+  },
+  "PATH_CONFIGURATION": {
+    "currentPath": "Current Path",
+    "noPath": "No Path",
+    "investHint": "Invest additional points into your current paths.",
+    "invested": "Invested: {total} (+{delta})",
+    "title": "Improve Paths: {name}"
   },
   "THRESHOLDS": {
     "experienced": "Experienced",

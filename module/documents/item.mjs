@@ -20,14 +20,14 @@ export default class ItemArtichron extends BaseDocumentMixin(foundry.documents.I
       case "part":
         img = "icons/svg/bones.svg";
         break;
-      case "shield":
-        img = "icons/svg/shield.svg";
+      case "path":
+        img = "icons/svg/statue.svg";
         break;
       case "spell":
         img = "icons/svg/book.svg";
         break;
-      case "weapon":
-        img = "icons/svg/sword.svg";
+      case "talent":
+        img = "icons/svg/mage-shield.svg";
         break;
     }
     return img ? { img: img } : super.getDefaultArtwork(itemData);
