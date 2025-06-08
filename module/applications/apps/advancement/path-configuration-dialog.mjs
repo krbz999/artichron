@@ -220,7 +220,7 @@ export default class PathConfigurationDialog extends Application {
     const id = item.system.identifier;
     if (!(id in artichron.config.PROGRESSION_CORE_PATHS)) return;
     if (id in this.#clone.system.progression.paths) return;
-    this.#clone.updateSource({ [`system.progression.paths.${id}.invested`]: 1 });
+    this.#clone.updateSource({ [`system.progression.paths.${id}.invested`]: 0 });
     this.render();
   }
 }
