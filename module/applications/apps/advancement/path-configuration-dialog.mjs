@@ -43,6 +43,12 @@ export default class PathConfigurationDialog extends Application {
 
   /** @inheritdoc */
   static PARTS = {
+    header: {
+      template: "systems/artichron/templates/apps/advancement/path-configuration-dialog/header.hbs",
+    },
+    progresses: {
+      template: "systems/artichron/templates/apps/advancement/path-configuration-dialog/progresses.hbs",
+    },
     paths: {
       template: "systems/artichron/templates/apps/advancement/path-configuration-dialog/paths.hbs",
     },
@@ -76,6 +82,86 @@ export default class PathConfigurationDialog extends Application {
 
   /* -------------------------------------------------- */
 
+  /**
+   * Helper method to retrieve a path item from the config.
+   * @param {string} path                               The path identifier.
+   * @returns {Promise<foundry.documents.Item|null>}    A promise that resolves to the retrieved or cached item.
+   */
+  async #getItem(path) {
+    if (!path) return null;
+    if (this.#cachedItems[path]) return this.#cachedItems[path];
+
+    let uuid;
+    if (path in artichron.config.PROGRESSION_MIXED_PATHS) uuid = artichron.config.PROGRESSION_MIXED_PATHS[path].uuid;
+    else uuid = artichron.config.PROGRESSION_CORE_PATHS[path]?.uuid;
+
+    const item = await fromUuid(uuid);
+    if (!item) return null;
+
+    return this.#cachedItems[path] = item;
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Cache of retrieved path items.
+   * @type {Record<string, foundry.documents.Item>}
+   */
+  #cachedItems = {};
+
+  /* -------------------------------------------------- */
+
+  /** @type {import("../../../_types").ContextPartHandler} */
+  async _preparePartContextHeader(context, options) {
+    context.ctx = {};
+
+    const clone = this.#clone.system.progression;
+    const [current, primaryPath, secondaryPath] = this.#clone.system.currentPaths;
+    const total = clone.paths[primaryPath]?.invested + (clone.paths[secondaryPath]?.invested ?? 0);
+    const item = total ? await this.#getItem(current) : null;
+
+    const label = item && total
+      ? `${item.name} (${artichron.utils.romanize(total)})`
+      : game.i18n.localize("ARTICHRON.PROGRESSION.PATH_CONFIGURATION.noPath");
+    const image = total && item ? item.img : null;
+    Object.assign(context.ctx, { label, image });
+
+    return context;
+  }
+
+  /* -------------------------------------------------- */
+
+  /** @type {import("../../../_types").ContextPartHandler} */
+  async _preparePartContextProgresses(context, options) {
+    context.ctx = {};
+
+    const [current, primaryPath, secondaryPath] = this.#clone.system.currentPaths;
+    if (!primaryPath) return context;
+
+    const bars = context.ctx.progresses = [];
+    const paths = new Set();
+    const mixed = current in artichron.config.PROGRESSION_MIXED_PATHS
+      ? current
+      : artichron.config.PROGRESSION_CORE_PATHS[primaryPath].mixed[secondaryPath];
+
+    if (mixed) paths.add(mixed);
+    paths.add(primaryPath);
+    if (secondaryPath) paths.add(secondaryPath);
+
+    for (const path of paths) {
+      const config = path in artichron.config.PROGRESSION_CORE_PATHS
+        ? artichron.config.PROGRESSION_CORE_PATHS[path]
+        : artichron.config.PROGRESSION_MIXED_PATHS[path];
+      const color = foundry.utils.Color.fromRGB([Math.random(), Math.random(), Math.random()]).css;
+      const fill = Math.ceil(Math.random() * 100);
+      bars.push({ path, color, fill, label: config.label });
+    }
+
+    return context;
+  }
+
+  /* -------------------------------------------------- */
+
   /** @type {import("../../../_types").ContextPartHandler} */
   async _preparePartContextPaths(context, options) {
     context.ctx = {};
@@ -90,15 +176,6 @@ export default class PathConfigurationDialog extends Application {
     }
     const [primaryPath, secondaryPath] = rest;
 
-    // Current path (possibly mixed).
-    const current = {
-      ...(path in artichron.config.PROGRESSION_MIXED_PATHS)
-        ? artichron.config.PROGRESSION_MIXED_PATHS[path]
-        : artichron.config.PROGRESSION_CORE_PATHS[path],
-    };
-    current.item = await fromUuid(current.uuid);
-    current.label ??= game.i18n.localize("ARTICHRON.PROGRESSION.PATH_CONFIGURATION.noPath");
-
     const defaultArt = foundry.utils.getDocumentClass("Item").getDefaultArtwork({ type: "path" }).img;
 
     // Primary path (the one with most investment).
@@ -108,7 +185,7 @@ export default class PathConfigurationDialog extends Application {
       invested: clone.paths[primaryPath]?.invested ?? 0,
       ...artichron.config.PROGRESSION_CORE_PATHS[primaryPath] ?? {},
     };
-    primary.item = await fromUuid(primary.uuid);
+    primary.item = await this.#getItem(primaryPath);
     primary.image = primary.item ? primary.item.img : defaultArt;
     primary.disabled = !primary.item || !primary.key;
 
@@ -119,7 +196,7 @@ export default class PathConfigurationDialog extends Application {
       invested: clone.paths[secondaryPath]?.invested ?? 0,
       ...artichron.config.PROGRESSION_CORE_PATHS[secondaryPath] ?? {},
     };
-    secondary.item = await fromUuid(secondary.uuid);
+    secondary.item = await this.#getItem(secondaryPath);
     secondary.image = secondary.item ? secondary.item.img : defaultArt;
     secondary.disabled = !secondary.item || !secondary.key;
 
@@ -130,7 +207,7 @@ export default class PathConfigurationDialog extends Application {
     points.remaining -= primary.allocated;
     points.remaining -= secondary.allocated;
 
-    Object.assign(context.ctx, { points, current, primary, secondary });
+    Object.assign(context.ctx, { points, primary, secondary });
 
     return context;
   }

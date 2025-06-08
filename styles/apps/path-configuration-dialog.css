@@ -1,16 +1,47 @@
 .artichron.path-configuration-dialog {
+  [data-application-part=header] {
+    text-align: center;
+    justify-items: center;
+    .section-header { width: 100% }
+    .icon { width: 2rem }
+  }
+
+  [data-application-part=progresses] {
+    .progress-bar {
+      position: relative;
+      border: 2px solid white;
+      align-content: center;
+      padding: .5rem;
+
+      &::after {
+        position: absolute;
+        content: "";
+        /* height: calc(100% + 4px); */
+        background-color: var(--color);
+        width: var(--fill);
+        left: 0;
+        bottom: 0;
+        top: 0;
+        z-index: -1;
+      }
+
+      span {
+        background-color: hsl(from black h s l / 0.5);
+        padding: 4px;
+        border-radius: 4px;
+      }
+    }
+  }
+
   [data-application-part=paths] {
     text-align: center;
+    gap: 1rem;
+    display: flex;
+    align-items: center;
 
-    .paths {
-      gap: 1rem;
-      display: flex;
-      align-items: center;
-
-      .primary, .secondary {
-        flex: 0 0 30%;
-        justify-items: center;
-      }
+    .primary, .secondary {
+      flex: 0 0 30%;
+      justify-items: center;
     }
   }
 }
