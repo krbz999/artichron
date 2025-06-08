@@ -25,7 +25,6 @@ export default function DocumentSheetMixin(Class) {
 
     /** @inheritdoc */
     static DEFAULT_OPTIONS = {
-      form: { submitOnChange: true },
       actions: {
         toggleSheet: DocumentSheetArtichron.#onToggleSheet,
         createEmbeddedDocument: DocumentSheetArtichron.#createEmbeddedDocument,
@@ -33,6 +32,9 @@ export default function DocumentSheetMixin(Class) {
         createPseudoDocument: DocumentSheetArtichron.#createPseudoDocument,
         deletePseudoDocument: DocumentSheetArtichron.#deletePseudoDocument,
         renderPseudoDocumentSheet: DocumentSheetArtichron.#renderPseudoDocumentSheet,
+      },
+      form: {
+        submitOnChange: true,
       },
     };
 

@@ -10,7 +10,6 @@ const { ApplicationV2 } = foundry.applications.api;
 export default class Application extends ArtichronApplicationMixin(ApplicationV2) {
   /** @inheritdoc */
   static DEFAULT_OPTIONS = {
-    classes: ["artichron"],
     form: {
       handler: Application.#submitHandler,
       closeOnSubmit: true,
@@ -20,9 +19,6 @@ export default class Application extends ArtichronApplicationMixin(ApplicationV2
       height: "auto",
     },
     tag: "form",
-    window: {
-      contentClasses: ["standard-form"],
-    },
   };
 
   /* -------------------------------------------------- */

@@ -18,7 +18,6 @@ export default class PseudoDocumentSheet extends ArtichronApplicationMixin(Appli
 
   /** @inheritdoc */
   static DEFAULT_OPTIONS = {
-    id: "{id}",
     actions: {
       copyUuid: {
         handler: PseudoDocumentSheet.#copyUuid,
@@ -29,6 +28,7 @@ export default class PseudoDocumentSheet extends ArtichronApplicationMixin(Appli
       handler: PseudoDocumentSheet.#onSubmitForm,
       submitOnChange: true,
     },
+    id: "{id}",
     position: {
       width: 500,
       height: "auto",
