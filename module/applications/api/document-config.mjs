@@ -14,6 +14,7 @@ export default class DocumentConfig extends ArtichronApplicationMixin(DocumentSh
       width: 400,
       height: "auto",
     },
+    sheetConfig: false,
     window: {
       title: null,
     },

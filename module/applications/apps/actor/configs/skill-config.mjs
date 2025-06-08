@@ -13,7 +13,6 @@ export default class SkillConfig extends DocumentConfig {
     window: {
       title: "ARTICHRON.SKILL.CONFIG.TITLE",
     },
-    sheetConfig: false,
   };
 
   /* -------------------------------------------------- */
