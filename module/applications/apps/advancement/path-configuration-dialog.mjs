@@ -123,7 +123,7 @@ export default class PathConfigurationDialog extends Application {
     const label = item && total
       ? `${item.name} (${artichron.utils.romanize(total)})`
       : game.i18n.localize("ARTICHRON.PROGRESSION.PATH_CONFIGURATION.noPath");
-    const image = total && item ? item.img : null;
+    const image = total && item ? item.img : foundry.utils.getDocumentClass("Item").getDefaultArtwork({ type: "path" }).img;
     Object.assign(context.ctx, { label, image });
 
     return context;
@@ -258,10 +258,11 @@ export default class PathConfigurationDialog extends Application {
   /**
    * Allocate a point to a path.
    * @this {PathConfigurationDialog}
-   * @param {PointerEvent} event    The initiating click event.
-   * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
+   * @param {PointerEvent} event          The initiating click event.
+   * @param {HTMLButtonElement} target    The capturing HTML element which defined a [data-action].
    */
   static #investPoint(event, target) {
+    target.disabled = true;
     const path = target.closest("[data-path]").dataset.path;
     this.#clone.updateSource({
       [`system.progression.paths.${path}.invested`]: this.#clone.system.progression.paths[path].invested + 1,
@@ -274,10 +275,11 @@ export default class PathConfigurationDialog extends Application {
   /**
    * Remove a point from a path.
    * @this {PathConfigurationDialog}
-   * @param {PointerEvent} event    The initiating click event.
-   * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
+   * @param {PointerEvent} event          The initiating click event.
+   * @param {HTMLButtonElement} target    The capturing HTML element which defined a [data-action].
    */
   static #removePoint(event, target) {
+    target.disabled = true;
     const path = target.closest("[data-path]").dataset.path;
     this.#clone.updateSource({
       [`system.progression.paths.${path}.invested`]: this.#clone.system.progression.paths[path].invested - 1,
