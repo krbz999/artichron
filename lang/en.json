@@ -130,6 +130,8 @@
 
   "HERO": {
     "dropPath": "Drop path here.",
+    "path": "Path",
+    "advance": "Advance",
     "HEADERS": {
       "conditions": "Conditions",
       "activeBuffs": "Active Buffs",
