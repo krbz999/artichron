@@ -110,10 +110,10 @@ Hooks.once("init", function() {
     doorState: data.regionBehaviors.DoorStateConditionBehaviorData,
   });
 
-  // Hook up dice types.
-  CONFIG.Dice.rolls[0] = dice.RollArtichron;
-  CONFIG.Dice.rolls.push(dice.DamageRoll);
-  Object.assign(CONFIG.Dice, dice);
+  // Hook up roll types.
+  CONFIG.Dice.rolls[0] = dice.rolls.RollArtichron;
+  CONFIG.Dice.rolls.push(dice.rolls.DamageRoll);
+  Object.assign(CONFIG.Dice, dice.rolls);
 
   // Register sheet application classes
   const { DocumentSheetConfig } = foundry.applications.apps;

@@ -49,6 +49,12 @@ export default class CreatureData extends ActorSystemModel {
     this.defenses = {};
     for (const k of Object.keys(artichron.config.DAMAGE_TYPE_GROUPS)) this.bonuses.damage[k] = 0;
     for (const { value } of artichron.config.DAMAGE_TYPES.optgroups) this.defenses[value] = 0;
+
+    this.damage = {
+      type: "physical",
+      number: 2,
+      denomination: 10,
+    };
   }
 
   /* -------------------------------------------------- */
@@ -126,21 +132,6 @@ export default class CreatureData extends ActorSystemModel {
 
   /* -------------------------------------------------- */
   /*   Properties                                       */
-  /* -------------------------------------------------- */
-
-  /** @inheritdoc */
-  static get BONUS_FIELDS() {
-    const bonus = super.BONUS_FIELDS;
-    bonus.add("system.pips.turn");
-    for (const k of Object.keys(artichron.config.DAMAGE_TYPE_GROUPS)) {
-      bonus.add(`system.bonuses.damage.${k}`);
-    }
-    for (const k of Object.keys(artichron.config.DAMAGE_TYPES)) {
-      bonus.add(`system.defenses.${k}`);
-    }
-    return bonus;
-  }
-
   /* -------------------------------------------------- */
 
   /**
@@ -281,5 +272,53 @@ export default class CreatureData extends ActorSystemModel {
 
     await this.parent.update(update);
     return this.parent;
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Perform the full damage roll workflow.
+   * @param {object} [config={}]    Roll configuration object.
+   * @param {object} [dialog={}]    Dialog configuration object.
+   * @param {object} [message={}]   Message configuration object.
+   * @returns {Promise<artichron.dice.rolls.DamageRoll[]|null>}   A promise that resolves to the evaluated rolls.
+   */
+  async rollDamage(config = {}, dialog = {}, message = {}) {
+
+    const rollConfigs = config.rollConfigs ?? [];
+    config = foundry.utils.mergeObject({
+      rollData: this.parent.getRollData(),
+      subject: this.parent,
+      rollConfigs: this.#configureDamageRollConfigs(),
+    }, config, { overwrite: false });
+    for (const rollConfig of rollConfigs) {
+      const existing = config.rollConfigs.find(c => c.damageType === rollConfig.damageType);
+      if (existing) existing.parts.push(...rollConfig.parts);
+      else config.rollConfigs.push(rollConfig);
+    }
+
+    dialog = foundry.utils.mergeObject({
+      bypass: config.event?.shiftKey === true,
+    }, dialog);
+
+    message = foundry.utils.mergeObject({
+      bypass: false,
+    }, message);
+
+    const flow = new artichron.dice.DamageRollFlow(config, dialog, message);
+    return flow.finalize();
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Configure roll configs for a damage roll flow.
+   * @returns {object[]}
+   */
+  #configureDamageRollConfigs() {
+    return [{
+      parts: [`${this.damage.number}d${this.damage.denomination}`],
+      damageType: this.damage.type,
+    }];
   }
 }

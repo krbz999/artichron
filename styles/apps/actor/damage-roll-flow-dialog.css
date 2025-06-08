@@ -1,0 +1,11 @@
+.artichron.damage-roll-flow-dialog {
+  .formulas {
+    .damage-formula {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      margin-bottom: 1rem;
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
+  }
+}

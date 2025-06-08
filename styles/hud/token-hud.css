@@ -1,0 +1,14 @@
+#token-hud {
+  .attribute.bar1 {
+    anchor-name: --token-hud-attribute-bar-1;
+  }
+
+  [data-action=rollDamage] {
+    position-anchor: --token-hud-attribute-bar-1;
+    position: fixed;
+    pointer-events: all;
+    top: anchor(bottom);
+    flex: 0 0 var(--control-size);
+    margin-top: .3rem;
+  }
+}

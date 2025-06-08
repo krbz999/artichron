@@ -1,11 +1,11 @@
 <fieldset>
-  {{~#if consume.show}}
-  <legend>{{consume.legend}}</legend>
-  {{#if consume.showAction}}
-  {{formGroup consume.actionField name="consume.action" localize=true value=consume.action}}
+  {{~#if ctx.show}}
+  <legend>{{ctx.legend}}</legend>
+  {{#if ctx.showAction}}
+  {{formGroup ctx.actionField name="consume.action" localize=true value=ctx.action}}
   {{/if}}
-  {{#if consume.showUses}}
-  {{formGroup consume.usesField name="consume.uses" localize=true value=consume.uses}}
+  {{#if ctx.showUses}}
+  {{formGroup ctx.usesField name="consume.uses" localize=true value=ctx.uses}}
   {{/if}}
   {{/if~}}
 </fieldset>

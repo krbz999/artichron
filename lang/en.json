@@ -625,6 +625,11 @@
 },
 
 "DAMAGE": {
+  "TITLE": "Configure Damage: {name}",
+  "bonus": {
+    "label": "Bonus",
+    "placeholder": "E.g. '1d4'"
+  },
   "FIELDS": {
     "number": {
       "label": "Number"
@@ -697,6 +702,12 @@
     "Clothing": "Clothing",
     "Natural": "Natural",
     "Tech": "Tech"
+  }
+},
+
+"HUD": {
+  "TOKEN": {
+    "rollDamage": "Roll Damage"
   }
 },
 

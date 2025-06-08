@@ -1,10 +1,10 @@
 <fieldset>
-  {{~#if healing.show}}
-  <legend>{{healing.legend}}</legend>
+  {{~#if ctx.show}}
+  <legend>{{ctx.legend}}</legend>
   <p class="healing">
-    <span class="formula">{{healing.formula}}</span>
+    <span class="formula">{{ctx.formula}}</span>
   </p>
 
-  {{formGroup healing.field name="healing.increase" localize=true}}
+  {{formGroup ctx.field name="healing.increase" localize=true}}
   {{/if~}}
 </fieldset>
