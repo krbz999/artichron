@@ -206,7 +206,7 @@
       border-top-right-radius: 25%;
       border-bottom-right-radius: 25%;
       background: var(--background);
-      box-shadow: 0 0 3px var(--background);
+      box-shadow: 1px 1px 2px var(--artichron-color-gold);
       overflow: hidden;
       display: flex;
 
