@@ -14,7 +14,7 @@ export default class ChatMessageArtichron extends BaseDocumentMixin(foundry.docu
    * @type {boolean}
    */
   get isDamage() {
-    return this.flags.artichron?.type === "damage";
+    return this.type === "damage";
   }
 
   /* -------------------------------------------------- */
@@ -73,7 +73,7 @@ export default class ChatMessageArtichron extends BaseDocumentMixin(foundry.docu
         actorUuid: actor?.uuid,
         name: actor?.name || this.speaker.alias,
       });
-    element.querySelector(".message-sender").replaceWith(template.firstElementChild);
+    element.querySelector(".message-sender")?.replaceWith(template.firstElementChild);
     const avatar = element.querySelector(".avatar");
     ChatMessageArtichron.attachTokenListeners(avatar);
 

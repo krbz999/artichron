@@ -26,7 +26,7 @@
 }
 
 /* OVERRIDES */
-.artichron.application :is(button, .button) {
+.artichron :is(button, .button) {
   &:hover:not([disabled]) {
     --button-hover-background-color: hsl(from var(--artichron-color-purple) h s l / 0.5);
     --button-hover-border-color: hsl(from var(--artichron-color-purple) h s l / 0.7);

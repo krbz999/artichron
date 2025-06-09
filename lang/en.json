@@ -653,6 +653,7 @@
 
 "DAMAGE": {
   "TITLE": "Configure Damage: {name}",
+  "applyDamage": "Apply Damage",
   "bonus": {
     "label": "Bonus",
     "placeholder": "E.g. '1d4'"

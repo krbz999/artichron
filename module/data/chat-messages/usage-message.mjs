@@ -4,15 +4,6 @@ const { ArrayField, DocumentUUIDField, StringField } = foundry.data.fields;
 
 export default class UsageMessageData extends ChatMessageSystemModel {
   /** @inheritdoc */
-  static get metadata() {
-    return foundry.utils.mergeObject(super.metadata, {
-      type: "usage",
-    });
-  }
-
-  /* -------------------------------------------------- */
-
-  /** @inheritdoc */
   static defineSchema() {
     return {
       activity: new StringField(),

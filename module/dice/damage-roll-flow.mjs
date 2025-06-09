@@ -114,9 +114,8 @@ export default class DamageRollFlow {
       const Cls = foundry.utils.getDocumentClass("ChatMessage");
       const messageData = {
         rolls,
-        type: "usage",
+        type: "damage",
         speaker: Cls.getSpeaker({ actor: this.#config.subject }),
-        "flags.artichron.type": "damage", // FIXME: custom chat message subtype instead
       };
       Cls.applyRollMode(messageData, game.settings.get("core", "rollMode"));
       await Cls.create(messageData);
