@@ -29,7 +29,6 @@ export default class MonsterSheet extends ActorSheetArtichron {
     },
     actions: {
       template: "systems/artichron/templates/sheets/actor/monster/actions.hbs",
-      templates: ["systems/artichron/templates/sheets/actor/monster/defenses.hbs"],
       classes: ["scrollable"],
       scrollable: [""],
     },
@@ -69,7 +68,16 @@ export default class MonsterSheet extends ActorSheetArtichron {
 
   /** @type {import("../../../_types").ContextPartHandler} */
   async _preparePartContextHeader(context, options) {
-    context.ctx = {};
+    const ctx = context.ctx = {
+      defenses: [],
+    };
+
+    for (const [k, v] of Object.entries(this.document.system.defenses)) {
+      if (!v) continue;
+      const { color, icon, label } = artichron.config.DAMAGE_TYPES[k];
+      ctx.defenses.push({ color, icon, label, value: v });
+    }
+
     return context;
   }
 
@@ -95,19 +103,9 @@ export default class MonsterSheet extends ActorSheetArtichron {
   /** @type {import("../../../_types").ContextPartHandler} */
   async _preparePartContextActions(context, options) {
     context.ctx = {
-      defenses: [],
       favorites: [],
       inventory: [],
     };
-
-    // Defenses
-    for (const [k, v] of Object.entries(this.document.system.defenses)) {
-      context.ctx.defenses.push({
-        ...artichron.config.DAMAGE_TYPES[k],
-        value: v,
-        active: v > 0,
-      });
-    }
 
     // Favorites
     for (const item of this.document.favorites) {

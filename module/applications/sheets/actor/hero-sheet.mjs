@@ -85,15 +85,21 @@ export default class HeroSheet extends ActorSheetArtichron {
 
   /** @type {import("../../../_types").ContextPartHandler} */
   async _preparePartContextHeader(context, options) {
-    const ctx = context.ctx = {};
+    const ctx = context.ctx = { path: {}, defenses: [] };
 
     // Path.
     const key = this.document.system.currentPaths[0];
-    const label = key in context.config.PROGRESSION_CORE_PATHS
+    ctx.path.label = key in context.config.PROGRESSION_CORE_PATHS
       ? context.config.PROGRESSION_CORE_PATHS[key].label
       : context.config.PROGRESSION_MIXED_PATHS[key]?.label;
 
-    Object.assign(ctx, { path: { label } });
+    // Defenses.
+    for (const [k, v] of Object.entries(this.document.system.defenses)) {
+      if (!v) continue;
+      const { color, icon, label } = artichron.config.DAMAGE_TYPES[k];
+      ctx.defenses.push({ color, icon, label, value: v });
+    }
+
     return context;
   }
 
@@ -122,7 +128,6 @@ export default class HeroSheet extends ActorSheetArtichron {
       health: this.document.system.health,
       pools: [],
       favorites: [],
-      defenses: [],
       skills: [],
     };
 
@@ -134,15 +139,6 @@ export default class HeroSheet extends ActorSheetArtichron {
     // Favorites
     for (const item of this.document.favorites) {
       context.ctx.favorites.push({ document: item });
-    }
-
-    // Defenses
-    for (const [k, v] of Object.entries(this.document.system.defenses)) {
-      context.ctx.defenses.push({
-        ...artichron.config.DAMAGE_TYPES[k],
-        value: v,
-        active: v > 0,
-      });
     }
 
     // Skill

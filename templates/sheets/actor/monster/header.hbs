@@ -1,30 +1,45 @@
 <section class="header">
-  {{#if (and isEditMode editable)}}
 
   <div class="details">
+    {{!-- NAME --}}
+    {{#if (and isEditMode editable)}}
     {{formInput fields.name value=source.name placeholder=(localize "Name")}}
-
-    <dl class="tags">
-      <dt>{{document.system.damage.label}}</dt>
-      <dd class="button" data-action="configure" data-config="damage">
-        {{document.system.damage.formula}} <i class="fa-solid fa-{{lookup (lookup config.DAMAGE_TYPES document.system.damage.type) 'icon'}}"></i>
-      </dd>
-    </dl>
-  </div>
-  <img class="avatar" alt="{{source.name}}" src="{{source.img}}" data-edit="img" data-action="editImage">
-
-  {{else}}
-
-  <div class="details">
+    {{else}}
     <h1 class="name">{{document.name}}</h1>
+    {{/if}}
+
     <dl class="tags">
+      {{!-- DAMAGE --}}
+      {{#if (and isEditMode editable)}}
+      <dt>{{document.system.damage.label}}</dt>
+      <dd class="button fa-solid fa-cog" data-action="configure" data-config="damage"></dd>
+      {{else}}
       <dt>{{document.system.damage.label}}</dt>
       <dd class="button" data-action="rollDamage">
         {{document.system.damage.formula}} <i class="fa-solid fa-{{lookup (lookup config.DAMAGE_TYPES document.system.damage.type) 'icon'}}"></i>
       </dd>
+      {{/if}}
+
+      {{!-- DEFENSES --}}
+      {{#if ctx.defenses.length}}
+      <dt>{{localize "ARTICHRON.SHEET.MONSTER.HEADERS.defenses"}}</dt>
+      <div class="multi-tags">
+        {{#each ctx.defenses}}
+        <dd data-tooltip="{{label}}" style="color: #{{color}};">
+          <span>{{value}}</span>
+          <i class="fa-fw {{icon}}"></i>
+        </dd>
+        {{/each}}
+      </div>
+      {{/if}}
     </dl>
   </div>
-  <img class="avatar" alt="{{document.name}}" src="{{document.img}}">
 
+  {{!-- AVATAR --}}
+  {{#if (and isEditMode editable)}}
+  <img class="avatar" alt="{{source.name}}" src="{{source.img}}" data-edit="img" data-action="editImage">
+  {{else}}
+  <img class="avatar" alt="{{document.name}}" src="{{document.img}}">
   {{/if}}
+
 </section>

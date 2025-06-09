@@ -94,43 +94,6 @@ export default function DocumentSheetMixin(Class) {
 
     /* -------------------------------------------------- */
 
-    /**
-     * Prepare effects for rendering.
-     * @returns {object[]}
-     */
-    async _prepareEffects() {
-      const effects = [];
-
-      const entry = async (effect) => {
-        const data = {
-          effect: effect,
-          isExpanded: this._expandedItems.has(effect.uuid),
-
-          isActiveFusion: effect.isActiveFusion,
-          isFusionOption: effect.isTransferrableFusion,
-          isCondition: effect.type === "condition",
-        };
-        if (data.isExpanded) {
-          data.enrichedText = await foundry.applications.ux.TextEditor.implementation.enrichHTML(effect.description, {
-            relativeTo: effect, rollData: effect.getRollData(),
-          });
-        }
-        effects.push(data);
-      };
-
-      if (this.document instanceof Item) for (const e of this.document.effects) await entry(e);
-      else for (const e of this.document.allApplicableEffects()) await entry(e);
-
-      effects.sort((a, b) => {
-        const sort = a.effect.sort - b.effect.sort;
-        if (sort) return sort;
-        return a.effect.name.localeCompare(b.effect.name);
-      });
-      return effects;
-    }
-
-    /* -------------------------------------------------- */
-
     /** @inheritdoc */
     async _onRender(context, options) {
       await super._onRender(context, options);
@@ -169,6 +132,15 @@ export default function DocumentSheetMixin(Class) {
       this.window.controls.insertAdjacentHTML("afterend", `
         <button type="button" class="header-control icon fa-solid fa-user-lock" data-action="toggleSheet" data-tooltip="ARTICHRON.SHEET.TOGGLE.editing"></button>`);
       return frame;
+    }
+
+    /* -------------------------------------------------- */
+
+    /** @inheritdoc */
+    _initializeApplicationOptions(options) {
+      const result = super._initializeApplicationOptions(options);
+      result.classes.push(options.document.type);
+      return result;
     }
 
     /* -------------------------------------------------- */
