@@ -426,6 +426,16 @@
       },
       "label": "Currencies"
     },
+    "damage": {
+      "attack": {
+        "label": "Attack",
+        "hint": "Select the basic attack this character uses. The damage dice and type will be inferred."
+      },
+      "type": {
+        "label": "Type",
+        "hint": "The damage type of the basic attack can be inferred from the attack or overridden."
+      }
+    },
     "danger": {
       "pool": {
         "label": "Danger Pool",
@@ -549,6 +559,23 @@
         }
       }
     }
+  }
+},
+
+"ATTACK": {
+  "defaultDamageType": "Default ({type})",
+  "melee": "Melee",
+  "range": "Range",
+  "CONFIG": {
+    "TITLE": "Configure Damage"
+  },
+  "TYPES": {
+    "blade": "Blade",
+    "bow": "Bow",
+    "firearm": "Firearm",
+    "fist": "Fist",
+    "grasp": "Grasp",
+    "invocation": "Invocation"
   }
 },
 

@@ -15,11 +15,11 @@ export default class CreatureData extends ActorSystemModel {
       biography: new SchemaField({
         value: new HTMLField(),
       }),
+      damage: new SchemaField({
+        attack: new StringField({ required: true, blank: false, initial: "blade" }),
+        type: new StringField({ required: true }),
+      }),
       equipped: new SchemaField({
-        arsenal: new SchemaField({
-          primary: new StringField({ required: true }),
-          secondary: new StringField({ required: true }),
-        }),
         armor: new SchemaField(Object.keys(artichron.config.EQUIPMENT_TYPES).reduce((acc, key) => {
           acc[key] = new StringField({ required: true });
           return acc;
@@ -50,21 +50,31 @@ export default class CreatureData extends ActorSystemModel {
     for (const k of Object.keys(artichron.config.DAMAGE_TYPE_GROUPS)) this.bonuses.damage[k] = 0;
     for (const { value } of artichron.config.DAMAGE_TYPES.optgroups) this.defenses[value] = 0;
 
-    this.damage = {
-      type: "physical",
-      number: 2,
-      denomination: 10,
-    };
+    let attack;
+    let damage;
+    if (this.damage.attack in artichron.config.BASIC_ATTACKS.melee.types) {
+      attack = artichron.config.BASIC_ATTACKS.melee.types[this.damage.attack];
+      damage = artichron.config.BASIC_ATTACKS.melee.damage;
+    } else {
+      attack = artichron.config.BASIC_ATTACKS.range.types[this.damage.attack];
+      damage = artichron.config.BASIC_ATTACKS.range.damage;
+    }
+
+    this.damage.label = attack.label;
+    this.damage.type ||= attack.damageType;
+    this.damage.number = damage.number;
+    this.damage.denomination = damage.denomination;
   }
 
   /* -------------------------------------------------- */
 
   /** @inheritdoc */
   prepareDerivedData() {
-    // Calling super first to prepare actor level.
     super.prepareDerivedData();
     this.#prepareDefenses();
     this.#prepareDamageBonuses();
+
+    this.damage.formula = `${this.damage.number}d${this.damage.denomination}`;
   }
 
   /* -------------------------------------------------- */
@@ -135,21 +145,6 @@ export default class CreatureData extends ActorSystemModel {
   /* -------------------------------------------------- */
 
   /**
-   * The currently equipped arsenal.
-   * @type {{primary: ItemArtichron, secondary: ItemArtichron}}
-   */
-  get arsenal() {
-    const items = this.equipped.arsenal;
-    let primary = this.parent.items.get(items.primary) ?? null;
-    if (!primary?.isArsenal) primary = null;
-    let secondary = this.parent.items.get(items.secondary) ?? null;
-    if (!secondary?.isArsenal || (primary?.isTwoHanded || secondary.isTwoHanded)) secondary = null;
-    return { primary, secondary };
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
    * The currently equipped armor set.
    * @type {object}
    */
@@ -163,17 +158,6 @@ export default class CreatureData extends ActorSystemModel {
   }
 
   /* -------------------------------------------------- */
-
-  /**
-   * Does this actor have a shield equipped?
-   * @type {boolean}
-   */
-  get hasShield() {
-    const { primary, secondary } = this.arsenal;
-    return (primary?.type === "shield") || (secondary?.type === "shield");
-  }
-
-  /* -------------------------------------------------- */
   /*   Instance methods                                 */
   /* -------------------------------------------------- */
 
@@ -183,23 +167,10 @@ export default class CreatureData extends ActorSystemModel {
    * @returns {Promise}
    */
   async changeEquippedDialog(slot) {
-    const type = ["primary", "secondary"].includes(slot) ? "arsenal" : "armor";
-    const current = this.parent.items.get(this.equipped[type][slot]);
+    const current = this.parent.items.get(this.equipped.armor[slot]);
     const choices = this.parent.items.reduce((acc, item) => {
       if (item === current) return acc;
-
-      if (type === "armor") {
-        if ((item.type !== "armor") || (item.system.category.subtype !== slot)) return acc;
-      } else if (type === "arsenal") {
-        if (!item.isArsenal) return acc;
-        const { primary, secondary } = this.parent.arsenal;
-        if ([primary, secondary].includes(item)) return acc;
-        if (slot === "secondary") {
-          if (item.isTwoHanded) return acc;
-          if (primary?.isTwoHanded) return acc;
-        }
-      }
-
+      if ((item.type !== "armor") || (item.system.category.subtype !== slot)) return acc;
       acc[item.id] = item.name;
       return acc;
     }, {});
@@ -262,14 +233,8 @@ export default class CreatureData extends ActorSystemModel {
    * @returns {Promise<ActorArtichron>}   A promise that resolves to the updated actor.
    */
   async changeEquipped(slot, item = null) {
-    const type = ["primary", "secondary"].includes(slot) ? "arsenal" : "armor";
-    const path = `system.equipped.${type}.${slot}`;
-    const current = foundry.utils.getProperty(this.parent, path);
+    const path = `system.equipped.armor.${slot}`;
     const update = { [path]: item ? item.id : "" };
-    if ((type === "arsenal") && (slot === "primary") && (item !== current) && item?.isTwoHanded) {
-      update[path.replace(slot, "secondary")] = "";
-    }
-
     await this.parent.update(update);
     return this.parent;
   }

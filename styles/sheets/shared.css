@@ -26,9 +26,14 @@
     }
 
     .tags {
-      display: flex;
+      display: grid;
+      grid-template-columns: 0fr 0fr;
       align-items: center;
       gap: .5rem;
+
+      > * {
+        white-space: nowrap;
+      }
 
       dt {
         font-weight: 900;

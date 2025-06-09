@@ -85,14 +85,15 @@ export default class HeroSheet extends ActorSheetArtichron {
 
   /** @type {import("../../../_types").ContextPartHandler} */
   async _preparePartContextHeader(context, options) {
-    context.ctx = {};
+    const ctx = context.ctx = {};
 
+    // Path.
     const key = this.document.system.currentPaths[0];
     const label = key in context.config.PROGRESSION_CORE_PATHS
       ? context.config.PROGRESSION_CORE_PATHS[key].label
       : context.config.PROGRESSION_MIXED_PATHS[key]?.label;
 
-    context.ctx.path = label;
+    Object.assign(ctx, { path: { label } });
     return context;
   }
 

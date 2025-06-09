@@ -1,0 +1,4 @@
+<section class="standard-form">
+  {{formGroup systemFields.damage.fields.attack value=source.system.damage.attack options=ctx.attackTypes}}
+  {{formGroup systemFields.damage.fields.type value=source.system.damage.type blank=ctx.defaultDamage options=ctx.damageTypes}}
+</section>
