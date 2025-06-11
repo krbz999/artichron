@@ -1,9 +1,16 @@
 import ChatMessageSystemModel from "./system-model.mjs";
 
+const { ArrayField, DocumentUUIDField, NumberField, SchemaField } = foundry.data.fields;
+
 export default class DamageData extends ChatMessageSystemModel {
   /** @inheritdoc */
   static defineSchema() {
-    return {};
+    return {
+      damaged: new ArrayField(new SchemaField({
+        actorUuid: new DocumentUUIDField({ type: "Actor" }),
+        amount: new NumberField({ min: 0, integer: true, nullable: false, initial: null }),
+      })),
+    };
   }
 
   /* -------------------------------------------------- */
@@ -70,7 +77,11 @@ export default class DamageData extends ChatMessageSystemModel {
         case "toggleRollsExpanded":
           el.addEventListener("click", () => el.classList.toggle("expanded")); break;
         case "applyDamage":
-          el.addEventListener("click", (event) => DamageData.#applyDamage.call(this, event, el)); break;
+          el.addEventListener("click", (event) => {
+            const results = DamageData.#applyDamage.call(this, event, el);
+            this.#applyResults(results);
+          });
+          break;
       }
     }
   }
@@ -92,6 +103,24 @@ export default class DamageData extends ChatMessageSystemModel {
   }
 
   /* -------------------------------------------------- */
+
+  /**
+   * Store damage values after applying damage.
+   * @param {Promise[]} promises    Array of promises that resolve to objects with actor uuid and the applied damage.
+   * @returns {Promise<void>}       A promise that resolves once this chat message has been updated.
+   */
+  async #applyResults(promises) {
+    promises = await Promise.all(promises);
+    const damaged = foundry.utils.deepClone(this._source.damaged);
+    for (const result of promises) {
+      const existing = damaged.find(d => d.actorUuid === result.actorUuid);
+      if (existing) existing.amount = result.amount;
+      else damaged.push(result);
+    }
+    await this.parent.update({ "system.damaged": damaged });
+  }
+
+  /* -------------------------------------------------- */
   /*   Event handlers                                   */
   /* -------------------------------------------------- */
 
@@ -100,6 +129,7 @@ export default class DamageData extends ChatMessageSystemModel {
    * @this {DamageData}
    * @param {PointerEvent} event          The initiating click event.
    * @param {HTMLButtonElement} target    The button that defined the [data-action].
+   * @returns {Array<Promise<object>>}    An array of promises with actor uuid and the amount applied.
    */
   static #applyDamage(event, target) {
     const damages = [];
@@ -108,12 +138,18 @@ export default class DamageData extends ChatMessageSystemModel {
       damages.push({ type: damageType, value: total });
     }
 
+    const promises = [];
     const parent = target.closest(".targeting.damage");
     for (const element of parent.querySelectorAll(".target-element")) {
       const actor = fromUuidSync(element.dataset.actorUuid);
       if (!actor) continue;
-      actor.applyDamage(damages);
+      promises.push(async function() {
+        const value = actor.system.health.value;
+        await actor.applyDamage(damages);
+        const delta = value - actor.system.health.value;
+        return { actorUuid: actor.uuid, amount: delta };
+      }());
     }
-    target.classList.add("button");
+    return promises;
   }
 }
