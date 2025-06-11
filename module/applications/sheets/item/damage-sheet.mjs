@@ -3,6 +3,9 @@ import PseudoDocumentSheet from "../../api/pseudo-document-sheet.mjs";
 export default class DamageSheet extends PseudoDocumentSheet {
   /** @inheritdoc */
   static DEFAULT_OPTIONS = {
+    position: {
+      width: 400,
+    },
     window: {
       icon: "fa-solid fa-burst",
     },
@@ -26,12 +29,7 @@ export default class DamageSheet extends PseudoDocumentSheet {
 
   /** @type {import("../../../_types").ContextPartHandler} */
   async _preparePartContextDamage(context, options) {
-    context.ctx = {
-      typeOptions: artichron.config.DAMAGE_TYPES.optgroups,
-      optionsOptions: Object.entries(artichron.config.ITEM_ATTRIBUTES)
-        .filter(([k, v]) => v.damageOption)
-        .map(([k, v]) => ({ value: k, label: v.label })),
-    };
+    context.ctx = {};
     return context;
   }
 }

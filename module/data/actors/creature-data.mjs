@@ -10,6 +10,17 @@ const {
  */
 export default class CreatureData extends ActorSystemModel {
   /** @inheritdoc */
+  static get metadata() {
+    return foundry.utils.mergeObject(super.metadata, {
+      embedded: {
+        Damage: "system.damage.parts",
+      },
+    });
+  }
+
+  /* -------------------------------------------------- */
+
+  /** @inheritdoc */
   static defineSchema() {
     return Object.assign(super.defineSchema(), {
       biography: new SchemaField({
@@ -17,7 +28,7 @@ export default class CreatureData extends ActorSystemModel {
       }),
       damage: new SchemaField({
         attack: new StringField({ required: true, blank: false, initial: "blade" }),
-        type: new StringField({ required: true }),
+        parts: new artichron.data.fields.CollectionField(artichron.data.pseudoDocuments.damage.Damage),
       }),
       equipped: new SchemaField({
         armor: new SchemaField(Object.keys(artichron.config.EQUIPMENT_TYPES).reduce((acc, key) => {
@@ -50,20 +61,11 @@ export default class CreatureData extends ActorSystemModel {
     for (const k of Object.keys(artichron.config.DAMAGE_TYPE_GROUPS)) this.bonuses.damage[k] = 0;
     for (const { value } of artichron.config.DAMAGE_TYPES.optgroups) this.defenses[value] = 0;
 
-    let attack;
-    let damage;
-    if (this.damage.attack in artichron.config.BASIC_ATTACKS.melee.types) {
-      attack = artichron.config.BASIC_ATTACKS.melee.types[this.damage.attack];
-      damage = artichron.config.BASIC_ATTACKS.melee.damage;
-    } else {
-      attack = artichron.config.BASIC_ATTACKS.range.types[this.damage.attack];
-      damage = artichron.config.BASIC_ATTACKS.range.damage;
-    }
-
+    // Prepare attack and damage.
+    const attack = this.damage.attack in artichron.config.BASIC_ATTACKS.melee.types
+      ? artichron.config.BASIC_ATTACKS.melee.types[this.damage.attack]
+      : artichron.config.BASIC_ATTACKS.range.types[this.damage.attack];
     this.damage.label = attack.label;
-    this.damage.type ||= attack.damageType;
-    this.damage.number = damage.number;
-    this.damage.denomination = damage.denomination;
   }
 
   /* -------------------------------------------------- */
@@ -73,8 +75,6 @@ export default class CreatureData extends ActorSystemModel {
     super.prepareDerivedData();
     this.#prepareDefenses();
     this.#prepareDamageBonuses();
-
-    this.damage.formula = `${this.damage.number}d${this.damage.denomination}`;
   }
 
   /* -------------------------------------------------- */
@@ -281,9 +281,14 @@ export default class CreatureData extends ActorSystemModel {
    * @returns {object[]}
    */
   #configureDamageRollConfigs() {
-    return [{
-      parts: [`${this.damage.number}d${this.damage.denomination}`],
-      damageType: this.damage.type,
-    }];
+    const parts = [];
+    for (const part of this.damage.parts) {
+      parts.push({
+        parts: [part.formula],
+        damageType: part.damageType,
+        damageTypes: part.damageTypes,
+      });
+    }
+    return parts;
   }
 }

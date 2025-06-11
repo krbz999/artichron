@@ -22,7 +22,7 @@
       {{else}}
       <dt>{{document.system.damage.label}}</dt>
       <dd class="button" data-action="rollDamage">
-        {{document.system.damage.formula}} <i class="fa-solid fa-{{lookup (lookup config.DAMAGE_TYPES document.system.damage.type) 'icon'}}"></i>
+        {{ctx.damage.part.formula}} <i class="fa-solid fa-{{lookup (lookup config.DAMAGE_TYPES ctx.damage.part.damageType) 'icon'}}"></i>
       </dd>
       {{/if}}
 

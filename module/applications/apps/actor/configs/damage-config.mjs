@@ -25,17 +25,50 @@ export default class DamageConfig extends DocumentConfig {
     const damageTypes = artichron.config.DAMAGE_TYPES.optgroups;
     const attackTypes = artichron.config.BASIC_ATTACKS.optgroups;
 
-    const damageType = this.document._source.system.damage.attack in artichron.config.BASIC_ATTACKS.melee.types
-      ? artichron.config.BASIC_ATTACKS.melee.types[this.document._source.system.damage.attack].damageType
-      : artichron.config.BASIC_ATTACKS.range.types[this.document._source.system.damage.attack].damageType;
-
     Object.assign(ctx, {
       damageTypes, attackTypes,
-      defaultDamage: game.i18n.format("ARTICHRON.ATTACK.defaultDamageType", {
-        type: artichron.config.DAMAGE_TYPES[damageType].label,
+      damageParts: this.document.getEmbeddedPseudoDocumentCollection("Damage").map(part => {
+        return {
+          document: part,
+          classes: part.isSource ? [] : ["disabled"],
+        };
       }),
     });
 
     return context;
+  }
+
+  /* -------------------------------------------------- */
+
+  /** @inheritdoc */
+  async _onFirstRender(context, options) {
+    await super._onFirstRender(context, options);
+
+    // Add context menu for damage parts.
+    this._createContextMenu(
+      this.#getContextOptionsDamagePart,
+      ".document-list.damage .entry",
+      { hookName: "DamagePartEntryContext" },
+    );
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Prepare options for context menus for damage parts.
+   * @returns {object[]}
+   */
+  #getContextOptionsDamagePart() {
+    if (!this.document.isOwner) return [];
+
+    return [{
+      name: "ARTICHRON.DAMAGE.CONTEXT.PART.render",
+      icon: "<i class='fa-solid fa-fw fa-edit'></i>",
+      callback: element => this._getPseudoDocument(element).sheet.render({ force: true }),
+    }, {
+      name: "ARTICHRON.DAMAGE.CONTEXT.PART.delete",
+      icon: "<i class='fa-solid fa-fw fa-trash'></i>",
+      callback: element => this._getPseudoDocument(element).delete(),
+    }];
   }
 }

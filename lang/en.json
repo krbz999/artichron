@@ -338,9 +338,6 @@
       "label": "Name"
     }
   },
-  "DAMAGE": {
-    "FIELDS": {}
-  },
   "DEFEND": {
     "FIELDS": {
       "defend": {
@@ -646,15 +643,27 @@
     "label": "Bonus",
     "placeholder": "E.g. '1d4'"
   },
+  "HEADERS": {
+    "damageParts": "Damage Parts"
+  },
+  "CONTEXT": {
+    "PART": {
+      "render": "Edit Damage Part",
+      "delete": "Delete Damage Part"
+    }
+  },
   "FIELDS": {
     "number": {
-      "label": "Number"
+      "label": "Number",
+      "hint": "The number of dice rolled by this damage part."
     },
     "denomination": {
-      "label": "Denomination"
+      "label": "Denomination",
+      "hint": "The size of each die."
     },
-    "type": {
-      "label": "Damage Type"
+    "damageTypes": {
+      "label": "Damage Types",
+      "hint": "The damage types available for this damage part. Having more than one will offer a choice."
     }
   }
 },

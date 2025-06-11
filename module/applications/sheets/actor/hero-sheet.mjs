@@ -93,6 +93,11 @@ export default class HeroSheet extends ActorSheetArtichron {
       ? context.config.PROGRESSION_CORE_PATHS[key].label
       : context.config.PROGRESSION_MIXED_PATHS[key]?.label;
 
+    // Damage.
+    ctx.damage = {
+      part: this.document.getEmbeddedPseudoDocumentCollection("Damage").contents[0],
+    };
+
     // Defenses.
     for (const [k, v] of Object.entries(this.document.system.defenses)) {
       if (!v) continue;
@@ -303,23 +308,11 @@ export default class HeroSheet extends ActorSheetArtichron {
     super._attachPartListeners(partId, htmlElement, options);
 
     switch (partId) {
-      case "health":
-        this.#attachPartListenersHealth(htmlElement, options);
-        break;
       case "inventory":
         this.#attachPartListenersInventory(htmlElement, options);
         break;
     }
   }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Attach event listeners to a specific part.
-   * @param {HTMLElement} element   The part element.
-   * @param {object} options        Rendering options
-   */
-  #attachPartListenersHealth(element, options) {}
 
   /* -------------------------------------------------- */
 

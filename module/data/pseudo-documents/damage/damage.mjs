@@ -3,13 +3,13 @@ import PseudoDocument from "../pseudo-document.mjs";
 const { NumberField, SetField, StringField } = foundry.data.fields;
 
 export default class Damage extends PseudoDocument {
-  /** @type {import("../../../_types").DamagePartMetadata} */
+  /** @type {import("../../../_types").PseudoDocumentMetadata} */
   static get metadata() {
-    return {
+    return foundry.utils.mergeObject(super.metadata, {
+      defaultImage: null,
       documentName: "Damage",
-      embedded: {},
       sheetClass: artichron.applications.sheets.item.DamageSheet,
-    };
+    });
   }
 
   /* -------------------------------------------------- */
@@ -34,20 +34,13 @@ export default class Damage extends PseudoDocument {
       }),
       number: new NumberField({
         integer: true,
-        nullable: false,
-        initial: 1,
+        nullable: true,
+        initial: null,
         min: 1,
       }),
-      options: new SetField(new StringField({
-        choices: () => Object.fromEntries(Object.entries(artichron.config.ITEM_ATTRIBUTES).filter(([k, v]) => {
-          return v.damageOption;
-        })),
-      })),
-      type: new StringField({
-        required: true,
-        choices: artichron.config.DAMAGE_TYPES,
-        initial: "physical",
-      }),
+      damageTypes: new SetField(new StringField({
+        choices: () => artichron.config.DAMAGE_TYPES,
+      }), { initial: () => ["physical"], min: 1 }),
     });
   }
 
@@ -64,5 +57,21 @@ export default class Damage extends PseudoDocument {
    */
   get formula() {
     return `${this.number}d${this.denomination}`;
+  }
+
+  /* -------------------------------------------------- */
+
+  /** @inheritdoc */
+  prepareBaseData() {
+    super.prepareBaseData();
+    this.number ??= 1;
+  }
+
+  /* -------------------------------------------------- */
+
+  /** @inheritdoc */
+  prepareDerivedData() {
+    super.prepareDerivedData();
+    this.damageType = this.damageTypes.first() ?? null;
   }
 }
