@@ -22,9 +22,6 @@ export default class ActivityUseDialog extends Application {
     consume: {
       template: "systems/artichron/templates/apps/item/activity-use-dialog/consume.hbs",
     },
-    damage: {
-      template: "systems/artichron/templates/apps/item/activity-use-dialog/damage.hbs",
-    },
     healing: {
       template: "systems/artichron/templates/apps/item/activity-use-dialog/healing.hbs",
     },
@@ -118,53 +115,6 @@ export default class ActivityUseDialog extends Application {
         label: "ARTICHRON.ActivityUseDialog.ConsumeUsesLabel",
         hint: "ARTICHRON.ActivityUseDialog.ConsumeUsesHint",
       });
-    }
-
-    return context;
-  }
-
-  /* -------------------------------------------------- */
-
-  /** @type {import("../../../_types").ContextPartHandler} */
-  async _preparePartContextDamage(context, options) {
-    const ctx = context.ctx = { ...this.#dialog.damage };
-    if (!ctx.show) return context;
-
-    const damages = this.activity.damage.map(part => {
-      return {
-        formula: part.formula,
-        type: artichron.config.DAMAGE_TYPES[part.type].label,
-      };
-    });
-
-    const field = new foundry.data.fields.NumberField({
-      integer: true,
-      initial: 0,
-      nullable: true,
-      min: 0,
-      label: "ARTICHRON.ActivityUseDialog.DamageLabel",
-      hint: "ARTICHRON.ActivityUseDialog.DamageHint",
-    });
-
-    Object.assign(ctx, {
-      field, damages,
-      legend: game.i18n.localize("ARTICHRON.ActivityUseDialog.DamageLegend"),
-    });
-
-    if (ctx.ammo) {
-      // ctx.ammoField = new foundry.data.fields.StringField({
-      //   required: false,
-      //   blank: true,
-      //   label: "ARTICHRON.ROLL.Damage.AmmoItem",
-      //   hint: "ARTICHRON.ROLL.Damage.AmmoItemHint",
-      //   choices: this.activity.item.actor.items.reduce((acc, item) => {
-      //     if (item.type !== "ammo") return acc;
-      //     if (item.system.category?.subtype === this.#item.system.ammunition?.type) {
-      //       acc[item.id] = item.name;
-      //     }
-      //     return acc;
-      //   }, {}),
-      // });
     }
 
     return context;

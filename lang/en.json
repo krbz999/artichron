@@ -29,8 +29,6 @@
   "partyPl": "Parties"
 },
 "Activity": {
-  "damage": "Damage",
-  "damagePl": "Damage Activities",
   "defend": "Defend",
   "defendPl": "Defend Activities",
   "effect": "Effect",
@@ -222,7 +220,6 @@
     "HEADERS": {
       "identity": "Identity",
       "configuration": "Configuration",
-      "damage": "Damage",
       "targeting": "Targeting",
       "defend": "Defending",
       "effects": "Effects",
@@ -275,7 +272,6 @@
 
 "ACTIVITY": {
   "Buttons": {
-    "ApplyDamage": "Apply Damage",
     "ApplyEffects": "Apply Effects",
     "ApplyHealing": "Apply Healing",
     "Teleport": "Teleport Token"
@@ -284,19 +280,11 @@
     "defendFormula": "Defensive Formula",
     "healingFormula": "Healing Formula"
   },
-  "Types": {
-    "Damage": "Damage Activity",
-    "Defend": "Defend Activity",
-    "Effect": "Effect Activity",
-    "Healing": "Healing Activity",
-    "Teleport": "Teleport Activity"
-  },
   "Warning": {
     "ConsumeCostUnavailable": "{name} does not have {number} action points available.",
     "ConsumeOutOfCombat": "{name} cannot consume action points when out of combat.",
     "NoActivities": "This item has no activities configured.",
     "NoAmmo": "You have none remaining of the selected ammunition.",
-    "NoDamage": "This activity has no damage rolls configured.",
     "NoEffects": "This activity has no effects configured.",
     "NoElixir": "The elixir with id '{id}' did not exist!",
     "NoElixirUses": "The {name} elixir has no uses left.",
@@ -1098,12 +1086,6 @@
 },
 
 "ROLL": {
-  "Damage": {
-    "AmmoItem": "Ammunition",
-    "AmmoItemHint": "An ammunition item to modify the damage roll.",
-    "Ammunition": "Ammunition",
-    "Title": "{name}: Roll Damage"
-  },
   "Defend": {
     "Flavor": "{name} - Defensive Roll",
     "Pool": "Pool",
@@ -1156,9 +1138,6 @@
   "ConsumeLegend": "Consumption",
   "ConsumeUsesHint": "Consume a use of this elixir.",
   "ConsumeUsesLabel": "Consume Elixir",
-  "DamageHint": "Each point spent from the pool will add one additional die to the damage dealt.",
-  "DamageLabel": "Increase",
-  "DamageLegend": "Damage",
   "DefendHint": "Each point spent from the pool will add one additional die to the roll.",
   "DefendLabel": "Increase",
   "DefendLegend": "Defend",

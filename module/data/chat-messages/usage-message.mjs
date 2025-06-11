@@ -58,9 +58,9 @@ export default class UsageMessageData extends ChatMessageSystemModel {
 
     const message = this.parent;
 
-    if (this.parent.rolls.length) await this.#insertDamageHealingRolls(content);
-    if (message.isDamage || message.isHealing || message.isEffect) {
-      await this.#insertDamageApplication(content);
+    if (this.parent.rolls.length) await this.#insertHealingRolls(content);
+    if (message.isHealing || message.isEffect) {
+      await this.#insertApplication(content);
     }
   }
 
@@ -106,7 +106,7 @@ export default class UsageMessageData extends ChatMessageSystemModel {
    * Inject the array of roll parts to the html.
    * @param {HTMLElement} content   The dialog content element.
    */
-  async #insertDamageHealingRolls(content) {
+  async #insertHealingRolls(content) {
     const template = "systems/artichron/templates/chat/item-usage-message.hbs";
     const context = {};
     context.total = 0;
@@ -117,9 +117,7 @@ export default class UsageMessageData extends ChatMessageSystemModel {
       let label;
       let color;
 
-      if (this.parent.isDamage) {
-        ({ label, color, icon } = artichron.config.DAMAGE_TYPES[roll.type]);
-      } else if (this.parent.isHealing) {
+      if (this.parent.isHealing) {
         icon = "fa-solid fa-staff-snake";
         label = "ARTICHRON.Healing";
         color = "438364";
@@ -160,7 +158,7 @@ export default class UsageMessageData extends ChatMessageSystemModel {
    * Inject the damage application elements.
    * @param {HTMLElement} content   The dialog content element.
    */
-  async #insertDamageApplication(content) {
+  async #insertApplication(content) {
     const promises = this.targets.map(uuid => fromUuid(uuid));
     const actors = await Promise.all(promises);
     const targets = actors.reduce((acc, actor) => {
@@ -171,11 +169,9 @@ export default class UsageMessageData extends ChatMessageSystemModel {
     const template = "systems/artichron/templates/chat/damage-application.hbs";
     const context = {
       targets: targets,
-      label: this.parent.isDamage ?
-        "ARTICHRON.ACTIVITY.Buttons.ApplyDamage" :
-        this.parent.isHealing ?
-          "ARTICHRON.ACTIVITY.Buttons.ApplyHealing" :
-          "ARTICHRON.ACTIVITY.Buttons.ApplyEffects",
+      label: this.parent.isHealing
+        ? "ARTICHRON.ACTIVITY.Buttons.ApplyHealing"
+        : "ARTICHRON.ACTIVITY.Buttons.ApplyEffects",
     };
     content.insertAdjacentHTML("beforeend", await foundry.applications.handlebars.renderTemplate(template, context));
 
