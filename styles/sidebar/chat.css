@@ -292,25 +292,50 @@
       gap: .5rem;
       position: relative;
 
-      &:has(.damage-delta) {
+      &.damage {
         grid-template-columns: 2rem 1fr 0fr;
       }
 
       img {
         cursor: var(--cursor-pointer);
+
+        .damaged & {
+          opacity: 0.5;
+        }
+      }
+
+      .title {
+        .damaged & {
+          text-decoration: line-through;
+        }
       }
 
       /* DAMAGE DELTA */
       .damage-delta {
         white-space: nowrap;
 
-        &.damage { color: red }
-        &.healing { color: green }
+        &.damage {
+          color: red;
+          &::before {
+            content: "-";
+          }
+        }
+        &.healing {
+          color: green;
+          &::before {
+            content: "+";
+          }
+        }
+
+        .damaged & {
+          /* display: none; */
+          content: "Hello";
+        }
       }
     }
 
     /* Hide damage application button if the list is empty. */
-    &[damage]:empty + [data-action=applyDamage] {
+    &[damage]:not(:has(.target-element.damage:not(.damaged))) + [data-action=applyDamage] {
       display: none;
     }
 

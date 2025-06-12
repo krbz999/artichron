@@ -140,7 +140,7 @@ export default class DamageData extends ChatMessageSystemModel {
 
     const promises = [];
     const parent = target.closest(".targeting.damage");
-    for (const element of parent.querySelectorAll(".target-element")) {
+    for (const element of parent.querySelectorAll(".target-element.damage:not(.damaged)")) {
       const actor = fromUuidSync(element.dataset.actorUuid);
       if (!actor) continue;
       promises.push(async function() {

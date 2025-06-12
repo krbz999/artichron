@@ -66,8 +66,8 @@ export default class ControlledTokensListElement extends HTMLElement {
     const existing = this.querySelector(`[data-actor-uuid="${actor.uuid}"]`);
     if (controlled) {
       if (existing) return;
-      const element = this.#createTargetElement(token, { damage: this.message.type === "damage" });
-      this.insertAdjacentElement("beforeend", element);
+      const damage = this.message.type === "damage";
+      this.insertAdjacentElement("beforeend", this.#createTargetElement(token, { damage }));
     } else {
       if (!existing) return;
       existing.remove();
@@ -94,17 +94,30 @@ export default class ControlledTokensListElement extends HTMLElement {
     // If this is a damage roll, also show damage calculation.
     if (damage) {
       element.classList.add("damage");
-      const delta = -this.message.system.calculateDamage(token.actor);
-      const css = (delta < 0) ? "damage" : (delta > 0) ? "healing" : "";
-      element.insertAdjacentHTML("beforeend", `<span class="damage-delta ${css}">${delta.signedString()}</span>`);
+      const damaged = this.message.system.damaged.some(d => d.actorUuid === actor.uuid);
+      if (damaged) {
+        element.classList.add("damaged");
+        const undoButton = foundry.utils.parseHTML("<a class='undo fa-solid fa-fw fa-recycle'></a>");
+        undoButton.addEventListener("click",
+          event => ControlledTokensListElement.#undoDamage.call(this, event, undoButton));
+        element.insertAdjacentElement("beforeend", undoButton);
+      } else {
+        const delta = -this.message.system.calculateDamage(token.actor);
+        const cssClass = [
+          "damage-delta",
+          (delta < 0) ? "damage" : (delta > 0) ? "healing" : "",
+        ].filterJoin(" ");
+        element.insertAdjacentHTML("beforeend", `<span class="${cssClass}">${Math.abs(delta)}</span>`);
+      }
     }
 
-    element.addEventListener("click",
-      event => ControlledTokensListElement.#onTargetMouseDown.call(this, event, element));
-    element.addEventListener("pointerover",
-      event => ControlledTokensListElement.#onTargetHoverIn.call(this, event, element));
-    element.addEventListener("pointerout",
-      event => ControlledTokensListElement.#onTargetHoverOut.call(this, event, element));
+    const avatar = element.querySelector(".avatar");
+    avatar.addEventListener("click",
+      event => ControlledTokensListElement.#onTargetMouseDown.call(this, event, avatar));
+    avatar.addEventListener("pointerover",
+      event => ControlledTokensListElement.#onTargetHoverIn.call(this, event, avatar));
+    avatar.addEventListener("pointerout",
+      event => ControlledTokensListElement.#onTargetHoverOut.call(this, event, avatar));
 
     return element;
   }
@@ -122,6 +135,22 @@ export default class ControlledTokensListElement extends HTMLElement {
     const [token] = actor.isToken ? [actor.token?.object] : actor.getActiveTokens();
     if (!token) return null;
     return token;
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Handle undoing damage.
+   * @this {ControlledTokensListElement}
+   * @param {PointerEvent} event    The initiating click event.
+   * @param {HTMLElement} target    The target element.
+   */
+  static #undoDamage(event, target) {
+    const actor = fromUuidSync(target.closest("[data-actor-uuid]").dataset.actorUuid);
+    const damaged = foundry.utils.deepClone(this.message.system._source.damaged);
+    const amount = damaged.findSplice(d => d.actorUuid === actor.uuid).amount;
+    actor.applyHealing(amount);
+    this.message.update({ "system.damaged": damaged });
   }
 
   /* -------------------------------------------------- */
