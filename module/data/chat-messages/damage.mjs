@@ -16,6 +16,14 @@ export default class DamageData extends ChatMessageSystemModel {
   /* -------------------------------------------------- */
 
   /**
+   * Static map to help store expanded states across re-renders.
+   * @type {Record<string, object>}
+   */
+  static #expandedStates = {};
+
+  /* -------------------------------------------------- */
+
+  /**
    * Render the HTML for the ChatMessage which should be added to the log
    * @param {object} [options]             Additional options passed to the Handlebars template.
    * @param {boolean} [options.canDelete]  Render a delete button. By default, this is true for GM users.
@@ -30,6 +38,10 @@ export default class DamageData extends ChatMessageSystemModel {
       actor: this.parent.speakerActor,
       rolls: [],
       total: 0,
+      expanded: {
+        rolls: DamageData.#expandedStates[this.parent.id]?.rolls ?? false,
+        tokens: DamageData.#expandedStates[this.parent.id]?.tokens ?? true,
+      },
     };
 
     for (const roll of this.parent.rolls) {
@@ -75,11 +87,28 @@ export default class DamageData extends ChatMessageSystemModel {
     for (const el of element.querySelectorAll(".message-content [data-action]")) {
       switch (el.dataset.action) {
         case "toggleRollsExpanded":
-          el.addEventListener("click", () => el.classList.toggle("expanded")); break;
+          el.addEventListener("click", () => {
+            foundry.utils.setProperty(
+              DamageData.#expandedStates,
+              `${this.parent.id}.rolls`,
+              el.classList.toggle("expanded"),
+            );
+          });
+          break;
         case "applyDamage":
           el.addEventListener("click", (event) => {
+            foundry.utils.setProperty(DamageData.#expandedStates, `${this.parent.id}.tokens`, false);
             const results = DamageData.#applyDamage.call(this, event, el);
             this.#applyResults(results);
+          });
+          break;
+        case "toggleTargetsExpanded":
+          el.addEventListener("click", () => {
+            foundry.utils.setProperty(
+              DamageData.#expandedStates,
+              `${this.parent.id}.tokens`,
+              el.closest(".targeting").classList.toggle("expanded"),
+            );
           });
           break;
       }
@@ -151,5 +180,13 @@ export default class DamageData extends ChatMessageSystemModel {
       }());
     }
     return promises;
+  }
+
+  /* -------------------------------------------------- */
+
+  /** @inheritdoc */
+  _onDelete(options, userId) {
+    super._onDelete(options, userId);
+    delete DamageData.#expandedStates[this.parent.id];
   }
 }

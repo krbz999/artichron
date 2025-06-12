@@ -22,7 +22,7 @@
     <div class="message-content">
       {{!-- CONTENT --}}
       {{#if (eq document.type "damage")}}
-      <div class="wrapper" data-action="toggleRollsExpanded">
+      <div class="wrapper {{#if expanded.rolls}} expanded {{/if}}" data-action="toggleRollsExpanded">
         <header class="header">{{total}}</header>
         <div class="rolls">
           {{#each rolls}}
@@ -46,12 +46,18 @@
         </div>
       </div>
 
-      <section class="targeting damage">
-        <controlled-tokens-list damage=""></controlled-tokens-list>
-        <button type="button" data-action="applyDamage">
-          <i class="fa-solid fa-burst" inert></i>
-          <span>{{localize "ARTICHRON.DAMAGE.applyDamage"}}</span>
-        </button>
+      <section class="targeting damage {{#if expanded.tokens}} expanded {{/if}}">
+        <h3 class="section-header" data-action="toggleTargetsExpanded">
+          <span>{{localize "ARTICHRON.DAMAGE.damageApplication"}}</span>
+          <i class="fa-solid fa-fw"></i>
+        </h3>
+        <div class="damage-application">
+          <controlled-tokens-list damage=""></controlled-tokens-list>
+          <button type="button" data-action="applyDamage">
+            <i class="fa-solid fa-burst" inert></i>
+            <span>{{localize "ARTICHRON.DAMAGE.applyDamage"}}</span>
+          </button>
+        </div>
       </section>
       {{else}}
 

@@ -280,67 +280,90 @@
   } */
 
   /* TOKEN TARGETS */
-  controlled-tokens-list {
+  .targeting.damage {
     display: grid;
+    grid-template-rows: 0fr 0fr;
+    transition: grid-template-rows 200ms ease;
 
-    .target-element {
+    &.expanded:has(.target-element) {
+      grid-template-rows: 0fr 1fr;
+    }
+    &.expanded .section-header .fa-solid::before {
+      content: "\f078";
+    }
+
+    .section-header {
       display: grid;
-      grid-template-columns: 2rem 1fr;
-      align-items: center;
-      padding: 2px;
-      margin: 4px;
-      gap: .5rem;
-      position: relative;
+      grid-template-columns: 1fr 0fr;
+      user-select: none;
+      margin-bottom: .5rem;
 
-      &.damage {
-        grid-template-columns: 2rem 1fr 0fr;
-      }
-
-      img {
-        cursor: var(--cursor-pointer);
-
-        .damaged & {
-          opacity: 0.5;
-        }
-      }
-
-      .title {
-        .damaged & {
-          text-decoration: line-through;
-        }
-      }
-
-      /* DAMAGE DELTA */
-      .damage-delta {
-        white-space: nowrap;
-
-        &.damage {
-          color: red;
-          &::before {
-            content: "-";
-          }
-        }
-        &.healing {
-          color: green;
-          &::before {
-            content: "+";
-          }
-        }
-
-        .damaged & {
-          /* display: none; */
-          content: "Hello";
-        }
+      .fa-solid::before {
+        content: "\f077";
       }
     }
 
-    /* Hide damage application button if the list is empty. */
-    &[damage]:not(:has(.target-element.damage:not(.damaged))) + [data-action=applyDamage] {
-      display: none;
-    }
+    .damage-application {
+      overflow: hidden;
 
-    + [data-action=applyDamage] {
-      width: 100%;
+      controlled-tokens-list {
+        display: grid;
+
+        .target-element {
+          display: grid;
+          grid-template-columns: 2rem 1fr;
+          align-items: center;
+          padding: 2px;
+          margin: 4px;
+          gap: .5rem;
+          position: relative;
+
+          &.damage {
+            grid-template-columns: 2rem 1fr 0fr;
+          }
+
+          img {
+            cursor: var(--cursor-pointer);
+
+            .damaged & {
+              opacity: 0.5;
+            }
+          }
+
+          .title {
+            .damaged & {
+              text-decoration: line-through;
+            }
+          }
+
+          /* DAMAGE DELTA */
+          .damage-delta {
+            white-space: nowrap;
+
+            &.damage {
+              color: red;
+              &::before {
+                content: "-";
+              }
+            }
+            &.healing {
+              color: green;
+              &::before {
+                content: "+";
+              }
+            }
+          }
+        }
+
+        /* Hide damage application button if the list is empty. */
+        &[damage]:not(:has(.target-element.damage:not(.damaged))) + [data-action=applyDamage] {
+          display: none;
+        }
+
+        + [data-action=applyDamage] {
+          width: 100%;
+        }
+      }
     }
   }
 }
