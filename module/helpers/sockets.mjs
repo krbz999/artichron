@@ -17,6 +17,8 @@ export function registerSockets() {
         break;
     }
   };
+
+  CONFIG.queries.chatDamage = artichron.data.chatMessages.DamageData._query;
 }
 
 /* -------------------------------------------------- */

@@ -13,10 +13,10 @@ export default class ControlledTokensListElement extends HTMLElement {
   /* -------------------------------------------------- */
 
   /**
-   * Has first-time setup been done? This stored the hook id.
-   * @type {number}
+   * Has first-time setup been done? This stores the hook ids.
+   * @type {Set<Array<string, number>>}
    */
-  #connected = null;
+  #connected = new Set();
 
   /* -------------------------------------------------- */
 
@@ -32,11 +32,29 @@ export default class ControlledTokensListElement extends HTMLElement {
 
   /** @inheritdoc */
   connectedCallback() {
-    if (this.#connected) return;
-    this.#connected = Hooks.on("controlToken", ControlledTokensListElement.#controlToken.bind(this));
+    if (this.#connected.size) return;
+
+    if (game.user.isGM) {
+      this.#connected.add([
+        "controlToken",
+        Hooks.on("controlToken", ControlledTokensListElement.#controlToken.bind(this)),
+      ]);
+    }
+
+    if (game.user.isGM || this.message.isAuthor) {
+      this.#connected.add([
+        "targetToken",
+        Hooks.on("targetToken", ControlledTokensListElement.#targetToken.bind(this)),
+      ]);
+    }
 
     const damage = this.message.type === "damage";
-    for (const token of artichron.utils.getTokenTargets(canvas.tokens?.controlled ?? [])) {
+    const tokens = artichron.utils.getTokenTargets([
+      ...game.user.isGM ? canvas.tokens?.controlled ?? [] : [],
+      ...game.user.targets,
+      ...this.message.author.targets,
+    ]);
+    for (const token of tokens) {
       this.insertAdjacentElement("beforeend", this.#createTargetElement(token, { damage }));
     }
   }
@@ -45,8 +63,8 @@ export default class ControlledTokensListElement extends HTMLElement {
 
   /** @inheritdoc */
   disconnectedCallback() {
-    Hooks.off("controlToken", this.#connected);
-    this.#connected = null;
+    for (const [hookName, hookId] of this.#connected) Hooks.off(hookName, hookId);
+    this.#connected.clear();
   }
 
   /* -------------------------------------------------- */
@@ -69,8 +87,32 @@ export default class ControlledTokensListElement extends HTMLElement {
       const damage = this.message.type === "damage";
       this.insertAdjacentElement("beforeend", this.#createTargetElement(token, { damage }));
     } else {
-      if (!existing) return;
-      existing.remove();
+      if (existing) existing.remove();
+    }
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * A hook event to create or tear down target elements when a token is targeted or untargeted.
+   * @this {ControlledTokensListElement}
+   * @param {foundry.documents.User} user             The user performing the targeting.
+   * @param {foundry.canvas.placeables.Token} token   The token targeted.
+   * @param {boolean} targeted                        Was the token targeted?
+   */
+  static #targetToken(user, token, targeted) {
+    const actor = token.actor;
+    if (!actor) return;
+
+    if (!game.user.isGM && (this.message.author !== user)) return;
+
+    const existing = this.querySelector(`[data-actor-uuid="${actor.uuid}"]`);
+    if (targeted) {
+      if (existing) return;
+      const damage = this.message.type === "damage";
+      this.insertAdjacentElement("beforeend", this.#createTargetElement(token, { damage }));
+    } else {
+      if (existing) existing.remove();
     }
   }
 
@@ -147,10 +189,13 @@ export default class ControlledTokensListElement extends HTMLElement {
    */
   static #undoDamage(event, target) {
     const actor = fromUuidSync(target.closest("[data-actor-uuid]").dataset.actorUuid);
-    const damaged = foundry.utils.deepClone(this.message.system._source.damaged);
-    const amount = damaged.findSplice(d => d.actorUuid === actor.uuid).amount;
-    actor.applyHealing(amount);
-    this.message.update({ "system.damaged": damaged });
+
+    const user = game.users.getDesignatedUser(user => {
+      return actor.canUserModify(user, "update") && this.message.canUserModify(user, "update");
+    });
+
+    const config = { messageId: this.message.id, actorUuid: actor.uuid };
+    user.query("chatDamage", { type: "undoDamage", config });
   }
 
   /* -------------------------------------------------- */

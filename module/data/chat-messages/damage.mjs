@@ -24,6 +24,74 @@ export default class DamageData extends ChatMessageSystemModel {
   /* -------------------------------------------------- */
 
   /**
+   * Query method to delegate methods.
+   * @type {Function}
+   */
+  static _query = ({ type, config }) => {
+    switch (type) {
+      case "undoDamage": return DamageData.#undoDamageQuery(config);
+      case "applyDamage": return DamageData.#applyDamageQuery(config);
+    }
+  };
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Query method for applying damage via chat message.
+   * @param {object} queryData
+   * @param {string} queryData.messageId      The id of the chat message with targets.
+   * @param {string[]} queryData.actorUuids   The uuids of the actors to apply damage to.
+   * @returns {Promise<boolean>}              A promise that resolves once damage has been applied and the message updated.
+   */
+  static async #applyDamageQuery({ messageId, actorUuids }) {
+    const message = game.messages.get(messageId);
+    const actors = new Set(actorUuids.map(uuid => fromUuidSync(uuid)).filter(_ => _));
+
+    const promises = [];
+    const damages = message.rolls.map(roll => ({ type: roll.damageType, value: roll.total }));
+
+    for (const actor of actors) {
+      promises.push(async function() {
+        const value = actor.system.health.value;
+        await actor.applyDamage(damages);
+        const delta = value - actor.system.health.value;
+        return { actorUuid: actor.uuid, amount: delta };
+      }());
+    }
+
+    const results = await Promise.all(promises);
+    const damaged = foundry.utils.deepClone(message.system._source.damaged);
+    for (const result of results) {
+      const existing = damaged.find(d => d.actorUuid === result.actorUuid);
+      if (existing) existing.amount = result.amount;
+      else damaged.push(result);
+    }
+    await message.update({ "system.damaged": damaged });
+    return true;
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Query method for undoing damage via chat message.
+   * @param {object} queryData
+   * @param {string} queryData.messageId      The id of the chat message with targets.
+   * @param {string[]} queryData.actorUuid    The uuid of the actor to which to undo damage.
+   * @returns {Promise<boolean>}              A promise that resolves once damage has been undone and the message updated.
+   */
+  static async #undoDamageQuery({ messageId, actorUuid }) {
+    const message = game.messages.get(messageId);
+    const actor = fromUuidSync(actorUuid);
+    const damaged = foundry.utils.deepClone(message.system._source.damaged);
+    const amount = damaged.findSplice(d => d.actorUuid === actor.uuid).amount;
+    await actor.applyHealing(amount);
+    await message.update({ "system.damaged": damaged });
+    return true;
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
    * Render the HTML for the ChatMessage which should be added to the log
    * @param {object} [options]             Additional options passed to the Handlebars template.
    * @param {boolean} [options.canDelete]  Render a delete button. By default, this is true for GM users.
@@ -161,25 +229,17 @@ export default class DamageData extends ChatMessageSystemModel {
    * @returns {Array<Promise<object>>}    An array of promises with actor uuid and the amount applied.
    */
   static #applyDamage(event, target) {
-    const damages = [];
-    for (const roll of this.parent.rolls) {
-      const { damageType, total } = roll;
-      damages.push({ type: damageType, value: total });
-    }
+    const user = game.users.getDesignatedUser(user => this.parent.canUserModify(user, "update"));
+    const config = { messageId: this.parent.id, actorUuids: [] };
 
-    const promises = [];
     const parent = target.closest(".targeting.damage");
     for (const element of parent.querySelectorAll(".target-element.damage:not(.damaged)")) {
       const actor = fromUuidSync(element.dataset.actorUuid);
       if (!actor) continue;
-      promises.push(async function() {
-        const value = actor.system.health.value;
-        await actor.applyDamage(damages);
-        const delta = value - actor.system.health.value;
-        return { actorUuid: actor.uuid, amount: delta };
-      }());
+      config.actorUuids.push(actor.uuid);
     }
-    return promises;
+
+    user.query("chatDamage", { type: "applyDamage", config });
   }
 
   /* -------------------------------------------------- */
