@@ -168,6 +168,14 @@ export default class PseudoDocumentSheet extends ArtichronApplicationMixin(Appli
   /* -------------------------------------------------- */
 
   /** @inheritdoc */
+  _configureRenderOptions(options) {
+    super._configureRenderOptions(options);
+    options.window = Object.assign(options.window ?? {}, { title: this.title });
+  }
+
+  /* -------------------------------------------------- */
+
+  /** @inheritdoc */
   async _onFirstRender(context, options) {
     await super._onFirstRender(context, options);
     this.document.apps[this.id] = this;

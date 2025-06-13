@@ -6,9 +6,9 @@ export default class Damage extends PseudoDocument {
   /** @type {import("../../../_types").PseudoDocumentMetadata} */
   static get metadata() {
     return foundry.utils.mergeObject(super.metadata, {
-      defaultImage: null,
+      defaultImage: "systems/artichron/assets/icons/pseudo/damage.svg",
       documentName: "Damage",
-      sheetClass: artichron.applications.sheets.item.DamageSheet,
+      sheetClass: artichron.applications.sheets.pseudo.DamageSheet,
     });
   }
 

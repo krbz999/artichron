@@ -30,6 +30,7 @@ assets/icons/hindred.svg - "Foot Trip" by Lorc under CC BY 3.0
 assets/icons/injured.svg - "Internal Injury" by Lorc under CC BY 3.0
 assets/icons/invisible.svg - "Invisible" by Delapouite under CC BY 3.0
 assets/icons/advancement.svg - "Divergence" by Lorc under CC BY 3.0
+assets/icons/pseudo/damage.svg - "Crowned Explosion" by Lorc under CC BY 3.0
 
 #
 

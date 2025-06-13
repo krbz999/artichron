@@ -1,4 +1,6 @@
 <section class="standard-form">
+  {{formGroup fields.name value=source.name placeholder=(localize "TYPES.Damage.base") name="name"}}
+  {{formGroup fields.img value=source.img placeholder=document.constructor.metadata.defaultImage name="img"}}
   {{formGroup fields.number value=source.number name="number" placeholder="1"}}
   {{formGroup fields.denomination value=source.denomination name="denomination"}}
   {{formGroup fields.damageTypes value=source.damageTypes name="damageTypes" options=config.DAMAGE_TYPES.optgroups classes="stacked"}}

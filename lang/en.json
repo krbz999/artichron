@@ -654,6 +654,12 @@
     }
   },
   "FIELDS": {
+    "name": {
+      "label": "Name"
+    },
+    "img": {
+      "label": "Image"
+    },
     "number": {
       "label": "Number",
       "hint": "The number of dice rolled by this damage part."
