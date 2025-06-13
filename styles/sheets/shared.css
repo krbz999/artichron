@@ -25,29 +25,25 @@
       text-align: center;
     }
 
-    .tags {
+    .grid-tags {
       display: grid;
       grid-template-columns: 0fr 1fr;
       align-items: center;
-      gap: .5rem;
-      margin-top: 0.25rem;
+      gap: 0.5rem;
+      margin: 0.25rem 0;
 
-      dt {
-        font-weight: 900;
-        margin: 0;
+      .label {
+        font-weight: bold;
       }
 
-      dd {
-        border: 2px inset hsl(from var(--artichron-color-border-blue) h s l / 0.85);
-        padding: 4px;
-        margin: 0;
-        width: fit-content;
-      }
-
-      .multi-tags {
+      .tags {
         display: flex;
+        gap: inherit;
         flex-wrap: wrap;
-        gap: 0.5rem;
+
+        .tag {
+          white-space: nowrap;
+        }
       }
     }
 
@@ -55,7 +51,7 @@
       object-fit: cover;
       object-position: center top;
       border-radius: 5px;
-      border: 2px inset hsl(from var(--artichron-color-border-blue) h s l / 0.85);
+      border: 2px inset hsl(from var(--artichron-color-border) h s l / 0.85);
       aspect-ratio: 1;
       height: var(--avatar-width);
 

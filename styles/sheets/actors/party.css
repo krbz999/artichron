@@ -77,7 +77,7 @@
         object-fit: cover;
         object-position: center top;
         border-radius: 50%;
-        border: 2px inset hsl(from var(--artichron-color-border-blue) h s l / 0.85);
+        border: 2px inset hsl(from var(--artichron-color-border) h s l / 0.85);
 
         &[data-action] {
           cursor: var(--cursor-pointer);

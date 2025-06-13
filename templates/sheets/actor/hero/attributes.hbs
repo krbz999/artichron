@@ -1,40 +1,35 @@
 <section class="tab {{tabs.attributes.cssClass}}" data-group="{{tabs.attributes.group}}" data-tab="{{tabs.attributes.id}}">
 
-  <div class="sections scrollable">
+  {{!-- FAVORITES --}}
+  {{#if ctx.favorites.length}}
+  <div class="document-list items" data-document-name="Item">
+    <h3 class="document-list-header">
+      <span>{{localize "ARTICHRON.SHEET.HERO.HEADERS.favorites"}}</span>
+    </h3>
 
-    {{!-- FAVORITES --}}
-    {{#if ctx.favorites.length}}
-    <div class="document-list items" data-document-name="Item">
-      <h3 class="document-list-header">
-        <span>{{localize "ARTICHRON.SHEET.HERO.HEADERS.favorites"}}</span>
-      </h3>
+    {{document-list-entries documents=ctx.favorites classes="compact" action="useItem"}}
+  </div>
+  {{/if}}
 
-      {{document-list-entries documents=ctx.favorites classes="compact" action="useItem"}}
-    </div>
+  {{!-- SKILLS --}}
+  <h3 class="section-header">{{localize "ARTICHRON.SHEET.HERO.HEADERS.skills"}}</h3>
+  <div class="skills">
+    {{#each ctx.skills}}
+    {{#if @root.isEditMode}}
+    <a class="skill glass label-top" data-action="configure" data-config="skill" data-skill-id="{{skillId}}">
+      <label>{{label}}</label>
+      <i class="fa-solid fa-cog fa-fw"></i>
+      <span class="value">{{value}}d6</span>
+    </a>
+    {{else}}
+    <artichron-icon class="skill-entry" src="{{img}}" backdrop style="--icon-fill: var(--artichron-color-skill-{{skillId}});" data-action="rollSkill" data-skill-id="{{skillId}}">
+      <a class="skill glass">
+        <span>{{label}}</span>
+        <span>{{value}}d6</span>
+      </a>
+    </artichron-icon>
     {{/if}}
-
-    {{!-- SKILLS --}}
-    <section>
-      <h3 class="section-header">{{localize "ARTICHRON.SHEET.HERO.HEADERS.skills"}}</h3>
-      <div class="skills">
-        {{#each ctx.skills}}
-        {{#if @root.isEditMode}}
-        <a class="skill label-top" data-action="configure" data-config="skill" data-skill-id="{{skillId}}">
-          <label>{{label}}</label>
-          <i class="fa-solid fa-cog"></i>
-          <span class="value">{{value}}d6</span>
-        </a>
-        {{else}}
-        <a class="skill label-top" data-action="rollSkill" data-skill-id="{{skillId}}">
-          <label>{{label}}</label>
-          <img src="{{img}}" alt="{{label}}">
-          <span class="value">{{value}}d6</span>
-        </a>
-        {{/if}}
-        {{/each}}
-      </div>
-    </section>
-
+    {{/each}}
   </div>
 
 </section>

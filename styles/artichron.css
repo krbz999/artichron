@@ -176,3 +176,54 @@ dialog:-internal-dialog-in-top-layer::backdrop {
 .artichron .no-animate {
   transition-duration: 0s !important;
 }
+
+/* -------------------------------------------------- */
+
+/* Glass effect. Best used for elements on some background image. */
+.artichron .glass {
+  --border-width: 1px;
+  border-radius: 5px;
+  position: relative;
+  backdrop-filter: blur(10px);
+  transition: backdrop-filter 200ms ease;
+  padding: .5rem;
+  white-space: nowrap;
+  width: fit-content;
+  margin: 0;
+
+  &::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    inset: 0;
+    border-radius: inherit;
+    border: var(--border-width) solid transparent;
+    background: linear-gradient(var(--artichron-color-gold), var(--artichron-color-purple)) border-box;
+    mask: linear-gradient(black, black) border-box, linear-gradient(black, black) padding-box;
+    mask-composite: subtract;
+  }
+}
+
+/* -------------------------------------------------- */
+
+artichron-icon[backdrop] {
+  position: relative;
+  overflow: hidden;
+  --icon-fill: rgba(255, 0, 0, 0.5);
+
+  svg {
+    transition: fill 300ms ease;
+    object-position: center;
+    object-fit: cover;
+    background-size: contain;
+    position: absolute;
+    inset: 0;
+    height: 100% !important;
+    width: 100% !important;
+    z-index: -1;
+  }
+
+  &:hover {
+    --icon-fill: rgba(255, 0, 0, 1);
+  }
+}

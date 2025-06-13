@@ -554,19 +554,19 @@ export const STATUS_CONDITIONS = {
 export const SKILLS = {
   agility: {
     label: "ARTICHRON.SKILL.agility",
-    img: "icons/skills/movement/feet-winged-boots-blue.webp",
+    img: "systems/artichron/assets/icons/skills/agility.svg",
   },
   brawn: {
     label: "ARTICHRON.SKILL.brawn",
-    img: "icons/skills/melee/unarmed-punch-fist-white.webp",
+    img: "systems/artichron/assets/icons/skills/brawn.svg",
   },
   mind: {
     label: "ARTICHRON.SKILL.mind",
-    img: "icons/magic/symbols/star-solid-gold.webp",
+    img: "systems/artichron/assets/icons/skills/mind.svg",
   },
   spirit: {
     label: "ARTICHRON.SKILL.spirit",
-    img: "icons/magic/symbols/star-rising-purple.webp",
+    img: "systems/artichron/assets/icons/skills/spirit.svg",
   },
 };
 

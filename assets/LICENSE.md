@@ -31,6 +31,10 @@ assets/icons/injured.svg - "Internal Injury" by Lorc under CC BY 3.0
 assets/icons/invisible.svg - "Invisible" by Delapouite under CC BY 3.0
 assets/icons/advancement.svg - "Divergence" by Lorc under CC BY 3.0
 assets/icons/pseudo/damage.svg - "Crowned Explosion" by Lorc under CC BY 3.0
+assets/icons/skills/agility.svg - "Frayed Arrow" by Lorc under CC BY 3.0
+assets/icons/skills/brawn.svg - "Biceps" by Delapouite under CC BY 3.0
+assets/icons/skills/mind.svg - "Triton Head" by Lorc under CC BY 3.0
+assets/icons/skills/spirit.svg - "Spark Spirit" by Lorc under CC BY 3.0
 
 #
 

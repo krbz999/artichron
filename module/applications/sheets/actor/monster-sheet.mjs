@@ -78,6 +78,11 @@ export default class MonsterSheet extends ActorSheetArtichron {
       ctx.defenses.push({ color, icon, label, value: v });
     }
 
+    // Damage.
+    ctx.damage = {
+      part: this.document.getEmbeddedPseudoDocumentCollection("Damage").contents[0],
+    };
+
     return context;
   }
 

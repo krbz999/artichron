@@ -1,23 +1,21 @@
 .artichron.application.sheet.actor.hero {
   .skills {
-    display: flex;
-    flex-direction: row;
-    gap: 1rem;
-    margin: 1rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 0.5rem;
 
-    .skill {
-      text-align: center;
+    .skill-entry {
+      aspect-ratio: 1;
+      display: flex;
 
-      & label, .value {
-        font-size: 12px;
-      }
+      .skill {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
 
-      & img {
-        border: none;
-        border-radius: 1rem;
-        filter: sepia(1) hue-rotate(180deg);
-        padding: 0.15rem;
-        outline: 1px solid var(--artichron-color-gold);
+        &:hover {
+          backdrop-filter: blur(0);
+        }
       }
     }
   }

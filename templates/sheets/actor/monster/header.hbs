@@ -8,31 +8,36 @@
     <h1 class="name">{{document.name}}</h1>
     {{/if}}
 
-    <dl class="tags">
+    <div class="grid-tags">
       {{!-- DAMAGE --}}
-      {{#if (and isEditMode editable)}}
-      <dt>{{document.system.damage.label}}</dt>
-      <dd class="button fa-solid fa-cog" data-action="configure" data-config="damage"></dd>
-      {{else}}
-      <dt>{{document.system.damage.label}}</dt>
-      <dd class="button" data-action="rollDamage">
-        {{document.system.damage.formula}} <i class="fa-solid fa-{{lookup (lookup config.DAMAGE_TYPES document.system.damage.type) 'icon'}}"></i>
-      </dd>
-      {{/if}}
+      <span class="label">{{document.system.damage.label}}</span>
+      <div class="tags">
+        {{#if (and isEditMode editable)}}
+        <span class="tag glass button" data-action="configure" data-config="damage">
+          <i class="fa-solid fa-cog fa-fw"></i>
+        </span>
+        {{else}}
+        <span class="tag glass button" data-action="rollDamage">
+          <span>{{ctx.damage.part.formula}}</span>
+          <i class="fa-solid fa-fw fa-{{lookup (lookup config.DAMAGE_TYPES ctx.damage.part.damageType) 'icon'}}"></i>
+        </span>
+        {{/if}}
+      </div>
 
       {{!-- DEFENSES --}}
       {{#if ctx.defenses.length}}
-      <dt>{{localize "ARTICHRON.SHEET.MONSTER.HEADERS.defenses"}}</dt>
-      <div class="multi-tags">
+      <span class="label">{{localize "ARTICHRON.SHEET.MONSTER.HEADERS.defenses"}}</span>
+      <div class="tags">
         {{#each ctx.defenses}}
-        <dd data-tooltip="{{label}}" style="color: #{{color}};">
-          <span>{{value}}</span>
+        <span class="tag glass" data-tooltip="{{label}}">
+          <span style="color: #{{color}};">{{value}}</span>
           <i class="fa-fw {{icon}}"></i>
-        </dd>
+        </span>
         {{/each}}
       </div>
       {{/if}}
-    </dl>
+
+    </div>
   </div>
 
   {{!-- AVATAR --}}

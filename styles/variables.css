@@ -1,29 +1,43 @@
 :root {
-  --artichron-theme-bright: rgb(222, 225, 255);
-  --artichron-pool-die-size: 100px;
-
   /* COLORS */
-  --artichron-color-health: red;
-  --artichron-color-stamina: green;
-  --artichron-color-mana: blue;
-
-  --artichron-color-border-blue: rgb(79, 79, 206);
+  --artichron-color-black-45: rgba(0, 0, 0, 0.45);
+  --artichron-color-black: rgb(0, 0, 0);
   --artichron-color-blue-light: rgb(121, 121, 245);
   --artichron-color-blue: rgb(0, 0, 255);
-  --artichron-color-blue-dark: rgb(0, 0, 255);
-  --artichron-color-white: rgba(204, 204, 204, 0.9);
-  --artichron-color-black: rgb(0, 0, 0);
-  --artichron-color-black-45: rgba(0, 0, 0, 0.45);
-  --artichron-color-gold: #9f9275;
-  --artichron-color-purple: #bb52f5;
-  --artichron-color-quotes: #e7d1b1;
+  --artichron-color-cotton: rgb(231, 209, 177);
+  --artichron-color-gold: rgb(159, 146, 117);
+  --artichron-color-green: rgb(0, 255, 0);
+  --artichron-color-orange: rgb(215, 114, 42);
+  --artichron-color-pink: rgb(255, 97, 144);
+  --artichron-color-purple-dark: rgb(76, 2, 18);
+  --artichron-color-purple: rgb(187, 82, 245);
+  --artichron-color-red: rgb(255, 0, 0);
+  --artichron-color-tan: rgb(219, 147, 112);
+  --artichron-color-umber: rgb(110, 84, 60);
+  --artichron-color-white: rgba(204, 204, 204);
 
-  --artichron-color-enemy: rgba(255, 97, 144, 0.699);
-  --artichron-color-ally: rgba(98, 98, 255, 0.788);
+  /* POOLS */
+  --artichron-color-health: var(--artichron-color-red);
+  --artichron-color-stamina: var(--artichron-color-green);
+  --artichron-color-mana: var(--artichron-color-blue);
+
+  /* DISPOSITION */
+  --artichron-color-enemy: var(--artichron-color-pink);
+  --artichron-color-ally: var(--artichron-color-blue-light);
 
   /* SHADING */
   --artichron-header-background-gradient: linear-gradient(3deg, hsl(from var(--artichron-color-purple) h s l / 0.4), transparent 70%);
   --artichron-header-border: 2px solid hsl(from var(--artichron-color-purple) h s l / 0.5);
+
+  /* SKILLS */
+  --artichron-color-skill-agility: var(--artichron-color-orange);
+  --artichron-color-skill-brawn: var(--artichron-color-tan);
+  --artichron-color-skill-mind: var(--artichron-color-umber);
+  --artichron-color-skill-spirit: var(--artichron-color-purple-dark);
+
+  /* UI */
+  --artichron-color-border: var(--artichron-color-blue-light);
+  --artichron-color-quotes: var(--artichron-color-cotton);
 }
 
 /* OVERRIDES */
