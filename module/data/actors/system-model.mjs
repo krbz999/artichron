@@ -34,23 +34,9 @@ export default class ActorSystemModel extends foundry.abstract.TypeDataModel {
   }
 
   /* -------------------------------------------------- */
-  /*   Life-cycle methods                               */
-  /* -------------------------------------------------- */
-
-  /* -------------------------------------------------- */
   /*   Properties                                       */
   /* -------------------------------------------------- */
 
   /** @inheritdoc */
   static LOCALIZATION_PREFIXES = ["ARTICHRON.ACTOR"];
-
-  /* -------------------------------------------------- */
-
-  /**
-   * The properties that can target this document when using active effects.
-   * @type {Set<string>}
-   */
-  static get BONUS_FIELDS() {
-    return new Set(["name", "img"]);
-  }
 }

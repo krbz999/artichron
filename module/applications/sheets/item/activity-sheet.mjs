@@ -3,11 +3,6 @@ import PseudoDocumentSheet from "../../api/pseudo-document-sheet.mjs";
 export default class ActivitySheet extends PseudoDocumentSheet {
   /** @inheritdoc */
   static DEFAULT_OPTIONS = {
-    actions: {
-      addDamage: ActivitySheet.#addDamage,
-      deleteDamage: ActivitySheet.#deleteDamage,
-      showDamage: ActivitySheet.#showDamage,
-    },
     classes: ["activity"],
     window: {
       icon: "fa-solid fa-bolt-lightning",
@@ -103,20 +98,6 @@ export default class ActivitySheet extends PseudoDocumentSheet {
       for (const s of configuration.scale) context.target.fields.push(_prepareField(`target.${s}`));
     }
 
-    // Damage
-    if (a.schema.has("damage")) {
-      const groups = artichron.config.DAMAGE_TYPES.optgroups;
-      context.damage = {
-        show: true,
-        damages: a.damage.map(damage => ({
-          damage,
-          fields: damage.schema.fields,
-          source: damage._source,
-          damageGroups: groups,
-        })),
-      };
-    }
-
     // Defend
     if (a.schema.has("defend")) {
       context.defend = {
@@ -159,43 +140,5 @@ export default class ActivitySheet extends PseudoDocumentSheet {
     }
 
     return context;
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Add a damage part.
-   * @this {ActivitySheet}
-   * @param {PointerEvent} event    The initiating click event.
-   * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
-   */
-  static #addDamage(event, target) {
-    this.activity.createDamage();
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Delete a damage part.
-   * @this {ActivitySheet}
-   * @param {PointerEvent} event    The initiating click event.
-   * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
-   */
-  static #deleteDamage(event, target) {
-    const id = target.closest("[data-id]").dataset.id;
-    this.activity.deleteDamage(id);
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Show sheet of a damage part.
-   * @this {ActivitySheet}
-   * @param {PointerEvent} event    The initiating click event.
-   * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
-   */
-  static #showDamage(event, target) {
-    const id = target.closest("[data-id]").dataset.id;
-    this.activity.damage.get(id).sheet.render({ force: true });
   }
 }

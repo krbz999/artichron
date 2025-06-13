@@ -183,37 +183,6 @@ Object.defineProperty(TARGET_TYPES, "optgroups", {
 /* -------------------------------------------------- */
 
 /**
- * @typedef {object} ShieldTypeConfig
- * @property {string} label     The human-readable label of this shield type.
- * @property {number} width     The relative size of a shield of this type.
- */
-
-/**
- * Shield subtypes.
- * @enum {ShieldTypeConfig}
- */
-export const SHIELD_TYPES = {
-  buckler: {
-    label: "ARTICHRON.ShieldType.Buckler",
-    width: 1,
-  },
-  heater: {
-    label: "ARTICHRON.ShieldType.Heater",
-    width: 2,
-  },
-  kite: {
-    label: "ARTICHRON.ShieldType.Kite",
-    width: 3,
-  },
-  tower: {
-    label: "ARTICHRON.ShieldType.Tower",
-    width: 4,
-  },
-};
-
-/* -------------------------------------------------- */
-
-/**
  * @typedef {object} EquipmentCategoryConfig
  * @property {string} label     The human-readable label of this equipment category.
  */
@@ -246,54 +215,23 @@ export const EQUIPMENT_CATEGORIES = {
  * @enum {EquipmentTypeConfig}
  */
 export const EQUIPMENT_TYPES = {
-  accessory: { label: "ARTICHRON.ArmorType.Accessory" },
-  arms: { label: "ARTICHRON.ArmorType.Arms" },
-  chest: { label: "ARTICHRON.ArmorType.Chest" },
-  head: { label: "ARTICHRON.ArmorType.Head" },
-  legs: { label: "ARTICHRON.ArmorType.Legs" },
-  boots: { label: "ARTICHRON.ArmorType.Boots" },
-};
-
-/* -------------------------------------------------- */
-
-/**
- * @typedef {object} AmmunitionTypeConfig
- * @property {string} label     The human-readable label of this ammunition type.
- */
-
-/**
- * Ammunition subtypes.
- * @enum {AmmunitionTypeConfig}
- */
-export const AMMUNITION_TYPES = {
-  arrow: {
-    label: "ARTICHRON.AmmunitionType.Arrow",
+  accessory: {
+    label: "ARTICHRON.ArmorType.Accessory",
   },
-  bullet: {
-    label: "ARTICHRON.AmmunitionType.Bullet",
+  arms: {
+    label: "ARTICHRON.ArmorType.Arms",
   },
-  round: {
-    label: "ARTICHRON.AmmunitionType.Round",
+  chest: {
+    label: "ARTICHRON.ArmorType.Chest",
   },
-  shell: {
-    label: "ARTICHRON.AmmunitionType.Shell",
+  head: {
+    label: "ARTICHRON.ArmorType.Head",
   },
-};
-
-/* -------------------------------------------------- */
-
-/**
- * @typedef {object} PartTypeConfig
- * @property {string} label     The human-readable label of this monster part type.
- */
-
-/**
- * Monster part subtypes.
- * @enum {PartTypeConfig}
- */
-export const PART_TYPES = {
-  horn: {
-    label: "placeholder",
+  legs: {
+    label: "ARTICHRON.ArmorType.Legs",
+  },
+  boots: {
+    label: "ARTICHRON.ArmorType.Boots",
   },
 };
 
@@ -417,6 +355,10 @@ export const ITEM_ATTRIBUTES = {
   //   transferrable: true,
   //   status: "bleeding",
   // },
+  spellcaster: {
+    label: "ARTICHRON.ATTRIBUTES.spellcaster",
+    types: new Set(["path"]),
+  },
   twoHanded: {
     label: "ARTICHRON.ATTRIBUTES.twoHanded",
     types: new Set(["spell"]),
@@ -775,6 +717,15 @@ export const PROGRESSION_CORE_PATHS = {
   },
 };
 
+/* -------------------------------------------------- */
+
+/**
+ * @typedef MixedPathConfiguration
+ * @property {string} label   Human-readable label.
+ * @property {string} uuid    The uuid to the path item.
+ */
+
+/** @type {Record<string, MixedPathConfiguration>} */
 export const PROGRESSION_MIXED_PATHS = {
   inquisitor: {
     label: "ARTICHRON.PROGRESSION.LABELS.inquisitor",
@@ -827,3 +778,83 @@ export const PROGRESSION_VALUES = {
   // You also cannot be mixed-path unless meeting this.
   absolute: 10,
 };
+
+/* -------------------------------------------------- */
+
+/**
+ * @typedef {object} BasicAttackConfiguration
+ * @property {string} label                                     Human-readlable label.
+ * @property {BaseDamageConfiguration} damage                   Base damage configuration.
+ * @property {Record<string, AttackTypeConfiguration>} types    The attack types.
+ */
+
+/**
+ * @typedef {object} BaseDamageConfiguration
+ * @property {number} number          Base number of dice.
+ * @property {number} denomination    Base denomination of the dice.
+ */
+
+/**
+ * @typedef {object} AttackTypeConfiguration
+ * @property {string} label         Human-readable label.
+ * @property {string} damageType    Default damage type.
+ */
+
+/** @enum {BasicAttackConfiguration} */
+export const BASIC_ATTACKS = {
+  melee: {
+    label: "ARTICHRON.ATTACK.melee",
+    damage: {
+      number: 2,
+      denomination: 10,
+    },
+    types: {
+      blade: {
+        label: "ARTICHRON.ATTACK.TYPES.blade",
+        damageType: "physical",
+      },
+      fist: {
+        label: "ARTICHRON.ATTACK.TYPES.fist",
+        damageType: "physical",
+      },
+      grasp: {
+        label: "ARTICHRON.ATTACK.TYPES.grasp",
+        damageType: "wind",
+      },
+    },
+  },
+  range: {
+    label: "ARTICHRON.ATTACK.range",
+    damage: {
+      number: 2,
+      denomination: 10,
+    },
+    types: {
+      bow: {
+        label: "ARTICHRON.ATTACK.TYPES.bow",
+        damageType: "physical",
+      },
+      firearm: {
+        label: "ARTICHRON.ATTACK.TYPES.firearm",
+        damageType: "physical",
+      },
+      invocation: {
+        label: "ARTICHRON.ATTACK.TYPES.invocation",
+        damageType: "wind",
+      },
+    },
+  },
+};
+
+Object.defineProperty(BASIC_ATTACKS, "optgroups", {
+  get: function() {
+    const groups = [];
+    for (const [k, v] of Object.entries(BASIC_ATTACKS.melee.types)) {
+      groups.push({ value: k, label: v.label, group: BASIC_ATTACKS.melee.label });
+    }
+    for (const [k, v] of Object.entries(BASIC_ATTACKS.range.types)) {
+      groups.push({ value: k, label: v.label, group: BASIC_ATTACKS.range.label });
+    }
+    return groups;
+  },
+});

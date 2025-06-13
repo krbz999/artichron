@@ -33,8 +33,6 @@ export interface ClockMetadata extends PseudoDocumentMetadata {
   color: string;
 }
 
-export interface DamagePartMetadata extends PseudoDocumentMetadata {}
-
 export interface AdvancementMetadata extends PseudoDocumentMetadata {}
 
 /* -------------------------------------------------- */

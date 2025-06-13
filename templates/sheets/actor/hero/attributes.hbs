@@ -50,19 +50,6 @@
       </div>
     </section>
 
-    {{!-- DEFENSES --}}
-    <section>
-      <h3 class="section-header">{{localize "ARTICHRON.SHEET.HERO.HEADERS.defenses"}}</h3>
-      <div class="defenses">
-        {{#each ctx.defenses}}
-        <div class="defense {{#if active}} active {{/if}}" data-tooltip="{{label}}" style="color: #{{color}}">
-          <span class="total">{{value}}</span>
-          <i class="{{icon}}"></i>
-        </div>
-        {{/each}}
-      </div>
-    </section>
-
   </div>
 
 </section>

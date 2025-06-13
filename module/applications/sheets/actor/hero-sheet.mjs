@@ -85,14 +85,26 @@ export default class HeroSheet extends ActorSheetArtichron {
 
   /** @type {import("../../../_types").ContextPartHandler} */
   async _preparePartContextHeader(context, options) {
-    context.ctx = {};
+    const ctx = context.ctx = { path: {}, defenses: [] };
 
+    // Path.
     const key = this.document.system.currentPaths[0];
-    const label = key in context.config.PROGRESSION_CORE_PATHS
+    ctx.path.label = key in context.config.PROGRESSION_CORE_PATHS
       ? context.config.PROGRESSION_CORE_PATHS[key].label
       : context.config.PROGRESSION_MIXED_PATHS[key]?.label;
 
-    context.ctx.path = label;
+    // Damage.
+    ctx.damage = {
+      part: this.document.getEmbeddedPseudoDocumentCollection("Damage").contents[0],
+    };
+
+    // Defenses.
+    for (const [k, v] of Object.entries(this.document.system.defenses)) {
+      if (!v) continue;
+      const { color, icon, label } = artichron.config.DAMAGE_TYPES[k];
+      ctx.defenses.push({ color, icon, label, value: v });
+    }
+
     return context;
   }
 
@@ -121,7 +133,6 @@ export default class HeroSheet extends ActorSheetArtichron {
       health: this.document.system.health,
       pools: [],
       favorites: [],
-      defenses: [],
       skills: [],
     };
 
@@ -133,15 +144,6 @@ export default class HeroSheet extends ActorSheetArtichron {
     // Favorites
     for (const item of this.document.favorites) {
       context.ctx.favorites.push({ document: item });
-    }
-
-    // Defenses
-    for (const [k, v] of Object.entries(this.document.system.defenses)) {
-      context.ctx.defenses.push({
-        ...artichron.config.DAMAGE_TYPES[k],
-        value: v,
-        active: v > 0,
-      });
     }
 
     // Skill
@@ -306,23 +308,11 @@ export default class HeroSheet extends ActorSheetArtichron {
     super._attachPartListeners(partId, htmlElement, options);
 
     switch (partId) {
-      case "health":
-        this.#attachPartListenersHealth(htmlElement, options);
-        break;
       case "inventory":
         this.#attachPartListenersInventory(htmlElement, options);
         break;
     }
   }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Attach event listeners to a specific part.
-   * @param {HTMLElement} element   The part element.
-   * @param {object} options        Rendering options
-   */
-  #attachPartListenersHealth(element, options) {}
 
   /* -------------------------------------------------- */
 

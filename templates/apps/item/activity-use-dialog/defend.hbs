@@ -1,10 +1,10 @@
 <fieldset>
-  {{~#if defend.show}}
-  <legend>{{defend.legend}}</legend>
+  {{~#if ctx.show}}
+  <legend>{{ctx.legend}}</legend>
   <p class="defend">
-    <span class="formula">{{defend.formula}}</span>
+    <span class="formula">{{ctx.formula}}</span>
   </p>
 
-  {{formGroup defend.field name="defend.increase" localize=true}}
+  {{formGroup ctx.field name="defend.increase" localize=true}}
   {{/if~}}
 </fieldset>

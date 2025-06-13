@@ -1,6 +1,5 @@
 <section class="standard-form">
-  {{formGroup fields.number value=(ifThen (eq source.number 1) null source.number) name="number" placeholder="1"}}
+  {{formGroup fields.number value=source.number name="number" placeholder="1"}}
   {{formGroup fields.denomination value=source.denomination name="denomination"}}
-  {{formGroup fields.type value=source.type name="type" options=ctx.typeOptions}}
-  {{formInput fields.options value=source.options type="checkboxes" name="options" options=ctx.optionsOptions}}
+  {{formGroup fields.damageTypes value=source.damageTypes name="damageTypes" options=config.DAMAGE_TYPES.optgroups classes="stacked"}}
 </section>

@@ -26,82 +26,9 @@
 
 /* -------------------------------------------------- */
 
-/* Css class used to prevent animation of elements. */
-.application.artichron .no-animate {
-  transition-duration: 0s !important;
-}
-
-/* -------------------------------------------------- */
-
-/* Styling to make elements look like buttons */
-.application.artichron .button {
-  border-radius: 3px;
-  border-width: 1px;
-  border-style: solid;
-  border-color: hsl(from var(--artichron-color-blue-light) h s l / 0.7);
-  cursor: var(--cursor-pointer);
-  transition: all 300ms ease;
-
-  &:hover {
-    background: var(--button-hover-background-color);
-    border-color: var(--button-hover-border-color);
-  }
-}
-
-/* -------------------------------------------------- */
-
 /* Make a prosemirror form group the full height of a tab. */
 .application.artichron .tab:has(.prosemirror-full-height), .prosemirror-full-height {
   flex: 1;
-}
-
-/* -------------------------------------------------- */
-
-.application.artichron .drop-target-area {
-  min-height: calc(var(--height, 300) * 1px);
-  border-radius: 5px;
-  border: 1px dashed var(--artichron-color-gold);
-  margin: 1rem;
-  display: grid;
-
-  &.empty {
-    text-align: center;
-    align-items: center;
-    font-style: italic;
-    color: var(--artichron-color-gold);
-
-    * {
-      pointer-events: none;
-    }
-  }
-
-  &.dragover {
-    border-style: solid;
-  }
-}
-
-/* -------------------------------------------------- */
-
-/* Tables */
-.application.artichron table thead {
-  background: var(--artichron-header-background-gradient);
-  border: none;
-  border-bottom: 2px solid hsl(from var(--artichron-color-purple) h s l / 0.5);
-}
-
-/* -------------------------------------------------- */
-
-/* Section headers */
-.application.artichron .section-header {
-  background: var(--artichron-header-background-gradient);
-  border-bottom: var(--artichron-header-border);
-  padding: 0.25rem;
-  margin: 1rem 0;
-
-  &:not(H1) {
-    font-size: 16px;
-    padding-left: 1ch;
-  }
 }
 
 /* -------------------------------------------------- */
@@ -206,7 +133,7 @@
       border-top-right-radius: 25%;
       border-bottom-right-radius: 25%;
       background: var(--background);
-      box-shadow: 0 0 3px var(--background);
+      box-shadow: 1px 1px 2px var(--artichron-color-gold);
       overflow: hidden;
       display: flex;
 

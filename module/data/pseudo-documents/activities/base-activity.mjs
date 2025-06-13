@@ -1,7 +1,7 @@
 import TypedPseudoDocument from "../typed-pseudo-document.mjs";
 
 const {
-  BooleanField, FilePathField, HTMLField, NumberField, SchemaField, StringField,
+  BooleanField, HTMLField, NumberField, SchemaField,
 } = foundry.data.fields;
 
 export default class BaseActivity extends TypedPseudoDocument {
@@ -10,9 +10,6 @@ export default class BaseActivity extends TypedPseudoDocument {
     return {
       ...super.metadata,
       documentName: "Activity",
-      embedded: {
-        Damage: "damage",
-      },
       defaultImage: "systems/artichron/assets/icons/activity.svg",
       sheetClass: artichron.applications.sheets.item.ActivitySheet,
       types: artichron.data.pseudoDocuments.activities,
@@ -86,17 +83,7 @@ export default class BaseActivity extends TypedPseudoDocument {
    * @type {boolean}
    */
   get usesAmmo() {
-    return (this.type === "damage") && this.item.usesAmmo;
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Does this item have any valid damage formulas?
-   * @type {boolean}
-   */
-  get hasDamage() {
-    return false;
+    return this.item.usesAmmo;
   }
 
   /* -------------------------------------------------- */
@@ -135,11 +122,6 @@ export default class BaseActivity extends TypedPseudoDocument {
         showUses: uses,
         uses: this.cost.uses,
       },
-      damage: {
-        show: this.hasDamage && this.canBoost,
-        ammo: this.usesAmmo,
-        ammoId: item.getFlag("artichron", `usage.${this.id}.damage.ammoId`),
-      },
       defend: {
         show: (this.type === "defend") && this.canBoost,
       },
@@ -159,7 +141,7 @@ export default class BaseActivity extends TypedPseudoDocument {
         choices: elixirs,
       },
       rollMode: {
-        show: ["damage", "defend", "healing"].includes(this.type),
+        show: ["defend", "healing"].includes(this.type),
         mode: item.getFlag("artichron", `usage.${this.id}.rollMode.mode`) ?? game.settings.get("core", "rollMode"),
       },
     };
@@ -168,10 +150,6 @@ export default class BaseActivity extends TypedPseudoDocument {
       consume: {
         action: dialog.consume.showAction && dialog.consume.action,
         uses: dialog.consume.showUses && dialog.consume.uses,
-      },
-      damage: {
-        increase: 0,
-        ammoId: dialog.damage.ammo ? dialog.damage.ammoId : null,
       },
       defend: {
         increase: 0,
@@ -240,8 +218,7 @@ export default class BaseActivity extends TypedPseudoDocument {
    */
   getUsagePoolCost(usage = {}) {
     let count =
-      (usage.damage?.increase ?? 0)
-      + (usage.healing?.increase ?? 0)
+      (usage.healing?.increase ?? 0)
       + (usage.template?.place ? usage.template?.increase ?? 0 : 0)
       + (usage.teleport?.increase ?? 0);
 
@@ -309,17 +286,6 @@ export default class BaseActivity extends TypedPseudoDocument {
         return false;
       }
       itemUpdates.push(this.item.system._usageUpdate());
-    }
-
-    // Reduce quantity of ammo by 1.
-    if (usage.damage?.ammoId) {
-      const ammo = actor.items.get(usage.damage.ammoId);
-      const qty = ammo.system.quantity.value;
-      if (!qty) {
-        ui.notifications.warn("ARTICHRON.ACTIVITY.Warning.NoAmmo", { localize: true });
-        return false;
-      }
-      itemUpdates.push({ _id: ammo.id, "system.quantity.value": qty - 1 });
     }
 
     // Consume elixirs.

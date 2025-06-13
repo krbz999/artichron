@@ -11,9 +11,10 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
     position: { height: 500, width: 400 },
     window: { resizable: true },
     actions: {
-      useItem: ActorSheetArtichron.#onUseItem,
-      recoverHealth: ActorSheetArtichron.#onRecoverHealth,
       configure: ActorSheetArtichron.#onToggleConfig,
+      recoverHealth: ActorSheetArtichron.#onRecoverHealth,
+      rollDamage: ActorSheetArtichron.#rollDamage,
+      useItem: ActorSheetArtichron.#onUseItem,
     },
   };
 
@@ -245,9 +246,8 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
     let Cls;
     let options;
     switch (target.dataset.config) {
-      case "pools":
-        Cls = artichron.applications.apps.actor.HeroPoolConfig;
-        break;
+      case "damage": Cls = artichron.applications.apps.actor.configs.DamageConfig; break;
+      case "pools": Cls = artichron.applications.apps.actor.HeroPoolConfig; break;
       case "skill":
         Cls = artichron.applications.apps.actor.configs.SkillConfig;
         options = { skill: target.dataset.skillId };
@@ -268,5 +268,17 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
    */
   static #onRecoverHealth(event, target) {
     this.document.recover();
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Roll damage.
+   * @this {ActorSheetArtichron}
+   * @param {PointerEvent} event    The initiating click event.
+   * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
+   */
+  static #rollDamage(event, target) {
+    this.document.system.rollDamage({ event });
   }
 }

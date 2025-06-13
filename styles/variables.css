@@ -26,7 +26,7 @@
 }
 
 /* OVERRIDES */
-.artichron.application :is(button, .button) {
+.artichron :is(button, .button) {
   &:hover:not([disabled]) {
     --button-hover-background-color: hsl(from var(--artichron-color-purple) h s l / 0.5);
     --button-hover-border-color: hsl(from var(--artichron-color-purple) h s l / 0.7);
@@ -37,7 +37,7 @@
 
 body {
   /* FONTS */
-  --artichron-font-header: "Roboto";
+  --artichron-font-header: Roboto, sans-serif;
   --artichron-font-raleway: "Raleway";
   --font-body: var(--artichron-font-raleway);
 }

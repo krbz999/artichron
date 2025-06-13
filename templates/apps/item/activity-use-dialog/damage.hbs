@@ -1,17 +1,17 @@
 <fieldset>
-  {{~#if damage.show}}
-  <legend>{{damage.legend}}</legend>
-  {{#each damage.damages}}
+  {{~#if ctx.show}}
+  <legend>{{ctx.legend}}</legend>
+  {{#each ctx.damages}}
   <p class="damage">
     <span class="formula">{{formula}}</span>
     <span class="type">{{type}}</span>
   </p>
   {{/each}}
 
-  {{#if damage.ammo}}
-  {{formGroup damage.ammoField name="damage.ammoId" localize=true value=damage.ammoId}}
+  {{#if ctx.ammo}}
+  {{formGroup ctx.ammoField name="damage.ammoId" localize=true value=ctx.ammoId}}
   {{/if}}
 
-  {{formGroup damage.field name="damage.increase" localize=true}}
+  {{formGroup ctx.field name="damage.increase" localize=true}}
   {{/if~}}
 </fieldset>

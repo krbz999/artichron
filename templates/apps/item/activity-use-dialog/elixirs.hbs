@@ -1,6 +1,6 @@
 <fieldset>
-  {{~#if elixirs.show}}
-  <legend>{{elixirs.legend}}</legend>
-  {{formGroup elixirs.field name="elixirs.ids" localize=true classes="stacked"}}
+  {{~#if ctx.show}}
+  <legend>{{ctx.legend}}</legend>
+  {{formGroup ctx.field name="elixirs.ids" localize=true classes="stacked"}}
   {{/if~}}
 </fieldset>

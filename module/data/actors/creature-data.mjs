@@ -10,16 +10,27 @@ const {
  */
 export default class CreatureData extends ActorSystemModel {
   /** @inheritdoc */
+  static get metadata() {
+    return foundry.utils.mergeObject(super.metadata, {
+      embedded: {
+        Damage: "system.damage.parts",
+      },
+    });
+  }
+
+  /* -------------------------------------------------- */
+
+  /** @inheritdoc */
   static defineSchema() {
     return Object.assign(super.defineSchema(), {
       biography: new SchemaField({
         value: new HTMLField(),
       }),
+      damage: new SchemaField({
+        attack: new StringField({ required: true, blank: false, initial: "blade" }),
+        parts: new artichron.data.fields.CollectionField(artichron.data.pseudoDocuments.damage.Damage),
+      }),
       equipped: new SchemaField({
-        arsenal: new SchemaField({
-          primary: new StringField({ required: true }),
-          secondary: new StringField({ required: true }),
-        }),
         armor: new SchemaField(Object.keys(artichron.config.EQUIPMENT_TYPES).reduce((acc, key) => {
           acc[key] = new StringField({ required: true });
           return acc;
@@ -49,13 +60,18 @@ export default class CreatureData extends ActorSystemModel {
     this.defenses = {};
     for (const k of Object.keys(artichron.config.DAMAGE_TYPE_GROUPS)) this.bonuses.damage[k] = 0;
     for (const { value } of artichron.config.DAMAGE_TYPES.optgroups) this.defenses[value] = 0;
+
+    // Prepare attack and damage.
+    const attack = this.damage.attack in artichron.config.BASIC_ATTACKS.melee.types
+      ? artichron.config.BASIC_ATTACKS.melee.types[this.damage.attack]
+      : artichron.config.BASIC_ATTACKS.range.types[this.damage.attack];
+    this.damage.label = attack.label;
   }
 
   /* -------------------------------------------------- */
 
   /** @inheritdoc */
   prepareDerivedData() {
-    // Calling super first to prepare actor level.
     super.prepareDerivedData();
     this.#prepareDefenses();
     this.#prepareDamageBonuses();
@@ -128,36 +144,6 @@ export default class CreatureData extends ActorSystemModel {
   /*   Properties                                       */
   /* -------------------------------------------------- */
 
-  /** @inheritdoc */
-  static get BONUS_FIELDS() {
-    const bonus = super.BONUS_FIELDS;
-    bonus.add("system.pips.turn");
-    for (const k of Object.keys(artichron.config.DAMAGE_TYPE_GROUPS)) {
-      bonus.add(`system.bonuses.damage.${k}`);
-    }
-    for (const k of Object.keys(artichron.config.DAMAGE_TYPES)) {
-      bonus.add(`system.defenses.${k}`);
-    }
-    return bonus;
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * The currently equipped arsenal.
-   * @type {{primary: ItemArtichron, secondary: ItemArtichron}}
-   */
-  get arsenal() {
-    const items = this.equipped.arsenal;
-    let primary = this.parent.items.get(items.primary) ?? null;
-    if (!primary?.isArsenal) primary = null;
-    let secondary = this.parent.items.get(items.secondary) ?? null;
-    if (!secondary?.isArsenal || (primary?.isTwoHanded || secondary.isTwoHanded)) secondary = null;
-    return { primary, secondary };
-  }
-
-  /* -------------------------------------------------- */
-
   /**
    * The currently equipped armor set.
    * @type {object}
@@ -172,17 +158,6 @@ export default class CreatureData extends ActorSystemModel {
   }
 
   /* -------------------------------------------------- */
-
-  /**
-   * Does this actor have a shield equipped?
-   * @type {boolean}
-   */
-  get hasShield() {
-    const { primary, secondary } = this.arsenal;
-    return (primary?.type === "shield") || (secondary?.type === "shield");
-  }
-
-  /* -------------------------------------------------- */
   /*   Instance methods                                 */
   /* -------------------------------------------------- */
 
@@ -192,23 +167,10 @@ export default class CreatureData extends ActorSystemModel {
    * @returns {Promise}
    */
   async changeEquippedDialog(slot) {
-    const type = ["primary", "secondary"].includes(slot) ? "arsenal" : "armor";
-    const current = this.parent.items.get(this.equipped[type][slot]);
+    const current = this.parent.items.get(this.equipped.armor[slot]);
     const choices = this.parent.items.reduce((acc, item) => {
       if (item === current) return acc;
-
-      if (type === "armor") {
-        if ((item.type !== "armor") || (item.system.category.subtype !== slot)) return acc;
-      } else if (type === "arsenal") {
-        if (!item.isArsenal) return acc;
-        const { primary, secondary } = this.parent.arsenal;
-        if ([primary, secondary].includes(item)) return acc;
-        if (slot === "secondary") {
-          if (item.isTwoHanded) return acc;
-          if (primary?.isTwoHanded) return acc;
-        }
-      }
-
+      if ((item.type !== "armor") || (item.system.category.subtype !== slot)) return acc;
       acc[item.id] = item.name;
       return acc;
     }, {});
@@ -271,15 +233,62 @@ export default class CreatureData extends ActorSystemModel {
    * @returns {Promise<ActorArtichron>}   A promise that resolves to the updated actor.
    */
   async changeEquipped(slot, item = null) {
-    const type = ["primary", "secondary"].includes(slot) ? "arsenal" : "armor";
-    const path = `system.equipped.${type}.${slot}`;
-    const current = foundry.utils.getProperty(this.parent, path);
+    const path = `system.equipped.armor.${slot}`;
     const update = { [path]: item ? item.id : "" };
-    if ((type === "arsenal") && (slot === "primary") && (item !== current) && item?.isTwoHanded) {
-      update[path.replace(slot, "secondary")] = "";
-    }
-
     await this.parent.update(update);
     return this.parent;
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Perform the full damage roll workflow.
+   * @param {object} [config={}]    Roll configuration object.
+   * @param {object} [dialog={}]    Dialog configuration object.
+   * @param {object} [message={}]   Message configuration object.
+   * @returns {Promise<artichron.dice.rolls.DamageRoll[]|null>}   A promise that resolves to the evaluated rolls.
+   */
+  async rollDamage(config = {}, dialog = {}, message = {}) {
+
+    const rollConfigs = config.rollConfigs ?? [];
+    config = foundry.utils.mergeObject({
+      rollData: this.parent.getRollData(),
+      subject: this.parent,
+      rollConfigs: this.#configureDamageRollConfigs(),
+    }, config, { overwrite: false });
+    for (const rollConfig of rollConfigs) {
+      const existing = config.rollConfigs.find(c => c.damageType === rollConfig.damageType);
+      if (existing) existing.parts.push(...rollConfig.parts);
+      else config.rollConfigs.push(rollConfig);
+    }
+
+    dialog = foundry.utils.mergeObject({
+      bypass: config.event?.shiftKey === true,
+    }, dialog);
+
+    message = foundry.utils.mergeObject({
+      bypass: false,
+    }, message);
+
+    const flow = new artichron.dice.DamageRollFlow(config, dialog, message);
+    return flow.finalize();
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Configure roll configs for a damage roll flow.
+   * @returns {object[]}
+   */
+  #configureDamageRollConfigs() {
+    const parts = [];
+    for (const part of this.damage.parts) {
+      parts.push({
+        parts: [part.formula],
+        damageType: part.damageType,
+        damageTypes: part.damageTypes,
+      });
+    }
+    return parts;
   }
 }

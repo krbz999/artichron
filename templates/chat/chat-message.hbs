@@ -1,0 +1,83 @@
+<ul>
+  <li class="chat-message message flexcol artichron {{document.type}}" data-message-id="{{document.id}}">
+    {{!-- HEADER --}}
+    <header class="message-header flexrow">
+      <div class="message-sender">
+        <div class="avatar" data-actor-uuid="{{actor.uuid}}">
+          <img src="{{actor.img}}" alt="{{actor.name}}">
+        </div>
+        <div class="name">
+          <span class="title">{{actor.name}}</span>
+          {{#if subtitle}} <span class="subtitle">{{subtitle}}</span> {{/if}}
+        </div>
+      </div>
+      <span class="message-metadata">
+        <time class="message-timestamp"></time>
+        {{#if canDelete}}
+        <a aria-label="Delete" class="message-delete" data-action="deleteMessage">
+          <i class="fa-solid fa-trash"></i>
+        </a>
+        {{/if}}
+      </span>
+    </header>
+
+    {{!-- CONTENT --}}
+    <div class="message-content">
+      {{!-- DAMAGE --}}
+      {{#if (eq document.type "damage")}}
+      <div class="wrapper {{#if expanded.rolls}} expanded {{/if}}" data-action="toggleRollsExpanded">
+        <header class="header">{{total}}</header>
+        <div class="rolls">
+          {{#each rolls}}
+          <div class="roll">
+            <div class="top">
+              <span class="icon" data-tooltip="{{label}}">
+                <i class="fa-fw fa-solid {{icon}}" style="color: #{{color}}"></i>
+              </span>
+              <span class="formula">
+                {{formula}} {{#if (ne multiplier null)}}<span class="multiplier">(&times;{{multiplier}})</span>{{/if}}
+              </span>
+              <span class="total">{{total}}</span>
+            </div>
+            <div class="bottom">
+              {{#each dice}}
+              <div class="{{cssClass}}">{{total}}</div>
+              {{/each}}
+            </div>
+          </div>
+          {{/each}}
+        </div>
+      </div>
+
+      <section class="targeting damage {{#if expanded.tokens}} expanded {{/if}}">
+        <h3 class="section-header" data-action="toggleTargetsExpanded">
+          <span>{{localize "ARTICHRON.DAMAGE.damageApplication"}}</span>
+          <i class="fa-solid fa-fw"></i>
+        </h3>
+        <div class="damage-application">
+          <controlled-tokens-list damage=""></controlled-tokens-list>
+          <button type="button" data-action="applyDamage">
+            <i class="fa-solid fa-burst" inert></i>
+            <span>{{localize "ARTICHRON.DAMAGE.applyDamage"}}</span>
+          </button>
+        </div>
+      </section>
+      {{else}}
+
+      {{!-- <div class="item-details">
+        <div class="item-header" data-action="toggleItemDescription">
+          <img src="{{item.img}}" alt="{{item.name}}" class="icon">
+          <div class="details">
+            <span class="title">{{item.name}}</span>
+            {{#if activity}}
+            <span class="subtitle">{{activity.name}}</span>
+            {{/if}}
+          </div>
+        </div>
+
+        <div class="description">{{item.system.description.value}}</div>
+      </div> --}}
+      {{/if}}
+    </div>
+  </li>
+</ul>

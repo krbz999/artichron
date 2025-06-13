@@ -4,15 +4,6 @@ const { BooleanField, DocumentUUIDField, JSONField } = foundry.data.fields;
 
 export default class TradeMessageData extends ChatMessageSystemModel {
   /** @inheritdoc */
-  static get metadata() {
-    return foundry.utils.mergeObject(super.metadata, {
-      type: "trade",
-    });
-  }
-
-  /* -------------------------------------------------- */
-
-  /** @inheritdoc */
   static defineSchema() {
     return {
       itemData: new JSONField(),

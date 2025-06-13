@@ -29,8 +29,6 @@
   "partyPl": "Parties"
 },
 "Activity": {
-  "damage": "Damage",
-  "damagePl": "Damage Activities",
   "defend": "Defend",
   "defendPl": "Defend Activities",
   "effect": "Effect",
@@ -222,7 +220,6 @@
     "HEADERS": {
       "identity": "Identity",
       "configuration": "Configuration",
-      "damage": "Damage",
       "targeting": "Targeting",
       "defend": "Defending",
       "effects": "Effects",
@@ -275,7 +272,6 @@
 
 "ACTIVITY": {
   "Buttons": {
-    "ApplyDamage": "Apply Damage",
     "ApplyEffects": "Apply Effects",
     "ApplyHealing": "Apply Healing",
     "Teleport": "Teleport Token"
@@ -284,19 +280,11 @@
     "defendFormula": "Defensive Formula",
     "healingFormula": "Healing Formula"
   },
-  "Types": {
-    "Damage": "Damage Activity",
-    "Defend": "Defend Activity",
-    "Effect": "Effect Activity",
-    "Healing": "Healing Activity",
-    "Teleport": "Teleport Activity"
-  },
   "Warning": {
     "ConsumeCostUnavailable": "{name} does not have {number} action points available.",
     "ConsumeOutOfCombat": "{name} cannot consume action points when out of combat.",
     "NoActivities": "This item has no activities configured.",
     "NoAmmo": "You have none remaining of the selected ammunition.",
-    "NoDamage": "This activity has no damage rolls configured.",
     "NoEffects": "This activity has no effects configured.",
     "NoElixir": "The elixir with id '{id}' did not exist!",
     "NoElixirUses": "The {name} elixir has no uses left.",
@@ -349,9 +337,6 @@
     "name": {
       "label": "Name"
     }
-  },
-  "DAMAGE": {
-    "FIELDS": {}
   },
   "DEFEND": {
     "FIELDS": {
@@ -425,6 +410,16 @@
         "label": "Funds"
       },
       "label": "Currencies"
+    },
+    "damage": {
+      "attack": {
+        "label": "Attack",
+        "hint": "Select the basic attack this character uses. The damage dice and type will be inferred."
+      },
+      "type": {
+        "label": "Type",
+        "hint": "The damage type of the basic attack can be inferred from the attack or overridden."
+      }
     },
     "danger": {
       "pool": {
@@ -552,6 +547,23 @@
   }
 },
 
+"ATTACK": {
+  "defaultDamageType": "Default ({type})",
+  "melee": "Melee",
+  "range": "Range",
+  "CONFIG": {
+    "TITLE": "Configure Damage"
+  },
+  "TYPES": {
+    "blade": "Blade",
+    "bow": "Bow",
+    "firearm": "Firearm",
+    "fist": "Fist",
+    "grasp": "Grasp",
+    "invocation": "Invocation"
+  }
+},
+
 "ATTRIBUTES": {
   "booster": "Booster",
   "fusion": "Fusion",
@@ -625,15 +637,34 @@
 },
 
 "DAMAGE": {
+  "TITLE": "Configure Damage: {name}",
+  "applyDamage": "Apply Damage",
+  "damageApplication": "Damage Application",
+  "bonus": {
+    "label": "Bonus",
+    "placeholder": "E.g. '1d4'"
+  },
+  "HEADERS": {
+    "damageParts": "Damage Parts"
+  },
+  "CONTEXT": {
+    "PART": {
+      "render": "Edit Damage Part",
+      "delete": "Delete Damage Part"
+    }
+  },
   "FIELDS": {
     "number": {
-      "label": "Number"
+      "label": "Number",
+      "hint": "The number of dice rolled by this damage part."
     },
     "denomination": {
-      "label": "Denomination"
+      "label": "Denomination",
+      "hint": "The size of each die."
     },
-    "type": {
-      "label": "Damage Type"
+    "damageTypes": {
+      "label": "Damage Types",
+      "hint": "The damage types available for this damage part. Having more than one will offer a choice."
     }
   }
 },
@@ -697,6 +728,12 @@
     "Clothing": "Clothing",
     "Natural": "Natural",
     "Tech": "Tech"
+  }
+},
+
+"HUD": {
+  "TOKEN": {
+    "rollDamage": "Roll Damage"
   }
 },
 
@@ -1059,12 +1096,6 @@
 },
 
 "ROLL": {
-  "Damage": {
-    "AmmoItem": "Ammunition",
-    "AmmoItemHint": "An ammunition item to modify the damage roll.",
-    "Ammunition": "Ammunition",
-    "Title": "{name}: Roll Damage"
-  },
   "Defend": {
     "Flavor": "{name} - Defensive Roll",
     "Pool": "Pool",
@@ -1117,9 +1148,6 @@
   "ConsumeLegend": "Consumption",
   "ConsumeUsesHint": "Consume a use of this elixir.",
   "ConsumeUsesLabel": "Consume Elixir",
-  "DamageHint": "Each point spent from the pool will add one additional die to the damage dealt.",
-  "DamageLabel": "Increase",
-  "DamageLegend": "Damage",
   "DefendHint": "Each point spent from the pool will add one additional die to the roll.",
   "DefendLabel": "Increase",
   "DefendLegend": "Defend",

@@ -179,7 +179,6 @@ class FusionData extends DataModel {
     // All activities are added.
     const ignoredActivity = activity => {
       switch (activity.type) {
-        case "damage":
         case "teleport":
           return item.type !== "spell";
         case "defend":

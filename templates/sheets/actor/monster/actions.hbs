@@ -1,6 +1,4 @@
 <section class="tab {{tabs.actions.cssClass}}" data-group="{{tabs.actions.group}}" data-tab="{{tabs.actions.id}}">
-  {{> "systems/artichron/templates/sheets/actor/monster/defenses.hbs"}}
-
   {{!-- FAVORITES --}}
   {{#if ctx.favorites.length}}
   <div class="document-list items" data-document-name="Item">
@@ -15,7 +13,7 @@
   <div class="document-list items" data-document-name="Item">
     <h3 class="document-list-header">
       <span>{{localize "ARTICHRON.SHEET.MONSTER.HEADERS.inventory"}}</span>
-      <button type="button" data-action="createEmbeddedDocument" class="create-document icon fa-solid" {{disabled isPlayMode}}></button>
+      <button type="button" data-action="createEmbeddedDocument" class="create-document icon fa-solid" {{disabled (not editable)}}></button>
     </h3>
     {{document-list-entries documents=ctx.inventory classes="compact" action="useItem"}}
   </div>

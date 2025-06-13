@@ -6,7 +6,7 @@ export default base => {
      * @returns {ModelCollection}     The embedded collection.
      */
     getEmbeddedPseudoDocumentCollection(embeddedName) {
-      const collectionPath = this.system.constructor.metadata.embedded?.[embeddedName];
+      const collectionPath = this.system?.constructor.metadata.embedded?.[embeddedName];
       if (!collectionPath) {
         throw new Error(`${embeddedName} is not a valid embedded Pseudo-Document within the [${this.type}] ${this.documentName} subtype!`);
       }
@@ -23,6 +23,32 @@ export default base => {
         return foundry.utils.getProperty(this, path).get(id, { invalid, strict }) ?? null;
       }
       return super.getEmbeddedDocument(embeddedName, id, { invalid, strict });
+    }
+
+    /* -------------------------------------------------- */
+
+    /** @inheritdoc */
+    prepareBaseData() {
+      super.prepareBaseData();
+      const documentNames = Object.keys(this.system?.constructor.metadata?.embedded ?? {});
+      for (const documentName of documentNames) {
+        for (const pseudoDocument of this.getEmbeddedPseudoDocumentCollection(documentName)) {
+          pseudoDocument.prepareBaseData();
+        }
+      }
+    }
+
+    /* -------------------------------------------------- */
+
+    /** @inheritdoc */
+    prepareDerivedData() {
+      super.prepareDerivedData();
+      const documentNames = Object.keys(this.system?.constructor.metadata?.embedded ?? {});
+      for (const documentName of documentNames) {
+        for (const pseudoDocument of this.getEmbeddedPseudoDocumentCollection(documentName)) {
+          pseudoDocument.prepareDerivedData();
+        }
+      }
     }
   };
 };

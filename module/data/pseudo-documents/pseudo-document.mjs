@@ -104,40 +104,53 @@ export default class PseudoDocument extends foundry.abstract.DataModel {
   /*   Data preparation                                 */
   /* -------------------------------------------------- */
 
-  /** @inheritdoc */
-  _initialize(...args) {
-    super._initialize(...args);
-    this.prepareData();
+  /* -------------------------------------------------- */
+
+  /**
+   * Prepase base data. It is the responsibility of the parent (pseudo) document to call this method.
+   */
+  prepareBaseData() {
+    const documentNames = Object.keys(this.constructor.metadata.embedded);
+    for (const documentName of documentNames) {
+      for (const pseudoDocument of this.getEmbeddedPseudoDocumentCollection(documentName)) {
+        pseudoDocument.prepareBaseData();
+      }
+    }
   }
 
   /* -------------------------------------------------- */
 
   /**
-   * Prepare data.
-   */
-  prepareData() {
-    this.prepareBaseData();
-    this.prepareDerivedData();
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Prepase base data.
-   */
-  prepareBaseData() {}
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Prepare derived data.
+   * Prepare derived data. It is the responsibility of the parent (pseudo) document to call this method.
    */
   prepareDerivedData() {
     this.name ||= game.i18n.localize(`TYPES.${this.constructor.metadata.documentName}.base`);
+
+    const documentNames = Object.keys(this.constructor.metadata.embedded);
+    for (const documentName of documentNames) {
+      for (const pseudoDocument of this.getEmbeddedPseudoDocumentCollection(documentName)) {
+        pseudoDocument.prepareDerivedData();
+      }
+    }
   }
 
   /* -------------------------------------------------- */
   /*   Instance Methods                                 */
+  /* -------------------------------------------------- */
+
+  /**
+   * Obtain the embedded collection of a given pseudo-document type.
+   * @param {string} embeddedName   The document name of the embedded collection.
+   * @returns {ModelCollection}     The embedded collection.
+   */
+  getEmbeddedPseudoDocumentCollection(embeddedName) {
+    const collectionPath = this.constructor.metadata.embedded[embeddedName];
+    if (!collectionPath) {
+      throw new Error(`${embeddedName} is not a valid embedded Pseudo-Document within the [${this.type}] ${this.documentName} subtype!`);
+    }
+    return foundry.utils.getProperty(this, collectionPath);
+  }
+
   /* -------------------------------------------------- */
 
   /**
