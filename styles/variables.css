@@ -37,7 +37,7 @@
 
 body {
   /* FONTS */
-  --artichron-font-header: "Roboto";
+  --artichron-font-header: Roboto, sans-serif;
   --artichron-font-raleway: "Raleway";
   --font-body: var(--artichron-font-raleway);
 }

@@ -33,28 +33,43 @@ export default class ControlledTokensListElement extends HTMLElement {
   /** @inheritdoc */
   connectedCallback() {
     if (this.#connected.size) return;
+    this.#refreshElements();
 
-    if (game.user.isGM) {
-      this.#connected.add([
-        "controlToken",
-        Hooks.on("controlToken", ControlledTokensListElement.#controlToken.bind(this)),
-      ]);
-    }
+    this.#connected
+      .add(["controlToken", Hooks.on("controlToken", ControlledTokensListElement.#controlToken.bind(this))])
+      .add(["targetToken", Hooks.on("targetToken", ControlledTokensListElement.#targetToken.bind(this))]);
+  }
 
-    if (game.user.isGM || this.message.isAuthor) {
-      this.#connected.add([
-        "targetToken",
-        Hooks.on("targetToken", ControlledTokensListElement.#targetToken.bind(this)),
-      ]);
-    }
+  /* -------------------------------------------------- */
+
+  /**
+   * Refresh the list of token targets.
+   * If the user is a GM, show the GM's targets, the author's targets, and the GM's controlled.
+   * If the user is not a GM, but is the author, show the author's targets.
+   */
+  #refreshElements() {
+    const isGM = game.user.isGM;
+    const isAuthor = this.message.isAuthor;
+    if (!isGM && !isAuthor) return;
 
     const damage = this.message.type === "damage";
-    const tokens = artichron.utils.getTokenTargets([
-      ...game.user.isGM ? canvas.tokens?.controlled ?? [] : [],
-      ...game.user.targets,
-      ...this.message.author.targets,
-    ]);
+
+    const authorTargets = [...this.message.author.targets];
+    const gmTargets = isGM ? [...game.user.targets] : [];
+    const gmControlled = isGM ? [...canvas.tokens?.controlled ?? []] : [];
+
+    const tokens = artichron.utils.getTokenTargets([...authorTargets, ...gmTargets, ...gmControlled]);
+    const actorUuids = tokens.map(token => token.actor.uuid);
+
+    const existing = new Set();
+    for (const element of this.querySelectorAll("[data-actor-uuid]")) {
+      const uuid = element.dataset.actorUuid;
+      if (!actorUuids.includes(uuid)) element.remove();
+      else existing.add(uuid);
+    }
+
     for (const token of tokens) {
+      if (existing.has(token.actor.uuid)) continue;
       this.insertAdjacentElement("beforeend", this.#createTargetElement(token, { damage }));
     }
   }
@@ -78,17 +93,7 @@ export default class ControlledTokensListElement extends HTMLElement {
    * @param {boolean} controlled                      Was the token controlled?
    */
   static #controlToken(token, controlled) {
-    const actor = token.actor;
-    if (!actor) return;
-
-    const existing = this.querySelector(`[data-actor-uuid="${actor.uuid}"]`);
-    if (controlled) {
-      if (existing) return;
-      const damage = this.message.type === "damage";
-      this.insertAdjacentElement("beforeend", this.#createTargetElement(token, { damage }));
-    } else {
-      if (existing) existing.remove();
-    }
+    if (token.actor) this.#refreshElements();
   }
 
   /* -------------------------------------------------- */
@@ -101,19 +106,7 @@ export default class ControlledTokensListElement extends HTMLElement {
    * @param {boolean} targeted                        Was the token targeted?
    */
   static #targetToken(user, token, targeted) {
-    const actor = token.actor;
-    if (!actor) return;
-
-    if (!game.user.isGM && (this.message.author !== user)) return;
-
-    const existing = this.querySelector(`[data-actor-uuid="${actor.uuid}"]`);
-    if (targeted) {
-      if (existing) return;
-      const damage = this.message.type === "damage";
-      this.insertAdjacentElement("beforeend", this.#createTargetElement(token, { damage }));
-    } else {
-      if (existing) existing.remove();
-    }
+    if (token.actor) this.#refreshElements();
   }
 
   /* -------------------------------------------------- */
