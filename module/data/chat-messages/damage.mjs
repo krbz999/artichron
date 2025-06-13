@@ -102,6 +102,7 @@ export default class DamageData extends ChatMessageSystemModel {
     const template = "systems/artichron/templates/chat/chat-message.hbs";
 
     const context = {
+      ...options,
       document: this.parent,
       actor: this.parent.speakerActor,
       rolls: [],

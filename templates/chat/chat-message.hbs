@@ -13,14 +13,17 @@
       </div>
       <span class="message-metadata">
         <time class="message-timestamp"></time>
+        {{#if canDelete}}
         <a aria-label="Delete" class="message-delete" data-action="deleteMessage">
           <i class="fa-solid fa-trash"></i>
         </a>
+        {{/if}}
       </span>
     </header>
 
+    {{!-- CONTENT --}}
     <div class="message-content">
-      {{!-- CONTENT --}}
+      {{!-- DAMAGE --}}
       {{#if (eq document.type "damage")}}
       <div class="wrapper {{#if expanded.rolls}} expanded {{/if}}" data-action="toggleRollsExpanded">
         <header class="header">{{total}}</header>
