@@ -18,7 +18,7 @@ export default class PartyFundsDialog extends Application {
 
   /** @inheritdoc */
   static DEFAULT_OPTIONS = {
-    classes: [ "party-funds-dialog"],
+    classes: ["party-funds-dialog"],
     window: {
       icon: "fa-solid fa-money-bill-transfer",
     },

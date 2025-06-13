@@ -1,0 +1,24 @@
+<section class="standard-form">
+  <div class="form-fields">
+    {{#each ctx.skills}}
+    <label class="checkbox glass">
+      <input type="radio" name="base" value="{{value}}" {{checked (eq @root.ctx.base value)}}>
+      <artichron-icon src="{{img}}" class="image" style="--icon-fill: var(--artichron-color-skill-{{value}});"></artichron-icon>
+      <span>{{label}}</span>
+    </label>
+    {{/each}}
+  </div>
+
+  <hr>
+
+  <div class="form-fields">
+    {{#each ctx.skills}}
+    <label class="checkbox glass">
+      <input type="radio" name="second" value="{{value}}" {{checked (eq @root.ctx.second value)}}>
+      <artichron-icon src="{{img}}" class="image" style="--icon-fill: var(--artichron-color-skill-{{value}});"></artichron-icon>
+      <span>{{label}}</span>
+    </label>
+    {{/each}}
+  </div>
+  <p class="hint">{{localize "ARTICHRON.SKILL.ROLL_DIALOG.hint"}}</p>
+</section>

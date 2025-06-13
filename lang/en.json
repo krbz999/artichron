@@ -1172,6 +1172,12 @@
 
   "CONFIG": {
     "TITLE": "Configure Skills"
+  },
+
+  "ROLL_DIALOG": {
+    "TITLE": "Roll Skills: {name}",
+    "hint": "Select two skills to combine for the roll, adding together their dice and bonuses.",
+    "flavor": "Skill Roll ({skills})"
   }
 },
 
@@ -1361,12 +1367,6 @@
   "Heater": "Heater",
   "Kite": "Kite",
   "Tower": "Tower"
-},
-
-"SkillsDialog": {
-  "Flavor": "Skill Roll ({skills})",
-  "Hint": "Select two skills to combine for the roll, adding together their dice and bonuses.",
-  "Title": "{name}: Roll Skill"
 },
 
 "TargetTypes": {

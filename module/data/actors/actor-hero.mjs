@@ -175,35 +175,16 @@ export default class HeroData extends CreatureData {
    * @returns {Promise<RollArtichron|null>}   A promise that resolves to the created roll.
    */
   async rollSkill(config = {}, dialog = {}, message = {}) {
-    const skills = Object.entries(this.skills).map(([k, v], i) => {
-      return {
-        value: k,
-        checked: (k === config.base) || (!i && !config.base),
-        checked2: (k === config.second) || (!i && !config.second),
-        img: artichron.config.SKILLS[k].img,
-        label: artichron.config.SKILLS[k].label,
-      };
-    });
-
     const skillIds = Object.keys(artichron.config.SKILLS);
     dialog.configure = (!config.event?.shiftKey && (dialog.configure !== false)) || !(skillIds.includes(config.base) && skillIds.includes(config.second));
 
-    if (dialog.configure) {
-      const dialogData = foundry.utils.mergeObject({
-        content: await foundry.applications.handlebars.renderTemplate(
-          "systems/artichron/templates/apps/actor/skill-dialog/content.hbs",
-          { skills: skills },
-        ),
-        modal: true,
-        window: {
-          title: game.i18n.format("ARTICHRON.SkillsDialog.Title", { name: this.parent.name }),
-          icon: "fa-solid fa-hand-fist",
-        },
-        position: { width: 400, height: "auto" },
-        classes: ["skills"],
-      }, dialog, { insertKeys: false });
+    config.subject = this.parent;
 
-      const configuration = await artichron.applications.api.Dialog.input(dialogData);
+    if (dialog.configure) {
+      const configuration = await artichron.applications.apps.actor.SkillRollDialog.create({
+        config,
+        document: this.parent,
+      });
       if (!configuration) return null;
       foundry.utils.mergeObject(config, configuration);
     }
@@ -219,7 +200,7 @@ export default class HeroData extends CreatureData {
     message = foundry.utils.mergeObject({
       create: true,
       messageData: {
-        flavor: game.i18n.format("ARTICHRON.SkillsDialog.Flavor", {
+        flavor: game.i18n.format("ARTICHRON.SKILL.ROLL_DIALOG.flavor", {
           skills: Array.from(new Set([config.base, config.second]).map(skl => {
             return artichron.config.SKILLS[skl].label;
           })).sort((a, b) => a.localeCompare(b)).join(", "),

@@ -1,35 +1,31 @@
 /* Skill and activity select dialogs (apps with radio inputs) */
-.artichron.application.skills, .artichron.application.activity-select-dialog {
+.artichron.application.skill-roll-dialog, .artichron.application.activity-select-dialog {
   .form-fields {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
+    gap: .5rem;
 
     .checkbox {
-      flex-direction: column;
-      height: 100%;
       cursor: var(--cursor-pointer);
-      text-align: center;
+      height: 100%;
 
-      &:has(:checked) img {
-        opacity: 1;
-        outline: 1px solid var(--artichron-color-purple);
+      &:has(:checked) {
+        text-decoration: underline;
+
+        .image {
+          opacity: 1;
+        }
       }
 
       & input[type=radio] {
         display: none;
       }
 
-      & img {
-        border: none;
-        border-radius: 1rem;
-        opacity: 0.35;
+      .image {
+        opacity: 0.4;
         transition: opacity 150ms ease;
       }
     }
-  }
-
-  &.skills .form-fields .checkbox img {
-    filter: sepia(1) hue-rotate(180deg);
   }
 
   &.activity-select-dialog .description {
