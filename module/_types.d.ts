@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-empty-object-type */
-
 /* -------------------------------------------------- */
 /*   Pseudo-Documents                                 */
 /* -------------------------------------------------- */
@@ -18,9 +16,6 @@ export interface PseudoDocumentMetadata {
   types?: Record<string, typeof artichron.data.pseudoDocument.PseudoDocument>;
 }
 
-/** Metadata for activities. */
-export interface ActivityMetadata extends PseudoDocumentMetadata {}
-
 /** Metadata for armor requirements. */
 export interface ArmorRequirementMetadata extends PseudoDocumentMetadata {
   /** i18n path for display hint. */
@@ -32,8 +27,6 @@ export interface ClockMetadata extends PseudoDocumentMetadata {
   /** Hex string for default color. */
   color: string;
 }
-
-export interface AdvancementMetadata extends PseudoDocumentMetadata {}
 
 /* -------------------------------------------------- */
 /*   Advancements                                     */
@@ -61,30 +54,18 @@ export interface AdvancementChainLink {
 /** Base metadata for all system document subtypes. */
 export interface DocumentSubtypeMetadata {
   /** Record of pseudo-documents and their collection's property. */
-  embedded: Record<string, string>
+  embedded: Record<string, string>;
   /** Type icon for this data model if this document type makes use of icons. */
   icon?: string;
   /** Internal key used for this data model. */
   type: string;
 }
 
-/** Metadata for active effect subtypes. */
-export interface ActiveEffectSubtypeMetadata extends DocumentSubtypeMetadata {}
-
-/** Metadata for actor subtypes. */
-export interface ActorSubtypeMetadata extends DocumentSubtypeMetadata {}
-
 /** Metadata for party actors. */
-export interface PartyActorMetadata extends ActorSubtypeMetadata {
+export interface PartyActorMetadata extends DocumentSubtypeMetadata {
   /** The actor types allowed to be added to a party actor. */
-  allowedActorTypes: Set<string>
+  allowedActorTypes: Set<string>;
 }
-
-/** Metadata for chat message subtypes. */
-export interface ChatMessageSubtypeMetadata extends DocumentSubtypeMetadata {}
-
-/** Metadata for combatant subtypes. */
-export interface CombatantSubtypeMetadata extends DocumentSubtypeMetadata {}
 
 /** Metadata for item subtypes. */
 export interface ItemSubtypeMetadata extends DocumentSubtypeMetadata {
@@ -98,8 +79,6 @@ export interface ItemSubtypeMetadata extends DocumentSubtypeMetadata {
   order: number;
 }
 
-export interface RegionBehaviorSubtypeMetadata extends DocumentSubtypeMetadata {}
-
 /* -------------------------------------------------- */
 /*   Roll Configurations                              */
 /* -------------------------------------------------- */
@@ -107,13 +86,6 @@ export interface RegionBehaviorSubtypeMetadata extends DocumentSubtypeMetadata {
 export interface RollConfiguration {
   /** The click event that initiated the roll. */
   event?: PointerEvent;
-}
-
-export interface PoolRollConfiguration extends RollConfiguration {
-  /** The pool to roll. */
-  pool?: string;
-  /** The amount to roll and consume. */
-  amount?: number;
 }
 
 export interface SkillRollConfiguration extends RollConfiguration {

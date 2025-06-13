@@ -5,7 +5,7 @@ const {
 } = foundry.data.fields;
 
 export default class BaseActivity extends TypedPseudoDocument {
-  /** @type {import("../../../_types").ActivityMetadata} */
+  /** @type {import("../../../_types").PseudoDocumentMetadata} */
   static get metadata() {
     return {
       ...super.metadata,

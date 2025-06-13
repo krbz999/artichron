@@ -18,7 +18,7 @@
       {{!-- DAMAGE --}}
       {{#if (and isEditMode editable)}}
       <dt>{{document.system.damage.label}}</dt>
-      <dd class="button fa-solid fa-cog" data-action="configure" data-config="damage"></dd>
+      <dd class="button fa-solid fa-cog fa-fw" data-action="configure" data-config="damage"></dd>
       {{else}}
       <dt>{{document.system.damage.label}}</dt>
       <dd class="button" data-action="rollDamage">
@@ -26,14 +26,41 @@
       </dd>
       {{/if}}
 
+      {{!-- POOLS --}}
+      <dt>{{localize "ARTICHRON.SHEET.HERO.HEADERS.pools"}}</dt>
+      {{#if (and isEditMode editable)}}
+      <dd class="button fa-solid fa-cog fa-fw" data-action="configure" data-config="pools"></dd>
+      {{else}}
+      <div class="multi-tags">
+        <dd>
+          <span>{{document.system.pools.health.value}}</span>
+          <span class="sep">/</span>
+          <span>{{document.system.pools.health.max}}</span>
+          <i class="fa-solid fa-fw fa-dice-d10" style="color: var(--artichron-color-health);"></i>
+        </dd>
+        <dd>
+          <span>{{document.system.pools.stamina.value}}</span>
+          <span class="sep">/</span>
+          <span>{{document.system.pools.stamina.max}}</span>
+          <i class="fa-solid fa-fw fa-dice-d10" style="color: var(--artichron-color-stamina);"></i>
+        </dd>
+        <dd>
+          <span>{{document.system.pools.mana.value}}</span>
+          <span class="sep">/</span>
+          <span>{{document.system.pools.mana.max}}</span>
+          <i class="fa-solid fa-fw fa-dice-d10" style="color: var(--artichron-color-mana);"></i>
+        </dd>
+      </div>
+      {{/if}}
+
       {{!-- DEFENSES --}}
       {{#if ctx.defenses.length}}
       <dt>{{localize "ARTICHRON.SHEET.HERO.HEADERS.defenses"}}</dt>
       <div class="multi-tags">
         {{#each ctx.defenses}}
-        <dd data-tooltip="{{label}}" style="color: #{{color}};">
+        <dd data-tooltip="{{label}}">
           <span>{{value}}</span>
-          <i class="fa-fw {{icon}}"></i>
+          <i class="fa-fw {{icon}}" style="color: #{{color}};"></i>
         </dd>
         {{/each}}
       </div>

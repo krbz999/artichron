@@ -334,20 +334,6 @@ export default class ActorArtichron extends BaseDocumentMixin(foundry.documents.
   /* -------------------------------------------------- */
 
   /**
-   * Roll one or more dice from a pool.
-   * @param {import("../_types").PoolRollConfiguration} [config]        Roll configuration.
-   * @param {import("../_types").RollDialogConfiguration} [dialog]      Dialog configuration.
-   * @param {import("../_types").RollMessageConfiguration} [message]    Chat message configuration.
-   * @returns {Promise<RollArtichron|null>}   A promise that resolves to the created roll.
-   */
-  async rollPool(config = {}, dialog = {}, message = {}) {
-    if (this.system.rollPool) return this.system.rollPool(config, dialog, message);
-    return null;
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
    * Roll two skills together.
    * @param {import("../_types").SkillRollConfiguration} [config]       Roll configuration.
    * @param {import("../_types").RollDialogConfiguration} [dialog]      Dialog configuration.

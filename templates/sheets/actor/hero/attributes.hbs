@@ -2,21 +2,6 @@
 
   <div class="sections scrollable">
 
-    {{!-- POOLS --}}
-    <section>
-      <h3 class="section-header">{{localize "ARTICHRON.SHEET.HERO.HEADERS.pools"}}</h3>
-      <div class="pools">
-        {{#if isEditMode}}
-        <a class="edit fa-solid fa-cog" data-action="toggleConfig" data-tooltip="ARTICHRON.POOL.edit" data-trait="pools"></a>
-        {{/if}}
-        {{#each ctx.pools}}
-        <a class="pool die d{{faces}} {{key}}" data-action="rollPool" data-pool="{{key}}" data-tooltip="{{value}} / {{max}} (d{{faces}})">
-          <span class="label">{{value}}</span>
-        </a>
-        {{/each}}
-      </div>
-    </section>
-
     {{!-- FAVORITES --}}
     {{#if ctx.favorites.length}}
     <div class="document-list items" data-document-name="Item">

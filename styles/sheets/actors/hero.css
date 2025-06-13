@@ -1,48 +1,4 @@
 .artichron.application.sheet.actor.hero {
-  .pools {
-    position: relative;
-    display: flex;
-    flex-direction: row;
-
-    .pool {
-      flex: 1;
-      font-size: 20px;
-      display: flex;
-      height: 100%;
-      aspect-ratio: 1;
-      justify-content: center;
-      align-items: center;
-      color: black;
-      background-repeat: no-repeat;
-      background-size: contain;
-
-      &.d4 { background-image: url(/icons/svg/d4-grey.svg); }
-      &.d6 { background-image: url(/icons/svg/d6-grey.svg); }
-      &.d8 { background-image: url(/icons/svg/d8-grey.svg); }
-      &.d10 { background-image: url(/icons/svg/d10-grey.svg); }
-
-      .label {
-        place-content: center;
-      }
-
-      &.health {
-        filter: var(--health-filter);
-      }
-      &.stamina {
-        filter: var(--stamina-filter);
-      }
-      &.mana {
-        filter: var(--mana-filter);
-      }
-    }
-
-    .edit {
-      position: absolute;
-      top: 4px;
-      right: 4px;
-    }
-  }
-
   .skills {
     display: flex;
     flex-direction: row;

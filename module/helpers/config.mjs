@@ -574,8 +574,8 @@ export const SKILLS = {
 
 /**
  * @typedef {object} PoolConfig
- * @property {string} label       The displayed label of the pool.
- * @property {boolean} boost      When using this pool, can it be boosted by an elixir?
+ * @property {string} label     The displayed label of the pool.
+ * @property {boolean} boost    When using this pool, can it be boosted by an elixir?
  */
 
 /**
@@ -594,66 +594,6 @@ export const POOL_TYPES = {
   mana: {
     label: "ARTICHRON.Pools.Mana",
     boost: true,
-  },
-};
-
-/* -------------------------------------------------- */
-
-/**
- * @typedef {object} PoolSizeSpecializationConfig
- * @property {string} label       The displayed label of this type of pool size specialization.
- * @property {number[]} sizes     The distribution of sizes assigned to the pools.
- */
-
-/**
- * The options for how to distribute the configuration of pool sizes.
- * @enum {PoolSizeSpecializationConfig}
- */
-export const POOL_SIZE_SPECIALIZATION_TYPES = {
-  balanced: {
-    label: "ARTICHRON.PoolConfig.SpecializationBalanced",
-    hint: "ARTICHRON.PoolConfig.SpecializationBalancedSizeHint",
-    sizes: [4, 4, 4],
-  },
-  specialized: {
-    label: "ARTICHRON.PoolConfig.SpecializationSpecialized",
-    hint: "ARTICHRON.PoolConfig.SpecializationSpecializedSizeHint",
-    sizes: [2, 4, 6],
-  },
-  focused: {
-    label: "ARTICHRON.PoolConfig.SpecializationFocused",
-    hint: "ARTICHRON.PoolConfig.SpecializationFocusedSizeHint",
-    sizes: [2, 2, 8],
-  },
-};
-
-/* -------------------------------------------------- */
-
-/**
- * @typedef {object} PoolFacesSpecializationConfig
- * @property {string} label       The displayed label of this type of pool size specialization.
- * @property {number[]} faces     The distribution of faces assigned to the pools.
- */
-
-/**
- * The options for how to distribute the configuration of pool faces.
- * @enum {PoolFacesSpecializationConfig}
- */
-export const POOL_FACES_SPECIALIZATION_TYPES = {
-  balanced: {
-    label: "ARTICHRON.PoolConfig.SpecializationBalanced",
-    hint: "ARTICHRON.PoolConfig.SpecializationBalancedFacesHint",
-    faces: [6, 6, 6],
-  },
-  specialized: {
-    label: "ARTICHRON.PoolConfig.SpecializationSpecialized",
-    hint: "ARTICHRON.PoolConfig.SpecializationSpecializedFacesHint",
-    faces: [4, 6, 8],
-  },
-  focused: {
-    label: "ARTICHRON.PoolConfig.SpecializationFocused",
-    hint: "ARTICHRON.PoolConfig.SpecializationFocusedFacesHint",
-    faces: [4, 4, 10],
   },
 };
 

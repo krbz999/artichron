@@ -7,7 +7,7 @@ const {
  * @property {string} expiration      When does this effect automatically expire?
  */
 export default class ActiveEffectSystemModel extends foundry.abstract.TypeDataModel {
-  /** @type {import("../../_types").ActiveEffectSubtypeMetadata} */
+  /** @type {import("../../_types").DocumentSubtypeMetadata} */
   static get metadata() {
     return {
       embedded: {},

@@ -462,13 +462,37 @@
     },
     "pools": {
       "health": {
-        "label": "Health Pool"
+        "spent": {
+          "label": "Spent"
+        },
+        "max": {
+          "label": "Maximum"
+        },
+        "faces": {
+          "label": "Faces"
+        }
       },
       "mana": {
-        "label": "Mana Pool"
+        "spent": {
+          "label": "Spent"
+        },
+        "max": {
+          "label": "Maximum"
+        },
+        "faces": {
+          "label": "Faces"
+        }
       },
       "stamina": {
-        "label": "Stamina Pool"
+        "spent": {
+          "label": "Spent"
+        },
+        "max": {
+          "label": "Maximum"
+        },
+        "faces": {
+          "label": "Faces"
+        }
       }
     },
     "shop": {
@@ -1029,6 +1053,15 @@
   }
 },
 
+"POOL": {
+  "CONFIG": {
+    "TITLE": "Configure Pools",
+    "health": "Health",
+    "stamina": "Stamina",
+    "mana": "Mana"
+  }
+},
+
 "PROGRESSION": {
   "LABELS": {
     "cleric": "Cleric",
@@ -1305,21 +1338,6 @@
   "ReceiptWithdraw": "{name} withdrew {amount} from the group fund.",
   "Title": "Manage Funds: {name}",
   "Withdraw": "Withdraw"
-},
-
-"PoolConfig": {
-  "FacesLabel": "Die Faces",
-  "MaxLabel": "Pool Size",
-  "SpecializationBalanced": "Balanced",
-  "SpecializationBalancedFacesHint": "A balanced configuration. Each die has the same number of faces.",
-  "SpecializationBalancedSizeHint": "A balanced configuration. Each pool has the same size.",
-  "SpecializationFocused": "Focused",
-  "SpecializationFocusedFacesHint": "A highly focused configuration. One type of pool has a massive number of faces, but the rest are untouched.",
-  "SpecializationFocusedSizeHint": "A highly focused configuration. One type of pool has a massive number of die, but the rest are untouched.",
-  "SpecializationSpecialized": "Specialized",
-  "SpecializationSpecializedFacesHint": "A specialized configuration. The pools have a small, medium, and large number of faces.",
-  "SpecializationSpecializedSizeHint": "A specialized configuration. The pools have a small, medium, and large amount of dice.",
-  "Title": "Configure Pools: {name}"
 },
 
 "Pools": {

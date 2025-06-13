@@ -1,5 +1,0 @@
-<fieldset>
-  <legend>{{localize "ARTICHRON.PoolConfig.FacesLabel"}}</legend>
-  {{formGroup faces.field name="faces.config" classes="stacked" value=faces.value}}
-  {{#each faces.selects}}{{formGroup field name=name blank=false value=value localize=true}}{{/each}}
-</fieldset>

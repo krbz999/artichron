@@ -15,7 +15,6 @@ export default class HeroSheet extends ActorSheetArtichron {
     position: { width: 400 },
     actions: {
       advancementDialog: HeroSheet.#advancementDialog,
-      rollPool: HeroSheet.#onRollPool,
       rollSkill: HeroSheet.#onRollSkill,
     },
   };
@@ -130,16 +129,9 @@ export default class HeroSheet extends ActorSheetArtichron {
   /** @type {import("../../../_types").ContextPartHandler} */
   async _preparePartContextAttributes(context, options) {
     context.ctx = {
-      health: this.document.system.health,
-      pools: [],
       favorites: [],
       skills: [],
     };
-
-    // Pools
-    for (const [k, v] of Object.entries(this.document.system.pools)) {
-      context.ctx.pools.push({ ...v, key: k });
-    }
 
     // Favorites
     for (const item of this.document.favorites) {
@@ -393,18 +385,6 @@ export default class HeroSheet extends ActorSheetArtichron {
    */
   static #onRollSkill(event, target) {
     this.document.rollSkill({ event, base: target.dataset.skillId });
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Handle click events to roll one of the pools.
-   * @this {HeroSheet}
-   * @param {PointerEvent} event    The initiating click event.
-   * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
-   */
-  static #onRollPool(event, target) {
-    this.document.rollPool({ pool: target.dataset.pool, event });
   }
 
   /* -------------------------------------------------- */

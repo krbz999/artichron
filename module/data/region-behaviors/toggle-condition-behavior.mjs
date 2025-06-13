@@ -4,7 +4,7 @@ const { BooleanField, StringField } = foundry.data.fields;
  * Behavior type that toggles a status condition.
  */
 export default class ToggleConditionBehaviorData extends foundry.data.regionBehaviors.RegionBehaviorType {
-  /** @type {import("../../_types").RegionBehaviorSubtypeMetadata} */
+  /** @type {import("../../_types").DocumentSubtypeMetadata} */
   static get metadata() {
     return {
       embedded: {},

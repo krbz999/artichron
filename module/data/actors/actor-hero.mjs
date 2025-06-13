@@ -16,9 +16,8 @@ export default class HeroData extends CreatureData {
   static defineSchema() {
     const poolSchema = () => {
       return new SchemaField({
-        base: new NumberField({ min: 0, integer: true, initial: 0, nullable: false }),
-        faces: new NumberField({ min: 0, integer: true, initial: 0, nullable: false }),
-        increase: new NumberField({ min: 0, integer: true, initial: 0, nullable: false }),
+        faces: new NumberField({ min: 2, integer: true, initial: 6, nullable: false }),
+        max: new NumberField({ min: 0, integer: true, initial: 2, nullable: false }),
         spent: new NumberField({ min: 0, integer: true, initial: 0 }),
       }, {
         trackedAttribute: true,
@@ -56,11 +55,6 @@ export default class HeroData extends CreatureData {
   /** @inheritdoc */
   prepareBaseData() {
     super.prepareBaseData();
-
-    // Set pool maximums.
-    for (const [k, v] of Object.entries(this.pools)) {
-      v.max = v.base + v.increase;
-    }
   }
 
   /* -------------------------------------------------- */
@@ -169,80 +163,6 @@ export default class HeroData extends CreatureData {
     for (const k of ["health", "stamina", "mana"]) update[`system.pools.${k}.spent`] = 0;
 
     return this.parent.update(update);
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Roll one or more dice from a pool.
-   * @param {import("../../_types").PoolRollConfiguration} [config]       Roll configuration.
-   * @param {import("../../_types").RollDialogConfiguration} [dialog]     Dialog configuration.
-   * @param {import("../../_types").RollMessageConfiguration} [message]   Chat message configuration.
-   * @returns {Promise<RollArtichron|null>}   A promise that resolves to the created roll.
-   */
-  async rollPool(config = {}, dialog = {}, message = {}) {
-    config = foundry.utils.mergeObject({
-      pool: "health",
-      amount: 1,
-    }, config);
-
-    const pool = this.pools[config.pool];
-    if (pool.value < config.amount) {
-      ui.notifications.warn("ARTICHRON.ROLL.Pool.Warning.NotEnoughPoolDice", {
-        format: { name: this.parent.name, type: game.i18n.localize(`ARTICHRON.Pools.${config.pool.capitalize()}`) },
-      });
-      return null;
-    }
-
-    const update = {};
-    const actor = this.parent;
-
-    if ((dialog.configure !== false) && !config.event?.shiftKey) {
-      dialog = foundry.utils.mergeObject({
-        content: new NumberField({
-          label: "ARTICHRON.ROLL.Pool.AmountLabel",
-          hint: "ARTICHRON.ROLL.Pool.AmountHint",
-          min: 1,
-          max: pool.value,
-          step: 1,
-          nullable: false,
-        }).toFormGroup({ localize: true }, { value: config.amount, name: "amount" }).outerHTML,
-        window: {
-          title: game.i18n.format("ARTICHRON.ROLL.Pool.Title", {
-            type: game.i18n.localize(`ARTICHRON.Pools.${config.pool.capitalize()}`),
-          }),
-        },
-        position: {
-          width: 400,
-        },
-        ok: {
-          label: "ARTICHRON.ROLL.Pool.Button",
-        },
-        modal: true,
-      }, dialog, { insertKeys: false });
-      const configuration = await artichron.applications.api.Dialog.input(dialog);
-      if (!configuration) return null;
-      config.amount = configuration.amount;
-    }
-
-    const roll = await foundry.dice.Roll.create("(@amount)d@faces", { amount: config.amount, faces: pool.faces }).evaluate();
-    update[`system.pools.${config.pool}.spent`] = pool.spent + parseInt(config.amount);
-
-    message = foundry.utils.mergeObject({
-      create: true,
-      messageData: {
-        speaker: ChatMessage.implementation.getSpeaker({ actor: actor }),
-        flavor: game.i18n.format("ARTICHRON.ROLL.Pool.Flavor", {
-          type: game.i18n.localize(`ARTICHRON.Pools.${config.pool.capitalize()}`),
-        }),
-        "flags.artichron.roll.type": config.pool,
-      },
-    }, message, { insertKeys: false });
-
-    if (message.create) await roll.toMessage(message.messageData);
-
-    await actor.update(update);
-    return roll;
   }
 
   /* -------------------------------------------------- */

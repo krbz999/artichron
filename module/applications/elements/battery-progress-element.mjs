@@ -63,6 +63,10 @@ export default class BatteryProgressElement extends foundry.applications.element
 
   /* -------------------------------------------------- */
 
+  /**
+   * The current value.
+   * @type {number}
+   */
   get valueAsNumber() {
     return this._getValue();
   }
