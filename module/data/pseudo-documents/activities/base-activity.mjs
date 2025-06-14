@@ -11,7 +11,7 @@ export default class BaseActivity extends TypedPseudoDocument {
       ...super.metadata,
       documentName: "Activity",
       defaultImage: "systems/artichron/assets/icons/activity.svg",
-      sheetClass: artichron.applications.sheets.item.ActivitySheet,
+      sheetClass: artichron.applications.sheets.pseudo.ActivitySheet,
       types: artichron.data.pseudoDocuments.activities,
     };
   }
@@ -40,7 +40,7 @@ export default class BaseActivity extends TypedPseudoDocument {
 
   /**
    * The item on which this activity is embedded.
-   * @type {ItemArtichron}
+   * @type {foundry.documents.Item}
    */
   get item() {
     return this.document;

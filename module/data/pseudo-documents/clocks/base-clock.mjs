@@ -1,6 +1,6 @@
 import TypedPseudoDocument from "../typed-pseudo-document.mjs";
 
-const { ColorField, HTMLField, NumberField, StringField } = foundry.data.fields;
+const { ColorField, HTMLField, NumberField } = foundry.data.fields;
 
 /**
  * Base clock data model.
@@ -13,7 +13,7 @@ export default class BaseClock extends TypedPseudoDocument {
       color: "",
       documentName: "Clock",
       embedded: {},
-      sheetClass: artichron.applications.sheets.actor.ClockSheet,
+      sheetClass: artichron.applications.sheets.pseudo.ClockSheet,
       types: artichron.data.pseudoDocuments.clocks,
     };
   }
@@ -39,7 +39,7 @@ export default class BaseClock extends TypedPseudoDocument {
 
   /**
    * The party actor.
-   * @type {ActorArtichron}
+   * @type {foundry.documents.Actor}
    */
   get actor() {
     return this.document;

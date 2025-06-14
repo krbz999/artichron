@@ -15,10 +15,10 @@ export default class ActivitySheet extends PseudoDocumentSheet {
   static PARTS = {
     ...super.PARTS,
     identity: {
-      template: "systems/artichron/templates/sheets/item/activity-sheet/identity.hbs",
+      template: "systems/artichron/templates/sheets/pseudo/activity/identity.hbs",
     },
     details: {
-      template: "systems/artichron/templates/sheets/item/activity-sheet/details.hbs",
+      template: "systems/artichron/templates/sheets/pseudo/activity/details.hbs",
     },
   };
 
@@ -28,7 +28,7 @@ export default class ActivitySheet extends PseudoDocumentSheet {
 
   /**
    * The item that has this activity.
-   * @type {ItemArtichron}
+   * @type {foundry.documents.Item}
    */
   get item() {
     return this.document;
@@ -50,8 +50,7 @@ export default class ActivitySheet extends PseudoDocumentSheet {
   async _preparePartContextIdentity(context, options) {
     const a = context.pseudoDocument;
     context.ctx = {
-      namePlaceholder: game.i18n.localize(a.constructor.metadata.label),
-      enriched: await foundry.applications.ux.TextEditor.enrichHTML(a.description, {
+      enriched: await foundry.applications.ux.TextEditor.implementation.enrichHTML(a.description, {
         rollData: a.getRollData(), relativeTo: context.document,
       }),
     };

@@ -231,10 +231,6 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
 
   /** @type {import("../../../_types").ContextPartHandler} */
   async _preparePartContextHeader(context, options) {
-    context.ctx = {
-      name: context.isPlayMode ? this.document.name : this.document._source.name,
-      img: context.isPlayMode ? this.document.img : this.document._source.img,
-    };
     return context;
   }
 
