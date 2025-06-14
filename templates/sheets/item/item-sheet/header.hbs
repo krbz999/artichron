@@ -1,8 +1,19 @@
-<header class="header">
-  {{#if isPlayMode}}
-  <h1 class="name">{{ctx.name}}</h1>
-  {{else}}
-  <input class="name" name="name" type="text" value="{{ctx.name}}" placeholder="{{localize 'Name'}}" {{disabled isPlayMode}}>
-  {{/if}}
-  <img class="avatar" alt="{{ctx.name}}" src="{{ctx.img}}" {{#if isEditMode}}data-edit="img" data-action="editImage"{{/if}}>
-</header>
+<section class="header">
+  <section class="details">
+    {{!-- NAME --}}
+    {{#if (and isEditMode editable)}}
+    {{formInput fields.name value=source.name placeholder=(localize "Name")}}
+    {{else}}
+    <h1 class="name">{{document.name}}</h1>
+    {{/if}}
+  </section>
+
+  {{!-- AVATAR --}}
+  <section class="avatar glass">
+    {{#if (and isEditMode editable)}}
+    <img class="icon" alt="{{source.name}}" src="{{source.img}}" data-edit="img" data-action="editImage">
+    {{else}}
+    <img class="icon" alt="{{document.name}}" src="{{document.img}}">
+    {{/if}}
+  </section>
+</section>

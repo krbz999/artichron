@@ -48,15 +48,16 @@
     }
 
     .avatar {
-      object-fit: cover;
-      object-position: center top;
-      border-radius: 5px;
-      border: 2px inset hsl(from var(--artichron-color-border) h s l / 0.85);
-      aspect-ratio: 1;
       height: var(--avatar-width);
 
-      &:not([data-action]) {
+      .icon {
         pointer-events: none;
+        aspect-ratio: 1;
+        object-fit: cover;
+
+        &[data-action] {
+          pointer-events: unset;
+        }
       }
     }
   }

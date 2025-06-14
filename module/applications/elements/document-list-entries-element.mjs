@@ -72,7 +72,7 @@ export default class DocumentListEntriesElement extends HTMLElement {
     }
 
     // Base and additional css classes.
-    div.classList.add("button", "entry");
+    div.classList.add("button", "glass", "entry");
     if (data.classes) for (const cls of data.classes) div.classList.add(cls);
 
     // For pseudo-documents, using a different dataset property.

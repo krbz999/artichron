@@ -184,11 +184,9 @@ dialog:-internal-dialog-in-top-layer::backdrop {
   --border-width: 1px;
   border-radius: 5px;
   position: relative;
-  backdrop-filter: blur(10px);
-  transition: backdrop-filter 200ms ease;
+  backdrop-filter: blur(6px);
   padding: .5rem;
   white-space: nowrap;
-  width: fit-content;
   margin: 0;
 
   &::before {

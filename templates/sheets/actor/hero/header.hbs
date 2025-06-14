@@ -1,6 +1,6 @@
 <section class="header">
 
-  <div class="details">
+  <section class="details">
     {{!-- NAME --}}
     {{#if (and isEditMode editable)}}
     {{formInput fields.name value=source.name placeholder=(localize "Name")}}
@@ -75,13 +75,15 @@
       </div>
       {{/if}}
     </div>
-  </div>
+  </section>
 
   {{!-- AVATAR --}}
-  {{#if (and isEditMode editable)}}
-  <img class="avatar" alt="{{source.name}}" src="{{source.img}}" data-edit="img" data-action="editImage">
-  {{else}}
-  <img class="avatar" alt="{{document.name}}" src="{{document.img}}">
-  {{/if}}
+  <section class="avatar glass">
+    {{#if (and isEditMode editable)}}
+    <img class="icon" alt="{{source.name}}" src="{{source.img}}" data-edit="img" data-action="editImage">
+    {{else}}
+    <img class="icon" alt="{{document.name}}" src="{{document.img}}">
+    {{/if}}
+  </section>
 
 </section>
