@@ -181,10 +181,7 @@ export default class HeroData extends CreatureData {
     config.subject = this.parent;
 
     if (dialog.configure) {
-      const configuration = await artichron.applications.apps.actor.SkillRollDialog.create({
-        config,
-        document: this.parent,
-      });
+      const configuration = await artichron.applications.apps.actor.SkillRollDialog.create({ config });
       if (!configuration) return null;
       foundry.utils.mergeObject(config, configuration);
     }

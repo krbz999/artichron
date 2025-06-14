@@ -65,7 +65,7 @@ export default class PathSheet extends ItemSheetArtichron {
     for (const advancement of this.document.getEmbeddedPseudoDocumentCollection("Advancement")) {
       const pts = advancement.requirements.points;
       context.ctx.advancements[pts] ??= { label: `${pts} points required`, entries: [] };
-      context.ctx.advancements[pts].entries.push({ document: advancement });
+      context.ctx.advancements[pts].entries.push({ document: advancement, classes: ["draggable"] });
     }
 
     artichron.utils.sortObject(context.ctx.advancements, { inplace: true });

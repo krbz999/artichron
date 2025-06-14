@@ -104,8 +104,6 @@ export default class PseudoDocument extends foundry.abstract.DataModel {
   /*   Data preparation                                 */
   /* -------------------------------------------------- */
 
-  /* -------------------------------------------------- */
-
   /**
    * Prepase base data. It is the responsibility of the parent (pseudo) document to call this method.
    */
@@ -136,6 +134,19 @@ export default class PseudoDocument extends foundry.abstract.DataModel {
 
   /* -------------------------------------------------- */
   /*   Instance Methods                                 */
+  /* -------------------------------------------------- */
+
+  /**
+   * Create drag data for storing on initiated drag events.
+   * @returns {object}
+   */
+  toDragData() {
+    return {
+      type: this.documentName,
+      uuid: this.uuid,
+    };
+  }
+
   /* -------------------------------------------------- */
 
   /**

@@ -170,6 +170,7 @@ export default class PartySheet extends ActorSheetArtichron {
           document: item,
           count: item.system.schema.has("quantity") ? item.system.quantity.value : null,
           dataset: { name: item.name },
+          classes: ["draggable"],
         });
       }
       return {

@@ -61,6 +61,8 @@ export default class DocumentConfig extends ArtichronApplicationMixin(DocumentSh
     return this.document.getEmbeddedDocument(documentName, id);
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Create a pseudo-document.
    * @this {ItemSheetArtichron}

@@ -36,7 +36,7 @@ export default class HeroSheet extends ActorSheetArtichron {
     attributes: {
       template: "systems/artichron/templates/sheets/actor/hero/attributes.hbs",
       classes: ["scrollable"],
-      scrollable: [".sections.scrollable"],
+      scrollable: [""],
     },
     progression: {
       template: "systems/artichron/templates/sheets/actor/hero/progression.hbs",
@@ -135,7 +135,7 @@ export default class HeroSheet extends ActorSheetArtichron {
 
     // Favorites
     for (const item of this.document.favorites) {
-      context.ctx.favorites.push({ document: item });
+      context.ctx.favorites.push({ document: item, classes: ["draggable"] });
     }
 
     // Skill
@@ -196,7 +196,7 @@ export default class HeroSheet extends ActorSheetArtichron {
       const path = talent.getFlag("artichron", "advancement.path");
       let section = context.ctx.paths.other;
       section = context.ctx.paths[path] ?? section;
-      section.items.push({ document: talent });
+      section.items.push({ document: talent, classes: ["draggable"] });
     }
 
     // If the hero is not currently mixed path and there are no talents from the mixed path either, remove that section.
@@ -223,7 +223,7 @@ export default class HeroSheet extends ActorSheetArtichron {
     for (const item of this.document.items) {
       if (item.type === "path") continue;
       if (item.type === "talent") continue;
-      context.ctx.items.push({ document: item, dataset: { name: item.name } });
+      context.ctx.items.push({ document: item, dataset: { name: item.name }, classes: ["draggable"] });
     }
     context.ctx.items.sort((a, b) => artichron.utils.nameSort(a, b, "document"));
 

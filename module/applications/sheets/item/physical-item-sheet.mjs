@@ -61,7 +61,7 @@ export default class PhysicalItemSheet extends ItemSheetArtichron {
     for (const effect of this.document.effects) {
       const data = {
         document: effect,
-        classes: effect.disabled ? ["inactive"] : undefined,
+        classes: ["draggable", effect.disabled ? "inactive" : null].filter(_ => _),
       };
 
       if (effect.isActiveFusion) fusions.active.push(data);

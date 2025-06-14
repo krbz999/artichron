@@ -44,8 +44,8 @@ export default class TalentSheet extends ItemSheetArtichron {
   async _preparePartContextAdvancements(context, options) {
     context.ctx = {};
     const arr = context.ctx.advancements = [];
-    for (const advancement of this.document.system.advancements) {
-      arr.push({ document: advancement });
+    for (const advancement of this.document.getEmbeddedPseudoDocumentCollection("Advancement").sourceContents) {
+      arr.push({ document: advancement, classes: ["draggable"] });
     }
     return context;
   }
@@ -57,9 +57,9 @@ export default class TalentSheet extends ItemSheetArtichron {
     context.ctx = { buffs: { active: [], inactive: [] } };
 
     for (const effect of this.document.effects.documentsByType.buff) {
-      const data = { document: effect };
+      const data = { document: effect, classes: ["draggable"] };
       if (effect.disabled) {
-        data.classes = ["inactive"];
+        data.classes.push("inactive");
         context.ctx.buffs.inactive.push(data);
       } else {
         context.ctx.buffs.active.push(data);

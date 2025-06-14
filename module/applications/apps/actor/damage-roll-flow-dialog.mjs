@@ -100,7 +100,7 @@ export default class DamageRollFlowDialog extends Application {
         );
       }
 
-      const damageType = formData.damageType[k] ?? roll.options.damageType;
+      const damageType = formData.damageType?.[k] ?? roll.options.damageType;
       this.#flow.rolls[k] = artichron.dice.rolls.DamageRoll.fromTerms(terms, { ...roll.options, damageType });
     }
 

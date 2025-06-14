@@ -30,10 +30,12 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
     };
 
     for (const effect of this.document.allApplicableEffects()) {
-      const data = { document: effect, label: effect.name };
+      const data = { document: effect, label: effect.name, classes: [] };
 
-      if (effect.disabled) data.classes = ["inactive"];
+      if (effect.disabled) data.classes.push("inactive");
+
       if (effect.parent !== this.document) data.parentId = effect.parent.id;
+      else data.classes.push("draggable");
 
       if (effect.type === "condition") {
         if (effect.system.hasLevels) data.label = `${effect.name} (${artichron.utils.romanize(effect.system.level)})`;
@@ -185,6 +187,25 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
 
   /* -------------------------------------------------- */
   /*   Drag and drop handlers                           */
+  /* -------------------------------------------------- */
+
+  /** @inheritdoc */
+  _canDragStart(selector) {
+    return true;
+  }
+
+  /* -------------------------------------------------- */
+
+  /** @inheritdoc */
+  async _onDragStart(event) {
+    if ("link" in event.target.dataset) return;
+    const target = event.currentTarget;
+    const isPseudo = !!target.closest("[data-pseudo-id]");
+    const document = isPseudo ? this._getPseudoDocument(target) : this._getEmbeddedDocument(target);
+    if (!document) return;
+    event.dataTransfer.setData("text/plain", JSON.stringify(document.toDragData()));
+  }
+
   /* -------------------------------------------------- */
 
   /** @inheritdoc */
