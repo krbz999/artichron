@@ -239,7 +239,7 @@ export default class PartySheet extends ActorSheetArtichron {
   /** @inheritdoc */
   async _onDropItem(event, item) {
     if (!this.document.isOwner) return;
-    if (!this.document.system.constructor.metadata.has(item.type)) return;
+    if (!this.document.system.constructor.metadata.allowedItemTypes.has(item.type)) return;
     return super._onDropItem(event, item);
   }
 
