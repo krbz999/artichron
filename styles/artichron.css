@@ -111,6 +111,7 @@ dialog:-internal-dialog-in-top-layer::backdrop {
   border-bottom: var(--artichron-header-border);
   padding: 0.25rem;
   margin: 1rem 0;
+  margin-bottom: 0;
 
   &:not(H1) {
     font-size: 16px;
