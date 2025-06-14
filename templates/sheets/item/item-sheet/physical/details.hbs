@@ -29,14 +29,14 @@
   <fieldset class="armor-requirements" data-pseudo-document-name="ArmorRequirement">
     <legend>
       {{localize "ARTICHRON.SHEET.ARMOR.HEADERS.requirements"}}
-      <button type="button" class="icon fa-regular fa-plus-square" data-action="createPseudoDocument" {{disabled isPlayMode}}></button>
+      <button type="button" class="icon fa-regular fa-plus-square" data-action="createPseudoDocument" {{disabled (or (not editable) isPlayMode)}}></button>
     </legend>
     {{#each ctx.requirements}}
     <div class="form-fields" data-pseudo-id="{{requirement.id}}">
       {{#each fields}}
       {{formInput field value=value name=name disabled=@root.isPlayMode placeholder=(localize field.options.placeholder)}}
       {{/each}}
-      {{#if @root.isEditMode}}
+      {{#if (and @root.editable @root.isEditMode)}}
       <button type="button" class="icon fa-solid fa-minus" data-action="deletePseudoDocument"></button>
       {{/if}}
     </div>

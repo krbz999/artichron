@@ -4,14 +4,14 @@
     {{!-- ENHANCEMENTS --}}
     <h3 class="document-list-header">
       <span>{{localize "TYPES.ActiveEffect.enhancementPl"}}</span>
-      <button type="button" class="create-document icon fa-solid" data-action="createEmbeddedDocument" data-type="enhancement" {{disabled isPlayMode}}></button>
+      <button type="button" class="create-document icon fa-solid" data-action="createEmbeddedDocument" data-type="enhancement" {{disabled (not editable)}}></button>
     </h3>
     {{document-list-entries documents=ctx.effects.enhancements}}
 
     {{!-- BUFFS --}}
     <h3 class="document-list-header">
       <span>{{localize "TYPES.ActiveEffect.buffPl"}}</span>
-      <button type="button" class="create-document icon fa-solid" data-action="createEmbeddedDocument" data-type="buff" {{disabled isPlayMode}}></button>
+      <button type="button" class="create-document icon fa-solid" data-action="createEmbeddedDocument" data-type="buff" {{disabled (not editable)}}></button>
     </h3>
     {{document-list-entries documents=ctx.effects.buffs}}
 

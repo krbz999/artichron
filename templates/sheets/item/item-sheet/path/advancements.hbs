@@ -3,7 +3,7 @@
   <div class="document-list advancements" data-pseudo-document-name="Advancement">
     <h3 class="document-list-header">
       <span>{{localize "ARTICHRON.SHEET.TALENT.HEADERS.advancements"}}</span>
-      <button type="button" class="create-document icon fa-solid" data-action="createPseudoDocument" {{disabled isPlayMode}}></button>
+      <button type="button" class="create-document icon fa-solid" data-action="createPseudoDocument" {{disabled (not editable)}}></button>
     </h3>
 
     {{#each ctx.advancements}}
