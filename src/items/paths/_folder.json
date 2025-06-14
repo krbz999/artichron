@@ -1,0 +1,23 @@
+{
+  "type": "Item",
+  "folder": null,
+  "name": "Paths",
+  "color": "#ae00cc",
+  "sorting": "a",
+  "_id": "VXjau9yG24Uo1qIc",
+  "description": "",
+  "sort": 0,
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null,
+    "coreVersion": "13.345",
+    "systemId": "artichron",
+    "systemVersion": "1.0.0",
+    "createdTime": 1749291348799,
+    "modifiedTime": 1749291464761,
+    "lastModifiedBy": "artichronbuilder"
+  },
+  "_key": "!folders!VXjau9yG24Uo1qIc"
+}

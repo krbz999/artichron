@@ -1,0 +1,63 @@
+{
+  "folder": "g4PcI0go4O0J4hmu",
+  "name": "Cleric",
+  "type": "path",
+  "_id": "TOPOCY0zrPjEj59G",
+  "img": "icons/magic/holy/chalice-glowing-yellow-blue.webp",
+  "system": {
+    "attributes": {
+      "value": [
+        "spellcaster"
+      ],
+      "levels": {}
+    },
+    "description": {
+      "value": ""
+    },
+    "identifier": "cleric",
+    "advancements": {
+      "8CHxXodCe9TC2uaT": {
+        "type": "itemGrant",
+        "_id": "8CHxXodCe9TC2uaT",
+        "pool": [
+          {
+            "uuid": "Item.P4vTLD1VEgfbh3h1",
+            "optional": false
+          }
+        ]
+      },
+      "o3t4o9nXzFMHBtYM": {
+        "type": "itemGrant",
+        "_id": "o3t4o9nXzFMHBtYM",
+        "requirements": {
+          "points": 6
+        },
+        "pool": [
+          {
+            "uuid": "Item.A8VSNBhnwxnwoEMh",
+            "optional": false
+          }
+        ]
+      }
+    },
+    "points": {}
+  },
+  "effects": [],
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null,
+    "coreVersion": "13.345",
+    "systemId": "artichron",
+    "systemVersion": "1.0.0",
+    "createdTime": 1749291547536,
+    "modifiedTime": 1749925396216,
+    "lastModifiedBy": "artichronbuilder"
+  },
+  "_key": "!items!TOPOCY0zrPjEj59G"
+}

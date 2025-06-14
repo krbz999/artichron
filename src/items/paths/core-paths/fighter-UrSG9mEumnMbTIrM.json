@@ -1,0 +1,51 @@
+{
+  "folder": "g4PcI0go4O0J4hmu",
+  "name": "Fighter",
+  "type": "path",
+  "_id": "UrSG9mEumnMbTIrM",
+  "img": "icons/equipment/shield/heater-steel-crystal-red.webp",
+  "system": {
+    "attributes": {
+      "value": [],
+      "levels": {}
+    },
+    "description": {
+      "value": ""
+    },
+    "identifier": "fighter",
+    "advancements": {
+      "gFF5aQAw43bdsPem": {
+        "type": "itemGrant",
+        "_id": "gFF5aQAw43bdsPem",
+        "pool": [
+          {
+            "uuid": "Item.A8VSNBhnwxnwoEMh",
+            "optional": false
+          }
+        ],
+        "requirements": {
+          "points": 25
+        }
+      }
+    },
+    "points": {}
+  },
+  "effects": [],
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null,
+    "coreVersion": "13.345",
+    "systemId": "artichron",
+    "systemVersion": "1.0.0",
+    "createdTime": 1749291577612,
+    "modifiedTime": 1749336707498,
+    "lastModifiedBy": "artichronbuilder"
+  },
+  "_key": "!items!UrSG9mEumnMbTIrM"
+}

@@ -1,0 +1,21 @@
+{
+  "type": "Item",
+  "folder": "VXjau9yG24Uo1qIc",
+  "name": "Core Paths",
+  "color": null,
+  "sorting": "a",
+  "_id": "g4PcI0go4O0J4hmu",
+  "description": "",
+  "sort": 0,
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null,
+    "coreVersion": "13.345",
+    "systemId": "artichron",
+    "systemVersion": "1.0.0",
+    "lastModifiedBy": "artichronbuilder"
+  },
+  "_key": "!folders!g4PcI0go4O0J4hmu"
+}

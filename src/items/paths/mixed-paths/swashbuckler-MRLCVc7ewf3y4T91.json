@@ -1,0 +1,39 @@
+{
+  "type": "path",
+  "name": "Swashbuckler",
+  "system": {
+    "attributes": {
+      "value": [
+        "mixed"
+      ],
+      "levels": {}
+    },
+    "description": {
+      "value": ""
+    },
+    "identifier": "swashbuckler",
+    "advancements": {},
+    "points": {}
+  },
+  "folder": "4RVmdIni4lnj1zLj",
+  "_id": "MRLCVc7ewf3y4T91",
+  "img": "icons/equipment/waist/belt-buckle-gold-green.webp",
+  "effects": [],
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null,
+    "coreVersion": "13.345",
+    "systemId": "artichron",
+    "systemVersion": "1.0.0",
+    "createdTime": 1749323437970,
+    "modifiedTime": 1749335231149,
+    "lastModifiedBy": "artichronbuilder"
+  },
+  "_key": "!items!MRLCVc7ewf3y4T91"
+}

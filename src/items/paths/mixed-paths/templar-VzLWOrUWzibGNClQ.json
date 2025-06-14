@@ -1,0 +1,55 @@
+{
+  "type": "path",
+  "name": "Templar",
+  "system": {
+    "attributes": {
+      "value": [
+        "mixed",
+        "spellcaster"
+      ],
+      "levels": {}
+    },
+    "description": {
+      "value": ""
+    },
+    "identifier": "templar",
+    "advancements": {
+      "jtNwV5m4socVjV2T": {
+        "type": "itemGrant",
+        "_id": "jtNwV5m4socVjV2T",
+        "name": "TEMPLAR ADVANCEMENT 25",
+        "requirements": {
+          "points": 45
+        },
+        "pool": [
+          {
+            "uuid": "Item.A8VSNBhnwxnwoEMh",
+            "optional": false
+          }
+        ]
+      }
+    },
+    "points": {}
+  },
+  "folder": "4RVmdIni4lnj1zLj",
+  "_id": "VzLWOrUWzibGNClQ",
+  "img": "icons/weapons/swords/sword-gold-holy.webp",
+  "effects": [],
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null,
+    "coreVersion": "13.345",
+    "systemId": "artichron",
+    "systemVersion": "1.0.0",
+    "createdTime": 1749323437975,
+    "modifiedTime": 1749925411533,
+    "lastModifiedBy": "artichronbuilder"
+  },
+  "_key": "!items!VzLWOrUWzibGNClQ"
+}

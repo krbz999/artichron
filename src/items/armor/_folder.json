@@ -5,16 +5,19 @@
   "type": "Item",
   "_id": "a3CL70pOglIad3Gc",
   "sort": 0,
-  "color": "#4c00ff",
+  "color": "#ae00ee",
   "flags": {},
   "_stats": {
     "systemId": null,
     "systemVersion": null,
-    "coreVersion": null,
+    "coreVersion": "13.345",
     "createdTime": null,
-    "modifiedTime": null,
+    "modifiedTime": 1749291455183,
     "lastModifiedBy": "artichronbuilder",
-    "exportSource": null
+    "exportSource": null,
+    "compendiumSource": null,
+    "duplicateSource": null
   },
+  "description": "",
   "_key": "!folders!a3CL70pOglIad3Gc"
 }

@@ -1,0 +1,40 @@
+{
+  "type": "path",
+  "name": "Shaman",
+  "system": {
+    "attributes": {
+      "value": [
+        "mixed",
+        "spellcaster"
+      ],
+      "levels": {}
+    },
+    "description": {
+      "value": ""
+    },
+    "identifier": "shaman",
+    "advancements": {},
+    "points": {}
+  },
+  "folder": "4RVmdIni4lnj1zLj",
+  "_id": "SzGVudF2sfodAy9O",
+  "img": "icons/magic/lightning/bolt-cloud-sky-white.webp",
+  "effects": [],
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null,
+    "coreVersion": "13.345",
+    "systemId": "artichron",
+    "systemVersion": "1.0.0",
+    "createdTime": 1749323437956,
+    "modifiedTime": 1749925406015,
+    "lastModifiedBy": "artichronbuilder"
+  },
+  "_key": "!items!SzGVudF2sfodAy9O"
+}

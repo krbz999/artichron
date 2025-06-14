@@ -1,0 +1,21 @@
+{
+  "type": "Item",
+  "folder": "VXjau9yG24Uo1qIc",
+  "name": "Mixed Paths",
+  "color": null,
+  "sorting": "a",
+  "_id": "4RVmdIni4lnj1zLj",
+  "description": "",
+  "sort": 0,
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null,
+    "coreVersion": "13.345",
+    "systemId": "artichron",
+    "systemVersion": "1.0.0",
+    "lastModifiedBy": "artichronbuilder"
+  },
+  "_key": "!folders!4RVmdIni4lnj1zLj"
+}

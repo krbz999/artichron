@@ -1,0 +1,39 @@
+{
+  "folder": "g4PcI0go4O0J4hmu",
+  "name": "Mage",
+  "type": "path",
+  "_id": "7i6uNxcreJWoO4C9",
+  "img": "icons/magic/fire/flame-burning-hand-white.webp",
+  "system": {
+    "attributes": {
+      "value": [
+        "spellcaster"
+      ],
+      "levels": {}
+    },
+    "description": {
+      "value": ""
+    },
+    "identifier": "mage",
+    "advancements": {},
+    "points": {}
+  },
+  "effects": [],
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null,
+    "coreVersion": "13.345",
+    "systemId": "artichron",
+    "systemVersion": "1.0.0",
+    "createdTime": 1749291585316,
+    "modifiedTime": 1749925399231,
+    "lastModifiedBy": "artichronbuilder"
+  },
+  "_key": "!items!7i6uNxcreJWoO4C9"
+}

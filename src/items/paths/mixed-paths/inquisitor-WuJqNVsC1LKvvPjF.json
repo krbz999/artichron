@@ -1,0 +1,40 @@
+{
+  "type": "path",
+  "name": "Inquisitor",
+  "system": {
+    "attributes": {
+      "value": [
+        "mixed",
+        "spellcaster"
+      ],
+      "levels": {}
+    },
+    "description": {
+      "value": ""
+    },
+    "identifier": "inquisitor",
+    "advancements": {},
+    "points": {}
+  },
+  "folder": "4RVmdIni4lnj1zLj",
+  "_id": "WuJqNVsC1LKvvPjF",
+  "img": "icons/magic/holy/saint-glass-portrait-halo.webp",
+  "effects": [],
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null,
+    "coreVersion": "13.345",
+    "systemId": "artichron",
+    "systemVersion": "1.0.0",
+    "createdTime": 1749323437952,
+    "modifiedTime": 1749925419850,
+    "lastModifiedBy": "artichronbuilder"
+  },
+  "_key": "!items!WuJqNVsC1LKvvPjF"
+}
