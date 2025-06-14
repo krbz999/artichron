@@ -1,15 +1,24 @@
 <section class="header">
 
-  <section class="details">
-    {{!-- NAME --}}
-    {{#if (and isEditMode editable)}}
-    {{formInput fields.name value=source.name placeholder=(localize "Name")}}
-    {{else}}
-    <h1 class="name">{{document.name}}</h1>
-    {{/if}}
+  {{!-- NAME --}}
+  {{#if (and isEditMode editable)}}
+  {{formInput fields.name value=source.name placeholder=(localize "Name") classes="name"}}
+  {{else}}
+  <h1 class="name">{{document.name}}</h1>
+  {{/if}}
 
-    <div class="grid-tags">
-      {{!-- DAMAGE --}}
+  {{!-- AVATAR --}}
+  <section class="avatar glass">
+    {{#if (and isEditMode editable)}}
+    <img class="icon" alt="{{source.name}}" src="{{source.img}}" data-edit="img" data-action="editImage">
+    {{else}}
+    <img class="icon" alt="{{document.name}}" src="{{document.img}}">
+    {{/if}}
+  </section>
+
+  <div class="grid-tags">
+    {{!-- DAMAGE --}}
+    <div class="tag-line">
       <span class="label">{{document.system.damage.label}}</span>
       <div class="tags">
         {{#if (and isEditMode editable)}}
@@ -23,9 +32,11 @@
         </span>
         {{/if}}
       </div>
+    </div>
 
-      {{!-- DEFENSES --}}
-      {{#if ctx.defenses.length}}
+    {{!-- DEFENSES --}}
+    {{#if ctx.defenses.length}}
+    <div class="tag-line">
       <span class="label">{{localize "ARTICHRON.SHEET.MONSTER.HEADERS.defenses"}}</span>
       <div class="tags">
         {{#each ctx.defenses}}
@@ -35,18 +46,8 @@
         </span>
         {{/each}}
       </div>
-      {{/if}}
-
     </div>
-  </section>
-
-  {{!-- AVATAR --}}
-  <section class="avatar glass">
-    {{#if (and isEditMode editable)}}
-    <img class="icon" alt="{{source.name}}" src="{{source.img}}" data-edit="img" data-action="editImage">
-    {{else}}
-    <img class="icon" alt="{{document.name}}" src="{{document.img}}">
     {{/if}}
-  </section>
+  </div>
 
 </section>

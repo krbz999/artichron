@@ -1,24 +1,35 @@
 <section class="header">
 
-  <section class="details">
-    {{!-- NAME --}}
+  {{!-- NAME --}}
+  {{#if (and isEditMode editable)}}
+  {{formInput fields.name value=source.name placeholder=(localize "Name") classes="name"}}
+  {{else}}
+  <h1 class="name">{{document.name}}</h1>
+  {{/if}}
+
+  {{!-- AVATAR --}}
+  <section class="avatar glass">
     {{#if (and isEditMode editable)}}
-    {{formInput fields.name value=source.name placeholder=(localize "Name")}}
+    <img class="icon" alt="{{source.name}}" src="{{source.img}}" data-edit="img" data-action="editImage">
     {{else}}
-    <h1 class="name">{{document.name}}</h1>
+    <img class="icon" alt="{{document.name}}" src="{{document.img}}">
     {{/if}}
+  </section>
 
-    <div class="grid-tags">
+  <div class="grid-tags">
 
-      {{!-- PATH --}}
-      {{#if ctx.path}}
+    {{!-- PATH --}}
+    {{#if ctx.path}}
+    <div class="tag-line">
       <span class="label">{{localize "ARTICHRON.SHEET.HERO.path"}}</span>
       <div class="tags">
         <span class="tag glass">{{ctx.path.label}}</span>
       </div>
-      {{/if}}
+    </div>
+    {{/if}}
 
-      {{!-- DAMAGE --}}
+    {{!-- DAMAGE --}}
+    <div class="tag-line">
       <span class="label">{{document.system.damage.label}}</span>
       <div class="tags">
         {{#if (and isEditMode editable)}}
@@ -32,8 +43,10 @@
         </span>
         {{/if}}
       </div>
+    </div>
 
-      {{!-- POOLS --}}
+    {{!-- POOLS --}}
+    <div class="tag-line">
       <span class="label">{{localize "ARTICHRON.SHEET.HERO.HEADERS.pools"}}</span>
       <div class="tags">
         {{#if (and isEditMode editable)}}
@@ -61,9 +74,11 @@
         </span>
         {{/if}}
       </div>
+    </div>
 
-      {{!-- DEFENSES --}}
-      {{#if ctx.defenses.length}}
+    {{!-- DEFENSES --}}
+    {{#if ctx.defenses.length}}
+    <div class="tag-line">
       <span class="label">{{localize "ARTICHRON.SHEET.HERO.HEADERS.defenses"}}</span>
       <div class="tags">
         {{#each ctx.defenses}}
@@ -73,9 +88,11 @@
         </span>
         {{/each}}
       </div>
-      {{/if}}
+    </div>
+    {{/if}}
 
-      {{!-- SKILLS --}}
+    {{!-- SKILLS --}}
+    <div class="tag-line">
       <span class="label">{{localize "ARTICHRON.SHEET.HERO.HEADERS.skills"}}</span>
       <div class="tags">
         {{#each ctx.skills}}
@@ -87,15 +104,7 @@
         {{/each}}
       </div>
     </div>
-  </section>
 
-  {{!-- AVATAR --}}
-  <section class="avatar glass">
-    {{#if (and isEditMode editable)}}
-    <img class="icon" alt="{{source.name}}" src="{{source.img}}" data-edit="img" data-action="editImage">
-    {{else}}
-    <img class="icon" alt="{{document.name}}" src="{{document.img}}">
-    {{/if}}
-  </section>
+  </div>
 
 </section>
