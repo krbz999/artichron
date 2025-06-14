@@ -1,9 +1,4 @@
 .artichron.application.sheet {
-  /* Transition control */
-  .transitioning .description-wrapper .description {
-    overflow: hidden;
-  }
-
   /* Global adjustment of scrollbars. */
   .scrollable {
     scrollbar-gutter: stable;

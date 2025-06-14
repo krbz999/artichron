@@ -3,7 +3,7 @@
 
   &:not(.minimizing, .minimized, .maximizing) {
     min-height: var(--min-height);
-    min-width: 320px;
+    min-width: 400px;
   }
 
   .health-bar {
