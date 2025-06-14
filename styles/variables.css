@@ -12,14 +12,15 @@
   --artichron-color-pink: rgb(255, 97, 144);
   --artichron-color-purple: rgb(135, 0, 207);
   --artichron-color-red: rgb(255, 0, 0);
+  --artichron-color-redwine: rgb(125, 0, 50);
   --artichron-color-tan: rgb(219, 147, 112);
   --artichron-color-umber: rgb(110, 84, 60);
   --artichron-color-white: rgba(204, 204, 204);
 
   /* POOLS */
-  --artichron-color-health: var(--artichron-color-red);
-  --artichron-color-stamina: var(--artichron-color-green);
-  --artichron-color-mana: var(--artichron-color-blue);
+  --artichron-color-pool-health: var(--artichron-color-red);
+  --artichron-color-pool-stamina: var(--artichron-color-green);
+  --artichron-color-pool-mana: var(--artichron-color-blue);
 
   /* DISPOSITION */
   --artichron-color-enemy: var(--artichron-color-pink);
@@ -34,6 +35,11 @@
   --artichron-color-skill-brawn: var(--artichron-color-tan);
   --artichron-color-skill-mind: var(--artichron-color-umber);
   --artichron-color-skill-spirit: var(--artichron-color-purple);
+
+  /* HEALTH */
+  --artichron-color-health-low: hsl(from var(--artichron-color-redwine) h s 10);
+  --artichron-color-health-mid: hsl(from var(--artichron-color-redwine) h s 20);
+  --artichron-color-health-high: hsl(from var(--artichron-color-redwine) h s 30);
 
   /* UI */
   --artichron-color-border: var(--artichron-color-blue-light);

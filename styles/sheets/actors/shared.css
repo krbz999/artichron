@@ -51,9 +51,9 @@
       top: calc(100% - var(--health-bar-pct));
       background: linear-gradient(
         to top,
-        rgb(25, 0, 0) 15%,
-        rgb(150, 0, 0) 50%,
-        rgb(255, 0, 0) 100%
+        var(--artichron-color-health-low) 15%,
+        var(--artichron-color-health-mid) 50%,
+        var(--artichron-color-health-high) 100%
       );
       z-index: -1;
     }
