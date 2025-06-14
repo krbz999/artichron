@@ -27,11 +27,8 @@ export default class DamageConfig extends DocumentConfig {
 
     Object.assign(ctx, {
       damageTypes, attackTypes,
-      damageParts: this.document.getEmbeddedPseudoDocumentCollection("Damage").map(part => {
-        return {
-          document: part,
-          classes: part.isSource ? [] : ["disabled"],
-        };
+      damageParts: this.document.getEmbeddedPseudoDocumentCollection("Damage").sourceContents.map(part => {
+        return { document: part };
       }),
     });
 

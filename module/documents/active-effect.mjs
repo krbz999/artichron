@@ -51,25 +51,38 @@ export default class ActiveEffectArtichron extends BaseDocumentMixin(foundry.doc
   /* -------------------------------------------------- */
 
   /**
-   * Apply special properties via fusions for those paths that cannot be applied normally.
-   * @param {Document} document   Actor or item document.
-   * @param {object} change       The active effect change.
-   * @param {object} changes      Applied changes.
-   * @returns {boolean|void}      Return `false` to prevent regular application.
+   * Apply special properties that can't be applied normally, like instantiating embedded data models.
+   * @param {foundry.documents.Actor|foundry.documents.Item} document   Actor or item document.
+   * @param {object} change                                             The active effect change.
+   * @param {object} changes                                            Applied changes.
+   * @returns {boolean|void} Return `false` to prevent regular application.
    */
   #applySpecial(document, change, changes) {
-    if (!(document instanceof Item)) return;
-    if (change.key !== "activity") return;
-
-    try {
-      const parsed = JSON.parse(change.value);
-      const Cls = artichron.data.pseudoDocuments.activities.BaseActivity.TYPES[parsed.type];
-      const inst = new Cls(parsed, { parent: document.system });
-      document.system.activities.set(inst.id, inst);
-    } catch (err) {
-      console.warn(err);
+    // Create a new activity on an item.
+    if ((document instanceof foundry.documents.Item) && (document.type === "spell") && (change.key === "activities")) {
+      try {
+        const parsed = JSON.parse(change.value);
+        const Cls = artichron.data.pseudoDocuments.activities.BaseActivity.TYPES[parsed.type];
+        const inst = new Cls(parsed, { parent: document.system });
+        document.getEmbeddedPseudoDocumentCollection("Activity").set(inst.id, inst);
+      } catch (err) {
+        console.warn(err);
+      }
+      return false;
     }
-    return false;
+
+    // Create a new damage part on an actor.
+    if ((document instanceof foundry.documents.Actor) && ["hero", "monster"].includes(document.type) && (change.key === "damage")) {
+      try {
+        const parsed = JSON.parse(change.value);
+        const Cls = artichron.data.pseudoDocuments.damage.Damage;
+        const inst = new Cls(parsed, { parent: document.system });
+        document.getEmbeddedPseudoDocumentCollection("Damage").set(inst.id, inst);
+      } catch (err) {
+        console.warn(err);
+      }
+      return false;
+    }
   }
 
   /* -------------------------------------------------- */

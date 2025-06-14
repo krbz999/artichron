@@ -29,7 +29,8 @@ export default class DamageSheet extends PseudoDocumentSheet {
 
   /** @type {import("../../../_types").ContextPartHandler} */
   async _preparePartContextDamage(context, options) {
-    context.ctx = {};
+    const ctx = context.ctx = {};
+    ctx.damageOptions = [2, 3, 4, 6, 8, 10, 12, 14, 20, 100].map(n => ({ value: n, label: `d${n}` }));
     return context;
   }
 }
