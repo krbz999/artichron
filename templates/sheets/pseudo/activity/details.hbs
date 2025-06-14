@@ -1,85 +1,72 @@
 <div class="tab details {{tabs.details.cssClass}}" data-group="primary" data-tab="details">
   <fieldset>
     <legend>{{localize "ARTICHRON.SHEET.ACTIVITY.HEADERS.configuration"}}</legend>
-    {{formGroup cost.field value=cost.src name=cost.name}}
-    {{#if usage.show}}
-    {{formGroup usage.field value=usage.src name=usage.name}}
-    {{/if}}
+    {{formGroup fields.cost.fields.value value=source.cost.value name="cost.value" placeholder="1"}}
   </fieldset>
 
-  {{#if target.show}}
+  {{#if ctx.showTarget}}
   <fieldset>
     <legend>{{localize "ARTICHRON.SHEET.ACTIVITY.HEADERS.targeting"}}</legend>
-    {{formGroup target.type.field value=target.type.src options=target.type.options name=target.type.name}}
-    {{#if target.fields.length}}
-    {{#each target.fields}}
-    {{formGroup field value=src name=name}}
-    {{/each}}
+    {{formGroup fields.target.fields.type value=source.target.type options=ctx.targetTypeOptions name="target.type"}}
+    {{#if ctx.hasTemplate}}
+    {{formGroup fields.target.fields.duration value=source.target.duration name="target.duration"}}
+    {{/if}}
+
+    {{#if ctx.showCount}}
+    {{formGroup fields.target.fields.count value=source.target.count name="target.count" placeholder="1"}}
+    {{/if}}
+
+    {{#if ctx.showSize}}
+    {{formGroup fields.target.fields.size value=source.target.size name="target.size" placeholder="1"}}
+    {{/if}}
+
+    {{#if ctx.showRange}}
+    {{formGroup fields.target.fields.range value=source.target.range name="target.range" placeholder="1"}}
+    {{/if}}
+
+    {{#if ctx.showWidth}}
+    {{formGroup fields.target.fields.width value=source.target.width name="target.width" placeholder="1"}}
     {{/if}}
   </fieldset>
   {{/if}}
 
-  {{#if damage.show}}
-  <fieldset>
-    <legend>
-      {{localize "ARTICHRON.SHEET.ACTIVITY.HEADERS.damage"}}
-      <button class="icon fa-regular fa-plus-square" type="button" data-action="addDamage"></button>
-    </legend>
-    {{#each damage.damages}}
-    <div class="form-group" data-id="{{damage.id}}">
-      <div class="form-fields">
-        {{formGroup fields.number classes="label-top" value=(ifThen (eq source.number 1) null source.number) placeholder="1" name=(concat "damage." damage.id ".number")}}
-        {{formGroup fields.denomination classes="label-top" value=source.denomination name=(concat "damage." damage.id ".denomination")}}
-        {{formGroup fields.type classes="label-top" value=source.type options=damageGroups name=(concat "damage." damage.id ".type")}}
-        <button type="button" class="icon fa-solid fa-minus" data-action="deleteDamage"></button>
-        <button type="button" class="icon fa-solid fa-cog" data-action="showDamage"></button>
-      </div>
-    </div>
-    {{/each}}
-  </fieldset>
-  {{/if}}
-
-  {{#if defend.show}}
+  {{#if (eq pseudoDocument.type "defend")}}
   <fieldset>
     <legend>{{localize "ARTICHRON.SHEET.ACTIVITY.HEADERS.defend"}}</legend>
     <div class="form-group">
-      <label>{{localize "ARTICHRON.ACTIVITY.LABELS.defendFormula"}}</label>
+      <label>{{localize "ARTICHRON.SHEET.ACTIVITY.formula"}}</label>
       <div class="form-fields">
-        {{#with defend}}
-        {{formGroup number.field value=number.src classes="label-top" name=number.name}}
-        {{formGroup denomination.field value=denomination.src classes="label-top" name=denomination.name}}
-        {{/with}}
+        {{formGroup fields.defend.fields.number value=source.defend.number name="defend.number" classes="label-top" placeholder="1"}}
+        {{formGroup fields.defend.fields.denomination value=source.defend.denomination name="defend.denomination" classes="label-top"}}
       </div>
     </div>
   </fieldset>
   {{/if}}
 
-  {{#if healing.show}}
-  {{#with healing}}
+  {{#if (eq pseudoDocument.type "healing")}}
   <fieldset>
     <legend>{{localize "ARTICHRON.SHEET.ACTIVITY.HEADERS.healing"}}</legend>
     <div class="form-group">
-      <label>{{localize "ARTICHRON.ACTIVITY.LABELS.healingFormula"}}</label>
+      <label>{{localize "ARTICHRON.SHEET.ACTIVITY.formula"}}</label>
       <div class="form-fields">
-        {{formGroup number.field value=number.src classes="label-top" name=number.name}}
-        {{formGroup denomination.field value=denomination.src classes="label-top" name=denomination.name}}
+        {{formGroup fields.healing.fields.number value=source.healing.number name="healing.number" classes="label-top" placeholder="1"}}
+        {{formGroup fields.healing.fields.denomination value=source.healing.denomination name="healing.denomination" classes="label-top"}}
       </div>
     </div>
   </fieldset>
-  {{/with}}
   {{/if}}
 
-  {{#if effects.show}}
+  {{#if (eq pseudoDocument.type "effect")}}
   <fieldset>
     <legend>{{localize "ARTICHRON.SHEET.ACTIVITY.HEADERS.effects"}}</legend>
-    {{formGroup effects.ids.field value=effects.ids.src options=effects.ids.choices classes="stacked" name=effects.ids.name}}
+    {{formGroup fields.effects.fields.ids value=source.effects.ids options=ctx.effectOptions classes="stacked" name="effects.ids"}}
   </fieldset>
   {{/if}}
 
-  {{#if teleport.show}}
+  {{#if (eq pseudoDocument.type "teleport")}}
   <fieldset>
     <legend>{{localize "ARTICHRON.SHEET.ACTIVITY.HEADERS.teleport"}}</legend>
-    {{formGroup teleport.distance.field value=teleport.distance.src name=teleport.distance.name}}
+    {{formGroup fields.teleport.fields.distance value=source.teleport.distance name="teleport.distance"}}
   </fieldset>
   {{/if}}
 </div>

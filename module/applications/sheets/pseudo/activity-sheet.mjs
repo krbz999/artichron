@@ -61,81 +61,27 @@ export default class ActivitySheet extends PseudoDocumentSheet {
 
   /** @type {import("../../../_types").ContextPartHandler} */
   async _preparePartContextDetails(context, options) {
-    // FIXME: Use `context.ctx`.
+    const ctx = context.ctx = {};
 
-    const a = context.pseudoDocument;
-    const makeLegend = path => a.schema.getField(path).label;
-
-    const _prepareField = (path) => {
-      // FIXME: Get rid of this helper method.
-      const doc = a;
-      const field = doc.schema.getField(path);
-      const value = foundry.utils.getProperty(doc, path);
-      const src = foundry.utils.getProperty(doc._source, path);
-      return { field, value, src, name: path };
-    };
-
-    context.cost = Object.assign(_prepareField("cost.value"), {
-      legend: game.i18n.localize("ARTICHRON.SHEET.LEGENDS.configuration"),
-    });
-
-    if (a.item.type === "elixir") {
-      context.usage = Object.assign(_prepareField("cost.uses"), { show: true });
-    }
+    ctx.showTarget = ["effect", "healing"].includes(context.pseudoDocument.type);
 
     // Target
-    if (a.schema.has("target")) {
-      context.target = {
-        show: true,
-        legend: makeLegend("target"),
-        fields: [],
-        type: Object.assign(_prepareField("target.type"), { options: artichron.config.TARGET_TYPES.optgroups }),
-      };
+    if (ctx.showTarget) {
+      ctx.targetTypeOptions = artichron.config.TARGET_TYPES.optgroups;
+      ctx.hasTemplate = context.pseudoDocument.hasTemplate;
 
-      if (a.hasTemplate) context.target.fields.push(_prepareField("target.duration"));
-      const configuration = artichron.config.TARGET_TYPES[a.target.type];
-      for (const s of configuration.scale) context.target.fields.push(_prepareField(`target.${s}`));
-    }
-
-    // Defend
-    if (a.schema.has("defend")) {
-      context.defend = {
-        show: true,
-        legend: makeLegend("defend"),
-        number: _prepareField("defend.number"),
-        denomination: _prepareField("defend.denomination"),
-      };
-    }
-
-    // Healing
-    if (a.schema.has("healing")) {
-      context.healing = {
-        show: true,
-        legend: makeLegend("healing"),
-        number: _prepareField("healing.number"),
-        denomination: _prepareField("healing.denomination"),
-      };
+      const scale = artichron.config.TARGET_TYPES[context.pseudoDocument.target.type]?.scale ?? new Set();
+      ctx.showCount = scale.has("count");
+      ctx.showSize = scale.has("size");
+      ctx.showRange = scale.has("range");
+      ctx.showWidth = scale.has("width");
     }
 
     // Effect
-    if (a.schema.has("effects")) {
-      context.effects = {
-        show: true,
-        legend: makeLegend("effects"),
-        ids: _prepareField("effects.ids"),
-      };
-      context.effects.ids.choices = this.item.transferrableEffects.map(effect => {
+    if (context.pseudoDocument.type === "effect") {
+      ctx.effectOptions = this.item.transferrableEffects.map(effect => {
         return { value: effect.id, label: effect.name };
       });
-    }
-
-    // Teleport
-    if (a.schema.has("teleport")) {
-      context.teleport = {
-        show: true,
-        legend: makeLegend("teleport"),
-        distance: _prepareField("teleport.distance"),
-      };
     }
 
     return context;

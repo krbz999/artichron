@@ -217,6 +217,7 @@
 
   "ACTIVITY": {
     "title": "Activity: {name}",
+    "formula": "Formula",
     "HEADERS": {
       "identity": "Identity",
       "configuration": "Configuration",
@@ -276,10 +277,6 @@
     "ApplyHealing": "Apply Healing",
     "Teleport": "Teleport Token"
   },
-  "LABELS": {
-    "defendFormula": "Defensive Formula",
-    "healingFormula": "Healing Formula"
-  },
   "Warning": {
     "ConsumeCostUnavailable": "{name} does not have {number} action points available.",
     "ConsumeOutOfCombat": "{name} cannot consume action points when out of combat.",
@@ -295,11 +292,19 @@
   },
   "FIELDS": {
     "cost": {
-      "label": "Action Cost",
       "value": {
         "hint": "The action point cost to make use of this activity.",
         "label": "Action Cost"
       }
+    },
+    "description": {
+      "label": "Description"
+    },
+    "img": {
+      "label": "Image"
+    },
+    "name": {
+      "label": "Name"
     },
     "target": {
       "count": {
@@ -310,7 +315,6 @@
         "hint": "When measured templates created by this activity are automatically removed.",
         "label": "Duration"
       },
-      "label": "Targeting",
       "range": {
         "hint": "The maximum range between the character and the target.",
         "label": "Range"
@@ -327,15 +331,6 @@
         "hint": "The width of the created templates.",
         "label": "Width"
       }
-    },
-    "description": {
-      "label": "Description"
-    },
-    "img": {
-      "label": "Image"
-    },
-    "name": {
-      "label": "Name"
     }
   },
   "DEFEND": {
@@ -346,8 +341,7 @@
         },
         "number": {
           "label": "Number"
-        },
-        "label": "Defend"
+        }
       }
     }
   },
@@ -356,15 +350,13 @@
       "effects": {
         "ids": {
           "hint": "The transferrable effects this activity will be able to transfer to a target."
-        },
-        "label": "Effects"
+        }
       }
     }
   },
   "HEALING": {
     "FIELDS": {
       "healing": {
-        "label": "Healing",
         "denomination": {
           "label": "Denomination"
         },
@@ -377,7 +369,6 @@
   "TELEPORT": {
     "FIELDS": {
       "teleport": {
-        "label": "Teleport",
         "distance": {
           "hint": "The distance the target is teleported.",
           "label": "Distance"
@@ -768,28 +759,12 @@
 },
 
 "ITEM": {
-  "AMMO": {
-    "FIELDS": {
-      "category": {
-        "label": "Category",
-        "subtype": {
-          "hint": "The type of ammunition this is will determine what weapons can use it.",
-          "label": "Ammo Type"
-        }
-      }
-    }
-  },
   "ARMOR": {
     "FIELDS": {
       "category": {
-        "label": "Type",
         "subtype": {
           "hint": "The type of armor this is will determine how it is equipped.",
           "label": "Armor Type"
-        },
-        "value": {
-          "hint": "TODO: What this property does has yet to be decided.",
-          "label": "Category"
         }
       }
     }
@@ -867,60 +842,8 @@
       "hint": "The character must have this many dice in the given skill to gain the benefits of wearing this armor."
     }
   },
+
   "FIELDS": {
-    "activities": {
-      "element": {
-        "*": {
-          "cost": {
-            "label": "Action Cost",
-            "uses": {
-              "hint": "Consume uses of the elixir when using this activity.",
-              "label": "Consume Uses"
-            },
-            "value": {
-              "hint": "The action point cost to make use of this activity.",
-              "label": "Action Cost"
-            }
-          },
-          "description": {
-            "label": "Description"
-          },
-          "img": {
-            "label": "Image"
-          },
-          "name": {
-            "label": "Name"
-          },
-          "target": {
-            "count": {
-              "hint": "How many targets this activity can have, or areas of effect this activity creates.",
-              "label": "Count"
-            },
-            "duration": {
-              "hint": "When measured templates created by this activity are automatically removed.",
-              "label": "Duration"
-            },
-            "label": "Targeting",
-            "range": {
-              "hint": "The maximum range between the character and the target.",
-              "label": "Range"
-            },
-            "size": {
-              "hint": "The length or radius of the created template.",
-              "label": "Size"
-            },
-            "type": {
-              "hint": "The type of targeting this activity requires, either individual targets or areas of effect.",
-              "label": "Type"
-            },
-            "width": {
-              "hint": "The width of the created templates.",
-              "label": "Width"
-            }
-          }
-        }
-      }
-    },
     "attributes": {
       "label": "Attributes",
       "value": {

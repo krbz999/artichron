@@ -1,7 +1,7 @@
 import TypedPseudoDocument from "../typed-pseudo-document.mjs";
 
 const {
-  BooleanField, HTMLField, NumberField, SchemaField,
+  HTMLField, NumberField, SchemaField,
 } = foundry.data.fields;
 
 export default class BaseActivity extends TypedPseudoDocument {
@@ -29,7 +29,6 @@ export default class BaseActivity extends TypedPseudoDocument {
       description: new HTMLField({ required: true }),
       cost: new SchemaField({
         value: new NumberField({ min: 0, integer: true, nullable: false, initial: 1 }),
-        uses: new BooleanField({ initial: true }),
       }),
     });
   }
@@ -53,7 +52,7 @@ export default class BaseActivity extends TypedPseudoDocument {
    * @type {boolean}
    */
   get canBoost() {
-    return ["armor", "shield", "spell", "weapon"].includes(this.item.type);
+    return true;
   }
 
   /* -------------------------------------------------- */
@@ -73,7 +72,7 @@ export default class BaseActivity extends TypedPseudoDocument {
    * @type {string}
    */
   get poolType() {
-    return (this.item.type === "spell") ? "mana" : "stamina";
+    return "mana";
   }
 
   /* -------------------------------------------------- */
@@ -83,7 +82,7 @@ export default class BaseActivity extends TypedPseudoDocument {
    * @type {boolean}
    */
   get usesAmmo() {
-    return this.item.usesAmmo;
+    return false;
   }
 
   /* -------------------------------------------------- */
