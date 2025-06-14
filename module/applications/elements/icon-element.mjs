@@ -29,23 +29,12 @@ export default class IconElement extends HTMLElement {
 
   /* -------------------------------------------------- */
 
-  /**
-   * Is the src used as a backdrop instead of regular image?
-   * @type {boolean}
-   */
-  get isBackdrop() {
-    return this.hasAttribute("backdrop");
-  }
-
-  /* -------------------------------------------------- */
-
   /** @inheritDoc */
   connectedCallback() {
     const insertElement = element => {
       if (!element) return;
       const clone = element.cloneNode(true);
-      if (this.isBackdrop) this.innerHTML += clone.outerHTML;
-      else this.innerHTML = clone.outerHTML;
+      this.innerHTML += clone.outerHTML;
     };
 
     // Insert element immediately if already available, otherwise wait for fetch

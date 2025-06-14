@@ -74,6 +74,18 @@
         {{/each}}
       </div>
       {{/if}}
+
+      {{!-- SKILLS --}}
+      <span class="label">{{localize "ARTICHRON.SHEET.HERO.HEADERS.skills"}}</span>
+      <div class="tags">
+        {{#each ctx.skills}}
+        <span class="tag button glass" data-action="rollSkill" data-skill-id="{{skillId}}">
+          <artichron-icon style="--icon-fill: var(--artichron-color-skill-{{skillId}});" src="{{img}}"></artichron-icon>
+          <span>{{label}}</span>
+          <span>{{formula}}</span>
+        </span>
+        {{/each}}
+      </div>
     </div>
   </section>
 

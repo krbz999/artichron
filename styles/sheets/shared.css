@@ -43,6 +43,10 @@
 
         .tag {
           white-space: nowrap;
+          height: var(--input-height);
+          display: flex;
+          gap: .5ch;
+          justify-content: center;
         }
       }
     }

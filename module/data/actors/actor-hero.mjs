@@ -41,6 +41,7 @@ export default class HeroData extends CreatureData {
       skills: new SchemaField(Object.entries(artichron.config.SKILLS).reduce((acc, [k, v]) => {
         acc[k] = new SchemaField({
           number: new NumberField({ integer: true, min: 2, initial: 2, nullable: false }),
+          denomination: new NumberField({ integer: true, min: 2, initial: 6, nullable: false }),
           bonus: new NumberField({ integer: true, min: 0, initial: 0 }),
         });
         return acc;
@@ -67,6 +68,7 @@ export default class HeroData extends CreatureData {
     this.#preparePools();
     this.#prepareEncumbrance();
     this.#prepareHealth();
+    this.#prepareSkills();
   }
 
   /* -------------------------------------------------- */
@@ -107,6 +109,17 @@ export default class HeroData extends CreatureData {
     this.health.max = max;
     this.health.value = Math.clamp(this.health.value, 0, this.health.max);
     this.health.pct = Math.round(this.health.value / this.health.max * 100);
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Prepare skills.
+   */
+  #prepareSkills() {
+    for (const skill of Object.values(this.skills)) {
+      skill.formula = `${skill.number}d${skill.denomination}`;
+    }
   }
 
   /* -------------------------------------------------- */

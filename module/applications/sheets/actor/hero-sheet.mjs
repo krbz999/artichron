@@ -12,7 +12,6 @@ export default class HeroSheet extends ActorSheetArtichron {
   /** @inheritdoc */
   static DEFAULT_OPTIONS = {
     classes: ["hero"],
-    position: { width: 400 },
     actions: {
       advancementDialog: HeroSheet.#advancementDialog,
       rollSkill: HeroSheet.#onRollSkill,
@@ -84,7 +83,7 @@ export default class HeroSheet extends ActorSheetArtichron {
 
   /** @type {import("../../../_types").ContextPartHandler} */
   async _preparePartContextHeader(context, options) {
-    const ctx = context.ctx = { path: {}, defenses: [] };
+    const ctx = context.ctx = { path: {}, defenses: [], skills: [] };
 
     // Path.
     const key = this.document.system.currentPaths[0];
@@ -102,6 +101,16 @@ export default class HeroSheet extends ActorSheetArtichron {
       if (!v) continue;
       const { color, icon, label } = artichron.config.DAMAGE_TYPES[k];
       ctx.defenses.push({ color, icon, label, value: v });
+    }
+
+    // Skills.
+    for (const [k, v] of Object.entries(artichron.config.SKILLS)) {
+      const { label, img } = v;
+      const { formula } = this.document.system.skills[k];
+      ctx.skills.push({
+        formula, img, label,
+        skillId: k,
+      });
     }
 
     return context;
@@ -128,23 +137,11 @@ export default class HeroSheet extends ActorSheetArtichron {
 
   /** @type {import("../../../_types").ContextPartHandler} */
   async _preparePartContextAttributes(context, options) {
-    context.ctx = {
-      favorites: [],
-      skills: [],
-    };
+    const ctx = context.ctx = { favorites: [] };
 
     // Favorites
     for (const item of this.document.favorites) {
-      context.ctx.favorites.push({ document: item, classes: ["draggable"] });
-    }
-
-    // Skill
-    for (const [k, v] of Object.entries(this.document.system.skills)) {
-      context.ctx.skills.push({
-        ...artichron.config.SKILLS[k],
-        value: v.number,
-        skillId: k,
-      });
+      ctx.favorites.push({ document: item, classes: ["draggable"] });
     }
 
     return context;

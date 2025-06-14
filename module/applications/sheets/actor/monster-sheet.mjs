@@ -4,7 +4,6 @@ export default class MonsterSheet extends ActorSheetArtichron {
   /** @inheritdoc */
   static DEFAULT_OPTIONS = {
     classes: ["monster"],
-    position: { width: 400 },
     actions: {
       decreaseLoot: MonsterSheet.#onDecreaseLoot,
       grantLoot: MonsterSheet.#grantLoot,

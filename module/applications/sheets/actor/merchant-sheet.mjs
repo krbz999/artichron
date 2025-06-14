@@ -6,10 +6,6 @@ export default class MerchantSheet extends ActorSheetArtichron {
     classes: ["merchant"],
     viewPermission: CONST.DOCUMENT_OWNERSHIP_LEVELS.NONE,
     sheetConfig: false,
-    position: {
-      width: 1000,
-      height: 1000,
-    },
     actions: {
       configure: MerchantSheet.#configure,
       checkout: MerchantSheet.#checkout,
