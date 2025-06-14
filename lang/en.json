@@ -170,6 +170,11 @@
         "enable": "Enable Effect",
         "disable": "Disable Effect",
         "duplicate": "Duplicate Effect"
+      },
+      "REQUIREMENT": {
+        "render": "Edit Requirement",
+        "delete": "Delete Requirement",
+        "duplicate": "Duplicate Requirement"
       }
     },
 

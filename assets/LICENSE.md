@@ -35,6 +35,7 @@ assets/icons/skills/agility.svg - "Frayed Arrow" by Lorc under CC BY 3.0
 assets/icons/skills/brawn.svg - "Biceps" by Delapouite under CC BY 3.0
 assets/icons/skills/mind.svg - "Triton Head" by Lorc under CC BY 3.0
 assets/icons/skills/spirit.svg - "Spark Spirit" by Lorc under CC BY 3.0
+assets/icons/pseudo/armor-requirement.svg - "Armor Blueprint" by SeregaCthtuf under CC BY 3.0
 
 #
 

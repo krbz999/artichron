@@ -37,7 +37,7 @@ export default class ArmorData extends ItemSystemModel {
       }),
 
       defenses: new SchemaField(artichron.config.DAMAGE_TYPES.optgroups.reduce((acc, { value: k }) => {
-        acc[k] = new SchemaField({ value: new NumberField({ integer: true, initial: null }) });
+        acc[k] = new SchemaField({ value: new NumberField({ integer: true, initial: 0, nullable: false }) });
         return acc;
       }, {})),
 

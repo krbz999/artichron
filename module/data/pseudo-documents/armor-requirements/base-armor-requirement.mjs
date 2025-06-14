@@ -6,6 +6,7 @@ export default class BaseArmorRequirement extends TypedPseudoDocument {
     return {
       ...super.metadata,
       documentName: "ArmorRequirement",
+      defaultImage: "systems/artichron/assets/icons/pseudo/armor-requirement.svg",
       embedded: {},
       hint: "",
       types: artichron.data.pseudoDocuments.armorRequirements,

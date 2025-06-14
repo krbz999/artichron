@@ -51,36 +51,31 @@ export default class ArmorSheet extends PhysicalItemSheet {
   async _preparePartContextDetails(context, options) {
     context = await super._preparePartContextDetails(context, options);
 
-    // Resistances
+    // Defenses.
+    const defenses = context.ctx.defenses = [];
     const field = this.document.system.schema.getField("defenses");
-    const defenses = {
-      legend: field.label,
-      values: [],
-    };
     for (const k of field) {
-      const value = foundry.utils.getProperty(
-        context.isEditMode ? context.source : context.document,
-        k.fields.value.fieldPath,
-      );
-      defenses.values.push({
-        ...artichron.config.DAMAGE_TYPES[k.name],
+      const { label, icon, color } = artichron.config.DAMAGE_TYPES[k.name];
+      const src = this.document.system.defenses[k.name].value;
+      defenses.push({
+        label, icon, color,
+        disabled: !(context.editable && context.isEditMode),
+        value: context.isEditMode ? (!src ? null : src) : this.document.system.defenses[k.name].value,
         field: k.fields.value,
-        value: context.isPlayMode ? (value ?? 0) : (value ? value : null),
-        active: context.isEditMode || !!value,
       });
     }
 
-    // Armor requirements
-    const requirements = [];
+    // Armor requirements.
+    const requirements = context.ctx.requirements = [];
     for (const r of this.document.system.category.requirements) {
+      if (this.isEditMode && !r.isSource) continue;
       requirements.push({
-        disabled: !r.isSource,
-        requirement: r,
+        document: r,
         hint: game.i18n.localize(r.constructor.metadata.hint),
       });
     }
 
-    Object.assign(context.ctx, { isArmor: true, defenses, requirements });
+    Object.assign(context.ctx, { isArmor: true });
 
     return context;
   }
