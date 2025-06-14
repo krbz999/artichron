@@ -286,7 +286,7 @@ export default class CreatureData extends ActorSystemModel {
       parts.push({
         parts: [part.formula],
         damageType: part.damageType,
-        damageTypes: part.damageTypes,
+        damageTypes: [...part.damageTypes],
       });
     }
     return parts;

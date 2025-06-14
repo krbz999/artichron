@@ -60,11 +60,16 @@ export default class DamageRollFlowDialog extends Application {
     const ctx = context.ctx = { formulas: [] };
 
     for (const [i, rollConfig] of this.#flow.rolls.entries()) {
-      ctx.formulas.push({
+      const rollData = {
         formula: rollConfig.formula,
         damageType: artichron.config.DAMAGE_TYPES[rollConfig.damageType]?.label ?? rollConfig.damageType,
+        damageTypes: Array.from(rollConfig.options.damageTypes)
+          .filter(type => type in artichron.config.DAMAGE_TYPES)
+          .map(type => ({ value: type, label: artichron.config.DAMAGE_TYPES[type].label })),
         index: i,
-      });
+      };
+      rollData.damageOptions = rollData.damageTypes.length > 1;
+      ctx.formulas.push(rollData);
     }
 
     return context;
@@ -85,15 +90,18 @@ export default class DamageRollFlowDialog extends Application {
   _processSubmitData(event, form, formData, submitOptions) {
     formData = super._processSubmitData(event, form, formData, submitOptions);
     for (const [k, v] of Object.entries(formData.bonus)) {
-      if (!v) continue;
-      if (!foundry.dice.Roll.validate(v)) continue;
       const roll = this.#flow.rolls[k];
-      const terms = [
-        ...roll.terms,
-        new foundry.dice.terms.OperatorTerm({ operator: "+" }),
-        ...new foundry.dice.Roll(v).terms,
-      ];
-      this.#flow.rolls[k] = artichron.dice.rolls.DamageRoll.fromTerms(terms, roll.options);
+      const terms = [...roll.terms];
+
+      if (v && foundry.dice.Roll.validate(v)) {
+        terms.push(
+          new foundry.dice.terms.OperatorTerm({ operator: "+" }),
+          ...new foundry.dice.Roll(v).terms,
+        );
+      }
+
+      const damageType = formData.damageType[k] ?? roll.options.damageType;
+      this.#flow.rolls[k] = artichron.dice.rolls.DamageRoll.fromTerms(terms, { ...roll.options, damageType });
     }
 
     return true;

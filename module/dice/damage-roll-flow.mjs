@@ -66,7 +66,7 @@ export default class DamageRollFlow {
       const roll = new artichron.dice.rolls.DamageRoll(
         rollConfig.parts.join(" + "),
         this.#config.rollData,
-        { damageType: rollConfig.damageType },
+        { damageType: rollConfig.damageType, damageTypes: rollConfig.damageTypes },
       );
       rolls.push(roll);
     }
