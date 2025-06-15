@@ -1,40 +1,36 @@
 <section class="tab {{tabs.details.cssClass}}" data-group="{{tabs.details.group}}" data-tab="{{tabs.details.id}}">
   {{formInput systemFields.attributes.fields.value value=ctx.attributes options=ctx.attrOptions type="checkboxes" disabled=isPlayMode}}
 
-  <section class="configuration">
-    <h3 class="section-header">{{localize "ARTICHRON.SHEET.ITEM.HEADERS.configuration"}}</h3>
-    {{formGroup systemFields.price.fields.value value=(ifThen isPlayMode document.system.price.value source.system.price.value) disabled=isPlayMode}}
-    {{formGroup systemFields.weight.fields.value value=(ifThen isPlayMode document.system.weight.value source.system.weight.value) disabled=isPlayMode}}
+  <h3 class="section-header">{{localize "ARTICHRON.SHEET.ITEM.HEADERS.configuration"}}</h3>
+  {{formGroup systemFields.price.fields.value value=(ifThen isPlayMode document.system.price.value source.system.price.value) disabled=isPlayMode}}
+  {{formGroup systemFields.weight.fields.value value=(ifThen isPlayMode document.system.weight.value source.system.weight.value) disabled=isPlayMode}}
 
-    {{#if systemFields.quantity}}
-    {{formGroup systemFields.quantity.fields.value value=(ifThen isPlayMode document.system.quantity.value source.system.quantity.value) disabled=isPlayMode}}
-    {{/if}}
-  </section>
+  {{#if systemFields.quantity}}
+  {{formGroup systemFields.quantity.fields.value value=(ifThen isPlayMode document.system.quantity.value source.system.quantity.value) disabled=isPlayMode}}
+  {{/if}}
 
   {{#if ctx.isArmor}}
-  <section class="defenses">
-    <h3 class="section-header">{{localize "ARTICHRON.SHEET.ARMOR.HEADERS.defenses"}}</h3>
+  <h3 class="section-header">{{localize "ARTICHRON.SHEET.ARMOR.HEADERS.defenses"}}</h3>
 
-    <div class="form-group">
-      {{#each ctx.defenses}}
-      <div class="form-group label-top" data-tooltip-text="{{label}}">
-        <label style="color: #{{color}};">
-          <i class="fa-fw {{icon}}"></i>
-        </label>
-        <div class="form-fields">
-          {{formInput field value=value disabled=(not (and @root.editable @root.isEditMode)) placeholder="0"}}
-        </div>
+  <div class="form-group">
+    {{#each ctx.defenses}}
+    <div class="form-group label-top" data-tooltip-text="{{label}}">
+      <label style="color: #{{color}};">
+        <i class="fa-fw {{icon}}"></i>
+      </label>
+      <div class="form-fields">
+        {{formInput field value=value disabled=(not (and @root.editable @root.isEditMode)) placeholder="0"}}
       </div>
-      {{/each}}
     </div>
-  </section>
+    {{/each}}
+  </div>
 
   <div class="document-list armor-requirements" data-pseudo-document-name="ArmorRequirement">
     <h3 class="document-list-header">
       <span>{{localize "ARTICHRON.SHEET.ARMOR.HEADERS.requirements"}}</span>
       <button type="button" class="create-document icon fa-fw fa-solid" data-action="createPseudoDocument" {{disabled (not editable)}}></button>
     </h3>
-    {{document-list-entries documents=ctx.requirements classes="compact"}}
+    {{document-list-entries documents=ctx.requirements classes=""}}
   </div>
   {{/if}}
 </section>

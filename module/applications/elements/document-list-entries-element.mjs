@@ -32,7 +32,7 @@ export default class DocumentListEntriesElement extends HTMLElement {
       "document-list-entries",
       ...Array.isArray(options.classes)
         ? options.classes
-        : options.classes?.split(" ") ?? [],
+        : options.classes?.split(" ").filter(_ => _) ?? [],
     ]);
     for (const cls of classes) {
       element.classList.add(cls);
