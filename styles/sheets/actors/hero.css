@@ -1,63 +1,30 @@
 .artichron.application.sheet.actor.hero {
-  .skills {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-    gap: 0.5rem;
-
-    .skill-entry {
-      aspect-ratio: 1;
-      display: flex;
-
-      .skill {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-
-        &:hover {
-          backdrop-filter: blur(0);
-        }
-      }
-    }
-  }
-
   .encumbrance {
+    --encumbrance-height: 1.25rem;
     position: fixed;
     position-anchor: --sheet-window-content;
-    top: anchor(bottom);
+    bottom: anchor(bottom);
     left: anchor(left);
     right: anchor(right);
-    height: calc(0.75 * var(--header-height));
-    transition: height 200ms ease;
-    border-radius: 0 0 10px 10px;
-    border: 3px hsl(from var(--artichron-color-gold) 0 s l / 1) solid;
-    border-top: none;
+    height: var(--encumbrance-height);
+    border-radius: .5rem;
+    border: 1px var(--artichron-color-umber) solid;
     overflow: hidden;
-    margin: 0 1rem 0;
-    background-color: hsl(from var(--artichron-color-gold) h s l / 0.5);
-    display: flex;
+    margin: 0.5rem 1rem;
     align-items: center;
+    backdrop-filter: blur(4px);
+    text-align: center;
 
-    &:hover {
-      height: var(--header-height);
-    }
-
-    .values {
-      color: white;
-      text-align: center;
-      width: 100%;
-    }
-
-    .bar {
+    &::before {
+      content: "";
       position: absolute;
-      top: 0;
-      bottom: 0;
-      left: 0;
-      z-index: -1;
+      inset: 0;
+      width: var(--bar-width);
       background: linear-gradient(
         to right,
-        rgb(25, 25, 0) 15%,
-        rgb(100, 60, 0) 50%,
-        rgb(200, 120, 0) 100%
+        var(--artichron-color-encumbrance-low) 15%,
+        var(--artichron-color-encumbrance-mid) 50%,
+        var(--artichron-color-encumbrance-high) 100%
       )
     }
   }

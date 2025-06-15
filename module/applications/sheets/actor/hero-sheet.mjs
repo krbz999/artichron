@@ -57,9 +57,6 @@ export default class HeroSheet extends ActorSheetArtichron {
       classes: ["scrollable"],
       scrollable: [""],
     },
-    encumbrance: {
-      template: "systems/artichron/templates/sheets/actor/hero/encumbrance.hbs",
-    },
   };
 
   /* -------------------------------------------------- */
@@ -212,17 +209,22 @@ export default class HeroSheet extends ActorSheetArtichron {
 
   /** @type {import("../../../_types").ContextPartHandler} */
   async _preparePartContextInventory(context, options) {
-    context.ctx = {
+    const ctx = context.ctx = {
       items: [],
       searchQuery: this.#searchQuery,
     };
 
+    // Encumbrance.
+    const enc = this.document.system.encumbrance;
+    ctx.encumbrance = Math.round(Math.clamp(enc.value / enc.max, 0, 1) * 100);
+
+    // Inventory.
     for (const item of this.document.items) {
       if (item.type === "path") continue;
       if (item.type === "talent") continue;
-      context.ctx.items.push({ document: item, dataset: { name: item.name }, classes: ["draggable"] });
+      ctx.items.push({ document: item, dataset: { name: item.name }, classes: ["draggable"] });
     }
-    context.ctx.items.sort((a, b) => artichron.utils.nameSort(a, b, "document"));
+    ctx.items.sort((a, b) => artichron.utils.nameSort(a, b, "document"));
 
     return context;
   }
@@ -236,17 +238,6 @@ export default class HeroSheet extends ActorSheetArtichron {
         this.document.system.biography.value,
         { relativeTo: this.document, rollData: this.document.getRollData() },
       ),
-    };
-    return context;
-  }
-
-  /* -------------------------------------------------- */
-
-  /** @type {import("../../../_types").ContextPartHandler} */
-  async _preparePartContextEncumbrance(context, options) {
-    const enc = this.document.system.encumbrance;
-    context.ctx = {
-      encumbrance: Math.round(Math.clamp(enc.value / enc.max, 0, 1) * 100),
     };
     return context;
   }
@@ -278,14 +269,8 @@ export default class HeroSheet extends ActorSheetArtichron {
       newBar.animate(frames, { duration: 1000, easing: "ease-in-out" });
     }
 
-    else if (partId === "encumbrance") {
-      const oldBar = priorElement.querySelector(".encumbrance .bar");
-      const newBar = newElement.querySelector(".encumbrance .bar");
-      const frames = [{ width: oldBar.style.width }, { width: newBar.style.width }];
-      newBar.animate(frames, { duration: 1000, easing: "ease-in-out" });
-    }
-
     else if (partId === "inventory") {
+      // Restore search.
       this.#onSearchFilter(this.#searchQuery, newElement);
     }
   }

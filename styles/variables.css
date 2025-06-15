@@ -41,6 +41,11 @@
   --artichron-color-health-mid: hsl(from var(--artichron-color-redwine) h s 20);
   --artichron-color-health-high: hsl(from var(--artichron-color-redwine) h s 30);
 
+  /* ENCUMBRANCE */
+  --artichron-color-encumbrance-low: hsl(from var(--artichron-color-orange) h s 10);
+  --artichron-color-encumbrance-mid: hsl(from var(--artichron-color-orange) h s 20);
+  --artichron-color-encumbrance-high: hsl(from var(--artichron-color-orange) h s 30);
+
   /* UI */
   --artichron-color-border: var(--artichron-color-blue-light);
   --artichron-color-quotes: var(--artichron-color-cotton);
