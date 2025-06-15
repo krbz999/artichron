@@ -201,7 +201,8 @@
       "loot": "Loot",
       "conditions": "Conditions",
       "activeBuffs": "Active Buffs",
-      "inactiveBuffs": "Inactive Buffs"
+      "inactiveBuffs": "Inactive Buffs",
+      "pool": "Pool"
     }
   },
 

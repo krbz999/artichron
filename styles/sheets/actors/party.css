@@ -143,11 +143,9 @@
               z-index: -1;
               position: absolute;
               content: "";
-              bottom: 0;
-              left: 0;
+              inset: 0;
               right: calc(100% - var(--hp));
-              height: 100%;
-              background: linear-gradient(to right, rgba(255, 0, 0, 0.25) 0%, rgba(255, 0, 0, 0.5) 50%, rgba(255, 0, 0, 0.75) 100%);
+              background: linear-gradient(to right, var(--artichron-color-health-low) 0%, var(--artichron-color-health-mid) 50%, var(--artichron-color-health-high) 100%);
               border-radius: inherit;
             }
           }
@@ -179,19 +177,19 @@
 
             .health::before {
               right: calc(100% - var(--health));
-              background: rgb(200, 75, 75);
+              background: var(--artichron-color-pool-health);
             }
             .stamina::before {
               right: calc(100% - var(--stamina));
-              background: rgb(75, 150, 75);
+              background: var(--artichron-color-pool-stamina);
             }
             .mana::before {
               right: calc(100% - var(--mana));
-              background: rgb(75, 75, 250);
+              background: var(--artichron-color-pool-mana);
             }
             .danger::before {
               right: calc(100% - var(--danger));
-              background: rgb(129, 32, 255);
+              background: var(--artichron-color-pool-danger);
             }
           }
         }

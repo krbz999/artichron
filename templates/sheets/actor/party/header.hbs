@@ -1,12 +1,10 @@
 <section class="header">
-  <section class="details">
-    {{!-- NAME --}}
-    {{#if (and isEditMode editable)}}
-    {{formInput fields.name value=source.name placeholder=(localize "Name")}}
-    {{else}}
-    <h1 class="name">{{document.name}}</h1>
-    {{/if}}
-  </section>
+  {{!-- NAME --}}
+  {{#if (and isEditMode editable)}}
+  {{formInput fields.name value=source.name placeholder=(localize "Name") classes="name"}}
+  {{else}}
+  <h1 class="name">{{document.name}}</h1>
+  {{/if}}
 
   {{!-- AVATAR --}}
   <section class="avatar glass">
