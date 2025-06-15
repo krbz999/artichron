@@ -1,9 +1,10 @@
 .artichron.application.sheet.actor {
   --min-height: 320px;
+  --min-width: 400px;
 
   &:not(.minimizing, .minimized, .maximizing) {
     min-height: var(--min-height);
-    min-width: 400px;
+    min-width: var(--min-width);
   }
 
   .health-bar {

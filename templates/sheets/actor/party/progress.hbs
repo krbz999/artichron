@@ -8,33 +8,29 @@
     </h3>
   </div>
 
-  <section class="clocks scrollable {{ifThen isEditMode 'edit' 'play'}}" data-pseudo-document-name="Clock">
-    {{#if isEditMode}}
-    {{#each ctx.clocks}}
-    <div class="form-group" data-pseudo-id="{{clock.id}}">
-      <div class="form-fields">
-        {{formGroup fields.name value=source.name classes="name label-top" placeholder=(localize (concat "TYPES.Clock." clock.type)) name=(concat "system.clocks." clock.id ".name")}}
-        {{formGroup fields.value value=clock.value classes="value label-top" placeholder="0" name=(concat "system.clocks." clock.id ".value")}}
-        {{formGroup fields.max value=source.max classes="max label-top" placeholder="8" name=(concat "system.clocks." clock.id ".max")}}
-        {{formGroup fields.color value=source.color classes="color label-top" placeholder=colorPlaceholder name=(concat "system.clocks." clock.id ".color")}}
-        <button type="button" class="icon fa-solid fa-trash fa-fw" data-action="deletePseudoDocument"></button>
-      </div>
-    </div>
-    {{/each}}
-    {{else}}
+  <section class="clocks scrollable" data-pseudo-document-name="Clock">
     {{#each ctx.clocks}}
     <div class="clock" data-pseudo-id="{{clock.id}}">
-      <button type="button" data-delta="up" data-action="clockDelta" {{disabled disableUp}}>
-        <i class="fa-solid fa-chevron-up"></i>
-      </button>
-      {{progressClock value=clock.value max=clock.max color=clock.color}}
-      <button type="button" data-delta="down" data-action="clockDelta" {{disabled disableDown}}>
-        <i class="fa-solid fa-chevron-down"></i>
-      </button>
-      <label class="name">{{clock.name}}</label>
+      <div class="control">
+        {{progressClock value=clock.value max=clock.max color=clock.color}}
+
+        <div class="controls">
+          <button type="button" data-delta="up" data-action="clockDelta" {{disabled disableUp}}>
+            <i class="fa-solid fa-chevron-up"></i>
+          </button>
+          <button type="button" data-delta="down" data-action="clockDelta" {{disabled disableDown}}>
+            <i class="fa-solid fa-chevron-down"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="details">
+        <h3 class="section-header">{{clock.name}}</h3>
+        <div class="description">{{{enriched}}}</div>
+      </div>
     </div>
+    {{#unless @last}}<hr>{{/unless}}
     {{/each}}
-    {{/if}}
   </section>
 
   {{/if}}

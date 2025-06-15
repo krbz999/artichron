@@ -190,27 +190,19 @@ export default class PartySheet extends ActorSheetArtichron {
 
   /** @type {import("../../../_types").ContextPartHandler} */
   async _preparePartContextProgress(context, options) {
-    context.ctx = {
-      clocks: [],
-    };
+    const ctx = context.ctx = { clocks: [] };
 
-    const clocks = context.isEditMode ? this.document.system.clocks.sourceContents : this.document.system.clocks;
+    const clocks = this.document.getEmbeddedPseudoDocumentCollection("Clock");
+    const enrichOptions = { rollData: this.document.getRollData(), relativeTo: this.document };
+
     for (const clock of clocks) {
-      if (context.isPlayMode) {
-        context.ctx.clocks.push({
-          clock,
-          disableUp: clock.isFull,
-          disableDown: clock.isEmpty,
-          hue: clock.color.rgb.map(k => k * 255).join(", "),
-        });
-      } else {
-        context.ctx.clocks.push({
-          clock,
-          fields: clock.schema.fields,
-          source: clock._source,
-          colorPlaceholder: clock.constructor.metadata.color,
-        });
-      }
+      ctx.clocks.push({
+        clock,
+        disableUp: clock.isFull || !context.editable,
+        disableDown: clock.isEmpty || !context.editable,
+        hue: clock.color.rgb.map(k => k * 255).join(", "),
+        enriched: await foundry.applications.ux.TextEditor.implementation.enrichHTML(clock.description, enrichOptions),
+      });
     }
 
     return context;

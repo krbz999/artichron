@@ -1,7 +1,7 @@
 progress-clock {
   position: relative;
   border-radius: 50%;
-  margin: 1rem auto;
+  margin: 1rem;
   box-shadow: 0 0 5px 5px rgba(var(--color), 0.75);
   justify-content: center;
   display: flex;

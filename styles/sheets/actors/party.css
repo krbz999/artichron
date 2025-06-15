@@ -1,4 +1,7 @@
 .artichron.application.sheet.party {
+  --min-width: 700px;
+  --min-height: 800px;
+
   :is(.awards, .funds) .form-group {
     label {
       display: flex;
@@ -210,50 +213,22 @@
   }
 
   .clocks {
-    padding-left: 0.5em;
-  }
-
-  .clocks.play {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 1em;
-
     .clock {
+      gap: 1rem;
       display: grid;
+      grid-template-columns: 0fr 1fr;
 
-      & progress-clock {
-        width: 100%;
-        max-height: unset;
-      }
+      .control {
+        display: inherit;
+        grid-template-columns: 1fr 0fr;
+        height: 10rem;
 
-      .name {
-        text-align: center;
-        display: block;
-        padding: 0.5rem 0;
-        font-size: 14px;
-        color: var(--artichron-color-gold);
-        font-style: italic;
-        overflow: hidden;
-        white-space: nowrap;
+        .controls {
+          display: grid;
+          gap: 0.5rem;
+          align-content: center;
+        }
       }
     }
-  }
-
-  .clocks.edit {
-    > .form-group {
-      padding-top: 0.5em;
-      padding-bottom: 0.5em;
-    }
-
-    .name { flex: 3; }
-    .value, .max { flex: 1; }
-    .color {
-      flex: 2;
-      & input[type=color] {
-        max-width: var(--input-height);
-        height: var(--input-height);
-      }
-    }
-    .controls { place-self: end; }
   }
 }
