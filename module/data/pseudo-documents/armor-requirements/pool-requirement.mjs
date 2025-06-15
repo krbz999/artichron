@@ -9,29 +9,14 @@ export default class PoolRequirement extends BaseArmorRequirement {
       pool: new StringField({
         required: true,
         initial: "stamina",
-        choices: artichron.config.POOL_TYPES,
+        choices: () => artichron.config.POOL_TYPES,
       }),
-      value: new NumberField({
-        min: 2,
-        initial: 2,
-        integer: true,
-        nullable: false,
-        placeholder: "ARTICHRON.ITEM.REQUIREMENT.Pool.FIELDS.value.placeholder",
-      }),
+      value: new NumberField({ min: 2, initial: 2, integer: true, nullable: false }),
     });
   }
 
   /* -------------------------------------------------- */
   /*   Properties                                       */
-  /* -------------------------------------------------- */
-
-  /** @inheritdoc */
-  static get metadata() {
-    return foundry.utils.mergeObject(super.metadata, {
-      hint: "ARTICHRON.ITEM.REQUIREMENT.Pool.hint",
-    });
-  }
-
   /* -------------------------------------------------- */
 
   /** @inheritdoc */
@@ -43,16 +28,17 @@ export default class PoolRequirement extends BaseArmorRequirement {
 
   /** @inheritdoc */
   static LOCALIZATION_PREFIXES = [
-    "ARTICHRON.ITEM.ArmorRequirement",
-    "ARTICHRON.ITEM.REQUIREMENT.Pool",
+    ...super.LOCALIZATION_PREFIXES,
+    "ARTICHRON.REQUIREMENT.POOL",
   ];
 
   /* -------------------------------------------------- */
 
   /** @inheritdoc */
   get fulfilledRequirements() {
-    if (this.item.actor?.type !== "hero") return true;
-    return this.item.actor.system.pools[this.pool].max >= this.value;
+    const actor = this.document.actor;
+    if (actor?.type !== "hero") return true;
+    return actor.system.pools[this.pool].max >= this.value;
   }
 
   /* -------------------------------------------------- */
@@ -61,9 +47,9 @@ export default class PoolRequirement extends BaseArmorRequirement {
 
   /** @inheritdoc */
   toRequirement() {
-    return game.i18n.format("ARTICHRON.ITEM.REQUIREMENT.Pool.content", {
-      value: this.value,
+    return game.i18n.format("ARTICHRON.REQUIREMENT.POOL.content", {
       pool: artichron.config.POOL_TYPES[this.pool].label,
+      value: this.value,
     });
   }
 }

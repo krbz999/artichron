@@ -22,11 +22,6 @@ export default class DamageSheet extends PseudoDocumentSheet {
 
   /* -------------------------------------------------- */
 
-  /** @inheritdoc */
-  static TABS = {};
-
-  /* -------------------------------------------------- */
-
   /** @type {import("../../../_types").ContextPartHandler} */
   async _preparePartContextDamage(context, options) {
     const ctx = context.ctx = {};

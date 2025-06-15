@@ -38,16 +38,6 @@ export default class PseudoDocumentSheet extends ArtichronApplicationMixin(Appli
 
   /* -------------------------------------------------- */
 
-  /** @inheritdoc */
-  static PARTS = {};
-
-  /* -------------------------------------------------- */
-
-  /** @inheritdoc */
-  static TABS = {};
-
-  /* -------------------------------------------------- */
-
   /**
    * Registered sheets.
    * @type {Map<foundry.abstract.Document, Map<string, PseudoDocumentSheet>>}

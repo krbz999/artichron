@@ -1,0 +1,33 @@
+<section class="standard-form">
+  {{formGroup fields.name value=source.name placeholder=(localize (concat "TYPES.ArmorRequirement." pseudoDocument.type)) name="name"}}
+  {{formGroup fields.img value=source.img placeholder=pseudoDocument.constructor.metadata.defaultImage name="img"}}
+
+  <div class="form-group">
+    <label>{{localize "ARTICHRON.SHEET.REQUIREMENT.HEADERS.requirement"}}</label>
+    <div class="form-fields">
+      {{!-- HEALTH --}}
+      {{#if (eq pseudoDocument.type "health")}}
+      {{formGroup fields.value value=source.value placeholder="0" name="value" classes="label-top"}}
+      {{/if}}
+
+      {{!-- LEVEL --}}
+      {{#if (eq pseudoDocument.type "level")}}
+      {{formGroup fields.value value=source.value name="value" placeholder="0" classes="label-top"}}
+      {{/if}}
+
+      {{!-- POOL --}}
+      {{#if (eq pseudoDocument.type "pool")}}
+      {{formGroup fields.value value=source.value name="value" placeholder="2" classes="label-top"}}
+      {{formGroup fields.pool value=source.pool name="pool" classes="label-top"}}
+      {{/if}}
+
+      {{!-- SKILL --}}
+      {{#if (eq pseudoDocument.type "skill")}}
+      {{formGroup fields.value value=source.value name="value" placeholder="2" classes="label-top"}}
+      {{formGroup fields.skill value=source.skill name="skill" classes="label-top"}}
+      {{/if}}
+    </div>
+    <p class="hint">{{ctx.requirement}}</p>
+  </div>
+
+</section>

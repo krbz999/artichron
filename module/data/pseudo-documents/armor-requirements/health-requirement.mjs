@@ -4,23 +4,9 @@ const { NumberField } = foundry.data.fields;
 
 export default class HealthRequirement extends BaseArmorRequirement {
   /** @inheritdoc */
-  static get metadata() {
-    return foundry.utils.mergeObject(super.metadata, {
-      hint: "ARTICHRON.ITEM.REQUIREMENT.Health.hint",
-    });
-  }
-
-  /* -------------------------------------------------- */
-  /** @inheritdoc */
   static defineSchema() {
     return Object.assign(super.defineSchema(), {
-      value: new NumberField({
-        min: 0,
-        initial: 0,
-        integer: true,
-        nullable: false,
-        placeholder: "ARTICHRON.ITEM.REQUIREMENT.Health.FIELDS.value.placeholder",
-      }),
+      value: new NumberField({ min: 0, integer: true }),
     });
   }
 
@@ -35,16 +21,17 @@ export default class HealthRequirement extends BaseArmorRequirement {
 
   /** @inheritdoc */
   static LOCALIZATION_PREFIXES = [
-    "ARTICHRON.ITEM.ArmorRequirement",
-    "ARTICHRON.ITEM.REQUIREMENT.Health",
+    ...super.LOCALIZATION_PREFIXES,
+    "ARTICHRON.REQUIREMENT.HEALTH",
   ];
 
   /* -------------------------------------------------- */
 
   /** @inheritdoc */
   get fulfilledRequirements() {
-    if (this.item.actor?.type !== "hero") return true;
-    return this.item.actor.system.health.value >= this.value;
+    const actor = this.document?.actor;
+    if (actor?.type !== "hero") return true;
+    return actor.system.health.value >= this.value;
   }
 
   /* -------------------------------------------------- */
@@ -53,8 +40,8 @@ export default class HealthRequirement extends BaseArmorRequirement {
 
   /** @inheritdoc */
   toRequirement() {
-    return game.i18n.format("ARTICHRON.ITEM.REQUIREMENT.Health.content", {
-      value: this.value,
+    return game.i18n.format("ARTICHRON.REQUIREMENT.HEALTH.content", {
+      value: this.value ?? 0,
     });
   }
 }

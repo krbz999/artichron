@@ -10,8 +10,16 @@ export default class BaseArmorRequirement extends TypedPseudoDocument {
       embedded: {},
       hint: "",
       types: artichron.data.pseudoDocuments.armorRequirements,
+      sheetClass: artichron.applications.sheets.pseudo.ArmorRequirementSheet,
     };
   }
+
+  /* -------------------------------------------------- */
+
+  /** @inheritdoc */
+  static LOCALIZATION_PREFIXES = [
+    "ARTICHRON.REQUIREMENT",
+  ];
 
   /* -------------------------------------------------- */
 

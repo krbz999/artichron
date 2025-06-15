@@ -13,7 +13,9 @@ export default class AdvancementSheet extends PseudoDocumentSheet {
 
   /** @inheritdoc */
   static PARTS = {
-    ...super.PARTS,
+    tabs: {
+      template: "templates/generic/tab-navigation.hbs",
+    },
     identity: {
       template: "systems/artichron/templates/sheets/pseudo/advancement/identity.hbs",
       classes: ["tab", "standard-form"],
@@ -21,6 +23,20 @@ export default class AdvancementSheet extends PseudoDocumentSheet {
     details: {
       template: "systems/artichron/templates/sheets/pseudo/advancement/details.hbs",
       classes: ["tab", "standard-form"],
+    },
+  };
+
+  /* -------------------------------------------------- */
+
+  /** @inheritdoc */
+  static TABS = {
+    primary: {
+      tabs: [
+        { id: "identity", icon: "fa-solid fa-tag" },
+        { id: "details", icon: "fa-solid fa-pen-fancy" },
+      ],
+      initial: "identity",
+      labelPrefix: "ARTICHRON.SHEET.TABS",
     },
   };
 

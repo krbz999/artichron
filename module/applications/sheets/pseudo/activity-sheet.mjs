@@ -13,12 +13,28 @@ export default class ActivitySheet extends PseudoDocumentSheet {
 
   /** @inheritdoc */
   static PARTS = {
-    ...super.PARTS,
+    tabs: {
+      template: "templates/generic/tab-navigation.hbs",
+    },
     identity: {
       template: "systems/artichron/templates/sheets/pseudo/activity/identity.hbs",
     },
     details: {
       template: "systems/artichron/templates/sheets/pseudo/activity/details.hbs",
+    },
+  };
+
+  /* -------------------------------------------------- */
+
+  /** @inheritdoc */
+  static TABS = {
+    primary: {
+      tabs: [
+        { id: "identity", icon: "fa-solid fa-tag" },
+        { id: "details", icon: "fa-solid fa-pen-fancy" },
+      ],
+      initial: "identity",
+      labelPrefix: "ARTICHRON.SHEET.TABS",
     },
   };
 

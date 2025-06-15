@@ -86,6 +86,20 @@
 },
 "ARTICHRON": {
 "SHEET": {
+  "ACTIVITY": {
+    "title": "Activity: {name}",
+    "formula": "Formula",
+    "HEADERS": {
+      "identity": "Identity",
+      "configuration": "Configuration",
+      "targeting": "Targeting",
+      "defend": "Defending",
+      "effects": "Effects",
+      "healing": "Healing",
+      "teleport": "Teleportation"
+    }
+  },
+
   "ACTOR": {
     "Base": "Artichron Actor Sheet",
     "Hero": "Artichron Hero Sheet",
@@ -229,17 +243,9 @@
     }
   },
 
-  "ACTIVITY": {
-    "title": "Activity: {name}",
-    "formula": "Formula",
+  "REQUIREMENT": {
     "HEADERS": {
-      "identity": "Identity",
-      "configuration": "Configuration",
-      "targeting": "Targeting",
-      "defend": "Defending",
-      "effects": "Effects",
-      "healing": "Healing",
-      "teleport": "Teleportation"
+      "requirement": "Requirement"
     }
   },
 
@@ -250,11 +256,13 @@
       "optional": "Optional"
     }
   },
+
   "SPELL": {
     "HEADERS": {
       "activities": "Activities"
     }
   },
+
   "TABS": {
     "actions": "Actions",
     "activities": "Activities",
@@ -797,66 +805,6 @@
     }
   },
 
-  "REQUIREMENT": {
-    "FIELDS": {
-      "type": {
-        "hint": "The type of armor requirement.",
-        "label": "Type"
-      }
-    },
-    "Health": {
-      "content": "At least {value} remaining health.",
-      "FIELDS": {
-        "value": {
-          "hint": "The amount of health this character must have remaining.",
-          "label": "Health",
-          "placeholder": "Health"
-        }
-      },
-      "hint": "The character must have this amount of health remaining to gain the benefits of wearing this armor."
-    },
-    "Level": {
-      "content": "Attained at least {value} level.",
-      "FIELDS": {
-        "value": {
-          "hint": "The level of experience the character must have attained.",
-          "label": "Experience"
-        }
-      },
-      "hint": "The character must have attained at least this level of experience to gain the benefits of wearing this armor."
-    },
-    "Pool": {
-      "content": "{pool} pool size of at least {value}.",
-      "FIELDS": {
-        "pool": {
-          "hint": "The pool that must be at least the given size.",
-          "label": "Pool"
-        },
-        "value": {
-          "hint": "The pool size that must be met or exceeded.",
-          "label": "Value",
-          "placeholder": "Size"
-        }
-      },
-      "hint": "The character's pool of the given type must be at least this large to gain the benefits of wearing this armor."
-    },
-    "Skill": {
-      "content": "At least {value} dice in the {skill} skill.",
-      "FIELDS": {
-        "skill": {
-          "hint": "The skill that must have the given number of dice.",
-          "label": "Skill"
-        },
-        "value": {
-          "hint": "The skill dice amount that must be met.",
-          "label": "Value",
-          "placeholder": "Dice"
-        }
-      },
-      "hint": "The character must have this many dice in the given skill to gain the benefits of wearing this armor."
-    }
-  },
-
   "FIELDS": {
     "attributes": {
       "label": "Attributes",
@@ -1030,6 +978,55 @@
   "checkout": "Checkout",
   "receipt": "Receipt",
   "summary": "The members of {name} spent {total} at {shop} on the following items:"
+},
+
+"REQUIREMENT": {
+  "FIELDS": {
+    "name": {
+      "label": "Name"
+    },
+    "img": {
+      "label": "Image"
+    }
+  },
+  "HEALTH": {
+    "content": "You must have at least {value} health remaining.",
+    "FIELDS": {
+      "value": {
+        "label": "Health"
+      }
+    }
+  },
+  "LEVEL": {
+    "content": "You must have invested at least {value} points in your paths.",
+    "FIELDS": {
+      "value": {
+        "label": "Investment"
+      }
+    }
+  },
+  "POOL": {
+    "content": "Your {pool} pool must contain at least {value} dice.",
+    "FIELDS": {
+      "pool": {
+        "label": "Pool"
+      },
+      "value": {
+        "label": "Size"
+      }
+    }
+  },
+  "SKILL": {
+    "content": "Your {skill} skill must be at least of size {value}.",
+    "FIELDS": {
+      "skill": {
+        "label": "Skill"
+      },
+      "value": {
+        "label": "Size"
+      }
+    }
+  }
 },
 
 "REGION": {
