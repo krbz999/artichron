@@ -122,6 +122,14 @@
     }
   },
 
+  "CLOCK": {
+    "HEADERS": {
+      "identity": "Identity",
+      "details": "Details",
+      "progress": "Progress"
+    }
+  },
+
   "EFFECT": {
     "Base": "Artichron ActiveEffect Sheet"
   },

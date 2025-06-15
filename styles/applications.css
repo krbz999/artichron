@@ -102,6 +102,10 @@
   .form-group .form-fields button.icon {
     align-self: flex-end;
   }
+
+  color-picker {
+    gap: .5rem;
+  }
 }
 
 /* -------------------------------------------------- */

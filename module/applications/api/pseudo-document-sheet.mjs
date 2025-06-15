@@ -39,25 +39,12 @@ export default class PseudoDocumentSheet extends ArtichronApplicationMixin(Appli
   /* -------------------------------------------------- */
 
   /** @inheritdoc */
-  static PARTS = {
-    tabs: {
-      template: "templates/generic/tab-navigation.hbs",
-    },
-  };
+  static PARTS = {};
 
   /* -------------------------------------------------- */
 
   /** @inheritdoc */
-  static TABS = {
-    primary: {
-      tabs: [
-        { id: "identity", icon: "fa-solid fa-tag" },
-        { id: "details", icon: "fa-solid fa-pen-fancy" },
-      ],
-      initial: "identity",
-      labelPrefix: "ARTICHRON.SHEET.TABS",
-    },
-  };
+  static TABS = {};
 
   /* -------------------------------------------------- */
 

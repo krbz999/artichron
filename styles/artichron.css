@@ -110,7 +110,11 @@ dialog:-internal-dialog-in-top-layer::backdrop {
   background: var(--artichron-header-background-gradient);
   border-bottom: var(--artichron-header-border);
   padding: 0.25rem;
-  margin: 1rem 0;
+  /* margin: .5rem 0; */
+
+  .standard-form & {
+    margin: 0;
+  }
 
   &:not(H1) {
     font-size: 16px;

@@ -1,6 +1,16 @@
-<div class="tab identity {{tabs.identity.cssClass}}" data-group="primary" data-tab="identity">
-  <fieldset>
-    {{formGroup fields.name value=source.name placeholder=(localize (concat "TYPES.Clock." pseudoDocument.type)) name="name"}}
-    {{formGroup fields.color value=source.color placeholder=ctx.colorPlaceholder name="color"}}
-  </fieldset>
-</div>
+<section class="standard-form">
+  <h3 class="section-header">{{localize "ARTICHRON.SHEET.CLOCK.HEADERS.identity"}}</h3>
+  {{formGroup fields.name value=source.name placeholder=(localize (concat "TYPES.Clock." pseudoDocument.type)) name="name"}}
+  {{formGroup fields.color value=source.color placeholder=ctx.colorPlaceholder name="color"}}
+
+  <div class="form-group">
+    <label>{{localize "ARTICHRON.SHEET.CLOCK.HEADERS.progress"}}</label>
+    <div class="form-fields">
+      {{formGroup fields.value value=ctx.value placeholder="0" name="value" classes="label-top"}}
+      {{formGroup fields.max value=source.max placeholder="8" name="max" classes="label-top"}}
+    </div>
+  </div>
+
+  <h3 class="section-header">{{localize "ARTICHRON.SHEET.CLOCK.HEADERS.details"}}</h3>
+  {{formInput fields.description value=source.description height=400 name="description" toggled=false}}
+</section>
