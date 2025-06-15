@@ -20,6 +20,11 @@ import BaseDocumentMixin from "./base-document-mixin.mjs";
  * @property {number} [hindered]      How many levels of the 'Hindered' status will be applied.
  */
 
+/**
+ * Base actor document class.
+ * @extends foundry.documents.Actor
+ * @mixes BaseDocumentMixin
+ */
 export default class ActorArtichron extends BaseDocumentMixin(foundry.documents.Actor) {
   /* -------------------------------------------------- */
   /*   Properties                                       */

@@ -1,5 +1,10 @@
 import BaseDocumentMixin from "./base-document-mixin.mjs";
 
+/**
+ * Base active effect document class.
+ * @extends foundry.documents.ActiveEffect
+ * @mixes BaseDocumentMixin
+ */
 export default class ActiveEffectArtichron extends BaseDocumentMixin(foundry.documents.ActiveEffect) {
   /** @inheritdoc */
   static async createDocuments(data = [], operation = {}) {

@@ -1,5 +1,10 @@
 import BaseDocumentMixin from "./base-document-mixin.mjs";
 
+/**
+ * Base combat document class.
+ * @extends foundry.documents.Combat
+ * @mixes BaseDocumentMixin
+ */
 export default class CombatArtichron extends BaseDocumentMixin(foundry.documents.Combat) {
   /** @inheritdoc */
   _onDelete(options, userId) {

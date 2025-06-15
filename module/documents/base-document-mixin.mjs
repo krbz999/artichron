@@ -1,3 +1,7 @@
+/**
+ * Document class mixin to add common functions shared by documents that hold pseudo-documents.
+ * @param {typeof foundry.abstract.Document} base
+ */
 export default base => {
   return class ArtichronDocument extends base {
     /**

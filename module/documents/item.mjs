@@ -1,7 +1,9 @@
 import BaseDocumentMixin from "./base-document-mixin.mjs";
 
 /**
+ * Base item document class.
  * @extends foundry.documents.Item
+ * @mixes BaseDocumentMixin
  */
 export default class ItemArtichron extends BaseDocumentMixin(foundry.documents.Item) {
   /** @inheritdoc */

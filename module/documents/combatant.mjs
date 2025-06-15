@@ -1,5 +1,10 @@
 import BaseDocumentMixin from "./base-document-mixin.mjs";
 
+/**
+ * Base combatant document class.
+ * @extends foundry.documents.Combatant
+ * @mixes BaseDocumentMixin
+ */
 export default class CombatantArtichron extends BaseDocumentMixin(foundry.documents.Combatant) {
   /** @inheritdoc */
   _getInitiativeFormula() {

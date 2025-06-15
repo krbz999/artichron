@@ -57,8 +57,6 @@ export interface DocumentSubtypeMetadata {
   embedded: Record<string, string>;
   /** Type icon for this data model if this document type makes use of icons. */
   icon?: string;
-  /** Internal key used for this data model. */
-  type: string;
 }
 
 /** Metadata for party actors. */
@@ -71,12 +69,6 @@ export interface PartyActorMetadata extends DocumentSubtypeMetadata {
 export interface ItemSubtypeMetadata extends DocumentSubtypeMetadata {
   /** The initial weight of a new item of this type. */
   defaultWeight: number;
-  /** Whether this item type allows being fused or fused onto. */
-  fusion: boolean;
-  /** The inventory section an item type gets placed in on an actor's inventory tab. */
-  inventorySection: string;
-  /** The order this inventory section is in relative to other sections. */
-  order: number;
 }
 
 /* -------------------------------------------------- */
