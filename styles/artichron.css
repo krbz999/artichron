@@ -4,7 +4,7 @@
 /* -------------------------------------------------- */
 
 * {
-  scrollbar-color: hsl(from var(--artichron-color-blue) h s l / 0.6) #000000;
+  scrollbar-color: var(--artichron-color-scrollbar);
 }
 
 /* -------------------------------------------------- */
