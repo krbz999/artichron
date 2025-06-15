@@ -4,15 +4,6 @@ const { DocumentIdField, HTMLField, SchemaField, SetField, StringField, TypedObj
 
 export default class MerchantData extends ActorSystemModel {
   /** @inheritdoc */
-  static get metadata() {
-    return foundry.utils.mergeObject(super.metadata, {
-      type: "merchant",
-    });
-  }
-
-  /* -------------------------------------------------- */
-
-  /** @inheritdoc */
   static defineSchema() {
     return Object.assign(super.defineSchema(), {
       shop: new SchemaField({

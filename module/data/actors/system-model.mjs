@@ -5,8 +5,6 @@ export default class ActorSystemModel extends foundry.abstract.TypeDataModel {
   static get metadata() {
     return {
       embedded: {},
-      icon: "",
-      type: "",
     };
   }
 

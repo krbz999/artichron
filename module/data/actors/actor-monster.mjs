@@ -4,15 +4,6 @@ const { ArrayField, DocumentUUIDField, NumberField, SchemaField } = foundry.data
 
 export default class MonsterData extends CreatureData {
   /** @inheritdoc */
-  static get metadata() {
-    return foundry.utils.mergeObject(super.metadata, {
-      type: "monster",
-    });
-  }
-
-  /* -------------------------------------------------- */
-
-  /** @inheritdoc */
   static defineSchema() {
     return Object.assign(super.defineSchema(), {
       danger: new SchemaField({

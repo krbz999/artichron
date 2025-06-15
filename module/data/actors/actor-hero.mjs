@@ -4,15 +4,6 @@ const { NumberField, SchemaField, TypedObjectField } = foundry.data.fields;
 
 export default class HeroData extends CreatureData {
   /** @inheritdoc */
-  static get metadata() {
-    return foundry.utils.mergeObject(super.metadata, {
-      embedded: {},
-    });
-  }
-
-  /* -------------------------------------------------- */
-
-  /** @inheritdoc */
   static defineSchema() {
     const poolSchema = () => {
       return new SchemaField({

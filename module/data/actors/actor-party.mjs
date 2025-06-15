@@ -6,7 +6,6 @@ export default class PartyData extends ActorSystemModel {
   /** @type {import("../../_types").PartyActorMetadata} */
   static get metadata() {
     return foundry.utils.mergeObject(super.metadata, {
-      type: "party",
       allowedActorTypes: new Set(["hero", "monster"]),
       allowedItemTypes: new Set(["ammo", "armor", "elixir", "part", "spell"]),
       embedded: {
