@@ -30,12 +30,14 @@
     gap: .5rem;
     align-items: flex-end;
     transition: opacity 350ms ease;
+    pointer-events: none;
 
     :has([data-application-part=members].active) & {
       opacity: 0;
     }
 
     .member {
+      pointer-events: all;
       padding: 5px;
       padding-right: 0;
       border-radius: 50% 0 0 50%;
