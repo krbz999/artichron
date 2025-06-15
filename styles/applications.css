@@ -26,6 +26,14 @@
 
 /* -------------------------------------------------- */
 
+/* Hide header styling entirely. */
+.application.artichron  .window-header {
+  background: transparent;
+  border: none;
+}
+
+/* -------------------------------------------------- */
+
 /* Make a prosemirror form group the full height of a tab. */
 .application.artichron .tab:has(.prosemirror-full-height), .prosemirror-full-height {
   flex: 1;

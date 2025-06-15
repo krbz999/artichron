@@ -26,11 +26,10 @@ dialog:-internal-dialog-in-top-layer::backdrop {
 /* -------------------------------------------------- */
 
 /* System application backdrops */
-.application.artichron .window-content,
+.application.artichron,
 #tooltip.item-tooltip > *,
-.locked-tooltip.item-tooltip > *,
-.artichron-backdrop {
-  position: relative;
+.locked-tooltip.item-tooltip > * {
+  /* It is the responsibility of the element using this to either be `position: absolute` or `position: relative`. */
 
   /* Application backdrops */
   &::before, &::after {
