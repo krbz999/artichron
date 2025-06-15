@@ -167,8 +167,7 @@ export default class DamageData extends ChatMessageSystemModel {
         case "applyDamage":
           el.addEventListener("click", (event) => {
             foundry.utils.setProperty(DamageData.#expandedStates, `${this.parent.id}.tokens`, false);
-            const results = DamageData.#applyDamage.call(this, event, el);
-            this.#applyResults(results);
+            DamageData.#applyDamage.call(this, event, el);
           });
           break;
         case "toggleTargetsExpanded":
@@ -201,24 +200,6 @@ export default class DamageData extends ChatMessageSystemModel {
   }
 
   /* -------------------------------------------------- */
-
-  /**
-   * Store damage values after applying damage.
-   * @param {Promise[]} promises    Array of promises that resolve to objects with actor uuid and the applied damage.
-   * @returns {Promise<void>}       A promise that resolves once this chat message has been updated.
-   */
-  async #applyResults(promises) {
-    promises = await Promise.all(promises);
-    const damaged = foundry.utils.deepClone(this._source.damaged);
-    for (const result of promises) {
-      const existing = damaged.find(d => d.actorUuid === result.actorUuid);
-      if (existing) existing.amount = result.amount;
-      else damaged.push(result);
-    }
-    await this.parent.update({ "system.damaged": damaged });
-  }
-
-  /* -------------------------------------------------- */
   /*   Event handlers                                   */
   /* -------------------------------------------------- */
 
@@ -227,9 +208,10 @@ export default class DamageData extends ChatMessageSystemModel {
    * @this {DamageData}
    * @param {PointerEvent} event          The initiating click event.
    * @param {HTMLButtonElement} target    The button that defined the [data-action].
-   * @returns {Array<Promise<object>>}    An array of promises with actor uuid and the amount applied.
+   * @returns {Promise<boolean>}          A promise that resolves once damage has been applied
+   *                                      and the chat message updated.
    */
-  static #applyDamage(event, target) {
+  static async #applyDamage(event, target) {
     const user = game.users.getDesignatedUser(user => this.parent.canUserModify(user, "update"));
     const config = { messageId: this.parent.id, actorUuids: [] };
 
@@ -240,7 +222,7 @@ export default class DamageData extends ChatMessageSystemModel {
       config.actorUuids.push(actor.uuid);
     }
 
-    user.query("chatDamage", { type: "applyDamage", config });
+    return user.query("chatDamage", { type: "applyDamage", config });
   }
 
   /* -------------------------------------------------- */

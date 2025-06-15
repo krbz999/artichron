@@ -16,7 +16,9 @@
     }
   }
 
+  /* Left-side members list */
   [data-application-part=health] {
+    --height: calc(min(4rem, 100% / var(--units)));
     position: fixed;
     position-anchor: --sheet-window-content;
     right: anchor(left);
@@ -27,13 +29,18 @@
     margin: 1rem 0;
     gap: .5rem;
     align-items: flex-end;
+    transition: opacity 350ms ease;
+
+    :has([data-application-part=members].active) & {
+      opacity: 0;
+    }
 
     .member {
       padding: 5px;
       padding-right: 0;
       border-radius: 50% 0 0 50%;
       background: black;
-      max-height: calc(min(4rem, 100% / var(--units)));
+      max-height: var(--height);
       height: 100%;
 
       .health {
