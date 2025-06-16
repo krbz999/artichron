@@ -30,7 +30,10 @@ export default class PartyData extends ActorSystemModel {
       }),
     });
 
-    schema.currency.fields.award = new NumberField({ integer: true, min: 0, initial: 0, nullable: false });
+    schema.currency = new SchemaField({
+      award: new NumberField({ integer: true, min: 0 }),
+      funds: new NumberField({ integer: true, min: 0 }),
+    });
 
     return schema;
   }

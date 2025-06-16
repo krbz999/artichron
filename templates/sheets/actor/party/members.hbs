@@ -1,28 +1,30 @@
 <div class="tab {{tabs.members.cssClass}}" data-group="{{tabs.members.group}}" data-tab="{{tabs.members.id}}">
+
   {{#if isGM}}
-  <fieldset class="awards">
-    <legend>{{localize "ARTICHRON.SHEET.PARTY.HEADERS.awards"}}</legend>
-    <div class="form-group">
-      <label>
-        <span>{{localize "ARTICHRON.SHEET.PARTY.currency"}}</span>
-        <img class="icon" src="systems/artichron/assets/icons/chron.svg" alt="Chron">
-      </label>
-      <input type="text" name="system.currency.award" class="delta" value="{{ctx.distributions.currency.value}}" {{disabled (not editable)}}>
-      <button type="button" class="icon fa-solid fa-fw fa-medal" data-action="distributeCurrency" {{disabled ctx.distributions.currency.disabled}}></button>
+  <h3 class="section-header">
+    <span>{{localize "ARTICHRON.SHEET.PARTY.HEADERS.awards"}}</span>
+  </h3>
+
+  <div class="form-group">
+    <label>{{localize "ARTICHRON.SHEET.PARTY.currency"}}</label>
+    <div class="form-fields">
+      {{formInput systemFields.currency.fields.award value=source.system.currency.award classes="delta" disabled=(not editable)}}
+      <button type="button" class="icon" data-action="distributeCurrency" {{disabled ctx.distributions.currency.disabled}}>
+        <artichron-icon src="systems/artichron/assets/icons/chron.svg"></artichron-icon>
+      </button>
     </div>
-  </fieldset>
+  </div>
   {{/if}}
 
-  <fieldset class="funds">
-    <legend>{{localize "ARTICHRON.SHEET.PARTY.HEADERS.funds"}}</legend>
-    <div class="form-group">
-      <label>
-        <span>{{localize "ARTICHRON.SHEET.PARTY.currency"}}</span>
-        <img src="systems/artichron/assets/icons/chron.svg" alt="Chron" class="icon">
-      </label>
-      <input type="text" name="system.currency.funds" class="delta" value="{{ctx.funds}}" {{disabled (not editable)}}>
+  <h3 class="section-header">
+    <span>{{localize "ARTICHRON.SHEET.PARTY.HEADERS.funds"}}</span>
+  </h3>
+  <div class="form-group">
+    <label>{{localize "ARTICHRON.SHEET.PARTY.currency"}}</label>
+    <div class="form-fields">
+      {{formInput systemFields.currency.fields.funds value=source.system.currency.funds classes="delta" disabled=(not editable)}}
     </div>
-  </fieldset>
+  </div>
 
   {{#if isGM}}
   <div class="form-group">

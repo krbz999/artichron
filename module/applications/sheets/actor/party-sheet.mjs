@@ -141,12 +141,7 @@ export default class PartySheet extends ActorSheetArtichron {
 
     const distributions = {
       currency: {
-        value: this.document.system.currency.award,
-        disabled: !game.user.isGM || !this.document.system.currency.award || !this.isEditable,
-      },
-      points: {
-        value: this.document.system.points.value,
-        disabled: !game.user.isGM || !this.document.system.points.value || !this.isEditable,
+        disabled: !context.editable || !context.document.system.currency.award,
       },
     };
 
