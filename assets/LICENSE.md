@@ -10,32 +10,31 @@ https://www.freepik.com/free-vector/futuristic-design-background_7434515.htm
 
 #
 
-The following vectors and icons by SVG Repo
-
-assets/icons/chron.svg
-
-#
-
 This system includes icon artwork licensed from Game-icons.net under the Creative Commons license. These icons are packaged with and provided for use in this system under their respective licenses, as noted below.
 
-assets/icons/activity.svg - "Divided Spiral" by Lorc under CC BY 3.0
-assets/icons/bleeding.svg - "Bloody Stash" by Lorc under CC BY 3.0
-assets/icons/blind.svg - "Sight Disabled" by Skoll under CC BY 3.0
-assets/icons/bloodied.svg - "Bleeing Heart" by Lorc under CC BY 3.0
-assets/icons/burning.svg - "Small Fire" by Lorc under CC BY 3.0
-assets/icons/critical.svg - "Barbed Sun" by Lorc under CC BY 3.0
-assets/icons/defeated.svg - "Desert Skull" by Lorc under CC BY 3.0
-assets/icons/flying.svg - "Fluffy Wing" by Lorc under CC BY 3.0
-assets/icons/hindred.svg - "Foot Trip" by Lorc under CC BY 3.0
-assets/icons/injured.svg - "Internal Injury" by Lorc under CC BY 3.0
-assets/icons/invisible.svg - "Invisible" by Delapouite under CC BY 3.0
-assets/icons/advancement.svg - "Divergence" by Lorc under CC BY 3.0
+
+assets/icons/chron.svg - "Rupee Icon" by Delapouite under CC BY 3.0
+
+assets/icons/conditions/bleeding.svg - "Bloody Stash" by Lorc under CC BY 3.0
+assets/icons/conditions/blind.svg - "Sight Disabled" by Skoll under CC BY 3.0
+assets/icons/conditions/bloodied.svg - "Bleeding Heart" by Lorc under CC BY 3.0
+assets/icons/conditions/burning.svg - "Small Fire" by Lorc under CC BY 3.0
+assets/icons/conditions/critical.svg - "Barbed Sun" by Lorc under CC BY 3.0
+assets/icons/conditions/defeated.svg - "Desert Skull" by Lorc under CC BY 3.0
+assets/icons/conditions/flying.svg - "Fluffy Wing" by Lorc under CC BY 3.0
+assets/icons/conditions/hindred.svg - "Foot Trip" by Lorc under CC BY 3.0
+assets/icons/conditions/injured.svg - "Internal Injury" by Lorc under CC BY 3.0
+assets/icons/conditions/invisible.svg - "Ninja Head" by DarkZaitzev under CC BY 3.0
+
+assets/icons/pseudo/activity.svg - "Divided Spiral" by Lorc under CC BY 3.0
+assets/icons/pseudo/advancement.svg - "Divergence" by Lorc under CC BY 3.0
+assets/icons/pseudo/armor-requirement.svg - "Armor Blueprint" by SeregaCthtuf under CC BY 3.0
 assets/icons/pseudo/damage.svg - "Crowned Explosion" by Lorc under CC BY 3.0
+
 assets/icons/skills/agility.svg - "Frayed Arrow" by Lorc under CC BY 3.0
 assets/icons/skills/brawn.svg - "Biceps" by Delapouite under CC BY 3.0
 assets/icons/skills/mind.svg - "Triton Head" by Lorc under CC BY 3.0
 assets/icons/skills/spirit.svg - "Spark Spirit" by Lorc under CC BY 3.0
-assets/icons/pseudo/armor-requirement.svg - "Armor Blueprint" by SeregaCthtuf under CC BY 3.0
 
 #
 
