@@ -50,7 +50,7 @@ export default class UsageMessageData extends ChatMessageSystemModel {
 
   /** @inheritdoc */
   async adjustHTML(html) {
-    await super.adjustHTML(html);
+    // await super.adjustHTML(html);
 
     const content = html.querySelector(".message-content");
     content.innerHTML = "";

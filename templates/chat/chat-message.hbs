@@ -51,32 +51,33 @@
 
       <section class="targeting damage {{#if expanded.tokens}} expanded {{/if}}">
         <h3 class="section-header" data-action="toggleTargetsExpanded">
-          <span>{{localize "ARTICHRON.DAMAGE.damageApplication"}}</span>
+          <span>{{localize "ARTICHRON.CHAT.damageApplication"}}</span>
           <i class="fa-solid fa-fw"></i>
         </h3>
-        <div class="damage-application">
-          <controlled-tokens-list damage=""></controlled-tokens-list>
+        <div class="token-application damage">
+          <controlled-tokens-list type="damage"></controlled-tokens-list>
           <button type="button" data-action="applyDamage">
             <i class="fa-solid fa-burst" inert></i>
-            <span>{{localize "ARTICHRON.DAMAGE.applyDamage"}}</span>
+            <span>{{localize "ARTICHRON.CHAT.applyDamage"}}</span>
           </button>
         </div>
       </section>
-      {{else}}
 
-      {{!-- <div class="item-details">
-        <div class="item-header" data-action="toggleItemDescription">
-          <img src="{{item.img}}" alt="{{item.name}}" class="icon">
-          <div class="details">
-            <span class="title">{{item.name}}</span>
-            {{#if activity}}
-            <span class="subtitle">{{activity.name}}</span>
-            {{/if}}
-          </div>
+      {{!-- EFFECT --}}
+      {{else if (eq document.type "effect")}}
+      <section class="targeting effect {{#if expanded.tokens}} expanded {{/if}}">
+        <h3 class="section-header" data-action="toggleTargetsExpanded">
+          <span>{{localize "ARTICHRON.CHAT.effectApplication"}}</span>
+          <i class="fa-solid fa-fw"></i>
+        </h3>
+        <div class="token-application effect">
+          <controlled-tokens-list type="effect"></controlled-tokens-list>
+          <button type="button" data-action="applyEffects">
+            <i class="fa-solid fa-burst" inert></i>
+            <span>{{localize "ARTICHRON.CHAT.applyEffects"}}</span>
+          </button>
         </div>
-
-        <div class="description">{{item.system.description.value}}</div>
-      </div> --}}
+      </section>
       {{/if}}
     </div>
   </li>

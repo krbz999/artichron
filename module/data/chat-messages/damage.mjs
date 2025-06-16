@@ -24,7 +24,7 @@ export default class DamageData extends ChatMessageSystemModel {
   /* -------------------------------------------------- */
 
   /**
-   * Query method to delegate methods.
+   * Query method to delegate handling.
    * @type {Function}
    */
   static _query = ({ type, config }) => {
@@ -91,26 +91,13 @@ export default class DamageData extends ChatMessageSystemModel {
 
   /* -------------------------------------------------- */
 
-  /**
-   * Render the HTML for the ChatMessage which should be added to the log
-   * @param {object} [options]             Additional options passed to the Handlebars template.
-   * @param {boolean} [options.canDelete]  Render a delete button. By default, this is true for GM users.
-   * @param {boolean} [options.canClose]   Render a close button for dismissing chat card notifications.
-   * @returns {Promise<HTMLElement>}
-   */
-  async renderHTML(options = {}) {
-    const template = "systems/artichron/templates/chat/chat-message.hbs";
-
-    const context = {
-      ...options,
-      document: this.parent,
-      actor: this.parent.speakerActor,
-      rolls: [],
-      total: 0,
-      expanded: {
-        rolls: DamageData.#expandedStates[this.parent.id]?.rolls ?? false,
-        tokens: DamageData.#expandedStates[this.parent.id]?.tokens ?? true,
-      },
+  /** @inheritdoc */
+  async _prepareContext(context) {
+    context.rolls = [];
+    context.total = 0;
+    context.expanded = {
+      rolls: DamageData.#expandedStates[this.parent.id]?.rolls ?? false,
+      tokens: DamageData.#expandedStates[this.parent.id]?.tokens ?? true,
     };
 
     for (const roll of this.parent.rolls) {
@@ -136,23 +123,12 @@ export default class DamageData extends ChatMessageSystemModel {
         multiplier: (roll.multiplier !== 1) ? roll.multiplier.toNearest(0.01) : null,
       });
     }
-
-    const htmlString = await foundry.applications.handlebars.renderTemplate(template, context);
-    const ul = foundry.utils.parseHTML(htmlString);
-
-    const element = ul.firstElementChild;
-    this.#applyEventListeners(element);
-
-    return element;
   }
 
   /* -------------------------------------------------- */
 
-  /**
-   * Apply event listeners.
-   * @param {HTMLElement} element   The generated html element.
-   */
-  #applyEventListeners(element) {
+  /** @inheritdoc */
+  _applyEventListeners(element) {
     for (const el of element.querySelectorAll(".message-content [data-action]")) {
       switch (el.dataset.action) {
         case "toggleRollsExpanded":
@@ -167,7 +143,7 @@ export default class DamageData extends ChatMessageSystemModel {
         case "applyDamage":
           el.addEventListener("click", (event) => {
             foundry.utils.setProperty(DamageData.#expandedStates, `${this.parent.id}.tokens`, false);
-            DamageData.#applyDamage.call(this, event, el);
+            DamageData.#applyDamage.call(this.parent, event, el);
           });
           break;
         case "toggleTargetsExpanded":
@@ -200,20 +176,47 @@ export default class DamageData extends ChatMessageSystemModel {
   }
 
   /* -------------------------------------------------- */
+
+  /** @inheritdoc */
+  _configureTokenElement(element, actor) {
+    // Also show damage calculation.
+    element.classList.add("damage");
+    const damaged = this.damaged.some(d => d.actorUuid === actor.uuid);
+    if (damaged) {
+      element.classList.add("damaged");
+      const undoButton = foundry.utils.parseHTML("<a class='undo fa-solid fa-fw fa-recycle'></a>");
+      undoButton.addEventListener("click", event => DamageData.#undoDamage.call(this.parent, event, undoButton));
+      element.insertAdjacentElement("beforeend", undoButton);
+    } else {
+      const delta = -this.calculateDamage(actor);
+      const cssClass = [
+        "damage-delta",
+        (delta < 0) ? "damage" : (delta > 0) ? "healing" : "",
+      ].filterJoin(" ");
+      element.insertAdjacentHTML("beforeend", `<span class="${cssClass}">${Math.abs(delta)}</span>`);
+    }
+  }
+
+  /* -------------------------------------------------- */
   /*   Event handlers                                   */
   /* -------------------------------------------------- */
 
   /**
    * Apply damage to all the token actors.
-   * @this {DamageData}
+   * @this {foundry.documents.ChatMessage}
    * @param {PointerEvent} event          The initiating click event.
    * @param {HTMLButtonElement} target    The button that defined the [data-action].
    * @returns {Promise<boolean>}          A promise that resolves once damage has been applied
    *                                      and the chat message updated.
    */
   static async #applyDamage(event, target) {
-    const user = game.users.getDesignatedUser(user => this.parent.canUserModify(user, "update"));
-    const config = { messageId: this.parent.id, actorUuids: [] };
+    const user = game.users.getDesignatedUser(user => user.active && this.canUserModify(user, "update"));
+
+    if (!user) {
+      throw new Error("NO USER FOUND"); // TODO: ui.notif
+    }
+
+    const config = { messageId: this.id, actorUuids: [] };
 
     const parent = target.closest(".targeting.damage");
     for (const element of parent.querySelectorAll(".target-element.damage:not(.damaged)")) {
@@ -223,6 +226,25 @@ export default class DamageData extends ChatMessageSystemModel {
     }
 
     return user.query("chatDamage", { type: "applyDamage", config });
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Handle undoing damage.
+   * @this {foundry.documents.ChatMessage}
+   * @param {PointerEvent} event    The initiating click event.
+   * @param {HTMLElement} target    The target element.
+   */
+  static #undoDamage(event, target) {
+    const actor = fromUuidSync(target.closest("[data-actor-uuid]").dataset.actorUuid);
+
+    const user = game.users.getDesignatedUser(user => {
+      return actor.canUserModify(user, "update") && this.canUserModify(user, "update");
+    });
+
+    const config = { messageId: this.id, actorUuid: actor.uuid };
+    user.query("chatDamage", { type: "undoDamage", config });
   }
 
   /* -------------------------------------------------- */

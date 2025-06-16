@@ -280,7 +280,7 @@
   } */
 
   /* TOKEN TARGETS */
-  .targeting.damage {
+  .targeting {
     display: grid;
     grid-template-rows: 0fr 0fr;
     transition: grid-template-rows 200ms ease;
@@ -303,7 +303,7 @@
       }
     }
 
-    .damage-application {
+    .token-application {
       overflow: hidden;
 
       controlled-tokens-list {
@@ -318,20 +318,21 @@
           gap: .5rem;
           position: relative;
 
-          &.damage {
-            grid-template-columns: 2rem 1fr 0fr;
-          }
+          &.damage { grid-template-columns: 2rem 1fr 0fr; }
+          &.effect { grid-template-columns: 2rem 1fr 0fr; }
 
           img {
             cursor: var(--cursor-pointer);
 
-            .damaged & {
+            .damage .damaged &,
+            .effect .unchecked & {
               opacity: 0.5;
             }
           }
 
           .title {
-            .damaged & {
+            .damage .damaged &,
+            .effect .unchecked & {
               text-decoration: line-through;
             }
           }
@@ -356,11 +357,9 @@
         }
 
         /* Hide damage application button if the list is empty. */
-        &[damage]:not(:has(.target-element.damage:not(.damaged))) + [data-action=applyDamage] {
-          display: none;
-        }
 
-        + [data-action=applyDamage] {
+        + [data-action=applyDamage],
+        + [data-action=applyEffects] {
           width: 100%;
         }
       }

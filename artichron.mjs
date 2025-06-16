@@ -84,6 +84,7 @@ Hooks.once("init", function() {
   // ChatMessage Data Models
   Object.assign(CONFIG.ChatMessage.dataModels, {
     damage: data.chatMessages.DamageData,
+    effect: data.chatMessages.EffectData,
     trade: data.chatMessages.TradeMessageData,
     usage: data.chatMessages.UsageMessageData,
   });

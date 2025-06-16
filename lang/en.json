@@ -611,6 +611,13 @@
   "twoHanded": "Two-Handed"
 },
 
+"CHAT": {
+  "effectApplication": "Apply Effects",
+  "damageApplication": "Apply Damage",
+  "applyEffects": "Apply Effects",
+  "applyDamage": "Apply Damage"
+},
+
 "CLOCK": {
   "FIELDS": {
     "color": {
@@ -675,8 +682,6 @@
 
 "DAMAGE": {
   "TITLE": "Configure Damage: {name}",
-  "applyDamage": "Apply Damage",
-  "damageApplication": "Damage Application",
   "bonus": {
     "label": "Bonus",
     "placeholder": "E.g. '1d4'"

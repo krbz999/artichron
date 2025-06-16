@@ -148,6 +148,7 @@
     },
     "ChatMessage": {
       "damage": {},
+      "effect": {},
       "trade": {},
       "usage": {}
     },

@@ -44,7 +44,7 @@ export default class TradeMessageData extends ChatMessageSystemModel {
 
   /** @inheritdoc */
   async adjustHTML(html) {
-    await super.adjustHTML(html);
+    // await super.adjustHTML(html);
 
     const template = "systems/artichron/templates/chat/trade-message.hbs";
     html.querySelector(".message-content").innerHTML = await foundry.applications.handlebars.renderTemplate(template, {

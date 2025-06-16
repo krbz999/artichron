@@ -4,4 +4,3 @@ export { default as DocumentListEntriesElement } from "./document-list-entries-e
 export { default as IconElement } from "./icon-element.mjs";
 export { default as ProgressClockElement } from "./progress-clock-element.mjs";
 export { default as ThresholdBarElement } from "./threshold-bar-element.mjs";
-export { default as TokenTargetElement } from "./token-target-element.mjs";

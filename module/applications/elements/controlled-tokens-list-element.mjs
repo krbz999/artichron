@@ -52,8 +52,6 @@ export default class ControlledTokensListElement extends HTMLElement {
     const isAuthor = this.message.isAuthor;
     if (!isGM && !isAuthor) return;
 
-    const damage = this.message.type === "damage";
-
     const authorTargets = [...this.message.author.targets];
     const gmTargets = isGM ? [...game.user.targets] : [];
     const gmControlled = isGM ? [...canvas.tokens?.controlled ?? []] : [];
@@ -70,7 +68,7 @@ export default class ControlledTokensListElement extends HTMLElement {
 
     for (const token of tokens) {
       if (existing.has(token.actor.uuid)) continue;
-      this.insertAdjacentElement("beforeend", this.#createTargetElement(token, { damage }));
+      this.insertAdjacentElement("beforeend", this.#createTargetElement(token));
     }
   }
 
@@ -114,11 +112,9 @@ export default class ControlledTokensListElement extends HTMLElement {
   /**
    * Helper method to generate the HTML element for a token target.
    * @param {foundry.canvas.placeables.Token} token   The token placeable. Guaranteed to not be orphaned.
-   * @param {object} [options={}]                     Options to modify the injected html.
-   * @param {boolean} [options.damage=false]          Show damage calculations?
    * @returns {HTMLElement}
    */
-  #createTargetElement(token, { damage = false } = {}) {
+  #createTargetElement(token) {
     const actor = token.actor;
     const element = foundry.utils.parseHTML(`
       <div class="target-element" data-actor-uuid="${actor.uuid}">
@@ -126,25 +122,7 @@ export default class ControlledTokensListElement extends HTMLElement {
         <label class="title">${token.name}</label>
       </div>`);
 
-    // If this is a damage roll, also show damage calculation.
-    if (damage) {
-      element.classList.add("damage");
-      const damaged = this.message.system.damaged.some(d => d.actorUuid === actor.uuid);
-      if (damaged) {
-        element.classList.add("damaged");
-        const undoButton = foundry.utils.parseHTML("<a class='undo fa-solid fa-fw fa-recycle'></a>");
-        undoButton.addEventListener("click",
-          event => ControlledTokensListElement.#undoDamage.call(this, event, undoButton));
-        element.insertAdjacentElement("beforeend", undoButton);
-      } else {
-        const delta = -this.message.system.calculateDamage(token.actor);
-        const cssClass = [
-          "damage-delta",
-          (delta < 0) ? "damage" : (delta > 0) ? "healing" : "",
-        ].filterJoin(" ");
-        element.insertAdjacentHTML("beforeend", `<span class="${cssClass}">${Math.abs(delta)}</span>`);
-      }
-    }
+    this.message.system._configureTokenElement(element, actor);
 
     const avatar = element.querySelector(".avatar");
     avatar.addEventListener("click",
@@ -170,25 +148,6 @@ export default class ControlledTokensListElement extends HTMLElement {
     const [token] = actor.isToken ? [actor.token?.object] : actor.getActiveTokens();
     if (!token) return null;
     return token;
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Handle undoing damage.
-   * @this {ControlledTokensListElement}
-   * @param {PointerEvent} event    The initiating click event.
-   * @param {HTMLElement} target    The target element.
-   */
-  static #undoDamage(event, target) {
-    const actor = fromUuidSync(target.closest("[data-actor-uuid]").dataset.actorUuid);
-
-    const user = game.users.getDesignatedUser(user => {
-      return actor.canUserModify(user, "update") && this.message.canUserModify(user, "update");
-    });
-
-    const config = { messageId: this.message.id, actorUuid: actor.uuid };
-    user.query("chatDamage", { type: "undoDamage", config });
   }
 
   /* -------------------------------------------------- */

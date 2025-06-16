@@ -6,7 +6,49 @@ export default class ChatMessageSystemModel extends foundry.abstract.TypeDataMod
    * @param {boolean} [options.canClose]   Render a close button for dismissing chat card notifications.
    * @returns {Promise<HTMLElement>}
    */
-  async adjustHTML(html) {
-    html.classList.add("artichron", this.parent.type);
+  async renderHTML(options = {}) {
+    const template = "systems/artichron/templates/chat/chat-message.hbs";
+
+    const context = {
+      ...options,
+      document: this.parent,
+      actor: this.parent.speakerActor,
+    };
+
+    await this._prepareContext(context);
+
+    const htmlString = await foundry.applications.handlebars.renderTemplate(template, context);
+    const ul = foundry.utils.parseHTML(htmlString);
+    const element = ul.firstElementChild;
+
+    this._applyEventListeners(element);
+
+    return element;
   }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Prepare additional context for rendering.
+   * @param {object} context    The current rendering context. **will be mutated**
+   * @returns {Promise<void>}   A promise that resolves once the rendering context has been mutated.
+   */
+  async _prepareContext(context) {}
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Apply event listeners to the chat message.
+   * @param {HTMLElement} element   The chat message element.
+   */
+  _applyEventListeners(element) {}
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Apply any additional configurations to a token target element.
+   * @param {HTMLElement} element             The created token target element.
+   * @param {foundry.documents.Actor} actor   The controlled or targeted token's actor.
+   */
+  _configureTokenElement(element, token) {}
 }

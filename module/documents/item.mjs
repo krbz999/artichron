@@ -58,42 +58,11 @@ export default class ItemArtichron extends BaseDocumentMixin(foundry.documents.I
   /* -------------------------------------------------- */
 
   /**
-   * Is this wielded in one hand?
-   * @type {boolean}
-   */
-  get isOneHanded() {
-    return this.system.isOneHanded ?? false;
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Is this wielded with two hands?
-   * @type {boolean}
-   */
-  get isTwoHanded() {
-    return this.system.isTwoHanded ?? false;
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Is this an arsenal item?
-   * @type {boolean}
-   */
-  get isArsenal() {
-    return ["weapon", "spell", "shield"].includes(this.type);
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
    * Is this item equipped on the actor in one of the slots?
    * @type {boolean}
    */
   get isEquipped() {
     if (!this.isEmbedded) return false;
-    if (this.isArsenal) return Object.values(this.actor.arsenal).includes(this);
     else if (this.type === "armor") return Object.values(this.actor.armor).includes(this);
     return false;
   }
