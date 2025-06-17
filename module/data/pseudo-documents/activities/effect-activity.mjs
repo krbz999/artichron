@@ -1,25 +1,6 @@
 import BaseActivity from "./base-activity.mjs";
 
-const { NumberField, SchemaField, SetField, StringField } = foundry.data.fields;
-
-const targetField = () => {
-  return new SchemaField({
-    type: new StringField({
-      choices: artichron.config.TARGET_TYPES,
-      initial: "single",
-      required: true,
-    }),
-    count: new NumberField({ min: 1, integer: true, nullable: false, initial: 1 }),
-    duration: new StringField({
-      choices: artichron.config.TEMPLATE_DURATIONS,
-      initial: "combat",
-      required: true,
-    }),
-    range: new NumberField({ min: 1, integer: true, nullable: false, initial: 1 }),
-    size: new NumberField({ min: 1, integer: true, nullable: false, initial: 1 }),
-    width: new NumberField({ min: 1, integer: true, nullable: false, initial: 1 }),
-  });
-};
+const { SchemaField, SetField, StringField } = foundry.data.fields;
 
 export default class EffectActivity extends BaseActivity {
   /** @inheritdoc */
@@ -28,7 +9,7 @@ export default class EffectActivity extends BaseActivity {
       effects: new SchemaField({
         ids: new SetField(new StringField()),
       }),
-      target: targetField(),
+      target: new artichron.data.fields.ActivityTargetField(),
     });
   }
 
@@ -81,21 +62,5 @@ export default class EffectActivity extends BaseActivity {
     Cls.applyRollMode(messageData, configuration.usage.rollMode.mode);
     foundry.utils.mergeObject(messageData, configuration.message);
     return Cls.create(messageData);
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Transfer a copy of the effects to actors.
-   * @param {ActorArtichron[]} [targets]    The actor targets.
-   * @returns {Promise<void>}               A promise that resolves once all socket events have been emitted.
-   */
-  async grantEffects(targets = []) {
-    const effects = this.effects.ids.map(id => this.item.effects.get(id));
-    for (const actor of targets) {
-      for (const effect of effects) {
-        if (effect) artichron.utils.sockets.grantBuff(effect, actor);
-      }
-    }
   }
 }

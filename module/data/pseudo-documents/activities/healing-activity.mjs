@@ -1,32 +1,13 @@
 import BaseActivity from "./base-activity.mjs";
 
-const { EmbeddedDataField, NumberField, SchemaField, StringField } = foundry.data.fields;
-
-const targetField = () => {
-  return new SchemaField({
-    type: new StringField({
-      choices: artichron.config.TARGET_TYPES,
-      initial: "single",
-      required: true,
-    }),
-    count: new NumberField({ min: 1, integer: true, nullable: false, initial: 1 }),
-    duration: new StringField({
-      choices: artichron.config.TEMPLATE_DURATIONS,
-      initial: "combat",
-      required: true,
-    }),
-    range: new NumberField({ min: 1, integer: true, nullable: false, initial: 1 }),
-    size: new NumberField({ min: 1, integer: true, nullable: false, initial: 1 }),
-    width: new NumberField({ min: 1, integer: true, nullable: false, initial: 1 }),
-  });
-};
+const { EmbeddedDataField } = foundry.data.fields;
 
 export default class HealingActivity extends BaseActivity {
   /** @inheritdoc */
   static defineSchema() {
     return Object.assign(super.defineSchema(), {
       healing: new EmbeddedDataField(artichron.data.FormulaModel),
-      target: targetField(),
+      target: artichron.data.fields.ActivityTargetField(),
     });
   }
 
