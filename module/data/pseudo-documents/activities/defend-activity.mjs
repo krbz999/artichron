@@ -56,13 +56,10 @@ export default class DefendActivity extends BaseActivity {
 
     const Cls = foundry.utils.getDocumentClass("ChatMessage");
     const messageData = {
-      type: "usage",
+      type: "defend",
       rolls: [roll],
       speaker: Cls.getSpeaker({ actor: actor }),
-      "system.activity": this.id,
-      "system.item": item.uuid,
-      "flags.artichron.usage": configuration.usage,
-      "flags.artichron.type": DefendActivity.TYPE,
+      "system.activity": this.uuid,
     };
     Cls.applyRollMode(messageData, configuration.usage.rollMode.mode);
     foundry.utils.mergeObject(messageData, configuration.message);

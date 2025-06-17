@@ -54,14 +54,10 @@ export default class HealingActivity extends BaseActivity {
 
     const Cls = foundry.utils.getDocumentClass("ChatMessage");
     const messageData = {
-      type: "usage",
+      type: "healing",
       rolls: [roll],
       speaker: Cls.getSpeaker({ actor: actor }),
-      "system.activity": this.id,
-      "system.item": item.uuid,
-      "system.targets": Array.from(game.user.targets.map(t => t.actor?.uuid)),
-      "flags.artichron.usage": configuration.usage,
-      "flags.artichron.type": HealingActivity.TYPE,
+      "system.activity": this.uuid,
     };
     Cls.applyRollMode(messageData, configuration.usage.rollMode.mode);
     foundry.utils.mergeObject(messageData, configuration.message);

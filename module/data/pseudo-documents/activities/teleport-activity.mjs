@@ -70,13 +70,9 @@ export default class TeleportActivity extends BaseActivity {
 
     const Cls = foundry.utils.getDocumentClass("ChatMessage");
     const messageData = {
-      type: "usage",
+      type: "teleport",
       speaker: Cls.getSpeaker({ actor: actor }),
-      "system.activity": this.id,
-      "system.item": item.uuid,
-      "system.targets": [],
-      "flags.artichron.usage": configuration.usage,
-      "flags.artichron.type": TeleportActivity.TYPE,
+      "system.activity": this.uuid,
     };
     Cls.applyRollMode(messageData, configuration.usage.rollMode.mode);
     foundry.utils.mergeObject(messageData, configuration.message);
