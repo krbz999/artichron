@@ -7,7 +7,7 @@ export default class HealingActivity extends BaseActivity {
   static defineSchema() {
     return Object.assign(super.defineSchema(), {
       healing: new EmbeddedDataField(artichron.data.FormulaModel),
-      target: artichron.data.fields.ActivityTargetField(),
+      target: new artichron.data.fields.ActivityTargetField(),
     });
   }
 

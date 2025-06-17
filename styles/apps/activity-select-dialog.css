@@ -1,0 +1,6 @@
+.artichron.application.activity-select-dialog {
+  .description {
+    min-height: 300px;
+    overflow: hidden auto;
+  }
+}

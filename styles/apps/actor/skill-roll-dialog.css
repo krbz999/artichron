@@ -1,5 +1,4 @@
-/* Skill and activity select dialogs (apps with radio inputs) */
-.artichron.application.skill-roll-dialog, .artichron.application.activity-select-dialog {
+.artichron.application.skill-roll-dialog {
   .form-fields {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -25,21 +24,6 @@
         opacity: 0.4;
         transition: opacity 150ms ease;
       }
-    }
-  }
-
-  &.activity-select-dialog .description {
-    height: 200px;
-    overflow-y: auto;
-
-    &:not(.active) {
-      display: none;
-    }
-
-    &.faint {
-      opacity: 0.6;
-      font-style: italic;
-      font-size: 12px;
     }
   }
 }

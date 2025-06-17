@@ -11,6 +11,9 @@ export default class ActivitySelectDialog extends Application {
   /** @inheritdoc */
   static DEFAULT_OPTIONS = {
     classes: ["activity-select-dialog"],
+    actions: {
+      selectActivity: ActivitySelectDialog.#selectActivity,
+    },
   };
 
   /* -------------------------------------------------- */
@@ -18,10 +21,10 @@ export default class ActivitySelectDialog extends Application {
   /** @inheritdoc */
   static PARTS = {
     form: {
-      template: "systems/artichron/templates/apps/item/activity-select-dialog/form.hbs",
+      template: "systems/artichron/templates/apps/pseudo/activity/select-dialog/form.hbs",
     },
     footer: {
-      template: "systems/artichron/templates/shared/footer.hbs",
+      template: "templates/generic/form-footer.hbs",
     },
   };
 
@@ -31,70 +34,81 @@ export default class ActivitySelectDialog extends Application {
 
   /** @inheritdoc */
   get title() {
-    return game.i18n.format("ARTICHRON.ActivitySelectDialog.Title", { name: this.#item.name });
+    return game.i18n.format("ARTICHRON.ACTIVITY.SELECT.TITLE", { name: this.#item.name });
   }
 
   /* -------------------------------------------------- */
 
   /**
    * The item that is being used.
-   * @type {ItemArtichron}
+   * @type {foundry.documents.Item}
    */
   #item = null;
 
   /* -------------------------------------------------- */
-  /*   Rendering                                        */
+
+  /**
+   * The selected activity.
+   * @type {string}
+   */
+  #selected;
+
   /* -------------------------------------------------- */
 
-  /** @inheritdoc */
-  async _prepareContext(options) {
-    const context = {};
-    const activities = [];
+  /** @type {import("../../../_types").ContextPartHandler} */
+  async _preparePartContextForm(context, options) {
+    const ctx = context.ctx = { activities: [] };
     const rollData = this.#item.getRollData();
+    const Editor = foundry.applications.ux.TextEditor.implementation;
 
-    for (const [i, activity] of this.#item.system.activities.contents.entries()) {
-      const enriched = await foundry.applications.ux.TextEditor.enrichHTML(activity.description, {
-        rollData: rollData, relativeTo: this.#item,
-      });
-      activities.push({
-        name: activity.name,
-        img: activity.img || activity.constructor.metadata.icon,
-        enriched: enriched,
-        active: !i,
-        id: activity.id,
-        textCssClass: [i ? null : "active", enriched ? null : "faint"].filterJoin(" "),
+    for (const activity of this.#item.getEmbeddedPseudoDocumentCollection("Activity")) {
+      this.#selected ??= activity.id;
+      const active = this.#selected === activity.id;
+
+      if (active) {
+        ctx.enriched = await Editor.enrichHTML(activity.description, { rollData, relativeTo: this.#item });
+      }
+
+      ctx.activities.push({
+        active,
+        document: activity,
+        classes: [active ? "" : "inactive"].filter(_ => _),
       });
     }
-
-    context.activities = activities;
-    context.footer = { label: "Confirm", icon: "fa-solid fa-check" };
 
     return context;
   }
 
   /* -------------------------------------------------- */
 
-  /** @inheritdoc */
-  _attachPartListeners(partId, htmlElement, options) {
-    super._attachPartListeners(partId, htmlElement, options);
+  /** @type {import("../../../_types").ContextPartHandler} */
+  async _preparePartContextFooter(context, options) {
+    const ctx = context.ctx = {};
+    context.buttons = [{ type: "submit", label: "Confirm", icon: "fa-solid fa-check" }];
+    return context;
+  }
 
-    for (const radio of htmlElement.querySelectorAll("input[type=radio]")) {
-      radio.addEventListener("change", event => {
-        for (const desc of htmlElement.querySelectorAll(".description")) {
-          desc.classList.toggle("active", desc.dataset.id === event.currentTarget.value);
-        }
-      });
-    }
+  /* -------------------------------------------------- */
+
+  /**
+   * Select activity.
+   * @this {ActivitySelectDialog}
+   * @param {PointerEvent} event    The initiating click event.
+   * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
+   */
+  static #selectActivity(event, target) {
+    this.#selected = target.dataset.pseudoId;
+    this.render();
   }
 
   /* -------------------------------------------------- */
 
   /** @inheritdoc */
   _processSubmitData(event, form, formData, submitOptions) {
-    const config = super._processSubmitData(event, form, formData, submitOptions);
-    if (game.keyboard.isModifierActive(foundry.helpers.interaction.KeyboardManager.MODIFIER_KEYS.SHIFT)) {
-      config.configure = false;
-    }
+    const config = {
+      activity: this.#selected,
+      configure: game.keyboard.isModifierActive(foundry.helpers.interaction.KeyboardManager.MODIFIER_KEYS.SHIFT),
+    };
     return config;
   }
 }

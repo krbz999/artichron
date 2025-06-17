@@ -294,10 +294,9 @@
 },
 
 "ACTIVITY": {
-  "Buttons": {
-    "ApplyEffects": "Apply Effects",
-    "ApplyHealing": "Apply Healing",
-    "Teleport": "Teleport Token"
+  "SELECT": {
+    "TITLE": "Select Activity: {name}",
+    "noDescription": "No Description"
   },
   "Warning": {
     "ConsumeCostUnavailable": "{name} does not have {number} action points available.",
@@ -1118,12 +1117,6 @@
     "hint": "Select two skills to combine for the roll, adding together their dice and bonuses.",
     "flavor": "Skill Roll ({skills})"
   }
-},
-
-"ActivitySelectDialog": {
-  "Legend": "Activities",
-  "NoDescription": "No details provided.",
-  "Title": "Select Activity: {name}"
 },
 
 "ActivityUseDialog": {

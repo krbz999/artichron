@@ -1,0 +1,17 @@
+<section>
+
+  <section class="document-list">
+    {{document-list-entries documents=ctx.activities action="selectActivity"}}
+  </section>
+
+  <hr>
+
+  <section class="description">
+    {{#if ctx.enriched}}
+    {{{ctx.enriched}}}
+    {{else}}
+    <p>{{localize "ARTICHRON.ACTIVITY.SELECT.noDescription"}}</p>
+    {{/if}}
+  </section>
+
+</section>
