@@ -86,7 +86,6 @@ Hooks.once("init", function() {
     damage: data.chatMessages.DamageData,
     effect: data.chatMessages.EffectData,
     trade: data.chatMessages.TradeMessageData,
-    usage: data.chatMessages.UsageMessageData,
   });
 
   // Combatant Data Models
