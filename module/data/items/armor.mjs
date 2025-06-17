@@ -81,8 +81,11 @@ export default class ArmorData extends ItemSystemModel {
   async _prepareTooltipContext() {
     const context = await super._prepareTooltipContext();
 
-    context.requirements = this.category.requirements.map(r => {
-      return { content: r.toRequirement(), fulfilled: r.fulfilledRequirements };
+    context.requirements = this.parent.getEmbeddedPseudoDocumentCollection("ArmorRequirement").map(requirement => {
+      return {
+        content: requirement.toRequirement(),
+        unfulfilled: !requirement.fulfilledRequirements,
+      };
     });
 
     context.defenses = Object.entries(this.defenses).reduce((acc, [type, { value }]) => {

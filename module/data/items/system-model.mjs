@@ -183,7 +183,7 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
 
   /**
    * Create data for an enriched tooltip.
-   * @returns {Promise<HTMLElement>}
+   * @returns {Promise<HTMLElement[]>}
    */
   async richTooltip() {
     const template = "systems/artichron/templates/ui/item/tooltip.hbs";
@@ -191,7 +191,7 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
     const div = document.createElement("DIV");
     div.innerHTML = await foundry.applications.handlebars.renderTemplate(template, context);
     div.classList.add(this.parent.type);
-    return div;
+    return div.children;
   }
 
   /* -------------------------------------------------- */

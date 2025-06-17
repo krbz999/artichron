@@ -7,6 +7,7 @@
   --artichron-color-bordeaux: rgb(76, 2, 18);
   --artichron-color-cotton: rgb(231, 209, 177);
   --artichron-color-gold: rgb(159, 146, 117);
+  --artichron-color-gray: rgb(177, 177, 177);
   --artichron-color-green: rgb(30, 230, 130);
   --artichron-color-orange: rgb(215, 114, 42);
   --artichron-color-pink: rgb(255, 97, 144);
@@ -52,6 +53,10 @@
   --artichron-color-border: var(--artichron-color-blue-light);
   --artichron-color-quotes: var(--artichron-color-cotton);
   --artichron-color-scrollbar: var(--artichron-color-blue-dark) transparent;
+
+  --artichron-color-tooltip-shadow: var(--artichron-color-blue-light);
+  --artichron-color-tooltip-background: var(--artichron-color-black);
+  --artichron-color-tooltip-unfulfilled: var(--artichron-color-pink);
 }
 
 /* OVERRIDES */

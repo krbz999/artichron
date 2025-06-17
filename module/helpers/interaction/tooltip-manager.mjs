@@ -65,8 +65,8 @@ export default class TooltipManagerArtichron extends foundry.helpers.interaction
    */
   async _onHoverItem(item) {
     const content = await (item.system.richTooltip?.() ?? {});
-    if (!content) return;
-    this.tooltip.replaceChildren(content);
+    if (!content?.length) return;
+    this.tooltip.replaceChildren(...content);
     this.tooltip.classList.add("artichron", "item-tooltip");
     requestAnimationFrame(() => this._positionItemTooltip("RIGHT"));
   }

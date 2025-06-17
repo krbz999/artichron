@@ -1,100 +1,18 @@
 <section class="item-banner">
 
-  <img class="image" src="{{item.img}}" alt="{{item.name}}">
-
-  <div class="name">
-    <span class="title">{{item.name}}</span>
-    <span class="subtitle">{{subtitle}}</span>
-  </div>
-
-  <div class="description">{{{description}}}</div>
+  <h3 class="title">{{item.name}}</h3>
+  <h4 class="subtitle">{{subtitle}}</h4>
 
 </section>
 
-<section class="item-details">
+<section class="description">{{{description}}}</section>
 
-  {{#if tags.length}}
-  <div class="tags">
-    <div class="tags-wrapper">
-      {{#each tags}}
-      <div class="tag">{{label}}</div>
-      {{/each}}
-    </div>
-  </div>
-  {{/if}}
-
-  {{#if requirements.length}}
-  <div class="requirements">
-    <div class="title">Requirements</div>
-    <ul>
-      {{#each requirements}}
-      <li class="{{ifThen fulfilled 'green' 'red'}}">{{content}}</li>
-      {{/each}}
-    </ul>
-  </div>
-  {{/if}}
-
-  {{#if healing}}
-  <div class="healing">
-    <div class="title">Healing</div>
-    <div class="tags-wrapper">
-      <div class="tag" style="color: #{{healing.color}};">
-        {{healing.formula}} <i class="fa-fw {{healing.icon}}"></i>
-      </div>
-    </div>
-  </div>
-  {{/if}}
-
-  {{#if damages}}
-  <div class="damages">
-    <div class="formulas">
-      <div class="title">Damage</div>
-      <div class="tags-wrapper">
-        {{#each damages}}
-        <div class="tag" style="color: #{{config.color}}">
-          {{formula}} <i class="fa-fw {{config.icon}}"></i>
-        </div>
-        {{/each}}
-      </div>
-    </div>
-  </div>
-  {{/if}}
-
-  {{#if defenses.length}}
-  <div class="defenses">
-    <div class="title">Defenses</div>
-    <div class="tags-wrapper">
-      {{#each defenses}}
-      <div class="tag" style="color: #{{config.color}}">
-        {{value}} <i class="fa-fw {{config.icon}}"></i>
-      </div>
-      {{/each}}
-    </div>
-  </div>
-  {{/if}}
-
-  {{#if targets.length}}
-  <div class="targets">
-    <div class="title">Targets</div>
-    <div class="tags-wrapper">
-      {{#each targets}}
-      <div class="tag">{{label}}</div>
-      {{/each}}
-    </div>
-  </div>
-  {{/if}}
-
-  {{#if properties.length}}
-  <div class="properties" style="--length: {{propsCol}};">
-    {{#each properties}}
-    <div class="property">
-      <div class="title">{{title}}</div>
-      <div class="subtitle">
-        {{label}} <i class="fa-fw {{icon}}"></i>
-      </div>
-    </div>
+{{#if requirements.length}}
+<section class="requirements">
+  <ul>
+    {{#each requirements}}
+    <li class="{{#if unfulfilled}} unfulfilled {{/if}}">{{content}}</li>
     {{/each}}
-  </div>
-  {{/if}}
-
+  </ul>
 </section>
+{{/if}}
