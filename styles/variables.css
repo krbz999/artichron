@@ -57,6 +57,10 @@
   --artichron-color-tooltip-shadow: var(--artichron-color-blue-light);
   --artichron-color-tooltip-background: var(--artichron-color-black);
   --artichron-color-tooltip-unfulfilled: var(--artichron-color-pink);
+
+  /* HUD */
+  --artichron-color-tokenhud-inactive: var(--artichron-color-gray);
+  --artichron-color-tokenhud-active: var(--artichron-color-pink);
 }
 
 /* OVERRIDES */

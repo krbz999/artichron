@@ -11,4 +11,16 @@
     flex: 0 0 var(--control-size);
     margin-top: .3rem;
   }
+
+  .effect-control {
+    --icon-fill: var(--artichron-color-tokenhud-inactive);
+
+    &:hover {
+      opacity: 1;
+    }
+
+    &.active {
+      --icon-fill: var(--artichron-color-tokenhud-active);
+    }
+  }
 }

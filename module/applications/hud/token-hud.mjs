@@ -13,6 +13,45 @@ export default class TokenHUDArtichron extends foundry.applications.hud.TokenHUD
   /* -------------------------------------------------- */
 
   /** @inheritdoc */
+  async _onRender(context, options) {
+    await super._onRender(context, options);
+    this.#adjustStatuses();
+    this.#addRollDamageButton();
+  }
+
+  /* -------------------------------------------------- */
+
+  /** Replace statuses with SVGs. */
+  #adjustStatuses() {
+    for (const element of this.element.querySelectorAll(".effect-control[data-status-id]")) {
+      const el = document.createElement("ARTICHRON-ICON");
+      el.setAttribute("src", element.getAttribute("src"));
+      Object.assign(el.dataset, element.dataset);
+      el.classList.add(...element.classList);
+      element.replaceWith(el);
+    }
+  }
+
+  /* -------------------------------------------------- */
+
+  /** Add a button to roll damage. */
+  #addRollDamageButton() {
+    if (!this.object.actor?.system.rollDamage) return;
+
+    const button = foundry.utils.parseHTML(`
+      <button type="button" class="control-icon" data-action="rollDamage" data-tooltip="ARTICHRON.HUD.TOKEN.rollDamage">
+        <i class="fa-solid fa-burst" inert></i>
+      </button>`);
+
+    const bar1 = this.element.querySelector(".col.middle .attribute.bar1");
+    bar1.insertAdjacentElement("afterend", button);
+  }
+
+  /* -------------------------------------------------- */
+  /*   Event handlers                                   */
+  /* -------------------------------------------------- */
+
+  /** @inheritdoc */
   static async #onToggleEffect(event, target) {
     if (!this.actor) {
       ui.notifications.warn("HUD.WarningEffectNoActor", { localize: true });
@@ -27,25 +66,6 @@ export default class TokenHUDArtichron extends foundry.applications.hud.TokenHUD
     await this.actor.toggleStatusEffect(statusId, { active, overlay: event.button === 2 });
   }
 
-  /* -------------------------------------------------- */
-
-  /** @inheritdoc */
-  async _onRender(context, options) {
-    await super._onRender(context, options);
-
-    if (!this.object.actor?.system.rollDamage) return;
-
-    const button = foundry.utils.parseHTML(`
-      <button type="button" class="control-icon" data-action="rollDamage" data-tooltip="ARTICHRON.HUD.TOKEN.rollDamage">
-        <i class="fa-solid fa-burst" inert></i>
-      </button>`);
-
-    const bar1 = this.element.querySelector(".col.middle .attribute.bar1");
-    bar1.insertAdjacentElement("afterend", button);
-  }
-
-  /* -------------------------------------------------- */
-  /*   Event handlers                                   */
   /* -------------------------------------------------- */
 
   /**
