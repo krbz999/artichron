@@ -15,9 +15,7 @@
   <div class="form-group">
     {{#each ctx.defenses}}
     <div class="form-group label-top" data-tooltip-text="{{label}}">
-      <label style="color: #{{color}};">
-        <i class="fa-fw {{icon}}"></i>
-      </label>
+      <label class="fa-fw {{icon}}" style="width: 100%; color: #{{color}};"></label>
       <div class="form-fields">
         {{formInput field value=value disabled=(not (and @root.editable @root.isEditMode)) placeholder="0"}}
       </div>
