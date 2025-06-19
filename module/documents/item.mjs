@@ -234,6 +234,16 @@ export default class ItemArtichron extends BaseDocumentMixin(foundry.documents.I
   }
 
   /* -------------------------------------------------- */
+
+  /**
+   * The item's identifier.
+   * @type {string}
+   */
+  get identifier() {
+    return this.system.identifier;
+  }
+
+  /* -------------------------------------------------- */
   /*   Preparation methods                              */
   /* -------------------------------------------------- */
 
