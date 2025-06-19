@@ -96,7 +96,7 @@ export default class DamageRollFlowDialog extends Application {
       if (v && foundry.dice.Roll.validate(v)) {
         terms.push(
           new foundry.dice.terms.OperatorTerm({ operator: "+" }),
-          ...new foundry.dice.Roll(v).terms,
+          ...new foundry.dice.Roll(v, roll.data).terms,
         );
       }
 
