@@ -54,7 +54,7 @@ export default class BaseAdvancement extends TypedPseudoDocument {
     });
 
     if (this.type === "itemGrant") {
-      for (const { uuid, ...rest } of this.pool ?? []) {
+      for (const { uuid, ...rest } of this.pool) {
         const item = await fromUuid(uuid);
         if (!item) continue;
         leaf.pool.push({ item, selected: !rest.optional, ...rest });
@@ -139,18 +139,20 @@ export default class BaseAdvancement extends TypedPseudoDocument {
   /**
    * Perform the advancement flow.
    * @param {foundry.documents.Actor} actor   The actor being targeted by advancements.
-   * @param {foundry.documents.Item} item     The path item retrieved from the config, which holds advancements.
+   * @param {foundry.documents.Item} item     The path item which holds advancements.
    * @param {object} options                  Advancement options.
    * @param {number[]} options.range          The range of the advancements to trigger, a two-length array of integers.
    * @returns {Promise<object[]|null>}        A promise that resolves to the item data that is to be created.
+   *                                          The item data is configured in such a way that they should be
+   *                                          created with `keepId: true`.
    */
   static async configureAdvancement(actor, item, { range }) {
     if (item.type !== "path") {
       throw new Error("Cannot trigger advancements with a non-Path item as the root item.");
     }
 
-    const collection = item.getEmbeddedPseudoDocumentCollection("Advancement");
-    if (!collection.size) return [];
+    const collection = item.getEmbeddedPseudoDocumentCollection("Advancement").getByType("itemGrant");
+    if (!collection.length) return [];
 
     const chains = [];
     for (const advancement of collection) {
@@ -162,7 +164,9 @@ export default class BaseAdvancement extends TypedPseudoDocument {
     const configuration = await artichron.applications.apps.advancement.ChainConfigurationDialog.create({ chains });
     if (!configuration) return null;
 
-    const id = item.system.identifier;
+    const id = item.identifier;
+
+    // The items that will be created. The root item is handled elsewhere.
     const items = new foundry.utils.Collection();
     const prepareItem = item => {
       const keepId = !actor.items.has(item._id) && !items.has(item._id);
