@@ -1,5 +1,7 @@
 <section>
-  <h1 class="section-header">{{ctx.label}}</h1>
-  <span class="subtitle">{{localize "ARTICHRON.PROGRESSION.PATH_CONFIGURATION.currentPath"}}</span>
-  <img src="{{ctx.image}}" alt="{{ctx.label}}" class="icon">
+  <h1 class="section-header">
+    <span>{{ctx.oldPath}}</span>
+    <span class="sep fa-fw fa-solid fa-arrow-right"></span>
+    <span>{{ctx.newPath}}</span>
+  </h1>
 </section>

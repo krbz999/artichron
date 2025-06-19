@@ -40,7 +40,9 @@
 },
 "Advancement": {
   "itemGrant": "Item Grant",
-  "itemGrantPl": "Item Grant Advancements"
+  "itemGrantPl": "Item Grant Advancements",
+  "scaleValue": "Scaling Value",
+  "scaleValuePl": "Scaling Values Advancements"
 },
 "ArmorRequirement": {
   "health": "Health",
@@ -580,6 +582,27 @@
         }
       }
     }
+  },
+  "SCALE_VALUE": {
+    "FIELDS": {
+      "subtype": {
+        "label": "Subtype"
+      },
+      "increases": {
+        "element": {
+          "number": {
+            "label": "Number"
+          },
+          "faces": {
+            "label": "Faces"
+          }
+        }
+      }
+    },
+    "SUBTYPE": {
+      "number": "Number",
+      "dice": "Dice"
+    }
   }
 },
 
@@ -965,7 +988,6 @@
     "warlock": "Warlock"
   },
   "PATH_CONFIGURATION": {
-    "currentPath": "Current Path",
     "noPath": "No Path",
     "investHint": "Invest additional points into your current paths.",
     "invested": "Invested: {total} (+{delta})",

@@ -83,10 +83,7 @@ export default class HeroSheet extends ActorSheetArtichron {
     const ctx = context.ctx = { path: {}, defenses: [], skills: [] };
 
     // Path.
-    const key = this.document.system.currentPaths[0];
-    ctx.path.label = key in context.config.PROGRESSION_CORE_PATHS
-      ? context.config.PROGRESSION_CORE_PATHS[key].label
-      : context.config.PROGRESSION_MIXED_PATHS[key]?.label;
+    ctx.path.label = this.document.system.progression.label ?? "";
 
     // Damage.
     ctx.damage = {
@@ -149,58 +146,49 @@ export default class HeroSheet extends ActorSheetArtichron {
   /** @type {import("../../../_types").ContextPartHandler} */
   async _preparePartContextProgression(context, options) {
     // The sections and whether the hero is *currently* mixed path.
-    context.ctx = { paths: {}, mixed: false, droparea: false };
+    const ctx = context.ctx = {
+      paths: {},
+      droparea: false,
+    };
 
-    const paths = this.document.system.progression.paths;
-    const [currentPath, primary, secondary] = this.document.system.currentPaths;
+    const { primaryPath, secondaryPath, mixedPath, invested, isMixed } = this.document.system.progression;
 
-    const mixed = artichron.config.PROGRESSION_CORE_PATHS[primary]?.mixed[secondary];
-    if (mixed) {
-      context.ctx.paths[mixed] = {
-        ...artichron.config.PROGRESSION_MIXED_PATHS[mixed],
-        key: mixed,
+    if (mixedPath) {
+      ctx.paths[mixedPath.identifier] = {
+        path: mixedPath,
+        label: `${mixedPath.name} (${invested[mixedPath.identifier]})`,
         items: [],
-      };
-      context.ctx.mixed = currentPath === mixed;
-    }
-
-    for (const key of [primary, secondary]) {
-      if (!key) continue;
-      const config = artichron.config.PROGRESSION_CORE_PATHS[key];
-      context.ctx.paths[key] = {
-        ...config,
-        ...paths[key],
-        key,
-        items: [],
-        label: `${config.label} (${paths[key].invested})`,
       };
     }
 
-    // Set full invested value for mixed path.
-    if (mixed) {
-      context.ctx.paths[mixed].invested = (paths[primary]?.invested ?? 0) + (paths[secondary]?.invested ?? 0);
-      context.ctx.paths[mixed].label = `${context.ctx.paths[mixed].label} (${context.ctx.paths[mixed].invested})`;
+    for (const path of [primaryPath, secondaryPath]) {
+      if (!path) continue;
+      context.ctx.paths[path.identifier] = {
+        path,
+        label: `${path.name} (${invested[path.identifier]})`,
+        items: [],
+      };
     }
 
     // A temporary "misc" section to store unsorted talents. Removed if none found.
-    context.ctx.paths.other = { items: [], label: game.i18n.localize("ARTICHRON.SHEET.HERO.HEADERS.otherTalents") };
+    ctx.paths.other = { items: [], label: game.i18n.localize("ARTICHRON.SHEET.HERO.HEADERS.otherTalents") };
 
     // Sort talents into path sections.
     for (const talent of this.document.items.documentsByType.talent) {
       const path = talent.getFlag("artichron", "advancement.path");
-      let section = context.ctx.paths.other;
-      section = context.ctx.paths[path] ?? section;
+      let section = ctx.paths.other;
+      section = ctx.paths[path] ?? section;
       section.items.push({ document: talent, classes: ["draggable"] });
     }
 
     // If the hero is not currently mixed path and there are no talents from the mixed path either, remove that section.
-    if (mixed && !context.ctx.mixed && !context.ctx.paths[mixed]?.items.length) delete context.ctx.paths[mixed];
+    if (!isMixed && !ctx.paths[mixedPath?.identifier]?.items.length) delete ctx.paths[mixedPath?.identifier];
 
     // Remove "other" section if empty.
-    if (!context.ctx.paths.other.items.length) delete context.ctx.paths.other;
+    if (!ctx.paths.other.items.length) delete ctx.paths.other;
 
-    context.ctx.droparea = !Object.keys(context.ctx.paths).some(k => k !== "other");
-    context.ctx.paths = Object.values(context.ctx.paths);
+    ctx.droparea = !Object.keys(ctx.paths).some(k => k !== "other");
+    ctx.paths = Object.values(ctx.paths);
 
     return context;
   }
