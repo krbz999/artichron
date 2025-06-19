@@ -1,6 +1,8 @@
 /**
  * Sort an object by its keys.
  * @param {object} object
+ * @param {object} [options]
+ * @param {boolean} [options.inplace]
  * @returns {object}
  */
 export default function(object, { inplace = true } = {}) {
