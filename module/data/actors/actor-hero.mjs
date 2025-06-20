@@ -1,7 +1,7 @@
 import CreatureData from "./creature-data.mjs";
 import ScalingValue from "./utils/scaling-value.mjs";
 
-const { ArrayField, NumberField, SchemaField, StringField, TypedObjectField } = foundry.data.fields;
+const { ArrayField, NumberField, SchemaField, TypedObjectField } = foundry.data.fields;
 
 /**
  * @typedef PoolData
@@ -396,7 +396,7 @@ export default class HeroData extends CreatureData {
     const max = Object.values(totals).reduce((acc, k) => acc + k, 0);
     const range = [max - spent + 1, max];
 
-    const itemData = await artichron.data.pseudoDocuments.advancements.BaseAdvancement.configureAdvancement(
+    const itemData = await artichron.data.pseudoDocuments.advancements.ItemGrantAdvancement.configureAdvancement(
       this.parent,
       pathItem,
       { range },
