@@ -1,10 +1,6 @@
 import AdvancementChain from "../../../utils/advancement-chain.mjs";
 import TypedPseudoDocument from "../typed-pseudo-document.mjs";
 
-const {
-  NumberField, SchemaField,
-} = foundry.data.fields;
-
 export default class BaseAdvancement extends TypedPseudoDocument {
   /** @type {import("../../../_types").PseudoDocumentMetadata} */
   static get metadata() {
@@ -22,18 +18,33 @@ export default class BaseAdvancement extends TypedPseudoDocument {
 
   /** @inheritdoc */
   static defineSchema() {
-    return Object.assign(super.defineSchema(), {
-      requirements: new SchemaField({
-        // How many points are required to unlock this
-        points: new NumberField({ integer: true, min: 1, nullable: false, initial: 1 }),
-      }),
-    });
+    return Object.assign(super.defineSchema(), {});
   }
 
   /* -------------------------------------------------- */
 
   /** @inheritdoc */
   static LOCALIZATION_PREFIXES = ["ARTICHRON.ADVANCEMENT"];
+
+  /* -------------------------------------------------- */
+
+  /**
+   * The point investments at which this advancement applies.
+   * @type {number[]}
+   */
+  get levels() {
+    return [];
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Is this advancement fully configured?
+   * @type {boolean}
+   */
+  get invalidAdvancement() {
+    return true;
+  }
 
   /* -------------------------------------------------- */
 

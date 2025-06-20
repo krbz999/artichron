@@ -42,8 +42,8 @@ export default class TalentSheet extends ItemSheetArtichron {
 
   /** @type {import("../../../_types").ContextPartHandler} */
   async _preparePartContextAdvancements(context, options) {
-    context.ctx = {};
-    const arr = context.ctx.advancements = [];
+    const ctx = context.ctx = {};
+    const arr = ctx.advancements = [];
     for (const advancement of this.document.getEmbeddedPseudoDocumentCollection("Advancement").sourceContents) {
       arr.push({ document: advancement, classes: ["draggable"] });
     }

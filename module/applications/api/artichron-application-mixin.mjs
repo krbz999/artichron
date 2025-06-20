@@ -39,6 +39,7 @@ export default function ArtichronApplicationMixin(Class) {
       return Object.assign(context, {
         config: artichron.config,
         isGM: game.user.isGM,
+        rootId: this.id,
       });
     }
 

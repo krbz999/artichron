@@ -9,6 +9,7 @@ export default class ScaleValueAdvancement extends BaseAdvancement {
       subtype: new StringField({
         choices: () => artichron.config.ADVANCEMENT_SCALE_VALUE_TYPES,
         initial: "number",
+        required: true,
       }),
       identifier: new artichron.data.fields.IdentifierField(),
       increases: new TypedObjectField(new SchemaField({
@@ -32,6 +33,20 @@ export default class ScaleValueAdvancement extends BaseAdvancement {
     ...super.LOCALIZATION_PREFIXES,
     "ARTICHRON.ADVANCEMENT.SCALE_VALUE",
   ];
+
+  /* -------------------------------------------------- */
+
+  /** @inheritdoc */
+  get levels() {
+    return Object.keys(this.increases).map(n => Number(n)).sort((a, b) => a - b);
+  }
+
+  /* -------------------------------------------------- */
+
+  /** @inheritdoc */
+  get invalidAdvancement() {
+    return foundry.utils.isEmpty(this.increases);
+  }
 
   /* -------------------------------------------------- */
 

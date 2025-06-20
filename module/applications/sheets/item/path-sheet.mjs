@@ -22,6 +22,7 @@ export default class PathSheet extends ItemSheetArtichron {
     },
     advancements: {
       template: "systems/artichron/templates/sheets/item/item-sheet/path/advancements.hbs",
+      scrollable: [".document-list.advancements section.scrollable"],
     },
   };
 
@@ -58,17 +59,28 @@ export default class PathSheet extends ItemSheetArtichron {
 
   /** @type {import("../../../_types").ContextPartHandler} */
   async _preparePartContextAdvancements(context, options) {
-    context.ctx = {
-      advancements: {},
-    };
+    const ctx = context.ctx = { advancements: {} };
 
     for (const advancement of this.document.getEmbeddedPseudoDocumentCollection("Advancement")) {
-      const pts = advancement.requirements.points;
-      context.ctx.advancements[pts] ??= { label: `${pts} points required`, entries: [] };
-      context.ctx.advancements[pts].entries.push({ document: advancement, classes: ["draggable"] });
+      const pts = advancement.levels;
+      for (const p of pts) {
+        ctx.advancements[p] ??= {
+          label: game.i18n.format("ARTICHRON.SHEET.PATH.HEADERS.pointsRequired", { points: p }),
+          entries: [],
+        };
+        ctx.advancements[p].entries.push({ document: advancement, classes: ["draggable"] });
+      }
+
+      if (!pts.length) {
+        ctx.advancements.empty ??= {
+          label: game.i18n.localize("ARTICHRON.SHEET.PATH.HEADERS.inapplicable"),
+          entries: [],
+        };
+        ctx.advancements.empty.entries.push({ document: advancement });
+      }
     }
 
-    artichron.utils.sortObject(context.ctx.advancements, { inplace: true });
+    artichron.utils.sortObject(ctx.advancements, { inplace: true });
 
     return context;
   }

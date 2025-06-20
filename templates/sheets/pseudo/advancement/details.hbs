@@ -1,9 +1,37 @@
-<section class="{{tabs.details.cssClass}}" data-tab="{{tabs.details.id}}" data-group="{{tabs.details.group}}">
-  <fieldset>
-    <legend>{{localize "ARTICHRON.SHEET.ADVANCEMENT.HEADERS.requirements"}}</legend>
-    {{formGroup fields.requirements.fields.points value=source.requirements.points name="requirements.points" placeholder="1" disabled=(not editable)}}
-  </fieldset>
+<section class="scrollable {{tabs.details.cssClass}}" data-tab="{{tabs.details.id}}" data-group="{{tabs.details.group}}">
+  <h3 class="section-header">{{localize "ARTICHRON.SHEET.ADVANCEMENT.HEADERS.requirements"}}</h3>
 
+  {{#if (eq pseudoDocument.type "itemGrant")}}
+  {{formGroup fields.requirements.fields.points value=source.requirements.points name="requirements.points" placeholder="1" disabled=(not editable)}}
+  {{/if}}
+  {{#if (eq pseudoDocument.type "scaleValue")}}
+  {{formGroup fields.subtype value=source.subtype name="subtype"}}
+
+  <h3 class="section-header">{{localize "ARTICHRON.SHEET.ADVANCEMENT.HEADERS.increases"}}</h3>
+  <div class="form-group">
+    <label>{{localize "ARTICHRON.SHEET.ADVANCEMENT.newIncrease"}}</label>
+    <div class="form-fields">
+      <input type="number" data-new-increase placeholder="{{localize 'ARTICHRON.SHEET.ADVANCEMENT.newIncreasePlaceholder'}}" id="{{rootId}}-newIncrease">
+    </div>
+  </div>
+
+  <section class="standard-form increases scrollable">
+    {{#each ctx.increases as |increase idx|}}
+    <div class="form-group" data-increase="{{idx}}">
+      <label>{{idx}}</label>
+      <div class="form-fields">
+        {{formGroup @root.fields.increases.element.fields.number value=increase.number name=(concat "increases." idx ".number") disabled=(not @root.editable) placeholder="0"}}
+        {{#if @root.ctx.faces}}
+        {{formGroup @root.fields.increases.element.fields.faces value=increase.faces name=(concat "increases." idx ".faces") disabled=(not @root.editable) placeholder="0"}}
+        {{/if}}
+        <button type="button" data-action="removeScaleIncrease" class="icon fa-solid fa-fw fa-trash"></button>
+      </div>
+    </div>
+    {{/each}}
+  </section>
+  {{/if}}
+
+  {{#if (eq pseudoDocument.type "itemGrant")}}
   <section class="drop-target-area">
     {{#if ctx.itemPool.length}}
     <table class="item-grant">
@@ -33,4 +61,5 @@
     </table>
     {{/if}}
   </section>
+  {{/if}}
 </section>

@@ -131,6 +131,17 @@
     }
   },
 
+  "ADVANCEMENT": {
+    "newIncrease": "New Increase",
+    "newIncreasePlaceholder": "E.g. '7'",
+    "HEADERS": {
+      "requirements": "Requirements",
+      "item": "Item",
+      "optional": "Optional",
+      "increases": "Increases"
+    }
+  },
+
   "ARMOR": {
     "HEADERS": {
       "defenses": "Defenses",
@@ -245,17 +256,16 @@
     }
   },
 
-  "REQUIREMENT": {
+  "PATH": {
     "HEADERS": {
-      "requirement": "Requirement"
+      "pointsRequired": "{points} points required",
+      "inapplicable": "Inapplicable"
     }
   },
 
-  "ADVANCEMENT": {
+  "REQUIREMENT": {
     "HEADERS": {
-      "requirements": "Requirements",
-      "item": "Item",
-      "optional": "Optional"
+      "requirement": "Requirement"
     }
   },
 
