@@ -115,6 +115,7 @@ export default class ChainConfigurationDialog extends Application {
     const advancementUuid = target.closest("[data-advancement-uuid]").dataset.advancementUuid;
     const itemUuid = target.closest("[data-item-uuid]").dataset.itemUuid;
     const changed = this.selectItem(advancementUuid, itemUuid, checked);
-    if (changed) this.render({ parts: ["chains"] });
+    console.assert(changed);
+    this.render({ parts: ["chains"] });
   }
 }

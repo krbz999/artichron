@@ -1,7 +1,7 @@
 import BaseAdvancement from "./base-advancement.mjs";
 
 const {
-  ArrayField, BooleanField, DocumentUUIDField, NumberField, SchemaField,
+  ArrayField, DocumentUUIDField, NumberField, SchemaField,
 } = foundry.data.fields;
 
 export default class ItemGrantAdvancement extends BaseAdvancement {
@@ -14,8 +14,9 @@ export default class ItemGrantAdvancement extends BaseAdvancement {
       }),
       pool: new ArrayField(new SchemaField({
         uuid: new DocumentUUIDField({ embedded: false, type: "Item" }),
-        optional: new BooleanField(),
       })),
+      // If `null`, then this is explicitly a "receive all" - but also if the number is equal to or greater than the pool
+      chooseN: new NumberField({ integer: true, nullable: true, initial: null, min: 1 }),
     });
   }
 
@@ -93,25 +94,42 @@ export default class ItemGrantAdvancement extends BaseAdvancement {
   async determineChain(parent = null, _depth = 0) {
     const leaf = new artichron.utils.AdvancementChain({
       advancement: this,
-      children: {},
       depth: _depth,
       parent,
-      pool: [],
+      choices: {},
       root: _depth === 0,
     });
 
-    if (this.type === "itemGrant") {
-      for (const { uuid, ...rest } of this.pool) {
-        const item = await fromUuid(uuid);
-        if (!item) continue;
-        leaf.pool.push({ item, selected: !rest.optional, ...rest });
+    // if (this.type === "itemGrant") {
+    for (const { uuid, ...rest } of this.pool) {
+      const item = await fromUuid(uuid);
+      if (!item) continue;
 
-        if (!item.supportsAdvancements) continue;
-        for (const advancement of item.getEmbeddedPseudoDocumentCollection("Advancement").getByType("itemGrant")) {
-          leaf.children[advancement.id] = await advancement.determineChain(leaf, _depth + 1);
-        }
+      leaf.choices[item.id] = {
+        item,
+        ...rest,
+        children: {},
+      };
+
+      if (!item.supportsAdvancements) continue;
+      for (const advancement of item.getEmbeddedPseudoDocumentCollection("Advancement").getByType("itemGrant")) {
+        leaf.choices[item.id].children[advancement.id] = await advancement.determineChain(leaf, _depth + 1);
       }
+
+      Object.defineProperty(leaf.choices[item.id], "link", { value: item.toAnchor() });
     }
+    // }
+
+    leaf.chooseN = ((this.chooseN === null) || (this.chooseN >= Object.keys(leaf.choices).length))
+      ? null // receive all
+      : this.chooseN; // choose up to N of the K items (K > N)
+    leaf.isChoice = leaf.chooseN !== null;
+    leaf.isConfigured = !leaf.isChoice;
+    leaf.selected = {};
+    Object.defineProperty(leaf, "capped", { get() {
+      const count = Object.values(this.selected).reduce((acc, bool) => acc + Boolean(bool), 0);
+      return count >= this.chooseN;
+    } });
 
     return leaf;
   }
@@ -159,10 +177,14 @@ export default class ItemGrantAdvancement extends BaseAdvancement {
     };
 
     // Traverse the chains to gather all items.
-    for (const root of chains)
-      for (const node of root.active())
-        for (const { item, selected } of node.pool)
-          if (selected) prepareItem(item);
+    for (const root of chains) {
+      for (const node of root.active()) {
+        const selected = node.selected;
+        for (const [itemId, { item }] of Object.entries(node.pool)) {
+          if (selected.has(itemId)) prepareItem(item);
+        }
+      }
+    }
 
     return Array.from(items.values());
   }

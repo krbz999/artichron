@@ -137,7 +137,7 @@
     "HEADERS": {
       "requirements": "Requirements",
       "item": "Item",
-      "optional": "Optional",
+      "receiveAll": "Receive All",
       "increases": "Increases"
     }
   },
@@ -590,6 +590,10 @@
           "label": "Point Requirement",
           "hint": "The number of points required to unlock this advancement."
         }
+      },
+      "chooseN": {
+        "label": "Choice",
+        "hint": "How many of the items in this pool can be chosen during advancement. Leave blank if all items are granted."
       }
     }
   },

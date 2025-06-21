@@ -5,16 +5,16 @@
   <div data-advancement-uuid="{{advancement.uuid}}" style="margin-left: calc({{depth}} * 2rem);">
     <h5>{{advancement.name}}</h5>
 
-    {{#if pool.length}}
-    {{#each pool}}
+    {{#each choices}}
     <div class="form-group" data-item-uuid="{{item.uuid}}">
-      <label>{{item.name}}</label>
+      <label>{{{link.outerHTML}}}</label>
       <div class="form-fields">
-        <input type="checkbox" {{#if optional}} data-change="changeOptionalAdvancement" {{/if}} {{checked selected}} {{disabled (not optional)}}>
+        {{#if ../isChoice}}
+        <input type="checkbox" data-change="changeOptionalAdvancement" {{checked (lookup ../selected item.id)}} {{disabled (or (not ../isChoice) (and (not (lookup ../selected item.id )) ../capped))}}>
+        {{/if}}
       </div>
     </div>
     {{/each}}
-    {{/if}}
   </div>
   {{/each}}
 

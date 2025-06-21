@@ -17,8 +17,9 @@ export default class AdvancementChain {
 
     function* yielder(node) {
       yield node;
-      for (const k in node.children) {
-        yield * yielder(node.children[k]);
+      for (const k in node.choices) {
+        for (const u in node.choices[k].children)
+          yield * yielder(node.choices[k].children[u]);
       }
     }
 
@@ -36,11 +37,11 @@ export default class AdvancementChain {
   *active() {
     function* yielder(node) {
       yield node;
-      for (const k in node.children) {
-        const a = node.children[k].advancement;
-        const itemUuid = a.document.uuid;
-        const selected = node.pool.some(p => (p.item.uuid === itemUuid) && (p.selected !== false));
-        if (selected) yield * yielder(node.children[k]);
+      for (const k in node.choices) {
+        const isSelected = !node.isChoice || !!node.selected[k];
+        if (!isSelected) continue;
+        for (const u in node.choices[k].children)
+          yield * yielder(node.choices[k].children[u]);
       }
     }
 
@@ -60,12 +61,19 @@ export default class AdvancementChain {
     let success = false;
     selected = !!selected;
 
+    const isThis = (node, itemId) => {
+      const item = node.choices[itemId].item;
+      if (item.uuid !== itemUuid) return false;
+      return node.isChoice && ((node.selected[itemId] ?? false) !== selected);
+    };
+
     for (const node of this)
       if (node.advancement.uuid === advancementUuid)
-        for (const p of node.pool)
-          if ((p.item.uuid === itemUuid) && (p.optional) && (p.selected !== selected)) {
-            p.selected = selected;
-            success = true;
+        for (const p in node.choices)
+          if (isThis(node, p)) {
+            const has = !!node.selected[p];
+            if (selected !== has) success = true;
+            node.selected[p] = selected;
           }
 
     return success;

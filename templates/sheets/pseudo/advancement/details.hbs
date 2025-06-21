@@ -3,6 +3,7 @@
 
   {{#if (eq pseudoDocument.type "itemGrant")}}
   {{formGroup fields.requirements.fields.points value=source.requirements.points name="requirements.points" placeholder="1" disabled=(not editable)}}
+  {{formGroup fields.chooseN value=source.chooseN name="chooseN" placeholder="Receive All"}}
   {{/if}}
   {{#if (eq pseudoDocument.type "scaleValue")}}
   {{formGroup fields.subtype value=source.subtype name="subtype"}}
@@ -38,7 +39,6 @@
       <thead>
         <tr>
           <th class="item-grant-item">{{localize "ARTICHRON.SHEET.ADVANCEMENT.HEADERS.item"}}</th>
-          <th class="item-grant-optional">{{localize "ARTICHRON.SHEET.ADVANCEMENT.HEADERS.optional"}}</th>
           <th class="item-grant-control"></th>
         </tr>
       </thead>
@@ -48,9 +48,6 @@
           <td class="item-grant-item">
             {{{link.outerHTML}}}
             <input type="hidden" name="pool.{{index}}.uuid" value="{{uuid}}" readonly>
-          </td>
-          <td class="item-grant-optional">
-            <input type="checkbox" name="pool.{{index}}.optional" {{checked optional}}>
           </td>
           <td class="item-grant-control">
             <button type="button" data-action="deletePoolItem" class="icon fa-solid fa-trash"></button>
