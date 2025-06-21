@@ -138,6 +138,13 @@ export default class ChainConfigurationDialog extends Application {
     div.insertAdjacentElement("beforeend", input);
     const result = await artichron.applications.api.Dialog.input({
       content: div,
+      render: (event, dialog) => {
+        const element = dialog.element.querySelector("[name=itemUuids]");
+        element.addEventListener("change", () => {
+          const capped = element.value.length >= node.chooseN;
+          element.querySelectorAll("input[type=checkbox]:not(:checked)").forEach(n => n.disabled = capped);
+        });
+      },
     });
     if (!result) return;
 
