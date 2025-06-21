@@ -42,7 +42,9 @@
   "itemGrant": "Item Grant",
   "itemGrantPl": "Item Grant Advancements",
   "scaleValue": "Scaling Value",
-  "scaleValuePl": "Scaling Values Advancements"
+  "scaleValuePl": "Scaling Values Advancements",
+  "trait": "Trait",
+  "traitPl": "Trait Advancements"
 },
 "ArmorRequirement": {
   "health": "Health",
@@ -134,10 +136,10 @@
   "ADVANCEMENT": {
     "newIncrease": "New Increase",
     "newIncreasePlaceholder": "E.g. '7'",
+    "receiveAll": "Receive All",
     "HEADERS": {
       "requirements": "Requirements",
       "item": "Item",
-      "receiveAll": "Receive All",
       "increases": "Increases"
     }
   },

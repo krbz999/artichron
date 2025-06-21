@@ -3,11 +3,20 @@
 
   {{#if (eq pseudoDocument.type "itemGrant")}}
   {{formGroup fields.requirements.fields.points value=source.requirements.points name="requirements.points" placeholder="1" disabled=(not editable)}}
-  {{formGroup fields.chooseN value=source.chooseN name="chooseN" placeholder="Receive All"}}
+  {{formGroup fields.chooseN value=source.chooseN name="chooseN" placeholder=(localize "ARTICHRON.SHEET.ADVANCEMENT.receiveAll")}}
   {{/if}}
+
+  {{#if (eq pseudoDocument.type "trait")}}
+  {{formGroup fields.requirements.fields.points value=source.requirements.points name="requirements.points" placeholder="1" disabled=(not editable)}}
+  {{formGroup fields.chooseN value=source.chooseN name="chooseN" placeholder=(localize "ARTICHRON.SHEET.ADVANCEMENT.receiveAll")}}
+  {{#each source.traits as |number key|}}
+  {{!-- TODO: Remake this with proper data. --}}
+  {{formGroup @root.fields.traits.element value=number name=(concat "traits." key)}}
+  {{/each}}
+  {{/if}}
+
   {{#if (eq pseudoDocument.type "scaleValue")}}
   {{formGroup fields.subtype value=source.subtype name="subtype"}}
-
   <h3 class="section-header">{{localize "ARTICHRON.SHEET.ADVANCEMENT.HEADERS.increases"}}</h3>
   <div class="form-group">
     <label>{{localize "ARTICHRON.SHEET.ADVANCEMENT.newIncrease"}}</label>
@@ -15,7 +24,6 @@
       <input type="number" data-new-increase placeholder="{{localize 'ARTICHRON.SHEET.ADVANCEMENT.newIncreasePlaceholder'}}" id="{{rootId}}-newIncrease">
     </div>
   </div>
-
   <section class="standard-form increases scrollable">
     {{#each ctx.increases as |increase idx|}}
     <div class="form-group" data-increase="{{idx}}">

@@ -125,10 +125,27 @@ export default class AdvancementChain {
         if (!item.supportsAdvancements) continue;
 
         // Find any "child" advancements.
-        for (const advancement of item.getEmbeddedPseudoDocumentCollection("Advancement").getByType("itemGrant")) {
+        for (const advancement of item.getEmbeddedPseudoDocumentCollection("Advancement")) {
           choice.children[advancement.uuid] = await AdvancementChain.create(advancement, node, _depth + 1);
           choice.children[advancement.uuid].parentChoice = choice; // Helps detect if chosen.
         }
+      }
+    } else if (advancement.type === "trait") {
+      // This whole section is just a test.
+      for (const k of Object.keys(advancement.traits)) {
+        const choice = node.choices[k] = {
+          node,
+          trait: k,
+          children: {},
+        };
+
+        Object.defineProperty(choice, "isChosen", {
+          get() {
+            if (!node.isChosen) return false;
+            if (!node.isChoice) return true;
+            return node.selected[k] === true;
+          },
+        });
       }
     }
 
@@ -144,8 +161,13 @@ export default class AdvancementChain {
    * @type {boolean}
    */
   get isChoice() {
-    // If chooseN is null, there is no choice to make; you get all.
-    return this.chooseN !== null;
+    switch (this.advancement.type) {
+      case "trait":
+      case "itemGrant":
+        // If chooseN is null, there is no choice to make; you get all.
+        return this.chooseN !== null;
+      default: return false;
+    }
   }
 
   /* -------------------------------------------------- */
@@ -157,10 +179,15 @@ export default class AdvancementChain {
    * @type {number|null}
    */
   get chooseN() {
-    if (this.advancement.type !== "itemGrant") return null;
-    if (this.advancement.chooseN === null) return null;
-    if (this.advancement.chooseN >= Object.values(this.choices).length) return null;
-    return this.advancement.chooseN;
+    switch (this.advancement.type) {
+      case "trait":
+      case "itemGrant": {
+        if (this.advancement.chooseN === null) return null;
+        if (this.advancement.chooseN >= Object.values(this.choices).length) return null;
+        return this.advancement.chooseN;
+      }
+    }
+    return null;
   }
 
   /* -------------------------------------------------- */
@@ -171,6 +198,8 @@ export default class AdvancementChain {
    * an item granted by a "parent" item grant, in which case we check the "parent choice"
    * to see if *that* was chosen. This should recursively check up the chain until it
    * either finds the root, or a node that was not chosen or did not pick the relevant item.
+   *
+   * This should never be relevant for anything but root nodes or child nodes from item grants.
    * @type {boolean}
    */
   get isChosen() {

@@ -12,10 +12,23 @@
     </h3>
 
     {{#each choices}}
+
     {{#if isChosen}}
+
+    {{!-- ITEM GRANT SELECTED CHOICES --}}
+    {{#if (eq node.advancement.type "itemGrant")}}
     <div class="form-group" data-item-uuid="{{item.uuid}}">
       <label>{{{itemLink.outerHTML}}}</label>
     </div>
+    {{/if}}
+    {{!-- TRAIT SELECTED CHOICES --}}
+    {{#if (eq node.advancement.type "trait")}}
+    {{!-- TODO: This is just for testing. --}}
+    <div class="form-group">
+      <label>{{lookup node.advancement.traits trait}}</label>
+    </div>
+    {{/if}}
+
     {{/if}}
     {{/each}}
   </div>

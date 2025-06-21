@@ -93,6 +93,12 @@ export default class ItemGrantAdvancement extends BaseAdvancement {
       throw new Error("Cannot trigger advancements with a non-Path item as the root item.");
     }
 
+    // TODO: This method should be moved to the base advancement where it can call subclass methods on the
+    // individual advancement subtypes to configure update data. For example, all item creation of course
+    // is only handled by item grants, while actor updates (?) are handled by traits - or we might instead
+    // handle those changes from Trait advancements by updating the items so this can be handled during data prep.
+    // Either way, this should be handled in the base method as it is not specific to just item grants.
+
     const collection = item.getEmbeddedPseudoDocumentCollection("Advancement");
     if (!collection.size) return [];
 
@@ -121,8 +127,13 @@ export default class ItemGrantAdvancement extends BaseAdvancement {
     // Traverse the chains to gather all items.
     for (const root of chains)
       for (const node of root.active())
-        for (const [itemUuid, { item }] of Object.entries(node.choices))
-          if (!node.isChoice || node.selected[itemUuid]) prepareItem(item);
+        if (node.advancement.type === "itemGrant") {
+          for (const [itemUuid, { item }] of Object.entries(node.choices))
+            if (!node.isChoice || node.selected[itemUuid]) prepareItem(item);
+        } else {
+          // TODO: Actor updates?
+          console.warn("NON-ITEM GRANT NODE!", node);
+        }
 
     return Array.from(items.values());
   }

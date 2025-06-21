@@ -75,6 +75,9 @@ export default class AdvancementSheet extends PseudoDocumentSheet {
       ctx.increases = artichron.utils.sortObject(context.source.increases, { inplace: false });
     }
 
+    else if (context.pseudoDocument.type === "trait") {
+    }
+
     return context;
   }
 
@@ -106,7 +109,7 @@ export default class AdvancementSheet extends PseudoDocumentSheet {
   /* -------------------------------------------------- */
 
   /**
-   * Handle drop events in the pool area.
+   * Handle drop events in the pool area for item grant advancements.
    * @param {DragEvent} event   The initiating drag event.
    */
   static async #onDropTargetArea(event) {
@@ -123,7 +126,7 @@ export default class AdvancementSheet extends PseudoDocumentSheet {
   /* -------------------------------------------------- */
 
   /**
-   * Delete an entry from the pool.
+   * Delete an entry from the pool of an item grant advancement.
    * @this {AdvancementSheet}
    * @param {PointerEvent} event    The initiating click event.
    * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
@@ -138,6 +141,12 @@ export default class AdvancementSheet extends PseudoDocumentSheet {
 
   /* -------------------------------------------------- */
 
+  /**
+   * Remove a scale increase for scaling value advancements.
+   * @this {AdvancementSheet}
+   * @param {PointerEvent} event    The initiating click event.
+   * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
+   */
   static async #removeScaleIncrease(event, target) {
     this.pseudoDocument.update({ [`increases.-=${target.closest("[data-increase]").dataset.increase}`]: null });
   }
