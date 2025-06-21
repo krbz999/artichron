@@ -177,14 +177,10 @@ export default class ItemGrantAdvancement extends BaseAdvancement {
     };
 
     // Traverse the chains to gather all items.
-    for (const root of chains) {
-      for (const node of root.active()) {
-        const selected = node.selected;
-        for (const [itemId, { item }] of Object.entries(node.pool)) {
-          if (selected.has(itemId)) prepareItem(item);
-        }
-      }
-    }
+    for (const root of chains)
+      for (const node of root.active())
+        for (const [itemId, { item }] of Object.entries(node.choices))
+          if (!node.isChoice || node.selected[itemId]) prepareItem(item);
 
     return Array.from(items.values());
   }
