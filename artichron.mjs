@@ -296,7 +296,7 @@ Hooks.on("hotbarDrop", function(bar, data, slot) {
  */
 async function createEffectMacro(data, slot) {
   const effect = await foundry.utils.getDocumentClass("ActiveEffect").fromDropData(data);
-  const command = `artichron.utils.macro.toggleEffect("${effect.name}");`;
+  const command = `artichron.helpers.macros.toggleEffect("${effect.name}");`;
   const name = game.i18n.format("ARTICHRON.MACRO.ToggleEffect", { name: effect.name });
   let macro = game.macros.find(m => (m.name === name) && (m.command === command));
   if (!macro) {
@@ -320,7 +320,7 @@ async function createEffectMacro(data, slot) {
  */
 async function createItemMacro(data, slot) {
   const item = await foundry.utils.getDocumentClass("Item").fromDropData(data);
-  const command = `artichron.utils.macro.useItem("${item.name}", event);`;
+  const command = `artichron.helpers.macros.useItem("${item.name}", event);`;
   const name = game.i18n.format("ARTICHRON.MACRO.UseItem", { name: item.name });
   let macro = game.macros.find(m => (m.name === name) && (m.command === command));
   if (!macro) {
