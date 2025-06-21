@@ -38,6 +38,27 @@ export default class CollectionField extends TypedObjectField {
     collection.documentClass = this.documentClass;
     return collection;
   }
+
+  /* -------------------------------------------------- */
+
+  /** @inheritdoc */
+  applyChange(value, model, change) {
+    if ([
+      CONST.ACTIVE_EFFECT_MODES.ADD,
+      // CONST.ACTIVE_EFFECT_MODES.OVERRIDE,
+      CONST.ACTIVE_EFFECT_MODES.CUSTOM,
+    ].includes(change.mode))
+      return super.applyChange(value, model, change);
+  }
+
+  /* -------------------------------------------------- */
+
+  /** @inheritdoc */
+  _applyChangeAdd(value, delta, model, change) {
+    const parsed = JSON.parse(change.value);
+    const inst = new this.documentClass(parsed, { parent: this.model });
+    model.getEmbeddedPseudoDocumentCollection(this.documentClass.metadata.documentName).set(inst.id, inst);
+  }
 }
 
 /* -------------------------------------------------- */
