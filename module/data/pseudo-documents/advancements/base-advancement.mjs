@@ -39,7 +39,7 @@ export default class BaseAdvancement extends TypedPseudoDocument {
   /* -------------------------------------------------- */
 
   /**
-   * Is this advancement fully configured?
+   * Is this advancement fully configured such that it is worth granting during level-up?
    * @type {boolean}
    */
   get invalidAdvancement() {

@@ -46,7 +46,8 @@ export default class ItemGrantAdvancement extends BaseAdvancement {
 
   /** @inheritdoc */
   get invalidAdvancement() {
-    return foundry.utils.isEmpty(this.pool);
+    const items = this.pool.map(p => fromUuidSync(p.uuid)).filter(_ => _);
+    return items.length > 0;
   }
 
   /* -------------------------------------------------- */
