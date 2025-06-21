@@ -2,18 +2,21 @@
   {{#each ctx.chains}}
 
   {{#each this}}
-  <div data-advancement-uuid="{{advancement.uuid}}" style="margin-left: calc({{depth}} * 2rem);">
-    <h5>{{advancement.name}}</h5>
+  <div data-advancement-uuid="{{advancement.uuid}}">
+
+    <h3 class="section-header">
+      <span>{{advancement.name}}</span>
+      {{#if isChoice}}
+      <button type="button" class="icon fa-solid fa-fw {{ifThen capped 'fa-check' 'fa-cog'}}" data-action="changeOptionalAdvancement"></button>
+      {{/if}}
+    </h3>
 
     {{#each choices}}
+    {{#if (or (not ../isChoice) (lookup ../selected item.id))}}
     <div class="form-group" data-item-uuid="{{item.uuid}}">
       <label>{{{link.outerHTML}}}</label>
-      <div class="form-fields">
-        {{#if ../isChoice}}
-        <input type="checkbox" data-change="changeOptionalAdvancement" {{checked (lookup ../selected item.id)}} {{disabled (or (not ../isChoice) (and (not (lookup ../selected item.id )) ../capped))}}>
-        {{/if}}
-      </div>
     </div>
+    {{/if}}
     {{/each}}
   </div>
   {{/each}}

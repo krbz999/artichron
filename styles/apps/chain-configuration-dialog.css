@@ -1,0 +1,7 @@
+.artichron.application.chain-configuration-dialog {
+  .section-header {
+    display: grid;
+    grid-template-columns: 1fr 0fr;
+    align-items: center;
+  }
+}

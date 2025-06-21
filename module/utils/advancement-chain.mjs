@@ -78,4 +78,11 @@ export default class AdvancementChain {
 
     return success;
   }
+
+  /* -------------------------------------------------- */
+
+  getByAdvancement(uuid) {
+    for (const node of this) if (node.advancement.uuid === uuid) return node;
+    return null;
+  }
 }

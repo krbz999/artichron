@@ -14,9 +14,13 @@ export default class ChainConfigurationDialog extends Application {
 
   /** @inheritdoc */
   static DEFAULT_OPTIONS = {
+    classes: ["chain-configuration-dialog"],
     position: {
       width: 500,
       height: "auto",
+    },
+    actions: {
+      changeOptionalAdvancement: ChainConfigurationDialog.#changeOptionalAdvancement,
     },
   };
 
@@ -92,6 +96,16 @@ export default class ChainConfigurationDialog extends Application {
 
   /* -------------------------------------------------- */
 
+  getByAdvancement(uuid) {
+    for (const chain of this.#chains) {
+      const node = chain.getByAdvancement(uuid);
+      if (node) return node;
+    }
+    return null;
+  }
+
+  /* -------------------------------------------------- */
+
   /** @inheritdoc */
   _processSubmitData(event, form, formData, submitOptions) {
     // The chain used to create this application is re-used outside,
@@ -104,18 +118,33 @@ export default class ChainConfigurationDialog extends Application {
   /* -------------------------------------------------- */
 
   /**
-   * Mutate the chains when an input is changed.
+   * Configure an advancement, then mutate the chains and re-render.
    * @this {ChainConfigurationDialog}
-   * @param {InputEvent} event    The initiating change event.
+   * @param {PointerEvent} event          The initiating click event.
+   * @param {HTMLButtonElement} target    The capturing HTML element which defined a [data-action].
    */
-  static #changeOptionalAdvancement(event) {
-    /** @type {HTMLInputElement} */
-    const target = event.currentTarget;
-    const checked = target.checked;
+  static async #changeOptionalAdvancement(event, target) {
     const advancementUuid = target.closest("[data-advancement-uuid]").dataset.advancementUuid;
-    const itemUuid = target.closest("[data-item-uuid]").dataset.itemUuid;
-    const changed = this.selectItem(advancementUuid, itemUuid, checked);
-    console.assert(changed);
+    const node = this.getByAdvancement(advancementUuid);
+
+    const options = Object.values(node.choices).map(c => ({ value: c.item.uuid, label: c.item.name }));
+
+    const div = document.createElement("DIV");
+    const input = foundry.applications.fields.createMultiSelectInput({
+      options,
+      type: "checkboxes",
+      name: "itemUuids",
+    });
+    div.insertAdjacentElement("beforeend", input);
+    const result = await artichron.applications.api.Dialog.input({
+      content: div,
+    });
+    if (!result) return;
+
+    for (const { value: uuid } of options) {
+      this.selectItem(advancementUuid, uuid, result.itemUuids.includes(uuid));
+    }
+
     this.render({ parts: ["chains"] });
   }
 }
