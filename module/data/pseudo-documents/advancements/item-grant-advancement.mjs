@@ -44,14 +44,6 @@ export default class ItemGrantAdvancement extends BaseAdvancement {
 
   /* -------------------------------------------------- */
 
-  /** @inheritdoc */
-  get invalidAdvancement() {
-    const items = this.pool.map(p => fromUuidSync(p.uuid)).filter(_ => _);
-    return items.length > 0;
-  }
-
-  /* -------------------------------------------------- */
-
   /**
    * Find all items on an actor that were granted by this specific advancement.
    * @returns {foundry.documents.Item[]|null}
@@ -87,57 +79,6 @@ export default class ItemGrantAdvancement extends BaseAdvancement {
   /* -------------------------------------------------- */
 
   /**
-   * Determine inheritance chain for item granting.
-   * @param {AdvancementChain|null} [parent=null]   The 'parent' link in the chain.
-   * @param {number} [_depth=0]                     Current tree level.
-   * @returns {AdvancementChain}
-   */
-  async determineChain(parent = null, _depth = 0) {
-    const leaf = new artichron.utils.AdvancementChain({
-      advancement: this,
-      depth: _depth,
-      parent,
-      choices: {},
-      root: _depth === 0,
-    });
-
-    // if (this.type === "itemGrant") {
-    for (const { uuid, ...rest } of this.pool) {
-      const item = await fromUuid(uuid);
-      if (!item) continue;
-
-      leaf.choices[item.id] = {
-        item,
-        ...rest,
-        children: {},
-      };
-
-      if (!item.supportsAdvancements) continue;
-      for (const advancement of item.getEmbeddedPseudoDocumentCollection("Advancement").getByType("itemGrant")) {
-        leaf.choices[item.id].children[advancement.id] = await advancement.determineChain(leaf, _depth + 1);
-      }
-
-      Object.defineProperty(leaf.choices[item.id], "link", { value: item.toAnchor() });
-    }
-    // }
-
-    leaf.chooseN = ((this.chooseN === null) || (this.chooseN >= Object.keys(leaf.choices).length))
-      ? null // receive all
-      : this.chooseN; // choose up to N of the K items (K > N)
-    leaf.isChoice = leaf.chooseN !== null;
-    leaf.isConfigured = !leaf.isChoice;
-    leaf.selected = {};
-    Object.defineProperty(leaf, "capped", { get() {
-      const count = Object.values(this.selected).reduce((acc, bool) => acc + Boolean(bool), 0);
-      return count >= this.chooseN;
-    } });
-
-    return leaf;
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
    * Perform the advancement flow.
    * @param {foundry.documents.Actor} actor   The actor being targeted by advancements.
    * @param {foundry.documents.Item} item     The path item which holds advancements.
@@ -152,13 +93,13 @@ export default class ItemGrantAdvancement extends BaseAdvancement {
       throw new Error("Cannot trigger advancements with a non-Path item as the root item.");
     }
 
-    const collection = item.getEmbeddedPseudoDocumentCollection("Advancement").getByType("itemGrant");
-    if (!collection.length) return [];
+    const collection = item.getEmbeddedPseudoDocumentCollection("Advancement");
+    if (!collection.size) return [];
 
     const chains = [];
     for (const advancement of collection) {
-      const validRange = advancement.requirements.points.between(range[0], range[1]);
-      if (validRange) chains.push(await advancement.determineChain());
+      const validRange = advancement.levels.some(level => level.between(range[0], range[1]));
+      if (validRange) chains.push(await artichron.utils.AdvancementChain.create(advancement));
     }
     if (!chains.length) return [];
 
@@ -180,9 +121,36 @@ export default class ItemGrantAdvancement extends BaseAdvancement {
     // Traverse the chains to gather all items.
     for (const root of chains)
       for (const node of root.active())
-        for (const [itemId, { item }] of Object.entries(node.choices))
-          if (!node.isChoice || node.selected[itemId]) prepareItem(item);
+        for (const [itemUuid, { item }] of Object.entries(node.choices))
+          if (!node.isChoice || node.selected[itemUuid]) prepareItem(item);
 
     return Array.from(items.values());
+  }
+
+  /* -------------------------------------------------- */
+
+  /** @inheritdoc */
+  static async configureNode(node) {
+    const options = Object.values(node.choices).map(choice => ({
+      value: choice.item.uuid,
+      label: choice.item.name,
+      selected: node.selected[choice.item.uuid] === true,
+    }));
+
+    const contentLinks = Object.values(node.choices).map(choice => `<li>${choice.item.toAnchor().outerHTML}</li>`).join("");
+
+    const input = foundry.applications.fields.createMultiSelectInput({
+      options,
+      name: "uuids",
+      type: "checkboxes",
+    });
+
+    const result = await artichron.applications.api.Dialog.input({
+      content: `<ul>${contentLinks}</ul>${input.outerHTML}`,
+    });
+    if (!result) return false;
+
+    for (const { value: uuid } of options) node.selected[uuid] = result.uuids.includes(uuid);
+    return true;
   }
 }

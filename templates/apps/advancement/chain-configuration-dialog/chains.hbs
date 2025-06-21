@@ -7,14 +7,14 @@
     <h3 class="section-header">
       <span>{{advancement.name}}</span>
       {{#if isChoice}}
-      <button type="button" class="icon fa-solid fa-fw {{ifThen capped 'fa-check' 'fa-cog'}}" data-action="changeOptionalAdvancement"></button>
+      <button type="button" class="icon fa-solid fa-fw {{ifThen isConfigured 'fa-check' 'fa-cog'}}" data-action="configureNode"></button>
       {{/if}}
     </h3>
 
     {{#each choices}}
-    {{#if (or (not ../isChoice) (lookup ../selected item.id))}}
+    {{#if isChosen}}
     <div class="form-group" data-item-uuid="{{item.uuid}}">
-      <label>{{{link.outerHTML}}}</label>
+      <label>{{{itemLink.outerHTML}}}</label>
     </div>
     {{/if}}
     {{/each}}

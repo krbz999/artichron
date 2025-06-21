@@ -39,10 +39,11 @@ export default class BaseAdvancement extends TypedPseudoDocument {
   /* -------------------------------------------------- */
 
   /**
-   * Is this advancement fully configured such that it is worth granting during level-up?
-   * @type {boolean}
+   * Configure the choices of a node.
+   * @param {AdvancementChain} node   The node to be configured. Will be mutated unless cancelled.
+   * @returns {Promise<boolean>}      Whether the node was configured.
    */
-  get invalidAdvancement() {
-    return true;
+  static async configureNode(node) {
+    return false;
   }
 }

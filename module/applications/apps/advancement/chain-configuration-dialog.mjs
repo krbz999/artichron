@@ -20,7 +20,7 @@ export default class ChainConfigurationDialog extends Application {
       height: "auto",
     },
     actions: {
-      changeOptionalAdvancement: ChainConfigurationDialog.#changeOptionalAdvancement,
+      configureNode: ChainConfigurationDialog.#configureNode,
     },
   };
 
@@ -61,19 +61,6 @@ export default class ChainConfigurationDialog extends Application {
   async _preparePartContextFooter(context, options) {
     context.buttons = [{ type: "submit", label: "Confirm", icon: "fa-solid fa-fw fa-check" }];
     return context;
-  }
-
-  /* -------------------------------------------------- */
-
-  /** @inheritdoc */
-  _attachPartListeners(partId, element, options) {
-    super._attachPartListeners(partId, element, options);
-
-    if (partId === "chains") {
-      for (const checkbox of element.querySelectorAll("[data-change=changeOptionalAdvancement]")) {
-        checkbox.addEventListener("change", ChainConfigurationDialog.#changeOptionalAdvancement.bind(this));
-      }
-    }
   }
 
   /* -------------------------------------------------- */
@@ -123,35 +110,10 @@ export default class ChainConfigurationDialog extends Application {
    * @param {PointerEvent} event          The initiating click event.
    * @param {HTMLButtonElement} target    The capturing HTML element which defined a [data-action].
    */
-  static async #changeOptionalAdvancement(event, target) {
+  static async #configureNode(event, target) {
     const advancementUuid = target.closest("[data-advancement-uuid]").dataset.advancementUuid;
     const node = this.getByAdvancement(advancementUuid);
-
-    const options = Object.values(node.choices).map(c => ({ value: c.item.uuid, label: c.item.name }));
-
-    const div = document.createElement("DIV");
-    const input = foundry.applications.fields.createMultiSelectInput({
-      options,
-      type: "checkboxes",
-      name: "itemUuids",
-    });
-    div.insertAdjacentElement("beforeend", input);
-    const result = await artichron.applications.api.Dialog.input({
-      content: div,
-      render: (event, dialog) => {
-        const element = dialog.element.querySelector("[name=itemUuids]");
-        element.addEventListener("change", () => {
-          const capped = element.value.length >= node.chooseN;
-          element.querySelectorAll("input[type=checkbox]:not(:checked)").forEach(n => n.disabled = capped);
-        });
-      },
-    });
-    if (!result) return;
-
-    for (const { value: uuid } of options) {
-      this.selectItem(advancementUuid, uuid, result.itemUuids.includes(uuid));
-    }
-
-    this.render({ parts: ["chains"] });
+    const configured = await node.advancement.constructor.configureNode(node);
+    if (configured) this.render();
   }
 }

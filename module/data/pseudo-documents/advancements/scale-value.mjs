@@ -44,13 +44,6 @@ export default class ScaleValueAdvancement extends BaseAdvancement {
   /* -------------------------------------------------- */
 
   /** @inheritdoc */
-  get invalidAdvancement() {
-    return foundry.utils.isEmpty(this.increases);
-  }
-
-  /* -------------------------------------------------- */
-
-  /** @inheritdoc */
   prepareBaseData() {
     super.prepareBaseData();
     this.identifier ||= this.name.slugify({ strict: true });
