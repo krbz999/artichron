@@ -236,6 +236,7 @@ export default class HeroData extends CreatureData {
       },
       invested: {
         value: { ...invested },
+        enumerable: true,
       },
     });
 
