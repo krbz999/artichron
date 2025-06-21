@@ -1,6 +1,40 @@
 import CreatureData from "./creature-data.mjs";
+import ScalingValue from "./utils/scaling-value.mjs";
 
-const { NumberField, SchemaField, TypedObjectField } = foundry.data.fields;
+const { ArrayField, NumberField, SchemaField, TypedObjectField } = foundry.data.fields;
+
+/**
+ * @typedef PoolData
+ * @property {number} faces
+ * @property {number} max
+ * @property {number} spent
+ */
+
+/**
+ * @typedef SkillData
+ * @property {number} number
+ * @property {number} denomination
+ * @property {number} bonus
+ */
+
+/**
+ * @typedef HeroDataSchema
+ * @property {object} pools
+ * @property {PoolData} pools.health
+ * @property {PoolData} pools.health
+ * @property {PoolData} pools.mana
+ *
+ * @property {object} progression
+ * @property {object} progression.points
+ * @property {number} progression.points.value
+ * @property {Array<Record<string, number>>} progression.points._investment
+ *
+ * @property {object} skills
+ * @property {SkillData} skills.agility
+ * @property {SkillData} skills.brawn
+ * @property {SkillData} skills.mind
+ * @property {SkillData} skills.spirit
+ */
 
 export default class HeroData extends CreatureData {
   /** @inheritdoc */
@@ -22,11 +56,12 @@ export default class HeroData extends CreatureData {
         mana: poolSchema(),
       }),
       progression: new SchemaField({
-        paths: new TypedObjectField(new SchemaField({
-          invested: new NumberField({ min: 0, integer: true, initial: 0 }),
-        }), { validateKey: key => key in artichron.config.PROGRESSION_CORE_PATHS }),
         points: new SchemaField({
           value: new NumberField({ min: 0, nullable: false, initial: 0, integer: true }),
+          _investment: new ArrayField(new TypedObjectField(
+            new NumberField({ min: 1, nullable: false, integer: true }),
+            { validateKey: key => key in artichron.config.PROGRESSION_CORE_PATHS },
+          )),
         }),
       }),
       skills: new SchemaField(Object.entries(artichron.config.SKILLS).reduce((acc, [k, v]) => {
@@ -45,15 +80,13 @@ export default class HeroData extends CreatureData {
   /* -------------------------------------------------- */
 
   /** @inheritdoc */
-  prepareBaseData() {
-    super.prepareBaseData();
-  }
-
-  /* -------------------------------------------------- */
-
-  /** @inheritdoc */
   prepareDerivedData() {
     super.prepareDerivedData();
+
+    // Prepare paths. This happens here rather than prepareBaseData due to items' pseudo-documents
+    // having to be prepared first, but could be moved to post-prepareEmbeddedDocuments to allow
+    // for effects to affect scale values?
+    this.#preparePaths();
 
     // Pools are prepared first as most other properties rely on these.
     this.#preparePools();
@@ -114,41 +147,117 @@ export default class HeroData extends CreatureData {
   }
 
   /* -------------------------------------------------- */
-  /*   Properties                                       */
-  /* -------------------------------------------------- */
 
   /**
-   * The hero's current paths. In order, the current path (possibly a core path), then the core path
-   * with the highest investment, then the core path with the least investment.
-   * @type {Array<string|null>}
+   * Prepare current paths.
    */
-  get currentPaths() {
-    const paths = [null, null, null];
+  #preparePaths() {
+    this.progression.paths = {};
 
-    // Core paths, sorted highest first.
-    const corePaths = Object.keys(this.progression.paths)
-      .filter(path => path in artichron.config.PROGRESSION_CORE_PATHS)
-      .sort((a, b) => this.progression.paths[b].invested - this.progression.paths[a].invested);
-    if (!corePaths.length) return paths;
+    // Create reference object for paths.
+    const paths = this.parent.items.documentsByType.path.reduce((acc, path) => {
+      const id = path.identifier;
+      if (id in artichron.config.PROGRESSION_CORE_PATHS) {
+        if (acc.coreC >= 2) {
+          console.warn("The actor's paths are invalid. They have more than 2 core paths.");
+          return acc;
+        }
+        acc.coreC++;
+        acc.core[id] = path;
+      }
 
-    if (corePaths.length === 1) {
-      paths[0] = paths[1] = corePaths[0];
-      return paths;
+      else if (id in artichron.config.PROGRESSION_MIXED_PATHS) {
+        if (acc.mixedC >= 1) {
+          console.warn("The actor's paths are invalid. They have more than 1 mixed path.");
+          return acc;
+        }
+        acc.mixedC++;
+        acc.mixed[id] = path;
+      }
+
+      return acc;
+    }, { core: {}, mixed: {}, coreC: 0, mixedC: 0 });
+
+    // Prepare data in the investments.
+    let min = 0;
+    const invested = {};
+    for (const investments of this.progression.points._investment) {
+      Object.defineProperties(investments, {
+        min: { value: min + 1 },
+        max: { value: Object.values(investments).reduce((acc, k) => acc + k, min) },
+      });
+      min = investments.max;
+
+      for (const k in investments) {
+        invested[k] ??= 0;
+        invested[k] += investments[k];
+      }
+
+      const primary = HeroData.getPath(invested);
+      Object.defineProperty(investments, "path", { value: primary });
     }
 
-    paths[1] = corePaths[0];
-    paths[2] = corePaths[1];
+    const [primaryCorePath, secondaryCorePath] = Object.values(paths.core)
+      .sort((a, b) => invested[b.identifier] - invested[a.identifier]);
 
-    // Is mixed path?
-    const values = artichron.config.PROGRESSION_VALUES;
-    const total = corePaths.reduce((acc, path) => acc + this.progression.paths[path].invested, 0);
-    const isMixed = corePaths.some(path => this.progression.paths[path].invested >= values.absolute)
-      && (this.progression.paths[paths[1]].invested / total * 100).between(values.relative.lower, values.relative.upper);
+    // Current path's id.
+    const pathId = artichron.data.actors.HeroData.getPath(invested);
 
-    // Current path is the mixed path unless the difference is too great.
-    paths[0] = isMixed ? artichron.config.PROGRESSION_CORE_PATHS[corePaths[0]].mixed[corePaths[1]] : paths[1];
+    // The mixed-path item.
+    const mixedPath = Object.values(paths.mixed)[0];
 
-    return paths;
+    Object.defineProperties(this.progression, {
+      paths: {
+        value: Object.freeze({ ...paths.core, ...paths.mixed }),
+        enumerable: false,
+        writable: false,
+      },
+      path: {
+        value: pathId ?? null,
+      },
+      isMixed: {
+        value: pathId in artichron.config.PROGRESSION_MIXED_PATHS,
+      },
+      primaryPath: {
+        value: primaryCorePath ?? null,
+      },
+      secondaryPath: {
+        value: secondaryCorePath ?? null,
+      },
+      mixedPath: {
+        value: mixedPath ?? null,
+      },
+    });
+
+    if (mixedPath) invested[mixedPath.identifier] = Object.values(invested).reduce((acc, k) => acc + k, 0);
+    Object.defineProperties(this.progression, {
+      label: {
+        value: this.progression.paths[pathId]?.name ?? "",
+      },
+      invested: {
+        value: { ...invested },
+      },
+    });
+
+    // Now that paths have been determined, we can prepare scaling values.
+    const ranges = {};
+    for (const investment of this.progression.points._investment) {
+      ranges[investment.path] ??= [];
+      ranges[investment.path].push([investment.min, investment.max]);
+    }
+
+    this.progression.scales = {};
+    for (const pathId in ranges) {
+      this.progression.scales[pathId] = {};
+      const path = this.progression.paths[pathId];
+
+      // Due to advancement both updating the actor and creating items, data preparation is run twice.
+      // This results in the possibility of `path` being falsy on the first data prep iteration.
+      if (!path) continue;
+      for (const scale of path.getEmbeddedPseudoDocumentCollection("Advancement").getByType("scaleValue")) {
+        this.progression.scales[pathId][scale.identifier] = new ScalingValue(this.parent, scale, ranges[pathId]);
+      }
+    }
   }
 
   /* -------------------------------------------------- */
@@ -223,44 +332,83 @@ export default class HeroData extends CreatureData {
    *                                              configured, the actor updated, and any new items created.
    */
   async advance(allocated) {
-    const actorUpdate = {};
-
-    let spent = 0;
-    for (const [k, v] of Object.entries(allocated)) {
+    // Verify data of the allocated points.
+    for (const v of Object.values(allocated)) {
       if (!artichron.utils.isIntegerLike(v, { sign: 1 })) {
         throw new Error("One or more advancement allocations were not a positive integer!");
       }
-
-      spent += Number(v);
-      actorUpdate[`system.progression.paths.${k}.invested`] = (this.progression.paths[k]?.invested ?? 0) + Number(v);
     }
+
+    const actorUpdate = {};
+    const itemCreate = [];
+    const spent = Object.values(allocated).reduce((acc, k) => acc + k, 0);
+
+    // Determine current investment.
+    const investment = this.toObject().progression.points._investment;
+    investment.push(allocated);
+    const totals = investment.reduce((acc, k) => {
+      for (const u in k) {
+        acc[u] ??= 0;
+        acc[u] += k[u];
+      }
+      return acc;
+    }, {});
+    actorUpdate["system.progression.points._investment"] = investment;
     actorUpdate["system.progression.points.value"] = this.progression.points.value - spent;
 
-    const range = [Object.values(this.progression.paths).reduce((acc, p) => acc + p.invested, 1)];
-    const clone = this.parent.clone(actorUpdate, { keepId: true });
+    // Fetched items. A record to make sure everything exists, either on the actor or fetched from pack.
+    const fetchedItems = {};
 
-    if (Object.keys(clone.system.progression.paths).length > 2) {
-      throw new Error("You cannot advance in more than two paths!");
+    // The current path. Either a to-be-created item or an existing item.
+    const pathId = HeroData.getPath(totals);
+
+    // Fetch all core paths.
+    for (const k in totals) {
+      if (this.progression.paths[k]) {
+        fetchedItems[k] = this.progression.paths[k];
+      } else {
+        const item = await fromUuid(artichron.config.PROGRESSION_CORE_PATHS[k].uuid);
+        fetchedItems[k] = item;
+        itemCreate.push(game.items.fromCompendium(item));
+      }
     }
 
-    const path = clone.system.currentPaths[0];
-    range.push(Object.values(clone.system.progression.paths).reduce((acc, p) => acc + p.invested, 0));
+    // Current mixed path's item. If missing, create it.
+    const [a, b] = Object.keys(totals);
+    const mixedId = artichron.config.PROGRESSION_CORE_PATHS[a].mixed[b];
+    if (mixedId in artichron.config.PROGRESSION_MIXED_PATHS) {
+      if (this.progression.paths[mixedId]) {
+        fetchedItems[mixedId] = this.progression.paths[mixedId];
+      } else {
+        const item = await fromUuid(artichron.config.PROGRESSION_MIXED_PATHS[mixedId].uuid);
+        fetchedItems[mixedId] = item;
+        itemCreate.push(game.items.fromCompendium(item));
+      }
+    }
 
-    const uuid = (path in artichron.config.PROGRESSION_CORE_PATHS)
-      ? artichron.config.PROGRESSION_CORE_PATHS[path].uuid
-      : artichron.config.PROGRESSION_MIXED_PATHS[path].uuid;
-    const pathItem = await fromUuid(uuid);
-    const itemData = await artichron.data.pseudoDocuments.advancements.BaseAdvancement.configureAdvancement(
+    // The 'current path' item. Might exist on the actor, might also be fetched from pack.
+    const pathItem = fetchedItems[pathId];
+
+    // Scale values.
+    // These are done entirely during regular data prep.
+
+    // Item Grants.
+    const max = Object.values(totals).reduce((acc, k) => acc + k, 0);
+    const range = [max - spent + 1, max];
+
+    const itemData = await artichron.data.pseudoDocuments.advancements.ItemGrantAdvancement.configureAdvancement(
       this.parent,
       pathItem,
       { range },
     );
     if (!itemData) return null;
+    itemCreate.push(...itemData);
 
-    return Promise.all([
+    await Promise.all([
+      this.parent.createEmbeddedDocuments("Item", itemCreate, { keepId: true }),
       this.parent.update(actorUpdate),
-      this.parent.createEmbeddedDocuments("Item", itemData, { keepId: true }),
     ]);
+    return this.parent;
   }
 
   /* -------------------------------------------------- */
@@ -279,5 +427,31 @@ export default class HeroData extends CreatureData {
     });
     if (!allocated) return null;
     return this.advance(allocated);
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * What path is a hero on?
+   * @param {Record<string, number>} investment
+   * @returns {string}
+   */
+  static getPath(investment) {
+    const [p1, p2] = Object.keys(investment)
+      .filter(p => (investment[p] > 0) && (p in artichron.config.PROGRESSION_CORE_PATHS))
+      .sort((a, b) => investment[b] - investment[a]);
+
+    if (!p2 || !investment[p2]) return p1 ?? null;
+
+    const canMix = investment[p1] >= artichron.config.PROGRESSION_VALUES.absolute;
+    if (!canMix) return p1;
+
+    const total = investment[p1] + investment[p2];
+    const evenInvestment = (investment[p2] / total * 100).between(
+      artichron.config.PROGRESSION_VALUES.relative.lower,
+      artichron.config.PROGRESSION_VALUES.relative.upper,
+    );
+
+    return evenInvestment ? artichron.config.PROGRESSION_CORE_PATHS[p1].mixed[p2] : p1;
   }
 }

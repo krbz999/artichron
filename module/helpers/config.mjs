@@ -722,6 +722,26 @@ export const PROGRESSION_VALUES = {
 /* -------------------------------------------------- */
 
 /**
+ * @typedef ScaleValueSubtypeConfiguration
+ * @property {string} label   Human-readable label.
+ */
+
+/**
+ * Advancement scale value subtypes.
+ * @type {Record<string, ScaleValueSubtypeConfiguration>}
+ */
+export const ADVANCEMENT_SCALE_VALUE_TYPES = {
+  number: {
+    label: "ARTICHRON.ADVANCEMENT.SCALE_VALUE.SUBTYPE.number",
+  },
+  dice: {
+    label: "ARTICHRON.ADVANCEMENT.SCALE_VALUE.SUBTYPE.dice",
+  },
+};
+
+/* -------------------------------------------------- */
+
+/**
  * @typedef {object} BasicAttackConfiguration
  * @property {string} label                                     Human-readlable label.
  * @property {BaseDamageConfiguration} damage                   Base damage configuration.

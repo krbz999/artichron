@@ -5,6 +5,7 @@ export default class AdvancementSheet extends PseudoDocumentSheet {
   static DEFAULT_OPTIONS = {
     actions: {
       deletePoolItem: AdvancementSheet.#deletePoolItem,
+      removeScaleIncrease: AdvancementSheet.#removeScaleIncrease,
     },
     classes: ["advancement"],
   };
@@ -23,6 +24,7 @@ export default class AdvancementSheet extends PseudoDocumentSheet {
     details: {
       template: "systems/artichron/templates/sheets/pseudo/advancement/details.hbs",
       classes: ["tab", "standard-form"],
+      scrollable: [".increases.scrollable"],
     },
   };
 
@@ -46,7 +48,7 @@ export default class AdvancementSheet extends PseudoDocumentSheet {
 
   /** @type {import("../../../_types").ContextPartHandler} */
   async _preparePartContextIdentity(context, options) {
-    context.ctx = {};
+    const ctx = context.ctx = {};
     return context;
   }
 
@@ -54,17 +56,23 @@ export default class AdvancementSheet extends PseudoDocumentSheet {
 
   /** @type {import("../../../_types").ContextPartHandler} */
   async _preparePartContextDetails(context, options) {
-    context.ctx = {
-      itemPool: [],
-    };
+    const ctx = context.ctx = {};
 
-    for (const [i, pool] of this.pseudoDocument.pool.entries()) {
-      const item = await fromUuid(pool.uuid);
-      context.ctx.itemPool.push({
-        ...pool,
-        index: i,
-        link: item ? item.toAnchor() : "Unknown Item",
-      });
+    if (context.pseudoDocument.type === "itemGrant") {
+      ctx.itemPool = [];
+      for (const [i, pool] of this.pseudoDocument.pool.entries()) {
+        const item = await fromUuid(pool.uuid);
+        ctx.itemPool.push({
+          ...pool,
+          index: i,
+          link: item ? item.toAnchor() : "Unknown Item",
+        });
+      }
+    }
+
+    else if (context.pseudoDocument.type === "scaleValue") {
+      ctx.faces = context.pseudoDocument.subtype === "dice";
+      ctx.increases = artichron.utils.sortObject(context.source.increases, { inplace: false });
     }
 
     return context;
@@ -83,6 +91,14 @@ export default class AdvancementSheet extends PseudoDocumentSheet {
         drop: AdvancementSheet.#onDropTargetArea.bind(this),
       },
     }).bind(this.element);
+
+    const newIncrease = this.element.querySelector("[data-new-increase]");
+    if (newIncrease) newIncrease.addEventListener("change", () => {
+      if (!newIncrease.value) return;
+      const value = Number(newIncrease.value);
+      if (value in this.pseudoDocument.increases) return;
+      this.pseudoDocument.update({ [`increases.${value}`]: null });
+    });
   }
 
   /* -------------------------------------------------- */
@@ -118,5 +134,11 @@ export default class AdvancementSheet extends PseudoDocumentSheet {
     const pool = foundry.utils.deepClone(advancement._source.pool);
     pool.splice(index, 1);
     advancement.update({ pool });
+  }
+
+  /* -------------------------------------------------- */
+
+  static async #removeScaleIncrease(event, target) {
+    this.pseudoDocument.update({ [`increases.-=${target.closest("[data-increase]").dataset.increase}`]: null });
   }
 }

@@ -49,10 +49,12 @@ export default class TypedPseudoDocument extends PseudoDocument {
   /** @inheritdoc */
   static async create(data = {}, { parent, ...operation } = {}) {
     data = foundry.utils.deepClone(data);
+
     if (!data.type) data.type = Object.keys(this.TYPES)[0];
     if (!(data.type in this.TYPES)) {
       throw new Error(`The '${data.type}' type is not a valid type for a '${this.metadata.documentName}' pseudo-document!`);
     }
+
     return super.create(data, { parent, ...operation });
   }
 
@@ -90,7 +92,8 @@ export default class TypedPseudoDocument extends PseudoDocument {
   /* -------------------------------------------------- */
 
   /** @inheritdoc */
-  prepareDerivedData() {
-    this.name ||= game.i18n.localize(`TYPES.${this.constructor.metadata.documentName}.${this.type}`);
+  prepareBaseData() {
+    super.prepareBaseData();
+    if (!this.name) this.name = game.i18n.localize(`TYPES.${this.constructor.metadata.documentName}.${this.type}`);
   }
 }

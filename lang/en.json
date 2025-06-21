@@ -40,7 +40,9 @@
 },
 "Advancement": {
   "itemGrant": "Item Grant",
-  "itemGrantPl": "Item Grant Advancements"
+  "itemGrantPl": "Item Grant Advancements",
+  "scaleValue": "Scaling Value",
+  "scaleValuePl": "Scaling Values Advancements"
 },
 "ArmorRequirement": {
   "health": "Health",
@@ -126,6 +128,17 @@
         "unequip": "Unequip Item",
         "fuse": "Fuse Item"
       }
+    }
+  },
+
+  "ADVANCEMENT": {
+    "newIncrease": "New Increase",
+    "newIncreasePlaceholder": "E.g. '7'",
+    "HEADERS": {
+      "requirements": "Requirements",
+      "item": "Item",
+      "optional": "Optional",
+      "increases": "Increases"
     }
   },
 
@@ -243,17 +256,16 @@
     }
   },
 
-  "REQUIREMENT": {
+  "PATH": {
     "HEADERS": {
-      "requirement": "Requirement"
+      "pointsRequired": "{points} points required",
+      "inapplicable": "Inapplicable"
     }
   },
 
-  "ADVANCEMENT": {
+  "REQUIREMENT": {
     "HEADERS": {
-      "requirements": "Requirements",
-      "item": "Item",
-      "optional": "Optional"
+      "requirement": "Requirement"
     }
   },
 
@@ -579,6 +591,27 @@
           "hint": "The number of points required to unlock this advancement."
         }
       }
+    }
+  },
+  "SCALE_VALUE": {
+    "FIELDS": {
+      "subtype": {
+        "label": "Subtype"
+      },
+      "increases": {
+        "element": {
+          "number": {
+            "label": "Number"
+          },
+          "faces": {
+            "label": "Faces"
+          }
+        }
+      }
+    },
+    "SUBTYPE": {
+      "number": "Number",
+      "dice": "Dice"
     }
   }
 },
@@ -965,7 +998,6 @@
     "warlock": "Warlock"
   },
   "PATH_CONFIGURATION": {
-    "currentPath": "Current Path",
     "noPath": "No Path",
     "investHint": "Invest additional points into your current paths.",
     "invested": "Invested: {total} (+{delta})",

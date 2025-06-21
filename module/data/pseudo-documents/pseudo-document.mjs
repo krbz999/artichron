@@ -122,8 +122,6 @@ export default class PseudoDocument extends foundry.abstract.DataModel {
    * Prepare derived data. It is the responsibility of the parent (pseudo) document to call this method.
    */
   prepareDerivedData() {
-    this.name ||= game.i18n.localize(`TYPES.${this.constructor.metadata.documentName}.base`);
-
     const documentNames = Object.keys(this.constructor.metadata.embedded);
     for (const documentName of documentNames) {
       for (const pseudoDocument of this.getEmbeddedPseudoDocumentCollection(documentName)) {
