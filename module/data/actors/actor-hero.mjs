@@ -395,14 +395,11 @@ export default class HeroData extends CreatureData {
     // The 'current path' item. Might exist on the actor, might also be fetched from pack.
     const pathItem = fetchedItems[pathId];
 
-    // Scale values.
-    // These are done entirely during regular data prep.
-
-    // Item Grants.
+    // The range to grab applicable advancements from.
     const max = Object.values(totals).reduce((acc, k) => acc + k, 0);
     const range = [max - spent + 1, max];
 
-    const itemData = await artichron.data.pseudoDocuments.advancements.ItemGrantAdvancement.configureAdvancement(
+    const itemData = await artichron.data.pseudoDocuments.advancements.BaseAdvancement.configureAdvancement(
       this.parent,
       pathItem,
       { range },

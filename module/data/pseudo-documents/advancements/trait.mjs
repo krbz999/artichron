@@ -60,7 +60,6 @@ export default class TraitAdvancement extends BaseAdvancement {
 
   /** @inheritdoc */
   static async configureNode(node) {
-    // TODO: This is just a test.
     const options = Object.entries(node.advancement.traits)
       .filter(([k, v]) => v.trait in artichron.config.TRAITS)
       .map(([k, v]) => ({
@@ -78,7 +77,6 @@ export default class TraitAdvancement extends BaseAdvancement {
     });
     if (!result) return false;
     for (const { value: k } of options) node.selected[k] = result.traits.includes(k);
-    console.warn(node);
     return true;
   }
 }
