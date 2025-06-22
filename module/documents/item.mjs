@@ -258,6 +258,17 @@ export default class ItemArtichron extends BaseDocumentMixin(foundry.documents.I
   prepareEmbeddedDocuments() {
     super.prepareEmbeddedDocuments();
     if (!this.isEmbedded || this.actor._prepareEmbedded) this.applyActiveEffects();
+
+    if (this.isEmbedded && this.supportsAdvancements) {
+      this.parent._traits ??= {};
+      for (const traitAdv of this.getEmbeddedPseudoDocumentCollection("Advancement").getByType("trait")) {
+        for (const v of Object.values(traitAdv.traits)) {
+          if (!v.active) continue;
+          this.parent._traits[v.trait] ??= new Set();
+          this.parent._traits[v.trait].add(v);
+        }
+      }
+    }
   }
 
   /* -------------------------------------------------- */

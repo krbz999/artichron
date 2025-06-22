@@ -818,3 +818,22 @@ Object.defineProperty(BASIC_ATTACKS, "optgroups", {
     return groups;
   },
 });
+
+/* -------------------------------------------------- */
+
+/**
+ * @typedef TraitConfiguration
+ * @property {string} label                                           Human-readable label of the trait.
+ * @property {InstanceType<foundry.data.fields.DataField>} [field]    A field used to render the input.
+ */
+
+/**
+ * The options for a trait advancement.
+ * @type {Record<string, TraitConfiguration>}
+ */
+export const TRAITS = {
+  health: {
+    label: "ARTICHRON.TRAITS.health",
+    field: new foundry.data.fields.NumberField({ integer: true, nullable: false }),
+  },
+};

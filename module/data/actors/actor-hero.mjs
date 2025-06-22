@@ -128,6 +128,11 @@ export default class HeroData extends CreatureData {
     const total = this.pools.health.max * this.pools.health.faces;
 
     let max = Math.ceil(total * injury);
+
+    for (const trait of this.parent._traits?.health ?? []) {
+      max += artichron.config.TRAITS.health.field._cast(trait.value);
+    }
+
     if ((levels > 0) && (max === total)) max = Math.clamp(max, 1, total - 1);
 
     this.health.max = max;

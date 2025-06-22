@@ -293,8 +293,6 @@
     }
 
     .section-header {
-      display: grid;
-      grid-template-columns: 1fr 0fr;
       user-select: none;
       margin-bottom: .5rem;
 

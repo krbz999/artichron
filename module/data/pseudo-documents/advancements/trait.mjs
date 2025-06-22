@@ -1,6 +1,6 @@
 import BaseAdvancement from "./base-advancement.mjs";
 
-const { NumberField, SchemaField, TypedObjectField } = foundry.data.fields;
+const { BooleanField, NumberField, SchemaField, StringField, TypedObjectField } = foundry.data.fields;
 
 export default class TraitAdvancement extends BaseAdvancement {
   /** @inheritdoc */
@@ -9,7 +9,12 @@ export default class TraitAdvancement extends BaseAdvancement {
       requirements: new SchemaField({
         points: new NumberField({ integer: true, min: 1, nullable: false, initial: 1 }),
       }),
-      traits: new TypedObjectField(new NumberField()), // TODO: JUST TEST DATA
+      traits: new TypedObjectField(new SchemaField({
+        label: new StringField({ required: true }),
+        trait: new StringField({ required: true, blank: false, choices: () => artichron.config.TRAITS }),
+        value: new StringField({ required: true, blank: true }),
+        active: new BooleanField(), // Whether this choice of trait is active.
+      }), { validateKey: key => foundry.data.validators.isValidId(key) }),
       // If `null`, then this is explicitly a "receive all" - but also if the number is equal to or greater than the pool
       chooseN: new NumberField({ integer: true, nullable: true, initial: null, min: 1 }),
     });
@@ -40,22 +45,39 @@ export default class TraitAdvancement extends BaseAdvancement {
   /* -------------------------------------------------- */
 
   /** @inheritdoc */
+  prepareDerivedData() {
+    super.prepareDerivedData();
+
+    // Set default labels for trait options.
+    for (const k in this.traits) {
+      if (!this.traits[k].label) {
+        this.traits[k].label = artichron.config.TRAITS[this.traits[k].trait].label;
+      }
+    }
+  }
+
+  /* -------------------------------------------------- */
+
+  /** @inheritdoc */
   static async configureNode(node) {
     // TODO: This is just a test.
-    const options = Object.entries(node.advancement.traits).map(([k, v]) => ({
-      value: k,
-      label: v,
-      selected: node.selected[k] === true,
-    }));
+    const options = Object.entries(node.advancement.traits)
+      .filter(([k, v]) => v.trait in artichron.config.TRAITS)
+      .map(([k, v]) => ({
+        value: k,
+        label: v.label,
+        selected: node.selected[k] === true,
+      }));
     const input = foundry.applications.fields.createMultiSelectInput({
       options,
-      name: "myNumber",
+      name: "traits",
+      type: "checkboxes",
     });
     const result = await artichron.applications.api.Dialog.input({
       content: input.outerHTML,
     });
     if (!result) return false;
-    for (const { value: k } of options) node.selected[k] = result.myNumber.includes(k);
+    for (const { value: k } of options) node.selected[k] = result.traits.includes(k);
     console.warn(node);
     return true;
   }

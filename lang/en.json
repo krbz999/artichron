@@ -140,7 +140,8 @@
     "HEADERS": {
       "requirements": "Requirements",
       "item": "Item",
-      "increases": "Increases"
+      "increases": "Increases",
+      "traits": "Traits"
     }
   },
 
@@ -618,6 +619,31 @@
     "SUBTYPE": {
       "number": "Number",
       "dice": "Dice"
+    }
+  },
+  "TRAIT": {
+    "label": "Label",
+    "FIELDS": {
+      "requirements": {
+        "points": {
+          "label": "Point Requirement",
+          "hint": "The number of points required to unlock this advancement."
+        }
+      },
+      "chooseN": {
+        "label": "Choice",
+        "hint": "How many of the traits in this pool can be chosen during advancement. Leave blank if all traits are granted."
+      },
+      "traits": {
+        "element": {
+          "trait": {
+            "label": "Trait"
+          },
+          "value": {
+            "label": "Value"
+          }
+        }
+      }
     }
   }
 },
@@ -1155,6 +1181,10 @@
     "hint": "Select two skills to combine for the roll, adding together their dice and bonuses.",
     "flavor": "Skill Roll ({skills})"
   }
+},
+
+"TRAITS": {
+  "health": "Health"
 },
 
 "ActivityUseDialog": {
