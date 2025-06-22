@@ -401,7 +401,7 @@ export default class HeroData extends CreatureData {
 
     // TODO: Trait advancements on the root item do not get configured. This either needs to be
     // an update to the item if it already exists, or its data has to be configured somewhere.
-    const itemData = await artichron.data.pseudoDocuments.advancements.BaseAdvancement.configureAdvancement(
+    const itemData = await artichron.data.pseudoDocuments.advancements.BaseAdvancement.performAdvancementFlow(
       this.parent,
       pathItem,
       { range },

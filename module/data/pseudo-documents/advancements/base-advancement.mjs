@@ -48,7 +48,7 @@ export default class BaseAdvancement extends TypedPseudoDocument {
    *                                          The item data is configured in such a way that they should be
    *                                          created with `keepId: true`.
    */
-  static async configureAdvancement(actor, item, { range }) {
+  static async performAdvancementFlow(actor, item, { range }) {
     if (item.type !== "path") {
       throw new Error("Cannot trigger advancements with a non-Path item as the root item.");
     }
