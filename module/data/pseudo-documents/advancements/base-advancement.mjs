@@ -53,12 +53,6 @@ export default class BaseAdvancement extends TypedPseudoDocument {
       throw new Error("Cannot trigger advancements with a non-Path item as the root item.");
     }
 
-    // TODO: This method should be moved to the base advancement where it can call subclass methods on the
-    // individual advancement subtypes to configure update data. For example, all item creation of course
-    // is only handled by item grants, while actor updates (?) are handled by traits - or we might instead
-    // handle those changes from Trait advancements by updating the items so this can be handled during data prep.
-    // Either way, this should be handled in the base method as it is not specific to just item grants.
-
     const collection = item.getEmbeddedPseudoDocumentCollection("Advancement");
     if (!collection.size) return [];
 
@@ -87,14 +81,12 @@ export default class BaseAdvancement extends TypedPseudoDocument {
 
       // Make changes to advancements.
       if (item.supportsAdvancements) {
-        const path = item.system.constructor.metadata.embedded.Advancement;
-        const update = { [path]: {} };
+        const traitIds = [];
         for (const traitAdv of item.getEmbeddedPseudoDocumentCollection("Advancement").getByType("trait")) {
-          for (const traitId of changes[traitAdv.uuid] ?? []) {
-            update[path][traitAdv.id] = { [`traits.${traitId}.active`]: true };
-          }
+          for (const traitId of changes[traitAdv.uuid] ?? []) traitIds.push(`${traitAdv.id}:${traitId}`);
         }
-        item.updateSource(update);
+
+        if (traitIds.length) item = item.clone({ "flags.artichron.advancements.activeTraits": traitIds }, { keepId: true });
       }
 
       const data = game.items.fromCompendium(item, { keepId });
@@ -114,7 +106,6 @@ export default class BaseAdvancement extends TypedPseudoDocument {
             }
 
     // Traverse the chains to gather all items.
-    // TODO: What about the root item?
     for (const root of chains)
       for (const node of root.active())
         if (node.advancement.type === "itemGrant")

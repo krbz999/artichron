@@ -1,6 +1,6 @@
 import BaseAdvancement from "./base-advancement.mjs";
 
-const { BooleanField, NumberField, SchemaField, StringField, TypedObjectField } = foundry.data.fields;
+const { NumberField, SchemaField, SetField, StringField, TypedObjectField } = foundry.data.fields;
 
 export default class TraitAdvancement extends BaseAdvancement {
   /** @inheritdoc */
@@ -13,7 +13,6 @@ export default class TraitAdvancement extends BaseAdvancement {
         label: new StringField({ required: true }),
         trait: new StringField({ required: true, blank: false, choices: () => artichron.config.TRAITS }),
         value: new StringField({ required: true, blank: true }),
-        active: new BooleanField(), // Whether this choice of trait is active.
       }), { validateKey: key => foundry.data.validators.isValidId(key) }),
       // If `null`, then this is explicitly a "receive all" - but also if the number is equal to or greater than the pool
       chooseN: new NumberField({ integer: true, nullable: true, initial: null, min: 1 }),

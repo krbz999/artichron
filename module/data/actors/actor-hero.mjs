@@ -399,6 +399,8 @@ export default class HeroData extends CreatureData {
     const max = Object.values(totals).reduce((acc, k) => acc + k, 0);
     const range = [max - spent + 1, max];
 
+    // TODO: Trait advancements on the root item do not get configured. This either needs to be
+    // an update to the item if it already exists, or its data has to be configured somewhere.
     const itemData = await artichron.data.pseudoDocuments.advancements.BaseAdvancement.configureAdvancement(
       this.parent,
       pathItem,
