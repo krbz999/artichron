@@ -50,6 +50,11 @@ export default class AdvancementChain {
 
   /* -------------------------------------------------- */
 
+  /**
+   * Retrieve the node that contains a given advancement.
+   * @param {string} uuid   The uuid of the advancement.
+   * @returns {AdvancementChain|null}
+   */
   getByAdvancement(uuid) {
     for (const node of this) if (node.advancement.uuid === uuid) return node;
     return null;

@@ -65,6 +65,11 @@ export default class ChainConfigurationDialog extends Application {
 
   /* -------------------------------------------------- */
 
+  /**
+   * Find the node that contains an advancement.
+   * @param {string} uuid   The uuid of an advancement.
+   * @returns {AdvancementChain|null}
+   */
   getByAdvancement(uuid) {
     for (const chain of this.#chains) {
       const node = chain.getByAdvancement(uuid);
