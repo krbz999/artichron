@@ -79,8 +79,10 @@ export default class ItemGrantAdvancement extends BaseAdvancement {
   /* -------------------------------------------------- */
 
   /** @inheritdoc */
-  async configureAdvancement() {
-    const items = (await Promise.all(this.pool.map(p => fromUuid(p.uuid)))).filter(_ => _);
+  async configureAdvancement(node = null) {
+    const items = node ?
+      Object.values(node.choices).map(choice => choice.item)
+      : (await Promise.all(this.pool.map(p => fromUuid(p.uuid)))).filter(_ => _);
 
     if (!items.length) {
       throw new Error(`The item grant advancement [${this.uuid}] has no available items configured.`);
@@ -92,15 +94,22 @@ export default class ItemGrantAdvancement extends BaseAdvancement {
     if (chooseN === null) return { [path]: items.map(item => item.uuid) };
 
     const item = this.document;
-    const chosen = item.isEmbedded ? foundry.utils.getProperty(item, path) ?? [] : [];
+    const chosen = node
+      ? Object.entries(node.selected).filter(k => k[1]).map(k => k[0])
+      : item.isEmbedded
+        ? foundry.utils.getProperty(item, path) ?? []
+        : [];
 
     const content = [];
     for (const item of items) {
-      const fgroup = foundry.applications.fields.createFormGroup({
-        label: item.toAnchor().outerHTML,
-        input: foundry.utils.parseHTML(`<input type="checkbox" value="${item.uuid}" name="choices" ${chosen.includes(item.uuid) ? "checked" : ""}>`),
-      });
-      content.push(fgroup);
+      const fgroup = `
+      <div class="form-group">
+        <label>${item.toAnchor().outerHTML}</label>
+        <div class="form-fields">
+          <input type="checkbox" value="${item.uuid}" name="choices" ${chosen.includes(item.uuid) ? "checked" : ""}>
+        </div>
+      </div>`;
+      content.push(foundry.utils.parseHTML(fgroup));
     }
 
     function render(event, dialog) {
@@ -116,41 +125,21 @@ export default class ItemGrantAdvancement extends BaseAdvancement {
       checkboxes[0].dispatchEvent(new Event("change"));
     }
 
+    const _content = document.createElement("DIV");
+    for (const fg of content) _content.insertAdjacentElement("beforeend", fg);
     const selection = await artichron.applications.api.Dialog.input({
       render,
-      content: content.map(fgroup => fgroup.outerHTML).join(""),
+      content: _content,
     });
 
     if (!selection) return null;
     const uuids = Array.isArray(selection.choices) ? selection.choices : [selection.choices];
 
+    if (node) {
+      node.selected = {};
+      for (const item of items) node.selected[item.uuid] = uuids.includes(item.uuid);
+    }
+
     return { [path]: uuids.filter(_ => _) };
-  }
-
-  /* -------------------------------------------------- */
-
-  /** @inheritdoc */
-  static async configureNode(node) {
-    const options = Object.values(node.choices).map(choice => ({
-      value: choice.item.uuid,
-      label: choice.item.name,
-      selected: node.selected[choice.item.uuid] === true,
-    }));
-
-    const contentLinks = Object.values(node.choices).map(choice => `<li>${choice.item.toAnchor().outerHTML}</li>`).join("");
-
-    const input = foundry.applications.fields.createMultiSelectInput({
-      options,
-      name: "uuids",
-      type: "checkboxes",
-    });
-
-    const result = await artichron.applications.api.Dialog.input({
-      content: `<ul>${contentLinks}</ul>${input.outerHTML}`,
-    });
-    if (!result) return false;
-
-    for (const { value: uuid } of options) node.selected[uuid] = result.uuids.includes(uuid);
-    return true;
   }
 }

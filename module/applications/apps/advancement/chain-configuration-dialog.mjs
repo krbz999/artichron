@@ -20,7 +20,7 @@ export default class ChainConfigurationDialog extends Application {
       height: "auto",
     },
     actions: {
-      configureNode: ChainConfigurationDialog.#configureNode,
+      configureAdvancement: ChainConfigurationDialog.#configureAdvancement,
     },
   };
 
@@ -110,10 +110,17 @@ export default class ChainConfigurationDialog extends Application {
    * @param {PointerEvent} event          The initiating click event.
    * @param {HTMLButtonElement} target    The capturing HTML element which defined a [data-action].
    */
-  static async #configureNode(event, target) {
+  static async #configureAdvancement(event, target) {
     const advancementUuid = target.closest("[data-advancement-uuid]").dataset.advancementUuid;
     const node = this.getByAdvancement(advancementUuid);
-    const configured = await node.advancement.constructor.configureNode(node);
-    if (configured) this.render();
+    const configured = await node.advancement.configureAdvancement(node);
+    if (!configured) return;
+
+    const item = node.advancement.document;
+
+    this._itemUpdates ??= {};
+    this._itemUpdates[item.uuid] ??= {};
+    foundry.utils.mergeObject(this._itemUpdates[item.uuid], configured);
+    this.render();
   }
 }

@@ -58,8 +58,9 @@ export default class TraitAdvancement extends BaseAdvancement {
   /* -------------------------------------------------- */
 
   /** @inheritdoc */
-  async configureAdvancement() {
-    const traits = Object.entries(this.traits);
+  async configureAdvancement(node = null) {
+    const traits = Object.entries(node ? node.advancement.traits : this.traits)
+      .filter(([k, v]) => v.trait in artichron.config.TRAITS);
 
     if (!traits.length) {
       throw new Error(`The trait advancement [${this.uuid}] has no available choices configured.`);
@@ -71,7 +72,11 @@ export default class TraitAdvancement extends BaseAdvancement {
     if (chooseN === null) return { [path]: traits.map(trait => trait[0]) };
 
     const item = this.document;
-    const chosen = item.isEmbedded ? foundry.utils.getProperty(item, path) ?? [] : [];
+    const chosen = node
+      ? traits.filter(([k]) => node.selected[k])
+      : item.isEmbedded
+        ? foundry.utils.getProperty(item, path) ?? []
+        : [];
 
     const content = [];
     for (const [traitId, trait] of traits) {
@@ -103,30 +108,11 @@ export default class TraitAdvancement extends BaseAdvancement {
     if (!selection) return null;
     const traitIds = Array.isArray(selection.choices) ? selection.choices : [selection.choices];
 
+    if (node) {
+      node.selected = {};
+      for (const [traitId] of traits) node.selected[traitId] = selection.choices.includes(traitId);
+    }
+
     return { [path]: traitIds.filter(_ => _) };
-  }
-
-  /* -------------------------------------------------- */
-
-  /** @inheritdoc */
-  static async configureNode(node) {
-    const options = Object.entries(node.advancement.traits)
-      .filter(([k, v]) => v.trait in artichron.config.TRAITS)
-      .map(([k, v]) => ({
-        value: k,
-        label: v.label,
-        selected: node.selected[k] === true,
-      }));
-    const input = foundry.applications.fields.createMultiSelectInput({
-      options,
-      name: "traits",
-      type: "checkboxes",
-    });
-    const result = await artichron.applications.api.Dialog.input({
-      content: input.outerHTML,
-    });
-    if (!result) return false;
-    for (const { value: k } of options) node.selected[k] = result.traits.includes(k);
-    return true;
   }
 }
