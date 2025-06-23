@@ -65,24 +65,6 @@ export default class ChainConfigurationDialog extends Application {
 
   /* -------------------------------------------------- */
 
-  /**
-   * Select an item.
-   * @param {string} advancementUuid    The uuid of the advancement.
-   * @param {string} itemUuid           The uuid of the item.
-   * @param {boolean} [state=true]      The selected state.
-   * @returns {boolean}                 Whether a change was made.
-   */
-  selectItem(advancementUuid, itemUuid, state = true) {
-    let changed = false;
-    for (const chain of this.#chains) {
-      const result = chain.selectItem(advancementUuid, itemUuid, state);
-      changed = changed || result;
-    }
-    return changed;
-  }
-
-  /* -------------------------------------------------- */
-
   getByAdvancement(uuid) {
     for (const chain of this.#chains) {
       const node = chain.getByAdvancement(uuid);

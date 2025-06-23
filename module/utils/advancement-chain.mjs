@@ -50,30 +50,6 @@ export default class AdvancementChain {
 
   /* -------------------------------------------------- */
 
-  /**
-   * Set an item as selected or not selected.
-   * @param {string} advancementUuid    The uuid of the advancement that granted the item.
-   * @param {string} itemUuid           The uuid of the item that is granted by the advancement.
-   * @param {boolean} [selected=true]   Whether the item is set as selected or not.
-   * @returns {boolean}                 Whether a change was made.
-   */
-  selectItem(advancementUuid, itemUuid, selected = true) {
-    let success = false;
-    selected = !!selected;
-
-    for (const node of this)
-      if (node.advancement.uuid === advancementUuid)
-        if (node.choices[itemUuid]) {
-          const has = node.selected[itemUuid] ?? false;
-          if (selected !== has) success = true;
-          node.selected[itemUuid] = selected;
-        }
-
-    return success;
-  }
-
-  /* -------------------------------------------------- */
-
   getByAdvancement(uuid) {
     for (const node of this) if (node.advancement.uuid === uuid) return node;
     return null;
