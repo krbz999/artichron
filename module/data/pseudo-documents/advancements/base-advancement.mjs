@@ -39,6 +39,16 @@ export default class BaseAdvancement extends TypedPseudoDocument {
   /* -------------------------------------------------- */
 
   /**
+   * Configure this advancement such that all choices have been made.
+   * @returns {Promise<object>}   A promise that resolves to an update to perform on the parent of the advancement.
+   */
+  async configureAdvancement() {
+    return {};
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
    * Perform the advancement flow.
    * @param {foundry.documents.Actor} actor   The actor being targeted by advancements.
    * @param {foundry.documents.Item} item     The path item which holds advancements.

@@ -79,6 +79,57 @@ export default class ItemGrantAdvancement extends BaseAdvancement {
   /* -------------------------------------------------- */
 
   /** @inheritdoc */
+  async configureAdvancement() {
+    const items = (await Promise.all(this.pool.map(p => fromUuid(p.uuid)))).filter(_ => _);
+
+    if (!items.length) {
+      throw new Error(`The item grant advancement [${this.uuid}] has no available items configured.`);
+    }
+
+    const chooseN = (this.chooseN === null) || (this.chooseN >= items.length) ? null : this.chooseN;
+
+    const path = `flags.artichron.advancement.${this.id}.selected`;
+    if (chooseN === null) return { [path]: items.map(item => item.uuid) };
+
+    const item = this.document;
+    const chosen = item.isEmbedded ? foundry.utils.getProperty(item, path) ?? [] : [];
+
+    const content = [];
+    for (const item of items) {
+      const fgroup = foundry.applications.fields.createFormGroup({
+        label: item.toAnchor().outerHTML,
+        input: foundry.utils.parseHTML(`<input type="checkbox" value="${item.uuid}" name="choices" ${chosen.includes(item.uuid) ? "checked" : ""}>`),
+      });
+      content.push(fgroup);
+    }
+
+    function render(event, dialog) {
+      const checkboxes = dialog.element.querySelectorAll("input[name=choices]");
+      const submit = dialog.element.querySelector(".form-footer [type=submit]");
+      for (const checkbox of checkboxes) {
+        checkbox.addEventListener("change", () => {
+          const count = Array.from(checkboxes).reduce((acc, checkbox) => acc + checkbox.checked, 0);
+          for (const checkbox of checkboxes) checkbox.disabled = !checkbox.checked && (count >= chooseN);
+          submit.disabled = count !== chooseN;
+        });
+      }
+      checkboxes[0].dispatchEvent(new Event("change"));
+    }
+
+    const selection = await artichron.applications.api.Dialog.input({
+      render,
+      content: content.map(fgroup => fgroup.outerHTML).join(""),
+    });
+
+    if (!selection) return null;
+    const uuids = Array.isArray(selection.choices) ? selection.choices : [selection.choices];
+
+    return { [path]: uuids.filter(_ => _) };
+  }
+
+  /* -------------------------------------------------- */
+
+  /** @inheritdoc */
   static async configureNode(node) {
     const options = Object.values(node.choices).map(choice => ({
       value: choice.item.uuid,
