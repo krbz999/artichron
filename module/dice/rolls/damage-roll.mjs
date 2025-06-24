@@ -68,7 +68,8 @@ export default class DamageRoll extends RollArtichron {
    */
   get multiplier() {
     if (!this._evaluated) return null;
-    return this.options.modifiers?.[artichron.config.DAMAGE_TYPES[this.damageType].group] ?? 1;
+    const multiplier = this.options.modifiers?.[artichron.config.DAMAGE_TYPES[this.damageType].group] ?? 1;
+    return multiplier;
   }
 
   /* -------------------------------------------------- */

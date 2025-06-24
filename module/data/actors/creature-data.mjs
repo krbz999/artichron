@@ -94,10 +94,10 @@ export default class CreatureData extends ActorSystemModel {
   /** Prepare damage bonuses derived from statuses. */
   #prepareDamageBonuses() {
     for (const k of Object.keys(artichron.config.DAMAGE_TYPE_GROUPS)) {
-      let mult = 0;
-      if (this.parent.statuses.has(`${k.slice(0, 4)}AtkUp`)) mult = 50;
-      if (this.parent.statuses.has(`${k.slice(0, 4)}AtkDown`)) mult = mult ? 0 : -33;
-      if (mult) this.bonuses.damage[k] += mult;
+      let mult = 1;
+      if (this.parent.statuses.has(`${k.slice(0, 4)}AtkUp`)) mult = 3 / 2;
+      if (this.parent.statuses.has(`${k.slice(0, 4)}AtkDown`)) mult = mult ? 0 : 2 / 3;
+      this.bonuses.damage[k] = mult;
     }
   }
 
@@ -281,14 +281,6 @@ export default class CreatureData extends ActorSystemModel {
    * @returns {object[]}
    */
   #configureDamageRollConfigs() {
-    const dmgBonus = type => {
-      const up = `${type}AtkUp`;
-      const dn = `${type}AtkDown`;
-      const actorUp = this.parent.statuses.has(up) ? 3 / 2 : 1;
-      const actorDn = this.parent.statuses.has(dn) ? 2 / 3 : 1;
-      return actorUp * actorDn;
-    };
-
     const parts = [];
     for (const part of this.damage.parts) {
       parts.push({
@@ -296,9 +288,9 @@ export default class CreatureData extends ActorSystemModel {
         damageType: part.damageType,
         damageTypes: [...part.damageTypes],
         modifiers: {
-          physical: dmgBonus("phys"),
-          elemental: dmgBonus("elem"),
-          planar: dmgBonus("plan"),
+          physical: this.bonuses.damage.physical,
+          elemental: this.bonuses.damage.elemental,
+          planar: this.bonuses.damage.planar,
         },
       });
     }
