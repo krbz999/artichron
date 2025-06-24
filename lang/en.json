@@ -700,46 +700,38 @@
 },
 
 "CONDITIONS": {
+  "bleeding": "Bleeding",
+  "blind": "Blind",
+  "bloodied": "Bloodied",
+  "burning": "Burning",
+  "critical": "Critical",
+  "defeated": "Defeated",
+  "flying": "Flying",
+  "hindered": "Hindered",
+  "injured": "Injured",
+  "invisible": "Invisible",
+  "levitating": "Levitating",
+  "underground": "Underground",
+  "physAtkUp": "Physical Attack Up",
+  "physAtkDown": "Physical Attack Down",
+  "physDefUp": "Physical Defense Up",
+  "physDefDown": "Physical Defense Down",
+  "elemAtkUp": "Elemental Attack Up",
+  "elemAtkDown": "Elemental Attack Down",
+  "elemDefUp": "Elemental Defense Up",
+  "elemDefDown": "Elemental Defense Down",
+  "planAtkUp": "Planar Attack Up",
+  "planAtkDown": "Planar Attack Down",
+  "planDefUp": "Planar Defense Up",
+  "planDefDown": "Planar Defense Down",
   "FIELDS": {
     "bleeding": {
-      "label": "Bleeding",
       "flavor": "{actor} is bleeding",
       "effect": "{actor} takes {level}d6 physical damage at the start of every round."
     },
-    "blind": {
-      "label": "Blind"
-    },
-    "bloodied": {
-      "label": "Bloodied"
-    },
     "burning": {
-      "label": "Burning",
       "flavor": "{actor} is burning",
       "effect": "{actor} takes {level}d12 fire damage at the start of every round."
-    },
-    "critical": {
-      "label": "Critical"
-    },
-    "defeated": {
-      "label": "Defeated"
-    },
-    "flying": {
-      "label": "Flying"
-    },
-    "hindered": {
-      "label": "Hindered"
-    },
-    "injured": {
-      "label": "Injured"
-    },
-    "invisible": {
-      "label": "Invisible"
-    },
-    "levitating": {
-      "label": "Levitating"
-    },
-    "underground": {
-      "label": "Underground"
     }
   }
 },
