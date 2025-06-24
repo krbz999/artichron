@@ -25,6 +25,12 @@ assets/icons/conditions/flying.svg - "Fluffy Wing" by Lorc under CC BY 3.0
 assets/icons/conditions/hindred.svg - "Foot Trip" by Lorc under CC BY 3.0
 assets/icons/conditions/injured.svg - "Internal Injury" by Lorc under CC BY 3.0
 assets/icons/conditions/invisible.svg - "Ninja Head" by DarkZaitzev under CC BY 3.0
+assets/icons/conditions/elemental-attack.svg - "Crystal Wand" by Lorc under CC BY 3.0
+assets/icons/conditions/elemental-defense.svg - "Rosa Shield" by Lorc under CC BY 3.0
+assets/icons/conditions/physical-attack.svg - "Mailed Fist" by Lorc under CC BY 3.0
+assets/icons/conditions/physical-defense.svg - "Bordered Shield" by Lorc under CC BY 3.0
+assets/icons/conditions/planar-damage.svg - "Eclipse" by Lorc under CC BY 3.0
+assets/icons/conditions/planar-defense.svg - "Double-Ringed Orb" by Lorc under CC BY 3.0
 
 assets/icons/pseudo/activity.svg - "Divided Spiral" by Lorc under CC BY 3.0
 assets/icons/pseudo/advancement.svg - "Divergence" by Lorc under CC BY 3.0
