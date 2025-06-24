@@ -292,17 +292,13 @@ export default class ItemArtichron extends BaseDocumentMixin(foundry.documents.I
     const overrides = {};
     const changes = [];
 
-    const validFields = this.system.constructor.BONUS_FIELDS;
-
     for (const e of this.allApplicableEffects()) {
       if (!e.active) continue;
       changes.push(...e.changes.reduce((acc, change) => {
-        if (validFields.has(change.key)) {
-          const c = foundry.utils.deepClone(change);
-          c.effect = e;
-          c.priority ??= c.mode * 10;
-          acc.push(c);
-        }
+        const c = foundry.utils.deepClone(change);
+        c.effect = e;
+        c.priority ??= c.mode * 10;
+        acc.push(c);
         return acc;
       }, []));
     }

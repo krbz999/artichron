@@ -39,16 +39,6 @@ export default class EffectFusionData extends ActiveEffectSystemModel {
   /* -------------------------------------------------- */
 
   /**
-   * The fields this effect may apply to.
-   * @type {Set<string>}
-   */
-  static get BONUS_FIELDS() {
-    return this.parent.parent.system.constructor.BONUS_FIELDS;
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
    * Is this a fusion that can be transferred?
    * @type {boolean}
    */

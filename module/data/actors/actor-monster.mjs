@@ -57,18 +57,6 @@ export default class MonsterData extends CreatureData {
   /*   Properties                                       */
   /* -------------------------------------------------- */
 
-  /** @inheritdoc */
-  static get BONUS_FIELDS() {
-    const bonus = super.BONUS_FIELDS;
-
-    bonus.add("system.biography.value");
-    bonus.add("system.danger.value");
-
-    return bonus;
-  }
-
-  /* -------------------------------------------------- */
-
   /**
    * The items that this monster will drop when killed.
    * @type {object[]}     Objects with an index entry and quantity.

@@ -197,9 +197,7 @@ class FusionData extends DataModel {
     }
 
     // Any valid changes from the effect are added as well.
-    for (const change of effect.changes) {
-      if (this.parent.constructor.BONUS_FIELDS.has(change.key)) changes.push({ ...change });
-    }
+    for (const change of effect.changes) changes.push({ ...change });
 
     return changes;
   }
