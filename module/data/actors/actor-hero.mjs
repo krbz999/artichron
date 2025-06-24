@@ -387,20 +387,16 @@ export default class HeroData extends CreatureData {
       }
     }
 
+    const currentPathId = HeroData.getPath(totals);
+
     // The 'current path' item. Might exist on the actor, might also be fetched from pack.
-    const pathItem = fetchedItems[HeroData.getPath(totals)] ?? this.progression.paths[HeroData.getPath(totals)];
+    const pathItem = fetchedItems[currentPathId] ?? this.progression.paths[currentPathId];
     if (!pathItem) throw new Error("Failed to find current path's item!");
 
-    // The range to grab applicable advancements from.
     const max = Object.values(totals).reduce((acc, k) => acc + k, 0);
-    const range = [max - spent + 1, max];
-
-    // TODO: Trait advancements on the root item do not get configured. This either needs to be
-    // an update to the item if it already exists, or its data has to be configured somewhere.
-
     const chains = await artichron.data.pseudoDocuments.advancements.BaseAdvancement.performAdvancementFlow(
       pathItem,
-      { range },
+      { range: [max - spent + 1, max] },
     );
     if (!chains) return null;
 
@@ -432,7 +428,7 @@ export default class HeroData extends CreatureData {
     for (const node of itemGrants) for (const [itemUuid, { item }] of Object.entries(node.choices)) {
       if (node.isChoice && !node.selected[itemUuid]) continue;
       const changes = foundry.utils.mergeObject(
-        { "flags.artichron.advancement.path": pathItem.identifier },
+        { "flags.artichron.advancement.path": currentPathId },
         itemChanges[itemUuid] ?? {},
       );
       const keepId = !(item.id in itemCreate) && !this.parent.items.has(item.id);
