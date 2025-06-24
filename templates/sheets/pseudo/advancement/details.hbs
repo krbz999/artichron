@@ -9,9 +9,19 @@
   {{#if (eq pseudoDocument.type "trait")}}
   {{formGroup fields.requirements.fields.points value=source.requirements.points name="requirements.points" placeholder="1" disabled=(not editable)}}
   {{formGroup fields.chooseN value=source.chooseN name="chooseN" placeholder=(localize "ARTICHRON.SHEET.ADVANCEMENT.receiveAll")}}
-  {{#each source.traits as |number key|}}
-  {{!-- TODO: Remake this with proper data. --}}
-  {{formGroup @root.fields.traits.element value=number name=(concat "traits." key)}}
+  <h3 class="section-header">
+    <span>{{localize "ARTICHRON.SHEET.ADVANCEMENT.HEADERS.traits"}}</span>
+    <button type="button" class="fa-solid fa-fw icon fa-circle-plus" data-action="createTrait"></button>
+  </h3>
+  {{#each ctx.traits}}
+  <div class="form-group" data-trait="{{key}}">
+    <label>{{lookup (lookup @root.config.TRAITS trait) "label"}}</label>
+    <div class="form-fields">
+      {{formGroup @root.fields.traits.element.fields.label name=(concat namePrefix "label") classes="label-top" value=label placeholder=(lookup (lookup @root.config.TRAITS trait) "label") label=(localize "ARTICHRON.ADVANCEMENT.TRAIT.label")}}
+      {{formGroup valueField name=(concat namePrefix "value") value=value classes="label-top" label=fields.value.label}}
+      <button type="button" class="icon fa-fw fa-solid fa-trash" data-action="deleteTrait"></button>
+    </div>
+  </div>
   {{/each}}
   {{/if}}
 

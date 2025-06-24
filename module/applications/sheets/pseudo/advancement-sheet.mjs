@@ -6,6 +6,8 @@ export default class AdvancementSheet extends PseudoDocumentSheet {
     actions: {
       deletePoolItem: AdvancementSheet.#deletePoolItem,
       removeScaleIncrease: AdvancementSheet.#removeScaleIncrease,
+      createTrait: AdvancementSheet.#createTrait,
+      deleteTrait: AdvancementSheet.#deleteTrait,
     },
     classes: ["advancement"],
   };
@@ -76,6 +78,16 @@ export default class AdvancementSheet extends PseudoDocumentSheet {
     }
 
     else if (context.pseudoDocument.type === "trait") {
+      ctx.traits = Object.entries(context.pseudoDocument._source.traits).map(([k, { trait, value, label }]) => {
+        if (!(trait in artichron.config.TRAITS)) return null;
+        return {
+          trait, value, label,
+          key: k,
+          namePrefix: `traits.${k}.`,
+          valueField: artichron.config.TRAITS[trait].field ?? new foundry.data.fields.StringField(),
+          fields: context.pseudoDocument.schema.fields.traits.element.fields,
+        };
+      }).filter(_ => _);
     }
 
     return context;
@@ -149,5 +161,33 @@ export default class AdvancementSheet extends PseudoDocumentSheet {
    */
   static async #removeScaleIncrease(event, target) {
     this.pseudoDocument.update({ [`increases.-=${target.closest("[data-increase]").dataset.increase}`]: null });
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Create a new trait on a trait advancement.
+   * @this {AdvancementSheet}
+   * @param {PointerEvent} event    The initiating click event.
+   * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
+   */
+  static async #createTrait(event, target) {
+    const options = Object.entries(artichron.config.TRAITS).map(([k, v]) => ({ value: k, label: v.label }));
+    const select = foundry.applications.fields.createSelectInput({ options, name: "traitType" });
+    const result = await artichron.applications.api.Dialog.input({ content: select.outerHTML });
+    if (result) this.pseudoDocument.update({ [`traits.${foundry.utils.randomID()}`]: { trait: result.traitType } });
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Remove a trait from a trait advancement.
+   * @this {AdvancementSheet}
+   * @param {PointerEvent} event    The initiating click event.
+   * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
+   */
+  static async #deleteTrait(event, target) {
+    const trait = target.closest("[data-trait]").dataset.trait;
+    this.pseudoDocument.update({ [`traits.-=${trait}`]: null });
   }
 }

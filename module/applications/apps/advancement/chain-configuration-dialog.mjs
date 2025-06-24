@@ -20,7 +20,7 @@ export default class ChainConfigurationDialog extends Application {
       height: "auto",
     },
     actions: {
-      configureNode: ChainConfigurationDialog.#configureNode,
+      configureAdvancement: ChainConfigurationDialog.#configureAdvancement,
     },
   };
 
@@ -66,23 +66,10 @@ export default class ChainConfigurationDialog extends Application {
   /* -------------------------------------------------- */
 
   /**
-   * Select an item.
-   * @param {string} advancementUuid    The uuid of the advancement.
-   * @param {string} itemUuid           The uuid of the item.
-   * @param {boolean} [state=true]      The selected state.
-   * @returns {boolean}                 Whether a change was made.
+   * Find the node that contains an advancement.
+   * @param {string} uuid   The uuid of an advancement.
+   * @returns {AdvancementChain|null}
    */
-  selectItem(advancementUuid, itemUuid, state = true) {
-    let changed = false;
-    for (const chain of this.#chains) {
-      const result = chain.selectItem(advancementUuid, itemUuid, state);
-      changed = changed || result;
-    }
-    return changed;
-  }
-
-  /* -------------------------------------------------- */
-
   getByAdvancement(uuid) {
     for (const chain of this.#chains) {
       const node = chain.getByAdvancement(uuid);
@@ -95,8 +82,7 @@ export default class ChainConfigurationDialog extends Application {
 
   /** @inheritdoc */
   _processSubmitData(event, form, formData, submitOptions) {
-    // The chain used to create this application is re-used outside,
-    // so no reason to return anything but whether to proceed or not.
+    // This application has no return value other than us needing to know whether it was dismissed or not.
     return true;
   }
 
@@ -110,10 +96,11 @@ export default class ChainConfigurationDialog extends Application {
    * @param {PointerEvent} event          The initiating click event.
    * @param {HTMLButtonElement} target    The capturing HTML element which defined a [data-action].
    */
-  static async #configureNode(event, target) {
+  static async #configureAdvancement(event, target) {
     const advancementUuid = target.closest("[data-advancement-uuid]").dataset.advancementUuid;
     const node = this.getByAdvancement(advancementUuid);
-    const configured = await node.advancement.constructor.configureNode(node);
-    if (configured) this.render();
+    const configured = await node.advancement.configureAdvancement(node);
+    if (!configured) return;
+    this.render();
   }
 }

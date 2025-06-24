@@ -78,90 +78,68 @@ export default class ItemGrantAdvancement extends BaseAdvancement {
 
   /* -------------------------------------------------- */
 
-  /**
-   * Perform the advancement flow.
-   * @param {foundry.documents.Actor} actor   The actor being targeted by advancements.
-   * @param {foundry.documents.Item} item     The path item which holds advancements.
-   * @param {object} options                  Advancement options.
-   * @param {number[]} options.range          The range of the advancements to trigger, a two-length array of integers.
-   * @returns {Promise<object[]|null>}        A promise that resolves to the item data that is to be created.
-   *                                          The item data is configured in such a way that they should be
-   *                                          created with `keepId: true`.
-   */
-  static async configureAdvancement(actor, item, { range }) {
-    if (item.type !== "path") {
-      throw new Error("Cannot trigger advancements with a non-Path item as the root item.");
-    }
-
-    // TODO: This method should be moved to the base advancement where it can call subclass methods on the
-    // individual advancement subtypes to configure update data. For example, all item creation of course
-    // is only handled by item grants, while actor updates (?) are handled by traits - or we might instead
-    // handle those changes from Trait advancements by updating the items so this can be handled during data prep.
-    // Either way, this should be handled in the base method as it is not specific to just item grants.
-
-    const collection = item.getEmbeddedPseudoDocumentCollection("Advancement");
-    if (!collection.size) return [];
-
-    const chains = [];
-    for (const advancement of collection) {
-      const validRange = advancement.levels.some(level => level.between(range[0], range[1]));
-      if (validRange) chains.push(await artichron.utils.AdvancementChain.create(advancement));
-    }
-    if (!chains.length) return [];
-
-    const configuration = await artichron.applications.apps.advancement.ChainConfigurationDialog.create({ chains });
-    if (!configuration) return null;
-
-    const id = item.identifier;
-
-    // The items that will be created. The root item is handled elsewhere.
-    const items = new foundry.utils.Collection();
-    const prepareItem = item => {
-      const keepId = !actor.items.has(item._id) && !items.has(item._id);
-      const data = game.items.fromCompendium(item, { keepId });
-      foundry.utils.setProperty(data, "flags.artichron.advancement.path", id);
-      if (!keepId) data._id = foundry.utils.randomID();
-      items.set(data._id, data);
-    };
-
-    // Traverse the chains to gather all items.
-    for (const root of chains)
-      for (const node of root.active())
-        if (node.advancement.type === "itemGrant") {
-          for (const [itemUuid, { item }] of Object.entries(node.choices))
-            if (!node.isChoice || node.selected[itemUuid]) prepareItem(item);
-        } else {
-          // TODO: Actor updates?
-          console.warn("NON-ITEM GRANT NODE!", node);
-        }
-
-    return Array.from(items.values());
-  }
-
-  /* -------------------------------------------------- */
-
   /** @inheritdoc */
-  static async configureNode(node) {
-    const options = Object.values(node.choices).map(choice => ({
-      value: choice.item.uuid,
-      label: choice.item.name,
-      selected: node.selected[choice.item.uuid] === true,
-    }));
+  async configureAdvancement(node = null) {
+    const items = node ?
+      Object.values(node.choices).map(choice => choice.item)
+      : (await Promise.all(this.pool.map(p => fromUuid(p.uuid)))).filter(_ => _);
 
-    const contentLinks = Object.values(node.choices).map(choice => `<li>${choice.item.toAnchor().outerHTML}</li>`).join("");
+    if (!items.length) {
+      throw new Error(`The item grant advancement [${this.uuid}] has no available items configured.`);
+    }
 
-    const input = foundry.applications.fields.createMultiSelectInput({
-      options,
-      name: "uuids",
-      type: "checkboxes",
+    const chooseN = (this.chooseN === null) || (this.chooseN >= items.length) ? null : this.chooseN;
+
+    const path = `flags.artichron.advancement.${this.id}.selected`;
+    if (chooseN === null) return { [path]: items.map(item => item.uuid) };
+
+    const item = this.document;
+    const chosen = node
+      ? Object.entries(node.selected).filter(k => k[1]).map(k => k[0])
+      : item.isEmbedded
+        ? foundry.utils.getProperty(item, path) ?? []
+        : [];
+
+    const content = [];
+    for (const item of items) {
+      const fgroup = `
+      <div class="form-group">
+        <label>${item.toAnchor().outerHTML}</label>
+        <div class="form-fields">
+          <input type="checkbox" value="${item.uuid}" name="choices" ${chosen.includes(item.uuid) ? "checked" : ""}>
+        </div>
+      </div>`;
+      content.push(foundry.utils.parseHTML(fgroup));
+    }
+
+    function render(event, dialog) {
+      const checkboxes = dialog.element.querySelectorAll("input[name=choices]");
+      const submit = dialog.element.querySelector(".form-footer [type=submit]");
+      for (const checkbox of checkboxes) {
+        checkbox.addEventListener("change", () => {
+          const count = Array.from(checkboxes).reduce((acc, checkbox) => acc + checkbox.checked, 0);
+          for (const checkbox of checkboxes) checkbox.disabled = !checkbox.checked && (count >= chooseN);
+          submit.disabled = count !== chooseN;
+        });
+      }
+      checkboxes[0].dispatchEvent(new Event("change"));
+    }
+
+    const _content = document.createElement("DIV");
+    for (const fg of content) _content.insertAdjacentElement("beforeend", fg);
+    const selection = await artichron.applications.api.Dialog.input({
+      render,
+      content: _content,
     });
 
-    const result = await artichron.applications.api.Dialog.input({
-      content: `<ul>${contentLinks}</ul>${input.outerHTML}`,
-    });
-    if (!result) return false;
+    if (!selection) return null;
+    const uuids = Array.isArray(selection.choices) ? selection.choices : [selection.choices];
 
-    for (const { value: uuid } of options) node.selected[uuid] = result.uuids.includes(uuid);
-    return true;
+    if (node) {
+      node.selected = {};
+      for (const item of items) node.selected[item.uuid] = uuids.includes(item.uuid);
+    }
+
+    return { [path]: uuids.filter(_ => _) };
   }
 }

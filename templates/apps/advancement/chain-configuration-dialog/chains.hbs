@@ -7,7 +7,7 @@
     <h3 class="section-header">
       <span>{{advancement.name}}</span>
       {{#if isChoice}}
-      <button type="button" class="icon fa-solid fa-fw {{ifThen isConfigured 'fa-check' 'fa-cog'}}" data-action="configureNode"></button>
+      <button type="button" class="icon fa-solid fa-fw {{ifThen isConfigured 'fa-check' 'fa-cog'}}" data-action="configureAdvancement"></button>
       {{/if}}
     </h3>
 
@@ -23,9 +23,8 @@
     {{/if}}
     {{!-- TRAIT SELECTED CHOICES --}}
     {{#if (eq node.advancement.type "trait")}}
-    {{!-- TODO: This is just for testing. --}}
     <div class="form-group">
-      <label>{{lookup node.advancement.traits trait}}</label>
+      <label>{{lookup (lookup node.advancement.traits trait) "label"}}</label>
     </div>
     {{/if}}
 

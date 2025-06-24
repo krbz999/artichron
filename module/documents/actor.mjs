@@ -85,11 +85,23 @@ export default class ActorArtichron extends BaseDocumentMixin(foundry.documents.
   }
 
   /* -------------------------------------------------- */
+
+  /**
+   * Internal record used to cache trait advancements to apply their changes during data prep.
+   * This record is populated during `prepareEmbeddedDocuments`.
+   * @type {Record<string, Set>}
+   * @internal
+   */
+  _traits;
+
+  /* -------------------------------------------------- */
   /*   Preparation                                      */
   /* -------------------------------------------------- */
 
   /** @inheritdoc */
   prepareData() {
+    delete this._traits;
+
     /**
      * This calls, in order,
      * system.prepareBaseData,

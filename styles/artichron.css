@@ -118,6 +118,12 @@ dialog:-internal-dialog-in-top-layer::backdrop {
     font-size: 16px;
     padding-left: 1ch;
   }
+
+  &:has(button.icon) {
+    display: grid;
+    grid-template-columns: 1fr 0fr;
+    align-items: center;
+  }
 }
 
 /* -------------------------------------------------- */
