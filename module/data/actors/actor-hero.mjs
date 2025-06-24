@@ -410,18 +410,17 @@ export default class HeroData extends CreatureData {
     for (const node of traits) for (const [traitId, choice] of Object.entries(node.choices)) {
       if (node.isChoice && !node.selected[traitId]) continue;
       const path = `flags.artichron.advancement.${node.advancement.id}.selected`;
-
       const item = node.advancement.document;
-      const uuid = item.uuid;
-      itemChanges[uuid] ??= {};
-      const selected = foundry.utils.getProperty(itemChanges[uuid], path);
-      if (selected) selected.push(traitId);
-      else foundry.utils.setProperty(itemChanges[uuid], path, [traitId]);
-
-      if (this.parent === item.parent) {
+      if (item.parent === this.parent) {
         // This is an item that should be updated, not created.
-        itemUpdates[item.id] ??= { _id: item.id };
-        foundry.utils.mergeObject(itemUpdates[item.id], { [path]: foundry.utils.getProperty(itemChanges[uuid], path) });
+        itemUpdates[item.id] ??= { _id: item.id, [path]: [...foundry.utils.getProperty(item, path) ?? []] };
+        itemUpdates[item.id][path].push(traitId);
+      } else {
+        const uuid = item.uuid;
+        itemChanges[uuid] ??= {};
+        const selected = foundry.utils.getProperty(itemChanges[uuid], path);
+        if (selected) selected.push(traitId);
+        else foundry.utils.setProperty(itemChanges[uuid], path, [traitId]);
       }
     }
 
