@@ -261,13 +261,14 @@ export default class ItemArtichron extends BaseDocumentMixin(foundry.documents.I
 
     if (this.isEmbedded && this.supportsAdvancements) {
       this.parent._traits ??= {};
-      const traitIds = this.flags.artichron?.advancements?.activeTraits ?? [];
-      for (const traitAdv of this.getEmbeddedPseudoDocumentCollection("Advancement").getByType("trait")) {
-
-        for (const [traitId, v] of Object.entries(traitAdv.traits)) {
-          if (!traitIds.includes(`${traitAdv.id}:${traitId}`)) continue;
-          this.parent._traits[v.trait] ??= new Set();
-          this.parent._traits[v.trait].add(v);
+      const collection = this.getEmbeddedPseudoDocumentCollection("Advancement");
+      for (const [advId, v] of Object.entries(this.flags.artichron?.advancement ?? {})) {
+        const adv = collection.get(advId);
+        if (adv?.type !== "trait") continue;
+        for (const [traitId, traitData] of Object.entries(adv.traits)) {
+          if (!v?.selected?.includes?.(traitId)) continue;
+          this.parent._traits[traitData.trait] ??= new Set();
+          this.parent._traits[traitData.trait].add(traitData);
         }
       }
     }

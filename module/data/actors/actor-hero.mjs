@@ -345,11 +345,17 @@ export default class HeroData extends CreatureData {
       }
     }
 
+    // Updates to the actor: points spent and investments made.
     const actorUpdate = {};
-    const itemCreate = [];
-    const spent = Object.values(allocated).reduce((acc, k) => acc + k, 0);
+
+    // Items to be created - new paths, granted items, all with modifications to sustain trait and item grant choices.
+    const itemCreate = {};
+
+    // Updates to existing items. (Not just path items.)
+    const itemUpdates = {};
 
     // Determine current investment.
+    const spent = Object.values(allocated).reduce((acc, k) => acc + k, 0);
     const investment = this.toObject().progression.points._investment;
     investment.push(allocated);
     const totals = investment.reduce((acc, k) => {
@@ -362,38 +368,28 @@ export default class HeroData extends CreatureData {
     actorUpdate["system.progression.points._investment"] = investment;
     actorUpdate["system.progression.points.value"] = this.progression.points.value - spent;
 
-    // Fetched items. A record to make sure everything exists, either on the actor or fetched from pack.
+    // Missing path items, fetched from config.
     const fetchedItems = {};
 
-    // The current path. Either a to-be-created item or an existing item.
-    const pathId = HeroData.getPath(totals);
-
     // Fetch all core paths.
-    for (const k in totals) {
-      if (this.progression.paths[k]) {
-        fetchedItems[k] = this.progression.paths[k];
-      } else {
-        const item = await fromUuid(artichron.config.PROGRESSION_CORE_PATHS[k].uuid);
-        fetchedItems[k] = item;
-        itemCreate.push(game.items.fromCompendium(item));
-      }
+    for (const k in totals) if (!this.progression.paths[k]) {
+      const item = await fromUuid(artichron.config.PROGRESSION_CORE_PATHS[k].uuid);
+      fetchedItems[k] = item;
     }
 
-    // Current mixed path's item. If missing, create it.
+    // If the hero has two core paths, also make sure the mixed path exists.
     const [a, b] = Object.keys(totals);
     const mixedId = artichron.config.PROGRESSION_CORE_PATHS[a].mixed[b];
     if (mixedId in artichron.config.PROGRESSION_MIXED_PATHS) {
-      if (this.progression.paths[mixedId]) {
-        fetchedItems[mixedId] = this.progression.paths[mixedId];
-      } else {
+      if (!this.progression.paths[mixedId]) {
         const item = await fromUuid(artichron.config.PROGRESSION_MIXED_PATHS[mixedId].uuid);
         fetchedItems[mixedId] = item;
-        itemCreate.push(game.items.fromCompendium(item));
       }
     }
 
     // The 'current path' item. Might exist on the actor, might also be fetched from pack.
-    const pathItem = fetchedItems[pathId];
+    const pathItem = fetchedItems[HeroData.getPath(totals)] ?? this.progression.paths[HeroData.getPath(totals)];
+    if (!pathItem) throw new Error("Failed to find current path's item!");
 
     // The range to grab applicable advancements from.
     const max = Object.values(totals).reduce((acc, k) => acc + k, 0);
@@ -401,16 +397,61 @@ export default class HeroData extends CreatureData {
 
     // TODO: Trait advancements on the root item do not get configured. This either needs to be
     // an update to the item if it already exists, or its data has to be configured somewhere.
-    const itemData = await artichron.data.pseudoDocuments.advancements.BaseAdvancement.performAdvancementFlow(
-      this.parent,
+
+    const chains = await artichron.data.pseudoDocuments.advancements.BaseAdvancement.performAdvancementFlow(
       pathItem,
       { range },
     );
-    if (!itemData) return null;
-    itemCreate.push(...itemData);
+    if (!chains) return null;
+
+    const { traits, itemGrants } = chains.flatMap(chain => [...chain.active()]).reduce((acc, node) => {
+      if (node.advancement.type === "trait") acc.traits.push(node);
+      else if (node.advancement.type === "itemGrant") acc.itemGrants.push(node);
+      return acc;
+    }, { traits: [], itemGrants: [] });
+
+    const itemChanges = {};
+    for (const node of traits) for (const [traitId, choice] of Object.entries(node.choices)) {
+      if (node.isChoice && !node.selected[traitId]) continue;
+      const path = `flags.artichron.advancement.${node.advancement.id}.selected`;
+
+      const item = node.advancement.document;
+      const uuid = item.uuid;
+      itemChanges[uuid] ??= {};
+      const selected = foundry.utils.getProperty(itemChanges[uuid], path);
+      if (selected) selected.push(traitId);
+      else foundry.utils.setProperty(itemChanges[uuid], path, [traitId]);
+
+      if (this.parent === item.parent) {
+        // This is an item that should be updated, not created.
+        itemUpdates[item.id] ??= { _id: item.id };
+        foundry.utils.mergeObject(itemUpdates[item.id], { [path]: foundry.utils.getProperty(itemChanges[uuid], path) });
+      }
+    }
+
+    for (const node of itemGrants) for (const [itemUuid, { item }] of Object.entries(node.choices)) {
+      if (node.isChoice && !node.selected[itemUuid]) continue;
+      const changes = foundry.utils.mergeObject(
+        { "flags.artichron.advancement.path": pathItem.identifier },
+        itemChanges[itemUuid] ?? {},
+      );
+      const keepId = !(item.id in itemCreate) && !this.parent.items.has(item.id);
+      const data = game.items.fromCompendium(item, { keepId });
+      if (!keepId) data._id = foundry.utils.randomID();
+      itemCreate[data._id] = foundry.utils.mergeObject(data, changes);
+    }
+
+    // Also create the fetched path items.
+    for (const item of Object.values(fetchedItems)) {
+      const keepId = !(item.id in itemCreate) && !this.parent.items.has(item.id);
+      const data = game.items.fromCompendium(item, { keepId });
+      if (!keepId) data._id = foundry.utils.randomID();
+      itemCreate[data._id] = foundry.utils.mergeObject(data, itemChanges[item.uuid] ?? {});
+    }
 
     await Promise.all([
-      this.parent.createEmbeddedDocuments("Item", itemCreate, { keepId: true }),
+      this.parent.createEmbeddedDocuments("Item", Object.values(itemCreate), { keepId: true }),
+      this.parent.updateEmbeddedDocuments("Item", Object.values(itemUpdates)),
       this.parent.update(actorUpdate),
     ]);
     return this.parent;

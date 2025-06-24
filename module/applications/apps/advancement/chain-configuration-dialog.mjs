@@ -82,8 +82,7 @@ export default class ChainConfigurationDialog extends Application {
 
   /** @inheritdoc */
   _processSubmitData(event, form, formData, submitOptions) {
-    // The chain used to create this application is re-used outside,
-    // so no reason to return anything but whether to proceed or not.
+    // This application has no return value other than us needing to know whether it was dismissed or not.
     return true;
   }
 
@@ -102,12 +101,6 @@ export default class ChainConfigurationDialog extends Application {
     const node = this.getByAdvancement(advancementUuid);
     const configured = await node.advancement.configureAdvancement(node);
     if (!configured) return;
-
-    const item = node.advancement.document;
-
-    this._itemUpdates ??= {};
-    this._itemUpdates[item.uuid] ??= {};
-    foundry.utils.mergeObject(this._itemUpdates[item.uuid], configured);
     this.render();
   }
 }
