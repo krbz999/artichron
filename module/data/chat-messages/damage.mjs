@@ -53,7 +53,7 @@ export default class DamageData extends ChatMessageSystemModel {
     for (const actor of actors) {
       promises.push(async function() {
         const value = actor.system.health.value;
-        await actor.applyDamage(damages);
+        await actor.system.applyDamage(damages);
         const delta = value - actor.system.health.value;
         return { actorUuid: actor.uuid, amount: delta };
       }());
@@ -172,7 +172,7 @@ export default class DamageData extends ChatMessageSystemModel {
       const { damageType, total } = roll;
       damages.push({ type: damageType, value: total });
     }
-    return actor.calculateDamage(damages, { numeric: true });
+    return actor.system.calculateDamage(damages, { numeric: true });
   }
 
   /* -------------------------------------------------- */

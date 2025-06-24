@@ -1,5 +1,25 @@
 import ActorSystemModel from "./system-model.mjs";
 
+/**
+ * @typedef {object} DamageDescription
+ * @property {string} type                    The damage type.
+ * @property {number} value                   The damage total.
+ * @property {DamageOptions} [options]        Damage part options.
+ * @property {DamageStatuses} [statuses]      Statuses and the levels that will be applied.
+ */
+
+/**
+ * @typedef {object} DamageOptions        Options that configure how the damage is applied.
+ * @property {boolean} [undefendable]     If `true`, this cannot be reduced by defending.
+ * @property {boolean} [irreducible]      If `true`, this cannot be modified by defense values.
+ */
+
+/**
+ * @typedef {object} DamageStatuses   Record of the statuses that will be applied.
+ * @property {number} [bleeding]      How many levels of the 'Bleeding' status will be applied.
+ * @property {number} [hindered]      How many levels of the 'Hindered' status will be applied.
+ */
+
 const {
   HTMLField, NumberField, SchemaField, SetField, StringField,
 } = foundry.data.fields;
@@ -56,9 +76,7 @@ export default class CreatureData extends ActorSystemModel {
   /** @inheritdoc */
   prepareBaseData() {
     super.prepareBaseData();
-    this.bonuses = { damage: {} };
     this.defenses = {};
-    for (const k of Object.keys(artichron.config.DAMAGE_TYPE_GROUPS)) this.bonuses.damage[k] = 0;
     for (const { value } of artichron.config.DAMAGE_TYPES.optgroups) this.defenses[value] = 0;
 
     // Prepare attack and damage.
@@ -74,7 +92,7 @@ export default class CreatureData extends ActorSystemModel {
   prepareDerivedData() {
     super.prepareDerivedData();
     this.#prepareDefenses();
-    this.#prepareDamageBonuses();
+    this.#prepareBonuses();
   }
 
   /* -------------------------------------------------- */
@@ -91,13 +109,22 @@ export default class CreatureData extends ActorSystemModel {
 
   /* -------------------------------------------------- */
 
-  /** Prepare damage bonuses derived from statuses. */
-  #prepareDamageBonuses() {
+  /**
+   * Prepare damage bonuses derived from statuses and defenses from statuses.
+   */
+  #prepareBonuses() {
+    this.modifiers = {};
     for (const k of Object.keys(artichron.config.DAMAGE_TYPE_GROUPS)) {
+      this.modifiers[k] = {};
       let mult = 1;
       if (this.parent.statuses.has(`${k.slice(0, 4)}AtkUp`)) mult = 3 / 2;
       if (this.parent.statuses.has(`${k.slice(0, 4)}AtkDown`)) mult = mult ? 0 : 2 / 3;
-      this.bonuses.damage[k] = mult;
+      this.modifiers[k].damage = mult;
+
+      mult = 1;
+      if (this.parent.statuses.has(`${k.slice(0, 4)}DefUp`)) mult = 3 / 2;
+      if (this.parent.statuses.has(`${k.slice(0, 4)}DefDown`)) mult = mult ? 0 : 2 / 3;
+      this.modifiers[k].defense = mult;
     }
   }
 
@@ -288,12 +315,99 @@ export default class CreatureData extends ActorSystemModel {
         damageType: part.damageType,
         damageTypes: [...part.damageTypes],
         modifiers: {
-          physical: this.bonuses.damage.physical,
-          elemental: this.bonuses.damage.elemental,
-          planar: this.bonuses.damage.planar,
+          physical: this.modifiers.physical.damage,
+          elemental: this.modifiers.elemental.damage,
+          planar: this.modifiers.planar.damage,
         },
       });
     }
     return parts;
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Calculate damage that will be taken, excepting any defenses from parrying and blocking.
+   * @param {number|DamageDescription[]} damages    Damage to be applied.
+   * @param {object} [options]                      Damage calculation options.
+   * @param {boolean} [options.numeric]             Whether to return the damage descriptions instead of the total damage.
+   * @returns {number|DamageDescription[]}          The amount of damage taken, or the modified values.
+   */
+  calculateDamage(damages, { numeric = true } = {}) {
+    if (foundry.utils.getType(damages) === "number") {
+      damages = [{ type: "none", value: damages }];
+    }
+    damages = foundry.utils.deepClone(damages);
+
+    // Values are cloned so we can prevent double-dipping.
+    const defenses = foundry.utils.deepClone(this.defenses);
+
+    const resisted = damage => {
+      if (damage.options?.irreducible) return;
+      if (!(damage.type in artichron.config.DAMAGE_TYPES)) return;
+
+      const diff = Math.min(damage.value, defenses[damage.type]);
+      defenses[damage.type] = defenses[damage.type] - diff;
+      damage.value = damage.value - diff;
+
+      // Divide by defensive buffs.
+      damage.value = (damage.value / this.modifiers[artichron.config.DAMAGE_TYPES[damage.type].group].defense).toNearest(1);
+    };
+
+    damages = damages.filter(damage => {
+      resisted(damage);
+      return damage.value > 0;
+    });
+
+    return numeric ? damages.reduce((acc, damage) => acc + damage.value, 0) : damages;
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Apply damage to this actor.
+   * @param {number|DamageDescription[]} damages    Damage to be applied.
+   * @returns {Promise<ActorArtichron>}             A promise that resolves to the updated actor.
+   */
+  async applyDamage(damages) {
+    if (!this.health.value) return this;
+
+    damages = this.calculateDamage(damages, { numeric: false });
+
+    // The statuses to apply.
+    const statuses = new Map();
+    const statused = damage => {
+      if (foundry.utils.isEmpty(damage.statuses)) return;
+      for (const [status, level] of Object.entries(damage.statuses)) {
+        if (!statuses.has(status)) statuses.set(status, level);
+        else statuses.set(status, Math.max(statuses.get(status), level));
+      }
+    };
+    damages = damages.filter(damage => damage.value > 0);
+    for (const damage of damages) statused(damage);
+
+    const total = damages.reduce((acc, damage) => acc + damage.value, 0);
+    const hp = foundry.utils.deepClone(this.health);
+    const value = Math.clamp(hp.value - Math.max(0, total), 0, hp.max);
+    await this.parent.update({ "system.health.value": value }, { damages: damages, diff: false });
+
+    // Apply conditions from applied damage.
+    for (const [status, level] of statuses.entries()) await this.parent.toggleStatusEffect(status, { levels: level });
+
+    return this.parent;
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Apply healing to this actor.
+   * @param {number} value                The amount to heal.
+   * @returns {Promise<ActorArtichron>}   This actor after having been healed.
+   */
+  async applyHealing(value) {
+    const hp = foundry.utils.deepClone(this.health);
+    const v = Math.clamp(hp.value + Math.abs(value), 0, hp.max);
+    await this.parent.update({ "system.health.value": v }, { diff: false });
+    return this.parent;
   }
 }
