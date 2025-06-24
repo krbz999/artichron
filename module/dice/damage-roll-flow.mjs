@@ -63,11 +63,8 @@ export default class DamageRollFlow {
     if (this.#rolls) return;
     const rolls = [];
     for (const rollConfig of this.#config.rollConfigs) {
-      const roll = new artichron.dice.rolls.DamageRoll(
-        rollConfig.parts.join(" + "),
-        this.#config.rollData,
-        { damageType: rollConfig.damageType, damageTypes: rollConfig.damageTypes },
-      );
+      const { parts, ...options } = rollConfig;
+      const roll = new artichron.dice.rolls.DamageRoll(parts.join(" + "), this.#config.rollData, options);
       rolls.push(roll);
     }
     this.#rolls = rolls;

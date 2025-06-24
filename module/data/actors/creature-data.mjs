@@ -281,12 +281,25 @@ export default class CreatureData extends ActorSystemModel {
    * @returns {object[]}
    */
   #configureDamageRollConfigs() {
+    const dmgBonus = type => {
+      const up = `${type}AtkUp`;
+      const dn = `${type}AtkDown`;
+      const actorUp = this.parent.statuses.has(up) ? 3 / 2 : 1;
+      const actorDn = this.parent.statuses.has(dn) ? 2 / 3 : 1;
+      return actorUp * actorDn;
+    };
+
     const parts = [];
     for (const part of this.damage.parts) {
       parts.push({
         parts: [part.formula],
         damageType: part.damageType,
         damageTypes: [...part.damageTypes],
+        modifiers: {
+          physical: dmgBonus("phys"),
+          elemental: dmgBonus("elem"),
+          planar: dmgBonus("plan"),
+        },
       });
     }
     return parts;

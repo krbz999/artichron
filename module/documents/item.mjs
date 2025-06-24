@@ -418,23 +418,6 @@ export default class ItemArtichron extends BaseDocumentMixin(foundry.documents.I
   }
 
   /* -------------------------------------------------- */
-
-  /**
-   * Perform a damage roll.
-   * @param {object} [config]                 Damage roll configuration.
-   * @param {string[]} [config.ids]           The ids of the damage roll to use. If excluded, uses all rolls.
-   * @param {ItemArtichron} [config.ammo]     Ammunition item for modifying the damage roll.
-   * @param {number} [config.multiply]        The number to muliply all dice amounts by.
-   * @param {number} [config.addition]        The number of additional dice to add to the formulas.
-   * @param {object} [options]                Options that modify the chat message.
-   * @param {boolean} [options.create]        Whether to create the chat message or return the rolls.
-   */
-  async rollDamage(config = {}, options = {}) {
-    if (this.system.rollDamage) return this.system.rollDamage(config, options);
-    return null;
-  }
-
-  /* -------------------------------------------------- */
   /*   Advancements                                     */
   /* -------------------------------------------------- */
 

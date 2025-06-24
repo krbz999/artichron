@@ -29,16 +29,6 @@ export default class DamageRoll extends RollArtichron {
   /* -------------------------------------------------- */
 
   /**
-   * The multiplier on this damage roll.
-   * @type {number}
-   */
-  get multiplier() {
-    return this.options.multiplier ?? 1;
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
    * The damage application options.
    * @type {Record<string, boolean>}
    */
@@ -71,13 +61,26 @@ export default class DamageRoll extends RollArtichron {
   }
 
   /* -------------------------------------------------- */
+
+  /**
+   * If evaluated, the damage multiplier.
+   * @type {number|null}
+   */
+  get multiplier() {
+    if (!this._evaluated) return null;
+    return this.options.modifiers?.[artichron.config.DAMAGE_TYPES[this.damageType].group] ?? 1;
+  }
+
+  /* -------------------------------------------------- */
   /*   Instance methods                                 */
   /* -------------------------------------------------- */
 
   /** @inheritdoc */
   async _evaluate(options = {}) {
     await super._evaluate(options);
-    if (this.multiplier !== 1) this._total = Math.round(this._total * this.multiplier);
+
+    const multiplier = this.multiplier;
+    if (multiplier !== 1) this._total = Math.round(this._total * multiplier);
     return this;
   }
 }
