@@ -836,4 +836,20 @@ export const TRAITS = {
     label: "ARTICHRON.TRAITS.health",
     field: new foundry.data.fields.NumberField({ integer: true, nullable: false }),
   },
+  skillAgilityDice: {
+    label: "ARTICHRON.TRAITS.skillAgilityDice",
+    field: new foundry.data.fields.NumberField({ integer: true, nullable: false }),
+  },
+  skillBrawnDice: {
+    label: "ARTICHRON.TRAITS.skillBrawnDice",
+    field: new foundry.data.fields.NumberField({ integer: true, nullable: false }),
+  },
+  skillMindDice: {
+    label: "ARTICHRON.TRAITS.skillMindDice",
+    field: new foundry.data.fields.NumberField({ integer: true, nullable: false }),
+  },
+  skillSpiritDice: {
+    label: "ARTICHRON.TRAITS.skillSpiritDice",
+    field: new foundry.data.fields.NumberField({ integer: true, nullable: false }),
+  },
 };

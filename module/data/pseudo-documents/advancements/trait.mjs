@@ -43,6 +43,19 @@ export default class TraitAdvancement extends BaseAdvancement {
 
   /* -------------------------------------------------- */
 
+  /**
+   * Does this trait have a choice to make? This can be done synchronously unlike
+   * for item grant advancements, so we can make use of a getter directly on the advancement here.
+   * @type {boolean}
+   */
+  get isChoice() {
+    if (this.chooseN === null) return false;
+    if (this.chooseN >= Object.keys(this.traits).length) return false;
+    return true;
+  }
+
+  /* -------------------------------------------------- */
+
   /** @inheritdoc */
   prepareDerivedData() {
     super.prepareDerivedData();

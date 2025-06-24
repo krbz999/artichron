@@ -146,8 +146,11 @@ export default class HeroData extends CreatureData {
    * Prepare skills.
    */
   #prepareSkills() {
-    for (const skill of Object.values(this.skills)) {
-      skill.formula = `${skill.number}d${skill.denomination}`;
+    for (const k of Object.keys(artichron.config.SKILLS)) {
+      for (const trait of this.parent._traits?.[`skill${k.capitalize()}Dice`] ?? []) {
+        this.skills[k].number += artichron.config.TRAITS[`skill${k.capitalize()}Dice`].field._cast(trait.value);
+      }
+      this.skills[k].formula = `${this.skills[k].number}d${this.skills[k].denomination}`;
     }
   }
 
