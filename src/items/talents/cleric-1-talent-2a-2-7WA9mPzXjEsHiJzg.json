@@ -1,0 +1,47 @@
+{
+  "folder": "W6whULg5IZOIDruv",
+  "name": "Cleric 1 - Talent 2A-2",
+  "type": "talent",
+  "_id": "7WA9mPzXjEsHiJzg",
+  "img": "icons/svg/mage-shield.svg",
+  "system": {
+    "attributes": {
+      "value": [],
+      "levels": {}
+    },
+    "description": {
+      "value": ""
+    },
+    "identifier": "cleric-1-talent-2a-2",
+    "advancements": {
+      "AY7wk74YzgLHbd7K": {
+        "type": "itemGrant",
+        "_id": "AY7wk74YzgLHbd7K",
+        "pool": [
+          {
+            "uuid": "Compendium.artichron.items.Item.OKHoJ933M4UJuxJv"
+          }
+        ],
+        "name": "Cleric 1 Talent 2A-2"
+      }
+    }
+  },
+  "effects": [],
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null,
+    "coreVersion": "13.345",
+    "systemId": "artichron",
+    "systemVersion": "1.0.0",
+    "createdTime": 1750517328736,
+    "modifiedTime": 1750539409359,
+    "lastModifiedBy": "artichronbuilder"
+  },
+  "_key": "!items!7WA9mPzXjEsHiJzg"
+}

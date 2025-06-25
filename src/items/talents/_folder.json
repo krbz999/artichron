@@ -1,0 +1,23 @@
+{
+  "type": "Item",
+  "folder": null,
+  "name": "Talents",
+  "color": "#ae00aa",
+  "sorting": "a",
+  "_id": "W6whULg5IZOIDruv",
+  "description": "",
+  "sort": 0,
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null,
+    "coreVersion": "13.345",
+    "systemId": "artichron",
+    "systemVersion": "1.0.0",
+    "createdTime": 1750512912132,
+    "modifiedTime": 1750512930552,
+    "lastModifiedBy": "artichronbuilder"
+  },
+  "_key": "!folders!W6whULg5IZOIDruv"
+}

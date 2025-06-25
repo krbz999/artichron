@@ -16,28 +16,80 @@
     },
     "identifier": "cleric",
     "advancements": {
-      "8CHxXodCe9TC2uaT": {
-        "type": "itemGrant",
-        "_id": "8CHxXodCe9TC2uaT",
-        "pool": [
-          {
-            "uuid": "Item.P4vTLD1VEgfbh3h1",
-            "optional": false
+      "s6KqI7T1YxE3XV5g": {
+        "type": "scaleValue",
+        "_id": "s6KqI7T1YxE3XV5g",
+        "increases": {
+          "1": {
+            "number": 0,
+            "faces": 0
+          },
+          "7": {
+            "number": 0,
+            "faces": 0
           }
-        ]
-      },
-      "o3t4o9nXzFMHBtYM": {
-        "type": "itemGrant",
-        "_id": "o3t4o9nXzFMHBtYM",
-        "requirements": {
-          "points": 6
         },
+        "subtype": "dice",
+        "name": "Cleric 1/7 Scaling Value"
+      },
+      "GNSZWLddcsPKJme6": {
+        "type": "itemGrant",
+        "_id": "GNSZWLddcsPKJme6",
+        "name": "Cleric 1 Item Grant",
         "pool": [
           {
-            "uuid": "Item.A8VSNBhnwxnwoEMh",
+            "uuid": "Compendium.artichron.items.Item.BOFBJm2r77l3Xi7T",
+            "optional": false
+          },
+          {
+            "uuid": "Compendium.artichron.items.Item.U1xStx1Om36Bl3my",
             "optional": false
           }
-        ]
+        ],
+        "requirements": {
+          "points": 1
+        },
+        "chooseN": 1
+      },
+      "Btq2vhlXeD4BQdsZ": {
+        "type": "trait",
+        "_id": "Btq2vhlXeD4BQdsZ",
+        "name": "Pick Some Health",
+        "traits": {
+          "l1KvrSedYR5vMYXG": {
+            "trait": "health",
+            "value": "50",
+            "label": "+50 Health"
+          },
+          "44nLKcCnclW74i4o": {
+            "trait": "health",
+            "value": "150",
+            "label": "+150 Health"
+          }
+        },
+        "chooseN": 1
+      },
+      "KprCpceZ6g7PyZUE": {
+        "type": "trait",
+        "_id": "KprCpceZ6g7PyZUE",
+        "name": "Pick Some Health (2)",
+        "traits": {
+          "l1KvrSedYR5vMYXG": {
+            "trait": "health",
+            "value": "50",
+            "label": "+50 Health"
+          },
+          "44nLKcCnclW74i4o": {
+            "trait": "health",
+            "value": "150",
+            "label": "+150 Health"
+          }
+        },
+        "chooseN": 1,
+        "img": "systems/artichron/assets/icons/pseudo/advancement.svg",
+        "requirements": {
+          "points": 2
+        }
       }
     },
     "points": {}
@@ -56,7 +108,7 @@
     "systemId": "artichron",
     "systemVersion": "1.0.0",
     "createdTime": 1749291547536,
-    "modifiedTime": 1749925396216,
+    "modifiedTime": 1750728274787,
     "lastModifiedBy": "artichronbuilder"
   },
   "_key": "!items!TOPOCY0zrPjEj59G"
