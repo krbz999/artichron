@@ -216,22 +216,16 @@ artichron-icon svg {
   height: 100% !important;
   width: 100% !important;
 }
-artichron-icon[backdrop] {
+artichron-icon {
   position: relative;
-  overflow: hidden;
-  --icon-fill: rgba(255, 0, 0, 0.5);
 
-  svg {
-    transition: fill 300ms ease;
-    object-position: center;
-    object-fit: cover;
-    background-size: contain;
+  &::after {
     position: absolute;
-    inset: 0;
-    z-index: -1;
-  }
-
-  &:hover {
-    --icon-fill: rgba(255, 0, 0, 1);
+    content: var(--corner-decoration);
+    bottom: 0;
+    right: 0;
+    color: white;
+    font-family: monospace;
+    font-size: 12px;
   }
 }

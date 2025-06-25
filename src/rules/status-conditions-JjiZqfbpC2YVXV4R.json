@@ -153,6 +153,158 @@
       },
       "category": null,
       "_key": "!journal.pages!JjiZqfbpC2YVXV4R.FRQ8zjWTfTYZWGx3"
+    },
+    {
+      "sort": 0,
+      "name": "Attack Up",
+      "type": "text",
+      "_id": "0iBopTnnWkmkN9kK",
+      "system": {},
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "image": {},
+      "text": {
+        "format": 1,
+        "content": "<p>Your physical, elemental, or planar damage is increased by 50%. This effect does not stack. If affected by Attack Down, the two status conditions cancel each other out.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": null,
+      "category": null,
+      "ownership": {
+        "default": -1
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "artichron",
+        "systemVersion": "1.0.0",
+        "createdTime": 1750812151937,
+        "modifiedTime": 1750812231574,
+        "lastModifiedBy": "artichronbuilder"
+      },
+      "_key": "!journal.pages!JjiZqfbpC2YVXV4R.0iBopTnnWkmkN9kK"
+    },
+    {
+      "sort": 0,
+      "name": "Attack Down",
+      "type": "text",
+      "_id": "ZoEO3S8EJCRPu53v",
+      "system": {},
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "image": {},
+      "text": {
+        "format": 1,
+        "content": "<p>Your physical, elemental, or planar damage is decreased by 33%. This effect does not stack. If affected by Attack Up, the two status conditions cancel each other out.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": null,
+      "category": null,
+      "ownership": {
+        "default": -1
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "artichron",
+        "systemVersion": "1.0.0",
+        "createdTime": 1750812236665,
+        "modifiedTime": 1750812254035,
+        "lastModifiedBy": "artichronbuilder"
+      },
+      "_key": "!journal.pages!JjiZqfbpC2YVXV4R.ZoEO3S8EJCRPu53v"
+    },
+    {
+      "sort": 0,
+      "name": "Defense Up",
+      "type": "text",
+      "_id": "JBjVW6bkIC4DWWw9",
+      "system": {},
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "image": {},
+      "text": {
+        "format": 1,
+        "content": "<p>When you take physical, elemental, or planar damage, it is decreased by 33%. This effect does not stack. If affected by Defense Down, the two status conditions cancel each other out.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": null,
+      "category": null,
+      "ownership": {
+        "default": -1
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "artichron",
+        "systemVersion": "1.0.0",
+        "createdTime": 1750812258926,
+        "modifiedTime": 1750812294489,
+        "lastModifiedBy": "artichronbuilder"
+      },
+      "_key": "!journal.pages!JjiZqfbpC2YVXV4R.JBjVW6bkIC4DWWw9"
+    },
+    {
+      "sort": 0,
+      "name": "Defense Down",
+      "type": "text",
+      "_id": "k5rl3B6Im0RDUlxF",
+      "system": {},
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "image": {},
+      "text": {
+        "format": 1,
+        "content": "<p>When you take physical, elemental, or planar damage, it is increased by 50%. This effect does not stack. If affected by Defense Up, the two status conditions cancel each other out.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": null,
+      "category": null,
+      "ownership": {
+        "default": -1
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.345",
+        "systemId": "artichron",
+        "systemVersion": "1.0.0",
+        "createdTime": 1750812297273,
+        "modifiedTime": 1750812315449,
+        "lastModifiedBy": "artichronbuilder"
+      },
+      "_key": "!journal.pages!JjiZqfbpC2YVXV4R.k5rl3B6Im0RDUlxF"
     }
   ],
   "folder": null,
