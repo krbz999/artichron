@@ -1,3 +1,5 @@
+import BaseAdvancement from "../data/pseudo-documents/advancements/base-advancement.mjs";
+
 /**
  * Utility class for advancement chains.
  * @extends {import("../_types").AdvancementChainLink}
@@ -64,16 +66,24 @@ export default class AdvancementChain {
   /*   Factory Methods                                  */
   /* -------------------------------------------------- */
 
-  static async create(advancement, parent = null, _depth = 0) {
-    if (advancement instanceof foundry.documents.Item) {
+  /**
+   * Create a new instance of instances of a chain.
+   * @param {BaseAdvancement|foundry.documents.Item} root   An advancement or item with advancements.
+   * @param {AdvancementChain} [parent]                     Parent chain link.
+   * @param {number} [_depth]                               Current tree depth.
+   */
+  static async create(root, parent = null, _depth = 0) {
+    if (root instanceof foundry.documents.Item) {
+
       const chains = [];
-      for (const adv of advancement.getEmbeddedPseudoDocumentCollection("Advancement")) {
+      for (const adv of root.getEmbeddedPseudoDocumentCollection("Advancement")) {
         const chain = await this.create(adv);
         chains.push(chain);
       }
       return chains;
     }
 
+    const advancement = root;
     const nodeData = {
       advancement, parent,
       depth: _depth,
@@ -112,7 +122,6 @@ export default class AdvancementChain {
         }
       }
     } else if (advancement.type === "trait") {
-      // This whole section is just a test.
       for (const k of Object.keys(advancement.traits)) {
         const choice = node.choices[k] = {
           node,

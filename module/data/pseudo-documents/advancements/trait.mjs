@@ -1,6 +1,6 @@
 import BaseAdvancement from "./base-advancement.mjs";
 
-const { NumberField, SchemaField, SetField, StringField, TypedObjectField } = foundry.data.fields;
+const { NumberField, SchemaField, StringField, TypedObjectField } = foundry.data.fields;
 
 export default class TraitAdvancement extends BaseAdvancement {
   /** @inheritdoc */
