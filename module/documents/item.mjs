@@ -274,7 +274,7 @@ export default class ItemArtichron extends BaseDocumentMixin(foundry.documents.I
       for (const adv of collection) {
         if (!adv.isChoice) addTraits(Object.values(adv.traits));
         else {
-          const selected = choices[adv.id] ?? [];
+          const selected = choices[adv.id]?.selected ?? [];
           for (const traitId of selected) if (adv.traits[traitId]) {
             addTraits([adv.traits[traitId]]);
           }
