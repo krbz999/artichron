@@ -1,83 +1,18 @@
 <ul>
   <li class="chat-message message flexcol artichron {{document.type}}" data-message-id="{{document.id}}">
     {{!-- HEADER --}}
-    <header class="message-header flexrow">
-      <div class="message-sender">
-        <div class="avatar" data-actor-uuid="{{actor.uuid}}">
-          <img src="{{actor.img}}" alt="{{actor.name}}">
-        </div>
-        <div class="name">
-          <span class="title">{{actor.name}}</span>
-          {{#if subtitle}} <span class="subtitle">{{subtitle}}</span> {{/if}}
-        </div>
-      </div>
-      <span class="message-metadata">
-        <time class="message-timestamp"></time>
-        {{#if canDelete}}
-        <a aria-label="Delete" class="message-delete" data-action="deleteMessage">
-          <i class="fa-solid fa-trash"></i>
-        </a>
-        {{/if}}
-      </span>
-    </header>
+    {{> "systems/artichron/templates/chat/partials/header.hbs"}}
 
     {{!-- CONTENT --}}
     <div class="message-content">
       {{!-- DAMAGE --}}
       {{#if (eq document.type "damage")}}
-      <div class="wrapper {{#if expanded.rolls}} expanded {{/if}}" data-action="toggleRollsExpanded">
-        <header class="header">{{total}}</header>
-        <div class="rolls">
-          {{#each rolls}}
-          <div class="roll">
-            <div class="top">
-              <span class="icon" data-tooltip="{{label}}">
-                <i class="fa-fw fa-solid {{icon}}" style="color: #{{color}}"></i>
-              </span>
-              <span class="formula">
-                {{formula}} {{#if (ne multiplier null)}}<span class="multiplier">(&times;{{multiplier}})</span>{{/if}}
-              </span>
-              <span class="total">{{total}}</span>
-            </div>
-            <div class="bottom">
-              {{#each dice}}
-              <div class="{{cssClass}}">{{total}}</div>
-              {{/each}}
-            </div>
-          </div>
-          {{/each}}
-        </div>
-      </div>
-
-      <section class="targeting damage {{#if expanded.tokens}} expanded {{/if}}">
-        <h3 class="section-header" data-action="toggleTargetsExpanded">
-          <span>{{localize "ARTICHRON.CHAT.damageApplication"}}</span>
-          <i class="fa-solid fa-fw"></i>
-        </h3>
-        <div class="token-application damage">
-          <controlled-tokens-list type="damage"></controlled-tokens-list>
-          <button type="button" data-action="applyDamage">
-            <i class="fa-solid fa-burst" inert></i>
-            <span>{{localize "ARTICHRON.CHAT.applyDamage"}}</span>
-          </button>
-        </div>
-      </section>
+      {{> "systems/artichron/templates/chat/partials/damage.hbs"}}
+      {{/if}}
 
       {{!-- EFFECT --}}
-      {{else if (eq document.type "effect")}}
-      <section class="targeting effect {{#if expanded.tokens}} expanded {{/if}}">
-        <h3 class="section-header" data-action="toggleTargetsExpanded">
-          <span>{{localize "ARTICHRON.CHAT.effectApplication"}}</span>
-          <i class="fa-solid fa-fw"></i>
-        </h3>
-        <div class="token-application effect">
-          <controlled-tokens-list type="effect"></controlled-tokens-list>
-          <button type="button" data-action="applyEffects">
-            <i class="fa-solid fa-burst" inert></i>
-            <span>{{localize "ARTICHRON.CHAT.applyEffects"}}</span>
-          </button>
-        </div>
-      </section>
+      {{#if (eq document.type "effect")}}
+      {{> "systems/artichron/templates/chat/partials/effect.hbs"}}
       {{/if}}
     </div>
   </li>

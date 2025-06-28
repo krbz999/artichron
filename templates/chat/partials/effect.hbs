@@ -1,0 +1,13 @@
+<section class="targeting effect {{#if expanded.tokens}} expanded {{/if}}">
+  <h3 class="section-header" data-action="toggleTargetsExpanded">
+    <span>{{localize "ARTICHRON.CHAT.effectApplication"}}</span>
+    <i class="fa-solid fa-fw"></i>
+  </h3>
+  <div class="token-application effect">
+    <controlled-tokens-list type="effect"></controlled-tokens-list>
+    <button type="button" data-action="applyEffects">
+      <i class="fa-solid fa-burst" inert></i>
+      <span>{{localize "ARTICHRON.CHAT.applyEffects"}}</span>
+    </button>
+  </div>
+</section>

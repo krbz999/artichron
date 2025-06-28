@@ -9,6 +9,12 @@ export default class ChatMessageSystemModel extends foundry.abstract.TypeDataMod
   async renderHTML(options = {}) {
     const template = "systems/artichron/templates/chat/chat-message.hbs";
 
+    await foundry.applications.handlebars.loadTemplates([
+      "systems/artichron/templates/chat/partials/header.hbs",
+      "systems/artichron/templates/chat/partials/damage.hbs",
+      "systems/artichron/templates/chat/partials/effect.hbs",
+    ]);
+
     const context = {
       ...options,
       document: this.parent,

@@ -1,0 +1,19 @@
+<header class="message-header flexrow">
+  <div class="message-sender">
+    <div class="avatar" data-actor-uuid="{{actor.uuid}}">
+      <img src="{{actor.img}}" alt="{{actor.name}}">
+    </div>
+    <div class="name">
+      <span class="title">{{actor.name}}</span>
+      {{#if subtitle}} <span class="subtitle">{{subtitle}}</span> {{/if}}
+    </div>
+  </div>
+  <span class="message-metadata">
+    <time class="message-timestamp"></time>
+    {{#if canDelete}}
+    <a aria-label="Delete" class="message-delete" data-action="deleteMessage">
+      <i class="fa-solid fa-trash"></i>
+    </a>
+    {{/if}}
+  </span>
+</header>
