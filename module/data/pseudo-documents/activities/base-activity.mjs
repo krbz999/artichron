@@ -121,9 +121,6 @@ export default class BaseActivity extends TypedPseudoDocument {
         showUses: uses,
         uses: this.cost.uses,
       },
-      defend: {
-        show: (this.type === "defend") && this.canBoost,
-      },
       healing: {
         show: (this.type === "healing") && this.canBoost,
       },
@@ -140,7 +137,7 @@ export default class BaseActivity extends TypedPseudoDocument {
         choices: elixirs,
       },
       rollMode: {
-        show: ["defend", "healing"].includes(this.type),
+        show: this.type === "healing",
         mode: item.getFlag("artichron", `usage.${this.id}.rollMode.mode`) ?? game.settings.get("core", "rollMode"),
       },
     };
@@ -149,9 +146,6 @@ export default class BaseActivity extends TypedPseudoDocument {
       consume: {
         action: dialog.consume.showAction && dialog.consume.action,
         uses: dialog.consume.showUses && dialog.consume.uses,
-      },
-      defend: {
-        increase: 0,
       },
       healing: {
         increase: 0,

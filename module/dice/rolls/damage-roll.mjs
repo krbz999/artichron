@@ -53,16 +53,6 @@ export default class DamageRoll extends RollArtichron {
   /* -------------------------------------------------- */
 
   /**
-   * Can this roll be defended against?
-   * @type {boolean}
-   */
-  get undefendable() {
-    return (this.options.damageOptions ?? []).includes("undefendable");
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
    * If evaluated, the damage multiplier.
    * @type {number|null}
    */

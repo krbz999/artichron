@@ -182,7 +182,6 @@ export default class EffectConditionData extends ActiveEffectSystemModel {
       type: type,
       value: roll.total,
       options: {
-        undefendable: true,
         irreducible: true,
       },
     }]);
@@ -207,7 +206,6 @@ export default class EffectConditionData extends ActiveEffectSystemModel {
       type: type,
       value: roll.total,
       options: {
-        undefendable: true,
         irreducible: true,
       },
     }]);

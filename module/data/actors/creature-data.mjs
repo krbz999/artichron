@@ -2,16 +2,15 @@ import ActorSystemModel from "./system-model.mjs";
 
 /**
  * @typedef {object} DamageDescription
- * @property {string} type                    The damage type.
- * @property {number} value                   The damage total.
- * @property {DamageOptions} [options]        Damage part options.
- * @property {DamageStatuses} [statuses]      Statuses and the levels that will be applied.
+ * @property {string} type                  The damage type.
+ * @property {number} value                 The damage total.
+ * @property {DamageOptions} [options]      Damage part options.
+ * @property {DamageStatuses} [statuses]    Statuses and the levels that will be applied.
  */
 
 /**
- * @typedef {object} DamageOptions        Options that configure how the damage is applied.
- * @property {boolean} [undefendable]     If `true`, this cannot be reduced by defending.
- * @property {boolean} [irreducible]      If `true`, this cannot be modified by defense values.
+ * @typedef {object} DamageOptions      Options that configure how the damage is applied.
+ * @property {boolean} [irreducible]    If `true`, this cannot be modified by defense values.
  */
 
 /**

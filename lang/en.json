@@ -29,8 +29,6 @@
   "partyPl": "Parties"
 },
 "Activity": {
-  "defend": "Defend",
-  "defendPl": "Defend Activities",
   "effect": "Effect",
   "effectPl": "Effect Activities",
   "healing": "Healing",
@@ -97,7 +95,6 @@
       "identity": "Identity",
       "configuration": "Configuration",
       "targeting": "Targeting",
-      "defend": "Defending",
       "effects": "Effects",
       "healing": "Healing",
       "teleport": "Teleportation"
@@ -387,18 +384,6 @@
       "width": {
         "hint": "The width of the created templates.",
         "label": "Width"
-      }
-    }
-  },
-  "DEFEND": {
-    "FIELDS": {
-      "defend": {
-        "denomination": {
-          "label": "Denomination"
-        },
-        "number": {
-          "label": "Number"
-        }
       }
     }
   },
@@ -1152,13 +1137,6 @@
 },
 
 "ROLL": {
-  "Defend": {
-    "Flavor": "{name} - Defensive Roll",
-    "Pool": "Pool",
-    "PoolHint": "Expend points from the relevant pool to increase the number of dice rolled.",
-    "PoolLabel": "Points",
-    "Title": "{name}: Defensive Roll"
-  },
   "Pool": {
     "AmountLabel": "Dice",
     "AmountHint": "The number of dice to roll.",
@@ -1212,9 +1190,6 @@
   "ConsumeLegend": "Consumption",
   "ConsumeUsesHint": "Consume a use of this elixir.",
   "ConsumeUsesLabel": "Consume Elixir",
-  "DefendHint": "Each point spent from the pool will add one additional die to the roll.",
-  "DefendLabel": "Increase",
-  "DefendLegend": "Defend",
   "ElixirsHint": "Elixirs can be consumed for additional points to spend.",
   "ElixirsLegend": "Elixirs",
   "HealingHint": "Each point spent from the pool will add one additional die to the healing.",
@@ -1291,14 +1266,6 @@
   "Elemental": "Elemental",
   "Physical": "Physical",
   "Planar": "Planar"
-},
-
-"DefenseDialog": {
-  "Confirm": "Roll",
-  "Content": "{name} is about to take {damage} damage. You can attempt to parry or block to reduce the damage by an amount equal to the rolled totals.",
-  "Items": "Arsenal",
-  "ItemsHint": "Choose any of your equipped arsenal to defend against the attack and reduce incoming damage.",
-  "Title": "Defense Roll: {name}"
 },
 
 "EffectDurations": {

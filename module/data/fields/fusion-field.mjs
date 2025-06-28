@@ -181,8 +181,6 @@ class FusionData extends DataModel {
       switch (activity.type) {
         case "teleport":
           return item.type !== "spell";
-        case "defend":
-          return !["weapon", "shield"].includes(item.type);
         case "effect":
         case "healing":
           return true;

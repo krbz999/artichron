@@ -28,18 +28,6 @@
   {{/if}}
   {{/if}}
 
-  {{!-- DEFEND --}}
-  {{#if (eq pseudoDocument.type "defend")}}
-  <h3 class="section-header">{{localize "ARTICHRON.SHEET.ACTIVITY.HEADERS.defend"}}</h3>
-  <div class="form-group">
-    <label>{{localize "ARTICHRON.SHEET.ACTIVITY.formula"}}</label>
-    <div class="form-fields">
-      {{formGroup fields.defend.fields.number value=source.defend.number name="defend.number" classes="label-top" placeholder="1"}}
-      {{formGroup fields.defend.fields.denomination value=source.defend.denomination name="defend.denomination" classes="label-top"}}
-    </div>
-  </div>
-  {{/if}}
-
   {{!-- HEALING --}}
   {{#if (eq pseudoDocument.type "healing")}}
   <h3 class="section-header">{{localize "ARTICHRON.SHEET.ACTIVITY.HEADERS.healing"}}</h3>

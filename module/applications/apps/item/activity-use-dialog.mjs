@@ -25,9 +25,6 @@ export default class ActivityUseDialog extends Application {
     healing: {
       template: "systems/artichron/templates/apps/item/activity-use-dialog/healing.hbs",
     },
-    defend: {
-      template: "systems/artichron/templates/apps/item/activity-use-dialog/defend.hbs",
-    },
     template: {
       template: "systems/artichron/templates/apps/item/activity-use-dialog/template.hbs",
     },
@@ -140,31 +137,6 @@ export default class ActivityUseDialog extends Application {
       field,
       legend: game.i18n.localize("ARTICHRON.ActivityUseDialog.HealingLegend"),
       formula: this.activity.healing.formula,
-    });
-
-    return context;
-  }
-
-  /* -------------------------------------------------- */
-
-  /** @type {import("../../../_types").ContextPartHandler} */
-  async _preparePartContextDefend(context, options) {
-    const ctx = context.ctx = { ...this.#dialog.defend };
-    if (!ctx.show) return context;
-
-    const field = new foundry.data.fields.NumberField({
-      integer: true,
-      initial: 0,
-      nullable: true,
-      min: 0,
-      label: "ARTICHRON.ActivityUseDialog.DefendLabel",
-      hint: "ARTICHRON.ActivityUseDialog.DefendHint",
-    });
-
-    Object.assign(ctx, {
-      field,
-      legend: game.i18n.localize("ARTICHRON.ActivityUseDialog.DefendLegend"),
-      formula: this.activity.defend.formula,
     });
 
     return context;

@@ -315,11 +315,6 @@ export const ITEM_ATTRIBUTES = {
   //   types: new Set(["weapon"]),
   //   transferrable: false,
   // },
-  // blocking: {
-  //   label: "ARTICHRON.ItemAttribute.Blocking",
-  //   types: new Set(["spell"]),
-  //   transferrable: true,
-  // },
   // bludgeoning: {
   //   label: "ARTICHRON.ItemAttribute.Bludgeoning",
   //   types: new Set(["weapon"]),
@@ -379,12 +374,6 @@ export const ITEM_ATTRIBUTES = {
     transferrable: true,
     damageOption: false,
   },
-  // undefendable: {
-  //   label: "ARTICHRON.ItemAttribute.Undefendable",
-  //   types: new Set(["spell"]),
-  //   transferrable: true,
-  //   damageOption: true,
-  // },
 };
 
 /* -------------------------------------------------- */

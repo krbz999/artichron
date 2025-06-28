@@ -37,16 +37,4 @@ export default class ArsenalData extends ItemSystemModel {
   get canUsePips() {
     return this.parent.actor.canPerformActionPoints(this.cost.value);
   }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Can this item be used to defend?
-   * @type {boolean}
-   */
-  get canDefend() {
-    const attr = this.attributes.value;
-    if (!attr.has("parrying") && !attr.has("blocking")) return false;
-    return this.activities.getByType("defend").length > 0;
-  }
 }
