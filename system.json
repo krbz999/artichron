@@ -149,6 +149,7 @@
     "ChatMessage": {
       "damage": {},
       "effect": {},
+      "healing": {},
       "trade": {}
     },
     "Combatant": {

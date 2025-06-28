@@ -4,9 +4,10 @@
 export function registerSockets() {
   game.socket.on("system.artichron", handleSocket);
 
-  CONFIG.queries.merchant = artichron.data.actors.MerchantData._query;
   CONFIG.queries.chatDamage = artichron.data.chatMessages.DamageData._query;
   CONFIG.queries.chatEffects = artichron.data.chatMessages.EffectData._query;
+  CONFIG.queries.chatHealing = artichron.data.chatMessages.HealingData._query;
+  CONFIG.queries.merchant = artichron.data.actors.MerchantData._query;
 }
 
 /* -------------------------------------------------- */

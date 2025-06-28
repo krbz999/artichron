@@ -1,0 +1,35 @@
+<div class="wrapper {{#if expanded.rolls}} expanded {{/if}}" data-action="toggleRollsExpanded">
+  <header class="header">{{total}}</header>
+  <div class="rolls">
+    {{#each rolls}}
+    <div class="roll">
+      <div class="top">
+        <span class="icon" data-tooltip="{{label}}">
+          <i class="fa-fw fa-solid {{icon}}" style="color: #{{color}}"></i>
+        </span>
+        <span class="formula">{{formula}}</span>
+        <span class="total">{{total}}</span>
+      </div>
+      <div class="bottom">
+        {{#each dice}}
+        <div class="{{cssClass}}">{{total}}</div>
+        {{/each}}
+      </div>
+    </div>
+    {{/each}}
+  </div>
+</div>
+
+<section class="targeting healing {{#if expanded.tokens}} expanded {{/if}}">
+  <h3 class="section-header" data-action="toggleTargetsExpanded">
+    <span>{{localize "ARTICHRON.CHAT.healingApplication"}}</span>
+    <i class="fa-solid fa-fw"></i>
+  </h3>
+  <div class="token-application healing">
+    <controlled-tokens-list type="healing"></controlled-tokens-list>
+    <button type="button" data-action="applyHealing">
+      <i class="fa-solid fa-staff-snake" inert></i>
+      <span>{{localize "ARTICHRON.CHAT.applyHealing"}}</span>
+    </button>
+  </div>
+</section>

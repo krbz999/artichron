@@ -215,70 +215,6 @@
     }
   }
 
-  /* .targets-wrapper {
-    display: grid;
-    grid-template-rows: 0fr 0fr;
-    transition: grid-template-rows 200ms ease;
-
-    .header {
-      height: 30px;
-      align-items: center;
-      cursor: var(--cursor-pointer);
-      text-align: center;
-      line-height: 28px;
-      font-size: 24px;
-      border: 1px solid gray;
-      border-radius: 5px;
-      display: flex;
-      justify-content: space-around;
-
-      > * { opacity: 0.5; }
-      > .expanded { opacity: 1; }
-    }
-
-    .targets-inner-wrapper {
-      .targets {
-        overflow: hidden;
-        gap: 2px;
-        display: none;
-        flex-direction: column;
-        &.expanded { display: flex; }
-
-        &:has(token-target) p.hint { display: none; }
-
-        & token-target {
-          display: flex;
-          flex-direction: row;
-          align-items: center;
-          flex: 1;
-          gap: 4px;
-          font-size: 20px;
-
-          .avatar {
-            width: 40px;
-            height: 40px;
-            object-fit: contain;
-            justify-content: center;
-            align-items: center;
-            display: flex;
-            cursor: var(--cursor-pointer);
-          }
-          .name { flex: 1; }
-          .damage {
-            text-align: center;
-            width: 40px;
-            white-space: nowrap;
-            color: var(--color);
-
-            &::before { content: var(--damage-total); }
-          }
-        }
-      }
-
-      &:not(:has(.expanded)) [data-action=apply] { display: none; }
-    }
-  } */
-
   /* TOKEN TARGETS */
   .targeting {
     display: grid;
@@ -318,19 +254,22 @@
 
           &.damage { grid-template-columns: 2rem 1fr 0fr; }
           &.effect { grid-template-columns: 2rem 1fr 0fr; }
+          &.healing { grid-template-columns: 2rem 1fr 0fr; }
 
           img {
             cursor: var(--cursor-pointer);
 
             .damage .damaged &,
-            .effect .unchecked & {
+            .effect .unchecked &,
+            .healing .healed & {
               opacity: 0.5;
             }
           }
 
           .title {
             .damage .damaged &,
-            .effect .unchecked & {
+            .effect .unchecked &,
+            .healing .healed & {
               text-decoration: line-through;
             }
           }
@@ -345,6 +284,7 @@
                 content: "-";
               }
             }
+
             &.healing {
               color: green;
               &::before {
@@ -354,10 +294,9 @@
           }
         }
 
-        /* Hide damage application button if the list is empty. */
-
         + [data-action=applyDamage],
-        + [data-action=applyEffects] {
+        + [data-action=applyEffects],
+        + [data-action=applyHealing] {
           width: 100%;
         }
       }

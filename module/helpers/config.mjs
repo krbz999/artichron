@@ -115,6 +115,20 @@ export const DAMAGE_TYPE_GROUPS = {
 /* -------------------------------------------------- */
 
 /**
+ * Configuration data for healing.
+ * @property {string} label   Human-readable label.
+ * @property {string} color   The color.
+ * @property {string} icon    The FA icon.
+ */
+export const HEALING = {
+  label: "ARTICHRON.HEALING.healing",
+  color: "379e00",
+  icon: "fa-solid fa-staff-snake",
+};
+
+/* -------------------------------------------------- */
+
+/**
  * @typedef {object} TargetTypeConfig
  * @property {string} label           Displayed label of the targeting type.
  * @property {Set<string>} scale      The properties that can scale with mana.

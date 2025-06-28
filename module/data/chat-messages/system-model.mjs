@@ -13,6 +13,7 @@ export default class ChatMessageSystemModel extends foundry.abstract.TypeDataMod
       "systems/artichron/templates/chat/partials/header.hbs",
       "systems/artichron/templates/chat/partials/damage.hbs",
       "systems/artichron/templates/chat/partials/effect.hbs",
+      "systems/artichron/templates/chat/partials/healing.hbs",
     ]);
 
     const context = {

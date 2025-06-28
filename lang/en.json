@@ -702,7 +702,9 @@
   "applyEffects": "Apply Effects",
   "applyDamage": "Apply Damage",
   "receipt": "Receipt",
-  "receiptSummary": "The members of {name} spent {total} at {shop} on the following items:"
+  "receiptSummary": "The members of {name} spent {total} at {shop} on the following items:",
+  "applyHealing": "Apply Healing",
+  "healingApplication": "Apply Healing"
 },
 
 "CLOCK": {
@@ -856,6 +858,10 @@
     "Natural": "Natural",
     "Tech": "Tech"
   }
+},
+
+"HEALING": {
+  "healing": "Healing"
 },
 
 "HUD": {
