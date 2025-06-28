@@ -1,52 +1,27 @@
 .artichron.application.sheet.merchant {
-  height: 90%;
-  min-width: 580px;
-  min-height: 750px;
+  --min-width: 500px;
+  --min-height: 750px;
 
-  .window-content {
-    .header {
-      text-decoration: none;
-      text-decoration-line: underline;
-      border: none;
-      font-size: 60px;
-      margin: 0 auto;
-      display: flex;
-      width: 100%;
-      height: unset;
-      flex-direction: column-reverse;
-
-      .avatar {
-        width: calc(100% / 4);
-        height: unset;
-        aspect-ratio: 1;
-        max-height: 200px;
-        max-width: 200px;
-        &[data-action] {
-          cursor: var(--cursor-pointer);
-        }
-      }
+  .header {
+    .title {
+      text-align: center;
+      border-bottom: 1px solid var(--artichron-color-gold);
+      margin: 0;
     }
+    .subtitle {
+      text-align: center;
+      margin: 0;
+      margin-top: 1rem;
+      font-size: 18px;
+      font-style: italic;
+    }
+  }
 
-    .trading {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  .tab {
+    height: 100%;
+
+    .document-list {
       height: 100%;
-      gap: 1em;
-
-      .stock {
-        overflow: hidden auto;
-        min-height: 200px;
-      }
-
-      .cart {
-        overflow: hidden;
-        min-height: 200px;
-
-        .contents {
-          flex: 1;
-          overflow: hidden auto;
-        }
-      }
     }
   }
 }

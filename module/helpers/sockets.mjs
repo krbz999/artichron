@@ -4,20 +4,7 @@
 export function registerSockets() {
   game.socket.on("system.artichron", handleSocket);
 
-  CONFIG.queries.merchant = ({ type, config }) => {
-    const merchant = game.actors.get(config.merchantId);
-    const actor = game.actors.get(config.actorId);
-    const item = merchant.items.get(config.itemId);
-    switch (type) {
-      case "stage":
-        merchant.system.stageItem(actor, item);
-        break;
-      case "unstage":
-        merchant.system.unstageItem(actor, item);
-        break;
-    }
-  };
-
+  CONFIG.queries.merchant = artichron.data.actors.MerchantData._query;
   CONFIG.queries.chatDamage = artichron.data.chatMessages.DamageData._query;
   CONFIG.queries.chatEffects = artichron.data.chatMessages.EffectData._query;
 }

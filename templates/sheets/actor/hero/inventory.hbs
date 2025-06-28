@@ -9,7 +9,7 @@
       <span>{{localize "ARTICHRON.SHEET.HERO.HEADERS.inventory"}}</span>
       <button type="button" class="create-document fa-solid icon" data-action="createEmbeddedDocument" {{disabled (not editable)}}></button>
     </h3>
-    {{document-list-entries classes="compact scrollable" documents=ctx.items action="useItem"}}
+    {{document-list-entries classes="scrollable" documents=ctx.items action="useItem"}}
   </div>
 
   <section class="encumbrance" style="--bar-width: {{ctx.encumbrance}}%;">

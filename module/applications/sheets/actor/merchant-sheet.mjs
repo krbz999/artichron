@@ -17,38 +17,58 @@ export default class MerchantSheet extends ActorSheetArtichron {
   /** @inheritdoc */
   static PARTS = {
     header: {
-      template: "systems/artichron/templates/sheets/actor/merchant-sheet/header.hbs",
+      template: "systems/artichron/templates/sheets/actor/merchant/header.hbs",
     },
-    trading: {
-      template: "systems/artichron/templates/sheets/actor/merchant-sheet/trading.hbs",
-      scrollable: [".stock", ".cart .contents"],
+    tabs: {
+      template: "templates/generic/tab-navigation.hbs",
+    },
+    stock: {
+      template: "systems/artichron/templates/sheets/actor/merchant/stock.hbs",
+      scrollable: [".document-list-entries"],
+    },
+    cart: {
+      template: "systems/artichron/templates/sheets/actor/merchant/cart.hbs",
+      scrollable: [".document-list-entries"],
     },
   };
+
+  /* -------------------------------------------------- */
+
+  /** @inheritdoc */
+  static TABS = {
+    primary: {
+      tabs: [
+        { id: "stock", icon: "fa-solid fa-fw fa-boxes-stacked" },
+        { id: "cart", icon: "fa-solid fa-fw fa-shopping-cart" },
+      ],
+      initial: "stock",
+      labelPrefix: "ARTICHRON.SHEET.TABS",
+    },
+  };
+
+  /* -------------------------------------------------- */
+
+  /** @inheritdoc */
+  get title() {
+    return "";
+  }
 
   /* -------------------------------------------------- */
   /*   Rendering methods                                */
   /* -------------------------------------------------- */
 
-  /** @inheritdoc */
-  async _prepareContext(options) {
-    const context = {};
-
-    const { stock, cart } = await this._prepareItems();
-
-    context.stock = stock;
-    context.cart = cart;
-    context.actor = this.document;
-    context.isOwner = this.document.isOwner;
-    context.label = this.document.system.shop.name;
-    context.isGM = game.user.isGM;
+  /** @type {import("../../../_types").ContextPartHandler} */
+  async _preparePartContextHeader(context, options) {
+    const ctx = context.ctx = {};
     return context;
   }
 
   /* -------------------------------------------------- */
 
-  /** @inheritdoc */
-  async _prepareItems() {
-    const items = { stock: {}, cart: [] };
+  /** @type {import("../../../_types").ContextPartHandler} */
+  async _preparePartContextStock(context, options) {
+    const ctx = context.ctx = { stock: [] };
+
     const staged = Object.entries(this.document.system.shop.staged).reduce((acc, [actorId, itemIds]) => {
       const actor = game.actors.get(actorId);
       if (!actor) return acc;
@@ -57,38 +77,59 @@ export default class MerchantSheet extends ActorSheetArtichron {
     }, new Set());
 
     for (const item of this.document.items) {
-      const isStaged = staged.has(item);
-
-      const expanded = this._expandedItems.has(item.uuid);
-      const data = {
-        item: item,
-        isExpanded: expanded,
-        hasQty: "quantity" in item.system,
-        price: item.system.price?.value || "-",
-      };
-
-      if (expanded) {
-        data.enriched = await foundry.applications.ux.TextEditor.enrichHTML(item.system.description.value, {
-          relativeTo: item, rollData: item.getRollData(),
-        });
-      }
-
-      if (isStaged) items.cart.push(data);
-      else {
-        items.stock[item.type] ??= {
-          label: game.i18n.localize(CONFIG.Item.typeLabels[item.type]),
-          items: [],
-        };
-        items.stock[item.type].items.push(data);
-      }
+      const data = { document: item };
+      if (!staged.has(item)) ctx.stock.push(data);
     }
 
-    const sort = (a, b) => a.item.name.localeCompare(b.item.name);
+    return context;
+  }
 
-    for (const s of Object.values(items.stock)) s.items.sort(sort);
-    items.cart.sort(sort);
+  /* -------------------------------------------------- */
 
-    return items;
+  /** @type {import("../../../_types").ContextPartHandler} */
+  async _preparePartContextCart(context, options) {
+    const ctx = context.ctx = { cart: [] };
+
+    const staged = Object.entries(this.document.system.shop.staged).reduce((acc, [actorId, itemIds]) => {
+      const actor = game.actors.get(actorId);
+      if (!actor) return acc;
+      const items = new Set(Array.from(itemIds).map(itemId => this.document.items.get(itemId)).filter(_ => _));
+      return acc.union(items);
+    }, new Set());
+
+    for (const item of this.document.items) {
+      const data = { document: item };
+      if (staged.has(item)) ctx.cart.push(data);
+    }
+
+    return context;
+  }
+
+  /* -------------------------------------------------- */
+
+  /** @inheritdoc */
+  async _onFirstRender(context, options) {
+    await super._onFirstRender(context, options);
+
+    // Don't allow interaction when in a pack unless GM.
+    if (this.document.inCompendium) {
+      const pack = this.document.collection;
+      if (pack.locked || !game.user.isGM) return;
+    }
+
+    // Add context menu for stock.
+    this._createContextMenu(
+      this.#getContextOptionsStock,
+      ".document-list.stock .entry",
+      { hookName: "ItemEntryContext" },
+    );
+
+    // Add context menu for cart.
+    this._createContextMenu(
+      this.#getContextOptionsCart,
+      ".document-list.cart .entry",
+      { hookName: "ItemEntryContext" },
+    );
   }
 
   /* -------------------------------------------------- */
@@ -96,83 +137,57 @@ export default class MerchantSheet extends ActorSheetArtichron {
   /** @inheritdoc */
   async _onRender(context, options) {
     await super._onRender(context, options);
-    this._setupDragAndDrop();
+    for (const list of this.element.querySelectorAll(".document-list-entries")) {
+      list.classList.toggle("compact", this.position.width < 700);
+    }
   }
 
   /* -------------------------------------------------- */
-  /*   Drag and drop handlers                           */
+
+  /**
+   * Create context menu options for items in stock.
+   * @returns {object[]}
+   */
+  #getContextOptionsStock() {
+    const itemId = entry => this._getEmbeddedDocument(entry).id;
+    const actorId = () => game.user.character ? game.user.character.id : game.actors.part.id;
+
+    return [{
+      name: "ARTICHRON.SHEET.MERCHANT.CONTEXT.STOCK.addToCart",
+      icon: "<i class='fa-solid fa-fw fa-cart-plus'></i>",
+      callback: entry => game.users.activeGM?.query("merchant", { type: "stage", config: {
+        itemId: itemId(entry), actorId: actorId(), merchantId: this.document.id,
+      } }),
+    }];
+  }
+
   /* -------------------------------------------------- */
 
   /**
-   * Set up additional drag-drop handlers.
+   * Create context menu options for items in cart.
+   * @returns {object[]}
    */
-  _setupDragAndDrop() {
-    const isLocked = () => {
-      if (this.document.pack) {
-        const pack = game.packs.get(this.document.pack);
-        if (pack.locked) return true;
-      }
-      return false;
-    };
+  #getContextOptionsCart() {
+    const itemId = entry => this._getEmbeddedDocument(entry).id;
+    const actorId = () => game.user.character ? game.user.character.id : game.actors.part.id;
 
-    const defaultActor = () => {
-      if (game.user.character) return game.user.character.id;
-      return game.actors.party.id;
-    };
+    return [{
+      name: "ARTICHRON.SHEET.MERCHANT.CONTEXT.CART.removeFromCart",
+      icon: "<i class='fa-solid fa-fw fa-shopping-cart'></i>",
+      callback: entry => game.users.activeGM?.query("merchant", { type: "unstage", config: {
+        itemId: itemId(entry), actorId: actorId(), merchantId: this.document.id,
+      } }),
+    }];
+  }
 
-    // Staging an item.
-    const stageDrop = new foundry.applications.ux.DragDrop({
-      dragSelector: ".stock inventory-item",
-      dropSelector: ".cart",
-      permissions: {
-        dragstart: () => true,
-        drop: () => !isLocked(),
-      },
-      callbacks: {
-        dragstart: this._onDragStart.bind(this),
-        drop: async (event) => {
-          event.preventDefault();
-          const item = await fromUuid(foundry.applications.ux.TextEditor.getDragEventData(event).uuid);
-          this._expandedItems.delete(item.uuid);
-          game.users.activeGM?.query("merchant", {
-            type: "stage",
-            config: {
-              itemId: item.id,
-              actorId: defaultActor(),
-              merchantId: this.document.id,
-            },
-          });
-        },
-      },
-    });
-    stageDrop.bind(this.element);
+  /* -------------------------------------------------- */
 
-    // Unstaging an item.
-    const unstageDrop = new foundry.applications.ux.DragDrop({
-      dragSelector: ".cart inventory-item",
-      dropSelector: ".stock",
-      permissions: {
-        dragstart: () => true,
-        drop: () => !isLocked(),
-      },
-      callbacks: {
-        dragstart: this._onDragStart.bind(this),
-        drop: async (event) => {
-          event.preventDefault();
-          const item = await fromUuid(foundry.applications.ux.TextEditor.getDragEventData(event).uuid);
-          this._expandedItems.delete(item.uuid);
-          game.users.activeGM?.query("merchant", {
-            type: "unstage",
-            config: {
-              itemId: item.id,
-              actorId: defaultActor(),
-              merchantId: this.document.id,
-            },
-          });
-        },
-      },
-    });
-    unstageDrop.bind(this.element);
+  /** @inheritdoc */
+  _onPosition(position) {
+    super._onPosition(position);
+    for (const list of this.element.querySelectorAll(".document-list-entries")) {
+      list.classList.toggle("compact", position.width < 700);
+    }
   }
 
   /* -------------------------------------------------- */

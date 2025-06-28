@@ -108,6 +108,10 @@ export default class MerchantData extends ActorSystemModel {
       throw new Error(`You are not owner of merchant ${this.parent.uuid}.`);
     }
 
+    if (!game.actors.party) {
+      throw new Error("No primary party exists.");
+    }
+
     const toDelete = [];
     /** @type {Map<ActorArtichron, Set<ItemArtichron>>} */
     const toCreate = new Map();
@@ -134,6 +138,7 @@ export default class MerchantData extends ActorSystemModel {
     const receipt = [];
     let spent = 0;
     await this.parent.deleteEmbeddedDocuments("Item", toDelete, { isShopping: true });
+    await this.parent.update({ "system.shop.==staged": {} });
     for (const [actor, items] of toCreate.entries()) {
       if (!items.size) continue;
       const itemData = Array.from(items).map(item => game.items.fromCompendium(item));
@@ -154,6 +159,7 @@ export default class MerchantData extends ActorSystemModel {
         customers: receipt,
         shop: this.shop.name,
         total: spent,
+        name: game.actors.party.name,
       };
       Cls.create({
         content: await foundry.applications.handlebars.renderTemplate(template, context),
@@ -161,4 +167,21 @@ export default class MerchantData extends ActorSystemModel {
       });
     }
   }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Query method to delegate handling.
+   * @type {Function}
+   */
+  static _query = ({ type, config }) => {
+    const merchant = game.actors.get(config.merchantId);
+    const actor = game.actors.get(config.actorId);
+    const item = merchant.items.get(config.itemId);
+
+    switch (type) {
+      case "state": return merchant.system.stageItem(actor, item);
+      case "unstage": return merchant.system.unstageItem(actor, item);
+    }
+  };
 }

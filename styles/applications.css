@@ -179,7 +179,8 @@
 /* DOCUMENT LISTS */
 .application.artichron {
   .document-list {
-    display: grid;
+    display: flex;
+    flex-direction: column;
     gap: 1ch;
 
     .document-list-header {

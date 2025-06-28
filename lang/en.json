@@ -221,6 +221,23 @@
     }
   },
 
+  "MERCHANT": {
+    "shopName": "Shop Name",
+    "checkout": "Checkout",
+    "CONTEXT": {
+      "CART": {
+        "removeFromCart": "Remove from Cart"
+      },
+      "STOCK": {
+        "addToCart": "Add to Cart"
+      }
+    },
+    "HEADERS": {
+      "cart": "Cart",
+      "stock": "Stock"
+    }
+  },
+
   "MONSTER": {
     "HEADERS": {
       "defenses": "Defenses",
@@ -293,8 +310,11 @@
     "loot": "Loot",
     "members": "Members",
     "progress": "Progress",
-    "progression": "Progression"
+    "progression": "Progression",
+    "cart": "Cart",
+    "stock": "Stock"
   },
+
   "TALENT": {
     "HEADERS": {
       "activeBuffs": "Active Buffs",
@@ -302,6 +322,7 @@
       "advancements": "Advancements"
     }
   },
+
   "TOGGLE": {
     "opacity": "Toggle Opacity",
     "editing": "Toggle Edit Mode"
@@ -1035,7 +1056,6 @@
 },
 
 "PURCHASE": {
-  "checkout": "Checkout",
   "receipt": "Receipt",
   "summary": "The members of {name} spent {total} at {shop} on the following items:"
 },

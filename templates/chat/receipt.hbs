@@ -1,5 +1,16 @@
-<h3>{{localize "ARTICHRON.PURCHASE.receipt"}}</h3>
-<p>{{localize "ARTICHRON.PURCHASE.summary" name=name total=total shop=shop}}</p>
-<ul>
-  {{#each items}} <li>{{{link}}}</li> {{/each}}
-</ul>
+<section class="artichron">
+
+  <h3>{{localize "ARTICHRON.PURCHASE.receipt"}}</h3>
+  <p>{{localize "ARTICHRON.PURCHASE.summary" name=name total=total shop=shop}}</p>
+  {{#each customers}}
+
+  <h3 class="section-header">
+    <span>{{actor.link}}</span>
+  </h3>
+  {{#each items}}
+  <p>{{link}}</p>
+  {{/each}}
+
+  {{/each}}
+
+</section>
