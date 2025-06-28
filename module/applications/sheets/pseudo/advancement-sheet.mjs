@@ -78,16 +78,12 @@ export default class AdvancementSheet extends PseudoDocumentSheet {
     }
 
     else if (context.pseudoDocument.type === "trait") {
-      ctx.traits = Object.entries(context.pseudoDocument._source.traits).map(([k, { trait, value, label }]) => {
-        if (!(trait in artichron.config.TRAITS)) return null;
+      ctx.traits = context.pseudoDocument.traits.map(trait => {
         return {
-          trait, value, label,
-          key: k,
-          namePrefix: `traits.${k}.`,
-          valueField: artichron.config.TRAITS[trait].field ?? new foundry.data.fields.StringField(),
-          fields: context.pseudoDocument.schema.fields.traits.element.fields,
+          trait,
+          fields: trait.schema.fields,
         };
-      }).filter(_ => _);
+      });
     }
 
     return context;
@@ -172,10 +168,7 @@ export default class AdvancementSheet extends PseudoDocumentSheet {
    * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
    */
   static async #createTrait(event, target) {
-    const options = Object.entries(artichron.config.TRAITS).map(([k, v]) => ({ value: k, label: v.label }));
-    const select = foundry.applications.fields.createSelectInput({ options, name: "traitType" });
-    const result = await artichron.applications.api.Dialog.input({ content: select.outerHTML });
-    if (result) this.pseudoDocument.update({ [`traits.${foundry.utils.randomID()}`]: { trait: result.traitType } });
+    artichron.data.pseudoDocuments.traitChoices.BaseTraitChoice.createDialog({}, { parent: this.pseudoDocument });
   }
 
   /* -------------------------------------------------- */

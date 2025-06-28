@@ -5,7 +5,8 @@
   "ArmorRequirement": "Armor Requirement",
   "Clock": "Progress Clock",
   "ClockPl": "Progress Clocks",
-  "Damage": "Damage"
+  "Damage": "Damage",
+  "TraitChoice": "Trait Choice"
 },
 "TYPES": {
 "ActiveEffect": {
@@ -84,6 +85,10 @@
   "doorState": "Toggle Door State",
   "enterStore": "Enter Store",
   "statusCondition": "Toggle Status Condition"
+},
+"TraitChoice": {
+  "health": "Health",
+  "skill": "Skill"
 }
 },
 "ARTICHRON": {
@@ -1176,12 +1181,30 @@
   }
 },
 
+"TRAIT_CHOICE": {
+  "FIELDS": {
+    "value": {
+      "label": "Value"
+    },
+    "skill": {
+      "label": "Skill"
+    },
+    "subtype": {
+      "label": "Subtype"
+    }
+  },
+  "HINT": {
+    "skillDiceNumber": "You roll {increase} dice with your {skill} skill.",
+    "skillDiceFaces": "Your {skill} skill dice increase in size by {increase}.",
+    "skillBonus": "You have {increase} automatic successes with your {skill} skill.",
+    "health": "You have a {increase} bonus to your maximum health."
+  }
+},
+
 "TRAITS": {
-  "health": "Health",
-  "skillAgilityDice": "Agility Dice",
-  "skillBrawnDice": "Brawn Dice",
-  "skillMindDice": "Mind Dice",
-  "skillSpiritDice": "Spirit Dice"
+  "skillDiceNumber": "Number",
+  "skillDiceFaces": "Faces",
+  "skillBonus": "Successes"
 },
 
 "ActivityUseDialog": {

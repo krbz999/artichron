@@ -9,18 +9,27 @@
   {{#if (eq pseudoDocument.type "trait")}}
   {{formGroup fields.requirements.fields.points value=source.requirements.points name="requirements.points" placeholder="1" disabled=(not editable)}}
   {{formGroup fields.chooseN value=source.chooseN name="chooseN" placeholder=(localize "ARTICHRON.SHEET.ADVANCEMENT.receiveAll")}}
-  <h3 class="section-header">
+  <h3 class="section-header" data-pseudo-document-name="TraitChoice">
     <span>{{localize "ARTICHRON.SHEET.ADVANCEMENT.HEADERS.traits"}}</span>
     <button type="button" class="fa-solid fa-fw icon fa-circle-plus" data-action="createTrait"></button>
   </h3>
   {{#each ctx.traits}}
-  <div class="form-group" data-trait="{{key}}">
-    <label>{{lookup (lookup @root.config.TRAITS trait) "label"}}</label>
+  <div class="form-group" data-trait="{{trait.id}}">
+    <label>{{localize (concat "TYPES.TraitChoice." trait.type)}}</label>
     <div class="form-fields">
-      {{formGroup @root.fields.traits.element.fields.label name=(concat namePrefix "label") classes="label-top" value=label placeholder=(lookup (lookup @root.config.TRAITS trait) "label") label=(localize "ARTICHRON.ADVANCEMENT.TRAIT.label")}}
-      {{formGroup valueField name=(concat namePrefix "value") value=value classes="label-top" label=fields.value.label}}
+      {{#if (eq trait.type "health")}}
+      {{formGroup fields.value value=trait._source.value placeholder="1" classes="label-top" name=(concat "traits." trait.id ".value")}}
+      {{/if}}
+
+      {{#if (eq trait.type "skill")}}
+      {{formGroup fields.subtype value=trait._source.subtype classes="label-top" name=(concat "traits." trait.id ".subtype")}}
+      {{formGroup fields.skill value=trait._source.skill classes="label-top" name=(concat "traits." trait.id ".skill")}}
+      {{formGroup fields.value value=trait._source.value classes="label-top" name=(concat "traits." trait.id ".value") placeholder="1"}}
+      {{/if}}
+
       <button type="button" class="icon fa-fw fa-solid fa-trash" data-action="deleteTrait"></button>
     </div>
+    <p class="hint">{{{trait}}}</p>
   </div>
   {{/each}}
   {{/if}}

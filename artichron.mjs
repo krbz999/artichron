@@ -244,6 +244,7 @@ Hooks.once("i18nInit", function() {
   localizeTypes(data.pseudoDocuments.armorRequirements);
   localizeTypes(data.pseudoDocuments.clocks);
   localizeTypes(data.pseudoDocuments.damage);
+  localizeTypes(data.pseudoDocuments.traitChoices);
 });
 
 /* -------------------------------------------------- */

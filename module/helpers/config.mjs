@@ -552,7 +552,7 @@ export const STATUS_CONDITIONS = {
 
 /**
  * The skills available.
- * @enum {SkillConfig}
+ * @type {Record<string, SkillConfig>}
  */
 export const SKILLS = {
   agility: {
@@ -825,34 +825,17 @@ Object.defineProperty(BASIC_ATTACKS, "optgroups", {
 /* -------------------------------------------------- */
 
 /**
- * @typedef TraitConfiguration
- * @property {string} label                                           Human-readable label of the trait.
- * @property {InstanceType<foundry.data.fields.DataField>} [field]    A field used to render the input.
+ * The subtypes for a skill trait advancement choice.
+ * @type {Record<string, {label: string}>}
  */
-
-/**
- * The options for a trait advancement.
- * @type {Record<string, TraitConfiguration>}
- */
-export const TRAITS = {
-  health: {
-    label: "ARTICHRON.TRAITS.health",
-    field: new foundry.data.fields.NumberField({ integer: true, nullable: false }),
+export const TRAIT_SKILL_SUBTYPES = {
+  diceNumber: {
+    label: "ARTICHRON.TRAITS.skillDiceNumber",
   },
-  skillAgilityDice: {
-    label: "ARTICHRON.TRAITS.skillAgilityDice",
-    field: new foundry.data.fields.NumberField({ integer: true, nullable: false }),
+  diceFaces: {
+    label: "ARTICHRON.TRAITS.skillDiceFaces",
   },
-  skillBrawnDice: {
-    label: "ARTICHRON.TRAITS.skillBrawnDice",
-    field: new foundry.data.fields.NumberField({ integer: true, nullable: false }),
-  },
-  skillMindDice: {
-    label: "ARTICHRON.TRAITS.skillMindDice",
-    field: new foundry.data.fields.NumberField({ integer: true, nullable: false }),
-  },
-  skillSpiritDice: {
-    label: "ARTICHRON.TRAITS.skillSpiritDice",
-    field: new foundry.data.fields.NumberField({ integer: true, nullable: false }),
+  bonus: {
+    label: "ARTICHRON.TRAITS.skillBonus",
   },
 };
