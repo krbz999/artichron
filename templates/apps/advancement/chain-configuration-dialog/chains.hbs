@@ -24,7 +24,7 @@
     {{!-- TRAIT SELECTED CHOICES --}}
     {{#if (eq node.advancement.type "trait")}}
     <div class="form-group">
-      <label>{{lookup (lookup node.advancement.traits trait) "label"}}</label>
+      <label>{{choice}}</label>
     </div>
     {{/if}}
 

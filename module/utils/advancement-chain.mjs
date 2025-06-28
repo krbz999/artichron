@@ -122,10 +122,11 @@ export default class AdvancementChain {
         }
       }
     } else if (advancement.type === "trait") {
-      for (const k of Object.keys(advancement.traits)) {
-        const choice = node.choices[k] = {
+      for (const trait of advancement.getEmbeddedPseudoDocumentCollection("TraitChoice")) {
+        const choice = node.choices[trait.id] = {
           node,
-          trait: k,
+          choice: trait,
+          trait: trait.id,
           children: {},
         };
 
@@ -133,7 +134,7 @@ export default class AdvancementChain {
           get() {
             if (!node.isChosen) return false;
             if (!node.isChoice) return true;
-            return node.selected[k] === true;
+            return node.selected[trait.id] === true;
           },
         });
       }
@@ -173,7 +174,7 @@ export default class AdvancementChain {
       case "trait":
       case "itemGrant": {
         if (this.advancement.chooseN === null) return null;
-        if (this.advancement.chooseN >= Object.values(this.choices).length) return null;
+        if (this.advancement.chooseN >= Object.keys(this.choices).length) return null;
         return this.advancement.chooseN;
       }
     }
