@@ -700,7 +700,9 @@
   "effectApplication": "Apply Effects",
   "damageApplication": "Apply Damage",
   "applyEffects": "Apply Effects",
-  "applyDamage": "Apply Damage"
+  "applyDamage": "Apply Damage",
+  "receipt": "Receipt",
+  "receiptSummary": "The members of {name} spent {total} at {shop} on the following items:"
 },
 
 "CLOCK": {
@@ -1053,11 +1055,6 @@
     "novice": "Novice",
     "veteran": "Veteran"
   }
-},
-
-"PURCHASE": {
-  "receipt": "Receipt",
-  "summary": "The members of {name} spent {total} at {shop} on the following items:"
 },
 
 "REQUIREMENT": {
