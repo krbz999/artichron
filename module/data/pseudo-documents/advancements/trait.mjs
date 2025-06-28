@@ -4,16 +4,26 @@ const { NumberField, SchemaField, StringField, TypedObjectField } = foundry.data
 
 export default class TraitAdvancement extends BaseAdvancement {
   /** @inheritdoc */
+  static get metadata() {
+    const metadata = super.metadata;
+    return {
+      ...metadata,
+      embedded: {
+        ...metadata.embedded,
+        TraitChoice: "traits",
+      },
+    };
+  }
+
+  /* -------------------------------------------------- */
+
+  /** @inheritdoc */
   static defineSchema() {
     return Object.assign(super.defineSchema(), {
       requirements: new SchemaField({
         points: new NumberField({ integer: true, min: 1, nullable: false, initial: 1 }),
       }),
-      traits: new TypedObjectField(new SchemaField({
-        label: new StringField({ required: true }),
-        trait: new StringField({ required: true, blank: false, choices: () => artichron.config.TRAITS }),
-        value: new StringField({ required: true, blank: true }),
-      }), { validateKey: key => foundry.data.validators.isValidId(key) }),
+      traits: new artichron.data.fields.CollectionField(artichron.data.pseudoDocuments.traitChoices.BaseTraitChoice),
       // If `null`, then this is explicitly a "receive all" - but also if the number is equal to or greater than the pool
       chooseN: new NumberField({ integer: true, nullable: true, initial: null, min: 1 }),
     });
@@ -50,52 +60,37 @@ export default class TraitAdvancement extends BaseAdvancement {
    */
   get isChoice() {
     if (this.chooseN === null) return false;
-    if (this.chooseN >= Object.keys(this.traits).length) return false;
+    if (this.chooseN >= this.traits.size) return false;
     return true;
   }
 
   /* -------------------------------------------------- */
 
   /** @inheritdoc */
-  prepareDerivedData() {
-    super.prepareDerivedData();
-
-    // Set default labels for trait options.
-    for (const k in this.traits) {
-      if (!this.traits[k].label) {
-        this.traits[k].label = artichron.config.TRAITS[this.traits[k].trait].label;
-      }
-    }
-  }
-
-  /* -------------------------------------------------- */
-
-  /** @inheritdoc */
   async configureAdvancement(node = null) {
-    const traits = Object.entries(node ? node.advancement.traits : this.traits)
-      .filter(([k, v]) => v.trait in artichron.config.TRAITS);
+    const traits = node ? node.advancement.traits : this.traits;
 
-    if (!traits.length) {
+    if (!traits.size) {
       throw new Error(`The trait advancement [${this.uuid}] has no available choices configured.`);
     }
 
     const chooseN = (this.chooseN === null) || (this.chooseN >= traits.length) ? null : this.chooseN;
 
     const path = `flags.artichron.advancement.${this.id}.selected`;
-    if (chooseN === null) return { [path]: traits.map(trait => trait[0]) };
+    if (!this.isChoice) return { [path]: traits.map(trait => trait.id) };
 
     const item = this.document;
     const chosen = node
-      ? traits.filter(([k]) => node.selected[k])
+      ? traits.filter(trait => node.selected[trait.id])
       : item.isEmbedded
         ? foundry.utils.getProperty(item, path) ?? []
         : [];
 
     const content = [];
-    for (const [traitId, trait] of traits) {
+    for (const trait of traits) {
       const fgroup = foundry.applications.fields.createFormGroup({
-        label: trait.label,
-        input: foundry.utils.parseHTML(`<input type="checkbox" value="${traitId}" name="choices" ${chosen.includes(traitId) ? "checked" : ""}>`),
+        label: trait.name,
+        input: foundry.utils.parseHTML(`<input type="checkbox" value="${trait.id}" name="choices" ${chosen.includes(trait.id) ? "checked" : ""}>`),
       });
       content.push(fgroup);
     }
@@ -123,7 +118,7 @@ export default class TraitAdvancement extends BaseAdvancement {
 
     if (node) {
       node.selected = {};
-      for (const [traitId] of traits) node.selected[traitId] = selection.choices.includes(traitId);
+      for (const trait of traits) node.selected[trait.id] = selection.choices.includes(trait.id);
     }
 
     return { [path]: traitIds.filter(_ => _) };

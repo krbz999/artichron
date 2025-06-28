@@ -129,9 +129,8 @@ export default class HeroData extends CreatureData {
 
     let max = Math.ceil(total * injury);
 
-    for (const trait of this.parent._traits?.health ?? []) {
-      max += artichron.config.TRAITS.health.field._cast(trait.value);
-    }
+    // Add bonuses from traits.
+    for (const trait of this.parent._traits?.health ?? []) max += trait.value;
 
     if ((levels > 0) && (max === total)) max = Math.clamp(max, 1, total - 1);
 
@@ -146,10 +145,15 @@ export default class HeroData extends CreatureData {
    * Prepare skills.
    */
   #prepareSkills() {
-    for (const k of Object.keys(artichron.config.SKILLS)) {
-      for (const trait of this.parent._traits?.[`skill${k.capitalize()}Dice`] ?? []) {
-        this.skills[k].number += artichron.config.TRAITS[`skill${k.capitalize()}Dice`].field._cast(trait.value);
+    for (const trait of this.parent._traits?.skill ?? []) {
+      switch (trait.subtype) {
+        case "diceNumber": this.skills[trait.skill].number += trait.value; break;
+        case "diceFaces": this.skills[trait.skill].denomination += trait.value; break;
+        case "bonus": this.skills[trait.skill].bonus += trait.value; break;
       }
+    }
+
+    for (const k of Object.keys(artichron.config.SKILLS)) {
       this.skills[k].formula = `${this.skills[k].number}d${this.skills[k].denomination}`;
     }
   }
@@ -309,7 +313,9 @@ export default class HeroData extends CreatureData {
     }
 
     const formula = [
-      `(@skills.${config.base}.number + @skills.${config.second}.number)d6cs=6`,
+      `${this.skills[config.base].formula}cs>=6`,
+      "+",
+      `${this.skills[config.second].formula}cs>=6`,
       "+",
       `(@skills.${config.base}.bonus + @skills.${config.second}.bonus)`,
     ].join(" ");
