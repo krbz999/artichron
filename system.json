@@ -150,7 +150,8 @@
       "damage": {},
       "effect": {},
       "healing": {},
-      "trade": {}
+      "trade": {},
+      "teleport": {}
     },
     "Combatant": {
       "artichron": {}

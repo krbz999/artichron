@@ -86,6 +86,7 @@ Hooks.once("init", function() {
     damage: data.chatMessages.DamageData,
     effect: data.chatMessages.EffectData,
     healing: data.chatMessages.HealingData,
+    teleport: data.chatMessages.TeleportData,
     trade: data.chatMessages.TradeMessageData,
   });
 
