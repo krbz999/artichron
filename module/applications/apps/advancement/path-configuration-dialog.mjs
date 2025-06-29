@@ -182,7 +182,8 @@ export default class PathConfigurationDialog extends Application {
     ctx.secondary = await makeContext(investedPoints.shift());
 
     // Remaining points to allocate.
-    ctx.points = { remaining: document.points.value - ctx.primary.allocated - ctx.secondary.allocated };
+    ctx.allocated = ctx.primary.allocated + ctx.secondary.allocated;
+    ctx.points = { remaining: document.points.value - ctx.allocated };
 
     return context;
   }

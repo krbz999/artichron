@@ -9,7 +9,7 @@
   </div>
 
   <div class="points">
-    <h3>{{ctx.points.remaining}}</h3>
+    <h3>{{ctx.points.remaining}} {{#if ctx.allocated}}(&minus;{{ctx.allocated}}){{/if}}</h3>
     <p class="hint">{{localize "ARTICHRON.PROGRESSION.PATH_CONFIGURATION.investHint"}}</p>
   </div>
 
