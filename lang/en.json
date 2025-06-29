@@ -451,12 +451,7 @@
     },
     "damage": {
       "attack": {
-        "label": "Attack",
-        "hint": "Select the basic attack this character uses. The damage dice and type will be inferred."
-      },
-      "type": {
-        "label": "Type",
-        "hint": "The damage type of the basic attack can be inferred from the attack or overridden."
+        "label": "Attack"
       }
     },
     "danger": {

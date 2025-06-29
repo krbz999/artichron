@@ -348,7 +348,7 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
     // Dropped pseudo-documents.
     else {
       const document = await fromUuid(data.uuid);
-      if (document) await this._onDropDocument(event, document);
+      if (document instanceof PseudoDocument) await this._onDropPseudoDocument(event, document);
     }
   }
 
@@ -364,15 +364,9 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
    */
   async _onDropDocument(event, document) {
     switch (document.documentName) {
-      case "ActiveEffect":
-        return (await this._onDropActiveEffect(event, document)) ?? null;
+      case "ActiveEffect": return (await this._onDropActiveEffect(event, document)) ?? null;
+      default: return null;
     }
-
-    if (document instanceof PseudoDocument) {
-      return (await this._onDropPseudoDocument(event, document)) ?? null;
-    }
-
-    return null;
   }
 
   /* -------------------------------------------- */

@@ -1,3 +1,4 @@
+import PseudoDocument from "../../../data/pseudo-documents/pseudo-document.mjs";
 import ArtichronSheetMixin from "../../api/document-sheet-mixin.mjs";
 
 /**
@@ -216,6 +217,52 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
     const document = isPseudo ? this._getPseudoDocument(target) : this._getEmbeddedDocument(target);
     if (!document) return;
     event.dataTransfer.setData("text/plain", JSON.stringify(document.toDragData()));
+  }
+
+  /* -------------------------------------------------- */
+
+  /** @inheritdoc */
+  async _onDrop(event) {
+    const data = foundry.applications.ux.TextEditor.implementation.getDragEventData(event);
+    const allowed = Hooks.call("dropActorSheetData", this.document, this, data);
+    if (allowed === false) return;
+
+    // Dropped documents.
+    const documentClass = foundry.utils.getDocumentClass(data.type);
+    if (documentClass) {
+      const document = await documentClass.fromDropData(data);
+      await this._onDropDocument(event, document);
+    }
+
+    // Dropped pseudo-documents.
+    else {
+      const document = await fromUuid(data.uuid);
+      if (document instanceof PseudoDocument) await this._onDropPseudoDocument(event, document);
+    }
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Handle a dropped pseudo-document on the sheet.
+   * @param {DragEvent} event                                     The initiating drop event.
+   * @param {PseudoDocument} document                             The dropped pseudo-document.
+   * @returns {Promise<foundry.documents.Item|null|undefined>}    A promise that resolves to the updated item, if a
+   *                                                              pseudo-document was created, otherwise a nullish value.
+   */
+  async _onDropPseudoDocument(event, document) {
+    if (!this.isEditable) return;
+    const collection = this.document.getEmbeddedPseudoDocumentCollection(document.documentName);
+    if (!collection) return null;
+
+    // Pseudo-document already belonged to this.
+    if (document.document === this.document) return null;
+
+    const keepId = !collection.has(document.id);
+    const result = await document.constructor.create(document.toObject(), {
+      parent: this.document, keepId, renderSheet: false,
+    });
+    return result ?? null;
   }
 
   /* -------------------------------------------------- */
