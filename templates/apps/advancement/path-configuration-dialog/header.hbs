@@ -1,7 +1,7 @@
 <section>
   <h1 class="section-header">
-    <span>{{ctx.oldPath}}</span>
+    <span>{{ctx.oldPath}} {{#if ctx.totals.prev}}{{ctx.totals.prev}}{{/if}}</span>
     <span class="sep fa-fw fa-solid fa-arrow-right"></span>
-    <span>{{ctx.newPath}}</span>
+    <span>{{ctx.newPath}} {{#if ctx.totals.next}}{{ctx.totals.next}}{{/if}}</span>
   </h1>
 </section>

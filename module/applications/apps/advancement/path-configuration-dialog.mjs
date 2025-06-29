@@ -142,6 +142,12 @@ export default class PathConfigurationDialog extends Application {
     ctx.newPath = (await this.#getItem(newPath))?.name
       || game.i18n.localize("ARTICHRON.PROGRESSION.PATH_CONFIGURATION.noPath");
 
+    const rom = obj => artichron.utils.romanize(Object.values(obj).reduce((acc, i) => acc + i, 0));
+    ctx.totals = {
+      prev: rom(this.#document.system.progression.invested ?? {}),
+      next: rom(invested),
+    };
+
     return context;
   }
 

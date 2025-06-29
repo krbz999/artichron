@@ -1,9 +1,16 @@
 .artichron.path-configuration-dialog {
   [data-application-part=header] {
     text-align: center;
-    justify-items: center;
-    .section-header { width: 100% }
-    .icon { width: 2rem }
+
+    .section-header {
+      display: flex;
+      span {
+        flex: 1;
+      }
+      span.sep {
+        flex: none;
+      }
+    }
   }
 
   [data-application-part=progresses] {
