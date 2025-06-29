@@ -202,6 +202,13 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
   /* -------------------------------------------------- */
 
   /** @inheritdoc */
+  _canDragDrop(selector) {
+    return this.isEditable;
+  }
+
+  /* -------------------------------------------------- */
+
+  /** @inheritdoc */
   async _onDragStart(event) {
     if ("link" in event.target.dataset) return;
     const target = event.currentTarget;
@@ -222,6 +229,8 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
       if (!(item instanceof foundry.documents.Item)) item = await foundry.utils.fromUuid(item.uuid);
       await this._onDropItem(event, item);
     }
+
+    return folder;
   }
 
   /* -------------------------------------------------- */
@@ -236,8 +245,7 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
         return i.system.identifier === item.system.identifier;
       });
       if (existing) {
-        await existing.update({ "system.quantity.value": existing.system.quantity.value + item.system.quantity.value });
-        return;
+        return existing.update({ "system.quantity.value": existing.system.quantity.value + item.system.quantity.value });
       }
     }
 

@@ -1,3 +1,4 @@
+import PseudoDocument from "../../../data/pseudo-documents/pseudo-document.mjs";
 import ArtichronSheetMixin from "../../api/document-sheet-mixin.mjs";
 
 /**
@@ -86,6 +87,25 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
       ".document-list.armor-requirements .entry",
       { hookName: "ArmorRequirementEntryContext" },
     );
+  }
+
+  /* -------------------------------------------------- */
+
+  /** @inheritdoc */
+  async _onRender(context, options) {
+    await super._onRender(context, options);
+    new foundry.applications.ux.DragDrop.implementation({
+      dragSelector: ".draggable",
+      permissions: {
+        dragstart: this._canDragStart.bind(this),
+        drop: this._canDragDrop.bind(this),
+      },
+      callbacks: {
+        dragstart: this._onDragStart.bind(this),
+        dragover: this._onDragOver.bind(this),
+        drop: this._onDrop.bind(this),
+      },
+    }).bind(this.element);
   }
 
   /* -------------------------------------------------- */
@@ -256,5 +276,186 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
       ),
     };
     return context;
+  }
+
+  /* -------------------------------------------------- */
+  /*   Drag and Drop                                    */
+  /* -------------------------------------------------- */
+
+  /**
+   * Define whether a user is able to begin a dragstart workflow for a given drag selector.
+   * @param {string} selector   The candidate HTML selector for dragging.
+   * @returns {boolean}         Can the current user drag this selector?
+   */
+  _canDragStart(selector) {
+    return true;
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * Define whether a user is able to conclude a drag-and-drop workflow for a given drop selector.
+   * @param {string} selector   The candidate HTML selector for the drop target.
+   * @returns {boolean}         Can the current user drop on this selector?
+   */
+  _canDragDrop(selector) {
+    return this.isEditable;
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * An event that occurs when a drag workflow begins for a draggable item on the sheet.
+   * @param {DragEvent} event   The initiating drag start event.
+   * @returns {Promise<void>}
+   */
+  async _onDragStart(event) {
+    if ("link" in event.target.dataset) return;
+    const target = event.currentTarget;
+    const isPseudo = !!target.closest("[data-pseudo-id]");
+    const document = isPseudo ? this._getPseudoDocument(target) : this._getEmbeddedDocument(target);
+    if (!document) return;
+    event.dataTransfer.setData("text/plain", JSON.stringify(document.toDragData()));
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * An event that occurs when a drag workflow moves over a drop target.
+   * @param {DragEvent} event
+   */
+  _onDragOver(event) {}
+
+  /* -------------------------------------------- */
+
+  /**
+   * An event that occurs when data is dropped into a drop target.
+   * @param {DragEvent} event
+   * @returns {Promise<void>}
+   */
+  async _onDrop(event) {
+    const data = foundry.applications.ux.TextEditor.implementation.getDragEventData(event);
+    const allowed = Hooks.call("dropItemSheetData", this.document, this, data);
+    if (allowed === false) return;
+
+    // Dropped documents.
+    const documentClass = foundry.utils.getDocumentClass(data.type);
+    if (documentClass) {
+      const document = await documentClass.fromDropData(data);
+      await this._onDropDocument(event, document);
+    }
+
+    // Dropped pseudo-documents.
+    else {
+      const document = await fromUuid(data.uuid);
+      if (document) await this._onDropDocument(event, document);
+    }
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * Handle a dropped document on the item sheet.
+   * @template {Document|PseudoDocument} TDocument
+   * @param {DragEvent} event             The initiating drop event.
+   * @param {TDocument} document          The resolved Document class.
+   * @returns {Promise<TDocument|null>}   A Document of the same type as the dropped one in case of a successful
+   *                                      result, or null in case of failure or no action being taken.
+   */
+  async _onDropDocument(event, document) {
+    switch (document.documentName) {
+      case "ActiveEffect":
+        return (await this._onDropActiveEffect(event, document)) ?? null;
+    }
+
+    if (document instanceof PseudoDocument) {
+      return (await this._onDropPseudoDocument(event, document)) ?? null;
+    }
+
+    return null;
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * Handle a dropped Active Effect on the sheet.
+   * The default implementation creates an Active Effect embedded document on this sheet's document.
+   * @param {DragEvent} event                           The initiating drop event.
+   * @param {ActiveEffect} effect                       The dropped ActiveEffect document.
+   * @returns {Promise<ActiveEffect|null|undefined>}    A promise resolving to a newly created ActiveEffect, if one was
+   *                                                    created, or otherwise a nullish value.
+   */
+  async _onDropActiveEffect(event, effect) {
+    if (!this.isEditable) return;
+
+    if (effect.parent === this.document) return this._onSortEffects(event, effect);
+
+    const keepId = !this.document.effects.has(effect.id);
+    const result = await effect.constructor.create(effect.toObject(), { parent: this.document, keepId });
+    return result ?? null;
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Handle a dropped pseudo-document on the sheet.
+   * @param {DragEvent} event                                     The initiating drop event.
+   * @param {PseudoDocument} document                             The dropped pseudo-document.
+   * @returns {Promise<foundry.documents.Item|null|undefined>}    A promise that resolves to the updated item, if a
+   *                                                              pseudo-document was created, otherwise a nullish value.
+   */
+  async _onDropPseudoDocument(event, document) {
+    if (!this.isEditable) return;
+    const collection = this.document.getEmbeddedPseudoDocumentCollection(document.documentName);
+    if (!collection) return null;
+
+    // Pseudo-document already belonged to this.
+    if (document.document === this.document) return null;
+
+    const keepId = !collection.has(document.id);
+    const result = await document.constructor.create(document.toObject(), {
+      parent: this.document, keepId, renderSheet: false,
+    });
+    return result ?? null;
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Sort effects.
+   * @param {DragEvent} event                         The initiating drag event.
+   * @param {foundry.documents.ActiveEffect} effect   The effect that was dropped.
+   * @returns {Promise<foundry.documents.ActiveEffect[]|null|undefined}>
+   */
+  async _onSortEffects(event, effect) {
+    const effects = this.document.effects;
+    const source = effects.get(effect.id);
+
+    const parent = event.target.closest("[data-document-name=ActiveEffect]");
+    if (!parent) return;
+
+    // Confirm the drop target
+    const dropTarget = event.target.closest("[data-id]");
+    if (!dropTarget) return;
+    const target = effects.get(dropTarget.dataset.id);
+    if (source.id === target.id) return;
+
+    // Identify sibling effects based on adjacent HTML elements
+    const siblings = [];
+    for (const element of parent.querySelectorAll("[data-id]")) {
+      const siblingId = element.dataset.id;
+      if (siblingId && (siblingId !== source.id)) siblings.push(effects.get(element.dataset.id));
+    }
+
+    // Perform the sort
+    const sortUpdates = foundry.utils.performIntegerSort(source, { target, siblings });
+    const updateData = sortUpdates.map(u => {
+      const update = u.update;
+      update._id = u.target._id;
+      return update;
+    });
+
+    // Perform the update
+    return this.document.updateEmbeddedDocuments("ActiveEffect", updateData);
   }
 }
