@@ -100,6 +100,18 @@ export default class TokenDocumentArtichron extends BaseDocumentMixin(foundry.do
   /* -------------------------------------------------- */
 
   /**
+   * Get the top left point of the token.
+   * @param {Partial<ElevatedPoint & TokenDimensions>} [data]
+   */
+  getTopLeftFromCenter(data = {}) {
+    const center = this.getCenterPoint(data);
+    const { width, height } = this.getSize(data);
+    return { x: center.x - width, y: center.y - height };
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
    * Forcibly move another token on the same scene, either towards this token or away.
    * This forced movement respects wall collisions.
    * @param {TokenDocumentArtichron} token      The other token to move.

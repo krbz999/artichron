@@ -84,7 +84,7 @@ export default class DamageData extends ChatMessageSystemModel {
     const actor = fromUuidSync(actorUuid);
     const damaged = foundry.utils.deepClone(message.system._source.damaged);
     const amount = damaged.findSplice(d => d.actorUuid === actor.uuid).amount;
-    await actor.applyHealing(amount);
+    await actor.system.applyHealing(amount);
     await message.update({ "system.damaged": damaged });
     return true;
   }

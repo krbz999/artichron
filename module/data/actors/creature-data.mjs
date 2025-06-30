@@ -117,12 +117,12 @@ export default class CreatureData extends ActorSystemModel {
       this.modifiers[k] = {};
       let mult = 1;
       if (this.parent.statuses.has(`${k.slice(0, 4)}AtkUp`)) mult = 3 / 2;
-      if (this.parent.statuses.has(`${k.slice(0, 4)}AtkDown`)) mult = mult ? 0 : 2 / 3;
+      if (this.parent.statuses.has(`${k.slice(0, 4)}AtkDown`)) mult = (mult > 1) ? 1 : 2 / 3;
       this.modifiers[k].damage = mult;
 
       mult = 1;
       if (this.parent.statuses.has(`${k.slice(0, 4)}DefUp`)) mult = 3 / 2;
-      if (this.parent.statuses.has(`${k.slice(0, 4)}DefDown`)) mult = mult ? 0 : 2 / 3;
+      if (this.parent.statuses.has(`${k.slice(0, 4)}DefDown`)) mult = (mult > 1) ? 1 : 2 / 3;
       this.modifiers[k].defense = mult;
     }
   }
