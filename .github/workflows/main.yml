@@ -43,7 +43,6 @@ jobs:
       # Run build scripts
       - name: Build All
         run: |
-          npm run db:pack
           npm run build
           mv --force public/artichron.mjs artichron.mjs
           mv --force public/artichron.css artichron.css
