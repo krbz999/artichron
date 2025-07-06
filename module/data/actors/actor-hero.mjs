@@ -244,7 +244,7 @@ export default class HeroData extends CreatureData {
     if (mixedPath) invested[mixedPath.identifier] = Object.values(invested).reduce((acc, k) => acc + k, 0);
     Object.defineProperties(this.progression, {
       label: {
-        value: this.progression.paths[pathId]?.name ?? "",
+        value: this.progression.paths[pathId]?.name ?? game.i18n.localize("ARTICHRON.SHEET.HERO.noPath"),
       },
       invested: {
         value: { ...invested },

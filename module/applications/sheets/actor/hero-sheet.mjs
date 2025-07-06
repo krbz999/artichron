@@ -83,7 +83,8 @@ export default class HeroSheet extends ActorSheetArtichron {
     const ctx = context.ctx = { path: {}, defenses: [], skills: [] };
 
     // Path.
-    ctx.path.label = this.document.system.progression.label ?? "";
+    ctx.path.label = this.document.system.progression.label;
+    ctx.path.canAddPath = !this.document.items.documentsByType.path?.length && this.isEditable;
 
     // Damage.
     ctx.damage = {

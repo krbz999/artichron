@@ -170,6 +170,7 @@
     "dropPath": "Drop path here.",
     "path": "Path",
     "advance": "Advance",
+    "noPath": "No Path",
     "HEADERS": {
       "conditions": "Conditions",
       "activeBuffs": "Active Buffs",

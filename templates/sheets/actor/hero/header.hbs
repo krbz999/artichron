@@ -19,14 +19,16 @@
   <div class="grid-tags">
 
     {{!-- PATH --}}
-    {{#if ctx.path}}
     <div class="tag-line">
       <span class="label">{{localize "ARTICHRON.SHEET.HERO.path"}}</span>
       <div class="tags">
+        {{#if ctx.path.canAddPath}}
+        <span class="tag glass button" data-action="advancementDialog">{{ctx.path.label}}</span>
+        {{else}}
         <span class="tag glass">{{ctx.path.label}}</span>
+        {{/if}}
       </div>
     </div>
-    {{/if}}
 
     {{!-- DAMAGE --}}
     <div class="tag-line">
@@ -37,7 +39,7 @@
           <i class="fa-solid fa-cog fa-fw"></i>
         </span>
         {{else}}
-        <span class="tag glass button" data-action="rollDamage">
+        <span class="tag glass {{#if isRollable}} button {{/if}}" {{#if isRollable}} data-action="rollDamage" {{/if}}>
           <span>{{ctx.damage.part.formula}}</span>
           <i class="fa-solid fa-fw fa-{{lookup (lookup config.DAMAGE_TYPES ctx.damage.part.damageType) 'icon'}}"></i>
         </span>
@@ -96,7 +98,7 @@
       <span class="label">{{localize "ARTICHRON.SHEET.HERO.HEADERS.skills"}}</span>
       <div class="tags">
         {{#each ctx.skills}}
-        <span class="tag button glass" data-action="rollSkill" data-skill-id="{{skillId}}">
+        <span class="tag glass {{#if @root.isRollable}} button {{/if}}" {{#if @root.isRollable}} data-action="rollSkill" {{/if}} data-skill-id="{{skillId}}">
           <artichron-icon style="--icon-fill: var(--artichron-color-skill-{{skillId}});" src="{{img}}"></artichron-icon>
           <span>{{label}}</span>
           <span>{{formula}}</span>

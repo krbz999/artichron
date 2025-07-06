@@ -83,6 +83,7 @@ export default function DocumentSheetMixin(Class) {
       Object.assign(context, {
         isPlayMode: this.isPlayMode,
         isEditMode: this.isEditMode,
+        isRollable: !this.document.inCompendium && this.document.isOwner,
       });
 
       if (this.document.system instanceof foundry.abstract.TypeDataModel) {
