@@ -22,15 +22,15 @@ assets/icons/conditions/burning.svg - "Small Fire" by Lorc under CC BY 3.0
 assets/icons/conditions/critical.svg - "Barbed Sun" by Lorc under CC BY 3.0
 assets/icons/conditions/defeated.svg - "Desert Skull" by Lorc under CC BY 3.0
 assets/icons/conditions/flying.svg - "Fluffy Wing" by Lorc under CC BY 3.0
-assets/icons/conditions/hindred.svg - "Foot Trip" by Lorc under CC BY 3.0
+assets/icons/conditions/hindered.svg - "Foot Trip" by Lorc under CC BY 3.0
 assets/icons/conditions/injured.svg - "Internal Injury" by Lorc under CC BY 3.0
 assets/icons/conditions/invisible.svg - "Ninja Head" by DarkZaitzev under CC BY 3.0
-assets/icons/conditions/elemental-attack.svg - "Crystal Wand" by Lorc under CC BY 3.0
-assets/icons/conditions/elemental-defense.svg - "Rosa Shield" by Lorc under CC BY 3.0
-assets/icons/conditions/physical-attack.svg - "Mailed Fist" by Lorc under CC BY 3.0
-assets/icons/conditions/physical-defense.svg - "Bordered Shield" by Lorc under CC BY 3.0
-assets/icons/conditions/planar-damage.svg - "Eclipse" by Lorc under CC BY 3.0
-assets/icons/conditions/planar-defense.svg - "Double-Ringed Orb" by Lorc under CC BY 3.0
+assets/icons/conditions/elemental-attack-up/down.svg - "Crystal Wand" by Lorc under CC BY 3.0
+assets/icons/conditions/elemental-defense-up/down.svg - "Rosa Shield" by Lorc under CC BY 3.0
+assets/icons/conditions/physical-attack-up/down.svg - "Mailed Fist" by Lorc under CC BY 3.0
+assets/icons/conditions/physical-defense-up/down.svg - "Bordered Shield" by Lorc under CC BY 3.0
+assets/icons/conditions/planar-damage-up/down.svg - "Eclipse" by Lorc under CC BY 3.0
+assets/icons/conditions/planar-defense-up/down.svg - "Double-Ringed Orb" by Lorc under CC BY 3.0
 
 assets/icons/pseudo/activity.svg - "Divided Spiral" by Lorc under CC BY 3.0
 assets/icons/pseudo/advancement.svg - "Divergence" by Lorc under CC BY 3.0

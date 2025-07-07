@@ -216,16 +216,3 @@ artichron-icon svg {
   height: 100% !important;
   width: 100% !important;
 }
-artichron-icon {
-  position: relative;
-
-  &::after {
-    position: absolute;
-    content: var(--corner-decoration);
-    bottom: 0;
-    right: 0;
-    color: white;
-    font-family: monospace;
-    font-size: 12px;
-  }
-}

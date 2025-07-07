@@ -25,14 +25,15 @@ export default class TokenHUDArtichron extends foundry.applications.hud.TokenHUD
   #adjustStatuses() {
     for (const element of this.element.querySelectorAll(".effect-control[data-status-id]")) {
       const el = document.createElement("ARTICHRON-ICON");
-      el.setAttribute("src", element.getAttribute("src"));
       Object.assign(el.dataset, element.dataset);
       el.classList.add(...element.classList);
 
-      if (artichron.config.STATUS_CONDITIONS[element.dataset.statusId].levels) {
+      let src = element.getAttribute("src");
+      if ("levels" in artichron.config.STATUS_CONDITIONS[element.dataset.statusId]) {
         const levels = this.object.actor.effects.get(artichron.utils.staticId(element.dataset.statusId))?.system.level;
-        if (levels > 0) el.style = `--corner-decoration: "${levels}";`;
+        if (levels) src = src.replace(".svg", `-${levels}.svg`);
       }
+      el.setAttribute("src", src);
 
       element.replaceWith(el);
     }

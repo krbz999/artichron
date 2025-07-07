@@ -40,19 +40,30 @@ export default class EffectConditionData extends ActiveEffectSystemModel {
 
   /* -------------------------------------------------- */
 
+  /**
+   * Is this a condition with levels?
+   * @type {boolean}
+   */
   get hasLevels() {
-    const max = artichron.config.STATUS_CONDITIONS[this.primary].levels;
-    return !!max || (max > 1);
+    return "levels" in artichron.config.STATUS_CONDITIONS[this.primary];
   }
 
   /* -------------------------------------------------- */
 
+  /**
+   * Can this condition be increased in levels?
+   * @type {boolean}
+   */
   get canIncrease() {
     return this.hasLevels && (this.level < artichron.config.STATUS_CONDITIONS[this.primary].levels);
   }
 
   /* -------------------------------------------------- */
 
+  /**
+   * Can this condition be decreased in levels?
+   * @type {boolean}
+   */
   get canDecrease() {
     return this.hasLevels && (this.level > 0);
   }
@@ -68,6 +79,30 @@ export default class EffectConditionData extends ActiveEffectSystemModel {
     this.parent.statuses.add(this.primary);
     this.maxLevel = artichron.config.STATUS_CONDITIONS[this.primary].levels || null;
     if (!this.maxLevel || (this.level > this.maxLevel)) this.level = this.maxLevel;
+  }
+
+  /* -------------------------------------------------- */
+  /*   Life-cycle handlers                              */
+  /* -------------------------------------------------- */
+
+  /** @inheritdoc */
+  async _preCreate(data, options, user) {
+    if ((await super._preCreate(data, options, user)) === false) return false;
+
+    if (!this.hasLevels) return;
+    const img = artichron.config.STATUS_CONDITIONS[this.primary].img.replace(".svg", `-${this.level}.svg`);
+    this.parent.updateSource({ img });
+  }
+
+  /* -------------------------------------------------- */
+
+  /** @inheritdoc */
+  async _preUpdate(changes, options, user) {
+    if ((await super._preUpdate(changes, options, user)) === false) return false;
+
+    if (!this.hasLevels) return;
+    const level = changes.system?.level ?? this.level;
+    changes.img = artichron.config.STATUS_CONDITIONS[this.primary].img.replace(".svg", `-${level}.svg`);
   }
 
   /* -------------------------------------------------- */
