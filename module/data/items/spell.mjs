@@ -1,15 +1,18 @@
-import ArsenalData from "./item-arsenal.mjs";
+import ItemSystemModel from "./system-model.mjs";
 
 const {
   NumberField, SchemaField,
 } = foundry.data.fields;
 
-export default class SpellData extends ArsenalData {
+export default class SpellData extends ItemSystemModel {
   /** @inheritdoc */
   static get metadata() {
     return foundry.utils.mergeObject(super.metadata, {
       embedded: {
         Activity: "system.activities",
+      },
+      sections: {
+        inventory: true,
       },
     });
   }

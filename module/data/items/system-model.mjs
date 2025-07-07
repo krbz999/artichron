@@ -99,15 +99,8 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
   async unequip() {
     if (!this.parent.isEquipped) return null;
     const actor = this.parent.actor;
-    if (this.parent.isArsenal) {
-      const a = actor.arsenal;
-      for (const [k, v] of Object.entries(a)) {
-        if (v === this.parent) {
-          await actor.update({ [`system.equipped.arsenal.${k}`]: "" });
-          return this.parent;
-        }
-      }
-    } else if (this.parent.type === "armor") {
+
+    if (this.parent.type === "armor") {
       const a = actor.armor;
       for (const [k, v] of Object.entries(a)) {
         if (v === this.parent) {
@@ -116,6 +109,8 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
         }
       }
     }
+
+    return null;
   }
 
   /* -------------------------------------------------- */
@@ -127,36 +122,7 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
   async equip() {
     if (!this.canEquip) return false;
 
-    if (this.parent.isArsenal) {
-      let primary;
-      let secondary;
-
-      if (this.isTwoHanded) {
-        primary = this.parent.id;
-        secondary = "";
-      } else {
-        const arsenal = this.parent.actor.arsenal;
-        if (!arsenal.primary) {
-          primary = this.parent.id;
-          secondary = arsenal.secondary?.id ?? "";
-        } else if (arsenal.primary.isOneHanded) {
-          primary = arsenal.primary.id;
-          secondary = this.parent.id;
-        } else {
-          primary = this.parent.id;
-          secondary = "";
-        }
-      }
-
-      await this.parent.actor.update({
-        "system.equipped.arsenal.primary": primary,
-        "system.equipped.arsenal.secondary": secondary,
-      });
-
-      return true;
-    }
-
-    else if (this.parent.isArmor) {
+    if (this.parent.isArmor) {
       const slot = this.category.subtype;
       await this.parent.actor.update({
         [`system.equipped.armor.${slot}`]: this.parent.id,
@@ -229,11 +195,6 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
   _prepareTooltipTags() {
     const tags = [];
 
-    if (this.parent.isArsenal) {
-      if (this.isOneHanded) tags.push({ label: "One-Handed" });
-      else tags.push({ label: "Two-Handed" });
-    }
-
     const valid = this.constructor._attributeChoices();
     for (const attribute of this.attributes.value) {
       const label = valid[attribute]?.label;
@@ -302,9 +263,7 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
 
     if (!this.parent.actor.system.schema.has("equipped")) return false;
 
-    if (this.parent.isArmor || this.parent.isArsenal) {
-      return !this.parent.isEquipped;
-    }
+    if (this.parent.isArmor) return !this.parent.isEquipped;
 
     return false;
   }

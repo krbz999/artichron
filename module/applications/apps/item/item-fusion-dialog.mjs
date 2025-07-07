@@ -107,9 +107,7 @@ export default class ItemFusionDialog extends Application {
       const tChoices = {};
       for (const item of this.#item.actor.items) {
         if (item === this.#item) continue;
-        if ((this.#item.isArsenal && item.isArsenal) || (this.#item.type === item.type)) {
-          tChoices[item.id] = item.name;
-        }
+        if (this.#item.type === item.type) tChoices[item.id] = item.name;
       }
       context.target = {
         field: new StringField({

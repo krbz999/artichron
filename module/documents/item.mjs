@@ -139,7 +139,7 @@ export default class ItemArtichron extends BaseDocumentMixin(foundry.documents.I
    * @type {boolean}
    */
   get canFuse() {
-    return (this.type === "armor") || this.isArsenal;
+    return this.type === "armor";
   }
 
   /* -------------------------------------------------- */
@@ -191,16 +191,6 @@ export default class ItemArtichron extends BaseDocumentMixin(foundry.documents.I
   get isFavorite() {
     if (!this.isEmbedded) return false;
     return this.actor.favorites.has(this);
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Can this item be used to make an attack due to action point cost?
-   * @type {boolean}
-   */
-  get canUsePips() {
-    return this.system.canUsePips ?? false;
   }
 
   /* -------------------------------------------------- */

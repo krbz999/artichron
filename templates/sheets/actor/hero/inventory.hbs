@@ -4,7 +4,7 @@
     <input type="search" id="inventory-search" placeholder="{{localize 'SIDEBAR.Search' types=(localize 'DOCUMENT.Items')}}" value="{{ctx.searchQuery}}">
   </search>
 
-  <div class="document-list scrollable items" data-document-name="Item">
+  <div class="document-list scrollable items" data-document-name="Item" data-types-section="inventory">
     <h3 class="document-list-header">
       <span>{{localize "ARTICHRON.SHEET.HERO.HEADERS.inventory"}}</span>
       <button type="button" class="create-document fa-solid icon" data-action="createEmbeddedDocument" {{disabled (not editable)}}></button>

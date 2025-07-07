@@ -4,6 +4,17 @@ const { NumberField, SchemaField, StringField } = foundry.data.fields;
 
 export default class PartData extends ItemSystemModel {
   /** @inheritdoc */
+  static get metadata() {
+    return foundry.utils.mergeObject(super.metadata, {
+      sections: {
+        inventory: true,
+      },
+    });
+  }
+
+  /* -------------------------------------------------- */
+
+  /** @inheritdoc */
   static defineSchema() {
     return Object.assign(super.defineSchema(), {
       category: new SchemaField({

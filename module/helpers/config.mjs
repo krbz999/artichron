@@ -296,13 +296,12 @@ export const TEMPLATE_DURATIONS = {
 
 /**
  * @typedef {object} ItemAttributeConfig
- * @property {string} label                 The human-readable label of this item attribute.
- * @property {Set<string>} [types]          A set of item types this can be an option for.
- *                                          If empty or omitted, then all types.
- * @property {boolean} [transferrable]      If explicitly false, this attribute will not be
- *                                          transferred automatically via fusions.
- * @property {string} [status]              What status is applied if taking damage from an item with this attribute?
- * @property {boolean} [damageOption]       Is this configurable per damage part on an arsenal item?
+ * @property {string} label               The human-readable label of this item attribute.
+ * @property {Set<string>} [types]        A set of item types this can be an option for.
+ *                                        If empty or omitted, then all types.
+ * @property {boolean} [transferrable]    If explicitly false, this attribute will not be
+ *                                        transferred automatically via fusions.
+ * @property {string} [status]            What status is applied if taking damage from an item with this attribute?
  */
 
 /**
@@ -335,13 +334,11 @@ export const ITEM_ATTRIBUTES = {
     label: "ARTICHRON.ATTRIBUTES.heavy",
     types: new Set(["armor"]),
     transferrable: true,
-    damageOption: false,
   },
   irreducible: {
     label: "ARTICHRON.ATTRIBUTES.irreducible",
     types: new Set(["spell"]),
     transferrable: true,
-    damageOption: true,
   },
   magical: {
     label: "ARTICHRON.ATTRIBUTES.magical",
@@ -372,7 +369,6 @@ export const ITEM_ATTRIBUTES = {
     label: "ARTICHRON.ATTRIBUTES.twoHanded",
     types: new Set(["spell"]),
     transferrable: true,
-    damageOption: false,
   },
 };
 

@@ -194,7 +194,7 @@ export default function DocumentSheetMixin(Class) {
     /* -------------------------------------------------- */
 
     /**
-     * Handle click events to create an item.
+     * Handle click events to create an embedded document.
      * @this {DocumentSheetArtichron}
      * @param {PointerEvent} event    The initiating click event.
      * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
@@ -211,7 +211,12 @@ export default function DocumentSheetMixin(Class) {
           name: Cls.defaultName({ type, parent: this.document }),
         }, context);
       } else {
-        Cls.createDialog({}, context, { types: undefined });
+        let types;
+        const section = target.closest("[data-types-section]")?.dataset.typesSection;
+        if (section) types = Object.entries(CONFIG[documentName].dataModels).filter(([k, v]) => {
+          return v.metadata.sections?.[section] === true;
+        }).map(([k]) => k);
+        Cls.createDialog({}, context, { types });
       }
     }
 

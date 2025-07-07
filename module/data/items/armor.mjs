@@ -9,6 +9,9 @@ export default class ArmorData extends ItemSystemModel {
       embedded: {
         ArmorRequirement: "system.category.requirements",
       },
+      sections: {
+        inventory: true,
+      },
     });
   }
 

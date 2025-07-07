@@ -63,6 +63,7 @@ Hooks.once("init", function() {
   CONFIG.Combat.documentClass = documents.CombatArtichron;
   CONFIG.Combatant.documentClass = documents.CombatantArtichron;
   CONFIG.Item.documentClass = documents.ItemArtichron;
+  CONFIG.Item.defaultType = "armor";
   CONFIG.Token.documentClass = documents.TokenDocumentArtichron;
 
   // ActiveEffect Data Models
