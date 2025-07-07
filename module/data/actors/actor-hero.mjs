@@ -21,7 +21,7 @@ const { ArrayField, NumberField, SchemaField, TypedObjectField } = foundry.data.
  * @typedef HeroDataSchema
  * @property {object} pools
  * @property {PoolData} pools.health
- * @property {PoolData} pools.health
+ * @property {PoolData} pools.stamina
  * @property {PoolData} pools.mana
  *
  * @property {object} progression
@@ -135,7 +135,8 @@ export default class HeroData extends CreatureData {
     if ((levels > 0) && (max === total)) max = Math.clamp(max, 1, total - 1);
 
     this.health.max = max;
-    this.health.value = Math.clamp(this.health.value, 0, this.health.max);
+    this.health.spent = Math.min(this.health.spent, this.health.max);
+    this.health.value = this.health.max - this.health.spent;
     this.health.pct = Math.round(this.health.value / this.health.max * 100);
   }
 
@@ -283,7 +284,9 @@ export default class HeroData extends CreatureData {
    */
   async recover() {
     const update = {};
-    update["system.health.value"] = this.health.max;
+
+    // Health.
+    update["system.health.spent"] = 0;
 
     // Pools.
     for (const k of ["health", "stamina", "mana"]) update[`system.pools.${k}.spent`] = 0;

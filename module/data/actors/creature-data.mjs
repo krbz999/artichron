@@ -57,7 +57,7 @@ export default class CreatureData extends ActorSystemModel {
       }),
       favorites: new SetField(new StringField({ required: true })),
       health: new SchemaField({
-        value: new NumberField({ min: 0, initial: 0, integer: true, nullable: false }),
+        spent: new NumberField({ min: 0, initial: 0, integer: true, nullable: false }),
       }, {
         trackedAttribute: true,
       }),
@@ -140,9 +140,10 @@ export default class CreatureData extends ActorSystemModel {
   async _preUpdate(update, options, user) {
     const allowed = await super._preUpdate(update, options, user);
     if (allowed === false) return false;
+
     const health = update.system?.health ?? {};
-    if ("value" in health) {
-      health.value = Math.clamp(health.value, 0, this.health.max);
+    if ("spent" in health) {
+      health.spent = Math.clamp(health.spent, 0, this.health.max);
       options.health = { o: this.health.value };
     }
   }
@@ -386,9 +387,8 @@ export default class CreatureData extends ActorSystemModel {
     for (const damage of damages) statused(damage);
 
     const total = damages.reduce((acc, damage) => acc + damage.value, 0);
-    const hp = foundry.utils.deepClone(this.health);
-    const value = Math.clamp(hp.value - Math.max(0, total), 0, hp.max);
-    await this.parent.update({ "system.health.value": value }, { damages: damages, diff: false });
+    const spent = Math.min(this.health.max, this.health.spent + Math.abs(total));
+    await this.parent.update({ "system.health.spent": spent }, { damages: damages, diff: false });
 
     // Apply conditions from applied damage.
     for (const [status, level] of statuses.entries()) await this.parent.toggleStatusEffect(status, { levels: level });
@@ -404,9 +404,8 @@ export default class CreatureData extends ActorSystemModel {
    * @returns {Promise<ActorArtichron>}   This actor after having been healed.
    */
   async applyHealing(value) {
-    const hp = foundry.utils.deepClone(this.health);
-    const v = Math.clamp(hp.value + Math.abs(value), 0, hp.max);
-    await this.parent.update({ "system.health.value": v }, { diff: false });
+    const spent = this.health.spent - Math.abs(value);
+    await this.parent.update({ "system.health.spent": spent }, { diff: false });
     return this.parent;
   }
 }

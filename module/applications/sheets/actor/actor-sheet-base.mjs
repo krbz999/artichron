@@ -304,6 +304,17 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
   /*   Event Handlers                                   */
   /* -------------------------------------------------- */
 
+  /** @inheritdoc */
+  _processFormData(event, form, formData) {
+    formData = super._processFormData(event, form, formData);
+    if ("value" in (formData.system?.health ?? {})) {
+      formData.system.health.spent = this.document.system.health.max - Number(formData.system.health.value);
+    }
+    return formData;
+  }
+
+  /* -------------------------------------------------- */
+
   /**
    * Handle click events to use an item.
    * @this {ActorSheetArtichron}

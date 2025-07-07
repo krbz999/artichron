@@ -43,8 +43,10 @@ export default class MonsterData extends CreatureData {
     // Set health maximum and clamp current health.
     this.health.max = this.health.max + this.danger.value * 10;
     const injury = 1 - this.parent.appliedConditionLevel("injured") / 100;
+
     this.health.max = Math.ceil(this.health.max * injury);
-    this.health.value = Math.clamp(this.health.value, 0, this.health.max);
+    this.health.spent = Math.clamp(this.health.spent, 0, this.health.max);
+    this.health.value = this.health.max - this.health.spent;
     this.health.pct = Math.round(this.health.value / this.health.max * 100);
 
     const d = this.danger.pool;
@@ -173,7 +175,7 @@ export default class MonsterData extends CreatureData {
    */
   async recover() {
     const update = {};
-    update["system.health.value"] = this.health.max;
+    update["system.health.spent"] = 0;
     update["system.danger.pool.spent"] = 0;
     return this.parent.update(update);
   }
