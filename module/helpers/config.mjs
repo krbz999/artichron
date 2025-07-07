@@ -381,6 +381,7 @@ export const ITEM_ATTRIBUTES = {
  * @property {number} [levels]      The amount of stacking levels of the condition.
  * @property {boolean} hud          Whether this appears on the token hud.
  * @property {string} reference     The uuid of a journal entry page that contains the details of this condition.
+ * @property {"toggle"|"leveled"|"buff"} [group]    Status group for token HUD.
  */
 
 /**
@@ -393,12 +394,14 @@ export const STATUS_CONDITIONS = {
     img: "systems/artichron/assets/icons/conditions/defeated.svg",
     hud: { actorTypes: ["hero", "monster"] },
     reference: "TODO",
+    group: "toggle",
   },
   blind: {
     name: "ARTICHRON.CONDITIONS.blind",
     img: "systems/artichron/assets/icons/conditions/blind.svg",
     hud: { actorTypes: ["hero", "monster"] },
     reference: "TODO",
+    group: "toggle",
   },
   bloodied: {
     name: "ARTICHRON.CONDITIONS.bloodied",
@@ -418,30 +421,37 @@ export const STATUS_CONDITIONS = {
     levels: 10,
     hud: { actorTypes: ["hero", "monster"] },
     reference: "Compendium.artichron.rules.JournalEntry.JjiZqfbpC2YVXV4R.JournalEntryPage.uVv9k9xheOkxzBhO",
+    group: "leveled",
   },
   invisible: {
     name: "ARTICHRON.CONDITIONS.invisible",
     img: "systems/artichron/assets/icons/conditions/invisible.svg",
     hud: true,
     reference: "TODO",
+    group: "toggle",
   },
+  // TODO: consider removing this entirely.
   underground: {
     name: "ARTICHRON.CONDITIONS.underground",
     img: "icons/svg/mole.svg",
-    hud: true,
+    hud: false,
     reference: "TODO",
+    group: "toggle",
   },
   flying: {
     name: "ARTICHRON.CONDITIONS.flying",
     img: "systems/artichron/assets/icons/conditions/flying.svg",
     hud: true,
     reference: "TODO",
+    group: "toggle",
   },
+  // TODO: consider removing this entirely.
   levitating: {
     name: "ARTICHRON.CONDITIONS.levitating",
     img: "icons/svg/wingfoot.svg",
-    hud: true,
+    hud: false,
     reference: "TODO",
+    group: "toggle",
   },
   bleeding: {
     name: "ARTICHRON.CONDITIONS.bleeding",
@@ -449,6 +459,7 @@ export const STATUS_CONDITIONS = {
     levels: 10,
     hud: { actorTypes: ["hero", "monster"] },
     reference: "Compendium.artichron.rules.JournalEntry.JjiZqfbpC2YVXV4R.JournalEntryPage.nIvx3xXwYP9iGSeh",
+    group: "leveled",
   },
   burning: {
     name: "ARTICHRON.CONDITIONS.burning",
@@ -456,6 +467,7 @@ export const STATUS_CONDITIONS = {
     levels: 10,
     hud: { actorTypes: ["hero", "monster"] },
     reference: "Compendium.artichron.rules.JournalEntry.JjiZqfbpC2YVXV4R.JournalEntryPage.3VoSsDfCrBGG8Bzy",
+    group: "leveled",
   },
   injured: {
     name: "ARTICHRON.CONDITIONS.injured",
@@ -463,78 +475,91 @@ export const STATUS_CONDITIONS = {
     levels: 20,
     hud: { actorTypes: ["hero", "monster"] },
     reference: "Compendium.artichron.rules.JournalEntry.JjiZqfbpC2YVXV4R.JournalEntryPage.FRQ8zjWTfTYZWGx3",
+    group: "leveled",
   },
   physAtkUp: {
     name: "ARTICHRON.CONDITIONS.physAtkUp",
     img: "systems/artichron/assets/icons/conditions/physical-attack-up.svg",
     hud: { actorTypes: ["hero", "monster"] },
     reference: "Compendium.artichron.rules.JournalEntry.JjiZqfbpC2YVXV4R.JournalEntryPage.0iBopTnnWkmkN9kK",
+    group: "buff",
   },
   physAtkDown: {
     name: "ARTICHRON.CONDITIONS.physAtkDown",
     img: "systems/artichron/assets/icons/conditions/physical-attack-down.svg",
     hud: { actorTypes: ["hero", "monster"] },
     reference: "Compendium.artichron.rules.JournalEntry.JjiZqfbpC2YVXV4R.JournalEntryPage.ZoEO3S8EJCRPu53v",
+    group: "buff",
   },
   physDefUp: {
     name: "ARTICHRON.CONDITIONS.physDefUp",
     img: "systems/artichron/assets/icons/conditions/physical-defense-up.svg",
     hud: { actorTypes: ["hero", "monster"] },
     reference: "Compendium.artichron.rules.JournalEntry.JjiZqfbpC2YVXV4R.JournalEntryPage.JBjVW6bkIC4DWWw9",
+    group: "buff",
   },
   physDefDown: {
     name: "ARTICHRON.CONDITIONS.physDefDown",
     img: "systems/artichron/assets/icons/conditions/physical-defense-down.svg",
     hud: { actorTypes: ["hero", "monster"] },
     reference: "Compendium.artichron.rules.JournalEntry.JjiZqfbpC2YVXV4R.JournalEntryPage.k5rl3B6Im0RDUlxF",
+    group: "buff",
   },
   elemAtkUp: {
     name: "ARTICHRON.CONDITIONS.elemAtkUp",
     img: "systems/artichron/assets/icons/conditions/elemental-attack-up.svg",
     hud: { actorTypes: ["hero", "monster"] },
     reference: "Compendium.artichron.rules.JournalEntry.JjiZqfbpC2YVXV4R.JournalEntryPage.0iBopTnnWkmkN9kK",
+    group: "buff",
   },
   elemAtkDown: {
     name: "ARTICHRON.CONDITIONS.elemAtkDown",
     img: "systems/artichron/assets/icons/conditions/elemental-attack-down.svg",
     hud: { actorTypes: ["hero", "monster"] },
     reference: "Compendium.artichron.rules.JournalEntry.JjiZqfbpC2YVXV4R.JournalEntryPage.ZoEO3S8EJCRPu53v",
+    group: "buff",
   },
   elemDefUp: {
     name: "ARTICHRON.CONDITIONS.elemDefUp",
     img: "systems/artichron/assets/icons/conditions/elemental-defense-up.svg",
     hud: { actorTypes: ["hero", "monster"] },
     reference: "Compendium.artichron.rules.JournalEntry.JjiZqfbpC2YVXV4R.JournalEntryPage.JBjVW6bkIC4DWWw9",
+    group: "buff",
   },
   elemDefDown: {
     name: "ARTICHRON.CONDITIONS.elemDefDown",
     img: "systems/artichron/assets/icons/conditions/elemental-defense-down.svg",
     hud: { actorTypes: ["hero", "monster"] },
     reference: "Compendium.artichron.rules.JournalEntry.JjiZqfbpC2YVXV4R.JournalEntryPage.k5rl3B6Im0RDUlxF",
+    group: "buff",
   },
   planAtkUp: {
     name: "ARTICHRON.CONDITIONS.planAtkUp",
     img: "systems/artichron/assets/icons/conditions/planar-attack-up.svg",
     hud: { actorTypes: ["hero", "monster"] },
     reference: "Compendium.artichron.rules.JournalEntry.JjiZqfbpC2YVXV4R.JournalEntryPage.0iBopTnnWkmkN9kK",
+    group: "buff",
   },
   planAtkDown: {
     name: "ARTICHRON.CONDITIONS.planAtkDown",
     img: "systems/artichron/assets/icons/conditions/planar-attack-down.svg",
     hud: { actorTypes: ["hero", "monster"] },
     reference: "Compendium.artichron.rules.JournalEntry.JjiZqfbpC2YVXV4R.JournalEntryPage.ZoEO3S8EJCRPu53v",
+    group: "buff",
   },
   planDefUp: {
     name: "ARTICHRON.CONDITIONS.planDefUp",
     img: "systems/artichron/assets/icons/conditions/planar-defense-up.svg",
     hud: { actorTypes: ["hero", "monster"] },
     reference: "Compendium.artichron.rules.JournalEntry.JjiZqfbpC2YVXV4R.JournalEntryPage.JBjVW6bkIC4DWWw9",
+    group: "buff",
   },
   planDefDown: {
     name: "ARTICHRON.CONDITIONS.planDefDown",
     img: "systems/artichron/assets/icons/conditions/planar-defense-down.svg",
     hud: { actorTypes: ["hero", "monster"] },
     reference: "Compendium.artichron.rules.JournalEntry.JjiZqfbpC2YVXV4R.JournalEntryPage.k5rl3B6Im0RDUlxF",
+    group: "buff",
   },
 };
 

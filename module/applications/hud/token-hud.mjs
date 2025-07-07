@@ -23,27 +23,52 @@ export default class TokenHUDArtichron extends foundry.applications.hud.TokenHUD
 
   /** Replace statuses with SVGs. */
   #adjustStatuses() {
-    for (const element of this.element.querySelectorAll(".effect-control[data-status-id]")) {
+    const palette = this.element.querySelector(".palette.status-effects");
+
+    const statuses = {
+      toggles: [],
+      leveled: [],
+      buffs: [],
+    };
+
+    for (const element of palette.querySelectorAll(".effect-control[data-status-id]")) {
+      const config = artichron.config.STATUS_CONDITIONS[element.dataset.statusId];
+      const group = config.group;
+
       const el = document.createElement("ARTICHRON-ICON");
       Object.assign(el.dataset, element.dataset);
       el.classList.add(...element.classList);
 
       let src = element.getAttribute("src");
-      if ("levels" in artichron.config.STATUS_CONDITIONS[element.dataset.statusId]) {
-        const levels = this.object.actor.effects.get(artichron.utils.staticId(element.dataset.statusId))?.system.level;
+      if ("levels" in config) {
+        const levels = this.actor.effects.get(artichron.utils.staticId(element.dataset.statusId))?.system.level;
         if (levels) src = src.replace(".svg", `-${levels}.svg`);
       }
       el.setAttribute("src", src);
 
-      element.replaceWith(el);
+      switch (group) {
+        case "toggle": statuses.toggles.push(el); break;
+        case "leveled": statuses.leveled.push(el); break;
+        case "buff": statuses.buffs.push(el); break;
+      }
     }
+
+    let html = "<div class='effects toggles'>";
+    for (const k of statuses.toggles) html += k.outerHTML;
+    html += "</div><div class='effects leveled'>";
+    for (const k of statuses.leveled) html += k.outerHTML;
+    html += "</div><div class='effects buffs'>";
+    for (const k of statuses.buffs) html += k.outerHTML;
+    html += "</div>";
+
+    palette.innerHTML = html;
   }
 
   /* -------------------------------------------------- */
 
   /** Add a button to roll damage. */
   #addRollDamageButton() {
-    if (!this.object.actor?.system.rollDamage) return;
+    if (!this.actor?.system.rollDamage) return;
 
     const button = foundry.utils.parseHTML(`
       <button type="button" class="control-icon" data-action="rollDamage" data-tooltip="ARTICHRON.HUD.TOKEN.rollDamage">
