@@ -2,13 +2,6 @@ import ItemSheetArtichron from "./item-sheet-base.mjs";
 
 export default class PathSheet extends ItemSheetArtichron {
   /** @inheritdoc */
-  static metadata = {
-    excludeTabs: ["fusion", "activities", "effects", "details"],
-  };
-
-  /* -------------------------------------------------- */
-
-  /** @inheritdoc */
   static PARTS = {
     header: {
       template: "systems/artichron/templates/sheets/item/item-sheet/header.hbs",
@@ -23,6 +16,20 @@ export default class PathSheet extends ItemSheetArtichron {
     advancements: {
       template: "systems/artichron/templates/sheets/item/item-sheet/path/advancements.hbs",
       scrollable: [".document-list.advancements section.scrollable"],
+    },
+  };
+
+  /* -------------------------------------------------- */
+
+  /** @inheritdoc */
+  static TABS = {
+    primary: {
+      tabs: [
+        { id: "description", icon: "fa-solid fa-fw fa-pen-fancy" },
+        { id: "advancements", icon: "fa-solid fa-fw fa-circle-nodes" },
+      ],
+      labelPrefix: "ARTICHRON.SHEET.TABS",
+      initial: "description",
     },
   };
 

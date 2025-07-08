@@ -96,15 +96,6 @@ export default class MonsterSheet extends ActorSheetArtichron {
   /* -------------------------------------------------- */
 
   /** @type {import("../../../_types").ContextPartHandler} */
-  async _preparePartContextTabs(context, options) {
-    context.ctx = {};
-    context.verticalTabs = true;
-    return context;
-  }
-
-  /* -------------------------------------------------- */
-
-  /** @type {import("../../../_types").ContextPartHandler} */
   async _preparePartContextActions(context, options) {
     context.ctx = {
       favorites: [],

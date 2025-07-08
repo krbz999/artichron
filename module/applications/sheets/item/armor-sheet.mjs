@@ -2,13 +2,6 @@ import PhysicalItemSheet from "./physical-item-sheet.mjs";
 
 export default class ArmorSheet extends PhysicalItemSheet {
   /** @inheritdoc */
-  static metadata = {
-    excludeTabs: ["advancements", "activities"],
-  };
-
-  /* -------------------------------------------------- */
-
-  /** @inheritdoc */
   static DEFAULT_OPTIONS = {
     actions: {
       undoFusion: ArmorSheet.#undoFusion,
@@ -51,6 +44,22 @@ export default class ArmorSheet extends PhysicalItemSheet {
   /* -------------------------------------------------- */
 
   /** @inheritdoc */
+  static TABS = {
+    primary: {
+      tabs: [
+        { id: "description", icon: "fa-solid fa-fw fa-pen-fancy" },
+        { id: "details", icon: "fa-solid fa-fw fa-tags" },
+        { id: "fusion", icon: "fa-solid fa-fw fa-volcano" },
+        { id: "effects", icon: "fa-solid fa-fw fa-bolt" },
+      ],
+      labelPrefix: "ARTICHRON.SHEET.TABS",
+      initial: "description",
+    },
+  };
+
+  /* -------------------------------------------------- */
+
+  /** @inheritdoc */
   async _preparePartContextDetails(context, options) {
     context = await super._preparePartContextDetails(context, options);
 
@@ -85,13 +94,9 @@ export default class ArmorSheet extends PhysicalItemSheet {
 
   /* -------------------------------------------------- */
 
-  /**
-   * Prepare a part.
-   * @param {object} context    Rendering context. **will be mutated**
-   * @param {object} options    Rendering options.
-   * @returns {Promise<object>}   Rendering context.
-   */
+  /** @type {import("../../../_types").ContextPartHandler} */
   async _preparePartContextFusion(context, options) {
+    const ctx = context.ctx = {};
     return context;
   }
 

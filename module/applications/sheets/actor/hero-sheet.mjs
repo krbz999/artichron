@@ -114,15 +114,6 @@ export default class HeroSheet extends ActorSheetArtichron {
   /* -------------------------------------------------- */
 
   /** @type {import("../../../_types").ContextPartHandler} */
-  async _preparePartContextTabs(context, options) {
-    context.verticalTabs = true;
-    context.ctx = {};
-    return context;
-  }
-
-  /* -------------------------------------------------- */
-
-  /** @type {import("../../../_types").ContextPartHandler} */
   async _preparePartContextHealth(context, options) {
     context.ctx = {};
     return context;

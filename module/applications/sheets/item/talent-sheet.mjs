@@ -2,13 +2,6 @@ import ItemSheetArtichron from "./item-sheet-base.mjs";
 
 export default class TalentSheet extends ItemSheetArtichron {
   /** @inheritdoc */
-  static metadata = {
-    excludeTabs: ["fusion", "activities"],
-  };
-
-  /* -------------------------------------------------- */
-
-  /** @inheritdoc */
   static PARTS = {
     header: {
       template: "systems/artichron/templates/sheets/item/item-sheet/header.hbs",
@@ -28,6 +21,22 @@ export default class TalentSheet extends ItemSheetArtichron {
     },
     effects: {
       template: "systems/artichron/templates/sheets/item/item-sheet/talent/effects.hbs",
+    },
+  };
+
+  /* -------------------------------------------------- */
+
+  /** @inheritdoc */
+  static TABS = {
+    primary: {
+      tabs: [
+        { id: "description", icon: "fa-solid fa-fw fa-pen-fancy" },
+        { id: "details", icon: "fa-solid fa-fw fa-tags" },
+        { id: "advancements", icon: "fa-solid fa-fw fa-circle-nodes" },
+        { id: "effects", icon: "fa-solid fa-fw fa-bolt" },
+      ],
+      labelPrefix: "ARTICHRON.SHEET.TABS",
+      initial: "description",
     },
   };
 

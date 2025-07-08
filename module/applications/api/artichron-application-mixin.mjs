@@ -61,8 +61,8 @@ export default function ArtichronApplicationMixin(Class) {
 
     /** @type {import("../../_types").ContextPartHandler} */
     async _preparePartContextTabs(context, options) {
-      context.verticalTabs = true;
       context.ctx = {};
+      context.verticalTabs = true;
       return context;
     }
 

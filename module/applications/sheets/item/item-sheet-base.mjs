@@ -257,17 +257,6 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
   /* -------------------------------------------------- */
 
   /** @type {import("../../../_types").ContextPartHandler} */
-  async _preparePartContextTabs(context, options) {
-    context = await super._preparePartContextTabs(context, options);
-    for (const k in context.tabs)
-      if (this.constructor.metadata.excludeTabs.includes(k))
-        delete context.tabs[k];
-    return context;
-  }
-
-  /* -------------------------------------------------- */
-
-  /** @type {import("../../../_types").ContextPartHandler} */
   async _preparePartContextDescription(context, options) {
     context.ctx = {
       descriptionValue: await foundry.applications.ux.TextEditor.implementation.enrichHTML(
