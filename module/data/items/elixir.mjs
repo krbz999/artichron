@@ -17,14 +17,14 @@ export default class ElixirData extends ItemSystemModel {
   /** @inheritdoc */
   static defineSchema() {
     return Object.assign(super.defineSchema(), {
-      boost: new StringField({
-        required: true,
-        initial: "stamina",
-        choices: () => Object.entries(artichron.config.POOL_TYPES).reduce((acc, [k, v]) => {
-          if (v.boost) acc[k] = v;
-          return acc;
-        }, {}),
-      }),
+      // boost: new StringField({
+      //   required: true,
+      //   initial: "stamina",
+      //   choices: () => Object.entries(artichron.config.POOL_TYPES).reduce((acc, [k, v]) => {
+      //     if (v.boost) acc[k] = v;
+      //     return acc;
+      //   }, {}),
+      // }),
       price: new SchemaField({
         value: new NumberField({ min: 0, initial: 0, integer: true, nullable: false }),
       }),

@@ -87,6 +87,8 @@ export default class ArmorData extends ItemSystemModel {
   }
 
   /* -------------------------------------------------- */
+  /*   Instance methods                                 */
+  /* -------------------------------------------------- */
 
   /**
    * Equip this item.

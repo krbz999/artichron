@@ -17,14 +17,13 @@ export default class PartData extends ItemSystemModel {
   /** @inheritdoc */
   static defineSchema() {
     return Object.assign(super.defineSchema(), {
-      category: new SchemaField({
-        subtype: new StringField({
-          required: true,
-          initial: () => Object.keys(artichron.config.PART_TYPES)[0],
-          choices: artichron.config.PART_TYPES,
-        }),
-      }),
-
+      // category: new SchemaField({
+      //   subtype: new StringField({
+      //     required: true,
+      //     initial: () => Object.keys(artichron.config.PART_TYPES)[0],
+      //     choices: artichron.config.PART_TYPES,
+      //   }),
+      // }),
       price: new SchemaField({
         value: new NumberField({ min: 0, initial: 0, integer: true, nullable: false }),
       }),
