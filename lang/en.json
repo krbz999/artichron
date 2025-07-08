@@ -148,6 +148,7 @@
   },
 
   "ARMOR": {
+    "armor": "Armor",
     "HEADERS": {
       "defenses": "Defenses",
       "requirements": "Requirements"
@@ -840,7 +841,6 @@
 
 "EQUIPMENT": {
   "CATEGORY": {
-    "None": "None",
     "Clothing": "Clothing",
     "Natural": "Natural",
     "Tech": "Tech"
@@ -860,10 +860,12 @@
 "ITEM": {
   "ARMOR": {
     "FIELDS": {
-      "category": {
-        "subtype": {
-          "hint": "The type of armor this is will determine how it is equipped.",
-          "label": "Armor Type"
+      "armor": {
+        "category": {
+          "label": "Category"
+        },
+        "slot": {
+          "label": "Slot"
         }
       }
     }

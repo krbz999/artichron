@@ -13,6 +13,9 @@ export default class ArmorSheet extends PhysicalItemSheet {
     actions: {
       undoFusion: ArmorSheet.#undoFusion,
     },
+    position: {
+      width: 400,
+    },
   };
 
   /* -------------------------------------------------- */
@@ -67,7 +70,7 @@ export default class ArmorSheet extends PhysicalItemSheet {
 
     // Armor requirements.
     const requirements = context.ctx.requirements = [];
-    for (const r of this.document.system.category.requirements) {
+    for (const r of this.document.system.armor.requirements) {
       if (this.isEditMode && !r.isSource) continue;
       requirements.push({
         document: r,

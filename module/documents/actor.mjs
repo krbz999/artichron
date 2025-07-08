@@ -11,16 +11,6 @@ export default class ActorArtichron extends BaseDocumentMixin(foundry.documents.
   /* -------------------------------------------------- */
 
   /**
-   * The currently equipped armor set.
-   * @type {object}
-   */
-  get armor() {
-    return this.system.armor ?? {};
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
    * Does this actor have a shield equipped?
    * @type {boolean}
    */

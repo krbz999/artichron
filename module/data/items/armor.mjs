@@ -7,7 +7,7 @@ export default class ArmorData extends ItemSystemModel {
   static get metadata() {
     return foundry.utils.mergeObject(super.metadata, {
       embedded: {
-        ArmorRequirement: "system.category.requirements",
+        ArmorRequirement: "system.armor.requirements",
       },
       sections: {
         inventory: true,
@@ -20,18 +20,17 @@ export default class ArmorData extends ItemSystemModel {
   /** @inheritdoc */
   static defineSchema() {
     return Object.assign(super.defineSchema(), {
-      category: new SchemaField({
-        value: new StringField({
+      armor: new SchemaField({
+        category: new StringField({
           required: true,
-          blank: true,
-          choices: () => ({
-            "": game.i18n.localize("ARTICHRON.EQUIPMENT.CATEGORY.None"),
-            ...artichron.config.EQUIPMENT_CATEGORIES,
-          }),
+          blank: false,
+          initial: "tech",
+          choices: () => artichron.config.EQUIPMENT_CATEGORIES,
         }),
-        subtype: new StringField({
+        slot: new StringField({
           required: true,
-          initial: () => Object.keys(artichron.config.EQUIPMENT_TYPES)[0],
+          blank: false,
+          initial: "chest",
           choices: artichron.config.EQUIPMENT_TYPES,
         }),
         requirements: new artichron.data.fields.CollectionField(
@@ -70,9 +69,45 @@ export default class ArmorData extends ItemSystemModel {
    * @type {boolean}
    */
   get fulfilledRequirements() {
-    for (const r of this.category.requirements) {
+    for (const r of this.armor.requirements) {
       if (!r.fulfilledRequirements) return false;
     }
+    return true;
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Is this item currently equipped?
+   * @type {boolean}
+   */
+  get isEquipped() {
+    if (!this.parent.isEmbedded) return false;
+    return this.parent.actor.system.equipment?.[this.armor.slot] === this.parent;
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Equip this item.
+   * @returns {Promise<boolean>}
+   */
+  async equip() {
+    if (this.isEquipped || !this.parent.actor?.system?.equipped) return false;
+    await this.parent.actor.update({ [`system.equipped.${this.armor.slot}`]: this.parent.id });
+    return true;
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Unequip this item.
+   * @returns {Promise<boolean>}
+   */
+  async unequip() {
+    if (!this.isEquipped) return false;
+    const actor = this.parent.actor;
+    await actor.update({ [`system.equipped.${this.armor.slot}`]: "" });
     return true;
   }
 

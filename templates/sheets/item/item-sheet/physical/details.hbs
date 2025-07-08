@@ -2,16 +2,25 @@
   {{formInput systemFields.attributes.fields.value value=ctx.attributes options=ctx.attrOptions type="checkboxes" disabled=isPlayMode}}
 
   <h3 class="section-header">{{localize "ARTICHRON.SHEET.ITEM.HEADERS.configuration"}}</h3>
-  {{formGroup systemFields.price.fields.value value=(ifThen isPlayMode document.system.price.value source.system.price.value) disabled=isPlayMode}}
-  {{formGroup systemFields.weight.fields.value value=(ifThen isPlayMode document.system.weight.value source.system.weight.value) disabled=isPlayMode}}
+  {{formGroup systemFields.price.fields.value value=(ifThen isPlayMode document.system.price.value source.system.price.value) disabled=isPlayMode rootId=rootId}}
+  {{formGroup systemFields.weight.fields.value value=(ifThen isPlayMode document.system.weight.value source.system.weight.value) disabled=isPlayMode rootId=rootId}}
 
   {{#if systemFields.quantity}}
-  {{formGroup systemFields.quantity.fields.value value=(ifThen isPlayMode document.system.quantity.value source.system.quantity.value) disabled=isPlayMode}}
+  {{formGroup systemFields.quantity.fields.value value=(ifThen isPlayMode document.system.quantity.value source.system.quantity.value) disabled=isPlayMode rootId=rootId}}
+  {{/if}}
+
+  {{#if ctx.isArmor}}
+  <div class="form-group">
+    <label>{{localize "ARTICHRON.SHEET.ARMOR.armor"}}</label>
+    <div class="form-fields">
+      {{formGroup systemFields.armor.fields.category value=(ifThen isPlayMode document.system.armor.category source.system.armor.category) disabled=isPlayMode classes="label-top" rootId=rootId}}
+      {{formGroup systemFields.armor.fields.slot value=(ifThen isPlayMode document.system.armor.slot source.system.armor.slot) disabled=isPlayMode classes="label-top" rootId=rootId}}
+    </div>
+  </div>
   {{/if}}
 
   {{#if ctx.isArmor}}
   <h3 class="section-header">{{localize "ARTICHRON.SHEET.ARMOR.HEADERS.defenses"}}</h3>
-
   <div class="form-group">
     {{#each ctx.defenses}}
     <div class="form-group label-top" data-tooltip-text="{{label}}">
@@ -31,4 +40,5 @@
     {{document-list-entries documents=ctx.requirements classes=""}}
   </div>
   {{/if}}
+
 </section>

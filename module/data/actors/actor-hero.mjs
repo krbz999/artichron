@@ -81,17 +81,19 @@ export default class HeroData extends CreatureData {
 
   /** @inheritdoc */
   prepareDerivedData() {
+    // Pools are prepared first as most other properties rely on these.
+    this.#preparePools();
+
+    // Health has to be prepared before defenses (in the call to super) as armor items may require looking at HP.
+    this.#prepareHealth();
+
     super.prepareDerivedData();
 
     // Prepare paths. This happens here rather than prepareBaseData due to items' pseudo-documents
     // having to be prepared first, but could be moved to post-prepareEmbeddedDocuments to allow
     // for effects to affect scale values?
     this.#preparePaths();
-
-    // Pools are prepared first as most other properties rely on these.
-    this.#preparePools();
     this.#prepareEncumbrance();
-    this.#prepareHealth();
     this.#prepareSkills();
   }
 

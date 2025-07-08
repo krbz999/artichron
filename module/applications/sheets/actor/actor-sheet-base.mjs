@@ -155,13 +155,13 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
     }, {
       name: "ARTICHRON.SHEET.ACTOR.CONTEXT.ITEM.equip",
       icon: "<i class='fa-solid fa-fw fa-shield'></i>",
-      condition: el => getItem(el).system.canEquip,
+      condition: el => getItem(el).type === "armor",
       callback: el => getItem(el).system.equip(),
       group: "action",
     }, {
       name: "ARTICHRON.SHEET.ACTOR.CONTEXT.ITEM.unequip",
       icon: "<i class='fa-solid fa-fw fa-shield-halved'></i>",
-      condition: el => ["hero", "monster"].includes(this.document.type) && getItem(el).isEquipped,
+      condition: el => !!getItem(el).system.isEquipped,
       callback: el => getItem(el).system.unequip(),
       group: "action",
     }, {

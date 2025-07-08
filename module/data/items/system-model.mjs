@@ -93,49 +93,6 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
   /* -------------------------------------------------- */
 
   /**
-   * Unequip this item.
-   * @returns {Promise<ItemArtichron|null>}
-   */
-  async unequip() {
-    if (!this.parent.isEquipped) return null;
-    const actor = this.parent.actor;
-
-    if (this.parent.type === "armor") {
-      const a = actor.armor;
-      for (const [k, v] of Object.entries(a)) {
-        if (v === this.parent) {
-          await actor.update({ [`system.equipped.armor.${k}`]: "" });
-          return this.parent;
-        }
-      }
-    }
-
-    return null;
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Equip this item.
-   * @returns {Promise<boolean>}    Whether equipping was successful.
-   */
-  async equip() {
-    if (!this.canEquip) return false;
-
-    if (this.parent.isArmor) {
-      const slot = this.category.subtype;
-      await this.parent.actor.update({
-        [`system.equipped.armor.${slot}`]: this.parent.id,
-      });
-      return true;
-    }
-
-    return false;
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
    * Retrieve an object for roll data.
    * @returns {object}
    */
@@ -250,22 +207,6 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
    */
   get hasTransferrableEffects() {
     return this.transferrableEffects.length > 0;
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Can this item be equipped on its owning actor?
-   * @type {boolean}
-   */
-  get canEquip() {
-    if (!this.parent.isEmbedded) return false;
-
-    if (!this.parent.actor.system.schema.has("equipped")) return false;
-
-    if (this.parent.isArmor) return !this.parent.isEquipped;
-
-    return false;
   }
 
   /* -------------------------------------------------- */

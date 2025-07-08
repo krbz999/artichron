@@ -49,12 +49,10 @@ export default class CreatureData extends ActorSystemModel {
         attack: new StringField({ required: true, blank: false, initial: "blade" }),
         parts: new artichron.data.fields.CollectionField(artichron.data.pseudoDocuments.damage.Damage),
       }),
-      equipped: new SchemaField({
-        armor: new SchemaField(Object.keys(artichron.config.EQUIPMENT_TYPES).reduce((acc, key) => {
-          acc[key] = new StringField({ required: true });
-          return acc;
-        }, {})),
-      }),
+      equipped: new SchemaField(Object.keys(artichron.config.EQUIPMENT_TYPES).reduce((acc, key) => {
+        acc[key] = new StringField({ required: true });
+        return acc;
+      }, {})),
       favorites: new SetField(new StringField({ required: true })),
       health: new SchemaField({
         spent: new NumberField({ min: 0, initial: 0, integer: true, nullable: false }),
@@ -83,6 +81,12 @@ export default class CreatureData extends ActorSystemModel {
       ? artichron.config.BASIC_ATTACKS.melee.types[this.damage.attack]
       : artichron.config.BASIC_ATTACKS.range.types[this.damage.attack];
     this.damage.label = attack.label;
+
+    this.equipment = Object.fromEntries(Object.keys(artichron.config.EQUIPMENT_TYPES).map(slot => {
+      const item = this.parent.items.get(this.equipped[slot]);
+      const equipped = item && (item.type === "armor") && (item.system.armor.slot === slot) ? item : null;
+      return [slot, equipped];
+    }));
   }
 
   /* -------------------------------------------------- */
@@ -98,7 +102,7 @@ export default class CreatureData extends ActorSystemModel {
 
   /** Prepare the value of actor defenses. */
   #prepareDefenses() {
-    for (const item of Object.values(this.parent.armor)) {
+    for (const item of Object.values(this.equipment)) {
       if (!item?.fulfilledRequirements) continue;
       for (const [k, v] of Object.entries(item.system.defenses)) {
         this.defenses[k] += v.value;
@@ -168,23 +172,6 @@ export default class CreatureData extends ActorSystemModel {
   }
 
   /* -------------------------------------------------- */
-  /*   Properties                                       */
-  /* -------------------------------------------------- */
-
-  /**
-   * The currently equipped armor set.
-   * @type {object}
-   */
-  get armor() {
-    const items = this.equipped.armor;
-    return Object.keys(artichron.config.EQUIPMENT_TYPES).reduce((acc, k) => {
-      const item = this.parent.items.get(items[k]) ?? null;
-      acc[k] = ((item?.type === "armor") && (item.system.category.subtype === k)) ? item : null;
-      return acc;
-    }, {});
-  }
-
-  /* -------------------------------------------------- */
   /*   Instance methods                                 */
   /* -------------------------------------------------- */
 
@@ -194,28 +181,32 @@ export default class CreatureData extends ActorSystemModel {
    * @returns {Promise}
    */
   async changeEquippedDialog(slot) {
-    const current = this.parent.items.get(this.equipped.armor[slot]);
-    const choices = this.parent.items.reduce((acc, item) => {
-      if (item === current) return acc;
-      if ((item.type !== "armor") || (item.system.category.subtype !== slot)) return acc;
-      acc[item.id] = item.name;
-      return acc;
-    }, {});
+    const current = this.equipment[slot];
+    const choices = this.parent.items.documentsByType.armor.filter(item => {
+      return (item.system.armor.slot === slot) && (item !== current);
+    }).map(item => ({
+      value: item.id,
+      label: item.name,
+      group: artichron.config.EQUIPMENT_CATEGORIES[item.system.armor.category].label,
+    }));
 
-    const content = !foundry.utils.isEmpty(choices) ? new foundry.data.fields.StringField({
-      choices: choices,
-      required: true,
-      label: "ARTICHRON.EquipDialog.Label",
-      hint: "ARTICHRON.EquipDialog.Hint",
-    }).toFormGroup({ localize: true }, { name: "itemId" }).outerHTML : null;
+    const content = choices.length ? foundry.applications.fields.createFormGroup({
+      label: game.i18n.localize("ARTICHRON.EquipDialog.Label"),
+      hint: game.i18n.localize("ARTICHRON.EquipDialog.Hint"),
+      input: foundry.applications.fields.createSelectInput({
+        blank: false,
+        name: "itemId",
+        options: choices,
+      }),
+    }).outerHTML : null;
 
     const buttons = [];
-    if (!foundry.utils.isEmpty(choices)) {
+    if (choices.length) {
       buttons.push({
         action: "equip",
         label: "Confirm",
         icon: "fa-solid fa-check",
-        callback: (event, button, html) => button.form.elements.itemId.value,
+        callback: (event, button) => this.changeEquipped(slot, this.parent.items.get(button.form.elements.itemId.value)),
       });
     }
 
@@ -224,6 +215,7 @@ export default class CreatureData extends ActorSystemModel {
         action: "unequip",
         label: "Unequip",
         icon: "fa-solid fa-times",
+        callback: () => this.changeEquipped(slot),
       });
     }
 
@@ -232,23 +224,14 @@ export default class CreatureData extends ActorSystemModel {
       return null;
     }
 
-    const value = await artichron.applications.api.Dialog.wait({
-      buttons: buttons,
-      content: content ? `<fieldset>${content}</fieldset>` : undefined,
+    return artichron.applications.api.Dialog.wait({
+      buttons, content,
       classes: ["equip"],
-      modal: true,
-      window: { title: "ARTICHRON.EquipDialog.Title", icon: "fa-solid fa-hand-fist" },
-      position: { width: 350 },
+      window: {
+        title: "ARTICHRON.EquipDialog.Title",
+        icon: "fa-solid fa-hand-fist",
+      },
     });
-
-    if (!value) return null;
-
-    if (value === "unequip") {
-      return this.changeEquipped(slot);
-    }
-
-    const item = this.parent.items.get(value);
-    return this.changeEquipped(slot, item);
   }
 
   /* -------------------------------------------------- */
@@ -260,7 +243,7 @@ export default class CreatureData extends ActorSystemModel {
    * @returns {Promise<ActorArtichron>}   A promise that resolves to the updated actor.
    */
   async changeEquipped(slot, item = null) {
-    const path = `system.equipped.armor.${slot}`;
+    const path = `system.equipped.${slot}`;
     const update = { [path]: item ? item.id : "" };
     await this.parent.update(update);
     return this.parent;

@@ -58,18 +58,6 @@ export default class ItemArtichron extends BaseDocumentMixin(foundry.documents.I
   /* -------------------------------------------------- */
 
   /**
-   * Is this item equipped on the actor in one of the slots?
-   * @type {boolean}
-   */
-  get isEquipped() {
-    if (!this.isEmbedded) return false;
-    else if (this.type === "armor") return Object.values(this.actor.armor).includes(this);
-    return false;
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
    * Retrieve a token from this item's owning actor.
    * @type {TokenArtichron|null}
    */
