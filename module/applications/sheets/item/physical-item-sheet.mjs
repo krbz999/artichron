@@ -31,12 +31,7 @@ export default class PhysicalItemSheet extends ItemSheetArtichron {
 
   /* -------------------------------------------------- */
 
-  /**
-   * Prepare a part.
-   * @param {object} context    Rendering context. **will be mutated**
-   * @param {object} options    Rendering options.
-   * @returns {Promise<object>}   Rendering context.
-   */
+  /** @type {import("../../../_types").ContextPartHandler} */
   async _preparePartContextDetails(context, options) {
     Object.assign(context.ctx, {
       attrOptions: this.document.system.constructor._attributeChoices(),
@@ -47,12 +42,7 @@ export default class PhysicalItemSheet extends ItemSheetArtichron {
 
   /* -------------------------------------------------- */
 
-  /**
-   * Prepare a part.
-   * @param {object} context    Rendering context. **will be mutated**
-   * @param {object} options    Rendering options.
-   * @returns {Promise<object>}   Rendering context.
-   */
+  /** @type {import("../../../_types").ContextPartHandler} */
   async _preparePartContextEffects(context, options) {
     const fusions = { active: [], inactive: [] };
     const enhancements = [];

@@ -38,7 +38,7 @@ export default class PathSheet extends ItemSheetArtichron {
   /** @type {import("../../../_types").ContextPartHandler} */
   async _preparePartContextDescription(context, options) {
     context.ctx = {
-      identifiers: [{ value: "", label: "" }],
+      identifiers: [],
       attributes: [],
     };
 

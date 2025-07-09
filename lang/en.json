@@ -211,7 +211,8 @@
         "delete": "Delete Effect",
         "enable": "Enable Effect",
         "disable": "Disable Effect",
-        "duplicate": "Duplicate Effect"
+        "duplicate": "Duplicate Effect",
+        "unfuse": "Unfuse Item"
       },
       "REQUIREMENT": {
         "render": "Edit Requirement",

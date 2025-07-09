@@ -64,7 +64,7 @@ export default class ArmorSheet extends PhysicalItemSheet {
     context = await super._preparePartContextDetails(context, options);
 
     // Defenses.
-    const defenses = context.ctx.defenses = [];
+    const defenses = [];
     const field = this.document.system.schema.getField("defenses");
     for (const k of field) {
       const { label, icon, color } = artichron.config.DAMAGE_TYPES[k.name];
@@ -78,16 +78,14 @@ export default class ArmorSheet extends PhysicalItemSheet {
     }
 
     // Armor requirements.
-    const requirements = context.ctx.requirements = [];
-    for (const r of this.document.system.armor.requirements) {
-      if (this.isEditMode && !r.isSource) continue;
-      requirements.push({
-        document: r,
-        hint: game.i18n.localize(r.constructor.metadata.hint),
-      });
-    }
+    const requirements = this.document.system.armor
+      .requirements[this.isEditMode ? "sourceContents" : "contents"]
+      .map(requirement => ({ document: requirement }));
 
-    Object.assign(context.ctx, { isArmor: true });
+    Object.assign(context.ctx, {
+      defenses, requirements,
+      isArmor: true,
+    });
 
     return context;
   }
@@ -96,7 +94,10 @@ export default class ArmorSheet extends PhysicalItemSheet {
 
   /** @type {import("../../../_types").ContextPartHandler} */
   async _preparePartContextFusion(context, options) {
-    const ctx = context.ctx = {};
+    const ctx = context.ctx = { fusions: [] };
+    // TODO
+
+    for (const fusion of this.document.effects.documentsByType.fusion) ctx.fusions.push({ document: fusion });
     return context;
   }
 
