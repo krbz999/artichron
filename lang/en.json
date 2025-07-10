@@ -675,14 +675,9 @@
 },
 
 "ATTRIBUTES": {
-  "booster": "Booster",
-  "fusion": "Fusion",
   "heavy": "Heavy",
-  "irreducible": "Irreducible",
-  "magical": "Magical",
   "mixed": "Mixed Path",
-  "spellcaster": "Spellcaster",
-  "twoHanded": "Two-Handed"
+  "spellcaster": "Spellcaster"
 },
 
 "CHAT": {
@@ -840,14 +835,6 @@
   }
 },
 
-"EQUIPMENT": {
-  "CATEGORY": {
-    "Clothing": "Clothing",
-    "Natural": "Natural",
-    "Tech": "Tech"
-  }
-},
-
 "HEALING": {
   "healing": "Healing"
 },
@@ -869,6 +856,19 @@
           "label": "Slot"
         }
       }
+    },
+    "SLOTS": {
+      "accessory": "Accessory",
+      "arms": "Arm Piece",
+      "boots": "Boots",
+      "chest": "Chest Piece",
+      "head": "Head Piece",
+      "legs": "Leg Piece"
+    },
+    "CATEGORIES": {
+      "clothing": "Clothing",
+      "natural": "Natural",
+      "tech": "Tech"
     }
   },
 
@@ -1020,6 +1020,11 @@
 },
 
 "POOL": {
+  "TYPES": {
+    "health": "Health",
+    "stamina": "Stamina",
+    "mana": "Mana"
+  },
   "CONFIG": {
     "TITLE": "Configure Pools",
     "health": "Health",
@@ -1046,11 +1051,6 @@
     "investHint": "Invest additional points into your current paths.",
     "invested": "Invested: {total} (+{delta})",
     "title": "Improve Paths: {name}"
-  },
-  "THRESHOLDS": {
-    "experienced": "Experienced",
-    "novice": "Novice",
-    "veteran": "Veteran"
   }
 },
 
@@ -1240,15 +1240,6 @@
   "Shell": "Shotgun Shell"
 },
 
-"ArmorType": {
-  "Accessory": "Accessory",
-  "Arms": "Arm Piece",
-  "Boots": "Boots",
-  "Chest": "Chest Piece",
-  "Head": "Head Piece",
-  "Legs": "Leg Piece"
-},
-
 "Combat": {
   "ActionPointsOverflow": "Pips: {n}",
   "BeginCombat": "Begin Combat",
@@ -1354,13 +1345,6 @@
   "ReceiptWithdraw": "{name} withdrew {amount} from the group fund.",
   "Title": "Manage Funds: {name}",
   "Withdraw": "Withdraw"
-},
-
-"Pools": {
-  "Danger": "Danger",
-  "Health": "Health",
-  "Mana": "Mana",
-  "Stamina": "Stamina"
 },
 
 "ShieldType": {

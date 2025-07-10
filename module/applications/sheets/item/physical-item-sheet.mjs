@@ -34,7 +34,9 @@ export default class PhysicalItemSheet extends ItemSheetArtichron {
   /** @type {import("../../../_types").ContextPartHandler} */
   async _preparePartContextDetails(context, options) {
     Object.assign(context.ctx, {
-      attrOptions: this.document.system.constructor._attributeChoices(),
+      attrOptions: Object.entries(artichron.config.ITEM_ATTRIBUTES)
+        .filter(([k, v]) => !v.types.size || v.types.has(this.document.type))
+        .map(([k, v]) => ({ value: k, label: v.label })),
       attributes: context.isPlayMode ? context.source.system.attributes.value : context.document.system.attributes.value,
     });
     return context;

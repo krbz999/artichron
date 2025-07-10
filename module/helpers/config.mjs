@@ -203,17 +203,17 @@ Object.defineProperty(TARGET_TYPES, "optgroups", {
 
 /**
  * Armor categories.
- * @enum {EquipmentCategoryConfig}
+ * @type {Record<string, EquipmentCategoryConfig>}
  */
 export const EQUIPMENT_CATEGORIES = {
   clothing: {
-    label: "ARTICHRON.EQUIPMENT.CATEGORY.Clothing",
+    label: "ARTICHRON.ITEM.ARMOR.CATEGORIES.clothing",
   },
   natural: {
-    label: "ARTICHRON.EQUIPMENT.CATEGORY.Natural",
+    label: "ARTICHRON.ITEM.ARMOR.CATEGORIES.natural",
   },
   tech: {
-    label: "ARTICHRON.EQUIPMENT.CATEGORY.Tech",
+    label: "ARTICHRON.ITEM.ARMOR.CATEGORIES.tech",
   },
 };
 
@@ -230,22 +230,22 @@ export const EQUIPMENT_CATEGORIES = {
  */
 export const EQUIPMENT_TYPES = {
   accessory: {
-    label: "ARTICHRON.ArmorType.Accessory",
+    label: "ARTICHRON.ITEM.ARMOR.SLOTS.accessory",
   },
   arms: {
-    label: "ARTICHRON.ArmorType.Arms",
+    label: "ARTICHRON.ITEM.ARMOR.SLOTS.arms",
   },
   chest: {
-    label: "ARTICHRON.ArmorType.Chest",
+    label: "ARTICHRON.ITEM.ARMOR.SLOTS.chest",
   },
   head: {
-    label: "ARTICHRON.ArmorType.Head",
+    label: "ARTICHRON.ITEM.ARMOR.SLOTS.head",
   },
   legs: {
-    label: "ARTICHRON.ArmorType.Legs",
+    label: "ARTICHRON.ITEM.ARMOR.SLOTS.legs",
   },
   boots: {
-    label: "ARTICHRON.ArmorType.Boots",
+    label: "ARTICHRON.ITEM.ARMOR.SLOTS.boots",
   },
 };
 
@@ -296,53 +296,18 @@ export const TEMPLATE_DURATIONS = {
 
 /**
  * @typedef {object} ItemAttributeConfig
- * @property {string} label               The human-readable label of this item attribute.
- * @property {Set<string>} [types]        A set of item types this can be an option for.
- *                                        If empty or omitted, then all types.
- * @property {boolean} [transferrable]    If explicitly false, this attribute will not be
- *                                        transferred automatically via fusions.
- * @property {string} [status]            What status is applied if taking damage from an item with this attribute?
+ * @property {string} label         The human-readable label of this item attribute.
+ * @property {Set<string>} types    A set of item types this can be an option for. If empty, then all types.
  */
 
 /**
  * Various item attributes.
- * @enum {ItemAttributeConfig}
+ * @type {Record<string, ItemAttributeConfig>}
  */
 export const ITEM_ATTRIBUTES = {
-  // ammunition: {
-  //   label: "ARTICHRON.ItemAttribute.Ammunition",
-  //   types: new Set(["weapon"]),
-  //   transferrable: false,
-  // },
-  // bludgeoning: {
-  //   label: "ARTICHRON.ItemAttribute.Bludgeoning",
-  //   types: new Set(["weapon"]),
-  //   transferrable: true,
-  //   status: "hindered",
-  // },
-  booster: {
-    label: "ARTICHRON.ATTRIBUTES.booster",
-    types: new Set(["elixir"]),
-    transferrable: false,
-  },
-  fusion: {
-    label: "ARTICHRON.ATTRIBUTES.fusion",
-    types: new Set(["armor"]),
-    transferrable: false,
-  },
   heavy: {
     label: "ARTICHRON.ATTRIBUTES.heavy",
     types: new Set(["armor"]),
-    transferrable: true,
-  },
-  irreducible: {
-    label: "ARTICHRON.ATTRIBUTES.irreducible",
-    types: new Set(["spell"]),
-    transferrable: true,
-  },
-  magical: {
-    label: "ARTICHRON.ATTRIBUTES.magical",
-    types: new Set(["ammo", "armor", "spell", "part"]),
     transferrable: true,
   },
   mixed: {
@@ -350,25 +315,9 @@ export const ITEM_ATTRIBUTES = {
     types: new Set(["path"]),
     transferrable: false,
   },
-  // parrying: {
-  //   label: "ARTICHRON.ItemAttribute.Parrying",
-  //   types: new Set(["spell"]),
-  //   transferrable: true,
-  // },
-  // rending: {
-  //   label: "ARTICHRON.ItemAttribute.Rending",
-  //   types: new Set(["spell"]),
-  //   transferrable: true,
-  //   status: "bleeding",
-  // },
   spellcaster: {
     label: "ARTICHRON.ATTRIBUTES.spellcaster",
     types: new Set(["path"]),
-  },
-  twoHanded: {
-    label: "ARTICHRON.ATTRIBUTES.twoHanded",
-    types: new Set(["spell"]),
-    transferrable: true,
   },
 };
 
@@ -598,55 +547,24 @@ export const SKILLS = {
 
 /**
  * @typedef {object} PoolConfig
- * @property {string} label     The displayed label of the pool.
- * @property {boolean} boost    When using this pool, can it be boosted by an elixir?
+ * @property {string} label   The displayed label of the pool.
  */
 
 /**
  * The pools used by a character.
- * @enum {PoolConfig}
+ * @type {Record<string, PoolConfig>}
  */
 export const POOL_TYPES = {
   health: {
-    label: "ARTICHRON.Pools.Health",
-    boost: false,
+    label: "ARTICHRON.POOL.TYPES.health",
   },
   stamina: {
-    label: "ARTICHRON.Pools.Stamina",
-    boost: true,
+    label: "ARTICHRON.POOL.TYPES.stamina",
   },
   mana: {
-    label: "ARTICHRON.Pools.Mana",
-    boost: true,
+    label: "ARTICHRON.POOL.TYPES.mana",
   },
 };
-
-/* -------------------------------------------------- */
-
-/**
- * @typedef {object} ProgressionThresholdConfig
- * @property {string} label         The human-readable label of this threshold.
- * @property {number} level         The numeric value of the given rank.
- * @property {number} threshold     The threshold that must be met to attain this rank.
- */
-
-/**
- * The thresholds that can be met to achieve a 'level'.
- * @type {ProgressionThresholdConfig[]}
- */
-export const PROGRESSION_THRESHOLDS = [{
-  label: "ARTICHRON.PROGRESSION.THRESHOLDS.novice",
-  level: 1,
-  threshold: 0,
-}, {
-  label: "ARTICHRON.PROGRESSION.THRESHOLDS.experienced",
-  level: 2,
-  threshold: 20,
-}, {
-  label: "ARTICHRON.PROGRESSION.THRESHOLDS.veteran",
-  level: 3,
-  threshold: 50,
-}];
 
 /* -------------------------------------------------- */
 

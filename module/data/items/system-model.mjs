@@ -17,11 +17,6 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
     return {
       attributes: new SchemaField({
         value: new SetField(new StringField()),
-        levels: new TypedObjectField(new NumberField({
-          min: 1, nullable: true, integer: true,
-        }), { validateKey: key => {
-          return Object.values(artichron.config.ITEM_ATTRIBUTES).some(attr => attr.status === key);
-        } }),
       }),
 
       description: new SchemaField({
@@ -30,21 +25,6 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
 
       identifier: new artichron.data.fields.IdentifierField(),
     };
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Create the choices for the attributes fieldset of this item type.
-   * @returns {object[]}    Filtered choices from 'SYSTEM.ITEM_ATTRIBUTES'.
-   */
-  static _attributeChoices() {
-    const options = [];
-    const type = this.metadata.type;
-    for (const [k, v] of Object.entries(artichron.config.ITEM_ATTRIBUTES)) {
-      if (!v.types?.size || v.types.has(type)) options.push({ value: k, label: v.label });
-    }
-    return options;
   }
 
   /* -------------------------------------------------- */
@@ -152,10 +132,10 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
   _prepareTooltipTags() {
     const tags = [];
 
-    const valid = this.constructor._attributeChoices();
     for (const attribute of this.attributes.value) {
-      const label = valid[attribute]?.label;
-      if (label) tags.push({ label: label });
+      const conf = artichron.config.ITEM_ATTRIBUTES[attribute];
+      const valid = !!conf && (!conf.types.size || conf.types.has(this.parent.type));
+      if (valid) tags.push({ label: conf.label });
     }
 
     return tags;
