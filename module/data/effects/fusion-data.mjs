@@ -5,33 +5,21 @@ const { JSONField, StringField } = foundry.data.fields;
 /**
  * System data for "Fusions".
  * Fusions are effects that hold data for an item which has been destroyed and fused onto another item.
- * @property {string} itemData      A block of item data for a source item.
- * @property {string} subtype       An item subtype this fusion can apply to.
+ * @property {string} itemData    A block of item data for a source item.
  */
 export default class EffectFusionData extends ActiveEffectSystemModel {
   /** @inheritdoc */
   static get metadata() {
-    return foundry.utils.mergeObject(super.metadata, {
-      type: "fusion",
-    });
+    return foundry.utils.mergeObject(super.metadata, {});
   }
 
   /* -------------------------------------------------- */
 
   /** @inheritdoc */
   static defineSchema() {
-    return {
-      ...super.defineSchema(),
+    return Object.assign(super.defineSchema(), {
       itemData: new JSONField(),
-      subtype: new StringField({
-        required: false,
-        choices: () => {
-          const choices = foundry.utils.deepClone(CONFIG.Item.typeLabels);
-          delete choices.base;
-          return choices;
-        },
-      }),
-    };
+    });
   }
 
   /* -------------------------------------------------- */
@@ -68,7 +56,7 @@ export default class EffectFusionData extends ActiveEffectSystemModel {
     if (allowed === false) return false;
 
     const isActor = this.parent.parent.documentName === "Actor";
-    const invalidItem = (this.parent.parent.documentName === "Item") && !this.parent.parent.canFuse;
+    const invalidItem = (this.parent.parent.documentName === "Item") && !this.parent.parent.canFuseOnto;
     if (isActor || invalidItem) {
       ui.notifications.warn("ARTICHRON.Warning.InvalidActiveEffectType", { localize: true });
       return false;
@@ -143,9 +131,9 @@ export default class EffectFusionData extends ActiveEffectSystemModel {
 
     const confirm = await artichron.applications.api.Dialog.confirm({
       window: {
-        title: game.i18n.format("ARTICHRON.ItemFusionDialog.UnfuseTitle", {
-          source: this.itemData.name,
-          target: this.parent.parent.name,
+        title: game.i18n.format("ARTICHRON.FUSION.titleUnfuse", {
+          spell: this.itemData.name,
+          armor: this.parent.parent.name,
         }),
         icon: "fa-solid fa-volcano",
       },

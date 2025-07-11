@@ -40,24 +40,6 @@ export default class ItemArtichron extends BaseDocumentMixin(foundry.documents.I
   /* -------------------------------------------------- */
 
   /**
-   * Attributes on this item and their levels.
-   * @type {Record<string, number>}
-   */
-  get attributes() {
-    const attrs = {};
-    for (const attr of this.system.attributes?.value ?? []) {
-      const status = artichron.config.ITEM_ATTRIBUTES[attr]?.status;
-      if (status) {
-        const level = this.system.attributes.levels[status] ?? 1;
-        attrs[status] = level;
-      }
-    }
-    return attrs;
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
    * Retrieve a token from this item's owning actor.
    * @type {TokenArtichron|null}
    */
@@ -84,8 +66,8 @@ export default class ItemArtichron extends BaseDocumentMixin(foundry.documents.I
    * Can this item be fused onto another?
    * @type {boolean}
    */
-  get hasFusions() {
-    return this.system.attributes?.value.has("fusion") ?? false;
+  get canFuse() {
+    return this.type === "spell";
   }
 
   /* -------------------------------------------------- */
@@ -94,30 +76,8 @@ export default class ItemArtichron extends BaseDocumentMixin(foundry.documents.I
    * Is this item currently under the effect of a fusion?
    * @type {boolean}
    */
-  get isFused() {
-    return this.effects.some(effect => effect.isActiveFusion);
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * The set of item properties that this item will modify on the target by default.
-   * @type {Set<string>}
-   */
-  get defaultFusionProperties() {
-    const paths = [
-      "attributes.value",
-      "price.value",
-      "weight.value",
-      "defenses",
-    ];
-
-    const set = new Set();
-    for (const path of paths) {
-      const field = this.system.schema.getField(path);
-      if (field) set.add(path);
-    }
-    return set;
+  get isFusedOnto() {
+    return this.effects.some(effect => effect.system.isActiveFusion);
   }
 
   /* -------------------------------------------------- */
@@ -126,7 +86,7 @@ export default class ItemArtichron extends BaseDocumentMixin(foundry.documents.I
    * Is this a valid item type for fusing onto another?
    * @type {boolean}
    */
-  get canFuse() {
+  get canFuseOnto() {
     return this.type === "armor";
   }
 

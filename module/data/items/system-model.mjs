@@ -196,14 +196,9 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
   /** @inheritdoc */
   prepareDerivedData() {
     super.prepareDerivedData();
-    for (const k of Object.keys(this.attributes.levels)) {
-      this.attributes.levels[k] ??= 1;
-    }
 
     if (!this.weight) {
-      this.weight = {
-        total: 0,
-      };
+      this.weight = { total: 0 };
     } else {
       this.weight.total = this.weight.value * (this.quantity?.value ?? 1);
     }

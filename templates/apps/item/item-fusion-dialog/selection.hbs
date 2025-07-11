@@ -1,0 +1,13 @@
+<section>
+  <div class="indicators">
+    <div class="source">
+      <img src="{{ctx.sourceImage}}" alt="">
+    </div>
+    <img class="arrow" src="icons/svg/down.svg" alt="">
+    <div class="target {{#if ctx.targetDisabled}}disabled{{/if}}">
+      <img src="{{ctx.targetImage}}" alt="">
+    </div>
+  </div>
+
+  {{formGroup ctx.field label=(localize "ARTICHRON.FUSION.targetItem") value=ctx.selected options=ctx.options rootId=rootId name="target" autofocus=true}}
+</section>

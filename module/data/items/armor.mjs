@@ -43,8 +43,6 @@ export default class ArmorData extends ItemSystemModel {
         return acc;
       }, {})),
 
-      fusion: new artichron.data.fields.FusionField(),
-
       price: new SchemaField({
         value: new NumberField({ min: 0, initial: 0, integer: true, nullable: false }),
       }),

@@ -3,9 +3,6 @@ import PhysicalItemSheet from "./physical-item-sheet.mjs";
 export default class ArmorSheet extends PhysicalItemSheet {
   /** @inheritdoc */
   static DEFAULT_OPTIONS = {
-    actions: {
-      undoFusion: ArmorSheet.#undoFusion,
-    },
     position: {
       width: 400,
     },
@@ -99,21 +96,5 @@ export default class ArmorSheet extends PhysicalItemSheet {
 
     for (const fusion of this.document.effects.documentsByType.fusion) ctx.fusions.push({ document: fusion });
     return context;
-  }
-
-  /* -------------------------------------------------- */
-  /*   Event handlers                                   */
-  /* -------------------------------------------------- */
-
-  /**
-   * Handle click events to unfuse this item.
-   * @this {PhysicalItemSheet}
-   * @param {PointerEvent} event    The initiating click event.
-   * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
-   */
-  static async #undoFusion(event, target) {
-    if (!this.isEditable) return;
-    const effect = await fromUuid(target.closest("[data-item-uuid]").dataset.itemUuid);
-    effect.unfuseDialog();
   }
 }

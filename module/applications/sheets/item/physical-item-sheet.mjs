@@ -46,7 +46,7 @@ export default class PhysicalItemSheet extends ItemSheetArtichron {
 
   /** @type {import("../../../_types").ContextPartHandler} */
   async _preparePartContextEffects(context, options) {
-    const fusions = { active: [], inactive: [] };
+    const fusions = [];
     const enhancements = [];
     const buffs = [];
 
@@ -56,15 +56,13 @@ export default class PhysicalItemSheet extends ItemSheetArtichron {
         classes: ["draggable", effect.disabled ? "inactive" : null].filter(_ => _),
       };
 
-      if (effect.isActiveFusion) fusions.active.push(data);
-      else if (effect.isTransferrableFusion) fusions.inactive.push(data);
+      if (effect.type === "fusion") fusions.push(data);
       else if (effect.type === "enhancement") enhancements.push(data);
       else if (effect.type === "buff") buffs.push(data);
     }
 
     const sort = (a, b) => artichron.utils.nameSort(a, b, "document");
-    fusions.active.sort(sort);
-    fusions.inactive.sort(sort);
+    fusions.sort(sort);
     enhancements.sort(sort);
     buffs.sort(sort);
 

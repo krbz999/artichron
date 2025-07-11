@@ -835,6 +835,14 @@
   }
 },
 
+"FUSION": {
+  "defaultName": "Fusion: {name}",
+  "confirm": "Fuse",
+  "title": "Fuse: {name}",
+  "titleUnfuse": "Split {spell} from {armor}?",
+  "targetItem": "Fuse Target"
+},
+
 "HEALING": {
   "healing": "Healing"
 },
@@ -896,10 +904,6 @@
         "label": "Applied Levels"
       }
     },
-    "boost": {
-      "hint": "When using this elixir to boost a roll, this is the type of pool it can enhance.",
-      "label": "Boost"
-    },
     "defenses": {
       "arcane": {
         "value": {
@@ -946,17 +950,6 @@
     "description": {
       "value": {
         "label": "Description"
-      }
-    },
-    "fusion": {
-      "ignore": {
-        "hint": "If checked, an item property will not be added via fusions by default when this item is fused onto another.",
-        "label": "Ignored Properties"
-      },
-      "label": "Fusion",
-      "max": {
-        "hint": "The maximum number of fusions that can target this item at the same time.",
-        "label": "Maximum Fusions"
       }
     },
     "price": {
@@ -1294,21 +1287,6 @@
   "Label": "Item",
   "Title": "Change Equipped Item",
   "Warning": "You have no items that can be equipped in that slot."
-},
-
-"ItemFusionDialog": {
-  "Changes": "Changes",
-  "Default": "Default",
-  "DefaultFusion": "Fusion: {name}",
-  "Fuse": "Fuse",
-  "FusionLabel": "Fusion",
-  "Split": "Split",
-  "SplitHint": "Select the active fusion to split off this item. The source item will be restored.",
-  "SplitLabel": "Fusion",
-  "TargetLabel": "Target",
-  "Title": "{source}: Fuse",
-  "TitleUnfuse": "{item}: Split",
-  "UnfuseTitle": "Split '{source}' and '{target}'?"
 },
 
 "LootDialog": {
