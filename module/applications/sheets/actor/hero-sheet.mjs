@@ -192,7 +192,16 @@ export default class HeroSheet extends ActorSheetArtichron {
     const ctx = context.ctx = {
       items: [],
       searchQuery: this.#searchQuery,
+      equipment: [],
     };
+
+    // Equipment
+    for (const [k, v] of Object.entries(artichron.config.EQUIPMENT_TYPES)) {
+      const item = this.document.system.equipment[k];
+      const img = item ? item.img : v.defaultImage;
+      const isSvg = img.endsWith(".svg");
+      ctx.equipment.push({ item, img, isSvg, equipped: !!item });
+    }
 
     // Encumbrance.
     const enc = this.document.system.encumbrance;

@@ -28,4 +28,19 @@
       )
     }
   }
+
+  .equipment {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    align-items: center;
+
+    .equipment-item {
+      border-radius: 5px;
+      overflow: hidden;
+    }
+
+    .unequipped {
+      opacity: 0.25;
+    }
+  }
 }

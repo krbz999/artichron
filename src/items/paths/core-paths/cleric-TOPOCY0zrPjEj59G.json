@@ -65,6 +65,16 @@
             "trait": "health",
             "value": "150",
             "label": "+150 Health"
+          },
+          "PNTBWShWhlBC9RvR": {
+            "type": "health",
+            "_id": "PNTBWShWhlBC9RvR",
+            "value": 100
+          },
+          "0qDNYrKtTwTzalby": {
+            "type": "health",
+            "_id": "0qDNYrKtTwTzalby",
+            "value": 200
           }
         },
         "chooseN": 1
@@ -83,6 +93,16 @@
             "trait": "health",
             "value": "150",
             "label": "+150 Health"
+          },
+          "Tdv2eKth8cCQvvAd": {
+            "type": "health",
+            "_id": "Tdv2eKth8cCQvvAd",
+            "value": 150
+          },
+          "UDe9mlaMNTX9th0D": {
+            "type": "health",
+            "_id": "UDe9mlaMNTX9th0D",
+            "value": 300
           }
         },
         "chooseN": 1,
@@ -104,11 +124,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.345",
+    "coreVersion": "13.346",
     "systemId": "artichron",
     "systemVersion": "1.0.0",
     "createdTime": 1749291547536,
-    "modifiedTime": 1750728274787,
+    "modifiedTime": 1751147481449,
     "lastModifiedBy": "artichronbuilder"
   },
   "_key": "!items!TOPOCY0zrPjEj59G"

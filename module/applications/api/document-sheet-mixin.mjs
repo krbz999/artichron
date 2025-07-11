@@ -156,7 +156,7 @@ export default function DocumentSheetMixin(Class) {
      */
     static #onToggleSheet(event, target) {
       const modes = this.constructor.SHEET_MODES;
-      this._sheetMode = this.isEditMode ? modes.PLAY : modes.EDIT;
+      this._sheetMode = (this.isEditMode || !this.isEditable) ? modes.PLAY : modes.EDIT;
       this.render();
     }
 

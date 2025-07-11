@@ -474,12 +474,6 @@
         "label": "Danger Level"
       }
     },
-    "defenses": {
-      "armor": {
-        "hint": "Armor value reduces incoming physical damage.",
-        "label": "Armor"
-      }
-    },
     "health": {
       "label": "Health"
     },
@@ -675,8 +669,8 @@
 },
 
 "ATTRIBUTES": {
-  "heavy": "Heavy",
   "mixed": "Mixed Path",
+  "pristine": "Pristine",
   "spellcaster": "Spellcaster"
 },
 
@@ -904,49 +898,6 @@
         "label": "Applied Levels"
       }
     },
-    "defenses": {
-      "arcane": {
-        "value": {
-          "label": "Arcane Resistance"
-        }
-      },
-      "darkness": {
-        "value": {
-          "label": "Darkness Resistance"
-        }
-      },
-      "fire": {
-        "value": {
-          "label": "Fire Resistance"
-        }
-      },
-      "ice": {
-        "value": {
-          "label": "Ice Resistance"
-        }
-      },
-      "label": "Defenses",
-      "light": {
-        "value": {
-          "label": "Light Resistance"
-        }
-      },
-      "lightning": {
-        "value": {
-          "label": "Lightning Resistance"
-        }
-      },
-      "physical": {
-        "value": {
-          "label": "Physical"
-        }
-      },
-      "wind": {
-        "value": {
-          "label": "Wind Resistance"
-        }
-      }
-    },
     "description": {
       "value": {
         "label": "Description"
@@ -954,13 +905,11 @@
     },
     "price": {
       "value": {
-        "hint": "The deemed value of the item.",
         "label": "Price"
       }
     },
     "quantity": {
       "value": {
-        "hint": "The size of this stack of items.",
         "label": "Quantity"
       }
     },
@@ -977,7 +926,6 @@
     },
     "weight": {
       "value": {
-        "hint": "The amount that this item contributes to its owner's encumbrance.",
         "label": "Weight"
       }
     }
@@ -990,6 +938,24 @@
         "subtype": {
           "hint": "TODO",
           "label": "Monster Part Subtype"
+        }
+      }
+    }
+  },
+
+  "SPELL": {
+    "subtypes": {
+      "elemental": "Elemental",
+      "planar": "Planar",
+      "technological": "Technological"
+    },
+    "FIELDS": {
+      "spell": {
+        "quality": {
+          "label": "Quality"
+        },
+        "subtype": {
+          "label": "Spell Origin"
         }
       }
     }

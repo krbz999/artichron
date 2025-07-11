@@ -65,12 +65,12 @@ export default class ArmorSheet extends PhysicalItemSheet {
     const field = this.document.system.schema.getField("defenses");
     for (const k of field) {
       const { label, icon, color } = artichron.config.DAMAGE_TYPES[k.name];
-      const src = this.document.system.defenses[k.name].value;
+      const src = this.document.system._source.defenses[k.name];
       defenses.push({
         label, icon, color,
         disabled: !(context.editable && context.isEditMode),
-        value: context.isEditMode ? (!src ? null : src) : this.document.system.defenses[k.name].value,
-        field: k.fields.value,
+        value: context.isEditMode ? (!src ? null : src) : this.document.system.defenses[k.name],
+        field: k,
       });
     }
 
@@ -80,7 +80,8 @@ export default class ArmorSheet extends PhysicalItemSheet {
       .map(requirement => ({ document: requirement }));
 
     Object.assign(context.ctx, {
-      defenses, requirements,
+      requirements,
+      defenses: context.isPlayMode ? defenses.filter(d => d.value) : defenses,
       isArmor: true,
     });
 

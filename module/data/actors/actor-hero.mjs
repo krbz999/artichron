@@ -148,6 +148,11 @@ export default class HeroData extends CreatureData {
    * Prepare skills.
    */
   #prepareSkills() {
+    for (const item of Object.values(this.equipment)) {
+      if (!item?.system.fulfilledRequirements) continue;
+      for (const k in item.system.skills) this.skills[k].number += item.system.skills[k];
+    }
+
     for (const trait of this.parent._traits?.skill ?? []) {
       switch (trait.subtype) {
         case "diceNumber": this.skills[trait.skill].number += trait.value; break;

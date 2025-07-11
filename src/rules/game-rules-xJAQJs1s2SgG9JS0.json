@@ -1,0 +1,668 @@
+{
+  "name": "Game Rules",
+  "_id": "xJAQJs1s2SgG9JS0",
+  "pages": [
+    {
+      "sort": 0,
+      "name": "Damage Types",
+      "type": "text",
+      "_id": "vCN2KaphXU8AJgOU",
+      "system": {},
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "image": {},
+      "text": {
+        "format": 1,
+        "content": "<table><thead><tr><th>Damage Type</th><th>Reduced By</th><th>Damage Group</th></tr></thead><tbody><tr><td>Fire</td><td>Resistance</td><td>Elemental</td></tr><tr><td>Wind</td><td>Resistance</td><td>Elemental</td></tr><tr><td>Lightning</td><td>Resistance</td><td>Elemental</td></tr><tr><td>Ice</td><td>Resistance</td><td>Elemental</td></tr><tr><td>Light</td><td>Resistance</td><td>Planar</td></tr><tr><td>Darkness</td><td>Resistance</td><td>Planar</td></tr><tr><td>Physical</td><td>Armor</td><td>Physical</td></tr><tr><td>Arcane</td><td>Resistance</td><td>Planar</td></tr></tbody></table>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": null,
+      "ownership": {
+        "default": -1
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.346",
+        "systemId": "artichron",
+        "systemVersion": "1.0.0",
+        "createdTime": null,
+        "modifiedTime": 1752267404784,
+        "lastModifiedBy": "artichronbuilder",
+        "exportSource": null
+      },
+      "category": "T4r9P8mgESuU3m3l",
+      "_key": "!journal.pages!xJAQJs1s2SgG9JS0.vCN2KaphXU8AJgOU"
+    },
+    {
+      "sort": 0,
+      "name": "Turn Order",
+      "type": "text",
+      "_id": "4wtQeagRFSqtEwoQ",
+      "system": {},
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "image": {},
+      "text": {
+        "format": 1,
+        "content": "<p>When initiating combat, turn order is declared by rolling <code>1d12x</code> at the start of each round. Each combatant belongs to one side; enemies or allies. The group that has a combatant with the highest roll is first to go. The turn order is then decided thus:</p><p>(1) The combatant in the leading group whose initiative roll is highest goes first.</p><p>(2) The combatant in the opposing group whose initiative roll is highest goes next.</p><p>(3) The combatant in the leading group with the second highest roll goes third…</p><p>Alternating between the leading and opposing group in respective initiative order, if one group has fewer combatants than the other, some of their combatants gain multiple turns.</p><p>For example, if group X and group Y roll the following initiative values:</p><p>X: 20, 15, 10, 3, 1</p><p>Y: 12, 4, 2</p><p>The final turn order becomes:</p><p>20 (X), 12 (Y), 15 (X), 4 (Y), 10 (X), 2 (Y), 3 (X), 12 (Y, second turn), 1 (X).</p><p>On any rounds after the first, a combatant gains a bonus of 1d6 to their initiative roll for each unspent action point they have. The maximum amount of additional d6s a combatant can receive for their initiative roll is equal to the size of their stamina pool (for heroes) or three times their Danger level (for monsters).</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": null,
+      "ownership": {
+        "default": -1
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.346",
+        "systemId": "artichron",
+        "systemVersion": "1.0.0",
+        "createdTime": null,
+        "modifiedTime": 1752267408706,
+        "lastModifiedBy": "artichronbuilder",
+        "exportSource": null
+      },
+      "category": "T4r9P8mgESuU3m3l",
+      "_key": "!journal.pages!xJAQJs1s2SgG9JS0.4wtQeagRFSqtEwoQ"
+    },
+    {
+      "sort": 0,
+      "name": "Action Points (Pips)",
+      "type": "text",
+      "_id": "4Rh8vC5LASFMdEM6",
+      "system": {},
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "image": {},
+      "text": {
+        "format": 1,
+        "content": "<p>Once the turn order has been decided, each combatant receives a number of Action Points (or \"pips\") that they can use during this round on various actions.</p><p>For 'heroes', the amount of action points is equal to the size of their Stamina dice pool, plus 1 for each turn they take on this round, minus 1 for each level of the @UUID[Compendium.artichron.rules.JournalEntry.JjiZqfbpC2YVXV4R.JournalEntryPage.uVv9k9xheOkxzBhO]{Hindered} condition they are afflicted by, minimum of 1. For example, if a hero is taking 3 turns this round due to their group being vastly outnumbered, and they have a Stamina dice pool size of 3, they start the round with 3 (stamina) + 3 (turns) * 1 (per-turn bonus) = 6 pips.</p><p>Monsters do not have a health dice pool and instead receive a number of action points equal to two times their Danger value, plus 1 for each turn they take this round, minus 1 for each level of the Hindered condition.</p><p>A combatant can spend as many action points as they want on one turn, but they do not regain any until the next round. A combatant can start a turn with no fewer than 1 AP.</p><h2>Spending Action Points</h2><p>Action points can be spent when</p><ul><li><p>moving: 1 action point for every 5 meters.</p></li><li><p>making an attack with a weapon: the cost of the attack is described in the weapon, but is generally 1 point for a one-handed weapon and 2 points for a two-handed weapon.</p></li><li><p>casting a spell: the cost of the casting is described in the spell, but is generally 1 or 2 points.</p></li><li><p>drinking an elixir: 1 action point.</p></li><li><p>fusing an item: 1 action point.</p></li><li><p>blocking or parrying to reduce incoming damage: 1 point per item used to defend.</p></li></ul><p>Leftover initiative points at the end of a combat round are lost, but grant a bonus to initiative as described above.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": null,
+      "ownership": {
+        "default": -1
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.346",
+        "systemId": "artichron",
+        "systemVersion": "1.0.0",
+        "createdTime": null,
+        "modifiedTime": 1752268387905,
+        "lastModifiedBy": "artichronbuilder",
+        "exportSource": null
+      },
+      "category": "T4r9P8mgESuU3m3l",
+      "_key": "!journal.pages!xJAQJs1s2SgG9JS0.4Rh8vC5LASFMdEM6"
+    },
+    {
+      "sort": 0,
+      "name": "Armor",
+      "type": "text",
+      "_id": "TpFaE3CaBb3jOJZi",
+      "system": {},
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "image": {},
+      "text": {
+        "format": 1,
+        "content": "<p>Properties of different types of equipment is described here. A piece of equipment grants only the physical defense if it is \"natural\", the elemental defense if \"clothing\", and the skill dice if \"tech\".</p><table><thead><tr><th>Equipment</th><th>Physical Defense</th><th>Elemental Defense</th><th>Skill Dice</th></tr></thead><tbody><tr><td>Accessory</td><td>+1</td><td>+1</td><td>+4</td></tr><tr><td>Arm Piece</td><td>+2</td><td>+2</td><td>+3</td></tr><tr><td>Chest Piece</td><td>+5</td><td>+5</td><td>+0</td></tr><tr><td>Head Piece</td><td>+3</td><td>+3</td><td>+2</td></tr><tr><td>Leg Piece</td><td>+4</td><td>+4</td><td>+1</td></tr><tr><td>Boots</td><td>+2</td><td>+2</td><td>+3</td></tr></tbody></table><p>If the piece of equipment is pristine, double the physical or elemental defense and add 1 to the skill dice.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": null,
+      "ownership": {
+        "default": -1
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.346",
+        "systemId": "artichron",
+        "systemVersion": "1.0.0",
+        "createdTime": null,
+        "modifiedTime": 1752267429010,
+        "lastModifiedBy": "artichronbuilder",
+        "exportSource": null
+      },
+      "category": "xw5yX9QKSrJTvrjL",
+      "_key": "!journal.pages!xJAQJs1s2SgG9JS0.TpFaE3CaBb3jOJZi"
+    },
+    {
+      "sort": 0,
+      "name": "Item Attributes",
+      "type": "text",
+      "_id": "wbKJ6RNfw1cwIGwq",
+      "system": {},
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "image": {},
+      "text": {
+        "format": 1,
+        "content": "<p>Items have several attributes, each describing unique properties.</p><ul><li><p>Pristine. This armor grants a higher bonus to defenses or skills.</p></li><li><p>Spellcaster. This path allows for using one of the magical base attacks.</p></li></ul>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": null,
+      "ownership": {
+        "default": -1
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "coreVersion": "13.346",
+        "systemId": "artichron",
+        "systemVersion": "1.0.0",
+        "createdTime": null,
+        "modifiedTime": 1752267438131,
+        "lastModifiedBy": "artichronbuilder",
+        "exportSource": null
+      },
+      "category": "xw5yX9QKSrJTvrjL",
+      "_key": "!journal.pages!xJAQJs1s2SgG9JS0.wbKJ6RNfw1cwIGwq"
+    },
+    {
+      "sort": 0,
+      "name": "Skill Checks",
+      "type": "text",
+      "_id": "nOeGQIlBHI9gz2EB",
+      "system": {},
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "image": {},
+      "text": {
+        "format": 1,
+        "content": "<p>When a player sets out to perform a task, the GM may decide that a roll should be involved. If so, the GM decides whether the player rolls Agility, Brawn, Mind, or Spirit, combined with another skill from the same set (possibly the same skill twice).</p><p>Each skill has a number of dice; when performing the roll, the character adds the amount of dice together from each skill, rolls that many d6, and counts the number of sixes.</p><p>The GM decides how many sixes (\"hits\") are needed to obtain an improved result on the challenge or to negate a bad result. Regardless of the roll, the attempt succeeds in some fashion determined by the GM. Whether the threshold was met determines whether the GM ups the counter of either the positive or negative clocks.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": null,
+      "ownership": {
+        "default": -1
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.artichron.rules.JournalEntry.M2zig7h0tyZDHMxA.JournalEntryPage.nOeGQIlBHI9gz2EB",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.346",
+        "systemId": "artichron",
+        "systemVersion": "1.0.0",
+        "createdTime": 1752267447102,
+        "modifiedTime": 1752267458150,
+        "lastModifiedBy": "artichronbuilder"
+      },
+      "category": "snUxqEnw0jHOcexm",
+      "_key": "!journal.pages!xJAQJs1s2SgG9JS0.nOeGQIlBHI9gz2EB"
+    },
+    {
+      "sort": 0,
+      "name": "Clocks",
+      "type": "text",
+      "_id": "eX3fBqWmNpSv1Rqk",
+      "system": {},
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "image": {},
+      "text": {
+        "format": 1,
+        "content": "<p>A 'clock' is used to measure the degree of success of the party's current efforts during a session. A single session will usually start with two empty clocks, one positive and one negative.</p><p>When a player performs a skill check, whether the roll meets a threshold determines if the GM ups the positive or negative counter. Once such a counter reaches its maximum, a good or bad result will occur that either affects how the story progresses, or if no such consequences currently apply, the GM can use the boons and detriments tables to determine the effect of the clock for the next session.</p><p>Players should make efforts to perform as many skill checks as possible to fill out the better clock, as this is the tool for the GM to determine their overall success as the story progresses.</p><p>@Embed[Compendium.artichron.tables.RollTable.wC0qMfzV4qDaupGu rollable]</p><p>@Embed[Compendium.artichron.tables.RollTable.fkbZs2crsZTksphg rollable]</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": null,
+      "ownership": {
+        "default": -1
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.artichron.rules.JournalEntry.M2zig7h0tyZDHMxA.JournalEntryPage.eX3fBqWmNpSv1Rqk",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.346",
+        "systemId": "artichron",
+        "systemVersion": "1.0.0",
+        "createdTime": 1752267449359,
+        "modifiedTime": 1752267461937,
+        "lastModifiedBy": "artichronbuilder"
+      },
+      "category": "snUxqEnw0jHOcexm",
+      "_key": "!journal.pages!xJAQJs1s2SgG9JS0.eX3fBqWmNpSv1Rqk"
+    },
+    {
+      "sort": 0,
+      "name": "Hindered",
+      "type": "text",
+      "_id": "uVv9k9xheOkxzBhO",
+      "system": {},
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "image": {},
+      "text": {
+        "format": 1,
+        "content": "<p>While hindered, you start with one less action point each turn for each level of this condition. You cannot start your turn with less than 1 action point.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": null,
+      "ownership": {
+        "default": -1
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.artichron.rules.JournalEntry.JjiZqfbpC2YVXV4R.JournalEntryPage.uVv9k9xheOkxzBhO",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.346",
+        "systemId": "artichron",
+        "systemVersion": "1.0.0",
+        "createdTime": 1752268430020,
+        "modifiedTime": 1752268442022,
+        "lastModifiedBy": "artichronbuilder"
+      },
+      "category": "CbvU6Oxs0DTHhgDN",
+      "_key": "!journal.pages!xJAQJs1s2SgG9JS0.uVv9k9xheOkxzBhO"
+    },
+    {
+      "sort": 0,
+      "name": "Burning",
+      "type": "text",
+      "_id": "3VoSsDfCrBGG8Bzy",
+      "system": {},
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "image": {},
+      "text": {
+        "format": 1,
+        "content": "<p>While burning, a combatant takes 1d12 fire damage at the start of the round. For each level of this condition, the combatant takes an additional 1d12 fire damage.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": null,
+      "ownership": {
+        "default": -1
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.artichron.rules.JournalEntry.JjiZqfbpC2YVXV4R.JournalEntryPage.3VoSsDfCrBGG8Bzy",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.346",
+        "systemId": "artichron",
+        "systemVersion": "1.0.0",
+        "createdTime": 1752268431212,
+        "modifiedTime": 1752268445201,
+        "lastModifiedBy": "artichronbuilder"
+      },
+      "category": "CbvU6Oxs0DTHhgDN",
+      "_key": "!journal.pages!xJAQJs1s2SgG9JS0.3VoSsDfCrBGG8Bzy"
+    },
+    {
+      "sort": 0,
+      "name": "Bleeding",
+      "type": "text",
+      "system": {},
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "image": {},
+      "text": {
+        "format": 1,
+        "content": "<p>While bleeding, a combatant takes 1d6 physical damage at the start of the round. For each level of this condition, the combatant takes an additional 1d6 physical damage. This damage cannot be reduced by armor.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": null,
+      "ownership": {
+        "default": -1
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.artichron.rules.JournalEntry.JjiZqfbpC2YVXV4R.JournalEntryPage.nIvx3xXwYP9iGSeh",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.346",
+        "systemId": "artichron",
+        "systemVersion": "1.0.0",
+        "createdTime": 1752268431812,
+        "modifiedTime": 1752268451203,
+        "lastModifiedBy": "artichronbuilder"
+      },
+      "_id": "nIvx3xXwYP9iGSeh",
+      "category": "CbvU6Oxs0DTHhgDN",
+      "_key": "!journal.pages!xJAQJs1s2SgG9JS0.nIvx3xXwYP9iGSeh"
+    },
+    {
+      "sort": 0,
+      "name": "Injured",
+      "type": "text",
+      "_id": "FRQ8zjWTfTYZWGx3",
+      "system": {},
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "image": {},
+      "text": {
+        "format": 1,
+        "content": "<p>While injured, a character has their maximum health reduced by 5%. This condition stacks up to twenty times; if a character has five stacks of the Injured condition, their maximum health is reduced by 25%. If this reaches 100%, the character is permanently dead.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": null,
+      "ownership": {
+        "default": -1
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.artichron.rules.JournalEntry.JjiZqfbpC2YVXV4R.JournalEntryPage.FRQ8zjWTfTYZWGx3",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.346",
+        "systemId": "artichron",
+        "systemVersion": "1.0.0",
+        "createdTime": 1752268432351,
+        "modifiedTime": 1752268453564,
+        "lastModifiedBy": "artichronbuilder"
+      },
+      "category": "CbvU6Oxs0DTHhgDN",
+      "_key": "!journal.pages!xJAQJs1s2SgG9JS0.FRQ8zjWTfTYZWGx3"
+    },
+    {
+      "sort": 0,
+      "name": "Attack Up",
+      "type": "text",
+      "_id": "0iBopTnnWkmkN9kK",
+      "system": {},
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "image": {},
+      "text": {
+        "format": 1,
+        "content": "<p>Your physical, elemental, or planar damage is increased by 50%. This effect does not stack. If affected by Attack Down, the two status conditions cancel each other out.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": null,
+      "category": "CbvU6Oxs0DTHhgDN",
+      "ownership": {
+        "default": -1
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.artichron.rules.JournalEntry.JjiZqfbpC2YVXV4R.JournalEntryPage.0iBopTnnWkmkN9kK",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.346",
+        "systemId": "artichron",
+        "systemVersion": "1.0.0",
+        "createdTime": 1752268432907,
+        "modifiedTime": 1752268459452,
+        "lastModifiedBy": "artichronbuilder"
+      },
+      "_key": "!journal.pages!xJAQJs1s2SgG9JS0.0iBopTnnWkmkN9kK"
+    },
+    {
+      "sort": 0,
+      "name": "Attack Down",
+      "type": "text",
+      "_id": "ZoEO3S8EJCRPu53v",
+      "system": {},
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "image": {},
+      "text": {
+        "format": 1,
+        "content": "<p>Your physical, elemental, or planar damage is decreased by 33%. This effect does not stack. If affected by Attack Up, the two status conditions cancel each other out.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": null,
+      "category": "CbvU6Oxs0DTHhgDN",
+      "ownership": {
+        "default": -1
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.artichron.rules.JournalEntry.JjiZqfbpC2YVXV4R.JournalEntryPage.ZoEO3S8EJCRPu53v",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.346",
+        "systemId": "artichron",
+        "systemVersion": "1.0.0",
+        "createdTime": 1752268433498,
+        "modifiedTime": 1752268462604,
+        "lastModifiedBy": "artichronbuilder"
+      },
+      "_key": "!journal.pages!xJAQJs1s2SgG9JS0.ZoEO3S8EJCRPu53v"
+    },
+    {
+      "sort": 0,
+      "name": "Defense Up",
+      "type": "text",
+      "_id": "JBjVW6bkIC4DWWw9",
+      "system": {},
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "image": {},
+      "text": {
+        "format": 1,
+        "content": "<p>When you take physical, elemental, or planar damage, it is decreased by 33%. This effect does not stack. If affected by Defense Down, the two status conditions cancel each other out.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": null,
+      "category": "CbvU6Oxs0DTHhgDN",
+      "ownership": {
+        "default": -1
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.artichron.rules.JournalEntry.JjiZqfbpC2YVXV4R.JournalEntryPage.JBjVW6bkIC4DWWw9",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.346",
+        "systemId": "artichron",
+        "systemVersion": "1.0.0",
+        "createdTime": 1752268434100,
+        "modifiedTime": 1752268465437,
+        "lastModifiedBy": "artichronbuilder"
+      },
+      "_key": "!journal.pages!xJAQJs1s2SgG9JS0.JBjVW6bkIC4DWWw9"
+    },
+    {
+      "sort": 0,
+      "name": "Defense Down",
+      "type": "text",
+      "_id": "k5rl3B6Im0RDUlxF",
+      "system": {},
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "image": {},
+      "text": {
+        "format": 1,
+        "content": "<p>When you take physical, elemental, or planar damage, it is increased by 50%. This effect does not stack. If affected by Defense Up, the two status conditions cancel each other out.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": null,
+      "category": "CbvU6Oxs0DTHhgDN",
+      "ownership": {
+        "default": -1
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.artichron.rules.JournalEntry.JjiZqfbpC2YVXV4R.JournalEntryPage.k5rl3B6Im0RDUlxF",
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.346",
+        "systemId": "artichron",
+        "systemVersion": "1.0.0",
+        "createdTime": 1752268434857,
+        "modifiedTime": 1752268468213,
+        "lastModifiedBy": "artichronbuilder"
+      },
+      "_key": "!journal.pages!xJAQJs1s2SgG9JS0.k5rl3B6Im0RDUlxF"
+    }
+  ],
+  "folder": null,
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "13.346",
+    "systemId": "artichron",
+    "systemVersion": "1.0.0",
+    "createdTime": 1729157490108,
+    "modifiedTime": 1752268425576,
+    "lastModifiedBy": "artichronbuilder",
+    "exportSource": null
+  },
+  "categories": [
+    {
+      "name": "Challenges",
+      "sort": 0,
+      "_id": "snUxqEnw0jHOcexm",
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.346",
+        "systemId": "artichron",
+        "systemVersion": "1.0.0",
+        "createdTime": 1752267372014,
+        "modifiedTime": 1752267372014,
+        "lastModifiedBy": "artichronbuilder"
+      },
+      "_key": "!journal.categories!xJAQJs1s2SgG9JS0.snUxqEnw0jHOcexm"
+    },
+    {
+      "name": "Combat",
+      "sort": 0,
+      "_id": "T4r9P8mgESuU3m3l",
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.346",
+        "systemId": "artichron",
+        "systemVersion": "1.0.0",
+        "createdTime": 1752267380699,
+        "modifiedTime": 1752267380699,
+        "lastModifiedBy": "artichronbuilder"
+      },
+      "_key": "!journal.categories!xJAQJs1s2SgG9JS0.T4r9P8mgESuU3m3l"
+    },
+    {
+      "name": "Equipment",
+      "sort": 0,
+      "_id": "xw5yX9QKSrJTvrjL",
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.346",
+        "systemId": "artichron",
+        "systemVersion": "1.0.0",
+        "createdTime": 1752267389266,
+        "modifiedTime": 1752267389266,
+        "lastModifiedBy": "artichronbuilder"
+      },
+      "_key": "!journal.categories!xJAQJs1s2SgG9JS0.xw5yX9QKSrJTvrjL"
+    },
+    {
+      "name": "Status Conditions",
+      "sort": 0,
+      "_id": "CbvU6Oxs0DTHhgDN",
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.346",
+        "systemId": "artichron",
+        "systemVersion": "1.0.0",
+        "createdTime": 1752268416519,
+        "modifiedTime": 1752268416519,
+        "lastModifiedBy": "artichronbuilder"
+      },
+      "_key": "!journal.categories!xJAQJs1s2SgG9JS0.CbvU6Oxs0DTHhgDN"
+    }
+  ],
+  "_key": "!journal!xJAQJs1s2SgG9JS0"
+}

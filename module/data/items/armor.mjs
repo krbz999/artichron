@@ -38,10 +38,16 @@ export default class ArmorData extends ItemSystemModel {
         ),
       }),
 
-      defenses: new SchemaField(artichron.config.DAMAGE_TYPES.optgroups.reduce((acc, { value: k }) => {
-        acc[k] = new SchemaField({ value: new NumberField({ integer: true, initial: 0, nullable: false }) });
-        return acc;
-      }, {})),
+      defenses: new SchemaField(artichron.config.DAMAGE_TYPES.optgroups
+        .reduce((acc, { value }) => Object.assign(acc, { [value]: new NumberField({ integer: true }) }), {}),
+      ),
+
+      skills: new SchemaField({
+        agility: new NumberField({ integer: true, min: 0, initial: null }),
+        brawn: new NumberField({ integer: true, min: 0, initial: null }),
+        mind: new NumberField({ integer: true, min: 0, initial: null }),
+        spirit: new NumberField({ integer: true, min: 0, initial: null }),
+      }),
 
       price: new SchemaField({
         value: new NumberField({ min: 0, initial: 0, integer: true, nullable: false }),
@@ -82,6 +88,35 @@ export default class ArmorData extends ItemSystemModel {
   get isEquipped() {
     if (!this.parent.isEmbedded) return false;
     return this.parent.actor.system.equipment?.[this.armor.slot] === this.parent;
+  }
+
+  /* -------------------------------------------------- */
+
+  /** @inheritdoc */
+  prepareBaseData() {
+    super.prepareBaseData();
+
+    const isPristine = this.attributes.value.has("pristine");
+    const score = artichron.config.EQUIPMENT_TYPES[this.armor.slot].armorScore;
+    const cat = this.armor.category;
+
+    for (const k in artichron.config.DAMAGE_TYPES) {
+      let multiplier;
+      switch (artichron.config.DAMAGE_TYPES[k].group) {
+        case "physical":
+          multiplier = Number(cat === "natural") * (Number(isPristine) + 1);
+          break;
+        case "elemental":
+          multiplier = Number(cat === "clothing") * (Number(isPristine) + 1);
+          break;
+      }
+
+      if (multiplier) this.defenses[k] = this._source.defenses[k] + score * multiplier;
+    }
+
+    if (cat === "tech") {
+      for (const k in artichron.config.SKILLS) this.skills[k] = this._source.skills[k] + (5 - score) + Number(isPristine);
+    }
   }
 
   /* -------------------------------------------------- */
@@ -126,9 +161,9 @@ export default class ArmorData extends ItemSystemModel {
       };
     });
 
-    context.defenses = Object.entries(this.defenses).reduce((acc, [type, { value }]) => {
+    context.defenses = Object.entries(this.defenses).reduce((acc, [type, value]) => {
       if (value) acc.push({
-        value: value,
+        value,
         config: artichron.config.DAMAGE_TYPES[type],
       });
       return acc;

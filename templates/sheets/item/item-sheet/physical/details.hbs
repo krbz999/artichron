@@ -2,11 +2,20 @@
   {{formInput systemFields.attributes.fields.value value=ctx.attributes options=ctx.attrOptions type="checkboxes" disabled=isPlayMode}}
 
   <h3 class="section-header">{{localize "ARTICHRON.SHEET.ITEM.HEADERS.configuration"}}</h3>
-  {{formGroup systemFields.price.fields.value value=(ifThen isPlayMode document.system.price.value source.system.price.value) disabled=isPlayMode rootId=rootId}}
-  {{formGroup systemFields.weight.fields.value value=(ifThen isPlayMode document.system.weight.value source.system.weight.value) disabled=isPlayMode rootId=rootId}}
+  <div class="form-group">
+    <div class="form-fields">
+      {{formGroup systemFields.price.fields.value value=(ifThen isPlayMode document.system.price.value source.system.price.value) disabled=isPlayMode rootId=rootId classes="label-top"}}
+      {{formGroup systemFields.weight.fields.value value=(ifThen isPlayMode document.system.weight.value source.system.weight.value) disabled=isPlayMode rootId=rootId classes="label-top"}}
 
-  {{#if systemFields.quantity}}
-  {{formGroup systemFields.quantity.fields.value value=(ifThen isPlayMode document.system.quantity.value source.system.quantity.value) disabled=isPlayMode rootId=rootId}}
+      {{#if systemFields.quantity}}
+      {{formGroup systemFields.quantity.fields.value value=(ifThen isPlayMode document.system.quantity.value source.system.quantity.value) disabled=isPlayMode rootId=rootId classes="label-top"}}
+      {{/if}}
+    </div>
+  </div>
+
+  {{#if (eq document.type "spell")}}
+  {{formGroup systemFields.spell.fields.quality value=(ifThen isPlayMode document.system.spell.quality source.system.spell.quality) disabled=isPlayMode rootId=rootId}}
+  {{formGroup systemFields.spell.fields.subtype value=(ifThen isPlayMode document.system.spell.subtype source.system.spell.subtype) disabled=isPlayMode rootId=rootId}}
   {{/if}}
 
   {{#if ctx.isArmor}}
@@ -20,17 +29,19 @@
   {{/if}}
 
   {{#if ctx.isArmor}}
+  {{#if ctx.defenses.length}}
   <h3 class="section-header">{{localize "ARTICHRON.SHEET.ARMOR.HEADERS.defenses"}}</h3>
   <div class="form-group">
     {{#each ctx.defenses}}
     <div class="form-group label-top" data-tooltip-text="{{label}}">
       <label class="fa-fw {{icon}}" style="width: 100%; color: #{{color}};"></label>
       <div class="form-fields">
-        {{formInput field value=value disabled=(not (and @root.editable @root.isEditMode)) placeholder="0"}}
+        {{formInput field value=value disabled=disabled placeholder="0"}}
       </div>
     </div>
     {{/each}}
   </div>
+  {{/if}}
 
   <div class="document-list armor-requirements" data-pseudo-document-name="ArmorRequirement">
     <h3 class="document-list-header">

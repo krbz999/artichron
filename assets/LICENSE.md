@@ -15,6 +15,13 @@ This system includes icon artwork licensed from Game-icons.net under the Creativ
 
 assets/icons/chron.svg - "Rupee Icon" by Delapouite under CC BY 3.0
 
+assets/icons/equipment/leg-armor.svg - "Armored Pants" by Irongamer un CC BY 3.0
+assets/icons/equipment/gauntlet.svg - "Gauntlet" by Delapouite under CC BY 3.0
+assets/icons/equipment/chest-armor.svg - "Chest Armor" by Delapouite under CC BY 3.0
+assets/icons/equipment/helmet.svg - "Crested Helmet" by Lorc under CC BY 3.0
+assets/icons/equipment/boots.svg - "Boots" by Lorc under CC BY 3.0
+assets/icons/equipment/accessory.svg - "Gem Chain" by Lorc under CC BY 3.0
+
 assets/icons/conditions/bleeding.svg - "Bloody Stash" by Lorc under CC BY 3.0
 assets/icons/conditions/blind.svg - "Sight Disabled" by Skoll under CC BY 3.0
 assets/icons/conditions/bloodied.svg - "Bleeding Heart" by Lorc under CC BY 3.0

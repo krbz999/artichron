@@ -1,5 +1,16 @@
 <section class="tab {{tabs.inventory.cssClass}}" data-group="{{tabs.inventory.group}}" data-tab="{{tabs.inventory.id}}">
 
+  <section class="equipment">
+    {{#each ctx.equipment}}
+    <div class="equipment-item {{#unless equipped}} unequipped {{/unless}}">
+      {{#if isSvg}} <artichron-icon class="image" src="{{img}}"></artichron-icon>
+      {{else}}
+      <img class="image" src="{{img}}" alt="">
+      {{/if}}
+    </div>
+    {{/each}}
+  </section>
+
   <search>
     <input type="search" id="inventory-search" placeholder="{{localize 'SIDEBAR.Search' types=(localize 'DOCUMENT.Items')}}" value="{{ctx.searchQuery}}">
   </search>
