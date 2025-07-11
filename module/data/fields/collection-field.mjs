@@ -56,7 +56,8 @@ export default class CollectionField extends TypedObjectField {
   /** @inheritdoc */
   _applyChangeAdd(value, delta, model, change) {
     const parsed = JSON.parse(change.value);
-    const inst = new this.documentClass(parsed, { parent: this.model });
+    const parent = (model instanceof foundry.abstract.Document) ? model.system : model;
+    const inst = new this.documentClass(parsed, { parent });
     model.getEmbeddedPseudoDocumentCollection(this.documentClass.metadata.documentName).set(inst.id, inst);
   }
 }
