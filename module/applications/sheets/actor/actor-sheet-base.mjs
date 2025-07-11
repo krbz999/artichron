@@ -96,7 +96,7 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
     }, {
       name: "ARTICHRON.SHEET.ACTOR.CONTEXT.EFFECT.delete",
       icon: "<i class='fa-solid fa-fw fa-trash'></i>",
-      condition: btn => getEffect(btn).type !== "condition",
+      condition: btn => (getEffect(btn).type !== "condition") && (getEffect(btn).parent.documentName !== "Item"),
       callback: btn => getEffect(btn).deleteDialog(),
       group: "manage",
     }, {

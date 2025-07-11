@@ -56,7 +56,8 @@ export default class ControlledTokensListElement extends HTMLElement {
     const gmTargets = isGM ? [...game.user.targets] : [];
     const gmControlled = isGM ? [...canvas.tokens?.controlled ?? []] : [];
 
-    const tokens = artichron.utils.getTokenTargets([...authorTargets, ...gmTargets, ...gmControlled]);
+    const tokens = artichron.utils.getTokenTargets([...authorTargets, ...gmTargets, ...gmControlled])
+      .filter(token => ["hero", "monster"].includes(token.actor.type));
     const actorUuids = tokens.map(token => token.actor.uuid);
 
     const existing = new Set();
