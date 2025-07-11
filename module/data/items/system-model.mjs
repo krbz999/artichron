@@ -1,6 +1,4 @@
-const {
-  HTMLField, NumberField, SchemaField, SetField, StringField, TypedObjectField,
-} = foundry.data.fields;
+const { HTMLField, SchemaField, SetField, StringField } = foundry.data.fields;
 
 export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
   /** @type {import("../../_types").ItemSubtypeMetadata} */
@@ -26,6 +24,13 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
       identifier: new artichron.data.fields.IdentifierField(),
     };
   }
+
+  /* -------------------------------------------------- */
+
+  /** @inheritdoc */
+  static LOCALIZATION_PREFIXES = [
+    "ARTICHRON.ITEM",
+  ];
 
   /* -------------------------------------------------- */
   /*   Life-cycle methods                               */
@@ -158,35 +163,6 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
     }
 
     return props;
-  }
-
-  /* -------------------------------------------------- */
-  /*   Properties                                       */
-  /* -------------------------------------------------- */
-
-  /** @inheritdoc */
-  static LOCALIZATION_PREFIXES = [
-    "ARTICHRON.ITEM",
-  ];
-
-  /* -------------------------------------------------- */
-
-  /**
-   * The effects that can be transferred to the actor when this item is used.
-   * @type {ActiveEffectArtichron[]}
-   */
-  get transferrableEffects() {
-    return this.parent.effects.filter(e => !e.transfer && ["condition", "buff"].includes(e.type));
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Does this item have any effects that can be transferred to the actor when this item is used?
-   * @type {boolean}
-   */
-  get hasTransferrableEffects() {
-    return this.transferrableEffects.length > 0;
   }
 
   /* -------------------------------------------------- */

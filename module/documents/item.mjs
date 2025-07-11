@@ -53,81 +53,11 @@ export default class ItemArtichron extends BaseDocumentMixin(foundry.documents.I
   /* -------------------------------------------------- */
 
   /**
-   * Does the owner of this item fulfill all the requirements to gain its benefits?
-   * @type {boolean}
-   */
-  get fulfilledRequirements() {
-    return this.system.fulfilledRequirements ?? true;
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Can this item be fused onto another?
-   * @type {boolean}
-   */
-  get canFuse() {
-    return this.type === "spell";
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Is this item currently under the effect of a fusion?
-   * @type {boolean}
-   */
-  get isFusedOnto() {
-    return this.effects.some(effect => effect.system.isActiveFusion);
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Is this a valid item type for fusing onto another?
-   * @type {boolean}
-   */
-  get canFuseOnto() {
-    return this.type === "armor";
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
    * Does this item have a limited number of uses?
    * @type {boolean}
    */
   get hasUses() {
     return this.system.hasUses ?? false;
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Is this item ammo?
-   * @type {boolean}
-   */
-  get isAmmo() {
-    return this.type === "ammo";
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Is this item armor?
-   * @type {boolean}
-   */
-  get isArmor() {
-    return this.type === "armor";
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Can this elixir be used to boost a roll?
-   * @type {boolean}
-   */
-  get isBooster() {
-    return this.system.isBooster ?? false;
   }
 
   /* -------------------------------------------------- */
@@ -139,36 +69,6 @@ export default class ItemArtichron extends BaseDocumentMixin(foundry.documents.I
   get isFavorite() {
     if (!this.isEmbedded) return false;
     return this.actor.favorites.has(this);
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Does this item have any effects that can be transferred to the actor when this item is used?
-   * @type {boolean}
-   */
-  get hasTransferrableEffects() {
-    return this.system.hasTransferrableEffects ?? false;
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * The effects that can be transferred to the actor when this item is used.
-   * @type {ActiveEffectArtichron[]}
-   */
-  get transferrableEffects() {
-    return this.system.transferrableEffects ?? [];
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Does this item use ammunition?
-   * @type {boolean}
-   */
-  get usesAmmo() {
-    return this.system.usesAmmo ?? false;
   }
 
   /* -------------------------------------------------- */

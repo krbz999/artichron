@@ -103,7 +103,7 @@ export default class CreatureData extends ActorSystemModel {
   /** Prepare the value of actor defenses. */
   #prepareDefenses() {
     for (const item of Object.values(this.equipment)) {
-      if (!item?.fulfilledRequirements) continue;
+      if (!item?.system.fulfilledRequirements) continue;
       for (const [k, v] of Object.entries(item.system.defenses)) {
         this.defenses[k] += v.value;
       }

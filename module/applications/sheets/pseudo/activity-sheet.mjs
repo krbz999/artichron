@@ -95,9 +95,9 @@ export default class ActivitySheet extends PseudoDocumentSheet {
 
     // Effect
     if (context.pseudoDocument.type === "effect") {
-      ctx.effectOptions = this.item.transferrableEffects.map(effect => {
-        return { value: effect.id, label: effect.name };
-      });
+      ctx.effectOptions = this.item.effects
+        .filter(effect => !effect.transfer && ["condition", "buff"].includes(effect.type))
+        .map(effect => ({ value: effect.id, label: effect.name }));
     }
 
     return context;

@@ -27,23 +27,12 @@ export default class EffectFusionData extends ActiveEffectSystemModel {
   /* -------------------------------------------------- */
 
   /**
-   * Is this a fusion that can be transferred?
+   * Is there some system logic that makes this active effect ineligible for application?
    * @type {boolean}
    */
   get isSuppressed() {
-    // Called by ActiveEffect#isSuppressed.
     // If a fusion has data stored, it is an active fusion and should apply, ergo it should not be suppressed.
     return foundry.utils.getType(this.itemData) !== "Object";
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Is this a fusion that is currently modifying a target item?
-   * @type {boolean}
-   */
-  get isActiveFusion() {
-    return !this.isSuppressed;
   }
 
   /* -------------------------------------------------- */
@@ -52,13 +41,10 @@ export default class EffectFusionData extends ActiveEffectSystemModel {
 
   /** @inheritdoc */
   async _preCreate(data, options, user) {
-    const allowed = await super._preCreate(data, options, user);
-    if (allowed === false) return false;
+    if ((await super._preCreate(data, options, user)) === false) return false;
 
-    const isActor = this.parent.parent.documentName === "Actor";
-    const invalidItem = (this.parent.parent.documentName === "Item") && !this.parent.parent.canFuseOnto;
-    if (isActor || invalidItem) {
-      ui.notifications.warn("ARTICHRON.Warning.InvalidActiveEffectType", { localize: true });
+    const parent = this.parent.parent;
+    if ((parent.documentName === "Actor") || ((parent.documentName === "Item") && (parent.type !== "armor"))) {
       return false;
     }
   }
@@ -81,10 +67,8 @@ export default class EffectFusionData extends ActiveEffectSystemModel {
 
   /** @inheritdoc */
   getRollData() {
-    const data = {
-      fusion: { ...this.itemData?.system ?? {} },
-    };
-    data.fusion.name = this.itemData?.name ?? "";
+    const { name, system } = this.itemData ?? {};
+    const data = name ? { fusion: { ...system, name } } : {};
     return data;
   }
 
@@ -97,7 +81,7 @@ export default class EffectFusionData extends ActiveEffectSystemModel {
    * @returns {Promise<ItemArtichron|null>}   A promise that resolves to the recreated item.
    */
   async unfuse({ keepId = true } = {}) {
-    if (!this.isActiveFusion) {
+    if (this.isSuppressed) {
       throw new Error("This is not an active fusion.");
     }
 
@@ -125,7 +109,7 @@ export default class EffectFusionData extends ActiveEffectSystemModel {
    * @returns {Promise<ItemArtichron|null>}   A promise that resolves to the recreated item.
    */
   async unfuseDialog(options = {}) {
-    if (!this.isActiveFusion) {
+    if (this.isSuppressed) {
       throw new Error("This is not an active fusion.");
     }
 
@@ -144,27 +128,5 @@ export default class EffectFusionData extends ActiveEffectSystemModel {
     if (!confirm) return null;
 
     return this.unfuse(options);
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Utility method for translating an edge-case change into a human-readable label.
-   * @param {object} change         Change effect data.
-   * @param {string} change.key     The attribute targeted.
-   * @param {number} change.mode    The active effect mode.
-   * @param {string} change.value   The new value of the property.
-   * @returns {string}              A human-readable label.
-   */
-  static translateChange({ key, mode, value }) {
-    const formatter = game.i18n.getListFormatter({ style: "long", type: "conjunction" });
-
-    // Special case: attributes
-    if (key === "system.attributes.value") {
-      const values = Array.from(value).map(k => artichron.config.ITEM_ATTRIBUTES[k]?.label).filter(u => u);
-      return formatter.format(values);
-    }
-
-    throw new Error(`The attempted key '${key}' is an invalid key to translate!`);
   }
 }

@@ -179,7 +179,7 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
     }, {
       name: "ARTICHRON.SHEET.ACTOR.CONTEXT.ITEM.fuse",
       icon: "<i class='fa-solid fa-fw fa-volcano'></i>",
-      condition: el => ["hero", "monster"].includes(this.document.type) && getItem(el).canFuse,
+      condition: el => ["hero", "monster"].includes(this.document.type) && (getItem(el).type === "spell"),
       callback: el => getItem(el).system.fuseDialog(),
       group: "action",
     }];

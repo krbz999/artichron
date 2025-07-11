@@ -11,9 +11,7 @@ const { DocumentUUIDField, BooleanField, StringField } = foundry.data.fields;
 export default class EffectBuffData extends ActiveEffectSystemModel {
   /** @inheritdoc */
   static get metadata() {
-    return foundry.utils.mergeObject(super.metadata, {
-      type: "buff",
-    });
+    return foundry.utils.mergeObject(super.metadata, {});
   }
 
   /* -------------------------------------------------- */
@@ -33,6 +31,18 @@ export default class EffectBuffData extends ActiveEffectSystemModel {
         },
       }),
     };
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Is there some system logic that makes this active effect ineligible for application?
+   * @type {boolean}
+   */
+  get isSuppressed() {
+    if (this.parent.parent?.type === "party") return true;
+    if (this.parent.parent?.actor?.type === "party") return true;
+    return false;
   }
 
   /* -------------------------------------------------- */

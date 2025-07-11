@@ -128,7 +128,7 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
     }, {
       name: "ARTICHRON.SHEET.ITEM.CONTEXT.EFFECT.delete",
       icon: "<i class='fa-solid fa-fw fa-trash'></i>",
-      condition: btn => !getEffect(btn).system.isActiveFusion,
+      condition: btn => getEffect(btn).type !== "fusion",
       callback: btn => getEffect(btn).deleteDialog(),
       group: "manage",
     }, {
@@ -146,7 +146,7 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
     }, {
       name: "ARTICHRON.SHEET.ITEM.CONTEXT.EFFECT.duplicate",
       icon: "<i class='fa-solid fa-fw fa-copy'></i>",
-      condition: btn => !getEffect(btn).system.isActiveFusion,
+      condition: btn => getEffect(btn).type !== "fusion",
       callback: btn => {
         const effect = getEffect(btn);
         effect.clone(
@@ -158,7 +158,7 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
     }, {
       name: "ARTICHRON.SHEET.ITEM.CONTEXT.EFFECT.unfuse",
       icon: "<i class='fa-solid fa-fw fa-volcano'></i>",
-      condition: btn => getEffect(btn).system.isActiveFusion,
+      condition: btn => getEffect(btn).type === "fusion",
       callback: btn => getEffect(btn).system.unfuseDialog(),
       group: "action",
     }];

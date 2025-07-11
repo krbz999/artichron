@@ -1375,7 +1375,6 @@
 },
 
 "Warning": {
-  "InvalidActiveEffectType": "The chosen effect type is not valid for this parent.",
   "MissingActionPoints": "You do not have enough Action Points to perform that action."
 }
 }}

@@ -76,16 +76,6 @@ export default class BaseActivity extends TypedPseudoDocument {
   }
 
   /* -------------------------------------------------- */
-
-  /**
-   * Does this activity make use of ammo?
-   * @type {boolean}
-   */
-  get usesAmmo() {
-    return false;
-  }
-
-  /* -------------------------------------------------- */
   /*   Instance methods                                 */
   /* -------------------------------------------------- */
 
@@ -98,16 +88,8 @@ export default class BaseActivity extends TypedPseudoDocument {
    */
   getUsageConfigs(usageConfig = {}, dialogConfig = {}, messageConfig = {}) {
     const item = this.item;
-    const actor = item.actor;
     const isSpell = item.type === "spell";
-    const elixirs = actor.items.reduce((acc, item) => {
-      if (item.type !== "elixir") return acc;
-      if (item.system.hasUses && item.system.isBooster && (item.system.boost === this.poolType)) {
-        acc[item.id] = item.name;
-      }
-      return acc;
-    }, {});
-
+    const elixirs = {};
     const message = {};
 
     const pips = this.item.actor.inCombat && (this.cost.value > 0);

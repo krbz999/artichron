@@ -56,26 +56,6 @@ export default class ElixirData extends ItemSystemModel {
   }
 
   /* -------------------------------------------------- */
-
-  /**
-   * Does this item have any effects that can be transferred to the actor when this item is used?
-   * @type {boolean}
-   */
-  get hasTransferrableEffects() {
-    return super.hasTransferrableEffects && this.hasUses;
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Can this elixir be used to boost a roll?
-   * @type {boolean}
-   */
-  get isBooster() {
-    return this.attributes.value.has("booster");
-  }
-
-  /* -------------------------------------------------- */
   /*   Life-cycle methods                               */
   /* -------------------------------------------------- */
 
