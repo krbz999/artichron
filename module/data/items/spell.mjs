@@ -134,7 +134,7 @@ export default class SpellData extends ItemSystemModel {
       case "technological": {
         for (const k in artichron.config.SKILLS) {
           changes.push({
-            key: `system.skills.${k}.number`,
+            key: `system.skills.${k}`,
             mode: CONST.ACTIVE_EFFECT_MODES.ADD,
             value: String(quality),
           });
