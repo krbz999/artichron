@@ -109,9 +109,16 @@ Hooks.once("init", function() {
 
   // RegionBehavior Data Models
   Object.assign(CONFIG.RegionBehavior.dataModels, {
+    doorState: data.regionBehaviors.DoorStateConditionBehaviorData,
     enterStore: data.regionBehaviors.EnterStoreBehaviorData,
     statusCondition: data.regionBehaviors.ToggleConditionBehaviorData,
-    doorState: data.regionBehaviors.DoorStateConditionBehaviorData,
+  });
+
+  // RegionBehavior Type Icons
+  Object.assign(CONFIG.RegionBehavior.typeIcons, {
+    doorState: "fa-solid fa-door-open",
+    enterStore: "fa-solid fa-store",
+    statusCondition: "fa-solid fa-biohazard",
   });
 
   // Hook up roll types.

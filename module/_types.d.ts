@@ -55,8 +55,6 @@ export interface AdvancementChainLink {
 export interface DocumentSubtypeMetadata {
   /** Record of pseudo-documents and their collection's property. */
   embedded: Record<string, string>;
-  /** Type icon for this data model if this document type makes use of icons. */
-  icon?: string;
 }
 
 /** Metadata for party actors. */

@@ -355,7 +355,7 @@ export default class HeroSheet extends ActorSheetArtichron {
    * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
    */
   static #onRollSkill(event, target) {
-    this.document.rollSkill({ event, base: target.dataset.skillId });
+    this.document.system.rollSkill({ event, base: target.dataset.skillId });
   }
 
   /* -------------------------------------------------- */

@@ -353,7 +353,7 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
    * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
    */
   static #onRecoverHealth(event, target) {
-    this.document.recover();
+    this.document.system.recover();
   }
 
   /* -------------------------------------------------- */

@@ -231,7 +231,6 @@ export default class MonsterSheet extends ActorSheetArtichron {
     target.disabled = true;
 
     const confirm = await artichron.applications.api.Dialog.confirm({
-      modal: true,
       content: game.i18n.format("ARTICHRON.LootDialog.Content", { name: this.document.name }),
       window: {
         title: game.i18n.format("ARTICHRON.LootDialog.Title", { name: this.document.name }),

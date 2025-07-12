@@ -11,16 +11,6 @@ export default class ActorArtichron extends BaseDocumentMixin(foundry.documents.
   /* -------------------------------------------------- */
 
   /**
-   * Does this actor have a shield equipped?
-   * @type {boolean}
-   */
-  get hasShield() {
-    return this.system.hasShield ?? false;
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
    * The items that this actor has favorited.
    * @type {Set<ItemArtichron>}
    */
@@ -92,15 +82,6 @@ export default class ActorArtichron extends BaseDocumentMixin(foundry.documents.
 
   /* -------------------------------------------------- */
   /*   Life-cycle methods                               */
-  /* -------------------------------------------------- */
-
-  /** @inheritdoc */
-  async _preUpdate(update, options, user) {
-    // This also calls system._preUpdate.
-    const allowed = await super._preUpdate(update, options, user);
-    if (allowed === false) return false;
-  }
-
   /* -------------------------------------------------- */
 
   /** @inheritdoc */
@@ -204,31 +185,6 @@ export default class ActorArtichron extends BaseDocumentMixin(foundry.documents.
     const data = this.system.getRollData();
     data.name = this.name;
     return data;
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Roll two skills together.
-   * @param {import("../_types").SkillRollConfiguration} [config]       Roll configuration.
-   * @param {import("../_types").RollDialogConfiguration} [dialog]      Dialog configuration.
-   * @param {import("../_types").RollMessageConfiguration} [message]    Chat message configuration.
-   * @returns {Promise<RollArtichron|null>}   A promise that resolves to the created roll.
-   */
-  async rollSkill(config = {}, dialog = {}, message = {}) {
-    if (this.system.rollSkill) return this.system.rollSkill(config, dialog, message);
-    return null;
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Fully restore any resources.
-   * @returns {Promise<ActorArtichron>}
-   */
-  async recover() {
-    if (this.system.recover) await this.system.recover();
-    return this;
   }
 
   /* -------------------------------------------------- */
@@ -338,54 +294,7 @@ export default class ActorArtichron extends BaseDocumentMixin(foundry.documents.
   }
 
   /* -------------------------------------------------- */
-  /*   Item monster loot                                */
-  /* -------------------------------------------------- */
-
-  /**
-   * Add a new loot item.
-   * @param {string} uuid                 Uuid of the item.
-   * @param {number} [quantity]           The quantity of the item.
-   * @returns {Promise<ActorArtichron>}   A promise that resolves to the updated actor.
-   */
-  async addLootDrop(uuid, quantity = 1) {
-    if (this.system.addLootDrop) await this.system.addLootDrop(uuid, quantity);
-    return this;
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Remove a loot item.
-   * @param {string} uuid                 Uuid of the item.
-   * @returns {Promise<ActorArtichron>}   A promise that resolves to the updated actor.
-   */
-  async removeLootDrop(uuid) {
-    if (this.system.removeLootDrop) await this.system.removeLootDrop(uuid);
-    return this;
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Adjust a loot item's quantity.
-   * @param {string} uuid                 Uuid of the item.
-   * @param {number} quantity             The quantity to add or remove. Reducing to 0 will remove the stack.
-   * @returns {Promise<ActorArtichron>}   A promise that resolves to the updated actor.
-   */
-  async adjustLootDrop(uuid, quantity) {
-    if (this.system.adjustLootDrop) await this.system.adjustLootDrop(uuid, quantity);
-    return this;
-  }
-
-  /* -------------------------------------------------- */
   /*   Action Points                                    */
-  /* -------------------------------------------------- */
-
-  /** @inheritdoc */
-  get inCombat() {
-    return super.inCombat;
-  }
-
   /* -------------------------------------------------- */
 
   /**
@@ -447,7 +356,6 @@ export default class ActorArtichron extends BaseDocumentMixin(foundry.documents.
     const content = field.toFormGroup({ localize: true }, { max: max, value: value });
     return artichron.applications.api.Dialog.prompt({
       content: `<fieldset>${content.outerHTML}</fieldset>`,
-      modal: true,
       window: { title: field.label, icon: "fa-solid fa-circle" },
       position: { width: 400, height: "auto" },
       ok: {

@@ -232,8 +232,7 @@ export default class CombatArtichron extends BaseDocumentMixin(foundry.documents
     }).join("");
 
     const uuids = await artichron.applications.api.Dialog.input({
-      modal: true,
-      content: content,
+      content,
       window: {
         icon: "fa-solid fa-bolt",
         title: "ARTICHRON.Combat.StartRoundTitle",

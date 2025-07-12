@@ -122,7 +122,6 @@ export default class EffectFusionData extends ActiveEffectSystemModel {
         icon: "fa-solid fa-volcano",
       },
       yes: { icon: "fa-solid fa-bolt" },
-      modal: true,
     });
 
     if (!confirm) return null;

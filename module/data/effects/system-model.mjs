@@ -11,8 +11,6 @@ export default class ActiveEffectSystemModel extends foundry.abstract.TypeDataMo
   static get metadata() {
     return {
       embedded: {},
-      icon: "",
-      type: "",
     };
   }
 
