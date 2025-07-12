@@ -1,32 +1,31 @@
-<div class="tab {{tabs.members.cssClass}}" data-group="{{tabs.members.group}}" data-tab="{{tabs.members.id}}">
+<section class="tab {{tabs.members.cssClass}}" data-group="{{tabs.members.group}}" data-tab="{{tabs.members.id}}">
 
   {{#if isGM}}
   <h3 class="section-header">
     <span>{{localize "ARTICHRON.SHEET.PARTY.HEADERS.awards"}}</span>
   </h3>
 
+  {{!-- Award Currency --}}
   <div class="form-group">
     <label>{{localize "ARTICHRON.SHEET.PARTY.currency"}}</label>
     <div class="form-fields">
-      {{formInput systemFields.currency.fields.award value=source.system.currency.award classes="delta" disabled=(not editable)}}
+      {{formInput systemFields.currency.fields.funds value=source.system.currency.funds classes="delta" disabled=(not editable) placeholder="0"}}
       <button type="button" class="icon" data-action="distributeCurrency" {{disabled ctx.distributions.currency.disabled}}>
         <artichron-icon src="systems/artichron/assets/icons/chron.svg"></artichron-icon>
       </button>
     </div>
   </div>
-  {{/if}}
 
-  <h3 class="section-header">
-    <span>{{localize "ARTICHRON.SHEET.PARTY.HEADERS.funds"}}</span>
-  </h3>
+  {{!-- Award Advancement Points --}}
   <div class="form-group">
-    <label>{{localize "ARTICHRON.SHEET.PARTY.currency"}}</label>
+    <label>{{localize "ARTICHRON.SHEET.PARTY.progressionPoints"}}</label>
     <div class="form-fields">
-      {{formInput systemFields.currency.fields.funds value=source.system.currency.funds classes="delta" disabled=(not editable)}}
+      {{formInput systemFields.points.fields.value value=source.system.points.value classes="delta" disabled=(not editable) placeholder="0"}}
+      <button type="button" class="icon fa-solid fa-circle-nodes" data-action="distributePoints" {{disabled ctx.distributions.points.disabled}}></button>
     </div>
   </div>
 
-  {{#if isGM}}
+  {{!-- Place and Recall Members --}}
   <div class="form-group">
     <button type="button" data-action="placeMembers">
       <i class="fa-solid fa-fw fa-street-view"></i>
@@ -39,6 +38,7 @@
   </div>
   {{/if}}
 
+  {{!-- Members List --}}
   <ul class="members scrollable">
     {{#each ctx.actors}}
     <li class="member" data-id="{{actor.id}}">
@@ -61,18 +61,12 @@
           {{/if}}
         </div>
         <span class="currency">
-          {{#if canManage}}
-          <a data-action="manageFunds" data-tooltip="ARTICHRON.SHEET.PARTY.manageFunds">
-            <img class="icon" src="systems/artichron/assets/icons/chron.svg" alt="">
-          </a>
-          {{else}}
-          <img class="icon" src="systems/artichron/assets/icons/chron.svg" alt="">
-          {{/if}}
-          <input type="text" id="currency-{{@root.document.id}}-{{actor.id}}" class="delta" value="{{actor.system.currency.funds}}" {{#if isOwner}} data-change="changeCurrency" data-property="system.currency.funds" {{else}} disabled {{/if}}>
+          <span>{{actor.system.currency.funds}}</span>
+          <artichron-icon src="systems/artichron/assets/icons/chron.svg"></artichron-icon>
         </span>
       </div>
       <button type="button" class="icon fa-solid fa-fw fa-trash" data-action="removeMember" {{#unless (and @root.editable @root.isEditMode)}}disabled{{/unless}}></button>
     </li>
     {{/each}}
   </ul>
-</div>
+</section>

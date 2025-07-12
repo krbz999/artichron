@@ -1,14 +1,9 @@
 import Application from "../../api/application.mjs";
 
-/**
- * Application for distributing currency.
- * @param {ActorArtichron} party      The party actor dispensing currency and points.
- * @param {object} [options]          Application rendering options.
- */
 export default class PartyDistributionDialog extends Application {
-  constructor({ party, ...options }) {
-    options.type ??= "currency";
+  constructor({ party, type = "currency", ...options }) {
     super(options);
+    this.#type = type;
     this.#party = party;
   }
 
@@ -18,9 +13,11 @@ export default class PartyDistributionDialog extends Application {
 
   /** @inheritdoc */
   static DEFAULT_OPTIONS = {
-    type: null,
     window: {
       icon: "fa-solid fa-medal",
+    },
+    actions: {
+      splitEvenly: PartyDistributionDialog.#splitEvenly,
     },
   };
 
@@ -32,7 +29,7 @@ export default class PartyDistributionDialog extends Application {
       template: "systems/artichron/templates/apps/actor/party-distribution-dialog/recipients.hbs",
     },
     footer: {
-      template: "systems/artichron/templates/shared/footer.hbs",
+      template: "templates/generic/form-footer.hbs",
     },
   };
 
@@ -40,9 +37,8 @@ export default class PartyDistributionDialog extends Application {
 
   /** @inheritdoc */
   get title() {
-    return game.i18n.format(`ARTICHRON.PartyDistributionDialog.Title${this.options.type.capitalize()}`, {
-      name: this.#party.name,
-    });
+    if (this.#type === "currency") return game.i18n.format("ARTICHRON.DISTRIBUTE.title", { name: this.#party.name });
+    return game.i18n.format("ARTICHRON.DISTRIBUTE.titlePoints", { name: this.#party.name });
   }
 
   /* -------------------------------------------------- */
@@ -51,7 +47,15 @@ export default class PartyDistributionDialog extends Application {
    * A reference to the party actor dispensing currency or points.
    * @type {ActorArtichron}
    */
-  #party = null;
+  #party;
+
+  /* -------------------------------------------------- */
+
+  /**
+   * What is being distributed.
+   * @type {"currency"|"points"}
+   */
+  #type;
 
   /* -------------------------------------------------- */
 
@@ -65,60 +69,51 @@ export default class PartyDistributionDialog extends Application {
   /*   Rendering                                        */
   /* -------------------------------------------------- */
 
-  /** @inheritdoc */
-  async _preparePartContext(partId, context, options) {
-    context = await super._preparePartContext(partId, context, options);
-    switch (partId) {
-      case "recipients":
-        await this.#preparePartContextRecipients(context);
-        break;
-      case "footer":
-        await this.#preparePartContextFooter(context);
-        break;
-    }
-    return context;
-  }
+  /** @type {import("../../../_types").ContextPartHandler} */
+  async _preparePartContextRecipients(context, options) {
+    const ctx = context.ctx = {};
+    let recipients = this.#party.system.members.map(m => m.actor);
+    if (this.#type === "points") recipients = recipients.filter(actor => actor.type === "hero");
 
-  /* -------------------------------------------------- */
-
-  /**
-   * Modify the rendering context for a specific part.
-   * @param {object} context    The rendering context. **will be mutated**
-   */
-  async #preparePartContextRecipients(context) {
-    const recipients = [this.#party].concat(this.#party.system.members.map(m => m.actor));
     const fields = recipients.map(actor => {
+      const max = this.#type === "currency" ? this.#party.system.currency.funds : this.#party.system.points.value;
       return {
         name: `recipients.${actor.id}.value`,
         value: this.#cached[actor.id] ??= 0,
         dataset: { id: actor.id },
         field: new foundry.data.fields.NumberField({
+          max,
           nullable: false,
           min: 0,
-          max: this.#party.system.currency.award,
           integer: true,
           label: actor.name,
         }),
       };
     });
-    Object.assign(context, { recipients: fields });
+    ctx.recipients = fields;
+    return context;
   }
 
   /* -------------------------------------------------- */
 
-  /**
-   * Modify the rendering context for a specific part.
-   * @param {object} context    The rendering context. **will be mutated**
-   */
-  async #preparePartContextFooter(context) {
+  /** @type {import("../../../_types").ContextPartHandler} */
+  async _preparePartContextFooter(context, options) {
+    const ctx = context.ctx = {};
     const total = Object.values(this.#cached).reduce((acc, k) => acc + k, 0);
-    Object.assign(context, {
-      footer: {
-        disabled: !total || (total > this.#party.system.currency.award),
-        icon: "fa-solid fa-check",
-        label: "Confirm",
-      },
-    });
+    const max = this.#type === "currency" ? this.#party.system.currency.funds : this.#party.system.points.value;
+    context.buttons = [{
+      action: "splitEvenly",
+      type: "button",
+      icon: "fa-solid fa-scale-balanced",
+      disabled: false,
+      label: "ARTICHRON.DISTRIBUTE.splitEvenly",
+    }, {
+      type: "submit",
+      icon: "fa-solid fa-check",
+      disabled: !total || (total > max),
+      label: "ARTICHRON.DISTRIBUTE.confirm",
+    }];
+    return context;
   }
 
   /* -------------------------------------------------- */
@@ -136,5 +131,22 @@ export default class PartyDistributionDialog extends Application {
         });
       }
     }
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Split the values evenly across all recipients.
+   * @this {PartyDistributionDialog}
+   * @param {PointerEvent} event    The initiating click event.
+   * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
+   */
+  static #splitEvenly(event, target) {
+    const path = this.#type === "currency" ? "system.currency.funds" : "system.points.value";
+    const total = foundry.utils.getProperty(this.#party, path);
+    const actors = this.element.querySelectorAll("[name^=recipients]");
+    const fraction = Math.floor(total / actors.length);
+    for (const input of actors) input.value = fraction;
+    // this.render({ parts: ["foot"]})
   }
 }

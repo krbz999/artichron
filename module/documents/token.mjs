@@ -24,14 +24,18 @@ export default class TokenDocumentArtichron extends BaseDocumentMixin(foundry.do
       }
     }
 
-    const options = { autoRotate: true, animation: { duration: 1000, easing: "easeInOutCosine" } };
-    await Promise.all(tokens.map(token => token.document.move([{
-      x: this.x, y: this.y, elevation: this.elevation,
-    }], options)));
-    const ids = tokens.map(token => token.id);
+    const { x, y, elevation } = this;
 
-    for (const token of tokens) await token.movementAnimationPromise;
-    this.parent.deleteEmbeddedDocuments("Token", ids);
+    for (const token of tokens) {
+      (async function() {
+        await token.document.move(
+          { x, y, elevation, action: "walk" },
+          { autoRotate: true, showRuler: true },
+        );
+        await token.movementAnimationPromise;
+        token.document.delete();
+      })();
+    }
   }
 
   /* -------------------------------------------------- */

@@ -18,29 +18,19 @@ export default class PartyData extends ActorSystemModel {
 
   /** @inheritdoc */
   static defineSchema() {
-    const schema = super.defineSchema();
-
-    Object.assign(schema, {
+    return Object.assign(super.defineSchema(), {
+      clocks: new artichron.data.fields.CollectionField(artichron.data.pseudoDocuments.clocks.BaseClock),
+      currency: new SchemaField({
+        funds: new NumberField({ integer: true, min: 0 }),
+      }),
       members: new TypedObjectField(new SchemaField({}), {
         validateKey: key => foundry.data.validators.isValidId(key),
       }),
-      clocks: new artichron.data.fields.CollectionField(artichron.data.pseudoDocuments.clocks.BaseClock),
       points: new SchemaField({
         value: new NumberField({ min: 0, integer: true }),
       }),
     });
-
-    schema.currency = new SchemaField({
-      award: new NumberField({ integer: true, min: 0 }),
-      funds: new NumberField({ integer: true, min: 0 }),
-    });
-
-    return schema;
   }
-
-  /* -------------------------------------------------- */
-  /*   Properties                                       */
-  /* -------------------------------------------------- */
 
   /* -------------------------------------------------- */
   /*   Preparation methods                              */
@@ -126,8 +116,8 @@ export default class PartyData extends ActorSystemModel {
     const created = await canvas.scene.createEmbeddedDocuments("Token", tokenData, { keepId: true });
     if (origin) {
       await new Promise(r => setTimeout(r, 100));
-      const options = { autoRotate: true, animation: { duration: 1000, easing: "easeInOutCosine" } };
-      created.map((token, i) => token.move([movements[i]], { ...options }));
+      const options = { autoRotate: true, showRuler: true };
+      created.map((token, i) => token.move([{ ...movements[i], action: "walk" }], { ...options }));
     }
 
     return created;
@@ -137,10 +127,11 @@ export default class PartyData extends ActorSystemModel {
 
   /**
    * Prompt a dialog for a GM user to distribute currency to the members of this party.
+   * @param {"currency"|"points"} [type]    What to distribute.
    * @returns {Promise}
    */
-  async distributeCurrencyDialog() {
-    return this.constructor.distributeCurrencyDialog(this.parent);
+  async distribute(type = "currency") {
+    return this.constructor.distribute(this.parent, type);
   }
 
   /* -------------------------------------------------- */
@@ -148,19 +139,18 @@ export default class PartyData extends ActorSystemModel {
   /* -------------------------------------------------- */
 
   /**
-   * Prompt a dialog for a GM user to distribute currency to the members of a party.
-   * @param {ActorArtichron} [party]    The party whose members to distribute to.
+   * Prompt a dialog for a GM user to distribute currency or points to the members of a party.
+   * @param {ActorArtichron} [party]        The party whose members to distribute to.
+   * @param {"currency"|"points"} [type]    What to distribute.
    * @returns {Promise}
    */
-  static async distributeCurrencyDialog(party) {
+  static async distribute(party, type = "currency") {
     if (!game.user.isGM) throw new Error("Only a GM can distribute to the party!");
 
     party ??= game.actors.party;
     if (!party) throw new Error("No primary party has been assigned!");
 
-    const configuration = await artichron.applications.apps.actor.PartyDistributionDialog.create({
-      party, type: "currency",
-    });
+    const configuration = await artichron.applications.apps.actor.PartyDistributionDialog.create({ party, type });
     if (!configuration) return;
 
     let amount = 0;
@@ -170,20 +160,22 @@ export default class PartyData extends ActorSystemModel {
     for (const [actorId, { value } ] of Object.entries(configuration.recipients)) {
       amount += value;
       const actor = game.actors.get(actorId);
-      const path = "system.currency.funds";
+      const path = type === "currency" ? "system.currency.funds" : "system.progression.points.value";
       updates.push({ _id: actorId, [path]: foundry.utils.getProperty(actor, path) + value });
 
-      const content = game.i18n.format("ARTICHRON.PartyDistributionDialog.ContentCurrency", {
-        name: actor.name, amount: value,
-      });
+      const content = game.i18n.format(
+        type === "currency" ? "ARTICHRON.DISTRIBUTE.MESSAGE.content" : "ARTICHRON.DISTRIBUTE.MESSAGE.points",
+        { name: actor.name, amount: value });
       if (value) messageData.push({
         whisper: game.users.filter(u => actor.testUserPermission(u, "OWNER")).map(u => u.id),
         content: `<p>${content}</p>`,
         speaker: Cls.getSpeaker({ actor: party }),
       });
     }
-    const partyUpdate = updates.find(k => k._id === party.id);
-    partyUpdate["system.currency.award"] = party.system.currency.award - amount;
+
+    // Party update.
+    const path = type === "currency" ? "system.currency.funds" : "system.points.value";
+    updates.push({ _id: party.id, [path]: foundry.utils.getProperty(party, path) - amount });
 
     await Cls.createDocuments(messageData);
     return foundry.utils.getDocumentClass("Actor").updateDocuments(updates);

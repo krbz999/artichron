@@ -34,14 +34,17 @@
     display: grid;
     grid-template-columns: repeat(6, 1fr);
     align-items: center;
+    gap: 5px;
 
     .equipment-item {
       border-radius: 5px;
       overflow: hidden;
+      padding: 2px;
+      aspect-ratio: 1;
     }
 
     .unequipped {
-      opacity: 0.25;
+      --icon-fill: rgba(100, 100, 100, 0.5);
     }
   }
 }

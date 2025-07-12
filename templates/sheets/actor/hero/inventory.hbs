@@ -2,7 +2,7 @@
 
   <section class="equipment">
     {{#each ctx.equipment}}
-    <div class="equipment-item {{#unless equipped}} unequipped {{/unless}}">
+    <div class="equipment-item glass {{#unless equipped}} unequipped {{/unless}}" {{#if item}} data-id="{{item.id}}" {{/if}}>
       {{#if isSvg}} <artichron-icon class="image" src="{{img}}"></artichron-icon>
       {{else}}
       <img class="image" src="{{img}}" alt="">

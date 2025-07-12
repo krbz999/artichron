@@ -260,9 +260,9 @@
 
   "PARTY": {
     "currency": "Currency",
-    "manageFunds": "Manage Funds",
     "placeMembers": "Place Members",
     "recallMembers": "Recall Members",
+    "progressionPoints": "Progression Points",
 
     "CONTEXT": {
       "CLOCK": {
@@ -276,8 +276,7 @@
     },
 
     "HEADERS": {
-      "awards": "Awards",
-      "funds": "Funds"
+      "awards": "Awards"
     }
   },
 
@@ -776,8 +775,16 @@
   }
 },
 
-"DISTRIBUTION": {
-  "recipients": "Recipients"
+"DISTRIBUTE": {
+  "recipients": "Recipients",
+  "title": "Distribute Currency: {name}",
+  "titlePoints": "Distribute Points: {name}",
+  "confirm": "Confirm",
+  "splitEvenly": "Split Evenly",
+  "MESSAGE": {
+    "content": "{name} has been distributed {amount} <span class='chron'></span>.",
+    "points": "{name} has been awarded {amount} progression points."
+  }
 },
 
 "EFFECT": {
@@ -1252,21 +1259,6 @@
 
 "MerchantConfigurationDialog": {
   "Title": "Configure Merchant: {name}"
-},
-
-"PartyDistributionDialog": {
-  "amount": {
-    "hintCurrency": "The amount of funds to distribute. Each recipient will receive this amount.",
-    "hintPoints": "The amount of points to distribute. Each recipient will receive this amount.",
-    "label": "Amount"
-  },
-  "ContentCurrency": "{name} has been distributed {amount} <span class='chron'></span>.",
-  "ContentPoints": "{name} has been distributed {amount} points.",
-  "targets": {
-    "hint": "The members of this party that will receive part of the distribution."
-  },
-  "TitleCurrency": "{name}: Distribute Chron",
-  "TitlePoints": "{name}: Distribute Points"
 },
 
 "PartyFundsDialog": {

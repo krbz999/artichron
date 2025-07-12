@@ -99,25 +99,13 @@
           bottom: 25%;
           right: 0;
           width: 4rem;
-          height: 1.5rem;
+          height: 2rem;
           align-items: center;
           justify-content: center;
           padding: 0;
           margin: 0 0 0.2rem 0;
           display: flex;
           gap: 2px;
-
-          & input {
-            width: 3rem;
-            font-size: 12px;
-            height: 100%;
-          }
-
-          .icon {
-            width: 1rem;
-            border: none;
-            height: 90%;
-          }
         }
 
         .bars {

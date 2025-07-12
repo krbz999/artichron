@@ -66,10 +66,10 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
       { hookName: "ActiveEffectEntryContext" },
     );
 
-    // Add context menu for items.
+    // Add context menu for items and equipped items.
     this._createContextMenu(
       this.#getContextOptionsItem,
-      ".document-list.items .entry",
+      ".document-list.items .entry, .equipment [data-id]",
       { hookName: "ItemEntryContext" },
     );
   }

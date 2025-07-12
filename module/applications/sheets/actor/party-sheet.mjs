@@ -12,7 +12,7 @@ export default class PartySheet extends ActorSheetArtichron {
       clockDelta: PartySheet.#clockDelta,
       displayActor: PartySheet.#displayActor,
       distributeCurrency: PartySheet.#distributeCurrency,
-      manageFunds: PartySheet.#manageFunds,
+      distributePoints: PartySheet.#distributePoints,
       placeMembers: PartySheet.#placeMembers,
       recallMembers: PartySheet.#recallMembers,
       removeMember: PartySheet.#removeMember,
@@ -141,7 +141,10 @@ export default class PartySheet extends ActorSheetArtichron {
 
     const distributions = {
       currency: {
-        disabled: !context.editable || !context.document.system.currency.award,
+        disabled: !context.editable || !context.document.system.currency.funds || !members.length,
+      },
+      points: {
+        disabled: !context.editable || !context.document.system.points.value || !members.filter(m => m.isHero).length,
       },
     };
 
@@ -374,7 +377,19 @@ export default class PartySheet extends ActorSheetArtichron {
    * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
    */
   static #distributeCurrency(event, target) {
-    this.document.system.distributeCurrencyDialog();
+    this.document.system.distribute("currency");
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Prompt to distribute to the party an amount of currency.
+   * @this {PartySheet}
+   * @param {PointerEvent} event    The initiating click event.
+   * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
+   */
+  static #distributePoints(event, target) {
+    this.document.system.distribute("points");
   }
 
   /* -------------------------------------------------- */
@@ -389,53 +404,6 @@ export default class PartySheet extends ActorSheetArtichron {
     const id = target.closest(".member").dataset.id;
     const actor = game.actors.get(id);
     actor.sheet.render({ force: true });
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Render a party funds dialog to deposit or withdraw funds for one member.
-   * @this {PartySheet}
-   * @param {PointerEvent} event    The initiating click event.
-   * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
-   */
-  static async #manageFunds(event, target) {
-    const id = target.closest(".member").dataset.id;
-    const actor = game.actors.get(id);
-    const config = await artichron.applications.apps.actor.PartyFundsDialog.create({ party: this.document, member: actor });
-    if (!config || !(config.amount > 0)) return;
-    const path = "system.currency.funds";
-
-    // Current values
-    const af = foundry.utils.getProperty(actor, path);
-    const pf = foundry.utils.getProperty(this.document, path);
-
-    // New values
-    const av = config.deposit ? af - config.amount : af + config.amount;
-    const pv = config.deposit ? pf + config.amount : pf - config.amount;
-
-    if (av < 0) {
-      ui.notifications.warn("ARTICHRON.PartyFundsDialog.InsufficientMemberFunds", { localize: true });
-      return;
-    }
-
-    if (pv < 0) {
-      ui.notifications.warn("ARTICHRON.PartyFundsDialog.InsufficientPartyFunds", { localize: true });
-      return;
-    }
-
-    const Cls = foundry.utils.getDocumentClass("ChatMessage");
-
-    Promise.all([
-      actor.update({ [path]: av }),
-      this.document.update({ [path]: pv }),
-      Cls.create({
-        speaker: Cls.getSpeaker({ actor: this.document }),
-        content: game.i18n.format(`ARTICHRON.PartyFundsDialog.Receipt${config.deposit ? "Deposit" : "Withdraw"}`, {
-          name: actor.name, amount: config.amount,
-        }),
-      }),
-    ]);
   }
 
   /* -------------------------------------------------- */

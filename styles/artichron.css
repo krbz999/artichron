@@ -212,7 +212,11 @@ dialog:-internal-dialog-in-top-layer::backdrop {
 
 /* -------------------------------------------------- */
 
-artichron-icon svg {
-  height: 100% !important;
-  width: 100% !important;
+artichron-icon {
+  height: 100%;
+
+  svg {
+    height: 100% !important;
+    width: 100% !important;
+  }
 }
