@@ -15,51 +15,29 @@
       "value": 1
     },
     "attributes": {
-      "value": [],
-      "levels": {}
+      "value": []
     },
-    "fusion": {
-      "ignore": [],
-      "max": 1
-    },
-    "category": {
-      "subtype": "chest",
-      "requirements": [
-        {
-          "type": "pool",
-          "pool": "mana",
-          "value": 6
-        }
-      ],
-      "value": ""
-    },
-    "activities": {},
     "identifier": "robes",
     "defenses": {
-      "fire": {
-        "value": 3
-      },
-      "wind": {
-        "value": 3
-      },
-      "lightning": {
-        "value": 3
-      },
-      "ice": {
-        "value": 3
-      },
-      "light": {
-        "value": null
-      },
-      "darkness": {
-        "value": null
-      },
-      "physical": {
-        "value": null
-      },
-      "arcane": {
-        "value": null
-      }
+      "fire": null,
+      "wind": null,
+      "lightning": null,
+      "ice": null,
+      "light": null,
+      "darkness": null,
+      "physical": null,
+      "arcane": null
+    },
+    "armor": {
+      "category": "clothing",
+      "slot": "chest",
+      "requirements": {}
+    },
+    "skills": {
+      "agility": null,
+      "brawn": null,
+      "mind": null,
+      "spirit": null
     }
   },
   "effects": [],
@@ -71,13 +49,13 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.344",
+    "exportSource": null,
+    "coreVersion": "13.346",
     "systemId": "artichron",
     "systemVersion": "1.0.0",
-    "createdTime": 1729157488359,
-    "modifiedTime": 1729157488359,
-    "lastModifiedBy": "artichronbuilder",
-    "exportSource": null
+    "createdTime": 1752278518037,
+    "modifiedTime": 1752278518037,
+    "lastModifiedBy": "artichronbuilder"
   },
   "_key": "!items!5nGm9IjYQel3x22o"
 }

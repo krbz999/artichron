@@ -6,8 +6,7 @@
   "img": "icons/svg/mage-shield.svg",
   "system": {
     "attributes": {
-      "value": [],
-      "levels": {}
+      "value": []
     },
     "description": {
       "value": ""
@@ -22,7 +21,12 @@
           {
             "uuid": "Compendium.artichron.items.Item.PsOSxgOzk4ehTLY3"
           }
-        ]
+        ],
+        "img": "systems/artichron/assets/icons/pseudo/advancement.svg",
+        "requirements": {
+          "points": 1
+        },
+        "chooseN": null
       }
     }
   },
@@ -36,11 +40,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.345",
+    "coreVersion": "13.346",
     "systemId": "artichron",
     "systemVersion": "1.0.0",
-    "createdTime": 1750512980573,
-    "modifiedTime": 1750516306553,
+    "createdTime": 1752278814198,
+    "modifiedTime": 1752278814198,
     "lastModifiedBy": "artichronbuilder"
   },
   "_key": "!items!U1xStx1Om36Bl3my"

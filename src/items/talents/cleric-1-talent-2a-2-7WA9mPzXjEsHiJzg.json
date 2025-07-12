@@ -6,8 +6,7 @@
   "img": "icons/svg/mage-shield.svg",
   "system": {
     "attributes": {
-      "value": [],
-      "levels": {}
+      "value": []
     },
     "description": {
       "value": ""
@@ -22,7 +21,12 @@
             "uuid": "Compendium.artichron.items.Item.OKHoJ933M4UJuxJv"
           }
         ],
-        "name": "Cleric 1 Talent 2A-2"
+        "name": "Cleric 1 Talent 2A-2",
+        "img": "systems/artichron/assets/icons/pseudo/advancement.svg",
+        "requirements": {
+          "points": 1
+        },
+        "chooseN": null
       }
     }
   },
@@ -36,11 +40,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.345",
+    "coreVersion": "13.346",
     "systemId": "artichron",
     "systemVersion": "1.0.0",
-    "createdTime": 1750517328736,
-    "modifiedTime": 1750539409359,
+    "createdTime": 1752278821801,
+    "modifiedTime": 1752278821801,
     "lastModifiedBy": "artichronbuilder"
   },
   "_key": "!items!7WA9mPzXjEsHiJzg"

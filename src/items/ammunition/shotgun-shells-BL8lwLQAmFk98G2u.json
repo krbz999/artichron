@@ -13,21 +13,12 @@
       "value": 1
     },
     "attributes": {
-      "value": [],
-      "levels": {}
+      "value": []
     },
     "quantity": {
       "value": 20
     },
-    "category": {
-      "subtype": "round"
-    },
-    "activities": {},
-    "identifier": "shotgun-shells",
-    "override": {
-      "group": "",
-      "value": "fire"
-    }
+    "identifier": "shotgun-shells"
   },
   "effects": [],
   "folder": "RolaJHphF0RArLNp",
@@ -38,13 +29,13 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.344",
+    "exportSource": null,
+    "coreVersion": "13.346",
     "systemId": "artichron",
     "systemVersion": "1.0.0",
-    "createdTime": 1729157488405,
-    "modifiedTime": 1729157488405,
-    "lastModifiedBy": "artichronbuilder",
-    "exportSource": null
+    "createdTime": 1752278418337,
+    "modifiedTime": 1752278418337,
+    "lastModifiedBy": "artichronbuilder"
   },
   "_id": "BL8lwLQAmFk98G2u",
   "sort": 0,

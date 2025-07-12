@@ -13,14 +13,7 @@
       "value": 1
     },
     "attributes": {
-      "value": [
-        "magical"
-      ],
-      "levels": {}
-    },
-    "fusion": {
-      "max": 1,
-      "ignore": []
+      "value": []
     },
     "activities": {
       "c09aVnq9IgIkJ603": {
@@ -28,8 +21,7 @@
         "name": "Mage Armor",
         "_id": "c09aVnq9IgIkJ603",
         "cost": {
-          "value": 2,
-          "uses": true
+          "value": 2
         },
         "target": {
           "count": 4,
@@ -45,10 +37,14 @@
           ]
         },
         "description": "<p>Up to 4 targets of your choice within 3 meters gain +5 armor until the end of combat.</p>",
-        "img": "systems/artichron/assets/icons/activity.svg"
+        "img": "systems/artichron/assets/icons/pseudo/activity.svg"
       }
     },
-    "identifier": "mage-armor"
+    "identifier": "mage-armor",
+    "spell": {
+      "quality": 1,
+      "subtype": "technological"
+    }
   },
   "effects": [
     {
@@ -64,7 +60,7 @@
       },
       "changes": [
         {
-          "key": "system.defenses.armor",
+          "key": "system.defenses.physical",
           "mode": 2,
           "value": "5",
           "priority": null
@@ -90,13 +86,11 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.344",
+        "exportSource": null,
+        "coreVersion": "13.346",
         "systemId": "artichron",
         "systemVersion": "1.0.0",
-        "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": "artichronbuilder",
-        "exportSource": null
+        "lastModifiedBy": "artichronbuilder"
       },
       "_key": "!items.effects!zPJ8fPvSprDfdXrf.JVcgElSH1pxCc6t8"
     }
@@ -109,13 +103,13 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.344",
+    "exportSource": null,
+    "coreVersion": "13.346",
     "systemId": "artichron",
     "systemVersion": "1.0.0",
-    "createdTime": 1729189306943,
-    "modifiedTime": 1729189306943,
-    "lastModifiedBy": "artichronbuilder",
-    "exportSource": null
+    "createdTime": 1752278731075,
+    "modifiedTime": 1752278731075,
+    "lastModifiedBy": "artichronbuilder"
   },
   "_id": "zPJ8fPvSprDfdXrf",
   "sort": 0,

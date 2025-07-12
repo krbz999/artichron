@@ -17,12 +17,7 @@
     "attributes": {
       "value": [
         "magical"
-      ],
-      "levels": {}
-    },
-    "fusion": {
-      "max": 1,
-      "ignore": []
+      ]
     },
     "activities": {
       "z7mgxsfy7FUJL5XX": {
@@ -30,8 +25,7 @@
         "name": "Fire Resistance",
         "_id": "z7mgxsfy7FUJL5XX",
         "cost": {
-          "value": 2,
-          "uses": true
+          "value": 2
         },
         "effects": {
           "ids": [
@@ -47,15 +41,14 @@
           "width": 1
         },
         "description": "<p>Grant +10 fire resistance to a target within 3m of you.</p>",
-        "img": "systems/artichron/assets/icons/activity.svg"
+        "img": "systems/artichron/assets/icons/pseudo/activity.svg"
       },
       "N1JVyiqhppvEDmPk": {
         "type": "effect",
         "name": "Ice Resistance",
         "_id": "N1JVyiqhppvEDmPk",
         "cost": {
-          "value": 2,
-          "uses": true
+          "value": 2
         },
         "effects": {
           "ids": [
@@ -71,15 +64,14 @@
           "width": 1
         },
         "description": "<p>Grant +10 ice resistance to a target within 3m of you.</p>",
-        "img": "systems/artichron/assets/icons/activity.svg"
+        "img": "systems/artichron/assets/icons/pseudo/activity.svg"
       },
       "IO20yRR6IDF2uMt0": {
         "type": "effect",
         "name": "Lightning Resistance",
         "_id": "IO20yRR6IDF2uMt0",
         "cost": {
-          "value": 2,
-          "uses": true
+          "value": 2
         },
         "effects": {
           "ids": [
@@ -95,15 +87,14 @@
           "width": 1
         },
         "description": "<p>Grant +10 lightning resistance to a target within 3m of you.</p>",
-        "img": "systems/artichron/assets/icons/activity.svg"
+        "img": "systems/artichron/assets/icons/pseudo/activity.svg"
       },
       "uZ58lm6RU0Ho5PRH": {
         "type": "effect",
         "name": "Wind Resistance",
         "_id": "uZ58lm6RU0Ho5PRH",
         "cost": {
-          "value": 2,
-          "uses": true
+          "value": 2
         },
         "target": {
           "range": 3,
@@ -119,10 +110,14 @@
           ]
         },
         "description": "<p>Grant +10 wind resistance to a target within 3m of you.</p>",
-        "img": "systems/artichron/assets/icons/activity.svg"
+        "img": "systems/artichron/assets/icons/pseudo/activity.svg"
       }
     },
-    "identifier": "elemental-defense"
+    "identifier": "elemental-defense",
+    "spell": {
+      "quality": 1,
+      "subtype": "elemental"
+    }
   },
   "effects": [
     {
@@ -138,7 +133,7 @@
       },
       "changes": [
         {
-          "key": "system.resistances.fire",
+          "key": "system.defenses.fire",
           "mode": 2,
           "value": "10",
           "priority": null
@@ -164,13 +159,11 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.344",
+        "exportSource": null,
+        "coreVersion": "13.346",
         "systemId": "artichron",
         "systemVersion": "1.0.0",
-        "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": "artichronbuilder",
-        "exportSource": null
+        "lastModifiedBy": "artichronbuilder"
       },
       "_key": "!items.effects!z1Uq5H1xxicbxTQd.yhn8C8ghKx502jaT"
     },
@@ -186,7 +179,7 @@
       },
       "changes": [
         {
-          "key": "system.resistances.wind",
+          "key": "system.defenses.wind",
           "mode": 2,
           "value": "10",
           "priority": null
@@ -211,13 +204,11 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.344",
+        "exportSource": null,
+        "coreVersion": "13.346",
         "systemId": "artichron",
         "systemVersion": "1.0.0",
-        "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": "artichronbuilder",
-        "exportSource": null
+        "lastModifiedBy": "artichronbuilder"
       },
       "_id": "t9R8zzyMk9w9qWnE",
       "sort": 0,
@@ -235,7 +226,7 @@
       },
       "changes": [
         {
-          "key": "system.resistances.lightning",
+          "key": "system.defenses.lightning",
           "mode": 2,
           "value": "10",
           "priority": null
@@ -260,13 +251,11 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.344",
+        "exportSource": null,
+        "coreVersion": "13.346",
         "systemId": "artichron",
         "systemVersion": "1.0.0",
-        "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": "artichronbuilder",
-        "exportSource": null
+        "lastModifiedBy": "artichronbuilder"
       },
       "_id": "Tvwjv5htKnIENps8",
       "sort": 0,
@@ -284,7 +273,7 @@
       },
       "changes": [
         {
-          "key": "system.resistances.ice",
+          "key": "system.defenses.ice",
           "mode": 2,
           "value": "10",
           "priority": null
@@ -309,13 +298,11 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.344",
+        "exportSource": null,
+        "coreVersion": "13.346",
         "systemId": "artichron",
         "systemVersion": "1.0.0",
-        "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": "artichronbuilder",
-        "exportSource": null
+        "lastModifiedBy": "artichronbuilder"
       },
       "_id": "PTVYpFsSdbbQcoko",
       "sort": 0,
@@ -330,13 +317,13 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.344",
+    "exportSource": null,
+    "coreVersion": "13.346",
     "systemId": "artichron",
     "systemVersion": "1.0.0",
-    "createdTime": 1729189306922,
-    "modifiedTime": 1729189306922,
-    "lastModifiedBy": "artichronbuilder",
-    "exportSource": null
+    "createdTime": 1752278690173,
+    "modifiedTime": 1752278690173,
+    "lastModifiedBy": "artichronbuilder"
   },
   "_key": "!items!z1Uq5H1xxicbxTQd"
 }

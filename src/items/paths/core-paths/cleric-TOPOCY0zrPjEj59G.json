@@ -8,8 +8,7 @@
     "attributes": {
       "value": [
         "spellcaster"
-      ],
-      "levels": {}
+      ]
     },
     "description": {
       "value": ""
@@ -30,7 +29,9 @@
           }
         },
         "subtype": "dice",
-        "name": "Cleric 1/7 Scaling Value"
+        "name": "Cleric 1/7 Scaling Value",
+        "img": "systems/artichron/assets/icons/pseudo/advancement.svg",
+        "identifier": null
       },
       "GNSZWLddcsPKJme6": {
         "type": "itemGrant",
@@ -38,18 +39,17 @@
         "name": "Cleric 1 Item Grant",
         "pool": [
           {
-            "uuid": "Compendium.artichron.items.Item.BOFBJm2r77l3Xi7T",
-            "optional": false
+            "uuid": "Compendium.artichron.items.Item.BOFBJm2r77l3Xi7T"
           },
           {
-            "uuid": "Compendium.artichron.items.Item.U1xStx1Om36Bl3my",
-            "optional": false
+            "uuid": "Compendium.artichron.items.Item.U1xStx1Om36Bl3my"
           }
         ],
         "requirements": {
           "points": 1
         },
-        "chooseN": 1
+        "chooseN": 1,
+        "img": "systems/artichron/assets/icons/pseudo/advancement.svg"
       },
       "Btq2vhlXeD4BQdsZ": {
         "type": "trait",
@@ -69,15 +69,23 @@
           "PNTBWShWhlBC9RvR": {
             "type": "health",
             "_id": "PNTBWShWhlBC9RvR",
-            "value": 100
+            "value": 100,
+            "name": "",
+            "img": null
           },
           "0qDNYrKtTwTzalby": {
             "type": "health",
             "_id": "0qDNYrKtTwTzalby",
-            "value": 200
+            "value": 200,
+            "name": "",
+            "img": null
           }
         },
-        "chooseN": 1
+        "chooseN": 1,
+        "img": "systems/artichron/assets/icons/pseudo/advancement.svg",
+        "requirements": {
+          "points": 1
+        }
       },
       "KprCpceZ6g7PyZUE": {
         "type": "trait",
@@ -97,12 +105,16 @@
           "Tdv2eKth8cCQvvAd": {
             "type": "health",
             "_id": "Tdv2eKth8cCQvvAd",
-            "value": 150
+            "value": 150,
+            "name": "",
+            "img": null
           },
           "UDe9mlaMNTX9th0D": {
             "type": "health",
             "_id": "UDe9mlaMNTX9th0D",
-            "value": 300
+            "value": 300,
+            "name": "",
+            "img": null
           }
         },
         "chooseN": 1,
@@ -111,8 +123,7 @@
           "points": 2
         }
       }
-    },
-    "points": {}
+    }
   },
   "effects": [],
   "sort": 0,
@@ -127,8 +138,8 @@
     "coreVersion": "13.346",
     "systemId": "artichron",
     "systemVersion": "1.0.0",
-    "createdTime": 1749291547536,
-    "modifiedTime": 1751147481449,
+    "createdTime": 1752278596742,
+    "modifiedTime": 1752278596742,
     "lastModifiedBy": "artichronbuilder"
   },
   "_key": "!items!TOPOCY0zrPjEj59G"

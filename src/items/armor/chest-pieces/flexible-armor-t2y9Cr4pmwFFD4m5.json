@@ -12,52 +12,30 @@
     "price": {
       "value": 1
     },
-    "category": {
-      "subtype": "chest",
-      "requirements": [
-        {
-          "type": "pool",
-          "pool": "stamina",
-          "value": 6
-        }
-      ],
-      "value": ""
-    },
     "attributes": {
-      "value": [],
-      "levels": {}
+      "value": []
     },
-    "fusion": {
-      "max": 1,
-      "ignore": []
-    },
-    "activities": {},
     "identifier": "flexible-armor",
     "defenses": {
-      "physical": {
-        "value": 3
-      },
-      "fire": {
-        "value": null
-      },
-      "wind": {
-        "value": null
-      },
-      "lightning": {
-        "value": null
-      },
-      "ice": {
-        "value": null
-      },
-      "light": {
-        "value": null
-      },
-      "darkness": {
-        "value": null
-      },
-      "arcane": {
-        "value": null
-      }
+      "physical": null,
+      "fire": null,
+      "wind": null,
+      "lightning": null,
+      "ice": null,
+      "light": null,
+      "darkness": null,
+      "arcane": null
+    },
+    "armor": {
+      "category": "tech",
+      "slot": "chest",
+      "requirements": {}
+    },
+    "skills": {
+      "agility": null,
+      "brawn": null,
+      "mind": null,
+      "spirit": null
     }
   },
   "effects": [],
@@ -69,13 +47,13 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.344",
+    "exportSource": null,
+    "coreVersion": "13.346",
     "systemId": "artichron",
     "systemVersion": "1.0.0",
-    "createdTime": 1729157488941,
-    "modifiedTime": 1729157488941,
-    "lastModifiedBy": "artichronbuilder",
-    "exportSource": null
+    "createdTime": 1752278506433,
+    "modifiedTime": 1752278506433,
+    "lastModifiedBy": "artichronbuilder"
   },
   "_id": "t2y9Cr4pmwFFD4m5",
   "sort": 0,

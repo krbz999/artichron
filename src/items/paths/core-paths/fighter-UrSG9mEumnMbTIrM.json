@@ -6,8 +6,7 @@
   "img": "icons/equipment/shield/heater-steel-crystal-red.webp",
   "system": {
     "attributes": {
-      "value": [],
-      "levels": {}
+      "value": []
     },
     "description": {
       "value": ""
@@ -19,16 +18,17 @@
         "_id": "gFF5aQAw43bdsPem",
         "pool": [
           {
-            "uuid": "Item.A8VSNBhnwxnwoEMh",
-            "optional": false
+            "uuid": "Item.A8VSNBhnwxnwoEMh"
           }
         ],
         "requirements": {
           "points": 25
-        }
+        },
+        "name": "",
+        "img": "systems/artichron/assets/icons/pseudo/advancement.svg",
+        "chooseN": null
       }
-    },
-    "points": {}
+    }
   },
   "effects": [],
   "sort": 0,
@@ -40,11 +40,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.345",
+    "coreVersion": "13.346",
     "systemId": "artichron",
     "systemVersion": "1.0.0",
-    "createdTime": 1749291577612,
-    "modifiedTime": 1749336707498,
+    "createdTime": 1752278597825,
+    "modifiedTime": 1752278597825,
     "lastModifiedBy": "artichronbuilder"
   },
   "_key": "!items!UrSG9mEumnMbTIrM"

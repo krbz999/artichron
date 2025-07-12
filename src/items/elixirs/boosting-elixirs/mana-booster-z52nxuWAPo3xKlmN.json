@@ -15,8 +15,7 @@
     "attributes": {
       "value": [
         "booster"
-      ],
-      "levels": {}
+      ]
     },
     "quantity": {
       "value": 1
@@ -25,8 +24,6 @@
       "max": 2,
       "spent": 0
     },
-    "activities": {},
-    "boost": "mana",
     "identifier": "mana-booster"
   },
   "effects": [],
@@ -38,13 +35,13 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.344",
+    "exportSource": null,
+    "coreVersion": "13.346",
     "systemId": "artichron",
     "systemVersion": "1.0.0",
-    "createdTime": 1729157489004,
-    "modifiedTime": 1729157489004,
-    "lastModifiedBy": "artichronbuilder",
-    "exportSource": null
+    "createdTime": 1752278541765,
+    "modifiedTime": 1752278541765,
+    "lastModifiedBy": "artichronbuilder"
   },
   "_id": "z52nxuWAPo3xKlmN",
   "sort": 0,

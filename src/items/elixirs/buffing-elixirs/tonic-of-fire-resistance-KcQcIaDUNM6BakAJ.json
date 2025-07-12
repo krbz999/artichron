@@ -20,36 +20,8 @@
       "spent": 0
     },
     "attributes": {
-      "value": [],
-      "levels": {}
+      "value": []
     },
-    "activities": {
-      "ZMTkxi3vXgMBUJkY": {
-        "type": "effect",
-        "name": "Drink Tonic",
-        "_id": "ZMTkxi3vXgMBUJkY",
-        "effects": {
-          "ids": [
-            "k76bVhYZRs4Yc4bM"
-          ]
-        },
-        "description": "<p>Gain fire resistance until the end of the combat scenario when drinking this tonic.</p>",
-        "cost": {
-          "value": 1,
-          "uses": true
-        },
-        "target": {
-          "type": "single",
-          "count": 1,
-          "duration": "combat",
-          "range": 1,
-          "size": 1,
-          "width": 1
-        },
-        "img": "systems/artichron/assets/icons/activity.svg"
-      }
-    },
-    "boost": "stamina",
     "identifier": "tonic-of-fire-resistance"
   },
   "effects": [
@@ -66,7 +38,7 @@
       },
       "changes": [
         {
-          "key": "system.resistances.fire",
+          "key": "system.defenses.fire",
           "mode": 2,
           "value": "6",
           "priority": null
@@ -82,7 +54,7 @@
         "startRound": null,
         "startTurn": null
       },
-      "description": "<p>You have 6 points of fire resistance until the end of the combat encounter.</p>",
+      "description": "<p>You have 6 points of fire defense until the end of the combat encounter.</p>",
       "origin": null,
       "tint": "#ffffff",
       "transfer": false,
@@ -92,13 +64,11 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.344",
+        "exportSource": null,
+        "coreVersion": "13.346",
         "systemId": "artichron",
         "systemVersion": "1.0.0",
-        "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": "artichronbuilder",
-        "exportSource": null
+        "lastModifiedBy": "artichronbuilder"
       },
       "_key": "!items.effects!KcQcIaDUNM6BakAJ.k76bVhYZRs4Yc4bM"
     }
@@ -111,13 +81,13 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.344",
+    "exportSource": null,
+    "coreVersion": "13.346",
     "systemId": "artichron",
     "systemVersion": "1.0.0",
-    "createdTime": 1729157488434,
-    "modifiedTime": 1729157488434,
-    "lastModifiedBy": "artichronbuilder",
-    "exportSource": null
+    "createdTime": 1752278574831,
+    "modifiedTime": 1752278574831,
+    "lastModifiedBy": "artichronbuilder"
   },
   "_id": "KcQcIaDUNM6BakAJ",
   "sort": 0,

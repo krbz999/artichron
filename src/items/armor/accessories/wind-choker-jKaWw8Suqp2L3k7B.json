@@ -12,48 +12,30 @@
     "price": {
       "value": 2
     },
-    "category": {
-      "subtype": "accessory",
-      "requirements": [],
-      "value": ""
-    },
     "attributes": {
-      "value": [
-        "magical"
-      ],
-      "levels": {}
+      "value": []
     },
-    "fusion": {
-      "max": 1,
-      "ignore": []
-    },
-    "activities": {},
     "identifier": "wind-choker",
     "defenses": {
-      "wind": {
-        "value": 3
-      },
-      "fire": {
-        "value": null
-      },
-      "lightning": {
-        "value": null
-      },
-      "ice": {
-        "value": null
-      },
-      "light": {
-        "value": null
-      },
-      "darkness": {
-        "value": null
-      },
-      "physical": {
-        "value": null
-      },
-      "arcane": {
-        "value": null
-      }
+      "physical": null,
+      "fire": null,
+      "wind": 1,
+      "lightning": null,
+      "ice": null,
+      "light": null,
+      "darkness": null,
+      "arcane": null
+    },
+    "armor": {
+      "category": "clothing",
+      "slot": "accessory",
+      "requirements": {}
+    },
+    "skills": {
+      "agility": null,
+      "brawn": null,
+      "mind": null,
+      "spirit": null
     }
   },
   "effects": [],
@@ -65,13 +47,13 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.344",
+    "exportSource": null,
+    "coreVersion": "13.346",
     "systemId": "artichron",
     "systemVersion": "1.0.0",
-    "createdTime": 1729157488579,
-    "modifiedTime": 1729157488579,
-    "lastModifiedBy": "artichronbuilder",
-    "exportSource": null
+    "createdTime": 1752278470931,
+    "modifiedTime": 1752278470931,
+    "lastModifiedBy": "artichronbuilder"
   },
   "_id": "jKaWw8Suqp2L3k7B",
   "sort": 0,

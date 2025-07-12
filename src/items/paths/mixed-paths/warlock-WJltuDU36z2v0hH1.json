@@ -6,15 +6,13 @@
       "value": [
         "mixed",
         "spellcaster"
-      ],
-      "levels": {}
+      ]
     },
     "description": {
       "value": ""
     },
     "identifier": "warlock",
-    "advancements": {},
-    "points": {}
+    "advancements": {}
   },
   "folder": "4RVmdIni4lnj1zLj",
   "_id": "WJltuDU36z2v0hH1",
@@ -29,11 +27,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.345",
+    "coreVersion": "13.346",
     "systemId": "artichron",
     "systemVersion": "1.0.0",
-    "createdTime": 1749323437984,
-    "modifiedTime": 1749925413477,
+    "createdTime": 1752278627706,
+    "modifiedTime": 1752278627706,
     "lastModifiedBy": "artichronbuilder"
   },
   "_key": "!items!WJltuDU36z2v0hH1"

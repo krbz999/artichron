@@ -15,8 +15,7 @@
     "attributes": {
       "value": [
         "booster"
-      ],
-      "levels": {}
+      ]
     },
     "quantity": {
       "value": 1
@@ -25,8 +24,6 @@
       "max": 5,
       "spent": 0
     },
-    "activities": {},
-    "boost": "stamina",
     "identifier": "stamina-booster"
   },
   "effects": [],
@@ -38,13 +35,13 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.344",
+    "exportSource": null,
+    "coreVersion": "13.346",
     "systemId": "artichron",
     "systemVersion": "1.0.0",
-    "createdTime": 1729157488571,
-    "modifiedTime": 1729157488571,
-    "lastModifiedBy": "artichronbuilder",
-    "exportSource": null
+    "createdTime": 1752278543082,
+    "modifiedTime": 1752278543082,
+    "lastModifiedBy": "artichronbuilder"
   },
   "_id": "ih4GYSfEmbSehWPJ",
   "sort": 0,

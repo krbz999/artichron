@@ -13,21 +13,12 @@
       "value": 1
     },
     "attributes": {
-      "value": [],
-      "levels": {}
+      "value": []
     },
     "quantity": {
       "value": 20
     },
-    "category": {
-      "subtype": "bullet"
-    },
-    "activities": {},
-    "identifier": "bullets",
-    "override": {
-      "group": "",
-      "value": "fire"
-    }
+    "identifier": "bullets"
   },
   "effects": [],
   "folder": "RolaJHphF0RArLNp",
@@ -38,13 +29,13 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.344",
+    "exportSource": null,
+    "coreVersion": "13.346",
     "systemId": "artichron",
     "systemVersion": "1.0.0",
-    "createdTime": 1729157488551,
-    "modifiedTime": 1729157488551,
-    "lastModifiedBy": "artichronbuilder",
-    "exportSource": null
+    "createdTime": 1752278415236,
+    "modifiedTime": 1752278415236,
+    "lastModifiedBy": "artichronbuilder"
   },
   "_id": "gOveppUF3GRQ9Y02",
   "sort": 0,

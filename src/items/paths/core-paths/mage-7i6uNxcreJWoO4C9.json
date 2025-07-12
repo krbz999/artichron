@@ -8,15 +8,13 @@
     "attributes": {
       "value": [
         "spellcaster"
-      ],
-      "levels": {}
+      ]
     },
     "description": {
       "value": ""
     },
     "identifier": "mage",
-    "advancements": {},
-    "points": {}
+    "advancements": {}
   },
   "effects": [],
   "sort": 0,
@@ -28,11 +26,11 @@
     "compendiumSource": null,
     "duplicateSource": null,
     "exportSource": null,
-    "coreVersion": "13.345",
+    "coreVersion": "13.346",
     "systemId": "artichron",
     "systemVersion": "1.0.0",
-    "createdTime": 1749291585316,
-    "modifiedTime": 1749925399231,
+    "createdTime": 1752278598826,
+    "modifiedTime": 1752278598826,
     "lastModifiedBy": "artichronbuilder"
   },
   "_key": "!items!7i6uNxcreJWoO4C9"

@@ -15,14 +15,7 @@
       "value": 3
     },
     "attributes": {
-      "value": [
-        "magical"
-      ],
-      "levels": {}
-    },
-    "fusion": {
-      "max": 1,
-      "ignore": []
+      "value": []
     },
     "activities": {
       "5c4bwMqAH6gor80O": {
@@ -43,14 +36,17 @@
           ]
         },
         "cost": {
-          "value": 2,
-          "uses": true
+          "value": 2
         },
         "description": "<p>Grant targets within 3m of you a +10% bonus to planar damage for the rest of the combat scenario.</p>",
-        "img": "systems/artichron/assets/icons/activity.svg"
+        "img": "systems/artichron/assets/icons/pseudo/activity.svg"
       }
     },
-    "identifier": "planar-amplifier"
+    "identifier": "planar-amplifier",
+    "spell": {
+      "quality": 1,
+      "subtype": "planar"
+    }
   },
   "effects": [
     {
@@ -63,14 +59,7 @@
         "source": null,
         "granted": false
       },
-      "changes": [
-        {
-          "key": "system.bonuses.damage.planar",
-          "mode": 2,
-          "value": "10",
-          "priority": null
-        }
-      ],
+      "changes": [],
       "disabled": false,
       "duration": {
         "startTime": null,
@@ -91,13 +80,11 @@
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
-        "coreVersion": "13.344",
+        "exportSource": null,
+        "coreVersion": "13.346",
         "systemId": "artichron",
         "systemVersion": "1.0.0",
-        "createdTime": null,
-        "modifiedTime": null,
-        "lastModifiedBy": "artichronbuilder",
-        "exportSource": null
+        "lastModifiedBy": "artichronbuilder"
       },
       "_key": "!items.effects!xb1d17EGsvEZKoNd.T30146BgtpmnbiRe"
     }
@@ -110,13 +97,13 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.344",
+    "exportSource": null,
+    "coreVersion": "13.346",
     "systemId": "artichron",
     "systemVersion": "1.0.0",
-    "createdTime": 1729189306909,
-    "modifiedTime": 1729189306909,
-    "lastModifiedBy": "artichronbuilder",
-    "exportSource": null
+    "createdTime": 1752278782934,
+    "modifiedTime": 1752278782934,
+    "lastModifiedBy": "artichronbuilder"
   },
   "_key": "!items!xb1d17EGsvEZKoNd"
 }

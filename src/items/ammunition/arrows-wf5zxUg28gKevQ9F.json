@@ -13,21 +13,12 @@
       "value": 1
     },
     "attributes": {
-      "value": [],
-      "levels": {}
+      "value": []
     },
     "quantity": {
       "value": 20
     },
-    "category": {
-      "subtype": "arrow"
-    },
-    "activities": {},
-    "identifier": "arrows",
-    "override": {
-      "group": "",
-      "value": "fire"
-    }
+    "identifier": "arrows"
   },
   "effects": [],
   "folder": "RolaJHphF0RArLNp",
@@ -38,13 +29,13 @@
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,
-    "coreVersion": "13.344",
+    "exportSource": null,
+    "coreVersion": "13.346",
     "systemId": "artichron",
     "systemVersion": "1.0.0",
-    "createdTime": 1729157488961,
-    "modifiedTime": 1729157488961,
-    "lastModifiedBy": "artichronbuilder",
-    "exportSource": null
+    "createdTime": 1752278410435,
+    "modifiedTime": 1752278410435,
+    "lastModifiedBy": "artichronbuilder"
   },
   "_id": "wf5zxUg28gKevQ9F",
   "sort": 0,
