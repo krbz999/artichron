@@ -45,7 +45,7 @@
     "identifier": "planar-amplifier",
     "spell": {
       "quality": 1,
-      "subtype": "planar"
+      "origin": "planar"
     }
   },
   "effects": [

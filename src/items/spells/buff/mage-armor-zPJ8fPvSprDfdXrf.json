@@ -43,7 +43,7 @@
     "identifier": "mage-armor",
     "spell": {
       "quality": 1,
-      "subtype": "technological"
+      "origin": "technological"
     }
   },
   "effects": [

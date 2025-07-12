@@ -15,7 +15,7 @@
 
   {{#if (eq document.type "spell")}}
   {{formGroup systemFields.spell.fields.quality value=(ifThen isPlayMode document.system.spell.quality source.system.spell.quality) disabled=isPlayMode rootId=rootId}}
-  {{formGroup systemFields.spell.fields.subtype value=(ifThen isPlayMode document.system.spell.subtype source.system.spell.subtype) disabled=isPlayMode rootId=rootId}}
+  {{formGroup systemFields.spell.fields.origin value=(ifThen isPlayMode document.system.spell.origin source.system.spell.origin) disabled=isPlayMode rootId=rootId}}
   {{/if}}
 
   {{#if ctx.isArmor}}

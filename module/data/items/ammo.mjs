@@ -17,13 +17,6 @@ export default class AmmoData extends ItemSystemModel {
   /** @inheritdoc */
   static defineSchema() {
     return Object.assign(super.defineSchema(), {
-      // category: new SchemaField({
-      //   subtype: new StringField({
-      //     required: true,
-      //     initial: () => Object.keys(artichron.config.AMMUNITION_TYPES)[0],
-      //     choices: artichron.config.AMMUNITION_TYPES,
-      //   }),
-      // }),
       price: new SchemaField({
         value: new NumberField({ min: 0, initial: 0, integer: true, nullable: false }),
       }),

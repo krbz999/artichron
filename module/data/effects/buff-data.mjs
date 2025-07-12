@@ -22,14 +22,6 @@ export default class EffectBuffData extends ActiveEffectSystemModel {
       ...super.defineSchema(),
       source: new DocumentUUIDField({ type: "Item", embedded: true }),
       granted: new BooleanField(),
-      subtype: new StringField({
-        required: false,
-        choices: () => {
-          const choices = foundry.utils.deepClone(CONFIG.Actor.typeLabels);
-          delete choices.base;
-          return choices;
-        },
-      }),
     };
   }
 

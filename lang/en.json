@@ -852,10 +852,10 @@
     "FIELDS": {
       "armor": {
         "category": {
-          "label": "Category"
+          "label": "Armor Category"
         },
         "slot": {
-          "label": "Slot"
+          "label": "Equipment Slot"
         }
       }
     },
@@ -931,20 +931,10 @@
     }
   },
 
-  "PART": {
-    "FIELDS": {
-      "category": {
-        "label": "Type",
-        "subtype": {
-          "hint": "TODO",
-          "label": "Monster Part Subtype"
-        }
-      }
-    }
-  },
+  "PART": {},
 
   "SPELL": {
-    "subtypes": {
+    "spellOrigins": {
       "elemental": "Elemental",
       "planar": "Planar",
       "technological": "Technological"
@@ -954,7 +944,7 @@
         "quality": {
           "label": "Quality"
         },
-        "subtype": {
+        "origin": {
           "label": "Spell Origin"
         }
       }

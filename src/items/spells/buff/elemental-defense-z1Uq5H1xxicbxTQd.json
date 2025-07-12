@@ -116,7 +116,7 @@
     "identifier": "elemental-defense",
     "spell": {
       "quality": 1,
-      "subtype": "elemental"
+      "origin": "elemental"
     }
   },
   "effects": [

@@ -14,7 +14,7 @@ export default class ItemArtichron extends BaseDocumentMixin(foundry.documents.I
         img = "icons/svg/target.svg";
         break;
       case "armor":
-        img = "icons/svg/chest.svg";
+        img = artichron.config.EQUIPMENT_TYPES[itemData.system?.armor?.slot].defaultImage ?? "icons/svg/chest.svg";
         break;
       case "elixir":
         img = "icons/svg/explosion.svg";
@@ -179,9 +179,35 @@ export default class ItemArtichron extends BaseDocumentMixin(foundry.documents.I
   /* -------------------------------------------------- */
 
   /** @inheritdoc */
-  static async createDialog(data = {}, createOptions = {}, { folders, types, template, ...dialogOptions } = {}) {
+  static async createDialog(data = {}, createOptions = {}, { folders, types, template, context, ...dialogOptions } = {}) {
     const options = artichron.applications.api.Dialog.DEFAULT_OPTIONS;
-    return super.createDialog(data, createOptions, { folders, types, template, ...options });
+    const { parent, pack } = createOptions;
+
+    const render = (event, dialog) => {
+      const typeInput = dialog.element.querySelector("[name=\"type\"]");
+
+      const nameInput = dialog.element.querySelector("[name=\"name\"]");
+      const slotInput = dialog.element.querySelector("[name=\"system.armor.slot\"]");
+      const originInput = dialog.element.querySelector("[name=\"system.spell.origin\"]");
+      typeInput.addEventListener("change", e => {
+        const type = e.currentTarget.value;
+
+        nameInput.placeholder = this.defaultName({ type, parent, pack });
+
+        slotInput.closest(".form-group").classList.toggle("hidden", type !== "armor");
+        slotInput.disabled = type !== "armor";
+
+        originInput.closest(".form-group").classList.toggle("hidden", type !== "spell");
+        originInput.disabled = type !== "spell";
+      });
+    };
+
+    context ??= {};
+    context.armorSlotOptions = artichron.config.EQUIPMENT_TYPES;
+    context.spellOriginOptions = artichron.config.SPELL_ORIGINS;
+    template ??= "systems/artichron/templates/sidebar/item-document-create.hbs";
+
+    return super.createDialog(data, createOptions, { folders, types, template, context, render, ...options });
   }
 
   /* -------------------------------------------------- */

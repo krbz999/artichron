@@ -25,7 +25,7 @@ export default class SpellData extends ItemSystemModel {
       activities: new artichron.data.fields.CollectionField(artichron.data.pseudoDocuments.activities.BaseActivity),
       spell: new SchemaField({
         quality: new NumberField({ integer: true, min: 1, max: 5, nullable: false, initial: 1 }),
-        subtype: new StringField({ blank: false, choices: () => artichron.config.SPELL_SUBTYPES, initial: "elemental" }),
+        origin: new StringField({ required: true, choices: () => artichron.config.SPELL_ORIGINS, initial: "elemental" }),
       }),
       price: new SchemaField({
         value: new NumberField({ min: 0, initial: 0, integer: true, nullable: false }),
@@ -111,8 +111,8 @@ export default class SpellData extends ItemSystemModel {
     });
 
     const quality = spell.system.spell.quality;
-    // Additional benefit depending on spell subtype.
-    switch (spell.system.spell.subtype) {
+    // Additional benefit depending on spell origin.
+    switch (spell.system.spell.origin) {
       case "elemental": {
         for (const [k, v] of Object.entries(artichron.config.DAMAGE_TYPES)) {
           if (v.group !== "elemental") continue;

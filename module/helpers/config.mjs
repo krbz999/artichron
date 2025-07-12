@@ -228,7 +228,7 @@ export const EQUIPMENT_CATEGORIES = {
  */
 
 /**
- * Equipment subtypes.
+ * Equipment slots.
  * @enum {EquipmentTypeConfig}
  */
 export const EQUIPMENT_TYPES = {
@@ -339,13 +339,13 @@ export const ITEM_ATTRIBUTES = {
 /* -------------------------------------------------- */
 
 /**
- * Spell subtypes.
+ * Spell origins.
  * @type {Record<string, string>}
  */
-export const SPELL_SUBTYPES = {
-  elemental: "ARTICHRON.ITEM.SPELL.subtypes.elemental",
-  planar: "ARTICHRON.ITEM.SPELL.subtypes.planar",
-  technological: "ARTICHRON.ITEM.SPELL.subtypes.technological",
+export const SPELL_ORIGINS = {
+  elemental: "ARTICHRON.ITEM.SPELL.spellOrigins.elemental",
+  planar: "ARTICHRON.ITEM.SPELL.spellOrigins.planar",
+  technological: "ARTICHRON.ITEM.SPELL.spellOrigins.technological",
 };
 
 /* -------------------------------------------------- */
