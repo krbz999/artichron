@@ -18,6 +18,7 @@
     &::before {
       content: "";
       position: absolute;
+      z-index: -1;
       inset: 0;
       width: var(--bar-width);
       background: linear-gradient(
