@@ -21,9 +21,7 @@
   --artichron-color-dark-black: rgb(11, 10, 19);
 
   /* POOLS */
-  --artichron-color-pool-health: var(--artichron-color-red);
   --artichron-color-pool-stamina: var(--artichron-color-green);
-  --artichron-color-pool-mana: var(--artichron-color-blue);
   --artichron-color-pool-danger: var(--artichron-color-purple-dark);
 
   /* DISPOSITION */

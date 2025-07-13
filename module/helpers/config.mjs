@@ -120,15 +120,14 @@ export const HEALING = {
 
 /**
  * @typedef {object} TargetTypeConfig
- * @property {string} label           Displayed label of the targeting type.
- * @property {Set<string>} scale      The properties that can scale with mana.
- * @property {boolean} isAttached     Is this template type locked to a token during preview?
- * @property {boolean} isArea         Whether this is a target type for individual targets or an area.
+ * @property {string} label         Displayed label of the targeting type.
+ * @property {Set<string>} scale    The properties that can scale with stamina.
+ * @property {boolean} isAttached   Is this template type locked to a token during preview?
+ * @property {boolean} isArea       Whether this is a target type for individual targets or an area.
  */
 
 /**
- * The types of area targeting, enumerating both configurations for spell areas and upscaling
- * with mana, as well as what blast zones a piece of ammo can create.
+ * The types of area targeting, enumerating both configurations for spell areas and upscaling with stamina.
  * @enum {TargetTypeConfig}
  */
 export const TARGET_TYPES = {
@@ -572,14 +571,8 @@ export const SKILLS = {
  * @type {Record<string, PoolConfig>}
  */
 export const POOL_TYPES = {
-  health: {
-    label: "ARTICHRON.POOL.TYPES.health",
-  },
   stamina: {
     label: "ARTICHRON.POOL.TYPES.stamina",
-  },
-  mana: {
-    label: "ARTICHRON.POOL.TYPES.mana",
   },
 };
 

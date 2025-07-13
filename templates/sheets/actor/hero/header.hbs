@@ -57,22 +57,10 @@
         </span>
         {{else}}
         <span class="tag glass">
-          <span>{{document.system.pools.health.value}}</span>
-          <span class="sep">/</span>
-          <span>{{document.system.pools.health.max}}</span>
-          <i class="fa-solid fa-fw fa-dice-d10" style="color: var(--artichron-color-pool-health);"></i>
-        </span>
-        <span class="tag glass">
           <span>{{document.system.pools.stamina.value}}</span>
           <span class="sep">/</span>
           <span>{{document.system.pools.stamina.max}}</span>
           <i class="fa-solid fa-fw fa-dice-d10" style="color: var(--artichron-color-pool-stamina);"></i>
-        </span>
-        <span class="tag glass">
-          <span>{{document.system.pools.mana.value}}</span>
-          <span class="sep">/</span>
-          <span>{{document.system.pools.mana.max}}</span>
-          <i class="fa-solid fa-fw fa-dice-d10" style="color: var(--artichron-color-pool-mana);"></i>
         </span>
         {{/if}}
       </div>

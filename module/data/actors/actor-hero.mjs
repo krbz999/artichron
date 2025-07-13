@@ -20,9 +20,7 @@ const { ArrayField, NumberField, SchemaField, TypedObjectField } = foundry.data.
 /**
  * @typedef HeroDataSchema
  * @property {object} pools
- * @property {PoolData} pools.health
  * @property {PoolData} pools.stamina
- * @property {PoolData} pools.mana
  *
  * @property {object} progression
  * @property {object} progression.points
@@ -51,9 +49,7 @@ export default class HeroData extends CreatureData {
 
     return Object.assign(super.defineSchema(), {
       pools: new SchemaField({
-        health: poolSchema(),
         stamina: poolSchema(),
-        mana: poolSchema(),
       }),
       progression: new SchemaField({
         points: new SchemaField({
@@ -102,7 +98,7 @@ export default class HeroData extends CreatureData {
 
   /** Prepare pools. */
   #preparePools() {
-    for (const k of ["health", "stamina", "mana"]) {
+    for (const k of ["stamina"]) {
       const value = this.pools[k].max - this.pools[k].spent;
       this.pools[k].value = Math.max(0, value);
       this.pools[k].pct = Math.round(this.pools[k].value / this.pools[k].max * 100);
@@ -303,7 +299,7 @@ export default class HeroData extends CreatureData {
     update["system.health.spent"] = 0;
 
     // Pools.
-    for (const k of ["health", "stamina", "mana"]) update[`system.pools.${k}.spent`] = 0;
+    for (const k of ["stamina"]) update[`system.pools.${k}.spent`] = 0;
 
     return this.parent.update(update);
   }

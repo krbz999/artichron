@@ -501,28 +501,6 @@
       }
     },
     "pools": {
-      "health": {
-        "spent": {
-          "label": "Spent"
-        },
-        "max": {
-          "label": "Maximum"
-        },
-        "faces": {
-          "label": "Faces"
-        }
-      },
-      "mana": {
-        "spent": {
-          "label": "Spent"
-        },
-        "max": {
-          "label": "Maximum"
-        },
-        "faces": {
-          "label": "Faces"
-        }
-      },
       "stamina": {
         "spent": {
           "label": "Spent"
@@ -988,15 +966,11 @@
 
 "POOL": {
   "TYPES": {
-    "health": "Health",
-    "stamina": "Stamina",
-    "mana": "Mana"
+    "stamina": "Stamina"
   },
   "CONFIG": {
     "TITLE": "Configure Pools",
-    "health": "Health",
-    "stamina": "Stamina",
-    "mana": "Mana"
+    "stamina": "Stamina"
   }
 },
 

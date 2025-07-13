@@ -51,9 +51,7 @@
           {{#if (or isHero isMonster)}}
           <div class="pools">
             {{#if isHero}}
-            <div class="health" style="--health: {{pct.health}}%;"></div>
             <div class="stamina" style="--stamina: {{pct.stamina}}%;"></div>
-            <div class="mana" style="--mana: {{pct.mana}}%;"></div>
             {{else}}
             <div class="danger" style="--danger: {{pct.danger}}%;"></div>
             {{/if}}

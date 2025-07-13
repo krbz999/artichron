@@ -141,7 +141,7 @@
             right: 0;
             height: 0.2rem;
 
-            .health, .stamina, .mana, .danger {
+            .stamina, .danger {
               position: relative;
               flex: 1;
               height: 100%;
@@ -158,17 +158,9 @@
               }
             }
 
-            .health::before {
-              right: calc(100% - var(--health));
-              background: var(--artichron-color-pool-health);
-            }
             .stamina::before {
               right: calc(100% - var(--stamina));
               background: var(--artichron-color-pool-stamina);
-            }
-            .mana::before {
-              right: calc(100% - var(--mana));
-              background: var(--artichron-color-pool-mana);
             }
             .danger::before {
               right: calc(100% - var(--danger));

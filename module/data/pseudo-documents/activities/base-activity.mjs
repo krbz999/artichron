@@ -66,16 +66,6 @@ export default class BaseActivity extends TypedPseudoDocument {
   }
 
   /* -------------------------------------------------- */
-
-  /**
-   * The type of pool used to enhance the activity.
-   * @type {string}
-   */
-  get poolType() {
-    return "mana";
-  }
-
-  /* -------------------------------------------------- */
   /*   Instance methods                                 */
   /* -------------------------------------------------- */
 
@@ -287,11 +277,11 @@ export default class BaseActivity extends TypedPseudoDocument {
     // Consume pools.
     if (pool > 0) {
       const isMonster = actor.type === "monster";
-      const path = isMonster ? "danger.pool" : `pools.${this.poolType}`;
+      const path = isMonster ? "danger.pool" : "pools.stamina";
       const value = foundry.utils.getProperty(actor.system, `${path}.value`);
       if (value < pool) {
         ui.notifications.warn("ARTICHRON.ACTIVITY.Warning.NoPool", {
-          format: { pool: game.i18n.localize(`ARTICHRON.Pools.${isMonster ? "Danger" : this.poolType.capitalize()}`) },
+          format: { pool: game.i18n.localize(`ARTICHRON.Pools.${isMonster ? "Danger" : "Stamina"}`) },
         });
         return false;
       }

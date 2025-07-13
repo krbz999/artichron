@@ -26,11 +26,7 @@ export default class HeroPoolConfig extends DocumentConfig {
   /** @type {import("../../../../_types").ContextPartHandler} */
   async _preparePartContextPools(context, options) {
     const ctx = context.ctx = {};
-
-    ctx.health = Math.clamp(this.document.system.pools.health.spent, 0, this.document.system.pools.health.max);
     ctx.stamina = Math.clamp(this.document.system.pools.stamina.spent, 0, this.document.system.pools.stamina.max);
-    ctx.mana = Math.clamp(this.document.system.pools.mana.spent, 0, this.document.system.pools.mana.max);
-
     return context;
   }
 }

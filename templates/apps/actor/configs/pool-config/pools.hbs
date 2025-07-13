@@ -1,28 +1,10 @@
 <section class="standard-form">
   <div class="form-group">
-    <label>{{localize "ARTICHRON.POOL.CONFIG.health"}}</label>
-    <div class="form-fields">
-      {{formGroup systemFields.pools.fields.health.fields.spent value=ctx.health classes="label-top" placeholder="0"}}
-      {{formGroup systemFields.pools.fields.health.fields.max value=source.system.pools.health.max classes="label-top" placeholder="2"}}
-      {{formGroup systemFields.pools.fields.health.fields.faces value=source.system.pools.health.faces classes="label-top" placeholder="6"}}
-    </div>
-  </div>
-
-  <div class="form-group">
     <label>{{localize "ARTICHRON.POOL.CONFIG.stamina"}}</label>
     <div class="form-fields">
       {{formGroup systemFields.pools.fields.stamina.fields.spent value=ctx.stamina classes="label-top" placeholder="0"}}
       {{formGroup systemFields.pools.fields.stamina.fields.max value=source.system.pools.stamina.max classes="label-top" placeholder="2"}}
       {{formGroup systemFields.pools.fields.stamina.fields.faces value=source.system.pools.stamina.faces classes="label-top" placeholder="6"}}
-    </div>
-  </div>
-
-  <div class="form-group">
-    <label>{{localize "ARTICHRON.POOL.CONFIG.mana"}}</label>
-    <div class="form-fields">
-      {{formGroup systemFields.pools.fields.mana.fields.spent value=ctx.mana classes="label-top" placeholder="0"}}
-      {{formGroup systemFields.pools.fields.mana.fields.max value=source.system.pools.mana.max classes="label-top" placeholder="2"}}
-      {{formGroup systemFields.pools.fields.mana.fields.faces value=source.system.pools.mana.faces classes="label-top" placeholder="6"}}
     </div>
   </div>
 </section>

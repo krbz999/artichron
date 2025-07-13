@@ -129,9 +129,7 @@ export default class PartySheet extends ActorSheetArtichron {
       };
 
       if (context.isHero) {
-        context.pct.health = actor.system.pools.health.pct;
         context.pct.stamina = actor.system.pools.stamina.pct;
-        context.pct.mana = actor.system.pools.mana.pct;
       } else if (context.isMonster) {
         context.pct.danger = actor.system.danger.pool.pct;
       }

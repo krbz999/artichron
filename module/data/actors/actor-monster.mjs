@@ -31,7 +31,7 @@ export default class MonsterData extends CreatureData {
   /** @inheritdoc */
   prepareBaseData() {
     super.prepareBaseData();
-    this.health.max = 40;
+    this.health.max = this.danger.value * 4;
   }
 
   /* -------------------------------------------------- */
@@ -41,7 +41,6 @@ export default class MonsterData extends CreatureData {
     super.prepareDerivedData();
 
     // Set health maximum and clamp current health.
-    this.health.max = this.health.max + this.danger.value * 10;
     const injury = 1 - this.parent.appliedConditionLevel("injured") / 100;
 
     this.health.max = Math.ceil(this.health.max * injury);

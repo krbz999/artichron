@@ -258,7 +258,7 @@ export default class ActivityUseDialog extends Application {
         max = this.#item.actor.system.danger.pool.value;
         break;
       default:
-        max = this.#item.actor.system.pools[this.activity.poolType].value;
+        max = this.#item.actor.system.pools.stamina.value;
     }
 
     if (this.activity.getUsagePoolCost(config) > max) {
