@@ -4,6 +4,11 @@
 
 .application {
   max-height: 100vh;
+
+  .window-content {
+    /* Removal of backdrop filter is required for anchor-positioning to function. */
+    backdrop-filter: none;
+  }
 }
 
 /* -------------------------------------------------- */
@@ -175,6 +180,8 @@
     }
   }
 }
+
+/* -------------------------------------------------- */
 
 /* DOCUMENT LISTS */
 .application.artichron {
