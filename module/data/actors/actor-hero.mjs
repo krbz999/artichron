@@ -84,15 +84,16 @@ export default class HeroData extends CreatureData {
     // Pools are prepared first as most other properties rely on these.
     this.#preparePools();
 
-    // Health has to be prepared before defenses (in the call to super) as armor items may require looking at HP.
-    this.#prepareHealth();
-
-    super.prepareDerivedData();
-
     // Prepare paths. This happens here rather than prepareBaseData due to items' pseudo-documents
     // having to be prepared first, but could be moved to post-prepareEmbeddedDocuments to allow
     // for effects to affect scale values?
     this.#preparePaths();
+
+    // Health has to be prepared before defenses (in the call to super) as armor items may require looking at HP.
+    // It also has to be prepared after paths because paths help define max hp.
+    this.#prepareHealth();
+
+    super.prepareDerivedData(); // Defenses prepared here.
     this.#prepareEncumbrance();
     this.#prepareSkills();
   }
@@ -124,17 +125,23 @@ export default class HeroData extends CreatureData {
 
   /** Prepare health values. */
   #prepareHealth() {
-    // Set health maximum and clamp current health.
-    const levels = this.parent.appliedConditionLevel("injured");
-    const injury = 1 - levels / artichron.config.STATUS_CONDITIONS.injured.levels;
-    const total = this.pools.health.max * this.pools.health.faces;
-
-    let max = Math.ceil(total * injury);
+    let maximum = 0;
+    for (const investment of this.progression.points._investment) {
+      const { path, max, min } = investment;
+      const config = artichron.config.PROGRESSION_PATHS[path];
+      const interval = max - min + 1;
+      maximum += config.health * interval;
+    }
 
     // Add bonuses from traits.
-    for (const trait of this.parent._traits?.health ?? []) max += trait.value;
+    for (const trait of this.parent._traits?.health ?? []) maximum += trait.value;
 
-    if ((levels > 0) && (max === total)) max = Math.clamp(max, 1, total - 1);
+    const levels = this.parent.appliedConditionLevel("injured");
+    const injury = 1 - levels / artichron.config.STATUS_CONDITIONS.injured.levels;
+    let max = Math.ceil(maximum * injury);
+
+    // If injured, and the modified maximum leads to no change, remove at least 1 hp.
+    if ((levels > 0) && (max === maximum)) max = Math.clamp(max, 1, maximum - 1);
 
     this.health.max = max;
     this.health.spent = Math.min(this.health.spent, this.health.max);

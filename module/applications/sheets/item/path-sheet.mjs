@@ -42,7 +42,7 @@ export default class PathSheet extends ItemSheetArtichron {
       attributes: [],
     };
 
-    // Identifiers
+    // Identifiers. TODO: consider moving more of this into config.
     if (this.document.system.attributes.value.has("mixed")) {
       for (const [k, { label }] of Object.entries(artichron.config.PROGRESSION_MIXED_PATHS)) {
         context.ctx.identifiers.push({ value: k, label });

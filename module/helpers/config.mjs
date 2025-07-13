@@ -587,9 +587,10 @@ export const POOL_TYPES = {
 
 /**
  * @typedef CorePathConfiguration
- * @property {string} label   Human-readable label.
- * @property {string} uuid    The uuid to the core path item.
- * @property {Proxy} mixed    Proxy object to retrieve a resulting mixed path.
+ * @property {string} label     Human-readable label.
+ * @property {string} uuid      The uuid to the core path item.
+ * @property {number} health    How much health is granted at intervals a hero has this as primary path.
+ * @property {Proxy} mixed      Proxy object to retrieve a resulting mixed path.
  */
 
 /** @type {Record<string, CorePathConfiguration>} */
@@ -597,21 +598,25 @@ export const PROGRESSION_CORE_PATHS = {
   cleric: {
     label: "ARTICHRON.PROGRESSION.LABELS.cleric",
     uuid: "Compendium.artichron.items.Item.TOPOCY0zrPjEj59G",
+    health: 3,
     mixed: {},
   },
   fighter: {
     label: "ARTICHRON.PROGRESSION.LABELS.fighter",
     uuid: "Compendium.artichron.items.Item.UrSG9mEumnMbTIrM",
+    health: 4,
     mixed: {},
   },
   mage: {
     label: "ARTICHRON.PROGRESSION.LABELS.mage",
     uuid: "Compendium.artichron.items.Item.7i6uNxcreJWoO4C9",
+    health: 2,
     mixed: {},
   },
   rogue: {
     label: "ARTICHRON.PROGRESSION.LABELS.rogue",
     uuid: "Compendium.artichron.items.Item.1LlHcgghhPrbJjIi",
+    health: 3,
     mixed: {},
   },
 };
@@ -620,8 +625,9 @@ export const PROGRESSION_CORE_PATHS = {
 
 /**
  * @typedef MixedPathConfiguration
- * @property {string} label   Human-readable label.
- * @property {string} uuid    The uuid to the path item.
+ * @property {string} label     Human-readable label.
+ * @property {string} uuid      The uuid to the path item.
+ * @property {number} health    How much health is granted at intervals a hero has this as primary path.
  */
 
 /** @type {Record<string, MixedPathConfiguration>} */
@@ -629,26 +635,32 @@ export const PROGRESSION_MIXED_PATHS = {
   inquisitor: {
     label: "ARTICHRON.PROGRESSION.LABELS.inquisitor",
     uuid: "Compendium.artichron.items.Item.WuJqNVsC1LKvvPjF",
+    health: 3,
   },
   shaman: {
     label: "ARTICHRON.PROGRESSION.LABELS.shaman",
     uuid: "Compendium.artichron.items.Item.SzGVudF2sfodAy9O",
+    health: 3,
   },
   spellblade: {
     label: "ARTICHRON.PROGRESSION.LABELS.spellblade",
     uuid: "Compendium.artichron.items.Item.59ScnAaMmCDPtZfe",
+    health: 3,
   },
   swashbuckler: {
     label: "ARTICHRON.PROGRESSION.LABELS.swashbuckler",
     uuid: "Compendium.artichron.items.Item.MRLCVc7ewf3y4T91",
+    health: 3,
   },
   templar: {
     label: "ARTICHRON.PROGRESSION.LABELS.templar",
     uuid: "Compendium.artichron.items.Item.VzLWOrUWzibGNClQ",
+    health: 4,
   },
   warlock: {
     label: "ARTICHRON.PROGRESSION.LABELS.warlock",
     uuid: "Compendium.artichron.items.Item.WJltuDU36z2v0hH1",
+    health: 3,
   },
 };
 
@@ -668,6 +680,15 @@ for (const k in PROGRESSION_CORE_PATHS) {
   } });
 }
 
+/**
+ * All progression paths.
+ * @type {Record<string, {label: string, uuid: string, health: number}>}
+ */
+export const PROGRESSION_PATHS = {
+  ...PROGRESSION_CORE_PATHS,
+  ...PROGRESSION_MIXED_PATHS,
+};
+
 export const PROGRESSION_VALUES = {
   relative: {
     lower: 45,
@@ -675,7 +696,7 @@ export const PROGRESSION_VALUES = {
   },
   // If any path has more than this, use relative.
   // You also cannot be mixed-path unless meeting this.
-  absolute: 10,
+  absolute: 8,
 };
 
 /* -------------------------------------------------- */

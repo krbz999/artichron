@@ -96,10 +96,7 @@ export default class PathConfigurationDialog extends Application {
     let item = this.#cachedItems[path];
     if (item) return item;
 
-    let uuid;
-    if (path in artichron.config.PROGRESSION_MIXED_PATHS) uuid = artichron.config.PROGRESSION_MIXED_PATHS[path].uuid;
-    else uuid = artichron.config.PROGRESSION_CORE_PATHS[path]?.uuid;
-
+    const uuid = artichron.config.PROGRESSION_PATHS[path]?.uuid;
     item = await fromUuid(uuid);
     if (!item) return null;
 
