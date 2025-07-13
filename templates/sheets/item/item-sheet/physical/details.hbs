@@ -34,7 +34,9 @@
   <div class="form-group">
     {{#each ctx.defenses}}
     <div class="form-group label-top" data-tooltip-text="{{label}}">
-      <label class="fa-fw {{icon}}" style="width: 100%; color: #{{color}};"></label>
+      <label>
+        <artichron-icon src="{{img}}" style="--icon-fill: #{{color}};"></artichron-icon>
+      </label>
       <div class="form-fields">
         {{formInput field value=value disabled=disabled placeholder="0"}}
       </div>

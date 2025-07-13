@@ -64,10 +64,10 @@ export default class ArmorSheet extends PhysicalItemSheet {
     const defenses = [];
     const field = this.document.system.schema.getField("defenses");
     for (const k of field) {
-      const { label, icon, color } = artichron.config.DAMAGE_TYPES[k.name];
+      const { label, img, color } = artichron.config.DAMAGE_TYPES[k.name];
       const src = this.document.system._source.defenses[k.name];
       defenses.push({
-        label, icon, color,
+        label, img, color,
         disabled: !(context.editable && context.isEditMode),
         value: context.isEditMode ? (!src ? null : src) : this.document.system.defenses[k.name],
         field: k,

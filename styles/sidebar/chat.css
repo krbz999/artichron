@@ -116,12 +116,8 @@
         flex-wrap: wrap;
 
         .icon {
-          width: 40px;
-          height: 40px;
-          object-fit: contain;
-          justify-content: center;
-          align-items: center;
-          display: flex;
+          height: 30px;
+          margin: 5px;
         }
         .formula {
           flex: 1;

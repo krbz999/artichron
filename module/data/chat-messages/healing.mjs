@@ -102,7 +102,7 @@ export default class HealingData extends ChatMessageSystemModel {
 
     for (const roll of this.parent.rolls) {
       context.total += roll.total;
-      const { icon, label, color } = artichron.config.HEALING;
+      const { img, label, color } = artichron.config.HEALING;
       const dice = [];
 
       for (const die of roll.dice) {
@@ -117,7 +117,7 @@ export default class HealingData extends ChatMessageSystemModel {
       }
 
       context.rolls.push({
-        color, dice, icon, label,
+        color, dice, img, label,
         total: roll.total,
         formula: roll.formula,
         // multiplier: (roll.multiplier !== 1) ? roll.multiplier.toNearest(0.01) : null,

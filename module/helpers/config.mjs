@@ -4,12 +4,10 @@ export const SYSTEM = {};
 
 /**
  * @typedef {object} DamageTypeConfig
- * @property {string} label             Displayed label of the damage type.
- * @property {string} color             Associated default color.
- * @property {string} icon              FA icon used for the damage type.
- * @property {string} group             An optgroup key to put this damage type in for rendering.
- * @property {boolean} [resist]         Whether this damage type can be resisted.
- * @property {boolean} [armor]          Whether this damage type is resisted by armor rating.
+ * @property {string} label   Human-readable label.
+ * @property {string} color   Associated default color.
+ * @property {string} img     Filepath to the SVG icon.
+ * @property {string} group   An optgroup key to put this damage type in for rendering.
  */
 
 /**
@@ -20,58 +18,50 @@ export const DAMAGE_TYPES = {
   fire: {
     label: "ARTICHRON.DamageType.Fire",
     color: "FF5733",
-    icon: "fa-solid fa-fire",
+    img: "systems/artichron/assets/icons/damage/elemental-fire.svg",
     group: "elemental",
-    resist: true,
   },
   wind: {
     label: "ARTICHRON.DamageType.Wind",
     color: "8DEEB5",
-    icon: "fa-solid fa-wind",
+    img: "systems/artichron/assets/icons/damage/elemental-wind.svg",
     group: "elemental",
-    resist: true,
   },
   lightning: {
     label: "ARTICHRON.DamageType.Lightning",
     color: "4B70A8",
-    icon: "fa-solid fa-bolt",
+    img: "systems/artichron/assets/icons/damage/elemental-lightning.svg",
     group: "elemental",
-    resist: true,
   },
   ice: {
     label: "ARTICHRON.DamageType.Ice",
     color: "54D7E0",
-    icon: "fa-solid fa-snowflake",
+    img: "systems/artichron/assets/icons/damage/elemental-ice.svg",
     group: "elemental",
-    resist: true,
   },
   light: {
     label: "ARTICHRON.DamageType.Light",
     color: "FCFFBF",
-    icon: "fa-solid fa-sun",
+    img: "systems/artichron/assets/icons/damage/planar-light.svg",
     group: "planar",
-    resist: true,
   },
   darkness: {
     label: "ARTICHRON.DamageType.Darkness",
     color: "910B94",
-    icon: "fa-solid fa-moon",
+    img: "systems/artichron/assets/icons/damage/planar-darkness.svg",
     group: "planar",
-    resist: true,
   },
   physical: {
     label: "ARTICHRON.DamageType.Physical",
     color: "868686",
-    icon: "fa-solid fa-hand-fist",
+    img: "systems/artichron/assets/icons/damage/physical.svg",
     group: "physical",
-    armor: true,
   },
   arcane: {
     label: "ARTICHRON.DamageType.Arcane",
     color: "C79FFF",
-    icon: "fa-solid fa-wand-sparkles",
+    img: "systems/artichron/assets/icons/damage/planar-arcane.svg",
     group: "planar",
-    resist: true,
   },
 };
 
@@ -118,12 +108,12 @@ export const DAMAGE_TYPE_GROUPS = {
  * Configuration data for healing.
  * @property {string} label   Human-readable label.
  * @property {string} color   The color.
- * @property {string} icon    The FA icon.
+ * @property {string} img     Filepath to the SVG icon.
  */
 export const HEALING = {
   label: "ARTICHRON.HEALING.healing",
   color: "379e00",
-  icon: "fa-solid fa-staff-snake",
+  img: "systems/artichron/assets/icons/damage/healing.svg",
 };
 
 /* -------------------------------------------------- */

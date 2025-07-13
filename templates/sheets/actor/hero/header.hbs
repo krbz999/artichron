@@ -41,7 +41,7 @@
         {{else}}
         <span class="tag glass {{#if isRollable}} button {{/if}}" {{#if isRollable}} data-action="rollDamage" {{/if}}>
           <span>{{ctx.damage.part.formula}}</span>
-          <i class="fa-solid fa-fw fa-{{lookup (lookup config.DAMAGE_TYPES ctx.damage.part.damageType) 'icon'}}"></i>
+          <artichron-icon src="{{ctx.damage.img}}" style="--icon-fill: #{{ctx.damage.color}};"></artichron-icon>
         </span>
         {{/if}}
       </div>
@@ -86,7 +86,7 @@
         {{#each ctx.defenses}}
         <span class="tag glass" data-tooltip="{{label}}">
           <span>{{value}}</span>
-          <i class="fa-fw {{icon}}" style="color: #{{color}};"></i>
+          <artichron-icon src="{{img}}" style="--icon-fill: #{{color}};"></artichron-icon>
         </span>
         {{/each}}
       </div>

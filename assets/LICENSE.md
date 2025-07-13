@@ -12,15 +12,7 @@ https://www.freepik.com/free-vector/futuristic-design-background_7434515.htm
 
 This system includes icon artwork licensed from Game-icons.net under the Creative Commons license. These icons are packaged with and provided for use in this system under their respective licenses, as noted below.
 
-
 assets/icons/chron.svg - "Rupee Icon" by Delapouite under CC BY 3.0
-
-assets/icons/equipment/leg-armor.svg - "Armored Pants" by Irongamer un CC BY 3.0
-assets/icons/equipment/gauntlet.svg - "Gauntlet" by Delapouite under CC BY 3.0
-assets/icons/equipment/chest-armor.svg - "Chest Armor" by Delapouite under CC BY 3.0
-assets/icons/equipment/helmet.svg - "Crested Helmet" by Lorc under CC BY 3.0
-assets/icons/equipment/boots.svg - "Boots" by Lorc under CC BY 3.0
-assets/icons/equipment/accessory.svg - "Gem Chain" by Lorc under CC BY 3.0
 
 assets/icons/conditions/bleeding.svg - "Bloody Stash" by Lorc under CC BY 3.0
 assets/icons/conditions/blind.svg - "Sight Disabled" by Skoll under CC BY 3.0
@@ -39,6 +31,23 @@ assets/icons/conditions/physical-defense-up/down.svg - "Bordered Shield" by Lorc
 assets/icons/conditions/planar-damage-up/down.svg - "Eclipse" by Lorc under CC BY 3.0
 assets/icons/conditions/planar-defense-up/down.svg - "Double-Ringed Orb" by Lorc under CC BY 3.0
 
+assets/icons/damage/elemental-fire.svg - "Flamer" by sbed under CC BY 3.0
+assets/icons/damage/elemental-ice.svg - "Snowflake 2" by Lorc under CC BY 3.0
+assets/icons/damage/elemental-lightning.svg - "Lightning Helix" by Lorc under CC BY 3.0
+assets/icons/damage/elemental-wind.svg - "Swirl Ring" by Lorc under CC BY 3.0
+assets/icons/damage/physical.svg - "Fist" by Skoll under CC BY 3.0
+assets/icons/damage/planar-arcane.svg - "Crumbling Ball" by Lorc under CC BY 3.0
+assets/icons/damage/planar-darkness.svg - "Orbital" by Lorc under CC BY 3.0
+assets/icons/damage/planar-light.svg - "Fireflake" by sbed under CC BY 3.0
+assets/icons/damage/healing.svg - "Heart Wings" by Delapouite under CC BY 3.0
+
+assets/icons/equipment/accessory.svg - "Gem Chain" by Lorc under CC BY 3.0
+assets/icons/equipment/boots.svg - "Boots" by Lorc under CC BY 3.0
+assets/icons/equipment/chest-armor.svg - "Chest Armor" by Delapouite under CC BY 3.0
+assets/icons/equipment/gauntlet.svg - "Gauntlet" by Delapouite under CC BY 3.0
+assets/icons/equipment/helmet.svg - "Crested Helmet" by Lorc under CC BY 3.0
+assets/icons/equipment/leg-armor.svg - "Armored Pants" by Irongamer un CC BY 3.0
+
 assets/icons/pseudo/activity.svg - "Divided Spiral" by Lorc under CC BY 3.0
 assets/icons/pseudo/advancement.svg - "Divergence" by Lorc under CC BY 3.0
 assets/icons/pseudo/armor-requirement.svg - "Armor Blueprint" by SeregaCthtuf under CC BY 3.0
@@ -53,4 +62,4 @@ assets/icons/skills/spirit.svg - "Spark Spirit" by Lorc under CC BY 3.0
 
 The system includes sound effects licensed from BBC Sound Effects under the BBC's Content Licence for RemArc, found here: https://sound-effects.bbcrewind.co.uk/.
 
-assets/sounds/shop-bell.wav - 'London - Routemaster Double-Decker Bus, interior, bell rung twice'
+assets/sounds/shop-bell.wav - "London - Routemaster Double-Decker Bus, interior, bell rung twice"

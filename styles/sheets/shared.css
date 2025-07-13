@@ -40,6 +40,11 @@
             display: flex;
             gap: .5ch;
             justify-content: center;
+            align-items: center;
+
+            span {
+              text-box: trim-both cap alphabetic;
+            }
           }
         }
       }

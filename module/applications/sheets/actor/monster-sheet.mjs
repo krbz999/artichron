@@ -73,13 +73,16 @@ export default class MonsterSheet extends ActorSheetArtichron {
 
     for (const [k, v] of Object.entries(this.document.system.defenses)) {
       if (!v) continue;
-      const { color, icon, label } = artichron.config.DAMAGE_TYPES[k];
-      ctx.defenses.push({ color, icon, label, value: v });
+      const { color, img, label } = artichron.config.DAMAGE_TYPES[k];
+      ctx.defenses.push({ color, img, label, value: v });
     }
 
     // Damage.
+    const part = this.document.getEmbeddedPseudoDocumentCollection("Damage").contents[0];
     ctx.damage = {
-      part: this.document.getEmbeddedPseudoDocumentCollection("Damage").contents[0],
+      part,
+      color: artichron.config.DAMAGE_TYPES[part.damageType].color,
+      img: artichron.config.DAMAGE_TYPES[part.damageType].img,
     };
 
     return context;
