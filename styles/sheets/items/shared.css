@@ -10,6 +10,11 @@
       .form-fields select:first-child { flex: 0 0 100px; }
     }
   }
+
+  /* In play mode, a single icon might span the entire width which looks bad. */
+  .form-group.defense {
+    max-width: 60px;
+  }
 }
 
 /* -------------------------------------------------- */
