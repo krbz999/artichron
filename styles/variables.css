@@ -18,6 +18,7 @@
   --artichron-color-tan: rgb(219, 147, 112);
   --artichron-color-umber: rgb(110, 84, 60);
   --artichron-color-white: rgba(204, 204, 204);
+  --artichron-color-dark-black: rgb(11, 10, 19);
 
   /* POOLS */
   --artichron-color-pool-health: var(--artichron-color-red);
@@ -78,4 +79,9 @@ body {
   --artichron-font-header: Roboto, sans-serif;
   --artichron-font-raleway: "Raleway";
   --font-body: var(--artichron-font-raleway);
+}
+
+.application {
+  /* Black background with zero transparency. Identical to performance-mode styling. */
+  --background: var(--artichron-color-dark-black);
 }
