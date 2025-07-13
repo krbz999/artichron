@@ -211,32 +211,48 @@ export default class ActorArtichron extends BaseDocumentMixin(foundry.documents.
    * @param {boolean} [options.active]        Force the effect to be active or inactive regardless of its current state
    * @param {boolean} [options.overlay=false] Display the toggled effect as an overlay
    * @param {number} [options.levels=1]       A potential level increase.
+   * @param {number} [options.rounds=2]       A potential duration. The duration is always reset, but additive for
+   *                                          unleveled conditions.
    * @returns {Promise<ActiveEffect|boolean|undefined>}  A promise which resolves to one of the following values:
    *                                 - ActiveEffect if a new effect need to be created or updated.
    *                                 - true if was already an existing effect
    *                                 - false if an existing effect needed to be removed
    *                                 - undefined if no changes need to be made
    */
-  async toggleStatusEffect(statusId, { active, overlay = false, levels = 1 } = {}) {
+  async toggleStatusEffect(statusId, { active, overlay = false, levels = 1, rounds = 2 } = {}) {
     const id = artichron.utils.staticId(statusId);
     const hasLevels = !!artichron.config.STATUS_CONDITIONS[statusId].levels;
     const effect = this.effects.get(id);
     active ??= !effect || (effect && hasLevels);
+    const Cls = foundry.utils.getDocumentClass("ActiveEffect");
 
     if (active) {
+      // Leveled conditions.
       if (effect && hasLevels) return effect.system.increase(levels);
       else if (hasLevels && (levels > 1)) {
-        const Cls = foundry.utils.getDocumentClass("ActiveEffect");
         const effect = await Cls.fromStatusEffect(statusId);
         const data = foundry.utils.mergeObject(effect.toObject(), {
-          _id: id, "system.level": levels,
+          _id: id, "system.level": levels, "duration.rounds": rounds,
         });
-        return Cls.create(data, { keepId: true });
+        return Cls.create(data, { parent: this, keepId: true });
       }
+
+      // Conditions without levels.
+      if (effect && !hasLevels) {
+        return effect.system.extendDuration(rounds);
+      } else if (!effect && !hasLevels) {
+        const effect = await Cls.fromStatusEffect(statusId);
+        const data = foundry.utils.mergeObject(effect.toObject(), {
+          _id: id, "duration.rounds": rounds,
+        });
+        return Cls.create(data, { parent: this, keepId: true });
+      }
+
     } else {
       const decrease = effect && hasLevels && (effect.system.level > 1);
       if (decrease) return effect.system.decrease();
     }
+
     return super.toggleStatusEffect(statusId, { overlay, active });
   }
 

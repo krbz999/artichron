@@ -1,4 +1,4 @@
-<section class="tab details {{tabs.details.cssClass}}" data-group="primary" data-tab="details">
+<section class="tab details scrollable {{tabs.details.cssClass}}" data-group="primary" data-tab="details">
   {{!-- COST --}}
   <h3 class="section-header">{{localize "ARTICHRON.SHEET.ACTIVITY.HEADERS.configuration"}}</h3>
   {{formGroup fields.cost.fields.value value=source.cost.value name="cost.value" placeholder="1"}}
@@ -44,6 +44,29 @@
   {{#if (eq pseudoDocument.type "effect")}}
   <h3 class="section-header">{{localize "ARTICHRON.SHEET.ACTIVITY.HEADERS.effects"}}</h3>
   {{formGroup fields.effects.fields.ids value=source.effects.ids options=ctx.effectOptions classes="stacked" name="effects.ids"}}
+
+  <div class="form-group">
+    <label>{{localize "ARTICHRON.SHEET.ACTIVITY.statuses"}}</label>
+    <div class="form-fields">
+      <select id="{{rootId}}-status-select">{{selectOptions ctx.statusOptions}}</select>
+      <button type="button" class="icon fa-solid fa-circle-plus" data-action="addStatusOption" {{disabled (not ctx.statusOptions.length)}}></button>
+    </div>
+    <p class="hint">{{localize "ARTICHRON.SHEET.ACTIVITY.statusesHint"}}</p>
+  </div>
+  {{#each ctx.statuses}}
+  <div class="form-group" data-status="{{status}}">
+    <label>{{label}}</label>
+    <div class="form-fields">
+      {{#if rounds.show}}
+      {{formGroup @root.fields.effects.fields.statuses.element.fields.rounds value=rounds.value name=(concat "effects.statuses." status ".rounds") classes="label-top"}}
+      {{/if}}
+      {{#if levels.show}}
+      {{formGroup @root.fields.effects.fields.statuses.element.fields.levels value=levels.value max=levels.max type="number" name=(concat "effects.statuses." status ".levels") classes="label-top"}}
+      {{/if}}
+      <button type="button" class="icon fa-solid fa-trash" data-action="removeStatusOption"></button>
+    </div>
+  </div>
+  {{/each}}
   {{/if}}
 
   {{!-- TELEPORT --}}

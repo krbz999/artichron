@@ -96,6 +96,8 @@
   "ACTIVITY": {
     "title": "Activity: {name}",
     "formula": "Formula",
+    "statuses": "Conditions",
+    "statusesHint": "These primary conditions can be granted by this activity.",
     "HEADERS": {
       "identity": "Identity",
       "configuration": "Configuration",
@@ -148,7 +150,6 @@
   },
 
   "ARMOR": {
-    "armor": "Armor",
     "HEADERS": {
       "defenses": "Defenses",
       "requirements": "Requirements"
@@ -399,6 +400,16 @@
       "effects": {
         "ids": {
           "hint": "The transferrable effects this activity will be able to transfer to a target."
+        },
+        "statuses": {
+          "element": {
+            "levels": {
+              "label": "Levels"
+            },
+            "rounds": {
+              "label": "Rounds"
+            }
+          }
         }
       }
     }
@@ -949,7 +960,7 @@
     "FIELDS": {
       "spell": {
         "quality": {
-          "label": "Quality"
+          "label": "Spell Quality"
         },
         "origin": {
           "label": "Spell Origin"

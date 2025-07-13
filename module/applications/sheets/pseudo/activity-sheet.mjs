@@ -7,6 +7,10 @@ export default class ActivitySheet extends PseudoDocumentSheet {
     window: {
       icon: "fa-solid fa-bolt-lightning",
     },
+    actions: {
+      addStatusOption: ActivitySheet.#addStatusOption,
+      removeStatusOption: ActivitySheet.#removeStatusOption,
+    },
   };
 
   /* -------------------------------------------------- */
@@ -21,6 +25,7 @@ export default class ActivitySheet extends PseudoDocumentSheet {
     },
     details: {
       template: "systems/artichron/templates/sheets/pseudo/activity/details.hbs",
+      scrollable: [""],
     },
   };
 
@@ -37,28 +42,6 @@ export default class ActivitySheet extends PseudoDocumentSheet {
       labelPrefix: "ARTICHRON.SHEET.TABS",
     },
   };
-
-  /* -------------------------------------------------- */
-  /*   Properties                                       */
-  /* -------------------------------------------------- */
-
-  /**
-   * The item that has this activity.
-   * @type {foundry.documents.Item}
-   */
-  get item() {
-    return this.document;
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * The activity.
-   * @type {BaseActivity}
-   */
-  get activity() {
-    return this.pseudoDocument;
-  }
 
   /* -------------------------------------------------- */
 
@@ -95,11 +78,72 @@ export default class ActivitySheet extends PseudoDocumentSheet {
 
     // Effect
     if (context.pseudoDocument.type === "effect") {
-      ctx.effectOptions = this.item.effects
+      ctx.effectOptions = this.document.effects
         .filter(effect => !effect.transfer && ["condition", "buff"].includes(effect.type))
         .map(effect => ({ value: effect.id, label: effect.name }));
+
+      ctx.statuses = Object.entries(context.pseudoDocument.effects.statuses).map(([status, obj]) => {
+        const config = artichron.config.STATUS_CONDITIONS[status];
+        return {
+          status,
+          label: config.name,
+          rounds: {
+            show: true,
+            value: obj.rounds,
+          },
+          levels: {
+            show: config.group === "leveled",
+            value: obj.levels,
+            max: config.levels,
+          },
+        };
+      }, []);
+
+      ctx.statusOptions = Object.entries(artichron.config.STATUS_CONDITIONS)
+        .filter(([k, v]) => ["buff", "leveled"].includes(v.group) && !(k in context.pseudoDocument.effects.statuses))
+        .map(([k, v]) => ({ value: k, label: v.name }));
     }
 
     return context;
+  }
+
+  /* -------------------------------------------------- */
+
+  /** @inheritdoc */
+  _syncPartState(partId, newElement, priorElement, state) {
+    super._syncPartState(partId, newElement, priorElement, state);
+
+    if (partId === "details") {
+      const priorSelect = priorElement.querySelector(`#${this.id}-status-select`);
+      const newSelect = newElement.querySelector(`#${this.id}-status-select`);
+      if (priorSelect && newSelect?.querySelector(`OPTION[value="${priorSelect.value}"]`))
+        newSelect.value = priorSelect.value;
+    }
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Add a new status option.
+   * @this {ActivitySheet}
+   * @param {PointerEvent} event    The initiating click event.
+   * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
+   */
+  static #addStatusOption(event, target) {
+    const status = this.element.querySelector(`#${this.id}-status-select`).value;
+    this.pseudoDocument.update({ [`effects.statuses.${status}`]: { rounds: 2 } });
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Remove a granted status.
+   * @this {ActivitySheet}
+   * @param {PointerEvent} event    The initiating click event.
+   * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
+   */
+  static #removeStatusOption(event, target) {
+    const status = target.closest("[data-status]").dataset.status;
+    this.pseudoDocument.update({ [`effects.statuses.-=${status}`]: null });
   }
 }

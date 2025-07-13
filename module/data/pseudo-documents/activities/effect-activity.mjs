@@ -1,6 +1,6 @@
 import BaseActivity from "./base-activity.mjs";
 
-const { SchemaField, SetField, StringField } = foundry.data.fields;
+const { NumberField, SchemaField, SetField, StringField, TypedObjectField } = foundry.data.fields;
 
 export default class EffectActivity extends BaseActivity {
   /** @inheritdoc */
@@ -8,6 +8,10 @@ export default class EffectActivity extends BaseActivity {
     return Object.assign(super.defineSchema(), {
       effects: new SchemaField({
         ids: new SetField(new StringField()),
+        statuses: new TypedObjectField(new SchemaField({
+          rounds: new NumberField({ integer: true, initial: 2, nullable: false, min: 1 }),
+          levels: new NumberField({ integer: true, initial: 1, nullable: false, min: 1 }),
+        }), { validateKey: key => key in artichron.config.STATUS_CONDITIONS }),
       }),
       target: new artichron.data.fields.ActivityTargetField(),
     });
@@ -32,7 +36,7 @@ export default class EffectActivity extends BaseActivity {
 
   /** @inheritdoc */
   async use(usage = {}, dialog = {}, message = {}) {
-    if (!this.effects.ids.size) {
+    if (!this.effects.ids.size && foundry.utils.isEmpty(this.effects.statuses)) {
       ui.notifications.warn("ARTICHRON.ACTIVITY.Warning.NoEffects", { localize: true });
       return null;
     }

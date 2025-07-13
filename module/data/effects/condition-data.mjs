@@ -5,15 +5,13 @@ const { StringField, NumberField } = foundry.data.fields;
 /**
  * System data for 'Conditions'.
  * These are ailments or other effects with optional support for levels of severity. Can apply to an actor or item.
- * @property {string} primary     The primary status of this condition.
- * @property {number} level       The level of this condition.
+ * @property {string} primary   The primary status of this condition.
+ * @property {number} level     The level of this condition.
  */
 export default class EffectConditionData extends ActiveEffectSystemModel {
   /** @inheritdoc */
   static get metadata() {
-    return foundry.utils.mergeObject(super.metadata, {
-      type: "condition",
-    });
+    return foundry.utils.mergeObject(super.metadata, {});
   }
 
   /* -------------------------------------------------- */
@@ -89,9 +87,19 @@ export default class EffectConditionData extends ActiveEffectSystemModel {
   async _preCreate(data, options, user) {
     if ((await super._preCreate(data, options, user)) === false) return false;
 
-    if (!this.hasLevels) return;
-    const img = artichron.config.STATUS_CONDITIONS[this.primary].img.replace(".svg", `-${this.level}.svg`);
-    this.parent.updateSource({ img });
+    const update = {};
+    const combat = this.parent.duration?.combat ?? game.combat;
+    update["duration.combat"] = combat?.id;
+    update["duration.startRound"] = combat?.round;
+    update["duration.startTurn"] = combat?.turn;
+    if (!this.parent.duration.rounds) update["duration.rounds"] = 2;
+    if (!this.parent.duration.turns) update["duration.turns"] = 0;
+
+    if (this.hasLevels) {
+      update.img = artichron.config.STATUS_CONDITIONS[this.primary].img.replace(".svg", `-${this.level}.svg`);
+    }
+
+    this.parent.updateSource(update);
   }
 
   /* -------------------------------------------------- */
@@ -156,17 +164,31 @@ export default class EffectConditionData extends ActiveEffectSystemModel {
   /**
    * Increase the level of a condition that has multiple stages.
    * @param {number} [levels]   Amount of levels to increase by.
+   * @param {object} [options]
+   * @param {boolean} [options.resetDuration]   Reset the duration?
    * @returns {Promise}
    */
-  async increase(levels = 1) {
+  async increase(levels = 1, { resetDuration = true } = {}) {
     const max = artichron.config.STATUS_CONDITIONS[this.primary].levels;
     if (!max || !(max > 1) || (this.level === max)) return;
     const disabled = this.parent.disabled;
     const diff = Math.min(max, this.level + levels) - this.level;
-    await this.parent.update({
+
+    const update = {
       "system.level": Math.min(max, this.level + levels),
       disabled: false,
-    }, { statusLevelDifference: disabled ? undefined : diff });
+    };
+
+    if (resetDuration) {
+      const combat = this.parent.duration.combat ?? game.combat;
+      update["duration.combat"] = combat?.id;
+      update["duration.startRound"] = combat?.round;
+      update["duration.startTurn"] = combat?.turn;
+    }
+
+    console.warn(update);
+
+    await this.parent.update(update, { statusLevelDifference: disabled ? undefined : diff });
   }
 
   /* -------------------------------------------------- */
@@ -183,6 +205,23 @@ export default class EffectConditionData extends ActiveEffectSystemModel {
       "system.level": this.level - 1,
       disabled: false,
     }, { statusLevelDifference: disabled ? undefined : diff });
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Extend the duration of this condition.
+   * @param {number} [rounds=2]   Number of rounds to extend.
+   */
+  async extendDuration(rounds = 2) {
+    const combat = this.parent.duration.combat ?? game.combat;
+    const update = {
+      duration: {
+        combat: combat?.id,
+        rounds: (this.parent.duration.rounds ?? 2) + rounds,
+      },
+    };
+    return this.parent.update(update);
   }
 
   /* -------------------------------------------------- */

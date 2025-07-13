@@ -56,9 +56,22 @@ export default class EffectData extends ChatMessageSystemModel {
       });
 
     for (const actor of actors) {
-      await foundry.utils.getDocumentClass("ActiveEffect").createDocuments(
+      const Cls = foundry.utils.getDocumentClass("ActiveEffect");
+      if (effectData.length) await Cls.createDocuments(
         foundry.utils.deepClone(effectData), { parent: actor },
       );
+
+      for (const status in activity.effects.statuses) {
+        const config = artichron.config.STATUS_CONDITIONS[status];
+        const id = artichron.utils.staticId(status);
+        const existing = actor.effects.get(id);
+        const { levels, rounds } = activity.effects.statuses[status];
+        const leveled = existing ? existing.system.hasLevels : "levels" in config;
+
+        if (existing && leveled) await existing.system.increase(levels);
+        else if (existing) await existing.system.extendDuration(rounds);
+        else await actor.toggleStatusEffect(status, { active: true, levels, rounds });
+      }
     }
 
     return true;
