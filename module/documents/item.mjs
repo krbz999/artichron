@@ -23,13 +23,13 @@ export default class ItemArtichron extends BaseDocumentMixin(foundry.documents.I
         img = "icons/svg/bones.svg";
         break;
       case "path":
-        img = "icons/svg/statue.svg";
+        img = "systems/artichron/assets/icons/items/path.svg";
         break;
       case "spell":
-        img = "icons/svg/book.svg";
+        img = "systems/artichron/assets/icons/items/spell.svg";
         break;
       case "talent":
-        img = "icons/svg/mage-shield.svg";
+        img = "systems/artichron/assets/icons/items/talent.svg";
         break;
     }
     return img ? { img: img } : super.getDefaultArtwork(itemData);

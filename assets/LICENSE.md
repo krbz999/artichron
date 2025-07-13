@@ -46,7 +46,11 @@ assets/icons/equipment/boots.svg - "Boots" by Lorc under CC BY 3.0
 assets/icons/equipment/chest-armor.svg - "Chest Armor" by Delapouite under CC BY 3.0
 assets/icons/equipment/gauntlet.svg - "Gauntlet" by Delapouite under CC BY 3.0
 assets/icons/equipment/helmet.svg - "Crested Helmet" by Lorc under CC BY 3.0
-assets/icons/equipment/leg-armor.svg - "Armored Pants" by Irongamer un CC BY 3.0
+assets/icons/equipment/leg-armor.svg - "Armored Pants" by Irongamer under CC BY 3.0
+
+assets/icons/items/path.svg - "Stone Bust" by Delapouite under CC BY 3.0
+assets/icons/items/spell.svg - "Book Cover" by Lorc under CC BY 3.0
+assets/icons/items/talent.svg - "Magic Shield" by Lorc under CC BY 3.0
 
 assets/icons/pseudo/activity.svg - "Divided Spiral" by Lorc under CC BY 3.0
 assets/icons/pseudo/advancement.svg - "Divergence" by Lorc under CC BY 3.0
