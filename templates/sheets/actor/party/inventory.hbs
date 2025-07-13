@@ -5,9 +5,10 @@
 
   <section class="inventory scrollable standard-form">
     {{#each ctx.sections}}
-    <div class="document-list" data-document-name="Item">
+    <div class="document-list" data-document-name="Item" data-type="{{type}}">
       <h3 class="document-list-header">
         <span>{{label}}</span>
+        <button type="button" class="icon create-document fa-solid" data-action="createEmbeddedDocument" {{disabled (not @root.editable)}}></button>
       </h3>
       {{document-list-entries documents=items classes="items compact"}}
     </div>

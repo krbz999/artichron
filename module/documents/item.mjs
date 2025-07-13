@@ -14,7 +14,7 @@ export default class ItemArtichron extends BaseDocumentMixin(foundry.documents.I
         img = "icons/svg/target.svg";
         break;
       case "armor":
-        img = artichron.config.EQUIPMENT_TYPES[itemData.system?.armor?.slot].defaultImage ?? "icons/svg/chest.svg";
+        img = artichron.config.EQUIPMENT_TYPES[itemData.system?.armor?.slot ?? "chest"].defaultImage;
         break;
       case "elixir":
         img = "icons/svg/explosion.svg";

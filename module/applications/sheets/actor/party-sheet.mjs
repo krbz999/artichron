@@ -171,7 +171,7 @@ export default class PartySheet extends ActorSheetArtichron {
         });
       }
       return {
-        items,
+        items, type,
         label: game.i18n.localize(`TYPES.Item.${type}Pl`),
       };
     });
