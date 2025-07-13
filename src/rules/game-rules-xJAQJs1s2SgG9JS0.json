@@ -185,7 +185,7 @@
         "systemId": "artichron",
         "systemVersion": "1.0.0",
         "createdTime": null,
-        "modifiedTime": 1752276854576,
+        "modifiedTime": 1752372068005,
         "lastModifiedBy": "artichronbuilder",
         "exportSource": null
       },
@@ -276,7 +276,7 @@
       "system": {},
       "title": {
         "show": true,
-        "level": 1
+        "level": 2
       },
       "image": {},
       "text": {
@@ -300,7 +300,7 @@
         "systemId": "artichron",
         "systemVersion": "1.0.0",
         "createdTime": 1752268430020,
-        "modifiedTime": 1752276854576,
+        "modifiedTime": 1752371920270,
         "lastModifiedBy": "artichronbuilder"
       },
       "category": "CbvU6Oxs0DTHhgDN",
@@ -314,7 +314,7 @@
       "system": {},
       "title": {
         "show": true,
-        "level": 1
+        "level": 2
       },
       "image": {},
       "text": {
@@ -338,7 +338,7 @@
         "systemId": "artichron",
         "systemVersion": "1.0.0",
         "createdTime": 1752268431212,
-        "modifiedTime": 1752276854576,
+        "modifiedTime": 1752371923480,
         "lastModifiedBy": "artichronbuilder"
       },
       "category": "CbvU6Oxs0DTHhgDN",
@@ -351,7 +351,7 @@
       "system": {},
       "title": {
         "show": true,
-        "level": 1
+        "level": 2
       },
       "image": {},
       "text": {
@@ -375,7 +375,7 @@
         "systemId": "artichron",
         "systemVersion": "1.0.0",
         "createdTime": 1752268431812,
-        "modifiedTime": 1752276854576,
+        "modifiedTime": 1752371929517,
         "lastModifiedBy": "artichronbuilder"
       },
       "_id": "nIvx3xXwYP9iGSeh",
@@ -390,7 +390,7 @@
       "system": {},
       "title": {
         "show": true,
-        "level": 1
+        "level": 2
       },
       "image": {},
       "text": {
@@ -414,7 +414,7 @@
         "systemId": "artichron",
         "systemVersion": "1.0.0",
         "createdTime": 1752268432351,
-        "modifiedTime": 1752276854576,
+        "modifiedTime": 1752371926352,
         "lastModifiedBy": "artichronbuilder"
       },
       "category": "CbvU6Oxs0DTHhgDN",
@@ -428,7 +428,7 @@
       "system": {},
       "title": {
         "show": true,
-        "level": 1
+        "level": 2
       },
       "image": {},
       "text": {
@@ -453,7 +453,7 @@
         "systemId": "artichron",
         "systemVersion": "1.0.0",
         "createdTime": 1752268432907,
-        "modifiedTime": 1752276854576,
+        "modifiedTime": 1752371932615,
         "lastModifiedBy": "artichronbuilder"
       },
       "_key": "!journal.pages!xJAQJs1s2SgG9JS0.0iBopTnnWkmkN9kK"
@@ -466,7 +466,7 @@
       "system": {},
       "title": {
         "show": true,
-        "level": 1
+        "level": 2
       },
       "image": {},
       "text": {
@@ -491,7 +491,7 @@
         "systemId": "artichron",
         "systemVersion": "1.0.0",
         "createdTime": 1752268433498,
-        "modifiedTime": 1752276854576,
+        "modifiedTime": 1752371935577,
         "lastModifiedBy": "artichronbuilder"
       },
       "_key": "!journal.pages!xJAQJs1s2SgG9JS0.ZoEO3S8EJCRPu53v"
@@ -504,7 +504,7 @@
       "system": {},
       "title": {
         "show": true,
-        "level": 1
+        "level": 2
       },
       "image": {},
       "text": {
@@ -529,7 +529,7 @@
         "systemId": "artichron",
         "systemVersion": "1.0.0",
         "createdTime": 1752268434100,
-        "modifiedTime": 1752276854576,
+        "modifiedTime": 1752371938457,
         "lastModifiedBy": "artichronbuilder"
       },
       "_key": "!journal.pages!xJAQJs1s2SgG9JS0.JBjVW6bkIC4DWWw9"
@@ -542,7 +542,7 @@
       "system": {},
       "title": {
         "show": true,
-        "level": 1
+        "level": 2
       },
       "image": {},
       "text": {
@@ -567,7 +567,7 @@
         "systemId": "artichron",
         "systemVersion": "1.0.0",
         "createdTime": 1752268434857,
-        "modifiedTime": 1752276854576,
+        "modifiedTime": 1752371941923,
         "lastModifiedBy": "artichronbuilder"
       },
       "_key": "!journal.pages!xJAQJs1s2SgG9JS0.k5rl3B6Im0RDUlxF"
@@ -624,7 +624,7 @@
       "image": {},
       "text": {
         "format": 1,
-        "content": "<p>A status condition is a benefit or hindrance applied to a hero or monster for a given duration. The duration can vary greatly, usually lasting only a few turns or rounds.</p><p>Some conditions have levels. When a target is affected by a condition that has levels, the duration is reset and the level is increased. If this would result in no increase in levels (if already at the highest level), nothing happens except for the duration being reset.</p><p>For status conditions without levels, durations are stacked. For example, if you are affected by 2 rounds of \"Physical Defense Up\" and a different source grants you 3 rounds of the same buff, you now have 5 rounds of Physical Defense Up.</p>"
+        "content": "<p>A status condition is a benefit or hindrance applied to a hero or monster for a given duration. The duration can vary greatly, usually lasting only a few turns or rounds.</p><p>Some conditions have levels. When a target is affected by a condition that has levels, the duration is reset and the level is increased. If this would result in no increase in levels (if already at the highest level), nothing happens except for the duration being reset.</p><p>For status conditions without levels, durations are stacked. For example, if you are affected by 2 rounds of @UUID[Compendium.artichron.rules.JournalEntry.xJAQJs1s2SgG9JS0.JournalEntryPage.JBjVW6bkIC4DWWw9]{Physical Defense Up} and a different source grants you 3 rounds of the same buff, you now have 5 rounds of Physical Defense Up.</p>"
       },
       "video": {
         "controls": true,
@@ -643,7 +643,7 @@
         "systemId": "artichron",
         "systemVersion": "1.0.0",
         "createdTime": 1752276849152,
-        "modifiedTime": 1752277060287,
+        "modifiedTime": 1752371982140,
         "lastModifiedBy": "artichronbuilder"
       },
       "_key": "!journal.pages!xJAQJs1s2SgG9JS0.CFUdlkXDIszsUrcl"
