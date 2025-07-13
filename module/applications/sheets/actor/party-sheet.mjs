@@ -290,7 +290,7 @@ export default class PartySheet extends ActorSheetArtichron {
     }, {
       name: "ARTICHRON.SHEET.PARTY.CONTEXT.ITEM.delete",
       icon: "<i class='fa-solid fa-fw fa-trash'></i>",
-      callback: entry => this._getEmbeddedDocument(entry).delete(),
+      callback: entry => this._getEmbeddedDocument(entry).deleteDialog(),
     }];
   }
 
