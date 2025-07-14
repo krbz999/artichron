@@ -672,7 +672,8 @@
   "receipt": "Receipt",
   "receiptSummary": "The members of {name} spent {total} at {shop} on the following items:",
   "applyHealing": "Apply Healing",
-  "healingApplication": "Apply Healing"
+  "healingApplication": "Apply Healing",
+  "noActiveUser": "No active user found able to update both actors and chat."
 },
 
 "CLOCK": {
@@ -994,6 +995,22 @@
     "investHint": "Invest additional points into your current paths.",
     "invested": "Invested: {total} (+{delta})",
     "title": "Improve Paths: {name}"
+  }
+},
+
+"RECOVERY": {
+  "noActiveUser": "No active user found able to update the party actor.",
+  "noPrimaryParty": "No primary party is assigned!",
+  "confirm": "Confirm",
+  "title": "Recovery Phase",
+  "optionalSkill": "choice",
+  "TASK": {
+    "cook": "Cook",
+    "entertain": "Entertain",
+    "findFood": "Find Food",
+    "keepWatch": "Keep Watch",
+    "makeCamp": "Make Camp",
+    "upkeep": "Upkeep"
   }
 },
 

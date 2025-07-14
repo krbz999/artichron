@@ -59,6 +59,7 @@
         pointer-events: none;
         aspect-ratio: 1;
         object-fit: cover;
+        object-position: center top;
 
         &[data-action] {
           pointer-events: unset;

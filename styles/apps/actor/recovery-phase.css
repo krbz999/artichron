@@ -1,0 +1,64 @@
+#recovery-phase {
+  width: 100% !important;
+  height: 95%;
+
+  [data-application-part=members] {
+    display: flex;
+    gap: 1rem;
+    padding: 0 1rem;
+
+    .member {
+      flex: 0 0 150px;
+      height: 75px;
+      background-image: var(--img);
+      background-size: cover;
+
+      &.assigned {
+        filter: grayscale(1);
+      }
+    }
+  }
+
+  [data-application-part=tasks] {
+    flex: 1;
+    display: flex;
+    gap: 1rem;
+
+    .task {
+      flex: 1;
+      display: grid;
+      grid-template-rows: 1fr 0fr;
+      padding: 0;
+
+      .assigned {
+        border-bottom: 1px solid var(--artichron-color-gold);
+        display: grid;
+        padding-bottom: .5rem;
+        gap: .5rem;
+
+        .assignee {
+          background-image: var(--img);
+          background-size: cover;
+          background-repeat: no-repeat;
+          background-position: center top;
+          position: relative;
+
+          [data-action=unassign] {
+            display: none;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+
+            .assignee:hover & {
+              display: block;
+            }
+          }
+        }
+      }
+
+      .task-details {
+        margin: 1rem;
+      }
+    }
+  }
+}

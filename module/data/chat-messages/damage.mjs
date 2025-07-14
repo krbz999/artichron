@@ -210,19 +210,24 @@ export default class DamageData extends ChatMessageSystemModel {
    *                                      and the chat message updated.
    */
   static async #applyDamage(event, target) {
-    const user = game.users.getDesignatedUser(user => user.active && this.canUserModify(user, "update"));
-
-    if (!user) {
-      throw new Error("NO USER FOUND"); // TODO: ui.notif
-    }
-
     const config = { messageId: this.id, actorUuids: [] };
 
     const parent = target.closest(".targeting.damage");
+    const actors = new Set();
     for (const element of parent.querySelectorAll(".target-element.damage:not(.damaged)")) {
       const actor = fromUuidSync(element.dataset.actorUuid);
       if (!actor) continue;
+      actors.add(actor);
       config.actorUuids.push(actor.uuid);
+    }
+
+    const user = game.users.getDesignatedUser(user => {
+      if (!user.active || !this.canUserModify(user, "update")) return false;
+      return actors.every(actor => actor.canUserModify(user, "update"));
+    });
+
+    if (!user) {
+      return void ui.notifications.warn("ARTICHRON.CHAT.noActiveUser", { localize: true });
     }
 
     return user.query("chatDamage", { type: "applyDamage", config });
