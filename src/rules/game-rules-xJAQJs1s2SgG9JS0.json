@@ -33,7 +33,7 @@
         "systemId": "artichron",
         "systemVersion": "1.0.0",
         "createdTime": null,
-        "modifiedTime": 1752276854576,
+        "modifiedTime": 1752418593093,
         "lastModifiedBy": "artichronbuilder",
         "exportSource": null
       },
@@ -71,7 +71,7 @@
         "systemId": "artichron",
         "systemVersion": "1.0.0",
         "createdTime": null,
-        "modifiedTime": 1752276854576,
+        "modifiedTime": 1752418593093,
         "lastModifiedBy": "artichronbuilder",
         "exportSource": null
       },
@@ -109,7 +109,7 @@
         "systemId": "artichron",
         "systemVersion": "1.0.0",
         "createdTime": null,
-        "modifiedTime": 1752276854576,
+        "modifiedTime": 1752418593093,
         "lastModifiedBy": "artichronbuilder",
         "exportSource": null
       },
@@ -147,7 +147,7 @@
         "systemId": "artichron",
         "systemVersion": "1.0.0",
         "createdTime": null,
-        "modifiedTime": 1752276854576,
+        "modifiedTime": 1752418593093,
         "lastModifiedBy": "artichronbuilder",
         "exportSource": null
       },
@@ -185,7 +185,7 @@
         "systemId": "artichron",
         "systemVersion": "1.0.0",
         "createdTime": null,
-        "modifiedTime": 1752372068005,
+        "modifiedTime": 1752418593093,
         "lastModifiedBy": "artichronbuilder",
         "exportSource": null
       },
@@ -224,7 +224,7 @@
         "systemId": "artichron",
         "systemVersion": "1.0.0",
         "createdTime": 1752267447102,
-        "modifiedTime": 1752276854576,
+        "modifiedTime": 1752418593093,
         "lastModifiedBy": "artichronbuilder"
       },
       "category": "snUxqEnw0jHOcexm",
@@ -243,7 +243,7 @@
       "image": {},
       "text": {
         "format": 1,
-        "content": "<p>A 'clock' is used to measure the degree of success of the party's current efforts during a session. A single session will usually start with two empty clocks, one positive and one negative.</p><p>When a player performs a skill check, whether the roll meets a threshold determines if the GM ups the positive or negative counter. Once such a counter reaches its maximum, a good or bad result will occur that either affects how the story progresses, or if no such consequences currently apply, the GM can use the boons and detriments tables to determine the effect of the clock for the next session.</p><p>Players should make efforts to perform as many skill checks as possible to fill out the better clock, as this is the tool for the GM to determine their overall success as the story progresses.</p><p>@Embed[Compendium.artichron.tables.RollTable.wC0qMfzV4qDaupGu rollable]</p><p>@Embed[Compendium.artichron.tables.RollTable.fkbZs2crsZTksphg rollable]</p>"
+        "content": "<p>A 'clock' is used to measure the degree of success of the party's current efforts during a session. A single session will usually start with two empty clocks, one positive and one negative.</p><p>When a player performs a skill check, whether the roll meets a threshold determines if the GM ups the positive or negative counter. Once such a counter reaches its maximum, a good or bad result will occur that either affects how the story progresses.</p><p>Players should make efforts to perform as many skill checks as possible to fill out the better clock, as this is the tool for the GM to determine their overall success as the story progresses.</p><h2>Boons and Detriments</h2><p>If no boon or detriment fits the narrative as a good or bad clock is filled, you can roll on the following tables to determine a random minor boon or detriment.</p><p>@Embed[Compendium.artichron.tables.RollTable.wC0qMfzV4qDaupGu rollable]</p><p>@Embed[Compendium.artichron.tables.RollTable.fkbZs2crsZTksphg rollable]</p>"
       },
       "video": {
         "controls": true,
@@ -262,7 +262,7 @@
         "systemId": "artichron",
         "systemVersion": "1.0.0",
         "createdTime": 1752267449359,
-        "modifiedTime": 1752276854576,
+        "modifiedTime": 1752500161373,
         "lastModifiedBy": "artichronbuilder"
       },
       "category": "snUxqEnw0jHOcexm",
@@ -300,7 +300,7 @@
         "systemId": "artichron",
         "systemVersion": "1.0.0",
         "createdTime": 1752268430020,
-        "modifiedTime": 1752371920270,
+        "modifiedTime": 1752418593093,
         "lastModifiedBy": "artichronbuilder"
       },
       "category": "CbvU6Oxs0DTHhgDN",
@@ -338,7 +338,7 @@
         "systemId": "artichron",
         "systemVersion": "1.0.0",
         "createdTime": 1752268431212,
-        "modifiedTime": 1752371923480,
+        "modifiedTime": 1752418593093,
         "lastModifiedBy": "artichronbuilder"
       },
       "category": "CbvU6Oxs0DTHhgDN",
@@ -375,7 +375,7 @@
         "systemId": "artichron",
         "systemVersion": "1.0.0",
         "createdTime": 1752268431812,
-        "modifiedTime": 1752371929517,
+        "modifiedTime": 1752418593093,
         "lastModifiedBy": "artichronbuilder"
       },
       "_id": "nIvx3xXwYP9iGSeh",
@@ -414,7 +414,7 @@
         "systemId": "artichron",
         "systemVersion": "1.0.0",
         "createdTime": 1752268432351,
-        "modifiedTime": 1752371926352,
+        "modifiedTime": 1752418593093,
         "lastModifiedBy": "artichronbuilder"
       },
       "category": "CbvU6Oxs0DTHhgDN",
@@ -453,7 +453,7 @@
         "systemId": "artichron",
         "systemVersion": "1.0.0",
         "createdTime": 1752268432907,
-        "modifiedTime": 1752371932615,
+        "modifiedTime": 1752418593093,
         "lastModifiedBy": "artichronbuilder"
       },
       "_key": "!journal.pages!xJAQJs1s2SgG9JS0.0iBopTnnWkmkN9kK"
@@ -491,7 +491,7 @@
         "systemId": "artichron",
         "systemVersion": "1.0.0",
         "createdTime": 1752268433498,
-        "modifiedTime": 1752371935577,
+        "modifiedTime": 1752418593093,
         "lastModifiedBy": "artichronbuilder"
       },
       "_key": "!journal.pages!xJAQJs1s2SgG9JS0.ZoEO3S8EJCRPu53v"
@@ -529,7 +529,7 @@
         "systemId": "artichron",
         "systemVersion": "1.0.0",
         "createdTime": 1752268434100,
-        "modifiedTime": 1752371938457,
+        "modifiedTime": 1752418593093,
         "lastModifiedBy": "artichronbuilder"
       },
       "_key": "!journal.pages!xJAQJs1s2SgG9JS0.JBjVW6bkIC4DWWw9"
@@ -567,7 +567,7 @@
         "systemId": "artichron",
         "systemVersion": "1.0.0",
         "createdTime": 1752268434857,
-        "modifiedTime": 1752371941923,
+        "modifiedTime": 1752418593093,
         "lastModifiedBy": "artichronbuilder"
       },
       "_key": "!journal.pages!xJAQJs1s2SgG9JS0.k5rl3B6Im0RDUlxF"
@@ -605,7 +605,7 @@
         "systemId": "artichron",
         "systemVersion": "1.0.0",
         "createdTime": 1752275512230,
-        "modifiedTime": 1752277433464,
+        "modifiedTime": 1752418593093,
         "lastModifiedBy": "artichronbuilder"
       },
       "_key": "!journal.pages!xJAQJs1s2SgG9JS0.GF9ej60oIr4tH09N"
@@ -643,10 +643,86 @@
         "systemId": "artichron",
         "systemVersion": "1.0.0",
         "createdTime": 1752276849152,
-        "modifiedTime": 1752371982140,
+        "modifiedTime": 1752418593750,
         "lastModifiedBy": "artichronbuilder"
       },
       "_key": "!journal.pages!xJAQJs1s2SgG9JS0.CFUdlkXDIszsUrcl"
+    },
+    {
+      "sort": 0,
+      "name": "Player Characters",
+      "type": "text",
+      "category": "bZHxS6Lhve7ODUnx",
+      "_id": "mTVlhq8GKJXmtFrN",
+      "system": {},
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "image": {},
+      "text": {
+        "format": 1,
+        "content": "<p>A player character in Artichron is called a 'hero'.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": null,
+      "ownership": {
+        "default": -1
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.346",
+        "systemId": "artichron",
+        "systemVersion": "1.0.0",
+        "createdTime": 1752499130772,
+        "modifiedTime": 1752500015325,
+        "lastModifiedBy": "artichronbuilder"
+      },
+      "_key": "!journal.pages!xJAQJs1s2SgG9JS0.mTVlhq8GKJXmtFrN"
+    },
+    {
+      "sort": 0,
+      "name": "Paths and Talents",
+      "type": "text",
+      "category": "bZHxS6Lhve7ODUnx",
+      "system": {},
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "image": {},
+      "text": {
+        "format": 1,
+        "content": "<p>When creating your hero, you start with 6 progression points. These points are used to progress in one or two paths.</p><h2>Paths</h2><p>There are four core paths from which to pick. You can initially choose one or two. The paths are @UUID[Compendium.artichron.items.Item.TOPOCY0zrPjEj59G], @UUID[Compendium.artichron.items.Item.UrSG9mEumnMbTIrM], @UUID[Compendium.artichron.items.Item.7i6uNxcreJWoO4C9], and @UUID[Compendium.artichron.items.Item.1LlHcgghhPrbJjIi].</p><p>Though you can invest points in more than one path, a hero is always 'on' only one path - this is determined by looking at your total point investment, and then the path that has the most points invested.</p><p>If the spread is mostly balanced, a hero is instead on a <em>mixed path</em>. Each two core paths mix together to one unique mixed path. These are @UUID[Compendium.artichron.items.Item.WuJqNVsC1LKvvPjF] (cleric and rogue), @UUID[Compendium.artichron.items.Item.SzGVudF2sfodAy9O] (cleric and mage), @UUID[Compendium.artichron.items.Item.59ScnAaMmCDPtZfe] (fighter and mage), @UUID[Compendium.artichron.items.Item.MRLCVc7ewf3y4T91] (fighter and rogue), @UUID[Compendium.artichron.items.Item.VzLWOrUWzibGNClQ] (cleric and fighter), and @UUID[Compendium.artichron.items.Item.WJltuDU36z2v0hH1] (mage and rogue).</p><h2>Determing Your Path</h2><p>To determine whether your point spread puts you on a core or mixed path, look at your total point investment, and then the point investment on the path that has the most points.</p><p>If the point investment in that path is lower than 55% of your total point investment overall, <em>and</em> you have invested at least 8 points in a single path, your path is mixed and determined from the list above.</p><h2>Gaining Talents</h2><p>As you invest points into your paths, you meet thresholds for gaining talents. For example, if you make a new hero with 0 points invested and you invest 6 points into Fighter, you earn any talents the Fighter path would grant between 1 and 6.</p><p>Then, if you later earn another 7 points which you decide to invest in Cleric, you are now a Cleric as this path is the one with the highest investment and no path has 8 points or more invested. You then earn any cleric talents the Cleric path would grant between 7 and 13 (your new total). You do not gain any Cleric talents from 1-6.</p><p>Placing another 4 points evenly distributed in Fighter and Cleric leaves you with 9 in Cleric and 8 in Fighter for a total of 17. Since a path has more than 8 points invested and the points are evenly distributed (53% of the points are in Cleric which is less than 55%), your current path is the mixed Templar path. Thus you gain the Templar talents between 14 and 17.</p>"
+      },
+      "video": {
+        "controls": true,
+        "volume": 0.5
+      },
+      "src": null,
+      "ownership": {
+        "default": -1
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": "Compendium.artichron.rules.JournalEntry.xJAQJs1s2SgG9JS0.JournalEntryPage.mTVlhq8GKJXmtFrN",
+        "exportSource": null,
+        "coreVersion": "13.346",
+        "systemId": "artichron",
+        "systemVersion": "1.0.0",
+        "createdTime": 1752499959168,
+        "modifiedTime": 1752499978990,
+        "lastModifiedBy": "artichronbuilder"
+      },
+      "_id": "6BsnTuDFB0H46pfB",
+      "_key": "!journal.pages!xJAQJs1s2SgG9JS0.6BsnTuDFB0H46pfB"
     }
   ],
   "folder": null,
@@ -666,7 +742,7 @@
     "systemId": "artichron",
     "systemVersion": "1.0.0",
     "createdTime": 1729157490108,
-    "modifiedTime": 1752276853471,
+    "modifiedTime": 1752499116227,
     "lastModifiedBy": "artichronbuilder",
     "exportSource": null
   },
@@ -742,6 +818,24 @@
         "lastModifiedBy": "artichronbuilder"
       },
       "_key": "!journal.categories!xJAQJs1s2SgG9JS0.CbvU6Oxs0DTHhgDN"
+    },
+    {
+      "name": "Character Creation",
+      "sort": 0,
+      "_id": "bZHxS6Lhve7ODUnx",
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.346",
+        "systemId": "artichron",
+        "systemVersion": "1.0.0",
+        "createdTime": 1752499104695,
+        "modifiedTime": 1752499104695,
+        "lastModifiedBy": "artichronbuilder"
+      },
+      "_key": "!journal.categories!xJAQJs1s2SgG9JS0.bZHxS6Lhve7ODUnx"
     }
   ],
   "_key": "!journal!xJAQJs1s2SgG9JS0"
