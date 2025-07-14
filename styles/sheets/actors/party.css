@@ -73,9 +73,10 @@
         flex: 0 0 4rem;
         height: 4rem;
         object-fit: cover;
-        object-position: center top;
+        object-position: top;
         border-radius: 50%;
         border: 2px inset hsl(from var(--artichron-color-border) h s l / 0.85);
+        aspect-ratio: 1;
 
         &[data-action] {
           cursor: var(--cursor-pointer);
