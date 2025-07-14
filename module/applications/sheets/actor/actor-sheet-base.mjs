@@ -139,10 +139,11 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
    * @returns {object[]}
    */
   #getContextOptionsItem() {
-    if (!this.document.isOwner) return [];
+    if (!this.isEditable) return [];
     const getItem = el => this.document.items.get(el.dataset.id);
 
-    return [{
+    // Render and delete.
+    const options = [{
       name: "ARTICHRON.SHEET.ACTOR.CONTEXT.ITEM.render",
       icon: "<i class='fa-solid fa-fw fa-edit'></i>",
       callback: el => getItem(el).sheet.render({ force: true }),
@@ -152,37 +153,49 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
       icon: "<i class='fa-solid fa-fw fa-trash'></i>",
       callback: el => getItem(el).hasGrantedItems ? getItem(el).advancementDeletionPrompt() : getItem(el).deleteDialog(),
       group: "manage",
-    }, {
-      name: "ARTICHRON.SHEET.ACTOR.CONTEXT.ITEM.equip",
-      icon: "<i class='fa-solid fa-fw fa-shield'></i>",
-      condition: el => (this.document.type === "hero") && (getItem(el).type === "armor") && !getItem(el).system.isEquipped,
-      callback: el => getItem(el).system.equip(),
-      group: "action",
-    }, {
-      name: "ARTICHRON.SHEET.ACTOR.CONTEXT.ITEM.unequip",
-      icon: "<i class='fa-solid fa-fw fa-shield-halved'></i>",
-      condition: el => (this.document.type === "hero") && (getItem(el).type === "armor") && getItem(el).system.isEquipped,
-      callback: el => getItem(el).system.unequip(),
-      group: "action",
-    }, {
-      name: "ARTICHRON.SHEET.ACTOR.CONTEXT.ITEM.favorite",
-      icon: "<i class='fa-solid fa-fw fa-star'></i>",
-      condition: el => ["hero", "monster"].includes(this.document.type) && !getItem(el).isFavorite,
-      callback: el => this.document.addFavoriteItem(getItem(el).id),
-      group: "action",
-    }, {
-      name: "ARTICHRON.SHEET.ACTOR.CONTEXT.ITEM.unfavorite",
-      icon: "<i class='fa-regular fa-fw fa-star'></i>",
-      condition: el => ["hero", "monster"].includes(this.document.type) && getItem(el).isFavorite,
-      callback: el => this.document.removeFavoriteItem(getItem(el).id),
-      group: "action",
-    }, {
-      name: "ARTICHRON.SHEET.ACTOR.CONTEXT.ITEM.fuse",
-      icon: "<i class='fa-solid fa-fw fa-volcano'></i>",
-      condition: el => (this.document.type === "hero") && (getItem(el).type === "spell"),
-      callback: el => getItem(el).system.fuseDialog(),
-      group: "action",
     }];
+
+    // Favoriting.
+    if (["hero", "monster"].includes(this.document.type)) {
+      options.push({
+        name: "ARTICHRON.SHEET.ACTOR.CONTEXT.ITEM.favorite",
+        icon: "<i class='fa-solid fa-fw fa-star'></i>",
+        condition: el => ["hero", "monster"].includes(this.document.type) && !getItem(el).isFavorite,
+        callback: el => this.document.addFavoriteItem(getItem(el).id),
+        group: "action",
+      }, {
+        name: "ARTICHRON.SHEET.ACTOR.CONTEXT.ITEM.unfavorite",
+        icon: "<i class='fa-regular fa-fw fa-star'></i>",
+        condition: el => ["hero", "monster"].includes(this.document.type) && getItem(el).isFavorite,
+        callback: el => this.document.removeFavoriteItem(getItem(el).id),
+        group: "action",
+      });
+    }
+
+    // Equip, unequip, and fuse.
+    if (this.document.type === "hero") {
+      options.push({
+        name: "ARTICHRON.SHEET.ACTOR.CONTEXT.ITEM.equip",
+        icon: "<i class='fa-solid fa-fw fa-shield'></i>",
+        condition: el => (getItem(el).type === "armor") && !getItem(el).system.isEquipped,
+        callback: el => getItem(el).system.equip(),
+        group: "action",
+      }, {
+        name: "ARTICHRON.SHEET.ACTOR.CONTEXT.ITEM.unequip",
+        icon: "<i class='fa-solid fa-fw fa-shield-halved'></i>",
+        condition: el => (getItem(el).type === "armor") && getItem(el).system.isEquipped,
+        callback: el => getItem(el).system.unequip(),
+        group: "action",
+      }, {
+        name: "ARTICHRON.SHEET.ACTOR.CONTEXT.ITEM.fuse",
+        icon: "<i class='fa-solid fa-fw fa-volcano'></i>",
+        condition: el => (getItem(el).type === "spell"),
+        callback: el => getItem(el).system.fuseDialog(),
+        group: "action",
+      });
+    }
+
+    return options;
   }
 
   /* -------------------------------------------------- */

@@ -117,7 +117,7 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
    * @returns {object[]}
    */
   #getContextOptionsActiveEffect() {
-    if (!this.document.isOwner) return [];
+    if (!this.isEditable) return [];
     const getEffect = btn => this.document.effects.get(btn.dataset.id);
 
     return [{
@@ -171,7 +171,7 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
    * @returns {object[]}
    */
   #getContextOptionsActivity() {
-    if (!this.document.isOwner) return [];
+    if (!this.isEditable) return [];
 
     return [{
       name: "ARTICHRON.SHEET.ITEM.CONTEXT.ACTIVITY.render",
@@ -198,7 +198,7 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
    * @returns {object[]}
    */
   #getContextOptionsAdvancement() {
-    if (!this.document.isOwner) return [];
+    if (!this.isEditable) return [];
 
     return [{
       name: "ARTICHRON.SHEET.ITEM.CONTEXT.ADVANCEMENT.render",
@@ -225,7 +225,7 @@ export default class ItemSheetArtichron extends ArtichronSheetMixin(foundry.appl
    * @returns {object[]}
    */
   #getContextOptionsArmorRequirement() {
-    if (!this.document.isOwner) return [];
+    if (!this.isEditable) return [];
 
     return [{
       name: "ARTICHRON.SHEET.ITEM.CONTEXT.REQUIREMENT.render",
