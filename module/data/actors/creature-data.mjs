@@ -25,7 +25,6 @@ const {
 
 /**
  * Extended data model for actor types that participate in combat.
- * These actor types also have health and can make use of equipment.
  */
 export default class CreatureData extends ActorSystemModel {
   /** @inheritdoc */
@@ -49,10 +48,6 @@ export default class CreatureData extends ActorSystemModel {
         attack: new StringField({ required: true, blank: false, initial: "blade" }),
         parts: new artichron.data.fields.CollectionField(artichron.data.pseudoDocuments.damage.Damage),
       }),
-      equipped: new SchemaField(Object.keys(artichron.config.EQUIPMENT_TYPES).reduce((acc, key) => {
-        acc[key] = new StringField({ required: true });
-        return acc;
-      }, {})),
       favorites: new SetField(new StringField({ required: true })),
       health: new SchemaField({
         spent: new NumberField({ min: 0, initial: 0, integer: true, nullable: false }),
@@ -81,12 +76,6 @@ export default class CreatureData extends ActorSystemModel {
       ? artichron.config.BASIC_ATTACKS.melee.types[this.damage.attack]
       : artichron.config.BASIC_ATTACKS.range.types[this.damage.attack];
     this.damage.label = attack.label;
-
-    this.equipment = Object.fromEntries(Object.keys(artichron.config.EQUIPMENT_TYPES).map(slot => {
-      const item = this.parent.items.get(this.equipped[slot]);
-      const equipped = item && (item.type === "armor") && (item.system.armor.slot === slot) ? item : null;
-      return [slot, equipped];
-    }));
   }
 
   /* -------------------------------------------------- */
@@ -94,20 +83,7 @@ export default class CreatureData extends ActorSystemModel {
   /** @inheritdoc */
   prepareDerivedData() {
     super.prepareDerivedData();
-    this.#prepareDefenses();
     this.#prepareBonuses();
-  }
-
-  /* -------------------------------------------------- */
-
-  /** Prepare the value of actor defenses. */
-  #prepareDefenses() {
-    for (const item of Object.values(this.equipment)) {
-      if (!item?.system.fulfilledRequirements) continue;
-
-      // Add the equipped item's defenses to your own.
-      for (const [k, v] of Object.entries(item.system.defenses)) this.defenses[k] += v;
-    }
   }
 
   /* -------------------------------------------------- */
@@ -173,82 +149,6 @@ export default class CreatureData extends ActorSystemModel {
 
   /* -------------------------------------------------- */
   /*   Instance methods                                 */
-  /* -------------------------------------------------- */
-
-  /**
-   * Call a dialog to change the item equipped in a particular slot.
-   * @param {string} slot   The slot to change.
-   * @returns {Promise}
-   */
-  async changeEquippedDialog(slot) {
-    const current = this.equipment[slot];
-    const choices = this.parent.items.documentsByType.armor.filter(item => {
-      return (item.system.armor.slot === slot) && (item !== current);
-    }).map(item => ({
-      value: item.id,
-      label: item.name,
-      group: artichron.config.EQUIPMENT_CATEGORIES[item.system.armor.category].label,
-    }));
-
-    const content = choices.length ? foundry.applications.fields.createFormGroup({
-      label: game.i18n.localize("ARTICHRON.EquipDialog.Label"),
-      hint: game.i18n.localize("ARTICHRON.EquipDialog.Hint"),
-      input: foundry.applications.fields.createSelectInput({
-        blank: false,
-        name: "itemId",
-        options: choices,
-      }),
-    }).outerHTML : null;
-
-    const buttons = [];
-    if (choices.length) {
-      buttons.push({
-        action: "equip",
-        label: "Confirm",
-        icon: "fa-solid fa-check",
-        callback: (event, button) => this.changeEquipped(slot, this.parent.items.get(button.form.elements.itemId.value)),
-      });
-    }
-
-    if (current) {
-      buttons.push({
-        action: "unequip",
-        label: "Unequip",
-        icon: "fa-solid fa-times",
-        callback: () => this.changeEquipped(slot),
-      });
-    }
-
-    if (!buttons.length) {
-      ui.notifications.warn("ARTICHRON.EquipDialog.Warning", { localize: true });
-      return null;
-    }
-
-    return artichron.applications.api.Dialog.wait({
-      buttons, content,
-      classes: ["equip"],
-      window: {
-        title: "ARTICHRON.EquipDialog.Title",
-        icon: "fa-solid fa-hand-fist",
-      },
-    });
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Change the item equipped in a particular slot.
-   * @param {string} slot                 The slot to change equipment in.
-   * @param {ItemArtichron} [item]        An optional item to equip in the given slot.
-   * @returns {Promise<ActorArtichron>}   A promise that resolves to the updated actor.
-   */
-  async changeEquipped(slot, item = null) {
-    const path = `system.equipped.${slot}`;
-    const update = { [path]: item ? item.id : "" };
-    await this.parent.update(update);
-    return this.parent;
-  }
-
   /* -------------------------------------------------- */
 
   /**

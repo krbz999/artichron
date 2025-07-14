@@ -1,14 +1,7 @@
 import CreatureData from "./creature-data.mjs";
 import ScalingValue from "./utils/scaling-value.mjs";
 
-const { ArrayField, NumberField, SchemaField, TypedObjectField } = foundry.data.fields;
-
-/**
- * @typedef PoolData
- * @property {number} faces
- * @property {number} max
- * @property {number} spent
- */
+const { ArrayField, NumberField, SchemaField, StringField, TypedObjectField } = foundry.data.fields;
 
 /**
  * @typedef SkillData
@@ -20,7 +13,10 @@ const { ArrayField, NumberField, SchemaField, TypedObjectField } = foundry.data.
 /**
  * @typedef HeroDataSchema
  * @property {object} pools
- * @property {PoolData} pools.stamina
+ * @property {object} pools.stamina
+ * @property {number} pools.stamina.faces
+ * @property {number} pools.stamina.max
+ * @property {number} pools.stamina.spent
  *
  * @property {object} progression
  * @property {object} progression.points
@@ -37,19 +33,17 @@ const { ArrayField, NumberField, SchemaField, TypedObjectField } = foundry.data.
 export default class HeroData extends CreatureData {
   /** @inheritdoc */
   static defineSchema() {
-    const poolSchema = () => {
-      return new SchemaField({
-        faces: new NumberField({ min: 2, integer: true, initial: 6, nullable: false }),
-        max: new NumberField({ min: 0, integer: true, initial: 2, nullable: false }),
-        spent: new NumberField({ min: 0, integer: true, initial: 0 }),
-      }, {
-        trackedAttribute: true,
-      });
-    };
-
     return Object.assign(super.defineSchema(), {
+      equipped: new SchemaField(Object.keys(artichron.config.EQUIPMENT_TYPES).reduce((acc, key) => {
+        acc[key] = new StringField({ required: true });
+        return acc;
+      }, {})),
       pools: new SchemaField({
-        stamina: poolSchema(),
+        stamina: new SchemaField({
+          faces: new NumberField({ min: 2, integer: true, initial: 6, nullable: false }),
+          max: new NumberField({ min: 0, integer: true, initial: 2, nullable: false }),
+          spent: new NumberField({ min: 0, integer: true, initial: 0 }),
+        }),
       }),
       progression: new SchemaField({
         points: new SchemaField({
@@ -76,6 +70,23 @@ export default class HeroData extends CreatureData {
   /* -------------------------------------------------- */
 
   /** @inheritdoc */
+  prepareBaseData() {
+    super.prepareBaseData();
+
+    // Initialize base defenses.
+    this.defenses = {};
+    for (const { value } of artichron.config.DAMAGE_TYPES.optgroups) this.defenses[value] = 0;
+
+    this.equipment = Object.fromEntries(Object.keys(artichron.config.EQUIPMENT_TYPES).map(slot => {
+      const item = this.parent.items.get(this.equipped[slot]);
+      const equipped = item && (item.type === "armor") && (item.system.armor.slot === slot) ? item : null;
+      return [slot, equipped];
+    }));
+  }
+
+  /* -------------------------------------------------- */
+
+  /** @inheritdoc */
   prepareDerivedData() {
     // Pools are prepared first as most other properties rely on these.
     this.#preparePools();
@@ -89,7 +100,13 @@ export default class HeroData extends CreatureData {
     // It also has to be prepared after paths because paths help define max hp.
     this.#prepareHealth();
 
-    super.prepareDerivedData(); // Defenses prepared here.
+    // Add the equipped items' defenses to your own.
+    for (const item of Object.values(this.equipment)) {
+      if (!item?.system.fulfilledRequirements) continue;
+      for (const [k, v] of Object.entries(item.system.defenses)) this.defenses[k] += v;
+    }
+
+    super.prepareDerivedData();
     this.#prepareEncumbrance();
     this.#prepareSkills();
   }

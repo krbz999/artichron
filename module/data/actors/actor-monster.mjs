@@ -21,8 +21,12 @@ export default class MonsterData extends CreatureData {
   }
 
   /* -------------------------------------------------- */
-  /*   Life-cycle events                                */
-  /* -------------------------------------------------- */
+
+  /** @inheritdoc */
+  static LOCALIZATION_PREFIXES = [
+    ...super.LOCALIZATION_PREFIXES,
+    "ARTICHRON.ACTOR.MONSTER",
+  ];
 
   /* -------------------------------------------------- */
   /*   Preparation methods                              */

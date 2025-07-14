@@ -155,13 +155,13 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
     }, {
       name: "ARTICHRON.SHEET.ACTOR.CONTEXT.ITEM.equip",
       icon: "<i class='fa-solid fa-fw fa-shield'></i>",
-      condition: el => (getItem(el).type === "armor") && !getItem(el).system.isEquipped,
+      condition: el => (this.document.type === "hero") && (getItem(el).type === "armor") && !getItem(el).system.isEquipped,
       callback: el => getItem(el).system.equip(),
       group: "action",
     }, {
       name: "ARTICHRON.SHEET.ACTOR.CONTEXT.ITEM.unequip",
       icon: "<i class='fa-solid fa-fw fa-shield-halved'></i>",
-      condition: el => (getItem(el).type === "armor") && getItem(el).system.isEquipped,
+      condition: el => (this.document.type === "hero") && (getItem(el).type === "armor") && getItem(el).system.isEquipped,
       callback: el => getItem(el).system.unequip(),
       group: "action",
     }, {
@@ -179,7 +179,7 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
     }, {
       name: "ARTICHRON.SHEET.ACTOR.CONTEXT.ITEM.fuse",
       icon: "<i class='fa-solid fa-fw fa-volcano'></i>",
-      condition: el => ["hero", "monster"].includes(this.document.type) && (getItem(el).type === "spell"),
+      condition: el => (this.document.type === "hero") && (getItem(el).type === "spell"),
       callback: el => getItem(el).system.fuseDialog(),
       group: "action",
     }];

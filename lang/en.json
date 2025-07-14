@@ -467,23 +467,6 @@
         "label": "Attack"
       }
     },
-    "danger": {
-      "pool": {
-        "label": "Danger Pool",
-        "max": {
-          "hint": "The size of this monster's danger pool.",
-          "label": "Pool Maximum"
-        },
-        "spent": {
-          "hint": "How much of the danger pool has been spent.",
-          "label": "Spent"
-        }
-      },
-      "value": {
-        "hint": "The danger level of a monster determines their overall challenge as well as their action points.",
-        "label": "Danger Level"
-      }
-    },
     "health": {
       "label": "Health"
     },
@@ -562,6 +545,25 @@
         "number": {
           "label": "Spirit Dice",
           "hint": "When making an Spirit skill roll, this is the number of dice contributed by this skill."
+        }
+      }
+    }
+  },
+
+  "MONSTER": {
+    "FIELDS": {
+      "danger": {
+        "label": "Danger Rating",
+        "value": {
+          "label": "Level"
+        },
+        "pool": {
+          "max": {
+            "label": "Max"
+          },
+          "spent": {
+            "label": "Spent"
+          }
         }
       }
     }
@@ -1228,13 +1230,6 @@
   "Combat": "End of Combat",
   "Day": "End of Day",
   "None": "None"
-},
-
-"EquipDialog": {
-  "Hint": "Select the item to equip in this slot.",
-  "Label": "Item",
-  "Title": "Change Equipped Item",
-  "Warning": "You have no items that can be equipped in that slot."
 },
 
 "LootDialog": {

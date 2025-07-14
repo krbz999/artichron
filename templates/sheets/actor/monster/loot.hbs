@@ -1,4 +1,7 @@
 <div class="tab {{tabs.loot.cssClass}}" data-group="{{tabs.loot.group}}" data-tab="{{tabs.loot.id}}">
+
+  {{formGroup systemFields.currency.fields.funds value=source.system.currency.funds disabled=(not editable)}}
+
   <button type="button" data-action="grantLoot" {{disabled (not ctx.loot.length)}}>
     <i class="fa-solid fa-fw fa-box-open"></i>
     <span>{{localize "ARTICHRON.MONSTER.LOOT.grant"}}</span>

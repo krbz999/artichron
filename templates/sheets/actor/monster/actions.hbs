@@ -1,4 +1,16 @@
 <section class="tab {{tabs.actions.cssClass}}" data-group="{{tabs.actions.group}}" data-tab="{{tabs.actions.id}}">
+  <div class="form-group">
+    <label>{{localize "ARTICHRON.ACTOR.MONSTER.FIELDS.danger.label"}}</label>
+    <div class="form-fields">
+      {{formGroup systemFields.danger.fields.value value=source.system.danger.value disabled=isPlayMode classes="label-top"}}
+      {{formGroup systemFields.danger.fields.pool.fields.spent value=source.system.danger.spent disabled=isPlayMode classes="label-top"}}
+      {{formGroup systemFields.danger.fields.pool.fields.max value=source.system.danger.max disabled=isPlayMode classes="label-top"}}
+    </div>
+  </div>
+  {{#if isEditMode}}
+  {{formGroup systemFields.pips.fields.turn value=source.system.pips.turn disabled=(not editable)}}
+  {{/if}}
+
   {{!-- FAVORITES --}}
   {{#if ctx.favorites.length}}
   <div class="document-list items" data-document-name="Item">
