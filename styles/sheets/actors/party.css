@@ -37,11 +37,12 @@
         aspect-ratio: 1;
 
         .avatar {
-          object-fit: contain;
+          object-fit: cover;
           object-position: center;
           border-radius: 50%;
           position: absolute;
-          padding: 1ch;
+          padding: 3px;
+          aspect-ratio: 1;
         }
 
         .health-gauge {
