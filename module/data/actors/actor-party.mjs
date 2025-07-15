@@ -152,12 +152,27 @@ export default class PartyData extends ActorSystemModel {
 
   /**
    * Initiate recovery phase.
+   * @returns {Promise<void|null>}
    */
   async initiateRecovery() {
-    // pick tasks with suggestions from config
-    // then entirely replace 'recovery.tasks' object
-    // then render recovery app for all users
-    // set flags.artichron.recovering: true to let app know if or when to close / if it can render
+    if (!game.user.isActiveGM) throw new Error("Only the active GM can initiate a recovery phase.");
+
+    const party = this.parent;
+    const update = await artichron.applications.apps.actor.RecoveryPhaseConfig.create({ party });
+    if (!update) return null;
+    await party.update({ "system.recovery.==tasks": update, "flags.artichron.recovering": true });
+
+    for (const user of game.users) {
+      if (!user.active || user.isSelf) continue;
+      user.query("recovery", { type: "render" });
+    }
+
+    const configuration = await artichron.applications.apps.actor.RecoveryPhase.create({ party });
+    if (!configuration) return null;
+
+    // TODO: Make a bunch of rolls?
+
+    await party.update({ "flags.artichron.recovering": false });
   }
 
   /* -------------------------------------------------- */
@@ -209,12 +224,14 @@ export default class PartyData extends ActorSystemModel {
    * Query method to delegate handling.
    * @type {Function}
    */
-  static _query = ({ type, config }) => {
+  static _query = ({ type, config = {} }) => {
     const party = game.actors.party;
     const actor = game.actors.get(config.actorId);
+    const Cls = artichron.applications.apps.actor.RecoveryPhase;
+
     switch (type) {
-      case "assign": return party.system.assignTask(actor, config);
-      case "render": return new artichron.applications.apps.actor.RecoveryPhase({ party }).render({ force: true });
+      case "assign": party.system.assignTask(actor, config); break;
+      case "render": new Cls({ party }).render({ force: true }); break;
     }
   };
 

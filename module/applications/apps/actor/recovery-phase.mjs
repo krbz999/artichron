@@ -161,7 +161,17 @@ export default class RecoveryPhase extends Application {
   /*   Event handlers                                   */
   /* -------------------------------------------------- */
 
+  /** @inheritdoc */
+  _processSubmitData(event, form, formData, submitOptions) {
+    // The data to be used is stored on the party actor, so we
+    // just return `true` to indicate the form was not cancelled.
+    return true;
+  }
+
+  /* -------------------------------------------------- */
+
   /**
+   * Handle drag start events.
    * @this {RecoveryPhase}
    * @param {DragEvent} event
    */
@@ -176,6 +186,7 @@ export default class RecoveryPhase extends Application {
   /* -------------------------------------------------- */
 
   /**
+   * Handle drop events.
    * @this {RecoveryPhase}
    * @param {DragEvent} event
    */
