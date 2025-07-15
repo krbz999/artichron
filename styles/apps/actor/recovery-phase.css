@@ -1,14 +1,22 @@
+@keyframes scan {
+  0% { background-position: center calc(10% + 0px); }
+  50% { background-position: center calc(50% + 0px); }
+  100% { background-position: center calc(10% + 0px); }
+}
+
 #recovery-phase {
   width: 100% !important;
   height: 95%;
 
   [data-application-part=members] {
+    --member-width: 150px;
     display: flex;
+    flex-wrap: wrap;
     gap: 1rem;
     padding: 0 1rem;
 
     .member {
-      flex: 0 0 150px;
+      flex: 0 0 var(--member-width);
       height: 75px;
       background-image: var(--img);
       background-size: cover;
@@ -21,7 +29,8 @@
 
   [data-application-part=tasks] {
     flex: 1;
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 1rem;
 
     .task {
@@ -31,17 +40,19 @@
       padding: 0;
 
       .assigned {
-        border-bottom: 1px solid var(--artichron-color-gold);
         display: grid;
-        padding-bottom: .5rem;
         gap: .5rem;
 
         .assignee {
           background-image: var(--img);
           background-size: cover;
           background-repeat: no-repeat;
-          background-position: center top;
+          background-position: center calc(10% + 0px);
           position: relative;
+
+          &:hover {
+            animation: scan 10s ease-in-out infinite;
+          }
 
           [data-action=unassign] {
             display: none;

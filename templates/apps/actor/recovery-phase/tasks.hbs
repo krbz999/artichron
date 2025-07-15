@@ -1,7 +1,7 @@
 <section>
   {{#each ctx.tasks}}
-  <section data-task="{{task.id}}" class="task {{#unless assigned.size}} glass {{/unless}}">
-    <div class="assigned">
+  <section data-task="{{task.id}}" class="task">
+    <div class="assigned {{#unless assigned.size}} glass {{/unless}}">
       {{#each assigned}}
       <div class="assignee glass" style="--img: url('/{{img}}');" data-actor-id="{{id}}">
         {{#if isOwner}}
