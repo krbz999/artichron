@@ -1004,6 +1004,16 @@
   "confirm": "Confirm",
   "title": "Recovery Phase",
   "optionalSkill": "choice",
+  "CONFIG": {
+    "TITLE": "Configure Recovery Phase",
+    "taskLabel": "Label",
+    "taskThreshold": "Threshold",
+    "taskSkills": "Skills",
+    "newTask": "New Task",
+    "confirm": "Confirm",
+    "suggestionHint": "Click the '+' button to add a new task from one of the pre-existing examples or one that you may configure yourself.",
+    "suggestionBlank": "Custom Task"
+  },
   "TASK": {
     "cook": "Cook",
     "entertain": "Entertain",

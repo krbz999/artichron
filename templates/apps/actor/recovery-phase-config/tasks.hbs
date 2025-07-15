@@ -1,0 +1,63 @@
+<section>
+  <div class="form-group">
+    <label for="{{rootId}}-task-suggestion">{{localize "ARTICHRON.RECOVERY.CONFIG.newTask"}}</label>
+    <div class="form-fields">
+      <select id="{{rootId}}-task-suggestion">
+        {{selectOptions ctx.taskSuggestions blank=(localize "ARTICHRON.RECOVERY.CONFIG.suggestionBlank")}}
+      </select>
+      <button type="button" data-action="addTask" class="icon fa-solid fa-plus"></button>
+    </div>
+    <p class="hint">{{localize "ARTICHRON.RECOVERY.CONFIG.suggestionHint"}}</p>
+  </div>
+
+  <section class="scrollable standard-form">
+
+    {{#each ctx.tasks as |task taskId|}}
+    <fieldset data-task="{{taskId}}">
+      {{!-- LABEL --}}
+      <div class="form-group">
+        <label>{{localize "ARTICHRON.RECOVERY.CONFIG.taskLabel"}}</label>
+        <div class="form-fields">
+          <input type="text" name="tasks.{{taskId}}.label" value="{{task.label}}">
+
+          {{!-- THRESHOLD --}}
+          <div class="form-group">
+            <label>{{localize "ARTICHRON.RECOVERY.CONFIG.taskThreshold"}}</label>
+            <div class="form-fields">
+              <input type="number" min="1" step="1" name="tasks.{{taskId}}.threshold" value="{{task.threshold}}" placeholder="1">
+            </div>
+          </div>
+
+          <button type="button" data-action="removeTask" class="icon fa-solid fa-trash"></button>
+        </div>
+      </div>
+
+      {{!-- SKILLS --}}
+      <div class="form-group">
+        <label>{{localize "ARTICHRON.RECOVERY.CONFIG.taskSkills"}}</label>
+        <div class="form-fields">
+
+          {{!-- PRIMARY SKILL --}}
+          <div class="form-group label-top">
+            <div class="form-fields">
+              <select name="tasks.{{taskId}}.skills.primary">
+                {{selectOptions @root.ctx.skillOptions selected=task.skills.primary}}
+              </select>
+            </div>
+          </div>
+
+          {{!-- SECONDARY SKILL --}}
+          <div class="form-group label-top">
+            <div class="form-fields">
+              <select name="tasks.{{taskId}}.skills.secondary">
+                {{selectOptions @root.ctx.skillOptions selected=task.skills.secondary blank=""}}
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+    {{/each}}
+
+  </section>
+</section>
