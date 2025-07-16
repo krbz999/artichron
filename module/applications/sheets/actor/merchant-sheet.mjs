@@ -157,7 +157,7 @@ export default class MerchantSheet extends ActorSheetArtichron {
       icon: "<i class='fa-solid fa-fw fa-cart-plus'></i>",
       callback: entry => game.users.activeGM?.query("merchant", { type: "stage", config: {
         itemId: itemId(entry), actorId: actorId(), merchantId: this.document.id,
-      } }),
+      } }, { timeout: 10_000 }),
     }];
   }
 
@@ -176,7 +176,7 @@ export default class MerchantSheet extends ActorSheetArtichron {
       icon: "<i class='fa-solid fa-fw fa-shopping-cart'></i>",
       callback: entry => game.users.activeGM?.query("merchant", { type: "unstage", config: {
         itemId: itemId(entry), actorId: actorId(), merchantId: this.document.id,
-      } }),
+      } }, { timeout: 10_000 }),
     }];
   }
 

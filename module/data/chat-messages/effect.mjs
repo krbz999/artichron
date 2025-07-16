@@ -152,6 +152,6 @@ export default class EffectData extends ChatMessageSystemModel {
     }
 
     const config = { messageId: this.parent.id, actorUuids: Array.from(actors).map(actor => actor.uuid) };
-    return user.query("chatEffects", { type: "applyEffects", config });
+    return user.query("chatEffects", { type: "applyEffects", config }, { timeout: 10_000 });
   }
 }

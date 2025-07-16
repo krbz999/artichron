@@ -240,7 +240,7 @@ export default class PartyData extends ActorSystemModel {
     }
 
     const config = { actorId: actor.id, task, unassign };
-    return user.query("recovery", { type: "assign", config });
+    return user.query("recovery", { type: "assign", config }, { timeout: 10_000 });
   }
 
   /* -------------------------------------------------- */

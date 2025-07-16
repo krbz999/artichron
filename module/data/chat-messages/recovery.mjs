@@ -84,7 +84,7 @@ export default class RecoveryData extends ChatMessageSystemModel {
             base: party.system.recovery.tasks[k].skills.primary,
             second: party.system.recovery.tasks[k].skills.secondary,
           },
-        });
+        }, { timeout: 10_000 });
       }
     }
 

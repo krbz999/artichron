@@ -206,7 +206,7 @@ export default class HealingData extends ChatMessageSystemModel {
       config.actorUuids.push(actor.uuid);
     }
 
-    return user.query("chatHealing", { type: "applyHealing", config });
+    return user.query("chatHealing", { type: "applyHealing", config }, { timeout: 10_000 });
   }
 
   /* -------------------------------------------------- */
@@ -225,7 +225,7 @@ export default class HealingData extends ChatMessageSystemModel {
     });
 
     const config = { messageId: this.id, actorUuid: actor.uuid };
-    user.query("chatHealing", { type: "undoHealing", config });
+    user.query("chatHealing", { type: "undoHealing", config }, { timeout: 10_000 });
   }
 
   /* -------------------------------------------------- */

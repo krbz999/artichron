@@ -230,7 +230,7 @@ export default class DamageData extends ChatMessageSystemModel {
       return void ui.notifications.warn("ARTICHRON.CHAT.noActiveUser", { localize: true });
     }
 
-    return user.query("chatDamage", { type: "applyDamage", config });
+    return user.query("chatDamage", { type: "applyDamage", config }, { timeout: 10_000 });
   }
 
   /* -------------------------------------------------- */
@@ -249,7 +249,7 @@ export default class DamageData extends ChatMessageSystemModel {
     });
 
     const config = { messageId: this.id, actorUuid: actor.uuid };
-    user.query("chatDamage", { type: "undoDamage", config });
+    user.query("chatDamage", { type: "undoDamage", config }, { timeout: 10_000 });
   }
 
   /* -------------------------------------------------- */
