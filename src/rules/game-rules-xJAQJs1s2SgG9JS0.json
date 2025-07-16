@@ -53,7 +53,7 @@
       "image": {},
       "text": {
         "format": 1,
-        "content": "<p>When initiating combat, turn order is declared by rolling 1d12x at the start of each round. Each combatant belongs to one side; enemies or allies. The group that has a combatant with the highest roll is first to go. The turn order is then decided thus:</p><ol><li>The combatant in the leading group whose initiative roll is highest goes first.</li><li>The combatant in the opposing group whose initiative roll is highest goes next.</li><li>The combatant in the leading group with the second highest roll goes third…</li></ol><p>Alternating between the leading and opposing group in respective initiative order, if one group has fewer combatants than the other, some of their combatants gain multiple turns.</p><p>For example, if group X and group Y roll the following initiative values:</p><pre><code>X: 20, 15, 10, 3, 1\nY: 12, 4, 2</code></pre><p>The final turn order becomes:</p><p>20 (X), 12 (Y), 15 (X), 4 (Y), 10 (X), 2 (Y), 3 (X), 12 (Y, second turn), 1 (X).</p><p>On any rounds after the first, a combatant gains a bonus of 1d6 to their initiative roll for each unspent action point they have. The maximum amount of additional d6s a combatant can receive for their initiative roll is equal 6 (for heroes) or three times their Danger level (for monsters).</p>"
+        "content": "<p>When initiating combat, turn order is declared by rolling 1d12x at the start of each round. Each combatant belongs to one side; enemies or allies. The group that has a combatant with the highest roll is first to go. The turn order is then decided thus:</p><ol><li>The combatant in the leading group whose initiative roll is highest goes first.</li><li>The combatant in the opposing group whose initiative roll is highest goes next.</li><li>The combatant in the leading group with the second highest roll goes third…</li></ol><p>Alternating between the leading and opposing group in respective initiative order, if one group has fewer combatants than the other, some of their combatants gain multiple turns.</p><p>For example, if group X and group Y roll the following initiative values:</p><pre><code>X: 20, 15, 10, 3, 1\nY: 12, 4, 2</code></pre><p>The final turn order becomes:</p><p>20 (X), 12 (Y), 15 (X), 4 (Y), 10 (X), 2 (Y), 3 (X), 12 (Y, second turn), 1 (X).</p><p>On any rounds after the first, a combatant gains a bonus of 1d6 to their initiative roll for each unspent action point they have, to a maximum of 10d6.</p>"
       },
       "video": {
         "controls": true,
@@ -71,7 +71,7 @@
         "systemId": "artichron",
         "systemVersion": "1.0.0",
         "createdTime": null,
-        "modifiedTime": 1752418593093,
+        "modifiedTime": 1752698644750,
         "lastModifiedBy": "artichronbuilder",
         "exportSource": null
       },
@@ -91,7 +91,7 @@
       "image": {},
       "text": {
         "format": 1,
-        "content": "<p>Once the turn order has been decided, each combatant receives a number of Action Points (or \"pips\") that they can use during this round on various actions.</p><p>For 'heroes', the amount of action points is equal to 6, plus 1 for each turn they take on this round, minus 1 for each level of the @UUID[Compendium.artichron.rules.JournalEntry.JjiZqfbpC2YVXV4R.JournalEntryPage.uVv9k9xheOkxzBhO]{Hindered} condition they are afflicted by, minimum of 1. For example, if a hero is taking 3 turns this round due to their group being vastly outnumbered, they start the round with 6 + 3 (turns) * 1 (per-turn bonus) = 9 pips.</p><p>Monsters instead receive a number of action points equal to two times their Danger value, plus 1 for each turn they take this round, minus 1 for each level of the Hindered condition.</p><p>A combatant can spend as many action points as they want on one turn, but they do not regain any until the next round. A combatant can start a turn with no fewer than 1 AP.</p><h2>Spending Action Points</h2><p>Action points can be spent when</p><ul><li><p>moving: 1 action point for every 5 meters.</p></li><li><p>making an attack with a weapon: the cost of the attack is described in the weapon, but is generally 1 point for a one-handed weapon and 2 points for a two-handed weapon.</p></li><li><p>casting a spell: the cost of the casting is described in the spell, but is generally 1 or 2 points.</p></li><li><p>drinking an elixir: 1 action point.</p></li><li><p>fusing an item: 1 action point.</p></li><li><p>blocking or parrying to reduce incoming damage: 1 point per item used to defend.</p></li></ul><p>Leftover initiative points at the end of a combat round are lost, but grant a bonus to initiative as described above.</p>"
+        "content": "<p>Once the turn order has been decided, each combatant receives a number of Action Points (or \"pips\") that they can use during this round on various actions.</p><p>All combatants receive a base of 6 action points, plus 1 for each turn they may take in a round, minus 1 for each level of the @UUID[Compendium.artichron.rules.JournalEntry.JjiZqfbpC2YVXV4R.JournalEntryPage.uVv9k9xheOkxzBhO]{Hindered} condition they are afflicted by.</p><p>A combatant cannot start a round with fewer than 1 action point.</p><p>A combatant can spend as many action points as they want on one turn, but they do not regain any until the next round. A combatant can start a turn with no fewer than 1 AP.</p><h2>Spending Action Points</h2><p>Action points can be spent when</p><ul><li><p>moving: 1 action point for every 5 meters.</p></li><li><p>making an attack: 2 points.</p></li><li><p>casting a spell: 3 points.</p></li><li><p>drinking an elixir: 1 action point.</p></li></ul><p>Leftover initiative points at the end of a combat round are lost, but grant a bonus to initiative as described above.</p>"
       },
       "video": {
         "controls": true,
@@ -109,7 +109,7 @@
         "systemId": "artichron",
         "systemVersion": "1.0.0",
         "createdTime": null,
-        "modifiedTime": 1752418593093,
+        "modifiedTime": 1752698196055,
         "lastModifiedBy": "artichronbuilder",
         "exportSource": null
       },

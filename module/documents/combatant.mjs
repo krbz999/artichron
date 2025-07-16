@@ -20,20 +20,7 @@ export default class CombatantArtichron extends BaseDocumentMixin(foundry.docume
     formula = formula || this._getInitiativeFormula();
     const actor = this.actor;
     const rollData = actor?.getRollData() || {};
-
-    let cap;
-    switch (actor?.type) {
-      case "hero":
-        cap = 6; // TODO
-        break;
-      case "monster":
-        cap = actor.system.danger.value * 3;
-        break;
-      default:
-        cap = 3;
-        break;
-    }
-
+    const cap = 10;
     rollData.pips = Math.min(actor?.actionPoints ?? 0, cap);
     return Roll.create(formula, rollData);
   }

@@ -395,10 +395,8 @@ export default class ActorArtichron extends BaseDocumentMixin(foundry.documents.
     const hindered = this.appliedConditionLevel("hindered");
     const bonus = this.system.pips.turn * game.combat.getCombatantsByActor(this).length;
 
-    // TODO
-    const base = (this.type === "hero") ? 10 : this.system.danger.value * 2;
-    const value = Math.max(1, base + bonus - hindered);
-    return value;
+    const base = 6;
+    return Math.max(1, base + bonus - hindered);
   }
 
   /* -------------------------------------------------- */
