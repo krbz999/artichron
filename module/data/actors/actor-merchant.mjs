@@ -19,14 +19,6 @@ export default class MerchantData extends ActorSystemModel {
   }
 
   /* -------------------------------------------------- */
-
-  /**
-   * Reference to an existing configuration dialog.
-   * @type {MerchantConfigurationDialog}
-   */
-  #config;
-
-  /* -------------------------------------------------- */
   /*   Preparation methods                              */
   /* -------------------------------------------------- */
 
@@ -45,20 +37,6 @@ export default class MerchantData extends ActorSystemModel {
 
   /* -------------------------------------------------- */
   /*   Instance methods                                 */
-  /* -------------------------------------------------- */
-
-  /**
-   * Render the merchant configuration dialog for this actor.
-   * @returns {MerchantConfigurationDialog}
-   */
-  configure() {
-    if (!this.#config) this.#config = new artichron.applications.apps.actor.MerchantConfigurationDialog({
-      document: this.parent,
-    });
-    this.#config.render({ force: true });
-    return this.#config;
-  }
-
   /* -------------------------------------------------- */
 
   /**

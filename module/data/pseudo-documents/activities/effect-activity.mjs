@@ -35,36 +35,24 @@ export default class EffectActivity extends BaseActivity {
   /* -------------------------------------------------- */
 
   /** @inheritdoc */
-  async use(usage = {}, dialog = {}, message = {}) {
+  async use() {
     if (!this.effects.ids.size && foundry.utils.isEmpty(this.effects.statuses)) {
       ui.notifications.warn("ARTICHRON.ACTIVITY.Warning.NoEffects", { localize: true });
       return null;
     }
 
-    const configuration = await this.configure(usage, dialog, message);
-    if (!configuration) return null;
-
     const actor = this.item.actor;
-    const item = this.item;
-
-    const consumed = await this.consume(configuration.usage);
-    if (!consumed) return null;
-
-    await item.setFlag("artichron", `usage.${this.id}`, {
-      "template.place": foundry.utils.getProperty(configuration.usage, "template.place") ?? true,
-    });
 
     // Place templates.
-    if (configuration.usage.template?.place) await this.placeTemplate({ increase: configuration.usage.template.increase });
+    if (this.hasTemplate) await this.placeTemplate();
 
     const Cls = foundry.utils.getDocumentClass("ChatMessage");
     const messageData = {
       type: "effect",
-      speaker: Cls.getSpeaker({ actor: actor }),
+      speaker: Cls.getSpeaker({ actor }),
       "system.activity": this.uuid,
     };
-    Cls.applyRollMode(messageData, configuration.usage.rollMode.mode);
-    foundry.utils.mergeObject(messageData, configuration.message);
+    Cls.applyRollMode(messageData, game.settings.get("core", "rollMode"));
     return Cls.create(messageData);
   }
 }

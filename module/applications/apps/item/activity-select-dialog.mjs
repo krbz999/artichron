@@ -105,10 +105,7 @@ export default class ActivitySelectDialog extends Application {
 
   /** @inheritdoc */
   _processSubmitData(event, form, formData, submitOptions) {
-    const config = {
-      activity: this.#selected,
-      configure: !game.keyboard.isModifierActive(foundry.helpers.interaction.KeyboardManager.MODIFIER_KEYS.SHIFT),
-    };
+    const config = { activity: this.#selected };
     return config;
   }
 }

@@ -30,22 +30,18 @@ export default class TeleportActivity extends BaseActivity {
   /* -------------------------------------------------- */
 
   /** @inheritdoc */
-  async use(usage = {}, dialog = {}, message = {}) {
+  async use() {
     const token = this.item.token;
     if (!token) {
       ui.notifications.warn("ARTICHRON.ACTIVITY.Warning.NoToken", { localize: true });
       return;
     }
 
-    const configuration = await this.configure(usage, dialog, message);
-    if (!configuration) return null;
-
-    const item = this.item;
     const actor = this.item.actor;
 
     const drawCircle = () => {
-      const range = this.teleport.distance + (configuration.usage.teleport.increase ?? 0)
-      + (canvas.grid.distance * Math.max(token.document.width, token.document.height, 1) / 2);
+      const range = this.teleport.distance
+        + (canvas.grid.distance * Math.max(token.document.width, token.document.height, 1) / 2);
       const points = canvas.grid.getCircle({ x: 0, y: 0 }, range).reduce((acc, p) => {
         return acc.concat([p.x, p.y]);
       }, []);
@@ -63,9 +59,6 @@ export default class TeleportActivity extends BaseActivity {
     if (!place.length) return null;
     const { x, y, rotation } = place[0];
 
-    const consumed = await this.consume(configuration.usage);
-    if (!consumed) return null;
-
     token.document.update({ x, y, rotation }, { animate: false, teleport: true, forced: true });
 
     const Cls = foundry.utils.getDocumentClass("ChatMessage");
@@ -74,8 +67,7 @@ export default class TeleportActivity extends BaseActivity {
       speaker: Cls.getSpeaker({ actor: actor }),
       "system.activity": this.uuid,
     };
-    Cls.applyRollMode(messageData, configuration.usage.rollMode.mode);
-    foundry.utils.mergeObject(messageData, configuration.message);
+    Cls.applyRollMode(messageData, game.settings.get("core", "rollMode"));
     return Cls.create(messageData);
   }
 }

@@ -337,14 +337,8 @@
     "noDescription": "No Description"
   },
   "Warning": {
-    "ConsumeCostUnavailable": "{name} does not have {number} action points available.",
-    "ConsumeOutOfCombat": "{name} cannot consume action points when out of combat.",
     "NoActivities": "This item has no activities configured.",
-    "NoAmmo": "You have none remaining of the selected ammunition.",
     "NoEffects": "This activity has no effects configured.",
-    "NoElixir": "The elixir with id '{id}' did not exist!",
-    "NoElixirUses": "The {name} elixir has no uses left.",
-    "NoRemainingUses": "This item has no remaining uses.",
     "NoTemplates": "This item cannot create measured templates!",
     "NoToken": "A token must be present on the scene."
   },

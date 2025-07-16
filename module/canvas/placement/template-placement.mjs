@@ -82,7 +82,7 @@ export default class TemplatePlacement extends foundry.canvas.placeables.Measure
     }
 
     const mp = canvas.mousePosition;
-    const ray = Ray.towardsPoint(token.center, mp, token.w / 2);
+    const ray = foundry.canvas.geometry.Ray.towardsPoint(token.center, mp, token.w / 2);
     const data = foundry.utils.mergeObject({
       t: t,
       distance: distance,
@@ -173,7 +173,7 @@ export default class TemplatePlacement extends foundry.canvas.placeables.Measure
     const freeForm = canvas.grid.isGridless || event.shiftKey;
     const cursor = event.data.getLocalPosition(this.layer);
 
-    const ray = new Ray({ ...this.origin }, freeForm ? cursor : canvas.grid.getCenterPoint(cursor));
+    const ray = new foundry.canvas.geometry.Ray({ ...this.origin }, freeForm ? cursor : canvas.grid.getCenterPoint(cursor));
     const pos = this.config.attach ? ray.A : ray.B;
     pos.direction = Math.toDegrees(ray.angle);
 
@@ -188,7 +188,7 @@ export default class TemplatePlacement extends foundry.canvas.placeables.Measure
       let endPoint = canvas.grid.getTranslatedPoint(origin, offsetDirection, this.config.distance);
       if (!freeForm) endPoint = canvas.templates.getSnappedPoint(endPoint);
       // Get direction.
-      const direction = Math.toDegrees(new Ray(origin, endPoint).angle);
+      const direction = Math.toDegrees(new foundry.canvas.geometry.Ray(origin, endPoint).angle);
       // Update coordinates and direction.
       pos2 = { ...origin, direction: direction };
     } else if (!this.config.attach && (this.config.range > 0)) {
