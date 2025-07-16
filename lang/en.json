@@ -264,6 +264,7 @@
     "placeMembers": "Place Members",
     "recallMembers": "Recall Members",
     "progressionPoints": "Progression Points",
+    "initiateRecovery": "Initiate Recovery",
 
     "CONTEXT": {
       "CLOCK": {
@@ -672,7 +673,8 @@
   "receipt": "Receipt",
   "receiptSummary": "The members of {name} spent {total} at {shop} on the following items:",
   "applyHealing": "Apply Healing",
-  "healingApplication": "Apply Healing"
+  "healingApplication": "Apply Healing",
+  "noActiveUser": "No active user found able to update both actors and chat."
 },
 
 "CLOCK": {
@@ -994,6 +996,42 @@
     "investHint": "Invest additional points into your current paths.",
     "invested": "Invested: {total} (+{delta})",
     "title": "Improve Paths: {name}"
+  }
+},
+
+"RECOVERY": {
+  "noActiveUser": "No active user found able to update the party actor.",
+  "noPrimaryParty": "No primary party is assigned!",
+  "noRecoveryPhaseInProgress": "No recovery phase is currently in progress.",
+  "confirm": "Confirm",
+  "title": "Recovery Phase",
+  "optionalSkill": "choice",
+  "CHAT": {
+    "content": "A recovery phase has been initiated!",
+    "participate": "Participate",
+    "task": "Task",
+    "threshold": "Threshold",
+    "result": "Result",
+    "requestRolls": "Request Rolls",
+    "requestingRolls": "Requesting rolls..."
+  },
+  "CONFIG": {
+    "TITLE": "Configure Recovery Phase",
+    "taskLabel": "Label",
+    "taskThreshold": "Threshold",
+    "taskSkills": "Skills",
+    "newTask": "New Task",
+    "confirm": "Confirm",
+    "suggestionHint": "Click the '+' button to add a new task from one of the pre-existing examples or one that you may configure yourself.",
+    "suggestionBlank": "Custom Task"
+  },
+  "TASK": {
+    "cook": "Cook",
+    "entertain": "Entertain",
+    "findFood": "Find Food",
+    "keepWatch": "Keep Watch",
+    "makeCamp": "Make Camp",
+    "upkeep": "Upkeep"
   }
 },
 

@@ -16,6 +16,7 @@ export default class PartySheet extends ActorSheetArtichron {
       placeMembers: PartySheet.#placeMembers,
       recallMembers: PartySheet.#recallMembers,
       removeMember: PartySheet.#removeMember,
+      initiateRecovery: PartySheet.#initiateRecovery,
     },
   };
 
@@ -458,5 +459,17 @@ export default class PartySheet extends ActorSheetArtichron {
     const clock = this._getPseudoDocument(target);
     if (isUp) clock.increase();
     else clock.decrease();
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Initiate a recovery phase.
+   * @this {PartySheet}
+   * @param {PointerEvent} event    The initiating click event.
+   * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
+   */
+  static #initiateRecovery(event, target) {
+    this.document.system.initiateRecovery();
   }
 }

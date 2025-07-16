@@ -298,4 +298,20 @@
       }
     }
   }
+
+  /* RECOVERY */
+  &.recovery {
+    .recovery-controls {
+      display: flex;
+      gap: 0.5rem;
+
+      button {
+        flex: 1;
+      }
+    }
+
+    a[disabled] {
+      color: gray;
+    }
+  }
 }

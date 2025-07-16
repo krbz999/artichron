@@ -713,6 +713,41 @@ export const ADVANCEMENT_SCALE_VALUE_TYPES = {
 };
 
 /* -------------------------------------------------- */
+/*   Recovery                                         */
+/* -------------------------------------------------- */
+
+/**
+ * Suggested tasks for a recovery phase and their suggested default skill.
+ * @type {Record<string, {label: string, skill: string}>}
+ */
+export const RECOVERY_TASKS = {
+  cook: {
+    label: "ARTICHRON.RECOVERY.TASK.cook",
+    skill: "mind",
+  },
+  entertain: {
+    label: "ARTICHRON.RECOVERY.TASK.entertain",
+    skill: "spirit",
+  },
+  findFood: {
+    label: "ARTICHRON.RECOVERY.TASK.findFood",
+    skill: "agility",
+  },
+  keepWatch: {
+    label: "ARTICHRON.RECOVERY.TASK.keepWatch",
+    skill: "mind",
+  },
+  makeCamp: {
+    label: "ARTICHRON.RECOVERY.TASK.makeCamp",
+    skill: "brawn",
+  },
+  upkeep: {
+    label: "ARTICHRON.RECOVERY.TASK.upkeep",
+    skill: "agility",
+  },
+};
+
+/* -------------------------------------------------- */
 
 /**
  * @typedef {object} BasicAttackConfiguration

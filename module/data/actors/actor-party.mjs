@@ -1,6 +1,6 @@
 import ActorSystemModel from "./system-model.mjs";
 
-const { NumberField, SchemaField, TypedObjectField } = foundry.data.fields;
+const { BooleanField, NumberField, SchemaField, SetField, StringField, TypedObjectField } = foundry.data.fields;
 
 export default class PartyData extends ActorSystemModel {
   /** @type {import("../../_types").PartyActorMetadata} */
@@ -28,6 +28,17 @@ export default class PartyData extends ActorSystemModel {
       }),
       points: new SchemaField({
         value: new NumberField({ min: 0, integer: true }),
+      }),
+      recovery: new SchemaField({
+        tasks: new TypedObjectField(new SchemaField({
+          assigned: new SetField(new StringField()),
+          label: new StringField({ required: true, blank: false }),
+          skills: new SchemaField({
+            primary: new StringField({ required: true, initial: "agility", choices: artichron.config.SKILLS }),
+            secondary: new StringField({ required: true, blank: true, initial: "", choices: artichron.config.SKILLS }),
+          }),
+          threshold: new NumberField({ integer: true, nullable: false, min: 1, initial: 1 }),
+        })),
       }),
     });
   }
@@ -60,6 +71,7 @@ export default class PartyData extends ActorSystemModel {
     if (!PartyData.metadata.allowedActorTypes.has(actor.type)) throw new Error(`Cannot add a ${actor.type} to a party!`);
     if (actor.inCompendium) throw new Error("Added member cannot be in a compendium!");
     if (this.members.has(actor.id)) return;
+    if (!actor.prototypeToken.actorLink) throw new Error("Added member cannot be unlinked actor!");
 
     const ids = this.members.map(member => member.actor.id).concat(actor.id);
     const members = Object.entries(this._source.members).reduce((acc, [id, source]) => {
@@ -133,6 +145,118 @@ export default class PartyData extends ActorSystemModel {
   async distribute(type = "currency") {
     return this.constructor.distribute(this.parent, type);
   }
+
+  /* -------------------------------------------------- */
+  /*   Recovery                                         */
+  /* -------------------------------------------------- */
+
+  /**
+   * Initiate recovery phase.
+   * @returns {Promise<void>}
+   */
+  async initiateRecovery() {
+    if (!game.user.isActiveGM) throw new Error("Only the active GM can initiate a recovery phase.");
+
+    const party = this.parent;
+    const update = await artichron.applications.apps.actor.RecoveryPhaseConfig.create({ party });
+    if (!update) return;
+    await party.update({ "system.recovery.==tasks": update, "flags.artichron.recovering": true });
+
+    const Cls = foundry.utils.getDocumentClass("ChatMessage");
+    await Cls.create({ type: "recovery", speaker: Cls.getSpeaker({ actor: party }), "flags.core.canPopout": true });
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Finalize the recovery phase by rendering the application, waiting for all participants to
+   * assign themselves, then performing any rolls and updates.
+   * @param {object} [options]
+   * @param {foundry.documents.ChatMessage} [options.chatMessage]
+   * @returns {Promise<void>}
+   */
+  async finalizeRecovery({ chatMessage = null } = {}) {
+    const party = this.parent;
+
+    const configuration = await artichron.applications.apps.actor.RecoveryPhase.create({ party });
+    if (!configuration) return null;
+
+    if (chatMessage) {
+      const update = {
+        configured: true,
+        results: {},
+      };
+      for (const [taskId, task] of Object.entries(party.system.recovery.tasks)) {
+        const result = {
+          label: task.label,
+          threshold: task.threshold,
+          rolled: {},
+        };
+        update.results[taskId] = result;
+      }
+      await chatMessage.setFlag("artichron", "recovery", update);
+    }
+
+    await party.update({ "flags.artichron.recovering": false });
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Assign a party member to a task.
+   * @param {foundry.documents.Actor} actor         The actor to assign.
+   * @param {object} options
+   * @param {string} options.task                   The task id.
+   * @param {boolean} [options.unassign]            Rather than assign, unassign an assigned actor.
+   * @returns {Promise<foundry.documents.Actor>}    A promise that resolves to the updated party actor.
+   */
+  async assignTask(actor, { task, unassign = false }) {
+    if (!(this.members.has(actor.id))) return;
+    let assigned;
+    if (unassign) assigned = [...this.recovery.tasks[task].assigned].filter(id => id !== actor.id);
+    else assigned = [...this.recovery.tasks[task].assigned, actor.id];
+    return this.parent.update({ [`system.recovery.tasks.${task}.assigned`]: assigned });
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Assign a party member to a task.
+   * @param {foundry.documents.Actor} actor         The actor to assign.
+   * @param {object} options
+   * @param {string} options.task                   The task id.
+   * @param {boolean} [options.unassign]            Rather than assign, unassign an assigned actor.
+   */
+  static async assignTask(actor, { task, unassign = false }) {
+    const party = game.actors.party;
+
+    if (!party) {
+      return void ui.notifications.warn("ARTICHRON.RECOVERY.noPrimaryParty", { localize: true });
+    }
+
+    const user = game.users.getDesignatedUser(user => user.active && party.canUserModify(user, "update"));
+    if (!user) {
+      return void ui.notifications.warn("ARTICHRON.RECOVERY.noActiveUser", { localize: true });
+    }
+
+    const config = { actorId: actor.id, task, unassign };
+    return user.query("recovery", { type: "assign", config }, { timeout: 10_000 });
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Query method to delegate handling.
+   * @type {Function}
+   */
+  static _query = ({ type, config = {} }) => {
+    const party = game.actors.party;
+    const actor = game.actors.get(config.actorId);
+
+    switch (type) {
+      case "assign": party.system.assignTask(actor, config); break;
+    }
+  };
 
   /* -------------------------------------------------- */
   /*   Static methods                                   */

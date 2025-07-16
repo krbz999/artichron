@@ -25,7 +25,7 @@
     </div>
   </div>
 
-  {{!-- Place and Recall Members --}}
+  {{!-- Control Panel --}}
   <div class="form-group">
     <button type="button" data-action="placeMembers">
       <i class="fa-solid fa-fw fa-street-view"></i>
@@ -34,6 +34,10 @@
     <button type="button" data-action="recallMembers">
       <i class="fa-solid fa-fw fa-rotate-right"></i>
       <span>{{localize "ARTICHRON.SHEET.PARTY.recallMembers"}}</span>
+    </button>
+    <button type="button" data-action="initiateRecovery">
+      <i class="fa-solid fa-fw fa-tent-arrow-turn-left"></i>
+      <span>{{localize "ARTICHRON.SHEET.PARTY.initiateRecovery"}}</span>
     </button>
   </div>
   {{/if}}

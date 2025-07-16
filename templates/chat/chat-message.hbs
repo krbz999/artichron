@@ -24,6 +24,11 @@
       {{#if (eq document.type "teleport")}}
       {{> "systems/artichron/templates/chat/partials/teleport.hbs"}}
       {{/if}}
+
+      {{!-- RECOVERY --}}
+      {{#if (eq document.type "recovery")}}
+      {{> "systems/artichron/templates/chat/partials/recovery.hbs"}}
+      {{/if}}
     </div>
   </li>
 </ul>

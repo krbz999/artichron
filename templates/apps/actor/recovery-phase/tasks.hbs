@@ -1,0 +1,23 @@
+<section>
+  {{#each ctx.tasks}}
+  <section data-task="{{task.id}}" class="task">
+    <div class="assigned {{#unless assigned.size}} glass {{/unless}}">
+      {{#each assigned}}
+      <div class="assignee glass" style="--img: url('/{{img}}');" data-actor-id="{{id}}">
+        {{#if isOwner}}
+        <button type="button" class="icon fa-solid fa-trash" data-action="unassign"></button>
+        {{/if}}
+      </div>
+      {{/each}}
+    </div>
+    <div class="task-details">
+      <h3>{{task.label}}</h3>
+      <span class="skills">
+        {{primarySkill.config.label}}
+        +
+        {{ifThen secondarySkill.id secondarySkill.config.label (localize "ARTICHRON.RECOVERY.optionalSkill")}}
+      </span>
+    </div>
+  </section>
+  {{/each}}
+</section>
