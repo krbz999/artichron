@@ -236,11 +236,9 @@ export default class PartyData extends ActorSystemModel {
   static _query = ({ type, config = {} }) => {
     const party = game.actors.party;
     const actor = game.actors.get(config.actorId);
-    const Cls = artichron.applications.apps.actor.RecoveryPhase;
 
     switch (type) {
       case "assign": party.system.assignTask(actor, config); break;
-      case "render": new Cls({ party }).render({ force: true }); break;
     }
   };
 
