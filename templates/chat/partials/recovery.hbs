@@ -1,7 +1,44 @@
 <section>
-  <p>{{localize "ARTICHRON.RECOVERY.chatMessageContent"}}</p>
-  <button type="button" data-action="participateRecovery">
-    <i class="fa-solid fa-tent-arrow-turn-left" inert></i>
-    <span>{{localize "ARTICHRON.RECOVERY.chatMessageButton"}}</span>
-  </button>
+  <p>{{localize "ARTICHRON.RECOVERY.CHAT.content"}}</p>
+
+  <div class="recovery-controls">
+    <button type="button" data-action="participateRecovery">
+      <i class="fa-solid fa-tent-arrow-turn-left" inert></i>
+      <span>{{localize "ARTICHRON.RECOVERY.CHAT.participate"}}</span>
+    </button>
+
+    {{#if (and user.isGM document.flags.artichron.recovery.configured)}}
+    <button type="button" data-action="requestRolls">
+      <i class="fa-solid fa-tower-cell" inert></i>
+      <span>{{localize "ARTICHRON.RECOVERY.CHAT.requestRolls"}}</span>
+    </button>
+    {{/if}}
+  </div>
+
+  {{#if document.flags.artichron.recovery.configured}}
+
+  <table>
+    <thead>
+      <tr>
+        <th>{{localize "ARTICHRON.RECOVERY.CHAT.task"}}</th>
+        {{#if user.isGM}}
+        <th>{{localize "ARTICHRON.RECOVERY.CHAT.threshold"}}</th>
+        {{/if}}
+        <th>{{localize "ARTICHRON.RECOVERY.CHAT.result"}}</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each ctx.tasks}}
+      <tr {{#if success}} class="success" {{/if}}>
+        <td>{{label}}</td>
+        {{#if @root.user.isGM}}
+        <td>{{threshold}}</td>
+        {{/if}}
+        <td>{{ifThen complete result '-'}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+
+  {{/if}}
 </section>

@@ -1006,8 +1006,15 @@
   "confirm": "Confirm",
   "title": "Recovery Phase",
   "optionalSkill": "choice",
-  "chatMessageContent": "A recovery phase has been initiated!",
-  "chatMessageButton": "Participate",
+  "CHAT": {
+    "content": "A recovery phase has been initiated!",
+    "participate": "Participate",
+    "task": "Task",
+    "threshold": "Threshold",
+    "result": "Result",
+    "requestRolls": "Request Rolls",
+    "requestingRolls": "Requesting rolls..."
+  },
   "CONFIG": {
     "TITLE": "Configure Recovery Phase",
     "taskLabel": "Label",

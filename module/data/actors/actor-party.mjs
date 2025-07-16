@@ -1,6 +1,6 @@
 import ActorSystemModel from "./system-model.mjs";
 
-const { NumberField, SchemaField, SetField, StringField, TypedObjectField } = foundry.data.fields;
+const { BooleanField, NumberField, SchemaField, SetField, StringField, TypedObjectField } = foundry.data.fields;
 
 export default class PartyData extends ActorSystemModel {
   /** @type {import("../../_types").PartyActorMetadata} */
@@ -163,7 +163,7 @@ export default class PartyData extends ActorSystemModel {
     await party.update({ "system.recovery.==tasks": update, "flags.artichron.recovering": true });
 
     const Cls = foundry.utils.getDocumentClass("ChatMessage");
-    await Cls.create({ type: "recovery", speaker: Cls.getSpeaker({ actor: party }) });
+    await Cls.create({ type: "recovery", speaker: Cls.getSpeaker({ actor: party }), "flags.core.canPopout": true });
   }
 
   /* -------------------------------------------------- */
@@ -171,15 +171,31 @@ export default class PartyData extends ActorSystemModel {
   /**
    * Finalize the recovery phase by rendering the application, waiting for all participants to
    * assign themselves, then performing any rolls and updates.
+   * @param {object} [options]
+   * @param {foundry.documents.ChatMessage} [options.chatMessage]
    * @returns {Promise<void>}
    */
-  async finalizeRecovery() {
+  async finalizeRecovery({ chatMessage = null } = {}) {
     const party = this.parent;
 
     const configuration = await artichron.applications.apps.actor.RecoveryPhase.create({ party });
     if (!configuration) return null;
 
-    // TODO: Make a bunch of rolls?
+    if (chatMessage) {
+      const update = {
+        configured: true,
+        results: {},
+      };
+      for (const [taskId, task] of Object.entries(party.system.recovery.tasks)) {
+        const result = {
+          label: task.label,
+          threshold: task.threshold,
+          rolled: {},
+        };
+        update.results[taskId] = result;
+      }
+      await chatMessage.setFlag("artichron", "recovery", update);
+    }
 
     await party.update({ "flags.artichron.recovering": false });
   }

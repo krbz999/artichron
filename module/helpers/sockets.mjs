@@ -9,6 +9,7 @@ export function registerSockets() {
   CONFIG.queries.chatHealing = artichron.data.chatMessages.HealingData._query;
   CONFIG.queries.merchant = artichron.data.actors.MerchantData._query;
   CONFIG.queries.recovery = artichron.data.actors.PartyData._query;
+  CONFIG.queries.hero = artichron.data.actors.HeroData._query;
 }
 
 /* -------------------------------------------------- */

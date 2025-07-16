@@ -534,4 +534,18 @@ export default class HeroData extends CreatureData {
 
     return evenInvestment ? artichron.config.PROGRESSION_CORE_PATHS[p1].mixed[p2] : p1;
   }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Query method to delegate handling.
+   * @type {Function}
+   */
+  static _query = ({ type, config }) => {
+    const { heroId, ..._config } = config;
+    const hero = game.actors.get(heroId);
+    switch (type) {
+      case "rollSkill": return hero.system.rollSkill(_config).then(roll => roll ? roll.total : null);
+    }
+  };
 }

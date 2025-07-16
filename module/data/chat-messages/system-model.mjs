@@ -22,6 +22,7 @@ export default class ChatMessageSystemModel extends foundry.abstract.TypeDataMod
       ...options,
       document: this.parent,
       actor: this.parent.speakerActor,
+      user: game.user,
     };
 
     await this._prepareContext(context);

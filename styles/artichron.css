@@ -134,6 +134,9 @@ dialog:-internal-dialog-in-top-layer::backdrop {
   border: none;
   border-bottom: 2px solid hsl(from var(--artichron-color-purple) h s l / 0.5);
 }
+.artichron table :is(th, td) {
+  padding: 0.5rem;
+}
 
 /* -------------------------------------------------- */
 
