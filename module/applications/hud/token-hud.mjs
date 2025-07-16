@@ -7,6 +7,8 @@ export default class TokenHUDArtichron extends foundry.applications.hud.TokenHUD
         buttons: [0, 2],
       },
       rollDamage: TokenHUDArtichron.#rollDamage,
+      placeMembers: TokenHUDArtichron.#placeMembers,
+      recallMembers: TokenHUDArtichron.#recallMembers,
     },
   };
 
@@ -17,6 +19,7 @@ export default class TokenHUDArtichron extends foundry.applications.hud.TokenHUD
     await super._onRender(context, options);
     this.#adjustStatuses();
     this.#addRollDamageButton();
+    this.#addMembersButtons();
   }
 
   /* -------------------------------------------------- */
@@ -80,6 +83,23 @@ export default class TokenHUDArtichron extends foundry.applications.hud.TokenHUD
   }
 
   /* -------------------------------------------------- */
+
+  #addMembersButtons() {
+    if (this.actor?.type !== "party") return;
+
+    const buttons = foundry.utils.parseHTML(`
+      <button type="button" class="control-icon" data-action="placeMembers" data-tooltip="ARTICHRON.HUD.TOKEN.placeMembers">
+        <i class="fa-solid fa-street-view" inert></i>
+      </button>
+      <button type="button" class="control-icon" data-action="recallMembers" data-tooltip="ARTICHRON.HUD.TOKEN.recallMembers">
+        <i class="fa-solid fa-rotate-right" inert></i>
+      </button>`);
+
+    const bar1 = this.element.querySelector(".col.middle .attribute.bar1");
+    bar1.after(...buttons);
+  }
+
+  /* -------------------------------------------------- */
   /*   Event handlers                                   */
   /* -------------------------------------------------- */
 
@@ -110,5 +130,15 @@ export default class TokenHUDArtichron extends foundry.applications.hud.TokenHUD
     for (const actor of artichron.utils.getActorTargets(canvas.tokens.controlled, { types: ["hero", "monster"] })) {
       await actor.system.rollDamage({ event });
     }
+  }
+
+  /* -------------------------------------------------- */
+
+  static #placeMembers(event, target) {
+    this.actor.system.placeMembers();
+  }
+
+  static #recallMembers(event, target) {
+    this.document.recallMembers();
   }
 }

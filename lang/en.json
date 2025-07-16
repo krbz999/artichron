@@ -811,7 +811,9 @@
 
 "HUD": {
   "TOKEN": {
-    "rollDamage": "Roll Damage"
+    "rollDamage": "Roll Damage",
+    "placeMembers": "Place Members",
+    "recallMembers": "Recall Members"
   }
 },
 

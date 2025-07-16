@@ -3,13 +3,25 @@
     anchor-name: --token-hud-attribute-bar-1;
   }
 
-  [data-action=rollDamage] {
+  [data-action=rollDamage],
+  [data-action=placeMembers],
+  [data-action=recallMembers] {
     position-anchor: --token-hud-attribute-bar-1;
     position: fixed;
     pointer-events: all;
     top: anchor(bottom);
     flex: 0 0 var(--control-size);
     margin-top: .3rem;
+
+    &[data-action=placeMembers] {
+      left: anchor(left);
+      margin-left: 5px;
+    }
+
+    &[data-action=recallMembers] {
+      right: anchor(right);
+      margin-right: 5px;
+    }
   }
 
   .effect-control {
