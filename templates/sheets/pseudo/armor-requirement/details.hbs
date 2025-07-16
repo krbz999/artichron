@@ -15,12 +15,6 @@
       {{formGroup fields.value value=source.value name="value" placeholder="0" classes="label-top"}}
       {{/if}}
 
-      {{!-- POOL --}}
-      {{#if (eq pseudoDocument.type "pool")}}
-      {{formGroup fields.value value=source.value name="value" placeholder="2" classes="label-top"}}
-      {{formGroup fields.pool value=source.pool name="pool" classes="label-top"}}
-      {{/if}}
-
       {{!-- SKILL --}}
       {{#if (eq pseudoDocument.type "skill")}}
       {{formGroup fields.value value=source.value name="value" placeholder="2" classes="label-top"}}

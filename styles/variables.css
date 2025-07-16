@@ -20,10 +20,6 @@
   --artichron-color-white: rgba(204, 204, 204);
   --artichron-color-dark-black: rgb(11, 10, 19);
 
-  /* POOLS */
-  --artichron-color-pool-stamina: var(--artichron-color-green);
-  --artichron-color-pool-danger: var(--artichron-color-purple-dark);
-
   /* DISPOSITION */
   --artichron-color-enemy: var(--artichron-color-pink);
   --artichron-color-ally: var(--artichron-color-blue);

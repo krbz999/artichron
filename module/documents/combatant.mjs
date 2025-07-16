@@ -24,7 +24,7 @@ export default class CombatantArtichron extends BaseDocumentMixin(foundry.docume
     let cap;
     switch (actor?.type) {
       case "hero":
-        cap = actor.system.pools.stamina.max;
+        cap = 6; // TODO
         break;
       case "monster":
         cap = actor.system.danger.value * 3;

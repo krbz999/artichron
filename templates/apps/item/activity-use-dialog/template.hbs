@@ -1,9 +1,0 @@
-<fieldset>
-  {{~#if ctx.show}}
-  <legend>{{ctx.legend}}</legend>
-  {{#if ctx.canIncrease}}
-  {{formGroup ctx.field name="template.increase" localize=true}}
-  {{/if}}
-  {{formGroup ctx.placeField name="template.place" localize=true value=ctx.place}}
-  {{/if~}}
-</fieldset>

@@ -90,8 +90,8 @@ export default class HeroSheet extends ActorSheetArtichron {
     const part = this.document.getEmbeddedPseudoDocumentCollection("Damage").contents[0];
     ctx.damage = {
       part,
-      color: artichron.config.DAMAGE_TYPES[part.damageType].color,
-      img: artichron.config.DAMAGE_TYPES[part.damageType].img,
+      color: artichron.config.DAMAGE_TYPES[part?.damageType]?.color,
+      img: artichron.config.DAMAGE_TYPES[part?.damageType]?.img,
     };
 
     // Defenses.

@@ -50,8 +50,6 @@
   "healthPl": "Health Requirements",
   "level": "Level",
   "levelPl": "Level Requirements",
-  "pool": "Pool",
-  "poolPl": "Pool Requirements",
   "skill": "Skill",
   "skillPl": "Skill Requirements"
 },
@@ -177,7 +175,6 @@
       "conditions": "Conditions",
       "activeBuffs": "Active Buffs",
       "inactiveBuffs": "Inactive Buffs",
-      "pools": "Pools",
       "favorites": "Favorites",
       "defenses": "Defenses",
       "skills": "Skills",
@@ -254,8 +251,7 @@
       "loot": "Loot",
       "conditions": "Conditions",
       "activeBuffs": "Active Buffs",
-      "inactiveBuffs": "Inactive Buffs",
-      "pool": "Pool"
+      "inactiveBuffs": "Inactive Buffs"
     }
   },
 
@@ -348,7 +344,6 @@
     "NoEffects": "This activity has no effects configured.",
     "NoElixir": "The elixir with id '{id}' did not exist!",
     "NoElixirUses": "The {name} elixir has no uses left.",
-    "NoPool": "The actor does not have enough points remaining in their {pool} pool.",
     "NoRemainingUses": "This item has no remaining uses.",
     "NoTemplates": "This item cannot create measured templates!",
     "NoToken": "A token must be present on the scene."
@@ -484,19 +479,6 @@
         "label": "Action Points"
       }
     },
-    "pools": {
-      "stamina": {
-        "spent": {
-          "label": "Spent"
-        },
-        "max": {
-          "label": "Maximum"
-        },
-        "faces": {
-          "label": "Faces"
-        }
-      }
-    },
     "shop": {
       "name": {
         "label": "Shop",
@@ -557,14 +539,6 @@
         "label": "Danger Rating",
         "value": {
           "label": "Level"
-        },
-        "pool": {
-          "max": {
-            "label": "Max"
-          },
-          "spent": {
-            "label": "Spent"
-          }
         }
       }
     }
@@ -590,7 +564,7 @@
       },
       "chooseN": {
         "label": "Choice",
-        "hint": "How many of the items in this pool can be chosen during advancement. Leave blank if all items are granted."
+        "hint": "How many of the items in this set of options can be chosen during advancement. Leave blank if all items are granted."
       }
     }
   },
@@ -626,7 +600,7 @@
       },
       "chooseN": {
         "label": "Choice",
-        "hint": "How many of the traits in this pool can be chosen during advancement. Leave blank if all traits are granted."
+        "hint": "How many of the traits in this set of options can be chosen during advancement. Leave blank if all traits are granted."
       },
       "traits": {
         "element": {
@@ -968,16 +942,6 @@
   }
 },
 
-"POOL": {
-  "TYPES": {
-    "stamina": "Stamina"
-  },
-  "CONFIG": {
-    "TITLE": "Configure Pools",
-    "stamina": "Stamina"
-  }
-},
-
 "PROGRESSION": {
   "LABELS": {
     "cleric": "Cleric",
@@ -1060,17 +1024,6 @@
       }
     }
   },
-  "POOL": {
-    "content": "Your {pool} pool must contain at least {value} dice.",
-    "FIELDS": {
-      "pool": {
-        "label": "Pool"
-      },
-      "value": {
-        "label": "Size"
-      }
-    }
-  },
   "SKILL": {
     "content": "Your {skill} skill must be at least of size {value}.",
     "FIELDS": {
@@ -1123,22 +1076,6 @@
   }
 },
 
-"ROLL": {
-  "Pool": {
-    "AmountLabel": "Dice",
-    "AmountHint": "The number of dice to roll.",
-    "Button": "Roll",
-    "Flavor": "{type} Pool Roll",
-    "Title": "Roll Pool: {type}",
-    "Warning": {
-      "NotEnoughPoolDice": "{name} does not have enough {type} dice to roll."
-    }
-  },
-  "Selected": "Selected",
-  "SelectedNone": "No tokens selected.",
-  "Targeted": "Targeted"
-},
-
 "RULER": {
   "ERROR": {
     "NotYourTurn": "You cannot move when it is not your turn.",
@@ -1187,31 +1124,6 @@
   "skillDiceNumber": "Number",
   "skillDiceFaces": "Faces",
   "skillBonus": "Successes"
-},
-
-"ActivityUseDialog": {
-  "ConsumeActionHint": "When in combat, this action requires consuming {points} action points.",
-  "ConsumeActionLabel": "Action Points",
-  "ConsumeLegend": "Consumption",
-  "ConsumeUsesHint": "Consume a use of this elixir.",
-  "ConsumeUsesLabel": "Consume Elixir",
-  "ElixirsHint": "Elixirs can be consumed for additional points to spend.",
-  "ElixirsLegend": "Elixirs",
-  "HealingHint": "Each point spent from the pool will add one additional die to the healing.",
-  "HealingLabel": "Increase",
-  "HealingLegend": "Healing",
-  "TeleportHint": "Each point spent from the pool will increase the range of the teleportation by 1m.",
-  "TeleportLabel": "Increase",
-  "TeleportLegend": "Teleportation",
-  "TemplateHint": "Each point spent from the pool will increase the distance or radius of the area of effect by 1m.",
-  "TemplateLabel": "Size",
-  "TemplateLegend": "Area",
-  "TemplatePlaceHint": "Place a measured template.",
-  "TemplatePlaceLabel": "Place",
-  "Title": "Use Activity: {name}",
-  "Warning": {
-    "Overspending": "You do not have enough available resources to enhance the activity in this way."
-  }
 },
 
 "AmmunitionType": {

@@ -129,12 +129,6 @@ export default class PartySheet extends ActorSheetArtichron {
         canManage: actor.isOwner && this.document.isOwner,
       };
 
-      if (context.isHero) {
-        context.pct.stamina = actor.system.pools.stamina.pct;
-      } else if (context.isMonster) {
-        context.pct.danger = actor.system.danger.pool.pct;
-      }
-
       members.push(context);
     }
 

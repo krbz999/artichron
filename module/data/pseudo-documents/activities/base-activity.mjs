@@ -48,16 +48,6 @@ export default class BaseActivity extends TypedPseudoDocument {
   /* -------------------------------------------------- */
 
   /**
-   * Can this activity be boosted by an elixir or by expending from a pool?
-   * @type {boolean}
-   */
-  get canBoost() {
-    return true;
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
    * Does this activity place a measured template?
    * @type {boolean}
    */
@@ -79,34 +69,13 @@ export default class BaseActivity extends TypedPseudoDocument {
   getUsageConfigs(usageConfig = {}, dialogConfig = {}, messageConfig = {}) {
     const item = this.item;
     const isSpell = item.type === "spell";
-    const elixirs = {};
     const message = {};
 
-    const pips = this.item.actor.inCombat && (this.cost.value > 0);
-    const uses = this.item.type === "elixir";
-
     const dialog = {
-      consume: {
-        show: pips || uses,
-        showAction: pips,
-        action: true,
-        showUses: uses,
-        uses: this.cost.uses,
-      },
-      healing: {
-        show: (this.type === "healing") && this.canBoost,
-      },
       template: {
         show: this.hasTemplate,
         canIncrease: isSpell,
         place: item.getFlag("artichron", `usage.${this.id}.template.place`) ?? true,
-      },
-      teleport: {
-        show: (this.type === "teleport") && this.canBoost,
-      },
-      elixirs: {
-        show: this.canBoost && !foundry.utils.isEmpty(elixirs),
-        choices: elixirs,
       },
       rollMode: {
         show: this.type === "healing",
@@ -115,22 +84,9 @@ export default class BaseActivity extends TypedPseudoDocument {
     };
 
     const usage = {
-      consume: {
-        action: dialog.consume.showAction && dialog.consume.action,
-        uses: dialog.consume.showUses && dialog.consume.uses,
-      },
-      healing: {
-        increase: 0,
-      },
       template: {
         increase: 0,
         place: dialog.template.show && dialog.template.place,
-      },
-      teleport: {
-        increase: 0,
-      },
-      elixirs: {
-        ids: [],
       },
       rollMode: {
         mode: dialog.rollMode.mode,
@@ -164,36 +120,7 @@ export default class BaseActivity extends TypedPseudoDocument {
 
     // Prepare configurations.
     const configs = this.getUsageConfigs(usage, dialog, message);
-
-    if (configs.dialog.configure) {
-      const configuration = await artichron.applications.apps.item.ActivityUseDialog.create({ activity: this, ...configs });
-      if (!configuration) return null;
-      foundry.utils.mergeObject(configs.usage, configuration);
-    }
-
     return configs;
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Get the pool cost of a given configuration.
-   * @param {object} [usage]      Usage configuration.
-   * @returns {number}            The total cost.
-   */
-  getUsagePoolCost(usage = {}) {
-    let count =
-      (usage.healing?.increase ?? 0)
-      + (usage.template?.place ? usage.template?.increase ?? 0 : 0)
-      + (usage.teleport?.increase ?? 0);
-
-    for (const elixir of usage.elixirs?.ids ?? []) {
-      const item = this.item.actor.items.get(elixir);
-      if (!item) continue;
-      count = count - 1;
-    }
-
-    return count;
   }
 
   /* -------------------------------------------------- */
@@ -212,88 +139,10 @@ export default class BaseActivity extends TypedPseudoDocument {
 
   /**
    * Consume the various properties when using this activity.
-   * @param {object} [usage]          Usage configuration.
-   * @returns {Promise<boolean>}      Whether the consumption was successful.
+   * @param {object} [usage]
+   * @returns {Promise}
    */
-  async consume(usage = {}) {
-    const actor = this.item.actor;
-    const item = this.item;
-
-    const actorUpdate = {};
-    const itemUpdates = [];
-
-    // Consume action points.
-    if (usage.consume?.action) {
-      const value = this.cost.value;
-      if (!actor.inCombat) {
-        ui.notifications.warn("ARTICHRON.ACTIVITY.Warning.ConsumeOutOfCombat", {
-          format: { name: actor.name },
-        });
-        return false;
-      }
-
-      if (!actor.canPerformActionPoints(value)) {
-        ui.notifications.warn("ARTICHRON.ACTIVITY.Warning.ConsumeCostUnavailable", {
-          format: { name: actor.name, number: value },
-        });
-        return false;
-      }
-
-      actorUpdate["system.pips.value"] = actor.system.pips.value - value;
-    }
-
-    // Consume usage if this activity is on an elixir.
-    if (usage.consume?.uses) {
-      if (!this.item.hasUses) {
-        ui.notifications.warn("ARTICHRON.ACTIVITY.Warning.NoElixirUses", {
-          format: { name: this.item.name },
-        });
-        return false;
-      }
-      itemUpdates.push(this.item.system._usageUpdate());
-    }
-
-    // Consume elixirs.
-    if (usage.elixirs?.ids.length) {
-      for (const id of usage.elixirs.ids) {
-        const elixir = actor.items.get(id);
-        if (!elixir) {
-          ui.notifications.warn("ARTICHRON.ACTIVITY.Warning.NoElixir", { format: { id: id } });
-          return false;
-        }
-
-        if (!elixir.hasUses) {
-          ui.notifications.warn("ARTICHRON.ACTIVITY.Warning.NoElixirUses", { format: { name: elixir.name } });
-          return false;
-        }
-
-        // Validation such that elixirs are not consumed needlessly is performed elsewhere.
-        itemUpdates.push(elixir.system._usageUpdate());
-      }
-    }
-
-    const pool = this.getUsagePoolCost(usage);
-
-    // Consume pools.
-    if (pool > 0) {
-      const isMonster = actor.type === "monster";
-      const path = isMonster ? "danger.pool" : "pools.stamina";
-      const value = foundry.utils.getProperty(actor.system, `${path}.value`);
-      if (value < pool) {
-        ui.notifications.warn("ARTICHRON.ACTIVITY.Warning.NoPool", {
-          format: { pool: game.i18n.localize(`ARTICHRON.Pools.${isMonster ? "Danger" : "Stamina"}`) },
-        });
-        return false;
-      }
-
-      actorUpdate[`system.${path}.spent`] = foundry.utils.getProperty(actor.system, `${path}.spent`) + pool;
-    }
-
-    return Promise.all([
-      foundry.utils.isEmpty(actorUpdate) ? null : actor.update(actorUpdate),
-      foundry.utils.isEmpty(itemUpdates) ? null : actor.updateEmbeddedDocuments("Item", itemUpdates),
-    ]);
-  }
+  async consume(usage = {}) {}
 
   /* -------------------------------------------------- */
 

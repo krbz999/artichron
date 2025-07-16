@@ -7,10 +7,6 @@ export default class MonsterData extends CreatureData {
   static defineSchema() {
     return Object.assign(super.defineSchema(), {
       danger: new SchemaField({
-        pool: new SchemaField({
-          spent: new NumberField({ min: 0, integer: true, nullable: false, initial: 0 }),
-          max: new NumberField({ min: 0, integer: true, nullable: false, initial: 1 }),
-        }),
         value: new NumberField({ min: 1, integer: true, initial: 1, nullable: false }),
       }),
       loot: new ArrayField(new SchemaField({
@@ -51,11 +47,6 @@ export default class MonsterData extends CreatureData {
     this.health.spent = Math.clamp(this.health.spent, 0, this.health.max);
     this.health.value = this.health.max - this.health.spent;
     this.health.pct = Math.round(this.health.value / this.health.max * 100);
-
-    const d = this.danger.pool;
-    d.spent = Math.clamp(d.spent, 0, d.max);
-    d.value = Math.max(d.max - d.spent);
-    d.pct = Math.round(d.value / d.max * 100);
   }
 
   /* -------------------------------------------------- */
@@ -179,7 +170,6 @@ export default class MonsterData extends CreatureData {
   async recover() {
     const update = {};
     update["system.health.spent"] = 0;
-    update["system.danger.pool.spent"] = 0;
     return this.parent.update(update);
   }
 }

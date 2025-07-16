@@ -52,15 +52,6 @@
         <span class="name">{{actor.name}}</span>
         <div class="bars">
           <div class="hp" style="--hp: {{pct.hp}}%;"></div>
-          {{#if (or isHero isMonster)}}
-          <div class="pools">
-            {{#if isHero}}
-            <div class="stamina" style="--stamina: {{pct.stamina}}%;"></div>
-            {{else}}
-            <div class="danger" style="--danger: {{pct.danger}}%;"></div>
-            {{/if}}
-          </div>
-          {{/if}}
         </div>
         <span class="currency">
           <span>{{actor.system.currency.funds}}</span>

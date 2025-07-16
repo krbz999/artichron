@@ -11,18 +11,11 @@ const { ArrayField, NumberField, SchemaField, StringField, TypedObjectField } = 
  */
 
 /**
- * @typedef HeroDataSchema
- * @property {object} pools
- * @property {object} pools.stamina
- * @property {number} pools.stamina.faces
- * @property {number} pools.stamina.max
- * @property {number} pools.stamina.spent
- *
+ * @typedef HeroDataSchema *
  * @property {object} progression
  * @property {object} progression.points
  * @property {number} progression.points.value
- * @property {Array<Record<string, number>>} progression.points._investment
- *
+ * @property {Array<Record<string, number>>} progression.points._investment *
  * @property {object} skills
  * @property {SkillData} skills.agility
  * @property {SkillData} skills.brawn
@@ -38,13 +31,6 @@ export default class HeroData extends CreatureData {
         acc[key] = new StringField({ required: true });
         return acc;
       }, {})),
-      pools: new SchemaField({
-        stamina: new SchemaField({
-          faces: new NumberField({ min: 2, integer: true, initial: 6, nullable: false }),
-          max: new NumberField({ min: 0, integer: true, initial: 2, nullable: false }),
-          spent: new NumberField({ min: 0, integer: true, initial: 0 }),
-        }),
-      }),
       progression: new SchemaField({
         points: new SchemaField({
           value: new NumberField({ min: 0, nullable: false, initial: 0, integer: true }),
@@ -88,9 +74,6 @@ export default class HeroData extends CreatureData {
 
   /** @inheritdoc */
   prepareDerivedData() {
-    // Pools are prepared first as most other properties rely on these.
-    this.#preparePools();
-
     // Prepare paths. This happens here rather than prepareBaseData due to items' pseudo-documents
     // having to be prepared first, but could be moved to post-prepareEmbeddedDocuments to allow
     // for effects to affect scale values?
@@ -113,22 +96,10 @@ export default class HeroData extends CreatureData {
 
   /* -------------------------------------------------- */
 
-  /** Prepare pools. */
-  #preparePools() {
-    for (const k of ["stamina"]) {
-      const value = this.pools[k].max - this.pools[k].spent;
-      this.pools[k].value = Math.max(0, value);
-      this.pools[k].pct = Math.round(this.pools[k].value / this.pools[k].max * 100);
-    }
-  }
-
-  /* -------------------------------------------------- */
-
   /** Prepare current and max encumbrance. */
   #prepareEncumbrance() {
-    const dice = this.pools.stamina;
     this.encumbrance = {};
-    this.encumbrance.max = (dice.max * dice.faces).toNearest(0.05);
+    this.encumbrance.max = Math.max(0, ...Object.values(this.progression.invested));
     this.encumbrance.value = this.parent.items.reduce((acc, item) => {
       return acc + item.system.weight.total;
     }, 0).toNearest(0.05);
@@ -314,9 +285,6 @@ export default class HeroData extends CreatureData {
 
     // Health.
     update["system.health.spent"] = 0;
-
-    // Pools.
-    for (const k of ["stamina"]) update[`system.pools.${k}.spent`] = 0;
 
     return this.parent.update(update);
   }

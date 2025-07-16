@@ -121,49 +121,42 @@ export const HEALING = {
 /**
  * @typedef {object} TargetTypeConfig
  * @property {string} label         Displayed label of the targeting type.
- * @property {Set<string>} scale    The properties that can scale with stamina.
  * @property {boolean} isAttached   Is this template type locked to a token during preview?
  * @property {boolean} isArea       Whether this is a target type for individual targets or an area.
  */
 
 /**
- * The types of area targeting, enumerating both configurations for spell areas and upscaling with stamina.
+ * The types of area targeting, enumerating both configurations for spell areas.
  * @enum {TargetTypeConfig}
  */
 export const TARGET_TYPES = {
   self: {
     label: "ARTICHRON.TargetTypes.Self",
-    scale: new Set(),
     isAttached: false,
     isArea: false,
   },
   single: {
     label: "ARTICHRON.TargetTypes.SingleTarget",
-    scale: new Set(["count", "range"]),
     isAttached: false,
     isArea: false,
   },
   ray: {
     label: "ARTICHRON.TargetTypes.AreaRay",
-    scale: new Set(["count", "size", "width"]),
     isAttached: true,
     isArea: true,
   },
   cone: {
     label: "ARTICHRON.TargetTypes.AreaCone",
-    scale: new Set(["count", "size"]),
     isAttached: true,
     isArea: true,
   },
   circle: {
     label: "ARTICHRON.TargetTypes.AreaCircle",
-    scale: new Set(["count", "size", "range"]),
     isAttached: false,
     isArea: true,
   },
   radius: {
     label: "ARTICHRON.TargetTypes.AreaRadius",
-    scale: new Set(["size"]),
     isAttached: true,
     isArea: true,
   },
@@ -556,23 +549,6 @@ export const SKILLS = {
   spirit: {
     label: "ARTICHRON.SKILL.spirit",
     img: "systems/artichron/assets/icons/skills/spirit.svg",
-  },
-};
-
-/* -------------------------------------------------- */
-
-/**
- * @typedef {object} PoolConfig
- * @property {string} label   The displayed label of the pool.
- */
-
-/**
- * The pools used by a character.
- * @type {Record<string, PoolConfig>}
- */
-export const POOL_TYPES = {
-  stamina: {
-    label: "ARTICHRON.POOL.TYPES.stamina",
   },
 };
 

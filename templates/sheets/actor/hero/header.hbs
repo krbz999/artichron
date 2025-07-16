@@ -47,25 +47,6 @@
       </div>
     </div>
 
-    {{!-- POOLS --}}
-    <div class="tag-line">
-      <span class="label">{{localize "ARTICHRON.SHEET.HERO.HEADERS.pools"}}</span>
-      <div class="tags">
-        {{#if (and isEditMode editable)}}
-        <span class="tag glass button" data-action="configure" data-config="pools">
-          <i class="fa-solid fa-cog fa-fw"></i>
-        </span>
-        {{else}}
-        <span class="tag glass">
-          <span>{{document.system.pools.stamina.value}}</span>
-          <span class="sep">/</span>
-          <span>{{document.system.pools.stamina.max}}</span>
-          <i class="fa-solid fa-fw fa-dice-d10" style="color: var(--artichron-color-pool-stamina);"></i>
-        </span>
-        {{/if}}
-      </div>
-    </div>
-
     {{!-- DEFENSES --}}
     {{#if ctx.defenses.length}}
     <div class="tag-line">
