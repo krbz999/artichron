@@ -150,6 +150,7 @@
       "damage": {},
       "effect": {},
       "healing": {},
+      "recovery": {},
       "trade": {},
       "teleport": {}
     },

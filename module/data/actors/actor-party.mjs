@@ -152,20 +152,29 @@ export default class PartyData extends ActorSystemModel {
 
   /**
    * Initiate recovery phase.
-   * @returns {Promise<void|null>}
+   * @returns {Promise<void>}
    */
   async initiateRecovery() {
     if (!game.user.isActiveGM) throw new Error("Only the active GM can initiate a recovery phase.");
 
     const party = this.parent;
     const update = await artichron.applications.apps.actor.RecoveryPhaseConfig.create({ party });
-    if (!update) return null;
+    if (!update) return;
     await party.update({ "system.recovery.==tasks": update, "flags.artichron.recovering": true });
 
-    for (const user of game.users) {
-      if (!user.active || user.isSelf) continue;
-      user.query("recovery", { type: "render" });
-    }
+    const Cls = foundry.utils.getDocumentClass("ChatMessage");
+    await Cls.create({ type: "recovery", speaker: Cls.getSpeaker({ actor: party }) });
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Finalize the recovery phase by rendering the application, waiting for all participants to
+   * assign themselves, then performing any rolls and updates.
+   * @returns {Promise<void>}
+   */
+  async finalizeRecovery() {
+    const party = this.parent;
 
     const configuration = await artichron.applications.apps.actor.RecoveryPhase.create({ party });
     if (!configuration) return null;

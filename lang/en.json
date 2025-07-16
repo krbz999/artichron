@@ -1002,9 +1002,12 @@
 "RECOVERY": {
   "noActiveUser": "No active user found able to update the party actor.",
   "noPrimaryParty": "No primary party is assigned!",
+  "noRecoveryPhaseInProgress": "No recovery phase is currently in progress.",
   "confirm": "Confirm",
   "title": "Recovery Phase",
   "optionalSkill": "choice",
+  "chatMessageContent": "A recovery phase has been initiated!",
+  "chatMessageButton": "Participate",
   "CONFIG": {
     "TITLE": "Configure Recovery Phase",
     "taskLabel": "Label",
