@@ -1,6 +1,6 @@
 import ActorSystemModel from "./system-model.mjs";
 
-const { BooleanField, NumberField, SchemaField, SetField, StringField, TypedObjectField } = foundry.data.fields;
+const { NumberField, SchemaField, SetField, StringField, TypedObjectField } = foundry.data.fields;
 
 export default class PartyData extends ActorSystemModel {
   /** @type {import("../../_types").PartyActorMetadata} */
@@ -42,6 +42,14 @@ export default class PartyData extends ActorSystemModel {
       }),
     });
   }
+
+  /* -------------------------------------------------- */
+
+  /** @inheritdoc */
+  static LOCALIZATION_PREFIXES = [
+    ...super.LOCALIZATION_PREFIXES,
+    "ARTICHRON.ACTOR.PARTY",
+  ];
 
   /* -------------------------------------------------- */
   /*   Preparation methods                              */

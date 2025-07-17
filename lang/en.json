@@ -430,22 +430,6 @@
 
 "ACTOR": {
   "FIELDS": {
-    "bonuses": {
-      "damage": {
-        "elemental": {
-          "label": "Elemental Damage Amplification"
-        },
-        "physical": {
-          "label": "Physical Damage Amplification"
-        },
-        "planar": {
-          "label": "Planar Damage Amplification"
-        }
-      }
-    },
-    "clocks": {
-      "label": "Clocks"
-    },
     "currency": {
       "funds": {
         "label": "Funds"
@@ -460,9 +444,6 @@
     "health": {
       "label": "Health"
     },
-    "members": {
-      "label": "Members"
-    },
     "pips": {
       "turn": {
         "hint": "The number of additional action points this actor receives for each turn it takes in a combat round.",
@@ -472,56 +453,66 @@
         "hint": "The number of action points this actor has remaining to spend on actions during combat.",
         "label": "Action Points"
       }
-    },
-    "shop": {
-      "name": {
-        "label": "Shop",
-        "hint": "The name of the shop. If left blank, the shop will use the merchant's name."
+    }
+  },
+
+  "HERO": {
+    "FIELDS": {
+      "skills": {
+        "agility": {
+          "label": "Agility",
+          "bonus": {
+            "label": "Agility Bonus",
+            "hint": "A bonus to Agility guarantees this number of successes."
+          },
+          "number": {
+            "label": "Agility Dice",
+            "hint": "When making an Agility skill roll, this is the number of dice contributed by this skill."
+          }
+        },
+        "brawn": {
+          "label": "Brawn",
+          "bonus": {
+            "label": "Brawn Bonus",
+            "hint": "A bonus to Brawn guarantees this number of successes."
+          },
+          "number": {
+            "label": "Brawn Dice",
+            "hint": "When making an Agility skill roll, this is the number of dice contributed by this skill."
+          }
+        },
+        "mind": {
+          "label": "Mind",
+          "bonus": {
+            "label": "Mind Bonus",
+            "hint":"A bonus to Mind guarantees this number of successes."
+          },
+          "number": {
+            "label": "Mind Dice",
+            "hint": "When making an Mind skill roll, this is the number of dice contributed by this skill."
+          }
+        },
+        "spirit": {
+          "label": "Spirit",
+          "bonus": {
+            "label": "Spirit Bonus",
+            "hint":"A bonus to Spirit guarantees this number of successes."
+          },
+          "number": {
+            "label": "Spirit Dice",
+            "hint": "When making an Spirit skill roll, this is the number of dice contributed by this skill."
+          }
+        }
       }
-    },
-    "skills": {
-      "agility": {
-        "label": "Agility",
-        "bonus": {
-          "label": "Agility Bonus",
-          "hint": "A bonus to Agility guarantees this number of successes."
-        },
-        "number": {
-          "label": "Agility Dice",
-          "hint": "When making an Agility skill roll, this is the number of dice contributed by this skill."
-        }
-      },
-      "brawn": {
-        "label": "Brawn",
-        "bonus": {
-          "label": "Brawn Bonus",
-          "hint": "A bonus to Brawn guarantees this number of successes."
-        },
-        "number": {
-          "label": "Brawn Dice",
-          "hint": "When making an Agility skill roll, this is the number of dice contributed by this skill."
-        }
-      },
-      "mind": {
-        "label": "Mind",
-        "bonus": {
-          "label": "Mind Bonus",
-          "hint":"A bonus to Mind guarantees this number of successes."
-        },
-        "number": {
-          "label": "Mind Dice",
-          "hint": "When making an Mind skill roll, this is the number of dice contributed by this skill."
-        }
-      },
-      "spirit": {
-        "label": "Spirit",
-        "bonus": {
-          "label": "Spirit Bonus",
-          "hint":"A bonus to Spirit guarantees this number of successes."
-        },
-        "number": {
-          "label": "Spirit Dice",
-          "hint": "When making an Spirit skill roll, this is the number of dice contributed by this skill."
+    }
+  },
+
+  "MERCHANT": {
+    "FIELDS": {
+      "shop": {
+        "name": {
+          "label": "Shop",
+          "hint": "The name of the shop. If left blank, the shop will use the merchant's name."
         }
       }
     }
@@ -534,6 +525,14 @@
         "value": {
           "label": "Level"
         }
+      }
+    }
+  },
+
+  "PARTY": {
+    "FIELDS": {
+      "members": {
+        "label": "Members"
       }
     }
   }

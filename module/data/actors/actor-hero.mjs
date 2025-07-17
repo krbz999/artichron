@@ -11,7 +11,7 @@ const { ArrayField, NumberField, SchemaField, StringField, TypedObjectField } = 
  */
 
 /**
- * @typedef HeroDataSchema *
+ * @typedef HeroDataSchema
  * @property {object} progression
  * @property {object} progression.points
  * @property {number} progression.points.value

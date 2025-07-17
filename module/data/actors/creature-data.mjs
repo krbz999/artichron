@@ -19,9 +19,7 @@ import ActorSystemModel from "./system-model.mjs";
  * @property {number} [hindered]      How many levels of the 'Hindered' status will be applied.
  */
 
-const {
-  HTMLField, NumberField, SchemaField, SetField, StringField,
-} = foundry.data.fields;
+const { HTMLField, NumberField, SchemaField, SetField, StringField } = foundry.data.fields;
 
 /**
  * Extended data model for actor types that participate in combat.
