@@ -1,6 +1,14 @@
 import ActorSheetArtichron from "./actor-sheet-base.mjs";
 
 export default class MerchantSheet extends ActorSheetArtichron {
+  /**
+   * The sound that plays when a merchant is first rendered for a non-owner.
+   * @type {string}
+   */
+  static ENTER_STORE_FILE_PATH = "systems/artichron/assets/sounds/shop-bell.wav";
+
+  /* -------------------------------------------------- */
+
   /** @inheritdoc */
   static DEFAULT_OPTIONS = {
     classes: ["merchant"],
@@ -110,6 +118,12 @@ export default class MerchantSheet extends ActorSheetArtichron {
   /** @inheritdoc */
   async _onFirstRender(context, options) {
     await super._onFirstRender(context, options);
+
+    // Play the welcome sound.
+    foundry.audio.AudioHelper.play({
+      src: MerchantSheet.ENTER_STORE_FILE_PATH,
+      channel: "interface",
+    });
 
     // Don't allow interaction when in a pack unless GM.
     if (this.document.inCompendium) {
