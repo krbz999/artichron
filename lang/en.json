@@ -170,6 +170,7 @@
     "dropPath": "Drop path here.",
     "path": "Path",
     "advance": "Advance",
+    "recover": "Recover",
     "noPath": "No Path",
     "HEADERS": {
       "conditions": "Conditions",
@@ -252,7 +253,10 @@
       "conditions": "Conditions",
       "activeBuffs": "Active Buffs",
       "inactiveBuffs": "Inactive Buffs"
-    }
+    },
+
+    "recover": "Recover",
+    "grantLoot": "Grant Loot"
   },
 
   "PARTY": {
@@ -924,17 +928,6 @@
 "MACRO": {
   "ToggleEffect": "Toggle Effect: {name}",
   "UseItem": "Use Item: {name}"
-},
-
-"MONSTER": {
-  "recover": "Recover",
-  "INVENTORY": {
-    "favorites": "Favorites",
-    "inventory": "Inventory"
-  },
-  "LOOT": {
-    "grant": "Grant Loot"
-  }
 },
 
 "PROGRESSION": {
