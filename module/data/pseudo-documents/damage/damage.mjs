@@ -17,16 +17,8 @@ export default class Damage extends PseudoDocument {
   /** @inheritdoc */
   static defineSchema() {
     return Object.assign(super.defineSchema(), {
-      faces: new NumberField({
-        integer: true,
-        initial: null,
-        min: 2,
-      }),
-      number: new NumberField({
-        integer: true,
-        initial: null,
-        min: 1,
-      }),
+      faces: new NumberField({ initial: 6, integer: true, min: 2, nullable: false }),
+      number: new NumberField({ integer: true, initial: null, min: 1 }),
       damageTypes: new SetField(new StringField({
         choices: () => artichron.config.DAMAGE_TYPES,
       }), { initial: () => ["physical"], min: 1 }),
@@ -54,7 +46,6 @@ export default class Damage extends PseudoDocument {
   prepareBaseData() {
     super.prepareBaseData();
     this.number ??= 1;
-    this.faces ??= 6;
   }
 
   /* -------------------------------------------------- */

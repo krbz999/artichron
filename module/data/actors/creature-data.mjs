@@ -44,7 +44,14 @@ export default class CreatureData extends ActorSystemModel {
       }),
       damage: new SchemaField({
         attack: new StringField({ required: true, blank: false, initial: "blade" }),
-        parts: new artichron.data.fields.CollectionField(artichron.data.pseudoDocuments.damage.Damage),
+        parts: new artichron.data.fields.CollectionField(artichron.data.pseudoDocuments.damage.Damage, {
+          initial: () => {
+            const id = foundry.utils.randomID();
+            const schema = artichron.data.pseudoDocuments.damage.Damage.schema.getInitialValue();
+            schema._id = id;
+            return { [id]: schema };
+          },
+        }),
       }),
       favorites: new SetField(new StringField({ required: true })),
       health: new SchemaField({
