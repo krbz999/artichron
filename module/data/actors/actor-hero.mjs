@@ -153,7 +153,8 @@ export default class HeroData extends CreatureData {
     }
 
     for (const k of Object.keys(artichron.config.SKILLS)) {
-      this.skills[k].formula = `${this.skills[k].number}d${this.skills[k].faces}`;
+      const skill = this.skills[k];
+      skill.formula = `${skill.number}d${skill.faces}`;
     }
   }
 
@@ -293,18 +294,22 @@ export default class HeroData extends CreatureData {
 
   /**
    * Roll two skills together.
-   * @param {import("../../_types").SkillRollConfiguration} [config]      Roll configuration.
-   * @param {import("../../_types").RollDialogConfiguration} [dialog]     Dialog configuration.
-   * @param {import("../../_types").RollMessageConfiguration} [message]   Chat message configuration.
+   * @param {object} [config]                 Roll config.
+   * @param {PointerEvent} [config.event]     Initiating click event.
+   * @param {string} [config.base]            Primary skill used.
+   * @param {string} [config.second]          Secondary skill used.
    * @returns {Promise<RollArtichron|null>}   A promise that resolves to the created roll.
    */
-  async rollSkill(config = {}, dialog = {}, message = {}) {
-    const skillIds = Object.keys(artichron.config.SKILLS);
-    dialog.configure = (!config.event?.shiftKey && (dialog.configure !== false)) || !(skillIds.includes(config.base) && skillIds.includes(config.second));
+  async rollSkill({ event, base, second } = {}) {
+    base = base in artichron.config.SKILLS ? base : "agility";
+    second = second in artichron.config.SKILLS ? second : "agility";
 
-    config.subject = this.parent;
+    const config = {
+      event, base, second,
+      subject: this.parent,
+    };
 
-    if (dialog.configure) {
+    if (!event?.shiftKey) {
       const configuration = await artichron.applications.apps.actor.SkillRollDialog.create({ config });
       if (!configuration) return null;
       foundry.utils.mergeObject(config, configuration);
@@ -320,19 +325,16 @@ export default class HeroData extends CreatureData {
     const rollData = this.parent.getRollData();
     const roll = await foundry.dice.Roll.create(formula, rollData, { skills: [config.base, config.second] }).evaluate();
 
-    message = foundry.utils.mergeObject({
-      create: true,
-      messageData: {
-        flavor: game.i18n.format("ARTICHRON.SKILL.ROLL_DIALOG.flavor", {
-          skills: Array.from(new Set([config.base, config.second]).map(skl => {
-            return artichron.config.SKILLS[skl].label;
-          })).sort((a, b) => a.localeCompare(b)).join(", "),
-        }),
-        speaker: ChatMessage.implementation.getSpeaker({ actor: this.parent }),
-      },
-    }, message);
+    const messageData = {
+      flavor: game.i18n.format("ARTICHRON.SKILL.ROLL_DIALOG.flavor", {
+        skills: Array.from(new Set([config.base, config.second]).map(skl => {
+          return artichron.config.SKILLS[skl].label;
+        })).sort((a, b) => a.localeCompare(b)).join(", "),
+      }),
+      speaker: ChatMessage.implementation.getSpeaker({ actor: this.parent }),
+    };
 
-    if (message.create) await roll.toMessage(message.messageData);
+    await roll.toMessage(messageData);
     return roll;
   }
 

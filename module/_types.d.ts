@@ -70,34 +70,6 @@ export interface ItemSubtypeMetadata extends DocumentSubtypeMetadata {
 }
 
 /* -------------------------------------------------- */
-/*   Roll Configurations                              */
-/* -------------------------------------------------- */
-
-export interface RollConfiguration {
-  /** The click event that initiated the roll. */
-  event?: PointerEvent;
-}
-
-export interface SkillRollConfiguration extends RollConfiguration {
-  /** The primary skill to use. */
-  base?: string;
-  /** The secondary skill to use. */
-  second?: string;
-}
-
-export interface RollDialogConfiguration {
-  /** Whether a dialog should be prompted. */
-  configure?: boolean;
-}
-
-export interface RollMessageConfiguration {
-  /** Whether to create the chat message. */
-  create?: boolean;
-  /** Data to use for the ChatMessage. */
-  messageData?: object;
-}
-
-/* -------------------------------------------------- */
 /*   Callbacks                                        */
 /* -------------------------------------------------- */
 
