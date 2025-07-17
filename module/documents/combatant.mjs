@@ -21,8 +21,8 @@ export default class CombatantArtichron extends BaseDocumentMixin(foundry.docume
     const actor = this.actor;
     const rollData = actor?.getRollData() || {};
     const cap = 10;
-    rollData.pips = Math.min(actor?.actionPoints ?? 0, cap);
-    return Roll.create(formula, rollData);
+    rollData.pips = Math.floor(Math.min(actor?.actionPoints ?? 0, cap));
+    return foundry.dice.Roll.create(formula, rollData);
   }
 
   /* -------------------------------------------------- */
