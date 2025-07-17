@@ -4,7 +4,7 @@ export default class FormulaModel extends foundry.abstract.DataModel {
   /** @inheritdoc */
   static defineSchema() {
     return {
-      denomination: new NumberField({
+      faces: new NumberField({
         nullable: false,
         initial: 6,
         choices: {
@@ -35,6 +35,6 @@ export default class FormulaModel extends foundry.abstract.DataModel {
    * @type {string}
    */
   get formula() {
-    return `${this.number}d${this.denomination}`;
+    return `${this.number}d${this.faces}`;
   }
 }

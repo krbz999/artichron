@@ -6,7 +6,7 @@ const { ArrayField, NumberField, SchemaField, StringField, TypedObjectField } = 
 /**
  * @typedef SkillData
  * @property {number} number
- * @property {number} denomination
+ * @property {number} faces
  * @property {number} bonus
  */
 
@@ -43,7 +43,7 @@ export default class HeroData extends CreatureData {
       skills: new SchemaField(Object.entries(artichron.config.SKILLS).reduce((acc, [k, v]) => {
         acc[k] = new SchemaField({
           number: new NumberField({ integer: true, min: 2, initial: 2, nullable: false }),
-          denomination: new NumberField({ integer: true, min: 2, initial: 6, nullable: false }),
+          faces: new NumberField({ integer: true, min: 2, initial: 6, nullable: false }),
           bonus: new NumberField({ integer: true, min: 0, initial: 0 }),
         });
         return acc;
@@ -147,13 +147,13 @@ export default class HeroData extends CreatureData {
     for (const trait of this.parent._traits?.skill ?? []) {
       switch (trait.subtype) {
         case "diceNumber": this.skills[trait.skill].number += trait.value; break;
-        case "diceFaces": this.skills[trait.skill].denomination += trait.value; break;
+        case "diceFaces": this.skills[trait.skill].faces += trait.value; break;
         case "bonus": this.skills[trait.skill].bonus += trait.value; break;
       }
     }
 
     for (const k of Object.keys(artichron.config.SKILLS)) {
-      this.skills[k].formula = `${this.skills[k].number}d${this.skills[k].denomination}`;
+      this.skills[k].formula = `${this.skills[k].number}d${this.skills[k].faces}`;
     }
   }
 

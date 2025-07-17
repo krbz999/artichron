@@ -727,15 +727,15 @@ export const RECOVERY_TASKS = {
 
 /**
  * @typedef {object} BasicAttackConfiguration
- * @property {string} label                                     Human-readlable label.
+ * @property {string} label                                     Human-readable label.
  * @property {BaseDamageConfiguration} damage                   Base damage configuration.
  * @property {Record<string, AttackTypeConfiguration>} types    The attack types.
  */
 
 /**
  * @typedef {object} BaseDamageConfiguration
- * @property {number} number          Base number of dice.
- * @property {number} denomination    Base denomination of the dice.
+ * @property {number} number    Base number of dice.
+ * @property {number} faces     Base number of faces on the dice.
  */
 
 /**
@@ -750,7 +750,7 @@ export const BASIC_ATTACKS = {
     label: "ARTICHRON.ATTACK.melee",
     damage: {
       number: 2,
-      denomination: 10,
+      faces: 10,
     },
     types: {
       blade: {
@@ -771,7 +771,7 @@ export const BASIC_ATTACKS = {
     label: "ARTICHRON.ATTACK.range",
     damage: {
       number: 2,
-      denomination: 10,
+      faces: 10,
     },
     types: {
       bow: {

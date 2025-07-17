@@ -407,7 +407,7 @@
   "HEALING": {
     "FIELDS": {
       "healing": {
-        "denomination": {
+        "faces": {
           "label": "Denomination"
         },
         "number": {
@@ -725,7 +725,7 @@
       "label": "Number",
       "hint": "The number of dice rolled by this damage part."
     },
-    "denomination": {
+    "faces": {
       "label": "Denomination",
       "hint": "The size of each die."
     },

@@ -17,13 +17,13 @@ export default class Damage extends PseudoDocument {
   /** @inheritdoc */
   static defineSchema() {
     return Object.assign(super.defineSchema(), {
-      denomination: new NumberField({
-        nullable: false,
-        initial: 6,
+      faces: new NumberField({
+        integer: true,
+        initial: null,
+        min: 2,
       }),
       number: new NumberField({
         integer: true,
-        nullable: true,
         initial: null,
         min: 1,
       }),
@@ -45,7 +45,7 @@ export default class Damage extends PseudoDocument {
    * @type {string}
    */
   get formula() {
-    return `${this.number}d${this.denomination}`;
+    return `${this.number}d${this.faces}`;
   }
 
   /* -------------------------------------------------- */
@@ -54,6 +54,7 @@ export default class Damage extends PseudoDocument {
   prepareBaseData() {
     super.prepareBaseData();
     this.number ??= 1;
+    this.faces ??= 6;
   }
 
   /* -------------------------------------------------- */
