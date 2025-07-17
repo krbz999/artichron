@@ -81,6 +81,11 @@ export default class BaseActivity extends TypedPseudoDocument {
     const templateDatas = [];
     const token = this.item.token;
 
+    if (!token) {
+      ui.notifications.warn("ARTICHRON.ACTIVITY.Warning.NoToken", { localize: true });
+      return;
+    }
+
     const target = { ...this.target };
     if (target.type === "radius") target.count = 1;
     target.attach = artichron.config.TARGET_TYPES[target.type].isAttached;

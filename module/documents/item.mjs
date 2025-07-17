@@ -247,18 +247,6 @@ export default class ItemArtichron extends BaseDocumentMixin(foundry.documents.I
   /* -------------------------------------------------- */
 
   /**
-   * Prompt for placing templates using this item.
-   * @param {object} config     Template configuration and placement data.
-   * @returns {Promise<MeasuredTemplate[]>}
-   */
-  async placeTemplates(config) {
-    if (this.system.placeTemplates) return this.system.placeTemplates(config);
-    return null;
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
    * Pick one of the fusion options of this item, grant it to a target item, and destroy this.
    * @param {ItemArtichron} target                      The target item.
    * @param {ActiveEffectArtichron} fusion              The fusion template effect.
