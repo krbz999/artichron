@@ -35,7 +35,7 @@ export default class DoorStateBehaviorData extends foundry.data.regionBehaviors.
 
   /** @inheritdoc */
   async _handleRegionEvent(event) {
-    if (!game.users.activeGM?.isSelf) return;
+    if (!game.user.isActiveGM) return;
     if (this.once) this.parent.update({ disabled: true });
     const updates = [];
     for (const uuid of this.doors) {
