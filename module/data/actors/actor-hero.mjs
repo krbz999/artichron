@@ -279,13 +279,15 @@ export default class HeroData extends CreatureData {
 
   /**
    * Fully restore any resources.
+   * @param {object} [options]
+   * @param {number} [options.pct]    The percentage of recovery, a numerical value between 0 and 1.
    * @returns {Promise<ActorArtichron>}
    */
-  async recover() {
+  async recover({ pct = 1 } = {}) {
     const update = {};
 
     // Health.
-    update["system.health.spent"] = 0;
+    update["system.health.spent"] = Math.max(0, this.health.spent - Math.ceil(this.health.max * pct));
 
     return this.parent.update(update);
   }
