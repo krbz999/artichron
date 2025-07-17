@@ -6,7 +6,7 @@ const { ForeignDocumentField } = foundry.data.fields;
 export default class EnterStoreBehaviorData extends foundry.data.regionBehaviors.RegionBehaviorType {
   /** @inheritdoc */
   static events = {
-    [CONST.REGION_EVENTS.TOKEN_MOVE_IN]: EnterStoreBehaviorData.#onTokenEnter,
+    [CONST.REGION_EVENTS.TOKEN_ANIMATE_IN]: EnterStoreBehaviorData.#onTokenEnter,
   };
 
   /* -------------------------------------------------- */
@@ -19,7 +19,7 @@ export default class EnterStoreBehaviorData extends foundry.data.regionBehaviors
   /** @inheritdoc */
   static defineSchema() {
     return {
-      merchant: new ForeignDocumentField(Actor, {
+      merchant: new ForeignDocumentField(foundry.documents.Actor, {
         required: true,
         blank: true,
         initial: "",
@@ -44,11 +44,13 @@ export default class EnterStoreBehaviorData extends foundry.data.regionBehaviors
     const isUser = (event.user === game.user) || (!game.user.isGM && event.data.token.isOwner);
     const actor = this.merchant;
     if (isUser && actor && (actor.type === "merchant")) {
-      const endpoint = event.data.token.movement.pending.waypoints[0];
-      const isEndpoint = event.data.token.movement.pending.waypoints.length === 1;
+      const { token } = event.data;
+      const { passed, pending } = token.movement;
+      const endpoint = passed.waypoints.at(-1);
+      const isEndpoint = !pending.waypoints.length;
       const endpointIn = isEndpoint && event.region.testPoint(endpoint);
       if (!endpointIn) return;
-      await event.data.token.object?.movementAnimationPromise;
+      await token.object?.movementAnimationPromise;
       actor.sheet.render({ force: true });
     }
   }
