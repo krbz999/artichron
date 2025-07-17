@@ -43,23 +43,26 @@
   {{/if}}
 
   {{!-- Members List --}}
-  <ul class="members scrollable">
+  <section class="members scrollable">
     {{#each ctx.actors}}
-    <li class="member" data-id="{{actor.id}}">
-      <img src="{{actor.img}}" alt="{{actor.name}}" class="avatar" {{#if canView}}data-action="displayActor"{{/if}}>
-
-      <div class="center">
-        <span class="name">{{actor.name}}</span>
+    <div class="member" data-id="{{actor.id}}">
+      <div class="avatar glass">
+        <img class="" src="{{actor.img}}" alt="{{actor.name}}" {{#if canView}} data-action="displayActor" {{/if}}>
+      </div>
+      <div class="attributes">
+        <div class="name">{{actor.name}}</div>
+        <div class="currency">
+          <div>{{actor.system.currency.funds}}</div>
+          <artichron-icon src="systems/artichron/assets/icons/chron.svg"></artichron-icon>
+        </div>
         <div class="bars">
           <div class="hp" style="--hp: {{pct.hp}}%;"></div>
         </div>
-        <span class="currency">
-          <span>{{actor.system.currency.funds}}</span>
-          <artichron-icon src="systems/artichron/assets/icons/chron.svg"></artichron-icon>
-        </span>
       </div>
-      <button type="button" class="icon fa-solid fa-fw fa-trash" data-action="removeMember" {{#unless (and @root.editable @root.isEditMode)}}disabled{{/unless}}></button>
-    </li>
+      <div class="controls">
+        <button type="button" class="icon fa-solid fa-trash" data-action="removeMember" {{disabled (not (and @root.editable @root.isEditMode))}}></button>
+      </div>
+    </div>
     {{/each}}
-  </ul>
+  </section>
 </section>
