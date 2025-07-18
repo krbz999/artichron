@@ -728,14 +728,7 @@ export const RECOVERY_TASKS = {
 /**
  * @typedef {object} BasicAttackConfiguration
  * @property {string} label                                     Human-readable label.
- * @property {BaseDamageConfiguration} damage                   Base damage configuration.
  * @property {Record<string, AttackTypeConfiguration>} types    The attack types.
- */
-
-/**
- * @typedef {object} BaseDamageConfiguration
- * @property {number} number    Base number of dice.
- * @property {number} faces     Base number of faces on the dice.
  */
 
 /**
@@ -748,10 +741,6 @@ export const RECOVERY_TASKS = {
 export const BASIC_ATTACKS = {
   melee: {
     label: "ARTICHRON.ATTACK.melee",
-    damage: {
-      number: 2,
-      faces: 10,
-    },
     types: {
       blade: {
         label: "ARTICHRON.ATTACK.TYPES.blade",
@@ -769,10 +758,6 @@ export const BASIC_ATTACKS = {
   },
   range: {
     label: "ARTICHRON.ATTACK.range",
-    damage: {
-      number: 2,
-      faces: 10,
-    },
     types: {
       bow: {
         label: "ARTICHRON.ATTACK.TYPES.bow",
@@ -802,6 +787,17 @@ Object.defineProperty(BASIC_ATTACKS, "optgroups", {
     return groups;
   },
 });
+
+/* -------------------------------------------------- */
+
+export const LEVEL_SCALING = {
+  1: { number: 2, faces: 10 },
+  10: { number: 1 },
+  20: { number: 1 },
+  30: { number: 1 },
+  40: { number: 1 },
+  50: { number: 1 },
+};
 
 /* -------------------------------------------------- */
 
