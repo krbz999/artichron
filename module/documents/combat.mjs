@@ -6,6 +6,20 @@ import BaseDocumentMixin from "./base-document-mixin.mjs";
  * @mixes BaseDocumentMixin
  */
 export default class CombatArtichron extends BaseDocumentMixin(foundry.documents.Combat) {
+  /**
+   * Difficulty level of the combat, derived from the point investment of player-owned heroes.
+   * @type {number}
+   */
+  get difficulty() {
+    const heroes = new Set(this.combatants
+      .map(combatant => combatant.actor)
+      .filter(actor => actor?.type === "hero"));
+
+    return Math.ceil(heroes.reduce((acc, actor) => acc + actor.system.progression.total, 0) / heroes.size);
+  }
+
+  /* -------------------------------------------------- */
+
   /** @inheritdoc */
   _onDelete(options, userId) {
     super._onDelete(options, userId);
