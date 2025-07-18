@@ -192,6 +192,7 @@ export default class HeroData extends CreatureData {
 
     // Prepare data in the investments.
     let min = 0;
+    let total = 0;
     const invested = {};
     for (const investments of this.progression.points._investment) {
       Object.defineProperties(investments, {
@@ -199,6 +200,7 @@ export default class HeroData extends CreatureData {
         max: { value: Object.values(investments).reduce((acc, k) => acc + k, min) },
       });
       min = investments.max;
+      total = min;
 
       for (const k in investments) {
         invested[k] ??= 0;
@@ -248,6 +250,10 @@ export default class HeroData extends CreatureData {
       },
       invested: {
         value: { ...invested },
+        enumerable: true,
+      },
+      total: {
+        value: total,
         enumerable: true,
       },
     });
