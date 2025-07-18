@@ -11,11 +11,7 @@ export default class CombatArtichron extends BaseDocumentMixin(foundry.documents
    * @type {number}
    */
   get difficulty() {
-    const heroes = new Set(this.combatants
-      .map(combatant => combatant.actor)
-      .filter(actor => actor?.type === "hero"));
-
-    return Math.ceil(heroes.reduce((acc, actor) => acc + actor.system.progression.total, 0) / heroes.size);
+    return artichron.data.actors.CreatureData.difficulty;
   }
 
   /* -------------------------------------------------- */

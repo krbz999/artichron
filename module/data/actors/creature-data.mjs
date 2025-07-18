@@ -72,19 +72,23 @@ export default class CreatureData extends ActorSystemModel {
    * Helper method to derive current 'level' of the hero party.
    * If a combat is active, the combat determines the difficulty,
    * otherwise the primary party's members.
-   * @type {number}
+   * @type {number|null}
    */
   static get difficulty() {
-    if (game.combat) return game.combat.difficulty;
-    if (game.actors.party) {
-      let total = 0;
-      for (const { actor } of game.actors.party.system.members) {
-        if (actor.type !== "hero") continue;
-        total += actor.system.progression.total;
-      }
-      return total;
+    let actors = game.combat
+      ? game.combat.combatants.map(c => c.actor)
+      : game.actors.party
+        ? game.actors.party.system.members.map(member => member.actor)
+        : [];
+
+    let size = 0;
+    let total = 0;
+    for (const actor of new Set(actors)) {
+      if (actor?.type !== "hero") continue;
+      total += actor.system.progression.total;
+      size++;
     }
-    return null;
+    return size ? Math.ceil(total / size) : null;
   }
 
   /* -------------------------------------------------- */
