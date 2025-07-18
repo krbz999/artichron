@@ -790,6 +790,10 @@ Object.defineProperty(BASIC_ATTACKS, "optgroups", {
 
 /* -------------------------------------------------- */
 
+/**
+ * Level scaling table.
+ * @type {Record<number, {number: number, faces: number}>}
+ */
 export const LEVEL_SCALING = {
   1: { number: 2, faces: 10 },
   10: { number: 1 },
