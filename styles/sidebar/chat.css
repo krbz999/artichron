@@ -254,6 +254,8 @@
 
           img {
             cursor: var(--cursor-pointer);
+            aspect-ratio: 1;
+            object-fit: cover;
 
             .damage .damaged &,
             .effect .unchecked &,
