@@ -67,6 +67,27 @@ export default class CreatureData extends ActorSystemModel {
   }
 
   /* -------------------------------------------------- */
+
+  /**
+   * Helper method to derive current 'level' of the hero party.
+   * If a combat is active, the combat determines the difficulty,
+   * otherwise the primary party's members.
+   * @type {number}
+   */
+  static get difficulty() {
+    if (game.combat) return game.combat.difficulty;
+    if (game.actors.party) {
+      let total = 0;
+      for (const { actor } of game.actors.party.system.members) {
+        if (actor.type !== "hero") continue;
+        total += actor.system.progression.total;
+      }
+      return total;
+    }
+    return null;
+  }
+
+  /* -------------------------------------------------- */
   /*   Data preparation                                 */
   /* -------------------------------------------------- */
 
@@ -169,7 +190,7 @@ export default class CreatureData extends ActorSystemModel {
     config = foundry.utils.mergeObject({
       rollData: this.parent.getRollData(),
       subject: this.parent,
-      rollConfigs: this.#configureDamageRollConfigs(),
+      rollConfigs: this._configureDamageRollConfigs(),
     }, config, { overwrite: false });
     for (const rollConfig of rollConfigs) {
       const existing = config.rollConfigs.find(c => c.damageType === rollConfig.damageType);
@@ -195,7 +216,7 @@ export default class CreatureData extends ActorSystemModel {
    * Configure roll configs for a damage roll flow.
    * @returns {object[]}
    */
-  #configureDamageRollConfigs() {
+  _configureDamageRollConfigs() {
     const parts = [];
     for (const part of this.damage.parts) {
       parts.push({

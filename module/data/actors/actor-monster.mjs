@@ -177,4 +177,37 @@ export default class MonsterData extends CreatureData {
 
     return this.parent.update(update);
   }
+
+  /* -------------------------------------------------- */
+
+  /** @inheritdoc */
+  _configureDamageRollConfigs() {
+    const parts = super._configureDamageRollConfigs();
+
+    let number = 0;
+    let faces = 0;
+    for (let i = 1; i <= CreatureData.difficulty; i++) {
+      const { number: n, faces: f } = artichron.config.LEVEL_SCALING[i] ?? {};
+      if (n) number += n;
+      if (f) faces += f;
+    }
+
+    const dtype = (
+      artichron.config.BASIC_ATTACKS.melee.types[this.damage.attack]
+      ?? artichron.config.BASIC_ATTACKS.range.types[this.damage.attack]
+    ).damageType;
+
+    parts.unshift({
+      parts: [`${number}d${faces}`],
+      damageType: dtype,
+      damageTypes: [dtype],
+      modifiers: {
+        physical: this.modifiers.physical.damage,
+        elemental: this.modifiers.elemental.damage,
+        planar: this.modifiers.planar.damage,
+      },
+    });
+
+    return parts;
+  }
 }

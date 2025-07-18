@@ -67,9 +67,7 @@ export default class MonsterSheet extends ActorSheetArtichron {
 
   /** @type {import("../../../_types").ContextPartHandler} */
   async _preparePartContextHeader(context, options) {
-    const ctx = context.ctx = {
-      defenses: [],
-    };
+    const ctx = context.ctx = { defenses: [], damage: {} };
 
     for (const [k, v] of Object.entries(this.document.system.defenses)) {
       if (!v) continue;
@@ -78,11 +76,11 @@ export default class MonsterSheet extends ActorSheetArtichron {
     }
 
     // Damage.
-    const part = this.document.getEmbeddedPseudoDocumentCollection("Damage").contents[0];
-    ctx.damage = {
-      part,
-      color: artichron.config.DAMAGE_TYPES[part?.damageType]?.color,
-      img: artichron.config.DAMAGE_TYPES[part?.damageType]?.img,
+    const [part] = this.document.system._configureDamageRollConfigs();
+    ctx.damage.part = {
+      formula: part.parts.join(" + "),
+      color: artichron.config.DAMAGE_TYPES[part.damageType]?.color,
+      img: artichron.config.DAMAGE_TYPES[part.damageType]?.img,
     };
 
     return context;
