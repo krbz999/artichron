@@ -51,6 +51,7 @@ export default class AdvancementSheet extends PseudoDocumentSheet {
   /** @type {import("../../../_types").ContextPartHandler} */
   async _preparePartContextIdentity(context, options) {
     const ctx = context.ctx = {};
+    ctx.slug = context.pseudoDocument.name.slugify({ strict: true });
     return context;
   }
 

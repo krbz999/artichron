@@ -1,6 +1,8 @@
 import AdvancementChain from "../../../utils/advancement-chain.mjs";
 import TypedPseudoDocument from "../typed-pseudo-document.mjs";
 
+const { HTMLField } = foundry.data.fields;
+
 export default class BaseAdvancement extends TypedPseudoDocument {
   /** @type {import("../../../_types").PseudoDocumentMetadata} */
   static get metadata() {
@@ -18,7 +20,9 @@ export default class BaseAdvancement extends TypedPseudoDocument {
 
   /** @inheritdoc */
   static defineSchema() {
-    return Object.assign(super.defineSchema(), {});
+    return Object.assign(super.defineSchema(), {
+      description: new HTMLField(),
+    });
   }
 
   /* -------------------------------------------------- */

@@ -1,4 +1,6 @@
 <section class="{{tabs.identity.cssClass}}" data-tab="{{tabs.identity.id}}" data-group="{{tabs.identity.group}}">
   {{formGroup fields.name value=source.name placeholder=(localize (concat "TYPES.Advancement." source.type)) name="name" disabled=(not editable)}}
   {{formGroup fields.img value=source.img name="img" disabled=(not editable)}}
+  {{formGroup fields.identifier value=source.identifier name="identifier" disabled=(not editable) placeholder=ctx.slug}}
+  {{formGroup fields.description value=source.description name="description" height=400 disabled=(not editable)}}
 </section>

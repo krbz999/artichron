@@ -570,6 +570,10 @@
       "subtype": {
         "label": "Subtype"
       },
+      "identifier": {
+        "label": "Identifier",
+        "hint": "An identifier is what is used to refer to this scaling property's current value in a roll formula."
+      },
       "increases": {
         "element": {
           "number": {
