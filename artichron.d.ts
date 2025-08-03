@@ -1,4 +1,4 @@
-import "./src/module/_types";
+import "./module/_types";
 import "@client/global.mjs";
 import "@common/primitives/global.d.mts";
 import "@common/primitives/global.mjs";
