@@ -1,11 +1,7 @@
 {
-  "name": "artichron",
   "version": "1.0.0",
-  "description": "Artifice Chronicles System",
   "scripts": {
     "createSymlinks": "node ./tools/create-symlinks.mjs",
-    "pullJSONtoLDB": "node ./tools/pullJSONtoLDB.mjs",
-    "pushLDBtoJSON": "node ./tools/pushLDBtoJSON.mjs",
     "build": "npm run build:packs && npm run build:code",
     "build:packs": "npm run db:pack",
     "build:code": "rollup -c",
@@ -14,7 +10,6 @@
     "db:pack": "node tools/pack-level-db.mjs package pack"
   },
   "author": "Zhell",
-  "private": true,
   "devDependencies": {
     "@eslint/js": "^9.27.0",
     "@foundryvtt/foundryvtt-cli": "^1.0.3",
@@ -23,9 +18,10 @@
     "@rollup/plugin-node-resolve": "^15.3.1",
     "@stylistic/eslint-plugin": "^4.3.0",
     "eslint": "^9.27.0",
+    "postcss": "^8.5.6",
     "postcss-import": "^16.1.0",
+    "postcss-url": "^10.1.3",
     "rollup": "^4.9.1",
-    "rollup-plugin-import-css": "^3.5.8",
     "rollup-plugin-postcss": "^4.0.2",
     "showdown": "^2.1.0",
     "typescript": "^5.8.3",
