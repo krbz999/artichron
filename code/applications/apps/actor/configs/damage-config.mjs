@@ -77,13 +77,13 @@ export default class DamageConfig extends DocumentConfig {
     if (!this.document.isOwner) return [];
 
     return [{
-      name: "ARTICHRON.DAMAGE.CONTEXT.PART.render",
-      icon: "<i class='fa-solid fa-fw fa-edit'></i>",
-      callback: element => this._getPseudoDocument(element).sheet.render({ force: true }),
+      label: "ARTICHRON.DAMAGE.CONTEXT.PART.render",
+      icon: "fa-solid fa-edit",
+      onClick: (event, target) => this._getPseudoDocument(target).sheet.render({ force: true }),
     }, {
-      name: "ARTICHRON.DAMAGE.CONTEXT.PART.delete",
-      icon: "<i class='fa-solid fa-fw fa-trash'></i>",
-      callback: element => this._getPseudoDocument(element).delete(),
+      label: "ARTICHRON.DAMAGE.CONTEXT.PART.delete",
+      icon: "fa-solid fa-trash",
+      onClick: (event, target) => this._getPseudoDocument(target).delete(),
     }];
   }
 

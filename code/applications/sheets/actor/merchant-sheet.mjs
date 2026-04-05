@@ -160,17 +160,17 @@ export default class MerchantSheet extends ActorSheetArtichron {
 
   /**
    * Create context menu options for items in stock.
-   * @returns {object[]}
+   * @returns {ContextMenuEntry[]}
    */
   #getContextOptionsStock() {
-    const itemId = entry => this._getEmbeddedDocument(entry).id;
+    const itemId = (target) => this._getEmbeddedDocument(target).id;
     const actorId = () => game.user.character ? game.user.character.id : game.actors.part.id;
 
     return [{
-      name: "ARTICHRON.SHEET.MERCHANT.CONTEXT.STOCK.addToCart",
-      icon: "<i class='fa-solid fa-fw fa-cart-plus'></i>",
-      callback: entry => game.users.activeGM?.query("merchant", { type: "stage", config: {
-        itemId: itemId(entry), actorId: actorId(), merchantId: this.document.id,
+      label: "ARTICHRON.SHEET.MERCHANT.CONTEXT.STOCK.addToCart",
+      icon: "fa-solid fa-cart-plus",
+      onClick: (event, target) => game.users.activeGM?.query("merchant", { type: "stage", config: {
+        itemId: itemId(target), actorId: actorId(), merchantId: this.document.id,
       } }, { timeout: 10_000 }),
     }];
   }
@@ -179,17 +179,17 @@ export default class MerchantSheet extends ActorSheetArtichron {
 
   /**
    * Create context menu options for items in cart.
-   * @returns {object[]}
+   * @returns {ContextMenuEntry[]}
    */
   #getContextOptionsCart() {
-    const itemId = entry => this._getEmbeddedDocument(entry).id;
+    const itemId = (target) => this._getEmbeddedDocument(target).id;
     const actorId = () => game.user.character ? game.user.character.id : game.actors.part.id;
 
     return [{
-      name: "ARTICHRON.SHEET.MERCHANT.CONTEXT.CART.removeFromCart",
-      icon: "<i class='fa-solid fa-fw fa-shopping-cart'></i>",
-      callback: entry => game.users.activeGM?.query("merchant", { type: "unstage", config: {
-        itemId: itemId(entry), actorId: actorId(), merchantId: this.document.id,
+      label: "ARTICHRON.SHEET.MERCHANT.CONTEXT.CART.removeFromCart",
+      icon: "fa-solid fa-shopping-cart",
+      onClick: (event, target) => game.users.activeGM?.query("merchant", { type: "unstage", config: {
+        itemId: itemId(target), actorId: actorId(), merchantId: this.document.id,
       } }, { timeout: 10_000 }),
     }];
   }
