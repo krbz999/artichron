@@ -6,7 +6,7 @@ const { EmbeddedDataField, TypedObjectField, TypedSchemaField } = foundry.data.f
 export default class CollectionField extends TypedObjectField {
   constructor(model, options = {}, context = {}) {
     let field = foundry.utils.isSubclass(model, artichron.data.pseudoDocuments.TypedPseudoDocument)
-      ? new LazyTypedSchemaField(model.TYPES)
+      ? new TypedSchemaField(model.TYPES)
       : new EmbeddedDataField(model);
     options.validateKey ||= ((key) => foundry.data.validators.isValidId(key));
     super(field, options, context);
@@ -59,20 +59,6 @@ export default class CollectionField extends TypedObjectField {
     const parent = (model instanceof foundry.abstract.Document) ? model.system : model;
     const inst = new this.documentClass(parsed, { parent });
     model.getEmbeddedPseudoDocumentCollection(this.documentClass.metadata.documentName).set(inst.id, inst);
-  }
-}
-
-/* -------------------------------------------------- */
-
-/**
- * A subclass of TypedSchemaField that does not throw an error if the `type` of the
- * embedded model is invalid, e.g., due to disabled modules.
- */
-class LazyTypedSchemaField extends TypedSchemaField {
-  /** @inheritdoc */
-  _validateSpecial(value) {
-    if (!value || (value.type in this.types)) return super._validateSpecial(value);
-    return true;
   }
 }
 
