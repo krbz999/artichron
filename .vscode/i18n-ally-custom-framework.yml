@@ -16,13 +16,13 @@ usageMatchRegex:
   # you can ignore it and use your own matching rules as well
   - "[^\\w\\d]game\\.i18n\\.localize\\(['\"`]({key})['\"`]\\)"
   - "[^\\w\\d]game\\.i18n\\.format\\(['\"`]({key})['\"`]"
+  - "_loc\\(['\"`]({key})['\"`]"
   - "[^\\w\\d]ui\\.notifications\\.info\\(['\"`]({key})['\"`],\\s{\\s*.*\\slocalize: true\\s*.*}"
   - "[^\\w\\d]ui\\.notifications\\.warn\\(['\"`]({key})['\"`],\\s{\\s*.*\\slocalize: true\\s*.*}"
   - "[^\\w\\d]ui\\.notifications\\.error\\(['\"`]({key})['\"`],\\s{\\s*.*\\slocalize: true\\s*.*}"
   - "\\{\\{\\s*localize\\s+[\"']({key})['\"]\\}\\}"
   - "\\{\\{[\\w\\.\\s\\=]*\\(localize\\s+[\"']({key})['\"]\\)[\\w\\.\\s\\=]*\\}\\}"
   - "[^\\w\\d]label: \"({key})\""
-  - "[^\\w\\d]labelPl: \"({key})\""
   - "[^\\w\\d]hint: \"({key})\""
 
 # An array of strings containing refactor templates.

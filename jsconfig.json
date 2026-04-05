@@ -1,14 +1,14 @@
 {
   "compilerOptions": {
     "module": "ES2022",
-    "target": "ES2024",
+    "target": "esnext",
     "paths": {
       "@client/*": ["./foundry/client/*"],
       "@common/*": ["./foundry/common/*"]
     },
   },
   "exclude": ["node_modules", "**/node_modules/*"],
-  "include": ["artichron.mjs", "foundry/client/client.mjs", "artichron.d.ts"],
+  "include": ["main.mjs", "foundry/client/client.mjs", "global.d.ts"],
   "typeAcquisition": {
     "include": ["jquery"]
   }

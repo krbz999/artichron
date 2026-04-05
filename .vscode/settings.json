@@ -13,6 +13,9 @@
   "[json]": {
     "editor.defaultFormatter": "vscode.json-language-features"
   },
+  "[handlebars]": {},
+  "[markdown]": {},
+  "[typescript]": {},
   "javascript.format.semicolons": "insert",
   "css.format.spaceAroundSelectorSeparator": true,
   "css.lint.duplicateProperties": "warning",
@@ -43,17 +46,7 @@
     "source.fixAll.eslint": "always"
   },
   "eslint.enable": true,
-  "eslint.validate": [
-    "javascript",
-    "handlebars",
-    "html"
-  ],
-  "i18n-ally.localesPaths": [
-    "lang",
-    "foundry/lang"
-  ],
-  "i18n-ally.keystyle": "nested",
-  "workbench.editorAssociations": {
-    "*.svg": "default"
-  }
+  "eslint.validate": ["javascript", "handlebars", "html"],
+  "i18n-ally.localesPaths": ["lang", "foundry/lang"],
+  "i18n-ally.keystyle": "nested"
 }

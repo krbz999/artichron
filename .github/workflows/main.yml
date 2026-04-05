@@ -1,5 +1,8 @@
 name: Release Creation
 
+env:
+  NODE_VERSION: 22
+
 on:
   release:
     types: [published]
@@ -25,14 +28,14 @@ jobs:
           flags.hotReload: false
           version: ${{steps.get_version.outputs.version-without-v}}
           download: https://github.com/${{github.repository}}/releases/download/${{github.event.release.tag_name}}/system.zip
-          esmodules: "[\"artichron.mjs\"]"
-          styles: "[\"artichron.css\"]"
+          esmodules: "[\"main.mjs\"]"
+          styles: "[\"main.css\"]"
 
       # Set up Node
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
-          node-version: '20.10.0'
+          node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
 
       # `npm ci` is recommended:
@@ -44,16 +47,15 @@ jobs:
       - name: Build All
         run: |
           npm run build
-          mv --force public/artichron.mjs artichron.mjs
-          mv --force public/artichron.css artichron.css
+          mv --force public/main.mjs main.mjs
+          mv --force public/main.css main.css
 
       # Create zip file.
       - name: Create ZIP archive
-        run: zip -r ./system.zip system.json artichron.css artichron.mjs packs/ lang/ templates/ assets/
+        run: zip -r ./system.zip system.json main.css main.mjs packs/ lang/ templates/ assets/
 
       # Create a release for this specific version.
       - name: Update Release with Files
-        if: "!github.event.release.prerelease"
         id: create_version_release
         uses: ncipollo/release-action@v1
         with:

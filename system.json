@@ -4,9 +4,9 @@
   "description": "Implementation of the Artifice Chronicles system.",
   "version": "1.0.0",
   "compatibility": {
-    "minimum": "13.345",
-    "verified": "13",
-    "maximum": "13"
+    "minimum": "14",
+    "verified": "14",
+    "maximum": "14"
   },
   "authors": [
     {
@@ -17,8 +17,15 @@
       "patreon": "https://patreon.com/zhell"
     }
   ],
-  "esmodules": ["artichron.mjs"],
-  "styles": [{ "src": "artichron.css", "layer": "system" }],
+  "esmodules": [
+    "main.mjs"
+  ],
+  "styles": [
+    {
+      "src": "main.css",
+      "layer": "system"
+    }
+  ],
   "packs": [
     {
       "name": "actors",
@@ -67,30 +74,35 @@
   ],
   "media": [
     {
-      "type": "cover",
-      "loop": false,
-      "flags": {}
-    },
-    {
       "type": "setup",
       "url": "systems/artichron/assets/layout/banner.webp",
       "thumbnail": "systems/artichron/assets/layout/banner.webp"
     }
   ],
+  "background": "systems/artichron/assets/layout/banner.webp",
   "grid": {
     "distance": 1,
     "units": "m"
   },
-  "socket": true,
   "url": "https://github.com/krbz999/artichron",
   "manifest": "https://github.com/krbz999/artichron/releases/latest/download/system.json",
   "download": "",
-  "license": "LICENSE.txt",
-  "changelog": "CHANGELOG.md",
+  "license": "https://github.com/krbz999/artichron/blob/main/LICENSE",
+  "changelog": "https://github.com/krbz999/artichron/releases",
+  "primaryTokenAttribute": "",
+  "secondaryTokenAttribute": "",
   "flags": {
     "hotReload": {
-      "extensions": ["css", "hbs", "json"],
-      "paths": ["lang", "styles", "templates"]
+      "extensions": [
+        "css",
+        "hbs",
+        "json"
+      ],
+      "paths": [
+        "lang",
+        "styles",
+        "templates"
+      ]
     }
   },
   "documentTypes": {

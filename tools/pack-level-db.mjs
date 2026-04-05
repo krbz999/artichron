@@ -1,12 +1,11 @@
 import fs from "fs";
-import { readdir, readFile, writeFile } from "node:fs/promises";
 import path from "path";
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
 import { compilePack, extractPack } from "@foundryvtt/foundryvtt-cli";
 
 /**
- * Folder where the compiled compendium packs should be located relative to the base module folder.
+ * Folder where the compiled compendium packs should be located relative to the repository folder.
  * @type {string}
  */
 const PACK_DEST = "packs";
@@ -14,7 +13,7 @@ const PACK_DEST = "packs";
 /* -------------------------------------------------- */
 
 /**
- * Folder where source JSON files should be located relative to the module folder.
+ * Folder where source JSON files should be located relative to the repository folder.
  * @type {string}
  */
 const PACK_SRC = "src";
@@ -26,151 +25,120 @@ const argv = yargs(hideBin(process.argv))
   .help().alias("help", "h")
   .argv;
 
-/* -------------------------------------------------- */
-
 function packageCommand() {
   return {
-    command: "package [action] [pack] [entry]",
+    command: "package [action] [pack]",
     describe: "Manage packages",
     builder: yargs => {
       yargs.positional("action", {
         describe: "The action to perform.",
         type: "string",
-        choices: ["unpack", "pack", "clean"],
+        choices: ["unpack", "pack"],
       });
       yargs.positional("pack", {
         describe: "Name of the pack upon which to work.",
         type: "string",
       });
-      yargs.positional("entry", {
-        describe: "Name of any entry within a pack upon which to work. Only applicable to extract & clean commands.",
-        type: "string",
-      });
     },
     handler: async argv => {
-      const { action, pack, entry } = argv;
+      const { action, pack } = argv;
       switch (action) {
-        case "clean":
-          return await cleanPacks(pack, entry);
         case "pack":
           return await compilePacks(pack);
         case "unpack":
-          return await extractPacks(pack, entry);
+          return await extractPacks(pack);
       }
     },
   };
 }
 
 /* -------------------------------------------------- */
-/*   Clean packs                                      */
+
+/**
+ * Structure of documents and their embedded collections (except token deltas).
+ * @type {Record<string, Record<string, string>>}
+ */
+const documentStructure = {
+  Actor: {
+    ActiveEffect: "effects",
+    Item: "items",
+  },
+  Cards: {
+    Card: "cards",
+  },
+  Item: {
+    ActiveEffect: "effects",
+  },
+  JournalEntry: {
+    JournalEntryCategory: "categories",
+    JournalEntryPage: "pages",
+  },
+  Playlist: {
+    PlaylistSound: "sounds",
+  },
+  Region: {
+    RegionBehavior: "behaviors",
+  },
+  RollTable: {
+    TableResult: "results",
+  },
+  Scene: {
+    AmbientLight: "lights",
+    AmbientSound: "sounds",
+    Drawing: "drawings",
+    Note: "notes",
+    Region: "regions",
+    Level: "levels",
+    Tile: "tiles",
+    Token: "tokens",
+    Wall: "walls",
+  },
+};
+
+/* -------------------------------------------------- */
+/*   Clean Packs                                      */
 /* -------------------------------------------------- */
 
 /**
- * Removes unwanted flags, permissions, and other data from entries before extracting or compiling.
- * @param {object} data                           Data for a single entry to clean.
- * @param {object} [options={}]
- * @param {number} [options.ownership=0]          Value to reset default ownership to.
+ * Recursively clean data of an entry and embedded documents before extracting or compiling.
+ * @param {object} data                   Data for a single entry to clean.
+ * @param {object} options
+ * @param {string} options.documentName   The document name.
  */
-function cleanPackEntry(data, { ownership = 0 } = {}) {
+function cleanPackEntry(data, { documentName }) {
+  const ownership = documentName === "JournalEntryPage" ? -1 : 0;
   if (data.ownership) data.ownership = { default: ownership };
-  delete data.flags?.core?.sourceId;
-  delete data.flags?.importSource;
-  delete data.flags?.exportSource;
-  if (parseInt(data.sort) && (parseInt(data.sort) !== 0)) data.sort = 0;
 
-  // Remove empty entries in flags
-  if (!data.flags) data.flags = {};
-  Object.entries(data.flags).forEach(([key, contents]) => {
-    if (Object.keys(contents).length === 0) delete data.flags[key];
-  });
+  const flags = data.flags ?? {};
+  delete flags.importSource;
+  delete flags.exportSource;
 
-  const cleanCollection = (collName, ownership = 0) => {
-    if (data[collName]) data[collName].forEach(i => cleanPackEntry(i, { ownership }));
-  };
+  // Remove mystery-man.svg from Actors
+  if (documentName === "Actor") cleanActorArtwork(data);
 
-  cleanCollection("pages", -1);
-  cleanCollection("categories");
-  cleanCollection("results");
-  cleanCollection("items");
-  cleanCollection("effects");
+  // Clean embedded data.
+  const embedded = documentStructure[documentName] ?? {};
+  for (const [embeddedName, collectionName] of Object.entries(embedded)) {
+    const collection = data[collectionName];
+    for (const c of collection) cleanPackEntry(c, { documentName: embeddedName });
+  }
 
-  if (data.name) data.name = cleanString(data.name);
-
-  // Adjust `_stats`
   if (data._stats) {
-    data._stats.lastModifiedBy = "artichronbuilder";
-    data._stats.exportSource = null;
+    if (data._stats.modifiedTime) data._stats.modifiedTime = null;
+    if (data._stats.lastModifiedBy) data._stats.lastModifiedBy = "ryuutama00000000";
   }
 }
 
 /* -------------------------------------------------- */
-
-/**
- * Removes invisible whitespace characters and normalizes single- and double-quotes.
- * @param {string} str  The string to be cleaned.
- * @returns {string}    The cleaned string.
- */
-function cleanString(str) {
-  return str.replace(/\u2060/gu, "").replace(/[‘’]/gu, "'").replace(/[“”]/gu, "\"");
-}
-
-/* -------------------------------------------------- */
-
-/**
- * Cleans and formats source JSON files, removing unnecessary permissions and flags and adding the proper spacing.
- * @param {string} [packName]   Name of pack to clean. If none provided, all packs will be cleaned.
- * @param {string} [entryName]  Name of a specific entry to clean.
- *
- * - `npm run build:clean` - Clean all source JSON files.
- * - `npm run build:clean -- classes` - Only clean the source files for the specified compendium.
- * - `npm run build:clean -- classes Barbarian` - Only clean a single item from the specified compendium.
- */
-async function cleanPacks(packName, entryName) {
-  entryName = entryName?.toLowerCase();
-  const folders = fs.readdirSync(PACK_SRC, { withFileTypes: true }).filter(file =>
-    file.isDirectory() && (!packName || (packName === file.name)),
-  );
-
-  /**
-   * Walk through directories to find JSON files.
-   * @param {string} directoryPath
-   * @yields {string}
-   */
-  async function* _walkDir(directoryPath) {
-    const directory = await readdir(directoryPath, { withFileTypes: true });
-    for (const entry of directory) {
-      const entryPath = path.join(directoryPath, entry.name);
-      if (entry.isDirectory()) yield* _walkDir(entryPath);
-      else if (path.extname(entry.name) === ".json") yield entryPath;
-    }
-  }
-
-  for (const folder of folders) {
-    console.log(`Cleaning pack ${folder.name}`);
-    for await (const src of _walkDir(path.join(PACK_SRC, folder.name))) {
-      const json = JSON.parse(await readFile(src, { encoding: "utf8" }));
-      if (entryName && (entryName !== json.name.toLowerCase())) continue;
-      if (!json._id || !json._key) {
-        console.log(`Failed to clean \x1b[31m${src}\x1b[0m, must have _id and _key.`);
-        continue;
-      }
-      cleanPackEntry(json);
-      fs.rmSync(src, { force: true });
-      writeFile(src, `${JSON.stringify(json, null, 2)}\n`, { mode: 0o664 });
-    }
-  }
-}
-
-/* -------------------------------------------------- */
-/*   Compile packs                                    */
+/*   Compile Packs                                    */
 /* -------------------------------------------------- */
 
 /**
  * Compile the source JSON files into compendium packs.
- * @param {string} [packName]       Name of pack to compile. If none provided, all packs will be packed.
+ * @param {string} [packName]   Name of pack to compile. If none provided, all packs will be packed.
  *
- * - `npm run build:db` - Compile all JSON files into their LevelDB files.
- * - `npm run build:db -- classes` - Only compile the specified pack.
+ * - `npm run db:pack`                  Compile all JSON files into their LevelDB files.
+ * - `npm run db:pack -- classes`       Only compile the specified pack.
  */
 async function compilePacks(packName) {
   // Determine which source folders to process
@@ -182,7 +150,7 @@ async function compilePacks(packName) {
     const src = path.join(PACK_SRC, folder.name);
     const dest = path.join(PACK_DEST, folder.name);
     console.log(`Compiling pack ${folder.name}`);
-    await compilePack(src, dest, { recursive: true, log: true, transformEntry: cleanPackEntry });
+    await compilePack(src, dest, { recursive: true, log: true });
   }
 }
 
@@ -192,17 +160,13 @@ async function compilePacks(packName) {
 
 /**
  * Extract the contents of compendium packs to JSON files.
- * @param {string} [packName]       Name of pack to extract. If none provided, all packs will be unpacked.
- * @param {string} [entryName]      Name of a specific entry to extract.
+ * @param {string} [packName]   Name of pack to extract. If none provided, all packs will be unpacked.
  *
- * - `npm build:json - Extract all compendium LevelDB files into JSON files.
- * - `npm build:json -- classes` - Only extract the contents of the specified compendium.
- * - `npm build:json -- classes Barbarian` - Only extract a single item from the specified compendium.
+ * - `npm run db:unpack                   Extract all compendium LevelDB files into JSON files.
+ * - `npm run db:unpack -- classes`       Only extract the contents of the specified compendium.
  */
-async function extractPacks(packName, entryName) {
-  entryName = entryName?.toLowerCase();
-
-  // Load system.json.
+async function extractPacks(packName) {
+  // Load manifest.
   const system = JSON.parse(fs.readFileSync("./system.json", { encoding: "utf8" }));
 
   // Determine which source packs to process.
@@ -212,42 +176,32 @@ async function extractPacks(packName, entryName) {
     const dest = path.join(PACK_SRC, packInfo.name);
     console.log(`Extracting pack ${packInfo.name}`);
 
-    const folders = {};
-    const containers = {};
     await extractPack(path.join(PACK_DEST, packInfo.name), dest, {
-      log: false, transformEntry: e => {
-        if (e._key.startsWith("!folders")) folders[e._id] = { name: slugify(e.name), folder: e.folder };
-        else if (e.type === "container") containers[e._id] = {
-          name: slugify(e.name), container: e.system?.container, folder: e.folder,
-        };
-        return false;
+      log: false,
+      clean: true,
+      folders: true,
+      nedb: false,
+      yaml: false,
+      jsonOptions: { space: 2 },
+      transformEntry: (entry, context = {}) => {
+        cleanPackEntry(entry, { documentName: context.documentType });
       },
-    });
-    const buildPath = (collection, entry, parentKey) => {
-      let parent = collection[entry[parentKey]];
-      entry.path = entry.name;
-      while (parent) {
-        entry.path = path.join(parent.name, entry.path);
-        parent = collection[parent[parentKey]];
-      }
-    };
-    Object.values(folders).forEach(f => buildPath(folders, f, "folder"));
-    Object.values(containers).forEach(c => {
-      buildPath(containers, c, "container");
-      const folder = folders[c.folder];
-      if (folder) c.path = path.join(folder.path, c.path);
-    });
+      transformFolderName: (entry, context = {}) => {
+        let name = `${slugify(entry.name)}-${entry._id}`;
+        if (context.folder) name = path.join(context, context.folder, name);
+        return name;
+      },
+      transformName: (entry, context = {}) => {
+        let name = `${slugify(entry.name)}-${entry._id}.json`;
 
-    await extractPack(path.join(PACK_DEST, packInfo.name), dest, {
-      log: true, clean: true, transformEntry: entry => {
-        if (entryName && (entryName !== entry.name.toLowerCase())) return false;
-        cleanPackEntry(entry);
-      }, transformName: entry => {
-        if (entry._id in folders) return path.join(folders[entry._id].path, "_folder.json");
-        if (entry._id in containers) return path.join(containers[entry._id].path, "_container.json");
-        const outputName = slugify(entry.name);
-        const parent = containers[entry.system?.container] ?? folders[entry.folder];
-        return path.join(parent?.path ?? "", `${outputName}-${entry._id}.json`);
+        if (context.documentType === "Folder") {
+          name = path.join(`${slugify(entry.name)}-${entry._id}`, "_folder.json");
+        }
+
+        if (context.folder) {
+          name = path.join(context.folder, name);
+        }
+        return name;
       },
     });
   }
@@ -262,4 +216,19 @@ async function extractPacks(packName, entryName) {
  */
 function slugify(name) {
   return name.toLowerCase().replace("'", "").replace(/[^a-z0-9]+/gi, " ").trim().replace(/\s+|-{2,}/g, "-");
+}
+
+/* -------------------------------------------------- */
+
+/**
+ * Remove falsy or default artwork from image filepath fields on actors.
+ * @param {object} data   The actor data. **Will be mutated.**
+ */
+function cleanActorArtwork(data) {
+  const defaultArtwork = "icons/svg/mystery-man.svg";
+  if (!data.img || (data.img === defaultArtwork)) data.img = null;
+  if (!data.prototypeToken.texture.src || (data.prototypeToken.texture.src === defaultArtwork))
+    data.prototypeToken.texture.src = null;
+  if (!data.prototypeToken.ring.subject.texture || (data.prototypeToken.ring.subject.texture === defaultArtwork))
+    data.prototypeToken.ring.subject.texture = null;
 }

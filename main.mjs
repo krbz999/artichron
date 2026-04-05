@@ -1,14 +1,14 @@
-import * as applications from "./module/applications/_module.mjs";
-import * as canvas from "./module/canvas/_module.mjs";
-import * as data from "./module/data/_module.mjs";
-import * as dice from "./module/dice/_module.mjs";
-import * as documents from "./module/documents/_module.mjs";
-import * as helpers from "./module/helpers/_module.mjs";
-import * as migrations from "./module/helpers/migrations.mjs";
-import * as SYSTEM from "./module/helpers/config.mjs";
-import * as utils from "./module/utils/_module.mjs";
-import registerEnrichers from "./module/helpers/enrichers.mjs";
-import registerSettings from "./module/helpers/settings.mjs";
+import * as applications from "./code/applications/_module.mjs";
+import * as canvas from "./code/canvas/_module.mjs";
+import * as data from "./code/data/_module.mjs";
+import * as dice from "./code/dice/_module.mjs";
+import * as documents from "./code/documents/_module.mjs";
+import * as helpers from "./code/helpers/_module.mjs";
+import * as migrations from "./code/helpers/migrations.mjs";
+import * as SYSTEM from "./code/helpers/config.mjs";
+import * as utils from "./code/utils/_module.mjs";
+import registerEnrichers from "./code/helpers/enrichers.mjs";
+import registerSettings from "./code/helpers/settings.mjs";
 
 // Custom elements.
 for (const element of Object.values(applications.elements)) {
@@ -256,12 +256,6 @@ Hooks.once("i18nInit", function() {
   localizeTypes(data.pseudoDocuments.damage);
   localizeTypes(data.pseudoDocuments.traitChoices);
 });
-
-/* -------------------------------------------------- */
-/*   Utilities                                        */
-/* -------------------------------------------------- */
-
-Hooks.on("hotReload", helpers.hotReload);
 
 /* -------------------------------------------------- */
 /*   Fonts                                            */
