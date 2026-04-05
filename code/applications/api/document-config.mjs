@@ -29,7 +29,7 @@ export default class DocumentConfig extends ArtichronApplicationMixin(DocumentSh
 
   /** @inheritdoc */
   get title() {
-    return `${game.i18n.localize(this.options.window.title)}: ${this.document.name}`;
+    return `${_loc(this.options.window.title)}: ${this.document.name}`;
   }
 
   /* -------------------------------------------------- */

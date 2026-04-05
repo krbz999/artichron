@@ -220,7 +220,7 @@ Hooks.once("i18nInit", function() {
     switch (foundry.utils.getType(v)) {
       case "string":
         if (v.startsWith("ARTICHRON")) {
-          o[k] = game.i18n.localize(v);
+          o[k] = _loc(v);
         }
         break;
       case "Object":
@@ -303,7 +303,7 @@ Hooks.on("hotbarDrop", function(bar, data, slot) {
 async function createEffectMacro(data, slot) {
   const effect = await foundry.utils.getDocumentClass("ActiveEffect").fromDropData(data);
   const command = `artichron.helpers.macros.toggleEffect("${effect.name}");`;
-  const name = game.i18n.format("ARTICHRON.MACRO.ToggleEffect", { name: effect.name });
+  const name = _loc("ARTICHRON.MACRO.ToggleEffect", { name: effect.name });
   let macro = game.macros.find(m => (m.name === name) && (m.command === command));
   if (!macro) {
     macro = await foundry.utils.getDocumentClass("Macro").create({
@@ -327,7 +327,7 @@ async function createEffectMacro(data, slot) {
 async function createItemMacro(data, slot) {
   const item = await foundry.utils.getDocumentClass("Item").fromDropData(data);
   const command = `artichron.helpers.macros.useItem("${item.name}", event);`;
-  const name = game.i18n.format("ARTICHRON.MACRO.UseItem", { name: item.name });
+  const name = _loc("ARTICHRON.MACRO.UseItem", { name: item.name });
   let macro = game.macros.find(m => (m.name === name) && (m.command === command));
   if (!macro) {
     macro = await foundry.utils.getDocumentClass("Macro").create({

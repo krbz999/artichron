@@ -97,7 +97,7 @@ export default class DocumentListEntriesElement extends HTMLElement {
     // The subtitle by default is the document's subtype, but can be overridden.
     const subtitle = data.subtitle
       ? data.subtitle
-      : game.i18n.localize(`TYPES.${data.document.documentName}.${data.document.type}`);
+      : _loc(`TYPES.${data.document.documentName}.${data.document.type}`);
     div.insertAdjacentHTML("beforeend", `<span class="subtitle">${subtitle}</span>`);
 
     // Any additional dataset properties (e.g. `data-name` for search filters).

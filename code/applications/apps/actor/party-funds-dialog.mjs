@@ -40,9 +40,7 @@ export default class PartyFundsDialog extends Application {
 
   /** @inheritdoc */
   get title() {
-    return game.i18n.format("ARTICHRON.PartyFundsDialog.Title", {
-      name: this.#member.name,
-    });
+    return _loc("ARTICHRON.PartyFundsDialog.Title", { name: this.#member.name });
   }
 
   /* -------------------------------------------------- */

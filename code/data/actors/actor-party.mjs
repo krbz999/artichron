@@ -295,7 +295,7 @@ export default class PartyData extends ActorSystemModel {
       const path = type === "currency" ? "system.currency.funds" : "system.progression.points.value";
       updates.push({ _id: actorId, [path]: foundry.utils.getProperty(actor, path) + value });
 
-      const content = game.i18n.format(
+      const content = _loc(
         type === "currency" ? "ARTICHRON.DISTRIBUTE.MESSAGE.content" : "ARTICHRON.DISTRIBUTE.MESSAGE.points",
         { name: actor.name, amount: value });
       if (value) messageData.push({

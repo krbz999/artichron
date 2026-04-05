@@ -40,8 +40,6 @@ export default class HealthRequirement extends BaseArmorRequirement {
 
   /** @inheritdoc */
   toRequirement() {
-    return game.i18n.format("ARTICHRON.REQUIREMENT.HEALTH.content", {
-      value: this.value ?? 0,
-    });
+    return _loc("ARTICHRON.REQUIREMENT.HEALTH.content", { value: this.value ?? 0 });
   }
 }

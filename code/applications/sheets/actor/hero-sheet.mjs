@@ -166,7 +166,7 @@ export default class HeroSheet extends ActorSheetArtichron {
     }
 
     // A temporary "misc" section to store unsorted talents. Removed if none found.
-    ctx.paths.other = { items: [], label: game.i18n.localize("ARTICHRON.SHEET.HERO.HEADERS.otherTalents") };
+    ctx.paths.other = { items: [], label: _loc("ARTICHRON.SHEET.HERO.HEADERS.otherTalents") };
 
     // Sort talents into path sections.
     for (const talent of this.document.items.documentsByType.talent) {

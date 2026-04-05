@@ -246,7 +246,7 @@ export default class HeroData extends CreatureData {
     if (mixedPath) invested[mixedPath.identifier] = Object.values(invested).reduce((acc, k) => acc + k, 0);
     Object.defineProperties(this.progression, {
       label: {
-        value: this.progression.paths[pathId]?.name ?? game.i18n.localize("ARTICHRON.SHEET.HERO.noPath"),
+        value: this.progression.paths[pathId]?.name ?? _loc("ARTICHRON.SHEET.HERO.noPath"),
       },
       invested: {
         value: { ...invested },
@@ -334,7 +334,7 @@ export default class HeroData extends CreatureData {
     const roll = await foundry.dice.Roll.create(formula, rollData, { skills: [config.base, config.second] }).evaluate();
 
     const messageData = {
-      flavor: game.i18n.format("ARTICHRON.SKILL.ROLL_DIALOG.flavor", {
+      flavor: _loc("ARTICHRON.SKILL.ROLL_DIALOG.flavor", {
         skills: Array.from(new Set([config.base, config.second]).map(skl => {
           return artichron.config.SKILLS[skl].label;
         })).sort((a, b) => a.localeCompare(b)).join(", "),

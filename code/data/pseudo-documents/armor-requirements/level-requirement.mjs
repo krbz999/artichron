@@ -42,8 +42,6 @@ export default class LevelRequirement extends BaseArmorRequirement {
 
   /** @inheritdoc */
   toRequirement() {
-    return game.i18n.format("ARTICHRON.REQUIREMENT.LEVEL.content", {
-      value: this.value ?? 0,
-    });
+    return _loc("ARTICHRON.REQUIREMENT.LEVEL.content", { value: this.value ?? 0 });
   }
 }

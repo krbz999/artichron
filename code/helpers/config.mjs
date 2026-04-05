@@ -170,7 +170,7 @@ Object.defineProperty(TARGET_TYPES, "optgroups", {
       { value: "self", label: self.label },
       { value: "single", label: single.label },
     );
-    const grp = game.i18n.localize("ARTICHRON.TargetTypes.AreaOfEffect");
+    const grp = _loc("ARTICHRON.TargetTypes.AreaOfEffect");
     options.push(...Object.entries(rest).map(([k, v]) => ({ value: k, label: v.label, group: grp })));
     return options;
   },

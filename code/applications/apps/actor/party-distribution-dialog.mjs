@@ -37,8 +37,8 @@ export default class PartyDistributionDialog extends Application {
 
   /** @inheritdoc */
   get title() {
-    if (this.#type === "currency") return game.i18n.format("ARTICHRON.DISTRIBUTE.title", { name: this.#party.name });
-    return game.i18n.format("ARTICHRON.DISTRIBUTE.titlePoints", { name: this.#party.name });
+    if (this.#type === "currency") return _loc("ARTICHRON.DISTRIBUTE.title", { name: this.#party.name });
+    return _loc("ARTICHRON.DISTRIBUTE.titlePoints", { name: this.#party.name });
   }
 
   /* -------------------------------------------------- */

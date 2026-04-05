@@ -165,7 +165,7 @@ export default class PartySheet extends ActorSheetArtichron {
       }
       return {
         items, type,
-        label: game.i18n.localize(`TYPES.Item.${type}Pl`),
+        label: _loc(`TYPES.Item.${type}Pl`),
       };
     });
     sections.sort((a, b) => a.label.localeCompare(b.label));

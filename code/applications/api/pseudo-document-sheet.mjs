@@ -107,8 +107,8 @@ export default class PseudoDocumentSheet extends ArtichronApplicationMixin(Appli
     const { documentName, name } = pseudo;
     const label = pseudo.constructor.metadata.label;
     return [
-      game.i18n.localize(`DOCUMENT.${documentName}`),
-      name ? name : (label ? game.i18n.localize(label) : null),
+      _loc(`DOCUMENT.${documentName}`),
+      name ? name : (label ? _loc(label) : null),
     ].filterJoin(": ");
   }
 
@@ -189,7 +189,7 @@ export default class PseudoDocumentSheet extends ArtichronApplicationMixin(Appli
   /** @inheritdoc */
   async _renderFrame(options) {
     const frame = await super._renderFrame(options);
-    const copyLabel = game.i18n.localize("SHEETS.CopyUuid");
+    const copyLabel = _loc("SHEETS.CopyUuid");
 
     const properties = Object.entries({
       type: "button",
@@ -242,7 +242,7 @@ export default class PseudoDocumentSheet extends ArtichronApplicationMixin(Appli
     const pseudo = this.pseudoDocument;
     const id = event.button === 2 ? pseudo.id : pseudo.uuid;
     const type = event.button === 2 ? "id" : "uuid";
-    const label = game.i18n.localize(`DOCUMENT.${pseudo.documentName}`);
+    const label = _loc(`DOCUMENT.${pseudo.documentName}`);
     game.clipboard.copyPlainText(id);
     ui.notifications.info("DOCUMENT.IdCopiedClipboard", { format: { label, type, id } });
   }

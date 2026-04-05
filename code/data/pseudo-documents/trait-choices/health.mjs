@@ -21,6 +21,6 @@ export default class HealthChoice extends BaseTraitChoice {
 
   /** @inheritdoc */
   toString() {
-    return game.i18n.format("ARTICHRON.TRAIT_CHOICE.HINT.health", { increase: this.value.signedString() });
+    return _loc("ARTICHRON.TRAIT_CHOICE.HINT.health", { increase: this.value.signedString() });
   }
 }

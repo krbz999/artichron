@@ -64,7 +64,7 @@ export default class SpellSheet extends PhysicalItemSheet {
         const isSrc = activity.isSource;
         return {
           document: activity,
-          name: activity.name ? activity.name : game.i18n.localize(activity.constructor.metadata.label),
+          name: activity.name ? activity.name : _loc(activity.constructor.metadata.label),
           classes: [isSrc ? "draggable" : "disabled"],
         };
       }),

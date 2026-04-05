@@ -32,7 +32,7 @@ export default class DamageRollFlowDialog extends Application {
 
   /** @inheritdoc */
   get title() {
-    return game.i18n.format("ARTICHRON.DAMAGE.TITLE", { name: this.#flow.config.subject.name });
+    return _loc("ARTICHRON.DAMAGE.TITLE", { name: this.#flow.config.subject.name });
   }
 
   /* -------------------------------------------------- */

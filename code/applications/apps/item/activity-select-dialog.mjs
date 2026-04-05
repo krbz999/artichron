@@ -34,7 +34,7 @@ export default class ActivitySelectDialog extends Application {
 
   /** @inheritdoc */
   get title() {
-    return game.i18n.format("ARTICHRON.ACTIVITY.SELECT.TITLE", { name: this.#item.name });
+    return _loc("ARTICHRON.ACTIVITY.SELECT.TITLE", { name: this.#item.name });
   }
 
   /* -------------------------------------------------- */

@@ -119,7 +119,7 @@ export default class ItemSystemModel extends foundry.abstract.TypeDataModel {
       item: item,
       rollData: rollData,
       description: description,
-      subtitle: game.i18n.localize(`TYPES.Item.${this.parent.type}`),
+      subtitle: _loc(`TYPES.Item.${this.parent.type}`),
       tags: this._prepareTooltipTags(),
       properties: this._prepareTooltipProperties(),
     };

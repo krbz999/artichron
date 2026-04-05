@@ -150,7 +150,7 @@ export default class EffectConditionData extends ActiveEffectSystemModel {
 
     const hint = document.createElement("P");
     hint.classList.add("hint");
-    hint.textContent = game.i18n.format(`ARTICHRON.CONDITIONS.FIELDS.${this.primary}.effect`, {
+    hint.textContent = _loc(`ARTICHRON.CONDITIONS.FIELDS.${this.primary}.effect`, {
       actor: this.parent.parent.name,
       level: this.level,
     });
@@ -249,7 +249,7 @@ export default class EffectConditionData extends ActiveEffectSystemModel {
     const type = "fire";
     const roll = new CONFIG.Dice.DamageRoll(formula, { level: this.level }, { type: type });
     await roll.toMessage({
-      flavor: game.i18n.format("ARTICHRON.CONDITIONS.FIELDS.burning.flavor", { actor: actor.name }),
+      flavor: _loc("ARTICHRON.CONDITIONS.FIELDS.burning.flavor", { actor: actor.name }),
       sound: null,
     });
     return actor.system.applyDamage([{
@@ -273,7 +273,7 @@ export default class EffectConditionData extends ActiveEffectSystemModel {
     const type = "physical";
     const roll = new CONFIG.Dice.DamageRoll(formula, { level: this.level }, { type: type });
     await roll.toMessage({
-      flavor: game.i18n.format("ARTICHRON.CONDITIONS.FIELDS.bleeding.flavor", { actor: actor.name }),
+      flavor: _loc("ARTICHRON.CONDITIONS.FIELDS.bleeding.flavor", { actor: actor.name }),
       sound: null,
     });
     return actor.system.applyDamage([{

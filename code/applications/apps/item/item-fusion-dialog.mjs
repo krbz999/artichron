@@ -56,7 +56,7 @@ export default class ItemFusionDialog extends Application {
 
   /** @inheritdoc */
   get title() {
-    return game.i18n.format(this.options.window.title, { name: this.#item.name });
+    return _loc(this.options.window.title, { name: this.#item.name });
   }
 
   /* -------------------------------------------------- */

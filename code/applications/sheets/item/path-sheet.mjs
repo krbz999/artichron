@@ -47,7 +47,7 @@ export default class PathSheet extends ItemSheetArtichron {
       for (const [k, { label }] of Object.entries(artichron.config.PROGRESSION_MIXED_PATHS)) {
         context.ctx.identifiers.push({ value: k, label });
       }
-      context.ctx.idHint = game.i18n.localize("ARTICHRON.ITEM.PATH.FIELDS.identifier.hintMixed");
+      context.ctx.idHint = _loc("ARTICHRON.ITEM.PATH.FIELDS.identifier.hintMixed");
     } else {
       for (const [k, { label }] of Object.entries(artichron.config.PROGRESSION_CORE_PATHS)) {
         context.ctx.identifiers.push({ value: k, label });
@@ -72,7 +72,7 @@ export default class PathSheet extends ItemSheetArtichron {
       const pts = advancement.levels;
       for (const p of pts) {
         ctx.advancements[p] ??= {
-          label: game.i18n.format("ARTICHRON.SHEET.PATH.HEADERS.pointsRequired", { points: p }),
+          label: _loc("ARTICHRON.SHEET.PATH.HEADERS.pointsRequired", { points: p }),
           entries: [],
         };
         ctx.advancements[p].entries.push({ document: advancement, classes: ["draggable"] });
@@ -80,7 +80,7 @@ export default class PathSheet extends ItemSheetArtichron {
 
       if (!pts.length) {
         ctx.advancements.empty ??= {
-          label: game.i18n.localize("ARTICHRON.SHEET.PATH.HEADERS.inapplicable"),
+          label: _loc("ARTICHRON.SHEET.PATH.HEADERS.inapplicable"),
           entries: [],
         };
         ctx.advancements.empty.entries.push({ document: advancement });

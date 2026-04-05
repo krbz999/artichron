@@ -126,7 +126,7 @@ export default class CombatArtichron extends BaseDocumentMixin(foundry.documents
         const roll = c.getInitiativeRoll();
         await roll.toMessage({
           sound: i ? null : CONFIG.sounds.dice,
-          flavor: game.i18n.format("COMBAT.RollsInitiative", { name: c.name }),
+          flavor: _loc("COMBAT.RollsInitiative", { name: c.name }),
           speaker: ChatMessage.implementation.getSpeaker({
             actor: c.actor,
             token: c.token,

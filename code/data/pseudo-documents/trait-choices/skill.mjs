@@ -27,7 +27,7 @@ export default class SkillChoice extends BaseTraitChoice {
 
   /** @inheritdoc */
   toString() {
-    return game.i18n.format(`ARTICHRON.TRAIT_CHOICE.HINT.skill${this.subtype.capitalize()}`, {
+    return _loc(`ARTICHRON.TRAIT_CHOICE.HINT.skill${this.subtype.capitalize()}`, {
       increase: this.value.signedString(),
       skill: artichron.config.SKILLS[this.skill].label,
     });

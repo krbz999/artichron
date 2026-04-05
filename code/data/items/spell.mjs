@@ -58,7 +58,7 @@ export default class SpellData extends ItemSystemModel {
 
     const effect = await foundry.utils.getDocumentClass("ActiveEffect").create({
       type: "fusion",
-      name: game.i18n.format("ARTICHRON.FUSION.defaultName", { name: spell.name }),
+      name: _loc("ARTICHRON.FUSION.defaultName", { name: spell.name }),
       img: spell.img,
       changes: SpellData.createFusionData(spell, armor),
       system: {

@@ -28,7 +28,7 @@ export default class SkillRollDialog extends Application {
 
   /** @inheritdoc */
   get title() {
-    return game.i18n.format("ARTICHRON.SKILL.ROLL_DIALOG.TITLE", { name: this.#config.subject.name });
+    return _loc("ARTICHRON.SKILL.ROLL_DIALOG.TITLE", { name: this.#config.subject.name });
   }
 
   /* -------------------------------------------------- */

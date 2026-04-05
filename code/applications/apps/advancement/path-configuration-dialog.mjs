@@ -80,7 +80,7 @@ export default class PathConfigurationDialog extends Application {
 
   /** @inheritdoc */
   get title() {
-    return game.i18n.format("ARTICHRON.PROGRESSION.PATH_CONFIGURATION.title", { name: this.#document.name });
+    return _loc("ARTICHRON.PROGRESSION.PATH_CONFIGURATION.title", { name: this.#document.name });
   }
 
   /* -------------------------------------------------- */
@@ -128,7 +128,7 @@ export default class PathConfigurationDialog extends Application {
     const ctx = context.ctx = {};
 
     ctx.oldPath = this.#document.system.progression.label
-      || game.i18n.localize("ARTICHRON.PROGRESSION.PATH_CONFIGURATION.noPath");
+      || _loc("ARTICHRON.PROGRESSION.PATH_CONFIGURATION.noPath");
 
     const invested = foundry.utils.deepClone(this.#document.system.progression.invested ?? {});
     for (const k in this.#investment) {
@@ -137,7 +137,7 @@ export default class PathConfigurationDialog extends Application {
     }
     const newPath = artichron.data.actors.HeroData.getPath(invested);
     ctx.newPath = (await this.#getItem(newPath))?.name
-      || game.i18n.localize("ARTICHRON.PROGRESSION.PATH_CONFIGURATION.noPath");
+      || _loc("ARTICHRON.PROGRESSION.PATH_CONFIGURATION.noPath");
 
     const rom = obj => artichron.utils.romanize(Object.values(obj).reduce((acc, i) => acc + i, 0));
     ctx.totals = {

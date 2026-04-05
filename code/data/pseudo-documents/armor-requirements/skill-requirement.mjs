@@ -47,7 +47,7 @@ export default class SkillRequirement extends BaseArmorRequirement {
 
   /** @inheritdoc */
   toRequirement() {
-    return game.i18n.format("ARTICHRON.REQUIREMENT.SKILL.content", {
+    return _loc("ARTICHRON.REQUIREMENT.SKILL.content", {
       skill: artichron.config.SKILLS[this.skill].label,
       value: this.value,
     });
