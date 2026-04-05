@@ -1,6 +1,6 @@
 import ActiveEffectSystemModel from "./system-model.mjs";
 
-const { DocumentUUIDField, BooleanField, StringField } = foundry.data.fields;
+const { DocumentUUIDField, BooleanField } = foundry.data.fields;
 
 /**
  * System data for "Buffs".

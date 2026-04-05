@@ -19,7 +19,7 @@ export default class EffectEnhancementData extends ActiveEffectSystemModel {
     const allowed = await super._preCreate(data, options, user);
     if (allowed === false) return false;
 
-    if (this.parent.parent.documentName === "Actor") {
+    if (this.parent.parent?.documentName === "Actor") {
       ui.notifications.warn("Enhancements can only live on an item.");
       return false;
     }

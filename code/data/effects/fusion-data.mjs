@@ -1,6 +1,6 @@
 import ActiveEffectSystemModel from "./system-model.mjs";
 
-const { JSONField, StringField } = foundry.data.fields;
+const { JSONField } = foundry.data.fields;
 
 /**
  * System data for "Fusions".

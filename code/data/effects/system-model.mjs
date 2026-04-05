@@ -1,6 +1,4 @@
-const {
-  StringField,
-} = foundry.data.fields;
+const { StringField } = foundry.data.fields;
 
 /**
  * System data for ActiveEffects.
