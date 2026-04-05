@@ -122,7 +122,7 @@ export default class TokenHUDArtichron extends foundry.applications.hud.TokenHUD
 
   /**
    * Roll damage for every controlled token.
-   * @this {TokenHUDArtichron}
+   * @this TokenHUDArtichron
    * @param {PointerEvent} event          The initiating click event.
    * @param {HTMLButtonElement} target    The capturing HTML element which defined a [data-action].
    */

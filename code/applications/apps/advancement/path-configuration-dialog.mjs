@@ -229,7 +229,7 @@ export default class PathConfigurationDialog extends Application {
 
   /**
    * Allocate a point to a path.
-   * @this {PathConfigurationDialog}
+   * @this PathConfigurationDialog
    * @param {PointerEvent} event          The initiating click event.
    * @param {HTMLButtonElement} target    The capturing HTML element which defined a [data-action].
    */
@@ -244,7 +244,7 @@ export default class PathConfigurationDialog extends Application {
 
   /**
    * Remove a point from a path.
-   * @this {PathConfigurationDialog}
+   * @this PathConfigurationDialog
    * @param {PointerEvent} event          The initiating click event.
    * @param {HTMLButtonElement} target    The capturing HTML element which defined a [data-action].
    */

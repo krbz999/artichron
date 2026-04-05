@@ -87,7 +87,7 @@ export default class ControlledTokensListElement extends HTMLElement {
 
   /**
    * A hook event to create or tear down target elements when a token is controlled or released.
-   * @this {ControlledTokensListElement}
+   * @this ControlledTokensListElement
    * @param {foundry.canvas.placeables.Token} token   The token that was controlled or released.
    * @param {boolean} controlled                      Was the token controlled?
    */
@@ -99,7 +99,7 @@ export default class ControlledTokensListElement extends HTMLElement {
 
   /**
    * A hook event to create or tear down target elements when a token is targeted or untargeted.
-   * @this {ControlledTokensListElement}
+   * @this ControlledTokensListElement
    * @param {foundry.documents.User} user             The user performing the targeting.
    * @param {foundry.canvas.placeables.Token} token   The token targeted.
    * @param {boolean} targeted                        Was the token targeted?
@@ -155,7 +155,7 @@ export default class ControlledTokensListElement extends HTMLElement {
 
   /**
    * Handle click events on a target.
-   * @this {ControlledTokensListElement}
+   * @this ControlledTokensListElement
    * @param {PointerEvent} event    The initiating click event.
    * @param {HTMLElement} target    The target element.
    */
@@ -172,7 +172,7 @@ export default class ControlledTokensListElement extends HTMLElement {
 
   /**
    * Handle hover events on a target.
-   * @this {ControlledTokensListElement}
+   * @this ControlledTokensListElement
    * @param {PointerEvent} event    The initiating click event.
    * @param {HTMLElement} target    The target element.
    */
@@ -189,7 +189,7 @@ export default class ControlledTokensListElement extends HTMLElement {
 
   /**
    * Handle hover-out events on a target.
-   * @this {ControlledTokensListElement}
+   * @this ControlledTokensListElement
    * @param {PointerEvent} event    The initiating click event.
    * @param {HTMLElement} target    The target element.
    */

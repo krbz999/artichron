@@ -118,9 +118,9 @@ export default class RecoveryPhaseConfig extends Application {
 
   /**
    * Update the party data clone and re-render the application.
-   * @this {RecoveryPhaseConfig}
+   * @this RecoveryPhaseConfig
    */
-  static #updateTasks(event) {
+  static #updateTasks() {
     const formData = foundry.utils.expandObject(new foundry.applications.ux.FormDataExtended(this.form).object);
     try {
       this.#clone.updateSource({ "recovery.tasks": formData.tasks });
@@ -134,7 +134,7 @@ export default class RecoveryPhaseConfig extends Application {
 
   /**
    * Add a new task.
-   * @this {RecoveryPhaseConfig}
+   * @this RecoveryPhaseConfig
    * @param {PointerEvent} event    The initiating click event.
    * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
    */
@@ -143,7 +143,7 @@ export default class RecoveryPhaseConfig extends Application {
     const id = suggestion ? suggestion : foundry.utils.randomID();
     const label = suggestion
       ? artichron.config.RECOVERY_TASKS[id].label
-      : game.i18n.localize("ARTICHRON.RECOVERY.CONFIG.newTask");
+      : _loc("ARTICHRON.RECOVERY.CONFIG.newTask");
     const skill = suggestion ? artichron.config.RECOVERY_TASKS[id].skill : "agility";
     this.#clone.updateSource({ [`recovery.tasks.${id}`]: { label, threshold: 1, skills: { primary: skill } } });
     this.render();
@@ -153,7 +153,7 @@ export default class RecoveryPhaseConfig extends Application {
 
   /**
    * Remove a task task.
-   * @this {RecoveryPhaseConfig}
+   * @this RecoveryPhaseConfig
    * @param {PointerEvent} event    The initiating click event.
    * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
    */

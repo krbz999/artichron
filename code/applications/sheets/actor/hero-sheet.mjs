@@ -353,7 +353,7 @@ export default class HeroSheet extends ActorSheetArtichron {
 
   /**
    * Handle click events to roll a skill.
-   * @this {HeroSheet}
+   * @this HeroSheet
    * @param {PointerEvent} event    The initiating click event.
    * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
    */
@@ -365,7 +365,7 @@ export default class HeroSheet extends ActorSheetArtichron {
 
   /**
    * Trigger advancement dialog.
-   * @this {HeroSheet}
+   * @this HeroSheet
    * @param {PointerEvent} event    The initiating click event.
    * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
    */

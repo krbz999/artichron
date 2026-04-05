@@ -150,7 +150,7 @@ export default function DocumentSheetMixin(Class) {
 
     /**
      * Handle toggling between Edit and Play mode.
-     * @this {DocumentSheetArtichron}
+     * @this DocumentSheetArtichron
      * @param {PointerEvent} event    The initiating click event.
      * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
      */
@@ -195,7 +195,7 @@ export default function DocumentSheetMixin(Class) {
 
     /**
      * Handle click events to create an embedded document.
-     * @this {DocumentSheetArtichron}
+     * @this DocumentSheetArtichron
      * @param {PointerEvent} event    The initiating click event.
      * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
      */
@@ -224,7 +224,7 @@ export default function DocumentSheetMixin(Class) {
 
     /**
      * Handle click events to render an item's sheet.
-     * @this {DocumentSheetArtichron}
+     * @this DocumentSheetArtichron
      * @param {PointerEvent} event    The initiating click event.
      * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
      */
@@ -236,7 +236,7 @@ export default function DocumentSheetMixin(Class) {
 
     /**
      * Handle the change events on input fields that should propagate to the embedded document.
-     * @this {DocumentSheetArtichron}
+     * @this DocumentSheetArtichron
      * @param {PointerEvent} event    The initiating change event.
      */
     static #updateEmbedded(event) {
@@ -255,7 +255,7 @@ export default function DocumentSheetMixin(Class) {
 
     /**
      * Create a pseudo-document.
-     * @this {ItemSheetArtichron}
+     * @this ItemSheetArtichron
      * @param {PointerEvent} event    The initiating click event.
      * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
      */
@@ -275,7 +275,7 @@ export default function DocumentSheetMixin(Class) {
 
     /**
      * Delete a pseudo-document.
-     * @this {ItemSheetArtichron}
+     * @this ItemSheetArtichron
      * @param {PointerEvent} event    The initiating click event.
      * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
      */
@@ -288,7 +288,7 @@ export default function DocumentSheetMixin(Class) {
 
     /**
      * Render the sheet of a pseudo-document.
-     * @this {ItemSheetArtichron}
+     * @this ItemSheetArtichron
      * @param {PointerEvent} event    The initiating click event.
      * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
      */

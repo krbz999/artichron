@@ -65,7 +65,7 @@ export default class DocumentConfig extends ArtichronApplicationMixin(DocumentSh
 
   /**
    * Create a pseudo-document.
-   * @this {ItemSheetArtichron}
+   * @this ItemSheetArtichron
    * @param {PointerEvent} event    The initiating click event.
    * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
    */
@@ -85,7 +85,7 @@ export default class DocumentConfig extends ArtichronApplicationMixin(DocumentSh
 
   /**
    * Delete a pseudo-document.
-   * @this {ItemSheetArtichron}
+   * @this ItemSheetArtichron
    * @param {PointerEvent} event    The initiating click event.
    * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
    */
@@ -98,7 +98,7 @@ export default class DocumentConfig extends ArtichronApplicationMixin(DocumentSh
 
   /**
    * Render the sheet of a pseudo-document.
-   * @this {ItemSheetArtichron}
+   * @this ItemSheetArtichron
    * @param {PointerEvent} event    The initiating click event.
    * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
    */

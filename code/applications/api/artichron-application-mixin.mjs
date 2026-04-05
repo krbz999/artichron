@@ -113,7 +113,7 @@ export default function ArtichronApplicationMixin(Class) {
 
     /**
      * Handle toggling the opacity lock of the application.
-     * @this {DocumentSheetArtichron}
+     * @this DocumentSheetArtichron
      * @param {PointerEvent} event    The initiating click event.
      * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
      */

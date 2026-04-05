@@ -203,7 +203,7 @@ export default class DamageData extends ChatMessageSystemModel {
 
   /**
    * Apply damage to all the token actors.
-   * @this {foundry.documents.ChatMessage}
+   * @this foundry.documents.ChatMessage
    * @param {PointerEvent} event          The initiating click event.
    * @param {HTMLButtonElement} target    The button that defined the [data-action].
    * @returns {Promise<boolean>}          A promise that resolves once damage has been applied
@@ -237,7 +237,7 @@ export default class DamageData extends ChatMessageSystemModel {
 
   /**
    * Handle undoing damage.
-   * @this {foundry.documents.ChatMessage}
+   * @this foundry.documents.ChatMessage
    * @param {PointerEvent} event    The initiating click event.
    * @param {HTMLElement} target    The target element.
    */

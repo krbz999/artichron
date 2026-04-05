@@ -125,7 +125,7 @@ export default class ActivitySheet extends PseudoDocumentSheet {
 
   /**
    * Add a new status option.
-   * @this {ActivitySheet}
+   * @this ActivitySheet
    * @param {PointerEvent} event    The initiating click event.
    * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
    */
@@ -138,7 +138,7 @@ export default class ActivitySheet extends PseudoDocumentSheet {
 
   /**
    * Remove a granted status.
-   * @this {ActivitySheet}
+   * @this ActivitySheet
    * @param {PointerEvent} event    The initiating click event.
    * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
    */

@@ -137,7 +137,7 @@ export default class PartyDistributionDialog extends Application {
 
   /**
    * Split the values evenly across all recipients.
-   * @this {PartyDistributionDialog}
+   * @this PartyDistributionDialog
    * @param {PointerEvent} event    The initiating click event.
    * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
    */

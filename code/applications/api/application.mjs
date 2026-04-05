@@ -58,8 +58,8 @@ export default class Application extends ArtichronApplicationMixin(ApplicationV2
 
   /**
    * Handle form submission.
-   * @this {Application}
-   * @param {Event} event                   The submit event.
+   * @this Application
+   * @param {SubmitEvent} event             The submit event.
    * @param {HTMLFormElement} form          The form element.
    * @param {FormDataExtended} formData     The form data.
    * @param {object} submitOptions          The submit options.
@@ -72,7 +72,7 @@ export default class Application extends ArtichronApplicationMixin(ApplicationV2
 
   /**
    * Perform processing of the submitted data. To prevent submission, throw an error.
-   * @param {Event} event                   The submit event.
+   * @param {SubmitEvent} event             The submit event.
    * @param {HTMLFormElement} form          The form element.
    * @param {FormDataExtended} formData     The form data.
    * @param {object} submitOptions          The submit options.

@@ -136,7 +136,7 @@ export default class AdvancementSheet extends PseudoDocumentSheet {
 
   /**
    * Delete an entry from the pool of an item grant advancement.
-   * @this {AdvancementSheet}
+   * @this AdvancementSheet
    * @param {PointerEvent} event    The initiating click event.
    * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
    */
@@ -152,7 +152,7 @@ export default class AdvancementSheet extends PseudoDocumentSheet {
 
   /**
    * Remove a scale increase for scaling value advancements.
-   * @this {AdvancementSheet}
+   * @this AdvancementSheet
    * @param {PointerEvent} event    The initiating click event.
    * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
    */
@@ -164,7 +164,7 @@ export default class AdvancementSheet extends PseudoDocumentSheet {
 
   /**
    * Create a new trait on a trait advancement.
-   * @this {AdvancementSheet}
+   * @this AdvancementSheet
    * @param {PointerEvent} event    The initiating click event.
    * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
    */
@@ -176,7 +176,7 @@ export default class AdvancementSheet extends PseudoDocumentSheet {
 
   /**
    * Remove a trait from a trait advancement.
-   * @this {AdvancementSheet}
+   * @this AdvancementSheet
    * @param {PointerEvent} event    The initiating click event.
    * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
    */

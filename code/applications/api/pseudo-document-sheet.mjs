@@ -219,7 +219,7 @@ export default class PseudoDocumentSheet extends ArtichronApplicationMixin(Appli
 
   /**
    * Handle form submission.
-   * @this {PseudoDocumentSheet}
+   * @this PseudoDocumentSheet
    * @param {PointerEvent} event          The initiating click event.
    * @param {HTMLElement} form            The form element.
    * @param {FormDataExtended} formData   The form data.
@@ -232,7 +232,7 @@ export default class PseudoDocumentSheet extends ArtichronApplicationMixin(Appli
   /* -------------------------------------------------- */
 
   /**
-   * @this {PseudoDocumentSheet}
+   * @this PseudoDocumentSheet
    * @param {PointerEvent} event    The initiating click event.
    */
   static #copyUuid(event) {

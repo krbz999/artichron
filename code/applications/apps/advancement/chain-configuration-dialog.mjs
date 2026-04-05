@@ -92,7 +92,7 @@ export default class ChainConfigurationDialog extends Application {
 
   /**
    * Configure an advancement, then mutate the chains and re-render.
-   * @this {ChainConfigurationDialog}
+   * @this ChainConfigurationDialog
    * @param {PointerEvent} event          The initiating click event.
    * @param {HTMLButtonElement} target    The capturing HTML element which defined a [data-action].
    */

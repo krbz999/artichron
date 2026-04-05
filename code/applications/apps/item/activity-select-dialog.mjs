@@ -92,7 +92,7 @@ export default class ActivitySelectDialog extends Application {
 
   /**
    * Select activity.
-   * @this {ActivitySelectDialog}
+   * @this ActivitySelectDialog
    * @param {PointerEvent} event    The initiating click event.
    * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
    */

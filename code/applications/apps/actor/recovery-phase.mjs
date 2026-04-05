@@ -172,7 +172,7 @@ export default class RecoveryPhase extends Application {
 
   /**
    * Handle drag start events.
-   * @this {RecoveryPhase}
+   * @this RecoveryPhase
    * @param {DragEvent} event
    */
   static #onDragStart(event) {
@@ -187,7 +187,7 @@ export default class RecoveryPhase extends Application {
 
   /**
    * Handle drop events.
-   * @this {RecoveryPhase}
+   * @this RecoveryPhase
    * @param {DragEvent} event
    */
   static #onDrop(event) {
@@ -202,7 +202,7 @@ export default class RecoveryPhase extends Application {
 
   /**
    * Unassign an actor from a task.
-   * @this {RecoveryPhase}
+   * @this RecoveryPhase
    * @param {PointerEvent} event    The initiating click event.
    * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
    */

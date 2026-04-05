@@ -185,7 +185,7 @@ export default class MonsterSheet extends ActorSheetArtichron {
 
   /**
    * Remove a loot entry.
-   * @this {MonsterSheet}
+   * @this MonsterSheet
    * @param {PointerEvent} event    The initiating click event.
    * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
    */
@@ -198,7 +198,7 @@ export default class MonsterSheet extends ActorSheetArtichron {
 
   /**
    * Increase the quantity of a loot entry.
-   * @this {MonsterSheet}
+   * @this MonsterSheet
    * @param {PointerEvent} event    The initiating click event.
    * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
    */
@@ -211,7 +211,7 @@ export default class MonsterSheet extends ActorSheetArtichron {
 
   /**
    * Decrease the quantity of a loot entry.
-   * @this {MonsterSheet}
+   * @this MonsterSheet
    * @param {PointerEvent} event    The initiating click event.
    * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
    */
@@ -224,7 +224,7 @@ export default class MonsterSheet extends ActorSheetArtichron {
 
   /**
    * Grant the loot of this monster to the primary party.
-   * @this {MonsterSheet}
+   * @this MonsterSheet
    * @param {PointerEvent} event    The initiating click event.
    * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
    */

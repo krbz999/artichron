@@ -365,7 +365,7 @@ export default class PartySheet extends ActorSheetArtichron {
 
   /**
    * Prompt to distribute to the party an amount of currency.
-   * @this {PartySheet}
+   * @this PartySheet
    * @param {PointerEvent} event    The initiating click event.
    * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
    */
@@ -377,7 +377,7 @@ export default class PartySheet extends ActorSheetArtichron {
 
   /**
    * Prompt to distribute to the party an amount of currency.
-   * @this {PartySheet}
+   * @this PartySheet
    * @param {PointerEvent} event    The initiating click event.
    * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
    */
@@ -389,7 +389,7 @@ export default class PartySheet extends ActorSheetArtichron {
 
   /**
    * Display an actor when the avatar is clicked.
-   * @this {PartySheet}
+   * @this PartySheet
    * @param {PointerEvent} event    The initiating click event.
    * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
    */
@@ -403,7 +403,7 @@ export default class PartySheet extends ActorSheetArtichron {
 
   /**
    * Place the members of this party.
-   * @this {PartySheet}
+   * @this PartySheet
    * @param {PointerEvent} event    The initiating click event.
    * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
    */
@@ -417,7 +417,7 @@ export default class PartySheet extends ActorSheetArtichron {
 
   /**
    * Recall the members of this party.
-   * @this {PartySheet}
+   * @this PartySheet
    * @param {PointerEvent} event    The initiating click event.
    * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
    */
@@ -430,7 +430,7 @@ export default class PartySheet extends ActorSheetArtichron {
 
   /**
    * Remove this member from this party.
-   * @this {PartySheet}
+   * @this PartySheet
    * @param {PointerEvent} event    The initiating click event.
    * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
    */
@@ -444,7 +444,7 @@ export default class PartySheet extends ActorSheetArtichron {
 
   /**
    * Adjust the value of a clock.
-   * @this {PartySheet}
+   * @this PartySheet
    * @param {PointerEvent} event    The initiating click event.
    * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
    */
@@ -459,7 +459,7 @@ export default class PartySheet extends ActorSheetArtichron {
 
   /**
    * Initiate a recovery phase.
-   * @this {PartySheet}
+   * @this PartySheet
    * @param {PointerEvent} event    The initiating click event.
    * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
    */

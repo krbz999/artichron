@@ -328,7 +328,7 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
 
   /**
    * Handle click events to use an item.
-   * @this {ActorSheetArtichron}
+   * @this ActorSheetArtichron
    * @param {PointerEvent} event    The initiating click event.
    * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
    */
@@ -341,7 +341,7 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
 
   /**
    * Handle click events to render a configuration menu.
-   * @this {ActorSheetArtichron}
+   * @this ActorSheetArtichron
    * @param {PointerEvent} event    The initiating click event.
    * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
    */
@@ -364,7 +364,7 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
 
   /**
    * Handle click events to restore the actor's hit points and other resources.
-   * @this {ActorSheetArtichron}
+   * @this ActorSheetArtichron
    * @param {PointerEvent} event    The initiating click event.
    * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
    */
@@ -376,7 +376,7 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
 
   /**
    * Roll damage.
-   * @this {ActorSheetArtichron}
+   * @this ActorSheetArtichron
    * @param {PointerEvent} event    The initiating click event.
    * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
    */

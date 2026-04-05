@@ -132,12 +132,14 @@ export default class EffectData extends ChatMessageSystemModel {
 
   /**
    * Apply applicable effects to tokens' actors.
-   * @this {EffectData}
+   * @this EffectData
    * @param {PointerEvent} event          The initiating click event.
    * @param {HTMLButtonElement} target    The button that defined the [data-action].
    */
   static async #applyEffects(event, target) {
-    let actors = Array.from(target.closest(".token-application").querySelectorAll(".target-element.effect:not(.unchecked)"))
+    let actors = Array.from(
+      target.closest(".token-application").querySelectorAll(".target-element.effect:not(.unchecked)"),
+    )
       .map(element => fromUuidSync(element.dataset.actorUuid))
       .filter(_ => _);
     actors = new Set(actors);

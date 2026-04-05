@@ -43,7 +43,7 @@ export default class RecoveryData extends ChatMessageSystemModel {
 
   /**
    * Render recovery phase.
-   * @this {foundry.documents.ChatMessage}
+   * @this foundry.documents.ChatMessage
    * @param {PointerEvent} event    Initiating click event.
    */
   static #participateRecovery(event) {
@@ -59,7 +59,7 @@ export default class RecoveryData extends ChatMessageSystemModel {
 
   /**
    * Request skill checks for tasks that have not been performed.
-   * @this {foundry.documents.ChatMessage}
+   * @this foundry.documents.ChatMessage
    * @param {PointerEvent} event    Initiating click event.
    */
   static async #requestRolls(event) {

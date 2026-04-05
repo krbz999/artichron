@@ -269,7 +269,7 @@ export default class CombatCarousel extends HandlebarsApplicationMixin(Applicati
 
   /**
    * Handle double-clicks on a combatant to render its actor's sheet.
-   * @this {CombatCarousel}
+   * @this CombatCarousel
    * @param {PointerEvent} event    The initiating click event.
    */
   static #renderActor(event) {
@@ -283,7 +283,7 @@ export default class CombatCarousel extends HandlebarsApplicationMixin(Applicati
 
   /**
    * Handle selecting combatant.
-   * @this {CombatCarousel}
+   * @this CombatCarousel
    * @param {PointerEvent} event    The initiating click event.
    * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
    */
@@ -333,7 +333,7 @@ export default class CombatCarousel extends HandlebarsApplicationMixin(Applicati
 
   /**
    * Handle initiating combat.
-   * @this {CombatCarousel}
+   * @this CombatCarousel
    * @param {PointerEvent} event    The initiating click event.
    * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
    */
@@ -345,7 +345,7 @@ export default class CombatCarousel extends HandlebarsApplicationMixin(Applicati
 
   /**
    * Handle ending combat.
-   * @this {CombatCarousel}
+   * @this CombatCarousel
    * @param {PointerEvent} event    The initiating click event.
    * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
    */
@@ -357,7 +357,7 @@ export default class CombatCarousel extends HandlebarsApplicationMixin(Applicati
 
   /**
    * Handle moving to the previous turn.
-   * @this {CombatCarousel}
+   * @this CombatCarousel
    * @param {PointerEvent} event    The initiating click event.
    * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
    */
@@ -369,7 +369,7 @@ export default class CombatCarousel extends HandlebarsApplicationMixin(Applicati
 
   /**
    * Handle moving to the next turn.
-   * @this {CombatCarousel}
+   * @this CombatCarousel
    * @param {PointerEvent} event    The initiating click event.
    * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
    */
@@ -381,7 +381,7 @@ export default class CombatCarousel extends HandlebarsApplicationMixin(Applicati
 
   /**
    * Handle pinging a combatant.
-   * @this {CombatCarousel}
+   * @this CombatCarousel
    * @param {PointerEvent} event    The initiating click event.
    * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
    */
@@ -399,7 +399,7 @@ export default class CombatCarousel extends HandlebarsApplicationMixin(Applicati
 
   /**
    * Handle toggling the defeated status.
-   * @this {CombatCarousel}
+   * @this CombatCarousel
    * @param {PointerEvent} event    The initiating click event.
    * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
    */
@@ -415,7 +415,7 @@ export default class CombatCarousel extends HandlebarsApplicationMixin(Applicati
 
   /**
    * Handle toggling the 'hidden' property.
-   * @this {CombatCarousel}
+   * @this CombatCarousel
    * @param {PointerEvent} event    The initiating click event.
    * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
    */
@@ -431,7 +431,7 @@ export default class CombatCarousel extends HandlebarsApplicationMixin(Applicati
 
   /**
    * Toggle the collapsed state of the combat tracker.
-   * @this {CombatCarousel}
+   * @this CombatCarousel
    * @param {PointerEvent} event    The initiating click event.
    * @param {HTMLElement} target    The capturing HTML element which defined a [data-action].
    */
