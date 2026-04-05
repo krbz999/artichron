@@ -69,19 +69,19 @@ export default class TypedPseudoDocument extends PseudoDocument {
    */
   static async createDialog(data = {}, { parent, ...operation } = {}) {
     const select = foundry.applications.fields.createFormGroup({
-      label: "Type",
+      label: "DOCUMENT.FIELDS.type.label",
       input: foundry.applications.fields.createSelectInput({
         blank: false,
         name: "type",
         options: Object.keys(this.TYPES).map(type => ({
           value: type,
-          label: game.i18n.localize(`TYPES.${this.metadata.documentName}.${type}`),
+          label: _loc(`TYPES.${this.metadata.documentName}.${type}`),
         })),
       }),
     }).outerHTML;
     const result = await artichron.applications.api.Dialog.input({
       window: {
-        title: game.i18n.format("DOCUMENT.New", { type: game.i18n.localize(`DOCUMENT.${this.metadata.documentName}`) }),
+        title: _loc("DOCUMENT.New", { type: _loc(`DOCUMENT.${this.metadata.documentName}`) }),
       },
       content: `<fieldset>${select}</fieldset>`,
     });
@@ -94,6 +94,6 @@ export default class TypedPseudoDocument extends PseudoDocument {
   /** @inheritdoc */
   prepareBaseData() {
     super.prepareBaseData();
-    if (!this.name) this.name = game.i18n.localize(`TYPES.${this.constructor.metadata.documentName}.${this.type}`);
+    if (!this.name) this.name = _loc(`TYPES.${this.constructor.metadata.documentName}.${this.type}`);
   }
 }

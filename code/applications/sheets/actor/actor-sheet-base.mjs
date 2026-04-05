@@ -78,7 +78,7 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
 
   /**
    * Prepare options for context menus for ActiveEffects.
-   * @returns {object[]}
+   * @returns {ContextMenuEntry[]}
    */
   #getContextOptionsActiveEffect() {
     if (!this.document.isOwner) return [];
@@ -89,45 +89,45 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
     };
 
     return [{
-      name: "ARTICHRON.SHEET.ACTOR.CONTEXT.EFFECT.render",
-      icon: "<i class='fa-solid fa-fw fa-edit'></i>",
-      callback: btn => getEffect(btn).sheet.render({ force: true }),
+      label: "ARTICHRON.SHEET.ACTOR.CONTEXT.EFFECT.render",
+      icon: "fa-solid fa-edit",
+      onClick: (event, target) => getEffect(target).sheet.render({ force: true }),
       group: "manage",
     }, {
-      name: "ARTICHRON.SHEET.ACTOR.CONTEXT.EFFECT.delete",
-      icon: "<i class='fa-solid fa-fw fa-trash'></i>",
-      condition: btn => (getEffect(btn).type !== "condition") && (getEffect(btn).parent.documentName !== "Item"),
-      callback: btn => getEffect(btn).deleteDialog(),
+      label: "ARTICHRON.SHEET.ACTOR.CONTEXT.EFFECT.delete",
+      icon: "fa-solid fa-trash",
+      visible: (target) => (getEffect(target).type !== "condition") && (getEffect(target).parent.documentName !== "Item"),
+      onClick: (event, target) => getEffect(target).deleteDialog(),
       group: "manage",
     }, {
-      name: "ARTICHRON.SHEET.ACTOR.CONTEXT.EFFECT.enable",
-      icon: "<i class='fa-solid fa-fw fa-toggle-on'></i>",
-      condition: btn => (getEffect(btn).type !== "condition") && getEffect(btn).disabled,
-      callback: btn => getEffect(btn).update({ disabled: false }),
+      label: "ARTICHRON.SHEET.ACTOR.CONTEXT.EFFECT.enable",
+      icon: "fa-solid fa-toggle-on",
+      visible: (target) => (getEffect(target).type !== "condition") && getEffect(target).disabled,
+      onClick: (event, target) => getEffect(target).update({ disabled: false }),
       group: "action",
     }, {
-      name: "ARTICHRON.SHEET.ACTOR.CONTEXT.EFFECT.disable",
-      icon: "<i class='fa-solid fa-fw fa-toggle-off'></i>",
-      condition: btn => (getEffect(btn).type !== "condition") && !getEffect(btn).disabled,
-      callback: btn => getEffect(btn).update({ disabled: true }),
+      label: "ARTICHRON.SHEET.ACTOR.CONTEXT.EFFECT.disable",
+      icon: "fa-solid fa-toggle-off",
+      visible: (target) => (getEffect(target).type !== "condition") && !getEffect(target).disabled,
+      onClick: (event, target) => getEffect(target).update({ disabled: true }),
       group: "action",
     }, {
-      name: "ARTICHRON.SHEET.ACTOR.CONTEXT.EFFECT.removeCondition",
-      icon: "<i class='fa-solid fa-fw fa-trash'></i>",
-      condition: btn => (getEffect(btn).type === "condition") && !getEffect(btn).system.hasLevels,
-      callback: btn => getEffect(btn).delete(),
+      label: "ARTICHRON.SHEET.ACTOR.CONTEXT.EFFECT.removeCondition",
+      icon: "fa-solid fa-trash",
+      visible: (target) => (getEffect(target).type === "condition") && !getEffect(target).system.hasLevels,
+      onClick: (event, target) => getEffect(target).delete(),
       group: "manage",
     }, {
-      name: "ARTICHRON.SHEET.ACTOR.CONTEXT.EFFECT.increaseCondition",
-      icon: "<i class='fa-solid fa-fw fa-circle-up'></i>",
-      condition: btn => (getEffect(btn).type === "condition") && getEffect(btn).system.canIncrease,
-      callback: btn => this.document.toggleStatusEffect(getEffect(btn).system.primary, { active: true }),
+      label: "ARTICHRON.SHEET.ACTOR.CONTEXT.EFFECT.increaseCondition",
+      icon: "fa-solid fa-circle-up",
+      visible: (target) => (getEffect(target).type === "condition") && getEffect(target).system.canIncrease,
+      onClick: (event, target) => this.document.toggleStatusEffect(getEffect(target).system.primary, { active: true }),
       group: "action",
     }, {
-      name: "ARTICHRON.SHEET.ACTOR.CONTEXT.EFFECT.decreaseCondition",
-      icon: "<i class='fa-solid fa-fw fa-circle-down'></i>",
-      condition: btn => (getEffect(btn).type === "condition") && getEffect(btn).system.canDecrease,
-      callback: btn => this.document.toggleStatusEffect(getEffect(btn).system.primary, { active: false }),
+      label: "ARTICHRON.SHEET.ACTOR.CONTEXT.EFFECT.decreaseCondition",
+      icon: "fa-solid fa-circle-down",
+      visible: (target) => (getEffect(target).type === "condition") && getEffect(target).system.canDecrease,
+      onClick: (event, target) => this.document.toggleStatusEffect(getEffect(target).system.primary, { active: false }),
       group: "action",
     }];
   }
@@ -136,38 +136,42 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
 
   /**
    * Prepare options for context menus for items.
-   * @returns {object[]}
+   * @returns {ContextMenuEntry[]}
    */
   #getContextOptionsItem() {
     if (!this.isEditable) return [];
-    const getItem = el => this.document.items.get(el.dataset.id);
+    const getItem = target => this.document.items.get(target.dataset.id);
 
     // Render and delete.
     const options = [{
-      name: "ARTICHRON.SHEET.ACTOR.CONTEXT.ITEM.render",
-      icon: "<i class='fa-solid fa-fw fa-edit'></i>",
-      callback: el => getItem(el).sheet.render({ force: true }),
+      label: "ARTICHRON.SHEET.ACTOR.CONTEXT.ITEM.render",
+      icon: "fa-solid fa-edit",
+      onClick: (event, target) => getItem(target).sheet.render({ force: true }),
       group: "manage",
     }, {
-      name: "ARTICHRON.SHEET.ACTOR.CONTEXT.ITEM.delete",
-      icon: "<i class='fa-solid fa-fw fa-trash'></i>",
-      callback: el => getItem(el).hasGrantedItems ? getItem(el).advancementDeletionPrompt() : getItem(el).deleteDialog(),
+      label: "ARTICHRON.SHEET.ACTOR.CONTEXT.ITEM.delete",
+      icon: "fa-solid fa-trash",
+      onClick: (event, target) => {
+        const item = getItem(target);
+        if (item.hasGrantedItems) item.advancementDeletionPrompt();
+        else item.deleteDialog();
+      },
       group: "manage",
     }];
 
     // Favoriting.
     if (["hero", "monster"].includes(this.document.type)) {
       options.push({
-        name: "ARTICHRON.SHEET.ACTOR.CONTEXT.ITEM.favorite",
-        icon: "<i class='fa-solid fa-fw fa-star'></i>",
-        condition: el => ["hero", "monster"].includes(this.document.type) && !getItem(el).isFavorite,
-        callback: el => this.document.addFavoriteItem(getItem(el).id),
+        label: "ARTICHRON.SHEET.ACTOR.CONTEXT.ITEM.favorite",
+        icon: "fa-solid fa-star",
+        visible: (target) => !getItem(target).isFavorite,
+        onClick: (event, target) => this.document.addFavoriteItem(getItem(target).id),
         group: "action",
       }, {
-        name: "ARTICHRON.SHEET.ACTOR.CONTEXT.ITEM.unfavorite",
-        icon: "<i class='fa-regular fa-fw fa-star'></i>",
-        condition: el => ["hero", "monster"].includes(this.document.type) && getItem(el).isFavorite,
-        callback: el => this.document.removeFavoriteItem(getItem(el).id),
+        label: "ARTICHRON.SHEET.ACTOR.CONTEXT.ITEM.unfavorite",
+        icon: "fa-regular fa-star",
+        visible: (target) => getItem(target).isFavorite,
+        onClick: (event, target) => this.document.removeFavoriteItem(getItem(target).id),
         group: "action",
       });
     }
@@ -175,22 +179,22 @@ export default class ActorSheetArtichron extends ArtichronSheetMixin(foundry.app
     // Equip, unequip, and fuse.
     if (this.document.type === "hero") {
       options.push({
-        name: "ARTICHRON.SHEET.ACTOR.CONTEXT.ITEM.equip",
-        icon: "<i class='fa-solid fa-fw fa-shield'></i>",
-        condition: el => (getItem(el).type === "armor") && !getItem(el).system.isEquipped,
-        callback: el => getItem(el).system.equip(),
+        label: "ARTICHRON.SHEET.ACTOR.CONTEXT.ITEM.equip",
+        icon: "fa-solid fa-shield",
+        visible: (target) => (getItem(target).type === "armor") && !getItem(target).system.isEquipped,
+        onClick: (event, target) => getItem(target).system.equip(),
         group: "action",
       }, {
-        name: "ARTICHRON.SHEET.ACTOR.CONTEXT.ITEM.unequip",
-        icon: "<i class='fa-solid fa-fw fa-shield-halved'></i>",
-        condition: el => (getItem(el).type === "armor") && getItem(el).system.isEquipped,
-        callback: el => getItem(el).system.unequip(),
+        label: "ARTICHRON.SHEET.ACTOR.CONTEXT.ITEM.unequip",
+        icon: "fa-solid fa-shield-halved",
+        visible: (target) => (getItem(target).type === "armor") && getItem(target).system.isEquipped,
+        onClick: (event, target) => getItem(target).system.unequip(),
         group: "action",
       }, {
-        name: "ARTICHRON.SHEET.ACTOR.CONTEXT.ITEM.fuse",
-        icon: "<i class='fa-solid fa-fw fa-volcano'></i>",
-        condition: el => (getItem(el).type === "spell"),
-        callback: el => getItem(el).system.fuseDialog(),
+        label: "ARTICHRON.SHEET.ACTOR.CONTEXT.ITEM.fuse",
+        icon: "fa-solid fa-volcano",
+        visible: (target) => (getItem(target).type === "spell"),
+        onClick: (event, target) => getItem(target).system.fuseDialog(),
         group: "action",
       });
     }

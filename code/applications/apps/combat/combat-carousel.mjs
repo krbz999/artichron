@@ -226,27 +226,26 @@ export default class CombatCarousel extends HandlebarsApplicationMixin(Applicati
    * @returns {ContextMenuEntry[]}
    */
   _getCombatantEntryContextOptions() {
-    const isGM = game.user.isGM;
     return [{
-      name: "ARTICHRON.Combat.ContextUpdateCombatant",
-      icon: "<i class='fa-solid fa-fw fa-edit'></i>",
-      callback: element => this.combatants.get(element.dataset.id).sheet.render({ force: true }),
-      condition: element => game.user.isGM,
+      label: "ARTICHRON.Combat.ContextUpdateCombatant",
+      icon: "fa-solid fa-edit",
+      onClick: (event, target) => this.combatants.get(target.dataset.id).sheet.render({ force: true }),
+      visible: (target) => game.user.isGM,
     }, {
-      name: "ARTICHRON.Combat.ContextClearInitiative",
-      icon: "<i class='fa-solid fa-fw fa-undo'></i>",
-      callback: element => this.combatants.get(element.dataset.id).update({ initiative: null }),
-      condition: element => game.user.isGM && (this.combatants.get(element.dataset.id).initiative !== null),
+      label: "ARTICHRON.Combat.ContextClearInitiative",
+      icon: "fa-solid fa-undo",
+      onClick: (event, target) => this.combatants.get(target.dataset.id).update({ initiative: null }),
+      visible: (target) => game.user.isGM && (this.combatants.get(target.dataset.id).initiative !== null),
     }, {
-      name: "ARTICHRON.Combat.ContextRemoveCombatant",
-      icon: "<i class='fa-solid fa-fw fa-trash'></i>",
-      callback: element => this.combatants.get(element.dataset.id).delete(),
-      condition: element => game.user.isGM,
+      label: "ARTICHRON.Combat.ContextRemoveCombatant",
+      icon: "fa-solid fa-trash",
+      onClick: (event, target) => this.combatants.get(target.dataset.id).delete(),
+      visible: (target) => game.user.isGM,
     }, {
-      name: "ARTICHRON.Combat.ContextUpdateActionPoints",
-      icon: "<i class='fa-solid fa-fw fa-circle'></i>",
-      callback: element => this.combatants.get(element.dataset.id).actor.actionPointsDialog(),
-      condition: element => this.combatants.get(element.dataset.id).actor.isOwner,
+      label: "ARTICHRON.Combat.ContextUpdateActionPoints",
+      icon: "fa-solid fa-circle",
+      onClick: (event, target) => this.combatants.get(target.dataset.id).actor.actionPointsDialog(),
+      visible: (target) => this.combatants.get(target.dataset.id).actor.isOwner,
     }];
   }
 

@@ -179,9 +179,9 @@ Hooks.once("init", function() {
   });
 
   // Set up conditions.
-  CONFIG.statusEffects = Object.entries(SYSTEM.STATUS_CONDITIONS).map(([id, config]) => {
-    return { ...config, id, _id: utils.staticId(id) };
-  });
+  CONFIG.statusEffects = Object.entries(SYSTEM.STATUS_CONDITIONS).reduce((acc, [id, config]) => {
+    return Object.assign(acc, { [id]: { ...config, id, _id: utils.staticId(id) } });
+  }, {});
 
   CONFIG.specialStatusEffects.DEFEATED = "defeated";
   CONFIG.specialStatusEffects.BURROW = "underground";

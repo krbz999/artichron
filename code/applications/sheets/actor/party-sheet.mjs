@@ -277,13 +277,13 @@ export default class PartySheet extends ActorSheetArtichron {
     if (!this.isEditable) return [];
 
     return [{
-      name: "ARTICHRON.SHEET.PARTY.CONTEXT.ITEM.render",
-      icon: "<i class='fa-solid fa-fw fa-edit'></i>",
-      callback: entry => this._getEmbeddedDocument(entry).sheet.render({ force: true }),
+      label: "ARTICHRON.SHEET.PARTY.CONTEXT.ITEM.render",
+      icon: "fa-solid fa-edit",
+      onClick: (event, target) => this._getEmbeddedDocument(target).sheet.render({ force: true }),
     }, {
-      name: "ARTICHRON.SHEET.PARTY.CONTEXT.ITEM.delete",
-      icon: "<i class='fa-solid fa-fw fa-trash'></i>",
-      callback: entry => this._getEmbeddedDocument(entry).deleteDialog(),
+      label: "ARTICHRON.SHEET.PARTY.CONTEXT.ITEM.delete",
+      icon: "fa-solid fa-trash",
+      onClick: (event, target) => this._getEmbeddedDocument(target).deleteDialog(),
     }];
   }
 

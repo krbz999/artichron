@@ -56,7 +56,7 @@ export default class ChatLogArtichron extends foundry.applications.sidebar.tabs.
 
     const config = await artichron.applications.api.Dialog.input({
       window: {
-        title: game.i18n.format("ARTICHRON.TradeDialog.title", { name: item.name }),
+        title: _loc("ARTICHRON.TradeDialog.title", { name: item.name }),
         icon: "fa-solid fa-arrows-turn-to-dots",
       },
       content: `<fieldset>${fields.join("")}</fieldset>`,

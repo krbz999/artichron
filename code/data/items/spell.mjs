@@ -83,9 +83,7 @@ export default class SpellData extends ItemSystemModel {
       throw new Error("An unowned item cannot be fused.");
     }
 
-    const configuration = await artichron.applications.apps.item.ItemFusionDialog.create({
-      item: spell,
-    });
+    const configuration = await artichron.applications.apps.item.ItemFusionDialog.create({ item: spell });
     if (!configuration) return null;
 
     const armor = actor.items.get(configuration.itemId);

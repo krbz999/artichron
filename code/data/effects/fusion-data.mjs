@@ -115,17 +115,12 @@ export default class EffectFusionData extends ActiveEffectSystemModel {
 
     const confirm = await artichron.applications.api.Dialog.confirm({
       window: {
-        title: game.i18n.format("ARTICHRON.FUSION.titleUnfuse", {
-          spell: this.itemData.name,
-          armor: this.parent.parent.name,
-        }),
+        title: _loc("ARTICHRON.FUSION.titleUnfuse", { spell: this.itemData.name, armor: this.parent.parent.name }),
         icon: "fa-solid fa-volcano",
       },
       yes: { icon: "fa-solid fa-bolt" },
     });
-
     if (!confirm) return null;
-
     return this.unfuse(options);
   }
 }

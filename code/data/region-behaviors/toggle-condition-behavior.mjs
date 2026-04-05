@@ -21,7 +21,7 @@ export default class ToggleConditionBehaviorData extends foundry.data.regionBeha
         CONST.REGION_EVENTS.TOKEN_TURN_START,
       ] }),
       status: new StringField({
-        choices: () => CONFIG.statusEffects.reduce((acc, k) => {
+        choices: () => Object.values(CONFIG.statusEffects).reduce((acc, k) => {
           if (k.hud !== false) acc[k.id] = k.name;
           return acc;
         }, {}),

@@ -376,8 +376,8 @@ export default class ActorArtichron extends BaseDocumentMixin(foundry.documents.
       position: { width: 400, height: "auto" },
       ok: {
         icon: "fa-solid fa-check",
-        label: "Confirm",
-        callback: (event, button, html) => {
+        label: "COMMON.Confirm",
+        callback: (event, button, dialog) => {
           const name = "system.pips.value";
           this.update({ [name]: button.form.elements[name].value });
         },
