@@ -6,7 +6,7 @@ const {
  * System data for ActiveEffects.
  * @property {string} expiration      When does this effect automatically expire?
  */
-export default class ActiveEffectSystemModel extends foundry.abstract.TypeDataModel {
+export default class ActiveEffectSystemModel extends foundry.data.ActiveEffectTypeDataModel {
   /** @type {import("../../_types").DocumentSubtypeMetadata} */
   static get metadata() {
     return {
@@ -18,13 +18,13 @@ export default class ActiveEffectSystemModel extends foundry.abstract.TypeDataMo
 
   /** @inheritdoc */
   static defineSchema() {
-    return {
+    return Object.assign(super.defineSchema(), {
       expiration: new StringField({
         required: true,
         initial: "none",
         choices: artichron.config.EFFECT_EXPIRATION_TYPES,
       }),
-    };
+    });
   }
 
   /* -------------------------------------------------- */
